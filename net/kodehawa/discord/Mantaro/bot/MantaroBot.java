@@ -67,7 +67,7 @@ public class MantaroBot {
 	 * Don't kill me, this is the nicest I could code this.
 	 * @param args
 	 */	
-	@Metadata(date = "6th of September 2016", build = "0.7.2", credits = "Kodehawa")
+	@Metadata(date = "6th of September 2016", build = "0.7.3a", credits = "Kodehawa")
 	public static void main(String[] args)
 	{
 		//Just so you know...
@@ -75,7 +75,7 @@ public class MantaroBot {
 		
 		try
 		{
-			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken("wah").buildBlocking();
+			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken("token").buildBlocking();
 			System.out.println("MantaroBot succefully started");
 			getInstance().jda.setAutoReconnect(true);
 			//Default

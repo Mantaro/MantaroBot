@@ -50,25 +50,33 @@ public class CRand implements Command {
 				Random r = new Random();
 				int lottery = r.nextInt(5000);
 				evt.getChannel().sendMessageAsync("You won **" + lottery + "USD**, congrats!", null);
-			    users.add(user);
+				users.add(user);
 			}
 			else
 			{
-				evt.getChannel().sendMessageAsync("Try again in later! (20 minutes since you ran the command)", null);
+				evt.getChannel().sendMessageAsync("Try again in later! (10 minutes since you ran the command)", null);
 			}
 
-			if(!users.contains(user))
+			if(users.contains(user))
 			{
-				Timer timer = new Timer();
-				timer.schedule(new TimerTask() {
-					  @Override
-					  public void run() {
-						  users.remove(user);
-					  }
-					}, 20*60*1000, 20*60*1000);
+				TimerTask timerTask = new TimerTask() 
+			     { 
+					int n = -1;
+			         public void run()  
+			         { 
+			        	 //So it doesn't execute inmediatly. Well, I could have set the delay to 600000 anyway...
+			        	 n = n + 1;
+			        	 if(n == 1)
+			        	 {
+			        		 users.remove(user);
+							 this.cancel();
+			        	 }
+					} 
+			     }; 
+				 Timer timer = new Timer(); 
+			     timer.scheduleAtFixedRate(timerTask, 0, 600000);
 			}
 		}
-		
 	}
 
 	@Override
