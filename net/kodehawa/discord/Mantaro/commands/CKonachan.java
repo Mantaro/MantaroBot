@@ -7,8 +7,8 @@ import com.marcomaldonado.web.callback.WallpaperCallback;
 
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
-import net.kodehawa.discord.Mantaro.config.Values;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.Values;
 
 public class CKonachan implements Command {
 

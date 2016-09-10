@@ -3,7 +3,7 @@ package net.kodehawa.discord.Mantaro.listeners;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.hooks.ListenerAdapter;
 import net.kodehawa.discord.Mantaro.bot.MantaroBot;
-import net.kodehawa.discord.Mantaro.config.Values;
+import net.kodehawa.discord.Mantaro.utils.Values;
 
 public class MessageListener extends ListenerAdapter 
 {

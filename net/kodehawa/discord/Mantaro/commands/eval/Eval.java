@@ -18,7 +18,7 @@ public class Eval implements Command {
 	@Override
 	@ModuleProperties(level = "master", name = "eval", type = "control", description = "Evaluates arbitrary Java code.")
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		if(evt.getAuthor().getId().equals("155867458203287552") || evt.getAuthor().getId().equals("141594071033577472"))
+		if(evt.getAuthor().getId().equals("155867458203287552"))
 		{
 			try {
 		    	Interpreter interpreter = new Interpreter();

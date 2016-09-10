@@ -2,7 +2,6 @@ package net.kodehawa.discord.Mantaro.bot;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -17,10 +16,10 @@ import net.kodehawa.discord.Mantaro.commands.eval.Eval;
 import net.kodehawa.discord.Mantaro.commands.mention.*;
 import net.kodehawa.discord.Mantaro.commands.osu.Cosu;
 import net.kodehawa.discord.Mantaro.commands.placeholder.CommandNotFound;
-import net.kodehawa.discord.Mantaro.config.Values;
 import net.kodehawa.discord.Mantaro.listeners.MessageListener;
 import net.kodehawa.discord.Mantaro.main.Command;
 import net.kodehawa.discord.Mantaro.main.Parser;
+import net.kodehawa.discord.Mantaro.utils.Values;
 
 /**
  * Simple bot for Discord client.
@@ -52,15 +51,10 @@ public class MantaroBot {
 	//Find all classes in commands and all subpackages
 	public Set<Class<? extends Command>> classes = null;
 	
-	//Basically this.
-	public Set<Class<?>> metaClasses = new HashSet<Class<?>>();
-	
 	public MantaroBot(){
 		//Set first lookup
 		Reflections reflections = new Reflections("net.kodehawa.discord.Mantaro.commands");
 		classes = reflections.getSubTypesOf(Command.class);
-		//Add main class to the second lookup.
-		metaClasses.add(MantaroBot.class);
 	}
 	
 	/**
@@ -75,7 +69,7 @@ public class MantaroBot {
 		
 		try
 		{
-			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken("token").buildBlocking();
+			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken("woah token").buildBlocking();
 			System.out.println("MantaroBot succefully started");
 			getInstance().jda.setAutoReconnect(true);
 			//Default
@@ -150,26 +144,18 @@ public class MantaroBot {
 		return parser;
 	}
 	
-	public JDA getJDA()
+	public JDA getSelf()
 	{
 		return jda;
 	}
 	
 	public String getBuildDate()
 	{
-		for(@SuppressWarnings("rawtypes") Class c : getInstance().metaClasses)
-		{
-			Method[] methods = c.getMethods();
-			for (Method m : methods)
-			{
-			    if (m.isAnnotationPresent(Metadata.class))
-			    {
-			        Metadata m1 = m.getAnnotation(Metadata.class);
-			        return m1.date();
-			    }
-			    break;
-			}
+		for (Method m: MantaroBot.class.getMethods()) {
+			Metadata meta = m.getAnnotation(Metadata.class);
+		    return meta.date();
 		}
+		
 		return null;
 	}
 	
@@ -180,19 +166,11 @@ public class MantaroBot {
 	
 	public String getBuild()
 	{
-		for(@SuppressWarnings("rawtypes") Class c : getInstance().metaClasses)
-		{
-			Method[] methods = c.getMethods();
-			for (Method m : methods)
-			{
-			    if (m.isAnnotationPresent(Metadata.class))
-			    {
-			        Metadata m1 = m.getAnnotation(Metadata.class);
-			        return m1.build();
-			    }
-			    break;
-			}
+		for (Method m: MantaroBot.class.getMethods()) {
+			Metadata meta = m.getAnnotation(Metadata.class);
+		    return meta.build();
 		}
+		
 		return null;
 	}
 	

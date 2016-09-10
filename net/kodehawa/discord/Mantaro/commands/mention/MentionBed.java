@@ -15,7 +15,6 @@ public class MentionBed implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
 		evt.getChannel().sendMessage("W-What are you gonna do to me?! L-Lewd!");
 	}
 

@@ -19,7 +19,7 @@ public class CChangeGameStatus implements Command {
 		{
 			String newStatus;
 			newStatus = String.join(" ", msg);
-			MantaroBot.getInstance().getJDA().getAccountManager().setGame(newStatus);
+			MantaroBot.getInstance().getSelf().getAccountManager().setGame(newStatus);
 			evt.getChannel().sendMessage("Master! I've set my status to: " + newStatus + ".");
 			System.out.println("I wanna do lewd stuff to Illya -Phizo 2016.");
 		}

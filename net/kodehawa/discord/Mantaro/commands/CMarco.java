@@ -22,5 +22,4 @@ public class CMarco implements Command {
 	{
 		System.out.println("Command executed " + this.getClass().getName() + ".");
 	}
-
 }

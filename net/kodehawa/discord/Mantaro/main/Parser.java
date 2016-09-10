@@ -28,7 +28,6 @@ public class Parser {
 		
 		else if(rw.startsWith("@MantaroBot"))
 		{
-			//System.out.println(rw);
 			ArrayList<String> split = new ArrayList<String>();
 			String raw = rw;
 			String beheaded = raw.replaceFirst("@MantaroBot ", "");

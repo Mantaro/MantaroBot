@@ -61,20 +61,15 @@ public class CRand implements Command {
 			{
 				TimerTask timerTask = new TimerTask() 
 			     { 
-					int n = -1;
 			         public void run()  
 			         { 
-			        	 //So it doesn't execute inmediatly. Well, I could have set the delay to 600000 anyway...
-			        	 n = n + 1;
-			        	 if(n == 1)
-			        	 {
-			        		 users.remove(user);
-							 this.cancel();
-			        	 }
+			        	 users.remove(user);
+						 this.cancel();
+						 System.out.println("Hello?");
 					} 
 			     }; 
 				 Timer timer = new Timer(); 
-			     timer.scheduleAtFixedRate(timerTask, 0, 600000);
+			     timer.scheduleAtFixedRate(timerTask, 600000, 1);
 			}
 		}
 	}
