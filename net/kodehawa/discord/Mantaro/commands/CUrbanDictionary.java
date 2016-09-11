@@ -27,13 +27,14 @@ public class CUrbanDictionary implements Command {
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		
+		String beheadedSplit[] = beheaded.split(":");
+		
 		if(!beheaded.isEmpty())
 		{
     		ArrayList<String> definitions = new ArrayList<String>();
 
 			 try {
-
-		            URL dictionary = new URL("http://api.urbandictionary.com/v0/define?term=" + beheaded);
+		            URL dictionary = new URL("http://api.urbandictionary.com/v0/define?term=" + beheadedSplit[0]);
 
 		            HttpURLConnection urban = (HttpURLConnection) dictionary.openConnection();
 		            InputStream inputstream = urban.getInputStream();
@@ -56,7 +57,11 @@ public class CUrbanDictionary implements Command {
 		    	 e.printStackTrace();
 		     }
 
-			 evt.getChannel().sendMessageAsync(">> Top definition for: **" + beheaded + "**\r\r" + definitions.get(0), null);
+			 switch (beheadedSplit.length)
+			 {
+			 case 1: evt.getChannel().sendMessageAsync(">> Top definition for: **" + beheaded + "**\r\r" + definitions.get(0), null); break;
+			 case 2: evt.getChannel().sendMessageAsync(">> Definition N°:" + beheadedSplit[1] + " for **" + beheadedSplit[0] + "**\r\r" + definitions.get(Integer.parseInt(beheadedSplit[1])), null); break;
+			 }
 		}
        
 	}

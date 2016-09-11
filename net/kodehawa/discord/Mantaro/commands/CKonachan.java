@@ -60,7 +60,7 @@ public class CKonachan implements Command {
 	            }
 	            public void onStart() {}
 	            public void onFailure(int error, String message) {}
-	});
+	         });
 		}
 		
 		else if(replaced.startsWith("help"))
