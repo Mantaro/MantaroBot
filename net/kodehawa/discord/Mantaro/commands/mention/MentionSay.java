@@ -9,13 +9,12 @@ public class MentionSay implements Command {
 	@Override
 	@ModuleProperties(level = "user", name = "tell", type = "mention", description = "It will just repeat what you said, or answer you 3 questions.")
 	public boolean isAvaliable(String[] argsMain, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		String args = whole.replace("@MantaroBot tell ", "");
+		String args = beheaded;
 		String[] possiblities = {"lewd", "Are you lewd?", "Do you love me?"};
 		if(args.startsWith(possiblities[0]))
 		{

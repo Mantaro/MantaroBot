@@ -25,8 +25,7 @@ public class CQuotation implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		
-		if(!whole.replace("~>quote ", "").startsWith("read") && !whole.replace("~>quote ", "").startsWith("list") && !whole.replace("~>quote ", "").startsWith("get phrase") && !whole.replace("~>quote ", "").startsWith("help"))
+		if(!beheaded.startsWith("read") && !beheaded.startsWith("list") && !beheaded.startsWith("get phrase") && !beheaded.startsWith("help"))
 		{
 			String quote = beheaded;
 			quotes.add(quote);
@@ -35,7 +34,7 @@ public class CQuotation implements Command {
 		}
 		else if(beheaded.startsWith("read"))
 		{
-			String number = whole.replace("~>quote read ", "");
+			String number = whole.replace(beheaded+"read ", "");
 			try
 			{
 				int number2 = Integer.parseInt(number);
@@ -49,23 +48,25 @@ public class CQuotation implements Command {
 		}
 		else if(beheaded.startsWith("get phrase"))
 		{
-			String phrase = whole.replace("~>quote get phrase ", "");
+			System.out.println("Hello");
+			String phrase = whole.replace(beheaded+"get phrase ", "");
 			try
 			{
 				int n = -1;
 				for(String message : quotes)
 				{
 					n = n + 1;
+					
 					if(message.contains(phrase))
 					{
-						evt.getChannel().sendMessage(quotes.get(n));
+						evt.getChannel().sendMessageAsync(quotes.get(n), null);
+						break;
 					}
-					break;
 				}
 			}
 			catch(Exception e)
 			{
-				evt.getChannel().sendMessage("Not a number, silly you");
+				evt.getChannel().sendMessage("Not valid, silly you");
 			}
 			
 		}

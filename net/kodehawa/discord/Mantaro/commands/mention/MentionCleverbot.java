@@ -40,7 +40,7 @@ public class MentionCleverbot implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		String botString = whole.replace("@MantaroBot talk ", "");
+		String botString = beheaded;
 		try {
 			String s = cleverbotsession.think(botString);
 			evt.getChannel().sendMessage(s);

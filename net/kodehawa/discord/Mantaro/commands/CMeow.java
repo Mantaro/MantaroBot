@@ -17,6 +17,7 @@ public class CMeow implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
+		String msgId = evt.getMessage().getId();
 		if(evt.getMessage().getMentionedUsers().isEmpty() != true)
 		{
 			List<User> mentions = evt.getMessage().getMentionedUsers();
@@ -36,7 +37,7 @@ public class CMeow implements Command {
 			evt.getChannel().sendMessage("Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*");
 		}
 		
-		
+		evt.getChannel().deleteMessageById(msgId);
 	}
 
 	@Override

@@ -15,11 +15,9 @@ public class CMaster implements Command {
 	@Override
 	@ModuleProperties(level = "master", name = "master", type = "common", description = "M-Master is here!")
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
 		if(evt.getAuthor().getId().equals("155867458203287552"))
 		{
 			evt.getChannel().sendMessage("https://d.wattpad.com/story_parts/198038817/images/1421cc6b94affc88.gif" + "\r\n" + "Master!");
-			//evt.getChannel().sendMessage("Master!");
 		}
 		else
 		{

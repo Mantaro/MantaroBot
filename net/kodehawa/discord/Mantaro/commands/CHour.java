@@ -25,7 +25,6 @@ public class CHour implements Command {
 		{
 			evt.getChannel().sendMessageAsync("```\n" + dateGMT(whole.replace("~>time ", "")) + "```" , null);
 		}
-		
 		catch (Exception e) {
 			e.printStackTrace();
 		}

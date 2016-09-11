@@ -34,7 +34,6 @@ public class MantaroBot {
 	//Command parser. Basically, what formats the commands so I can use them.
 	private Parser parser = new Parser();
 	
-	//So I can call this.
 	private static MantaroBot instance = new MantaroBot();
 	
 	//Command list. From here, everything gets called, like for example Command.botAction();
@@ -52,7 +51,6 @@ public class MantaroBot {
 	public Set<Class<? extends Command>> classes = null;
 	
 	public MantaroBot(){
-		//Set first lookup
 		Reflections reflections = new Reflections("net.kodehawa.discord.Mantaro.commands");
 		classes = reflections.getSubTypesOf(Command.class);
 	}
@@ -61,7 +59,7 @@ public class MantaroBot {
 	 * Don't kill me, this is the nicest I could code this.
 	 * @param args
 	 */	
-	@Metadata(date = "6th of September 2016", build = "0.7.3a", credits = "Kodehawa")
+	@Metadata(date = "6th of September 2016", build = "0.7.5b", credits = "Kodehawa")
 	public static void main(String[] args)
 	{
 		//Just so you know...
@@ -72,7 +70,6 @@ public class MantaroBot {
 			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken("woah token").buildBlocking();
 			System.out.println("MantaroBot succefully started");
 			getInstance().jda.setAutoReconnect(true);
-			//Default
 			getInstance().jda.getAccountManager().setGame(getInstance().gameStatus);
 		}
 		catch(Exception e)
@@ -81,8 +78,7 @@ public class MantaroBot {
 		}
 		
 		new Values();
-
-		//Starts command thread
+		
 		try {
 			getInstance().addCommands();
 		} catch (InterruptedException | ExecutionException e) {
@@ -112,7 +108,6 @@ public class MantaroBot {
 				if(enabled)
 				{
 					getInstance().commandList.get(cmd.invoke).botAction(cmd.args, cmd.rawCommand, cmd.beheaded1, cmd.event);
-					getInstance().commandList.get(cmd.invoke).actionResult(enabled, cmd.event);
 				}
 			}
 		}
@@ -124,7 +119,6 @@ public class MantaroBot {
 				if(enabled)
 				{
 					getInstance().mentionCommandList.get(cmd.invoke).botAction(cmd.args, cmd.rawCommand, cmd.beheaded1, cmd.event);
-					getInstance().mentionCommandList.get(cmd.invoke).actionResult(enabled, cmd.event);
 				}
 			}
 		}
@@ -209,7 +203,7 @@ public class MantaroBot {
     		getInstance().commandList.put("disconnect", new CDisconnect());
     		getInstance().commandList.put("help", new CHelp());
     		getInstance().commandList.put("restart", new CRestart());
-    		getInstance().commandList.put("aaaa", new CBrainPower());
+    		getInstance().commandList.put("brainpower", new CBrainPower());
     		getInstance().commandList.put("about", new CAbout());
     		getInstance().commandList.put("tsundere", new CTsundere());
     		getInstance().commandList.put("hi", new CHi());
@@ -224,6 +218,7 @@ public class MantaroBot {
     		getInstance().commandList.put("osu", new Cosu());
     		getInstance().commandList.put("action", new CAction());
     		getInstance().commandList.put("random", new CRand());
+    		getInstance().commandList.put("urban", new CUrbanDictionary());
     		getInstance().commandList.put("placeholder", new CommandNotFound());
     		getInstance().commandList.put("bot.status", new Disable());
     		getInstance().commandList.put("kode.eval", new Eval());
