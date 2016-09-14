@@ -2,9 +2,10 @@
 
 Simple Discord bot made in JDA.
 
->> To open this in your command line, you need to use the following args: <<
+>> To open this in your command line, you need to use the following args:
 
 token:yourbottokenhere
+
 debug:true/false
 
 
