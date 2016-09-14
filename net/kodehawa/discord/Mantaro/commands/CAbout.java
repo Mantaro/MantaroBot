@@ -27,10 +27,4 @@ public class CAbout implements Command {
 		"and looking over " + MantaroBot.getInstance().getSelf().getTextChannels().size() + " channels.\r"
 		+ "My GitHub page can be found at: https://github.com/Kodehawa/MantaroBot/" + ".");
     }
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

@@ -62,10 +62,4 @@ public class MentionHelp implements Command {
 			evt.getAuthor().getPrivateChannel().sendMessage("```" + listString2.toString() + "``` \n");
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

@@ -14,10 +14,4 @@ public class MentionWelcomeNew implements Command {
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		evt.getChannel().sendMessage("Welcome to NekoParadise! I hope you have a nice stay in here. \r\n Remember to read #rules. Announcements are made in #saisoku-news. \r\n This bot was made by Kodehawa, to know its commands please use ~>help or @MantaroBot help");
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName());
-	}
-
 }

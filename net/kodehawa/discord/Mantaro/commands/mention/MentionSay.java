@@ -34,10 +34,4 @@ public class MentionSay implements Command {
 			evt.getChannel().sendMessageAsync(args, null);
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

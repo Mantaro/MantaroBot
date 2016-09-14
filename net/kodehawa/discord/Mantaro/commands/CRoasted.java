@@ -16,10 +16,4 @@ public class CRoasted implements Command {
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		evt.getChannel().sendMessage("https://i.imgflip.com/v4tdb.jpg");
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

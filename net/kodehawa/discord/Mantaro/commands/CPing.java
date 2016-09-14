@@ -20,13 +20,4 @@ public class CPing implements Command {
 		evt.getTextChannel().sendMessage("Pong to " + evt.getAuthor().getAsMention() + "in " + end + " ms.");
 
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt)
-	{
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
-	
-	
 }

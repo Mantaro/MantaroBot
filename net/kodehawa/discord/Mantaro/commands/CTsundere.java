@@ -5,8 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
-import net.kodehawa.discord.Mantaro.file.StringArrayFile;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 
 public class CTsundere implements Command {
 
@@ -29,10 +29,4 @@ public class CTsundere implements Command {
         int tsundereRandomizer = rd.nextInt(tsunLines.size());
 		evt.getChannel().sendMessage(tsunLines.get(tsundereRandomizer));
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

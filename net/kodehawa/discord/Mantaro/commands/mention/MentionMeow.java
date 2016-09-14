@@ -17,10 +17,4 @@ public class MentionMeow implements Command {
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		evt.getChannel().sendMessage("Meow.");
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

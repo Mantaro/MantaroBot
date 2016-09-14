@@ -3,8 +3,8 @@ package net.kodehawa.discord.Mantaro.commands.admin;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.commands.CQuotation;
-import net.kodehawa.discord.Mantaro.file.StringArrayFile;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 
 public class CDisconnect implements Command {
 
@@ -39,10 +39,4 @@ public class CDisconnect implements Command {
 		}
 		
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

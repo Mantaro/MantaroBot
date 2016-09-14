@@ -16,10 +16,4 @@ public class CShrug implements Command {
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		evt.getChannel().sendMessageAsync("http://www.wired.com/wp-content/uploads/2015/01/shrug1-1024x768.jpg", null);
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

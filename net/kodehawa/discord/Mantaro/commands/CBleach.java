@@ -33,11 +33,4 @@ public class CBleach implements Command {
 
 		evt.getChannel().sendMessage(bleach.get(bleachRandomizer));
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

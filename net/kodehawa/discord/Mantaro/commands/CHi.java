@@ -5,8 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
-import net.kodehawa.discord.Mantaro.file.StringArrayFile;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 
 public class CHi implements Command {
 
@@ -25,24 +25,10 @@ public class CHi implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		if(!evt.getAuthor().getId().equals("205505246645059586"))
-		{
-			Random rd = new Random();
-	        int greetRandomizer = rd.nextInt(greeting.size());
+		Random rd = new Random();
+	    int greetRandomizer = rd.nextInt(greeting.size());
 
-			evt.getChannel().sendMessage(greeting.get(greetRandomizer));
-		}
-		
-		else
-		{
-			evt.getChannel().sendMessage("Oh.. Bonjour.. J-je te trouve resplendissante aujourd'hui!");
-		}
-		
+	    evt.getChannel().sendMessage(greeting.get(greetRandomizer));
+
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

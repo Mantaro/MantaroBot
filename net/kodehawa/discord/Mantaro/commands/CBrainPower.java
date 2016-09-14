@@ -43,10 +43,4 @@ public class CBrainPower implements Command {
 		
 		evt.getChannel().sendMessage(finalMessage.toString());
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

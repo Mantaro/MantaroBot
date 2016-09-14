@@ -29,11 +29,6 @@ public class CHour implements Command {
 			e.printStackTrace();
 		}
 	}
-
-	@Override	
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
 	
 	private String dateGMT(String timezone) throws ParseException, NullPointerException
 	{

@@ -7,8 +7,8 @@ import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.commands.CHi;
 import net.kodehawa.discord.Mantaro.commands.CTsundere;
-import net.kodehawa.discord.Mantaro.file.StringArrayFile;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 
 public class AddList implements Command {
 
@@ -63,11 +63,4 @@ public class AddList implements Command {
 			evt.getChannel().sendMessage("How did you even know?");
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

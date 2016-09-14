@@ -18,10 +18,4 @@ public class CLewd implements Command {
 		evt.getChannel().sendMessage("Y-You lewdie!" + "\r\n" 
 		 + "http://i.stack.imgur.com/MKMpFm.jpg");
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 }

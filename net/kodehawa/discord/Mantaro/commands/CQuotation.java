@@ -4,8 +4,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
-import net.kodehawa.discord.Mantaro.file.StringArrayFile;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 
 public class CQuotation implements Command {
 
@@ -96,10 +96,4 @@ public class CQuotation implements Command {
 			evt.getChannel().sendMessage("Silly you, this won't happen.");
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName());
-	}
-
 }

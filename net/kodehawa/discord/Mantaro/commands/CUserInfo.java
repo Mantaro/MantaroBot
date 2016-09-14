@@ -70,10 +70,4 @@ public class CUserInfo implements Command {
 					);
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

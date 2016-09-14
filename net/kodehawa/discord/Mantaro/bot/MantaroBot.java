@@ -15,10 +15,11 @@ import net.kodehawa.discord.Mantaro.commands.admin.*;
 import net.kodehawa.discord.Mantaro.commands.eval.Eval;
 import net.kodehawa.discord.Mantaro.commands.mention.*;
 import net.kodehawa.discord.Mantaro.commands.osu.Cosu;
-import net.kodehawa.discord.Mantaro.commands.placeholder.CommandNotFound;
 import net.kodehawa.discord.Mantaro.listeners.MessageListener;
 import net.kodehawa.discord.Mantaro.main.Command;
 import net.kodehawa.discord.Mantaro.main.Parser;
+import net.kodehawa.discord.Mantaro.utils.LogTypes;
+import net.kodehawa.discord.Mantaro.utils.Logging;
 import net.kodehawa.discord.Mantaro.utils.Values;
 
 /**
@@ -50,6 +51,8 @@ public class MantaroBot {
 	//Find all classes in commands and all subpackages
 	public Set<Class<? extends Command>> classes = null;
 	
+	private boolean debugMode;
+	
 	public MantaroBot(){
 		Reflections reflections = new Reflections("net.kodehawa.discord.Mantaro.commands");
 		classes = reflections.getSubTypesOf(Command.class);
@@ -62,13 +65,28 @@ public class MantaroBot {
 	@Metadata(date = "6th of September 2016", build = "0.7.5b", credits = "Kodehawa")
 	public static void main(String[] args)
 	{
-		//Just so you know...
-		System.out.println("MantaroBot starting...");
-		
+		String botToken = "";
+
+		int i;
+		for(i = 0; i < args.length; i++)
+		{
+		    if(args[i].startsWith("debug")){ getInstance().debugMode = Boolean.parseBoolean(args[i].split(":")[1]); }
+		    else if(args[i].startsWith("token")){ botToken = args[i].split(":")[1]; }
+		}
+						
+		if(getInstance().debugMode)
+		{
+			Logging.instance().print("Starting with Java args:", LogTypes.INFO);
+			for (String s: args) {
+				System.out.println(s.replace(":", " = "));
+		     }
+		}
+
+		Logging.instance().print("MantaroBot starting...", LogTypes.INFO);
+				
 		try
 		{
-			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken("woah token").buildBlocking();
-			System.out.println("MantaroBot succefully started");
+			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken(botToken).buildBlocking();
 			getInstance().jda.setAutoReconnect(true);
 			getInstance().jda.getAccountManager().setGame(getInstance().gameStatus);
 		}
@@ -81,16 +99,17 @@ public class MantaroBot {
 		
 		try {
 			getInstance().addCommands();
+			Logging.instance().print("MantaroBot " + getInstance().getBuild() + " succefully started", LogTypes.INFO);
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
-			System.out.println("Something very bad happened while loading commands! Check stacktrace.");
+			Logging.instance().print("Something very bad happened while loading commands! Check stacktrace.", LogTypes.CRITICAL);
 		}
+		
 	}
 	
 	private void addCommands() throws InterruptedException, ExecutionException
 	{
 		  MantaroBot.Commands cmd = new MantaroBot.Commands();
-		  //start
 	      cmd.start();
 	}
 	
@@ -191,12 +210,11 @@ public class MantaroBot {
     	{
     		//do you expect nice code? no, won't deliver
     		this.setName("Command adding thread");
-    		System.out.println("Initializing commands");
+    		Logging.instance().print("Initializing commands.", LogTypes.INFO);
     		getInstance().commandList.put("ping", new CPing());
     		getInstance().commandList.put("serverinfo", new CServerInfo());
     		getInstance().commandList.put("marco", new CMarco());
     		getInstance().commandList.put("lewd", new CLewd());
-    		getInstance().commandList.put("meow", new CMeow());
     		getInstance().commandList.put("master", new CMaster());
     		getInstance().commandList.put("game", new CChangeGameStatus());
     		getInstance().commandList.put("bleach", new CBleach());
@@ -208,7 +226,6 @@ public class MantaroBot {
     		getInstance().commandList.put("tsundere", new CTsundere());
     		getInstance().commandList.put("hi", new CHi());
     		getInstance().commandList.put("roasted", new CRoasted());
-    		getInstance().commandList.put("meow2", new CMeow2());
     		getInstance().commandList.put("quote", new CQuotation());
     		getInstance().commandList.put("add", new AddList());
     		getInstance().commandList.put("userinfo", new CUserInfo());
@@ -219,7 +236,6 @@ public class MantaroBot {
     		getInstance().commandList.put("action", new CAction());
     		getInstance().commandList.put("random", new CRand());
     		getInstance().commandList.put("urban", new CUrbanDictionary());
-    		getInstance().commandList.put("placeholder", new CommandNotFound());
     		getInstance().commandList.put("bot.status", new Disable());
     		getInstance().commandList.put("kode.eval", new Eval());
     		
@@ -229,18 +245,14 @@ public class MantaroBot {
     		getInstance().mentionCommandList.put("help", new MentionHelp());
     		getInstance().mentionCommandList.put("tell", new MentionSay());
     		getInstance().mentionCommandList.put("talk", new MentionCleverbot());
-    		getInstance().mentionCommandList.put("placeholder", new CommandNotFound());
     		
     		
     		int totalCommands = getInstance().commandList.size()+getInstance().mentionCommandList.size();
     		
-    		System.out.println("Successfully loaded " + totalCommands + " commands.");
+    		Logging.instance().print("Successfully loaded " + totalCommands + " commands.", LogTypes.INFO);
 
     		
     		this.interrupt();
     	}
-    	
-    	
-    	
     }
 }

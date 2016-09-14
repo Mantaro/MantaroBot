@@ -30,11 +30,6 @@ public class CRestart implements Command{
 		}
 	}
 
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ", in channel " + evt.getChannel().toString() + " (" + evt.getMessage().toString() + " )");
-	}
-
 	public void restartApplication()
 	{
 		try

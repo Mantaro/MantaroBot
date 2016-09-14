@@ -115,10 +115,4 @@ public class Cosu implements Command {
 			evt.getChannel().sendMessageAsync("Incorrect usage! Use ~>osu help to get help on how to use this command!", null);
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

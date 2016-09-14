@@ -16,10 +16,4 @@ public class CMarco implements Command {
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		evt.getTextChannel().sendMessage("Polo!");
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) 
-	{
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
 }

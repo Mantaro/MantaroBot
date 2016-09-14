@@ -49,10 +49,4 @@ public class MentionCleverbot implements Command {
 			evt.getChannel().sendMessage("Something went wrong trying to fetch cleverbot thoughts.");
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

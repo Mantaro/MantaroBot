@@ -3,8 +3,6 @@ package net.kodehawa.discord.Mantaro.utils;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import net.kodehawa.discord.Mantaro.file.StringArrayFile;
-
 public class Values {
 	
 	public static HashMap<String, Boolean> values = new HashMap<String, Boolean>();

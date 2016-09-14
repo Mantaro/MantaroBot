@@ -27,10 +27,4 @@ public class CServerInfo implements Command {
 				+ "> Icon URL: " + evt.getGuild().getIconUrl() + "```\r \r\n"
 				);
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }

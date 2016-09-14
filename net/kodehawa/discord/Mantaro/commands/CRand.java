@@ -73,9 +73,4 @@ public class CRand implements Command {
 			}
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		//This command will never end lol
-	}
 }

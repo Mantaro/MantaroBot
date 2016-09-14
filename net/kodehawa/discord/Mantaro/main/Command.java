@@ -6,6 +6,5 @@ public interface Command {
 
 	public boolean isAvaliable(String[] argsMain, MessageReceivedEvent evt);
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt);
-	public void actionResult(boolean result, MessageReceivedEvent evt);
 	
 }

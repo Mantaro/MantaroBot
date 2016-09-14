@@ -65,11 +65,4 @@ public class CUrbanDictionary implements Command {
 		}
        
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

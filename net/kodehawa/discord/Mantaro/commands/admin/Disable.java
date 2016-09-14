@@ -50,10 +50,4 @@ public class Disable implements Command {
 			evt.getChannel().sendMessageAsync("```Konachan SFW is now: " + Values.values.get("kona.sfw").booleanValue() + "```", null);
 		}
 	}
-
-	@Override
-	public void actionResult(boolean result, MessageReceivedEvent evt) {
-		System.out.println("Command executed " + this.getClass().getName() + ".");
-	}
-
 }
