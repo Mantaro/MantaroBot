@@ -1,6 +1,5 @@
 package net.kodehawa.discord.Mantaro.bot;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -9,13 +8,12 @@ import org.reflections.Reflections;
 
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
-import net.kodehawa.discord.Mantaro.annotation.Metadata;
 import net.kodehawa.discord.Mantaro.commands.*;
 import net.kodehawa.discord.Mantaro.commands.admin.*;
 import net.kodehawa.discord.Mantaro.commands.eval.Eval;
 import net.kodehawa.discord.Mantaro.commands.mention.*;
 import net.kodehawa.discord.Mantaro.commands.osu.Cosu;
-import net.kodehawa.discord.Mantaro.listeners.MessageListener;
+import net.kodehawa.discord.Mantaro.listeners.Listener;
 import net.kodehawa.discord.Mantaro.main.Command;
 import net.kodehawa.discord.Mantaro.main.Parser;
 import net.kodehawa.discord.Mantaro.utils.LogTypes;
@@ -32,6 +30,7 @@ public class MantaroBot {
 	
 	//Instance of the JDA API.
 	private JDA jda;
+	
 	//Command parser. Basically, what formats the commands so I can use them.
 	private Parser parser = new Parser();
 	
@@ -41,14 +40,13 @@ public class MantaroBot {
 	public HashMap<String, Command> mentionCommandList = new HashMap<String, Command>();
 	public HashMap<String, Command> commandList = new HashMap<String, Command>();
 	
-	//So I don't hardcode it, just that.
 	private final String gameStatus = "Lewd.";
 	private final String botPrefix = "~>";
+	private final String[] meta = {"15th of September 2016", "0.7.6", "Kodehawa"};
 	
 	//Which OS is the bot running on?
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	
-	//Find all classes in commands and all subpackages
 	public Set<Class<? extends Command>> classes = null;
 	
 	private boolean debugMode;
@@ -62,7 +60,6 @@ public class MantaroBot {
 	 * Don't kill me, this is the nicest I could code this.
 	 * @param args
 	 */	
-	@Metadata(date = "6th of September 2016", build = "0.7.5b", credits = "Kodehawa")
 	public static void main(String[] args)
 	{
 		String botToken = "";
@@ -86,7 +83,7 @@ public class MantaroBot {
 				
 		try
 		{
-			getInstance().jda = new JDABuilder().addListener(new MessageListener()).setBotToken(botToken).buildBlocking();
+			getInstance().jda = new JDABuilder().addListener(new Listener()).setBotToken(botToken).buildBlocking();
 			getInstance().jda.setAutoReconnect(true);
 			getInstance().jda.getAccountManager().setGame(getInstance().gameStatus);
 		}
@@ -99,7 +96,6 @@ public class MantaroBot {
 		
 		try {
 			getInstance().addCommands();
-			Logging.instance().print("MantaroBot " + getInstance().getBuild() + " succefully started", LogTypes.INFO);
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 			Logging.instance().print("Something very bad happened while loading commands! Check stacktrace.", LogTypes.CRITICAL);
@@ -119,7 +115,7 @@ public class MantaroBot {
 	 */
 	public static void onCommand(Parser.CommandContainer cmd)
 	{		
-		if(!MessageListener.isMenction)
+		if(!Listener.isMenction)
 		{
 			if(getInstance().commandList.containsKey(cmd.invoke))
 			{
@@ -162,14 +158,13 @@ public class MantaroBot {
 		return jda;
 	}
 	
+	/**
+	 * Why is this returning null?
+	 * @return build date
+	 */
 	public String getBuildDate()
 	{
-		for (Method m: MantaroBot.class.getMethods()) {
-			Metadata meta = m.getAnnotation(Metadata.class);
-		    return meta.date();
-		}
-		
-		return null;
+		return meta[0];
 	}
 	
 	public String getBotPrefix()
@@ -179,12 +174,7 @@ public class MantaroBot {
 	
 	public String getBuild()
 	{
-		for (Method m: MantaroBot.class.getMethods()) {
-			Metadata meta = m.getAnnotation(Metadata.class);
-		    return meta.build();
-		}
-		
-		return null;
+		return meta[1];
 	}
 	
 	/**
@@ -198,7 +188,6 @@ public class MantaroBot {
     public boolean isUnix() {
         return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
     }
-    
     
     /**
      * So this takes way less time. Basically what happens when you can't make your code better lmao
