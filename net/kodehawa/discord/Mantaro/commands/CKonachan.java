@@ -1,5 +1,7 @@
 package net.kodehawa.discord.Mantaro.commands;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.marcomaldonado.konachan.entities.Tag;
 import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.konachan.service.Konachan;
@@ -8,11 +10,11 @@ import com.marcomaldonado.web.callback.WallpaperCallback;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.main.Command;
-import net.kodehawa.discord.Mantaro.utils.Values;
 
 public class CKonachan implements Command {
-
-	Konachan konachan = new Konachan(Values.values.get("kona.sfw").booleanValue());
+	
+	boolean sfw = true;
+	Konachan konachan = new Konachan(sfw);
 
 	@Override
 	@ModuleProperties(level = "user", name = "konachan", type = "special", description = "Gets an image from konachan. ~>konachan help for more details on how to use it.",
@@ -23,52 +25,70 @@ public class CKonachan implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
-		System.out.println(Values.values.get("kona.sfw"));
-		String replaced = whole.replace("~>konachan ", "");
-
-		if(replaced.startsWith("get"))
+		if(beheaded.startsWith("get"))
 		{
+			CopyOnWriteArrayList<String> images = new CopyOnWriteArrayList<String>();
+			
 			String whole1 = whole.replace("~>konachan get ", "");
 			String[] wholeBeheaded = whole1.split(":");
 			int page = Integer.parseInt(wholeBeheaded[0]);
 			int limit = Integer.parseInt(wholeBeheaded[1]);
-			konachan.posts(page, limit, new WallpaperCallback() {
-		        public void onSuccess(Wallpaper[] wallpapers, Tag[] tags) {
-		            for(Wallpaper wallpaper : wallpapers) {
-		              evt.getChannel().sendMessageAsync(wallpaper.getJpeg_url(), null);
-		              break;
-		            }
-		        }
-				public void onStart() {}
-				public void onFailure(int error, String message) {}
-		        });
+			int number = Integer.parseInt(wholeBeheaded[2]);
+			
+			Wallpaper[] wallpapers = konachan.posts(page, limit);
+			for( Wallpaper wallpaper : wallpapers ) {
+				images.add(wallpaper.getJpeg_url());
+			}
+			
+			try
+			{
+				evt.getChannel().sendMessageAsync("You can get a total of " + String.valueOf(images.size()) + "images in this page.", null);
+				evt.getChannel().sendMessageAsync(images.get(number), null);
+			}
+			catch(ArrayIndexOutOfBoundsException exception)
+			{
+				evt.getChannel().sendMessageAsync("There aren't more images! Try with a lower number.", null);
+			}
 		}
 		
-		else if(replaced.startsWith("tags"))
+		else if(beheaded.startsWith("tags"))
 		{
+			CopyOnWriteArrayList<String> images1 = new CopyOnWriteArrayList<String>();
+
+			
 			String whole1 = whole.replace("~>konachan tags ", "");
 			String[] whole2 = whole1.split(":");
 			int page = Integer.parseInt(whole2[0]);
 			String tags = whole2[1];
+			int number = Integer.parseInt(whole2[2]);
 			
-	        konachan.search(60, page, tags, new WallpaperCallback() {
+	        konachan.search(page, 60, tags, new WallpaperCallback() {
 	            public void onSuccess(Wallpaper[] wallpapers, Tag[] tags) {
 	                for(Wallpaper wallpaper : wallpapers) {
-	                	evt.getChannel().sendMessageAsync(wallpaper.getJpeg_url(), null);
-	                	break;
+	                	
+	                	images1.add(wallpaper.getJpeg_url());
 	                }
+	                try
+	    			{
+	    				evt.getChannel().sendMessageAsync("You can get a total of " + String.valueOf(images1.size()) + " images in this page.", null);
+	    				evt.getChannel().sendMessageAsync(images1.get(number), null);
+	    			}
+	    			catch(ArrayIndexOutOfBoundsException exception)
+	    			{
+	    				evt.getChannel().sendMessageAsync("There aren't more images! Try with a lower number.", null);
+	    			}
 	            }
 	            public void onStart() {}
 	            public void onFailure(int error, String message) {}
 	         });
 		}
 		
-		else if(replaced.startsWith("help"))
+		else if(beheaded.startsWith("help"))
 		{
 			evt.getChannel().sendMessageAsync(
 					"```"
-					+ "~>konachan get number:number gets you an image.\r"
-					+ "~>konachan tags number:tag gets you an image with the respective tag.```"
+					+ "~>konachan get page:limit:imagenumber gets you an image.\r"
+					+ "~>konachan tags page:tag:imagenumber gets you an image with the respective tag.```"
 					, null);
 		}
 		
