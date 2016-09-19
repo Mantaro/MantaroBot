@@ -43,11 +43,11 @@ public class Disable implements Command {
 		}
 		else if(beheaded.startsWith("konasfw"))
 		{
-			String[] woah = beheaded.split(" ");
+			/**String[] woah = beheaded.split(" ");
 			Values.values.put("kona.sfw", Boolean.parseBoolean(woah[1]));
 			//	new CKonachan();
 			System.out.println(Values.values.get("kona.sfw").booleanValue());
-			evt.getChannel().sendMessageAsync("```Konachan SFW is now: " + Values.values.get("kona.sfw").booleanValue() + "```", null);
+			evt.getChannel().sendMessageAsync("```Konachan SFW is now: " + Values.values.get("kona.sfw").booleanValue() + "```", null);**/
 		}
 	}
 }

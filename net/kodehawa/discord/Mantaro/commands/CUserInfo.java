@@ -40,7 +40,7 @@ public class CUserInfo implements Command {
 			
 			if(user1 != null)
 			{
-				if(whole.replace("~>userinfo ", "").contains(user))
+				if(beheaded.contains(user))
 				{
 					        evt.getChannel().sendMessage("```ruby\n"
 					        + "> Nickname: " + evt.getGuild().getNicknameForUser(user1) + "\r"

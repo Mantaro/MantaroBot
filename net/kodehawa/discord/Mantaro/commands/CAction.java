@@ -1,9 +1,14 @@
 package net.kodehawa.discord.Mantaro.commands;
 
+import java.awt.Color;
 import java.util.List;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.managers.RoleManager;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.main.Command;
 
@@ -93,5 +98,41 @@ public class CAction implements Command {
 			}
 			
 		}
+		else if(beheaded.startsWith("roleparty"))
+		{
+			RoleManager role = new RoleManager(evt.getGuild().getRoleById("224237041053990912"));
+			Random rand = new Random();
+			TimerTask timerTask = new TimerTask() 
+		     { 
+		         public void run()  
+		         { 
+		 			float r = (float) (rand.nextFloat() / 2f + 0.5);
+					float g = (float) (rand.nextFloat() / 2f + 0.5);
+					float b = (float) (rand.nextFloat() / 2f + 0.5);
+					Color color = new Color(r, g, b);
+
+			     	role.update();
+		     		role.setColor(color);
+		     		role.update();
+				} 
+		     }; 
+			 Timer timer = new Timer(); 
+		     timer.schedule(timerTask, 1, 950);
+		}
+	}
+	
+	/**
+	 * I might need this soon lol
+	 * @return a random hex color.
+	 */
+	public static String randomColor()
+	{
+
+		String[] letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+	    String color = "#";
+	    for (int i = 0; i < 6; i++ ) {
+	        color += letters[(int) Math.floor(Math.random() * 16)];
+	    }
+	    return color;
 	}
 }

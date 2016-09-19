@@ -25,37 +25,37 @@ public class AddList implements Command {
 		if(evt.getAuthor().getId().equals("155867458203287552")){
 			
 			String[] cases = {"greeting", "tsun", "listRoles"};
-			int i;
-			for(i = 0; i < cases.length; i++)
+
+			if(beheaded.startsWith(cases[0]))
 			{
-			    if(beheaded.startsWith(cases[i])) System.out.println(i); break;
+				String greet = whole.replace("~>add greeting ", "");
+				CHi.greeting.add(greet);
+				new StringArrayFile("Greetings", "mantaro", CHi.greeting, true, true);
+				evt.getChannel().sendMessage("Added to greeting list: " + greet);
 			}
-			
-			switch(i) {
-				case 0:
-					String greet = whole.replace("~>add greeting ", "");
-					CHi.greeting.add(greet);
-					new StringArrayFile("Greetings", "mantaro", CHi.greeting, true, true);
-					evt.getChannel().sendMessage("Added to greeting list: " + greet);
-					break;
-				case 1:
-					String tsun = whole.replace("~>add tsun ", "");
-					CTsundere.tsunLines.add(tsun);
-					new StringArrayFile("tsunderelines", "mantaro", CTsundere.tsunLines, true, true);
-					evt.getChannel().sendMessage("Added to greeting list: " + tsun);
-					break;
-				case 2: 
-					ArrayList<String> roles = new ArrayList<String>();
-					for(Role r : evt.getGuild().getRoles()){
-						roles.add("Name: " + r.getName() + " Color: #" + Integer.toHexString(r.getColor()) + " ID: " + r.getId() + " Users: " + r.getGuild().getUsersWithRole(r).toString().replaceAll("U:", "").replaceAll("\\([^\\(]*\\)", " "));
-					}
-					int n = -1;
-					for(String s : roles){
-						n = n + 1;
-						System.out.println(roles.get(n));
-					}
-					break;
-				default: evt.getChannel().sendMessage("Silly master, use ~>add greeting or ~>add tsun");
+			else if(beheaded.startsWith(cases[1]))
+			{
+				String tsun = whole.replace("~>add tsun ", "");
+				CTsundere.tsunLines.add(tsun);
+				new StringArrayFile("tsunderelines", "mantaro", CTsundere.tsunLines, true, true);
+				evt.getChannel().sendMessage("Added to greeting list: " + tsun);
+			}
+		
+			else if(beheaded.startsWith(cases[2]))
+			{
+				ArrayList<String> roles = new ArrayList<String>();
+				for(Role r : evt.getGuild().getRoles()){
+					roles.add("Name: " + r.getName() + " Color: #" + Integer.toHexString(r.getColor()) + " ID: " + r.getId() + " Users: " + r.getGuild().getUsersWithRole(r).toString().replaceAll("U:", "").replaceAll("\\([^\\(]*\\)", " "));
+				}
+				int n = -1;
+				for(String s : roles){
+					n = n + 1;
+					System.out.println(roles.get(n));
+				}
+			}
+			else
+			{
+				evt.getChannel().sendMessage("Silly master, use ~>add greeting or ~>add tsun");
 			}
 		}
 		else

@@ -10,11 +10,11 @@ import com.marcomaldonado.web.callback.WallpaperCallback;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.Board;
 
 public class CKonachan implements Command {
 	
 	boolean sfw = true;
-	Konachan konachan = new Konachan(sfw);
 
 	@Override
 	@ModuleProperties(level = "user", name = "konachan", type = "special", description = "Gets an image from konachan. ~>konachan help for more details on how to use it.",
@@ -25,16 +25,18 @@ public class CKonachan implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
+		
 		if(beheaded.startsWith("get"))
 		{
 			CopyOnWriteArrayList<String> images = new CopyOnWriteArrayList<String>();
-			
-			String whole1 = whole.replace("~>konachan get ", "");
+			Konachan konachan = new Konachan(sfw, Board.KONACHAN);
+
+			String whole1 = beheaded.replace("get ", "");
 			String[] wholeBeheaded = whole1.split(":");
 			int page = Integer.parseInt(wholeBeheaded[0]);
 			int limit = Integer.parseInt(wholeBeheaded[1]);
 			int number = Integer.parseInt(wholeBeheaded[2]);
-			
+						
 			Wallpaper[] wallpapers = konachan.posts(page, limit);
 			for( Wallpaper wallpaper : wallpapers ) {
 				images.add(wallpaper.getJpeg_url());
@@ -54,9 +56,9 @@ public class CKonachan implements Command {
 		else if(beheaded.startsWith("tags"))
 		{
 			CopyOnWriteArrayList<String> images1 = new CopyOnWriteArrayList<String>();
+			Konachan konachan = new Konachan(sfw, Board.KONACHAN);
 
-			
-			String whole1 = whole.replace("~>konachan tags ", "");
+			String whole1 = beheaded.replace("tags ", "");
 			String[] whole2 = whole1.split(":");
 			int page = Integer.parseInt(whole2[0]);
 			String tags = whole2[1];
@@ -91,6 +93,12 @@ public class CKonachan implements Command {
 					+ "~>konachan tags page:tag:imagenumber gets you an image with the respective tag.```"
 					, null);
 		}
+		
+		else if(beheaded.startsWith("sfw"))
+		{
+			sfw = Boolean.parseBoolean(msg[1]);
+		}
+		
 		
 		else
 		{

@@ -220,10 +220,12 @@ public class MantaroBot {
     		getInstance().commandList.put("userinfo", new CUserInfo());
     		getInstance().commandList.put("shrug", new CShrug());
     		getInstance().commandList.put("konachan", new CKonachan());
+    		getInstance().commandList.put("yandere", new CYandere());
     		getInstance().commandList.put("time", new CHour());
     		getInstance().commandList.put("osu", new Cosu());
     		getInstance().commandList.put("action", new CAction());
     		getInstance().commandList.put("random", new CRand());
+    		getInstance().commandList.put("translate", new CTranslator());
     		getInstance().commandList.put("urban", new CUrbanDictionary());
     		getInstance().commandList.put("bot.status", new Disable());
     		getInstance().commandList.put("kode.eval", new Eval());
