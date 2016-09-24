@@ -32,6 +32,9 @@ public class CYandere implements Command {
 		return true;
 	}
 
+	/**
+	 * Holy shit. 
+	 */
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 
@@ -39,7 +42,7 @@ public class CYandere implements Command {
 		int page = Integer.parseInt(msg[1]);
 		String tagsToEncode = msg[3];
 		String tagsEncoded = "";
-		String yandereUrl2;
+		String yandereUrlParsed;
 		
 		try 
 		{
@@ -58,33 +61,32 @@ public class CYandere implements Command {
 			try 
 			{
 				URL yandereUrl = new URL(String.format("https://yande.re/post.json?limit=%1s&page=%2s", String.valueOf(limit), String.valueOf(page)).replace(" ", ""));
-	            HttpURLConnection yandere1 = (HttpURLConnection) yandereUrl.openConnection();
-	            System.out.println(String.format("https://yande.re/post.json?limit=%1s&page=%2s", String.valueOf(limit), String.valueOf(page)).replace(" ", ""));
-	            InputStream inputstream = yandere1.getInputStream();
+	            HttpURLConnection yandereConnection = (HttpURLConnection) yandereUrl.openConnection();
+	            InputStream inputstream = yandereConnection.getInputStream();
 
-	            yandereUrl2 = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+	            yandereUrlParsed = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 	            				
-		        JSONArray data = new JSONArray(yandereUrl2);
+		        JSONArray fetchedData = new JSONArray(yandereUrlParsed);
 		         
-		        for(int i = 0; i < data.length(); i++) 
+		        for(int i = 0; i < fetchedData.length(); i++) 
 	            {
-	                JSONObject entry = data.getJSONObject(i);
+	                JSONObject entry = fetchedData.getJSONObject(i);
 	               
 		            urls.add(entry.getString("file_url"));
 	            }
 		        
-		        int woah = 1;
+		        int get = 1;
 		        try{
-		        	woah = Integer.parseInt(msg[3]);
+		        	get = Integer.parseInt(msg[3]);
 		        }
 		        catch(Exception e) { }
 		        
 		        List<TextChannel> array = evt.getChannel().getJDA().getTextChannels();
 		        boolean trigger = false;
 		        
-		        for(TextChannel t : array)
+		        for(TextChannel channel : array)
 		        {
-		        	if(t.getName().contains("lewd") | t.getName().contains("nsfw") | t.getName().contains("nether") && t.getId() == evt.getChannel().getId())
+		        	if(channel.getName().contains("lewd") | channel.getName().contains("nsfw") | channel.getName().contains("nether") && channel.getId() == evt.getChannel().getId())
 		        	{
 		        		trigger = true;
 		        		break;
@@ -93,7 +95,7 @@ public class CYandere implements Command {
 		        
 		        if(trigger)
 		        {
-					evt.getChannel().sendMessageAsync("I found an image! You can get a total of " + urls.size() + " images :3\r" + urls.get(woah - 1) , null);
+					evt.getChannel().sendMessageAsync("I found an image! You can get a total of " + urls.size() + " images :3\r" + urls.get(get - 1) , null);
 		        }
 		        else
 		        {
@@ -116,30 +118,30 @@ public class CYandere implements Command {
 			{
 				URL yandereUrl = new URL(String.format("https://yande.re/post.json?limit=%1s&page=%2s&tags=%3s",
 						String.valueOf(limit), String.valueOf(page), tagsEncoded).replace(" ", ""));
-	            HttpURLConnection yandere1 = (HttpURLConnection) yandereUrl.openConnection();
-	            InputStream inputstream = yandere1.getInputStream();
+	            HttpURLConnection yandereConnection = (HttpURLConnection) yandereUrl.openConnection();
+	            InputStream inputstream = yandereConnection.getInputStream();
 
-	            yandereUrl2 = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+	            yandereUrlParsed = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 	            				
-		        JSONArray data = new JSONArray(yandereUrl2);
+		        JSONArray fetchedData = new JSONArray(yandereUrlParsed);
 		        		        
-		        for(int i = 0; i < data.length(); i++) 
+		        for(int i = 0; i < fetchedData.length(); i++) 
 	            {
-	                JSONObject entry = data.getJSONObject(i);
+	                JSONObject entry = fetchedData.getJSONObject(i);
 		            urls.add(entry.getString("file_url"));
 	            }
-		        int woah = 1;
+		        int get = 1;
 		        try{
-		        	woah = Integer.parseInt(msg[4]);
+		        	get = Integer.parseInt(msg[4]);
 		        }
 		        catch(Exception e) { }
 		        	
 		        List<TextChannel> array = evt.getChannel().getJDA().getTextChannels();
 		        boolean trigger = false;
 		        
-		        for(TextChannel t : array)
+		        for(TextChannel channel : array)
 		        {
-		        	if(t.getName().contains("lewd") | t.getName().contains("nsfw") | t.getName().contains("nether") && t.getId() == evt.getChannel().getId())
+		        	if(channel.getName().contains("lewd") | channel.getName().contains("nsfw") | channel.getName().contains("nether") && channel.getId() == evt.getChannel().getId())
 		        	{
 		        		trigger = true;
 		        		break;
@@ -149,7 +151,7 @@ public class CYandere implements Command {
 		        if(trigger)
 		        {
 					evt.getChannel().sendMessageAsync("I found an image!" + " with the tag **" + msg[3] + "**. You can get a total of **" 
-							+ urls.size() + "** images :3\r" + urls.get(woah - 1) , null);
+							+ urls.size() + "** images :3\r" + urls.get(get - 1) , null);
 		        }
 		        else
 		        {
