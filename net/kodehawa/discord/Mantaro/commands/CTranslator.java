@@ -51,7 +51,6 @@ public class CTranslator implements Command {
 		{
 			resty.identifyAsMozilla();
 			translatorUrl2 = resty.text(translatorUrl).toString();
-			System.out.println(translatorUrl2);
 			
 			JSONObject jObject = new JSONObject(translatorUrl2);
 	        JSONArray data = jObject.getJSONArray("sentences");

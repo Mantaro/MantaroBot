@@ -9,13 +9,12 @@ public class CLewd implements Command {
 	@Override
 	@ModuleProperties(level = "user", name = "lewd", type = "common", description = "Is it lood? I'm sure it's lewd.")
 	public boolean isAvaliable(String[] argsMain, MessageReceivedEvent evt) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		evt.getChannel().sendMessage("Y-You lewdie!" + "\r\n" 
-		 + "http://i.stack.imgur.com/MKMpFm.jpg");
+		 + "http://puu.sh/rzVEe/c8272e7c84.png");
 	}
 }

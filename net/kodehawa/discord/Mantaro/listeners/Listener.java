@@ -5,6 +5,8 @@ import net.dv8tion.jda.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.hooks.ListenerAdapter;
 import net.kodehawa.discord.Mantaro.bot.MantaroBot;
+import net.kodehawa.discord.Mantaro.utils.LogTypes;
+import net.kodehawa.discord.Mantaro.utils.Logging;
 import net.kodehawa.discord.Mantaro.utils.Values;
 
 public class Listener extends ListenerAdapter 
@@ -23,6 +25,8 @@ public class Listener extends ListenerAdapter
 			{
 				if(evt.getMessage().getContent().startsWith("@MantaroBot")){ isMenction = true; } else { isMenction = false; }
 				MantaroBot.onCommand(MantaroBot.getInstance().getParser().parse(evt.getMessage().getContent(), evt));
+				if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Listened to: '" + evt.getMessage().getContent().replace(MantaroBot.getInstance().getBotPrefix(), "") + "' command.", LogTypes.INFO); }
+
 			}
 		}
 		else if(evt.getMessage().getContent().startsWith("~>bot.status "))

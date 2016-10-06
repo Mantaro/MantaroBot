@@ -24,17 +24,24 @@ public class CQuotation implements Command {
 	}
 
 	@Override
-	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
+	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) throws ArrayIndexOutOfBoundsException, NumberFormatException {
 		if(!beheaded.startsWith("read") && !beheaded.startsWith("list") && !beheaded.startsWith("get phrase") && !beheaded.startsWith("help"))
 		{
 			String quote = beheaded;
-			quotes.add(quote);
-			new StringArrayFile("Quotes", "mantaro", quotes, true, false);
-			evt.getChannel().sendMessage("Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." );
+			if(!beheaded.isEmpty())
+			{
+				quotes.add(quote);
+				new StringArrayFile("Quotes", "mantaro", quotes, true, false);
+				evt.getChannel().sendMessage("Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." );
+			}
+			else
+			{
+				evt.getChannel().sendMessageAsync("Why are you trying to add an empty quote ;-;", null);
+			}
 		}
 		else if(beheaded.startsWith("read"))
 		{
-			String number = whole.replace(beheaded+"read ", "");
+			String number = beheaded.replace("read ", "");
 			try
 			{
 				int number2 = Integer.parseInt(number);
@@ -42,14 +49,21 @@ public class CQuotation implements Command {
 			}
 			catch(Exception e)
 			{
-				evt.getChannel().sendMessage("Not a number, silly you");
+				if(e instanceof ArrayIndexOutOfBoundsException)
+				{
+					evt.getChannel().sendMessageAsync("Number specified is larger than the last quote call number.", null);
+				}
+				else if(e instanceof NumberFormatException)
+				{
+					evt.getChannel().sendMessage("Not a number, silly you");
+				}
 			}
 			
 		}
 		else if(beheaded.startsWith("get phrase"))
 		{
 			System.out.println("Hello");
-			String phrase = whole.replace(beheaded+"get phrase ", "");
+			String phrase = beheaded.replace("get phrase ", "");
 			try
 			{
 				int n = -1;

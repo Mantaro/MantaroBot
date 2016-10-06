@@ -41,15 +41,15 @@ public class MantaroBot {
 	public HashMap<String, Command> commandList = new HashMap<String, Command>();
 	
 	private final String gameStatus = "Lewd.";
-	private final String botPrefix = "~>";
-	private final String[] meta = {"15th of September 2016", "0.7.6", "Kodehawa"};
+	public final String botPrefix = "~>";
+	private final String[] meta = {"6th of October 2016", "0.8", "Kodehawa"};
 	
 	//Which OS is the bot running on?
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	
 	public Set<Class<? extends Command>> classes = null;
 	
-	private boolean debugMode;
+	public boolean debugMode;
 	
 	public MantaroBot(){
 		Reflections reflections = new Reflections("net.kodehawa.discord.Mantaro.commands");
@@ -77,10 +77,12 @@ public class MantaroBot {
 			for (String s: args) {
 				System.out.println(s.replace(":", " = "));
 		     }
+			
+			System.out.println("Date: " + getInstance().meta[0] + " | Version: " + getInstance().meta[1] + " | Creator: " + getInstance().meta[2]);
 		}
 
 		Logging.instance().print("MantaroBot starting...", LogTypes.INFO);
-				
+					
 		try
 		{
 			getInstance().jda = new JDABuilder().addListener(new Listener()).setBotToken(botToken).buildBlocking();
@@ -227,6 +229,7 @@ public class MantaroBot {
     		getInstance().commandList.put("random", new CRand());
     		getInstance().commandList.put("translate", new CTranslator());
     		getInstance().commandList.put("urban", new CUrbanDictionary());
+    		getInstance().commandList.put("8ball", new C8Ball());
     		getInstance().commandList.put("bot.status", new Disable());
     		getInstance().commandList.put("kode.eval", new Eval());
     		

@@ -21,6 +21,7 @@ public class CHour implements Command {
 
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
+
 		try
 		{
 			evt.getChannel().sendMessageAsync("```\n" + dateGMT(whole.replace("~>time ", "")) + "```" , null);

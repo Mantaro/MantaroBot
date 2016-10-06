@@ -94,7 +94,7 @@ public class StringArrayFile {
 	
 	private void createFile()
 	{
-		Logging.instance().print("Creating new file" + name + "...", LogTypes.INFO);
+		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Creating new file" + name + "...", LogTypes.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();
@@ -113,7 +113,7 @@ public class StringArrayFile {
 	}
 	
 	private void create(File file, CopyOnWriteArrayList<String> list){
-		Logging.instance().print("Writing List file "+name, LogTypes.INFO);
+		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Writing List file "+name, LogTypes.INFO); }
 		try
 		{
 			FileWriter filewriter = new FileWriter(file);

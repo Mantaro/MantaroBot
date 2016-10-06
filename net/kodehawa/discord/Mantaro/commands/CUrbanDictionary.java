@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -34,23 +35,24 @@ public class CUrbanDictionary implements Command {
     		ArrayList<String> definitions = new ArrayList<String>();
 
 			 try {
-		            URL dictionary = new URL("http://api.urbandictionary.com/v0/define?term=" + beheadedSplit[0]);
+				 
+				 URL dictionary = new URL("http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8"));
 
-		            HttpURLConnection urban = (HttpURLConnection) dictionary.openConnection();
-		            InputStream inputstream = urban.getInputStream();
-
-		            String s = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-
-		            JSONObject jObject = new JSONObject(s);
-		            JSONArray data = jObject.getJSONArray("list");
+		         HttpURLConnection urban = (HttpURLConnection) dictionary.openConnection();
+		         InputStream inputstream = urban.getInputStream();
+		         
+		         String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 		            
-		            for(int i = 0; i < data.length(); i++) 
-		            {
-		                JSONObject entry = data.getJSONObject(i);
-		                definitions.add(entry.getString("definition"));
-		            }
+		         JSONObject jObject = new JSONObject(json);
+		         JSONArray data = jObject.getJSONArray("list");
 		            
-		            inputstream.close();
+		         for(int i = 0; i < data.length(); i++)
+		         {
+		        	 JSONObject entry = data.getJSONObject(i);
+		             definitions.add(entry.getString("definition"));
+		         }
+		            
+		         inputstream.close();
 			 }
 		     catch(Exception e)
 		     {
@@ -59,10 +61,11 @@ public class CUrbanDictionary implements Command {
 
 			 switch (beheadedSplit.length)
 			 {
-			 case 1: evt.getChannel().sendMessageAsync(">> Top definition for: **" + beheaded + "**\r\r" + definitions.get(0), null); break;
-			 case 2: evt.getChannel().sendMessageAsync(">> Definition N°:" + beheadedSplit[1] + " for **" + beheadedSplit[0] + "**\r\r" + definitions.get(Integer.parseInt(beheadedSplit[1])), null); break;
+			 case 1: evt.getChannel().sendMessageAsync("Top definition for **" + beheaded + "** is\r" + definitions.get(0), null); break;
+			 case 2: evt.getChannel().sendMessageAsync("Definition N° " + beheadedSplit[1] + " for **" + beheadedSplit[0] + "** is\r" + definitions.get(Integer.parseInt(beheadedSplit[1])), null); break;
 			 }
 		}
        
 	}
 }
+
