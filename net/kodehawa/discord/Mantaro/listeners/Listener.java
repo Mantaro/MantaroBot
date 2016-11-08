@@ -54,8 +54,8 @@ public class Listener extends ListenerAdapter
 			{
 				//System.out.println("Am I listening?");
 				//dd-MM-yyyy with yyyy trimmed
-				System.out.println(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5));
-				System.out.println(dateFormat.format(cal.getTime()).substring(0, 5));
+				//System.out.println(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5));
+				//System.out.println(dateFormat.format(cal.getTime()).substring(0, 5));
 				if(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5)))
 				{
 					Logging.instance().print("Woah, someone just gained a year today.", LogTypes.INFO);

@@ -43,7 +43,7 @@ public class MantaroBot {
 	
 	private final String gameStatus = "Lewd.";
 	public final String botPrefix = "~>";
-	private final String[] meta = {"27th of October 2016", "0.9", "Kodehawa"};
+	private final String[] meta = {"8th of November 2016", "0.95a", "Kodehawa"};
 	
 	//Which OS is the bot running on?
 	private static String OS = System.getProperty("os.name").toLowerCase();
