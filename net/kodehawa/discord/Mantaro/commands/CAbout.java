@@ -20,7 +20,7 @@ public class CAbout implements Command {
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		long millis = ManagementFactory.getRuntimeMXBean().getUptime();
-		String uptime = String.format("%02d hrs, %02d min, %02d sec",TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toMinutes(millis), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+		String uptime = String.format("%02d hrs, %02d min, %02d sec",TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 		String mention = evt.getAuthor().getAsMention();
 		evt.getChannel().sendMessage("Hello" + mention + " You're talking to MantaroBot! \r" + "**Latest build is:** " + MantaroBot.getInstance().getBuild() + ", " +  "**With date:** " + MantaroBot.getInstance().getBuildDate()+ ", running on JDA. \r**The uptime is:** " + uptime + "\r" + 
 		"I'm currently serving " + MantaroBot.getInstance().getSelf().getGuilds().size() + " servers, " + "having fun with " + MantaroBot.getInstance().getSelf().getUsers().size() + " people " +

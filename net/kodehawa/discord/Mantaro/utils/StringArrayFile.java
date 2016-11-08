@@ -13,7 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import net.kodehawa.discord.Mantaro.bot.MantaroBot;
 
 public class StringArrayFile {
-	public volatile static StringArrayFile instance = new StringArrayFile() ;
+	public volatile static StringArrayFile instance = new StringArrayFile();
 	private String name;
 	private File file;
 	@SuppressWarnings("unused")
@@ -142,7 +142,16 @@ public class StringArrayFile {
 			BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(datastream));
 			String s;
 			while((s = bufferedreader.readLine()) != null){
-				list.add(s.trim());
+				if(!s.startsWith("//"))
+				{
+					list.add(s.trim());
+				}
+				else{
+					if(MantaroBot.getInstance().debugMode)
+					{
+						Logging.instance().print("Found comment in file.", LogTypes.INFO);
+					}
+				}
 			}
 			bufferedreader.close();
 		}

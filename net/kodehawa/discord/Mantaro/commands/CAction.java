@@ -1,14 +1,24 @@
 package net.kodehawa.discord.Mantaro.commands;
 
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.main.Command;
+import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 
 public class CAction implements Command {
 
+	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<String>();
+	
+	public CAction()
+	{
+		new StringArrayFile("patting", "mantaro", pats, false);
+	}
+	
 	@Override
 	@ModuleProperties(level = "user", name = "action", type = "common", description = "Realizes an action. You need to tag someone."
 	, additionalInfo = "Possible args: hug/pat/bloodsuck/meow/meow2", takesArgs = true)
@@ -22,17 +32,21 @@ public class CAction implements Command {
 	@Override
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 
+		Random rand = new Random();
+		
 		if(beheaded.startsWith("pat"))
 		{
 			List<User> menctions = evt.getMessage().getMentionedUsers();
 			StringBuilder listString = new StringBuilder();
 
+			int patInteger = rand.nextInt(pats.size());
+			
 			for(User s : menctions)
 			{
 				listString.append(s.getAsMention());
 			}
 
-			evt.getChannel().sendMessageAsync(listString + "you have been patted by" + "" + evt.getAuthor().getAsMention() + "\r http://pa1.narvii.com/5947/f14b1451afa2fa16a6b9e6446d6039ee86db5641_hq.gif", null);
+			evt.getChannel().sendMessageAsync(listString + "you have been patted by" + "" + evt.getAuthor().getAsMention() + "\r" + pats.get(patInteger), null);
 		}
 		
 		else if(beheaded.startsWith("hug"))
@@ -68,7 +82,7 @@ public class CAction implements Command {
 		
 		else if(beheaded.startsWith("meow2"))
 		{
-			evt.getChannel().sendMessage("Meeeow.");
+			evt.getChannel().sendMessageAsync("Meeeeow.\r " + "http://puu.sh/rK5K7/034039286e.gif", null);
 		}
 		
 		else if(beheaded.startsWith("meow"))
@@ -83,15 +97,23 @@ public class CAction implements Command {
 	            }
 	            String menction = builder.toString().replace("MantaroBot", "");
 	            
-				evt.getChannel().sendMessage("*meows at " + menction + ".*");
+				evt.getChannel().sendMessageAsync("*meows at " + menction + ".*\r" + "http://puu.sh/rK5Nf/63d90628c2.gif", null);
 	            
 			}
-			
 			else
 			{
-				evt.getChannel().sendMessage("Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*");
+				evt.getChannel().sendMessageAsync("Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*", null);
 			}
 			
+		}
+		else if(beheaded.startsWith("facedesk"))
+		{
+			evt.getChannel().sendMessageAsync("http://puu.sh/rK6E7/0b745e5544.gif", null);
+		}
+		
+		else if(beheaded.startsWith("nom"))
+		{
+			evt.getChannel().sendMessageAsync("http://puu.sh/rK7t2/330182c282.gif", null);
 		}
 	}
 	

@@ -13,6 +13,7 @@ import net.kodehawa.discord.Mantaro.commands.admin.*;
 import net.kodehawa.discord.Mantaro.commands.eval.Eval;
 import net.kodehawa.discord.Mantaro.commands.mention.*;
 import net.kodehawa.discord.Mantaro.commands.osu.Cosu;
+import net.kodehawa.discord.Mantaro.commands.storm.Birthday;
 import net.kodehawa.discord.Mantaro.listeners.Listener;
 import net.kodehawa.discord.Mantaro.main.Command;
 import net.kodehawa.discord.Mantaro.main.Parser;
@@ -42,7 +43,7 @@ public class MantaroBot {
 	
 	private final String gameStatus = "Lewd.";
 	public final String botPrefix = "~>";
-	private final String[] meta = {"6th of October 2016", "0.8", "Kodehawa"};
+	private final String[] meta = {"27th of October 2016", "0.9", "Kodehawa"};
 	
 	//Which OS is the bot running on?
 	private static String OS = System.getProperty("os.name").toLowerCase();
@@ -160,10 +161,6 @@ public class MantaroBot {
 		return jda;
 	}
 	
-	/**
-	 * Why is this returning null?
-	 * @return build date
-	 */
 	public String getBuildDate()
 	{
 		return meta[0];
@@ -226,12 +223,15 @@ public class MantaroBot {
     		getInstance().commandList.put("time", new CHour());
     		getInstance().commandList.put("osu", new Cosu());
     		getInstance().commandList.put("action", new CAction());
-    		getInstance().commandList.put("random", new CRand());
+    		getInstance().commandList.put("misc", new CMisc());
     		getInstance().commandList.put("translate", new CTranslator());
     		getInstance().commandList.put("urban", new CUrbanDictionary());
     		getInstance().commandList.put("8ball", new C8Ball());
+    		getInstance().commandList.put("noble", new CNoble());
+    		getInstance().commandList.put("addbd", new Birthday());
     		getInstance().commandList.put("bot.status", new Disable());
     		getInstance().commandList.put("kode.eval", new Eval());
+    		
     		
     		getInstance().mentionCommandList.put("nya", new MentionMeow());
     		getInstance().mentionCommandList.put("wanna go to bed?", new MentionBed());
