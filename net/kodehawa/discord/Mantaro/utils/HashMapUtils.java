@@ -51,6 +51,7 @@ public class HashMapUtils {
 		if(isReactivated)
 		{
 			saveString(file, map);
+			this.loadString();
 		}
 		
 		this.loadString();
@@ -79,9 +80,9 @@ public class HashMapUtils {
 		if(isReactivated)
 		{
 			saveMix(file, map);
+			this.loadMix();
 		}
 		
-		this.loadString();
 	}
 	
 	public HashMapUtils(String fileLocation, String fileName, HashMap<Integer, Integer> map, int fileSignature, boolean isReactivated)
@@ -106,9 +107,9 @@ public class HashMapUtils {
 		if(isReactivated)
 		{
 			saveInt(file, map);
+			this.loadInt();
 		}
 		
-		this.loadString();
 	}
 	
 	private void createFile()

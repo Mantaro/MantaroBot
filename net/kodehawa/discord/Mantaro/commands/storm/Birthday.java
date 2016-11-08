@@ -20,7 +20,7 @@ public class Birthday implements Command {
 	}
 	
 	@Override
-	@ModuleProperties(level = "user", name = "bd", type = "utils", description = "Sets or changes a birthday date.", additionalInfo = "Date format: dd-MM-yyyy") 
+	@ModuleProperties(level = "user", name = "bd", type = "utils", description = "Sets or changes a birthday date.", additionalInfo = "Date format: dd-MM-yyyy (Example, ~>addbd 24-01-1995)") 
 	public boolean isAvaliable(String[] argsMain, MessageReceivedEvent evt) {
 		return true;
 	}

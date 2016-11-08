@@ -45,57 +45,63 @@ public class Listener extends ListenerAdapter
 		{
 			MantaroBot.onCommand(MantaroBot.getInstance().getParser().parse(evt.getMessage().getContent(), evt));
 		}
-		
+				
 		//Storm's server birthday thingy
-		if(evt.getGuild().getId().equals("147276654014758914"))
-		{
-			//System.out.println("Am I listening?");
-			if(Birthday.bd.containsKey(evt.getAuthor().getId()))
+		try{
+			if(evt.getGuild().getId().equals("147276654014758914"))
 			{
 				//System.out.println("Am I listening?");
-				//dd-MM-yyyy with yyyy trimmed
-				//System.out.println(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5));
-				//System.out.println(dateFormat.format(cal.getTime()).substring(0, 5));
-				if(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5)))
+				if(Birthday.bd.containsKey(evt.getAuthor().getId()))
 				{
-					Logging.instance().print("Woah, someone just gained a year today.", LogTypes.INFO);
-					List<User> user = evt.getGuild().getUsers();
-					List<Role> roles = evt.getGuild().getRoles();
-					
-					User userToAssign = null;
-					Role birthdayRole = null;
-					
-					int n = -1;
-					for(@SuppressWarnings("unused") User users : user)
+					//System.out.println("Am I listening?");
+					//dd-MM-yyyy with yyyy trimmed
+					//System.out.println(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5));
+					//System.out.println(dateFormat.format(cal.getTime()).substring(0, 5));
+					if(Birthday.bd.get(evt.getAuthor().getId()).substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5)))
 					{
-						//System.out.println("I am looping.");
-						n = n + 1;
-						if(user.get(n).getId() == evt.getAuthor().getId())
+						List<User> user = evt.getGuild().getUsers();
+						List<Role> roles = evt.getGuild().getRoles();
+						
+						User userToAssign = null;
+						Role birthdayRole = null;
+						
+						int n = -1;
+						for(@SuppressWarnings("unused") User users : user)
 						{
-							//which to assign the role
-							userToAssign = user.get(n);
-							n = -1;
-							for(Role role : roles){
-								n = n + 1;
-								if(role.getName().contains("birthday"))
-								{
-									//which role
-									birthdayRole = roles.get(n);
-									break;
-								}
-							}
-							
-							System.out.println("Assigning role?");
-							if(count == 1)
+							//System.out.println("I am looping.");
+							n = n + 1;
+							if(user.get(n).getId() == evt.getAuthor().getId())
 							{
-								evt.getGuild().getManager().addRoleToUser(userToAssign, birthdayRole);
-								evt.getTextChannel().sendMessage(userToAssign.getAsMention() + " is in his/her birthday now!");
+								//which to assign the role
+								userToAssign = user.get(n);
+								n = -1;
+								for(Role role : roles){
+									n = n + 1;
+									if(role.getName().contains("Birthday"))
+									{
+										//which role
+										birthdayRole = roles.get(n);
+										break;
+									}
+								}
+								
+								if(count == 1)
+								{
+									Logging.instance().print("Woah, someone just gained a year today, role " + birthdayRole.getName() + " assigned.", LogTypes.INFO);
+									evt.getGuild().getManager().addRoleToUser(userToAssign, birthdayRole);
+									evt.getGuild().getManager().update();
+									evt.getTextChannel().sendMessage(userToAssign.getAsMention() + " is in his/her birthday now!");
+								}
+								break;
 							}
-							break;
 						}
 					}
 				}
 			}
+		}
+		catch(Exception e)
+		{
+			//e.printStackTrace();
 		}
 		
 		if(evt.getMessage().getContent().contains("you broke")  || evt.getMessage().getContent().contains("You broke") || evt.getMessage().getContent().contains("it's broken") || evt.getMessage().getContent().contains("I broke"))
