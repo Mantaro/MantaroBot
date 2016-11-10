@@ -94,7 +94,7 @@ public class StringArrayFile {
 	
 	private void createFile()
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Creating new file" + name + "...", LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Creating new file" + name + "...", LogType.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();
@@ -113,7 +113,7 @@ public class StringArrayFile {
 	}
 	
 	private void create(File file, CopyOnWriteArrayList<String> list){
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Writing List file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Writing List file "+name, LogType.INFO); }
 		try
 		{
 			FileWriter filewriter = new FileWriter(file);
@@ -128,13 +128,13 @@ public class StringArrayFile {
 		
 		catch(Exception e)
 		{
-			Logging.instance().print("Problem while writting file", LogTypes.WARN);
+			Logger.instance().print("Problem while writting file", LogType.WARN);
 			e.printStackTrace();
 		}
 	}
 	
 	private void read(){
-		Logging.instance().print("Reading List file: "+name, LogTypes.INFO);
+		Logger.instance().print("Reading List file: "+name, LogType.INFO);
 		try
 		{
 			FileInputStream imputstream = new FileInputStream(file.getAbsolutePath());
@@ -149,7 +149,7 @@ public class StringArrayFile {
 				else{
 					if(MantaroBot.getInstance().debugMode)
 					{
-						Logging.instance().print("Found comment in file.", LogTypes.INFO);
+						Logger.instance().print("Found comment in file.", LogType.INFO);
 					}
 				}
 			}
@@ -157,7 +157,7 @@ public class StringArrayFile {
 		}
 		catch(Exception e)
 		{
-			Logging.instance().print("Problem while reading file", LogTypes.WARN);
+			Logger.instance().print("Problem while reading file", LogType.WARN);
 			e.printStackTrace();
 		}
 	}

@@ -114,7 +114,7 @@ public class HashMapUtils {
 	
 	private void createFile()
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Creating new file" + name + "...", LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Creating new file" + name + "...", LogType.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();
@@ -130,7 +130,7 @@ public class HashMapUtils {
 	
 	public void saveString(File file, Map<String, String> hash)
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Writing Map file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
 
 		properties.putAll(hash);
 
@@ -147,7 +147,7 @@ public class HashMapUtils {
 	
 	public void saveInt(File file, Map<Integer, Integer> hash)
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Writing Map file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
 
 		properties.putAll(hash);
 
@@ -163,7 +163,7 @@ public class HashMapUtils {
 	
 	public void saveMix(File file, Map<Integer, String> hash)
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Writing Map file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
 
 		properties.putAll(hash);
 
@@ -179,7 +179,7 @@ public class HashMapUtils {
 	
 	public void loadString()
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Loading Map file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
@@ -198,7 +198,7 @@ public class HashMapUtils {
 	
 	public void loadInt()
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Loading Map file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
@@ -217,7 +217,7 @@ public class HashMapUtils {
 
 	public void loadMix()
 	{
-		if(MantaroBot.getInstance().debugMode){ Logging.instance().print("Loading Map file "+name, LogTypes.INFO); }
+		if(MantaroBot.getInstance().debugMode){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {

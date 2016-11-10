@@ -8,17 +8,12 @@ import org.reflections.Reflections;
 
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
-import net.kodehawa.discord.Mantaro.commands.*;
-import net.kodehawa.discord.Mantaro.commands.admin.*;
-import net.kodehawa.discord.Mantaro.commands.eval.Eval;
-import net.kodehawa.discord.Mantaro.commands.mention.*;
-import net.kodehawa.discord.Mantaro.commands.osu.Cosu;
-import net.kodehawa.discord.Mantaro.commands.storm.Birthday;
 import net.kodehawa.discord.Mantaro.listeners.Listener;
 import net.kodehawa.discord.Mantaro.main.Command;
 import net.kodehawa.discord.Mantaro.main.Parser;
-import net.kodehawa.discord.Mantaro.utils.LogTypes;
-import net.kodehawa.discord.Mantaro.utils.Logging;
+import net.kodehawa.discord.Mantaro.manager.CommandManager;
+import net.kodehawa.discord.Mantaro.utils.LogType;
+import net.kodehawa.discord.Mantaro.utils.Logger;
 import net.kodehawa.discord.Mantaro.utils.Values;
 
 /**
@@ -43,7 +38,7 @@ public class MantaroBot {
 	
 	private final String gameStatus = "Lewd.";
 	public final String botPrefix = "~>";
-	private final String[] meta = {"8th of November 2016", "0.95a", "Kodehawa"};
+	private final String[] meta = {"8th of November 2016", "0.98a", "Kodehawa"};
 	
 	//Which OS is the bot running on?
 	private static String OS = System.getProperty("os.name").toLowerCase();
@@ -74,7 +69,7 @@ public class MantaroBot {
 						
 		if(getInstance().debugMode)
 		{
-			Logging.instance().print("Starting with Java args:", LogTypes.INFO);
+			Logger.instance().print("Starting with Java args:", LogType.INFO);
 			for (String s: args) {
 				System.out.println(s.replace(":", " = "));
 		     }
@@ -82,7 +77,7 @@ public class MantaroBot {
 			System.out.println("Date: " + getInstance().meta[0] + " | Version: " + getInstance().meta[1] + " | Creator: " + getInstance().meta[2]);
 		}
 
-		Logging.instance().print("MantaroBot starting...", LogTypes.INFO);
+		Logger.instance().print("MantaroBot starting...", LogType.INFO);
 					
 		try
 		{
@@ -101,14 +96,14 @@ public class MantaroBot {
 			getInstance().addCommands();
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
-			Logging.instance().print("Something very bad happened while loading commands! Check stacktrace.", LogTypes.CRITICAL);
+			Logger.instance().print("Something very bad happened while loading commands! Check stacktrace.", LogType.CRITICAL);
 		}
 		
 	}
 	
 	private void addCommands() throws InterruptedException, ExecutionException
 	{
-		  MantaroBot.Commands cmd = new MantaroBot.Commands();
+		  CommandManager cmd = new CommandManager();
 	      cmd.start();
 	}
 	
@@ -186,67 +181,5 @@ public class MantaroBot {
 
     public boolean isUnix() {
         return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
-    }
-    
-    /**
-     * So this takes way less time. Basically what happens when you can't make your code better lmao
-     * @author Yomura
-     */
-    private class Commands extends Thread {
-    	
-    	public void run()
-    	{
-    		//do you expect nice code? no, won't deliver
-    		this.setName("Command adding thread");
-    		Logging.instance().print("Initializing commands.", LogTypes.INFO);
-    		getInstance().commandList.put("ping", new CPing());
-    		getInstance().commandList.put("serverinfo", new CServerInfo());
-    		getInstance().commandList.put("marco", new CMarco());
-    		getInstance().commandList.put("lewd", new CLewd());
-    		getInstance().commandList.put("master", new CMaster());
-    		getInstance().commandList.put("game", new CChangeGameStatus());
-    		getInstance().commandList.put("bleach", new CBleach());
-    		getInstance().commandList.put("disconnect", new CDisconnect());
-    		getInstance().commandList.put("help", new CHelp());
-    		getInstance().commandList.put("restart", new CRestart());
-    		getInstance().commandList.put("brainpower", new CBrainPower());
-    		getInstance().commandList.put("about", new CAbout());
-    		getInstance().commandList.put("tsundere", new CTsundere());
-    		getInstance().commandList.put("hi", new CHi());
-    		getInstance().commandList.put("roasted", new CRoasted());
-    		getInstance().commandList.put("quote", new CQuotation());
-    		getInstance().commandList.put("add", new AddList());
-    		getInstance().commandList.put("userinfo", new CUserInfo());
-    		getInstance().commandList.put("shrug", new CShrug());
-    		getInstance().commandList.put("konachan", new CKonachan());
-    		getInstance().commandList.put("yandere", new CYandere());
-    		getInstance().commandList.put("time", new CHour());
-    		getInstance().commandList.put("osu", new Cosu());
-    		getInstance().commandList.put("action", new CAction());
-    		getInstance().commandList.put("misc", new CMisc());
-    		getInstance().commandList.put("translate", new CTranslator());
-    		getInstance().commandList.put("urban", new CUrbanDictionary());
-    		getInstance().commandList.put("8ball", new C8Ball());
-    		getInstance().commandList.put("noble", new CNoble());
-    		getInstance().commandList.put("addbd", new Birthday());
-    		getInstance().commandList.put("bot.status", new Disable());
-    		getInstance().commandList.put("kode.eval", new Eval());
-    		
-    		
-    		getInstance().mentionCommandList.put("nya", new MentionMeow());
-    		getInstance().mentionCommandList.put("wanna go to bed?", new MentionBed());
-    		getInstance().mentionCommandList.put("welcome new", new MentionWelcomeNew());
-    		getInstance().mentionCommandList.put("help", new MentionHelp());
-    		getInstance().mentionCommandList.put("tell", new MentionSay());
-    		getInstance().mentionCommandList.put("talk", new MentionCleverbot());
-    		
-    		
-    		int totalCommands = getInstance().commandList.size()+getInstance().mentionCommandList.size();
-    		
-    		Logging.instance().print("Successfully loaded " + totalCommands + " commands.", LogTypes.INFO);
-
-    		
-    		this.interrupt();
-    	}
     }
 }
