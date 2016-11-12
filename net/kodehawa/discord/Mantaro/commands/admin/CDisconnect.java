@@ -17,7 +17,7 @@ public class CDisconnect implements Command {
 	}
 
 	@Override
-	@ModuleProperties(level = "master", name = "disconnect", type = "control", description = "Disconnects the bot.")
+	@ModuleProperties(level = "owner", name = "disconnect", type = "control", description = "Disconnects the bot.")
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		if(evt.getAuthor().getId().equals("155867458203287552") || evt.getAuthor().getId().equals("155035543984537600"))
 		{

@@ -17,7 +17,7 @@ public class CRestart implements Command{
 	}
 
 	@Override
-	@ModuleProperties(level = "master", name = "restart", type = "control", description = "Restarts the bot.")
+	@ModuleProperties(level = "owner", name = "restart", type = "control", description = "Restarts the bot.")
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		if(evt.getAuthor().getId().equals("155867458203287552") || evt.getAuthor().getId().equals("155035543984537600"))
 		{

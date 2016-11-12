@@ -13,7 +13,7 @@ public class CMaster implements Command {
 	}
 
 	@Override
-	@ModuleProperties(level = "master", name = "master", type = "common", description = "M-Master is here!")
+	@ModuleProperties(level = "owner", name = "master", type = "common", description = "M-Master is here!")
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		if(evt.getAuthor().getId().equals("155867458203287552"))
 		{

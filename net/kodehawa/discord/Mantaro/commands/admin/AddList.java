@@ -13,7 +13,7 @@ import net.kodehawa.discord.Mantaro.utils.StringArrayFile;
 public class AddList implements Command {
 
 	@Override
-	@ModuleProperties(level = "master", name = "add", type = "admin", description = "add a phrase to the lists",
+	@ModuleProperties(level = "owner", name = "add", type = "admin", description = "add a phrase to the lists",
 	additionalInfo = "Possible args: greeting/tsun")
 	public boolean isAvaliable(String[] argsMain, MessageReceivedEvent evt) {
 		return true;

@@ -13,7 +13,7 @@ public class Disable implements Command {
 	}
 	
 	@Override
-	@ModuleProperties(level = "master", name = "botstatus", type = "control", description = "Disables the bot in the current server.")
+	@ModuleProperties(level = "owner", name = "botstatus", type = "control", description = "Disables the bot in the current server.")
 	public boolean isAvaliable(String[] argsMain, MessageReceivedEvent evt) {
 		return true;
 	}

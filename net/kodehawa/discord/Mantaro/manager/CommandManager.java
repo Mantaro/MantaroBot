@@ -20,6 +20,7 @@ public class CommandManager extends Thread {
 	
 	//Calls the instance of this class.
 	public volatile static CommandManager cmdmgr = new CommandManager();
+
 	
 	public CommandManager()
 	{
@@ -79,7 +80,7 @@ public class CommandManager extends Thread {
 		Logger.instance().print("Successfully loaded " + totalCommands + " commands.", LogType.INFO);
 
 		
-		this.interrupt();
-	}	
-	
+
+        this.interrupt();
+	}
 }

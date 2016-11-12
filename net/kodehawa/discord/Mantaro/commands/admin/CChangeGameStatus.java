@@ -13,7 +13,7 @@ public class CChangeGameStatus implements Command {
 	}
 
 	@Override
-	@ModuleProperties(level = "master", name = "game", type = "control", description = "Temporarly changes bot game status.")
+	@ModuleProperties(level = "owner", name = "game", type = "control", description = "Temporarly changes bot game status.")
 	public void botAction(String[] msg, String whole, String beheaded, MessageReceivedEvent evt) {
 		if(evt.getAuthor().getId().equals("155867458203287552"))
 		{

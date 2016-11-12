@@ -130,4 +130,26 @@ public class Permissions implements Command {
 		}
 	}
 
+	public static String getPermissionLevel(String user)
+	{
+		String whole = Permissions.perms.get(user);
+		String permissionLevel = whole.split(":")[0];
+		return permissionLevel;
+	}
+	
+	public static String getServerId(String user)
+	{
+		String whole = Permissions.perms.get(user);
+		String serverId = whole.split(":")[1];
+		return serverId;
+	}
+	
+	public static int getPermissionId(String user)
+	{
+		int permissionLevel = 0;
+		if(Permissions.getPermissionLevel(user).equals("user")){ permissionLevel = 0; }
+		if(Permissions.getPermissionLevel(user).equals("admin")){ permissionLevel = 1; }
+		if(Permissions.getPermissionLevel(user).equals("owner")){ permissionLevel = 2; }
+		return permissionLevel;
+	}
 }

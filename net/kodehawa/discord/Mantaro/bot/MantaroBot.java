@@ -1,5 +1,7 @@
 package net.kodehawa.discord.Mantaro.bot;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -8,6 +10,7 @@ import org.reflections.Reflections;
 
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
+import net.kodehawa.discord.Mantaro.annotation.ModuleProperties;
 import net.kodehawa.discord.Mantaro.listeners.Listener;
 import net.kodehawa.discord.Mantaro.main.Command;
 import net.kodehawa.discord.Mantaro.main.Parser;
@@ -23,6 +26,9 @@ import net.kodehawa.discord.Mantaro.utils.Values;
  * @since 14/08/2016
  */
 public class MantaroBot {
+	
+	public ArrayList<String> permissions = new ArrayList<String>();
+	ModuleProperties ta;
 	
 	//Instance of the JDA API.
 	private JDA jda;
@@ -105,6 +111,8 @@ public class MantaroBot {
 	{
 		  CommandManager cmd = new CommandManager();
 	      cmd.start();
+	      
+	      System.out.println(getInstance().permissions.size());
 	}
 	
 	/**
@@ -135,6 +143,27 @@ public class MantaroBot {
 				}
 			}
 		}
+	}
+	
+	public void addPermissionValues()
+	{
+
+	      for(@SuppressWarnings("rawtypes") Class c : MantaroBot.getInstance().classes)
+			{
+				int n = -1;
+				Method[] methods = c.getMethods();
+				for (Method m : methods)
+				{
+					n = n + 1;
+				    if (m.isAnnotationPresent(ModuleProperties.class) && getInstance().permissions.size() <= MantaroBot.getInstance().commandList.size())
+				    {
+				        getInstance().ta = m.getAnnotation(ModuleProperties.class);
+				        getInstance().permissions.add(getInstance().ta.name() + ":" + getInstance().ta.level().toString());
+				        System.out.println("Added: " + getInstance().ta.name() + ":" + getInstance().ta.level().toString());
+				        break;
+				    }
+				}
+			}	
 	}
 	
 	/**
