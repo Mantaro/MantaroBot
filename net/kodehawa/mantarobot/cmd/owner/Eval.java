@@ -13,13 +13,12 @@ public class Eval extends Command {
 	public Eval()
 	{
 		setName("eval");
-		setDescription("");
+		setDescription("Evaluates arbitrary code.");
 	}
 	
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
-		if(evt.getAuthor().getId().equals(Mantaro.OWNER_ID))
-		{
+		if(evt.getAuthor().getId().equals(Mantaro.OWNER_ID)){
 			try {
 		    	Interpreter interpreter = new Interpreter();
 		        ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -15,7 +15,7 @@ public class Tsundere extends Command {
 	public Tsundere()
 	{
 		setName("tsundere");
-		setDescription("");
+		setDescription("Y-You baka!");
 		new StringArrayFile("tsunderelines", tsunLines, false);
 	}
 

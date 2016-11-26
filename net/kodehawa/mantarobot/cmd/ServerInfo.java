@@ -9,7 +9,7 @@ public class ServerInfo extends Command {
 	public ServerInfo()
 	{
 		setName("serverinfo");
-		setDescription("");
+		setDescription("Retrieves server information.");
 	}
 
 	@Override
@@ -18,7 +18,9 @@ public class ServerInfo extends Command {
         guild = evt.getGuild();
         
 		EmbedBuilder embed = new EmbedBuilder();
+		
 		channel.sendTyping().queue();
+		
 		embed.setColor(guild.getOwner().getColor());
 		embed.setTitle("Server info");
 		embed.setDescription("Guild information for server " + guild.getName());
@@ -27,6 +29,7 @@ public class ServerInfo extends Command {
 		embed.addField("Owner", guild.getOwner().getUser().getName(), false);
 		embed.addField("Region", guild.getRegion().getName(), false);
 		embed.setFooter("Server ID" + String.valueOf(guild.getId()), null);
+		
 		channel.sendMessage(embed.build()).queue();
 	}
 }

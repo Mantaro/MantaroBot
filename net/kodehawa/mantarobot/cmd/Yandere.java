@@ -26,7 +26,7 @@ public class Yandere extends Command {
 	public Yandere()
 	{
 		setName("yandere");
-		setDescription("");
+		setDescription("Fetches images from yande.re. For more detailed information use this command with the help argument.");
 	}
 	/**
 	 * Holy shit. 

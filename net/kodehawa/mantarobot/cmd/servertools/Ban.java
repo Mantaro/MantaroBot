@@ -14,7 +14,7 @@ public class Ban extends Command {
 
 	public Ban(){
 		setName("ban");
-		setDescription("");
+		setDescription("Bans mentioned users.");
 	}
 	
 	@Override

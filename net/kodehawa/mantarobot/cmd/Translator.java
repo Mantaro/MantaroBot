@@ -18,7 +18,7 @@ public class Translator extends Command {
 	public Translator()
 	{
 		setName("translate");
-		setDescription("");
+		setDescription("Translates a sentence. Usage example ~>translate en fr Hello.");
 	}
 	
 	@Override

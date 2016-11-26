@@ -15,7 +15,7 @@ public class Noble extends Command {
 	public Noble()
 	{
 		setName("noble");
-		setDescription("");
+		setDescription("Retrieves a random Lost Pause quote.");
 		new StringArrayFile("noble", nobleQuotes, false);
 	}
 

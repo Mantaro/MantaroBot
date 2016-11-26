@@ -25,15 +25,13 @@ import net.kodehawa.mantarobot.util.Logger;
  */
 public class Loader {
 
-	public Loader()
-	{
+	public Loader(){
 		Thread t = new Thread() {
 		
 		@Override 
 		public void run() {
     	   
-    	   	for(Class<? extends Command> c : Mantaro.instance().classes)
-   			{
+    	   	for(Class<? extends Command> c : Mantaro.instance().classes){
     	   		try {
     	   			//Gets the instance of every command. Basically initializing the constructor of it and calling the class itself, making myself able to call its 
     	   			//methods and also itself.

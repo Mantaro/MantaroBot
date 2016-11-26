@@ -13,7 +13,7 @@ public class Bleach extends Command {
 	public Bleach()
 	{
 		setName("bleach");
-		setDescription("");
+		setDescription("Random guy/girl drinking bleach.");
 		bleach.add("http://puu.sh/qyoDQ/9df29f6b30.jpg");
 		bleach.add("http://data.whicdn.com/images/13651431/superthumb.jpg");
 		bleach.add("https://i.ytimg.com/vi/IjgPHJTbfK4/maxresdefault.jpg");

@@ -15,7 +15,7 @@ public class About extends Command {
 	public About()
 	{
 		setName("about");
-		setDescription("");
+		setDescription("Displays information about the bot.");
 	}
 	
 	@Override

@@ -16,7 +16,7 @@ public class Birthday extends Command {
 	public Birthday()
 	{
 		setName("birthday");
-		setDescription("");
+		setDescription("Sets your birthday date.");
 		new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, false);
 	}
 	

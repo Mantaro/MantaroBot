@@ -14,6 +14,7 @@ public class Time extends Command {
 	public Time()
 	{
 		setName("time");
+		setDescription("Retrieves time in a specific timezone. Usage example: ~>time GMT-3");
 	}
 
 	@Override

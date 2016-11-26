@@ -6,15 +6,13 @@ import net.kodehawa.mantarobot.cmd.management.Command;
 
 public class Ping extends Command {
 
-	public Ping()
-	{
+	public Ping(){
 		setName("ping");
-		setDescription("");
+		setDescription("Pong.");
 	}
 	
 	@Override
-	public void onCommand(String[] message, String content, MessageReceivedEvent event)
-	{
+	public void onCommand(String[] message, String content, MessageReceivedEvent event){
         channel = event.getChannel();
 		
 		event.getTextChannel().sendMessage(":mega: Pong").queue(sentMessage ->
@@ -28,6 +26,5 @@ public class Ping extends Command {
 		    long end = System.currentTimeMillis() - start;
 			sentMessage.editMessage(":mega: Pong to " + event.getAuthor().getAsMention() + " in " + end + " ms.").queue();
 		});
-		
 	}
 }

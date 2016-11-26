@@ -8,7 +8,7 @@ public class Lewd extends Command {
 	public Lewd()
 	{
 		setName("lewd");
-		setDescription("");
+		setDescription("T-Too lewd~");
 	}
 
 	@Override

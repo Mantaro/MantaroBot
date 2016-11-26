@@ -58,6 +58,7 @@ public class Mantaro {
 	public HashMap<String, Command> commands = new HashMap<String, Command>(); //A HashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
 	
+
 	//Gets in what OS the bot is running. Useful because my machine is running Windows 10, but the server is running Linux.
 	private String OS = System.getProperty("os.name").toLowerCase();
 	

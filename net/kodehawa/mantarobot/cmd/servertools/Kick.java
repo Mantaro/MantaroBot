@@ -15,7 +15,7 @@ public class Kick extends Command {
 	public Kick()
 	{
 		setName("kick");
-		setDescription("");
+		setDescription("Kicks mentioned users.");
 	}
 	
 	@Override

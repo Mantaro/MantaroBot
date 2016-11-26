@@ -18,7 +18,7 @@ public class Misc extends Command {
 	public Misc()
 	{
 		setName("misc");
-		setDescription("");
+		setDescription("Miscellaneous funny commands. Possible arguments: rob (mention)/lottery/reverse (sentence)/brainpower");
 		lyrics.add(":mega: Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");

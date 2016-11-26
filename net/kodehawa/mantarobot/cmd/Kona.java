@@ -15,7 +15,7 @@ public class Kona extends Command {
 	public Kona()
 	{
 		setName("konachan");
-		setDescription("");
+		setDescription("Retrieves images from konachan. For usage examples see ~>konachan help.");
 	}
 	
 	@Override

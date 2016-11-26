@@ -13,14 +13,13 @@ public class Shutdown extends Command {
 	public Shutdown()
 	{
 		setName("shutdown");
-		setDescription("");
+		setDescription("Shuts down the bot.");
 	}
 	
 	@Override
 	public void onCommand(String[] message, String content, MessageReceivedEvent event)
 	{
-		if(event.getAuthor().getId().equals(Mantaro.OWNER_ID) || event.getAuthor().getId().equals(Mantaro.SERVER_MGR_ID))
-		{
+		if(event.getAuthor().getId().equals(Mantaro.OWNER_ID) || event.getAuthor().getId().equals(Mantaro.SERVER_MGR_ID)){
 			channel.sendMessage("Gathering information...");
 			try {
 				new StringArrayFile("quotes", Quote.quotes, true);
@@ -52,8 +51,7 @@ public class Shutdown extends Command {
 				System.out.println(":heavy_multiplication_x:" + "Couldn't shut down." + e.toString());
 			}
 		}
-		else
-		{
+		else{
 			channel.sendMessage(":heavy_multiplication_x:" + "You cannot do that, silly.").queue();
 		}
 	}
