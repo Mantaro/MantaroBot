@@ -19,6 +19,8 @@ public class Listener extends ListenerAdapter {
 			}
 		}
 		
+		
+		
 		if(event.getMessage().getContent().contains("you broke")  || event.getMessage().getContent().contains("You broke") || event.getMessage().getContent().contains("it's broken") || event.getMessage().getContent().contains("I broke the")){
 			event.getChannel().sendMessage("It's not broken, it's a feature.");
 		}

@@ -14,6 +14,7 @@ public class Quote extends Command {
 	public Quote()
 	{
 		setName("quote");
+		setDescription("");
 		new StringArrayFile("quotes", quotes , false);
 	}
 

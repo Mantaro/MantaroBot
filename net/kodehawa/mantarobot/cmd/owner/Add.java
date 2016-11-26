@@ -12,6 +12,7 @@ public class Add extends Command {
 	public Add()
 	{
 		setName("add");
+		setDescription("");
 	}
 	
 	@Override

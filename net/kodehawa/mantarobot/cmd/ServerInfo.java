@@ -9,6 +9,7 @@ public class ServerInfo extends Command {
 	public ServerInfo()
 	{
 		setName("serverinfo");
+		setDescription("");
 	}
 
 	@Override

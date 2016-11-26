@@ -14,6 +14,7 @@ public class UserInfo extends Command {
 	public UserInfo()
 	{
 		setName("userinfo");
+		setDescription("");
 	}
 	
 	@Override

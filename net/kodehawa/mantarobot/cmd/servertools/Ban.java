@@ -14,6 +14,7 @@ public class Ban extends Command {
 
 	public Ban(){
 		setName("ban");
+		setDescription("");
 	}
 	
 	@Override
@@ -80,7 +81,7 @@ public class Ban extends Command {
 		}
 		else
         {
-            channel.sendMessage("This is a server side command!").queue();
+			channel.sendMessage(":heavy_multiplication_x: " + "Cannot ban. Possible errors: You have no Ban Members permission or this was triggered outside of a guild.").queue();
         }
 	}
 }

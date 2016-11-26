@@ -23,6 +23,7 @@ public class Permission extends Command {
 	public Permission()
 	{
 		setName("perm");
+		setDescription("");
 		Logger.instance().print("Permission module call recieved.", LogType.INFO);
 		new HashMapUtils("mantaro", "perms", perms, FILE_SIGN, false);
 	}

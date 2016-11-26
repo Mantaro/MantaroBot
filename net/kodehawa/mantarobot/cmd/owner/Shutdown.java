@@ -13,6 +13,7 @@ public class Shutdown extends Command {
 	public Shutdown()
 	{
 		setName("shutdown");
+		setDescription("");
 	}
 	
 	@Override

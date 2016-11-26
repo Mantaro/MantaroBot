@@ -21,6 +21,7 @@ public class UrbanDict extends Command {
 	public UrbanDict()
 	{
 		setName("urban");
+		setDescription("");
 	}
 
 	@Override

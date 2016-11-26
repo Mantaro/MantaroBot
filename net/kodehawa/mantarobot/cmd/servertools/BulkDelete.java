@@ -20,6 +20,7 @@ public class BulkDelete extends Command {
 	public BulkDelete()
 	{
 		setName("prune");
+		setDescription("");
 	}
 
 	int messagesToPrune;
@@ -79,6 +80,10 @@ public class BulkDelete extends Command {
 			{
 				channel.sendMessage("No messages to prune.").queue();
 			}
+		}
+		else
+		{
+			channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
 		}
 	}
 }

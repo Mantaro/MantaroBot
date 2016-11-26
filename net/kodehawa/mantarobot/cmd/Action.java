@@ -18,6 +18,7 @@ public class Action extends Command {
 	public Action()
 	{
 		setName("action");
+		setDescription("");
 		new StringArrayFile("patting", pats, false);
 		new StringArrayFile("hugs", hugs, false);
 	}

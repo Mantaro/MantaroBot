@@ -13,6 +13,7 @@ public class Eval extends Command {
 	public Eval()
 	{
 		setName("eval");
+		setDescription("");
 	}
 	
 	@Override

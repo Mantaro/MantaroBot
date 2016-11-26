@@ -41,6 +41,7 @@ public class Mantaro {
 	public static String OWNER_ID = "155867458203287552";
 	public static String SERVER_MGR_ID = "155035543984537600";
 	
+	//Mod parameters.
 	private boolean externalClassRequired = false;
 	private String externalClasspath = "";
 	
@@ -63,7 +64,8 @@ public class Mantaro {
 	private static Game game = Game.of("It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
-	public String[] data = {"26112016", "1.0.0a1-128"};
+	//In that command it returns it as data[0] + data[1]
+	public String[] data = {"26112016", "1.0.0a2-132"};
 	
 	public Mantaro()
 	{
@@ -186,5 +188,15 @@ public class Mantaro {
     {
     	this.externalClassRequired = isModded;
     	this.externalClasspath = modPackagePath;
+    }
+    
+    protected boolean getModded()
+    {
+    	return this.externalClassRequired;
+    }
+    
+    protected String getExternalPath()
+    {
+    	return this.externalClasspath;
     }
 }

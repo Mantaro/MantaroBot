@@ -15,6 +15,7 @@ public class Kona extends Command {
 	public Kona()
 	{
 		setName("konachan");
+		setDescription("");
 	}
 	
 	@Override

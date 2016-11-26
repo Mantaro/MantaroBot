@@ -21,6 +21,7 @@ public class Osu extends Command {
 	public Osu()
 	{
 		setName("osu");
+		setDescription("");
 	}
 
 	@Override

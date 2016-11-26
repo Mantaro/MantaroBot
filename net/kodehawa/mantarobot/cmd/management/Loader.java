@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.util.Logger;
  * Under the hood the {@link net.kodehawa.core.Mantaro#classes} HashMap is using the Reflections library, which puts all the classes on the specificed package which 
  * extends or implements the specified method, but without actually loading them.
  * 
- * Seen in Mantaro.class line 48 and 49.
+ * Seen in Mantaro.class line 73 to 77.
  * 
  * This is a task which benefits from multiple cores and tries to be done as quick as possible.
  * @author Yomura

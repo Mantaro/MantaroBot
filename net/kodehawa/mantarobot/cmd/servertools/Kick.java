@@ -15,6 +15,7 @@ public class Kick extends Command {
 	public Kick()
 	{
 		setName("kick");
+		setDescription("");
 	}
 	
 	@Override
@@ -83,7 +84,7 @@ public class Kick extends Command {
         }
         else
         {
-            channel.sendMessage("This is a server side command!").queue();
+			channel.sendMessage(":heavy_multiplication_x: " + "Cannot kick. Possible errors: You have no Kick Members permission or this was triggered outside of a guild.").queue();
         }
 	}
 }

@@ -26,6 +26,7 @@ public class Yandere extends Command {
 	public Yandere()
 	{
 		setName("yandere");
+		setDescription("");
 	}
 	/**
 	 * Holy shit. 

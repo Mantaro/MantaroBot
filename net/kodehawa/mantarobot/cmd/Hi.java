@@ -13,6 +13,7 @@ public class Hi extends Command {
 	public Hi()
 	{
 		setName("hi");
+		setDescription("");
 		new StringArrayFile("greeting", greeting, false);
 	}
 	

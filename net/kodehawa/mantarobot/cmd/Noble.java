@@ -15,6 +15,7 @@ public class Noble extends Command {
 	public Noble()
 	{
 		setName("noble");
+		setDescription("");
 		new StringArrayFile("noble", nobleQuotes, false);
 	}
 

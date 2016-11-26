@@ -15,6 +15,7 @@ public class EightBall extends Command {
 	public EightBall()
 	{
 		setName("8ball");
+		setDescription("");
 	}
 	
 	@Override

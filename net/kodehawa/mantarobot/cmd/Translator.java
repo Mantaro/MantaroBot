@@ -18,6 +18,7 @@ public class Translator extends Command {
 	public Translator()
 	{
 		setName("translate");
+		setDescription("");
 	}
 	
 	@Override
