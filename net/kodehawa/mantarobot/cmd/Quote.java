@@ -14,7 +14,7 @@ public class Quote extends Command {
 	public Quote()
 	{
 		setName("quote");
-		new StringArrayFile("Quotes", "mantaro", quotes , false);
+		new StringArrayFile("quotes", quotes , false);
 	}
 
 	@Override
@@ -30,12 +30,12 @@ public class Quote extends Command {
 			if(!beheadedMessage.isEmpty())
 			{
 				quotes.add(quote);
-				new StringArrayFile("Quotes", "mantaro", quotes, true, false);
-				channel.sendMessage("Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." ).queue();
+				new StringArrayFile("quotes", quotes, true, false);
+				channel.sendMessage(":pencil2: Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." ).queue();
 			}
 			else
 			{
-				channel.sendMessage("Why are you trying to add an empty quote ;-;").queue();
+				channel.sendMessage(":heavy_multiplication_x: " + "Why are you trying to add an empty quote ;-;").queue();
 			}
 		}
 		else if(beheadedMessage.startsWith("read"))
@@ -50,11 +50,11 @@ public class Quote extends Command {
 			{
 				if(e instanceof ArrayIndexOutOfBoundsException)
 				{
-					channel.sendMessage("Number specified is larger than the last quote call number.");
+					channel.sendMessage(":heavy_multiplication_x: " + "Number specified is larger than the last quote call number.");
 				}
 				else if(e instanceof NumberFormatException)
 				{
-					channel.sendMessage("Not a number, silly you");
+					channel.sendMessage(":heavy_multiplication_x: " + "Not a number, silly you");
 				}
 			}
 
@@ -79,7 +79,7 @@ public class Quote extends Command {
 			}
 			catch(Exception e)
 			{
-				channel.sendMessage("Not valid, silly you").queue();
+				channel.sendMessage(":heavy_multiplication_x: " + "Not valid, silly you").queue();
 			}
 
 		}

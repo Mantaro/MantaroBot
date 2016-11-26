@@ -57,7 +57,7 @@ public class Translator extends Command {
             {
                 JSONObject entry = data.getJSONObject(i);
                 System.out.println(entry);
-                channel.sendMessage("Translation for " + textToEncode +": " + entry.getString("trans")).queue();
+                channel.sendMessage(":speech_balloon: " + "Translation for " + textToEncode +": " + entry.getString("trans")).queue();
             }
 	        
 			System.out.println(translatorUrl2);		
@@ -65,7 +65,7 @@ public class Translator extends Command {
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			channel.sendMessage("Something went wrong when translating... :c").queue();
+			channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating... :c").queue();
 		}
 	}
 }

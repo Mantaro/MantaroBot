@@ -12,12 +12,14 @@ import net.kodehawa.mantarobot.util.StringArrayFile;
 public class Action extends Command {
 
 	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<String>();
+	private CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<String>();
 	int i = 0;
 
 	public Action()
 	{
 		setName("action");
-		new StringArrayFile("patting", "mantaro", pats, false);
+		new StringArrayFile("patting", pats, false);
+		new StringArrayFile("hugs", hugs, false);
 	}
 	
 	
@@ -42,7 +44,7 @@ public class Action extends Command {
 				listString.append(s.getAsMention());
 			}
 
-			channel.sendMessage(listString + " you have been patted by " + "" + evt.getAuthor().getAsMention() + "\r" + pats.get(patInteger)).queue();
+			channel.sendMessage(":speech_balloon: " + listString + " you have been patted by " + "" + evt.getAuthor().getAsMention() + "\r" + pats.get(patInteger)).queue();
 		}
 		
 		else if(beheadedMessage.startsWith("hug"))
@@ -50,12 +52,14 @@ public class Action extends Command {
 			List<User> menctions = evt.getMessage().getMentionedUsers();
 			StringBuilder listString = new StringBuilder();
 
+			int hugInteger = rand.nextInt(hugs.size());
+			
 			for(User s : menctions)
 			{
 				listString.append(s.getAsMention());
 			}
 
-			channel.sendMessage(listString + " you have been hugged by " + "" + evt.getAuthor().getAsMention() + "\r http://puu.sh/qUy1d/2e00556636.gif").queue();;
+			channel.sendMessage(":speech_balloon: " + listString + " you have been hugged by " + "" + evt.getAuthor().getAsMention() + "\r" + hugs.get(hugInteger)).queue();;
 		}
 		
 		else if(beheadedMessage.startsWith("bloodsuck"))
@@ -78,7 +82,7 @@ public class Action extends Command {
 		
 		else if(beheadedMessage.startsWith("meow2"))
 		{
-			channel.sendMessage("Meeeeow.\r " + "http://puu.sh/rK5K7/034039286e.gif").queue();;
+			channel.sendMessage(":speech_balloon: " + "Meeeeow.\r " + "http://puu.sh/rK5K7/034039286e.gif").queue();;
 		}
 		
 		else if(beheadedMessage.startsWith("meow"))
@@ -93,12 +97,12 @@ public class Action extends Command {
 	            }
 	            String mention = builder.toString().replace("MantaroBot", "");
 	            
-				channel.sendMessage("*meows at " + mention + ".*\r" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
+				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\r" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
 	            
 			}
 			else
 			{
-				channel.sendMessage("Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
+				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
 			}
 			
 		}

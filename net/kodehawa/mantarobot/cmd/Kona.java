@@ -43,12 +43,12 @@ public class Kona extends Command {
 			
 			try
 			{
-				channel.sendMessage("You can get a total of " + String.valueOf(images.size()) + "images in this page.").queue();
+				channel.sendMessage(":thumbsup: " + "You can get a total of " + String.valueOf(images.size()) + "images in this page.").queue();
 				channel.sendMessage(images.get(number)).queue();
 			}
 			catch(ArrayIndexOutOfBoundsException exception)
 			{
-				channel.sendMessage("There aren't more images! Try with a lower number.").queue();
+				channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 			}
 		}
 		
@@ -71,12 +71,12 @@ public class Kona extends Command {
 	                }
 	                try
 	    			{
-	    				channel.sendMessage("You can get a total of " + String.valueOf(images1.size()) + " images in this page.").queue();
+	    				channel.sendMessage(":thumbsup: " + "You can get a total of " + String.valueOf(images1.size()) + " images in this page.").queue();
 	    				channel.sendMessage(images1.get(number)).queue();
 	    			}
 	    			catch(ArrayIndexOutOfBoundsException exception)
 	    			{
-	    				channel.sendMessage("There aren't more images! Try with a lower number.").queue();
+	    				channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 	    			}
 	            }
 	            public void onStart() {}
@@ -95,7 +95,7 @@ public class Kona extends Command {
 		
 		else
 		{
-			channel.sendMessage("```Wrong usage. Use ~>konachan help to get help.```").queue();
+			channel.sendMessage(":heavy_multiplication_x: " + "Wrong usage. Use ~>konachan help to get help.").queue();
 			
 		}
 	}

@@ -67,8 +67,8 @@ public class UrbanDict extends Command {
 			 switch (beheadedSplit.length)
 			 {
 			 //If you provide a definition number, get that number, if you don't, get default.
-			 case 1: channel.sendMessage("Top definition for **" + beheadedMessage + "** is\r" + definitions.get(0)).queue(); break;
-			 case 2: channel.sendMessage("Definition N° " + beheadedSplit[1] + " for **" + beheadedSplit[0] + "** is\r" + definitions.get(Integer.parseInt(beheadedSplit[1]))).queue(); break;
+			 case 1: channel.sendMessage(":speech_balloon: " + "Top definition for **" + beheadedMessage + "** is\r" + definitions.get(0)).queue(); break;
+			 case 2: channel.sendMessage(":speech_balloon: " + "Definition N° " + beheadedSplit[1] + " for **" + beheadedSplit[0] + "** is\r" + definitions.get(Integer.parseInt(beheadedSplit[1]))).queue(); break;
 			 }
 		}
        

@@ -31,7 +31,7 @@ public class Kick extends Command {
 			//If they mentioned a user this gets passed, if they didn't it just doesn't.
             if (receivedMessage.getMentionedUsers().isEmpty())
             {
-                channel.sendMessage("You must mention 1 or more users to be kicked!").queue();
+                channel.sendMessage(":heavy_multiplication_x:" + "You must mention 1 or more users to be kicked!").queue();
                 return;
             }
             else
@@ -41,7 +41,7 @@ public class Kick extends Command {
                 //Do I have permissions to kick members, if yes continue, if no end command.
                 if (!selfMember.hasPermission(Permission.KICK_MEMBERS))
                 {
-                    channel.sendMessage("Sorry! I don't have permission to kick members in this server!").queue();
+                    channel.sendMessage(":heavy_multiplication_x:" + "Sorry! I don't have permission to kick members in this server!").queue();
                     return; 
                 }
                 
@@ -53,25 +53,25 @@ public class Kick extends Command {
                     //If one of them is in a higher hierarchy than the bot, cannot kick.
                     if (!selfMember.canInteract(member))
                     {
-                    	channel.sendMessage("Cannot kick member: " + member.getEffectiveName() +", they are higher or the same " + "hierachy than I am!").queue();
+                    	channel.sendMessage(":heavy_multiplication_x:" + "Cannot kick member: " + member.getEffectiveName() +", they are higher or the same " + "hierachy than I am!").queue();
                         return; 
                     }
 
                     //Proceed to kick them. Again, using queue so I don't get rate limited.
                     guild.getController().kick(member).queue(
-                        success -> channel.sendMessage("You will be missed... or not " + member.getEffectiveName()).queue(), //Quite funny, I think.
+                        success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(), //Quite funny, I think.
                         error ->
                         {
                             if (error instanceof PermissionException)
                             {
                                 PermissionException pe = (PermissionException) error; //Which permission?
 
-                                channel.sendMessage("PermissionError kicking [" + member.getEffectiveName()
+                                channel.sendMessage(":heavy_multiplication_x:" + "Error kicking [" + member.getEffectiveName()
                                         + "]: " + "(No permission provided: " + pe.getPermission() + ")").queue();
                             }
                             else
                             {
-                            	channel.sendMessage("Unknown error while kicking [" + member.getEffectiveName()
+                            	channel.sendMessage(":heavy_multiplication_x:" + "Unknown error while kicking [" + member.getEffectiveName()
                                         + "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                             	
                             	//Just so I get more info in the case of an unexpected error.

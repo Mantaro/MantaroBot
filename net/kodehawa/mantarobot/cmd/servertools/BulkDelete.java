@@ -57,18 +57,18 @@ public class BulkDelete extends Command {
 				
 				//Delete the last x messages. Doing this as a queue so I can avoid rate limiting too, after queuing check if it was successful or no, and if it wasn't warn the user.
 				channel2.deleteMessages(messageHistory).queue(
-						success -> channel.sendMessage(":envelope: Successfully pruned " + messagesToPrune + "messages").queue(),
+						success -> channel.sendMessage(":pencil: Successfully pruned " + messagesToPrune + "messages").queue(),
 						error -> 
 						{
 							if (error instanceof PermissionException)
                             {
                                 PermissionException pe = (PermissionException) error; //Which permission am I missing?
 
-                                channel.sendMessage("Lack of permission while pruning messages" + "(No permission provided: " + pe.getPermission() + ")").queue();
+                                channel.sendMessage(":heavy_multiplication_x: " + "Lack of permission while pruning messages" + "(No permission provided: " + pe.getPermission() + ")").queue();
                             }
                             else
                             {
-                            	channel.sendMessage("Unknown error while pruning messages" + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                            	channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while pruning messages" + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                             	//Just so I get more data in a unexpected scenario.
                             	error.printStackTrace();
                             }

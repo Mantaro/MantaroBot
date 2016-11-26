@@ -13,7 +13,7 @@ public class Hi extends Command {
 	public Hi()
 	{
 		setName("hi");
-		new StringArrayFile("Greetings", "mantaro", greeting, false);
+		new StringArrayFile("greeting", greeting, false);
 	}
 	
 
@@ -23,11 +23,7 @@ public class Hi extends Command {
 	    int greetRandomizer = rd.nextInt(greeting.size());
         channel = evt.getChannel();
 
-	    channel.sendMessage(greeting.get(greetRandomizer)).queue(sentMessage -> 
-	    {
-	    	String messageId = evt.getMessage().getId();
-	    	channel.deleteMessageById(messageId).queue();
-	    });
+	    channel.sendMessage(":speech_balloon: " + greeting.get(greetRandomizer)).queue();
 
 	}
 }

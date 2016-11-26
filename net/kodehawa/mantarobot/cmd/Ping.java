@@ -16,7 +16,7 @@ public class Ping extends Command {
 	{
         channel = event.getChannel();
 		
-		event.getTextChannel().sendMessage("Pong").queue(sentMessage ->
+		event.getTextChannel().sendMessage(":mega: Pong").queue(sentMessage ->
 		{
 			long start = System.currentTimeMillis();
 			try {
@@ -25,7 +25,7 @@ public class Ping extends Command {
 				e.printStackTrace();
 			}
 		    long end = System.currentTimeMillis() - start;
-			sentMessage.editMessage("Pong to " + event.getAuthor().getAsMention() + " in " + end + " ms.").queue();
+			sentMessage.editMessage(":mega: Pong to " + event.getAuthor().getAsMention() + " in " + end + " ms.").queue();
 		});
 		
 	}

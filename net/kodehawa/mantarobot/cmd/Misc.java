@@ -18,7 +18,7 @@ public class Misc extends Command {
 	public Misc()
 	{
 		setName("misc");
-		lyrics.add("Are you ready?");
+		lyrics.add(":mega: Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
 		lyrics.add("JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA");
@@ -53,7 +53,7 @@ public class Misc extends Command {
 		{
 			Random r = new Random();
 			int woah = r.nextInt(1200);
-			channel.sendMessage("You robbed **" + woah + "USD** from " + mentioned).queue();
+			channel.sendMessage(":speech_balloon: " + "You robbed **" + woah + "USD** from " + mentioned).queue();
 		}
 		
 		else if(beheadedMessage.startsWith("lottery"))
@@ -64,12 +64,12 @@ public class Misc extends Command {
 			{
 				Random r = new Random();
 				int lottery = r.nextInt(5000);
-				channel.sendMessage("You won **" + lottery + "USD**, congrats!").queue();
+				channel.sendMessage(":speech_balloon: " + "You won **" + lottery + "USD**, congrats!").queue();
 				users.add(user);
 			}
 			else
 			{
-				channel.sendMessage("Try again in later! (10 minutes since you ran the command)").queue();
+				channel.sendMessage(":speech_balloon: " + "Try again in later! (10 minutes since you ran the command)").queue();
 			}
 
 			if(users.contains(user))

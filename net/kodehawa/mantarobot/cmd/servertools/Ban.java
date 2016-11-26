@@ -31,7 +31,7 @@ public class Ban extends Command {
 			//If you mentioned someone to ban, continue.
 			if(receivedMessage.getMentionedUsers().isEmpty())
 			{
-				channel.sendMessage("You need to mention at least one user to ban.").queue();
+				channel.sendMessage(":heavy_multiplication_x:" + "You need to mention at least one user to ban.").queue();
 				return;
 			}
 			
@@ -43,33 +43,33 @@ public class Ban extends Command {
                 //If one of them is in a higher hierarchy than the bot, I cannot ban them.
                 if(!guild.getSelfMember().canInteract(member))
                 {
-                	channel.sendMessage("Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
+                	channel.sendMessage(":heavy_multiplication_x:" + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
                 	return;
                 }
                 
                 //If I cannot ban, well..
                 if (!guild.getSelfMember().hasPermission(Permission.BAN_MEMBERS))
                 {
-                    channel.sendMessage("Sorry! I don't have permission to ban members in this server!").queue();
+                    channel.sendMessage(":heavy_multiplication_x:" + "Sorry! I don't have permission to ban members in this server!").queue();
                     return; 
                 }
                                 
                 //Proceed to ban them. Again, using queue so I don't get rate limited.
                 //Also delete all messages from past 7 days.
                 guild.getController().ban(member, 7).queue(
-                		success -> channel.sendMessage("You will be missed... or not " + member.getEffectiveName()).queue(),
+                		success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(),
                         error ->
                         {
                             if (error instanceof PermissionException)
                             {
                                 PermissionException pe = (PermissionException) error; //Which permission am I missing?
 
-                                channel.sendMessage("PermissionError banning " + member.getEffectiveName()
+                                channel.sendMessage(":heavy_multiplication_x:" + "Error banning " + member.getEffectiveName()
                                         + ": " + "(No permission provided: " + pe.getPermission() + ")").queue();
                             }
                             else
                             {
-                            	channel.sendMessage("Unknown error while banning " + member.getEffectiveName()
+                            	channel.sendMessage(":heavy_multiplication_x:" + "Unknown error while banning " + member.getEffectiveName()
                                         + ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                             	
                             	//I need more information in the case of an unexpected error.

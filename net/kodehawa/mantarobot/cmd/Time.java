@@ -22,7 +22,11 @@ public class Time extends Command {
         
 		try
 		{
-			channel.sendMessage("```\n" + dateGMT(beheadedMessage.replace("time ", "")) + "```").queue();
+			if(beheadedMessage.startsWith("GMT")){
+				channel.sendMessage(":mega: The time is: " + dateGMT(beheadedMessage.replace("time ", "")) + " in " + beheadedMessage).queue();
+			} else{
+				channel.sendMessage(":heavy_multiplication_x: " + "You didn't specify a valid timezone").queue();
+			}
 		}
 		catch (Exception e) {
 			e.printStackTrace();

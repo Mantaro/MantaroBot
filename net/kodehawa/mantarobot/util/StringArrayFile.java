@@ -17,7 +17,7 @@ public class StringArrayFile {
 	private String name;
 	private File file;
 	@SuppressWarnings("unused")
-	private String path;
+	private String path = "mantaro";
 	public CopyOnWriteArrayList<String> list;
 	
 	private StringArrayFile(){}
@@ -35,14 +35,13 @@ public class StringArrayFile {
 	 * @param path
 	 * @param list
 	 */
-	public StringArrayFile(String name, String path, CopyOnWriteArrayList<String> list, boolean isRewritable)
+	public StringArrayFile(String name, CopyOnWriteArrayList<String> list, boolean isRewritable)
 	{
 		this.name = name;
 		this.list = list;
-		this.path = path;
 		if(Mantaro.instance().isWindows())
 		{
-			this.file = new File("C:/"+path+"/"+name+".txt");
+			this.file = new File("C:/mantaro/"+name+".txt");
 		}
 		else if(Mantaro.instance().isUnix())
 		{
@@ -61,15 +60,14 @@ public class StringArrayFile {
 		this.read();
 	}
 	
-	public StringArrayFile(String name, String path, CopyOnWriteArrayList<String> list, boolean isRewritable, boolean read)
+	public StringArrayFile(String name, CopyOnWriteArrayList<String> list, boolean isRewritable, boolean read)
 	{
 		this.name = name;
 		this.list = list;
-		this.path = path;
 		
 		if(Mantaro.instance().isWindows())
 		{
-			this.file = new File("C:/"+path+"/"+name+".txt");
+			this.file = new File("C:/mantaro/"+name+".txt");
 		}
 		else if(Mantaro.instance().isUnix())
 		{
@@ -94,7 +92,7 @@ public class StringArrayFile {
 	
 	private void createFile()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Creating new file" + name + "...", LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Creating new file " + name + "...", LogType.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();

@@ -15,7 +15,7 @@ public class Noble extends Command {
 	public Noble()
 	{
 		setName("noble");
-		new StringArrayFile("noble", "mantaro", nobleQuotes, false);
+		new StringArrayFile("noble", nobleQuotes, false);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class Noble extends Command {
 		
         channel = evt.getChannel();
         
-		channel.sendMessage(nobleQuotes.get(nobleQuote) + " -Noble").queue();
+		channel.sendMessage(":speech_balloon:" + nobleQuotes.get(nobleQuote) + " -Noble").queue();
 	}
 
 }

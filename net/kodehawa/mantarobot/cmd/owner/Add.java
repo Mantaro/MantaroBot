@@ -25,24 +25,24 @@ public class Add extends Command {
 			{
 				String greet = content.replace(cases[0] + " ", "");
 				Hi.greeting.add(greet);
-				new StringArrayFile("Greetings", "mantaro", Hi.greeting, true, true);
-				channel.sendMessage("Added to greeting list: " + greet);
+				new StringArrayFile("Greetings", Hi.greeting, true, true);
+				channel.sendMessage(":speech_balloon:" + "Added to greeting list: " + greet);
 			}
 			else if(content.startsWith(cases[1]))
 			{
 				String tsun = content.replace(cases[1] + " ", "");
 				Tsundere.tsunLines.add(tsun);
-				new StringArrayFile("tsunderelines", "mantaro", Tsundere.tsunLines, true, true);
-				channel.sendMessage("Added to tsundere list: " + tsun);
+				new StringArrayFile("tsunderelines", Tsundere.tsunLines, true, true);
+				channel.sendMessage(":speech_balloon:" + "Added to tsundere list: " + tsun);
 			}
 			else
 			{
-				channel.sendMessage("Silly master, use ~>add greeting or ~>add tsun");
+				channel.sendMessage(":speech_balloon:" + "Silly master, use ~>add greeting or ~>add tsun");
 			}
 		}
 		else
 		{
-			channel.sendMessage("How did you even know?");
+			channel.sendMessage(":heavy_multiplication_x:" + "How did you even know?");
 		}
 	}
 }

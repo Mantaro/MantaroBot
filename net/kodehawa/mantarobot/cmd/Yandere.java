@@ -116,17 +116,17 @@ public class Yandere extends Command {
 		        
 		        if(trigger)
 		        {
-					channel.sendMessage("I found an image! You can get a total of " + urls.size() + " images :3\r" + urls.get(get - 1) ).queue();
+					channel.sendMessage(":thumbsup: " + "I found an image! You can get a total of " + urls.size() + " images :3\r" + urls.get(get - 1) ).queue();
 		        }
 		        else
 		        {
-		        	channel.sendMessage("You only can use this command in nsfw channels!").queue();
+		        	channel.sendMessage(":heavy_multiplication_x: " + "You only can use this command in nsfw channels!").queue();
 		        }
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
-				channel.sendMessage("Something went wrong when fetching the image :c").queue();
+				channel.sendMessage(":heavy_multiplication_x: " + "Something went wrong when fetching the image :c").queue();
 			}
 		}
 		
@@ -174,18 +174,18 @@ public class Yandere extends Command {
 		        
 		        if(trigger)
 		        {
-					channel.sendMessage("I found an image!" + " with the tag **" + message[3] + "**. You can get a total of **" 
-							+ urls.size() + "** images :3\r" + urls.get(get - 1) ).queue();
+					channel.sendMessage(":thumbsup: " + "I found an image!" + " with the tag **" + message[3] + "**. You can get a total of **" 
+							+ urls.size() + "** images <3\r" + urls.get(get - 1) ).queue();
 		        }
 		        else
 		        {
-		        	channel.sendMessage("You only can use this command in nsfw channels!").queue();
+		        	channel.sendMessage(":heavy_multiplication_x: " +  "You only can use this command in nsfw channels!").queue();
 		        }
 			} 
 			catch (IOException e) 
 			{
 				e.printStackTrace();
-				channel.sendMessage("Something went wrong when fetching the image :c").queue();
+				channel.sendMessage(":heavy_multiplication_x: " + "Something went wrong when fetching the image :c").queue();
 			} 
 		}
 		
@@ -239,18 +239,18 @@ public class Yandere extends Command {
 		        if(trigger)
 		        {
 		        	int randomImage = r.nextInt(urls.size());
-			        channel.sendMessage("I found an image!\r" + urls.get(randomImage) ).queue();
+			        channel.sendMessage(":thumbsup: " +  "I found an image!\r" + urls.get(randomImage) ).queue();
 		        }
 			}
 			catch(Exception e)
 			{
 				e.printStackTrace();
-				channel.sendMessage("Something went wrong when fetching the image :c").queue();
+				channel.sendMessage(":heavy_multiplication_x: " + "Something went wrong when fetching the image :c").queue();
 			}
 		}		
 		else
 		{
-			channel.sendMessage("```Wrong usage. Use ~>yandere help to get help.```").queue();
+			channel.sendMessage(":heavy_multiplication_x: " + "```Wrong usage. Use ~>yandere help to get help.```").queue();
 		}
 		
 	}

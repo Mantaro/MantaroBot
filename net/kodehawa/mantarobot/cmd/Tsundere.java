@@ -15,7 +15,7 @@ public class Tsundere extends Command {
 	public Tsundere()
 	{
 		setName("tsundere");
-		new StringArrayFile("tsunderelines", "mantaro", tsunLines, false);
+		new StringArrayFile("tsunderelines", tsunLines, false);
 	}
 
 	@Override
@@ -25,6 +25,6 @@ public class Tsundere extends Command {
 		Random rd = new Random();
 		
         int tsundereRandomizer = rd.nextInt(tsunLines.size());
-		channel.sendMessage(tsunLines.get(tsundereRandomizer)).queue();
+		channel.sendMessage(":mega: " +  tsunLines.get(tsundereRandomizer)).queue();
 	}
 }

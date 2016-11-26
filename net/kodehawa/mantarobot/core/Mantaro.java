@@ -119,7 +119,7 @@ public class Mantaro {
 		
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<String>();
-		new StringArrayFile("splash", "mantaro", splash , false);
+		new StringArrayFile("splash", splash , false);
 		TimerTask timerTask = new TimerTask() 
 	    {
 	         public void run()  

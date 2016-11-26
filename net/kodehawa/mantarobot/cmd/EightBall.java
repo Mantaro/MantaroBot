@@ -45,12 +45,12 @@ public class EightBall extends Command {
 			JSONObject jObject = new JSONObject(url2);
 	        JSONObject data = jObject.getJSONObject("magic");
 	        
-            channel.sendMessage(data.getString("answer") + ".").queue();
+            channel.sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
 		} 
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			channel.sendMessage("Something went wrong when getting 8Ball reply... :c").queue();
+			channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when getting 8Ball reply... :c").queue();
 		}
 	}
 

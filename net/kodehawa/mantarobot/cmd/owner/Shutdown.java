@@ -22,7 +22,7 @@ public class Shutdown extends Command {
 		{
 			channel.sendMessage("Gathering information...");
 			try {
-				new StringArrayFile("Quotes", "mantaro", Quote.quotes, true);
+				new StringArrayFile("quotes", Quote.quotes, true);
 			    Thread.sleep(50);
 			} catch (InterruptedException e1) {	}
 			
@@ -48,12 +48,12 @@ public class Shutdown extends Command {
 			}
 			catch (Exception e)
 			{
-				System.out.println("Couldn't shut down." + e.toString());
+				System.out.println(":heavy_multiplication_x:" + "Couldn't shut down." + e.toString());
 			}
 		}
 		else
 		{
-			channel.sendMessage("You cannot do that, silly.").queue();
+			channel.sendMessage(":heavy_multiplication_x:" + "You cannot do that, silly.").queue();
 		}
 	}
 }
