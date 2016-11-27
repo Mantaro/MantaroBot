@@ -105,7 +105,8 @@ public class Yandere extends Command {
 		        }
 		        
 		        if(trigger) {
-					channel.sendMessage(":thumbsup: " + "I found an image! You can get a total of " + urls.size() + " images :3\r" + urls.get(get - 1) ).queue();
+		        	String s = String.format(":thumbsup: " + "I found an image! You can get a total of %1s images :3\r %2s" , urls.size(), urls.get(get - 1));
+					channel.sendMessage(s).queue();
 		        }
 		        else{
 		        	channel.sendMessage(":heavy_multiplication_x: " + "You only can use this command in nsfw channels!").queue();
@@ -153,8 +154,8 @@ public class Yandere extends Command {
 		        }
 		        
 		        if(trigger) {
-					channel.sendMessage(":thumbsup: " + "I found an image!" + " with the tag **" + message[3] + "**. You can get a total of **" 
-							+ url.size() + "** images <3\r" + url.get(get - 1) ).queue();
+		        	String s = String.format(":thumbsup: " + "I found an image! with the tag **1s**. You can get a total of **%2s** images <3\r %3s", message[3], url.size(), url.get(get - 1));
+					channel.sendMessage(s).queue();
 		        }
 		        else{
 		        	channel.sendMessage(":heavy_multiplication_x: " +  "You only can use this command in nsfw channels!").queue();

@@ -42,12 +42,10 @@ public class BulkDelete extends Command {
 			if(!content.isEmpty())
 			{
 				messagesToPrune = Integer.parseInt(content); //Content needs to be a number, you know.
-				
 				//I cannot get more than 100 messages from the past, so if the number is more than 100, proceed to default to 100.
 				if(messagesToPrune > 100){
 					messagesToPrune = 100;
 				}
-				
 				TextChannel channel2 = event.getGuild().getTextChannelById(channel.getId());
 				//Retrieve the past x messages to delete as a List<Message>
 				//You *need* to use .block(), with .queue() and using lambda expressions it just bugs out and it doesn't retrieve anything.
@@ -72,11 +70,10 @@ public class BulkDelete extends Command {
                             	//Just so I get more data in a unexpected scenario.
                             	error.printStackTrace();
                             }
-						}
-						);
+						});
 			}
 			else{
-				channel.sendMessage("No messages to prune.").queue();
+				channel.sendMessage(":heavy_multiplication_x: No messages to prune.").queue();
 			}
 		}
 		else{
