@@ -14,6 +14,7 @@ public class Shutdown extends Command {
 	{
 		setName("shutdown");
 		setDescription("Shuts down the bot.");
+		setCommandType("owner");
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class Shutdown extends Command {
 			}
 			catch (Exception e)
 			{
-				System.out.println(":heavy_multiplication_x:" + "Couldn't shut down." + e.toString());
+				System.out.println(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString());
 			}
 		}
 		else{

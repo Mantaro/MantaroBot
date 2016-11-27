@@ -14,7 +14,8 @@ public class UserInfo extends Command {
 	public UserInfo()
 	{
 		setName("userinfo");
-		setDescription("");
+		setDescription("Retrieves user info. Takes one argument in the form of a mention. With no argument you get your own info.");
+		setCommandType("user");
 	}
 	
 	@Override

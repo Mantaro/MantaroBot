@@ -15,6 +15,7 @@ public class Quote extends Command {
 	{
 		setName("quote");
 		setDescription("Adds or retrieves quotes. See ~>quote help.");
+		setCommandType("user");
 		new StringArrayFile("quotes", quotes , false);
 	}
 

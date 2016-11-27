@@ -12,10 +12,10 @@ import us.monoid.web.Resty;
 
 public class EightBall extends Command {
 
-	public EightBall()
-	{
+	public EightBall(){
 		setName("8ball");
 		setDescription("Retrieves answer from 8Ball. Requires a sentence.");
+		setCommandType("user");
 	}
 	
 	@Override
@@ -26,20 +26,16 @@ public class EightBall extends Command {
 		String textEncoded = "";
 		String url2;
 		
-		try 
-		{
+		try {
 			textEncoded = URLEncoder.encode(question, "UTF-8");
 		} 
-		
-		catch (UnsupportedEncodingException e1)
-		{
+		catch (UnsupportedEncodingException e1){
 			e1.printStackTrace();
 		}
 		
 		String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
         
-		try 
-		{
+		try {
 			resty.identifyAsMozilla();
 			url2 = resty.text(URL).toString();
 			
@@ -48,8 +44,7 @@ public class EightBall extends Command {
 	        
             channel.sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
 		} 
-		catch (IOException e) 
-		{
+		catch (IOException e) {
 			e.printStackTrace();
 			channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when getting 8Ball reply... :c").queue();
 		}

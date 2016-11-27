@@ -19,6 +19,7 @@ public class Action extends Command {
 	{
 		setName("action");
 		setDescription("Action commands. Arguments avaliable: pat (mention), hug (mention), bloodsuck (mention), meow, meow2, facedesk, nom");
+		setCommandType("user");
 		new StringArrayFile("patting", pats, false);
 		new StringArrayFile("hugs", hugs, false);
 	}

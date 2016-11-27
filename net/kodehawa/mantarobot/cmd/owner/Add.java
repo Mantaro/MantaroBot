@@ -13,6 +13,7 @@ public class Add extends Command {
 	{
 		setName("add");
 		setDescription("Adds a item to a list.");
+		setCommandType("owner");
 	}
 	
 	@Override

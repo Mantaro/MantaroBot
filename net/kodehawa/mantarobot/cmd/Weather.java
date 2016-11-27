@@ -27,6 +27,7 @@ public class Weather extends Command {
 	{
 		setName("weather");
 		setDescription("Retrieves weather from a city in the form of an embed message.");
+		setCommandType("user");
 	}
 	
 	@Override
@@ -42,7 +43,7 @@ public class Weather extends Command {
 		         String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 		            
 		         JSONObject jObject = new JSONObject(json);
-		         //Get the object as a list.
+		         //Get the object as a array.
 		         JSONArray weatherData = jObject.getJSONArray("weather");
 		         String status = null;
 		         for(int i = 0; i < weatherData.length(); i++) { 
@@ -74,8 +75,8 @@ public class Weather extends Command {
 		         embed.setColor(Color.CYAN);
 		         embed.setTitle("Forecast information for " + content); //For which city
 		         embed.setDescription(status + " (" + cloudiness + "% cloudiness)"); //Clouds, sunny, etc and cloudiness.
-		         embed.addField("Temperature", finalTemperatureCelcius + "°C/" + finalTemperatureFarnheit + "°F", false);
-		         embed.addField("Humidity", humidity + "%" , false);
+		         embed.addField("Temperature", finalTemperatureCelcius + "°C/" + finalTemperatureFarnheit + "°F", true);
+		         embed.addField("Humidity", humidity + "%" , true);
 		         embed.addField("Wind Speed", finalWindSpeedMetric + "km/h / " + finalWindSpeedImperial + "mph" , false);
 		         embed.setFooter("Information provided by OpenWeatherMap", null);
 		            

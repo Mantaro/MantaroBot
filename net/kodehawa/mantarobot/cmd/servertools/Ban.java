@@ -15,6 +15,7 @@ public class Ban extends Command {
 	public Ban(){
 		setName("ban");
 		setDescription("Bans mentioned users.");
+		setCommandType("servertool");
 	}
 	
 	@Override

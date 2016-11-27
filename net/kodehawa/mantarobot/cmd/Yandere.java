@@ -27,6 +27,7 @@ public class Yandere extends Command {
 	{
 		setName("yandere");
 		setDescription("Fetches images from yande.re. For more detailed information use this command with the help argument.");
+		setCommandType("user");
 	}
 	/**
 	 * Holy shit. 
@@ -43,8 +44,7 @@ public class Yandere extends Command {
 		String tagsToEncode = "no";
 		String rating = "e";
 
-		try
-		{
+		try{
 			page = Integer.parseInt(message[1]);
 			limit = Integer.parseInt(message[2]);
 			tagsToEncode = message[3];
@@ -60,22 +60,18 @@ public class Yandere extends Command {
 		String yandereUrlParsed;
 	
 		
-		try 
-		{
+		try {
 			tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
 		} 
-		catch (UnsupportedEncodingException e1)
-		{
+		catch (UnsupportedEncodingException e1){
 			e1.printStackTrace();
 		}
 				
-		if(beheadedMessage.startsWith("get"))
-		{		
+		if(beheadedMessage.startsWith("get")){		
 			CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<String>();
 			
 			if(limit > 60 ) limit = 60;
-			try 
-			{
+			try {
 				URL yandereUrl = new URL(String.format("https://yande.re/post.json?limit=%1s&page=%2s", String.valueOf(limit), String.valueOf(page)).replace(" ", ""));
 	            HttpURLConnection yandereConnection = (HttpURLConnection) yandereUrl.openConnection();
 	            InputStream inputstream = yandereConnection.getInputStream();
@@ -84,11 +80,9 @@ public class Yandere extends Command {
 	            				
 		        JSONArray fetchedData = new JSONArray(yandereUrlParsed);
 		         
-		        for(int i = 0; i < fetchedData.length(); i++) 
-	            {
-	                JSONObject entry = fetchedData.getJSONObject(i);
-	               if(entry.getString("rating").equals(rating))
-	            	{
+		        for(int i = 0; i < fetchedData.length(); i++)  {
+		        	JSONObject entry = fetchedData.getJSONObject(i);
+		        	if(entry.getString("rating").equals(rating)){
 			            urls.add(entry.getString("file_url"));
 	            	}
 	            }
@@ -102,37 +96,31 @@ public class Yandere extends Command {
 		        List<TextChannel> array = channel.getJDA().getTextChannels();
 		        boolean trigger = false;
 		        
-		        for(TextChannel channel : array)
-		        {
+		        for(TextChannel channel : array) {
 		        	if(channel.getName().contains("lewd") | channel.getName().contains("nsfw") | channel.getName().contains("nether") && channel.getId() == channel.getId())
 		        	{
 		        		trigger = true;
 		        		break;
 		        	}
-		        	else if(rating.equals("s"))
-		        	{
+		        	else if(rating.equals("s")){
 		        		trigger = true;
 		        	}
 		        }
 		        
-		        if(trigger)
-		        {
+		        if(trigger) {
 					channel.sendMessage(":thumbsup: " + "I found an image! You can get a total of " + urls.size() + " images :3\r" + urls.get(get - 1) ).queue();
 		        }
-		        else
-		        {
+		        else{
 		        	channel.sendMessage(":heavy_multiplication_x: " + "You only can use this command in nsfw channels!").queue();
 		        }
 			} 
-			catch (IOException e) 
-			{
+			catch (IOException e) {
 				e.printStackTrace();
 				channel.sendMessage(":heavy_multiplication_x: " + "Something went wrong when fetching the image :c").queue();
 			}
 		}
 		
-		else if(beheadedMessage.startsWith("tags"))
-		{
+		else if(beheadedMessage.startsWith("tags")){
 			CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<String>();
 			
 			if(limit > 60 ) limit = 60;
@@ -147,8 +135,7 @@ public class Yandere extends Command {
 	            				
 		        JSONArray fetchedData = new JSONArray(yandereUrlParsed);
 		        		        
-		        for(int i = 0; i < fetchedData.length(); i++) 
-	            {
+		        for(int i = 0; i < fetchedData.length(); i++)  {
 	                JSONObject entry = fetchedData.getJSONObject(i);
 	                if(entry.getString("rating").equals(rating))
 	                {
@@ -164,8 +151,7 @@ public class Yandere extends Command {
 		        List<TextChannel> array = channel.getJDA().getTextChannels();
 		        boolean trigger = false;
 		        
-		        for(TextChannel channel : array)
-		        {
+		        for(TextChannel channel : array) {
 		        	if(channel.getName().contains("lewd") | channel.getName().contains("nsfw") | channel.getName().contains("nether") && channel.getId() == channel.getId())
 		        	{
 		        		trigger = true;
@@ -173,13 +159,11 @@ public class Yandere extends Command {
 		        	}
 		        }
 		        
-		        if(trigger)
-		        {
+		        if(trigger) {
 					channel.sendMessage(":thumbsup: " + "I found an image!" + " with the tag **" + message[3] + "**. You can get a total of **" 
 							+ urls.size() + "** images <3\r" + urls.get(get - 1) ).queue();
 		        }
-		        else
-		        {
+		        else{
 		        	channel.sendMessage(":heavy_multiplication_x: " +  "You only can use this command in nsfw channels!").queue();
 		        }
 			} 
@@ -190,8 +174,7 @@ public class Yandere extends Command {
 			} 
 		}
 		
-		else if(beheadedMessage.startsWith("help"))
-		{
+		else if(beheadedMessage.startsWith("help")){
 			channel.sendMessage(
 					"```"
 					+ "~>yandere <gets you a completely random image.<\r"
@@ -200,11 +183,9 @@ public class Yandere extends Command {
 					).queue();
 		}
 		
-		else if(beheadedMessage.isEmpty())
-		{
+		else if(beheadedMessage.isEmpty()){
 			CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<String>();
-			try 
-			{
+			try {
 				Random r = new Random();
 				int randomPage = r.nextInt(4);
 				URL yandereUrl = new URL(String.format("https://yande.re/post.json?limit=%1s&page=%2s",
@@ -216,11 +197,9 @@ public class Yandere extends Command {
 	            				
 		        JSONArray fetchedData = new JSONArray(yandereUrlParsed);
 		        		        
-		        for(int i = 0; i < fetchedData.length(); i++) 
-	            {
+		        for(int i = 0; i < fetchedData.length(); i++) {
 	                JSONObject entry = fetchedData.getJSONObject(i);
-	                if(entry.getString("rating").equals("e") | entry.getString("rating").equals("q"))
-	            	{
+	                if(entry.getString("rating").equals("e") | entry.getString("rating").equals("q")){
 			            urls.add(entry.getString("file_url"));
 	            	}
 	            }
@@ -228,29 +207,24 @@ public class Yandere extends Command {
 		        List<TextChannel> array = channel.getJDA().getTextChannels();
 		        boolean trigger = false;
 		        
-		        for(TextChannel channel : array)
-		        {
-		        	if(channel.getName().contains("lewd") | channel.getName().contains("nsfw") | channel.getName().contains("nether") && channel.getId() == channel.getId())
-		        	{
+		        for(TextChannel channel : array){
+		        	if(channel.getName().contains("lewd") | channel.getName().contains("nsfw") | channel.getName().contains("nether") && channel.getId() == channel.getId()){
 		        		trigger = true;
 		        		break;
 		        	}
 		        }
 		        
-		        if(trigger)
-		        {
+		        if(trigger) {
 		        	int randomImage = r.nextInt(urls.size());
 			        channel.sendMessage(":thumbsup: " +  "I found an image!\r" + urls.get(randomImage) ).queue();
 		        }
 			}
-			catch(Exception e)
-			{
+			catch(Exception e){
 				e.printStackTrace();
 				channel.sendMessage(":heavy_multiplication_x: " + "Something went wrong when fetching the image :c").queue();
 			}
 		}		
-		else
-		{
+		else{
 			channel.sendMessage(":heavy_multiplication_x: " + "```Wrong usage. Use ~>yandere help to get help.```").queue();
 		}
 		

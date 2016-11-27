@@ -15,14 +15,14 @@ public class Time extends Command {
 	{
 		setName("time");
 		setDescription("Retrieves time in a specific timezone. Usage example: ~>time GMT-3");
+		setCommandType("user");
 	}
 
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
         channel = evt.getChannel();
         
-		try
-		{
+		try{
 			if(beheadedMessage.startsWith("GMT")){
 				channel.sendMessage(":mega: The time is: " + dateGMT(beheadedMessage.replace("time ", "")) + " in " + beheadedMessage).queue();
 			} else{

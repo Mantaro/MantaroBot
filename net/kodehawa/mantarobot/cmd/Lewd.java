@@ -5,9 +5,9 @@ import net.kodehawa.mantarobot.cmd.management.Command;
 
 public class Lewd extends Command {
 
-	public Lewd()
-	{
+	public Lewd(){
 		setName("lewd");
+		setCommandType("user");
 		setDescription("T-Too lewd~");
 	}
 

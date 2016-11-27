@@ -103,7 +103,7 @@ public class Osu extends Command {
 		}
 		else if(beheadedMessage.startsWith("help"))
 		{
-			evt.getChannel().sendMessage("```ruby\n                          osu! Mantaro module help\r\r"
+			evt.getChannel().sendMessage("```ruby\n            osu! Mantaro module help\r\r"
 					+ "~>osu best <username> <mode> (0 = osu!, 1 = taiko, 2 = mania, 3 = ctb)\r"
 					+ "~>osu recent <username> <mode> (0 = osu!, 1 = taiko, 2 = mania, 3 = ctb)\r"
 					+ "~>osu user <username>  ```").queue();

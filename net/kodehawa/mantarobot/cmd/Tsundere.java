@@ -12,11 +12,11 @@ public class Tsundere extends Command {
 	public static CopyOnWriteArrayList<String> tsunLines = new CopyOnWriteArrayList<String>();
 	int i = 0;
 
-	public Tsundere()
-	{
+	public Tsundere(){
 		setName("tsundere");
 		setDescription("Y-You baka!");
 		new StringArrayFile("tsunderelines", tsunLines, false);
+		setCommandType("user");
 	}
 
 	@Override

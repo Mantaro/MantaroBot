@@ -7,8 +7,7 @@ import net.kodehawa.mantarobot.core.Mantaro;
 public class Listener extends ListenerAdapter {
 
 	@Override
-	public void onMessageReceived(MessageReceivedEvent event)
-	{
+	public void onMessageReceived(MessageReceivedEvent event){
 		if(event.getMessage().getContent().startsWith(Mantaro.instance().getPrefix()) && event.getMessage().getAuthor().getId() != event.getJDA().getSelfUser().getId())
 		{
 			try {

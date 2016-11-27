@@ -16,6 +16,7 @@ public class Kick extends Command {
 	{
 		setName("kick");
 		setDescription("Kicks mentioned users.");
+		setCommandType("servertool");
 	}
 	
 	@Override

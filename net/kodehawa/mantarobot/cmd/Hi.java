@@ -14,6 +14,7 @@ public class Hi extends Command {
 	{
 		setName("hi");
 		setDescription("Greets someone.");
+		setCommandType("user");
 		new StringArrayFile("greeting", greeting, false);
 	}
 	

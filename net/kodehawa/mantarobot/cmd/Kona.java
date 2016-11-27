@@ -15,6 +15,7 @@ public class Kona extends Command {
 	public Kona()
 	{
 		setName("konachan");
+		setCommandType("user");
 		setDescription("Retrieves images from konachan. For usage examples see ~>konachan help.");
 	}
 	

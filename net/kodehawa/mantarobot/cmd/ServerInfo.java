@@ -6,10 +6,10 @@ import net.kodehawa.mantarobot.cmd.management.Command;
 
 public class ServerInfo extends Command {
 
-	public ServerInfo()
-	{
+	public ServerInfo(){
 		setName("serverinfo");
 		setDescription("Retrieves server information.");
+		setCommandType("user");
 	}
 
 	@Override

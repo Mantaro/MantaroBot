@@ -21,6 +21,7 @@ public class BulkDelete extends Command {
 	{
 		setName("prune");
 		setDescription("Prunes x messages.");
+		setCommandType("servertool");
 	}
 
 	int messagesToPrune;

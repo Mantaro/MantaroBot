@@ -14,6 +14,7 @@ public class Eval extends Command {
 	{
 		setName("eval");
 		setDescription("Evaluates arbitrary code.");
+		setCommandType("owner");
 	}
 	
 	@Override

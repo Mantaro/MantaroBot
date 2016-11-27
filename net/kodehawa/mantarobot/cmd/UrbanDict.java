@@ -22,6 +22,7 @@ public class UrbanDict extends Command {
 	{
 		setName("urban");
 		setDescription("Retrieves definitions from urban dictionary. Usage example: ~>urban Otaku");
+		setCommandType("user");
 	}
 
 	@Override

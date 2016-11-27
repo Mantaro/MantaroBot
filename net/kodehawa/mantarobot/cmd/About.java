@@ -16,6 +16,7 @@ public class About extends Command {
 	{
 		setName("about");
 		setDescription("Displays information about the bot.");
+		setCommandType("user");
 	}
 	
 	@Override
@@ -35,7 +36,8 @@ public class About extends Command {
 		embed.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png");
 		embed.addField("Latest Build: ", Mantaro.instance().getMetadata("build") + Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION, false);
 		embed.addField("Uptime", uptime, false);
-		embed.addField("Playing with | Looking over at", Mantaro.instance().getSelf().getUsers().size() + " users | " + Mantaro.instance().getSelf().getTextChannels().size() + " channels.", false);
+		embed.addField("Playing with", Mantaro.instance().getSelf().getUsers().size() + " users.", true);
+		embed.addField("Looking over at", Mantaro.instance().getSelf().getTextChannels().size() + " channels.", true);
 		embed.setFooter("Invite link: http://goo.gl/ei1C5j", null);
 		
 		channel.sendMessage(embed.build()).queue();;

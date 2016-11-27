@@ -10,10 +10,10 @@ public class Bleach extends Command {
 
 	private ArrayList<String> bleach = new ArrayList<String>();
 	
-	public Bleach()
-	{
+	public Bleach(){
 		setName("bleach");
 		setDescription("Random guy/girl drinking bleach.");
+		setCommandType("user");
 		bleach.add("http://puu.sh/qyoDQ/9df29f6b30.jpg");
 		bleach.add("http://data.whicdn.com/images/13651431/superthumb.jpg");
 		bleach.add("https://i.ytimg.com/vi/IjgPHJTbfK4/maxresdefault.jpg");

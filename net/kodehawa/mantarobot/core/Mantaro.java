@@ -14,6 +14,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
+import net.kodehawa.mantarobot.cmd.Anime;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.cmd.management.Loader;
 import net.kodehawa.mantarobot.cmd.parser.Parser;
@@ -66,7 +67,7 @@ public class Mantaro {
 	
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]
-	public String[] data = {"26112016", "1.0.0a2-132"};
+	public String[] data = {"26112016", "1.0.0a4-1312"};
 	
 	public Mantaro()
 	{
@@ -101,6 +102,10 @@ public class Mantaro {
 		    
 		    else if(args[i].startsWith("token")){
 		    	botToken = args[i].split(":")[1];
+		    }
+		    
+		    else if(args[i].startsWith("anilist")){
+		    	Anime.CLIENT_SECRET = args[i].split(":")[1];
 		    }
 		}
 		

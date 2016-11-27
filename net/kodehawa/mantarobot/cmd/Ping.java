@@ -9,6 +9,7 @@ public class Ping extends Command {
 	public Ping(){
 		setName("ping");
 		setDescription("Pong.");
+		setCommandType("user");
 	}
 	
 	@Override

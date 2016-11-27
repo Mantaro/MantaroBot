@@ -37,10 +37,11 @@ public class Loader {
     	   			//methods and also itself.
     	   			Command cmd = c.newInstance();
     	   			//Adds the command to the commands hashmap, with key = command name and executes the command action. Later on in the command
-    	   			//call timeline this will be called as cmd.onCommand (called from the hashmap).
-    	   			Mantaro.instance().commands.put(cmd.getName(), cmd);
-    	   			if(Mantaro.instance().isDebugEnabled)
-    	   			{
+    	   			//call timeline this will be called as cmd.onCommand (called from the hashmap). Avoid adding the command if the name is null.
+    	   			if(cmd.getName() != null){
+        	   			Mantaro.instance().commands.put(cmd.getName(), cmd);
+        	   		}
+    	   			if(Mantaro.instance().isDebugEnabled){
     	   				Logger.instance().print("Added command to list: " + cmd.getName() + " (" + cmd.hashCode() + ")", LogType.INFO);
     	   			}
     	   		} catch (InstantiationException e) {
