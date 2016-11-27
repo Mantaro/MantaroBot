@@ -30,15 +30,15 @@ public class About extends Command {
 
 		EmbedBuilder embed = new EmbedBuilder();
 		channel.sendTyping().queue();
-		embed.setColor(Color.PINK);
-		embed.setUrl("https://github.com/Kodehawa/MantaroBot/");
-		embed.setTitle("About Mantaro");
-		embed.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png");
-		embed.addField("Latest Build: ", Mantaro.instance().getMetadata("build") + Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION, false);
-		embed.addField("Uptime", uptime, false);
-		embed.addField("Playing with", Mantaro.instance().getSelf().getUsers().size() + " users.", true);
-		embed.addField("Looking over at", Mantaro.instance().getSelf().getTextChannels().size() + " channels.", true);
-		embed.setFooter("Invite link: http://goo.gl/ei1C5j", null);
+		embed.setColor(Color.PINK)
+			.setUrl("https://github.com/Kodehawa/MantaroBot/")
+			.setTitle("About Mantaro")
+			.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+			.addField("Latest Build: ", Mantaro.instance().getMetadata("build") + Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION, false)
+			.addField("Uptime", uptime, false)
+			.addField("Playing with", Mantaro.instance().getSelf().getUsers().size() + " users.", true)
+			.addField("Looking over at", Mantaro.instance().getSelf().getTextChannels().size() + " channels.", true)
+			.setFooter("Invite link: http://goo.gl/ei1C5j", null);
 		
 		channel.sendMessage(embed.build()).queue();;
 	}

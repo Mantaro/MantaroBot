@@ -28,12 +28,10 @@ public class Perms extends Command {
 	
 	@Override
 	public void onCommand(String[] split, String content, MessageReceivedEvent event) {
-		if(!event.getAuthor().getId().equals(Mantaro.OWNER_ID))
-		{
+		if(!event.getAuthor().getId().equals(Mantaro.OWNER_ID)){
 			List<User> mentions = event.getMessage().getMentionedUsers();
 			String userId = null;
-			for(User s : mentions)
-			{
+			for(User s : mentions){
 				userId = s.getId(); 
 			}
 

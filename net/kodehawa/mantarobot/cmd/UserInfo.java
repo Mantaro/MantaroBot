@@ -68,8 +68,7 @@ public class UserInfo extends Command {
 			}
 			
 		}
-		else
-		{
+		else {
 			//If the author wants to get self info.
 			User user1 = author;
 			//From author id, get the Member, so I can fetch the info.

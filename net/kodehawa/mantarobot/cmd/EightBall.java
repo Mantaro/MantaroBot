@@ -46,7 +46,7 @@ public class EightBall extends Command {
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
-			channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when getting 8Ball reply... :c").queue();
+			channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when getting 8Ball reply :(").queue();
 		}
 	}
 

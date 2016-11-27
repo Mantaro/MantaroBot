@@ -49,21 +49,18 @@ public class Anime extends Command {
         receivedMessage = event.getMessage();
         
 		if(content.startsWith("info")){
+			
 			try {
+				//Set variables to use later. They will be parsed to JSON later on.
+				String ANIME_TITLE = null, RELEASE_DATE = null, END_DATE = null, AVERAGE_SCORE = null, ANIME_DESCRIPTION = null, IMAGE_URL = null;
 				
-				String ANIME_TITLE = null;
-				String RELEASE_DATE = null;
-				String END_DATE = null;
-				String AVERAGE_SCORE = null;
-				String ANIME_DESCRIPTION = null;
-				String IMAGE_URL = null;
-				//ArrayList<String> aliases = new ArrayList<String>();				
+				//Open a connection to the AniList API
 				URL anime = new URL("https://anilist.co/api/anime/search/" + content.replace("info ", "") + "?access_token=" + authToken);
-				HttpURLConnection animeConnection = (HttpURLConnection) anime.openConnection();
-		        animeConnection.setRequestProperty("User-Agent", "Mantaro");
-		        InputStream inputstream = animeConnection.getInputStream();
+				HttpURLConnection animec = (HttpURLConnection) anime.openConnection();
+		        animec.setRequestProperty("User-Agent", "Mantaro");
+		        InputStream ism = animec.getInputStream();
 				String json;
-				json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+				json = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 				JSONArray animeData = null;
 				try{
 		        	animeData = new JSONArray(json);
@@ -80,6 +77,8 @@ public class Anime extends Command {
 					//Only get first result.
 					if(i1 == 0){
 						JSONObject entry = animeData.getJSONObject(i);
+						
+						//Set variables based in what the JSON retrieved is telling me of the anime.
 						ANIME_TITLE = entry.get("title_english").toString();
 						RELEASE_DATE = entry.get("start_date_fuzzy").toString(); //Returns as a date following this convention 20160116... cannot convert?
 						END_DATE = entry.get("end_date_fuzzy").toString();
@@ -92,16 +91,18 @@ public class Anime extends Command {
 					
 				}
 				
+				//Start building the embedded message.
 				EmbedBuilder builder = new EmbedBuilder();
-				builder.setColor(Color.LIGHT_GRAY);
-				builder.setTitle("Anime information for " + capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()));
-				builder.setFooter("Information provided by AniList", null);
-				builder.setThumbnail(IMAGE_URL);
-				builder.addField("Description: ", ANIME_DESCRIPTION, false);
-				builder.addField("Release date: ", RELEASE_DATE, true);
-				builder.addField("End date: ", END_DATE, true);
-				builder.addField("Average score: ", AVERAGE_SCORE+"/100", false);
+				builder.setColor(Color.LIGHT_GRAY)
+					.setTitle("Anime information for " + capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()))
+					.setFooter("Information provided by AniList", null)
+					.setThumbnail(IMAGE_URL)
+					.addField("Description: ", ANIME_DESCRIPTION, false)
+					.addField("Release date: ", RELEASE_DATE, true)
+					.addField("End date: ", END_DATE, true)
+					.addField("Average score: ", AVERAGE_SCORE+"/100", false);
 
+				//Build the embedded and send it.
 				channel.sendMessage(builder.build()).queue();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -110,19 +111,16 @@ public class Anime extends Command {
 		else if(content.startsWith("character")){
 			URL anime;
 			try {
-				String CHAR_NAME = null;
-				String ALIASES =  null;
-				String CHAR_DESCRIPTION = null;
-				String IMAGE_URL = null;
+				String CHAR_NAME = null, ALIASES =  null, CHAR_DESCRIPTION = null, IMAGE_URL = null;
 				anime = new URL("https://anilist.co/api/character/search/" + URLEncoder.encode(content.replace("character ", ""), "UTF-8") + "?access_token=" + authToken);
-				HttpURLConnection animeConnection = (HttpURLConnection) anime.openConnection();
-	        	animeConnection.setRequestProperty("User-Agent", "Mantaro");
-	        	InputStream inputstream = animeConnection.getInputStream();
+				HttpURLConnection acn = (HttpURLConnection) anime.openConnection();
+	        	acn.setRequestProperty("User-Agent", "Mantaro");
+	        	InputStream ism = acn.getInputStream();
 				String json;
-				json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-				JSONArray charData = null;
+				json = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
+				JSONArray data = null;
 				try{
-		        	charData = new JSONArray(json);
+		        	data = new JSONArray(json);
 				}
 				catch(JSONException e){
 					if(Mantaro.instance().isDebugEnabled){
@@ -133,10 +131,10 @@ public class Anime extends Command {
 				}
 	        	System.out.println(json);
 		        int i1 = 0;
-	        	for(int i = 0; i < charData.length(); i++) { 
+	        	for(int i = 0; i < data.length(); i++) { 
 					//Only get first result.
 					if(i1 == 0){
-						JSONObject entry = charData.getJSONObject(i);
+						JSONObject entry = data.getJSONObject(i);
 						CHAR_NAME = entry.get("name_first").toString() + " " + entry.get("name_last");
 			        	ALIASES = entry.get("name_alt").toString();
 			        	IMAGE_URL = entry.get("image_url_lge").toString();
@@ -150,14 +148,14 @@ public class Anime extends Command {
 	        	}
 	        	
 				EmbedBuilder builder = new EmbedBuilder();
-				builder.setColor(Color.LIGHT_GRAY);
-				builder.setThumbnail(IMAGE_URL);
-				builder.setTitle("Information for " + CHAR_NAME);
+				builder.setColor(Color.LIGHT_GRAY)
+					.setThumbnail(IMAGE_URL)
+					.setTitle("Information for " + CHAR_NAME);
 				if(!ALIASES.equals("null")){
 					builder.setDescription("Also known as " + ALIASES);
 				}
-				builder.addField("Information", CHAR_DESCRIPTION, true);
-				builder.setFooter("Information provided by AniList", null);
+				builder.addField("Information", CHAR_DESCRIPTION, true)
+					.setFooter("Information provided by AniList", null);
 				
 				channel.sendMessage(builder.build()).queue();
 			}
@@ -176,19 +174,18 @@ public class Anime extends Command {
 		URL aniList;
 		try {
 			aniList = new URL("https://anilist.co/api/auth/access_token");
-	        HttpURLConnection aniListConnection = (HttpURLConnection) aniList.openConnection();
-	        aniListConnection.setRequestMethod("POST");
-	        aniListConnection.setRequestProperty("User-Agent", "Mantaro");
-	        aniListConnection.setDoOutput(true);
-	        aniListConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-	        OutputStreamWriter osw = new OutputStreamWriter(aniListConnection.getOutputStream());
+	        HttpURLConnection alc = (HttpURLConnection) aniList.openConnection();
+	        alc.setRequestMethod("POST");
+	        alc.setRequestProperty("User-Agent", "Mantaro");
+	        alc.setDoOutput(true);
+	        alc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+	        OutputStreamWriter osw = new OutputStreamWriter(alc.getOutputStream());
 	        osw.write("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET);
 	        osw.flush(); 
-	        InputStream inputstream = aniListConnection.getInputStream();
+	        InputStream inputstream = alc.getInputStream();
 	        String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 	        JSONObject jObject = new JSONObject(json);
 	        authToken = jObject.getString("access_token");
-	        System.out.println(authToken);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

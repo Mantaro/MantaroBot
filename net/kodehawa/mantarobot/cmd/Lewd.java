@@ -14,7 +14,6 @@ public class Lewd extends Command {
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
         channel = evt.getChannel();
-
 		channel.sendMessage("Y-You lewdie!" + "\r\n" 
 		 + "http://puu.sh/rzVEe/c8272e7c84.png").queue();
 	}

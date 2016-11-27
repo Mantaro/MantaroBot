@@ -31,66 +31,57 @@ public class Action extends Command {
         author = evt.getAuthor();
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
-
+        String noArgs = beheadedMessage.split(" ")[0];
+        
 		Random rand = new Random();
-		
-		if(beheadedMessage.startsWith("pat"))
-		{
-			List<User> menctions = evt.getMessage().getMentionedUsers();
-			StringBuilder listString = new StringBuilder();
+		switch(noArgs){
+		case "pat": 
+			List<User> menctions = receivedMessage.getMentionedUsers();
+			StringBuilder pString = new StringBuilder();
 
-			int patInteger = rand.nextInt(pats.size());
-			
-			for(User s : menctions)
-			{
-				listString.append(s.getAsMention());
+			int patint = rand.nextInt(pats.size());
+		
+			for(User s : menctions){
+				pString.append(s.getAsMention());
 			}
-
-			channel.sendMessage(":speech_balloon: " + listString + " you have been patted by " + "" + evt.getAuthor().getAsMention() + "\r" + pats.get(patInteger)).queue();
-		}
 		
-		else if(beheadedMessage.startsWith("hug"))
-		{
-			List<User> menctions = evt.getMessage().getMentionedUsers();
-			StringBuilder listString = new StringBuilder();
+			String pat = String.format(":speech_balloon: %s you have been patted by %s \r %s", pString, author.getAsMention(), pats.get(patint));
+			channel.sendMessage(pat).queue();
+			break;
+		case "hug":
+			List<User> hugMentions = receivedMessage.getMentionedUsers();
+			StringBuilder hString = new StringBuilder();
 
-			int hugInteger = rand.nextInt(hugs.size());
+			int hugint = rand.nextInt(hugs.size());
 			
-			for(User s : menctions)
-			{
-				listString.append(s.getAsMention());
+			for(User s : hugMentions){
+				hString.append(s.getAsMention());
 			}
-
-			channel.sendMessage(":speech_balloon: " + listString + " you have been hugged by " + "" + evt.getAuthor().getAsMention() + "\r" + hugs.get(hugInteger)).queue();;
-		}
-		
-		else if(beheadedMessage.startsWith("bloodsuck"))
-		{
-			if(evt.getMessage().getMentionedUsers().isEmpty())
-			{
+			
+			String hug = String.format(":speech_balloon: %s you have been hugged by %s \r %s", hString, author.getAsMention(), hugs.get(hugint));
+			channel.sendMessage(hug).queue();
+			break;
+		case "bloodsuck":
+			if(evt.getMessage().getMentionedUsers().isEmpty()){
 				channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg").queue();
 			}
-			else
-			{
+			else{
 				StringBuilder listString = new StringBuilder();
 
 				for(User s : evt.getMessage().getMentionedUsers())
 				{
 					listString.append(s.getAsMention());
 				}
-				channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg \r Sucks the blood of " + listString.toString()).queue();;
+				
+				String bs = String.format(":speech_balloon: http://puu.sh/qEYYH/e5094405a5.jpg \rSucks the blood of %s", listString);
+				channel.sendMessage(bs).queue();
 			}
-		}
-		
-		else if(beheadedMessage.startsWith("meow2"))
-		{
-			channel.sendMessage(":speech_balloon: " + "Meeeeow.\r " + "http://puu.sh/rK5K7/034039286e.gif").queue();;
-		}
-		
-		else if(beheadedMessage.startsWith("meow"))
-		{
-			if(receivedMessage.getMentionedUsers().isEmpty() != true)
-			{
+			break;
+		case "meow2": 
+			channel.sendMessage(":speech_balloon: " + "Meeeeow.\r " + "http://puu.sh/rK5K7/034039286e.gif").queue();
+			break;
+		case "meow":
+			if(receivedMessage.getMentionedUsers().isEmpty() != true){
 				List<User> mentions = receivedMessage.getMentionedUsers();
 	            StringBuilder builder = new StringBuilder();
 	            for (User user: mentions)
@@ -100,37 +91,17 @@ public class Action extends Command {
 	            String mention = builder.toString().replace("MantaroBot", "");
 	            
 				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\r" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
-	            
-			}
-			else
-			{
+	            }
+			else{
 				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
 			}
-			
+			break;
+		case "facedesk":
+			channel.sendMessage("http://puu.sh/rK6E7/0b745e5544.gif").queue();
+			break;
+		case "nom":
+			channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
+			break;
 		}
-		else if(beheadedMessage.startsWith("facedesk"))
-		{
-			channel.sendMessage("http://puu.sh/rK6E7/0b745e5544.gif");
-		}
-		
-		else if(beheadedMessage.startsWith("nom"))
-		{
-			channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif");
-		}
-	}
-	
-	/**
-	 * I might need this soon lol
-	 * @return a random hex color.
-	 */
-	public static String randomColor()
-	{
-
-		String[] letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
-	    String color = "#";
-	    for (int i = 0; i < 6; i++ ) {
-	        color += letters[(int) Math.floor(Math.random() * 16)];
-	    }
-	    return color;
 	}
 }

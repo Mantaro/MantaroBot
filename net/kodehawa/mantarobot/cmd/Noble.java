@@ -24,9 +24,7 @@ public class Noble extends Command {
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
 		Random rand = new Random();
 		int nobleQuote = rand.nextInt(nobleQuotes.size());
-		
         channel = evt.getChannel();
-        
 		channel.sendMessage(":speech_balloon:" + nobleQuotes.get(nobleQuote) + " -Noble").queue();
 	}
 

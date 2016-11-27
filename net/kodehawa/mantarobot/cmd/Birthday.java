@@ -27,28 +27,22 @@ public class Birthday extends Command {
 		SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 		Date bd1 = null;
 		//So they don't input something that isn't a date...
-		try
-		{
+		try{
 			bd1 = format1.parse(split[0]);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e){
 			event.getChannel().sendMessage("Not a valid date.").queue();
 			e.printStackTrace();
 		}
 		
-		if(bd1 != null)
-		{
-			if(!bd.containsKey(userId))
-			{
+		if(bd1 != null){
+			if(!bd.containsKey(userId)){
 				String finalBirthday = format1.format(bd1);
 				
 				bd.put(userId, finalBirthday);
 				new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, true);
 				event.getChannel().sendMessage("Added birthday date.").queue();
 			}
-			else
-			{
+			else{
 				String finalBirthday = format1.format(bd1);
 				
 				bd.remove(userId);

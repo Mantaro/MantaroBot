@@ -21,14 +21,14 @@ public class ServerInfo extends Command {
 		
 		channel.sendTyping().queue();
 		
-		embed.setColor(guild.getOwner().getColor());
-		embed.setTitle("Server info");
-		embed.setDescription("Guild information for server " + guild.getName());
-		embed.setThumbnail(guild.getIconUrl());
-		embed.addField("Roles / Text Channels", String.valueOf(guild.getRoles().size()) + "/" + guild.getTextChannels().size() , false);
-		embed.addField("Owner", guild.getOwner().getUser().getName(), false);
-		embed.addField("Region", guild.getRegion().getName(), false);
-		embed.setFooter("Server ID" + String.valueOf(guild.getId()), null);
+		embed.setColor(guild.getOwner().getColor())
+			.setTitle("Server info")
+			.setDescription("Guild information for server " + guild.getName())
+			.setThumbnail(guild.getIconUrl())
+			.addField("Roles / Text Channels", String.valueOf(guild.getRoles().size()) + "/" + guild.getTextChannels().size() , false)
+			.addField("Owner", guild.getOwner().getUser().getName(), false)
+			.addField("Region", guild.getRegion().getName(), false)
+			.setFooter("Server ID" + String.valueOf(guild.getId()), null);
 		
 		channel.sendMessage(embed.build()).queue();
 	}

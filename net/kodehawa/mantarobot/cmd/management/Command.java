@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-public abstract class Command {
+public abstract class Command{
 
 	private String name;
 	private String commandType;
@@ -18,8 +18,8 @@ public abstract class Command {
 	protected MessageChannel channel;
 	protected Message receivedMessage;
 	
-	public abstract void onCommand(String[] split, String content, MessageReceivedEvent event);
-			
+	public abstract void onCommand(String[] split, String content, MessageReceivedEvent event);	
+
 	public void setName(String name){
 		this.name = name;
 	}

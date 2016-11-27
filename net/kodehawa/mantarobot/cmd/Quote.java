@@ -26,89 +26,65 @@ public class Quote extends Command {
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
         
-		if(!beheadedMessage.startsWith("read") && !beheadedMessage.startsWith("list") && !beheadedMessage.startsWith("get phrase") && !beheadedMessage.startsWith("help"))
-		{
+        String noArgs = beheadedMessage.split(" ")[0];
+		switch(noArgs){
+		default:
 			String quote = beheadedMessage;
-			if(!beheadedMessage.isEmpty())
-			{
+			if(!beheadedMessage.isEmpty()){
 				quotes.add(quote);
 				new StringArrayFile("quotes", quotes, true, false);
 				channel.sendMessage(":pencil2: Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." ).queue();
-			}
-			else
-			{
+			} else{
 				channel.sendMessage(":heavy_multiplication_x: " + "Why are you trying to add an empty quote ;-;").queue();
 			}
-		}
-		else if(beheadedMessage.startsWith("read"))
-		{
+		case "read":
 			String number = beheadedMessage.replace("read ", "");
-			try
-			{
+			try{
 				int number2 = Integer.parseInt(number);
 				channel.sendMessage(quotes.get(number2)).queue();
 			}
-			catch(Exception e)
-			{
-				if(e instanceof ArrayIndexOutOfBoundsException)
-				{
+			catch(Exception e){
+				if(e instanceof ArrayIndexOutOfBoundsException){
 					channel.sendMessage(":heavy_multiplication_x: " + "Number specified is larger than the last quote call number.");
 				}
-				else if(e instanceof NumberFormatException)
-				{
+				else if(e instanceof NumberFormatException){
 					channel.sendMessage(":heavy_multiplication_x: " + "Not a number, silly you");
 				}
 			}
-
-		}
-		else if(beheadedMessage.startsWith("get phrase"))
-		{
-			System.out.println("Hello");
+			break;
+		case "get phrase":
 			String phrase = beheadedMessage.replace("get phrase ", "");
-			try
-			{
+			try{
 				int n = -1;
-				for(String message1 : quotes)
-				{
-					n = n + 1;
-
-					if(message1.contains(phrase))
-					{
+				for(String message1 : quotes){
+					n++;
+					if(message1.contains(phrase)){
 						channel.sendMessage(quotes.get(n)).queue();
 						break;
 					}
 				}
 			}
-			catch(Exception e)
-			{
+			catch(Exception e){
 				channel.sendMessage(":heavy_multiplication_x: " + "Not valid, silly you").queue();
 			}
-
-		}
-		else if(beheadedMessage.startsWith("list"))
-		{
+			break;
+		case "list":
 			StringBuilder listString = new StringBuilder();
-
 			int n = -1;
-			for (String quotes : quotes)
-			{
-				n = n + 1;
+			for (String quotes : quotes){
+				n++;
 			    listString.append(quotes + " (Call number: " + n + ")" +"\r\n");
 			}
-
 			channel.sendMessage("``` Avaliable Quotes: \r" + listString.toString() + "```").queue();
-		}
-		else if(beheadedMessage.startsWith("help"))
-		{
+			break;
+		case "help":
 			channel.sendMessage("```| MantaroBot quote module help: \r \r"
 					+ "~>quote 'example', adds a quote to the quote list. (Usage example: ~>quote I like dogs -chuchy.)  \r \r"
 					+ "~>quote list, gets a list of all the quotes avaliable \r \r"
 					+ "~>quote read number, gets the quote matching the number. (Usage example: ~>quote read 0) \r \r"
 					+ "~>quote get phrase example, searches for the first quote which matches your search criteria and prints it. (Usage example: ~>quote get phrase dogs).``` \n"
 					).queue();
-		}
-		else{
-			channel.sendMessage("Silly you, this won't happen.").queue();
+			break;
 		}
 	}
 }

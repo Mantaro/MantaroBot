@@ -37,17 +37,17 @@ public class Weather extends Command {
 		if(!content.isEmpty()){
 			 try {
 				 URL weather = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID);
-		         HttpURLConnection weatherConnection = (HttpURLConnection) weather.openConnection();
-		         InputStream inputstream = weatherConnection.getInputStream();
+		         HttpURLConnection wc = (HttpURLConnection) weather.openConnection();
+		         InputStream is = wc.getInputStream();
 		         //Get a parsed JSON.
-		         String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+		         String json = CharStreams.toString(new InputStreamReader(is, Charsets.UTF_8));
 		            
 		         JSONObject jObject = new JSONObject(json);
 		         //Get the object as a array.
-		         JSONArray weatherData = jObject.getJSONArray("weather");
+		         JSONArray data = jObject.getJSONArray("weather");
 		         String status = null;
-		         for(int i = 0; i < weatherData.length(); i++) { 
-		        	 JSONObject entry = weatherData.getJSONObject(i);
+		         for(int i = 0; i < data.length(); i++) { 
+		        	 JSONObject entry = data.getJSONObject(i);
 		             status = entry.getString("main"); //Used for weather status.
 		         }
 		         
@@ -56,35 +56,35 @@ public class Weather extends Command {
 		         dFormat.setRoundingMode(RoundingMode.UP);
 		         
 		         //Get the needed JSON Objects.
-		         JSONObject jObjectMain = jObject.getJSONObject("main"); //Used for temperature and humidity.
-		         JSONObject jObjectWind = jObject.getJSONObject("wind"); //Used for wind speed.
-		         JSONObject jObjectClouds = jObject.getJSONObject("clouds"); //Used for cloudiness.
+		         JSONObject jMain = jObject.getJSONObject("main"); //Used for temperature and humidity.
+		         JSONObject jWind = jObject.getJSONObject("wind"); //Used for wind speed.
+		         JSONObject jClouds = jObject.getJSONObject("clouds"); //Used for cloudiness.
 		         
-		         String temperature = dFormat.format(Double.parseDouble(jObjectMain.get("temp").toString())); //Temperature in Kelvin.
-		         String humidity = dFormat.format(Double.parseDouble(jObjectMain.get("humidity").toString())); //Humidity in percentage.
-		         String windSpeed = dFormat.format(Double.parseDouble(jObjectWind.get("speed").toString())); //Speed in m/h.
-		         String cloudiness = dFormat.format(Double.parseDouble(jObjectClouds.get("all").toString())); //Cloudiness in percentage.
+		         String temp = dFormat.format(Double.parseDouble(jMain.get("temp").toString())); //Temperature in Kelvin.
+		         String hum = dFormat.format(Double.parseDouble(jMain.get("humidity").toString())); //Humidity in percentage.
+		         String ws = dFormat.format(Double.parseDouble(jWind.get("speed").toString())); //Speed in m/h.
+		         String clness = dFormat.format(Double.parseDouble(jClouds.get("all").toString())); //Cloudiness in percentage.
 		         
 		         //Simple math formulas to convert from universal to metric and imperial.
-		         String finalTemperatureCelcius = dFormat.format(Double.parseDouble(temperature) - 273.15); //Temperature in Celcius degrees.
-		         String finalTemperatureFarnheit = dFormat.format(Double.parseDouble(temperature) * 9/5 - 459.67); //Temperature in Farnheit degrees.
-		         String finalWindSpeedMetric = dFormat.format(Double.parseDouble(windSpeed) * 3.6); //wind speed in km/h.
-		         String finalWindSpeedImperial = dFormat.format(Double.parseDouble(windSpeed) / 0.447046); //wind speed in mph.
+		         String finalTemperatureCelcius = dFormat.format(Double.parseDouble(temp) - 273.15); //Temperature in Celcius degrees.
+		         String finalTemperatureFarnheit = dFormat.format(Double.parseDouble(temp) * 9/5 - 459.67); //Temperature in Farnheit degrees.
+		         String finalWindSpeedMetric = dFormat.format(Double.parseDouble(ws) * 3.6); //wind speed in km/h.
+		         String finalWindSpeedImperial = dFormat.format(Double.parseDouble(ws) / 0.447046); //wind speed in mph.
 
 		         EmbedBuilder embed = new EmbedBuilder();
-		         embed.setColor(Color.CYAN);
-		         embed.setTitle("Forecast information for " + content); //For which city
-		         embed.setDescription(status + " (" + cloudiness + "% cloudiness)"); //Clouds, sunny, etc and cloudiness.
-		         embed.addField("Temperature", finalTemperatureCelcius + "°C/" + finalTemperatureFarnheit + "°F", true);
-		         embed.addField("Humidity", humidity + "%" , true);
-		         embed.addField("Wind Speed", finalWindSpeedMetric + "km/h / " + finalWindSpeedImperial + "mph" , false);
-		         embed.setFooter("Information provided by OpenWeatherMap", null);
+		         embed.setColor(Color.CYAN)
+		         	.setTitle("Forecast information for " + content) //For which city
+		         	.setDescription(status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.
+		         	.addField("Temperature", finalTemperatureCelcius + "°C/" + finalTemperatureFarnheit + "°F", true)
+		         	.addField("Humidity", hum + "%" , true)
+		         	.addField("Wind Speed", finalWindSpeedMetric + "km/h / " + finalWindSpeedImperial + "mph" , false)
+		         	.setFooter("Information provided by OpenWeatherMap", null);
 		            
 		         //Build the embed message and send it.
 		         channel.sendMessage(embed.build()).queue();
 		         
 		         //Close the connection.
-		         inputstream.close();
+		         is.close();
 			 }
 		     catch(Exception e){
 		    	 e.printStackTrace();

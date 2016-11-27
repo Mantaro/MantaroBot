@@ -112,7 +112,8 @@ public class Mantaro {
 		try
 		{
 			//Builds a bot and a bot listener to use.
-			instance().jda = new JDABuilder(AccountType.BOT).addListener(new Listener()).setToken(botToken).buildBlocking(); //For some reason buildAsync constantly disconnects me.
+			instance().jda = new JDABuilder(AccountType.BOT).addListener(new Listener()).setToken(botToken)
+					.buildBlocking(); //For some reason buildAsync constantly disconnects me.
 			instance().jda.setAutoReconnect(true);
 			instance().jda.getPresence().setGame(game);
 			Logger.instance().print("Started MantaroBot JDA instance on JDA " + JDAInfo.VERSION, LogType.INFO);

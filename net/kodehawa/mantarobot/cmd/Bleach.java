@@ -26,7 +26,6 @@ public class Bleach extends Command {
 		Random rand = new Random();
         int bleachRandomizer = rand.nextInt(bleach.size());
         channel = evt.getChannel();
-
 		channel.sendMessage(bleach.get(bleachRandomizer)).queue();
 	}
 }

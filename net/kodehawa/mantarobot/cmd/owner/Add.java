@@ -19,22 +19,23 @@ public class Add extends Command {
 	@Override
 	public void onCommand(String[] message, String content, MessageReceivedEvent event){
 		if(event.getAuthor().getId().equals(Mantaro.OWNER_ID)){
-			String[] cases = {"greeting", "tsun"};
-
-			if(content.startsWith(cases[0])){
-				String greet = content.replace(cases[0] + " ", "");
+			String noArgs = content.split(" ")[0];
+			switch(noArgs){
+			case "greeting":
+				String greet = content.replace("greeting" + " ", "");
 				Hi.greeting.add(greet);
 				new StringArrayFile("Greetings", Hi.greeting, true, true);
 				channel.sendMessage(":speech_balloon:" + "Added to greeting list: " + greet);
-			}
-			else if(content.startsWith(cases[1])){
-				String tsun = content.replace(cases[1] + " ", "");
+				break;
+			case "tsun":
+				String tsun = content.replace("tsun" + " ", "");
 				Tsundere.tsunLines.add(tsun);
 				new StringArrayFile("tsunderelines", Tsundere.tsunLines, true, true);
 				channel.sendMessage(":speech_balloon:" + "Added to tsundere list: " + tsun);
-			}
-			else{
+				break;
+			default:
 				channel.sendMessage(":speech_balloon:" + "Silly master, use ~>add greeting or ~>add tsun");
+				break;
 			}
 		}
 		else{

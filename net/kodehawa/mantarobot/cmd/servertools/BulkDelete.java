@@ -62,13 +62,11 @@ public class BulkDelete extends Command {
 						success -> channel.sendMessage(":pencil: Successfully pruned " + messagesToPrune + "messages").queue(),
 						error -> 
 						{
-							if (error instanceof PermissionException)
-                            {
+							if (error instanceof PermissionException){
                                 PermissionException pe = (PermissionException) error; //Which permission am I missing?
 
                                 channel.sendMessage(":heavy_multiplication_x: " + "Lack of permission while pruning messages" + "(No permission provided: " + pe.getPermission() + ")").queue();
-                            }
-                            else
+                            } else
                             {
                             	channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while pruning messages" + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                             	//Just so I get more data in a unexpected scenario.
@@ -77,13 +75,11 @@ public class BulkDelete extends Command {
 						}
 						);
 			}
-			else
-			{
+			else{
 				channel.sendMessage("No messages to prune.").queue();
 			}
 		}
-		else
-		{
+		else{
 			channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
 		}
 	}

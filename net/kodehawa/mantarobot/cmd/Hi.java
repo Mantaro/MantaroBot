@@ -18,14 +18,11 @@ public class Hi extends Command {
 		new StringArrayFile("greeting", greeting, false);
 	}
 	
-
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
 		Random rd = new Random();
 	    int greetRandomizer = rd.nextInt(greeting.size());
         channel = evt.getChannel();
-
 	    channel.sendMessage(":speech_balloon: " + greeting.get(greetRandomizer)).queue();
-
 	}
 }

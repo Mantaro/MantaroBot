@@ -36,50 +36,39 @@ public class Misc extends Command {
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
 		List<User> mentions = evt.getMessage().getMentionedUsers();
-		
         guild = evt.getGuild();
         author = evt.getAuthor();
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
-
 		
         StringBuilder mentioned = new StringBuilder();
         
-        for (User user: mentions)
-        {
+        for (User user: mentions){
             mentioned.append(user.getName());
             break;
         }
-		
-		if(beheadedMessage.startsWith("rob"))
-		{
+        
+        String noArgs = beheadedMessage.split(" ")[0];
+		switch(noArgs){
+		case "rob":
 			Random r = new Random();
 			int woah = r.nextInt(1200);
 			channel.sendMessage(":speech_balloon: " + "You robbed **" + woah + "USD** from " + mentioned).queue();
-		}
-		
-		else if(beheadedMessage.startsWith("lottery"))
-		{
+			break;
+		case "lottery":
 			User user = author;
-			
-			if(!users.contains(user))
-			{
-				Random r = new Random();
-				int lottery = r.nextInt(5000);
+			if(!users.contains(user)){
+				Random r1 = new Random();
+				int lottery = r1.nextInt(5000);
 				channel.sendMessage(":speech_balloon: " + "You won **" + lottery + "USD**, congrats!").queue();
 				users.add(user);
-			}
-			else
-			{
+			} else{
 				channel.sendMessage(":speech_balloon: " + "Try again in later! (10 minutes since you ran the command)").queue();
 			}
 
-			if(users.contains(user))
-			{
-				TimerTask timerTask = new TimerTask() 
-			     { 
-			         public void run()  
-			         { 
+			if(users.contains(user)){
+				TimerTask timerTask = new TimerTask(){ 
+			         public void run(){ 
 			        	 users.remove(user);
 						 this.cancel();
 					} 
@@ -87,27 +76,35 @@ public class Misc extends Command {
 				 Timer timer = new Timer(); 
 			     timer.scheduleAtFixedRate(timerTask, 600000, 1);
 			}
-		}
-		
-		else if(beheadedMessage.startsWith("reverse"))
-		{
+			break;
+		case "reverse":
 			String stringToReverse = beheadedMessage.replace("reverse ", "");
-			
 			String reversed = new StringBuilder(stringToReverse).reverse().toString();
-			
 			channel.sendMessage(reversed).queue();
-		}
-		
-		else if(beheadedMessage.startsWith("brainpower") || beheadedMessage.startsWith("bp"))
-		{
+			break;
+		case "bp":
 			StringBuilder finalMessage = new StringBuilder();
-
-			for (String help : lyrics)
-			{
+			for (String help : lyrics){
 				finalMessage.append(help+"\r\n");
 			}
-			
 			channel.sendMessage(finalMessage.toString()).queue();
+			break;
+		case "rndcolor":
+			String s = String.format(":speech_balloon: Your random color is %s", randomColor());
+			channel.sendMessage(s).queue();
+			break;
 		}
+	}
+	
+	/**
+	 * @return a random hex color.
+	 */
+	private String randomColor(){
+		String[] letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+	    String color = "#";
+	    for (int i = 0; i < 6; i++ ) {
+	        color += letters[(int) Math.floor(Math.random() * 16)];
+	    }
+	    return color;
 	}
 }
