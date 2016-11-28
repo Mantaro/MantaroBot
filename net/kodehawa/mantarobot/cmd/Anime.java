@@ -91,6 +91,26 @@ public class Anime extends Command {
 					
 				}
 				
+				//The result was unparseable by java.text.SimpleDateFormat so there I go.
+				String FINAL_RELEASE_YEAR = RELEASE_DATE.substring(0, 4);
+				String FINAL_RELEASE_MONTH = RELEASE_DATE.substring(4, 6);
+				String FINAL_RELEASE_DAY = RELEASE_DATE.substring(6, 8);
+				String FINAL_END_YEAR = null, FINAL_END_DAY = null, FINAL_END_MONTH = null;
+				if(!END_DATE.equals("null")){
+					FINAL_END_YEAR = END_DATE.substring(0, 4);
+					FINAL_END_MONTH = END_DATE.substring(4, 6);
+					FINAL_END_DAY = END_DATE.substring(6, 8);
+				}
+				
+				String FINAL_RELEASE_DATE = FINAL_RELEASE_DAY+"/"+FINAL_RELEASE_MONTH+"/"+FINAL_RELEASE_YEAR;
+				String FINAL_END_DATE = "";
+				
+				if(!END_DATE.equals("null")){
+					FINAL_END_DATE = FINAL_END_DAY+"/"+FINAL_END_MONTH+"/"+FINAL_END_YEAR;
+				} else{
+					FINAL_END_DATE = "On air.";
+				}
+
 				//Start building the embedded message.
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.setColor(Color.LIGHT_GRAY)
@@ -98,8 +118,8 @@ public class Anime extends Command {
 					.setFooter("Information provided by AniList", null)
 					.setThumbnail(IMAGE_URL)
 					.addField("Description: ", ANIME_DESCRIPTION, false)
-					.addField("Release date: ", RELEASE_DATE, true)
-					.addField("End date: ", END_DATE, true)
+					.addField("Release date: ", FINAL_RELEASE_DATE, true)
+					.addField("End date: ", FINAL_END_DATE, true)
 					.addField("Average score: ", AVERAGE_SCORE+"/100", false);
 
 				//Build the embedded and send it.
