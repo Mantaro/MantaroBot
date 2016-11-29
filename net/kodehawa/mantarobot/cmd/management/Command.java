@@ -17,7 +17,7 @@ public abstract class Command{
 	protected User author;
 	protected MessageChannel channel;
 	protected Message receivedMessage;
-	
+
 	public abstract void onCommand(String[] split, String content, MessageReceivedEvent event);	
 
 	public void setName(String name){

@@ -33,7 +33,8 @@ public class Weather extends Command {
 	@Override
 	public void onCommand(String[] split, String content, MessageReceivedEvent event) {
         channel = event.getChannel();
-		
+        EmbedBuilder embed = new EmbedBuilder();
+
 		if(!content.isEmpty()){
 			 try {
 				 URL weather = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID);
@@ -71,7 +72,6 @@ public class Weather extends Command {
 		         String finalWindSpeedMetric = dFormat.format(Double.parseDouble(ws) * 3.6); //wind speed in km/h.
 		         String finalWindSpeedImperial = dFormat.format(Double.parseDouble(ws) / 0.447046); //wind speed in mph.
 
-		         EmbedBuilder embed = new EmbedBuilder();
 		         embed.setColor(Color.CYAN)
 		         	.setTitle("Forecast information for " + content) //For which city
 		         	.setDescription(status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.

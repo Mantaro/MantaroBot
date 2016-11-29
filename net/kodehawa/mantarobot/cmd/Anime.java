@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.util.Utils;
 
 /**
  * Anime module. Returns results for anime, manga and anime character queries.
@@ -47,37 +48,33 @@ public class Anime extends Command {
         author = event.getAuthor();
         channel = event.getChannel();
         receivedMessage = event.getMessage();
-        
-		if(content.startsWith("info")){
-			
+        String noArgs = content.split(" ")[0];
+        EmbedBuilder embed = new EmbedBuilder();
+
+		switch(noArgs){
+		case "info":
 			try {
 				//Set variables to use later. They will be parsed to JSON later on.
 				String ANIME_TITLE = null, RELEASE_DATE = null, END_DATE = null, AVERAGE_SCORE = null, ANIME_DESCRIPTION = null, IMAGE_URL = null;
+				String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content.replace("info ", ""), "UTF-8"), authToken);
+				String json = Utils.instance().getObjectFromUrl(connection, event);
+				JSONArray data = null;
 				
-				//Open a connection to the AniList API
-				URL anime = new URL("https://anilist.co/api/anime/search/" + content.replace("info ", "") + "?access_token=" + authToken);
-				HttpURLConnection animec = (HttpURLConnection) anime.openConnection();
-		        animec.setRequestProperty("User-Agent", "Mantaro");
-		        InputStream ism = animec.getInputStream();
-				String json;
-				json = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
-				JSONArray animeData = null;
 				try{
-		        	animeData = new JSONArray(json);
+		        	data = new JSONArray(json);
 				}
 				catch(JSONException e){
 					if(Mantaro.instance().isDebugEnabled){
 						e.printStackTrace();
 					}
-					channel.sendMessage("No results or unreadable reply from API server.").queue();
+					channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
 					return;
 				}
 		        int i1 = 0;
-				for(int i = 0; i < animeData.length(); i++) { 
+				for(int i = 0; i < data.length(); i++) { 
 					//Only get first result.
 					if(i1 == 0){
-						JSONObject entry = animeData.getJSONObject(i);
-						
+						JSONObject entry = data.getJSONObject(i);
 						//Set variables based in what the JSON retrieved is telling me of the anime.
 						ANIME_TITLE = entry.get("title_english").toString();
 						RELEASE_DATE = entry.get("start_date_fuzzy").toString(); //Returns as a date following this convention 20160116... cannot convert?
@@ -85,13 +82,11 @@ public class Anime extends Command {
 						ANIME_DESCRIPTION = entry.get("description").toString().replaceAll("<br>", "");
 						AVERAGE_SCORE = entry.get("average_score").toString();
 						IMAGE_URL = entry.get("image_url_lge").toString();
-						
-						i1 = i1 + 1;
+						i1++;
 					}
-					
 				}
 				
-				//The result was unparseable by java.text.SimpleDateFormat so there I go.
+				//The result was unparseable by java.text.SimpleDateFormat so there I go. <THIS IS SO BAD KILL ME>
 				String FINAL_RELEASE_YEAR = RELEASE_DATE.substring(0, 4);
 				String FINAL_RELEASE_MONTH = RELEASE_DATE.substring(4, 6);
 				String FINAL_RELEASE_DAY = RELEASE_DATE.substring(6, 8);
@@ -112,9 +107,8 @@ public class Anime extends Command {
 				}
 
 				//Start building the embedded message.
-				EmbedBuilder builder = new EmbedBuilder();
-				builder.setColor(Color.LIGHT_GRAY)
-					.setTitle("Anime information for " + capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()))
+				embed.setColor(Color.LIGHT_GRAY)
+					.setTitle("Anime information for " + Utils.instance().capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()))
 					.setFooter("Information provided by AniList", null)
 					.setThumbnail(IMAGE_URL)
 					.addField("Description: ", ANIME_DESCRIPTION, false)
@@ -123,21 +117,16 @@ public class Anime extends Command {
 					.addField("Average score: ", AVERAGE_SCORE+"/100", false);
 
 				//Build the embedded and send it.
-				channel.sendMessage(builder.build()).queue();
+				channel.sendMessage(embed.build()).queue();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		else if(content.startsWith("character")){
-			URL anime;
+			break;
+		case "character":
 			try {
 				String CHAR_NAME = null, ALIASES =  null, CHAR_DESCRIPTION = null, IMAGE_URL = null;
-				anime = new URL("https://anilist.co/api/character/search/" + URLEncoder.encode(content.replace("character ", ""), "UTF-8") + "?access_token=" + authToken);
-				HttpURLConnection acn = (HttpURLConnection) anime.openConnection();
-	        	acn.setRequestProperty("User-Agent", "Mantaro");
-	        	InputStream ism = acn.getInputStream();
-				String json;
-				json = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
+				String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content.replace("character ", ""), "UTF-8"), authToken);
+				String json = Utils.instance().getObjectFromUrl(url, event);
 				JSONArray data = null;
 				try{
 		        	data = new JSONArray(json);
@@ -146,10 +135,9 @@ public class Anime extends Command {
 					if(Mantaro.instance().isDebugEnabled){
 						e.printStackTrace();
 					}
-					channel.sendMessage("No results or unreadable reply from API server.").queue();
+					channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
 					return;
 				}
-	        	System.out.println(json);
 		        int i1 = 0;
 	        	for(int i = 0; i < data.length(); i++) { 
 					//Only get first result.
@@ -163,26 +151,29 @@ public class Anime extends Command {
 			        	} else{
 				        	CHAR_DESCRIPTION = entry.get("info").toString().toString().substring(0, 1000 - 1) + "(...)";
 			        	}
-						i1 = i1 + 1;
+						i1++;
 					}
 	        	}
 	        	
-				EmbedBuilder builder = new EmbedBuilder();
-				builder.setColor(Color.LIGHT_GRAY)
+				embed.setColor(Color.LIGHT_GRAY)
 					.setThumbnail(IMAGE_URL)
 					.setTitle("Information for " + CHAR_NAME);
 				if(!ALIASES.equals("null")){
-					builder.setDescription("Also known as " + ALIASES);
+					embed.setDescription("Also known as " + ALIASES);
 				}
-				builder.addField("Information", CHAR_DESCRIPTION, true)
+				embed.addField("Information", CHAR_DESCRIPTION, true)
 					.setFooter("Information provided by AniList", null);
 				
-				channel.sendMessage(builder.build()).queue();
+				channel.sendMessage(embed.build()).queue();
 			}
 	        catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			break;
+		default:
+			channel.sendMessage(":heavy_multiplication_x: Wrong usage. Possible arguments: info/character");
+			break;
 		}
 	}
 	
@@ -209,7 +200,7 @@ public class Anime extends Command {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		//Every 30 minutes call refresh. This is a recursive action.
 		refreshToken(1800000);
 
 		return authToken;
@@ -220,7 +211,6 @@ public class Anime extends Command {
 	 * @param ms
 	 * @return the new AniList access token.
 	 */
-
 	private void refreshToken(int ms){
 		TimerTask timerTask = new TimerTask() 
 	    {
@@ -232,33 +222,4 @@ public class Anime extends Command {
 		 Timer timer = new Timer(); 
 		 timer.schedule(timerTask, ms, ms);
 	}
-	
-	/**
-	 * Capitalizes each first letter after a space.
-	 * @param original
-	 * @return a string That Looks Like This. Useful for titles.
-	 */
-	public String capitalizeEachFirstLetter(String original) {
-	    if (original == null || original.length() == 0) {
-	        return original;
-	    }
-	    
-	    String line = original;
-	    String[] words = line.split("\\s");
-	    StringBuilder builder = new StringBuilder();
-	    for(String s : words) {
-	        builder.append(capitalize(s) + " ");
-	    }
-	    return builder.toString();
-	}
-	
-	/**
-	 * Capitalizes the first letter of a string.
-	 * @param s
-	 * @return A string with the first letter capitalized.
-	 */
-	public String capitalize(String s) {
-        if (s.length() == 0) return s;
-        return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
-    }
 }

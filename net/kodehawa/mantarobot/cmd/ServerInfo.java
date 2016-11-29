@@ -6,6 +6,7 @@ import net.kodehawa.mantarobot.cmd.management.Command;
 
 public class ServerInfo extends Command {
 
+
 	public ServerInfo(){
 		setName("serverinfo");
 		setDescription("Retrieves server information.");
@@ -16,9 +17,8 @@ public class ServerInfo extends Command {
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {	
         channel = evt.getChannel();
         guild = evt.getGuild();
-        
-		EmbedBuilder embed = new EmbedBuilder();
-		
+        EmbedBuilder embed = new EmbedBuilder();
+
 		channel.sendTyping().queue();
 		
 		embed.setColor(guild.getOwner().getColor())

@@ -1,27 +1,25 @@
 package net.kodehawa.mantarobot.cmd;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.awt.Color;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.util.Utils;
 
 public class UrbanDict extends Command {
+
 
 	public UrbanDict()
 	{
 		setName("urban");
-		setDescription("Retrieves definitions from urban dictionary. Usage example: ~>urban Otaku");
+		setDescription("Retrieves definitions from urban dictionary. Usage example: ~>urban Otaku / ~>urban Otaku->2");
 		setCommandType("user");
 	}
 
@@ -29,41 +27,64 @@ public class UrbanDict extends Command {
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
 		//Initialize the variables I need to use.
         channel = evt.getChannel();
-        //First split is definition, second one is number. I would use space but we need the hability to fetch with spaces too.
-		String beheadedSplit[] = beheadedMessage.split(":");
-		
+        //First split is definition, second one is number. I would use space but we need the ability to fetch with spaces too.
+		String beheadedSplit[] = beheadedMessage.split("->");
+	    EmbedBuilder embed = new EmbedBuilder();
+
 		if(!beheadedMessage.isEmpty()){
     		ArrayList<String> definitions = new ArrayList<String>(); //Will use later to store definitions.
-			 try {
-				 //The UrbanDictionary URL needs to be fetched, with the respective arguments.
-				 URL dictionary = new URL("http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8"));
-				 //Open a connection to the URL.
-		         HttpURLConnection urban = (HttpURLConnection) dictionary.openConnection();
-		         InputStream inputstream = urban.getInputStream();
-		         //Fetch the JSON that I get. It has multiple definitions.
-		         String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-		         JSONObject jObject = new JSONObject(json);
-		         //Get the object as a list.
-		         JSONArray data = jObject.getJSONArray("list");
-		         for(int i = 0; i < data.length(); i++) //Loop though the JSON
-		         {
-		        	 JSONObject entry = data.getJSONObject(i);
-		        	 //Get the definition from the JSON.
-		             definitions.add(entry.getString("definition"));
-		         }
-		         inputstream.close();
-			 } catch(Exception e) {
-		    	 e.printStackTrace();
-		     }
-			 
-			 switch (beheadedSplit.length)
-			 {
-			 //If you provide a definition number, get that number, if you don't, get default.
-			 case 1: channel.sendMessage(":speech_balloon: " + "Top definition for **" + beheadedMessage + "** is\r" + definitions.get(0)).queue(); break;
-			 case 2: channel.sendMessage(":speech_balloon: " + "Definition N° " + beheadedSplit[1] + " for **" + beheadedSplit[0] + "** is\r" + definitions.get(Integer.parseInt(beheadedSplit[1]))).queue(); break;
-			 }
+    		ArrayList<String> thumbsup = new ArrayList<String>();
+    		ArrayList<String> thumbsdown = new ArrayList<String>(); //Will use later to store definitions.
+    		ArrayList<String> urls = new ArrayList<String>(); //Will use later to store definitions.
+
+    		String url = null;
+			try {
+				url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+	        String json = Utils.instance().restyGetObjectFromUrl(url, evt);
+	        JSONObject jObject = new JSONObject(json);
+	        JSONArray data = jObject.getJSONArray("list");
+	        for(int i = 0; i < data.length(); i++){ //Loop though the JSON
+	        	JSONObject entry = data.getJSONObject(i);
+	        	//Get the definition from the JSON.
+	            definitions.add(entry.getString("definition"));
+	            thumbsup.add(entry.get("thumbs_up").toString()); //int -> String
+	            thumbsdown.add(entry.get("thumbs_down").toString()); //int -> String
+	            urls.add(entry.getString("permalink"));
+	        }
+
+			switch (beheadedSplit.length)
+			{
+			case 1: 
+				embed.setTitle("Urban Dictionary definition for " + beheadedMessage)
+					.setDescription("Main definition.")
+					.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+					.setUrl(urls.get(0))
+					.setColor(Color.GREEN)
+					.addField("Definition", definitions.get(0), false)
+					.addField("Thumbs up", thumbsup.get(0), true)
+					.addField("Thumbs down", thumbsdown.get(0), true)
+					.setFooter("Information by Urban Dictionary", null);
+				channel.sendMessage(embed.build()).queue();
+				break;
+			case 2: 
+				int defn = Integer.parseInt(beheadedSplit[1]) - 1;
+				String defns = String.valueOf(defn+1);
+				embed.setTitle("Urban Dictionary definition for " + beheadedSplit[0])
+					.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+					.setDescription("Definition " + defns)
+					.setColor(Color.PINK)
+					.setUrl(urls.get(defn))					
+					.addField("Definition", definitions.get(defn), false)
+					.addField("Thumbs up", thumbsup.get(defn), true)
+					.addField("Thumbs down", thumbsdown.get(defn), true)
+					.setFooter("Information by Urban Dictionary", null);
+				channel.sendMessage(embed.build()).queue();
+				break;
+			}
 		}
-       
 	}
 }
 

@@ -50,7 +50,7 @@ public class Mantaro {
 	private static volatile Mantaro instance = new Mantaro();
 	private Parser parser = new Parser();
 	
-	String prefix = "~>";
+	String prefix = "!-";
 	
 	//JDA and Loader. We need this and they're extremely important.
 	JDA jda;
@@ -67,7 +67,7 @@ public class Mantaro {
 	
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]
-	public String[] data = {"26112016", "1.0.0a4-1312"};
+	public String[] data = {"26112016", "1.0.0a5-2102"};
 	
 	public Mantaro()
 	{
@@ -82,7 +82,6 @@ public class Mantaro {
 	}
 	
 	public static void main(String[] args){
-		
 		Logger.instance().print("MantaroBot starting...", LogType.INFO);
 		Logger.instance().print("Starting with Java args:", LogType.INFO);
 		for (String s: args) {
