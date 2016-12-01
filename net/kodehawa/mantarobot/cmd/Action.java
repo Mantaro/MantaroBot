@@ -13,7 +13,6 @@ public class Action extends Command {
 
 	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<String>();
 	private CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<String>();
-	int i = 0;
 
 	public Action()
 	{
@@ -38,7 +37,6 @@ public class Action extends Command {
 		case "pat": 
 			List<User> menctions = receivedMessage.getMentionedUsers();
 			StringBuilder pString = new StringBuilder();
-
 			int patint = rand.nextInt(pats.size());
 		
 			for(User s : menctions){
@@ -51,7 +49,6 @@ public class Action extends Command {
 		case "hug":
 			List<User> hugMentions = receivedMessage.getMentionedUsers();
 			StringBuilder hString = new StringBuilder();
-
 			int hugint = rand.nextInt(hugs.size());
 			
 			for(User s : hugMentions){
@@ -64,12 +61,10 @@ public class Action extends Command {
 		case "bloodsuck":
 			if(evt.getMessage().getMentionedUsers().isEmpty()){
 				channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg").queue();
-			}
-			else{
+			} else{
 				StringBuilder listString = new StringBuilder();
 
-				for(User s : evt.getMessage().getMentionedUsers())
-				{
+				for(User s : evt.getMessage().getMentionedUsers())	{
 					listString.append(s.getAsMention());
 				}
 				
@@ -84,15 +79,12 @@ public class Action extends Command {
 			if(receivedMessage.getMentionedUsers().isEmpty() != true){
 				List<User> mentions = receivedMessage.getMentionedUsers();
 	            StringBuilder builder = new StringBuilder();
-	            for (User user: mentions)
-	            {
+	            for (User user: mentions) {
 	                builder.append(user.getName());
 	            }
 	            String mention = builder.toString().replace("MantaroBot", "");
-	            
 				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\r" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
-	            }
-			else{
+	        } else{
 				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
 			}
 			break;

@@ -12,6 +12,7 @@ public abstract class Command{
 	private String commandType;
 	private String alias = "";
 	private String help = "";
+	private String ehelp = "";
 	private String description = "";
 	protected Guild guild;
 	protected User author;
@@ -42,6 +43,14 @@ public abstract class Command{
 	
 	public String getHelp(){
 		return help;
+	}
+	
+	public void setExtendedHelp(String help){
+		this.help = ehelp;
+	}
+	
+	public String getExtendedHelp(){
+		return ehelp;
 	}
 	
 	public void setDescription(String description){

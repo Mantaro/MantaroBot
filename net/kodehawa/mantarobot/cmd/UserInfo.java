@@ -8,6 +8,11 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
 
+/**
+ * This command is powered by if/else statements or smth... lmfao
+ * @author Yomura
+ *
+ */
 public class UserInfo extends Command {
 	
 	public UserInfo()
@@ -30,38 +35,37 @@ public class UserInfo extends Command {
 			User user1 = null;
 					
 			//Which user to get the info for?
-			if(receivedMessage.getMentionedUsers() != null)
-			{
+			if(receivedMessage.getMentionedUsers() != null){
 				user1 = receivedMessage.getMentionedUsers().get(0);
 			}
-			
 			//Member gives way, way more info than User.
 			Member member1 = guild.getMember(user1);
 
-			if(user1 != null && member1 != null)
-			{
+			if(user1 != null && member1 != null){
 				//This is all done using embeds. It looks nicer and cleaner.
-				channel.sendTyping().queue();
 				embed.setColor(member1.getColor());
 				//If we are dealing with the owner, mark him as owner on the title.
 				if(member1.isOwner()){
 					embed.setTitle("User info for " + user1.getName() + " (Server owner)");
-				} else
-				{
+				} else{
 					//If not, just use the normal title.
 					embed.setTitle("User info for " + user1.getName());
 				}
 				embed.setThumbnail(user1.getAvatarUrl())
 				//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
 					.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), false);
-				if(member1.getVoiceState().getChannel() != null){
-					embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false);
-				}
-				embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false)
-					.addField("Roles", String.valueOf(member1.getRoles().size()), false)
+				if(member1.getVoiceState().getChannel() != null){ 
+					embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false); 
+					}
+				if(guild.getMember(user1).getGame() != null){ 
+					embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false); 
+					}
+				embed.addField("Roles", String.valueOf(member1.getRoles().size()), true);
 				//Getting the hex value of the RGB color assuming no alpha that is >16 in value is required.
-					.addField("Color", "#"+Integer.toHexString(member1.getColor().getRGB()).substring(2).toUpperCase(), false)
-					.setFooter("User ID: " + user1.getId(), null);
+				if(!String.valueOf(member1.getColor().getRGB()).isEmpty()){
+					embed.addField("Color", "#"+Integer.toHexString(member1.getColor().getRGB()).substring(2).toUpperCase(), true);
+					}
+				embed.setFooter("User ID: " + user1.getId(), null);
 				channel.sendMessage(embed.build()).queue();
 			}
 			
@@ -73,26 +77,28 @@ public class UserInfo extends Command {
 			Member member1 = guild.getMemberById(author.getId());
 
 			//This is all done using embeds. It looks nicer and cleaner.
-			channel.sendTyping().queue();
 			embed.setColor(member1.getColor());
 			//If we are dealing with the owner, mark him as owner on the title.
 			if(member1.isOwner()){
 				embed.setTitle("Self user info for " + user1.getName() + " (Server owner)");
-			} else
-			{
+			} else{
 				//If not, just use the normal title.
 				embed.setTitle("Self user info for " + user1.getName());
 			}
 			embed.setThumbnail(user1.getAvatarUrl());
 			//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
 			embed.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), false);
-			if(member1.getVoiceState().getChannel() != null){
-				embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false);
+			if(member1.getVoiceState().getChannel() != null){ 
+				embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false); 
+				}
+			if(guild.getMember(user1).getGame() != null){ 
+				embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false);
 			}
-			embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false);
-			embed.addField("Roles", String.valueOf(member1.getRoles().size()), false);
+			embed.addField("Roles", String.valueOf(member1.getRoles().size()), true);
 			//Getting the hex value of the RGB color assuming no alpha that is >16 in value is required.
-			embed.addField("Color", "#"+Integer.toHexString(member1.getColor().getRGB()).substring(2).toUpperCase(), false);
+			if(!String.valueOf(member1.getColor().getRGB()).isEmpty()){
+				embed.addField("Color", "#"+Integer.toHexString(member1.getColor().getRGB()).substring(2).toUpperCase(), true);
+			}
 			embed.setFooter("User ID: " + user1.getId(), null);
 			channel.sendMessage(embed.build()).queue();
 		}

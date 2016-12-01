@@ -36,7 +36,7 @@ public class UrbanDict extends Command {
     		ArrayList<String> thumbsup = new ArrayList<String>();
     		ArrayList<String> thumbsdown = new ArrayList<String>(); //Will use later to store definitions.
     		ArrayList<String> urls = new ArrayList<String>(); //Will use later to store definitions.
-
+			long start = System.currentTimeMillis();
     		String url = null;
 			try {
 				url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
@@ -54,7 +54,7 @@ public class UrbanDict extends Command {
 	            thumbsdown.add(entry.get("thumbs_down").toString()); //int -> String
 	            urls.add(entry.getString("permalink"));
 	        }
-
+	        long end = System.currentTimeMillis() - start;
 			switch (beheadedSplit.length)
 			{
 			case 1: 
@@ -66,7 +66,7 @@ public class UrbanDict extends Command {
 					.addField("Definition", definitions.get(0), false)
 					.addField("Thumbs up", thumbsup.get(0), true)
 					.addField("Thumbs down", thumbsdown.get(0), true)
-					.setFooter("Information by Urban Dictionary", null);
+					.setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);
 				channel.sendMessage(embed.build()).queue();
 				break;
 			case 2: 

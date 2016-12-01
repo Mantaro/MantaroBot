@@ -36,6 +36,7 @@ public class Anime extends Command {
 
 	public Anime(){
 		setName("anime");
+		setDescription("Retrieves information about an anime or a character. Example usage: ~>anime info Toradora / ~>anime character Kuroi Mato");
 		authenticate();
 	}
 	
@@ -103,7 +104,7 @@ public class Anime extends Command {
 				if(!END_DATE.equals("null")){
 					FINAL_END_DATE = FINAL_END_DAY+"/"+FINAL_END_MONTH+"/"+FINAL_END_YEAR;
 				} else{
-					FINAL_END_DATE = "On air.";
+					FINAL_END_DATE = "Airing.";
 				}
 
 				//Start building the embedded message.

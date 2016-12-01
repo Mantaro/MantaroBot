@@ -1,23 +1,17 @@
 package net.kodehawa.mantarobot.cmd;
 
 import java.awt.Color;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.RoundingMode;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.util.Utils;
 
 public class Weather extends Command {
 
@@ -37,12 +31,10 @@ public class Weather extends Command {
 
 		if(!content.isEmpty()){
 			 try {
-				 URL weather = new URL("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID);
-		         HttpURLConnection wc = (HttpURLConnection) weather.openConnection();
-		         InputStream is = wc.getInputStream();
+				 long start = System.currentTimeMillis();
 		         //Get a parsed JSON.
-		         String json = CharStreams.toString(new InputStreamReader(is, Charsets.UTF_8));
-		            
+				 String url = Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID, event);
+		         String json = url;
 		         JSONObject jObject = new JSONObject(json);
 		         //Get the object as a array.
 		         JSONArray data = jObject.getJSONArray("weather");
@@ -60,7 +52,8 @@ public class Weather extends Command {
 		         JSONObject jMain = jObject.getJSONObject("main"); //Used for temperature and humidity.
 		         JSONObject jWind = jObject.getJSONObject("wind"); //Used for wind speed.
 		         JSONObject jClouds = jObject.getJSONObject("clouds"); //Used for cloudiness.
-		         
+				 long end = System.currentTimeMillis() - start;
+
 		         String temp = dFormat.format(Double.parseDouble(jMain.get("temp").toString())); //Temperature in Kelvin.
 		         String hum = dFormat.format(Double.parseDouble(jMain.get("humidity").toString())); //Humidity in percentage.
 		         String ws = dFormat.format(Double.parseDouble(jWind.get("speed").toString())); //Speed in m/h.
@@ -78,13 +71,9 @@ public class Weather extends Command {
 		         	.addField("Temperature", finalTemperatureCelcius + "°C/" + finalTemperatureFarnheit + "°F", true)
 		         	.addField("Humidity", hum + "%" , true)
 		         	.addField("Wind Speed", finalWindSpeedMetric + "km/h / " + finalWindSpeedImperial + "mph" , false)
-		         	.setFooter("Information provided by OpenWeatherMap", null);
-		            
+		         	.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 		         //Build the embed message and send it.
 		         channel.sendMessage(embed.build()).queue();
-		         
-		         //Close the connection.
-		         is.close();
 			 }
 		     catch(Exception e){
 		    	 e.printStackTrace();

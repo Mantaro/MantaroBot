@@ -1,10 +1,10 @@
 package net.kodehawa.mantarobot.core;
 
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.reflections.Reflections;
@@ -38,7 +38,7 @@ public class Mantaro {
 	//Am I debugging this?
 	public boolean isDebugEnabled = false;
 	
-	//Who are mantaining this?
+	//Who is maintaining this?
 	public static String OWNER_ID = "155867458203287552";
 	public static String SERVER_MGR_ID = "155035543984537600";
 	
@@ -56,7 +56,7 @@ public class Mantaro {
 	JDA jda;
 	Loader loader;
 	
-	public HashMap<String, Command> commands = new HashMap<String, Command>(); //A HashMap of commands, with the key being the command name and the result being the Class extending Command.
+	public ConcurrentHashMap<String, Command> commands = new ConcurrentHashMap<String, Command>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
 	
 
@@ -66,8 +66,9 @@ public class Mantaro {
 	private static Game game = Game.of("It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
-	//In that command it returns it as data[0] + data[1]
-	public String[] data = {"26112016", "1.0.0a5-2102"};
+	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
+	//The data after the dash is the hour (4 numbers) and the date.
+	public String[] data = {"01122016", "1.0.0a6-1701."};
 	
 	public Mantaro()
 	{
@@ -86,39 +87,33 @@ public class Mantaro {
 		Logger.instance().print("Starting with Java args:", LogType.INFO);
 		for (String s: args) {
 			System.out.println(s.replace(":", " = "));
-	     }
+	    }
 
 		
 		String botToken = "";
 
 		//Parses and assigns the JVM arguments.
 		int i;
-		for(i = 0; i < args.length; i++)
-		{
+		for(i = 0; i < args.length; i++){
 		    if(args[i].startsWith("debug")){
 		    	instance().isDebugEnabled = Boolean.parseBoolean(args[i].split(":")[1]); 
 		    }
-		    
 		    else if(args[i].startsWith("token")){
 		    	botToken = args[i].split(":")[1];
 		    }
-		    
 		    else if(args[i].startsWith("anilist")){
 		    	Anime.CLIENT_SECRET = args[i].split(":")[1];
 		    }
 		}
 		
-		try
-		{
+		try{
 			//Builds a bot and a bot listener to use.
 			instance().jda = new JDABuilder(AccountType.BOT).addListener(new Listener()).setToken(botToken)
 					.buildBlocking(); //For some reason buildAsync constantly disconnects me.
 			instance().jda.setAutoReconnect(true);
 			instance().jda.getPresence().setGame(game);
 			Logger.instance().print("Started MantaroBot JDA instance on JDA " + JDAInfo.VERSION, LogType.INFO);
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e){
 			e.printStackTrace();
 		}
 		
@@ -128,8 +123,7 @@ public class Mantaro {
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<String>();
 		new StringArrayFile("splash", splash , false);
-		TimerTask timerTask = new TimerTask() 
-	    {
+		TimerTask timerTask = new TimerTask() {
 	         public void run()  
 	         { 
 	        	 Random r = new Random();
@@ -145,21 +139,18 @@ public class Mantaro {
 	}
 	
 	//What do do when a command is called?
-	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException
-	{		
+	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException {		
 		if(instance().commands.containsKey(cmd.invoke))
 		{
 			instance().commands.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event);
 		}
 	}
 
-	public synchronized static Mantaro instance()
-	{
+	public synchronized static Mantaro instance(){
 		return instance;
 	}
 	
-	public String getMetadata(String s)
-	{
+	public String getMetadata(String s){
 		int i = -1;
 		if(s.equals("date")){ i = 0; }
 		if(s.equals("build")){ i = 1; }
@@ -167,13 +158,11 @@ public class Mantaro {
 		return data[i];
 	}
 	
-	public Parser getParser()
-	{
+	public Parser getParser(){
 		return parser;
 	}
 	
-	public JDA getSelf()
-	{
+	public JDA getSelf(){
 		return jda;
 	}
 	
@@ -185,24 +174,20 @@ public class Mantaro {
         return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
     }
     
-    public String getPrefix()
-    {
+    public String getPrefix() {
     	return prefix;
     }
     
-    public void setModPath(boolean isModded, String modPackagePath)
-    {
+    public void setModPath(boolean isModded, String modPackagePath){
     	this.externalClassRequired = isModded;
     	this.externalClasspath = modPackagePath;
     }
     
-    protected boolean getModded()
-    {
+    protected boolean getModded(){
     	return this.externalClassRequired;
     }
     
-    protected String getExternalPath()
-    {
+    protected String getExternalPath(){
     	return this.externalClasspath;
     }
 }
