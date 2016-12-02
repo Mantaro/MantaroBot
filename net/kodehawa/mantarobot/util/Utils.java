@@ -6,11 +6,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import com.osu.api.ciyfhx.Mod;
 
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import us.monoid.web.Resty;
 
@@ -64,6 +70,58 @@ public class Utils {
 		}
 		
 		return url2;
+	}
+	
+	/**
+	 * Sends a message with changing points to make the user know it's fetching data.
+	 * @param timer A instance of timer.
+	 * @param s The string you want to add points to.
+	 * @param time The time between changing points.
+	 * @param message A instance of Message. Normally the message sent to edit.
+	 */
+	public void buildMessageTimer(Timer timer, String s, int time, Message message){
+		TimerTask timerTask = new TimerTask() {
+			int i = 0;
+			public void run()  
+			{ 
+	        	i++;
+	        	if(i == 1){
+	        		message.editMessage(s + ".").queue();
+	        	}
+	        	if(i == 2){
+	        		message.editMessage(s + "..").queue();
+	        	}
+	        	if(i == 3){
+	        		message.editMessage(s + "...").queue();
+		        	i = 0;
+	        	}
+			} 
+	     }; 
+		 timer.schedule(timerTask, 0, time);
+	}
+	
+	/**
+	 * Gets a JSON Array from a specified URL
+	 * @param url
+	 * @param evt
+	 * @return
+	 */
+	public JSONArray getJSONArrayFromUrl(String url, MessageReceivedEvent evt){
+        String urlParsed = getObjectFromUrl(url, evt);
+        JSONArray data = new JSONArray(urlParsed);
+		return data;
+	}
+	
+	/**
+	 * Gets a JSON Array from a specified URL
+	 * @param url
+	 * @param evt
+	 * @return
+	 */
+	public JSONObject getJSONObjectFromUrl(String url, MessageReceivedEvent evt){
+        String urlParsed = getObjectFromUrl(url, evt);
+        JSONObject data = new JSONObject(urlParsed);
+		return data;
 	}
 	
 	/**

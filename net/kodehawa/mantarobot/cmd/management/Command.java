@@ -46,7 +46,7 @@ public abstract class Command{
 	}
 	
 	public void setExtendedHelp(String help){
-		this.help = ehelp;
+		this.ehelp = help;
 	}
 	
 	public String getExtendedHelp(){

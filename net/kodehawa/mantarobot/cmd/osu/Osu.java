@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.osu.api.ciyfhx.Mod;
@@ -35,19 +36,28 @@ public class Osu extends Command {
 		case "best":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 			{
+				Timer timer = new Timer(); 
+				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 1500, sentMessage);
 				sentMessage.editMessage(best(content)).queue();
+				timer.cancel();
 			});
 			break;
 		case "recent":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
 			{
+				Timer timer = new Timer(); 	
+				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 1500, sentMessage);
 				sentMessage.editMessage(recent(content)).queue();
+				timer.cancel();
 			});
 			break;
 		case "user":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 			{
+				Timer timer = new Timer(); 
+				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 1500, sentMessage);
 				sentMessage.editMessage(user(content)).queue();
+				timer.cancel();
 			});
 			break;
 		case "help":
@@ -61,7 +71,7 @@ public class Osu extends Command {
 			break;
 		}
 	}
-	
+		
 	private String best(String beheadedMessage){
 		String finalResponse = "";
 		try{
@@ -106,6 +116,7 @@ public class Osu extends Command {
 			long end = System.currentTimeMillis() - start;
 		    finalResponse = "```ruby\n" + sb.toString() + " \rResponse time: " + end + "ms```";
 		} catch(Exception e){
+			e.printStackTrace();
 			finalResponse = ":heavy_multiplication_x: Error retrieving results or no results found.";
 		}
 		
@@ -156,9 +167,9 @@ public class Osu extends Command {
 			long end = System.currentTimeMillis() - start;
 			finalMessage = "```ruby\n" + sb.toString() + " \rResponse time: " + end + "ms```";
 		} catch (Exception e){
+			e.printStackTrace();
 			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found.";
 		}
-	    
 		return finalMessage;
 	}
 	
@@ -181,9 +192,9 @@ public class Osu extends Command {
 			+"\rRanked Score: " + hey.getRankedScore() + "\rA, S, SS: " + hey.getCountRankA() + " | " + hey.getCountRankS() + " | " + hey.getCountRankSS() 
 			+"\rResponse time: " + end + "ms```";
 		} catch (Exception e){
+			e.printStackTrace();
 			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found.";
 		}
-		
 		return finalMessage;
 	}
 }

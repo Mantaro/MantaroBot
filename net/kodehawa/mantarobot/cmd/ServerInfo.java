@@ -29,7 +29,6 @@ public class ServerInfo extends Command {
 			.addField("Owner", guild.getOwner().getUser().getName(), false)
 			.addField("Region", guild.getRegion().getName(), false)
 			.setFooter("Server ID" + String.valueOf(guild.getId()), null);
-		
 		channel.sendMessage(embed.build()).queue();
 	}
 }

@@ -39,8 +39,8 @@ public class Mantaro {
 	public boolean isDebugEnabled = false;
 	
 	//Who is maintaining this?
-	public static String OWNER_ID = "155867458203287552";
-	public static String SERVER_MGR_ID = "155035543984537600";
+	public final static String OWNER_ID = "155867458203287552";
+	public final static String SERVER_MGR_ID = "155035543984537600";
 	
 	//Mod parameters.
 	private boolean externalClassRequired = false;
@@ -48,7 +48,7 @@ public class Mantaro {
 	
 	//New instances.
 	private static volatile Mantaro instance = new Mantaro();
-	private Parser parser = new Parser();
+	private final Parser parser = new Parser();
 	
 	String prefix = "!-";
 	
@@ -68,7 +68,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
 	//The data after the dash is the hour (4 numbers) and the date.
-	public String[] data = {"01122016", "1.0.0a6-1701."};
+	public final String[] data = {"01122016", "1.0.0a6-1701."};
 	
 	public Mantaro()
 	{
