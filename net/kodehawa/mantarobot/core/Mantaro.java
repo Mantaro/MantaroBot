@@ -17,11 +17,11 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
-import net.kodehawa.mantarobot.cmd.Anime;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.cmd.management.Loader;
 import net.kodehawa.mantarobot.cmd.parser.Parser;
 import net.kodehawa.mantarobot.core.listener.Listener;
+import net.kodehawa.mantarobot.util.Config;
 import net.kodehawa.mantarobot.util.LogType;
 import net.kodehawa.mantarobot.util.Logger;
 import net.kodehawa.mantarobot.util.StringArrayFile;
@@ -56,11 +56,11 @@ public class Mantaro {
 	private static volatile Mantaro instance = new Mantaro();
 	private final Parser parser = new Parser();
 	
-	String prefix = "!-";
+	private final String prefix = "!-";
 	
 	//JDA and Loader. We need this and they're extremely important.
-	JDA jda;
-	Loader loader;
+	private JDA jda;
+	private Config cl;
 	
 	public ConcurrentHashMap<String, Command> modules = new ConcurrentHashMap<String, Command>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
@@ -78,39 +78,14 @@ public class Mantaro {
 	
 	public Mantaro()
 	{
-		//Adds all the Classes extending Command to the classes HashMap. They will be later loaded in Loader.
-		Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
-		classes = reflections.getSubTypesOf(Command.class);
-		if(externalClassRequired){
-			Reflections extReflections = new Reflections(externalClasspath);
-			classes.addAll(extReflections.getSubTypesOf(Command.class));
-		}
-		
+		cl = Config.load();
+		this.addClasses();
 	}
 	
 	public static void main(String[] args){
 		Logger.instance().print("MantaroBot starting...", LogType.INFO);
-		Logger.instance().print("Starting with Java args:", LogType.INFO);
-		for (String s: args) {
-			System.out.println(s.replace(":", " = "));
-	    }
-
-		
-		String botToken = "";
-
-		//Parses and assigns the JVM arguments.
-		int i;
-		for(i = 0; i < args.length; i++){
-		    if(args[i].startsWith("debug")){
-		    	instance().isDebugEnabled = Boolean.parseBoolean(args[i].split(":")[1]); 
-		    }
-		    else if(args[i].startsWith("token")){
-		    	botToken = args[i].split(":")[1];
-		    }
-		    else if(args[i].startsWith("anilist")){
-		    	Anime.CLIENT_SECRET = args[i].split(":")[1];
-		    }
-		}
+		String botToken = instance().getConfig().values().get("token").toString();
+		instance().isDebugEnabled = (Boolean)instance().getConfig().values().get("debug");
 		
 		try{
 			//Builds a bot and a bot listener to use.
@@ -123,8 +98,7 @@ public class Mantaro {
 			e.printStackTrace();
 		}
 		
-		//Automatically loads the commands.
-		instance().loader = new Loader();
+		new Loader();
 		
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<String>();
@@ -151,7 +125,23 @@ public class Mantaro {
 			instance().modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event);
 		}
 	}
-
+	
+	private void addClasses(){
+		Thread thread = new Thread(){
+			public void run(){
+				//Adds all the Classes extending Command to the classes HashMap. They will be later loaded in Loader.
+				Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
+				classes = reflections.getSubTypesOf(Command.class);
+				if(externalClassRequired){
+					Reflections extReflections = new Reflections(externalClasspath);
+					classes.addAll(extReflections.getSubTypesOf(Command.class));
+				}
+			}
+		};
+		thread.setName("Start thread");
+		thread.start();
+	}
+	
 	public synchronized static Mantaro instance(){
 		return instance;
 	}
@@ -172,7 +162,7 @@ public class Mantaro {
 		return jda;
 	}
 	
-    public boolean isWindows() {
+	public boolean isWindows() {
         return (OS.indexOf("win") >= 0);
     }
 
@@ -182,6 +172,10 @@ public class Mantaro {
     
     public String getPrefix() {
     	return prefix;
+    }
+    
+    public Config getConfig(){
+    	return cl;
     }
     
     public void setModPath(boolean isModded, String modPackagePath){

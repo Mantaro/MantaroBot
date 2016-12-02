@@ -14,6 +14,7 @@ import com.osu.api.ciyfhx.UserScore;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.util.Utils;
 
 public class Osu extends Command {
@@ -48,7 +49,7 @@ public class Osu extends Command {
 
 	@Override
 	public void onCommand(String[] message, String content, MessageReceivedEvent evt) {
-		osuClient = new OsuClient("fde2131d5cb0f60b38b027eeff5c85ed766b2abc");
+		osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
 		String noArgs = content.split(" ")[0];
 
 		switch(noArgs){

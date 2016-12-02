@@ -31,7 +31,7 @@ import net.kodehawa.mantarobot.util.Utils;
 public class Anime extends Command {
 
 	private String CLIENT_ID = "kodehawa-o43eq";
-	public static String CLIENT_SECRET = "";
+	private String CLIENT_SECRET = Mantaro.instance().getConfig().values().get("alsecret").toString();
 	String authToken;
 
 	public Anime(){

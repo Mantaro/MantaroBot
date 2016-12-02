@@ -39,21 +39,17 @@ public class StringArrayFile {
 	{
 		this.name = name;
 		this.list = list;
-		if(Mantaro.instance().isWindows())
-		{
+		if(Mantaro.instance().isWindows()){
 			this.file = new File("C:/mantaro/"+name+".txt");
 		}
-		else if(Mantaro.instance().isUnix())
-		{
+		else if(Mantaro.instance().isUnix()){
 			this.file = new File("/home/mantaro/"+name+".txt");
 		}
 		
-		if(!file.exists())
-		{
+		if(!file.exists()){
 		   this.createFile();
 		}
-		if(isRewritable)
-		{
+		if(isRewritable){
 			create(file, list);
 		}
 		
@@ -65,26 +61,19 @@ public class StringArrayFile {
 		this.name = name;
 		this.list = list;
 		
-		if(Mantaro.instance().isWindows())
-		{
+		if(Mantaro.instance().isWindows()){
 			this.file = new File("C:/mantaro/"+name+".txt");
 		}
-		else if(Mantaro.instance().isUnix())
-		{
+		else if(Mantaro.instance().isUnix()){
 			this.file = new File("/home/mantaro/" +name+".txt");
 		}
-		
-		if(!file.exists())
-		{
+		if(!file.exists()){
 		   this.createFile();
 		}
-		if(isRewritable)
-		{
+		if(isRewritable){
 			create(file, list);
 		}
-		
-		if(read)
-		{
+		if(read){
 			this.read();
 		}
 	}
@@ -112,8 +101,7 @@ public class StringArrayFile {
 	
 	private void create(File file, CopyOnWriteArrayList<String> list){
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing List file "+name, LogType.INFO); }
-		try
-		{
+		try {
 			FileWriter filewriter = new FileWriter(file);
 			BufferedWriter buffered = new BufferedWriter(filewriter);
 			for(String s : (CopyOnWriteArrayList<String>)list){
@@ -122,10 +110,7 @@ public class StringArrayFile {
 				buffered.write(s+"\r\n");
 			}
 			buffered.close();
-		}
-		
-		catch(Exception e)
-		{
+		} catch(Exception e) {
 			Logger.instance().print("Problem while writting file", LogType.WARNING);
 			e.printStackTrace();
 		}
@@ -133,8 +118,7 @@ public class StringArrayFile {
 	
 	private void read(){
 		Logger.instance().print("Reading List file: "+name, LogType.INFO);
-		try
-		{
+		try{
 			FileInputStream imputstream = new FileInputStream(file.getAbsolutePath());
 			DataInputStream datastream = new DataInputStream(imputstream);
 			BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(datastream));
@@ -147,9 +131,7 @@ public class StringArrayFile {
 				else{}
 			}
 			bufferedreader.close();
-		}
-		catch(Exception e)
-		{
+		} catch(Exception e){
 			Logger.instance().print("Problem while reading file", LogType.WARNING);
 			e.printStackTrace();
 		}
