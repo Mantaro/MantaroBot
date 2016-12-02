@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,6 +26,7 @@ public class Utils {
 
 	private volatile static Utils instance = new Utils();
 	private HashMap<Mod, String> mods = new HashMap<Mod, String>();
+    public static final Utils.PerformanceMonitor pm = new Utils.PerformanceMonitor();
 	
 	public Utils(){
 		putMods();
@@ -153,6 +156,11 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 	
+	public String getHWStatus(){
+		
+		return "";
+	}
+	
 	/**
 	 * From osu!api returned results, put a abbreviated value.
 	 */
@@ -184,5 +192,51 @@ public class Utils {
 	 */
 	public static Utils instance(){
 		return instance;
+	}
+	
+	/**
+	 * Monitors CPU usage if needed.
+	 * @author Yomura
+	 */
+	public static class PerformanceMonitor { 
+	    private int  availableProcessors = ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
+	    private long lastSystemTime = 0;
+	    private double lastProcessCpuTime = 0;
+	    
+	    public PerformanceMonitor(){}
+	    
+	    /**
+	     * Gets CPU usage as a double halved the available processors. For example if it's using 100% of one core but there are 4 avaliable it will report 25%.
+	     * @return
+	     */
+	    public synchronized double getCpuUsage()
+	    {
+	        if (lastSystemTime == 0){
+	            baselineCounters();
+	            return availableProcessors;
+	        }
+
+	        long systemTime = System.nanoTime();
+	        long processCpuTime = 0;
+
+	        if (ManagementFactory.getOperatingSystemMXBean() instanceof OperatingSystemMXBean){
+	            processCpuTime = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
+	        }
+
+	        double cpuUsage = ((double)(processCpuTime - lastProcessCpuTime)) / ((double)(systemTime - lastSystemTime));
+
+	        lastSystemTime  = systemTime;
+	        lastProcessCpuTime = processCpuTime;
+
+	        return cpuUsage / availableProcessors;
+	    }
+
+	    private void baselineCounters(){
+	        lastSystemTime = System.nanoTime();
+
+	        if (ManagementFactory.getOperatingSystemMXBean() instanceof OperatingSystemMXBean ) {
+	            lastProcessCpuTime = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
+	        }
+	    }
 	}
 }

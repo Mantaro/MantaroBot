@@ -12,15 +12,45 @@ import net.kodehawa.mantarobot.util.StringArrayFile;
 public class Action extends Command {
 
 	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<String>();
+	private CopyOnWriteArrayList<String> bleach = new CopyOnWriteArrayList<String>();
 	private CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<String>();
-
+	public static CopyOnWriteArrayList<String> greeting = new CopyOnWriteArrayList<String>();
+	public static CopyOnWriteArrayList<String> tsunLines = new CopyOnWriteArrayList<String>();
+	/**
+	 * Action module.
+	 * One of the biggest modules by command quantity.
+	 */
 	public Action()
 	{
 		setName("action");
 		setDescription("Action commands. Arguments avaliable: pat (mention), hug (mention), bloodsuck (mention), meow, meow2, facedesk, nom");
 		setCommandType("user");
+		new StringArrayFile("greeting", greeting, false);
+		new StringArrayFile("tsunderelines", tsunLines, false);
 		new StringArrayFile("patting", pats, false);
 		new StringArrayFile("hugs", hugs, false);
+
+		bleach.add("http://puu.sh/qyoDQ/9df29f6b30.jpg");
+		bleach.add("http://data.whicdn.com/images/13651431/superthumb.jpg");
+		bleach.add("https://i.ytimg.com/vi/IjgPHJTbfK4/maxresdefault.jpg");
+		bleach.add("https://media0.giphy.com/media/fN96l0NwjjOGQ/200_s.gif");
+		bleach.add("https://www.youtube.com/watch?v=5PIx19ha9MY");
+		
+		setExtendedHelp(
+				"Commands that involve an action to you or to a specified user.\r"
+				+ "Usage:\r"
+				+ "~>action greet: Sends a random greeting message.\r"
+				+ "~>action tsundere: Y-You baka!\r"
+				+ "~>action bleach: Random image of someone drinking bleach.\r"
+				+ "~>action pat @user: Pats the specified user.\r"
+				+ "~>action hug @user: Hugs the specified user.\r"
+				+ "~>action bloodsuck @user: Self explanatory.\r"
+				+ "~>action meow @user: Meows to a user.\r"
+				+ "~>action meow2: Meows.\r"
+				+ "~>action facedesk: Facedesks.\r"
+				+ "~>action nom: nom nom.\r"
+				+ "Parameter explanation:\r"
+				+ "*@user*: A user to mention.");
 	}
 	
 	
@@ -31,7 +61,8 @@ public class Action extends Command {
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
         String noArgs = beheadedMessage.split(" ")[0];
-        
+		Random rd = new Random();
+
 		Random rand = new Random();
 		switch(noArgs){
 		case "pat": 
@@ -93,6 +124,20 @@ public class Action extends Command {
 			break;
 		case "nom":
 			channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
+			break;
+		case "greet":
+		    int greetRandomizer = rd.nextInt(greeting.size());
+	        channel = evt.getChannel();
+		    channel.sendMessage(":speech_balloon: " + greeting.get(greetRandomizer)).queue();
+		    break;
+		case "tsundere":
+	        int tsundereRandomizer = rd.nextInt(tsunLines.size());
+			channel.sendMessage(":mega: " +  tsunLines.get(tsundereRandomizer)).queue();
+			break;
+		case "bleach":
+	        int bleachRandomizer = rd.nextInt(bleach.size());
+	        channel = evt.getChannel();
+			channel.sendMessage(bleach.get(bleachRandomizer)).queue();
 			break;
 		}
 	}

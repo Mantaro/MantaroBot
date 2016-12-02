@@ -7,6 +7,9 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
+
 import org.reflections.Reflections;
 
 import net.dv8tion.jda.core.AccountType;
@@ -28,11 +31,14 @@ import net.kodehawa.mantarobot.util.StringArrayFile;
  * This is a rewritten version from the previous 0.9 codebase, but with a lot of its old legacy remaining.
  * I focused on improving code readability and speed, and also in making command loading code fully modular and automatic, without the need of me adding the command to the HashMap manually.
  * This bot is using JDA 3.0 as the backbone and link to the Discord API.
+ * Needs Java 8 to run and compile.
  * I didn't want to reinvent the wheel, so a lot of this bot uses external APIs unless I didn't find them or didn't find them suitable.
  * This will be marked as a release, but I feel I can do more and better.
  * @author Yomura
  * @since 24/11/2016
  */
+
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class Mantaro {
 	
 	//Am I debugging this?
@@ -56,7 +62,7 @@ public class Mantaro {
 	JDA jda;
 	Loader loader;
 	
-	public ConcurrentHashMap<String, Command> commands = new ConcurrentHashMap<String, Command>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
+	public ConcurrentHashMap<String, Command> modules = new ConcurrentHashMap<String, Command>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
 	
 
@@ -140,9 +146,9 @@ public class Mantaro {
 	
 	//What do do when a command is called?
 	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException {		
-		if(instance().commands.containsKey(cmd.invoke))
+		if(instance().modules.containsKey(cmd.invoke))
 		{
-			instance().commands.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event);
+			instance().modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event);
 		}
 	}
 

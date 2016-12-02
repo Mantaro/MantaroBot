@@ -17,6 +17,17 @@ public class Kona extends Command {
 		setName("konachan");
 		setCommandType("user");
 		setDescription("Retrieves images from konachan. For usage examples see ~>konachan help.");
+		setExtendedHelp(
+				"Retrieves images from the **Konachan** image board.\r"
+				+ "Usage:\r"
+				+ "~>konachan get page limit imagenumber: Gets an image based in parameters.\r"
+				+ "~>konachan tags page tag imagenumber: Gets an image based in the specified tag and parameters.\r"
+				+ "> Parameter explanation:\r"
+				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\r"
+				+ "*limit*: Can handle any value from 1 to 60 (values higher than 60 just default to 60)\r"
+				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\r"
+				+ "*tag*: Any valid image tag. For example animal_ears or original."
+				);
 	}
 	
 	@Override
@@ -76,13 +87,6 @@ public class Kona extends Command {
 	            public void onFailure(int error, String message) {}
 	         });
 	        break;
-		case "help":
-			channel.sendMessage(
-					"```"
-					+ "~>konachan get page limit imagenumber gets you an image.\r"
-					+ "~>konachan tags page tag imagenumber gets you an image with the respective tag.```"
-					).queue();
-			break;
 		}
 	}
 }

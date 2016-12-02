@@ -16,6 +16,17 @@ public class Quote extends Command {
 		setName("quote");
 		setDescription("Adds or retrieves quotes. See ~>quote help.");
 		setCommandType("user");
+		setExtendedHelp(
+				"This command **quotes** a phrase.\r"
+				+ "> Usage:\r"
+				+ "~>quote content: Adds a quote with content defined by *content*.\r"
+				+ "~>quote list: Gets a list of all avaliable quotes \r"
+				+ "~>quote read number: Gets a quote matching the number. \r"
+				+ "~>quote get phrase phrase: Searches for the first quote which matches your search criteria and prints it.\r"
+				+ "> Parameters:\r"
+				+ "*number*: A number from 0 to the total number of quotes.\r"
+				+ "*content*: The content of the quote.\r"
+				+ "*phrase*: A phrase used to match a quote with it.");
 		new StringArrayFile("quotes", quotes , false);
 	}
 
@@ -76,14 +87,6 @@ public class Quote extends Command {
 			    listString.append(quotes + " (Call number: " + n + ")" +"\r\n");
 			}
 			channel.sendMessage("``` Avaliable Quotes: \r" + listString.toString() + "```").queue();
-			break;
-		case "help":
-			channel.sendMessage("```| MantaroBot quote module help: \r \r"
-					+ "~>quote 'example', adds a quote to the quote list. (Usage example: ~>quote I like dogs -chuchy.)  \r \r"
-					+ "~>quote list, gets a list of all the quotes avaliable \r \r"
-					+ "~>quote read number, gets the quote matching the number. (Usage example: ~>quote read 0) \r \r"
-					+ "~>quote get phrase example, searches for the first quote which matches your search criteria and prints it. (Usage example: ~>quote get phrase dogs).``` \n"
-					).queue();
 			break;
 		}
 	}

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.cmd;
+package net.kodehawa.mantarobot.cmd.servertools;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Perms extends Command {
 	public Perms(){
 		setName("perm");
 		setDescription("Sets permission for a user.");
-		setCommandType("admin");
+		setCommandType("servertools");
 		new HashMapUtils("mantaro", "perms", perms, FILE_SIGN, false);
 	}
 	

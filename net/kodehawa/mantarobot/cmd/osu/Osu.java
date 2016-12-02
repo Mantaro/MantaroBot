@@ -20,11 +20,30 @@ public class Osu extends Command {
 
 	private OsuClient osuClient = null;
 	private Map<String, Object> map = new HashMap<String, Object>();
-
+	private Map<String, String> values = new HashMap<String, String>();
+	
 	public Osu()
 	{
 		setName("osu");
 		setDescription("Retrieves osu! related things. Use the help argument to get details.");
+		setCommandType("user");
+		setExtendedHelp(
+				"Retrieves information from the osu!api.\r"
+				+ "Usage: \r"
+				+ "~>osu best player mode: Retrieves best scores of the user specified in the specified gamemode.\r"
+				+ "~>osu recent player mode: Retrieves recent scores of the user specified in the specified gamemode.\r"
+				+ "~>osu user player: Retrieves information about a osu! player.\r"
+				+ "Parameter description:\r"
+				+ "*player*: The osu! player to look info for.\r"
+				+ "*mode*: Mode to look for. Possible values are: standard, taiko, mania and ctb.\r"
+				);
+		
+		//From a human input, translate to API values.
+		values.put("standard", "0");
+		values.put("taiko", "1");
+		values.put("mania", "2");
+		values.put("ctb", "3");
+
 	}
 
 	@Override
@@ -60,12 +79,6 @@ public class Osu extends Command {
 				timer.cancel();
 			});
 			break;
-		case "help":
-			evt.getChannel().sendMessage("```ruby"
-					+ "~>osu best <username> <mode> (0 = osu!, 1 = taiko, 2 = mania, 3 = ctb)\r"
-					+ "~>osu recent <username> <mode> (0 = osu!, 1 = taiko, 2 = mania, 3 = ctb)\r"
-					+ "~>osu user <username>  ```").queue();
-			break;
 		default:
 			evt.getChannel().sendMessage("Incorrect usage! Use ~>osu help to get help on how to use this command!").queue();
 			break;
@@ -79,7 +92,7 @@ public class Osu extends Command {
 			String beheaded1 = beheadedMessage.replace("best ", "");
 			String[] args = beheaded1.split(" ");
 
-			map.put("m", args[1]);
+			map.put("m", values.get(args[1]));
 			
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userBest = osuClient.getUserBest(hey, map);

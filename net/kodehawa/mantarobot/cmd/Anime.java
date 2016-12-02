@@ -36,8 +36,17 @@ public class Anime extends Command {
 
 	public Anime(){
 		setName("anime");
-		setDescription("Retrieves information about an anime or a character. Example usage: ~>anime info Toradora / ~>anime character Kuroi Mato");
-		authenticate();
+		setDescription("Retrieves information about an anime or a character. Use the ~>help anime to get more info.");
+		setCommandType("user");
+		setExtendedHelp(
+				"Retrieves anime and character info from **AniList**.\r"
+				+ "Usage: \r"
+				+ "~>anime info animename: Gets information of an anime based on parameters.\r"
+				+ "~>anime character charname: Gets information of a character based on parameters.\r"
+				+ "Parameter description:\r"
+				+ "*animename*: The name of the anime you are looking for. Make sure to write it similar to the original english name.\r"
+				+ "*character*: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\r");
+				authenticate();
 	}
 	
 	/**

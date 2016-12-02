@@ -19,7 +19,16 @@ public class UrbanDict extends Command {
 	public UrbanDict()
 	{
 		setName("urban");
-		setDescription("Retrieves definitions from urban dictionary. Usage example: ~>urban Otaku / ~>urban Otaku->2");
+		setDescription("Retrieves definitions from urban dictionary. Use ~>help urban to get more info.");
+		setExtendedHelp(
+				"Retrieves definitions from **Urban Dictionary**.\r"
+				+ "Usage: \r"
+				+ "~>urban term->number: Gets a definition based on parameters.\r"
+				+ "Parameter description:\r"
+				+ "*term*: The term you want to look up the urban definition for.\r"
+				+ "*number*: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\r"
+				+ "For example putting 2 will fetch the second result on Urban Dictionary"
+				);
 		setCommandType("user");
 	}
 

@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.cmd.owner;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.kodehawa.mantarobot.cmd.Action;
 import net.kodehawa.mantarobot.cmd.Quote;
-import net.kodehawa.mantarobot.cmd.Tsundere;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.core.listener.Listener;
@@ -33,9 +33,9 @@ public class Shutdown extends Command {
 			try {
 				Mantaro.instance().getSelf().removeEventListener(new Listener());
 				Quote.quotes.clear();
-				Tsundere.tsunLines.clear();
+				Action.tsunLines.clear();
 				System.gc();
-				Mantaro.instance().commands.clear();
+				Mantaro.instance().modules.clear();
 			    Thread.sleep(50);
 			} catch (InterruptedException e1) {	}
 

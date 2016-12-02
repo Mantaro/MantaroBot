@@ -1,8 +1,7 @@
 package net.kodehawa.mantarobot.cmd.owner;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.Hi;
-import net.kodehawa.mantarobot.cmd.Tsundere;
+import net.kodehawa.mantarobot.cmd.Action;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.util.StringArrayFile;
@@ -23,14 +22,14 @@ public class Add extends Command {
 			switch(noArgs){
 			case "greeting":
 				String greet = content.replace("greeting" + " ", "");
-				Hi.greeting.add(greet);
-				new StringArrayFile("Greetings", Hi.greeting, true, true);
+				Action.greeting.add(greet);
+				new StringArrayFile("greeting", Action.greeting, true, true);
 				channel.sendMessage(":speech_balloon:" + "Added to greeting list: " + greet);
 				break;
 			case "tsun":
 				String tsun = content.replace("tsun" + " ", "");
-				Tsundere.tsunLines.add(tsun);
-				new StringArrayFile("tsunderelines", Tsundere.tsunLines, true, true);
+				Action.tsunLines.add(tsun);
+				new StringArrayFile("tsunderelines", Action.tsunLines, true, true);
 				channel.sendMessage(":speech_balloon:" + "Added to tsundere list: " + tsun);
 				break;
 			default:

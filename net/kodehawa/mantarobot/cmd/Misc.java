@@ -1,25 +1,47 @@
 package net.kodehawa.mantarobot.cmd;
 
+import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.util.StringArrayFile;
+import net.kodehawa.mantarobot.util.Utils;
 
 public class Misc extends Command {
 
 	private List<String> lyrics = new ArrayList<String>();
+	private CopyOnWriteArrayList<String> nobleQuotes = new CopyOnWriteArrayList<String>();
+	private CopyOnWriteArrayList<String> facts = new CopyOnWriteArrayList<String>();
 	ArrayList<User> users = new ArrayList<>();
-	
+	double cpuUsage = Utils.pm.getCpuUsage();
+
 	public Misc()
 	{
 		setName("misc");
 		setCommandType("user");
-		setDescription("Miscellaneous funny commands. Possible arguments: rob (mention)/lottery/reverse (sentence)/brainpower");
+		setDescription("Miscellaneous funny/useful commands. Get more info using ~>help misc");
+		setExtendedHelp(
+				"Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\r"
+				+ "Usage:\r"
+				+ "~>misc rob @user: Rob random amount of money from a user.\r"
+				+ "~>misc lottery: Get random amounts of money! Only usable every 20m per person.\r"
+				+ "~>misc reverse: Reverses any given sentence.\r"
+				+ "~>misc bp: Brain power lyrics.\r"
+				+ "~>misc randomfact: Random fact.\r"
+				+ "~>misc noble: Random Lost Pause quote.\r"
+				+ "~>misc rndcolor: Gives you a random hex color.\r"
+				+ "~>misc hwinfo: Gives extended information about the bot hardware usage.\r"
+				+ "Parameter explanation:\r"
+				+ "*@user*: A user to mention.");
+		
 		lyrics.add(":mega: Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
@@ -31,6 +53,9 @@ public class Misc extends Command {
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
 		lyrics.add("JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-");
+		
+		new StringArrayFile("facts", facts, false);
+		new StringArrayFile("noble", nobleQuotes, false);
 	}
 
 	@Override
@@ -40,7 +65,8 @@ public class Misc extends Command {
         author = evt.getAuthor();
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
-		
+		Random rand = new Random();
+
         StringBuilder mentioned = new StringBuilder();
         
         for (User user: mentions){
@@ -93,6 +119,53 @@ public class Misc extends Command {
 			String s = String.format(":speech_balloon: Your random color is %s", randomColor());
 			channel.sendMessage(s).queue();
 			break;
+		case "noble":
+			int nobleQuote = rand.nextInt(nobleQuotes.size());
+	        channel = evt.getChannel();
+			channel.sendMessage(":speech_balloon: " + nobleQuotes.get(nobleQuote) + " -Noble").queue();
+			break;
+		case "randomfact":
+			int factrand = rand.nextInt(facts.size());
+	        channel = evt.getChannel();
+			channel.sendMessage(":speech_balloon: " + facts.get(factrand)).queue();
+			break;
+		case "hwinfo":
+			DecimalFormat df = new DecimalFormat("####0.0000");
+			long heapMemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()/(1024^2);
+			long nonHeapMemoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed()/(1024^2);
+			int avaliableProcessors = Runtime.getRuntime().availableProcessors();
+			cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
+			channel.sendMessage(
+					"Bot server infomration:\r"
+					+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage)+"MB" + "\r"
+					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\r"
+					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\r"
+					+ "CPU Usage: " + String.valueOf(cpuUsage+"%")).queue(
+							sentMessage ->
+							{
+								Timer timer = new Timer();
+								TimerTask timertask = new TimerTask(){
+									int i = 0;
+									
+									@Override
+									public void run(){
+										cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
+										if(i <= 5)
+											sentMessage.editMessage(
+															"Bot server information (Live update every 5 seconds for 25 seconds):\r"
+															+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage + "MB" + "\r")
+															+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\r"
+															+ "CPU Cores: " + String.valueOf(avaliableProcessors) +"\r"
+															+ "CPU Usage: " + String.valueOf(cpuUsage+"%")
+															).queue();
+										else{
+											timer.cancel();
+										}
+										i++;
+									}
+								};
+								timer.schedule(timertask, 1500, 5000);
+							});
 		}
 	}
 	
