@@ -1,13 +1,8 @@
 # MantaroBot
 
 Simple Discord bot made in JDA.
-
->> To open this in your command line, you need to use the following args:
-
-token:yourbottokenhere
-
-debug:true/false
-
+To start the bot you need to populate config.json.
+Every file seen here will be created at your root directory in a folder called mantaro. Just move them there.
 
 Copyright (C) 2016-2017 David Alejandro Rubio Escares/Kodehawa
 
