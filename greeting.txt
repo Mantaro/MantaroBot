@@ -7,12 +7,13 @@ Siema.
 Holu.
 Have a good day, sir.
 Czesc
-OlÃ¡, Â¿como estÃ¡s?.
+Olá, ¿como estás?.
+Testing
 Hello.
 Hi, lovely flower.
 H-Hi.
 Greets.
-Hola, Â¿cÃ³mo estas?.
+Hola, ¿cómo estas?.
 Wsh, sisi la famille bien ou bien?
 H-Hello...
 H e l l o.
@@ -33,7 +34,7 @@ Wassup homie, how's it poppin'.
 Heya!
 add greeting
 Good day, mister.
-SaudaÃ§Ãµes, Vossa ExcelÃªncia.
+Saudações, Vossa Excelência.
 Hello, master.
 Hi?
 Hello.
@@ -56,13 +57,13 @@ What's up?
 Greets.
 W-Woah, h-hi >///<.
 Wassup homie, how's it poppin'.
-Hola, Â¿cÃ³mo estas?.
+Hola, ¿cómo estas?.
 Bonjour.
 Oh.. Bonjour.. J-je te trouve resplendissante aujourd'hui!.
-OlÃ¡, Â¿como estÃ¡s?.
+Olá, ¿como estás?.
 Bom dia senhor.
 Wsh, sisi la famille bien ou bien?
-SaudaÃ§Ãµes, Vossa ExcelÃªncia.
+Saudações, Vossa Excelência.
 Dzien dobry.
 Siema.
 Holu.
