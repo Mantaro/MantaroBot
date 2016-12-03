@@ -24,6 +24,7 @@ public class Logs extends Command {
 		
 		setName("logs");
 		setCommandType("servertool");
+		setDescription("Enables and disables logs");
 		setExtendedHelp(
 				"This command enables or disables logs in your server.\n"
 				+ "**Parameters:**\n"

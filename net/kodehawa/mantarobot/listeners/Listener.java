@@ -9,7 +9,7 @@ import net.kodehawa.mantarobot.core.Mantaro;
 
 public class Listener extends ListenerAdapter {
 
-	//For later usage in LogListener.
+	//For later usage in LogListener. A short message cache of 150 messages. If it reaches 150 it will delete the first one stored, and continue being 150
 	public static TreeMap<String, Message> shortMessageHistory = new TreeMap<String, Message>();
 	
 	@Override
