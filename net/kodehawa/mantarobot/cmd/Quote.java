@@ -17,15 +17,15 @@ public class Quote extends Command {
 		setDescription("Adds or retrieves quotes. See ~>quote help.");
 		setCommandType("user");
 		setExtendedHelp(
-				"This command **quotes** a phrase.\r"
-				+ "> Usage:\r"
-				+ "~>quote content: Adds a quote with content defined by *content*.\r"
-				+ "~>quote list: Gets a list of all avaliable quotes \r"
-				+ "~>quote read number: Gets a quote matching the number. \r"
-				+ "~>quote get phrase phrase: Searches for the first quote which matches your search criteria and prints it.\r"
-				+ "> Parameters:\r"
-				+ "*number*: A number from 0 to the total number of quotes.\r"
-				+ "*content*: The content of the quote.\r"
+				"This command **quotes** a phrase.\n"
+				+ "> Usage:\n"
+				+ "~>quote content: Adds a quote with content defined by *content*.\n"
+				+ "~>quote list: Gets a list of all avaliable quotes \n"
+				+ "~>quote read number: Gets a quote matching the number. \n"
+				+ "~>quote get phrase phrase: Searches for the first quote which matches your search criteria and prints it.\n"
+				+ "> Parameters:\n"
+				+ "*number*: A number from 0 to the total number of quotes.\n"
+				+ "*content*: The content of the quote.\n"
 				+ "*phrase*: A phrase used to match a quote with it.");
 		new StringArrayUtils("quotes", quotes , false);
 	}
@@ -84,9 +84,9 @@ public class Quote extends Command {
 			int n = -1;
 			for (String quotes : quotes){
 				n++;
-			    listString.append(quotes + " (Call number: " + n + ")" +"\r\n");
+			    listString.append(quotes + " (Call number: " + n + ")" +"\n\n");
 			}
-			channel.sendMessage("``` Avaliable Quotes: \r" + listString.toString() + "```").queue();
+			channel.sendMessage("``` Avaliable Quotes: \n" + listString.toString() + "```").queue();
 			break;
 		}
 	}

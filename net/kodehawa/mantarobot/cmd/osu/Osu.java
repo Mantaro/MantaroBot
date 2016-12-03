@@ -29,14 +29,14 @@ public class Osu extends Command {
 		setDescription("Retrieves osu! related things. Use the help argument to get details.");
 		setCommandType("user");
 		setExtendedHelp(
-				"Retrieves information from the osu!api.\r"
-				+ "Usage: \r"
-				+ "~>osu best player mode: Retrieves best scores of the user specified in the specified gamemode.\r"
-				+ "~>osu recent player mode: Retrieves recent scores of the user specified in the specified gamemode.\r"
-				+ "~>osu user player: Retrieves information about a osu! player.\r"
-				+ "Parameter description:\r"
-				+ "*player*: The osu! player to look info for.\r"
-				+ "*mode*: Mode to look for. Possible values are: standard, taiko, mania and ctb.\r"
+				"Retrieves information from the osu!api.\n"
+				+ "Usage: \n"
+				+ "~>osu best player mode: Retrieves best scores of the user specified in the specified gamemode.\n"
+				+ "~>osu recent player mode: Retrieves recent scores of the user specified in the specified gamemode.\n"
+				+ "~>osu user player: Retrieves information about a osu! player.\n"
+				+ "Parameter description:\n"
+				+ "*player*: The osu! player to look info for.\n"
+				+ "*mode*: Mode to look for. Possible values are: standard, taiko, mania and ctb.\n"
 				);
 		
 		//From a human input, translate to API values.
@@ -57,7 +57,7 @@ public class Osu extends Command {
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 			{
 				Timer timer = new Timer(); 
-				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 1500, sentMessage);
+				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 3100, sentMessage);
 				sentMessage.editMessage(best(content)).queue();
 				timer.cancel();
 			});
@@ -66,7 +66,7 @@ public class Osu extends Command {
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
 			{
 				Timer timer = new Timer(); 	
-				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 1500, sentMessage);
+				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 3100, sentMessage);
 				sentMessage.editMessage(recent(content)).queue();
 				timer.cancel();
 			});
@@ -75,7 +75,7 @@ public class Osu extends Command {
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 			{
 				Timer timer = new Timer(); 
-				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 1500, sentMessage);
+				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 3100, sentMessage);
 				sentMessage.editMessage(user(content)).queue();
 				timer.cancel();
 			});
@@ -123,12 +123,12 @@ public class Osu extends Command {
 				best.add(n1 + ".- " + userBest.get(n).getBeatMap().getTitle().replace("'", "") + 
 						" (\u2605"  + df.format(userBest.get(n).getBeatMap().getDifficultyRating()) + ") - " + userBest.get(n).getBeatMap().getCreator() 
 						+ mods1
-						+ "\r   Date: " + userBest.get(n).getDate() + " ~ Max Combo: " + userBest.get(n).getMaxCombo() +
-						" ~ PP: " + df.format(userBest.get(n).getPP()) + " ~ Rank: " + userBest.get(n).getRank()  + "\r");
+						+ "\n   Date: " + userBest.get(n).getDate() + " ~ Max Combo: " + userBest.get(n).getMaxCombo() +
+						" ~ PP: " + df.format(userBest.get(n).getPP()) + " ~ Rank: " + userBest.get(n).getRank()  + "\n");
 				sb.append(best.get(n));
 			}
 			long end = System.currentTimeMillis() - start;
-		    finalResponse = "```ruby\n" + sb.toString() + " \rResponse time: " + end + "ms```";
+		    finalResponse = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch(Exception e){
 			e.printStackTrace();
 			finalResponse = ":heavy_multiplication_x: Error retrieving results or no results found.";
@@ -172,14 +172,14 @@ public class Osu extends Command {
 				recent.add(n1 + ".- " + userRecent.get(n).getBeatMap().getTitle().replace("'", "") + " (\u2605"  
 						+ df.format(userRecent.get(n).getBeatMap().getDifficultyRating()) + ") - " + userRecent.get(n).getBeatMap().getCreator()
 						+ mods1
-						+ "\r Date: " + userRecent.get(n).getDate() + " ~ Max Combo: " + userRecent.get(n).getMaxCombo() +
-						"\r");
+						+ "\n Date: " + userRecent.get(n).getDate() + " ~ Max Combo: " + userRecent.get(n).getMaxCombo() +
+						"\n");
 				
 				sb.append(recent.get(n));
 				n++;
 			}
 			long end = System.currentTimeMillis() - start;
-			finalMessage = "```ruby\n" + sb.toString() + " \rResponse time: " + end + "ms```";
+			finalMessage = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch (Exception e){
 			e.printStackTrace();
 			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found.";
@@ -200,11 +200,11 @@ public class Osu extends Command {
 			User hey = osuClient.getUser(args[0], map);
 			DecimalFormat df = new DecimalFormat("####0");
 			long end = System.currentTimeMillis() - start;
-			finalMessage = "```xl\n"+ "Username: " + hey.getUsername() + " (#" + hey.getUserID() + ")" + "\rCountry: " + hey.getCountry() 
-			+ "\rRank: " + df.format(hey.getPPRank()) + " | Country Rank: " + df.format(hey.getPPCountryRank()) +	
-			"\rAccuracy: " + df.format(hey.getAccuracy()) + "%\rPP: " + df.format(hey.getPPRaw()) + "\r" + "Level: " + df.format(hey.getLevel())
-			+"\rRanked Score: " + hey.getRankedScore() + "\rA, S, SS: " + hey.getCountRankA() + " | " + hey.getCountRankS() + " | " + hey.getCountRankSS() 
-			+"\rResponse time: " + end + "ms```";
+			finalMessage = "```xl\n"+ "Username: " + hey.getUsername() + " (#" + hey.getUserID() + ")" + "\nCountry: " + hey.getCountry() 
+			+ "\nRank: " + df.format(hey.getPPRank()) + " | Country Rank: " + df.format(hey.getPPCountryRank()) +	
+			"\nAccuracy: " + df.format(hey.getAccuracy()) + "%\nPP: " + df.format(hey.getPPRaw()) + "\n" + "Level: " + df.format(hey.getLevel())
+			+"\nRanked Score: " + hey.getRankedScore() + "\nA, S, SS: " + hey.getCountRankA() + " | " + hey.getCountRankS() + " | " + hey.getCountRankSS() 
+			+"\nResponse time: " + end + "ms```";
 		} catch (Exception e){
 			e.printStackTrace();
 			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found.";

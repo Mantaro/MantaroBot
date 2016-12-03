@@ -29,17 +29,17 @@ public class Misc extends Command {
 		setCommandType("user");
 		setDescription("Miscellaneous funny/useful commands. Get more info using ~>help misc");
 		setExtendedHelp(
-				"Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\r"
-				+ "Usage:\r"
-				+ "~>misc rob @user: Rob random amount of money from a user.\r"
-				+ "~>misc lottery: Get random amounts of money! Only usable every 20m per person.\r"
-				+ "~>misc reverse: Reverses any given sentence.\r"
-				+ "~>misc bp: Brain power lyrics.\r"
-				+ "~>misc randomfact: Random fact.\r"
-				+ "~>misc noble: Random Lost Pause quote.\r"
-				+ "~>misc rndcolor: Gives you a random hex color.\r"
-				+ "~>misc hwinfo: Gives extended information about the bot hardware usage.\r"
-				+ "Parameter explanation:\r"
+				"Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\n"
+				+ "Usage:\n"
+				+ "~>misc rob @user: Rob random amount of money from a user.\n"
+				+ "~>misc lottery: Get random amounts of money! Only usable every 20m per person.\n"
+				+ "~>misc reverse: Reverses any given sentence.\n"
+				+ "~>misc bp: Brain power lyrics.\n"
+				+ "~>misc randomfact: Random fact.\n"
+				+ "~>misc noble: Random Lost Pause quote.\n"
+				+ "~>misc rndcolor: Gives you a random hex color.\n"
+				+ "~>misc hwinfo: Gives extended information about the bot hardware usage.\n"
+				+ "Parameter explanation:\n"
 				+ "*@user*: A user to mention.");
 		
 		lyrics.add(":mega: Are you ready?");
@@ -111,7 +111,7 @@ public class Misc extends Command {
 		case "bp":
 			StringBuilder finalMessage = new StringBuilder();
 			for (String help : lyrics){
-				finalMessage.append(help+"\r\n");
+				finalMessage.append(help+"\n\n");
 			}
 			channel.sendMessage(finalMessage.toString()).queue();
 			break;
@@ -136,11 +136,11 @@ public class Misc extends Command {
 			int avaliableProcessors = Runtime.getRuntime().availableProcessors();
 			cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
 			channel.sendMessage(
-					"Bot server infomration:\r"
-					+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\r"
-					+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage)+"MB" + "\r"
-					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\r"
-					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\r"
+					"Bot server infomration:\n"
+					+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\n"
+					+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage)+"MB" + "\n"
+					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\n"
+					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\n"
 					+ "CPU Usage: " + String.valueOf(cpuUsage+"%")).queue(
 							sentMessage ->
 							{
@@ -153,11 +153,11 @@ public class Misc extends Command {
 										cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
 										if(i <= 5)
 											sentMessage.editMessage(
-															"Bot server information (Live update every 5 seconds for 25 seconds):\r"
-															+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\r"
-															+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage + "MB" + "\r")
-															+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\r"
-															+ "CPU Cores: " + String.valueOf(avaliableProcessors) +"\r"
+															"Bot server information (Live update every 5 seconds for 25 seconds):\n"
+															+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\n"
+															+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage + "MB" + "\n")
+															+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\n"
+															+ "CPU Cores: " + String.valueOf(avaliableProcessors) +"\n"
 															+ "CPU Usage: " + String.valueOf(cpuUsage+"%")
 															).queue();
 										else{

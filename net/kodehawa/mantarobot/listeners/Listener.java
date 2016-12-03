@@ -16,7 +16,7 @@ public class Listener extends ListenerAdapter {
 	public void onMessageReceived(MessageReceivedEvent event){
 		Thread thread = new Thread(){
 			public void run(){
-				if(shortMessageHistory.size() < 15){
+				if(shortMessageHistory.size() < 150){
 					shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 				} else {
 					shortMessageHistory.remove(shortMessageHistory.firstKey());

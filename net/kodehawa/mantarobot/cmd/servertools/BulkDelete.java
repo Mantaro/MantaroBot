@@ -20,7 +20,7 @@ public class BulkDelete extends Command {
 	public BulkDelete()
 	{
 		setName("prune");
-		setDescription("Prunes x messages.");
+		setDescription("Prunes x messages. Usage: ~>prune x");
 		setCommandType("servertool");
 	}
 

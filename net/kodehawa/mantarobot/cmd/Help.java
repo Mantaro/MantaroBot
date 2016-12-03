@@ -28,26 +28,26 @@ public class Help extends Command {
 			StringBuilder builderadmin = new StringBuilder();
 			for(String cmd : mantaro.modules.keySet()){
 				if(!mantaro.modules.get(cmd).getDescription().isEmpty() && mantaro.modules.get(cmd).getCommandType().equals("user"))
-					builderuser.append(cmd + ": " + mantaro.modules.get(cmd).getDescription() + "\r");
+					builderuser.append(cmd + ": " + mantaro.modules.get(cmd).getDescription() + "\n");
 				else if(!mantaro.modules.get(cmd).getDescription().isEmpty() && mantaro.modules.get(cmd).getCommandType().equals("servertool"))
-					builderadmin.append(cmd + ": " + mantaro.modules.get(cmd).getDescription() + "\r");
+					builderadmin.append(cmd + ": " + mantaro.modules.get(cmd).getDescription() + "\n");
 			}
 			
 			channel.sendMessage(":mega: Delivered! Check your inbox.").queue(
 					success ->
 					{
 						author.getPrivateChannel().sendMessage(
-								":exclamation: Command help. For extended help use this command with a command name as argument.\r"
-								+ ":exclamation: Remember: *all* commands as for now use the ~> prefix. So put that before the command name to execute it.\r\r"
-								+ "**User commands:**\r"
-								+ builderuser.toString() +"\r"
+								":exclamation: Command help. For extended help use this command with a command name as argument.\n"
+								+ ":exclamation: Remember: *all* commands as for now use the ~> prefix. So put that before the command name to execute it.\n\n"
+								+ "**User commands:**\n"
+								+ builderuser.toString() +"\n"
 								+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build") +
 								Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION).queue();
 						if(member.hasPermission(Permission.ADMINISTRATOR) || member.hasPermission(Permission.MESSAGE_MANAGE) 
 								|| member.hasPermission(Permission.BAN_MEMBERS) || member.hasPermission(Permission.KICK_MEMBERS))
 						{
 							author.getPrivateChannel().sendMessage(
-									"**Admin commands:**\r"
+									"**Admin commands:**\n"
 									+ builderadmin.toString()).queue();
 						}
 					});

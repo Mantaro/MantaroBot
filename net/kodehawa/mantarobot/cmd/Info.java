@@ -22,13 +22,13 @@ public class Info extends Command {
 				+ "With no argument you get your own info.");
 		setCommandType("user");
 		setExtendedHelp(
-				"Retrieves information from user and server alike..\r"
-				+ "Usage: \r"
-				+ "~>info user @user: Retrieves the specified user information.\r"
-				+ "~>info user: Retrieves self user information.\r"
-				+ "~>info server: Retrieves guild/server information.\r"
-				+ "Parameter description:\r"
-				+ "*@user*: User to mention.\r");
+				"Retrieves information from user and server alike..\n"
+				+ "Usage: \n"
+				+ "~>info user @user: Retrieves the specified user information.\n"
+				+ "~>info user: Retrieves self user information.\n"
+				+ "~>info server: Retrieves guild/server information.\n"
+				+ "Parameter description:\n"
+				+ "*@user*: User to mention.\n");
 	}
 	
 	@Override

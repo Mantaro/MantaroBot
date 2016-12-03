@@ -6,24 +6,32 @@ import java.util.Iterator;
 
 import org.json.JSONObject;
 
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.util.JSONUtils;
 
-public class Parameters extends Command {
+public class Logs extends Command {
 
 	private static HashMap<String, String> logs = new HashMap<String, String>();
-	JSONObject logObject;
+	JSONObject logObject = new JSONObject();
 	File file;
 	
-	public Parameters(){
-		JSONObject logObject = new JSONObject();
+	public Logs(){
 		logObject.put("version", "1.0");
 		
-		setName("parameters");
+		setName("logs");
 		setCommandType("servertool");
+		setExtendedHelp(
+				"This command enables or disables logs in your server.\n"
+				+ "**Parameters:**\n"
+				+ "~>logs set enable logchannel\n"
+				+ "~>logs set disable\n"
+				+ "**Parameter explanation:**\n"
+				+ "*logchannel*: The channel name to log in. If the channel is #logs, use logs."
+						);
 		if(Mantaro.instance().isWindows()){
 			this.file = new File("C:/mantaro/config/logconf.json");
 		}
@@ -49,17 +57,25 @@ public class Parameters extends Command {
         
 		String noArgs = content.split(" ")[0];
 		switch(noArgs){
-		case "logs":
+		case "set":
 			if(split[1].equals("enable")){
-				TextChannel logChannel = guild.getTextChannelsByName(split[2], true).get(0);
-				logObject.put(guild.getId(), logChannel.getName());
-				JSONUtils.instance().write(file, logObject);
-				channel.sendMessage("Log channel set to " + "#" + logChannel.getName()).queue();
+				if(guild.getMember(author).hasPermission(Permission.ADMINISTRATOR))
+				{
+					TextChannel logChannel = guild.getTextChannelsByName(split[2], true).get(0);
+					logObject.put(guild.getId(), logChannel.getName());
+					JSONUtils.instance().write(file, logObject);
+					read(logs, logObject);
+					channel.sendMessage("Log channel set to " + "#" + logChannel.getName()).queue();
+				}
 			}
 			else if(split[1].equals("disable")){
-				logObject.remove(guild.getId());
-				JSONUtils.instance().write(file, logObject);
-				channel.sendMessage("Removed server from logging.").queue();
+				if(guild.getMember(author).hasPermission(Permission.ADMINISTRATOR))
+				{
+					logObject.remove(guild.getId());
+					JSONUtils.instance().write(file, logObject);
+					read(logs, logObject);
+					channel.sendMessage("Removed server from logging.").queue();
+				}
 			}		
 		}
 	}

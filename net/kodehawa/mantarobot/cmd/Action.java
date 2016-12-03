@@ -37,19 +37,19 @@ public class Action extends Command {
 		bleach.add("https://www.youtube.com/watch?v=5PIx19ha9MY");
 		
 		setExtendedHelp(
-				"Commands that involve an action to you or to a specified user.\r"
-				+ "Usage:\r"
-				+ "~>action greet: Sends a random greeting message.\r"
-				+ "~>action tsundere: Y-You baka!\r"
-				+ "~>action bleach: Random image of someone drinking bleach.\r"
-				+ "~>action pat @user: Pats the specified user.\r"
-				+ "~>action hug @user: Hugs the specified user.\r"
-				+ "~>action bloodsuck @user: Self explanatory.\r"
-				+ "~>action meow @user: Meows to a user.\r"
-				+ "~>action meow2: Meows.\r"
-				+ "~>action facedesk: Facedesks.\r"
-				+ "~>action nom: nom nom.\r"
-				+ "Parameter explanation:\r"
+				"Commands that involve an action to you or to a specified user.\n"
+				+ "Usage:\n"
+				+ "~>action greet: Sends a random greeting message.\n"
+				+ "~>action tsundere: Y-You baka!\n"
+				+ "~>action bleach: Random image of someone drinking bleach.\n"
+				+ "~>action pat @user: Pats the specified user.\n"
+				+ "~>action hug @user: Hugs the specified user.\n"
+				+ "~>action bloodsuck @user: Self explanatory.\n"
+				+ "~>action meow @user: Meows to a user.\n"
+				+ "~>action meow2: Meows.\n"
+				+ "~>action facedesk: Facedesks.\n"
+				+ "~>action nom: nom nom.\n"
+				+ "Parameter explanation:\n"
 				+ "*@user*: A user to mention.");
 	}
 	
@@ -74,7 +74,7 @@ public class Action extends Command {
 				pString.append(s.getAsMention());
 			}
 		
-			String pat = String.format(":speech_balloon: %s you have been patted by %s \r %s", pString, author.getAsMention(), pats.get(patint));
+			String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(patint));
 			channel.sendMessage(pat).queue();
 			break;
 		case "hug":
@@ -86,7 +86,7 @@ public class Action extends Command {
 				hString.append(s.getAsMention());
 			}
 			
-			String hug = String.format(":speech_balloon: %s you have been hugged by %s \r %s", hString, author.getAsMention(), hugs.get(hugint));
+			String hug = String.format(":speech_balloon: %s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(hugint));
 			channel.sendMessage(hug).queue();
 			break;
 		case "bloodsuck":
@@ -99,12 +99,12 @@ public class Action extends Command {
 					listString.append(s.getAsMention());
 				}
 				
-				String bs = String.format(":speech_balloon: http://puu.sh/qEYYH/e5094405a5.jpg \rSucks the blood of %s", listString);
+				String bs = String.format(":speech_balloon: http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", listString);
 				channel.sendMessage(bs).queue();
 			}
 			break;
 		case "meow2": 
-			channel.sendMessage(":speech_balloon: " + "Meeeeow.\r " + "http://puu.sh/rK5K7/034039286e.gif").queue();
+			channel.sendMessage(":speech_balloon: " + "Meeeeow.\n " + "http://puu.sh/rK5K7/034039286e.gif").queue();
 			break;
 		case "meow":
 			if(receivedMessage.getMentionedUsers().isEmpty() != true){
@@ -114,9 +114,9 @@ public class Action extends Command {
 	                builder.append(user.getName());
 	            }
 	            String mention = builder.toString().replace("MantaroBot", "");
-				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\r" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
+				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\n" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
 	        } else{
-				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\r\nAnyway, I guess I'll have to meow you.\r\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
+				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\n\nAnyway, I guess I'll have to meow you.\n\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
 			}
 			break;
 		case "facedesk":

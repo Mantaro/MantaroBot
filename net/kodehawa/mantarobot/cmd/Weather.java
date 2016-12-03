@@ -22,11 +22,11 @@ public class Weather extends Command {
 		setName("weather");
 		setDescription("Retrieves weather from a city in the form of an embed message.");
 		setExtendedHelp(
-				"This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\r"
-				+ "> Usage:\r"
-				+ "~>weather city,countrycode: Retrieves the forecast information for such location.\r"
-				+ "> Parameters:\r"
-				+ "*city*: Your city name, for example New York\r"
+				"This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
+				+ "> Usage:\n"
+				+ "~>weather city,countrycode: Retrieves the forecast information for such location.\n"
+				+ "> Parameters:\n"
+				+ "*city*: Your city name, for example New York\n"
 				+ "*countrycode*: The code for your country, for example US (USA) or MX (Mexico).");
 		setCommandType("user");
 	}

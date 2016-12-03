@@ -24,17 +24,17 @@ public class Yandere extends Command {
 		setDescription("Fetches images from yande.re. For detailed information use ~>help yandere.");
 		setExtendedHelp(
 				"This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
-				+ "but tags can be set to safe if you so desire.\r"
-				+ "~>yandere: Gets you a completely random image.\r"
-				+ "~>yandere get page limit imagenumber rating: Gets you an image with the specified parameters.\r"
-				+ "~>yandere tags page limit tag imagenumber rating: Gets you an image with the respective tag and specified parameters.\r"
-				+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\r"
-				+ "> Parameter explanation:\r"
-				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\r"
-				+ "*limit*: Can handle any value from 1 to 60 (values higher than 60 just default to 60)\r"
-				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\r"
+				+ "but tags can be set to safe if you so desire.\n"
+				+ "~>yandere: Gets you a completely random image.\n"
+				+ "~>yandere get page limit imagenumber rating: Gets you an image with the specified parameters.\n"
+				+ "~>yandere tags page limit tag imagenumber rating: Gets you an image with the respective tag and specified parameters.\n"
+				+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
+				+ "> Parameter explanation:\n"
+				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
+				+ "*limit*: Can handle any value from 1 to 60 (values higher than 60 just default to 60)\n"
+				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
 				+ "*tag*: Any valid image tag. For example animal_ears or yuri."
-				+ "*rating*: Can be either safe, questionable or explicit, depends on the type of image you want to get.\r"
+				+ "*rating*: Can be either safe, questionable or explicit, depends on the type of image you want to get.\n"
 				+ "**Note: Image number and rating is optional.**"
 				);
 		setCommandType("user");
@@ -150,7 +150,7 @@ public class Yandere extends Command {
 			}
 		}
 		if(trigger) {
-			return String.format(":thumbsup: " + "I found an image! You can get a total of %1s images.\r %2s" , urls.size(), urls.get(get - 1));
+			return String.format(":thumbsup: " + "I found an image! You can get a total of %1s images.\n %2s" , urls.size(), urls.get(get - 1));
 		}
 		else{
 			return ":heavy_multiplication_x: " + "You only can use this command in nsfw channels!";

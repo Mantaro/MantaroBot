@@ -20,7 +20,7 @@ public class Perms extends Command {
 	public static String FILE_SIGN = "ada9cd5864c1365284072e5a7f39ce58";
 
 	public Perms(){
-		setName("perm");
+		//setName("perm");
 		setDescription("Sets permission for a user.");
 		setCommandType("servertools");
 		new HashMapUtils("mantaro", "perms", perms, FILE_SIGN, false);
