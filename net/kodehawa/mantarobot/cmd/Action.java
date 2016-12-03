@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
-import net.kodehawa.mantarobot.util.StringArrayFile;
+import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Action extends Command {
 
@@ -25,10 +25,10 @@ public class Action extends Command {
 		setName("action");
 		setDescription("Action commands. Arguments avaliable: pat (mention), hug (mention), bloodsuck (mention), meow, meow2, facedesk, nom");
 		setCommandType("user");
-		new StringArrayFile("greeting", greeting, false);
-		new StringArrayFile("tsunderelines", tsunLines, false);
-		new StringArrayFile("patting", pats, false);
-		new StringArrayFile("hugs", hugs, false);
+		new StringArrayUtils("greeting", greeting, false);
+		new StringArrayUtils("tsunderelines", tsunLines, false);
+		new StringArrayUtils("patting", pats, false);
+		new StringArrayUtils("hugs", hugs, false);
 
 		bleach.add("http://puu.sh/qyoDQ/9df29f6b30.jpg");
 		bleach.add("http://data.whicdn.com/images/13651431/superthumb.jpg");
@@ -139,6 +139,8 @@ public class Action extends Command {
 	        channel = evt.getChannel();
 			channel.sendMessage(bleach.get(bleachRandomizer)).queue();
 			break;
-		}
+		default:
+			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help action");
+			break;		}
 	}
 }

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.util;
+package net.kodehawa.mantarobot.log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

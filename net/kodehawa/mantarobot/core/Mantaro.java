@@ -20,11 +20,13 @@ import net.dv8tion.jda.core.entities.Game;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.cmd.management.Loader;
 import net.kodehawa.mantarobot.cmd.parser.Parser;
-import net.kodehawa.mantarobot.core.listener.Listener;
-import net.kodehawa.mantarobot.util.Config;
-import net.kodehawa.mantarobot.util.LogType;
-import net.kodehawa.mantarobot.util.Logger;
-import net.kodehawa.mantarobot.util.StringArrayFile;
+import net.kodehawa.mantarobot.config.Config;
+import net.kodehawa.mantarobot.listeners.Listener;
+import net.kodehawa.mantarobot.listeners.LogListener;
+import net.kodehawa.mantarobot.log.LogType;
+import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.util.StringArrayUtils;
+
 /**
  * Mantaro's main class. Handles reflections, login procedure, etc.
  * This bot is fully modifiable and modular. You can add your own commands to this bot WITHOUT touching the main command package (see {@link setModPath(boolean isModded, String modPackagePath)})
@@ -37,7 +39,6 @@ import net.kodehawa.mantarobot.util.StringArrayFile;
  * @author Yomura
  * @since 24/11/2016
  */
-
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class Mantaro {
 	
@@ -74,7 +75,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
 	//The data after the dash is the hour (4 numbers) and the date.
-	public final String[] data = {"01122016", "1.0.0a6-1701."};
+	public final String[] data = {"02122016", "1.0.0a8-1230."};
 	
 	public Mantaro()
 	{
@@ -88,8 +89,10 @@ public class Mantaro {
 		instance().isDebugEnabled = (Boolean)instance().getConfig().values().get("debug");
 		
 		try{
-			//Builds a bot and a bot listener to use.
-			instance().jda = new JDABuilder(AccountType.BOT).addListener(new Listener()).setToken(botToken)
+			instance().jda = new JDABuilder(AccountType.BOT)
+					.setToken(botToken)
+					.addListener(new Listener())
+					.addListener(new LogListener())
 					.buildBlocking(); //For some reason buildAsync constantly disconnects me.
 			instance().jda.setAutoReconnect(true);
 			instance().jda.getPresence().setGame(game);
@@ -102,7 +105,7 @@ public class Mantaro {
 		
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<String>();
-		new StringArrayFile("splash", splash , false);
+		new StringArrayUtils("splash", splash , false);
 		TimerTask timerTask = new TimerTask() {
 	         public void run()  
 	         { 

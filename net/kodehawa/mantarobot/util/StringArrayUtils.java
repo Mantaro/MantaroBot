@@ -11,16 +11,18 @@ import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.log.LogType;
+import net.kodehawa.mantarobot.log.Logger;
 
-public class StringArrayFile {
-	public volatile static StringArrayFile instance = new StringArrayFile();
+public class StringArrayUtils {
+	public volatile static StringArrayUtils instance = new StringArrayUtils();
 	private String name;
 	private File file;
 	@SuppressWarnings("unused")
 	private String path = "mantaro";
 	public CopyOnWriteArrayList<String> list;
 	
-	private StringArrayFile(){}
+	private StringArrayUtils(){}
 
 	public void removeDupes(CopyOnWriteArrayList<String> list) 
     {
@@ -35,7 +37,7 @@ public class StringArrayFile {
 	 * @param path
 	 * @param list
 	 */
-	public StringArrayFile(String name, CopyOnWriteArrayList<String> list, boolean isRewritable)
+	public StringArrayUtils(String name, CopyOnWriteArrayList<String> list, boolean isRewritable)
 	{
 		this.name = name;
 		this.list = list;
@@ -56,7 +58,7 @@ public class StringArrayFile {
 		this.read();
 	}
 	
-	public StringArrayFile(String name, CopyOnWriteArrayList<String> list, boolean isRewritable, boolean read)
+	public StringArrayUtils(String name, CopyOnWriteArrayList<String> list, boolean isRewritable, boolean read)
 	{
 		this.name = name;
 		this.list = list;

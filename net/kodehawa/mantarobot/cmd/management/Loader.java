@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.cmd.management;
 
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.util.LogType;
-import net.kodehawa.mantarobot.util.Logger;
+import net.kodehawa.mantarobot.log.LogType;
+import net.kodehawa.mantarobot.log.Logger;
 
 /**
  * Threaded automatic command loader.

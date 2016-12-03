@@ -46,7 +46,7 @@ public class Anime extends Command {
 				+ "Parameter description:\r"
 				+ "*animename*: The name of the anime you are looking for. Make sure to write it similar to the original english name.\r"
 				+ "*character*: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\r");
-				authenticate();
+		authenticate();
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public class Anime extends Command {
 			}
 			break;
 		default:
-			channel.sendMessage(":heavy_multiplication_x: Wrong usage. Possible arguments: info/character");
+			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help anime");
 			break;
 		}
 	}

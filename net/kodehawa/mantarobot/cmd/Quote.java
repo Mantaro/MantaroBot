@@ -4,7 +4,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
-import net.kodehawa.mantarobot.util.StringArrayFile;
+import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Quote extends Command {
 
@@ -27,7 +27,7 @@ public class Quote extends Command {
 				+ "*number*: A number from 0 to the total number of quotes.\r"
 				+ "*content*: The content of the quote.\r"
 				+ "*phrase*: A phrase used to match a quote with it.");
-		new StringArrayFile("quotes", quotes , false);
+		new StringArrayUtils("quotes", quotes , false);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class Quote extends Command {
 			String quote = beheadedMessage;
 			if(!beheadedMessage.isEmpty()){
 				quotes.add(quote);
-				new StringArrayFile("quotes", quotes, true, false);
+				new StringArrayUtils("quotes", quotes, true, false);
 				channel.sendMessage(":pencil2: Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." ).queue();
 			} else{
 				channel.sendMessage(":heavy_multiplication_x: " + "Why are you trying to add an empty quote ;-;").queue();

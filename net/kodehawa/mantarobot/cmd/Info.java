@@ -126,7 +126,9 @@ public class Info extends Command {
 			.setFooter("Server ID" + String.valueOf(guild.getId()), null);
 			channel.sendMessage(embed.build()).queue();
 			break;
+		default:
+			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help info");
+			break;
 		}
-		
 	}
 }

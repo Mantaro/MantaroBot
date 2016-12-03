@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.log.LogType;
+import net.kodehawa.mantarobot.log.Logger;
 
 public class HashMapUtils {
 

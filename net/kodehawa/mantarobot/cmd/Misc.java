@@ -12,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
-import net.kodehawa.mantarobot.util.StringArrayFile;
+import net.kodehawa.mantarobot.util.StringArrayUtils;
 import net.kodehawa.mantarobot.util.Utils;
 
 public class Misc extends Command {
@@ -54,8 +54,8 @@ public class Misc extends Command {
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
 		lyrics.add("JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA-");
 		
-		new StringArrayFile("facts", facts, false);
-		new StringArrayFile("noble", nobleQuotes, false);
+		new StringArrayUtils("facts", facts, false);
+		new StringArrayUtils("noble", nobleQuotes, false);
 	}
 
 	@Override
@@ -137,6 +137,7 @@ public class Misc extends Command {
 			cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
 			channel.sendMessage(
 					"Bot server infomration:\r"
+					+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\r"
 					+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage)+"MB" + "\r"
 					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\r"
 					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\r"
@@ -153,6 +154,7 @@ public class Misc extends Command {
 										if(i <= 5)
 											sentMessage.editMessage(
 															"Bot server information (Live update every 5 seconds for 25 seconds):\r"
+															+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\r"
 															+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage + "MB" + "\r")
 															+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\r"
 															+ "CPU Cores: " + String.valueOf(avaliableProcessors) +"\r"
@@ -166,6 +168,9 @@ public class Misc extends Command {
 								};
 								timer.schedule(timertask, 1500, 5000);
 							});
+		default:
+			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help misc");
+			break;
 		}
 	}
 	
