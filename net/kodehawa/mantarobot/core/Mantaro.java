@@ -57,7 +57,7 @@ public class Mantaro {
 	private static volatile Mantaro instance = new Mantaro();
 	private final Parser parser = new Parser();
 	
-	private final String prefix = "!-";
+	private final String prefix = "~>";
 	
 	//JDA and Loader. We need this and they're extremely important.
 	private JDA jda;
