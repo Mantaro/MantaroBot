@@ -19,20 +19,43 @@ public class Eval extends Command {
 	
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
-		if(evt.getAuthor().getId().equals(Mantaro.OWNER_ID)){
-			try {
-		    	Interpreter interpreter = new Interpreter();
-		        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		        PrintStream ps = new PrintStream(baos);
-		        PrintStream old = System.out;
-		        System.setOut(ps);
-		    	interpreter.eval(beheadedMessage);
-		        System.out.flush();
-		        System.setOut(old);
-		        evt.getChannel().sendMessage(baos.toString()).queue();
-			} catch (Exception e) {
-				e.printStackTrace();
+		String noArgs = message[0];
+		switch(noArgs){
+		default:
+			if(evt.getAuthor().getId().equals(Mantaro.OWNER_ID)){
+				try {
+			    	Interpreter interpreter = new Interpreter();
+			        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			        PrintStream ps = new PrintStream(baos);
+			        PrintStream old = System.out;
+			        System.setOut(ps);
+			    	interpreter.eval("import *; " + beheadedMessage);
+			        System.out.flush();
+			        System.setOut(old);
+			        evt.getChannel().sendMessage(baos.toString()).queue();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
+			break;
+		case "print":
+
+			if(evt.getAuthor().getId().equals(Mantaro.OWNER_ID)){
+				try {
+			    	Interpreter interpreter = new Interpreter();
+			        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			        PrintStream ps = new PrintStream(baos);
+			        PrintStream old = System.out;
+			        System.setOut(ps);
+			    	interpreter.eval("import *; System.out.println(" + beheadedMessage.replace("print ", "") + ");");
+			        System.out.flush();
+			        System.setOut(old);
+			        evt.getChannel().sendMessage(baos.toString()).queue();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			break;
 		}
 	}
 }

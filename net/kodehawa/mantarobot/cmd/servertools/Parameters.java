@@ -16,10 +16,13 @@ public class Parameters extends Command {
 
 	private static HashMap<String, String> prefixes = new HashMap<String, String>();
 	private static HashMap<String, String> logs = new HashMap<String, String>();
+	private static HashMap<String, String> nsfw = new HashMap<String, String>();
 	JSONObject logObject = new JSONObject();
 	JSONObject prefixObject = new JSONObject();
+	JSONObject nsfwObject = new JSONObject();
 	File logFile;
 	File prefixFile;
+	File nsfwFile;
 
 	public Parameters(){
 		logObject.put("version", "1.0");
@@ -30,12 +33,14 @@ public class Parameters extends Command {
 		setExtendedHelp(
 				"This command enables or disables logs in your server.\n"
 				+ "**Parameters:**\n"
-				+ "~>params logs set enable logchannel\n"
+				+ "~>params logs set enable channel\n"
 				+ "~>params logs set disable\n"
 				+ "~>params prefix set prefix/n"
 				+ "~>params prefix disable/n"
+				+ "~>params nsfw set channel/n"
+				+ "~>params nsfw disable/n"
 				+ "**Parameter explanation:**\n"
-				+ "*logchannel*: The channel name to log in. If the channel is #logs, use logs."
+				+ "*channel*: The channel name to action in."
 				+ "*prefix*: The prefix to set."
 						);
 		if(Mantaro.instance().isWindows()){
@@ -66,6 +71,21 @@ public class Parameters extends Command {
 		
 		prefixObject = JSONUtils.instance().getJSONObject(prefixFile);
 		JSONUtils.instance().read(prefixes, prefixObject);
+		
+		nsfwObject.put("213468583252983809", "nsfw");
+		if(Mantaro.instance().isWindows()){
+			this.nsfwFile = new File("C:/mantaro/config/logconf.json");
+		}
+		else if(Mantaro.instance().isUnix()){
+			this.nsfwFile = new File("/home/mantaro/config/logconf.json");
+		}
+		if(!nsfwFile.exists()){
+			JSONUtils.instance().createFile(nsfwFile);
+			JSONUtils.instance().write(nsfwFile, nsfwObject);
+		}
+		
+		nsfwObject = JSONUtils.instance().getJSONObject(nsfwFile);
+		JSONUtils.instance().read(nsfw, nsfwObject);
 	}
 	
 	@Override
@@ -80,13 +100,11 @@ public class Parameters extends Command {
 		String mainArgs = split[1];
 		switch(noArgs){
 		case "logs":
-			System.out.println("Test");
 			System.out.println(mainArgs);
 			switch(mainArgs){
 			case "set":
 				if(guild.getMember(author).hasPermission(Permission.ADMINISTRATOR))
 				{
-					System.out.println("Test1");
 					TextChannel logChannel = guild.getTextChannelsByName(split[2], true).get(0);
 					logObject.put(guild.getId(), logChannel.getName());
 					JSONUtils.instance().write(logFile, logObject);
@@ -97,7 +115,6 @@ public class Parameters extends Command {
 				}
 				break;
 			case "disable":
-				System.out.println("Test");
 				if(guild.getMember(author).hasPermission(Permission.ADMINISTRATOR))
 				{
 					logObject.remove(guild.getId());
@@ -113,17 +130,46 @@ public class Parameters extends Command {
 		case "prefix":
 			switch(mainArgs){
             case "set":
-            	prefixObject.put(guild.getId(), split[2]);
-    			JSONUtils.instance().write(prefixFile, prefixObject);
-    			JSONUtils.instance().read(prefixes, prefixObject);
-    			channel.sendMessage("Channel bot prefix set to " + split[2]).queue();
+            	if(guild.getMember(author).isOwner())
+				{
+                	prefixObject.put(guild.getId(), split[2]);
+        			JSONUtils.instance().write(prefixFile, prefixObject);
+        			JSONUtils.instance().read(prefixes, prefixObject);
+        			channel.sendMessage("Channel bot prefix set to " + split[2]).queue();
+        			break;
+				}
+            case "remove":
+            	if(guild.getMember(author).isOwner())
+				{
+            		prefixObject.remove(guild.getId());
+        			JSONUtils.instance().write(prefixFile, prefixObject);
+        			JSONUtils.instance().read(prefixes, prefixObject);
+        			channel.sendMessage("Channel bot prefix defaulted to ~>").queue();
+        			break;
+				}
+            }
+			break;
+		case "nsfw":
+			switch(mainArgs){
+            case "set":
+            	System.out.println("hi");
+            	if(guild.getMember(author).hasPermission(Permission.ADMINISTRATOR))
+				{
+            		nsfwObject.put(guild.getId(), split[2]);
+        			JSONUtils.instance().write(nsfwFile, nsfwObject);
+        			JSONUtils.instance().read(nsfw, nsfwObject);
+        			channel.sendMessage("NSFW channel set to #" + split[2]).queue();
+				}
     			break;
             case "remove":
-            	prefixObject.remove(guild.getId());
-    			JSONUtils.instance().write(prefixFile, prefixObject);
-    			JSONUtils.instance().read(prefixes, prefixObject);
-    			channel.sendMessage("Channel bot prefix defaulted to ~>").queue();
-    			break;
+            	if(guild.getMember(author).hasPermission(Permission.ADMINISTRATOR))
+				{
+            		nsfwObject.remove(guild.getId());
+        			JSONUtils.instance().write(nsfwFile, nsfwObject);
+        			JSONUtils.instance().read(nsfw, nsfwObject);
+        			channel.sendMessage("NSFW channel removed").queue();
+        			break;
+				}
             }
 			break;
 		}
@@ -131,6 +177,10 @@ public class Parameters extends Command {
 		
 	public static String getPrefixForServer(String guildId){
 		return prefixes.get(guildId);
+	}
+
+	public static String getNSFWChannelForServer(String guildId){
+		return nsfw.get(guildId);
 	}
 	
 	public static String getLogChannelForServer(String serverid){
