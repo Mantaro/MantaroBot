@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.osu.api.ciyfhx.Mod;
@@ -56,28 +55,19 @@ public class Osu extends Command {
 		case "best":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 			{
-				Timer timer = new Timer(); 
-				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 3100, sentMessage);
 				sentMessage.editMessage(best(content)).queue();
-				timer.cancel();
 			});
 			break;
 		case "recent":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
 			{
-				Timer timer = new Timer(); 	
-				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 3100, sentMessage);
 				sentMessage.editMessage(recent(content)).queue();
-				timer.cancel();
 			});
 			break;
 		case "user":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 			{
-				Timer timer = new Timer(); 
-				Utils.instance().buildMessageTimer(timer, ":speech_balloon: Retrieving information from osu! server", 3100, sentMessage);
 				sentMessage.editMessage(user(content)).queue();
-				timer.cancel();
 			});
 			break;
 		default:
@@ -143,7 +133,7 @@ public class Osu extends Command {
 			long start = System.currentTimeMillis();
 			String beheaded1 = beheadedMessage.replace("recent ", "");
 			String[] args = beheaded1.split(" ");
-			map.put("m", Integer.parseInt(args[1]));
+			map.put("m", values.get(args[1]));
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
 			StringBuilder sb = new StringBuilder();
@@ -200,7 +190,7 @@ public class Osu extends Command {
 			User hey = osuClient.getUser(args[0], map);
 			DecimalFormat df = new DecimalFormat("####0");
 			long end = System.currentTimeMillis() - start;
-			finalMessage = "```xl\n"+ "Username: " + hey.getUsername() + " (#" + hey.getUserID() + ")" + "\nCountry: " + hey.getCountry() 
+			finalMessage = "```xl\n"+ "Username: " + hey.getUsername() + " (User ID: " + hey.getUserID() + ")" + "\nCountry: " + hey.getCountry() 
 			+ "\nRank: " + df.format(hey.getPPRank()) + " | Country Rank: " + df.format(hey.getPPCountryRank()) +	
 			"\nAccuracy: " + df.format(hey.getAccuracy()) + "%\nPP: " + df.format(hey.getPPRaw()) + "\n" + "Level: " + df.format(hey.getLevel())
 			+"\nRanked Score: " + hey.getRankedScore() + "\nA, S, SS: " + hey.getCountRankA() + " | " + hey.getCountRankS() + " | " + hey.getCountRankSS() 

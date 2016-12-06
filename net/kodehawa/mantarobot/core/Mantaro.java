@@ -1,9 +1,9 @@
 package net.kodehawa.mantarobot.core;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Random;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -17,7 +17,10 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.cmd.management.ICommand;
 import net.kodehawa.mantarobot.cmd.management.Loader;
 import net.kodehawa.mantarobot.cmd.parser.Parser;
 import net.kodehawa.mantarobot.config.Config;
@@ -25,6 +28,8 @@ import net.kodehawa.mantarobot.listeners.Listener;
 import net.kodehawa.mantarobot.listeners.LogListener;
 import net.kodehawa.mantarobot.log.LogType;
 import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 /**
@@ -57,7 +62,7 @@ public class Mantaro {
 	private static volatile Mantaro instance = new Mantaro();
 	private final Parser parser = new Parser();
 	
-	private final String prefix = "~>";
+	private final String prefix = "!-";
 	
 	//JDA and Loader. We need this and they're extremely important.
 	private JDA jda;
@@ -65,7 +70,7 @@ public class Mantaro {
 	
 	public ConcurrentHashMap<String, Command> modules = new ConcurrentHashMap<String, Command>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
-	
+	public Set<Class<? extends ICommand>> classes1 = null; //A Set of classes, which will be later on loaded on Loader.
 
 	//Gets in what OS the bot is running. Useful because my machine is running Windows 10, but the server is running Linux.
 	private String OS = System.getProperty("os.name").toLowerCase();
@@ -81,7 +86,7 @@ public class Mantaro {
 	{
 		cl = Config.load();
 		this.addClasses();
-	}
+	}	
 	
 	public static void main(String[] args){
 		Logger.instance().print("MantaroBot starting...", LogType.INFO);
@@ -102,27 +107,39 @@ public class Mantaro {
 		}
 		
 		new Loader();
+
+		AsyncHelper.instance().startAsyncTask("Console outputter", 
+				co ->{
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			        PrintStream ps = new PrintStream(baos);
+			        PrintStream old = System.out;
+			        System.setOut(ps);
+			        System.out.flush();
+			        System.setOut(old);
+			        Guild guild = Mantaro.instance().getSelf().getGuildsByName("Mantaro", true).get(0);
+			        TextChannel consoleoutput = guild.getTextChannelsByName("console", true).get(0);
+			        consoleoutput.sendMessage(baos.toString()).queue();
+			        System.out.println("aaa");
+			        System.out.println(baos.toString());
+				}
+				, 1);
 		
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<String>();
 		new StringArrayUtils("splash", splash , false);
-		TimerTask timerTask = new TimerTask() {
-	         public void run()  
-	         { 
-	        	 Random r = new Random();
-	        	 int i = r.nextInt(splash.size());
-	        	 if(!(i == splash.size()))
-	        	 {
-	     			instance().jda.getPresence().setGame(Game.of(splash.get(i)));
-	        	 }
-	         } 
-	     }; 
-		 Timer timer = new Timer(); 
-		 timer.schedule(timerTask, 350000, 350000);
+		Runnable splashTask = () -> {
+			Random r = new Random();
+       	 	int i = r.nextInt(splash.size());
+       	 	if(!(i == splash.size()))
+       	 	{
+    			instance().jda.getPresence().setGame(Game.of(splash.get(i)));
+       	 	}
+		};
+		AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
 	}
 	
 	//What do do when a command is called?
-	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException {		
+	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException {
 		if(instance().modules.containsKey(cmd.invoke))
 		{
 			instance().modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event);
@@ -130,19 +147,18 @@ public class Mantaro {
 	}
 	
 	private void addClasses(){
-		Thread thread = new Thread(){
-			public void run(){
-				//Adds all the Classes extending Command to the classes HashMap. They will be later loaded in Loader.
-				Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
-				classes = reflections.getSubTypesOf(Command.class);
-				if(externalClassRequired){
-					Reflections extReflections = new Reflections(externalClasspath);
-					classes.addAll(extReflections.getSubTypesOf(Command.class));
-				}
+		Runnable classThr = () -> {
+			//Adds all the Classes extending Command to the classes HashMap. They will be later loaded in Loader.
+			Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
+			Reflections test = new Reflections("net.kodehawa.mantarobot.test.cmd");
+			classes1 = test.getSubTypesOf(ICommand.class);
+			classes = reflections.getSubTypesOf(Command.class);
+			if(externalClassRequired){
+				Reflections extReflections = new Reflections(externalClasspath);
+				classes.addAll(extReflections.getSubTypesOf(Command.class));
 			}
 		};
-		thread.setName("Start thread");
-		thread.start();
+		ThreadPoolHelper.instance().startThread("Load", classThr);
 	}
 	
 	public synchronized static Mantaro instance(){

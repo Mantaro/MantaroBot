@@ -7,8 +7,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +19,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.thread.AsyncHelper;
 import net.kodehawa.mantarobot.util.Utils;
 
 /**
@@ -46,7 +45,7 @@ public class Anime extends Command {
 				+ "Parameter description:\n"
 				+ "*animename*: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n"
 				+ "*character*: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n");
-		authenticate();
+		login(2000);
 	}
 	
 	/**
@@ -177,7 +176,6 @@ public class Anime extends Command {
 				channel.sendMessage(embed.build()).queue();
 			}
 	        catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -211,7 +209,7 @@ public class Anime extends Command {
 			e.printStackTrace();
 		}
 		//Every 30 minutes call refresh. This is a recursive action.
-		refreshToken(1800000);
+		//refreshToken(1800000);
 
 		return authToken;
 	}
@@ -221,15 +219,11 @@ public class Anime extends Command {
 	 * @param ms
 	 * @return the new AniList access token.
 	 */
-	private void refreshToken(int ms){
-		TimerTask timerTask = new TimerTask() 
-	    {
-	        public void run() { 
-	        	authenticate();
-	        	System.out.println("Updated auth token.");
-	        } 
-	     }; 
-		 Timer timer = new Timer(); 
-		 timer.schedule(timerTask, ms, ms);
+	private void login(int seconds){
+		Runnable loginTask = () -> {
+	    	authenticate();
+	    	System.out.println("Updated auth token.");
+		};
+		AsyncHelper.instance().startAsyncTask("AniList Login Task", loginTask, seconds);
 	}
 }

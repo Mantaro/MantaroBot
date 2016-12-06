@@ -57,7 +57,7 @@ public class BulkDelete extends Command {
 				
 				//Delete the last x messages. Doing this as a queue so I can avoid rate limiting too, after queuing check if it was successful or no, and if it wasn't warn the user.
 				channel2.deleteMessages(messageHistory).queue(
-						success -> channel.sendMessage(":pencil: Successfully pruned " + messagesToPrune + "messages").queue(),
+						success -> channel.sendMessage(":pencil: Successfully pruned " + messagesToPrune + " messages").queue(),
 						error -> 
 						{
 							if (error instanceof PermissionException){

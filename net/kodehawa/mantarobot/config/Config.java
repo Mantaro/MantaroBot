@@ -23,7 +23,7 @@ public class Config {
 	private final JSONObject objdata = new JSONObject();
 	private File config;
 	
-	public Config(){
+	public Config() {
 		System.out.println("Loading config...");
 		objdata.put("token", "");
 		objdata.put("alsecret", "");

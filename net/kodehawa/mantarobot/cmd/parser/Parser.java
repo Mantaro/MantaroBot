@@ -3,17 +3,16 @@ package net.kodehawa.mantarobot.cmd.parser;
 import java.util.ArrayList;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.core.Mantaro;
 
 public class Parser {
 	
-	public Container parse(String rw, MessageReceivedEvent evt)
+	public Container parse(String prefix, String rw, MessageReceivedEvent evt)
 	{
-		if(rw.startsWith(Mantaro.instance().getPrefix()))
+		if(rw.startsWith(prefix))
 		{
 			ArrayList<String> split = new ArrayList<String>();
 			String raw = rw;
-			String beheaded = raw.replaceFirst(Mantaro.instance().getPrefix(), "");
+			String beheaded = raw.replaceFirst(prefix, "");
 			String[] splitBeheaded = beheaded.split(" ");
 			for(String s : splitBeheaded)
 			{

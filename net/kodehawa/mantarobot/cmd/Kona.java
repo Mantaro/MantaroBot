@@ -20,11 +20,10 @@ public class Kona extends Command {
 		setExtendedHelp(
 				"Retrieves images from the **Konachan** image board.\n"
 				+ "Usage:\n"
-				+ "~>konachan get page limit imagenumber: Gets an image based in parameters.\n"
+				+ "~>konachan get page imagenumber: Gets an image based in parameters.\n"
 				+ "~>konachan tags page tag imagenumber: Gets an image based in the specified tag and parameters.\n"
 				+ "> Parameter explanation:\n"
 				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
-				+ "*limit*: Can handle any value from 1 to 60 (values higher than 60 just default to 60)\n"
 				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
 				+ "*tag*: Any valid image tag. For example animal_ears or original."
 				);
@@ -45,8 +44,8 @@ public class Kona extends Command {
 			String whole1 = beheadedMessage.replace("get ", "");
 			String[] wholeBeheaded = whole1.split(" ");
 			int page = Integer.parseInt(wholeBeheaded[0]);
-			int limit = Integer.parseInt(wholeBeheaded[1]);
-			int number = Integer.parseInt(wholeBeheaded[2]);
+			int limit = 60;
+			int number = Integer.parseInt(wholeBeheaded[1]);
 						
 			Wallpaper[] wallpapers = konachan.posts(page, limit);
 			for( Wallpaper wallpaper : wallpapers ) {

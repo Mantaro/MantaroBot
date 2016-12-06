@@ -36,6 +36,7 @@ public class Help extends Command {
 			channel.sendMessage(":mega: Delivered! Check your inbox.").queue(
 					success ->
 					{
+						author.openPrivateChannel().queue();
 						author.getPrivateChannel().sendMessage(
 								":exclamation: Command help. For extended help use this command with a command name as argument.\n"
 								+ ":exclamation: Remember: *all* commands as for now use the ~> prefix. So put that before the command name to execute it.\n\n"

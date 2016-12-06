@@ -26,36 +26,29 @@ import net.kodehawa.mantarobot.log.Logger;
 public class Loader {
 
 	public Loader(){
-		Thread t = new Thread() {
-		
-		@Override 
-		public void run() {
-    	   
-    	   	for(Class<? extends Command> c : Mantaro.instance().classes){
-    	   		try {
-    	   			//Gets the instance of every command. Basically initializing the constructor of it and calling the class itself, making myself able to call its 
-    	   			//methods and also itself.
-    	   			Command cmd = c.newInstance();
-    	   			//Adds the command to the commands hashmap, with key = command name and executes the command action. Later on in the command
-    	   			//call timeline this will be called as cmd.onCommand (called from the hashmap). Avoid adding the command if the name is null.
-    	   			if(cmd.getName() != null){
-        	   			Mantaro.instance().modules.put(cmd.getName(), cmd);
-        	   		}
-    	   		} catch (InstantiationException e) {
-    	   			Logger.instance().print("Cannot initialize a command", LogType.CRITICAL);
-    	   			e.printStackTrace();
-    	   		} catch (IllegalAccessException e) {
-    	   			Logger.instance().print("Cannot access a command class!", LogType.CRITICAL);
-    	   			e.printStackTrace();
-    	   		}
-   			}
-    	   	Logger.instance().print("Loaded " + Mantaro.instance().modules.size() + " modules", LogType.INFO);
+		Runnable loaderthr = () ->
+		{
+			for(Class<? extends Command> c : Mantaro.instance().classes){
+		   		try {
+		   			//Gets the instance of every command. Basically initializing the constructor of it and calling the class itself, making myself able to call its 
+		   			//methods and also itself.
+		   			Command cmd = c.newInstance();
+		   			//Adds the command to the commands hashmap, with key = command name and executes the command action. Later on in the command
+		   			//call timeline this will be called as cmd.onCommand (called from the hashmap). Avoid adding the command if the name is null.
+		   			if(cmd.getName() != null){
+	    	   			Mantaro.instance().modules.put(cmd.getName(), cmd);
+	    	   		}
+		   		} catch (InstantiationException e) {
+		   			Logger.instance().print("Cannot initialize a command", LogType.CRITICAL);
+		   			e.printStackTrace();
+		   		} catch (IllegalAccessException e) {
+		   			Logger.instance().print("Cannot access a command class!", LogType.CRITICAL);
+		   			e.printStackTrace();
+		   		}
 			}
+			Mantaro.instance().classes.clear();
+			Logger.instance().print("Loaded " + Mantaro.instance().modules.size() + " modules", LogType.INFO);
 		};
-		
-		t.setName("Command add thread");
-		t.start();
-		//it will run and then stop
-		t.interrupt();
-    }
+		new Thread(loaderthr).start();
+	}
 }

@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.json.JSONArray;
@@ -26,12 +25,11 @@ public class Yandere extends Command {
 				"This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
 				+ "but tags can be set to safe if you so desire.\n"
 				+ "~>yandere: Gets you a completely random image.\n"
-				+ "~>yandere get page limit imagenumber rating: Gets you an image with the specified parameters.\n"
-				+ "~>yandere tags page limit tag imagenumber rating: Gets you an image with the respective tag and specified parameters.\n"
+				+ "~>yandere get page <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
+				+ "~>yandere tags page <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
 				+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
 				+ "> Parameter explanation:\n"
 				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
-				+ "*limit*: Can handle any value from 1 to 60 (values higher than 60 just default to 60)\n"
 				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
 				+ "*tag*: Any valid image tag. For example animal_ears or yuri."
 				+ "*rating*: Can be either safe, questionable or explicit, depends on the type of image you want to get.\n"
@@ -42,6 +40,7 @@ public class Yandere extends Command {
 
 	String yandereUrlParsed;
     int limit = 0;
+    int number;
 	int page = 0;
 	String tagsToEncode = "no";
 	String rating = "e";
@@ -56,9 +55,9 @@ public class Yandere extends Command {
         
 		try{
 			page = Integer.parseInt(message[1]);
-			limit = Integer.parseInt(message[2]);
-			tagsToEncode = message[3];
-			rating = message[4];
+			tagsToEncode = message[2];
+			rating = message[3];
+			number = Integer.parseInt(message[4]); 
 			
 			if(rating.equals("safe")){ rating = "s"; }
 			if(rating.equals("questionable")){ rating = "q"; }
@@ -78,24 +77,17 @@ public class Yandere extends Command {
 			channel.sendMessage("Fetching data...").queue(
 					sentMessage ->
 					{
-						Timer timer = new Timer();
-						Utils.instance().buildMessageTimer(timer, "Fetching data", 1000, sentMessage);
-						String url = String.format("https://yande.re/post.json?limit=%1s&page=%2s", String.valueOf(limit), 
-								String.valueOf(page)).replace(" ", "");
-						sentMessage.editMessage(getImage(url, limit, rating, message, evt)).queue();
-						timer.cancel();
+						String url = String.format("https://yande.re/post.json?limit=60&page=%2s", String.valueOf(page)).replace(" ", "");
+						sentMessage.editMessage(getImage("get", url, limit, rating, message, evt)).queue();
 					});
 			break;
 		case "tags":
 			channel.sendMessage("Fetching data...").queue(
 					sentMessage ->
 					{
-						Timer timer = new Timer();
-						Utils.instance().buildMessageTimer(timer, "Fetching data", 1000, sentMessage);
 						String url = String.format("https://yande.re/post.json?limit=%1s&page=%2s&tags=%3s", String.valueOf(limit),
 								String.valueOf(page), tagsEncoded).replace(" ", "");
-						sentMessage.editMessage(getImage(url, limit, rating, message, evt)).queue();
-						timer.cancel();
+						sentMessage.editMessage(getImage("tags", url, limit, rating, message, evt)).queue();
 					});			
 			break;
 		case "":
@@ -105,12 +97,9 @@ public class Yandere extends Command {
 			channel.sendMessage("Fetching data...").queue(
 					sentMessage ->
 					{
-						Timer timer = new Timer();
-						Utils.instance().buildMessageTimer(timer, "Fetching data", 1000, sentMessage);
 						String url = String.format("https://yande.re/post.json?limit=%1s&page=%2s", "60", 
 								String.valueOf(randomPage)).replace(" ", "");
-						sentMessage.editMessage(getImage(url, limit, rating, message, evt)).queue();
-						timer.cancel();
+						sentMessage.editMessage(getImage("random", url, limit, rating, message, evt)).queue();
 					});
 			break;
 		default:
@@ -119,7 +108,7 @@ public class Yandere extends Command {
 		}
 	}
 	
-	public String getImage(String url, int limit, String rating, String[] messageArray, MessageReceivedEvent evt){
+	public String getImage(String requestType, String url, int limit, String rating, String[] messageArray, MessageReceivedEvent evt){
 		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<String>();
 		if(limit > 60 ) limit = 60;
 		JSONArray fetchedData = Utils.instance().getJSONArrayFromUrl(url, evt);
@@ -132,10 +121,10 @@ public class Yandere extends Command {
 		}
 		
 		int get = 1;
-		try{
-			get = Integer.parseInt(messageArray[3]);
-		}
-		catch(Exception e) { }
+		try{ 
+			if(requestType.equals("tags")) 	get = number;
+			if(requestType.equals("get")) get = Integer.parseInt(messageArray[2]);
+		} catch(Exception e) { }
 		
 		List<TextChannel> array = channel.getJDA().getTextChannels();
 		boolean trigger = false;
@@ -144,15 +133,13 @@ public class Yandere extends Command {
 			if(ch.getName().contains("lewd") | ch.getName().contains("nsfw") | ch.getName().contains("nether") && ch.getId() == channel.getId()){
 				trigger = true;
 				break;
-			}
-			else if(rating.equals("s")){
+			} else if(rating.equals("s")){
 				trigger = true;
 			}
-		}
+		} 
 		if(trigger) {
 			return String.format(":thumbsup: " + "I found an image! You can get a total of %1s images.\n %2s" , urls.size(), urls.get(get - 1));
-		}
-		else{
+		} else{
 			return ":heavy_multiplication_x: " + "You only can use this command in nsfw channels!";
 		}
 	}

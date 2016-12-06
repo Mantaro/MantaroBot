@@ -17,6 +17,11 @@ public class Logger {
 		System.out.println("[" + hour1 + "] " + "[" + type.toString() + "] [Mantaro] " + s);
 	}
 	
+	public void print(String logName, String s, LogType type)
+	{
+		System.out.println("[" + hour1 + "] " + "[" + type.toString() + "]" + " [" + logName + "] " + s);
+	}
+	
 	public static Logger instance()
 	{
 		return instance;

@@ -1,11 +1,14 @@
 package net.kodehawa.mantarobot.cmd.management;
 
+import java.util.function.Consumer;
+
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-public abstract class Command implements ICommand {
+public class Command implements ICommand, Runnable {
 
 	private String name;
 	private String commandType;
@@ -17,6 +20,12 @@ public abstract class Command implements ICommand {
 	protected User author;
 	protected MessageChannel channel;
 	protected Message receivedMessage;
+
+	public Command(){}
+	
+	public Command(String name, Consumer<MessageReceivedEvent> action) {
+		setName(name);
+	}
 
 	public void setName(String name){
 		this.name = name;
@@ -64,5 +73,14 @@ public abstract class Command implements ICommand {
 	
 	public String getCommandType(){
 		return commandType;
+	}
+
+	@Override
+	public void onCommand(String[] split, String content, MessageReceivedEvent event) {}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 }

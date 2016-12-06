@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.cmd;
 
 import java.lang.management.ManagementFactory;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,43 +132,18 @@ public class Misc extends Command {
 			break;
 		case "hwinfo":
 			DecimalFormat df = new DecimalFormat("####0.0000");
-			long heapMemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()/(1024^2);
-			long nonHeapMemoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed()/(1024^2);
+	        df.setRoundingMode(RoundingMode.UP);
+			long heapMemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()/(1024)/1024;
+			long nonHeapMemoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed()/(1024)/1024;
 			int avaliableProcessors = Runtime.getRuntime().availableProcessors();
 			cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
 			channel.sendMessage(
-					"Bot server infomration:\n"
+					"Bot server information:\n"
 					+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\n"
 					+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage)+"MB" + "\n"
-					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\n"
+					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024)/1024 +"MB\n"
 					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\n"
-					+ "CPU Usage: " + String.valueOf(cpuUsage+"%")).queue(
-							sentMessage ->
-							{
-								Timer timer = new Timer();
-								TimerTask timertask = new TimerTask(){
-									int i = 0;
-									
-									@Override
-									public void run(){
-										cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
-										if(i <= 5)
-											sentMessage.editMessage(
-															"Bot server information (Live update every 5 seconds for 25 seconds):\n"
-															+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\n"
-															+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage + "MB" + "\n")
-															+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024^2) +"MB\n"
-															+ "CPU Cores: " + String.valueOf(avaliableProcessors) +"\n"
-															+ "CPU Usage: " + String.valueOf(cpuUsage+"%")
-															).queue();
-										else{
-											timer.cancel();
-										}
-										i++;
-									}
-								};
-								timer.schedule(timertask, 1500, 5000);
-							});
+					+ "CPU Usage: " + String.valueOf(cpuUsage+"%")).queue();
 		default:
 			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help misc");
 			break;
