@@ -13,7 +13,6 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
-import net.kodehawa.mantarobot.cmd.servertools.Parameters;
 import net.kodehawa.mantarobot.util.Utils;
 
 public class Yandere extends Command {
@@ -34,18 +33,18 @@ public class Yandere extends Command {
 				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
 				+ "*tag*: Any valid image tag. For example animal_ears or yuri."
 				+ "*rating*: Can be either safe, questionable or explicit, depends on the type of image you want to get.\n"
-				+ "**Note: Image number is optional.**"
+				+ "**Note: Image number and rating is optional.**"
 				);
 		setCommandType("user");
 	}
 
 	String yandereUrlParsed;
-    int number = 1;
+    int limit = 0;
+    int number;
 	int page = 0;
 	String tagsToEncode = "no";
-	String rating = "s";
+	String rating = "e";
 	String tagsEncoded = "";
-	boolean needRating = true;
 	
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
@@ -53,19 +52,16 @@ public class Yandere extends Command {
         author = evt.getAuthor();
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
-        int argscnt = message.length - 1;
-
-		
+        
 		try{
 			page = Integer.parseInt(message[1]);
 			tagsToEncode = message[2];
 			rating = message[3];
-
+			number = Integer.parseInt(message[4]); 
+			
 			if(rating.equals("safe")){ rating = "s"; }
 			if(rating.equals("questionable")){ rating = "q"; }
 			if(rating.equals("explicit")){ rating = "e"; }
-			
-			number = Integer.parseInt(message[4]); 			
 		}
 		catch(Exception e){}
 		
@@ -82,16 +78,16 @@ public class Yandere extends Command {
 					sentMessage ->
 					{
 						String url = String.format("https://yande.re/post.json?limit=60&page=%2s", String.valueOf(page)).replace(" ", "");
-						sentMessage.editMessage(getImage(argscnt, "get", url, rating, message, evt)).queue();
+						sentMessage.editMessage(getImage("get", url, limit, rating, message, evt)).queue();
 					});
 			break;
 		case "tags":
 			channel.sendMessage("Fetching data...").queue(
 					sentMessage ->
 					{
-						String url = String.format("https://yande.re/post.json?limit=60&page=%2s&tags=%3s",
+						String url = String.format("https://yande.re/post.json?limit=%1s&page=%2s&tags=%3s", String.valueOf(limit),
 								String.valueOf(page), tagsEncoded).replace(" ", "");
-						sentMessage.editMessage(getImage(argscnt, "tags", url, rating, message, evt)).queue();
+						sentMessage.editMessage(getImage("tags", url, limit, rating, message, evt)).queue();
 					});			
 			break;
 		case "":
@@ -101,9 +97,9 @@ public class Yandere extends Command {
 			channel.sendMessage("Fetching data...").queue(
 					sentMessage ->
 					{
-						String url = String.format("https://yande.re/post.json?limit=60&page=%2s", 
+						String url = String.format("https://yande.re/post.json?limit=%1s&page=%2s", "60", 
 								String.valueOf(randomPage)).replace(" ", "");
-						sentMessage.editMessage(getImage(argscnt, "random", url, rating, message, evt)).queue();
+						sentMessage.editMessage(getImage("random", url, limit, rating, message, evt)).queue();
 					});
 			break;
 		default:
@@ -112,9 +108,11 @@ public class Yandere extends Command {
 		}
 	}
 	
-	public String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, MessageReceivedEvent evt){
+	public String getImage(String requestType, String url, int limit, String rating, String[] messageArray, MessageReceivedEvent evt){
 		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<String>();
+		if(limit > 60 ) limit = 60;
 		JSONArray fetchedData = Utils.instance().getJSONArrayFromUrl(url, evt);
+		 
 		for(int i = 0; i < fetchedData.length(); i++)  {
 			JSONObject entry = fetchedData.getJSONObject(i);
 			if(entry.getString("rating").equals(rating)){
@@ -124,35 +122,15 @@ public class Yandere extends Command {
 		
 		int get = 1;
 		try{ 
-			if(requestType.equals("tags")){
-				if(argcount >= 4){ 
-					get = number;
-				} 
-				else {
-					Random r = new Random();
-					int random = r.nextInt(urls.size());
-					if(random >= 1){ get = random; }
-					else{ random = 1; };
-				}
-			}
-			if(requestType.equals("get")){
-				System.out.println(argcount);
-				if(argcount >= 2){
-					get = Integer.parseInt(messageArray[2]);
-				} else {
-					Random r = new Random();
-					int random = r.nextInt(urls.size());
-					if(random >= 1){ get = random; }
-					else{ random = 1; };
-				}
-			}
-		} catch(Exception e){}
+			if(requestType.equals("tags")) 	get = number;
+			if(requestType.equals("get")) get = Integer.parseInt(messageArray[2]);
+		} catch(Exception e) { }
 		
 		List<TextChannel> array = channel.getJDA().getTextChannels();
 		boolean trigger = false;
 		
 		for(MessageChannel ch : array) {
-			if(ch.getName().contains(Parameters.getNSFWChannelForServer(guild.getId()))){
+			if(ch.getName().contains("lewd") | ch.getName().contains("nsfw") | ch.getName().contains("nether") && ch.getId() == channel.getId()){
 				trigger = true;
 				break;
 			} else if(rating.equals("s")){

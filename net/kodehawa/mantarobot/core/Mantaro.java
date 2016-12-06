@@ -119,6 +119,7 @@ public class Mantaro {
 			        Guild guild = Mantaro.instance().getSelf().getGuildsByName("Mantaro", true).get(0);
 			        TextChannel consoleoutput = guild.getTextChannelsByName("console", true).get(0);
 			        consoleoutput.sendMessage(baos.toString()).queue();
+			        System.out.println("aaa");
 			        System.out.println(baos.toString());
 				}
 				, 1);
@@ -141,7 +142,7 @@ public class Mantaro {
 	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException {
 		if(instance().modules.containsKey(cmd.invoke))
 		{
-			new Thread(() -> instance().modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event)).start();
+			instance().modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event);
 		}
 	}
 	

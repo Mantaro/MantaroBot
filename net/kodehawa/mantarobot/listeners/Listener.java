@@ -17,7 +17,7 @@ public class Listener extends ListenerAdapter {
 	String px;
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event){
-		if(shortMessageHistory.size() < 250){
+		if(shortMessageHistory.size() < 150){
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		} else {
 			shortMessageHistory.remove(shortMessageHistory.firstKey());
@@ -25,8 +25,7 @@ public class Listener extends ListenerAdapter {
 		}
 		
 		px = Parameters.getPrefixForServer(event.getGuild().getId());
-		if(px == null){ px = Parameters.getPrefixForServer("default"); }
-		System.out.println(px);
+		if(px == null){ px = "~>"; }
 		if(event.getMessage().getContent().startsWith(px) && !event.getAuthor().isBot())
 		{
 			Runnable messageThread = () ->{

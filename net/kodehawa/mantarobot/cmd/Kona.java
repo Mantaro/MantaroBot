@@ -44,9 +44,10 @@ public class Kona extends Command {
 			String whole1 = beheadedMessage.replace("get ", "");
 			String[] wholeBeheaded = whole1.split(" ");
 			int page = Integer.parseInt(wholeBeheaded[0]);
+			int limit = 60;
 			int number = Integer.parseInt(wholeBeheaded[1]);
 						
-			Wallpaper[] wallpapers = konachan.posts(page, 60);
+			Wallpaper[] wallpapers = konachan.posts(page, limit);
 			for( Wallpaper wallpaper : wallpapers ) {
 				images.add(wallpaper.getJpeg_url());
 			}
