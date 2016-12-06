@@ -29,7 +29,7 @@ public class Shutdown extends Command {
 			
 			channel.sendMessage("Gathered.").queue();
 			
-			channel.sendMessage("Starting bot shutdown.").queue();
+			channel.sendMessage("Starting bot shutdown...").queue();
 			try {
 				Mantaro.instance().getSelf().removeEventListener(new Listener());
 				Quote.quotes.clear();

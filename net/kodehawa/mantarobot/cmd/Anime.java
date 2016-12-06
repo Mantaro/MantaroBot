@@ -208,8 +208,6 @@ public class Anime extends Command {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//Every 30 minutes call refresh. This is a recursive action.
-		//refreshToken(1800000);
 
 		return authToken;
 	}
