@@ -40,11 +40,11 @@ public class Yandere extends Command {
 	}
 
 	String yandereUrlParsed;
-    int number = 1;
-	int page = 0;
-	String tagsToEncode = "no";
-	String rating = "s";
-	String tagsEncoded = "";
+    private int number = 1;
+	private int page = 0;
+	private String tagsToEncode = "no";
+	private String rating = "e";
+	private String tagsEncoded = "";
 	boolean needRating = true;
 	
 	@Override
@@ -67,7 +67,7 @@ public class Yandere extends Command {
 			
 			number = Integer.parseInt(message[4]); 			
 		}
-		catch(Exception e){}
+		catch(Exception ignored){}
 		
 		try {
 			tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
@@ -112,8 +112,8 @@ public class Yandere extends Command {
 		}
 	}
 	
-	public String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, MessageReceivedEvent evt){
-		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<String>();
+	private String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, MessageReceivedEvent evt){
+		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<>();
 		JSONArray fetchedData = Utils.instance().getJSONArrayFromUrl(url, evt);
 		for(int i = 0; i < fetchedData.length(); i++)  {
 			JSONObject entry = fetchedData.getJSONObject(i);
@@ -132,7 +132,6 @@ public class Yandere extends Command {
 					Random r = new Random();
 					int random = r.nextInt(urls.size());
 					if(random >= 1){ get = random; }
-					else{ random = 1; };
 				}
 			}
 			if(requestType.equals("get")){
@@ -143,16 +142,15 @@ public class Yandere extends Command {
 					Random r = new Random();
 					int random = r.nextInt(urls.size());
 					if(random >= 1){ get = random; }
-					else{ random = 1; };
 				}
 			}
-		} catch(Exception e){}
+		} catch(Exception ignored){}
 		
 		List<TextChannel> array = channel.getJDA().getTextChannels();
 		boolean trigger = false;
 		
 		for(MessageChannel ch : array) {
-			if(ch.getName().contains(Parameters.getNSFWChannelForServer(guild.getId()))){
+			if(ch.getName().contains(Parameters.getNSFWChannelForServer(guild.getId())) && channel.getId().equals(ch.getId())){
 				trigger = true;
 				break;
 			} else if(rating.equals("s")){
@@ -162,7 +160,7 @@ public class Yandere extends Command {
 		if(trigger) {
 			return String.format(":thumbsup: " + "I found an image! You can get a total of %1s images.\n %2s" , urls.size(), urls.get(get - 1));
 		} else{
-			return ":heavy_multiplication_x: " + "You only can use this command in nsfw channels!";
+			return ":heavy_multiplication_x: " + "You only can use this command with explicit images in nsfw channels!";
 		}
 	}
 }

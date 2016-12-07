@@ -19,11 +19,11 @@ public class Config {
 	
 	private volatile static Config cl = new Config();
 	private String OS = System.getProperty("os.name").toLowerCase();
-	private HashMap<String, Object> properties = new HashMap<String, Object>();
+	private HashMap<String, Object> properties = new HashMap<>();
 	private final JSONObject objdata = new JSONObject();
 	private File config;
 	
-	public Config() {
+	private Config() {
 		System.out.println("Loading config...");
 		objdata.put("token", "");
 		objdata.put("alsecret", "");
@@ -68,7 +68,7 @@ public class Config {
 				config.createNewFile();
 				writeValues(config, objdata);
 			}
-			catch(Exception e){}
+			catch(Exception ignored){}
 		}
 	}
 	
@@ -92,10 +92,10 @@ public class Config {
 	}
 	
 	private boolean isWindows() {
-        return (OS.indexOf("win") >= 0);
+        return (OS.contains("win"));
     }
 
     private boolean isUnix() {
-        return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+        return (OS.contains("nix") || OS.contains("nux") || OS.contains("aix") );
     }
 }

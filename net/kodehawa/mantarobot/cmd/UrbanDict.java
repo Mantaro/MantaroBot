@@ -41,10 +41,10 @@ public class UrbanDict extends Command {
 	    EmbedBuilder embed = new EmbedBuilder();
 
 		if(!beheadedMessage.isEmpty()){
-    		ArrayList<String> definitions = new ArrayList<String>(); //Will use later to store definitions.
-    		ArrayList<String> thumbsup = new ArrayList<String>();
-    		ArrayList<String> thumbsdown = new ArrayList<String>(); //Will use later to store definitions.
-    		ArrayList<String> urls = new ArrayList<String>(); //Will use later to store definitions.
+    		ArrayList<String> definitions = new ArrayList<>(); //Will use later to store definitions.
+    		ArrayList<String> thumbsup = new ArrayList<>();
+    		ArrayList<String> thumbsdown = new ArrayList<>(); //Will use later to store definitions.
+    		ArrayList<String> urls = new ArrayList<>(); //Will use later to store definitions.
 			long start = System.currentTimeMillis();
     		String url = null;
 			try {

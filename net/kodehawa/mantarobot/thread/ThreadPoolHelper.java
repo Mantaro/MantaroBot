@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPoolHelper {
 	
-    ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+    private ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 	private static volatile ThreadPoolHelper threadhelper = new ThreadPoolHelper();
     
 	public void startThread(String task, Runnable thread) {

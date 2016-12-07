@@ -20,13 +20,13 @@ public class StringArrayUtils {
 	private File file;
 	@SuppressWarnings("unused")
 	private String path = "mantaro";
-	public CopyOnWriteArrayList<String> list;
+	private CopyOnWriteArrayList<String> list;
 	
 	private StringArrayUtils(){}
 
-	public void removeDupes(CopyOnWriteArrayList<String> list) 
+	private void removeDupes(CopyOnWriteArrayList<String> list)
     {
-        HashSet<String> set = new HashSet<String>(list);
+        HashSet<String> set = new HashSet<>(list);
         list.clear();
         list.addAll(set);
     }
@@ -34,8 +34,8 @@ public class StringArrayUtils {
 	/**
 	 * Set all the values
 	 * @param name
-	 * @param path
 	 * @param list
+	 * @param isRewritable
 	 */
 	public StringArrayUtils(String name, CopyOnWriteArrayList<String> list, boolean isRewritable)
 	{
@@ -92,28 +92,24 @@ public class StringArrayUtils {
 				file.createNewFile();
 				create(file, list);
 			}
-			catch(Exception e)
+			catch(Exception ignored)
 			{}
 		}
 	}
-	
-	public void modify(File file, CopyOnWriteArrayList<String> list){
-		create(file, list);
-	}
-	
+
 	private void create(File file, CopyOnWriteArrayList<String> list){
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing List file "+name, LogType.INFO); }
 		try {
 			FileWriter filewriter = new FileWriter(file);
 			BufferedWriter buffered = new BufferedWriter(filewriter);
-			for(String s : (CopyOnWriteArrayList<String>)list){
+			for(String s : list){
 				removeDupes(list);
 				
 				buffered.write(s+"\r\n");
 			}
 			buffered.close();
 		} catch(Exception e) {
-			Logger.instance().print("Problem while writting file", LogType.WARNING);
+			Logger.instance().print("Problem while writing file", LogType.WARNING);
 			e.printStackTrace();
 		}
 	}
@@ -130,7 +126,6 @@ public class StringArrayUtils {
 				{
 					list.add(s.trim());
 				}
-				else{}
 			}
 			bufferedreader.close();
 		} catch(Exception e){

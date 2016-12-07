@@ -39,7 +39,7 @@ public class Kona extends Command {
 		String noArgs = beheadedMessage.split(" ")[0];
 		switch(noArgs){
 		case "get":
-			CopyOnWriteArrayList<String> images = new CopyOnWriteArrayList<String>();
+			CopyOnWriteArrayList<String> images = new CopyOnWriteArrayList<>();
 			Konachan konachan = new Konachan(true);
 			String whole1 = beheadedMessage.replace("get ", "");
 			String[] wholeBeheaded = whole1.split(" ");
@@ -60,7 +60,7 @@ public class Kona extends Command {
 			}
 			break;
 		case "tags":
-			CopyOnWriteArrayList<String> images1 = new CopyOnWriteArrayList<String>();
+			CopyOnWriteArrayList<String> images1 = new CopyOnWriteArrayList<>();
 			Konachan konachan1 = new Konachan(true);
 			String whole11 = beheadedMessage.replace("tags ", "");
 			String[] whole2 = whole11.split(" ");

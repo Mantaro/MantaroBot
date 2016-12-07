@@ -34,7 +34,6 @@ public class Kick extends Command {
             if (receivedMessage.getMentionedUsers().isEmpty())
             {
                 channel.sendMessage(":heavy_multiplication_x:" + "You must mention 1 or more users to be kicked!").queue();
-                return;
             }
             else
             {

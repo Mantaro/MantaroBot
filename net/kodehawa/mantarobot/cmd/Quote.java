@@ -8,13 +8,12 @@ import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Quote extends Command {
 
-	public static CopyOnWriteArrayList<String> quotes = new CopyOnWriteArrayList<String>();
-	int i = 0;
+	public static CopyOnWriteArrayList<String> quotes = new CopyOnWriteArrayList<>();
 
 	public Quote()
 	{
 		setName("quote");
-		setDescription("Adds or retrieves quotes. See ~>quote help.");
+		setDescription("Adds or retrieves quotes. See ~>help quote.");
 		setCommandType("user");
 		setExtendedHelp(
 				"This command **quotes** a phrase.\n"
@@ -44,7 +43,7 @@ public class Quote extends Command {
 			if(!beheadedMessage.isEmpty()){
 				quotes.add(quote);
 				new StringArrayUtils("quotes", quotes, true, false);
-				channel.sendMessage(":pencil2: Quote succesfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." ).queue();
+				channel.sendMessage(":pencil2: Quote successfully added: " + quote + " (Do ~>quote list in #spam to get the call number for now." ).queue();
 			} else{
 				channel.sendMessage(":heavy_multiplication_x: " + "Why are you trying to add an empty quote ;-;").queue();
 			}
@@ -84,7 +83,7 @@ public class Quote extends Command {
 			int n = -1;
 			for (String quotes : quotes){
 				n++;
-			    listString.append(quotes + " (Call number: " + n + ")" +"\n\n");
+			    listString.append(quotes).append(" (Call number: ").append(n).append(")").append("\n\n");
 			}
 			channel.sendMessage("``` Avaliable Quotes: \n" + listString.toString() + "```").queue();
 			break;

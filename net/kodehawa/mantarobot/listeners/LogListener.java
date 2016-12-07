@@ -18,7 +18,7 @@ import net.kodehawa.mantarobot.core.Mantaro;
 public class LogListener extends ListenerAdapter {
 
 	Date date = new Date();
-	DateFormat df = new SimpleDateFormat("HH:mm:ss");
+	private DateFormat df = new SimpleDateFormat("HH:mm:ss");
 	
 	@Override
 	public void onMessageDelete(MessageDeleteEvent event){
@@ -34,7 +34,7 @@ public class LogListener extends ListenerAdapter {
 
 				}
 			}
-		} catch(Exception e){} //Fails without logging
+		} catch(Exception ignored){} //Fails without logging
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class LogListener extends ListenerAdapter {
 					Listener.shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 				}
 			}
-		} catch(Exception e){} //Fails without logging
+		} catch(Exception ignored){} //Fails without logging
 	}
 	
 	@Override

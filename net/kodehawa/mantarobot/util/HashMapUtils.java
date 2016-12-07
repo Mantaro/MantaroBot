@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -16,21 +15,21 @@ import net.kodehawa.mantarobot.log.Logger;
 public class HashMapUtils {
 
 	public volatile static HashMapUtils instance = new HashMapUtils();
-	public Map<String, String> stringHashmap;
-	public Map<Integer, String> mixHashmap;
-	public Map<Integer, Integer> intHashmap;
-	Properties properties = new Properties();
+	private Map<String, String> stringHashmap;
+	private Map<Integer, String> mixHashmap;
+	private Map<Integer, Integer> intHashmap;
+	private Properties properties = new Properties();
 	String fileLocation = "";
-	File file = null;
-	String name = "";
+	private File file = null;
+	private String name = "";
 	//I actually use them lmfao.
 	@SuppressWarnings("unused")
 	private String fileName;
 	@SuppressWarnings("unused")
 	private String fileLoc;
 
-	private HashMapUtils(){};
-	
+	private HashMapUtils(){}
+
 	public HashMapUtils(String fileLocation, String fileName, HashMap<String, String> map, String fileSignature, boolean isReactivated)
 	{
 		this.fileLoc = fileLocation;
@@ -125,12 +124,12 @@ public class HashMapUtils {
 				file.createNewFile();
 				saveString(file, stringHashmap);
 			}
-			catch(Exception e)
+			catch(Exception ignored)
 			{}
 		}
 	}
 	
-	public void saveString(File file, Map<String, String> hash)
+	private void saveString(File file, Map<String, String> hash)
 	{
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
 
@@ -138,8 +137,6 @@ public class HashMapUtils {
 
 		try {
 			properties.store(new FileOutputStream(file), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +144,7 @@ public class HashMapUtils {
 	}
 	
 	
-	public void saveInt(File file, Map<Integer, Integer> hash)
+	private void saveInt(File file, Map<Integer, Integer> hash)
 	{
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
 
@@ -155,15 +152,13 @@ public class HashMapUtils {
 
 		try {
 			properties.store(new FileOutputStream(file), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	public void saveMix(File file, Map<Integer, String> hash)
+	private void saveMix(File file, Map<Integer, String> hash)
 	{
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
 
@@ -171,23 +166,19 @@ public class HashMapUtils {
 
 		try {
 			properties.store(new FileOutputStream(file), null);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	public void loadString()
+	private void loadString()
 	{
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -198,15 +189,13 @@ public class HashMapUtils {
 		}
 	}
 	
-	public void loadInt()
+	private void loadInt()
 	{
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -217,15 +206,13 @@ public class HashMapUtils {
 		}
 	}
 
-	public void loadMix()
+	private void loadMix()
 	{
 		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(file));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

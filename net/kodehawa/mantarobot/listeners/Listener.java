@@ -12,11 +12,14 @@ import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 public class Listener extends ListenerAdapter {
 
 	//For later usage in LogListener. A short message cache of 150 messages. If it reaches 150 it will delete the first one stored, and continue being 150
-	public static TreeMap<String, Message> shortMessageHistory = new TreeMap<String, Message>();
+	public static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
 	
-	String px;
+	private String px;
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event){
+		try{px = Parameters.getPrefixForServer(event.getGuild().getId());} catch(NullPointerException ignored){}
+		if(px == null){	px = Parameters.getPrefixForServer("default"); }
+
 		if(shortMessageHistory.size() < 250){
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		} else {
@@ -24,9 +27,6 @@ public class Listener extends ListenerAdapter {
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		}
 		
-		px = Parameters.getPrefixForServer(event.getGuild().getId());
-		if(px == null){ px = Parameters.getPrefixForServer("default"); }
-		System.out.println(px);
 		if(event.getMessage().getContent().startsWith(px) && !event.getAuthor().isBot())
 		{
 			Runnable messageThread = () ->{
@@ -37,13 +37,6 @@ public class Listener extends ListenerAdapter {
 				}
 			};
 			ThreadPoolHelper.instance().startThread("Message Thread", messageThread);
-		}
-		
-		if(event.getMessage().getContent().toLowerCase().contains("you broke") || event.getMessage().getContent().contains("it's broken") || event.getMessage().getContent().contains("I broke the")){
-			event.getChannel().sendMessage("It's not broken, it's a feature.");
-		}
-		if(event.getMessage().getContent().toLowerCase().contains("awoo")){
-			event.getChannel().sendMessage("https://pbs.twimg.com/profile_images/578805576701870080/jr1_XDbp.jpeg");
 		}
 	}
 }

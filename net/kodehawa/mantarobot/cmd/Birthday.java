@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.util.HashMapUtils;
 
 public class Birthday extends Command {
 
-	public static HashMap<String, String> bd = new HashMap<String, String>();
+	private static HashMap<String, String> bd = new HashMap<>();
 	private String FILE_SIGN = "d41d8cd98f00b204e9800998ecf8427e";
 	
 	public Birthday()

@@ -25,7 +25,7 @@ public class Shutdown extends Command {
 			try {
 				new StringArrayUtils("quotes", Quote.quotes, true);
 			    Thread.sleep(50);
-			} catch (InterruptedException e1) {	}
+			} catch (InterruptedException ignored) {	}
 			
 			channel.sendMessage("Gathered.").queue();
 			
@@ -37,12 +37,12 @@ public class Shutdown extends Command {
 				System.gc();
 				Mantaro.instance().modules.clear();
 			    Thread.sleep(50);
-			} catch (InterruptedException e1) {	}
+			} catch (InterruptedException ignored) {	}
 
 			channel.sendMessage("*goes to sleep*").queue();
 			try {
 				Thread.sleep(50);
-			} catch (InterruptedException e1) {	}
+			} catch (InterruptedException ignored) {	}
 
 			try{
 				System.exit(1);

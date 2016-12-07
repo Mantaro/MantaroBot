@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.cmd.parser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -10,14 +11,11 @@ public class Parser {
 	{
 		if(rw.startsWith(prefix))
 		{
-			ArrayList<String> split = new ArrayList<String>();
+			ArrayList<String> split = new ArrayList<>();
 			String raw = rw;
 			String beheaded = raw.replaceFirst(prefix, "");
 			String[] splitBeheaded = beheaded.split(" ");
-			for(String s : splitBeheaded)
-			{
-				split.add(s);
-			}
+			Collections.addAll(split, splitBeheaded);
 			
 			String invoke = split.get(0);
 			String[] args = new String[split.size() - 1];

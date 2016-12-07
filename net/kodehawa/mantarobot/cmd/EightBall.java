@@ -25,7 +25,7 @@ public class EightBall extends Command {
 		
 		try {
 			textEncoded = URLEncoder.encode(question, "UTF-8");
-		} catch (UnsupportedEncodingException e1){} //Shouldn't fail.
+		} catch (UnsupportedEncodingException ignored){} //Shouldn't fail.
 		
 		String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
 		url2 = Utils.instance().restyGetObjectFromUrl(URL, evt);

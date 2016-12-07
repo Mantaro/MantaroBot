@@ -15,9 +15,7 @@ import net.kodehawa.mantarobot.util.Utils;
 
 public class Weather extends Command {
 
-	private String APP_ID = "e2abde2e6ca69e90a73ddb43199031de";
-	
-	public Weather()
+    public Weather()
 	{
 		setName("weather");
 		setDescription("Retrieves weather from a city in the form of an embed message.");
@@ -40,7 +38,8 @@ public class Weather extends Command {
 			 try {
 				 long start = System.currentTimeMillis();
 		         //Get a parsed JSON.
-				 String url = Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID, event);
+                 String APP_ID = "e2abde2e6ca69e90a73ddb43199031de";
+                 String url = Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID, event);
 		         String json = url;
 		         JSONObject jObject = new JSONObject(json);
 		         //Get the object as a array.
@@ -75,7 +74,7 @@ public class Weather extends Command {
 		         embed.setColor(Color.CYAN)
 		         	.setTitle("Forecast information for " + content) //For which city
 		         	.setDescription(status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.
-		         	.addField("Temperature", finalTemperatureCelcius + "°C/" + finalTemperatureFarnheit + "°F", true)
+		         	.addField("Temperature", finalTemperatureCelcius + "ï¿½C/" + finalTemperatureFarnheit + "ï¿½F", true)
 		         	.addField("Humidity", hum + "%" , true)
 		         	.addField("Wind Speed", finalWindSpeedMetric + "km/h / " + finalWindSpeedImperial + "mph" , false)
 		         	.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);

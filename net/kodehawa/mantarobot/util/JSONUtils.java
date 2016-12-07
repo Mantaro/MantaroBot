@@ -66,7 +66,7 @@ public class JSONUtils {
 			try{
 				file.createNewFile();
 			}
-			catch(Exception e){}
+			catch(Exception ignored){}
 		}
 	}
 	

@@ -35,7 +35,7 @@ public class AsyncHelper {
         scheduledExecutorService.scheduleAtFixedRate(() -> scheduled.accept(scheduledExecutorService), 0, everySeconds, TimeUnit.SECONDS);
     }
 	
-	public Runnable asyncThread(final Runnable doAsync) {
+	private Runnable asyncThread(final Runnable doAsync) {
 		return new Thread(doAsync)::start;
 	}
 
@@ -43,7 +43,7 @@ public class AsyncHelper {
 		return new Thread(doAsync, name)::start;
 	}
 
-	public void sleep(int milis) {
+	private void sleep(int milis){
 		try {
 			Thread.sleep(milis);
 		} catch (Exception e) {

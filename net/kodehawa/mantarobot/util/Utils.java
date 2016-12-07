@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -22,10 +21,10 @@ import us.monoid.web.Resty;
 public class Utils {
 	
 	private volatile static Utils instance = new Utils();
-	private HashMap<Mod, String> mods = new HashMap<Mod, String>();
+	private HashMap<Mod, String> mods = new HashMap<>();
     public static final Utils.PerformanceMonitor pm = new Utils.PerformanceMonitor();
 	
-	public Utils(){
+	private Utils(){
 		putMods();
 	}
 	
@@ -110,7 +109,7 @@ public class Utils {
 	    String[] words = line.split("\\s");
 	    StringBuilder builder = new StringBuilder();
 	    for(String s : words) {
-	        builder.append(capitalize(s) + " ");
+	        builder.append(capitalize(s)).append(" ");
 	    }
 	    return builder.toString();
 	}
@@ -120,7 +119,7 @@ public class Utils {
 	 * @param s
 	 * @return A string with the first letter capitalized.
 	 */
-	public String capitalize(String s) {
+    private String capitalize(String s) {
         if (s.length() == 0) return s;
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
@@ -183,11 +182,11 @@ public class Utils {
 	        long systemTime = System.nanoTime();
 	        long processCpuTime = 0;
 
-	        if (ManagementFactory.getOperatingSystemMXBean() instanceof OperatingSystemMXBean){
+	        if (ManagementFactory.getOperatingSystemMXBean() != null){
 	            processCpuTime = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
 	        }
 
-	        double cpuUsage = ((double)(processCpuTime - lastProcessCpuTime)) / ((double)(systemTime - lastSystemTime));
+	        double cpuUsage = (processCpuTime - lastProcessCpuTime) / ((double)(systemTime - lastSystemTime));
 
 	        lastSystemTime  = systemTime;
 	        lastProcessCpuTime = processCpuTime;
@@ -198,7 +197,7 @@ public class Utils {
 	    private void baselineCounters(){
 	        lastSystemTime = System.nanoTime();
 
-	        if (ManagementFactory.getOperatingSystemMXBean() instanceof OperatingSystemMXBean ) {
+	        if (ManagementFactory.getOperatingSystemMXBean() != null) {
 	            lastProcessCpuTime = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
 	        }
 	    }

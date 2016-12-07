@@ -29,9 +29,8 @@ import net.kodehawa.mantarobot.util.Utils;
  */
 public class Anime extends Command {
 
-	private String CLIENT_ID = "kodehawa-o43eq";
 	private String CLIENT_SECRET = Mantaro.instance().getConfig().values().get("alsecret").toString();
-	String authToken;
+	private String authToken;
 
 	public Anime(){
 		setName("anime");
@@ -67,7 +66,7 @@ public class Anime extends Command {
 				String ANIME_TITLE = null, RELEASE_DATE = null, END_DATE = null, AVERAGE_SCORE = null, ANIME_DESCRIPTION = null, IMAGE_URL = null;
 				String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content.replace("info ", ""), "UTF-8"), authToken);
 				String json = Utils.instance().getObjectFromUrl(connection, event);
-				JSONArray data = null;
+				JSONArray data;
 				
 				try{
 		        	data = new JSONArray(json);
@@ -107,7 +106,7 @@ public class Anime extends Command {
 				}
 				
 				String FINAL_RELEASE_DATE = FINAL_RELEASE_DAY+"/"+FINAL_RELEASE_MONTH+"/"+FINAL_RELEASE_YEAR;
-				String FINAL_END_DATE = "";
+				String FINAL_END_DATE;
 				
 				if(!END_DATE.equals("null")){
 					FINAL_END_DATE = FINAL_END_DAY+"/"+FINAL_END_MONTH+"/"+FINAL_END_YEAR;
@@ -136,7 +135,7 @@ public class Anime extends Command {
 				String CHAR_NAME = null, ALIASES =  null, CHAR_DESCRIPTION = null, IMAGE_URL = null;
 				String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content.replace("character ", ""), "UTF-8"), authToken);
 				String json = Utils.instance().getObjectFromUrl(url, event);
-				JSONArray data = null;
+				JSONArray data;
 				try{
 		        	data = new JSONArray(json);
 				}
@@ -155,10 +154,10 @@ public class Anime extends Command {
 						CHAR_NAME = entry.get("name_first").toString() + " " + entry.get("name_last");
 			        	ALIASES = entry.get("name_alt").toString();
 			        	IMAGE_URL = entry.get("image_url_lge").toString();
-			        	if(entry.get("info").toString().toString().length() < 1000){
-				        	CHAR_DESCRIPTION = entry.get("info").toString().toString();
+			        	if(entry.get("info").toString().length() < 1000){
+				        	CHAR_DESCRIPTION = entry.get("info").toString();
 			        	} else{
-				        	CHAR_DESCRIPTION = entry.get("info").toString().toString().substring(0, 1000 - 1) + "(...)";
+				        	CHAR_DESCRIPTION = entry.get("info").toString().substring(0, 1000 - 1) + "(...)";
 			        	}
 						i1++;
 					}
@@ -199,7 +198,8 @@ public class Anime extends Command {
 	        alc.setDoOutput(true);
 	        alc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 	        OutputStreamWriter osw = new OutputStreamWriter(alc.getOutputStream());
-	        osw.write("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET);
+			String CLIENT_ID = "kodehawa-o43eq";
+			osw.write("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET);
 	        osw.flush(); 
 	        InputStream inputstream = alc.getInputStream();
 	        String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
@@ -214,7 +214,7 @@ public class Anime extends Command {
 
 	/**
 	 * Refreshes the already given token in x ms. Usually 30 minutes.
-	 * @param ms
+	 * @param seconds
 	 * @return the new AniList access token.
 	 */
 	private void login(int seconds){

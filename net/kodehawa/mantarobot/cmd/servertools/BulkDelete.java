@@ -24,8 +24,8 @@ public class BulkDelete extends Command {
 		setCommandType("servertool");
 	}
 
-	int messagesToPrune;
-	List<Message> messageHistory;
+	private int messagesToPrune;
+	private List<Message> messageHistory;
 
 	@Override
 	public void onCommand(String[] messageSplit, String content, MessageReceivedEvent event)

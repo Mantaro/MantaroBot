@@ -14,15 +14,15 @@ import net.kodehawa.mantarobot.util.JSONUtils;
 
 public class Parameters extends Command {
 
-	private static HashMap<String, String> prefixes = new HashMap<String, String>();
-	private static HashMap<String, String> logs = new HashMap<String, String>();
-	private static HashMap<String, String> nsfw = new HashMap<String, String>();
-	JSONObject logObject = new JSONObject();
-	JSONObject prefixObject = new JSONObject();
-	JSONObject nsfwObject = new JSONObject();
-	File logFile;
-	File prefixFile;
-	File nsfwFile;
+	private static HashMap<String, String> prefixes = new HashMap<>();
+	private static HashMap<String, String> logs = new HashMap<>();
+	private static HashMap<String, String> nsfw = new HashMap<>();
+	private JSONObject logObject = new JSONObject();
+	private JSONObject prefixObject = new JSONObject();
+	private JSONObject nsfwObject = new JSONObject();
+	private File logFile;
+	private File prefixFile;
+	private File nsfwFile;
 
 	public Parameters(){
 		logObject.put("version", "1.0");
@@ -74,10 +74,10 @@ public class Parameters extends Command {
 		
 		nsfwObject.put("213468583252983809", "nsfw");
 		if(Mantaro.instance().isWindows()){
-			this.nsfwFile = new File("C:/mantaro/config/logconf.json");
+			this.nsfwFile = new File("C:/mantaro/config/nsfw.json");
 		}
 		else if(Mantaro.instance().isUnix()){
-			this.nsfwFile = new File("/home/mantaro/config/logconf.json");
+			this.nsfwFile = new File("/home/mantaro/config/nsfw.json");
 		}
 		if(!nsfwFile.exists()){
 			JSONUtils.instance().createFile(nsfwFile);

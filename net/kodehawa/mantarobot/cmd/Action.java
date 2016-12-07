@@ -11,11 +11,11 @@ import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Action extends Command {
 
-	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<String>();
-	private CopyOnWriteArrayList<String> bleach = new CopyOnWriteArrayList<String>();
-	private CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<String>();
-	public static CopyOnWriteArrayList<String> greeting = new CopyOnWriteArrayList<String>();
-	public static CopyOnWriteArrayList<String> tsunLines = new CopyOnWriteArrayList<String>();
+	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<String> bleach = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<>();
+	public static CopyOnWriteArrayList<String> greeting = new CopyOnWriteArrayList<>();
+	public static CopyOnWriteArrayList<String> tsunLines = new CopyOnWriteArrayList<>();
 	/**
 	 * Action module.
 	 * One of the biggest modules by command quantity.
@@ -107,17 +107,17 @@ public class Action extends Command {
 			channel.sendMessage(":speech_balloon: " + "Meeeeow.\n " + "http://puu.sh/rK5K7/034039286e.gif").queue();
 			break;
 		case "meow":
-			if(receivedMessage.getMentionedUsers().isEmpty() != true){
+			if(!receivedMessage.getMentionedUsers().isEmpty()){
 				List<User> mentions = receivedMessage.getMentionedUsers();
 	            StringBuilder builder = new StringBuilder();
 	            for (User user: mentions) {
 	                builder.append(user.getName());
 	            }
 	            String mention = builder.toString().replace("MantaroBot", "");
-				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\n" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();;
-	        } else{
-				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\n\nAnyway, I guess I'll have to meow you.\n\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();;
-			}
+				channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\n" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();
+            } else{
+				channel.sendMessage(":speech_balloon: " + "Who am I gonna meow at, silly?\n\nAnyway, I guess I'll have to meow you.\n\n*meows at " + evt.getAuthor().getAsMention() + " .*").queue();
+            }
 			break;
 		case "facedesk":
 			channel.sendMessage("http://puu.sh/rK6E7/0b745e5544.gif").queue();

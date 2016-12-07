@@ -18,11 +18,10 @@ import net.kodehawa.mantarobot.util.Utils;
 
 public class Misc extends Command {
 
-	private List<String> lyrics = new ArrayList<String>();
-	private CopyOnWriteArrayList<String> nobleQuotes = new CopyOnWriteArrayList<String>();
-	private CopyOnWriteArrayList<String> facts = new CopyOnWriteArrayList<String>();
-	ArrayList<User> users = new ArrayList<>();
-	double cpuUsage = Utils.pm.getCpuUsage();
+	private List<String> lyrics = new ArrayList<>();
+	private CopyOnWriteArrayList<String> nobleQuotes = new CopyOnWriteArrayList<>();
+	private CopyOnWriteArrayList<String> facts = new CopyOnWriteArrayList<>();
+	private ArrayList<User> users = new ArrayList<>();
 
 	public Misc()
 	{
@@ -61,19 +60,15 @@ public class Misc extends Command {
 
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
-		List<User> mentions = evt.getMessage().getMentionedUsers();
+		String mentioned = "";
+		try{
+			mentioned = evt.getMessage().getMentionedUsers().get(0).getAsMention();
+		} catch(IndexOutOfBoundsException e){}
         guild = evt.getGuild();
         author = evt.getAuthor();
         channel = evt.getChannel();
         receivedMessage = evt.getMessage();
 		Random rand = new Random();
-
-        StringBuilder mentioned = new StringBuilder();
-        
-        for (User user: mentions){
-            mentioned.append(user.getName());
-            break;
-        }
         
         String noArgs = beheadedMessage.split(" ")[0];
 		switch(noArgs){
@@ -112,7 +107,7 @@ public class Misc extends Command {
 		case "bp":
 			StringBuilder finalMessage = new StringBuilder();
 			for (String help : lyrics){
-				finalMessage.append(help+"\n\n");
+				finalMessage.append(help).append("\n\n");
 			}
 			channel.sendMessage(finalMessage.toString()).queue();
 			break;
@@ -133,17 +128,16 @@ public class Misc extends Command {
 		case "hwinfo":
 			DecimalFormat df = new DecimalFormat("####0.0000");
 	        df.setRoundingMode(RoundingMode.UP);
-			long heapMemoryUsage = ManagementFactory.getMemoryMXBean().getHeapMemoryUsage().getUsed()/(1024)/1024;
-			long nonHeapMemoryUsage = ManagementFactory.getMemoryMXBean().getNonHeapMemoryUsage().getUsed()/(1024)/1024;
+			long memoryUsage = Runtime.getRuntime().totalMemory()/(1024)/1024;
 			int avaliableProcessors = Runtime.getRuntime().availableProcessors();
-			cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
+			double cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
 			channel.sendMessage(
 					"Bot server information:\n"
 					+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\n"
-					+ "Memory Usage: " + String.valueOf(heapMemoryUsage + nonHeapMemoryUsage)+"MB" + "\n"
+					+ "Memory Usage: " + String.valueOf(memoryUsage)+"MB" + "\n"
 					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024)/1024 +"MB\n"
 					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\n"
-					+ "CPU Usage: " + String.valueOf(cpuUsage+"%")).queue();
+					+ "CPU Usage: " + String.valueOf(cpuUsage +"%")).queue();
 		default:
 			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help misc");
 			break;

@@ -61,14 +61,12 @@ public class Mantaro {
 	//New instances.
 	private static volatile Mantaro instance = new Mantaro();
 	private final Parser parser = new Parser();
-	
-	private final String prefix = "!-";
-	
-	//JDA and Loader. We need this and they're extremely important.
+
+    //JDA and Loader. We need this and they're extremely important.
 	private JDA jda;
 	private Config cl;
 	
-	public ConcurrentHashMap<String, Command> modules = new ConcurrentHashMap<String, Command>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
+	public ConcurrentHashMap<String, Command> modules = new ConcurrentHashMap<>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
 	public Set<Class<? extends ICommand>> classes1 = null; //A Set of classes, which will be later on loaded on Loader.
 
@@ -80,7 +78,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
 	//The data after the dash is the hour (4 numbers) and the date.
-	public final String[] data = {"03122016", "1.0.0a8-0211."};
+	public final String[] data = {"07122016", "1.0.0a9-1802."};
 	
 	public Mantaro()
 	{
@@ -101,7 +99,7 @@ public class Mantaro {
 					.buildBlocking(); //For some reason buildAsync constantly disconnects me.
 			instance().jda.setAutoReconnect(true);
 			instance().jda.getPresence().setGame(game);
-			Logger.instance().print("Started MantaroBot JDA instance on JDA " + JDAInfo.VERSION, LogType.INFO);
+			Logger.instance().print("Started MantaroBot " + instance().data[1] + " JDA " + JDAInfo.VERSION, LogType.INFO);
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -124,7 +122,7 @@ public class Mantaro {
 				, 1);
 		
 		//Random status changer.
-		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<String>();
+		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<>();
 		new StringArrayUtils("splash", splash , false);
 		Runnable splashTask = () -> {
 			Random r = new Random();
@@ -181,15 +179,16 @@ public class Mantaro {
 	}
 	
 	public boolean isWindows() {
-        return (OS.indexOf("win") >= 0);
+        return (OS.contains("win"));
     }
 
     public boolean isUnix() {
-        return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0 );
+        return (OS.contains("nix") || OS.contains("nux") || OS.contains("aix") );
     }
     
     public String getPrefix() {
-    	return prefix;
+        String prefix = "!-";
+        return prefix;
     }
     
     public Config getConfig(){

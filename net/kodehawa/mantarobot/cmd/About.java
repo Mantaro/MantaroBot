@@ -40,7 +40,7 @@ public class About extends Command {
 			.addField("Looking over at", Mantaro.instance().getSelf().getTextChannels().size() + " channels.", true)
 			.setFooter("Invite link: http://goo.gl/ei1C5j", null);
 		
-		channel.sendMessage(embed.build()).queue();;
-	}
+		channel.sendMessage(embed.build()).queue();
+    }
 
 }

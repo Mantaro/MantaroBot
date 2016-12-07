@@ -19,8 +19,8 @@ import net.kodehawa.mantarobot.util.Utils;
 public class Osu extends Command {
 
 	private OsuClient osuClient = null;
-	private Map<String, Object> map = new HashMap<String, Object>();
-	private Map<String, String> values = new HashMap<String, String>();
+	private Map<String, Object> map = new HashMap<>();
+	private Map<String, String> values = new HashMap<>();
 	
 	public Osu()
 	{
@@ -66,9 +66,7 @@ public class Osu extends Command {
 			break;
 		case "user":
 			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
-			{
-				sentMessage.editMessage(user(content)).queue();
-			});
+					sentMessage.editMessage(user(content)).queue());
 			break;
 		default:
 			evt.getChannel().sendMessage("Incorrect usage! Use ~>osu help to get help on how to use this command!").queue();
@@ -77,7 +75,7 @@ public class Osu extends Command {
 	}
 		
 	private String best(String beheadedMessage){
-		String finalResponse = "";
+		String finalResponse;
 		try{
 			long start = System.currentTimeMillis();
 			String beheaded1 = beheadedMessage.replace("best ", "");
@@ -88,7 +86,7 @@ public class Osu extends Command {
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userBest = osuClient.getUserBest(hey, map);
 			StringBuilder sb = new StringBuilder();
-			List<String> best = new CopyOnWriteArrayList<String>();
+			List<String> best = new CopyOnWriteArrayList<>();
 			
 			int n = -1;
 			int n1 = 0;
@@ -108,7 +106,7 @@ public class Osu extends Command {
 						}
 						mods1 = " / Mods: " + sb1.toString();
 					}
-				} catch(ArrayIndexOutOfBoundsException e){}
+				} catch(ArrayIndexOutOfBoundsException ignored){}
 				
 				best.add(n1 + ".- " + userBest.get(n).getBeatMap().getTitle().replace("'", "") + 
 						" (\u2605"  + df.format(userBest.get(n).getBeatMap().getDifficultyRating()) + ") - " + userBest.get(n).getBeatMap().getCreator() 
@@ -128,7 +126,7 @@ public class Osu extends Command {
 	}
 	
 	private String recent(String beheadedMessage){
-		String finalMessage = "";
+		String finalMessage;
 		try{
 			long start = System.currentTimeMillis();
 			String beheaded1 = beheadedMessage.replace("recent ", "");
@@ -137,7 +135,7 @@ public class Osu extends Command {
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
 			StringBuilder sb = new StringBuilder();
-			List<String> recent = new CopyOnWriteArrayList<String>();
+			List<String> recent = new CopyOnWriteArrayList<>();
 			 
 			int n = -1;
 			int n1 = 0;
@@ -156,7 +154,7 @@ public class Osu extends Command {
 						}
 						mods1 = " / Mods: " + sb1.toString();
 					}
-				} catch(ArrayIndexOutOfBoundsException e){}
+				} catch(ArrayIndexOutOfBoundsException ignored){}
 				
 				n1++;
 				recent.add(n1 + ".- " + userRecent.get(n).getBeatMap().getTitle().replace("'", "") + " (\u2605"  
@@ -178,7 +176,7 @@ public class Osu extends Command {
 	}
 	
 	private String user(String beheadedMessage){
-		String finalMessage = "";
+		String finalMessage;
 		try{
 			long start = System.currentTimeMillis();
 			String beheaded1 = beheadedMessage.replace("user ", "");

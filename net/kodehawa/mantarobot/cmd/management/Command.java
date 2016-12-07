@@ -27,7 +27,7 @@ public class Command implements ICommand, Runnable {
 		setName(name);
 	}
 
-	public void setName(String name){
+	protected void setName(String name){
 		this.name = name;
 	}
 	
@@ -54,23 +54,23 @@ public class Command implements ICommand, Runnable {
 	public void setExtendedHelp(String help){
 		this.ehelp = help;
 	}
-	
+
 	public String getExtendedHelp(){
 		return ehelp;
 	}
-	
+
 	public void setDescription(String description){
 		this.description = description;
 	}
-	
+
 	public String getDescription(){
 		return this.description;
 	}
-	
+
 	public void setCommandType(String type){
 		this.commandType = type;
 	}
-	
+
 	public String getCommandType(){
 		return commandType;
 	}
