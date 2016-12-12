@@ -32,18 +32,6 @@ import net.kodehawa.mantarobot.thread.AsyncHelper;
 import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 
-/**
- * Mantaro's main class. Handles reflections, login procedure, etc.
- * This bot is fully modifiable and modular. You can add your own commands to this bot WITHOUT touching the main command package (see {@link setModPath(boolean isModded, String modPackagePath)})
- * This is a rewritten version from the previous 0.9 codebase, but with a lot of its old legacy remaining.
- * I focused on improving code readability and speed, and also in making command loading code fully modular and automatic, without the need of me adding the command to the HashMap manually.
- * This bot is using JDA 3.0 as the backbone and link to the Discord API.
- * Needs Java 8 to run and compile.
- * I didn't want to reinvent the wheel, so a lot of this bot uses external APIs unless I didn't find them or didn't find them suitable.
- * This will be marked as a release, but I feel I can do more and better.
- * @author Yomura
- * @since 24/11/2016
- */
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class Mantaro {
 	
@@ -78,7 +66,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
 	//The data after the dash is the hour (4 numbers) and the date.
-	public final String[] data = {"07122016", "1.0.0a9-1802."};
+	public final String[] data = {"11122016", "1.0.1a1-2332"};
 	
 	public Mantaro()
 	{

@@ -11,15 +11,15 @@ import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 
 public class Listener extends ListenerAdapter {
 
-	//For later usage in LogListener. A short message cache of 150 messages. If it reaches 150 it will delete the first one stored, and continue being 150
+	//For later usage in LogListener. A short message cache of 250 messages. If it reaches 150 it will delete the first one stored, and continue being 250
 	public static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
 	
 	private String px;
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event){
-		try{px = Parameters.getPrefixForServer(event.getGuild().getId());} catch(NullPointerException ignored){}
-		if(px == null){	px = Parameters.getPrefixForServer("default"); }
-
+		px = Parameters.getPrefixForServer(event.getGuild().getId());
+		String content = event.getMessage().getContent();
+		
 		if(shortMessageHistory.size() < 250){
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		} else {
@@ -27,13 +27,17 @@ public class Listener extends ListenerAdapter {
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		}
 		
-		if(event.getMessage().getContent().startsWith(px) && !event.getAuthor().isBot())
+		if(content.startsWith(px) || content.startsWith(Parameters.getPrefixForServer("default")) && !event.getAuthor().isBot())
 		{
 			Runnable messageThread = () ->{
 				try {
-					Mantaro.instance().onCommand(Mantaro.instance().getParser().parse(px, event.getMessage().getContent(), event));
+					Mantaro.instance().onCommand(Mantaro.instance().getParser().parse(px, content, event));
 				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						Mantaro.instance().onCommand(Mantaro.instance().getParser().parse(Parameters.getPrefixForServer("default"), content, event));
+					} catch (InstantiationException | IllegalAccessException | NullPointerException e1) {
+						e1.printStackTrace();
+					}
 				}
 			};
 			ThreadPoolHelper.instance().startThread("Message Thread", messageThread);

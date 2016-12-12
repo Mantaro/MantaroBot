@@ -35,7 +35,8 @@ public class Help extends Command {
 			
 			channel.sendMessage(
 					":exclamation: Command help. For extended help use this command with a command name as argument (For example ~>help yandere).\n"
-					+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId())  +" prefix on **this** server. So put that before the command name to execute it.\n\n"
+					+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId())  +" custom prefix on **this** server and " + Parameters.getPrefixForServer("default") + " as global prefix."
+							+ " So put that before the command name to execute it.\n\n"
 					+ "**User commands:**\n"
 					+ builderuser.toString() +"\n"
 					+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build") +

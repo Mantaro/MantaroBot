@@ -31,24 +31,20 @@ public class Parameters extends Command {
 		setCommandType("servertool");
 		setDescription("Enables and disables logs, sets a custom prefix, etc. Check ~>help params");
 		setExtendedHelp(
-				"This command enables or disables logs in your server.\n"
+				"This command sets specific parameters in your server.\n"
 				+ "**Parameters:**\n"
 				+ "~>params logs set enable channel\n"
 				+ "~>params logs set disable\n"
-				+ "~>params prefix set prefix/n"
-				+ "~>params prefix disable/n"
-				+ "~>params nsfw set channel/n"
-				+ "~>params nsfw disable/n"
+				+ "~>params prefix set prefix\n"
+				+ "~>params prefix disable\n"
+				+ "~>params nsfw set channel\n"
+				+ "~>params nsfw disable\n"
 				+ "**Parameter explanation:**\n"
 				+ "*channel*: The channel name to action in."
 				+ "*prefix*: The prefix to set."
 						);
-		if(Mantaro.instance().isWindows()){
-			this.logFile = new File("C:/mantaro/config/logconf.json");
-		}
-		else if(Mantaro.instance().isUnix()){
-			this.logFile = new File("/home/mantaro/config/logconf.json");
-		}
+		if(Mantaro.instance().isWindows()){ this.logFile = new File("C:/mantaro/config/logconf.json"); }
+		else if(Mantaro.instance().isUnix()){ this.logFile = new File("/home/mantaro/config/logconf.json"); }
 		if(!logFile.exists()){
 			JSONUtils.instance().createFile(logFile);
 			JSONUtils.instance().write(logFile, logObject);
@@ -56,14 +52,9 @@ public class Parameters extends Command {
 		
 		logObject = JSONUtils.instance().getJSONObject(logFile);
 		JSONUtils.instance().read(logs, logObject);
-		
 		prefixObject.put("default", "~>");
-		if(Mantaro.instance().isWindows()){
-			this.prefixFile = new File("C:/mantaro/config/prefix.json");
-		}
-		else if(Mantaro.instance().isUnix()){
-			this.prefixFile = new File("/home/mantaro/config/prefix.json");
-		}
+		if(Mantaro.instance().isWindows()){ this.prefixFile = new File("C:/mantaro/config/prefix.json"); }
+		else if(Mantaro.instance().isUnix()){ this.prefixFile = new File("/home/mantaro/config/prefix.json"); }
 		if(!prefixFile.exists()){
 			JSONUtils.instance().createFile(prefixFile);
 			JSONUtils.instance().write(prefixFile, prefixObject);
@@ -71,14 +62,10 @@ public class Parameters extends Command {
 		
 		prefixObject = JSONUtils.instance().getJSONObject(prefixFile);
 		JSONUtils.instance().read(prefixes, prefixObject);
-		
 		nsfwObject.put("213468583252983809", "nsfw");
-		if(Mantaro.instance().isWindows()){
-			this.nsfwFile = new File("C:/mantaro/config/nsfw.json");
-		}
-		else if(Mantaro.instance().isUnix()){
-			this.nsfwFile = new File("/home/mantaro/config/nsfw.json");
-		}
+		if(Mantaro.instance().isWindows()){ this.nsfwFile = new File("C:/mantaro/config/nsfw.json"); }
+		else if(Mantaro.instance().isUnix()){ this.nsfwFile = new File("/home/mantaro/config/nsfw.json"); }
+		
 		if(!nsfwFile.exists()){
 			JSONUtils.instance().createFile(nsfwFile);
 			JSONUtils.instance().write(nsfwFile, nsfwObject);
@@ -176,6 +163,9 @@ public class Parameters extends Command {
 	}
 		
 	public static String getPrefixForServer(String guildId){
+		if(prefixes.get(guildId) == null){
+			return prefixes.get("default");
+		}
 		return prefixes.get(guildId);
 	}
 

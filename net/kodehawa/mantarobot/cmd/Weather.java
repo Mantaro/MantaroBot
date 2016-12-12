@@ -1,9 +1,9 @@
 package net.kodehawa.mantarobot.cmd;
 
 import java.awt.Color;
-import java.math.RoundingMode;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,34 +49,37 @@ public class Weather extends Command {
 		        	 JSONObject entry = data.getJSONObject(i);
 		             status = entry.getString("main"); //Used for weather status.
 		         }
-		         
-		         //Round the decimal up. Also if decimal place is 0 truncate it.
-		         DecimalFormat dFormat = new DecimalFormat();
-		         dFormat.setRoundingMode(RoundingMode.UP);
-		         
-		         //Get the needed JSON Objects.
+		         		         
 		         JSONObject jMain = jObject.getJSONObject("main"); //Used for temperature and humidity.
 		         JSONObject jWind = jObject.getJSONObject("wind"); //Used for wind speed.
 		         JSONObject jClouds = jObject.getJSONObject("clouds"); //Used for cloudiness.
+		         JSONObject jsys = jObject.getJSONObject("sys"); //Used for countrycode.
+		         
 				 long end = System.currentTimeMillis() - start;
 
-		         String temp = dFormat.format(Double.parseDouble(jMain.get("temp").toString())); //Temperature in Kelvin.
-		         String hum = dFormat.format(Double.parseDouble(jMain.get("humidity").toString())); //Humidity in percentage.
-		         String ws = dFormat.format(Double.parseDouble(jWind.get("speed").toString())); //Speed in m/h.
-		         String clness = dFormat.format(Double.parseDouble(jClouds.get("all").toString())); //Cloudiness in percentage.
+				 String countryCode = jsys.getString("country").toLowerCase();
+
+		         Double temp = (double)jMain.get("temp"); //Temperature in Kelvin.
+		         int pressure = (int) jMain.get("pressure"); //Pressure in kPA.
+		         int hum = (int) jMain.get("humidity"); //Humidity in percentage.
+		         Double ws = (double) jWind.get("speed"); //Speed in m/h.
+		         int clness = (int) jClouds.get("all"); //Cloudiness in percentage.
 		         
 		         //Simple math formulas to convert from universal to metric and imperial.
-		         String finalTemperatureCelcius = dFormat.format(Double.parseDouble(temp) - 273.15); //Temperature in Celcius degrees.
-		         String finalTemperatureFarnheit = dFormat.format(Double.parseDouble(temp) * 9/5 - 459.67); //Temperature in Farnheit degrees.
-		         String finalWindSpeedMetric = dFormat.format(Double.parseDouble(ws) * 3.6); //wind speed in km/h.
-		         String finalWindSpeedImperial = dFormat.format(Double.parseDouble(ws) / 0.447046); //wind speed in mph.
+		         Double finalTemperatureCelcius = temp - 273.15; //Temperature in Celcius degrees.
+		         Double finalTemperatureFarnheit = temp * 9/5 - 459.67; //Temperature in Farnheit degrees.
+		         Double finalWindSpeedMetric = ws * 3.6; //wind speed in km/h.
+		         Double finalWindSpeedImperial = ws / 0.447046; //wind speed in mph.
 
 		         embed.setColor(Color.CYAN)
-		         	.setTitle("Forecast information for " + content) //For which city
+		         	.setTitle(":flag_" + countryCode + ":" + " Forecast information for " + content) //For which city
 		         	.setDescription(status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.
-		         	.addField("Temperature", finalTemperatureCelcius + "ï¿½C/" + finalTemperatureFarnheit + "ï¿½F", true)
+		         	.addField("Temperature", finalTemperatureCelcius.intValue() + "°C/" + finalTemperatureFarnheit.intValue() + "°F", true)
 		         	.addField("Humidity", hum + "%" , true)
-		         	.addField("Wind Speed", finalWindSpeedMetric + "km/h / " + finalWindSpeedImperial + "mph" , false)
+		         	.addBlankField(true)
+		         	.addField("Wind Speed", finalWindSpeedMetric.intValue() + "kmh / " + finalWindSpeedImperial.intValue() + "mph" , true)
+		         	.addField("Pressure", pressure + "kPA" , true)
+		         	.addBlankField(true)
 		         	.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 		         //Build the embed message and send it.
 		         channel.sendMessage(embed.build()).queue();
@@ -85,5 +88,12 @@ public class Weather extends Command {
 		    	 e.printStackTrace();
 		     }
 		}
+	}
+	
+	protected String getTimeFromMillis(long millis){
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(millis	);
+
+		return new SimpleDateFormat("HH:mm:ss").format(cal.getTime());
 	}
 }

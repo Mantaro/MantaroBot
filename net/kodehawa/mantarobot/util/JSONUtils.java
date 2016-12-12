@@ -15,12 +15,38 @@ import org.json.JSONObject;
 
 import com.google.common.io.CharStreams;
 
+import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.LogType;
 import net.kodehawa.mantarobot.log.Logger;
 
 public class JSONUtils {
 	private static JSONUtils instance = new JSONUtils();
+	private File f;
+	private String name;
 
+	private JSONUtils(){}
+	
+	public JSONUtils(HashMap<String, String> hash, String n, String subfolder, JSONObject o, boolean rewrite){
+		this.name = n;
+		if(Mantaro.instance().isWindows()){ 
+			this.f = new File("C:/mantaro/"+subfolder+"/"+name+".json"); 
+		}
+		else if(Mantaro.instance().isUnix()){ 
+			this.f = new File("/home/mantaro/"+subfolder+"/"+name+".json"); 
+		}
+		if(!f.exists()){ 
+			this.createFile(f); 
+			this.write(f, o); 
+		}
+				
+		if(rewrite){ 
+			this.write(f, o);
+		}
+		this.read(hash, o);
+		o = getJSONObject(f);
+	}
+	
+	
 	public JSONObject getJSONObject(File file){
 		try{
 			FileInputStream is = new FileInputStream(file.getAbsolutePath());
@@ -71,7 +97,7 @@ public class JSONUtils {
 	}
 	
 	public void read(HashMap<String, String> hash, JSONObject data){
-		Logger.instance().print("Reading JSON File.", LogType.INFO);
+		Logger.instance().print("Reading JSON data... " + data.toString(), LogType.INFO);
 		try{
 			Iterator<?> datakeys = data.keys();
 	        while(datakeys.hasNext()){

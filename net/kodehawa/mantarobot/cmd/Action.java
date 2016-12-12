@@ -23,7 +23,7 @@ public class Action extends Command {
 	public Action()
 	{
 		setName("action");
-		setDescription("Action commands. Arguments avaliable: pat (mention), hug (mention), bloodsuck (mention), meow, meow2, facedesk, nom");
+		setDescription("Action commands. Check ~>help action");
 		setCommandType("user");
 		new StringArrayUtils("greeting", greeting, false);
 		new StringArrayUtils("tsunderelines", tsunLines, false);
@@ -69,11 +69,9 @@ public class Action extends Command {
 			List<User> menctions = receivedMessage.getMentionedUsers();
 			StringBuilder pString = new StringBuilder();
 			int patint = rand.nextInt(pats.size());
-		
 			for(User s : menctions){
 				pString.append(s.getAsMention());
 			}
-		
 			String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(patint));
 			channel.sendMessage(pat).queue();
 			break;

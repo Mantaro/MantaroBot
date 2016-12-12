@@ -1,8 +1,6 @@
 package net.kodehawa.mantarobot.cmd;
 
 import java.lang.management.ManagementFactory;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
@@ -126,18 +125,22 @@ public class Misc extends Command {
 			channel.sendMessage(":speech_balloon: " + facts.get(factrand)).queue();
 			break;
 		case "hwinfo":
-			DecimalFormat df = new DecimalFormat("####0.0000");
-	        df.setRoundingMode(RoundingMode.UP);
-			long memoryUsage = Runtime.getRuntime().totalMemory()/(1024)/1024;
+			long totalMemory = Runtime.getRuntime().totalMemory()/(1024)/1024;
+			long freeMemory = Runtime.getRuntime().freeMemory()/(1024)/1024;
+			long maxMemory = Runtime.getRuntime().maxMemory()/(1024)/1024;
 			int avaliableProcessors = Runtime.getRuntime().availableProcessors();
-			double cpuUsage = Double.parseDouble(df.format(Utils.pm.getCpuUsage()));
-			channel.sendMessage(
-					"Bot server information:\n"
-					+ "Threads: " + ManagementFactory.getThreadMXBean().getThreadCount() + "\n"
-					+ "Memory Usage: " + String.valueOf(memoryUsage)+"MB" + "\n"
-					+ "Avaliable JVM Memory: " + Runtime.getRuntime().freeMemory()/(1024)/1024 +"MB\n"
-					+ "CPU Cores: " + String.valueOf(avaliableProcessors)+"\n"
-					+ "CPU Usage: " + String.valueOf(cpuUsage +"%")).queue();
+			int cpuUsage = Utils.pm.getCpuUsage().intValue();
+			EmbedBuilder embed = new EmbedBuilder();
+			embed.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
+			.setDescription("Hardware and usage information.")
+			.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+			.addField("Threads", ManagementFactory.getThreadMXBean().getThreadCount()+"T", true)
+			.addField("Memory Usage", totalMemory - freeMemory  + "MB/" + maxMemory +"MB", true)
+			.addField("CPU Cores", String.valueOf(avaliableProcessors), true)
+			.addField("CPU Usage", cpuUsage + "%", true)
+			.addField("Assigned Memory", totalMemory  + "MB", true)
+			.addField("Remaining from assigned", freeMemory  + "MB", true);
+			channel.sendMessage(embed.build()).queue();
 		default:
 			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help misc");
 			break;

@@ -15,7 +15,6 @@ import net.kodehawa.mantarobot.util.Utils;
 
 public class UrbanDict extends Command {
 
-
 	public UrbanDict()
 	{
 		setName("urban");

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
+import com.google.common.io.Files;
 import com.osu.api.ciyfhx.Mod;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -150,6 +152,26 @@ public class Utils {
 		return mods.get(key);
 	}
 	
+	public File getUrlFile(String url1, String extension){
+		URL url;
+		InputStream is = null;
+		File targetFile = null;
+		try {
+			url = new URL(url1);
+			HttpURLConnection ccnn = (HttpURLConnection) url.openConnection();
+	    	ccnn.setRequestProperty("User-Agent", "Mantaro");
+			is = ccnn.getInputStream();
+			byte[] buffer = new byte[is.available()];
+			is.read(buffer);
+			 
+			targetFile = new File("src/main/resources/tempimg." + extension);
+			Files.write(buffer, targetFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return targetFile;
+	}
+	
 	/**
 	 * @return The new instance of this class.
 	 */
@@ -162,7 +184,7 @@ public class Utils {
 	 * @author Yomura
 	 */
 	public static class PerformanceMonitor { 
-	    private int  availableProcessors = ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
+	    private int availableProcessors = ManagementFactory.getOperatingSystemMXBean().getAvailableProcessors();
 	    private long lastSystemTime = 0;
 	    private double lastProcessCpuTime = 0;
 	    
@@ -172,11 +194,11 @@ public class Utils {
 	     * Gets CPU usage as a double halved the available processors. For example if it's using 100% of one core but there are 4 avaliable it will report 25%.
 	     * @return
 	     */
-	    public synchronized double getCpuUsage()
+	    public synchronized Double getCpuUsage()
 	    {
 	        if (lastSystemTime == 0){
 	            baselineCounters();
-	            return availableProcessors;
+	            return Double.parseDouble(String.valueOf(availableProcessors));
 	        }
 
 	        long systemTime = System.nanoTime();
