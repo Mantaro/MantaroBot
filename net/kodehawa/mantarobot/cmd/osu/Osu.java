@@ -69,7 +69,7 @@ public class Osu extends Command {
 					sentMessage.editMessage(user(content)).queue());
 			break;
 		default:
-			evt.getChannel().sendMessage("Incorrect usage! Use ~>osu help to get help on how to use this command!").queue();
+			evt.getChannel().sendMessage(getExtendedHelp()).queue();
 			break;
 		}
 	}

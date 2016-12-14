@@ -87,13 +87,14 @@ public class Weather extends Command {
 		     catch(Exception e){
 		    	 e.printStackTrace();
 		     }
+		} else {
+			channel.sendMessage(getExtendedHelp()).queue();
 		}
 	}
 	
 	protected String getTimeFromMillis(long millis){
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(millis	);
-
 		return new SimpleDateFormat("HH:mm:ss").format(cal.getTime());
 	}
 }

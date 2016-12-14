@@ -185,7 +185,6 @@ public class Anime extends Command {
 	}
 	
 	/**
-	 * This is extremely recursive, lmfao.
 	 * @return The new AniList access token.
 	 */
 	private String authenticate(){

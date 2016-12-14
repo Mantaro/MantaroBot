@@ -19,20 +19,24 @@ public class EightBall extends Command {
 	
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
-		String question = beheadedMessage;
-		String textEncoded = "";
-		String url2;
-		
-		try {
-			textEncoded = URLEncoder.encode(question, "UTF-8");
-		} catch (UnsupportedEncodingException ignored){} //Shouldn't fail.
-		
-		String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
-		url2 = Utils.instance().restyGetObjectFromUrl(URL, evt);
+		if(beheadedMessage.isEmpty()){
+			String question = beheadedMessage;
+			String textEncoded = "";
+			String url2;
 			
-		JSONObject jObject = new JSONObject(url2);
-	    JSONObject data = jObject.getJSONObject("magic");
-	        
-        channel.sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
+			try {
+				textEncoded = URLEncoder.encode(question, "UTF-8");
+			} catch (UnsupportedEncodingException ignored){} //Shouldn't fail.
+			
+			String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
+			url2 = Utils.instance().restyGetObjectFromUrl(URL, evt);
+				
+			JSONObject jObject = new JSONObject(url2);
+		    JSONObject data = jObject.getJSONObject("magic");
+		        
+	        channel.sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
+		} else{
+			channel.sendMessage(getDescription()).queue();
+		}
 	} 
 }

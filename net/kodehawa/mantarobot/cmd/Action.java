@@ -138,7 +138,8 @@ public class Action extends Command {
 			channel.sendMessage(bleach.get(bleachRandomizer)).queue();
 			break;
 		default:
-			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help action");
-			break;		}
+			channel.sendMessage(getExtendedHelp()).queue();
+			break;		
+		}
 	}
 }

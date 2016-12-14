@@ -1,9 +1,11 @@
 package net.kodehawa.mantarobot.cmd;
 
+import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.management.Command;
@@ -65,7 +67,7 @@ public class Info extends Command {
 					}
 					embed.setThumbnail(user1.getAvatarUrl())
 					//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
-						.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), false);
+						.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false);
 					if(member1.getVoiceState().getChannel() != null){ 
 						embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false); 
 						}
@@ -99,7 +101,7 @@ public class Info extends Command {
 				}
 				embed.setThumbnail(user1.getAvatarUrl());
 				//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
-				embed.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), false);
+				embed.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false);
 				if(member1.getVoiceState().getChannel() != null){ 
 					embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false); 
 					}
@@ -116,18 +118,35 @@ public class Info extends Command {
 			}
 			break;
 		case "server":
+			StringBuilder sb = new StringBuilder();
+			int i = 0;
+			for(Role tc : guild.getRoles()){
+				i++;
+				if(i <= 79){
+					if(!tc.getName().contains("everyone") && i != guild.getRoles().size() - 1){
+						sb.append(tc.getName() + ", ");
+					} else if(i == guild.getRoles().size() - 1 || i == 79){
+						sb.append(tc.getName() + ".");
+					}
+				} else { break; } 
+			}	
 			embed.setColor(guild.getOwner().getColor())
-			.setTitle("Server info")
+			.setAuthor("Guild Information", null, guild.getIconUrl())
+			.setColor(Color.orange)
 			.setDescription("Guild information for server " + guild.getName())
 			.setThumbnail(guild.getIconUrl())
-			.addField("Roles / Text Channels", String.valueOf(guild.getRoles().size()) + "/" + guild.getTextChannels().size() , false)
-			.addField("Owner", guild.getOwner().getUser().getName(), false)
-			.addField("Region", guild.getRegion().getName(), false)
+			.addField("Users", String.valueOf(guild.getMembers().size()), true)
+			.addField("Main Channel", "#" + guild.getPublicChannel().getName(), true)
+			.addField("Creation Date", guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
+			.addField("Voice/Text Channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size() , true)
+			.addField("Owner", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
+			.addField("Region", guild.getRegion().getName(), true)
+			.addField("Roles ("+guild.getRoles().size() + ")", sb.toString(), false)
 			.setFooter("Server ID: " + String.valueOf(guild.getId()), null);
 			channel.sendMessage(embed.build()).queue();
 			break;
 		default:
-			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help info");
+			channel.sendMessage(getExtendedHelp()).queue();
 			break;
 		}
 	}

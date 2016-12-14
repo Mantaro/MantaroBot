@@ -2,11 +2,9 @@ package net.kodehawa.mantarobot.cmd.owner;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.Action;
-import net.kodehawa.mantarobot.cmd.Quote;
 import net.kodehawa.mantarobot.cmd.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.Listener;
-import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Shutdown extends Command {
 
@@ -23,7 +21,7 @@ public class Shutdown extends Command {
 		if(event.getAuthor().getId().equals(Mantaro.OWNER_ID) || event.getAuthor().getId().equals(Mantaro.SERVER_MGR_ID)){
 			channel.sendMessage("Gathering information...");
 			try {
-				new StringArrayUtils("quotes", Quote.quotes, true);
+				//new StringArrayUtils("quotes", Quote.quotes, true);
 			    Thread.sleep(50);
 			} catch (InterruptedException ignored) {	}
 			
@@ -32,7 +30,6 @@ public class Shutdown extends Command {
 			channel.sendMessage("Starting bot shutdown...").queue();
 			try {
 				Mantaro.instance().getSelf().removeEventListener(new Listener());
-				Quote.quotes.clear();
 				Action.tsunLines.clear();
 				System.gc();
 				Mantaro.instance().modules.clear();

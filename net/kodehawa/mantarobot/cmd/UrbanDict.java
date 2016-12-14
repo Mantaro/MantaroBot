@@ -91,6 +91,9 @@ public class UrbanDict extends Command {
 					.setFooter("Information by Urban Dictionary", null);
 				channel.sendMessage(embed.build()).queue();
 				break;
+			default:
+				channel.sendMessage(getExtendedHelp()).queue();
+				break;
 			}
 		}
 	}

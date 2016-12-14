@@ -106,7 +106,7 @@ public class Yandere extends Command {
 					});
 			break;
 		default:
-			channel.sendMessage(":heavy_multiplication_x: Incorrect usage. For info on how to use the command do ~>help yandere");
+			channel.sendMessage(getExtendedHelp()).queue();
 			break;
 		}
 	}
