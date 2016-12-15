@@ -66,7 +66,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
 	//The data after the dash is the hour (4 numbers) and the date.
-	public final String[] data = {"14122016", "1.0.1a1-4591"};
+	public final String[] data = {"14122016", "1.0.1a1-5076"};
 	
 	public Mantaro()
 	{
@@ -87,7 +87,7 @@ public class Mantaro {
 					.buildBlocking(); //For some reason buildAsync constantly disconnects me.
 			instance().jda.setAutoReconnect(true);
 			instance().jda.getPresence().setGame(game);
-			Logger.instance().print("Started MantaroBot " + instance().data[1] + " JDA " + JDAInfo.VERSION, LogType.INFO);
+			Logger.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, LogType.INFO);
 		} catch(Exception e){
 			e.printStackTrace();
 		}

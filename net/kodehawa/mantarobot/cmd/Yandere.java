@@ -23,11 +23,11 @@ public class Yandere extends Command {
     private int number = 1;
 	private int page = 0;
 	private String tagsToEncode = "no";
-	private String rating = "s";
 	private String tagsEncoded = "";
 	private boolean needRating = false;
 	private boolean smallRequest = false;
-	private boolean trigger = false;
+	private boolean trigger;
+	private String rating;
 
 	BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	
@@ -55,7 +55,8 @@ public class Yandere extends Command {
 
 	@Override
 	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
-		if(message.length >= 3) needRating = true;
+		rating = "s";
+		if(message.length >= 4) needRating = true;
 		if(message.length <= 2) smallRequest = true;
 		guild = evt.getGuild();
         author = evt.getAuthor();
@@ -67,6 +68,7 @@ public class Yandere extends Command {
 			page = Integer.parseInt(message[1]);
 			tagsToEncode = message[2];
 			if(needRating) rating = nRating.get(message[3]);
+			System.out.println(rating);
 			number = Integer.parseInt(message[4]); 			
 		} catch(Exception ignored){}
 		
@@ -112,6 +114,7 @@ public class Yandere extends Command {
 	}
 	
 	private String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, MessageReceivedEvent evt){
+		trigger = false;
 		String rating1 = "";
 		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<>();
 		JSONArray fetchedData = Utils.instance().getJSONArrayFromUrl(url, evt);
@@ -152,20 +155,33 @@ public class Yandere extends Command {
 		} catch(Exception ignored){}
 		
 		List<TextChannel> array = channel.getJDA().getTextChannels();
-		
 		for(MessageChannel ch : array) {
-			if(ch.getName().contains(Parameters.getNSFWChannelForServer(guild.getId())) && channel.getId().equals(ch.getId())){
-				trigger = true;
-				break;
-			} else if(rating.equals("s")){
-				trigger = true;
+			try{
+				if(ch.getName().contains(Parameters.getNSFWChannelForServer(guild.getId())) && channel.getId().equals(ch.getId())){
+					trigger = true;
+					break;
+				} else if(rating.equals("s")){
+					trigger = true;
+				}
+			} catch(NullPointerException e){
+				return ":heavy_multiplication_x: No NSFW channel set for this server.";
 			}
+			
 		} 
+		
 		if(trigger) {
 			if(!smallRequest){
-				return String.format(":mag_right: " + evt.getAuthor().getAsMention() + " I found an image with rating: **" + rating1 + "** and tag: **" + tagsToEncode + "** | You can get a total of **%1s images**.\n %2s" , urls.size(), urls.get(get - 1));
+				try{
+					return String.format(":mag_right: " + evt.getAuthor().getAsMention() + " I found an image with rating: **" + rating1 + "** and tag: **" + tagsToEncode + "** | You can get a total of **%1s images**.\n %2s" , urls.size(), urls.get(get - 1));
+				} catch(ArrayIndexOutOfBoundsException ex){
+					return ":heavy_multiplication_x: There are no images here, just dust.";
+				}
 			} else {
-				return String.format(":mag_right: " + evt.getAuthor().getAsMention() + " I found an image | You can get a total of **%1s images**.\n %2s" , urls.size(), urls.get(get - 1));
+				try{
+					return String.format(":mag_right: " + evt.getAuthor().getAsMention() + " I found an image | You can get a total of **%1s images**.\n %2s" , urls.size(), urls.get(get - 1));
+				} catch(ArrayIndexOutOfBoundsException ex){
+					return ":heavy_multiplication_x: There are no images here, just dust.";
+				}
 			}
 		} else{
 			return ":heavy_multiplication_x: " + "You only can use this command with explicit images in nsfw channels!";

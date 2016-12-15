@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.time.format.DateTimeFormatter;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
@@ -101,10 +102,10 @@ public class Info extends Command {
 				}
 				embed.setThumbnail(user1.getAvatarUrl());
 				//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
-				embed.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false);
+				embed.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_LOCAL_DATE).replaceAll("[^0-9.:-]", " "), false);
 				if(member1.getVoiceState().getChannel() != null){ 
 					embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false); 
-					}
+				}
 				if(guild.getMember(user1).getGame() != null){ 
 					embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false);
 				}
@@ -130,12 +131,18 @@ public class Info extends Command {
 					}
 				} else { break; } 
 			}	
+			int online = 0;
+			for(Member u : guild.getMembers()){
+				if(!u.getOnlineStatus().equals(OnlineStatus.OFFLINE)){
+					online++;
+				}
+			}
 			embed.setColor(guild.getOwner().getColor())
 			.setAuthor("Guild Information", null, guild.getIconUrl())
 			.setColor(Color.orange)
 			.setDescription("Guild information for server " + guild.getName())
 			.setThumbnail(guild.getIconUrl())
-			.addField("Users", String.valueOf(guild.getMembers().size()), true)
+			.addField("Users (Online/Unique)", online + "/" + guild.getMembers().size(), true)
 			.addField("Main Channel", "#" + guild.getPublicChannel().getName(), true)
 			.addField("Creation Date", guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
 			.addField("Voice/Text Channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size() , true)

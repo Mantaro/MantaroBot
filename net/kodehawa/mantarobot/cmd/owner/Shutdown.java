@@ -18,6 +18,7 @@ public class Shutdown extends Command {
 	@Override
 	public void onCommand(String[] message, String content, MessageReceivedEvent event)
 	{
+		channel = event.getChannel();
 		if(event.getAuthor().getId().equals(Mantaro.OWNER_ID) || event.getAuthor().getId().equals(Mantaro.SERVER_MGR_ID)){
 			channel.sendMessage("Gathering information...");
 			try {
@@ -44,9 +45,8 @@ public class Shutdown extends Command {
 			try{
 				System.exit(1);
 			}
-			catch (Exception e)
-			{
-				System.out.println(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString());
+			catch (Exception e){
+				channel.sendMessage(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString()).queue();
 			}
 		}
 		else{
