@@ -1,7 +1,5 @@
 package net.kodehawa.mantarobot.core;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,8 +15,6 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.management.Loader;
 import net.kodehawa.mantarobot.cmd.parser.Parser;
@@ -91,21 +87,6 @@ public class Mantaro {
 		
 		new Loader();
 
-		AsyncHelper.instance().startAsyncTask("Console outputter", 
-				co ->{
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			        PrintStream ps = new PrintStream(baos);
-			        PrintStream old = System.out;
-			        System.setOut(ps);
-			        System.out.flush();
-			        System.setOut(old);
-			        Guild guild = Mantaro.instance().getSelf().getGuildsByName("Mantaro", true).get(0);
-			        TextChannel consoleoutput = guild.getTextChannelsByName("console", true).get(0);
-			        consoleoutput.sendMessage(baos.toString()).queue();
-			        System.out.println(baos.toString());
-				}
-				, 1);
-		
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<>();
 		new StringArrayUtils("splash", splash , false);
