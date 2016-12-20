@@ -12,8 +12,8 @@ import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 public class Listener extends ListenerAdapter {
 
 	//For later usage in LogListener. A short message cache of 250 messages. If it reaches 150 it will delete the first one stored, and continue being 250
-	public static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
-	
+	static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
+	private static int commandTotal = 0;
 	private String px;
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event){
@@ -29,18 +29,23 @@ public class Listener extends ListenerAdapter {
 		
 		if(content.startsWith(px) || content.startsWith(Parameters.getPrefixForServer("default")) && !event.getAuthor().isBot())
 		{
+			commandTotal++;
 			Runnable messageThread = () ->{
 				try {
 					Mantaro.instance().onCommand(Mantaro.instance().getParser().parse(px, content, event));
 				} catch (Exception e) {
 					try {
 						Mantaro.instance().onCommand(Mantaro.instance().getParser().parse(Parameters.getPrefixForServer("default"), content, event));
-					} catch (InstantiationException | IllegalAccessException | NullPointerException e1) {
+					} catch (NullPointerException e1) {
 						e1.printStackTrace();
 					}
 				}
 			};
 			ThreadPoolHelper.instance().startThread("Message Thread", messageThread);
 		}
+	}
+
+	public static String getCommandTotal(){
+		return String.valueOf(commandTotal);
 	}
 }

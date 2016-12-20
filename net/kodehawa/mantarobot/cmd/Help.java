@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.cmd.servertools.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 

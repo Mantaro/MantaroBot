@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 
 public class Time extends Command {
 

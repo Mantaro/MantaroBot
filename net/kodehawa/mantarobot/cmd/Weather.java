@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.util.Utils;
 
 public class Weather extends Command {
@@ -22,10 +22,10 @@ public class Weather extends Command {
 		setExtendedHelp(
 				"This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
 				+ "> Usage:\n"
-				+ "~>weather city,countrycode: Retrieves the forecast information for such location.\n"
+				+ "~>weather [city],[countrycode]: Retrieves the forecast information for such location.\n"
 				+ "> Parameters:\n"
-				+ "*city*: Your city name, for example New York\n"
-				+ "*countrycode*: The code for your country, for example US (USA) or MX (Mexico).");
+				+ "[city]: Your city name, for example New York\n"
+				+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).");
 		setCommandType("user");
 	}
 	
@@ -39,9 +39,7 @@ public class Weather extends Command {
 				 long start = System.currentTimeMillis();
 		         //Get a parsed JSON.
                  String APP_ID = "e2abde2e6ca69e90a73ddb43199031de";
-                 String url = Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID, event);
-		         String json = url;
-		         JSONObject jObject = new JSONObject(json);
+				 JSONObject jObject = new JSONObject(Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID, event));
 		         //Get the object as a array.
 		         JSONArray data = jObject.getJSONArray("weather");
 		         String status = null;
@@ -74,7 +72,7 @@ public class Weather extends Command {
 		         embed.setColor(Color.CYAN)
 		         	.setTitle(":flag_" + countryCode + ":" + " Forecast information for " + content) //For which city
 		         	.setDescription(status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.
-		         	.addField("Temperature", finalTemperatureCelcius.intValue() + "°C/" + finalTemperatureFarnheit.intValue() + "°F", true)
+		         	.addField("Temperature", finalTemperatureCelcius.intValue() + "Â°C/" + finalTemperatureFarnheit.intValue() + "Â°F", true)
 		         	.addField("Humidity", hum + "%" , true)
 		         	.addBlankField(true)
 		         	.addField("Wind Speed", finalWindSpeedMetric.intValue() + "kmh / " + finalWindSpeedImperial.intValue() + "mph" , true)

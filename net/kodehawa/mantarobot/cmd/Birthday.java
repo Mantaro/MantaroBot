@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.util.HashMapUtils;
 
 public class Birthday extends Command {
@@ -30,7 +30,7 @@ public class Birthday extends Command {
 		try{
 			bd1 = format1.parse(split[0]);
 		} catch(Exception e){
-			event.getChannel().sendMessage("Not a valid date.").queue();
+			event.getChannel().sendMessage(":heavy_multiplication_x: a valid date.").queue();
 			e.printStackTrace();
 		}
 		
@@ -38,7 +38,7 @@ public class Birthday extends Command {
 			if(!bd.containsKey(userId)){
 				String finalBirthday = format1.format(bd1);
 				
-				bd.put(userId, finalBirthday);
+				bd.put(event.getGuild().getId()+ ":" +userId, finalBirthday);
 				new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, true);
 				event.getChannel().sendMessage("Added birthday date.").queue();
 			}
@@ -46,7 +46,7 @@ public class Birthday extends Command {
 				String finalBirthday = format1.format(bd1);
 				
 				bd.remove(userId);
-				bd.put(userId, finalBirthday);
+				bd.put(event.getGuild().getId()+ ":" +userId, finalBirthday);
 				new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, true);
 				event.getChannel().sendMessage("Changed birthday date.").queue();
 			}

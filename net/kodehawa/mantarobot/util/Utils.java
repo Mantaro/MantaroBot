@@ -33,7 +33,7 @@ public class Utils {
 	/**
 	 * Fetches an Object from any given URL. Uses vanilla Java methods.
 	 * Can retrieve text, JSON Objects, XML and probably more.
-	 * @param url
+	 * @param url The URL to get the object from.
 	 * @return The object as a parsed UTF-8 string.
 	 */
 	public String getObjectFromUrl(String url, MessageReceivedEvent event){
@@ -55,8 +55,8 @@ public class Utils {
 	
 	/**
 	 * Same than above, but using resty. Way easier tbh.
-	 * @param url
-	 * @param event
+	 * @param url The URL to get the object from.
+	 * @param event JDA message event.
 	 * @return The object as a parsed string.
 	 */
 	public String restyGetObjectFromUrl(String url, MessageReceivedEvent event){
@@ -75,40 +75,37 @@ public class Utils {
 	
 	/**
 	 * Gets a JSON Array from a specified URL
-	 * @param url
-	 * @param evt
-	 * @return
+	 * @param url The URL to fetch the JSON from.
+	 * @param evt JDA message event.
+	 * @return The retrieved JSON object.
 	 */
 	public JSONArray getJSONArrayFromUrl(String url, MessageReceivedEvent evt){
         String urlParsed = getObjectFromUrl(url, evt);
-        JSONArray data = new JSONArray(urlParsed);
-		return data;
+		return new JSONArray(urlParsed);
 	}
 	
 	/**
 	 * Gets a JSON Array from a specified URL
-	 * @param url
-	 * @param evt
-	 * @return
+	 * @param url The URL to fetch the JSON from.
+	 * @param evt JDA message event.
+	 * @return The retrieved JSON object.
 	 */
 	public JSONObject getJSONObjectFromUrl(String url, MessageReceivedEvent evt){
         String urlParsed = getObjectFromUrl(url, evt);
-        JSONObject data = new JSONObject(urlParsed);
-		return data;
+		return new JSONObject(urlParsed);
 	}
 	
 	/**
 	 * Capitalizes each first letter after a space.
-	 * @param original
+	 * @param original the string to capitalize.
 	 * @return a string That Looks Like This. Useful for titles.
 	 */
 	public String capitalizeEachFirstLetter(String original) {
 	    if (original == null || original.length() == 0) {
 	        return original;
 	    }
-	    
-	    String line = original;
-	    String[] words = line.split("\\s");
+
+		String[] words = original.split("\\s");
 	    StringBuilder builder = new StringBuilder();
 	    for(String s : words) {
 	        builder.append(capitalize(s)).append(" ");
@@ -118,7 +115,7 @@ public class Utils {
 	
 	/**
 	 * Capitalizes the first letter of a string.
-	 * @param s
+	 * @param s the string to capitalize
 	 * @return A string with the first letter capitalized.
 	 */
     private String capitalize(String s) {
@@ -145,7 +142,6 @@ public class Utils {
 	}
 
 	/**
-	 * @param Mod key
 	 * @return a abbreviated, standardized osu! mod.
 	 */
 	public String getMod(Mod key){
@@ -154,7 +150,7 @@ public class Utils {
 	
 	public File getUrlFile(String url1, String extension){
 		URL url;
-		InputStream is = null;
+		InputStream is;
 		File targetFile = null;
 		try {
 			url = new URL(url1);
@@ -192,7 +188,7 @@ public class Utils {
 	    
 	    /**
 	     * Gets CPU usage as a double halved the available processors. For example if it's using 100% of one core but there are 4 avaliable it will report 25%.
-	     * @return
+	     * @return CPU usage.
 	     */
 	    public synchronized Double getCpuUsage()
 	    {

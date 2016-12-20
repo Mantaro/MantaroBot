@@ -12,15 +12,14 @@ public class Parser {
 		if(rw.startsWith(prefix))
 		{
 			ArrayList<String> split = new ArrayList<>();
-			String raw = rw;
-			String beheaded = raw.replaceFirst(prefix, "");
+			String beheaded = rw.replaceFirst(prefix, "");
 			String[] splitBeheaded = beheaded.split(" ");
 			Collections.addAll(split, splitBeheaded);
 			
 			String invoke = split.get(0);
 			String[] args = new String[split.size() - 1];
 			split.subList(1, split.size()).toArray(args);
-			return new Container(raw, beheaded, splitBeheaded, invoke, args, evt);
+			return new Container(rw, beheaded, splitBeheaded, invoke, args, evt);
 		}
 		
 		return null;

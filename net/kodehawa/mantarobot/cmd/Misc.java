@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 import net.kodehawa.mantarobot.util.Utils;
 
@@ -30,16 +30,17 @@ public class Misc extends Command {
 		setExtendedHelp(
 				"Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\n"
 				+ "Usage:\n"
-				+ "~>misc rob @user: Rob random amount of money from a user.\n"
+				+ "~>misc rob [@user]: Rob random amount of money from a user.\n"
 				+ "~>misc lottery: Get random amounts of money! Only usable every 20m per person.\n"
-				+ "~>misc reverse: Reverses any given sentence.\n"
+				+ "~>misc reverse [sentence]: Reverses any given sentence.\n"
 				+ "~>misc bp: Brain power lyrics.\n"
 				+ "~>misc randomfact: Random fact.\n"
 				+ "~>misc noble: Random Lost Pause quote.\n"
 				+ "~>misc rndcolor: Gives you a random hex color.\n"
 				+ "~>misc hwinfo: Gives extended information about the bot hardware usage.\n"
 				+ "Parameter explanation:\n"
-				+ "*@user*: A user to mention.");
+				+ "[sentence]: A sentence to reverse."
+				+ "[@user]: A user to mention.");
 		
 		lyrics.add(":mega: Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
@@ -62,7 +63,7 @@ public class Misc extends Command {
 		String mentioned = "";
 		try{
 			mentioned = evt.getMessage().getMentionedUsers().get(0).getAsMention();
-		} catch(IndexOutOfBoundsException e){}
+		} catch(IndexOutOfBoundsException ignored){}
         guild = evt.getGuild();
         author = evt.getAuthor();
         channel = evt.getChannel();

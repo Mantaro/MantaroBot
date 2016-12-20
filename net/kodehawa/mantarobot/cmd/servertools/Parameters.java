@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.util.JSONUtils;
 
@@ -33,15 +33,15 @@ public class Parameters extends Command {
 		setExtendedHelp(
 				"This command sets specific parameters in your server.\n"
 				+ "**Parameters:**\n"
-				+ "~>params logs set enable channel\n"
+				+ "~>params logs set enable [channel]\n"
 				+ "~>params logs set disable\n"
-				+ "~>params prefix set prefix\n"
+				+ "~>params prefix set [prefix]\n"
 				+ "~>params prefix disable\n"
-				+ "~>params nsfw set channel\n"
+				+ "~>params nsfw set [channel]\n"
 				+ "~>params nsfw disable\n"
 				+ "**Parameter explanation:**\n"
-				+ "*channel*: The channel name to action in."
-				+ "*prefix*: The prefix to set."
+				+ "[channel]: The channel name to action in."
+				+ "[prefix]: The prefix to set."
 						);
 		if(Mantaro.instance().isWindows()){ this.logFile = new File("C:/mantaro/config/logconf.json"); }
 		else if(Mantaro.instance().isUnix()){ this.logFile = new File("/home/mantaro/config/logconf.json"); }

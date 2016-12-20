@@ -18,7 +18,7 @@ public class HashMapUtils {
 	private Map<String, String> stringHashmap;
 	private Map<Integer, String> mixHashmap;
 	private Map<Integer, Integer> intHashmap;
-	private Properties properties = new Properties();
+	private final Properties properties = new Properties();
 	String fileLocation = "";
 	private File file = null;
 	private String name = "";
@@ -146,7 +146,7 @@ public class HashMapUtils {
 	
 	private void saveInt(File file, Map<Integer, Integer> hash)
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, this.getClass(), LogType.INFO); }
 
 		properties.putAll(hash);
 
@@ -160,7 +160,7 @@ public class HashMapUtils {
 	
 	private void saveMix(File file, Map<Integer, String> hash)
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, this.getClass(), LogType.INFO); }
 
 		properties.putAll(hash);
 
@@ -174,7 +174,7 @@ public class HashMapUtils {
 	
 	private void loadString()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, this.getClass(), LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
@@ -191,7 +191,7 @@ public class HashMapUtils {
 	
 	private void loadInt()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, this.getClass(), LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {
@@ -208,7 +208,7 @@ public class HashMapUtils {
 
 	private void loadMix()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, this.getClass(), LogType.INFO); }
 
 		Properties properties = new Properties();
 		try {

@@ -16,9 +16,8 @@ import net.kodehawa.mantarobot.cmd.servertools.Parameters;
 
 public class LogListener extends ListenerAdapter {
 
-	Date date = new Date();
-	private DateFormat df = new SimpleDateFormat("HH:mm:ss");
-	
+	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
+	private static int logTotal = 0;
 	@Override
 	public void onMessageDelete(MessageDeleteEvent event){
 		try{
@@ -27,8 +26,9 @@ public class LogListener extends ListenerAdapter {
 				TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
 				Message deletedMessage = Listener.shortMessageHistory.get(event.getMessageId());
 				if(!deletedMessage.getContent().isEmpty() && !event.getChannel().getName().equals(Parameters.getLogChannelForServer(event.getGuild().getId()))){
+					logTotal++;
 					tc.sendMessage(":warning: `[" + hour + "]` " + deletedMessage.getAuthor().getName() + "#" + deletedMessage.getAuthor().getDiscriminator() + " *deleted*"
-							+ " a message in #" + event.getChannel().getName() + "\n" + "**Message deleted:** " + deletedMessage.getContent()).queue();
+							+ " a message in #" + event.getChannel().getName() + "\n" + "```diff\n-" + deletedMessage.getContent().replace("```", "") + "```").queue();
 				}
 			}
 		} catch(Exception ignored){} //Fails without logging
@@ -43,10 +43,12 @@ public class LogListener extends ListenerAdapter {
 				User author = event.getAuthor();
 				Message editedMessage = Listener.shortMessageHistory.get(event.getMessage().getId());
 				if(!editedMessage.getContent().isEmpty() && !event.getChannel().getName().equals(Parameters.getLogChannelForServer(event.getGuild().getId()))){
-				    tc.sendMessage(":warning: `[" + hour + "]` " + author.getName()+ "#" + author.getDiscriminator() + " *modified* a message in #" + event.getChannel().getName() + ".\n" + "**Previous content:** " + editedMessage.getContent() + "\n**New content:** "
-					+ event.getMessage().getContent()).queue();
+				    tc.sendMessage(":warning: `[" + hour + "]` " + author.getName()+ "#" + author.getDiscriminator() + " *modified* a message in #" + event.getChannel().getName() + ".\n"
+							+ "```diff\n-" + editedMessage.getContent().replace("```", "") +
+							"\n+" + event.getMessage().getContent().replace("```", "") + "```").queue();
 					//Update old message
 					Listener.shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
+					logTotal++;
 				}
 			}
 		} catch(Exception ignored){} //Fails without logging
@@ -58,6 +60,7 @@ public class LogListener extends ListenerAdapter {
 		if(Parameters.getLogHash().containsKey(event.getGuild().getId())){
 			TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
 			tc.sendMessage(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
+			logTotal++;
 		}
 	}
 	
@@ -67,6 +70,11 @@ public class LogListener extends ListenerAdapter {
 		if(Parameters.getLogHash().containsKey(event.getGuild().getId())){
 			TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
 			tc.sendMessage(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got unbanned.").queue();
+			logTotal++;
 		}
+	}
+
+	public static String getLogTotal(){
+		return String.valueOf(logTotal);
 	}
 }

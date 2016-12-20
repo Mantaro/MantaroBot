@@ -8,12 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import us.monoid.web.Resty;
 
 public class Translator extends Command {
 
-	private Resty resty = new Resty();
+	private final Resty resty = new Resty();
 	
 	public Translator()
 	{
@@ -23,10 +23,7 @@ public class Translator extends Command {
 	}
 	
 	@Override
-	/**
-	 * I mean... it works, but google blocks you after a while.
-	 */
-	public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
+    public void onCommand(String[] message, String beheadedMessage, MessageReceivedEvent evt) {
         channel = evt.getChannel();
         
         if(!beheadedMessage.isEmpty()){

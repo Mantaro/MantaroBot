@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import net.kodehawa.mantarobot.log.LogType;
+import net.kodehawa.mantarobot.log.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +19,7 @@ import com.google.common.io.CharStreams;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.thread.AsyncHelper;
 import net.kodehawa.mantarobot.util.Utils;
@@ -29,7 +31,7 @@ import net.kodehawa.mantarobot.util.Utils;
  */
 public class Anime extends Command {
 
-	private String CLIENT_SECRET = Mantaro.instance().getConfig().values().get("alsecret").toString();
+	private final String CLIENT_SECRET = Mantaro.instance().getConfig().values().get("alsecret").toString();
 	private String authToken;
 
 	public Anime(){
@@ -39,11 +41,11 @@ public class Anime extends Command {
 		setExtendedHelp(
 				"Retrieves anime and character info from **AniList**.\n"
 				+ "Usage: \n"
-				+ "~>anime info animename: Gets information of an anime based on parameters.\n"
-				+ "~>anime character charname: Gets information of a character based on parameters.\n"
+				+ "~>anime info [animename]: Gets information of an anime based on parameters.\n"
+				+ "~>anime character [charname]: Gets information of a character based on parameters.\n"
 				+ "Parameter description:\n"
-				+ "*animename*: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n"
-				+ "*character*: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n");
+				+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n"
+				+ "[character]: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n");
 		login(2000);
 	}
 	
@@ -187,7 +189,7 @@ public class Anime extends Command {
 	/**
 	 * @return The new AniList access token.
 	 */
-	private String authenticate(){
+	private void authenticate(){
 		URL aniList;
 		try {
 			aniList = new URL("https://anilist.co/api/auth/access_token");
@@ -204,23 +206,20 @@ public class Anime extends Command {
 	        String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 	        JSONObject jObject = new JSONObject(json);
 	        authToken = jObject.getString("access_token");
+			Logger.instance().print("Updated auth token.", this.getClass(), LogType.INFO);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.instance().print("Problem while updating auth token!" + e.getCause() + " " + e.getMessage(), this.getClass(), LogType.WARNING);
+			if(Mantaro.instance().isDebugEnabled){ e.printStackTrace(); }
 		}
-
-		return authToken;
 	}
 
 	/**
 	 * Refreshes the already given token in x ms. Usually 30 minutes.
-	 * @param seconds
+	 * @param seconds will run every x seconds
 	 * @return the new AniList access token.
 	 */
 	private void login(int seconds){
-		Runnable loginTask = () -> {
-	    	authenticate();
-	    	System.out.println("Updated auth token.");
-		};
+		Runnable loginTask = this::authenticate;
 		AsyncHelper.instance().startAsyncTask("AniList Login Task", loginTask, seconds);
 	}
 }

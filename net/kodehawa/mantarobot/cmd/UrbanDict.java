@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.util.Utils;
 
 public class UrbanDict extends Command {
@@ -22,10 +22,10 @@ public class UrbanDict extends Command {
 		setExtendedHelp(
 				"Retrieves definitions from **Urban Dictionary**.\n"
 				+ "Usage: \n"
-				+ "~>urban term->number: Gets a definition based on parameters.\n"
+				+ "~>urban [term]->[number]: Gets a definition based on parameters.\n"
 				+ "Parameter description:\n"
-				+ "*term*: The term you want to look up the urban definition for.\n"
-				+ "*number*: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\n"
+				+ "[term]: The term you want to look up the urban definition for.\n"
+				+ "[number]: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\n"
 				+ "For example putting 2 will fetch the second result on Urban Dictionary"
 				);
 		setCommandType("user");

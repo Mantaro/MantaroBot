@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 
 /**
  * Information module.
@@ -27,11 +27,11 @@ public class Info extends Command {
 		setExtendedHelp(
 				"Retrieves information from user and server alike..\n"
 				+ "Usage: \n"
-				+ "~>info user @user: Retrieves the specified user information.\n"
+				+ "~>info user [@user]: Retrieves the specified user information.\n"
 				+ "~>info user: Retrieves self user information.\n"
 				+ "~>info server: Retrieves guild/server information.\n"
 				+ "Parameter description:\n"
-				+ "*@user*: User to mention.\n");
+				+ "[@user]: User to mention.\n");
 	}
 	
 	@Override
@@ -121,16 +121,17 @@ public class Info extends Command {
 		case "server":
 			StringBuilder sb = new StringBuilder();
 			int i = 0;
-			for(Role tc : guild.getRoles()){
+			for(Role tc : guild.getRoles()) {
 				i++;
-				if(i <= 79){
-					if(!tc.getName().contains("everyone") && i != guild.getRoles().size() - 1){
-						sb.append(tc.getName() + ", ");
-					} else if(i == guild.getRoles().size() - 1 || i == 79){
-						sb.append(tc.getName() + ".");
+				if (i <= 79) {
+					if (!tc.getName().contains("everyone") && i != guild.getRoles().size() - 1) {
+						sb.append(tc.getName()).append(", ");
+					} else {
+						sb.append(tc.getName()).append(".");
+						break;
 					}
-				} else { break; } 
-			}	
+				}
+			}
 			int online = 0;
 			for(Member u : guild.getMembers()){
 				if(!u.getOnlineStatus().equals(OnlineStatus.OFFLINE)){

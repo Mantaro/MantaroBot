@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.cmd;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 
 public class Ping extends Command {
 

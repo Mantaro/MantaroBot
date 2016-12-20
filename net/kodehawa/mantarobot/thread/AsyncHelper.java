@@ -9,11 +9,10 @@ import java.util.function.Consumer;
 public class AsyncHelper {
 	
 	private static final ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 5);
-	private volatile static AsyncHelper at = new AsyncHelper();
+	private final static AsyncHelper at = new AsyncHelper();
 	
 	/**
-	 * Gets the current thread pool.
-	 * @return
+	 * @return the current thread pool
 	 */
 	public static ExecutorService getThreadPool() {
 		return threadPool;

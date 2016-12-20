@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.cmd.servertools.Parameters;
 import net.kodehawa.mantarobot.util.Utils;
 
@@ -26,10 +26,9 @@ public class Yandere extends Command {
 	private String tagsEncoded = "";
 	private boolean needRating = false;
 	private boolean smallRequest = false;
-	private boolean trigger;
 	private String rating;
 
-	BidiMap<String, String> nRating = new DualHashBidiMap<>();
+	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	
 	public Yandere()
 	{
@@ -39,15 +38,14 @@ public class Yandere extends Command {
 				"This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
 				+ "but tags can be set to safe if you so desire.\n"
 				+ "~>yandere: Gets you a completely random image.\n"
-				+ "~>yandere get page <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
-				+ "~>yandere tags page <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
+				+ "~>yandere get [page] [imagenumber] [rating]: Gets you an image with the specified parameters.\n"
+				+ "~>yandere tags page [tag] [rating] [imagenumber]: Gets you an image with the respective tag and specified parameters.\n"
 				+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
 				+ "> Parameter explanation:\n"
-				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
-				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-				+ "*tag*: Any valid image tag. For example animal_ears or yuri."
-				+ "*rating*: Can be either safe, questionable or explicit, depends on the type of image you want to get.\n"
-				+ "**Note: Image number is optional.**"
+				+ "[page]: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
+				+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+				+ "[tag]: Any valid image tag. For example animal_ears or yuri."
+				+ "[rating]: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.\n"
 				);
 		setCommandType("user");
 		enterRatings();
@@ -114,7 +112,7 @@ public class Yandere extends Command {
 	}
 	
 	private String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, MessageReceivedEvent evt){
-		trigger = false;
+		boolean trigger = false;
 		String rating1 = "";
 		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<>();
 		JSONArray fetchedData = Utils.instance().getJSONArrayFromUrl(url, evt);

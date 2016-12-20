@@ -8,7 +8,7 @@ import com.marcomaldonado.konachan.service.Konachan;
 import com.marcomaldonado.web.callback.WallpaperCallback;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 
 public class Kona extends Command {
 
@@ -20,12 +20,12 @@ public class Kona extends Command {
 		setExtendedHelp(
 				"Retrieves images from the **Konachan** image board.\n"
 				+ "Usage:\n"
-				+ "~>konachan get page imagenumber: Gets an image based in parameters.\n"
-				+ "~>konachan tags page tag imagenumber: Gets an image based in the specified tag and parameters.\n"
+				+ "~>konachan get [page] [imagenumber]: Gets an image based in parameters.\n"
+				+ "~>konachan tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
 				+ "> Parameter explanation:\n"
-				+ "*page*: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
-				+ "*imagenumber*: Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-				+ "*tag*: Any valid image tag. For example animal_ears or original."
+				+ "[page]: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
+				+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+				+ "[tag]: Any valid image tag. For example animal_ears or original."
 				);
 	}
 	

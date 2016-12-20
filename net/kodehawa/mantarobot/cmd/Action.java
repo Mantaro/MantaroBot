@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Action extends Command {
@@ -42,15 +42,15 @@ public class Action extends Command {
 				+ "~>action greet: Sends a random greeting message.\n"
 				+ "~>action tsundere: Y-You baka!\n"
 				+ "~>action bleach: Random image of someone drinking bleach.\n"
-				+ "~>action pat @user: Pats the specified user.\n"
-				+ "~>action hug @user: Hugs the specified user.\n"
-				+ "~>action bloodsuck @user: Self explanatory.\n"
-				+ "~>action meow @user: Meows to a user.\n"
+				+ "~>action pat [@user]: Pats the specified user.\n"
+				+ "~>action hug [@user]: Hugs the specified user.\n"
+				+ "~>action bloodsuck [@user]: Self explanatory.\n"
+				+ "~>action meow [@user]: Meows to a user.\n"
 				+ "~>action meow2: Meows.\n"
 				+ "~>action facedesk: Facedesks.\n"
 				+ "~>action nom: nom nom.\n"
 				+ "Parameter explanation:\n"
-				+ "*@user*: A user to mention.");
+				+ "[@user]: A user to mention.");
 	}
 	
 	

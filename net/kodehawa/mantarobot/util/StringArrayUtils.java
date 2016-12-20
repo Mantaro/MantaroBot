@@ -13,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.LogType;
 import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.thread.AsyncHelper;
 
 public class StringArrayUtils {
 	public volatile static StringArrayUtils instance = new StringArrayUtils();
@@ -33,9 +34,9 @@ public class StringArrayUtils {
 	
 	/**
 	 * Set all the values
-	 * @param name
-	 * @param list
-	 * @param isRewritable
+	 * @param name The name of the file
+	 * @param list The list to write
+	 * @param isRewritable if you need to write on it.
 	 */
 	public StringArrayUtils(String name, CopyOnWriteArrayList<String> list, boolean isRewritable)
 	{
@@ -83,7 +84,7 @@ public class StringArrayUtils {
 	
 	private void createFile()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Creating new file " + name + "...", LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Creating new file " + name + "...", this.getClass(), LogType.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();
@@ -98,39 +99,45 @@ public class StringArrayUtils {
 	}
 
 	private void create(File file, CopyOnWriteArrayList<String> list){
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing List file "+name, LogType.INFO); }
-		try {
-			FileWriter filewriter = new FileWriter(file);
-			BufferedWriter buffered = new BufferedWriter(filewriter);
-			for(String s : list){
-				removeDupes(list);
-				
-				buffered.write(s+"\r\n");
+		Runnable r = () ->{
+			if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing List file "+name, this.getClass(), LogType.INFO); }
+			try {
+				FileWriter filewriter = new FileWriter(file);
+				BufferedWriter buffered = new BufferedWriter(filewriter);
+				for(String s : list){
+					removeDupes(list);
+
+					buffered.write(s+"\r\n");
+				}
+				buffered.close();
+			} catch(Exception e) {
+				Logger.instance().print("Problem while writing file", this.getClass(), LogType.WARNING);
+				e.printStackTrace();
 			}
-			buffered.close();
-		} catch(Exception e) {
-			Logger.instance().print("Problem while writing file", LogType.WARNING);
-			e.printStackTrace();
-		}
+		};
+		AsyncHelper.instance().asyncThread("(StringArrayUtils) Writer thread", r).run();
 	}
 	
 	private void read(){
-		Logger.instance().print("Reading List file: "+name, LogType.INFO);
-		try{
-			FileInputStream imputstream = new FileInputStream(file.getAbsolutePath());
-			DataInputStream datastream = new DataInputStream(imputstream);
-			BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(datastream));
-			String s;
-			while((s = bufferedreader.readLine()) != null){
-				if(!s.startsWith("//"))
-				{
-					list.add(s.trim());
+		Runnable r = () -> {
+			Logger.instance().print("Reading List file: "+name, this.getClass(), LogType.INFO);
+			try{
+				FileInputStream imputstream = new FileInputStream(file.getAbsolutePath());
+				DataInputStream datastream = new DataInputStream(imputstream);
+				BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(datastream));
+				String s;
+				while((s = bufferedreader.readLine()) != null){
+					if(!s.startsWith("//"))
+					{
+						list.add(s.trim());
+					}
 				}
+				bufferedreader.close();
+			} catch(Exception e){
+				Logger.instance().print("Problem while reading file", this.getClass(), LogType.WARNING);
+				e.printStackTrace();
 			}
-			bufferedreader.close();
-		} catch(Exception e){
-			Logger.instance().print("Problem while reading file", LogType.WARNING);
-			e.printStackTrace();
-		}
+		};
+		AsyncHelper.instance().asyncThread("(StringArrayUtils) File reading thread", r).run();
 	}
 }

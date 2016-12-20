@@ -10,7 +10,9 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.listeners.Listener;
+import net.kodehawa.mantarobot.listeners.LogListener;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 
 public class About extends Command {
@@ -53,9 +55,11 @@ public class About extends Command {
 			.addField("Uptime", uptime, true)
 			.addField("Threads", String.valueOf(Thread.activeCount()), true)
 			.addField("Guilds", String.valueOf(Mantaro.instance().getSelf().getGuilds().size()), true)
-			.addField("Users (Unique/Online)", Mantaro.instance().getSelf().getUsers().size() + "/" + online, true)
+			.addField("Users (Online/Unique)", online + "/" + Mantaro.instance().getSelf().getUsers().size(), true)
 			.addField("Channels", String.valueOf(Mantaro.instance().getSelf().getTextChannels().size()), true)
 			.addField("Voice Channels", String.valueOf(Mantaro.instance().getSelf().getVoiceChannels().size()), true)
+			.addField("Commands this session", Listener.getCommandTotal(), true)
+			.addField("Logs this session", LogListener.getLogTotal(), true)
 			.setFooter("Invite link: http://goo.gl/ei1C5j", null);
 		
 		channel.sendMessage(embed.build()).queue();

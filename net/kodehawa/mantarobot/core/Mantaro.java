@@ -19,9 +19,8 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.cmd.management.Command;
-import net.kodehawa.mantarobot.cmd.management.ICommand;
-import net.kodehawa.mantarobot.cmd.management.Loader;
+import net.kodehawa.mantarobot.management.Command;
+import net.kodehawa.mantarobot.management.Loader;
 import net.kodehawa.mantarobot.cmd.parser.Parser;
 import net.kodehawa.mantarobot.config.Config;
 import net.kodehawa.mantarobot.listeners.Listener;
@@ -40,8 +39,7 @@ public class Mantaro {
 	
 	//Who is maintaining this?
 	public final static String OWNER_ID = "155867458203287552";
-	public final static String SERVER_MGR_ID = "155035543984537600";
-	
+
 	//Mod parameters.
 	private boolean externalClassRequired = false;
 	private String externalClasspath = "";
@@ -56,7 +54,6 @@ public class Mantaro {
 	
 	public ConcurrentHashMap<String, Command> modules = new ConcurrentHashMap<>(); //A ConcurrentHashMap of commands, with the key being the command name and the result being the Class extending Command.
 	public Set<Class<? extends Command>> classes = null; //A Set of classes, which will be later on loaded on Loader.
-	public Set<Class<? extends ICommand>> classes1 = null; //A Set of classes, which will be later on loaded on Loader.
 
 	//Gets in what OS the bot is running. Useful because my machine is running Windows 10, but the server is running Linux.
 	private String OS = System.getProperty("os.name").toLowerCase();
@@ -64,11 +61,11 @@ public class Mantaro {
 	private static Game game = Game.of("It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
-	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016_J3.0.BETA_95, for example. 
+	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	public final String[] data = {"14122016", "1.0.1a1-5076"};
+	private final String[] data = {"20122016", "1.0.1a2-1215"};
 	
-	public Mantaro()
+	private Mantaro()
 	{
 		cl = Config.load();
 		this.addClasses();
@@ -124,7 +121,7 @@ public class Mantaro {
 	}
 	
 	//What do do when a command is called?
-	public void onCommand(Parser.Container cmd) throws InstantiationException, IllegalAccessException {
+	public void onCommand(Parser.Container cmd) {
 		if(instance().modules.containsKey(cmd.invoke))
 		{
 			new Thread(() -> instance().modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event)).start();
@@ -135,8 +132,6 @@ public class Mantaro {
 		Runnable classThr = () -> {
 			//Adds all the Classes extending Command to the classes HashMap. They will be later loaded in Loader.
 			Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
-			Reflections test = new Reflections("net.kodehawa.mantarobot.test.cmd");
-			classes1 = test.getSubTypesOf(ICommand.class);
 			classes = reflections.getSubTypesOf(Command.class);
 			if(externalClassRequired){
 				Reflections extReflections = new Reflections(externalClasspath);
@@ -174,25 +169,7 @@ public class Mantaro {
         return (OS.contains("nix") || OS.contains("nux") || OS.contains("aix") );
     }
     
-    public String getPrefix() {
-        String prefix = "!-";
-        return prefix;
-    }
-    
     public Config getConfig(){
     	return cl;
-    }
-    
-    public void setModPath(boolean isModded, String modPackagePath){
-    	this.externalClassRequired = isModded;
-    	this.externalClasspath = modPackagePath;
-    }
-    
-    protected boolean getModded(){
-    	return this.externalClassRequired;
-    }
-    
-    protected String getExternalPath(){
-    	return this.externalClasspath;
     }
 }

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.cmd.management;
+package net.kodehawa.mantarobot.management;
 
 import java.util.function.Consumer;
 

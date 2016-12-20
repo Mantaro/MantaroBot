@@ -6,20 +6,20 @@ import java.util.Date;
 
 public class Logger {
 
-	private DateFormat hour = new SimpleDateFormat("HH:mm:ss");
-	private Date date = new Date();
-	private String hour1 = hour.format(date);
+	private final DateFormat hour = new SimpleDateFormat("HH:mm:ss");
+	private final Date date = new Date();
+	private final String hour1 = hour.format(date);
 	
-	private static Logger instance = new Logger();
+	private static final Logger instance = new Logger();
 
 	public void print(String s, LogType type)
 	{
-		System.out.println("[" + hour1 + "] " + "[" + type.toString() + "] [Mantaro] " + s);
+		System.out.println("[" + hour1 + "] " + "[" + type.toString() + "] [Mantaro]: " + s);
 	}
 	
-	public void print(String logName, String s, LogType type)
+	public void print(String s, Class clazz, LogType type)
 	{
-		System.out.println("[" + hour1 + "] " + "[" + type.toString() + "]" + " [" + logName + "] " + s);
+		System.out.println("[" + hour1+ "]" + "[" + type.toString() + "]" + "[Mantaro" + "/" + clazz.getSimpleName() + "]: " + s);
 	}
 	
 	public static Logger instance()

@@ -22,17 +22,16 @@ import net.kodehawa.mantarobot.log.Logger;
 public class JSONUtils {
 	private static JSONUtils instance = new JSONUtils();
 	private File f;
-	private String name;
 
-	private JSONUtils(){}
+    private JSONUtils(){}
 	
 	public JSONUtils(HashMap<String, String> hash, String n, String subfolder, JSONObject o, boolean rewrite){
-		this.name = n;
+        String name = n;
 		if(Mantaro.instance().isWindows()){ 
-			this.f = new File("C:/mantaro/"+subfolder+"/"+name+".json"); 
+			this.f = new File("C:/mantaro/"+subfolder+"/"+ name +".json");
 		}
 		else if(Mantaro.instance().isUnix()){ 
-			this.f = new File("/home/mantaro/"+subfolder+"/"+name+".json"); 
+			this.f = new File("/home/mantaro/"+subfolder+"/"+ name +".json");
 		}
 		if(!f.exists()){ 
 			this.createFile(f); 
@@ -74,7 +73,7 @@ public class JSONUtils {
 	}
 	
 	public void write(File file, JSONObject obj){
-		Logger.instance().print("Writting JSON File " + file.getName(), LogType.INFO);
+		Logger.instance().print("Writting JSON File " + file.getName(), this.getClass(), LogType.INFO);
 		try {
 			FileWriter fw = new FileWriter(file);
 			fw.write(obj.toString(4));
@@ -97,7 +96,7 @@ public class JSONUtils {
 	}
 	
 	public void read(HashMap<String, String> hash, JSONObject data){
-		Logger.instance().print("Reading JSON data... " + data.toString(), LogType.INFO);
+		Logger.instance().print("Reading JSON data... " + data.toString(), this.getClass(), LogType.INFO);
 		try{
 			Iterator<?> datakeys = data.keys();
 	        while(datakeys.hasNext()){

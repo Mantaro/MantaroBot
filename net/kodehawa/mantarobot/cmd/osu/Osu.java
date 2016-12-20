@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.cmd.osu;
 
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +12,10 @@ import com.osu.api.ciyfhx.OsuClient;
 import com.osu.api.ciyfhx.User;
 import com.osu.api.ciyfhx.UserScore;
 
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.cmd.management.Command;
+import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.util.Utils;
 
@@ -65,8 +68,7 @@ public class Osu extends Command {
 			});
 			break;
 		case "user":
-			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
-					sentMessage.editMessage(user(content)).queue());
+			evt.getChannel().sendMessage(user(content)).queue();
 			break;
 		default:
 			evt.getChannel().sendMessage(getExtendedHelp()).queue();
@@ -77,12 +79,20 @@ public class Osu extends Command {
 	private String best(String beheadedMessage){
 		String finalResponse;
 		try{
+			boolean requiresMode = false;
+			if(beheadedMessage.length() > 10){
+				requiresMode = true;
+			}
 			long start = System.currentTimeMillis();
 			String beheaded1 = beheadedMessage.replace("best ", "");
 			String[] args = beheaded1.split(" ");
 
-			map.put("m", values.get(args[1]));
-			
+			if(requiresMode){
+				map.put("m", values.get(args[1]));
+			} else {
+				map.put("m", 0);
+			}
+
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userBest = osuClient.getUserBest(hey, map);
 			StringBuilder sb = new StringBuilder();
@@ -175,8 +185,8 @@ public class Osu extends Command {
 		return finalMessage;
 	}
 	
-	private String user(String beheadedMessage){
-		String finalMessage;
+	private MessageEmbed user(String beheadedMessage){
+		MessageEmbed finalMessage;
 		try{
 			long start = System.currentTimeMillis();
 			String beheaded1 = beheadedMessage.replace("user ", "");
@@ -185,17 +195,31 @@ public class Osu extends Command {
 			
 			map.put("m", 0);
 			
-			User hey = osuClient.getUser(args[0], map);
-			DecimalFormat df = new DecimalFormat("####0");
+			User osuClientUser = osuClient.getUser(args[0], map);
+			DecimalFormat dfa = new DecimalFormat("####0.00"); //For accuracy
+			DecimalFormat df = new DecimalFormat("####0"); //For everything else
 			long end = System.currentTimeMillis() - start;
-			finalMessage = "```xl\n"+ "Username: " + hey.getUsername() + " (User ID: " + hey.getUserID() + ")" + "\nCountry: " + hey.getCountry() 
-			+ "\nRank: " + df.format(hey.getPPRank()) + " | Country Rank: " + df.format(hey.getPPCountryRank()) +	
-			"\nAccuracy: " + df.format(hey.getAccuracy()) + "%\nPP: " + df.format(hey.getPPRaw()) + "\n" + "Level: " + df.format(hey.getLevel())
-			+"\nRanked Score: " + hey.getRankedScore() + "\nA, S, SS: " + hey.getCountRankA() + " | " + hey.getCountRankS() + " | " + hey.getCountRankSS() 
-			+"\nResponse time: " + end + "ms```";
+			EmbedBuilder builder = new EmbedBuilder();
+					builder.setAuthor("osu! statistics for " + osuClientUser.getUsername(), "https://osu.ppy.sh/" + osuClientUser.getUserID(), "https://a.ppy.sh/" + osuClientUser.getUserID())
+					.setColor(Color.GRAY)
+					.addField("Rank", "#" + df.format(osuClientUser.getPPRank()), true)
+					.addField(":flag_" + osuClientUser.getCountry().toLowerCase() + ": Country Rank", "#" + df.format(osuClientUser.getPPCountryRank()), true)
+					.addField("PP", df.format(osuClientUser.getPPRaw()) + "pp", true)
+					.addField("Accuracy", dfa.format(osuClientUser.getAccuracy()) + "%", true)
+					.addField("Level", df.format(osuClientUser.getLevel()), true)
+					.addField("Ranked Score", df.format(osuClientUser.getRankedScore()), true)
+					.addField("SS", df.format(osuClientUser.getCountRankSS()), true)
+					.addField("S", df.format(osuClientUser.getCountRankS()), true)
+					.addField("A", df.format(osuClientUser.getCountRankA()), true)
+					.setFooter("Response time: " + end + "ms.", null);
+			finalMessage = builder.build();
 		} catch (Exception e){
 			e.printStackTrace();
-			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found.";
+			EmbedBuilder builder = new EmbedBuilder();
+			builder.setTitle("Error.")
+					.setColor(Color.RED)
+					.addField("Description", "Error retrieving results or no results found.", false);
+			finalMessage = builder.build();
 		}
 		return finalMessage;
 	}
