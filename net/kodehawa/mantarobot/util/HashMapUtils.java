@@ -38,11 +38,11 @@ public class HashMapUtils {
 		
 		if(Mantaro.instance().isWindows())
 		{
-			this.file = new File("C:/"+fileLocation+"/"+fileName+".da");
+			this.file = new File("C:/"+fileLocation+"/"+fileName+".dat");
 		}
 		else if(Mantaro.instance().isUnix())
 		{
-			this.file = new File("/home/mantaro/" +fileName+".da");
+			this.file = new File("/home/mantaro/" +fileName+".dat");
 		}
 
 		if(!file.exists())
@@ -67,11 +67,11 @@ public class HashMapUtils {
 		
 		if(Mantaro.instance().isWindows())
 		{
-			this.file = new File("C:/"+fileLocation+"/"+fileName+".da");
+			this.file = new File("C:/"+fileLocation+"/"+fileName+".dat");
 			}
 		else if(Mantaro.instance().isUnix())
 		{
-			this.file = new File("/home/mantaro/" +fileName+".da");
+			this.file = new File("/home/mantaro/" +fileName+".dat");
 		}
 		
 		if(!file.exists())
@@ -94,11 +94,11 @@ public class HashMapUtils {
 		
 		if(Mantaro.instance().isWindows())
 		{
-			this.file = new File("C:/"+fileLocation+"/"+fileName+".da");
+			this.file = new File("C:/"+fileLocation+"/"+fileName+".dat");
 		}
 		else if(Mantaro.instance().isUnix())
 		{
-			this.file = new File("/home/mantaro/" +fileName+".da");
+			this.file = new File("/home/mantaro/" +fileName+".dat");
 		}
 		
 		if(!file.exists())

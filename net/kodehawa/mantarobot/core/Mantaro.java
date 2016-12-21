@@ -59,7 +59,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"20122016", "1.0.1a2-1215"};
+	private final String[] data = {"22122016", "1.0.1a3-1065"};
 	
 	private Mantaro()
 	{
@@ -77,7 +77,7 @@ public class Mantaro {
 					.setToken(botToken)
 					.addListener(new Listener())
 					.addListener(new LogListener())
-					.buildBlocking(); //For some reason buildAsync constantly disconnects me.
+					.buildBlocking();
 			instance().jda.setAutoReconnect(true);
 			instance().jda.getPresence().setGame(game);
 			Logger.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, LogType.INFO);
@@ -101,7 +101,7 @@ public class Mantaro {
 		AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
 	}
 	
-	//What do do when a command is called?
+	//What to do when a command is called?
 	public void onCommand(Parser.Container cmd) {
 		if(instance().modules.containsKey(cmd.invoke))
 		{

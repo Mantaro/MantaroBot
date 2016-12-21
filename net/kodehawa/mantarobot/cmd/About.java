@@ -38,7 +38,7 @@ public class About extends Command {
     			}
     		}
         }
-		
+
 		long millis = ManagementFactory.getRuntimeMXBean().getUptime();
 		String uptime = String.format("%02d hrs, %02d min, %02d sec",TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 		EmbedBuilder embed = new EmbedBuilder();
@@ -58,9 +58,7 @@ public class About extends Command {
 			.addField("Users (Online/Unique)", online + "/" + Mantaro.instance().getSelf().getUsers().size(), true)
 			.addField("Channels", String.valueOf(Mantaro.instance().getSelf().getTextChannels().size()), true)
 			.addField("Voice Channels", String.valueOf(Mantaro.instance().getSelf().getVoiceChannels().size()), true)
-			.addField("Commands this session", Listener.getCommandTotal(), true)
-			.addField("Logs this session", LogListener.getLogTotal(), true)
-			.setFooter("Invite link: http://goo.gl/ei1C5j", null);
+			.setFooter("Invite link: http://goo.gl/ei1C5j (Commands this session: " + Listener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null);
 		
 		channel.sendMessage(embed.build()).queue();
     }
