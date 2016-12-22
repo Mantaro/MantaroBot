@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import net.kodehawa.mantarobot.cmd.servertools.Parameters;
+import net.kodehawa.mantarobot.cmd.guild.Parameters;
 
 public class LogListener extends ListenerAdapter {
 

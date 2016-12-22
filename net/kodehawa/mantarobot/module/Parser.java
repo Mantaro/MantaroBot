@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.cmd.parser;
+package net.kodehawa.mantarobot.module;
 
 import java.util.ArrayList;
 import java.util.Collections;

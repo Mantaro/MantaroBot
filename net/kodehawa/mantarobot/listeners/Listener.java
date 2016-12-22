@@ -5,7 +5,7 @@ import java.util.TreeMap;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import net.kodehawa.mantarobot.cmd.servertools.Parameters;
+import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 
@@ -26,7 +26,7 @@ public class Listener extends ListenerAdapter {
 			shortMessageHistory.remove(shortMessageHistory.firstKey());
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		}
-		
+
 		if(content.startsWith(px) || content.startsWith(Parameters.getPrefixForServer("default")) && !event.getAuthor().isBot())
 		{
 			commandTotal++;

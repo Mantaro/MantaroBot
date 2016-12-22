@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.cmd.osu;
+package net.kodehawa.mantarobot.cmd;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -15,11 +15,13 @@ import com.osu.api.ciyfhx.UserScore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.CommandType;
+import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.Utils;
 
-public class Osu extends Command {
+public class Osu extends Module {
 
 	private OsuClient osuClient = null;
 	private Map<String, Object> map = new HashMap<>();
@@ -27,20 +29,7 @@ public class Osu extends Command {
 	
 	public Osu()
 	{
-		setName("osu");
-		setDescription("Retrieves osu! related things. Use the help argument to get details.");
-		setCommandType("user");
-		setExtendedHelp(
-				"Retrieves information from the osu!api.\n"
-				+ "Usage: \n"
-				+ "~>osu best player mode: Retrieves best scores of the user specified in the specified gamemode.\n"
-				+ "~>osu recent player mode: Retrieves recent scores of the user specified in the specified gamemode.\n"
-				+ "~>osu user player: Retrieves information about a osu! player.\n"
-				+ "Parameter description:\n"
-				+ "*player*: The osu! player to look info for.\n"
-				+ "*mode*: Mode to look for. Possible values are: standard, taiko, mania and ctb.\n"
-				);
-		
+		this.registerCommands();
 		//From a human input, translate to API values.
 		values.put("standard", "0");
 		values.put("taiko", "1");
@@ -50,41 +39,63 @@ public class Osu extends Command {
 	}
 
 	@Override
-	public void onCommand(String[] message, String content, MessageReceivedEvent evt) {
-		osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
-		String noArgs = content.split(" ")[0];
+	public void registerCommands(){
+		super.register("osu", "Retrieves various osu! related information.", new Callback() {
+			@Override
+			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+				osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
+				String noArgs = content.split(" ")[0];
 
-		switch(noArgs){
-		case "best":
-			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
-			{
-				sentMessage.editMessage(best(content)).queue();
-			});
-			break;
-		case "recent":
-			evt.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
-			{
-				sentMessage.editMessage(recent(content)).queue();
-			});
-			break;
-		case "user":
-			evt.getChannel().sendMessage(user(content)).queue();
-			break;
-		default:
-			evt.getChannel().sendMessage(getExtendedHelp()).queue();
-			break;
-		}
+				switch(noArgs){
+					case "best":
+						event.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
+						{
+							sentMessage.editMessage(best(content)).queue();
+						});
+						break;
+					case "recent":
+						event.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
+						{
+							sentMessage.editMessage(recent(content)).queue();
+						});
+						break;
+					case "user":
+						event.getChannel().sendMessage(user(content)).queue();
+						break;
+					default:
+						event.getChannel().sendMessage(help()).queue();
+						break;
+				}
+			}
+
+			@Override
+			public String help() {
+				return "Retrieves information from the osu!api.\n"
+						+ "Usage: \n"
+						+ "~>osu best player mode: Retrieves best scores of the user specified in the specified gamemode.\n"
+						+ "~>osu recent player mode: Retrieves recent scores of the user specified in the specified gamemode.\n"
+						+ "~>osu user player: Retrieves information about a osu! player.\n"
+						+ "Parameter description:\n"
+						+ "*player*: The osu! player to look info for.\n"
+						+ "*mode*: Mode to look for. Possible values are: standard, taiko, mania and ctb.\n";
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+		});
 	}
 		
-	private String best(String beheadedMessage){
+	private String best(String content){
 		String finalResponse;
 		try{
 			boolean requiresMode = false;
-			if(beheadedMessage.length() > 10){
+			if(content.length() > 10){
 				requiresMode = true;
 			}
 			long start = System.currentTimeMillis();
-			String beheaded1 = beheadedMessage.replace("best ", "");
+			String beheaded1 = content.replace("best ", "");
 			String[] args = beheaded1.split(" ");
 
 			if(requiresMode){
@@ -135,11 +146,11 @@ public class Osu extends Command {
 		return finalResponse;
 	}
 	
-	private String recent(String beheadedMessage){
+	private String recent(String content){
 		String finalMessage;
 		try{
 			long start = System.currentTimeMillis();
-			String beheaded1 = beheadedMessage.replace("recent ", "");
+			String beheaded1 = content.replace("recent ", "");
 			String[] args = beheaded1.split(" ");
 			map.put("m", values.get(args[1]));
 			User hey = osuClient.getUser(args[0], map);
@@ -185,11 +196,11 @@ public class Osu extends Command {
 		return finalMessage;
 	}
 	
-	private MessageEmbed user(String beheadedMessage){
+	private MessageEmbed user(String content){
 		MessageEmbed finalMessage;
 		try{
 			long start = System.currentTimeMillis();
-			String beheaded1 = beheadedMessage.replace("user ", "");
+			String beheaded1 = content.replace("user ", "");
 			
 			String[] args = beheaded1.split(" ");
 			
