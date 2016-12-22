@@ -71,7 +71,6 @@ public class Parameters extends Module {
 		super.register("params", "Defines bot parameters for the server", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-
 				guild = event.getGuild();
 				author = event.getAuthor();
 				channel = event.getChannel();

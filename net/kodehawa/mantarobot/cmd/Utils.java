@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.cmd;
 
 import static net.kodehawa.mantarobot.module.CommandType.*;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
@@ -15,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -47,24 +49,33 @@ public class Utils extends Module {
 							builderadmin.append(cmd).append(": ").append(Module.moduleDescriptions.get(cmd)).append("\n");
 					}
 
-					channel.sendMessage(
-							":exclamation: Command help. For extended help use this command with a command name as argument (For example ~>help yandere).\n"
-									+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId())  +" custom prefix on **this** server and " + Parameters.getPrefixForServer("default") + " as global prefix."
-									+ " So put that before the command name to execute it.\n\n"
-									+ "**User commands:**\n"
-									+ builderuser.toString() +"\n"
-									+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build") +
-									Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION).queue(
-							success ->
-							{
-								if(member.hasPermission(Permission.ADMINISTRATOR) || member.hasPermission(Permission.MESSAGE_MANAGE)
-										|| member.hasPermission(Permission.BAN_MEMBERS) || member.hasPermission(Permission.KICK_MEMBERS))
-								{
-									channel.sendMessage(
-											"**Admin commands:**\n"
-													+ builderadmin.toString()).queue();
-								}
-							});
+					event.getAuthor().openPrivateChannel().queue(
+							s -> {
+								channel.sendMessage(":envelope: Delivered!").queue();
+								EmbedBuilder embed = new EmbedBuilder();
+								embed.setColor(Color.PINK)
+										.setDescription(":exclamation: Command help. For extended help use this command with a command name as argument (For example ~>help yandere).\n"
+												+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId())  +" custom prefix on **this** server and " + Parameters.getPrefixForServer("default") + " as global prefix."
+												+ " So put that before the command name to execute it.\n"
+												+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build")
+												+ Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION + "\n\n"
+												+ "**User commands:**\n"
+												+ builderuser.toString() +"\n");
+								s.sendMessage(embed.build()).queue(
+										success ->
+										{
+											if(member.hasPermission(Permission.ADMINISTRATOR) || member.hasPermission(Permission.MESSAGE_MANAGE)
+													|| member.hasPermission(Permission.BAN_MEMBERS) || member.hasPermission(Permission.KICK_MEMBERS))
+											{
+												EmbedBuilder embed1 = new EmbedBuilder();
+												embed1.setColor(Color.PINK)
+														.setDescription("**Admin commands:**\n"
+																+ builderadmin.toString());
+												s.sendMessage(embed1.build()).queue();
+											}
+										});
+							}
+					);
 				} else{ if(Module.modules.containsKey(content)){
 					if(!Module.modules.get(content).help().isEmpty())
 						channel.sendMessage(Module.modules.get(content).help()).queue();
