@@ -8,7 +8,6 @@ import com.marcomaldonado.konachan.service.Konachan;
 import com.marcomaldonado.web.callback.WallpaperCallback;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.management.Command;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;

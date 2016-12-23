@@ -37,7 +37,7 @@ public class BirthdayListener extends ListenerAdapter {
                             String guildId = data[0];
                             List<Member> user = event.getGuild().getMembers();
                             Role birthdayRole =
-                                    guild.getRolesByName(Parameters.getBirthdayRoleForServer(guildId), true).get(0);
+                                    guild.getRoleById(Parameters.getBirthdayRoleForServer(guildId));
                             for (Member finalMember : user) {
                                 if (finalMember.getUser().getId().equals(event.getAuthor().getId())) {
                                     userToAssign = finalMember;
@@ -63,7 +63,7 @@ public class BirthdayListener extends ListenerAdapter {
                             }
                         } else {
                             String guildId = data[0];
-                            Role birthdayRole = guild.getRolesByName(Parameters.getBirthdayRoleForServer(guildId), true).get(0);
+                            Role birthdayRole = guild.getRoleById(Parameters.getBirthdayRoleForServer(guildId));
                             List<Member> user = event.getGuild().getMembers();
                             for (Member finalMember : user) {
                                 if(guild.getMembersWithRoles(birthdayRole).contains(finalMember)){

@@ -58,7 +58,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"22122016", "1.1.0 BETA"};
+	private final String[] data = {"22122016 BETA", "1.1.0"};
 	
 	private Mantaro()
 	{
@@ -112,7 +112,7 @@ public class Mantaro {
 	
 	private void addClasses(){
 		Runnable classThr = () -> {
-			//Adds all the Classes extending Command to the classes HashMap. They will be later loaded in Loader.
+			//Adds all the Classes extending Module to the classes HashMap. They will be later loaded in Loader.
 			Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
 			classes = reflections.getSubTypesOf(Module.class);
 			if(externalClassRequired){

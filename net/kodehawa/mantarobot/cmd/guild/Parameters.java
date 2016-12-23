@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.cmd.guild;
 import java.io.File;
 import java.util.HashMap;
 
+import net.dv8tion.jda.core.entities.Role;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -156,10 +157,11 @@ public class Parameters extends Module {
 							case "set":
 								TextChannel birthdayChannel = guild.getTextChannelsByName(args[2], true).get(0);
 								String birthdayRoleName = args[3];
-								bd_data.put(guild.getId(), birthdayChannel.getId() + ":" + birthdayRoleName);
+								Role birthdayRole = guild.getRolesByName(args[3], true).get(0);
+								bd_data.put(guild.getId(), birthdayChannel.getId() + ":" + birthdayRole.getId());
 								new HashMapUtils("mantaro", "bd_data", bd_data, FILE_SIGN, true);
-								channel.sendMessage(":mega: Birthday channel set to #" + birthdayChannel.getName()
-										+ " with role " + birthdayRoleName + ".").queue();
+								channel.sendMessage(":mega: Birthday channel set to **#" + birthdayChannel.getName()
+										+ "** with role **" + birthdayRoleName + "**." + " (" + birthdayRole.getId() + ")").queue();
 								break;
 							case "disable":
 								bd_data.remove(guild.getId());
