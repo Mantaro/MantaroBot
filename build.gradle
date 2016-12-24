@@ -1,0 +1,34 @@
+group 'com'
+version '1.0.1'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'net.dv8tion:JDA:3.0.BETA2_112'
+    compile 'org.reflections:reflections:0.9.10'
+    compile 'us.monoid.web:resty:0.3.2'
+    compile 'ca.pjer:chatter-bot-api:1.4.3'
+    compile 'ca.pjer:chatter-bot-api:1.4.3'
+    compile fileTree(dir: 'lib', include: '*.jar')
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'bsh:bsh:2.0b4'
+    compile group: 'com.google.guava', name: 'guava', version: '19.0'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
+    compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.2.2'
+    compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.2'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.kodehawa.mantarobot.core.Mantaro'
+    }
+    from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+}
