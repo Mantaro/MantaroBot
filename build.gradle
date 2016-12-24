@@ -15,7 +15,6 @@ dependencies {
     compile 'org.reflections:reflections:0.9.10'
     compile 'us.monoid.web:resty:0.3.2'
     compile 'ca.pjer:chatter-bot-api:1.4.3'
-    compile 'ca.pjer:chatter-bot-api:1.4.3'
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'bsh:bsh:2.0b4'
