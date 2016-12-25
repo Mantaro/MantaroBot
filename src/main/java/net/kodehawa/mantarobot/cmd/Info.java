@@ -42,9 +42,9 @@ public class Info extends Module {
 				for(Role tc : guild.getRoles()) {
 					i++;
 					if (i <= 79) {
-						if (!tc.getName().contains("everyone") && i != guild.getRoles().size() - 1) {
+						if (!tc.getName().contains("everyone") && i < guild.getRoles().size() - 1) {
 							sb.append(tc.getName()).append(", ");
-						} else {
+						} else if (i == guild.getRoles().size() - 1 || i == 79) {
 							sb.append(tc.getName()).append(".");
 							break;
 						}
@@ -104,27 +104,32 @@ public class Info extends Module {
 					if(user1 != null && member1 != null){
 						//This is all done using embeds. It looks nicer and cleaner.
 						embed.setColor(member1.getColor());
-						//If we are dealing with the owner, mark him as owner on the title.
-						if(member1.isOwner()){
-							embed.setTitle("User info for " + user1.getName() + " (Server owner)");
-						} else{
-							//If not, just use the normal title.
-							embed.setTitle("User info for " + user1.getName());
-						}
+						embed.setAuthor("User info for " + user1.getName() + "#" + user1.getDiscriminator(), null, author.getEffectiveAvatarUrl());
 						embed.setThumbnail(user1.getAvatarUrl())
 								//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
-								.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false);
+								.addField("Join Date", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false)
+								.addField("Account Created", author.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false);
 						if(member1.getVoiceState().getChannel() != null){
 							embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false);
 						}
 						if(guild.getMember(user1).getGame() != null){
 							embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false);
 						}
-						embed.addField("Roles", String.valueOf(member1.getRoles().size()), true);
 						//Getting the hex value of the RGB color assuming no alpha that is >16 in value is required.
 						if(member1.getColor() != null){
 							embed.addField("Color", "#"+Integer.toHexString(member1.getColor().getRGB()).substring(2).toUpperCase(), true);
 						}
+						embed.addField("Status", guild.getMember(author).getOnlineStatus().getKey().toLowerCase(), true);
+						StringBuilder sb = new StringBuilder();
+						int i = -1;
+						for(Role roles : member1.getRoles()){
+							i++;
+							if(i < member1.getRoles().size() - 1)
+								sb.append(roles.getName()).append(", ");
+							if(i == member1.getRoles().size() - 1)
+								sb.append(roles.getName()).append(".");
+						}
+						embed.addField("Roles [" + String.valueOf(member1.getRoles().size()) + "]", sb.toString(), true);
 						embed.setFooter("User ID: " + user1.getId(), null);
 						channel.sendMessage(embed.build()).queue();
 					}
@@ -138,27 +143,32 @@ public class Info extends Module {
 
 					//This is all done using embeds. It looks nicer and cleaner.
 					embed.setColor(member1.getColor());
-					//If we are dealing with the owner, mark him as owner on the title.
-					if(member1.isOwner()){
-						embed.setTitle("Self user info for " + user1.getName() + " (Server owner)");
-					} else{
-						//If not, just use the normal title.
-						embed.setTitle("Self user info for " + user1.getName());
-					}
-					embed.setThumbnail(user1.getAvatarUrl());
-					//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
-					embed.addField("Join Date: ", member1.getJoinDate().format(DateTimeFormatter.ISO_LOCAL_DATE).replaceAll("[^0-9.:-]", " "), false);
+					embed.setAuthor("Self user info for " + user1.getName() + "#" + user1.getDiscriminator(), null, author.getEffectiveAvatarUrl());
+					embed.setThumbnail(user1.getAvatarUrl())
+							//Only get the date from the Join Date. Also replace that random Z because I'm not using time.
+							.addField("Join Date", member1.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false)
+							.addField("Account Created", author.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false);
 					if(member1.getVoiceState().getChannel() != null){
 						embed.addField("Voice channel: ", member1.getVoiceState().getChannel().getName(), false);
 					}
 					if(guild.getMember(user1).getGame() != null){
 						embed.addField("Playing: ", guild.getMember(user1).getGame().getName(), false);
 					}
-					embed.addField("Roles", String.valueOf(member1.getRoles().size()), true);
 					//Getting the hex value of the RGB color assuming no alpha that is >16 in value is required.
 					if(!String.valueOf(member1.getColor().getRGB()).isEmpty()){
 						embed.addField("Color", "#"+Integer.toHexString(member1.getColor().getRGB()).substring(2).toUpperCase(), true);
 					}
+					embed.addField("Status", member1.getOnlineStatus().getKey().toLowerCase(), true);
+					StringBuilder sb = new StringBuilder();
+					int i = -1;
+					for(Role roles : member1.getRoles()){
+						i++;
+						if(i < member1.getRoles().size() - 1)
+							sb.append(roles.getName()).append(", ");
+						if(i == member1.getRoles().size() - 1)
+							sb.append(roles.getName()).append(".");
+					}
+					embed.addField("Roles [" + String.valueOf(member1.getRoles().size()) + "]", sb.toString(), true);
 					embed.setFooter("User ID: " + user1.getId(), null);
 					channel.sendMessage(embed.build()).queue();
 				}
@@ -177,6 +187,7 @@ public class Info extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("weather", "Displays forecast information", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {

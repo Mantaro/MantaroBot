@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -200,10 +199,9 @@ public class Tools extends Module {
                         }
                         TextChannel channel2 = event.getGuild().getTextChannelById(channel.getId());
                         //Retrieve the past x messages to delete as a List<Message>
-                        //You *need* to use .block(), with .queue() and using lambda expressions it just bugs out and it doesn't retrieve anything.
-                        try {
-                            messageHistory = channel2.getHistory().retrievePast(messagesToPrune).block();
-                        } catch (RateLimitedException e) {
+                        try{
+                            messageHistory = channel2.getHistory().retrievePast(messagesToPrune).complete();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
 

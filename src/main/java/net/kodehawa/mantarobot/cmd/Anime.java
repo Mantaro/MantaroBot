@@ -8,8 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.log.Type;
+import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -232,9 +232,9 @@ public class Anime extends Module {
 	        String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 	        JSONObject jObject = new JSONObject(json);
 	        authToken = jObject.getString("access_token");
-			Logger.instance().print("Updated auth token.", this.getClass(), LogType.INFO);
+			Log.instance().print("Updated auth token.", this.getClass(), Type.INFO);
 		} catch (Exception e) {
-			Logger.instance().print("Problem while updating auth token!" + e.getCause() + " " + e.getMessage(), this.getClass(), LogType.WARNING);
+			Log.instance().print("Problem while updating auth token!" + e.getCause() + " " + e.getMessage(), this.getClass(), Type.WARNING);
 			if(Mantaro.instance().isDebugEnabled){ e.printStackTrace(); }
 		}
 	}

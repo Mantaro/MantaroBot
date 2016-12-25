@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class AsyncHelper {
-	
+
 	private static final ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 5);
 	private final static AsyncHelper at = new AsyncHelper();
 	
@@ -24,7 +24,6 @@ public class AsyncHelper {
 	 * @param scheduled
 	 * @param everySeconds
 	 */
-	Thread thread;
 	public void startAsyncTask(String task, Runnable scheduled, int everySeconds) {
 		Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, task + " [Executor]")).scheduleAtFixedRate(scheduled, 0, everySeconds, TimeUnit.SECONDS);
 	}
@@ -33,7 +32,7 @@ public class AsyncHelper {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor(r -> new Thread(r, task + " [Executor]"));
         scheduledExecutorService.scheduleAtFixedRate(() -> scheduled.accept(scheduledExecutorService), 0, everySeconds, TimeUnit.SECONDS);
     }
-	
+
 	private Runnable asyncThread(final Runnable doAsync) {
 		return new Thread(doAsync)::start;
 	}

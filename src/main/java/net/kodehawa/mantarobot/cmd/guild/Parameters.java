@@ -92,6 +92,7 @@ public class Parameters extends Module {
 									channel.sendMessage(":mega: Log channel set to " + "#" + logChannel.getName()).queue();
 								} else {
 									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									break;
 								}
 								break;
 							case "disable":
@@ -100,10 +101,11 @@ public class Parameters extends Module {
 									JSONUtils.instance().write(logFile, logObject);
 									JSONUtils.instance().read(logs, logObject);
 									channel.sendMessage(":mega: Removed server from logging.").queue();
+									break;
 								} else {
 									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									break;
 								}
-								break;
 						}
 						break;
 					case "prefix":
@@ -115,6 +117,9 @@ public class Parameters extends Module {
 									JSONUtils.instance().read(prefixes, prefixObject);
 									channel.sendMessage(":mega: Channel bot prefix set to " + args[2]).queue();
 									break;
+								}  else {
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									break;
 								}
 							case "remove":
 								if (guild.getMember(author).isOwner()) {
@@ -122,6 +127,9 @@ public class Parameters extends Module {
 									JSONUtils.instance().write(prefixFile, prefixObject);
 									JSONUtils.instance().read(prefixes, prefixObject);
 									channel.sendMessage(":mega: Channel bot prefix defaulted to ~>").queue();
+									break;
+								} else {
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
 									break;
 								}
 							default:
@@ -138,14 +146,20 @@ public class Parameters extends Module {
 									JSONUtils.instance().write(nsfwFile, nsfwObject);
 									JSONUtils.instance().read(nsfw, nsfwObject);
 									channel.sendMessage(":mega: NSFW channel set to #" + args[2]).queue();
+									break;
+								} else {
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									break;
 								}
-								break;
 							case "remove":
 								if (guild.getMember(author).hasPermission(Permission.ADMINISTRATOR)) {
 									nsfwObject.remove(guild.getId());
 									JSONUtils.instance().write(nsfwFile, nsfwObject);
 									JSONUtils.instance().read(nsfw, nsfwObject);
 									channel.sendMessage(":mega: NSFW channel removed").queue();
+									break;
+								} else {
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
 									break;
 								}
 							default:

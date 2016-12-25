@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.module;
 
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.log.Type;
+import net.kodehawa.mantarobot.log.Log;
 
 /**
  * Threaded automatic command loader.
@@ -32,15 +32,15 @@ public class Loader {
                 try {
                     c.newInstance();
                 } catch (InstantiationException e) {
-                    Logger.instance().print("Cannot initialize a command", this.getClass(), LogType.CRITICAL);
+                    Log.instance().print("Cannot initialize a command", this.getClass(), Type.CRITICAL);
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
-                    Logger.instance().print("Cannot access a command class!", this.getClass(), LogType.CRITICAL);
+                    Log.instance().print("Cannot access a command class!", this.getClass(), Type.CRITICAL);
                     e.printStackTrace();
                 }
             }
             Mantaro.instance().classes.clear();
-            Logger.instance().print("Loaded " + Module.modules.size() + " commands", this.getClass(), LogType.INFO);
+            Log.instance().print("Loaded " + Module.modules.size() + " commands", this.getClass(), Type.INFO);
         };
         new Thread(loaderthr).start();
     }

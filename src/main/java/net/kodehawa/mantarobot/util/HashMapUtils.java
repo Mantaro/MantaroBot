@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 
 public class HashMapUtils {
 
@@ -115,7 +115,7 @@ public class HashMapUtils {
 	
 	private void createFile()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Creating new file" + name + "...", LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Creating new file: " + name + "...", Type.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();
@@ -131,7 +131,7 @@ public class HashMapUtils {
 	
 	private void saveString(File file, Map<String, String> hash)
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Writing Map file "+name, Type.INFO); }
 
 		properties.putAll(hash);
 
@@ -146,7 +146,7 @@ public class HashMapUtils {
 	
 	private void saveInt(File file, Map<Integer, Integer> hash)
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, this.getClass(), LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Writing Map file "+name, this.getClass(), Type.INFO); }
 
 		properties.putAll(hash);
 
@@ -160,7 +160,7 @@ public class HashMapUtils {
 	
 	private void saveMix(File file, Map<Integer, String> hash)
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing Map file "+name, this.getClass(), LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Writing Map file "+name, this.getClass(), Type.INFO); }
 
 		properties.putAll(hash);
 
@@ -174,7 +174,7 @@ public class HashMapUtils {
 	
 	private void loadString()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, this.getClass(), LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Loading Map file "+name, this.getClass(), Type.INFO); }
 
 		Properties properties = new Properties();
 		try {
@@ -191,7 +191,7 @@ public class HashMapUtils {
 	
 	private void loadInt()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, this.getClass(), LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Loading Map file "+name, this.getClass(), Type.INFO); }
 
 		Properties properties = new Properties();
 		try {
@@ -208,7 +208,7 @@ public class HashMapUtils {
 
 	private void loadMix()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Loading Map file "+name, this.getClass(), LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Loading Map file "+name, this.getClass(), Type.INFO); }
 
 		Properties properties = new Properties();
 		try {

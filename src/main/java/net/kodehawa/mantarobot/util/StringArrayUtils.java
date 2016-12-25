@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.thread.AsyncHelper;
 
 public class StringArrayUtils {
@@ -84,7 +84,7 @@ public class StringArrayUtils {
 	
 	private void createFile()
 	{
-		if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Creating new file " + name + "...", this.getClass(), LogType.INFO); }
+		if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Creating new file " + name + "...", this.getClass(), Type.INFO); }
 		if(!file.exists())
 		{
 			file.getParentFile().mkdirs();
@@ -100,7 +100,7 @@ public class StringArrayUtils {
 
 	private void create(File file, CopyOnWriteArrayList<String> list){
 		Runnable r = () ->{
-			if(Mantaro.instance().isDebugEnabled){ Logger.instance().print("Writing List file "+name, this.getClass(), LogType.INFO); }
+			if(Mantaro.instance().isDebugEnabled){ Log.instance().print("Writing List file "+name, this.getClass(), Type.INFO); }
 			try {
 				FileWriter filewriter = new FileWriter(file);
 				BufferedWriter buffered = new BufferedWriter(filewriter);
@@ -111,7 +111,7 @@ public class StringArrayUtils {
 				}
 				buffered.close();
 			} catch(Exception e) {
-				Logger.instance().print("Problem while writing file", this.getClass(), LogType.WARNING);
+				Log.instance().print("Problem while writing file", this.getClass(), Type.WARNING);
 				e.printStackTrace();
 			}
 		};
@@ -120,7 +120,7 @@ public class StringArrayUtils {
 	
 	private void read(){
 		Runnable r = () -> {
-			Logger.instance().print("Reading List file: "+name, this.getClass(), LogType.INFO);
+			Log.instance().print("Reading List file: "+name, this.getClass(), Type.INFO);
 			try{
 				FileInputStream imputstream = new FileInputStream(file.getAbsolutePath());
 				DataInputStream datastream = new DataInputStream(imputstream);
@@ -134,7 +134,7 @@ public class StringArrayUtils {
 				}
 				bufferedreader.close();
 			} catch(Exception e){
-				Logger.instance().print("Problem while reading file", this.getClass(), LogType.WARNING);
+				Log.instance().print("Problem while reading file", this.getClass(), Type.WARNING);
 				e.printStackTrace();
 			}
 		};

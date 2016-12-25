@@ -41,8 +41,8 @@ public class Quote extends Module {
 				receivedMessage.getRawContent();
 				List<Message> messageHistory= null;
 				try {
-					messageHistory = channel.getHistory().retrievePast(100).block();
-				} catch (RateLimitedException e) {
+					messageHistory = channel.getHistory().retrievePast(100).complete();
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 

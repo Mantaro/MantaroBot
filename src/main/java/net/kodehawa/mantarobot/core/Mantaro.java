@@ -6,8 +6,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.security.auth.login.LoginException;
 
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.kodehawa.mantarobot.listeners.BirthdayListener;
+import net.kodehawa.mantarobot.log.State;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Loader;
 import net.kodehawa.mantarobot.module.Module;
 import org.reflections.Reflections;
@@ -21,8 +26,6 @@ import net.kodehawa.mantarobot.module.Parser;
 import net.kodehawa.mantarobot.config.Config;
 import net.kodehawa.mantarobot.listeners.Listener;
 import net.kodehawa.mantarobot.listeners.LogListener;
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
 import net.kodehawa.mantarobot.thread.AsyncHelper;
 import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
@@ -32,14 +35,10 @@ public class Mantaro {
 	
 	//Am I debugging this?
 	public boolean isDebugEnabled = false;
-	
+	private State status = State.PRELOAD;
 	//Who is maintaining this?
 	public final static String OWNER_ID = "155867458203287552";
 
-	//Mod parameters.
-	private boolean externalClassRequired = false;
-	private String externalClasspath = "";
-	
 	//New instances.
 	private static volatile Mantaro instance = new Mantaro();
 	private final Parser parser = new Parser();
@@ -58,7 +57,7 @@ public class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"BETA", "1.1.0 "};
+	private final String[] data = {"25122016", "1.1.0a1-2512"};
 	
 	private Mantaro()
 	{
@@ -67,25 +66,31 @@ public class Mantaro {
 	}	
 	
 	public static void main(String[] args){
-		Logger.instance().print("MantaroBot starting...", LogType.INFO);
+		Log.instance().print("MantaroBot starting...", Type.INFO);
 		String botToken = instance().getConfig().values().get("token").toString();
 		instance().isDebugEnabled = (Boolean)instance().getConfig().values().get("debug");
 		
 		try{
+			instance().status = State.LOADING;
 			instance().jda = new JDABuilder(AccountType.BOT)
 					.setToken(botToken)
 					.addListener(new Listener())
 					.addListener(new LogListener())
 					.addListener(new BirthdayListener())
+					.setAutoReconnect(true)
+					.setGame(game)
 					.buildBlocking();
-			instance().jda.setAutoReconnect(true);
-			instance().jda.getPresence().setGame(game);
-			Logger.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, LogType.INFO);
-		} catch(Exception e){
+			Log.instance().print("Started bot instance.", Type.INFO);
+		} catch(LoginException | InterruptedException | RateLimitedException e){
 			e.printStackTrace();
+			Log.instance().print("Cannot build JDA instance! This is normally very bad. Error: " + e.getCause(), Type.CRITICAL);
+			Log.instance().print("Exiting program...", Type.CRITICAL);
+			System.exit(-1);
 		}
 		
 		new Loader();
+		instance().status = State.LOADED;
+		Log.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, Type.INFO);
 
 		//Random status changer.
 		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<>();
@@ -95,11 +100,13 @@ public class Mantaro {
        	 	int i = r.nextInt(splash.size());
        	 	if(!(i == splash.size()))
        	 	{
-    			instance().jda.getPresence().setGame(Game.of(splash.get(i)));
-				Logger.instance().print("Changed status to: " + splash.get(i), LogType.INFO);
+    			instance().jda.getPresence().setGame(Game.of("~>help | " + splash.get(i)));
+				Log.instance().print("Changed status to: " + splash.get(i), Type.INFO);
 			}
 		};
 		AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
+
+		instance().status = State.POSTLOAD;
 	}
 	
 	//What to do when a command is called?
@@ -115,10 +122,6 @@ public class Mantaro {
 			//Adds all the Classes extending Module to the classes HashMap. They will be later loaded in Loader.
 			Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
 			classes = reflections.getSubTypesOf(Module.class);
-			if(externalClassRequired){
-				Reflections extReflections = new Reflections(externalClasspath);
-				classes.addAll(extReflections.getSubTypesOf(Module.class));
-			}
 		};
 		ThreadPoolHelper.instance().startThread("Load", classThr);
 	}
@@ -154,4 +157,8 @@ public class Mantaro {
     public Config getConfig(){
     	return cl;
     }
+
+    public State getState(){
+    	return status;
+	}
 }

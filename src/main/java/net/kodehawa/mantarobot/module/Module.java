@@ -1,8 +1,6 @@
 package net.kodehawa.mantarobot.module;
 
 import net.dv8tion.jda.core.entities.*;
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
 
 import java.util.HashMap;
 
@@ -18,7 +16,7 @@ public class Module extends Register {
     public Module(){}
 
     public void register(String name, String description, Callback callback) {
-        //Logger.instance().print("Added command " + name + " in module " + getModuleName(), this.getClass(), LogType.INFO);
+        //Log.instance().print("Added command " + name + " in module " + getModuleName(), this.getClass(), Type.INFO);
         moduleDescriptions.put(name, description);
         modules.put(name, callback);
     }

@@ -6,13 +6,11 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.kodehawa.mantarobot.cmd.Birthday;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
-import net.kodehawa.mantarobot.log.LogType;
-import net.kodehawa.mantarobot.log.Logger;
-import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
 public class BirthdayListener extends ListenerAdapter {
     private Guild guild;
@@ -20,7 +18,7 @@ public class BirthdayListener extends ListenerAdapter {
     private Member membertoAssign;
 
     public BirthdayListener(){
-        Logger.instance().print("Birthday Logger started.", this.getClass(), LogType.INFO);
+        Log.instance().print("Birthday Log started.", this.getClass(), Type.INFO);
     }
 
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
@@ -59,7 +57,7 @@ public class BirthdayListener extends ListenerAdapter {
                                 }
                             }
                         } else {
-                            String guildId1 = data[0];
+                            String guildId1  = data[0];
                             Member membertoRemove = event.getGuild().getMember(event.getAuthor());
                             Role birthdayRole1 = guild.getRoleById(Parameters.getBirthdayRoleForServer(guildId1));
                             if(membertoRemove.getRoles().contains(birthdayRole1)){
@@ -67,7 +65,7 @@ public class BirthdayListener extends ListenerAdapter {
                             }
                         }
                     } catch(Exception e){
-                        Logger.instance().print("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), LogType.WARNING);
+                        Log.instance().print("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), Type.WARNING);
                         e.printStackTrace();
                     }
                 }

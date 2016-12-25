@@ -70,6 +70,7 @@ public class Action extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("hug", "Hugs an user", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
@@ -102,6 +103,7 @@ public class Action extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("bloodsuck", "Sucks the blood of an user", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
@@ -135,6 +137,7 @@ public class Action extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("meow", "Meows at someone, or just meows.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
@@ -167,6 +170,7 @@ public class Action extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("greet", "Greets someone.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
@@ -186,6 +190,7 @@ public class Action extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("tsundere", "Y-You baaaaka!.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
@@ -205,6 +210,7 @@ public class Action extends Module {
 				return CommandType.USER;
 			}
 		});
+
 		super.register("action", "Misc actions.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {

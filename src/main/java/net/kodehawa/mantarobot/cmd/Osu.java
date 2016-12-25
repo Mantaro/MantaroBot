@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 import com.osu.api.ciyfhx.Mod;
 import com.osu.api.ciyfhx.OsuClient;
@@ -19,6 +19,7 @@ import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.thread.AsyncHelper;
 import net.kodehawa.mantarobot.util.Utils;
 
 public class Osu extends Module {
@@ -45,22 +46,40 @@ public class Osu extends Module {
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
 				osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
 				String noArgs = content.split(" ")[0];
-
+				channel = event.getChannel();
 				switch(noArgs){
 					case "best":
 						event.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 						{
-							sentMessage.editMessage(best(content)).queue();
+							Future<String> task = AsyncHelper.getThreadPool().submit(() -> best(content));
+							try{
+								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
+								task.cancel(true);
+							} catch (Exception e){
+								if(e instanceof TimeoutException)
+									sentMessage.editMessage(":big_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
+								else
+									e.printStackTrace();
+							}
 						});
 						break;
 					case "recent":
 						event.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
 						{
-							sentMessage.editMessage(recent(content)).queue();
+							Future<String> task = AsyncHelper.getThreadPool().submit(() -> recent(content));
+							try{
+								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
+								task.cancel(true);
+							} catch (Exception e){
+								if(e instanceof TimeoutException)
+									sentMessage.editMessage(":big_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
+								else
+									e.printStackTrace();
+							}
 						});
 						break;
 					case "user":
-						event.getChannel().sendMessage(user(content)).queue();
+						channel.sendMessage(user(content)).queue();
 						break;
 					default:
 						event.getChannel().sendMessage(help()).queue();
@@ -72,12 +91,11 @@ public class Osu extends Module {
 			public String help() {
 				return "Retrieves information from the osu!api.\n"
 						+ "Usage: \n"
-						+ "~>osu best player mode: Retrieves best scores of the user specified in the specified gamemode.\n"
-						+ "~>osu recent player mode: Retrieves recent scores of the user specified in the specified gamemode.\n"
-						+ "~>osu user player: Retrieves information about a osu! player.\n"
+						+ "~>osu best [player]: Retrieves best scores of the user specified in the specified gamemode.\n"
+						+ "~>osu recent [player]: Retrieves recent scores of the user specified in the specified gamemode.\n"
+						+ "~>osu user [player]: Retrieves information about a osu! player.\n"
 						+ "Parameter description:\n"
-						+ "*player*: The osu! player to look info for.\n"
-						+ "*mode*: Mode to look for. Possible values are: standard, taiko, mania and ctb.\n";
+						+ "[player]: The osu! player to look info for.\n";
 			}
 
 			@Override
@@ -90,19 +108,11 @@ public class Osu extends Module {
 	private String best(String content){
 		String finalResponse;
 		try{
-			boolean requiresMode = false;
-			if(content.length() > 10){
-				requiresMode = true;
-			}
 			long start = System.currentTimeMillis();
 			String beheaded1 = content.replace("best ", "");
 			String[] args = beheaded1.split(" ");
 
-			if(requiresMode){
-				map.put("m", values.get(args[1]));
-			} else {
-				map.put("m", 0);
-			}
+			map.put("m", 0);
 
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userBest = osuClient.getUserBest(hey, map);
