@@ -39,6 +39,10 @@ public class Scheduler extends AudioEventAdapter {
         return queue.size();
     }
 
+    public BlockingQueue<AudioTrack> getQueue(){
+        return queue;
+    }
+
     public String getQueueList(){
         StringBuilder sb = new StringBuilder();
         int n = 1;

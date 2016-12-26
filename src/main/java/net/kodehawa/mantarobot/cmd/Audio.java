@@ -62,7 +62,7 @@ public class Audio extends Module {
                 }
                 else {
                     event.getChannel().sendMessage("No tracks next. Disconnecting...").queue();
-                    closeConnection(event.getGuild().getAudioManager(), event.getTextChannel());
+                    closeConnection(musicManager, event.getGuild().getAudioManager(), event.getTextChannel());
                 }
             }
 
@@ -80,7 +80,8 @@ public class Audio extends Module {
         super.register("musicleave", "Leaves the voice channel.", new Callback() {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-                closeConnection(event.getGuild().getAudioManager(), event.getTextChannel());
+                MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
+                closeConnection(musicManager, event.getGuild().getAudioManager(), event.getTextChannel());
             }
 
             @Override
@@ -111,6 +112,32 @@ public class Audio extends Module {
                 return CommandType.USER;
             }
         });
+
+        super.register("removetrack", "Removes the specified track from the queue.", new Callback() {
+            @Override
+            public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+                MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
+                int n = 0;
+                for(AudioTrack audioTrack : musicManager.getScheduler().getQueue()){
+                    if(n == Integer.parseInt(content) - 1){
+                        event.getChannel().sendMessage("Removed track: " + audioTrack.getInfo().title).queue();
+                        musicManager.getScheduler().getQueue().remove(audioTrack);
+                        break;
+                    }
+                    n++;
+                }
+            }
+
+            @Override
+            public String help() {
+                return "";
+            }
+
+            @Override
+            public CommandType commandType() {
+                return CommandType.USER ;
+            }
+        });
     }
 
     private synchronized MusicManager getGuildAudioPlayer(Guild guild) {
@@ -131,7 +158,7 @@ public class Audio extends Module {
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                channel.sendMessage("Adding track to queue: " + track.getInfo().title).queue();
+                channel.sendMessage("Added new track to queue: **" + track.getInfo().title + "**").queue();
                 if(Parameters.getMusicVChannelForServer(guild.getId()).isEmpty()){
                     play(channel.getGuild(), musicManager, track);
                 } else {
@@ -141,13 +168,18 @@ public class Audio extends Module {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                AudioTrack firstTrack = playlist.getSelectedTrack();
-                if (firstTrack == null) {
-                    firstTrack = playlist.getTracks().get(0);
+                int i = 0;
+                StringBuilder builder = new StringBuilder();
+                for(AudioTrack audioTrack : playlist.getTracks()){
+                    if(i <= 60){
+                        builder.append("Added new track to queue: **" + audioTrack.getInfo().title + "**\n");
+                        play(channel.getGuild(), musicManager, audioTrack);
+                    } else {
+                        break;
+                    }
+                    i++;
                 }
-
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
-                play(channel.getGuild(), musicManager, firstTrack);
+                channel.sendMessage(builder.toString()).queue();
             }
 
             @Override
@@ -198,7 +230,8 @@ public class Audio extends Module {
         }
     }
 
-    private void closeConnection(AudioManager audioManager, TextChannel channel) {
+    private void closeConnection(MusicManager musicManager, AudioManager audioManager, TextChannel channel) {
+        musicManager.getScheduler().getQueue().clear();
         audioManager.closeAudioConnection();
         channel.sendMessage("Closed audio connection.").queue();
     }
