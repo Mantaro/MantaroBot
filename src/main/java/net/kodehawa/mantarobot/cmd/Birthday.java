@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.listeners.BirthdayListener;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
