@@ -5,10 +5,9 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class Scheduler extends AudioEventAdapter {
     private final AudioPlayer player;
@@ -45,11 +44,15 @@ public class Scheduler extends AudioEventAdapter {
         int n = 1;
         for(AudioTrack audioTrack : queue){
             long aDuration = audioTrack.getDuration();
-            String duration = (new SimpleDateFormat("MM:ss")).format(new Date(aDuration));
+            String duration = String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes(aDuration),
+                    TimeUnit.MILLISECONDS.toSeconds(aDuration) -  TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
+            );
+
             sb.append(
                     audioTrack.getInfo().title)
                     .append(" (" + duration + ")")
-                    .append("[Position in list: " + n + "]")
+                    .append(" [Position: " + n + "]")
                     .append("\n"
                     );
             n++;

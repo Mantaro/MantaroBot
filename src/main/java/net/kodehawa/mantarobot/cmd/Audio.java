@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.audio.MusicManager;
+import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -38,7 +39,7 @@ public class Audio extends Module {
         super.register("play", "Plays a song in the music voice channel.", new Callback() {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-                loadAndPlay(event.getTextChannel(), args[0], "");
+                loadAndPlay(event.getGuild(), event.getTextChannel(), args[0]);
             }
 
             @Override
@@ -125,13 +126,17 @@ public class Audio extends Module {
         return musicManager;
     }
 
-    private void loadAndPlay(final TextChannel channel, final String trackUrl, String channelName) {
+    private void loadAndPlay(final Guild guild, final TextChannel channel, final String trackUrl) {
         MusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 channel.sendMessage("Adding track to queue: " + track.getInfo().title).queue();
-                play(channel.getGuild(), musicManager, track);
+                if(Parameters.getMusicVChannelForServer(guild.getId()).isEmpty()){
+                    play(channel.getGuild(), musicManager, track);
+                } else {
+                    play(Parameters.getMusicVChannelForServer(guild.getId()), channel.getGuild(), musicManager, track);
+                }
             }
 
             @Override
@@ -162,8 +167,8 @@ public class Audio extends Module {
         musicManager.getScheduler().queue(track);
     }
 
-    private void play(String channelName, Guild guild, MusicManager musicManager, AudioTrack track) {
-        connectToNamedVoiceChannel(channelName, guild.getAudioManager());
+    private void play(String cid, Guild guild, MusicManager musicManager, AudioTrack track) {
+        connectToNamedVoiceChannel(cid, guild.getAudioManager());
         musicManager.getScheduler().queue(track);
     }
 
@@ -182,13 +187,13 @@ public class Audio extends Module {
         }
     }
 
-    private static void connectToNamedVoiceChannel(String string, AudioManager audioManager){
+    private static void connectToNamedVoiceChannel(String voiceId, AudioManager audioManager){
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
             for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
-                if(voiceChannel.getName().contains(string)){
+                if(voiceChannel.getId().equals(voiceId)){
                     audioManager.openAudioConnection(voiceChannel);
+                    break;
                 }
-                break;
             }
         }
     }
@@ -210,7 +215,11 @@ public class Audio extends Module {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setTitle("Track list.");
         builder.setColor(Color.CYAN);
-        builder.setDescription(toSend);
+        if(!toSend.isEmpty()){
+            builder.setDescription(toSend);
+        } else {
+            builder.setDescription( "Nothing here, just dust.");
+        }
 
         return builder.build();
     }

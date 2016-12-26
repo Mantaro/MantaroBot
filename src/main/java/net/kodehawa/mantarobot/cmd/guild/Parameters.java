@@ -22,6 +22,7 @@ public class Parameters extends Module {
 	private static HashMap<String, String> logs = new HashMap<>();
 	private static HashMap<String, String> nsfw = new HashMap<>();
 	private static HashMap<String, String> bd_data = new HashMap<>();
+	private static HashMap<String, String> music_data = new HashMap<>();
 	private String FILE_SIGN = "d41d8cd98f00b204e9800998ecf8427e";
 
 	private JSONObject logObject = new JSONObject();
@@ -64,7 +65,9 @@ public class Parameters extends Module {
 		
 		nsfwObject = JSONUtils.instance().getJSONObject(nsfwFile);
 		JSONUtils.instance().read(nsfw, nsfwObject);
+
 		new HashMapUtils("mantaro", "bd_data", bd_data, FILE_SIGN, false);
+		new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, false);
 	}
 	
 	@Override
@@ -186,6 +189,12 @@ public class Parameters extends Module {
 								channel.sendMessage(help()).queue();
 								break;
 						}
+					case "music":
+						String musicChannel = content.replace("music ", "");
+						System.out.println(musicChannel);
+						music_data.put(event.getGuild().getId(), event.getGuild().getVoiceChannelsByName(musicChannel, true).get(0).getId());
+						new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, true);
+						channel.sendMessage(":mega: Music channel set to: " + musicChannel).queue();
 				}
 			}
 
@@ -201,8 +210,10 @@ public class Parameters extends Module {
 						+ "~>params nsfw disable\n"
 						+ "~>params birthday set [channel]\n"
 						+ "~>params birthday disable\n"
+						+ "~>params music [voicechannel]"
 						+ "**Parameter explanation:**\n"
 						+ "[channel]: The channel name to action in."
+						+ "[voicechannel]: The voice channel to connect to."
 						+ "[prefix]: The prefix to set.";
 			}
 
@@ -223,22 +234,24 @@ public class Parameters extends Module {
 	public static String getNSFWChannelForServer(String guildId){
 		return nsfw.get(guildId);
 	}
-
+	public static String getMusicVChannelForServer(String guildId){
+		if(music_data.get(guildId) == null){
+			return "";
+		}
+		return music_data.get(guildId);
+	}
 	public static String getBirthdayChannelForServer(String guildId){
 		return bd_data.get(guildId).split(":")[0];
 	}
-
 	public static String getBirthdayRoleForServer(String guildId){
 		return bd_data.get(guildId).split(":")[1];
 	}
 	public static String getLogChannelForServer(String serverid){
 		return logs.get(serverid);
 	}
-	
 	public static HashMap<String, String> getLogHash(){
 		return logs;
 	}
-
 	public static HashMap<String, String> getBirthdayHash(){
 		return bd_data;
 	}
