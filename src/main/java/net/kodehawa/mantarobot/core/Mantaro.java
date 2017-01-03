@@ -55,9 +55,9 @@ public class Mantaro {
 	private static Game game = Game.of("It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
-	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.0.0a5-2102.26112016, for example.
+	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"24122016", "1.1.1a1-1217"};
+	private final String[] data = {"24122016", "1.1.1a2-0001"};
 	
 	private Mantaro()
 	{

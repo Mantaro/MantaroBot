@@ -26,17 +26,10 @@ public class Osu extends Module {
 
 	private OsuClient osuClient = null;
 	private Map<String, Object> map = new HashMap<>();
-	private Map<String, String> values = new HashMap<>();
-	
+
 	public Osu()
 	{
 		this.registerCommands();
-		//From a human input, translate to API values.
-		values.put("standard", "0");
-		values.put("taiko", "1");
-		values.put("mania", "2");
-		values.put("ctb", "3");
-
 	}
 
 	@Override
@@ -57,7 +50,7 @@ public class Osu extends Module {
 								task.cancel(true);
 							} catch (Exception e){
 								if(e instanceof TimeoutException)
-									sentMessage.editMessage(":big_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
 									e.printStackTrace();
 							}
@@ -72,7 +65,7 @@ public class Osu extends Module {
 								task.cancel(true);
 							} catch (Exception e){
 								if(e instanceof TimeoutException)
-									sentMessage.editMessage(":big_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
 									e.printStackTrace();
 							}
@@ -150,7 +143,7 @@ public class Osu extends Module {
 		    finalResponse = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch(Exception e){
 			e.printStackTrace();
-			finalResponse = ":heavy_multiplication_x: Error retrieving results or no results found.";
+			finalResponse = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 		
 		return finalResponse;
@@ -162,7 +155,7 @@ public class Osu extends Module {
 			long start = System.currentTimeMillis();
 			String beheaded1 = content.replace("recent ", "");
 			String[] args = beheaded1.split(" ");
-			map.put("m", values.get(args[1]));
+			map.put("m", 0);
 			User hey = osuClient.getUser(args[0], map);
 			List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
 			StringBuilder sb = new StringBuilder();
@@ -188,6 +181,8 @@ public class Osu extends Module {
 				} catch(ArrayIndexOutOfBoundsException ignored){}
 				
 				n1++;
+				n++;
+
 				recent.add(n1 + ".- " + userRecent.get(n).getBeatMap().getTitle().replace("'", "") + " (\u2605"  
 						+ df.format(userRecent.get(n).getBeatMap().getDifficultyRating()) + ") - " + userRecent.get(n).getBeatMap().getCreator()
 						+ mods1
@@ -195,14 +190,13 @@ public class Osu extends Module {
 						"\n");
 				
 				sb.append(recent.get(n));
-				n++;
 			}
+
 			long end = System.currentTimeMillis() - start;
 			finalMessage = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch (Exception e){
 			e.printStackTrace();
-			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found.";
-		}
+			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";}
 		return finalMessage;
 	}
 	
@@ -239,7 +233,7 @@ public class Osu extends Module {
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.setTitle("Error.")
 					.setColor(Color.RED)
-					.addField("Description", "Error retrieving results or no results found.", false);
+					.addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
 			finalMessage = builder.build();
 		}
 		return finalMessage;

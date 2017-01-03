@@ -124,13 +124,11 @@ public class Anime extends Module {
 
 			@Override
 			public String help() {
-				return  "Retrieves anime info from **AniList**.\n"
+				return  "Retrieves anime info from **AniList** (For anime characters use ~>character).\n"
 						+ "Usage: \n"
 						+ "~>anime [animename]: Gets information of an anime based on parameters.\n"
-						+ "~>anime character [charname]: Gets information of a character based on parameters.\n"
 						+ "Parameter description:\n"
-						+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n"
-						+ "[character]: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n";
+						+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n";
 			}
 
 			@Override

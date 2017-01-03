@@ -44,7 +44,9 @@ public class Audio extends Module {
 
             @Override
             public String help() {
-                return "";
+                return "Plays a song in the music voice channel.\n"
+                        + "Usage:\n"
+                        + "~>play [youtubesongurl] (Can be a song or a playlist)";
             }
 
             @Override
@@ -68,7 +70,9 @@ public class Audio extends Module {
 
             @Override
             public String help() {
-                return "";
+                return "Stops the track and continues to the next one, if there is one.\n"
+                        + "Usage:\n"
+                        + "~>skip";
             }
 
             @Override
@@ -86,7 +90,9 @@ public class Audio extends Module {
 
             @Override
             public String help() {
-                return "";
+                return "Leaves the voice channel.\n"
+                        + "Usage:\n"
+                        + "~>musicleave";
             }
 
             @Override
@@ -104,7 +110,9 @@ public class Audio extends Module {
 
             @Override
             public String help() {
-                return "";
+                return "Returns the current tracklist playing on the server.\n"
+                        + "Usage:\n"
+                        + "~>tracklist";
             }
 
             @Override
@@ -130,7 +138,9 @@ public class Audio extends Module {
 
             @Override
             public String help() {
-                return "";
+                return "Removes the specified track from the queue.\n"
+                        + "Usage:\n"
+                        + "~>removetrack [tracknumber] (as specified on the ~>tracklist command)";
             }
 
             @Override
@@ -158,7 +168,7 @@ public class Audio extends Module {
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                channel.sendMessage("Added new track to queue: **" + track.getInfo().title + "**").queue();
+                channel.sendMessage(":mega: Added new track to queue: **" + track.getInfo().title + "**").queue();
                 if(Parameters.getMusicVChannelForServer(guild.getId()).isEmpty()){
                     play(channel.getGuild(), musicManager, track);
                 } else {
@@ -179,17 +189,17 @@ public class Audio extends Module {
                     }
                     i++;
                 }
-                channel.sendMessage(builder.toString()).queue();
+                channel.sendMessage(":mega: " + builder.toString()).queue();
             }
 
             @Override
             public void noMatches() {
-                channel.sendMessage("Nothing found on " + trackUrl).queue();
+                channel.sendMessage(":heavy_multiplication_x: Nothing found on " + trackUrl).queue();
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
-                channel.sendMessage("Couldn't play music: " + exception.getMessage()).queue();
+                channel.sendMessage(":heavy_multiplication_x: Couldn't play music: " + exception.getMessage()).queue();
             }
         });
     }
@@ -207,7 +217,7 @@ public class Audio extends Module {
     private void skipTrack(TextChannel channel) {
         MusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         musicManager.getScheduler().nextTrack();
-        channel.sendMessage("Skipped to next track.").queue();
+        channel.sendMessage(":mega: Skipped to next track.").queue();
     }
 
     private static void connectToFirstVoiceChannel(AudioManager audioManager) {
@@ -233,7 +243,7 @@ public class Audio extends Module {
     private void closeConnection(MusicManager musicManager, AudioManager audioManager, TextChannel channel) {
         musicManager.getScheduler().getQueue().clear();
         audioManager.closeAudioConnection();
-        channel.sendMessage("Closed audio connection.").queue();
+        channel.sendMessage(":mega: Closed audio connection.").queue();
     }
 
     private boolean nextTrackAvaliable(MusicManager musicManager){
@@ -246,12 +256,12 @@ public class Audio extends Module {
     private MessageEmbed embedQueueList(MusicManager musicManager) {
         String toSend = musicManager.getScheduler().getQueueList();
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setTitle("Track list.");
+        builder.setTitle("Track list");
         builder.setColor(Color.CYAN);
         if(!toSend.isEmpty()){
             builder.setDescription(toSend);
         } else {
-            builder.setDescription( "Nothing here, just dust.");
+            builder.setDescription("Nothing here, just dust.");
         }
 
         return builder.build();

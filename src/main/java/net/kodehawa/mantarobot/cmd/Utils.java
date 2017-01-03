@@ -23,7 +23,6 @@ import java.net.URLEncoder;
 
 public class Utils extends Module {
 
-	private final Mantaro mantaro = Mantaro.instance();
 	private final Resty resty = new Resty();
 
 	public Utils(){
@@ -54,7 +53,8 @@ public class Utils extends Module {
 								channel.sendMessage(":envelope: Delivered!").queue();
 								EmbedBuilder embed = new EmbedBuilder();
 								embed.setColor(Color.PINK)
-										.setDescription(":exclamation: Command help. For extended help use this command with a command name as argument (For example ~>help yandere).\n"
+										.setDescription(":exclamation: Command help. For extended help use this command with a command name as argument " +
+												"(For example ~>help yandere).\n"
 												+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId())  +" custom prefix on **this** server and " + Parameters.getPrefixForServer("default") + " as global prefix."
 												+ " So put that before the command name to execute it.\n"
 												+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build")
