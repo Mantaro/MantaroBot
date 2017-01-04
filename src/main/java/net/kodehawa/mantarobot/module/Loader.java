@@ -32,10 +32,10 @@ public class Loader {
                 try {
                     c.newInstance();
                 } catch (InstantiationException e) {
-                    Log.instance().print("Cannot initialize a command", this.getClass(), Type.CRITICAL);
+                    Log.instance().print("Cannot initialize a command", this.getClass(), Type.CRITICAL, e);
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
-                    Log.instance().print("Cannot access a command class!", this.getClass(), Type.CRITICAL);
+                    Log.instance().print("Cannot access a command class!", this.getClass(), Type.CRITICAL, e);
                     e.printStackTrace();
                 }
             }

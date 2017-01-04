@@ -23,9 +23,6 @@ public class Listener extends ListenerAdapter {
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event){
 		if(event.isFromType(ChannelType.TEXT)){
-			px = Parameters.getPrefixForServer(event.getGuild().getId());
-			String content = event.getMessage().getContent();
-
 			if(shortMessageHistory.size() < 250){
 				shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 			} else {
@@ -34,6 +31,9 @@ public class Listener extends ListenerAdapter {
 			}
 
 			try{
+				px = Parameters.getPrefixForServer(event.getGuild().getId());
+				String content = event.getMessage().getContent();
+
 				if(content.startsWith(px) || content.startsWith(Parameters.getPrefixForServer("default")) && !event.getAuthor().isBot())
 				{
 					commandTotal++;
@@ -44,7 +44,7 @@ public class Listener extends ListenerAdapter {
 							try {
 								Mantaro.instance().onCommand(Mantaro.instance().getParser().parse(Parameters.getPrefixForServer("default"), content, event));
 							} catch (NullPointerException e1) {
-								Log.instance().print("Cannot process command? Prefix is probably null, look into this. C: " + content , Type.WARNING);
+								Log.instance().print("Cannot process command? Prefix is probably null, look into this. " + content , this.getClass(), Type.WARNING, e);
 								e1.printStackTrace();
 							}
 						}
@@ -54,7 +54,7 @@ public class Listener extends ListenerAdapter {
 			} catch(NullPointerException e){
 				if(Mantaro.instance().getState().equals(State.POSTLOAD)){
 					e.printStackTrace();
-					Log.instance().print("Caught an error while processsing a command during POSTLOAD state. This is very wrong!", Type.WARNING);
+					Log.instance().print("Caught an error while processsing a command during POSTLOAD state. This is very wrong!", this.getClass(), Type.WARNING, e);
 				}
 			}
 

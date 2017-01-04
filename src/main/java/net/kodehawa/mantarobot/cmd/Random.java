@@ -40,8 +40,8 @@ public class Random extends Module {
 				{
 					long start = System.currentTimeMillis();
 					try {
-						channel.sendTyping().block();
-					} catch (RateLimitedException e) {
+						channel.sendTyping().complete();
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					long end = System.currentTimeMillis() - start;

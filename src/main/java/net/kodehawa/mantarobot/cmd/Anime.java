@@ -118,6 +118,7 @@ public class Anime extends Module {
 					//Build the embedded and send it.
 					channel.sendMessage(embed.build()).queue();
 				} catch (Exception e) {
+					Log.instance().print("Problem processing data.", this.getClass(), Type.WARNING, e);
 					e.printStackTrace();
 				}
 			}
@@ -190,6 +191,7 @@ public class Anime extends Module {
 					channel.sendMessage(embed.build()).queue();
 				}
 				catch (Exception e) {
+					Log.instance().print("Problem processing data.", this.getClass(), Type.WARNING, e);
 					e.printStackTrace();
 				}
 			}
@@ -232,7 +234,7 @@ public class Anime extends Module {
 	        authToken = jObject.getString("access_token");
 			Log.instance().print("Updated auth token.", this.getClass(), Type.INFO);
 		} catch (Exception e) {
-			Log.instance().print("Problem while updating auth token!" + e.getCause() + " " + e.getMessage(), this.getClass(), Type.WARNING);
+			Log.instance().print("Problem while updating auth token!" + e.getCause() + " " + e.getMessage(), this.getClass(), Type.WARNING, e);
 			if(Mantaro.instance().isDebugEnabled){ e.printStackTrace(); }
 		}
 	}

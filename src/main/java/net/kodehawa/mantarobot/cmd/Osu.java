@@ -16,6 +16,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -52,6 +54,7 @@ public class Osu extends Module {
 								if(e instanceof TimeoutException)
 									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
+									Log.instance().print("[osu] Exception thrown while fetching data", this.getClass(), Type.WARNING, e);
 									e.printStackTrace();
 							}
 						});
@@ -67,6 +70,7 @@ public class Osu extends Module {
 								if(e instanceof TimeoutException)
 									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
+									Log.instance().print("[osu] Exception thrown while fetching data", this.getClass(), Type.WARNING, e);
 									e.printStackTrace();
 							}
 						});

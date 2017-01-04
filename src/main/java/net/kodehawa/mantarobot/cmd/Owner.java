@@ -4,6 +4,8 @@ import bsh.Interpreter;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.Listener;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -74,6 +76,7 @@ public class Owner extends Module {
                         System.setOut(old);
                         event.getChannel().sendMessage(baos.toString()).queue();
                     } catch (Exception e) {
+                        Log.instance().print("Problem evaluating code!", this.getClass(), Type.WARNING, e);
                         e.printStackTrace();
                     }
                 }
@@ -121,7 +124,7 @@ public class Owner extends Module {
                     }
                     catch (Exception e){
                         Mantaro.instance().getSelf().addEventListener(new Listener());
-                        channel.sendMessage(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString()).queue();
+                        Log.instance().print(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString(), this.getClass(), Type.CRITICAL, e);
                     }
                 }
                 else{
@@ -135,7 +138,7 @@ public class Owner extends Module {
             }
 
             @Override
-            public CommandType commandType() {
+            public CommandType commandType()     {
                 return CommandType.OWNER;
             }
         });

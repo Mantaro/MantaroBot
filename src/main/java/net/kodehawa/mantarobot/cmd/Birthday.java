@@ -35,7 +35,8 @@ public class Birthday extends Module {
 				try{
 					bd1 = format1.parse(args[0]);
 				} catch(Exception e){
-					channel.sendMessage(":heavy_multiplication_x: a valid date.").queue();
+					if(args[0] != null)
+					channel.sendMessage(":heavy_multiplication_x:" + args[0] + " is not a valid date.").queue();
 					e.printStackTrace();
 				}
 

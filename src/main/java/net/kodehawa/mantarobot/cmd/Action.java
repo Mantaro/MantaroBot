@@ -48,10 +48,10 @@ public class Action extends Module {
 				channel = event.getChannel();
 				receivedMessage = event.getMessage();
 				Random rand = new Random();
-				List<User> menctions = receivedMessage.getMentionedUsers();
+				List<User> mentions = receivedMessage.getMentionedUsers();
 				StringBuilder pString = new StringBuilder();
 				int patint = rand.nextInt(pats.size());
-				for(User s : menctions){
+				for(User s : mentions){
 					pString.append(s.getAsMention());
 				}
 				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(patint));

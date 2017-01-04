@@ -52,7 +52,8 @@ public class BirthdayListener extends ListenerAdapter {
                                                 } else {
                                                     channel.sendMessage(":heavy_multiplication_x:" + "Unknown error while applying roles [" + birthdayRole.getName()
                                                             + "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-                                                    error.printStackTrace();														}
+                                                    error.printStackTrace();
+                                                }
                                             });
                                 }
                             }
@@ -65,7 +66,7 @@ public class BirthdayListener extends ListenerAdapter {
                             }
                         }
                     } catch(Exception e){
-                        Log.instance().print("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), Type.WARNING);
+                        Log.instance().print("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), Type.WARNING, e);
                         e.printStackTrace();
                     }
                 }

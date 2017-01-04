@@ -8,6 +8,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.security.auth.login.LoginException;
 
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.kodehawa.mantarobot.listeners.BirthdayListener;
 import net.kodehawa.mantarobot.log.State;
@@ -51,13 +52,13 @@ public class Mantaro {
 
 	//Gets in what OS the bot is running. Useful because my machine is running Windows 10, but the server is running Linux.
 	private String OS = System.getProperty("os.name").toLowerCase();
-	
+	private Event defaultEvent;
 	private static Game game = Game.of("It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"24122016", "1.1.1a2-0001"};
+	private final String[] data = {"04012017", "1.1.1a3-0001"};
 	
 	private Mantaro()
 	{
@@ -80,6 +81,7 @@ public class Mantaro {
 					.setAutoReconnect(true)
 					.setGame(game)
 					.buildBlocking();
+			instance().status = State.LOADED;
 			Log.instance().print("Started bot instance.", Type.INFO);
 		} catch(LoginException | InterruptedException | RateLimitedException e){
 			e.printStackTrace();
@@ -89,7 +91,6 @@ public class Mantaro {
 		}
 		
 		new Loader();
-		instance().status = State.LOADED;
 		Log.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, Type.INFO);
 
 		//Random status changer.
@@ -107,6 +108,7 @@ public class Mantaro {
 		AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
 
 		instance().status = State.POSTLOAD;
+		Log.instance().print("Finished loading basic components. Status is now set to POSTLOAD", instance().getClass(), Type.INFO);
 	}
 	
 	//What to do when a command is called?
@@ -117,7 +119,7 @@ public class Mantaro {
 		}
 	}
 	
-	private void addClasses(){
+	private synchronized void addClasses(){
 		Runnable classThr = () -> {
 			//Adds all the Classes extending Module to the classes HashMap. They will be later loaded in Loader.
 			Reflections reflections = new Reflections("net.kodehawa.mantarobot.cmd");
@@ -137,7 +139,7 @@ public class Mantaro {
 		
 		return data[i];
 	}
-	
+
 	public Parser getParser(){
 		return parser;
 	}

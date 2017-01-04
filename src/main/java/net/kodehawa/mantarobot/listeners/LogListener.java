@@ -8,7 +8,9 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -31,7 +33,12 @@ public class LogListener extends ListenerAdapter {
 							+ " a message in #" + event.getChannel().getName() + "\n" + "```diff\n-" + deletedMessage.getContent().replace("```", "") + "```").queue();
 				}
 			}
-		} catch(Exception ignored){} //Fails without logging
+		} catch(Exception e){
+			if(!(e instanceof NullPointerException)){
+				//Unexpected exception, log.
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -51,7 +58,12 @@ public class LogListener extends ListenerAdapter {
 					logTotal++;
 				}
 			}
-		} catch(Exception ignored){} //Fails without logging
+		} catch(Exception e){
+			if(!(e instanceof NullPointerException)){
+				//Unexpected exception, log.
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	@Override
@@ -70,6 +82,16 @@ public class LogListener extends ListenerAdapter {
 		if(Parameters.getLogHash().containsKey(event.getGuild().getId())){
 			TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
 			tc.sendMessage(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got unbanned.").queue();
+			logTotal++;
+		}
+	}
+
+	@Override
+	public void onGuildMemberJoin(GuildMemberJoinEvent event) {
+		String hour = df.format(new Date(System.currentTimeMillis()));
+		if(Parameters.getLogHash().containsKey(event.getGuild().getId())) {
+			TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
+			tc.sendMessage(":mega: " + event.getMember().getEffectiveName() + " just joined").queue();
 			logTotal++;
 		}
 	}

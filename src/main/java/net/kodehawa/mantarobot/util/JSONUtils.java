@@ -73,7 +73,7 @@ public class JSONUtils {
 	}
 	
 	public void write(File file, JSONObject obj){
-		Log.instance().print("Writting JSON File " + file.getName(), this.getClass(), Type.INFO);
+		Log.instance().print("Writing JSON File " + file.getName(), this.getClass(), Type.INFO);
 		try {
 			FileWriter fw = new FileWriter(file);
 			fw.write(obj.toString(4));
@@ -96,7 +96,7 @@ public class JSONUtils {
 	}
 	
 	public void read(HashMap<String, String> hash, JSONObject data){
-		Log.instance().print("Reading JSON data... " + data.toString(), this.getClass(), Type.INFO);
+		Log.instance().print("Reading JSON data: " + data.toString(), this.getClass(), Type.INFO);
 		try{
 			Iterator<?> datakeys = data.keys();
 	        while(datakeys.hasNext()){
