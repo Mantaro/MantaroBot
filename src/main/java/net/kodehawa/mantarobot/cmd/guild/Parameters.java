@@ -190,6 +190,7 @@ public class Parameters extends Module {
 								break;
 						}
 					case "music":
+
 						String musicChannel = content.replace("music ", "");
 						System.out.println(musicChannel);
 						music_data.put(event.getGuild().getId(), event.getGuild().getVoiceChannelsByName(musicChannel, true).get(0).getId());

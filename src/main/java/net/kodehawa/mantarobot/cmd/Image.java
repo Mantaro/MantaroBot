@@ -10,6 +10,7 @@ import com.marcomaldonado.konachan.entities.Tag;
 import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.konachan.service.Konachan;
 import com.marcomaldonado.web.callback.WallpaperCallback;
+import net.kodehawa.mantarobot.exception.UnsupportedArgumentException;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
@@ -62,7 +63,6 @@ public class Image extends Module {
 					page = Integer.parseInt(args[1]);
 					tagsToEncode = args[2];
 					if(needRating) rating = nRating.get(args[3]);
-					System.out.println(rating);
 					number = Integer.parseInt(args[4]);
 				} catch(Exception ignored){}
 

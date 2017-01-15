@@ -8,12 +8,9 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.security.auth.login.LoginException;
 
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.kodehawa.mantarobot.listeners.BirthdayListener;
-import net.kodehawa.mantarobot.log.State;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
+import net.kodehawa.mantarobot.log.*;
 import net.kodehawa.mantarobot.module.Loader;
 import net.kodehawa.mantarobot.module.Module;
 import org.reflections.Reflections;
@@ -52,13 +49,12 @@ public class Mantaro {
 
 	//Gets in what OS the bot is running. Useful because my machine is running Windows 10, but the server is running Linux.
 	private String OS = System.getProperty("os.name").toLowerCase();
-	private Event defaultEvent;
 	private static Game game = Game.of("It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"04012017", "1.1.1a3-0001"};
+	private final String[] data = {"12012017", "1.1.1a3-2020"};
 	
 	private Mantaro()
 	{
@@ -82,6 +78,7 @@ public class Mantaro {
 					.setGame(game)
 					.buildBlocking();
 			instance().status = State.LOADED;
+			Log.instance().print("--------------------", Type.INFO);
 			Log.instance().print("Started bot instance.", Type.INFO);
 		} catch(LoginException | InterruptedException | RateLimitedException e){
 			e.printStackTrace();
@@ -89,8 +86,9 @@ public class Mantaro {
 			Log.instance().print("Exiting program...", Type.CRITICAL);
 			System.exit(-1);
 		}
-		
-		new Loader();
+
+		instance().loadClasses();
+
 		Log.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, Type.INFO);
 
 		//Random status changer.
@@ -106,9 +104,6 @@ public class Mantaro {
 			}
 		};
 		AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
-
-		instance().status = State.POSTLOAD;
-		Log.instance().print("Finished loading basic components. Status is now set to POSTLOAD", instance().getClass(), Type.INFO);
 	}
 	
 	//What to do when a command is called?
@@ -118,7 +113,7 @@ public class Mantaro {
 			new Thread(() -> Module.modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event)).start();
 		}
 	}
-	
+
 	private synchronized void addClasses(){
 		Runnable classThr = () -> {
 			//Adds all the Classes extending Module to the classes HashMap. They will be later loaded in Loader.
@@ -131,7 +126,14 @@ public class Mantaro {
 	public synchronized static Mantaro instance(){
 		return instance;
 	}
-	
+
+	private synchronized void loadClasses(){
+		try{
+			new Loader();
+		} catch(Exception e){
+			throw new IllegalStateException("Failed to initialize commands.", e);
+		}
+	}
 	public String getMetadata(String s){
 		int i = -1;
 		if(s.equals("date")){ i = 0; }
@@ -159,6 +161,10 @@ public class Mantaro {
     public Config getConfig(){
     	return cl;
     }
+
+    public void setStatus(State state){
+    	this.status = state;
+	}
 
     public State getState(){
     	return status;

@@ -249,7 +249,7 @@ public class Misc extends Module {
 				channel = event.getChannel();
 				//First split is definition, second one is number. I would use space but we need the ability to fetch with spaces too.
 				String beheadedSplit[] = content.split("->");
-				EmbedBuilder embed = new EmbedBuilder();
+					EmbedBuilder embed = new EmbedBuilder();
 
 				if(!content.isEmpty()){
 					ArrayList<String> definitions = new ArrayList<>(); //Will use later to store definitions.

@@ -16,13 +16,8 @@ public class Module extends Register {
     public Module(){}
 
     public void register(String name, String description, Callback callback) {
-        //Log.instance().print("Added command " + name + " in module " + getModuleName(), this.getClass(), Type.INFO);
         moduleDescriptions.put(name, description);
         modules.put(name, callback);
-    }
-
-    public String getModuleName(){
-        return this.getClass().getSimpleName();
     }
 
     public String getDescription(String cmdname){

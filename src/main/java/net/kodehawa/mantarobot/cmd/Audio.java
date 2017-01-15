@@ -13,11 +13,14 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.audio.MusicManager;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +28,7 @@ public class Audio extends Module {
 
     private final AudioPlayerManager playerManager;
     private final Map<Long, MusicManager> musicManagers;
+    Member _member;
 
     public Audio(){
         this.musicManagers = new HashMap<>();
@@ -39,6 +43,14 @@ public class Audio extends Module {
         super.register("play", "Plays a song in the music voice channel.", new Callback() {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+                _member = event.getMember();
+                try {
+                    new URL(args[0]);
+                }
+                catch(Exception e) {
+                    args[0] = "ytsearch: " + args[0];
+                }
+
                 loadAndPlay(event.getGuild(), event.getTextChannel(), args[0]);
             }
 
@@ -105,14 +117,23 @@ public class Audio extends Module {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
                 MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
-                event.getChannel().sendMessage(embedQueueList(musicManager)).queue();
+                if(content.isEmpty()){
+                    event.getChannel().sendMessage(embedQueueList(musicManager)).queue();
+                } else if(content.startsWith("clean")){
+                    for(AudioTrack audioTrack : musicManager.getScheduler().getQueue()){
+                        event.getChannel().sendMessage("Removed track: " + audioTrack.getInfo().title).queue();
+                        musicManager.getScheduler().getQueue().remove(audioTrack);
+                    }
+                    skipTrack(event.getTextChannel());
+                }
             }
 
             @Override
             public String help() {
-                return "Returns the current tracklist playing on the server.\n"
+                return "Returns the current tracklist playing on the server or clears it.\n"
                         + "Usage:\n"
-                        + "~>tracklist";
+                        + "~>tracklist"
+                        + "~>tracklist clear";
             }
 
             @Override
@@ -170,8 +191,9 @@ public class Audio extends Module {
             public void trackLoaded(AudioTrack track) {
                 channel.sendMessage(":mega: Added new track to queue: **" + track.getInfo().title + "**").queue();
                 if(Parameters.getMusicVChannelForServer(guild.getId()).isEmpty()){
-                    play(channel.getGuild(), musicManager, track);
+                    play(channel.getGuild(), musicManager, track, _member);
                 } else {
+                    Log.instance().print("Joining voice: " + Parameters.getMusicVChannelForServer(guild.getId()), getClass(), Type.INFO);
                     play(Parameters.getMusicVChannelForServer(guild.getId()), channel.getGuild(), musicManager, track);
                 }
             }
@@ -180,15 +202,32 @@ public class Audio extends Module {
             public void playlistLoaded(AudioPlaylist playlist) {
                 int i = 0;
                 StringBuilder builder = new StringBuilder();
-                for(AudioTrack audioTrack : playlist.getTracks()){
-                    if(i <= 60){
-                        builder.append("Added new track to queue: **" + audioTrack.getInfo().title + "**\n");
-                        play(channel.getGuild(), musicManager, audioTrack);
-                    } else {
-                        break;
+                if(!playlist.isSearchResult()){
+                    for(AudioTrack audioTrack : playlist.getTracks()){
+                        if(Parameters.getMusicVChannelForServer(guild.getId()).isEmpty()){
+                            if(i <= 60){
+                                builder.append("Added new track to queue: **" + audioTrack.getInfo().title + "**\n");
+                                play(channel.getGuild(), musicManager, audioTrack, _member);
+                            } else {
+                                break;
+                            }
+                            i++;
+                        } else {
+                            Log.instance().print("Joining voice: " + Parameters.getMusicVChannelForServer(guild.getId()), getClass(), Type.INFO);
+                            play(Parameters.getMusicVChannelForServer(guild.getId()), channel.getGuild(), musicManager, audioTrack);
+                        }
+                        channel.sendMessage(builder.toString()).queue();
                     }
-                    i++;
+                } else {
+                    if(Parameters.getMusicVChannelForServer(guild.getId()).isEmpty()){
+                        play(channel.getGuild(), musicManager, playlist.getTracks().get(0), _member);
+                    } else {
+                        Log.instance().print("Joining voice: " + Parameters.getMusicVChannelForServer(guild.getId()), getClass(), Type.INFO);
+                        play(Parameters.getMusicVChannelForServer(guild.getId()), channel.getGuild(), musicManager, playlist.getTracks().get(0));
+                    }
+                    channel.sendMessage(builder.toString()).queue();
                 }
+
                 channel.sendMessage(":mega: " + builder.toString()).queue();
             }
 
@@ -199,13 +238,14 @@ public class Audio extends Module {
 
             @Override
             public void loadFailed(FriendlyException exception) {
+                Log.instance().print("Couldn't play music", this.getClass(), Type.WARNING, exception);
                 channel.sendMessage(":heavy_multiplication_x: Couldn't play music: " + exception.getMessage()).queue();
             }
         });
     }
 
-    private void play(Guild guild, MusicManager musicManager, AudioTrack track) {
-        connectToFirstVoiceChannel(guild.getAudioManager());
+    private void play(Guild guild, MusicManager musicManager, AudioTrack track, Member member) {
+        connectToUserVoiceChannel(guild.getAudioManager(), member);
         musicManager.getScheduler().queue(track);
     }
 
@@ -220,12 +260,9 @@ public class Audio extends Module {
         channel.sendMessage(":mega: Skipped to next track.").queue();
     }
 
-    private static void connectToFirstVoiceChannel(AudioManager audioManager) {
+    private static void connectToUserVoiceChannel(AudioManager audioManager, Member member) {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-            for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
-                audioManager.openAudioConnection(voiceChannel);
-                break;
-            }
+            audioManager.openAudioConnection(member.getVoiceState().getChannel());
         }
     }
 

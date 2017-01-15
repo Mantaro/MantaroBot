@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.module;
 
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.log.State;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.log.Log;
 
@@ -40,6 +41,9 @@ public class Loader {
                 }
             }
             Mantaro.instance().classes.clear();
+            Mantaro.instance().setStatus(State.POSTLOAD);
+            Log.instance().print("Finished loading basic components. Status is now set to POSTLOAD", getClass(), Type.INFO);
+
             Log.instance().print("Loaded " + Module.modules.size() + " commands", this.getClass(), Type.INFO);
         };
         new Thread(loaderthr).start();
