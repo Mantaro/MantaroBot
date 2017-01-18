@@ -49,12 +49,12 @@ public class Mantaro {
 
 	//Gets in what OS the bot is running. Useful because my machine is running Windows 10, but the server is running Linux.
 	private String OS = System.getProperty("os.name").toLowerCase();
-	private static Game game = Game.of("It's not a bug, it's a feature!");
+	private static Game game = Game.of("~>help | " + "It's not a bug, it's a feature!");
 	
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"12012017", "1.1.1a3-2020"};
+	private final String[] data = {"18012017", "1.1.2a1-0001"};
 	
 	private Mantaro()
 	{
@@ -88,22 +88,7 @@ public class Mantaro {
 		}
 
 		instance().loadClasses();
-
 		Log.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, Type.INFO);
-
-		//Random status changer.
-		CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<>();
-		new StringArrayUtils("splash", splash , false);
-		Runnable splashTask = () -> {
-			Random r = new Random();
-       	 	int i = r.nextInt(splash.size());
-       	 	if(!(i == splash.size()))
-       	 	{
-    			instance().jda.getPresence().setGame(Game.of("~>help | " + splash.get(i)));
-				Log.instance().print("Changed status to: " + splash.get(i), Type.INFO);
-			}
-		};
-		AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
 	}
 	
 	//What to do when a command is called?

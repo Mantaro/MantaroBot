@@ -27,6 +27,7 @@ public class Config {
 		System.out.println("Loading config...");
 		objdata.put("token", "");
 		objdata.put("alsecret", "");
+		objdata.put("weatherappid", "");
 		objdata.put("osuapikey", "");
 		objdata.put("debug", false);
 		objdata.put("console", false);

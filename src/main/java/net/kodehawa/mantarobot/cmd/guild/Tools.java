@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 
@@ -16,7 +17,8 @@ public class Tools extends Module {
     private List<Message> messageHistory;
 
     public Tools(){
-		this.registerCommands();
+        super.setCategory(Category.MODERATION);
+        this.registerCommands();
 	}
 	
 	@Override

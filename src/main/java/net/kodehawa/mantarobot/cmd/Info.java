@@ -10,7 +10,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.Utils;
@@ -26,11 +28,41 @@ public class Info extends Module {
 	
 	public Info()
 	{
+		super.setCategory(Category.INFO);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands(){
+		super.register("ping", "Pong.", new Callback() {
+			@Override
+			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+				channel = event.getChannel();
+
+				event.getTextChannel().sendMessage(":mega: Pinging...").queue(sentMessage ->
+				{
+					long start = System.currentTimeMillis();
+					try {
+						channel.sendTyping().complete();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					long end = System.currentTimeMillis() - start;
+					sentMessage.editMessage(":mega: The ping is " + end + " ms, " + ratePing(end)).queue();
+				});
+			}
+
+			@Override
+			public String help() {
+				return "Just to see if the bot it's alive. Also reports the time it takes for the response to process and bounce back.";
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+		});
+
 		super.register("serverinfo", "Retrieves guild/server information.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
@@ -198,8 +230,10 @@ public class Info extends Module {
 					try {
 						long start = System.currentTimeMillis();
 						//Get a parsed JSON.
-						String APP_ID = "e2abde2e6ca69e90a73ddb43199031de";
-						JSONObject jObject = new JSONObject(Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid="+ APP_ID, event));
+						String APP_ID = Mantaro.instance().getConfig().values().get("weatherappid").toString();
+						JSONObject jObject = new JSONObject(
+								Utils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(
+										content, "UTF-8") + "&appid="+ APP_ID, event));
 						//Get the object as a array.
 						JSONArray data = jObject.getJSONArray("weather");
 						String status = null;
@@ -231,12 +265,12 @@ public class Info extends Module {
 
 						embed.setColor(Color.CYAN)
 								.setTitle(":flag_" + countryCode + ":" + " Forecast information for " + content) //For which city
-								.setDescription(status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.
-								.addField("Temperature", finalTemperatureCelcius.intValue() + "°C/" + finalTemperatureFarnheit.intValue() + "°F", true)
-								.addField("Humidity", hum + "%" , true)
+								.setDescription(":fallen_leaf: " + status + " (" + clness + "% cloudiness)") //Clouds, sunny, etc and cloudiness.
+								.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C/" + finalTemperatureFarnheit.intValue() + "°F", true)
+								.addField(":droplet: Humidity", hum + "%" , true)
 								.addBlankField(true)
-								.addField("Wind Speed", finalWindSpeedMetric.intValue() + "kmh / " + finalWindSpeedImperial.intValue() + "mph" , true)
-								.addField("Pressure", pressure + "kPA" , true)
+								.addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "kmh / " + finalWindSpeedImperial.intValue() + "mph" , true)
+								.addField(":chart_with_downwards_trend: Pressure", pressure + "kPA" , true)
 								.addBlankField(true)
 								.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 						//Build the embed message and send it.
@@ -265,5 +299,23 @@ public class Info extends Module {
 				return CommandType.USER;
 			}
 		});
+	}
+
+	private static String ratePing(long ping) {
+		if (ping <= 0) return "which doesn't even make any sense at all.";
+		if (ping <= 10) return "which is faster than Sonic.";
+		if (ping <= 100) return "which is great!";
+		if (ping <= 200) return "which is nice!";
+		if (ping <= 300) return "which is decent";
+		if (ping <= 400) return "which is average...";
+		if (ping <= 500) return "which is not that bad.";
+		if (ping <= 600) return "which is kinda slow..";
+		if (ping <= 700) return "which is slow..";
+		if (ping <= 800) return "which is too slow.";
+		if (ping <= 800) return "which is awful.";
+		if (ping <= 900) return "which is bad.";
+		if (ping <= 1600) return "which is because discord is lagging";
+		if (ping <= 10000) return "which makes less sense than 0 ping";
+		return "which is slow af";
 	}
 }

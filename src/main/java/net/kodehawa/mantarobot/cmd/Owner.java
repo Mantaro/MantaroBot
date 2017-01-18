@@ -7,6 +7,7 @@ import net.kodehawa.mantarobot.listeners.Listener;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
@@ -17,6 +18,7 @@ import java.io.PrintStream;
 public class Owner extends Module {
 
     public Owner(){
+        super.setCategory(Category.MODERATION);
         this.registerCommands();
     }
 

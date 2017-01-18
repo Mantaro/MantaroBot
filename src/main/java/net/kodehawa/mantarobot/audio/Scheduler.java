@@ -53,10 +53,9 @@ public class Scheduler extends AudioEventAdapter {
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) -  TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );
 
-            sb.append(
-                    audioTrack.getInfo().title)
-                    .append(" (" + duration + ")")
-                    .append(" [Position: " + n + "]")
+            sb.append("[" + n + "] ")
+                    .append(audioTrack.getInfo().title)
+                    .append(" **(" + duration + ")**")
                     .append("\n"
                     );
             n++;

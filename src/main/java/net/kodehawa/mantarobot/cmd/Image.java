@@ -12,6 +12,7 @@ import com.marcomaldonado.konachan.service.Konachan;
 import com.marcomaldonado.web.callback.WallpaperCallback;
 import net.kodehawa.mantarobot.exception.UnsupportedArgumentException;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import org.apache.commons.collections4.BidiMap;
@@ -41,6 +42,7 @@ public class Image extends Module {
 
 	public Image()
 	{
+		super.setCategory(Category.MISC);
 		this.registerCommands();
 		enterRatings();
 	}

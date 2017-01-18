@@ -15,6 +15,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
@@ -31,6 +32,7 @@ public class Misc extends Module {
 
 	public Misc()
 	{
+		super.setCategory(Category.MISC);
 		lyrics.add(":mega: Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
@@ -89,7 +91,7 @@ public class Misc extends Module {
 				return CommandType.USER;
 			}
 		});
-		super.register("hwinfo", "Displays bot hardware information.", new Callback() {
+		super.register("usageinfo", "Displays bot hardware information.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
 				guild = event.getGuild();
@@ -135,7 +137,7 @@ public class Misc extends Module {
 
 			@Override
 			public String help() {
-				return getDescription("randomfact");
+				return getDescription("randomfact")[0];
 			}
 
 			@Override

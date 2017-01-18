@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.Listener;
 import net.kodehawa.mantarobot.listeners.LogListener;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 
@@ -26,40 +27,12 @@ import java.util.concurrent.TimeUnit;
 public class Random extends Module {
 
 	public Random(){
+		super.setCategory(Category.FUN);
 		this.registerCommands();
 	}
 	
 	@Override
 	public void registerCommands(){
-		super.register("ping", "Pong.", new Callback() {
-			@Override
-			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-				channel = event.getChannel();
-
-				event.getTextChannel().sendMessage(":mega: Pong").queue(sentMessage ->
-				{
-					long start = System.currentTimeMillis();
-					try {
-						channel.sendTyping().complete();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					long end = System.currentTimeMillis() - start;
-					sentMessage.editMessage(":mega: Pong to " + event.getAuthor().getAsMention() + " in " + end + " ms.").queue();
-				});
-			}
-
-			@Override
-			public String help() {
-				return "Just to see if the bot it's alive. Also reports the time it takes for the response to process and bounce back.";
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-		});
-
 		super.register("lewd", "T-Too lewd!", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {

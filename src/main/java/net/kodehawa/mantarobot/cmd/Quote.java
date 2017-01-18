@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
@@ -22,6 +23,7 @@ public class Quote extends Module {
 
 	public Quote()
 	{
+		super.setCategory(Category.MISC);
 		new StringArrayUtils("quote", quotes, false, true);
 		this.registerCommands();
 	}

@@ -1,9 +1,15 @@
 package net.kodehawa.mantarobot.module;
 
+import net.dv8tion.jda.core.entities.Game;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.State;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.util.StringArrayUtils;
+
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Threaded automatic command loader.
@@ -14,7 +20,7 @@ import net.kodehawa.mantarobot.log.Log;
  *
  * It is completely automated and needs no input from the programmer when a class which extends {@link net.kodehawa.mantarobot.management.Command} is added to the classpath.
  *
- * Under the hood the  HashMap is using the Reflections library, which puts all the classes on the specificed package which
+ * Under the hood the  HashMap is using the Reflections library, which puts all the classes on the specified package which
  * extends or implements the specified method, but without actually loading them.
  *
  * Seen in Mantaro.class line 73 to 77.
@@ -45,6 +51,21 @@ public class Loader {
             Log.instance().print("Finished loading basic components. Status is now set to POSTLOAD", getClass(), Type.INFO);
 
             Log.instance().print("Loaded " + Module.modules.size() + " commands", this.getClass(), Type.INFO);
+
+
+            //Random status changer.
+            CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<>();
+            new StringArrayUtils("splash", splash , false);
+            Runnable splashTask = () -> {
+                Random r = new Random();
+                int i = r.nextInt(splash.size());
+                if(!(i == splash.size()))
+                {
+                    Mantaro.instance().getSelf().getPresence().setGame(Game.of("~>help | " + splash.get(i)));
+                    Log.instance().print("Changed status to: " + splash.get(i), Type.INFO);
+                }
+            };
+            AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
         };
         new Thread(loaderthr).start();
     }

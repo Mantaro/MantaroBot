@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import net.dv8tion.jda.core.entities.Role;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.HashMapUtils;
@@ -33,6 +34,7 @@ public class Parameters extends Module {
 	private File nsfwFile;
 
 	public Parameters(){
+		super.setCategory(Category.MODERATION);
 		this.registerCommands();
 		logObject.put("version", "1.0");
 		if(Mantaro.instance().isWindows()){ this.logFile = new File("C:/mantaro/config/logconf.json"); }
@@ -114,25 +116,25 @@ public class Parameters extends Module {
 					case "prefix":
 						switch (mainArgs) {
 							case "set":
-								if (guild.getMember(author).isOwner()) {
+								if (guild.getMember(author).isOwner() || author.getId().equals("155867458203287552")) {
 									prefixObject.put(guild.getId(), args[2]);
 									JSONUtils.instance().write(prefixFile, prefixObject);
 									JSONUtils.instance().read(prefixes, prefixObject);
 									channel.sendMessage(":mega: Channel bot prefix set to " + args[2]).queue();
 									break;
 								}  else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.").queue();
 									break;
 								}
 							case "remove":
-								if (guild.getMember(author).isOwner()) {
+								if (guild.getMember(author).isOwner() || author.getId().equals("155867458203287552")) {
 									prefixObject.remove(guild.getId());
 									JSONUtils.instance().write(prefixFile, prefixObject);
 									JSONUtils.instance().read(prefixes, prefixObject);
 									channel.sendMessage(":mega: Channel bot prefix defaulted to ~>").queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.").queue();
 									break;
 								}
 							default:
@@ -151,7 +153,7 @@ public class Parameters extends Module {
 									channel.sendMessage(":mega: NSFW channel set to #" + args[2]).queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.").queue();
 									break;
 								}
 							case "remove":
@@ -162,7 +164,7 @@ public class Parameters extends Module {
 									channel.sendMessage(":mega: NSFW channel removed").queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.");
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this.").queue();
 									break;
 								}
 							default:
@@ -176,21 +178,29 @@ public class Parameters extends Module {
 								String birthdayRoleName = args[3];
 								Role birthdayRole = guild.getRolesByName(args[3], true).get(0);
 								bd_data.put(guild.getId(), birthdayChannel.getId() + ":" + birthdayRole.getId());
-								new HashMapUtils("mantaro", "bd_data", bd_data, FILE_SIGN, true);
-								channel.sendMessage(":mega: Birthday channel set to **#" + birthdayChannel.getName()
-										+ "** with role **" + birthdayRoleName + "**." + " (" + birthdayRole.getId() + ")").queue();
+								new HashMapUtils(
+										"mantaro", "bd_data", bd_data, FILE_SIGN, true
+								);
+								channel.sendMessage(
+										":mega: Birthday channel set to **#" + birthdayChannel.getName()
+										+ "** with role **" + birthdayRoleName + "**." + " (" + birthdayRole.getId() + ")"
+								).queue();
 								break;
 							case "disable":
 								bd_data.remove(guild.getId());
-								new HashMapUtils("mantaro", "bd_data", bd_data, FILE_SIGN, true);
-								channel.sendMessage(":mega: Removed birthday monitoring.").queue();
+								new HashMapUtils(
+										"mantaro", "bd_data", bd_data, FILE_SIGN, true
+								);
+
+								channel.sendMessage(
+										":mega: Removed birthday monitoring."
+								).queue();
 								break;
 							default:
 								channel.sendMessage(help()).queue();
 								break;
 						}
 					case "music":
-
 						String musicChannel = content.replace("music ", "");
 						System.out.println(musicChannel);
 						music_data.put(event.getGuild().getId(), event.getGuild().getVoiceChannelsByName(musicChannel, true).get(0).getId());

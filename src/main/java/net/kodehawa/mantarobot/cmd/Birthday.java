@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.HashMapUtils;
@@ -17,6 +18,7 @@ public class Birthday extends Module {
 
 	public Birthday()
 	{
+		super.setCategory(Category.MISC);
 		this.registerCommands();
 		new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, false);
 	}

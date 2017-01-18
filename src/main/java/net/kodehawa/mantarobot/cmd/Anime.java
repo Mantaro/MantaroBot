@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.module.Callback;
+import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import org.json.JSONArray;
@@ -37,6 +38,7 @@ public class Anime extends Module {
 	private String authToken;
 
 	public Anime(){
+		super.setCategory(Category.FUN);
 		this.registerCommands();
 		login(2000);
 	}
