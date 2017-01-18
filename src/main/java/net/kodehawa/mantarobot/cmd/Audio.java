@@ -16,6 +16,8 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.audio.MusicManager;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.listeners.generic.GenericListener;
+import net.kodehawa.mantarobot.listeners.generic.Variables;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
@@ -29,6 +31,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 public class Audio extends Module {
 
@@ -36,6 +39,7 @@ public class Audio extends Module {
     private final Map<Long, MusicManager> musicManagers;
     private Member _member;
     private MessageReceivedEvent _eventTemp;
+    private GenericListener listener1;
     private Timer timer = new Timer();
 
     public Audio(){
@@ -243,7 +247,38 @@ public class Audio extends Module {
                         }
                         i1++;
                     }
-                    MusicArgListener listener1 = new MusicArgListener(playlist, guild, musicManager, content, _eventTemp.getAuthor().getId(), args, _eventTemp);
+
+                    Function<StringBuilder, String> builderFunction = (StringBuilder b) -> {
+                        int n = 0;
+                        for(Object s : Variables.instance._list) {
+                            n++;
+                            b.append("[").append(n).append("] ").append(s).append("\n");
+                        }
+                        EmbedBuilder embedBuilder = new EmbedBuilder();
+                        embedBuilder.setColor(Color.CYAN);
+                        embedBuilder.setTitle("Song selection. Type the song number to continue.");
+                        embedBuilder.setDescription(b.toString());
+                        embedBuilder.setFooter("This timeouts in 10 seconds.", null);
+
+                        Variables.instance._evt.getChannel().sendMessage(embedBuilder.build()).queue();
+                        return "";
+                    };
+
+                    listener1 = new GenericListener(builderFunction, playlist, guild, musicManager, content, _eventTemp.getAuthor().getId(), args, _eventTemp, (MusicManager m) -> {
+                        if(Variables.instance._gEventTmp.getAuthor().getId().equals(Variables.instance._userId)) {
+                            for (String s : Variables.instance._args) {
+                                if (Variables.instance._gEventTmp.getMessage().getContent().equals(s)) {
+                                    loadTrack(Variables.instance._guild, Variables.instance._gEventTmp.getChannel(), m,
+                                            Variables.instance._audioPlaylist.getTracks().get(Integer.parseInt(s) - 1), false);
+                                    Mantaro.instance().getSelf().removeEventListener(listener1);
+                                    timer.cancel();
+                                    break;
+                                }
+                            }
+                        }
+                        return "Guess this didn't have to return it.";
+                    });
+
                     Mantaro.instance().getSelf().addEventListener(listener1);
                     TimerTask ts = new TimerTask() {
                         @Override
@@ -449,53 +484,5 @@ public class Audio extends Module {
                 TimeUnit.MILLISECONDS.toSeconds(length) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
-    }
-
-    private class MusicArgListener extends ListenerAdapter {
-        private String _userId;
-        String[] _args;
-        MessageReceivedEvent _evt;
-        List _list;
-        Guild _guild;
-        MusicManager _musicManager;
-        AudioPlaylist _audioPlaylist;
-
-        MusicArgListener(AudioPlaylist audioPlaylist, Guild guild, MusicManager musicManager, List<String> list, String id, String[] args, MessageReceivedEvent evt){
-            _guild = guild;
-            _musicManager = musicManager;
-            _audioPlaylist = audioPlaylist;
-            _userId = id;
-            _args = args;
-            _evt = evt;
-            _list = list;
-
-            StringBuilder sb = new StringBuilder();
-            int n = 0;
-            for(String s : list) {
-                n++;
-                sb.append("[").append(n).append("] ").append(s).append("\n");
-            }
-            EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setColor(Color.CYAN);
-            embedBuilder.setTitle("Song selection. Type the song number to continue.");
-            embedBuilder.setDescription(sb.toString());
-            embedBuilder.setFooter("This timeouts in 10 seconds.", null);
-
-            _evt.getChannel().sendMessage(embedBuilder.build()).queue();
-        }
-
-        @Override
-        public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-            if(event.getAuthor().getId().equals(_userId)) {
-                for (String s : _args) {
-                    if (event.getMessage().getContent().startsWith(s)) {
-                        loadTrack(_guild, event.getChannel(), _musicManager, _audioPlaylist.getTracks().get(Integer.parseInt(s) - 1), false);
-                        Mantaro.instance().getSelf().removeEventListener(this);
-                        timer.cancel();
-                        break;
-                    }
-                }
-            }
-        }
     }
 }

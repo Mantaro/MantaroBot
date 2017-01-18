@@ -91,41 +91,7 @@ public class Misc extends Module {
 				return CommandType.USER;
 			}
 		});
-		super.register("usageinfo", "Displays bot hardware information.", new Callback() {
-			@Override
-			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-				guild = event.getGuild();
-				author = event.getAuthor();
-				channel = event.getChannel();
-				receivedMessage = event.getMessage();
-				long totalMemory = Runtime.getRuntime().totalMemory()/(1024)/1024;
-				long freeMemory = Runtime.getRuntime().freeMemory()/(1024)/1024;
-				long maxMemory = Runtime.getRuntime().maxMemory()/(1024)/1024;
-				int avaliableProcessors = Runtime.getRuntime().availableProcessors();
-				int cpuUsage = Utils.pm.getCpuUsage().intValue();
-				EmbedBuilder embed = new EmbedBuilder();
-				embed.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
-						.setDescription("Hardware and usage information.")
-						.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-						.addField("Threads", ManagementFactory.getThreadMXBean().getThreadCount()+"T", true)
-						.addField("Memory Usage", totalMemory - freeMemory  + "MB/" + maxMemory +"MB", true)
-						.addField("CPU Cores", String.valueOf(avaliableProcessors), true)
-						.addField("CPU Usage", cpuUsage + "%", true)
-						.addField("Assigned Memory", totalMemory  + "MB", true)
-						.addField("Remaining from assigned", freeMemory  + "MB", true);
-				channel.sendMessage(embed.build()).queue();
-			}
 
-			@Override
-			public String help() {
-				return "Gives extended information about the bot hardware usage.";
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-		});
 		super.register("randomfact", "Displays a random fact.", new Callback() {
 			@Override
 			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
