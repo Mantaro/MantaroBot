@@ -14,8 +14,11 @@ import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 
 public class Owner extends Module {
+
+    public static MessageReceivedEvent tempEvt = null;
 
     public Owner(){
         super.setCategory(Category.MODERATION);
@@ -66,17 +69,20 @@ public class Owner extends Module {
         super.register("eval", "Evaluates arbitrary code.", new Callback() {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+                tempEvt = event;
                 if(event.getAuthor().getId().equals(Mantaro.OWNER_ID)){
                     try {
                         Interpreter interpreter = new Interpreter();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        PrintStream ps = new PrintStream(baos);
-                        PrintStream old = System.out;
-                        System.setOut(ps);
-                        interpreter.eval("import *; " + content);
-                        System.out.flush();
-                        System.setOut(old);
-                        event.getChannel().sendMessage(baos.toString()).queue();
+                        String evalHeader =
+                                "import *; "
+                                        + "private Mantaro bot = Mantaro.instance(); "
+                                        + "private JDAImpl self = Mantaro.instance().getSelf(); "
+                                        + "private MessageReceivedEvent evt = net.kodehawa.mantarobot.cmd.Owner.tempEvt;";
+                        Object toSendTmp = interpreter.eval(evalHeader + content.replaceAll("#", "().") + ";");
+                        if(toSendTmp != null){
+                            String toSend = toSendTmp.toString();
+                            event.getChannel().sendMessage(toSend).queue();
+                        }
                     } catch (Exception e) {
                         Log.instance().print("Problem evaluating code!", this.getClass(), Type.WARNING, e);
                         e.printStackTrace();

@@ -29,7 +29,7 @@ import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class Mantaro {
+public final class Mantaro {
 	
 	//Am I debugging this?
 	public boolean isDebugEnabled = false;

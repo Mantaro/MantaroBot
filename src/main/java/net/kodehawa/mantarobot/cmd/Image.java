@@ -119,7 +119,7 @@ public class Image extends Module {
 					}
 				}
 
-				if(needRating){
+				if(needRating) {
 					BidiMap<String, String> iRating = nRating.inverseBidiMap();
 					rating1 = iRating.get(rating);
 				}
@@ -233,7 +233,7 @@ public class Image extends Module {
 						}
 
 						try{
-							String toSend = String.format("%s Image found! You can get a total of **%d images// in this page.\n %s", ":mag_right:", images.size(), "http:" + images.get(number-1));
+							String toSend = String.format("%s Image found! You can get a total of **%d images** on this page.\n %s", ":mag_right:", images.size(), "http:" + images.get(number-1));
 							channel.sendMessage(toSend).queue();
 						} catch(ArrayIndexOutOfBoundsException exception){
 							channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();

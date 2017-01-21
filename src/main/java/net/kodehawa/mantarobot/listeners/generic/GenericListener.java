@@ -16,50 +16,55 @@ import java.util.function.Function;
  * Creates a generic listener.
  * It listens to any defined Function by the user, and it can be used for all kinds of applications.
  */
-public class GenericListener extends ListenerAdapter {
-    private Function<MusicManager, String> _musicFunction;
-    private Function<EmbedBuilder, String> _genericFunction;
+public final class GenericListener extends ListenerAdapter {
+    private Function<GenericListener, String> _musicFunction;
+    private Function<GenericListener, String> _genericFunction;
     private Type requestType;
+    public String[] _args;
+    public String _userId;
+    public MessageReceivedEvent _evt;
+    public GuildMessageReceivedEvent _gEventTmp;
+    public List _list;
+    public Guild _guild;
+    public MusicManager _musicManager;
+    public AudioPlaylist _audioPlaylist;
 
-    public GenericListener(Function<StringBuilder, String> action, AudioPlaylist audioPlaylist, Guild guild, MusicManager musicManager, List<String> list,
-                     String id, String[] args, MessageReceivedEvent evt, Function<MusicManager, String> function){
+    public GenericListener(Function<GenericListener, String> action, AudioPlaylist audioPlaylist, Guild guild, MusicManager musicManager, List<String> list,
+                     String id, String[] args, MessageReceivedEvent evt, Function<GenericListener, String> function){
         requestType = Type.MUSIC;
         _musicFunction = function;
-        Variables.instance._guild = guild;
-        Variables.instance._musicManager = musicManager;
-        Variables.instance._audioPlaylist = audioPlaylist;
-        Variables.instance._userId = id;
-        Variables.instance._args = args;
-        Variables.instance._evt = evt;
-        Variables.instance._list = list;
+        _guild = guild;
+        _musicManager = musicManager;
+        _audioPlaylist = audioPlaylist;
+        _userId = id;
+        _args = args;
+        _evt = evt;
+        _list = list;
 
-        StringBuilder sb = new StringBuilder();
-        action.apply(sb);
+        action.apply(this);
     }
 
-    public GenericListener(Function<StringBuilder, String> action, Guild guild, List<String> list,
-                           String id, String[] args, MessageReceivedEvent evt, Function<EmbedBuilder, String> function){
+    public GenericListener(Function<GenericListener, String> action, Guild guild, List<String> list,
+                           String id, String[] args, MessageReceivedEvent evt, Function<GenericListener, String> function){
         requestType = Type.GENERAL;
         _genericFunction = function;
-        Variables.instance._guild = guild;
-        Variables.instance._userId = id;
-        Variables.instance._args = args;
-        Variables.instance._evt = evt;
-        Variables.instance._list = list;
+        _guild = guild;
+        _userId = id;
+        _args = args;
+        _evt = evt;
+        _list = list;
 
-        StringBuilder sb = new StringBuilder();
-        action.apply(sb);
+        action.apply(this);
     }
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-        Variables.instance._gEventTmp = event;
+        _gEventTmp = event;
         if(requestType.equals(Type.MUSIC)){
-            _musicFunction.apply(Variables.instance._musicManager);
+            _musicFunction.apply(this);
         }
         else {
-            EmbedBuilder builder = new EmbedBuilder();
-            _genericFunction.apply(builder);
+            _genericFunction.apply(this);
         }
     }
 

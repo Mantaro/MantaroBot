@@ -22,7 +22,7 @@ public class Module extends Register {
     }
 
     public void register(String name, String description, Callback callback) {
-        System.out.printf("Loaded %s, %s (Cat %s) \n", name, getClass().getSimpleName(), cat);
+        //System.out.printf("Loaded %s, %s (Cat %s) \n", name, getClass().getSimpleName(), cat);
 
         String[] descriptionBuilder = {
                 description,

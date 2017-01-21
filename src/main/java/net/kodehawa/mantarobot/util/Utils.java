@@ -8,7 +8,11 @@ import java.lang.management.ManagementFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -147,7 +151,15 @@ public class Utils {
 	public String getMod(Mod key){
 		return mods.get(key);
 	}
-	
+
+	public String nestedMapToJson(HashMap<?, ?> map){
+		final Gson gson = new Gson();
+		final JsonElement jsonTree = gson.toJsonTree(map, Map.class);
+		final JsonObject jsonObject = new JsonObject();
+		jsonObject.add("custom", jsonTree);
+		return jsonObject.toString();
+	}
+
 	public File getUrlFile(String url1, String extension){
 		URL url;
 		InputStream is;

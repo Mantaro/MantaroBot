@@ -30,7 +30,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @since 24/11/2016
  * @see org.reflections.Reflections
  */
-public class Loader {
+public final class Loader {
 
     public Loader(){
         Runnable loaderthr = () ->

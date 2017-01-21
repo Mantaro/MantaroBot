@@ -13,7 +13,9 @@ public class ExceptionHandler {
             StringBuilder sb = new StringBuilder();
             sb.append(ex.toString()).append("\n");
             for(StackTraceElement ste : ex.getStackTrace()){
-                sb.append("      " + ste).append("\n");
+                sb.append("      ").
+                        append(ste).
+                        append("\n");
             }
 
             switch(t){

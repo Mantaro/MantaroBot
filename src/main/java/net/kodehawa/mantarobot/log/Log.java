@@ -9,7 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Log {
+public final class Log {
 
 	private final DateFormat hour = new SimpleDateFormat("HH:mm:ss");
 	private final Date date = new Date();

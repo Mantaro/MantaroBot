@@ -4,14 +4,19 @@ import java.awt.Color;
 import java.lang.management.ManagementFactory;
 import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.listeners.Listener;
+import net.kodehawa.mantarobot.listeners.LogListener;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
@@ -329,6 +334,56 @@ public class Info extends Module {
 						+ "> Parameters:\n"
 						+ "[city]: Your city name, for example New York\n"
 						+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).";
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+		});
+
+		super.register("about", "Displays information about the bot.", new Callback() {
+			@Override
+			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+				channel = event.getChannel();
+				author = event.getAuthor();
+
+				int online = 0;
+				for(Guild g : Mantaro.instance().getSelf().getGuilds()){
+					for(Member u : g.getMembers()){
+						if(!u.getOnlineStatus().equals(OnlineStatus.OFFLINE)){
+							online++;
+						}
+					}
+				}
+
+				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
+				String uptime = String.format("%02d hrs, %02d min, %02d sec", TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+				EmbedBuilder embed = new EmbedBuilder();
+				channel.sendTyping().queue();
+				embed.setColor(Color.PINK)
+						.setAuthor("About Mantaro", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
+						.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+						.setDescription("This is **MantaroBot** and I'm here to make your life a little easier. Remember to get commands from `~>help`\n"
+								+ "Some of my features include:\n \u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n"
+								+ "\u2713 Funny and useful commands ``see `~>help anime` or `~>help action` for examples``.	\n"
+								+ "\u2713 Extensive support!")
+						.addField("Latest Build", Mantaro.instance().getMetadata("build") + '.' + Mantaro.instance().getMetadata("date"), true)
+						.addField("JDA Version", JDAInfo.VERSION, true)
+						.addField("Uptime", uptime, true)
+						.addField("Threads", String.valueOf(Thread.activeCount()), true)
+						.addField("Guilds", String.valueOf(Mantaro.instance().getSelf().getGuilds().size()), true)
+						.addField("Users (Online/Unique)", online + "/" + Mantaro.instance().getSelf().getUsers().size(), true)
+						.addField("Channels", String.valueOf(Mantaro.instance().getSelf().getTextChannels().size()), true)
+						.addField("Voice Channels", String.valueOf(Mantaro.instance().getSelf().getVoiceChannels().size()), true)
+						.setFooter("Invite link: https://is.gd/mantaro (Commands this session: " + Listener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null);
+
+				channel.sendMessage(embed.build()).queue();
+			}
+
+			@Override
+			public String help() {
+				return "Displays info about the bot status.";
 			}
 
 			@Override

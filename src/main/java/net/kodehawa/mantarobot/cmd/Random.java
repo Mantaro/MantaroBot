@@ -82,55 +82,6 @@ public class Random extends Module {
 				return CommandType.USER;
 			}
 		});
-		super.register("about", "Displays information about the bot.", new Callback() {
-			@Override
-			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-				channel = event.getChannel();
-				author = event.getAuthor();
-
-				int online = 0;
-				for(Guild g : Mantaro.instance().getSelf().getGuilds()){
-					for(Member u : g.getMembers()){
-						if(!u.getOnlineStatus().equals(OnlineStatus.OFFLINE)){
-							online++;
-						}
-					}
-				}
-
-				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
-				String uptime = String.format("%02d hrs, %02d min, %02d sec", TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-				EmbedBuilder embed = new EmbedBuilder();
-				channel.sendTyping().queue();
-				embed.setColor(Color.PINK)
-						.setAuthor("About Mantaro", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
-						.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-						.setDescription("This is **MantaroBot** and I'm here to make your life a little easier. Remember to get commands from `~>help`\n"
-								+ "Some of my features include:\n \u2713 Moderation made easy (Mass kick/ban, prune commands, logs, nsfw and more!)\n"
-								+ "\u2713 Funny and useful commands see `~>help anime` or `~>help action` for examples.	\n"
-								+ "\u2713 Extensive support!")
-						.addField("Latest Build", Mantaro.instance().getMetadata("build") + '.' + Mantaro.instance().getMetadata("date"), true)
-						.addField("JDA Version", JDAInfo.VERSION, true)
-						.addField("Uptime", uptime, true)
-						.addField("Threads", String.valueOf(Thread.activeCount()), true)
-						.addField("Guilds", String.valueOf(Mantaro.instance().getSelf().getGuilds().size()), true)
-						.addField("Users (Online/Unique)", online + "/" + Mantaro.instance().getSelf().getUsers().size(), true)
-						.addField("Channels", String.valueOf(Mantaro.instance().getSelf().getTextChannels().size()), true)
-						.addField("Voice Channels", String.valueOf(Mantaro.instance().getSelf().getVoiceChannels().size()), true)
-						.setFooter("Invite link: http://goo.gl/ei1C5j (Commands this session: " + Listener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null);
-
-				channel.sendMessage(embed.build()).queue();
-			}
-
-			@Override
-			public String help() {
-				return "Displays info about the bot status.";
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-		});
 	}
 
 	private String dateGMT(String timezone) throws ParseException, NullPointerException

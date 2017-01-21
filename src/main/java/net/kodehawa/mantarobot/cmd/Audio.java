@@ -10,14 +10,11 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.audio.MusicManager;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.generic.GenericListener;
-import net.kodehawa.mantarobot.listeners.generic.Variables;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
@@ -39,7 +36,7 @@ public class Audio extends Module {
     private final Map<Long, MusicManager> musicManagers;
     private Member _member;
     private MessageReceivedEvent _eventTemp;
-    private GenericListener listener1;
+            private GenericListener listener1;
     private Timer timer = new Timer();
 
     public Audio(){
@@ -123,7 +120,7 @@ public class Audio extends Module {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
                 MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
-                clearQueue(musicManager, event);
+                clearQueue(musicManager, event, false);
                 closeConnection(musicManager, event.getGuild().getAudioManager(), event.getTextChannel());
             }
 
@@ -147,7 +144,7 @@ public class Audio extends Module {
                 if(content.isEmpty()){
                     event.getChannel().sendMessage(embedQueueList(event.getGuild(), musicManager)).queue();
                 } else if(content.startsWith("clear")){
-                    clearQueue(musicManager, event);
+                    clearQueue(musicManager, event, true);
                 }
             }
 
@@ -190,6 +187,48 @@ public class Audio extends Module {
             @Override
             public CommandType commandType() {
                 return CommandType.USER ;
+            }
+        });
+
+        super.register("pause", "Pauses the player.", new Callback() {
+            @Override
+            public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+                MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
+                try{
+                    musicManager.getScheduler().getPlayer().setPaused(Boolean.parseBoolean(content));
+                } catch (Exception e){
+                    event.getChannel().sendMessage(":heavy_multiplication_x " + "Not a boolean value");
+                }
+            }
+
+            @Override
+            public String help() {
+                return "Pauses or unpauses the current track.\n"
+                        + "Usage:\n"
+                        + "~>pause true/false (pause/unpause)";
+            }
+
+            @Override
+            public CommandType commandType() {
+                return CommandType.USER;
+            }
+        });
+
+        super.register("np", "What's playing now?", new Callback() {
+            @Override
+            public void onCommand(String[] args, String content, MessageReceivedEvent event) {
+                MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
+                event.getChannel().sendMessage(":mega: Now playing: ``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title + "``").queue();
+            }
+
+            @Override
+            public String help() {
+                return "Returns what track is playing now.";
+            }
+
+            @Override
+            public CommandType commandType() {
+                return CommandType.USER;
             }
         });
     }
@@ -248,28 +287,35 @@ public class Audio extends Module {
                         i1++;
                     }
 
-                    Function<StringBuilder, String> builderFunction = (StringBuilder b) -> {
+                    Function<GenericListener, String> builderFunction = (GenericListener listener) -> {
                         int n = 0;
-                        for(Object s : Variables.instance._list) {
+                        StringBuilder b = new StringBuilder();
+                        for(Object s : listener._list) {
                             n++;
-                            b.append("[").append(n).append("] ").append(s).append("\n");
+                            //dot append
+                            b.append("[")
+                                    .append(n)
+                                    .append("] ")
+                                    .append(s)
+                                    .append("\n");
                         }
                         EmbedBuilder embedBuilder = new EmbedBuilder();
                         embedBuilder.setColor(Color.CYAN);
                         embedBuilder.setTitle("Song selection. Type the song number to continue.");
                         embedBuilder.setDescription(b.toString());
                         embedBuilder.setFooter("This timeouts in 10 seconds.", null);
-
-                        Variables.instance._evt.getChannel().sendMessage(embedBuilder.build()).queue();
-                        return "";
+                        listener._evt.getChannel().sendMessage(
+                                embedBuilder.build()).queue();
+                        return "Return is invisible, but I love it.";
                     };
 
-                    listener1 = new GenericListener(builderFunction, playlist, guild, musicManager, content, _eventTemp.getAuthor().getId(), args, _eventTemp, (MusicManager m) -> {
-                        if(Variables.instance._gEventTmp.getAuthor().getId().equals(Variables.instance._userId)) {
-                            for (String s : Variables.instance._args) {
-                                if (Variables.instance._gEventTmp.getMessage().getContent().equals(s)) {
-                                    loadTrack(Variables.instance._guild, Variables.instance._gEventTmp.getChannel(), m,
-                                            Variables.instance._audioPlaylist.getTracks().get(Integer.parseInt(s) - 1), false);
+                    listener1 = new GenericListener(builderFunction, playlist, guild, musicManager, content, _eventTemp.getAuthor().getId(),
+                            args, _eventTemp, (GenericListener listener) -> {
+                        if(listener._gEventTmp.getAuthor().getId().equals(listener._userId)) {
+                            for (String s : listener._args) {
+                                if (listener._gEventTmp.getMessage().getContent().equals(s)) {
+                                    loadTrack(listener._guild, listener._gEventTmp.getChannel(), listener._musicManager,
+                                            listener._audioPlaylist.getTracks().get(Integer.parseInt(s) - 1), false);
                                     Mantaro.instance().getSelf().removeEventListener(listener1);
                                     timer.cancel();
                                     break;
@@ -302,6 +348,8 @@ public class Audio extends Module {
                 if(!exception.severity.equals(FriendlyException.Severity.FAULT)){
                     Log.instance().print("Couldn't play music", this.getClass(), Type.WARNING, exception);
                     channel.sendMessage(":heavy_multiplication_x: Couldn't play music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
+                } else {
+                    exception.printStackTrace();
                 }
             }
         });
@@ -338,12 +386,8 @@ public class Audio extends Module {
     private void skipTrack(TextChannel channel, MessageReceivedEvent event) {
         MusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
         if(nextTrackAvailable(musicManager)){
-            String nextSongName = "";
-            try{
-                nextSongName = musicManager.getScheduler().getQueue().take().getInfo().title;
-            } catch (Exception ignored){}
             musicManager.getScheduler().nextTrack();
-            channel.sendMessage(":mega: Skipped to next track. (**" + nextSongName + "**)").queue();
+            channel.sendMessage(":mega: Skipped to next track -> **" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title + "**").queue();
         } else {
             channel.sendMessage("No tracks next. Disconnecting...").queue();
             closeConnection(musicManager, event.getGuild().getAudioManager(), channel);
@@ -377,10 +421,7 @@ public class Audio extends Module {
     }
 
     private boolean nextTrackAvailable(MusicManager musicManager){
-        if(musicManager.getScheduler().getQueueSize() > 0){
-            return true;
-        }
-        return false;
+        return musicManager.getScheduler().getQueueSize() > 0;
     }
 
     private MessageEmbed embedQueueList(Guild guild, MusicManager musicManager) {
@@ -460,18 +501,19 @@ public class Audio extends Module {
         }
     }
 
-    private void clearQueue(MusicManager musicManager, MessageReceivedEvent event){
+    private void clearQueue(MusicManager musicManager, MessageReceivedEvent event, boolean askForSkip){
         int TEMP_QUEUE_LENGHT = musicManager.getScheduler().getQueue().size();
         for(AudioTrack audioTrack : musicManager.getScheduler().getQueue()){
             musicManager.getScheduler().getQueue().remove(audioTrack);
         }
         event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from queue.").queue();
-        skipTrack(event.getTextChannel(), event);
+        if(askForSkip)
+            skipTrack(event.getTextChannel(), event);
     }
 
     private String getDurationMinutes(AudioTrack track){
         long TRACK_LENGHT = track.getInfo().length;
-        return String.format("%d:%d minutes",
+        return String.format("%d:%02d minutes",
                 TimeUnit.MILLISECONDS.toMinutes(TRACK_LENGHT),
                 TimeUnit.MILLISECONDS.toSeconds(TRACK_LENGHT) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(TRACK_LENGHT))
@@ -479,7 +521,7 @@ public class Audio extends Module {
     }
 
     private String getDurationMinutes(long length){
-        return String.format("%d:%d minutes",
+        return String.format("%d:%02d minutes",
                 TimeUnit.MILLISECONDS.toMinutes(length),
                 TimeUnit.MILLISECONDS.toSeconds(length) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))

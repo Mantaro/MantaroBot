@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-public class Parser {
+public final class Parser {
 	
 	public Container parse(String prefix, String rw, MessageReceivedEvent evt)
 	{

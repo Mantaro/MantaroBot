@@ -35,6 +35,10 @@ public class Scheduler extends AudioEventAdapter {
         }
     }
 
+    public AudioPlayer getPlayer(){
+            return player;
+    }
+
     public int getQueueSize(){
         return queue.size();
     }
@@ -53,9 +57,12 @@ public class Scheduler extends AudioEventAdapter {
                     TimeUnit.MILLISECONDS.toSeconds(aDuration) -  TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
             );
 
-            sb.append("[" + n + "] ")
+            sb.append("[").append(n)
+                    .append("] ")
                     .append(audioTrack.getInfo().title)
-                    .append(" **(" + duration + ")**")
+                    .append(" **(")
+                    .append(duration)
+                    .append(")**")
                     .append("\n"
                     );
             n++;
