@@ -46,26 +46,29 @@ public class UserCommands extends Module {
         super.register("addcustom", "Adds a custom command", new Callback() {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-                String guild = event.getGuild().getId();
-                String name = args[0];
-                String responses[] = content.replaceAll(args[0] + " ", "").split(",");
+                if(!content.startsWith("debug")){
+                    String guild = event.getGuild().getId();
+                    String name = args[0];
+                    String responses[] = content.replaceAll(args[0] + " ", "").split(",");
 
-                List<String> responses1 = new ArrayList<>(Arrays.asList(responses));
-                if(custom.get(guild) == null){
-                    Map<String, List<String>> responsesMap = new HashMap<>();
-                    responsesMap.put(name, responses1);
-                    custom.put(guild, responsesMap);
+                    List<String> responses1 = new ArrayList<>(Arrays.asList(responses));
+                    if(custom.get(guild) == null){
+                        Map<String, List<String>> responsesMap = new HashMap<>();
+                        responsesMap.put(name, responses1);
+                        custom.put(guild, responsesMap);
+                    } else {
+                        custom.get(guild).put(name, responses1);
+                    }
+
+                    JSONObject jsonObject = new JSONObject(toJson(custom));
+                    JSONUtils.instance().write(file, jsonObject);
+                    read();
+
+                    String sResponses = String.join(", ", responses1);
+                    event.getChannel().sendMessage("``Added custom command: " + name + " with responses: " + sResponses + " -> Guild: " + guild + "``").queue();
                 } else {
-                    custom.get(guild).put(name, responses1);
+                    event.getChannel().sendMessage(toJson(custom)).queue();
                 }
-
-                JSONObject jsonObject = new JSONObject(toJson(custom));
-                event.getChannel().sendMessage(toJson(custom)).queue();
-                JSONUtils.instance().write(file, jsonObject);
-                read();
-
-                String sResponses = String.join(", ", responses1);
-                event.getChannel().sendMessage("``Added custom command: " + name + " with responses: " + sResponses + " -> Guild: " + guild + "``").queue();
             }
 
             @Override
@@ -88,7 +91,6 @@ public class UserCommands extends Module {
                 if(custom.get(guild).get(name) != null){
                     custom.get(guild).remove(name);
                     JSONObject jsonObject = new JSONObject(toJson(custom));
-                    event.getChannel().sendMessage(toJson(custom)).queue();
                     JSONUtils.instance().write(file, jsonObject);
                     read();
 
@@ -109,7 +111,8 @@ public class UserCommands extends Module {
             }
         });
     }
-    public static Map<String, Map<String, List<String>>> getCustomCommands(){
+
+    private static Map<String, Map<String, List<String>>> getCustomCommands(){
         return custom;
     }
 
@@ -173,10 +176,12 @@ public class UserCommands extends Module {
             defaultPx = Parameters.getPrefixForServer("default");
 
             if (event.getMessage().getContent().startsWith(defaultPx)) {
-                if (UserCommands.getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replaceAll(defaultPx, "")) != null) {
-                    Random random = new Random();
-                    List<String> responses = UserCommands.getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
-                    event.getChannel().sendMessage(responses.get(random.nextInt(responses.size() - 1))).queue();
+                if(UserCommands.getCustomCommands().containsKey(event.getGuild().getId())){
+                    if (UserCommands.getCustomCommands().get(event.getGuild().getId()).containsKey(event.getMessage().getContent().replaceAll(defaultPx, ""))) {
+                        Random random = new Random();
+                        List<String> responses = UserCommands.getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
+                        event.getChannel().sendMessage(responses.get(random.nextInt(responses.size() - 1))).queue();
+                    }
                 }
             }
         }
