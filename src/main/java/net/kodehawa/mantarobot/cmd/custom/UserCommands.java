@@ -1,11 +1,9 @@
 package net.kodehawa.mantarobot.cmd.custom;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.kodehawa.mantarobot.cmd.Utils;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
@@ -25,7 +23,7 @@ import java.util.*;
 
 public class UserCommands extends Module {
 
-    private static Map<String, Map<String, List<String>>> custom = new HashMap<>();
+    private Map<String, Map<String, List<String>>> custom = new HashMap<>();
     private File file;
 
     public UserCommands(){
@@ -36,7 +34,7 @@ public class UserCommands extends Module {
             this.file = new File("/home/mantaro/cc.json");
         }
         read();
-        this.setCategory(Category.FUN);
+        this.setCategory(Category.CUSTOM);
         this.registerCommands();
         Mantaro.instance().getSelf().addEventListener(new CustomCommandListener());
     }
@@ -67,7 +65,10 @@ public class UserCommands extends Module {
                     String sResponses = String.join(", ", responses1);
                     event.getChannel().sendMessage("``Added custom command: " + name + " with responses: " + sResponses + " -> Guild: " + guild + "``").queue();
                 } else {
-                    event.getChannel().sendMessage(toJson(custom)).queue();
+                    if(event.getMember().isOwner() || event.getAuthor().getId().equals(Mantaro.OWNER_ID))
+                        event.getChannel().sendMessage("```json\n" + net.kodehawa.mantarobot.util.Utils.instance().toPrettyJson(toJson(custom)) + "```").queue();
+                    else
+                        event.getChannel().sendMessage(":heavy_multiplication_x: You cannot do that, silly.").queue();
                 }
             }
 
@@ -112,7 +113,7 @@ public class UserCommands extends Module {
         });
     }
 
-    private static Map<String, Map<String, List<String>>> getCustomCommands(){
+    private Map<String, Map<String, List<String>>> getCustomCommands(){
         return custom;
     }
 
@@ -176,11 +177,11 @@ public class UserCommands extends Module {
             defaultPx = Parameters.getPrefixForServer("default");
 
             if (event.getMessage().getContent().startsWith(defaultPx)) {
-                if(UserCommands.getCustomCommands().containsKey(event.getGuild().getId())){
-                    if (UserCommands.getCustomCommands().get(event.getGuild().getId()).containsKey(event.getMessage().getContent().replaceAll(defaultPx, ""))) {
+                if(getCustomCommands().containsKey(event.getGuild().getId())){
+                    if (getCustomCommands().get(event.getGuild().getId()).containsKey(event.getMessage().getContent().replaceAll(defaultPx, ""))) {
                         Random random = new Random();
-                        List<String> responses = UserCommands.getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
-                        event.getChannel().sendMessage(responses.get(random.nextInt(responses.size() - 1))).queue();
+                        List<String> responses = getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
+                        event.getChannel().sendMessage(responses.get(random.nextInt(responses.size()))).queue();
                     }
                 }
             }

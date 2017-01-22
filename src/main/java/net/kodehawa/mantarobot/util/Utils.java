@@ -10,9 +10,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -56,7 +54,14 @@ public class Utils {
 		
 		return webobject;
 	}
-	
+
+	public String toPrettyJson(String jsonString) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonElement = jsonParser.parse(jsonString);
+		return gson.toJson(jsonElement);
+	}
+
 	/**
 	 * Same than above, but using resty. Way easier tbh.
 	 * @param url The URL to get the object from.

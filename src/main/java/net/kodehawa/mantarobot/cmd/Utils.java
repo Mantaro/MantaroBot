@@ -51,9 +51,10 @@ public class Utils extends Module {
 					StringBuilder builderMod = new StringBuilder();
 					StringBuilder builderAudio = new StringBuilder();
 					StringBuilder builderGames = new StringBuilder();
+					StringBuilder builderCustom = new StringBuilder();
 
 					for(String cmd : Module.modules.keySet()){
-						if(!Module.moduleDescriptions.get(cmd)[0].isEmpty() && Module.modules.get(cmd).commandType().equals(USER)){
+						if(!Module.modules.get(cmd).commandType().equals(OWNER)){
 							if(Module.moduleDescriptions.get(cmd)[2].equals(Category.ACTION.toString()))
 								builderAction.append(" ``").append(cmd).append("``");
 							if(Module.moduleDescriptions.get(cmd)[2].equals(Category.FUN.toString()))
@@ -66,8 +67,8 @@ public class Utils extends Module {
 								builderAudio.append(" ``").append(cmd).append("``");
 							if(Module.moduleDescriptions.get(cmd)[2].equals(Category.GAMES.toString()))
 								builderGames.append(" ``").append(cmd).append("``");
-						}
-						else if(!Module.moduleDescriptions.get(cmd)[0].isEmpty() && Module.modules.get(cmd).commandType().equals(ADMIN)){
+							if(Module.moduleDescriptions.get(cmd)[2].equals(Category.CUSTOM.toString()))
+								builderCustom.append(" ``").append(cmd).append("``");
 							if(Module.moduleDescriptions.get(cmd)[2].equals(Category.MODERATION.toString()))
 								builderMod.append(" ``").append(cmd).append("``");
 						}
@@ -86,20 +87,12 @@ public class Utils extends Module {
 									+ "**Misc**:" + builderMisc.toString() +"\n"
 									+ "**Info**:" + builderInfo.toString() +"\n"
 									+ "**Audio**:" + builderAudio.toString() +"\n"
-									+ "**Games**:" + builderGames.toString() +"\n")
-							.setFooter("To check the command usage do ~>help <commandname> or call ~>help all", null);
-					event.getChannel().sendMessage(embed.build()).queue(e -> event.getAuthor().openPrivateChannel().queue(
-							s -> {
-								if (member.hasPermission(Permission.ADMINISTRATOR) || member.hasPermission(Permission.MESSAGE_MANAGE)
-										|| member.hasPermission(Permission.BAN_MEMBERS) || member.hasPermission(Permission.KICK_MEMBERS)) {
-									EmbedBuilder embed1 = new EmbedBuilder();
-									embed1.setColor(Color.PINK)
-											.setDescription("**Admin commands:**\n"
-													+ "**Moderation:** " + builderMod.toString());
-									s.sendMessage(embed1.build()).queue();
-								}
-							}
-					));
+									+ "**Games**:" + builderGames.toString() +"\n"
+									+ "**Custom**:" + builderCustom.toString() +"\n"
+									+ "**Moderation**:" + builderMod.toString() +"\n")
+
+									.setFooter("To check the command usage do ~>help <commandname> or call ~>help all", null);
+					event.getChannel().sendMessage(embed.build()).queue();
 				} else if(content.equals("all")) {
 					StringBuilder builderUser = new StringBuilder();
 					StringBuilder builderAdmin = new StringBuilder();

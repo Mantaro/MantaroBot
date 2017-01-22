@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.module;
 
 public enum Category {
-    ACTION, FUN, AUDIO, INFO, MISC, GAMES, MODERATION;
+    ACTION, FUN, AUDIO, INFO, MISC, GAMES, MODERATION, CUSTOM;
 
     @Override
     public String toString(){
@@ -20,6 +20,8 @@ public enum Category {
                 return "Misc";
             case MODERATION:
                 return "Moderation";
+            case CUSTOM:
+                return "Custom";
         }
         return "magic";
     }

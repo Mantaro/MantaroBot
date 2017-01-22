@@ -1,34 +1,52 @@
 package net.kodehawa.mantarobot.cmd;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
+import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.log.Log;
+import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
-import net.kodehawa.mantarobot.util.StringArrayUtils;
+import net.kodehawa.mantarobot.util.JSONUtils;
+import org.json.JSONObject;
 
 public class Quote extends Module {
 
-	public static CopyOnWriteArrayList<String> quotes = new CopyOnWriteArrayList<>();
-
+	private LinkedHashMap<String, LinkedHashMap<String, List<String>>> quotesMap = new LinkedHashMap<>();
+	private File file;
 	public Quote()
 	{
+		if(Mantaro.instance().isWindows()){
+			this.file = new File("C:/mantaro/quotes.json");
+		}
+		else if(Mantaro.instance().isUnix()){
+			this.file = new File("/home/mantaro/quotes.json");
+		}
+
 		super.setCategory(Category.MISC);
-		new StringArrayUtils("quote", quotes, false, true);
+		read();
 		this.registerCommands();
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({"unused", "unchecked"})
 	@Override
 	public void registerCommands(){
 		super.register("quote", "Adds or retrieves quotes.", new Callback() {
@@ -58,12 +76,32 @@ public class Quote extends Module {
 						try{
 							int i = Integer.parseInt(phrase);
 							Message m = messageHistory.get(i);
-							//[0]content====[1]authorname====[2]authoravatar====[3]channelname====[4]guildname====[5]quotetime, will be read like this to create the embed if called later.
-							String out = m.getContent() + "====" + m.getAuthor().getName() + "====" + m.getAuthor().getAvatarUrl() +
-									"====" + m.getChannel().getName() + "====" + m.getGuild().getName() + "====" + System.currentTimeMillis();
-							quotes.add(out);
+
+							String[] sContent = {
+									m.getAuthor().getName(),
+									m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
+									m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+							};
+
+ 							if(quotesMap.containsKey(guild.getId())){
+								LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
+								quotesMap.get(
+										guild.getId()).put(m.getContent(), Arrays.asList(sContent)
+								);
+
+							} else {
+ 								LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
+ 								temp.put(
+ 										m.getContent(), Arrays.asList(sContent)
+								);
+ 								quotesMap.put(guild.getId(), temp);
+							}
+
+							JSONObject object = new JSONObject(toJson(quotesMap));
+							JSONUtils.instance().write(file, object);
+							read();
+
 							Date quoteDate = new Date(System.currentTimeMillis());
-							new StringArrayUtils("quote", quotes, true, true);
 							EmbedBuilder builder = new EmbedBuilder();
 							builder.setAuthor(m.getAuthor().getName() + " said:", null, m.getAuthor().getEffectiveAvatarUrl())
 									.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
@@ -80,51 +118,72 @@ public class Quote extends Module {
 							break;
 						}
 					case "random":
-						int quoteN = rand.nextInt(quotes.size() - 1);
-						String[] quoteElements = quotes.get(quoteN).split("====");
+						List keys = new ArrayList(quotesMap.get(event.getGuild().getId()).keySet());
+						int quoteN = rand.nextInt(keys.size());
+						List<String> quoteElements = quotesMap.get(event.getGuild().getId()).get(keys.get(quoteN));
+
 						EmbedBuilder embedBuilder = new EmbedBuilder();
-						Date dat = new Date(Long.parseLong(quoteElements[5]));
-						embedBuilder.setAuthor(quoteElements[1] + " said:", null, quoteElements[2])
-								.setThumbnail(quoteElements[2])
+						Date dat = new Date(Long.parseLong(quoteElements.get(4)));
+						embedBuilder.setAuthor(quoteElements.get(0) + " said:", null, quoteElements.get(1))
+								.setThumbnail(quoteElements.get(1))
 								.setColor(Color.CYAN)
-								.setDescription("Quote made on server " + quoteElements[4]
-										+ " in channel " + "#" + quoteElements[3])
-								.addField("Content", quoteElements[0], false)
+								.setDescription("Quote made on server " + quoteElements.get(3)
+										+ " in channel " + "#" + quoteElements.get(2))
+								.addField("Content", keys.get(quoteN).toString(), false)
 								.setFooter("Date: " + dateFormat.format(dat), null);
 						channel.sendMessage(embedBuilder.build()).queue();
 						break;
 					case "read":
 						int i = Integer.parseInt(phrase);
-						String[] quoteElements2 = quotes.get(i).split("====");
-						System.out.println(quoteElements2[5]);
+						List keys1 = new ArrayList(quotesMap.get(event.getGuild().getId()).keySet());
+						List<String> quoteElements2 = quotesMap.get(event.getGuild().getId()).get(keys1.get(i));
 						EmbedBuilder embedBuilder2 = new EmbedBuilder();
-						System.out.println(quoteElements2[2]);
-						Date date1 = new Date(Long.parseLong(quoteElements2[5]));
-						embedBuilder2.setAuthor(quoteElements2[1] + " said:", null, quoteElements2[2])
-								.setThumbnail(quoteElements2[2])
+						Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
+						embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
+								.setThumbnail(quoteElements2.get(1))
 								.setColor(Color.CYAN)
-								.setDescription("Quote made on server " + quoteElements2[4]
-										+ " in channel " + "#" + quoteElements2[3])
-								.addField("Content", quoteElements2[0], false)
+								.setDescription("Quote made on server " + quoteElements2.get(3)
+										+ " in channel " + "#" + quoteElements2.get(2))
+								.addField("Content", keys1.get(i).toString(), false)
 								.setFooter("Date: " + dateFormat.format(date1), null);
 						channel.sendMessage(embedBuilder2.build()).queue();
 						break;
 					case "addfrom":
-						int i1 = 0;
+						int i1 = -1;
 						Message m = event.getMessage();
 						for(Message m1 : messageHistory){
+							i1++;
 							if(m1.getContent().contains(phrase) && !m1.getContent().startsWith(Parameters.getPrefixForServer("default")) && !m1.getContent().startsWith(Parameters.getPrefixForServer(m1.getGuild().getId()))){
 								m = messageHistory.get(i1);
 								break;
 							}
-							i1++;
 						}
-						//[0]content====[1]authorname====[2]authoravatar====[3]channelname====[4]guildname====[5]quotetime, will be read like this to create the embed if called later.
-						String out = m.getContent() + "====" + m.getAuthor().getName() + "====" + m.getAuthor().getAvatarUrl() +
-								"====" + m.getChannel().getName() + "====" + m.getGuild().getName() + "====" + System.currentTimeMillis();
-						quotes.add(out);
+
+						String[] sContent = {
+								m.getAuthor().getName(),
+								m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
+								m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+						};
+
+						if(quotesMap.containsKey(guild.getId())){
+							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
+							quotesMap.get(
+									guild.getId()).put(m.getContent(), Arrays.asList(sContent)
+							);
+
+						} else {
+							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
+							temp.put(
+									m.getContent(), Arrays.asList(sContent)
+							);
+							quotesMap.put(guild.getId(), temp);
+						}
+
+						JSONObject object = new JSONObject(toJson(quotesMap));
+						JSONUtils.instance().write(file, object);
+						read();
+
 						Date quoteDate = new Date(System.currentTimeMillis());
-						new StringArrayUtils("quote", quotes, true, true);
 						EmbedBuilder builder = new EmbedBuilder();
 						builder.setAuthor(m.getAuthor().getName() + " said:", null, m.getAuthor().getEffectiveAvatarUrl())
 								.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
@@ -136,22 +195,29 @@ public class Quote extends Module {
 						channel.sendMessage(builder.build()).queue();
 						break;
 					case "getfrom":
-						for(int i2 = 0; i2 < quotes.size() - 1; i2++){
-							if(quotes.get(i2).contains(phrase)){
-								String[] quoteE = quotes.get(i2).split("====");
-								Date date = new Date(Long.parseLong(quoteE[5]));
+						List<String> quotes = new ArrayList(quotesMap.get(event.getGuild().getId()).keySet());
+						for(int i2 = 0; i2 < quotes.size() - 1; i2++) {
+							if (quotes.get(i2).contains(phrase)) {
+								List<String> quoteE = quotesMap.get(event.getGuild().getId()).get(quotes.get(i2));
+								Date date = new Date(Long.parseLong(quoteE.get(4)));
 								EmbedBuilder builder2 = new EmbedBuilder();
-								builder2.setAuthor(quoteE[1] + " said:", null, quoteE[2])
-										.setThumbnail(quoteE[2])
+								builder2.setAuthor(quoteE.get(0) + " said:", null, quoteE.get(1))
+										.setThumbnail(quoteE.get(1))
 										.setColor(Color.CYAN)
-										.setDescription("Quote made on server " + quoteE[4]
-												+ " in channel " + "#" + quoteE[3])
-										.addField("Content", quoteE[0], false)
+										.setDescription("Quote made on server " + quoteE.get(3)
+												+ " in channel " + "#" + quoteE.get(2))
+										.addField("Content", quotes.get(i2), false)
 										.setFooter("Date: " + dateFormat.format(date), null);
 								channel.sendMessage(builder2.build()).queue();
 								break;
 							}
 						}
+					case "debug":
+						if(event.getAuthor().getId().equals(Mantaro.OWNER_ID))
+							event.getChannel().sendMessage("```json\n" + net.kodehawa.mantarobot.util.Utils.instance().toPrettyJson(toJson(quotesMap)) + "```").queue();
+						else
+							event.getChannel().sendMessage("What are you trying to do, silly.").queue();
+						break;
 				}
 			}
 
@@ -174,4 +240,57 @@ public class Quote extends Module {
 			}
 		});
 	}
+
+	private static String toJson(Map<String, LinkedHashMap<String, List<String>>> map) {
+		return new Gson().toJson(map);
+	}
+
+	private static LinkedHashMap<String, LinkedHashMap<String, List<String>>> fromJson(String json) {
+		JsonElement element = new JsonParser().parse(json);
+
+		if (!element.isJsonObject()) throw new IllegalStateException("\"ROOT\" element MUST BE a JsonObject");
+
+		LinkedHashMap<String, LinkedHashMap<String, List<String>>> result = new LinkedHashMap<>();
+
+		element.getAsJsonObject().entrySet().forEach(entry -> {
+			if (!entry.getValue().isJsonObject())
+				throw new IllegalStateException("\"ROOT -> *\" Element MUST BE a JsonObject");
+
+			LinkedHashMap<String, List<String>> map = new LinkedHashMap<>();
+
+			entry.getValue().getAsJsonObject().entrySet().forEach(entry2 -> {
+				if (!entry2.getValue().isJsonArray())
+					throw new IllegalStateException("\"ROOT -> * -> *\" Element MUST BE a JsonArray");
+
+				List<String> list = new ArrayList<>();
+
+				entry2.getValue().getAsJsonArray().forEach(arrayElement -> {
+					if (!arrayElement.isJsonPrimitive() || !arrayElement.getAsJsonPrimitive().isString())
+						throw new IllegalStateException("\"ROOT -> * -> * -> *\" Element MUST BE a String");
+
+					list.add(arrayElement.getAsString());
+				});
+
+				map.put(entry2.getKey(), list);
+			});
+
+			result.put(entry.getKey(), map);
+		});
+
+		return result;
+	}
+
+	private void read(){
+		try{
+			Log.instance().print("Loading quotes...", this.getClass(), Type.INFO);
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			JsonParser parser = new JsonParser();
+			JsonObject object = parser.parse(br).getAsJsonObject();
+			quotesMap = fromJson(object.toString());
+		} catch (FileNotFoundException | UnsupportedOperationException e) {
+			e.printStackTrace();
+			Log.instance().print("Cannot load quotes!", this.getClass(), Type.WARNING, e);
+		}
+	}
+
 }

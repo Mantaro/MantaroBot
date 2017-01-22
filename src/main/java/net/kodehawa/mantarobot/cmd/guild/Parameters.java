@@ -173,19 +173,27 @@ public class Parameters extends Module {
 						}
 					case "birthday":
 						switch(mainArgs) {
-							case "set":
-								TextChannel birthdayChannel = guild.getTextChannelsByName(args[2], true).get(0);
-								String birthdayRoleName = args[3];
-								Role birthdayRole = guild.getRolesByName(args[3], true).get(0);
-								bd_data.put(guild.getId(), birthdayChannel.getId() + ":" + birthdayRole.getId());
-								new HashMapUtils(
-										"mantaro", "bd_data", bd_data, FILE_SIGN, true
-								);
-								channel.sendMessage(
-										":mega: Birthday channel set to **#" + birthdayChannel.getName()
-										+ "** with role **" + birthdayRoleName + "**." + " (" + birthdayRole.getId() + ")"
-								).queue();
-								break;
+							case "enable":
+								if(event.getGuild().getMember(Mantaro.instance().getSelf().getSelfUser())
+										.hasPermission(Permission.MANAGE_ROLES)){
+									TextChannel birthdayChannel = guild.getTextChannelsByName(args[2], true).get(0);
+									String birthdayRoleName = args[3];
+									Role birthdayRole = guild.getRolesByName(args[3], true).get(0);
+									bd_data.put(guild.getId(), birthdayChannel.getId() + ":" + birthdayRole.getId());
+									new HashMapUtils(
+											"mantaro", "bd_data", bd_data, FILE_SIGN, true
+									);
+									channel.sendMessage(
+											":mega: Birthday channel set to **#" + birthdayChannel.getName()
+													+ "** with role **" + birthdayRoleName + "**." + " (" + birthdayRole.getId() + ")"
+									).queue();
+									break;
+								} else {
+									channel.sendMessage(
+											":heavy_muliplication_x: ``Cannot enable birthday role on this guild because of missing permissions: MANAGE_ROLES``)"
+									).queue();
+									return;
+								}
 							case "disable":
 								bd_data.remove(guild.getId());
 								new HashMapUtils(
@@ -202,10 +210,20 @@ public class Parameters extends Module {
 						}
 					case "music":
 						String musicChannel = content.replace("music ", "");
-						System.out.println(musicChannel);
-						music_data.put(event.getGuild().getId(), event.getGuild().getVoiceChannelsByName(musicChannel, true).get(0).getId());
-						new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, true);
-						channel.sendMessage(":mega: Music channel set to: " + musicChannel).queue();
+						if(musicChannel.matches("^([A-Za-z])\\w+") || musicChannel.matches("^(?=.*[a-zA-Z])(?=.*[0-9])\\w+")){
+							music_data.put(event.getGuild().getId(), event.getGuild().getVoiceChannelsByName(musicChannel, true).get(0).getId());
+							new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, true);
+							channel.sendMessage(":mega: Music channel set to (Name): **" + musicChannel + "** -> Guild: " + event.getGuild().getId()).queue();
+						} else if(musicChannel.matches("^[0-9]*$")) {
+							//Assuming you enter a ID
+							music_data.put(event.getGuild().getId(), musicChannel);
+							new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, true);
+							channel.sendMessage(":mega: Music channel set to (ID): **" + musicChannel + "** -> Guild: " + event.getGuild().getId()).queue();
+						} else {
+							channel.sendMessage(":heavy_multiplication_x: " +
+									"Not a valid result? Not complaint with ``([a-zA-Z]) [Example: Hello] / ^(?=.*[a-zA-Z])(?=.*[0-9]) " +
+									"[Example: Hello 1/Hello1] / ^[0-9]*$ [Example: 28754478217527]``. Shouldn't happen. Maybe try using the channel id if you didn't already?").queue();
+						}
 				}
 			}
 
@@ -219,12 +237,13 @@ public class Parameters extends Module {
 						+ "~>params prefix disable\n"
 						+ "~>params nsfw set [channel]\n"
 						+ "~>params nsfw disable\n"
-						+ "~>params birthday set [channel]\n"
+						+ "~>params birthday enable [channel] [rolename]\n"
 						+ "~>params birthday disable\n"
-						+ "~>params music [voicechannel]"
+						+ "~>params music [voicechannel]\n"
 						+ "**Parameter explanation:**\n"
-						+ "[channel]: The channel name to action in."
-						+ "[voicechannel]: The voice channel to connect to."
+						+ "[channel]: The channel name to action in.\n"
+						+ "[voicechannel]: The voice channel to connect to.\n"
+						+ "[rolename]: The name of the role to assign.\n"
 						+ "[prefix]: The prefix to set.";
 			}
 
@@ -257,8 +276,8 @@ public class Parameters extends Module {
 	public static String getBirthdayRoleForServer(String guildId){
 		return bd_data.get(guildId).split(":")[1];
 	}
-	public static String getLogChannelForServer(String serverid){
-		return logs.get(serverid);
+	public static String getLogChannelForServer(String serverId){
+		return logs.get(serverId);
 	}
 	public static HashMap<String, String> getLogHash(){
 		return logs;
