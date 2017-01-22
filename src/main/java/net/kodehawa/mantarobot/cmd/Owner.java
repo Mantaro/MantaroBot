@@ -108,7 +108,6 @@ public class Owner extends Module {
                 if(event.getAuthor().getId().equals(Mantaro.OWNER_ID)){
                     channel.sendMessage("Gathering information...").queue();
                     try {
-                        new StringArrayUtils("quotes", Quote.quotes, true);
                         Thread.sleep(500);
                     } catch (InterruptedException ignored) {	}
 

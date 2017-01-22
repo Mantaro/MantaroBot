@@ -21,6 +21,7 @@ import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.util.*;
 
 import java.awt.*;
 import java.net.URL;
@@ -62,7 +63,7 @@ public class Audio extends Module {
                     content = "ytsearch: " + content;
                 }
 
-                loadAndPlay(event.getGuild(), event.getTextChannel(), content);
+                loadAndPlay(event, event.getGuild(), event.getTextChannel(), content);
             }
 
             @Override
@@ -197,7 +198,7 @@ public class Audio extends Module {
                 try{
                     musicManager.getScheduler().getPlayer().setPaused(Boolean.parseBoolean(content));
                 } catch (Exception e){
-                    event.getChannel().sendMessage(":heavy_multiplication_x " + "Not a boolean value");
+                    event.getChannel().sendMessage(":heavy_multiplication_x " + "Error -> Not a boolean value");
                 }
             }
 
@@ -218,7 +219,8 @@ public class Audio extends Module {
             @Override
             public void onCommand(String[] args, String content, MessageReceivedEvent event) {
                 MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
-                event.getChannel().sendMessage(":mega: Now playing: ``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title + "``").queue();
+                event.getChannel().sendMessage(":mega: Now playing ->``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
+                        + " (" + net.kodehawa.mantarobot.util.Utils.instance().getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
             }
 
             @Override
@@ -233,11 +235,11 @@ public class Audio extends Module {
         });
     }
 
-    private synchronized MusicManager getGuildAudioPlayer(Guild guild) {
+    private synchronized MusicManager getGuildAudioPlayer(MessageReceivedEvent event, Guild guild) {
         long guildId = Long.parseLong(guild.getId());
         MusicManager musicManager = musicManagers.get(guildId);
         if (musicManager == null) {
-            musicManager = new MusicManager(playerManager);
+            musicManager = new MusicManager(playerManager, event);
             musicManagers.put(guildId, musicManager);
         }
 
@@ -246,8 +248,8 @@ public class Audio extends Module {
         return musicManager;
     }
 
-    private void loadAndPlay(final Guild guild, final TextChannel channel, final String trackUrl) {
-        MusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
+    private void loadAndPlay(final MessageReceivedEvent event, final Guild guild, final TextChannel channel, final String trackUrl) {
+        MusicManager musicManager = getGuildAudioPlayer(event, channel.getGuild());
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
@@ -274,7 +276,7 @@ public class Audio extends Module {
                     channel.sendMessage("Added **" + playlist.getTracks().size()
                             + " songs** to queue on playlist: **"
                             + playlist.getName() + "**" + " *("
-                            + getDurationMinutes(templength) + ")*"
+                            + net.kodehawa.mantarobot.util.Utils.instance().getDurationMinutes(templength) + ")*"
                     ).queue();
                 } else {
                     String[] args = {"1", "2", "3", "4"};
@@ -282,7 +284,7 @@ public class Audio extends Module {
                     int i1 = 0;
                     for(AudioTrack at : playlist.getTracks()){
                         if(i1 <= 3){
-                            content.add(at.getInfo().title + " **(" + getDurationMinutes(at.getInfo().length) + ")**");
+                            content.add(at.getInfo().title + " **(" + net.kodehawa.mantarobot.util.Utils.instance().getDurationMinutes(at.getInfo().length) + ")**");
                         }
                         i1++;
                     }
@@ -384,7 +386,7 @@ public class Audio extends Module {
     }
 
     private void skipTrack(TextChannel channel, MessageReceivedEvent event) {
-        MusicManager musicManager = getGuildAudioPlayer(channel.getGuild());
+        MusicManager musicManager = getGuildAudioPlayer(event, channel.getGuild());
         if(nextTrackAvailable(musicManager)){
             musicManager.getScheduler().nextTrack();
             channel.sendMessage(":mega: Skipped to next track -> **" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title + "**").queue();
@@ -457,7 +459,7 @@ public class Audio extends Module {
         builder.setColor(Color.CYAN);
         if(!toSend.isEmpty()){
             builder.setDescription(stringBuilder.toString());
-            builder.addField("Queue runtime", getDurationMinutes(templength), true);
+            builder.addField("Queue runtime", net.kodehawa.mantarobot.util.Utils.instance().getDurationMinutes(templength), true);
             builder.addField("Total queue size", String.valueOf(musicManager.getScheduler().getQueue().size()), true);
         } else {
             builder.setDescription("Nothing here, just dust.");
@@ -483,7 +485,7 @@ public class Audio extends Module {
 
                 if(!isPlaylist)
                     channel.sendMessage(
-                            ":mega: Added to queue **" + track.getInfo().title + "**"
+                            ":mega: Added to queue -> **" + track.getInfo().title + "**"
                             + " **!(" + getDurationMinutes(track) + ")**"
                     ).queue();
             } else {
@@ -492,7 +494,7 @@ public class Audio extends Module {
 
                 if(!isPlaylist)
                     channel.sendMessage(
-                            ":mega: Added to queue **" + track.getInfo().title + "**"
+                            ":mega: Added to queue -> **" + track.getInfo().title + "**"
                                     + " **(" + getDurationMinutes(track) + ")**"
                     ).queue();
             }
@@ -517,14 +519,6 @@ public class Audio extends Module {
                 TimeUnit.MILLISECONDS.toMinutes(TRACK_LENGHT),
                 TimeUnit.MILLISECONDS.toSeconds(TRACK_LENGHT) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(TRACK_LENGHT))
-        );
-    }
-
-    private String getDurationMinutes(long length){
-        return String.format("%d:%02d minutes",
-                TimeUnit.MILLISECONDS.toMinutes(length),
-                TimeUnit.MILLISECONDS.toSeconds(length) -
-                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
     }
 }

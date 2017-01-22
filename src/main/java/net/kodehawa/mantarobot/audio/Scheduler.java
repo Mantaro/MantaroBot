@@ -4,6 +4,8 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.kodehawa.mantarobot.util.Utils;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,8 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class Scheduler extends AudioEventAdapter {
     private final AudioPlayer player;
     private final BlockingQueue<AudioTrack> queue;
+    private final MessageReceivedEvent _event;
 
-    public Scheduler(AudioPlayer player) {
+    public Scheduler(MessageReceivedEvent event, AudioPlayer player) {
+        _event = event;
         this.player = player;
         this.queue = new LinkedBlockingQueue<>();
     }
@@ -32,6 +36,8 @@ public class Scheduler extends AudioEventAdapter {
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if (endReason.mayStartNext) {
             nextTrack();
+            _event.getChannel().sendMessage(":mega: Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
+                    + " (" + Utils.instance().getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
         }
     }
 

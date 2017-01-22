@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.*;
 import org.json.JSONArray;
@@ -60,6 +61,14 @@ public class Utils {
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement = jsonParser.parse(jsonString);
 		return gson.toJson(jsonElement);
+	}
+
+	public String getDurationMinutes(long length){
+		return String.format("%d:%02d minutes",
+				TimeUnit.MILLISECONDS.toMinutes(length),
+				TimeUnit.MILLISECONDS.toSeconds(length) -
+						TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
+		);
 	}
 
 	/**
