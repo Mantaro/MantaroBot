@@ -1,9 +1,6 @@
 package net.kodehawa.mantarobot.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -28,7 +25,8 @@ public class Utils {
 	private volatile static Utils instance = new Utils();
 	private HashMap<Mod, String> mods = new HashMap<>();
     public static final Utils.PerformanceMonitor pm = new Utils.PerformanceMonitor();
-	
+	private String paste = "http://hastebin.com/";
+
 	private Utils(){
 		putMods();
 	}
@@ -245,5 +243,37 @@ public class Utils {
 	            lastProcessCpuTime = ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean()).getProcessCpuTime();
 	        }
 	    }
+	}
+
+	public synchronized String paste(String toSend) {
+		HttpURLConnection connection = null;
+		try {
+			URL url = new URL(paste + "documents");
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", "Mantaro");
+			connection.setRequestProperty("Content-Type", "text/plain");
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
+
+			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+			wr.writeBytes(toSend);
+			wr.flush();
+			wr.close();
+
+			InputStream inputstream = connection.getInputStream();
+			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+			System.out.println(json);
+			JSONObject jObject = new JSONObject(json);
+			String pasteToken = jObject	.getString("key");
+			return paste + pasteToken;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (connection == null) return null;
+			connection.disconnect();
+		}
 	}
 }

@@ -25,7 +25,7 @@ import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
-import net.kodehawa.mantarobot.util.JSONUtils;
+import net.kodehawa.mantarobot.util.*;
 import org.json.JSONObject;
 
 public class Quote extends Module {
@@ -214,7 +214,7 @@ public class Quote extends Module {
 						}
 					case "debug":
 						if(event.getAuthor().getId().equals(Mantaro.OWNER_ID))
-							event.getChannel().sendMessage("```json\n" + net.kodehawa.mantarobot.util.Utils.instance().toPrettyJson(toJson(quotesMap)) + "```").queue();
+							event.getChannel().sendMessage(net.kodehawa.mantarobot.util.Utils.instance().paste(net.kodehawa.mantarobot.util.Utils.instance().toPrettyJson(toJson(quotesMap)))).queue();
 						else
 							event.getChannel().sendMessage("What are you trying to do, silly.").queue();
 						break;
