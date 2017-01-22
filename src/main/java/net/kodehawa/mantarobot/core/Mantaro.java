@@ -54,7 +54,7 @@ public final class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private final String[] data = {"18012017", "1.1.2a1-0001"};
+	private final String[] data = {"22012017", "1.2.0a1-0001"};
 	
 	private Mantaro()
 	{
