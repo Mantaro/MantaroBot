@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.*;
 
 public class UserCommands extends Module {
@@ -83,7 +84,14 @@ public class UserCommands extends Module {
 
 			String response = responses.get(r.nextInt(responses.size()));
 			if (response.startsWith("play:")) {
-				Audio.getInstance().loadAndPlay(event, response.substring(5));
+				String toSend = response.substring(5);
+				try {
+					new URL(toSend);
+				} catch (Exception e) {
+					toSend = "ytsearch: " + toSend;
+				}
+
+				Audio.getInstance().loadAndPlay(event, toSend);
 				return;
 			}
 
@@ -146,7 +154,7 @@ public class UserCommands extends Module {
 					String name = args[0];
 
 					if (modules.containsKey(name) && modules.get(name) != customCommand) {
-						//TODO You can't.
+						event.getChannel().sendMessage("You cannot add a custom command with the name of a command that already exists, you silly.").queue();
 						return;
 					}
 
@@ -226,7 +234,20 @@ public class UserCommands extends Module {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Map<String, List<String>> guildCommands = custom.get(event.getGuild().getId());
-				//TODO THIS
+				StringBuilder customBuilder = new StringBuilder();
+				if(content.isEmpty()){
+					guildCommands.forEach((name, responses) -> customBuilder.append("``").append(name).append("``").append(" "));
+					EmbedBuilder toSend = new EmbedBuilder();
+					toSend.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
+							.setDescription(customBuilder.toString());
+					event.getChannel().sendMessage(toSend.build()).queue();
+				} else if(args[0].equals("detailed")){
+					guildCommands.forEach((name, responses) -> customBuilder.append("``").append(name).append(" -> With responses: ").append(responses).append("\n"));
+					EmbedBuilder toSend = new EmbedBuilder();
+					toSend.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
+							.setDescription(customBuilder.toString());
+					event.getChannel().sendMessage(toSend.build()).queue();
+				}
 			}
 		});
 	}
