@@ -1,9 +1,12 @@
 package net.kodehawa.mantarobot.cmd.custom;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import net.kodehawa.mantarobot.cmd.Utils;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
@@ -12,6 +15,7 @@ import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.util.GeneralUtils;
 import net.kodehawa.mantarobot.util.JSONUtils;
 import org.json.JSONObject;
 
@@ -23,168 +27,168 @@ import java.util.*;
 
 public class UserCommands extends Module {
 
-    private Map<String, Map<String, List<String>>> custom = new HashMap<>();
-    private File file;
+	public class CustomCommandListener extends ListenerAdapter {
+		private String defaultPx;
 
-    public UserCommands(){
-        if(Mantaro.instance().isWindows()){
-            this.file = new File("C:/mantaro/cc.json");
-        }
-        else if(Mantaro.instance().isUnix()){
-            this.file = new File("/home/mantaro/cc.json");
-        }
-        read();
-        this.setCategory(Category.CUSTOM);
-        this.registerCommands();
-        Mantaro.instance().getSelf().addEventListener(new CustomCommandListener());
-    }
+		@Override
+		public void onMessageReceived(MessageReceivedEvent event) {
+			defaultPx = Parameters.getPrefixForServer("default");
 
-    @Override
-    public void registerCommands(){
-        super.register("addcustom", "Adds a custom command", new Callback() {
-            @Override
-            public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-                if(!content.startsWith("debug")){
-                    String guild = event.getGuild().getId();
-                    String name = args[0];
-                    String responses[] = content.replaceAll(args[0] + " ", "").split(",");
+			if (event.getMessage().getContent().startsWith(defaultPx)) {
+				if (getCustomCommands().containsKey(event.getGuild().getId())) {
+					if (getCustomCommands().get(event.getGuild().getId()).containsKey(event.getMessage().getContent().replaceAll(defaultPx, ""))) {
+						Random random = new Random();
+						List<String> responses = getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
+						event.getChannel().sendMessage(responses.get(random.nextInt(responses.size()))).queue();
+					}
+				}
+			}
+		}
+	}
 
-                    List<String> responses1 = new ArrayList<>(Arrays.asList(responses));
-                    if(custom.get(guild) == null){
-                        Map<String, List<String>> responsesMap = new HashMap<>();
-                        responsesMap.put(name, responses1);
-                        custom.put(guild, responsesMap);
-                    } else {
-                        custom.get(guild).put(name, responses1);
-                    }
+	private static Map<String, Map<String, List<String>>> fromJson(String json) {
+		JsonElement element = new JsonParser().parse(json);
 
-                    JSONObject jsonObject = new JSONObject(toJson(custom));
-                    JSONUtils.instance().write(file, jsonObject);
-                    read();
+		if (!element.isJsonObject()) throw new IllegalStateException("\"ROOT\" element MUST BE a JsonObject");
 
-                    String sResponses = String.join(", ", responses1);
-                    event.getChannel().sendMessage("``Added custom command: " + name + " with responses: " + sResponses + " -> Guild: " + guild + "``").queue();
-                } else {
-                    if(event.getMember().isOwner() || event.getAuthor().getId().equals(Mantaro.OWNER_ID))
-                        event.getChannel().sendMessage("```json\n" + net.kodehawa.mantarobot.util.Utils.instance().toPrettyJson(toJson(custom)) + "```").queue();
-                    else
-                        event.getChannel().sendMessage(":heavy_multiplication_x: You cannot do that, silly.").queue();
-                }
-            }
+		Map<String, Map<String, List<String>>> result = new HashMap<>();
 
-            @Override
-            public String help() {
-                return "Creates a custom command. Only works on the guild where it was created.";
-            }
+		element.getAsJsonObject().entrySet().forEach(entry -> {
+			if (!entry.getValue().isJsonObject())
+				throw new IllegalStateException("\"ROOT -> *\" Element MUST BE a JsonObject");
 
-            @Override
-            public CommandType commandType() {
-                return CommandType.USER;
-            }
-        });
+			Map<String, List<String>> map = new HashMap<>();
 
-        super.register("deletecustom", "Deletes a custom command", new Callback() {
-            @Override
-            public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-                String guild = event.getGuild().getId();
-                String name = args[0];
+			entry.getValue().getAsJsonObject().entrySet().forEach(entry2 -> {
+				if (!entry2.getValue().isJsonArray())
+					throw new IllegalStateException("\"ROOT -> * -> *\" Element MUST BE a JsonArray");
 
-                if(custom.get(guild).get(name) != null){
-                    custom.get(guild).remove(name);
-                    JSONObject jsonObject = new JSONObject(toJson(custom));
-                    JSONUtils.instance().write(file, jsonObject);
-                    read();
+				List<String> list = new ArrayList<>();
 
-                    event.getChannel().sendMessage("``Deleted custom command: " + name +  " -> Guild: " + event.getGuild().getId() + "``").queue();
-                } else {
-                    event.getChannel().sendMessage("``Command doesn't exist!``").queue();
-                }
-            }
+				entry2.getValue().getAsJsonArray().forEach(arrayElement -> {
+					if (!arrayElement.isJsonPrimitive() || !arrayElement.getAsJsonPrimitive().isString())
+						throw new IllegalStateException("\"ROOT -> * -> * -> *\" Element MUST BE a String");
 
-            @Override
-            public String help() {
-                return "Deletes a custom command.";
-            }
+					list.add(arrayElement.getAsString());
+				});
 
-            @Override
-            public CommandType commandType() {
-                return CommandType.USER;
-            }
-        });
-    }
+				map.put(entry2.getKey(), list);
+			});
 
-    private Map<String, Map<String, List<String>>> getCustomCommands(){
-        return custom;
-    }
+			result.put(entry.getKey(), map);
+		});
 
-    private static Map<String, Map<String, List<String>>> fromJson(String json) {
-        JsonElement element = new JsonParser().parse(json);
+		return result;
+	}
 
-        if (!element.isJsonObject()) throw new IllegalStateException("\"ROOT\" element MUST BE a JsonObject");
+	private static String toJson(Map<String, Map<String, List<String>>> map) {
+		return new Gson().toJson(map);
+	}
 
-        Map<String, Map<String, List<String>>> result = new HashMap<>();
+	private Map<String, Map<String, List<String>>> custom = new HashMap<>();
+	private File file;
 
-        element.getAsJsonObject().entrySet().forEach(entry -> {
-            if (!entry.getValue().isJsonObject())
-                throw new IllegalStateException("\"ROOT -> *\" Element MUST BE a JsonObject");
+	public UserCommands() {
+		if (Mantaro.instance().isWindows()) {
+			this.file = new File("C:/mantaro/cc.json");
+		} else if (Mantaro.instance().isUnix()) {
+			this.file = new File("/home/mantaro/cc.json");
+		}
+		read();
+		this.setCategory(Category.CUSTOM);
+		this.registerCommands();
+		Mantaro.instance().getSelf().addEventListener(new CustomCommandListener());
+	}
 
-            Map<String, List<String>> map = new HashMap<>();
+	@Override
+	public void registerCommands() {
+		super.register("addcustom", "Adds a custom command", new Callback() {
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
 
-            entry.getValue().getAsJsonObject().entrySet().forEach(entry2 -> {
-                if (!entry2.getValue().isJsonArray())
-                    throw new IllegalStateException("\"ROOT -> * -> *\" Element MUST BE a JsonArray");
+			@Override
+			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!content.startsWith("debug")) {
+					String guild = event.getGuild().getId();
+					String name = args[0];
+					String responses[] = content.replaceAll(args[0] + " ", "").split(",");
 
-                List<String> list = new ArrayList<>();
+					List<String> responses1 = new ArrayList<>(Arrays.asList(responses));
+					if (custom.get(guild) == null) {
+						Map<String, List<String>> responsesMap = new HashMap<>();
+						responsesMap.put(name, responses1);
+						custom.put(guild, responsesMap);
+					} else {
+						custom.get(guild).put(name, responses1);
+					}
 
-                entry2.getValue().getAsJsonArray().forEach(arrayElement -> {
-                    if (!arrayElement.isJsonPrimitive() || !arrayElement.getAsJsonPrimitive().isString())
-                        throw new IllegalStateException("\"ROOT -> * -> * -> *\" Element MUST BE a String");
+					JSONObject jsonObject = new JSONObject(toJson(custom));
+					JSONUtils.instance().write(file, jsonObject);
+					read();
 
-                    list.add(arrayElement.getAsString());
-                });
+					String sResponses = String.join(", ", responses1);
+					event.getChannel().sendMessage("``Added custom command: " + name + " with responses: " + sResponses + " -> Guild: " + guild + "``").queue();
+				} else {
+					if (event.getMember().isOwner() || event.getAuthor().getId().equals(Mantaro.OWNER_ID))
+						event.getChannel().sendMessage("```json\n" + GeneralUtils.instance().toPrettyJson(toJson(custom)) + "```").queue();
+					else
+						event.getChannel().sendMessage(":heavy_multiplication_x: You cannot do that, silly.").queue();
+				}
+			}
 
-                map.put(entry2.getKey(), list);
-            });
+			@Override
+			public String help() {
+				return "Creates a custom command. Only works on the guild where it was created.";
+			}
 
-            result.put(entry.getKey(), map);
-        });
+		});
 
-        return result;
-    }
+		super.register("deletecustom", "Deletes a custom command", new Callback() {
+			@Override
+			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				String guild = event.getGuild().getId();
+				String name = args[0];
 
-    private static String toJson(Map<String, Map<String, List<String>>> map) {
-        return new Gson().toJson(map);
-    }
+				if (custom.get(guild).get(name) != null) {
+					custom.get(guild).remove(name);
+					JSONObject jsonObject = new JSONObject(toJson(custom));
+					JSONUtils.instance().write(file, jsonObject);
+					read();
 
-    private void read(){
-        try{
-            Log.instance().print("Loading custom commands...", this.getClass(), Type.INFO);
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            JsonParser parser = new JsonParser();
-            JsonObject object = parser.parse(br).getAsJsonObject();
-            custom = fromJson(object.toString());
-        } catch (FileNotFoundException | UnsupportedOperationException e) {
-            e.printStackTrace();
-            Log.instance().print("Cannot load custom commands!", this.getClass(), Type.WARNING, e);
-        }
-    }
+					event.getChannel().sendMessage("``Deleted custom command: " + name + " -> Guild: " + event.getGuild().getId() + "``").queue();
+				} else {
+					event.getChannel().sendMessage("``Command doesn't exist!``").queue();
+				}
+			}
 
-    public class CustomCommandListener extends ListenerAdapter {
-        private String defaultPx;
+			@Override
+			public String help() {
+				return "Deletes a custom command.";
+			}
 
-        @Override
-        public void onMessageReceived(MessageReceivedEvent event) {
-            defaultPx = Parameters.getPrefixForServer("default");
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+		});
+	}
 
-            if (event.getMessage().getContent().startsWith(defaultPx)) {
-                if(getCustomCommands().containsKey(event.getGuild().getId())){
-                    if (getCustomCommands().get(event.getGuild().getId()).containsKey(event.getMessage().getContent().replaceAll(defaultPx, ""))) {
-                        Random random = new Random();
-                        List<String> responses = getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
-                        event.getChannel().sendMessage(responses.get(random.nextInt(responses.size()))).queue();
-                    }
-                }
-            }
-        }
-    }
- }
+	private Map<String, Map<String, List<String>>> getCustomCommands() {
+		return custom;
+	}
+
+	private void read() {
+		try {
+			Log.instance().print("Loading custom commands...", this.getClass(), Type.INFO);
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			JsonParser parser = new JsonParser();
+			JsonObject object = parser.parse(br).getAsJsonObject();
+			custom = fromJson(object.toString());
+		} catch (FileNotFoundException | UnsupportedOperationException e) {
+			e.printStackTrace();
+			Log.instance().print("Cannot load custom commands!", this.getClass(), Type.WARNING, e);
+		}
+	}
+}

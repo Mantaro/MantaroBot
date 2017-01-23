@@ -7,7 +7,7 @@ public enum Type {
 	@Override
 	public String toString() {
 		String result = null;
-		switch(this){
+		switch (this) {
 			case INFO:
 				result = "Info";
 				break;

@@ -1,20 +1,12 @@
 package net.kodehawa.mantarobot.cmd;
 
-import java.awt.*;
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.*;
-
 import com.osu.api.ciyfhx.Mod;
 import com.osu.api.ciyfhx.OsuClient;
 import com.osu.api.ciyfhx.User;
 import com.osu.api.ciyfhx.UserScore;
-
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
@@ -23,41 +15,66 @@ import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.thread.AsyncHelper;
-import net.kodehawa.mantarobot.util.Utils;
+import net.kodehawa.mantarobot.util.GeneralUtils;
+
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class Osu extends Module {
 
-	private OsuClient osuClient = null;
 	private Map<String, Object> map = new HashMap<>();
+	private OsuClient osuClient = null;
 
-	public Osu()
-	{
+	public Osu() {
 		super.setCategory(Category.GAMES);
 		this.registerCommands();
 	}
 
 	@Override
-	public void registerCommands(){
+	public void registerCommands() {
+		osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
+
 		super.register("osu", "Retrieves various osu! related information.", new Callback() {
 			@Override
-			public void onCommand(String[] args, String content, MessageReceivedEvent event) {
-				osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public String help() {
+				return "Retrieves information from the osu!api.\n"
+					+ "Usage: \n"
+					+ "~>osu best [player]: Retrieves best scores of the user specified in the specified gamemode.\n"
+					+ "~>osu recent [player]: Retrieves recent scores of the user specified in the specified gamemode.\n"
+					+ "~>osu user [player]: Retrieves information about a osu! player.\n"
+					+ "Parameter description:\n"
+					+ "[player]: The osu! player to look info for.\n";
+			}
+
+			@Override
+			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
-				channel = event.getChannel();
-				switch(noArgs){
+				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 						{
 							Future<String> task = AsyncHelper.getThreadPool().submit(() -> best(content));
-							try{
+							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 								task.cancel(true);
-							} catch (Exception e){
-								if(e instanceof TimeoutException)
+							} catch (Exception e) {
+								if (e instanceof TimeoutException)
 									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
 									Log.instance().print("[osu] Exception thrown while fetching data", this.getClass(), Type.WARNING, e);
-									e.printStackTrace();
+								e.printStackTrace();
 							}
 						});
 						break;
@@ -65,48 +82,32 @@ public class Osu extends Module {
 						event.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
 						{
 							Future<String> task = AsyncHelper.getThreadPool().submit(() -> recent(content));
-							try{
+							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 								task.cancel(true);
-							} catch (Exception e){
-								if(e instanceof TimeoutException)
+							} catch (Exception e) {
+								if (e instanceof TimeoutException)
 									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
 									Log.instance().print("[osu] Exception thrown while fetching data", this.getClass(), Type.WARNING, e);
-									e.printStackTrace();
+								e.printStackTrace();
 							}
 						});
 						break;
 					case "user":
-						channel.sendMessage(user(content)).queue();
+						event.getChannel().sendMessage(user(content)).queue();
 						break;
 					default:
 						event.getChannel().sendMessage(help()).queue();
 						break;
 				}
 			}
-
-			@Override
-			public String help() {
-				return "Retrieves information from the osu!api.\n"
-						+ "Usage: \n"
-						+ "~>osu best [player]: Retrieves best scores of the user specified in the specified gamemode.\n"
-						+ "~>osu recent [player]: Retrieves recent scores of the user specified in the specified gamemode.\n"
-						+ "~>osu user [player]: Retrieves information about a osu! player.\n"
-						+ "Parameter description:\n"
-						+ "[player]: The osu! player to look info for.\n";
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
 		});
 	}
-		
-	private String best(String content){
+
+	private String best(String content) {
 		String finalResponse;
-		try{
+		try {
 			long start = System.currentTimeMillis();
 			String beheaded1 = content.replace("best ", "");
 			String[] args = beheaded1.split(" ");
@@ -117,47 +118,48 @@ public class Osu extends Module {
 			List<UserScore> userBest = osuClient.getUserBest(hey, map);
 			StringBuilder sb = new StringBuilder();
 			List<String> best = new CopyOnWriteArrayList<>();
-			
+
 			int n = -1;
 			int n1 = 0;
 			DecimalFormat df = new DecimalFormat("####0.0");
-			for (@SuppressWarnings("unused") UserScore u : userBest){
+			for (@SuppressWarnings("unused") UserScore u : userBest) {
 				n++;
 				n1++;
 				String mods1 = "";
-				try{
-					if(userBest.get(n).getEnabledMods().size() > 0){
+				try {
+					if (userBest.get(n).getEnabledMods().size() > 0) {
 						List<Mod> mods = userBest.get(n).getEnabledMods();
 						int i = 0;
 						StringBuilder sb1 = new StringBuilder();
-						for (@SuppressWarnings("unused") Mod mod : mods){
-							sb1.append(Utils.instance().getMod(mods.get(i)));
+						for (@SuppressWarnings("unused") Mod mod : mods) {
+							sb1.append(GeneralUtils.instance().getMod(mods.get(i)));
 							i++;
 						}
 						mods1 = " / Mods: " + sb1.toString();
 					}
-				} catch(ArrayIndexOutOfBoundsException ignored){}
-				
-				best.add(n1 + ".- " + userBest.get(n).getBeatMap().getTitle().replace("'", "") + 
-						" (\u2605"  + df.format(userBest.get(n).getBeatMap().getDifficultyRating()) + ") - " + userBest.get(n).getBeatMap().getCreator() 
-						+ mods1
-						+ "\n   Date: " + userBest.get(n).getDate() + " ~ Max Combo: " + userBest.get(n).getMaxCombo() +
-						" ~ PP: " + df.format(userBest.get(n).getPP()) + " ~ Rank: " + userBest.get(n).getRank()  + "\n");
+				} catch (ArrayIndexOutOfBoundsException ignored) {
+				}
+
+				best.add(n1 + ".- " + userBest.get(n).getBeatMap().getTitle().replace("'", "") +
+					" (\u2605" + df.format(userBest.get(n).getBeatMap().getDifficultyRating()) + ") - " + userBest.get(n).getBeatMap().getCreator()
+					+ mods1
+					+ "\n   Date: " + userBest.get(n).getDate() + " ~ Max Combo: " + userBest.get(n).getMaxCombo() +
+					" ~ PP: " + df.format(userBest.get(n).getPP()) + " ~ Rank: " + userBest.get(n).getRank() + "\n");
 				sb.append(best.get(n));
 			}
 			long end = System.currentTimeMillis() - start;
-		    finalResponse = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
-		} catch(Exception e){
+			finalResponse = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
+		} catch (Exception e) {
 			e.printStackTrace();
 			finalResponse = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
-		
+
 		return finalResponse;
 	}
-	
-	private String recent(String content){
+
+	private String recent(String content) {
 		String finalMessage;
-		try{
+		try {
 			long start = System.currentTimeMillis();
 			String beheaded1 = content.replace("recent ", "");
 			String[] args = beheaded1.split(" ");
@@ -166,80 +168,82 @@ public class Osu extends Module {
 			List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
 			StringBuilder sb = new StringBuilder();
 			List<String> recent = new CopyOnWriteArrayList<>();
-			 
+
 			int n = -1;
 			int n1 = 0;
 			DecimalFormat df = new DecimalFormat("####0.0");
 			String mods1 = "";
-			for (@SuppressWarnings("unused") UserScore u : userRecent){
-				try{
-					if(userRecent.get(n).getEnabledMods().size() > 0){
+			for (@SuppressWarnings("unused") UserScore u : userRecent) {
+				try {
+					if (userRecent.get(n).getEnabledMods().size() > 0) {
 						List<Mod> mods = userRecent.get(n).getEnabledMods();
 						int i = 0;
 						StringBuilder sb1 = new StringBuilder();
-						
-						for (@SuppressWarnings("unused") Mod mod : mods){
-							sb1.append(Utils.instance().getMod(mods.get(i)));
+
+						for (@SuppressWarnings("unused") Mod mod : mods) {
+							sb1.append(GeneralUtils.instance().getMod(mods.get(i)));
 							i++;
 						}
 						mods1 = " / Mods: " + sb1.toString();
 					}
-				} catch(ArrayIndexOutOfBoundsException ignored){}
-				
+				} catch (ArrayIndexOutOfBoundsException ignored) {
+				}
+
 				n1++;
 				n++;
 
-				recent.add(n1 + ".- " + userRecent.get(n).getBeatMap().getTitle().replace("'", "") + " (\u2605"  
-						+ df.format(userRecent.get(n).getBeatMap().getDifficultyRating()) + ") - " + userRecent.get(n).getBeatMap().getCreator()
-						+ mods1
-						+ "\n Date: " + userRecent.get(n).getDate() + " ~ Max Combo: " + userRecent.get(n).getMaxCombo() +
-						"\n");
-				
+				recent.add(n1 + ".- " + userRecent.get(n).getBeatMap().getTitle().replace("'", "") + " (\u2605"
+					+ df.format(userRecent.get(n).getBeatMap().getDifficultyRating()) + ") - " + userRecent.get(n).getBeatMap().getCreator()
+					+ mods1
+					+ "\n Date: " + userRecent.get(n).getDate() + " ~ Max Combo: " + userRecent.get(n).getMaxCombo() +
+					"\n");
+
 				sb.append(recent.get(n));
 			}
 
 			long end = System.currentTimeMillis() - start;
 			finalMessage = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";}
+			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";
+		}
 		return finalMessage;
 	}
-	
-	private MessageEmbed user(String content){
+
+	private MessageEmbed user(String content) {
 		MessageEmbed finalMessage;
-		try{
+		try {
 			long start = System.currentTimeMillis();
 			String beheaded1 = content.replace("user ", "");
-			
+
 			String[] args = beheaded1.split(" ");
-			
+
 			map.put("m", 0);
-			
+
 			User osuClientUser = osuClient.getUser(args[0], map);
 			DecimalFormat dfa = new DecimalFormat("####0.00"); //For accuracy
 			DecimalFormat df = new DecimalFormat("####0"); //For everything else
 			long end = System.currentTimeMillis() - start;
 			EmbedBuilder builder = new EmbedBuilder();
-					builder.setAuthor("osu! statistics for " + osuClientUser.getUsername(), "https://osu.ppy.sh/" + osuClientUser.getUserID(), "https://a.ppy.sh/" + osuClientUser.getUserID())
-					.setColor(Color.GRAY)
-					.addField("Rank", "#" + df.format(osuClientUser.getPPRank()), true)
-					.addField(":flag_" + osuClientUser.getCountry().toLowerCase() + ": Country Rank", "#" + df.format(osuClientUser.getPPCountryRank()), true)
-					.addField("PP", df.format(osuClientUser.getPPRaw()) + "pp", true)
-					.addField("Accuracy", dfa.format(osuClientUser.getAccuracy()) + "%", true)
-					.addField("Level", df.format(osuClientUser.getLevel()), true)
-					.addField("Ranked Score", df.format(osuClientUser.getRankedScore()), true)
-					.addField("SS", df.format(osuClientUser.getCountRankSS()), true)
-					.addField("S", df.format(osuClientUser.getCountRankS()), true)
-					.addField("A", df.format(osuClientUser.getCountRankA()), true)
-					.setFooter("Response time: " + end + "ms.", null);
+			builder.setAuthor("osu! statistics for " + osuClientUser.getUsername(), "https://osu.ppy.sh/" + osuClientUser.getUserID(), "https://a.ppy.sh/" + osuClientUser.getUserID())
+				.setColor(Color.GRAY)
+				.addField("Rank", "#" + df.format(osuClientUser.getPPRank()), true)
+				.addField(":flag_" + osuClientUser.getCountry().toLowerCase() + ": Country Rank", "#" + df.format(osuClientUser.getPPCountryRank()), true)
+				.addField("PP", df.format(osuClientUser.getPPRaw()) + "pp", true)
+				.addField("Accuracy", dfa.format(osuClientUser.getAccuracy()) + "%", true)
+				.addField("Level", df.format(osuClientUser.getLevel()), true)
+				.addField("Ranked Score", df.format(osuClientUser.getRankedScore()), true)
+				.addField("SS", df.format(osuClientUser.getCountRankSS()), true)
+				.addField("S", df.format(osuClientUser.getCountRankS()), true)
+				.addField("A", df.format(osuClientUser.getCountRankA()), true)
+				.setFooter("Response time: " + end + "ms.", null);
 			finalMessage = builder.build();
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.setTitle("Error.")
-					.setColor(Color.RED)
-					.addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
+				.setColor(Color.RED)
+				.addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
 			finalMessage = builder.build();
 		}
 		return finalMessage;
