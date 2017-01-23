@@ -131,10 +131,10 @@ public class UserCommands extends Module {
 		this.registerCommands();
 		Mantaro.instance().schedule(() -> {
 			Set<String> invalidCmds = new HashSet<>();
-			custom.keySet().forEach(cmd -> {
+			custom.values().forEach(map -> map.keySet().forEach(cmd -> {
 				if (!modules.containsKey(cmd)) modules.put(cmd, customCommand);
 				else invalidCmds.add(cmd);
-			});
+			}));
 			custom.keySet().removeAll(invalidCmds);
 		});
 	}
