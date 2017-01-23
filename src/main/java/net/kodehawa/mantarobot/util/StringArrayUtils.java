@@ -1,15 +1,16 @@
 package net.kodehawa.mantarobot.util;
 
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.thread.Async;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class StringArrayUtils {
+	private static final Logger LOGGER = LoggerFactory.getLogger("StringArrayUtils");
 	public volatile static StringArrayUtils instance = new StringArrayUtils();
 	private File file;
 	private CopyOnWriteArrayList<String> list;
@@ -30,9 +31,9 @@ public class StringArrayUtils {
 	public StringArrayUtils(String name, CopyOnWriteArrayList<String> list, boolean isRewritable) {
 		this.name = name;
 		this.list = list;
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/mantaro/" + name + ".txt");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/" + name + ".txt");
 		}
 
@@ -50,9 +51,9 @@ public class StringArrayUtils {
 		this.name = name;
 		this.list = list;
 
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/mantaro/" + name + ".txt");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/" + name + ".txt");
 		}
 		if (!file.exists()) {
@@ -67,9 +68,9 @@ public class StringArrayUtils {
 	}
 
 	private void create(File file, CopyOnWriteArrayList<String> list) {
-		Runnable r = () -> {
-			if (Mantaro.instance().isDebugEnabled) {
-				Log.instance().print("Writing List file " + name, this.getClass(), Type.INFO);
+		Async.asyncThread("(StringArrayUtils) Writer thread", () -> {
+			if (Mantaro.isDebugEnabled) {
+				LOGGER.info("Writing List file " + name, this.getClass());
 			}
 			try {
 				FileWriter filewriter = new FileWriter(file);
@@ -81,16 +82,14 @@ public class StringArrayUtils {
 				}
 				buffered.close();
 			} catch (Exception e) {
-				Log.instance().print("Problem while writing file", this.getClass(), Type.WARNING);
-				e.printStackTrace();
+				LOGGER.error("Problem while writing file", e);
 			}
-		};
-		AsyncHelper.instance().asyncThread("(StringArrayUtils) Writer thread", r).run();
+		}).run();
 	}
 
 	private void createFile() {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Creating new file " + name + "...", this.getClass(), Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Creating new file " + name + "...");
 		}
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
@@ -103,8 +102,8 @@ public class StringArrayUtils {
 	}
 
 	private void read() {
-		Runnable r = () -> {
-			Log.instance().print("Reading List file: " + name, this.getClass(), Type.INFO);
+		Async.asyncThread("(StringArrayUtils) File reading thread", () -> {
+			LOGGER.info("Reading List file: " + name);
 			try {
 				FileInputStream imputstream = new FileInputStream(file.getAbsolutePath());
 				DataInputStream datastream = new DataInputStream(imputstream);
@@ -117,11 +116,9 @@ public class StringArrayUtils {
 				}
 				bufferedreader.close();
 			} catch (Exception e) {
-				Log.instance().print("Problem while reading file", this.getClass(), Type.WARNING);
-				e.printStackTrace();
+				LOGGER.warn("Problem while reading file", e);
 			}
-		};
-		AsyncHelper.instance().asyncThread("(StringArrayUtils) File reading thread", r).run();
+		}).run();
 	}
 
 	private void removeDupes(CopyOnWriteArrayList<String> list) {

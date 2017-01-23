@@ -41,6 +41,9 @@ local.properties
 /build/
 !gradle-wrapper.jar
 
+# Libs
+!/lib/*.jar
+
 # Runtime
 
 # TODO Add Config/Database files at Runtime

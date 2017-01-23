@@ -1,20 +1,13 @@
 package net.kodehawa.mantarobot.module;
 
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Parser.CommandArguments;
 
-public abstract class Command {
-	public abstract CommandType commandType();
+public interface Command {
+	CommandType commandType();
 
-	public abstract String help();
+	String help();
 
-	protected abstract void onCommand(String[] args, String content, GuildMessageReceivedEvent event);
+	void invoke(CommandArguments cmd);
 
-	public void invoke(CommandArguments cmd) {
-		onCommand(cmd.args, cmd.content, cmd.event);
-	}
-
-	public boolean isHiddenFromHelp() {
-		return false;
-	}
+	boolean isHiddenFromHelp();
 }

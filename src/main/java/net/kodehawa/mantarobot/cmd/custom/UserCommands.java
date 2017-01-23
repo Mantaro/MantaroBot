@@ -8,16 +8,13 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.Audio;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
-import net.kodehawa.mantarobot.module.CommandType;
-import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.*;
 import net.kodehawa.mantarobot.module.Parser.CommandArguments;
 import net.kodehawa.mantarobot.util.GeneralUtils;
 import net.kodehawa.mantarobot.util.JSONUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,7 +26,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.module.Module.Manager.modules;
+
 public class UserCommands extends Module {
+	private static Logger LOGGER = LoggerFactory.getLogger("UserCommands");
 	private static Map<String, Map<String, List<String>>> fromJson(String json) {
 		JsonElement element = new JsonParser().parse(json);
 
@@ -94,11 +94,10 @@ public class UserCommands extends Module {
 			return string;
 		}
 
-		@Override
-		public void onCommand(String[] args, String commandName, GuildMessageReceivedEvent event) {
-			if (!custom.containsKey(event.getGuild().getId()) || !custom.get(event.getGuild().getId()).containsKey(commandName))
+		private void handle(GuildMessageReceivedEvent event, String cmdName, String rawArgs, String[] args) {
+			if (!custom.containsKey(event.getGuild().getId()) || !custom.get(event.getGuild().getId()).containsKey(cmdName))
 				return;
-			List<String> responses = custom.get(event.getGuild().getId()).get(commandName);
+			List<String> responses = custom.get(event.getGuild().getId()).get(cmdName);
 			String response = responses.get(r.nextInt(responses.size()));
 
 			Map<String, String> dynamicMap = new HashMap<>();
@@ -125,12 +124,12 @@ public class UserCommands extends Module {
 			}
 
 			if (response.startsWith("embed:")) {
-				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(commandName).setColor(event.getMember().getColor()).build()).queue();
+				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(cmdName).setColor(event.getMember().getColor()).build()).queue();
 				return;
 			}
 
 			if (response.startsWith("imgembed:")) {
-				event.getChannel().sendMessage(new EmbedBuilder().setImage(response.substring(9)).setTitle(commandName).setColor(event.getMember().getColor()).build()).queue();
+				event.getChannel().sendMessage(new EmbedBuilder().setImage(response.substring(9)).setTitle(cmdName).setColor(event.getMember().getColor()).build()).queue();
 				return;
 			}
 
@@ -139,7 +138,7 @@ public class UserCommands extends Module {
 
 		@Override
 		public void invoke(CommandArguments args) {
-			onCommand(args.args, args.invoke, args.event);
+			handle(args.event, args.cmdName, args.rawCommand, args.args);
 		}
 
 		@Override
@@ -155,15 +154,18 @@ public class UserCommands extends Module {
 	private File file;
 
 	public UserCommands() {
-		if (Mantaro.instance().isWindows()) {
+		super(Category.CUSTOM);
+
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/mantaro/cc.json");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/cc.json");
 		}
+
 		read();
-		this.setCategory(Category.CUSTOM);
+
 		this.registerCommands();
-		Mantaro.instance().schedule(() -> {
+		Mantaro.schedule(() -> {
 			Set<String> invalidCmds = new HashSet<>();
 			custom.values().forEach(map -> map.keySet().forEach(cmd -> {
 				if (!modules.containsKey(cmd)) modules.put(cmd, customCommand);
@@ -175,12 +177,7 @@ public class UserCommands extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("addcustom", "Adds a custom command", new Command() {
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-
+		super.register("addcustom", "Adds a custom command", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!content.startsWith("debug")) {
@@ -215,13 +212,18 @@ public class UserCommands extends Module {
 			}
 
 			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
 			public String help() {
 				return "Creates a custom command. Only works on the guild where it was created.";
 			}
 
 		});
 
-		super.register("deletecustom", "Deletes a custom command", new Command() {
+		super.register("deletecustom", "Deletes a custom command", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String guild = event.getGuild().getId();
@@ -254,7 +256,7 @@ public class UserCommands extends Module {
 			}
 		});
 
-		super.register("listcustom", "Lists the custom commands of the guild", new Command() {
+		super.register("listcustom", "Lists the custom commands of the guild", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -292,14 +294,14 @@ public class UserCommands extends Module {
 
 	private void read() {
 		try {
-			Log.instance().print("Loading custom commands...", this.getClass(), Type.INFO);
+			LOGGER.info("Loading custom commands...");
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			JsonParser parser = new JsonParser();
 			JsonObject object = parser.parse(br).getAsJsonObject();
 			custom = fromJson(object.toString());
 		} catch (FileNotFoundException | UnsupportedOperationException e) {
 			e.printStackTrace();
-			Log.instance().print("Cannot load custom commands!", this.getClass(), Type.WARNING, e);
+			LOGGER.error("Cannot load custom commands!", e);
 		}
 	}
 }

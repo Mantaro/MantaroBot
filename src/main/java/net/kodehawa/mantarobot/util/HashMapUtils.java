@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.util;
 
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class HashMapUtils {
+	private static final Logger LOGGER = LoggerFactory.getLogger("HashMapUtils");
 
 	public volatile static HashMapUtils instance = new HashMapUtils();
 	private final Properties properties = new Properties();
@@ -36,9 +37,9 @@ public class HashMapUtils {
 		this.stringHashmap = map;
 		this.name = fileName;
 
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/" + fileLocation + "/" + fileName + ".dat");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/" + fileName + ".dat");
 		}
 
@@ -58,9 +59,9 @@ public class HashMapUtils {
 		this.mixHashmap = map;
 		this.name = fileName;
 
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/" + fileLocation + "/" + fileName + ".dat");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/" + fileName + ".dat");
 		}
 
@@ -79,9 +80,9 @@ public class HashMapUtils {
 		this.intHashmap = map;
 		this.name = fileName;
 
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/" + fileLocation + "/" + fileName + ".dat");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/" + fileName + ".dat");
 		}
 
@@ -96,8 +97,8 @@ public class HashMapUtils {
 	}
 
 	private void createFile() {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Creating new file: " + name + "...", Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Creating new file: " + name + "...");
 		}
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
@@ -110,8 +111,8 @@ public class HashMapUtils {
 	}
 
 	private void loadInt() {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Loading Map file: " + name, this.getClass(), Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Loading Map file: " + name, this.getClass());
 		}
 
 		Properties properties = new Properties();
@@ -127,8 +128,8 @@ public class HashMapUtils {
 	}
 
 	private void loadMix() {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Loading Map file: " + name, this.getClass(), Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Loading Map file: " + name, this.getClass());
 		}
 
 		Properties properties = new Properties();
@@ -144,8 +145,8 @@ public class HashMapUtils {
 	}
 
 	private void loadString() {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Loading Map file: " + name, this.getClass(), Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Loading Map file: " + name, this.getClass());
 		}
 
 		Properties properties = new Properties();
@@ -161,8 +162,8 @@ public class HashMapUtils {
 	}
 
 	private void saveInt(File file, Map<Integer, Integer> hash) {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Writing Map file: " + name, this.getClass(), Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Writing Map file: " + name, this.getClass());
 		}
 
 		properties.putAll(hash);
@@ -176,8 +177,8 @@ public class HashMapUtils {
 	}
 
 	private void saveMix(File file, Map<Integer, String> hash) {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Writing Map file: " + name, this.getClass(), Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Writing Map file: " + name, this.getClass());
 		}
 
 		properties.putAll(hash);
@@ -191,8 +192,8 @@ public class HashMapUtils {
 	}
 
 	private void saveString(File file, Map<String, String> hash) {
-		if (Mantaro.instance().isDebugEnabled) {
-			Log.instance().print("Writing Map file: " + name, Type.INFO);
+		if (Mantaro.isDebugEnabled) {
+			LOGGER.info("Writing Map file: " + name);
 		}
 
 		properties.putAll(hash);

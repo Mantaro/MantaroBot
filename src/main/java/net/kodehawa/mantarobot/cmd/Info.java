@@ -6,12 +6,12 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.listeners.Listener;
+import net.kodehawa.mantarobot.listeners.CommandListener;
 import net.kodehawa.mantarobot.listeners.LogListener;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.GeneralUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,13 +48,13 @@ public class Info extends Module {
 	}
 
 	public Info() {
-		super.setCategory(Category.INFO);
+		super(Category.INFO);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("ping", "Pong.", new Command() {
+		super.register("ping", "Pong.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -80,11 +80,9 @@ public class Info extends Module {
 				return "Just to see if the bot it's alive. Also reports the time it takes for the response to process and bounce back.";
 			}
 
-
-
 		});
 
-		super.register("serverinfo", "Retrieves guild/server information.", new Command() {
+		super.register("serverinfo", "Retrieves guild/server information.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
@@ -136,7 +134,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("usageinfo", "Displays bot hardware information.", new Command() {
+		super.register("usageinfo", "Displays bot hardware information.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -169,7 +167,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("userinfo", "Retrieves user information.", new Command() {
+		super.register("userinfo", "Retrieves user information.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				EmbedBuilder embed = new EmbedBuilder();
@@ -271,7 +269,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("weather", "Displays forecast information", new Command() {
+		super.register("weather", "Displays forecast information", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				EmbedBuilder embed = new EmbedBuilder();
@@ -280,7 +278,7 @@ public class Info extends Module {
 					try {
 						long start = System.currentTimeMillis();
 						//Get a parsed JSON.
-						String APP_ID = Mantaro.instance().getConfig().values().get("weatherappid").toString();
+						String APP_ID = Mantaro.getConfig().values().get("weatherappid").toString();
 						JSONObject jObject = new JSONObject(
 							GeneralUtils.instance().getObjectFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(
 								content, "UTF-8") + "&appid=" + APP_ID, event));
@@ -349,11 +347,11 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("about", "Displays information about the bot.", new Command() {
+		super.register("about", "Displays information about the bot.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				int online = 0;
-				for (Guild g : Mantaro.instance().getSelf().getGuilds()) {
+				for (Guild g : Mantaro.getSelf().getGuilds()) {
 					for (Member u : g.getMembers()) {
 						if (!u.getOnlineStatus().equals(OnlineStatus.OFFLINE)) {
 							online++;
@@ -372,15 +370,15 @@ public class Info extends Module {
 						+ "Some of my features include:\n \u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n"
 						+ "\u2713 Funny and useful commands ``see `~>help anime` or `~>help action` for examples``.	\n"
 						+ "\u2713 Extensive support!")
-					.addField("Latest Build", Mantaro.instance().getMetadata("build") + '.' + Mantaro.instance().getMetadata("date"), true)
+					.addField("Latest Build", Mantaro.getMetadata("build") + '.' + Mantaro.getMetadata("date"), true)
 					.addField("JDA Version", JDAInfo.VERSION, true)
 					.addField("Uptime", uptime, true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
-					.addField("Guilds", String.valueOf(Mantaro.instance().getSelf().getGuilds().size()), true)
-					.addField("Users (Online/Unique)", online + "/" + Mantaro.instance().getSelf().getUsers().size(), true)
-					.addField("Channels", String.valueOf(Mantaro.instance().getSelf().getTextChannels().size()), true)
-					.addField("Voice Channels", String.valueOf(Mantaro.instance().getSelf().getVoiceChannels().size()), true)
-					.setFooter("Invite link: https://is.gd/mantaro (Commands this session: " + Listener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null);
+					.addField("Guilds", String.valueOf(Mantaro.getSelf().getGuilds().size()), true)
+					.addField("Users (Online/Unique)", online + "/" + Mantaro.getSelf().getUsers().size(), true)
+					.addField("Channels", String.valueOf(Mantaro.getSelf().getTextChannels().size()), true)
+					.addField("Voice Channels", String.valueOf(Mantaro.getSelf().getVoiceChannels().size()), true)
+					.setFooter("Invite link: https://is.gd/mantaro (Commands this session: " + CommandListener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null);
 
 				event.getChannel().sendMessage(embed.build()).queue();
 			}

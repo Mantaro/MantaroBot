@@ -3,9 +3,9 @@ package net.kodehawa.mantarobot.cmd;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.HashMapUtils;
 
 import java.text.SimpleDateFormat;
@@ -18,14 +18,14 @@ public class Birthday extends Module {
 	private String FILE_SIGN = "d41d8cd98f00b204e9800998ecf8427e";
 
 	public Birthday() {
-		super.setCategory(Category.MISC);
+		super(Category.MISC);
 		this.registerCommands();
 		new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, false);
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("birthday", "Sets your birthday date", new Command() {
+		super.register("birthday", "Sets your birthday date", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;

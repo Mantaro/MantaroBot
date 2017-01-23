@@ -27,6 +27,7 @@ dependencies {
     compile 'us.monoid.web:resty:0.3.2'
     compile 'com.sedmelluq:jda-nas:1.0.3'
     compile 'com.sedmelluq:lavaplayer:1.1.38'
+    compile 'ch.qos.logback:logback-classic:0.9.26'
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'bsh:bsh:2.0b4'

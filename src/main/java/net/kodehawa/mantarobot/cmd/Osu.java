@@ -8,14 +8,14 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
-import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.module.SimpleCommand;
+import net.kodehawa.mantarobot.thread.Async;
 import net.kodehawa.mantarobot.util.GeneralUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -29,19 +29,20 @@ import java.util.concurrent.TimeoutException;
 
 public class Osu extends Module {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger("Osu");
 	private Map<String, Object> map = new HashMap<>();
 	private OsuClient osuClient = null;
 
 	public Osu() {
-		super.setCategory(Category.GAMES);
+		super(Category.GAMES);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands() {
-		osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
+		osuClient = new OsuClient(Mantaro.getConfig().values().get("osuapikey").toString());
 
-		super.register("osu", "Retrieves various osu! related information.", new Command() {
+		super.register("osu", "Retrieves various osu! related information.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -65,7 +66,7 @@ public class Osu extends Module {
 					case "best":
 						event.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
 						{
-							Future<String> task = AsyncHelper.getThreadPool().submit(() -> best(content));
+							Future<String> task = Async.getThreadPool().submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 								task.cancel(true);
@@ -73,7 +74,7 @@ public class Osu extends Module {
 								if (e instanceof TimeoutException)
 									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
-									Log.instance().print("[osu] Exception thrown while fetching data", this.getClass(), Type.WARNING, e);
+									LOGGER.warn("[osu] Exception thrown while fetching data", e);
 								e.printStackTrace();
 							}
 						});
@@ -81,7 +82,7 @@ public class Osu extends Module {
 					case "recent":
 						event.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
 						{
-							Future<String> task = AsyncHelper.getThreadPool().submit(() -> recent(content));
+							Future<String> task = Async.getThreadPool().submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 								task.cancel(true);
@@ -89,7 +90,7 @@ public class Osu extends Module {
 								if (e instanceof TimeoutException)
 									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
 								else
-									Log.instance().print("[osu] Exception thrown while fetching data", this.getClass(), Type.WARNING, e);
+									LOGGER.warn("[osu] Exception thrown while fetching data", e);
 								e.printStackTrace();
 							}
 						});

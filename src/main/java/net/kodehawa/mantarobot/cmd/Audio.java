@@ -17,15 +17,15 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.audio.MusicManager;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.listeners.generic.FunctionListener;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
+import net.kodehawa.mantarobot.listeners.FunctionListener;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
-import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.module.SimpleCommand;
+import net.kodehawa.mantarobot.thread.Async;
 import net.kodehawa.mantarobot.util.GeneralUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.net.URL;
@@ -34,7 +34,9 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+
 public class Audio extends Module {
+	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
 	private static Audio instance;
 
 	private static void connectToNamedVoiceChannel(String voiceId, AudioManager audioManager) {
@@ -65,8 +67,8 @@ public class Audio extends Module {
 	private final AudioPlayerManager playerManager;
 
 	public Audio() {
+		super(Category.AUDIO);
 		instance = this;
-		super.setCategory(Category.AUDIO);
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
@@ -76,7 +78,7 @@ public class Audio extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("play", "Plays a song in the music voice channel.", new Command() {
+		super.register("play", "Plays a song in the music voice channel.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -102,7 +104,7 @@ public class Audio extends Module {
 
 		});
 
-		super.register("skip", "Stops the track and continues to the next one, if there is one.", new Command() {
+		super.register("skip", "Stops the track and continues to the next one, if there is one.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				skipTrack(event);
@@ -121,7 +123,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("shuffle", "Shuffles the current playlist", new Command() {
+		super.register("shuffle", "Shuffles the current playlist", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -140,7 +142,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("stop", "Clears queue and leaves the voice channel.", new Command() {
+		super.register("stop", "Clears queue and leaves the voice channel.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -161,7 +163,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("queue", "Returns the current track list playing on the server.", new Command() {
+		super.register("queue", "Returns the current track list playing on the server.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -186,7 +188,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("removetrack", "Removes the specified track from the queue.", new Command() {
+		super.register("removetrack", "Removes the specified track from the queue.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -214,7 +216,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("pause", "Pauses the player.", new Command() {
+		super.register("pause", "Pauses the player.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -238,7 +240,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("np", "What's playing now?", new Command() {
+		super.register("np", "What's playing now?", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -370,7 +372,7 @@ public class Audio extends Module {
 			@Override
 			public void loadFailed(FriendlyException exception) {
 				if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
-					Log.instance().print("Couldn't play music", this.getClass(), Type.WARNING, exception);
+					LOGGER.warn("Couldn't play music", exception);
 					channel.sendMessage(":heavy_multiplication_x: Couldn't play music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
 				} else {
 					exception.printStackTrace();
@@ -444,10 +446,10 @@ public class Audio extends Module {
 			return false;
 		});
 
-		Mantaro.instance().getSelf().addEventListener(functionListener);
-		AsyncHelper.instance().asyncSleepThen(10000, () -> {
+		Mantaro.getSelf().addEventListener(functionListener);
+		Async.asyncSleepThen(10000, () -> {
 			if (!functionListener.isDone()) {
-				Mantaro.instance().getSelf().removeEventListener(functionListener);
+				Mantaro.getSelf().removeEventListener(functionListener);
 				event.getChannel().sendMessage(":heavy_multiplication_x: Timeout: No reply in 10 seconds").queue();
 			}
 		}).run();

@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class Action extends Module {
 	 * One of the biggest modules by command quantity.
 	 */
 	public Action() {
-		super.setCategory(Category.ACTION);
+		super(Category.ACTION);
 		this.registerCommands();
 		new StringArrayUtils("greeting", greeting, false);
 		new StringArrayUtils("tsunderelines", tsunLines, false);
@@ -43,7 +43,7 @@ public class Action extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("pat", "Pats a user", new Command() {
+		super.register("pat", "Pats a user", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -74,7 +74,7 @@ public class Action extends Module {
 
 		});
 
-		super.register("hug", "Hugs an user", new Command() {
+		super.register("hug", "Hugs an user", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				User author = event.getAuthor();
@@ -104,7 +104,7 @@ public class Action extends Module {
 			}
 		});
 
-		super.register("bloodsuck", "Sucks the blood of an user", new Command() {
+		super.register("bloodsuck", "Sucks the blood of an user", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -136,7 +136,7 @@ public class Action extends Module {
 			}
 		});
 
-		super.register("meow", "Meows at someone, or just meows.", new Command() {
+		super.register("meow", "Meows at someone, or just meows.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -167,7 +167,7 @@ public class Action extends Module {
 			}
 		});
 
-		super.register("greet", "Greets someone.", new Command() {
+		super.register("greet", "Greets someone.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Random rd = new Random();
@@ -186,7 +186,7 @@ public class Action extends Module {
 			}
 		});
 
-		super.register("tsundere", "Y-You baaaaka!.", new Command() {
+		super.register("tsundere", "Y-You baaaaka!.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(":mega: " + tsunLines.get(new Random().nextInt(tsunLines.size()))).queue();
@@ -203,7 +203,7 @@ public class Action extends Module {
 			}
 		});
 
-		super.register("action", "Misc actions.", new Command() {
+		super.register("action", "Misc actions.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];

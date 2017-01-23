@@ -10,14 +10,11 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
-import net.kodehawa.mantarobot.module.CommandType;
-import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.awt.*;
@@ -29,16 +26,17 @@ import static net.kodehawa.mantarobot.module.CommandType.*;
 
 public class Utils extends Module {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
 	private final Resty resty = new Resty();
 
 	public Utils() {
-		super.setCategory(Category.MISC);
+		super(Category.MISC);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("help", "Display this help.", new Command() {
+		super.register("help", "Display this help.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -59,24 +57,24 @@ public class Utils extends Module {
 					StringBuilder builderGames = new StringBuilder();
 					StringBuilder builderCustom = new StringBuilder();
 
-					for (String cmd : Module.modules.keySet()) {
-						Command command = Module.modules.get(cmd);
+					for (String cmd : Manager.modules.keySet()) {
+						Command command = Manager.modules.get(cmd);
 						if (!command.commandType().equals(OWNER) && !command.isHiddenFromHelp()) {
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.ACTION.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.ACTION.toString()))
 								builderAction.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.FUN.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.FUN.toString()))
 								builderFun.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.INFO.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.INFO.toString()))
 								builderInfo.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.MISC.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.MISC.toString()))
 								builderMisc.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.AUDIO.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.AUDIO.toString()))
 								builderAudio.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.GAMES.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.GAMES.toString()))
 								builderGames.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.CUSTOM.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.CUSTOM.toString()))
 								builderCustom.append(" ``").append(cmd).append("``");
-							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.MODERATION.toString()))
+							if (Manager.moduleDescriptions.get(cmd)[2].equals(Category.MODERATION.toString()))
 								builderMod.append(" ``").append(cmd).append("``");
 						}
 					}
@@ -86,8 +84,8 @@ public class Utils extends Module {
 							"(For example ~>help yandere).\n"
 							+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId()) + " custom prefix on **this** server and " + Parameters.getPrefixForServer("default") + " as global prefix."
 							+ " So put that before the command name to execute it.\n"
-							+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build")
-							+ Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION + "\n\n"
+							+ ":star: Mantaro version: " + Mantaro.getMetadata("build")
+							+ Mantaro.getMetadata("date") + "_J" + JDAInfo.VERSION + "\n\n"
 							+ "**Module commands:**\n"
 							+ "**Action**:" + builderAction.toString() + "\n"
 							+ "**Fun**:" + builderFun.toString() + "\n"
@@ -103,13 +101,13 @@ public class Utils extends Module {
 				} else if (content.equals("all")) {
 					StringBuilder builderUser = new StringBuilder();
 					StringBuilder builderAdmin = new StringBuilder();
-					for (String cmd : Module.modules.keySet()) {
-						if (Module.modules.get(cmd).isHiddenFromHelp()) continue;
+					for (String cmd : Manager.modules.keySet()) {
+						if (Manager.modules.get(cmd).isHiddenFromHelp()) continue;
 
-						if (!Module.moduleDescriptions.get(cmd)[0].isEmpty() && Module.modules.get(cmd).commandType().equals(USER))
-							builderUser.append(cmd).append(": ").append(Module.moduleDescriptions.get(cmd)[0]).append("\n");
-						else if (!Module.moduleDescriptions.get(cmd)[0].isEmpty() && Module.modules.get(cmd).commandType().equals(ADMIN))
-							builderAdmin.append(cmd).append(": ").append(Module.moduleDescriptions.get(cmd)[0]).append("\n");
+						if (!Manager.moduleDescriptions.get(cmd)[0].isEmpty() && Manager.modules.get(cmd).commandType().equals(USER))
+							builderUser.append(cmd).append(": ").append(Manager.moduleDescriptions.get(cmd)[0]).append("\n");
+						else if (!Manager.moduleDescriptions.get(cmd)[0].isEmpty() && Manager.modules.get(cmd).commandType().equals(ADMIN))
+							builderAdmin.append(cmd).append(": ").append(Manager.moduleDescriptions.get(cmd)[0]).append("\n");
 					}
 
 					event.getAuthor().openPrivateChannel().queue(
@@ -121,8 +119,8 @@ public class Utils extends Module {
 									"(For example ~>help yandere).\n"
 									+ ":exclamation: Remember: *all* commands as for now use the " + Parameters.getPrefixForServer(guild.getId()) + " custom prefix on **this** server and " + Parameters.getPrefixForServer("default") + " as global prefix."
 									+ " So put that before the command name to execute it.\n"
-									+ ":star: Mantaro version: " + Mantaro.instance().getMetadata("build")
-									+ Mantaro.instance().getMetadata("date") + "_J" + JDAInfo.VERSION + "\n\n"
+									+ ":star: Mantaro version: " + Mantaro.getMetadata("build")
+									+ Mantaro.getMetadata("date") + "_J" + JDAInfo.VERSION + "\n\n"
 									+ "**User commands:**\n"
 									+ builderUser.toString() + "\n")
 								.setFooter("To check the command usage of any of those commands ~>help <commandname>", null);
@@ -140,8 +138,8 @@ public class Utils extends Module {
 								});
 						});
 				} else {
-					if (Module.modules.containsKey(content)) {
-						Command command = Module.modules.get(content);
+					if (Manager.modules.containsKey(content)) {
+						Command command = Manager.modules.get(content);
 						if (!command.help().isEmpty() && !command.isHiddenFromHelp())
 							channel.sendMessage(command.help()).queue();
 						else
@@ -157,11 +155,11 @@ public class Utils extends Module {
 
 		});
 
-		super.register("translate", "Translates a given sentence", new Command() {
+		super.register("translate", "Translates a given sentence", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
-					Mantaro.instance().getSelf().getPresence().setGame(Game.of("even more"));
+					Mantaro.getSelf().getPresence().setGame(Game.of("even more"));
 					TextChannel channel = event.getChannel();
 
 					if (!content.isEmpty()) {
@@ -194,14 +192,14 @@ public class Utils extends Module {
 
 							System.out.println(translatorUrl2);
 						} catch (IOException e) {
-							Log.instance().print("Something went wrong when translating.", this.getClass(), Type.WARNING, e);
+							LOGGER.warn("Something went wrong when translating.", e);
 							channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating... :c").queue();
 						}
 					} else {
 						channel.sendMessage(help()).queue();
 					}
 				} catch (Exception e) {
-					Log.instance().print("Something went wrong while processing translation elements.", this.getClass(), Type.WARNING, e);
+					LOGGER.warn("Something went wrong while processing translation elements.", e);
 					e.printStackTrace();
 				}
 			}

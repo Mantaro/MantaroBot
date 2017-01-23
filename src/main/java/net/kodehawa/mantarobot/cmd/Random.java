@@ -3,9 +3,9 @@ package net.kodehawa.mantarobot.cmd;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -16,13 +16,13 @@ import java.util.TimeZone;
 public class Random extends Module {
 
 	public Random() {
-		super.setCategory(Category.FUN);
+		super(Category.FUN);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("lewd", "T-Too lewd!", new Command() {
+		super.register("lewd", "T-Too lewd!", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -40,7 +40,7 @@ public class Random extends Module {
 
 		});
 
-		super.register("time", "Retrieves time in a specific timezone.", new Command() {
+		super.register("time", "Retrieves time in a specific timezone.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();

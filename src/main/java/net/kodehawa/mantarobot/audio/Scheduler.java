@@ -12,12 +12,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Scheduler extends AudioEventAdapter {
-	private final GuildMessageReceivedEvent _event;
+	private final GuildMessageReceivedEvent event;
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
 
 	public Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
-		_event = event;
+		this.event = event;
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
 	}
@@ -26,7 +26,7 @@ public class Scheduler extends AudioEventAdapter {
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
 			nextTrack();
-			_event.getChannel().sendMessage(":mega: Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
+			event.getChannel().sendMessage(":mega: Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
 				+ " (" + GeneralUtils.instance().getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
 		}
 	}

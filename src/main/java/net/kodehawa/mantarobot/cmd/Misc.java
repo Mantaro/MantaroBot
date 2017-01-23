@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.GeneralUtils;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 import org.json.JSONArray;
@@ -29,7 +29,7 @@ public class Misc extends Module {
 	private ArrayList<User> users = new ArrayList<>();
 
 	public Misc() {
-		super.setCategory(Category.MISC);
+		super(Category.MISC);
 		lyrics.add(":mega: Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
@@ -49,7 +49,7 @@ public class Misc extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("lottery", "Get random amounts of money! Usable every 20m per person.", new Command() {
+		super.register("lottery", "Get random amounts of money! Usable every 20m per person.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -86,7 +86,7 @@ public class Misc extends Module {
 
 		});
 
-		super.register("randomfact", "Displays a random fact.", new Command() {
+		super.register("randomfact", "Displays a random fact.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Random rand = new Random();
@@ -96,7 +96,7 @@ public class Misc extends Module {
 
 			@Override
 			public String help() {
-				return getDescription("randomfact")[0];
+				return "Displays a random fact.";
 			}
 
 			@Override
@@ -104,7 +104,7 @@ public class Misc extends Module {
 				return CommandType.USER;
 			}
 		});
-		super.register("misc", "Misc funny commands", new Command() {
+		super.register("misc", "Misc funny commands", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String mentioned = "";
@@ -166,7 +166,7 @@ public class Misc extends Module {
 				return CommandType.USER;
 			}
 		});
-		super.register("8ball", "Retrieves information from 8ball", new Command() {
+		super.register("8ball", "Retrieves information from 8ball", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
@@ -201,7 +201,7 @@ public class Misc extends Module {
 				return CommandType.USER;
 			}
 		});
-		super.register("urban", "Retrieves information from urban dictionary", new Command() {
+		super.register("urban", "Retrieves information from urban dictionary", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				//First split is definition, second one is number. I would use space but we need the ability to fetch with spaces too.

@@ -6,17 +6,17 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
-import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.module.SimpleCommand;
+import net.kodehawa.mantarobot.thread.Async;
 import net.kodehawa.mantarobot.util.GeneralUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.InputStream;
@@ -33,19 +33,20 @@ import java.net.URLEncoder;
  * @author Yomura
  */
 public class Anime extends Module {
+	public static Logger LOGGER = LoggerFactory.getLogger("Anime");
 
-	private final String CLIENT_SECRET = Mantaro.instance().getConfig().values().get("alsecret").toString();
+	private final String CLIENT_SECRET = Mantaro.getConfig().values().get("alsecret").toString();
 	private String authToken;
 
 	public Anime() {
-		super.setCategory(Category.FUN);
+		super(Category.FUN);
 		this.registerCommands();
 		login(2000);
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("anime", "Retrieves information about an anime.", new Command() {
+		super.register("anime", "Retrieves information about an anime.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -66,7 +67,7 @@ public class Anime extends Module {
 					try {
 						data = new JSONArray(json);
 					} catch (JSONException e) {
-						if (Mantaro.instance().isDebugEnabled) {
+						if (Mantaro.isDebugEnabled) {
 							e.printStackTrace();
 						}
 						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
@@ -121,7 +122,7 @@ public class Anime extends Module {
 					//Build the embedded and send it.
 					channel.sendMessage(embed.build()).queue();
 				} catch (Exception e) {
-					Log.instance().print("Problem processing data.", this.getClass(), Type.WARNING, e);
+					LOGGER.warn("Problem processing data.", e);
 					e.printStackTrace();
 				}
 			}
@@ -135,11 +136,9 @@ public class Anime extends Module {
 					+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n";
 			}
 
-
-
 		});
 
-		super.register("character", "Retrieves information about a character.", new Command() {
+		super.register("character", "Retrieves information about a character.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -153,7 +152,7 @@ public class Anime extends Module {
 					try {
 						data = new JSONArray(json);
 					} catch (JSONException e) {
-						if (Mantaro.instance().isDebugEnabled) {
+						if (Mantaro.isDebugEnabled) {
 							e.printStackTrace();
 						}
 						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
@@ -187,7 +186,7 @@ public class Anime extends Module {
 
 					channel.sendMessage(embed.build()).queue();
 				} catch (Exception e) {
-					Log.instance().print("Problem processing data.", this.getClass(), Type.WARNING, e);
+					LOGGER.warn("Problem processing data.", e);
 					e.printStackTrace();
 				}
 			}
@@ -228,10 +227,10 @@ public class Anime extends Module {
 			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
 			JSONObject jObject = new JSONObject(json);
 			authToken = jObject.getString("access_token");
-			Log.instance().print("Updated auth token.", this.getClass(), Type.INFO);
+			LOGGER.info("Updated auth token.");
 		} catch (Exception e) {
-			Log.instance().print("Problem while updating auth token!" + e.getCause() + " " + e.getMessage(), this.getClass(), Type.WARNING, e);
-			if (Mantaro.instance().isDebugEnabled) {
+			LOGGER.warn("Problem while updating auth token! " + e.getCause() + " " + e.getMessage());
+			if (Mantaro.isDebugEnabled) {
 				e.printStackTrace();
 			}
 		}
@@ -244,7 +243,6 @@ public class Anime extends Module {
 	 * @return the new AniList access token.
 	 */
 	private void login(int seconds) {
-		Runnable loginTask = this::authenticate;
-		AsyncHelper.instance().startAsyncTask("AniList Login Task", loginTask, seconds);
+		Async.startAsyncTask("AniList Login Task", this::authenticate, seconds);
 	}
 }

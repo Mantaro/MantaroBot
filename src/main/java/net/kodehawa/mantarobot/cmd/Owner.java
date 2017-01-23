@@ -4,13 +4,13 @@ import bsh.Interpreter;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.listeners.Listener;
+import net.kodehawa.mantarobot.listeners.CommandListener;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 
 public class Owner extends Module {
@@ -18,13 +18,13 @@ public class Owner extends Module {
 	public static MessageReceivedEvent tempEvt = null;
 
 	public Owner() {
-		super.setCategory(Category.MODERATION);
+		super(Category.MODERATION);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("add", "Adds a item to a list.", new Command() {
+		super.register("add", "Adds a item to a list.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.OWNER;
@@ -63,7 +63,7 @@ public class Owner extends Module {
 
 		});
 
-		super.register("eval", "Evaluates arbitrary code.", new Command() {
+		super.register("eval", "Evaluates arbitrary code.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
@@ -71,8 +71,8 @@ public class Owner extends Module {
 						Interpreter interpreter = new Interpreter();
 						String evalHeader =
 							"import *; "
-								+ "private Mantaro bot = Mantaro.instance(); "
-								+ "private JDAImpl self = Mantaro.instance().getSelf(); "
+								+ "private Mantaro bot = Mantaro; "
+								+ "private JDAImpl self = Mantaro.getSelf(); "
 								+ "private MessageReceivedEvent evt = net.kodehawa.mantarobot.cmd.Owner.tempEvt;";
 						Object toSendTmp = interpreter.eval(evalHeader + content.replaceAll("#", "().") + ";");
 						if (toSendTmp != null) {
@@ -97,7 +97,7 @@ public class Owner extends Module {
 			}
 		});
 
-		super.register("shutdown", "Shuts down the bot.", new Command() {
+		super.register("shutdown", "Shuts down the bot.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
@@ -124,10 +124,10 @@ public class Owner extends Module {
 					}
 
 					try {
-						Mantaro.instance().getSelf().removeEventListener(new Listener());
+						Mantaro.getSelf().removeEventListener(new CommandListener());
 						System.exit(1);
 					} catch (Exception e) {
-						Mantaro.instance().getSelf().addEventListener(new Listener());
+						Mantaro.getSelf().addEventListener(new CommandListener());
 						Log.instance().print(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString(), this.getClass(), Type.CRITICAL, e);
 					}
 				} else {

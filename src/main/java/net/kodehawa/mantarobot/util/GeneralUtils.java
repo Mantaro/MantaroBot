@@ -106,6 +106,7 @@ public class GeneralUtils {
 			}
 		};
 	}
+
 	private HashMap<Mod, String> mods = new HashMap<>();
 	private String paste = "http://hastebin.com/";
 

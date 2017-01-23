@@ -12,15 +12,15 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.GeneralUtils;
 import net.kodehawa.mantarobot.util.JSONUtils;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Quote extends Module {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("Quote");
 
 	private static LinkedHashMap<String, LinkedHashMap<String, List<String>>> fromJson(String json) {
 		JsonElement element = new JsonParser().parse(json);
@@ -77,13 +79,14 @@ public class Quote extends Module {
 	private LinkedHashMap<String, LinkedHashMap<String, List<String>>> quotesMap = new LinkedHashMap<>();
 
 	public Quote() {
-		if (Mantaro.instance().isWindows()) {
+		super(Category.MISC);
+
+		if (Mantaro.isWindows()) {
 			this.file = new File("C:/mantaro/quotes.json");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.file = new File("/home/mantaro/quotes.json");
 		}
 
-		super.setCategory(Category.MISC);
 		read();
 		this.registerCommands();
 	}
@@ -91,7 +94,7 @@ public class Quote extends Module {
 	@SuppressWarnings({"unused", "unchecked"})
 	@Override
 	public void registerCommands() {
-		super.register("quote", "Adds or retrieves quotes.", new Command() {
+		super.register("quote", "Adds or retrieves quotes.", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -284,14 +287,14 @@ public class Quote extends Module {
 
 	private void read() {
 		try {
-			Log.instance().print("Loading quotes...", this.getClass(), Type.INFO);
+			LOGGER.info("Loading quotes...");
 			BufferedReader br = new BufferedReader(new FileReader(file));
 			JsonParser parser = new JsonParser();
 			JsonObject object = parser.parse(br).getAsJsonObject();
 			quotesMap = fromJson(object.toString());
 		} catch (FileNotFoundException | UnsupportedOperationException e) {
 			e.printStackTrace();
-			Log.instance().print("Cannot load quotes!", this.getClass(), Type.WARNING, e);
+			LOGGER.warn("Cannot load quotes!", e);
 		}
 	}
 

@@ -32,13 +32,13 @@ public class LogListener extends ListenerAdapter {
 			if (Parameters.getLogHash().containsKey(event.getGuild().getId())) {
 				TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
 				User author = event.getAuthor();
-				Message editedMessage = Listener.shortMessageHistory.get(event.getMessage().getId());
+				Message editedMessage = CommandListener.shortMessageHistory.get(event.getMessage().getId());
 				if (!editedMessage.getContent().isEmpty() && !event.getChannel().getName().equals(Parameters.getLogChannelForServer(event.getGuild().getId()))) {
 					tc.sendMessage(":warning: `[" + hour + "]` " + author.getName() + "#" + author.getDiscriminator() + " *modified* a message in #" + event.getChannel().getName() + ".\n"
 						+ "```diff\n-" + editedMessage.getContent().replace("```", "") +
 						"\n+" + event.getMessage().getContent().replace("```", "") + "```").queue();
 					//Update old message
-					Listener.shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
+					CommandListener.shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
 				}
 			}
@@ -56,7 +56,7 @@ public class LogListener extends ListenerAdapter {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			if (Parameters.getLogHash().containsKey(event.getGuild().getId())) {
 				TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
-				Message deletedMessage = Listener.shortMessageHistory.get(event.getMessageId());
+				Message deletedMessage = CommandListener.shortMessageHistory.get(event.getMessageId());
 				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getName().equals(Parameters.getLogChannelForServer(event.getGuild().getId()))) {
 					logTotal++;
 					tc.sendMessage(":warning: `[" + hour + "]` " + deletedMessage.getAuthor().getName() + "#" + deletedMessage.getAuthor().getDiscriminator() + " *deleted*"

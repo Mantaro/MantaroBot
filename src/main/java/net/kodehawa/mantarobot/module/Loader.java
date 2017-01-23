@@ -2,11 +2,11 @@ package net.kodehawa.mantarobot.module;
 
 import net.dv8tion.jda.core.entities.Game;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.State;
-import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.thread.AsyncHelper;
+import net.kodehawa.mantarobot.core.State;
+import net.kodehawa.mantarobot.thread.Async;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -32,40 +32,40 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @since 24/11/2016
  */
 public final class Loader {
+	private static final Logger LOGGER = LoggerFactory.getLogger("Loader");
 
 	public Loader() {
 		Runnable loaderthr = () ->
 		{
-			for (Class<? extends Module> c : Mantaro.instance().classes) {
+			for (Class<? extends Module> c : Mantaro.classes) {
 				try {
 					c.newInstance();
 				} catch (InstantiationException e) {
-					Log.instance().print("Cannot initialize a command", this.getClass(), Type.CRITICAL, e);
+					LOGGER.error("Cannot initialize a command", this.getClass(), e);
 					e.printStackTrace();
 				} catch (IllegalAccessException e) {
-					Log.instance().print("Cannot access a command class!", this.getClass(), Type.CRITICAL, e);
+					LOGGER.error("Cannot access a command class!", this.getClass(), e);
 					e.printStackTrace();
 				}
 			}
-			Mantaro.instance().classes.clear();
-			Mantaro.instance().setStatus(State.POSTLOAD);
-			Log.instance().print("Finished loading basic components. Status is now set to POSTLOAD", getClass(), Type.INFO);
+			Mantaro.classes.clear();
+			Mantaro.setStatus(State.POSTLOAD);
+			LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD", getClass());
 
-			Log.instance().print("Loaded " + Module.modules.size() + " commands", this.getClass(), Type.INFO);
+			LOGGER.info("Loaded " + Module.Manager.modules.size() + " commands", this.getClass());
 
 			//Random status changer.
 			CopyOnWriteArrayList<String> splash = new CopyOnWriteArrayList<>();
 			new StringArrayUtils("splash", splash, false);
-			Runnable splashTask = () -> {
+			Async.startAsyncTask("Splash Thread", () -> {
 				Random r = new Random();
 				int i = r.nextInt(splash.size());
 				if (!(i == splash.size())) {
-					Mantaro.instance().getSelf().getPresence().setGame(Game.of("~>help | " + splash.get(i)));
-					Log.instance().print("Changed status to: " + splash.get(i), Type.INFO);
+					Mantaro.getSelf().getPresence().setGame(Game.of("~>help | " + splash.get(i)));
+					LOGGER.info("Changed status to: " + splash.get(i));
 				}
-			};
-			AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
-			Mantaro.instance().runScheduled();
+			}, 600);
+			Mantaro.runScheduled();
 		};
 		new Thread(loaderthr).start();
 	}

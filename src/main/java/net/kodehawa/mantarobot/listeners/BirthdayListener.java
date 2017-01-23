@@ -5,20 +5,21 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.cmd.Birthday;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class BirthdayListener extends OptimizedListener<GuildMessageReceivedEvent> {
+	private static final Logger LOGGER = LoggerFactory.getLogger("BirthdayListener");
 	private MessageChannel channel;
 	private Guild guild;
 	private Member membertoAssign;
 
 	public BirthdayListener() {
 		super(GuildMessageReceivedEvent.class);
-		Log.instance().print("Birthday Log started.", this.getClass(), Type.INFO);
+		LOGGER.info("Birthday Log started.", this.getClass());
 	}
 
 	public void event(GuildMessageReceivedEvent event) {
@@ -66,7 +67,7 @@ public class BirthdayListener extends OptimizedListener<GuildMessageReceivedEven
 							}
 						}
 					} catch (Exception e) {
-						Log.instance().print("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), Type.WARNING, e);
+						LOGGER.warn("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), e);
 						e.printStackTrace();
 					}
 				}

@@ -4,11 +4,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class ThreadPoolHelper {
+	private static final ThreadPoolHelper defaultPool = new ThreadPoolHelper();
 
-	private static final ThreadPoolHelper threadhelper = new ThreadPoolHelper();
-
-	public static ThreadPoolHelper instance() {
-		return threadhelper;
+	public static ThreadPoolHelper DEFAULT() {
+		return defaultPool;
 	}
 
 	private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();

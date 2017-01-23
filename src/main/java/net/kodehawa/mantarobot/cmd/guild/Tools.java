@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 
 import java.util.List;
 
@@ -17,13 +17,13 @@ public class Tools extends Module {
 	private int messagesToPrune;
 
 	public Tools() {
-		super.setCategory(Category.MODERATION);
+		super(Category.MODERATION);
 		this.registerCommands();
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("ban", "Bans mentioned users", new Command() {
+		super.register("ban", "Bans mentioned users", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.ADMIN;
@@ -92,7 +92,7 @@ public class Tools extends Module {
 			}
 
 		});
-		super.register("kick", "Kicks mentioned users", new Command() {
+		super.register("kick", "Kicks mentioned users", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
@@ -159,7 +159,7 @@ public class Tools extends Module {
 				return CommandType.ADMIN;
 			}
 		});
-		super.register("prune", "Deletes messages in bulk. Up to 100 messages (Example: ~>prune 100)", new Command() {
+		super.register("prune", "Deletes messages in bulk. Up to 100 messages (Example: ~>prune 100)", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				//Initialize normal variables declared in Command so I can use them here.

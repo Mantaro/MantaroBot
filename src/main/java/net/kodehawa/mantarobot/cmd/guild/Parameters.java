@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.module.Category;
-import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.HashMapUtils;
 import net.kodehawa.mantarobot.util.JSONUtils;
 import org.json.JSONObject;
@@ -35,6 +35,10 @@ public class Parameters extends Module {
 		return bd_data.get(guildId).split(":")[1];
 	}
 
+	public static String getDefaultPrefix() {
+		return prefixes.get("default");
+	}
+
 	public static String getLogChannelForServer(String serverId) {
 		return logs.get(serverId);
 	}
@@ -55,12 +59,8 @@ public class Parameters extends Module {
 	}
 
 	public static String getPrefixForServer(String guildId) {
-		if (prefixes.get(guildId) == null) {
-			return prefixes.get("default");
-		}
-		return prefixes.get(guildId);
+		return prefixes.getOrDefault(guildId, getDefaultPrefix());
 	}
-
 	private String FILE_SIGN = "d41d8cd98f00b204e9800998ecf8427e";
 	private File logFile;
 	private JSONObject logObject = new JSONObject();
@@ -70,12 +70,12 @@ public class Parameters extends Module {
 	private JSONObject prefixObject = new JSONObject();
 
 	public Parameters() {
-		super.setCategory(Category.MODERATION);
+		super(Category.MODERATION);
 		this.registerCommands();
 		logObject.put("version", "1.0");
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.logFile = new File("C:/mantaro/config/logconf.json");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.logFile = new File("/home/mantaro/config/logconf.json");
 		}
 		if (!logFile.exists()) {
@@ -86,9 +86,9 @@ public class Parameters extends Module {
 		logObject = JSONUtils.instance().getJSONObject(logFile);
 		JSONUtils.instance().read(logs, logObject);
 		prefixObject.put("default", "~>");
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.prefixFile = new File("C:/mantaro/config/prefix.json");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.prefixFile = new File("/home/mantaro/config/prefix.json");
 		}
 		if (!prefixFile.exists()) {
@@ -99,9 +99,9 @@ public class Parameters extends Module {
 		prefixObject = JSONUtils.instance().getJSONObject(prefixFile);
 		JSONUtils.instance().read(prefixes, prefixObject);
 		nsfwObject.put("213468583252983809", "nsfw");
-		if (Mantaro.instance().isWindows()) {
+		if (Mantaro.isWindows()) {
 			this.nsfwFile = new File("C:/mantaro/config/nsfw.json");
-		} else if (Mantaro.instance().isUnix()) {
+		} else if (Mantaro.isUnix()) {
 			this.nsfwFile = new File("/home/mantaro/config/nsfw.json");
 		}
 
@@ -119,7 +119,7 @@ public class Parameters extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("params", "Defines bot parameters for the server", new Command() {
+		super.register("params", "Defines bot parameters for the server", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.ADMIN;
@@ -250,7 +250,7 @@ public class Parameters extends Module {
 					case "birthday":
 						switch (mainArgs) {
 							case "enable":
-								if (event.getGuild().getMember(Mantaro.instance().getSelf().getSelfUser())
+								if (event.getGuild().getMember(Mantaro.getSelf().getSelfUser())
 									.hasPermission(Permission.MANAGE_ROLES)) {
 									TextChannel birthdayChannel = guild.getTextChannelsByName(args[2], true).get(0);
 									String birthdayRoleName = args[3];

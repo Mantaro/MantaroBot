@@ -1,7 +1,6 @@
-package net.kodehawa.mantarobot.listeners.generic;
+package net.kodehawa.mantarobot.listeners;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.listeners.OptimizedListener;
 
 import java.util.function.BiPredicate;
 
