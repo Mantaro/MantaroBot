@@ -77,11 +77,12 @@ public class UserCommands extends Module {
 
 		@Override
 		public void onCommand(String[] args, String commandName, GuildMessageReceivedEvent event) {
-			if (!custom.containsKey(event.getGuild().getId()) || custom.get(event.getGuild().getId()).containsKey(commandName))
+			System.out.println("start");
+			if (!custom.containsKey(event.getGuild().getId()) || !custom.get(event.getGuild().getId()).containsKey(commandName))
 				return;
-
+			System.out.println("check 1 pass");
 			List<String> responses = custom.get(event.getGuild().getId()).get(commandName);
-
+			System.out.println("responses");
 			String response = responses.get(r.nextInt(responses.size()));
 			if (response.startsWith("play:")) {
 				String toSend = response.substring(5);
@@ -100,11 +101,13 @@ public class UserCommands extends Module {
 				return;
 			}
 
+			System.out.println("send");
 			event.getChannel().sendMessage(response).queue();
 		}
 
 		@Override
 		public void invoke(CommandArguments args) {
+			System.out.println("invoke");
 			onCommand(args.args, args.invoke, args.event);
 		}
 
@@ -130,11 +133,13 @@ public class UserCommands extends Module {
 		this.setCategory(Category.CUSTOM);
 		this.registerCommands();
 		Mantaro.instance().schedule(() -> {
+			System.out.println("Am I happening?");
 			Set<String> invalidCmds = new HashSet<>();
-			custom.values().forEach(map -> map.keySet().forEach(cmd -> {
+			custom.keySet().forEach(cmd -> {
+				System.out.println("registered?");
 				if (!modules.containsKey(cmd)) modules.put(cmd, customCommand);
 				else invalidCmds.add(cmd);
-			}));
+			});
 			custom.keySet().removeAll(invalidCmds);
 		});
 	}
