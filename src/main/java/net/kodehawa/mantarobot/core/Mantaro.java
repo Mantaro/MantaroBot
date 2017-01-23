@@ -66,7 +66,7 @@ public final class Mantaro {
 		}
 
 		instance().loadClasses();
-		instance().postLoad();
+
 		Log.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, Type.INFO);
 	}
 	//Bot data. Will be used in About command.
@@ -149,7 +149,7 @@ public final class Mantaro {
 		}
 	}
 
-	private void postLoad() {
+	public void runScheduled() {
 		runnables.remove(null);
 		runnables.forEach(Runnable::run);
 	}

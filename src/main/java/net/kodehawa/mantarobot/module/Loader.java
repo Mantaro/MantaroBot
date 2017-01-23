@@ -65,6 +65,7 @@ public final class Loader {
 				}
 			};
 			AsyncHelper.instance().startAsyncTask("Splash Thread", splashTask, 600);
+			Mantaro.instance().runScheduled();
 		};
 		new Thread(loaderthr).start();
 	}
