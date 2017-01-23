@@ -15,8 +15,11 @@ import java.lang.management.ManagementFactory;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+import java.util.regex.Matcher;
 
 public class GeneralUtils {
 
@@ -78,6 +81,31 @@ public class GeneralUtils {
 		return instance;
 	}
 
+	public static Iterable<String> iterate(Matcher matcher) {
+		return new Iterable<String>() {
+			@Override
+			public Iterator<String> iterator() {
+				return new Iterator<String>() {
+					@Override
+					public boolean hasNext() {
+						return matcher.find();
+					}
+
+					@Override
+					public String next() {
+						return matcher.group();
+					}
+				};
+			}
+
+			@Override
+			public void forEach(Consumer<? super String> action) {
+				while (matcher.find()) {
+					action.accept(matcher.group());
+				}
+			}
+		};
+	}
 	private HashMap<Mod, String> mods = new HashMap<>();
 	private String paste = "http://hastebin.com/";
 

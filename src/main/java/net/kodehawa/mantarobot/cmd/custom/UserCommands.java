@@ -25,6 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class UserCommands extends Module {
 	private static Map<String, Map<String, List<String>>> fromJson(String json) {
@@ -68,11 +71,27 @@ public class UserCommands extends Module {
 
 	private Map<String, Map<String, List<String>>> custom = new HashMap<>();
 	private Command customCommand = new Command() {
+		private final Pattern compiledPattern = Pattern.compile("\\$\\([A-Za-z.]+?\\)");
 		private Random r = new Random();
 
 		@Override
 		public CommandType commandType() {
 			return CommandType.USER;
+		}
+
+		private String dynamicResolve(String string, Map<String, String> dynamicMap) {
+			if (!string.contains("$(")) return string;
+
+			Set<String> skipIfIterated = new HashSet<>();
+			for (String key : GeneralUtils.iterate(compiledPattern.matcher(string))) {
+				if (skipIfIterated.contains(key)) continue;
+				String mapKey = key.substring(2, key.length() - 1);
+				string = string.replace(key, dynamicMap.getOrDefault(mapKey, mapKey));
+				if (!string.contains("$(")) break;
+				skipIfIterated.add(key);
+			}
+
+			return string;
 		}
 
 		@Override
@@ -81,6 +100,18 @@ public class UserCommands extends Module {
 				return;
 			List<String> responses = custom.get(event.getGuild().getId()).get(commandName);
 			String response = responses.get(r.nextInt(responses.size()));
+
+			Map<String, String> dynamicMap = new HashMap<>();
+			dynamicMap.put("event.username", event.getAuthor().getName());
+			dynamicMap.put("event.nickname", event.getMember().getNickname());
+			dynamicMap.put("event.name", event.getMember().getEffectiveName());
+			dynamicMap.put("event.mentionUser", event.getAuthor().getAsMention());
+			for (int i = 0; i < args.length; i++) dynamicMap.put("event.args" + i, args[i]);
+			dynamicMap.put("event.args", Stream.of(args).collect(Collectors.joining(" ")));
+			dynamicMap.put("event.guild", event.getGuild().getName());
+			dynamicMap.put("event.channel", event.getChannel().getAsMention());
+			response = dynamicResolve(response, dynamicMap);
+
 			if (response.startsWith("play:")) {
 				String toSend = response.substring(5);
 				try {
@@ -95,6 +126,11 @@ public class UserCommands extends Module {
 
 			if (response.startsWith("embed:")) {
 				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(commandName).setColor(event.getMember().getColor()).build()).queue();
+				return;
+			}
+
+			if (response.startsWith("imgembed:")) {
+				event.getChannel().sendMessage(new EmbedBuilder().setImage(response.substring(9)).setTitle(commandName).setColor(event.getMember().getColor()).build()).queue();
 				return;
 			}
 
@@ -233,17 +269,17 @@ public class UserCommands extends Module {
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Map<String, List<String>> guildCommands = custom.get(event.getGuild().getId());
 				StringBuilder customBuilder = new StringBuilder();
-				if(content.isEmpty()){
+				if (content.isEmpty()) {
 					guildCommands.forEach((name, responses) -> customBuilder.append("``").append(name).append("``").append(" "));
 					EmbedBuilder toSend = new EmbedBuilder();
 					toSend.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
-							.setDescription(customBuilder.toString());
+						.setDescription(customBuilder.toString());
 					event.getChannel().sendMessage(toSend.build()).queue();
-				} else if(args[0].equals("detailed")){
+				} else if (args[0].equals("detailed")) {
 					guildCommands.forEach((name, responses) -> customBuilder.append("``").append(name).append("`` -> With responses: ").append(responses).append("\n"));
 					EmbedBuilder toSend = new EmbedBuilder();
 					toSend.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
-							.setDescription(customBuilder.toString());
+						.setDescription(customBuilder.toString());
 					event.getChannel().sendMessage(toSend.build()).queue();
 				}
 			}
