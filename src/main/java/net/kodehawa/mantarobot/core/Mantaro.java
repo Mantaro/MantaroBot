@@ -155,6 +155,7 @@ public final class Mantaro {
 	}
 
 	public void schedule(Runnable runnable) {
+		System.out.println("Am I happening?");
 		runnables.add(runnable);
 	}
 
