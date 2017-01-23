@@ -418,7 +418,7 @@ public class Audio extends Module {
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {
 			AudioTrack at = tracks.get(i);
-			b.append('[').append(i).append("] ").append(at.getInfo().title).append(" **(")
+			b.append('[').append(i+1).append("] ").append(at.getInfo().title).append(" **(")
 				.append(GeneralUtils.instance().getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
 		}
 
@@ -438,13 +438,12 @@ public class Audio extends Module {
 		});
 
 		Mantaro.instance().getSelf().addEventListener(functionListener);
-
 		AsyncHelper.instance().asyncSleepThen(10000, () -> {
 			if (!functionListener.isDone()) {
 				Mantaro.instance().getSelf().removeEventListener(functionListener);
 				event.getChannel().sendMessage(":heavy_multiplication_x: Timeout: No reply in 10 seconds").queue();
 			}
-		});
+		}).run();
 	}
 
 	private void play(GuildMessageReceivedEvent event, MusicManager musicManager, AudioTrack track) {

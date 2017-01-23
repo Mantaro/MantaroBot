@@ -15,6 +15,6 @@ public abstract class OptimizedListener<T extends Event> implements EventListene
 	@Override
 	@SuppressWarnings("unchecked")
 	public void onEvent(Event event) {
-		if (tClass.isInstance(event)) onEvent((T) event);
+		if (tClass.isInstance(event)) event((T) event);
 	}
 }

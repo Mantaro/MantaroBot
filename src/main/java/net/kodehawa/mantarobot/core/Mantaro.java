@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core;
 
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -46,9 +47,8 @@ public final class Mantaro {
 			instance().status = State.LOADING;
 			instance().jda = new JDABuilder(AccountType.BOT)
 				.setToken(botToken)
-				.addListener(new Listener())
-				.addListener(new LogListener())
-				.addListener(new BirthdayListener())
+				.addListener(new Listener(), new LogListener(), new BirthdayListener())
+				.setAudioSendFactory(new NativeAudioSendFactory())
 				.setAutoReconnect(true)
 				.setGame(game)
 				.buildBlocking();

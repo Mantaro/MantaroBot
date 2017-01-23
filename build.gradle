@@ -1,3 +1,7 @@
+plugins {
+    id 'com.sedmelluq.jdaction' version '1.0.0'
+}
+
 group 'com'
 version '1.0.1'
 
@@ -13,10 +17,15 @@ repositories {
     }
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.2'
+}
+
 dependencies {
     compile 'net.dv8tion:JDA:3.0.BETA2_121'
     compile 'org.reflections:reflections:0.9.10'
     compile 'us.monoid.web:resty:0.3.2'
+    compile 'com.sedmelluq:jda-nas:1.0.3'
     compile 'com.sedmelluq:lavaplayer:1.1.38'
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'com.google.code.gson:gson:2.8.0'
@@ -36,4 +45,5 @@ jar {
         it.isDirectory() ? it : zipTree(it)
     }
 }
+
 
