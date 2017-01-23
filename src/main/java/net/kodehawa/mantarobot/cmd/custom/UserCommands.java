@@ -77,12 +77,9 @@ public class UserCommands extends Module {
 
 		@Override
 		public void onCommand(String[] args, String commandName, GuildMessageReceivedEvent event) {
-			System.out.println("start");
 			if (!custom.containsKey(event.getGuild().getId()) || !custom.get(event.getGuild().getId()).containsKey(commandName))
 				return;
-			System.out.println("check 1 pass");
 			List<String> responses = custom.get(event.getGuild().getId()).get(commandName);
-			System.out.println("responses");
 			String response = responses.get(r.nextInt(responses.size()));
 			if (response.startsWith("play:")) {
 				String toSend = response.substring(5);
@@ -101,13 +98,11 @@ public class UserCommands extends Module {
 				return;
 			}
 
-			System.out.println("send");
 			event.getChannel().sendMessage(response).queue();
 		}
 
 		@Override
 		public void invoke(CommandArguments args) {
-			System.out.println("invoke");
 			onCommand(args.args, args.invoke, args.event);
 		}
 
@@ -133,13 +128,11 @@ public class UserCommands extends Module {
 		this.setCategory(Category.CUSTOM);
 		this.registerCommands();
 		Mantaro.instance().schedule(() -> {
-			System.out.println("Am I happening?");
 			Set<String> invalidCmds = new HashSet<>();
-			custom.keySet().forEach(cmd -> {
-				System.out.println("registered?");
+			custom.values().forEach(map -> map.keySet().forEach(cmd -> {
 				if (!modules.containsKey(cmd)) modules.put(cmd, customCommand);
 				else invalidCmds.add(cmd);
-			});
+			}));
 			custom.keySet().removeAll(invalidCmds);
 		});
 	}
@@ -247,7 +240,7 @@ public class UserCommands extends Module {
 							.setDescription(customBuilder.toString());
 					event.getChannel().sendMessage(toSend.build()).queue();
 				} else if(args[0].equals("detailed")){
-					guildCommands.forEach((name, responses) -> customBuilder.append("``").append(name).append(" -> With responses: ").append(responses).append("\n"));
+					guildCommands.forEach((name, responses) -> customBuilder.append("``").append(name).append("`` -> With responses: ").append(responses).append("\n"));
 					EmbedBuilder toSend = new EmbedBuilder();
 					toSend.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
 							.setDescription(customBuilder.toString());
