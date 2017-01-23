@@ -2,8 +2,8 @@ package net.kodehawa.mantarobot.cmd;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.HashMapUtils;
@@ -25,7 +25,7 @@ public class Birthday extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("birthday", "Sets your birthday date", new Callback() {
+		super.register("birthday", "Sets your birthday date", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;

@@ -8,8 +8,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.Listener;
 import net.kodehawa.mantarobot.listeners.LogListener;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.GeneralUtils;
@@ -54,15 +54,10 @@ public class Info extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("ping", "Pong.", new Callback() {
+		super.register("ping", "Pong.", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
-			}
-
-			@Override
-			public String help() {
-				return "Just to see if the bot it's alive. Also reports the time it takes for the response to process and bounce back.";
 			}
 
 			@Override
@@ -80,10 +75,16 @@ public class Info extends Module {
 				});
 			}
 
+			@Override
+			public String help() {
+				return "Just to see if the bot it's alive. Also reports the time it takes for the response to process and bounce back.";
+			}
+
+
 
 		});
 
-		super.register("serverinfo", "Retrieves guild/server information.", new Callback() {
+		super.register("serverinfo", "Retrieves guild/server information.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
@@ -135,7 +136,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("usageinfo", "Displays bot hardware information.", new Callback() {
+		super.register("usageinfo", "Displays bot hardware information.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -168,7 +169,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("userinfo", "Retrieves user information.", new Callback() {
+		super.register("userinfo", "Retrieves user information.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				EmbedBuilder embed = new EmbedBuilder();
@@ -270,7 +271,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("weather", "Displays forecast information", new Callback() {
+		super.register("weather", "Displays forecast information", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				EmbedBuilder embed = new EmbedBuilder();
@@ -348,7 +349,7 @@ public class Info extends Module {
 			}
 		});
 
-		super.register("about", "Displays information about the bot.", new Callback() {
+		super.register("about", "Displays information about the bot.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				int online = 0;

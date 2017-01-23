@@ -7,8 +7,8 @@ import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.Listener;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
@@ -24,15 +24,10 @@ public class Owner extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("add", "Adds a item to a list.", new Callback() {
+		super.register("add", "Adds a item to a list.", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.OWNER;
-			}
-
-			@Override
-			public String help() {
-				return "";
 			}
 
 			@Override
@@ -61,9 +56,14 @@ public class Owner extends Module {
 				}
 			}
 
+			@Override
+			public String help() {
+				return "";
+			}
+
 		});
 
-		super.register("eval", "Evaluates arbitrary code.", new Callback() {
+		super.register("eval", "Evaluates arbitrary code.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
@@ -97,7 +97,7 @@ public class Owner extends Module {
 			}
 		});
 
-		super.register("shutdown", "Shuts down the bot.", new Callback() {
+		super.register("shutdown", "Shuts down the bot.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
@@ -114,9 +114,9 @@ public class Owner extends Module {
 						Action.tsunLines.clear();
 						System.gc();
 						StringBuilder sb = new StringBuilder();
-						Thread.getAllStackTraces().keySet().forEach(e ->{
+						Thread.getAllStackTraces().keySet().forEach(e -> {
 							sb.append(e)
-									.append("\n");
+								.append("\n");
 						});
 						Thread.sleep(500);
 					} catch (InterruptedException ignored) {

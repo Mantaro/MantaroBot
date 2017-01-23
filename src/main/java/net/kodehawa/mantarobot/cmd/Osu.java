@@ -10,8 +10,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.thread.AsyncHelper;
@@ -41,7 +41,7 @@ public class Osu extends Module {
 	public void registerCommands() {
 		osuClient = new OsuClient(Mantaro.instance().getConfig().values().get("osuapikey").toString());
 
-		super.register("osu", "Retrieves various osu! related information.", new Callback() {
+		super.register("osu", "Retrieves various osu! related information.", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;

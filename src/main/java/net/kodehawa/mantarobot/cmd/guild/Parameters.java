@@ -4,8 +4,8 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.HashMapUtils;
@@ -119,7 +119,7 @@ public class Parameters extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("params", "Defines bot parameters for the server", new Callback() {
+		super.register("params", "Defines bot parameters for the server", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.ADMIN;

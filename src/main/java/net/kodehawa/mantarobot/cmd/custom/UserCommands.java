@@ -4,17 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
-import net.kodehawa.mantarobot.cmd.guild.Parameters;
+import net.kodehawa.mantarobot.cmd.Audio;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
+import net.kodehawa.mantarobot.module.Parser.CommandArguments;
 import net.kodehawa.mantarobot.util.GeneralUtils;
 import net.kodehawa.mantarobot.util.JSONUtils;
 import org.json.JSONObject;
@@ -26,26 +26,6 @@ import java.io.FileReader;
 import java.util.*;
 
 public class UserCommands extends Module {
-
-	public class CustomCommandListener extends ListenerAdapter {
-		private String defaultPx;
-
-		@Override
-		public void onMessageReceived(MessageReceivedEvent event) {
-			defaultPx = Parameters.getPrefixForServer("default");
-
-			if (event.getMessage().getContent().startsWith(defaultPx)) {
-				if (getCustomCommands().containsKey(event.getGuild().getId())) {
-					if (getCustomCommands().get(event.getGuild().getId()).containsKey(event.getMessage().getContent().replaceAll(defaultPx, ""))) {
-						Random random = new Random();
-						List<String> responses = getCustomCommands().get(event.getGuild().getId()).get(event.getMessage().getContent().replace(defaultPx, ""));
-						event.getChannel().sendMessage(responses.get(random.nextInt(responses.size()))).queue();
-					}
-				}
-			}
-		}
-	}
-
 	private static Map<String, Map<String, List<String>>> fromJson(String json) {
 		JsonElement element = new JsonParser().parse(json);
 
@@ -86,6 +66,50 @@ public class UserCommands extends Module {
 	}
 
 	private Map<String, Map<String, List<String>>> custom = new HashMap<>();
+	private Command customCommand = new Command() {
+		private Random r = new Random();
+
+		@Override
+		public CommandType commandType() {
+			return CommandType.USER;
+		}
+
+		@Override
+		public void onCommand(String[] args, String commandName, GuildMessageReceivedEvent event) {
+			if (!custom.containsKey(event.getGuild().getId()) || custom.get(event.getGuild().getId()).containsKey(commandName))
+				return;
+
+			List<String> responses = custom.get(event.getGuild().getId()).get(commandName);
+
+			String response = responses.get(r.nextInt(responses.size()));
+			if (response.startsWith("play:")) {
+				Audio.getInstance().loadAndPlay(event, response.substring(5));
+				return;
+			}
+
+			if (response.startsWith("embed:")) {
+				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(commandName).setColor(event.getMember().getColor()).build()).queue();
+				return;
+			}
+
+			event.getChannel().sendMessage(response).queue();
+		}
+
+		@Override
+		public void invoke(CommandArguments args) {
+			onCommand(args.args, args.invoke, args.event);
+		}
+
+		@Override
+		public boolean isHiddenFromHelp() {
+			return true;
+		}
+
+		@Override
+		public String help() {
+			return "Hmmm... a Custom Command?! I wonder what it does!";
+		}
+	};
 	private File file;
 
 	public UserCommands() {
@@ -97,12 +121,19 @@ public class UserCommands extends Module {
 		read();
 		this.setCategory(Category.CUSTOM);
 		this.registerCommands();
-		Mantaro.instance().getSelf().addEventListener(new CustomCommandListener());
+		Mantaro.instance().schedule(() -> {
+			Set<String> invalidCmds = new HashSet<>();
+			custom.keySet().forEach(cmd -> {
+				if (!modules.containsKey(cmd)) modules.put(cmd, customCommand);
+				else invalidCmds.add(cmd);
+			});
+			custom.keySet().removeAll(invalidCmds);
+		});
 	}
 
 	@Override
 	public void registerCommands() {
-		super.register("addcustom", "Adds a custom command", new Callback() {
+		super.register("addcustom", "Adds a custom command", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -113,16 +144,19 @@ public class UserCommands extends Module {
 				if (!content.startsWith("debug")) {
 					String guild = event.getGuild().getId();
 					String name = args[0];
+
+					if (modules.containsKey(name) && modules.get(name) != customCommand) {
+						//TODO You can't.
+						return;
+					}
+
 					String responses[] = content.replaceAll(args[0] + " ", "").split(",");
 
 					List<String> responses1 = new ArrayList<>(Arrays.asList(responses));
-					if (custom.get(guild) == null) {
-						Map<String, List<String>> responsesMap = new HashMap<>();
-						responsesMap.put(name, responses1);
-						custom.put(guild, responsesMap);
-					} else {
-						custom.get(guild).put(name, responses1);
-					}
+
+					custom.computeIfAbsent(guild, s -> new HashMap<>()).put(name, responses1);
+
+					if (!modules.containsKey(name)) modules.put(name, customCommand);
 
 					JSONObject jsonObject = new JSONObject(toJson(custom));
 					JSONUtils.instance().write(file, jsonObject);
@@ -145,7 +179,7 @@ public class UserCommands extends Module {
 
 		});
 
-		super.register("deletecustom", "Deletes a custom command", new Callback() {
+		super.register("deletecustom", "Deletes a custom command", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String guild = event.getGuild().getId();
@@ -156,6 +190,10 @@ public class UserCommands extends Module {
 					JSONObject jsonObject = new JSONObject(toJson(custom));
 					JSONUtils.instance().write(file, jsonObject);
 					read();
+
+					if (custom.entrySet().stream().noneMatch(entry -> entry.getValue().containsKey(name))) {
+						modules.remove(name);
+					}
 
 					event.getChannel().sendMessage("``Deleted custom command: " + name + " -> Guild: " + event.getGuild().getId() + "``").queue();
 				} else {
@@ -171,6 +209,24 @@ public class UserCommands extends Module {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
+			}
+		});
+
+		super.register("listcustom", "Lists the custom commands of the guild", new Command() {
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public String help() {
+				return "Lists the custom commands of the guild";
+			}
+
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				Map<String, List<String>> guildCommands = custom.get(event.getGuild().getId());
+				//TODO THIS
 			}
 		});
 	}

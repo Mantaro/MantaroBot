@@ -15,6 +15,7 @@ public final class Log {
 	public static Log instance() {
 		return instance;
 	}
+
 	private final Date date = new Date();
 	private final ExceptionHandler exceptionHandler = new ExceptionHandler();
 	private final DateFormat hour = new SimpleDateFormat("HH:mm:ss");

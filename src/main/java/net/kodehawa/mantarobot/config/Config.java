@@ -22,6 +22,7 @@ public class Config {
 	public static Config load() {
 		return cl;
 	}
+
 	private final JSONObject objdata = new JSONObject();
 	private String OS = System.getProperty("os.name").toLowerCase();
 	private File config;

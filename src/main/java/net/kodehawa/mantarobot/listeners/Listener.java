@@ -13,15 +13,13 @@ import java.util.TreeMap;
 
 public class Listener extends OptimizedListener<GuildMessageReceivedEvent> {
 
+	public static int commandTotal = 0;
 	//For later usage in LogListener. A short message cache of 250 messages. If it reaches 150 it will delete the first one stored, and continue being 250
 	static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
-	private static int commandTotal = 0;
 
 	public static String getCommandTotal() {
 		return String.valueOf(commandTotal);
 	}
-
-	private String px;
 
 	public Listener() {
 		super(GuildMessageReceivedEvent.class);
@@ -37,7 +35,7 @@ public class Listener extends OptimizedListener<GuildMessageReceivedEvent> {
 		}
 
 		try {
-			px = Parameters.getPrefixForServer(event.getGuild().getId());
+			String px = Parameters.getPrefixForServer(event.getGuild().getId());
 			String content = event.getMessage().getContent();
 
 			if (content.startsWith(px) || content.startsWith(Parameters.getPrefixForServer("default")) && !event.getAuthor().isBot()) {

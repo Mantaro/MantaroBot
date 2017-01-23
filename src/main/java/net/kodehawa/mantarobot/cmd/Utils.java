@@ -12,8 +12,8 @@ import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import org.json.JSONArray;
@@ -38,15 +38,10 @@ public class Utils extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("help", "Display this help.", new Callback() {
+		super.register("help", "Display this help.", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
-			}
-
-			@Override
-			public String help() {
-				return "";
 			}
 
 			@Override
@@ -65,7 +60,8 @@ public class Utils extends Module {
 					StringBuilder builderCustom = new StringBuilder();
 
 					for (String cmd : Module.modules.keySet()) {
-						if (!Module.modules.get(cmd).commandType().equals(OWNER)) {
+						Command command = Module.modules.get(cmd);
+						if (!command.commandType().equals(OWNER) && !command.isHiddenFromHelp()) {
 							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.ACTION.toString()))
 								builderAction.append(" ``").append(cmd).append("``");
 							if (Module.moduleDescriptions.get(cmd)[2].equals(Category.FUN.toString()))
@@ -108,6 +104,8 @@ public class Utils extends Module {
 					StringBuilder builderUser = new StringBuilder();
 					StringBuilder builderAdmin = new StringBuilder();
 					for (String cmd : Module.modules.keySet()) {
+						if (Module.modules.get(cmd).isHiddenFromHelp()) continue;
+
 						if (!Module.moduleDescriptions.get(cmd)[0].isEmpty() && Module.modules.get(cmd).commandType().equals(USER))
 							builderUser.append(cmd).append(": ").append(Module.moduleDescriptions.get(cmd)[0]).append("\n");
 						else if (!Module.moduleDescriptions.get(cmd)[0].isEmpty() && Module.modules.get(cmd).commandType().equals(ADMIN))
@@ -143,18 +141,23 @@ public class Utils extends Module {
 						});
 				} else {
 					if (Module.modules.containsKey(content)) {
-						if (!Module.modules.get(content).help().isEmpty())
-							channel.sendMessage(Module.modules.get(content).help()).queue();
+						Command command = Module.modules.get(content);
+						if (!command.help().isEmpty() && !command.isHiddenFromHelp())
+							channel.sendMessage(command.help()).queue();
 						else
 							channel.sendMessage(":heavy_multiplication_x: No extended help set for this command.").queue();
 					}
 				}
 			}
 
+			@Override
+			public String help() {
+				return "";
+			}
 
 		});
 
-		super.register("translate", "Translates a given sentence", new Callback() {
+		super.register("translate", "Translates a given sentence", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {

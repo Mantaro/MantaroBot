@@ -17,12 +17,15 @@ import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Loader;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.module.Parser;
+import net.kodehawa.mantarobot.module.Parser.CommandArguments;
 import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
 import org.reflections.Reflections;
 
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.security.auth.login.LoginException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -63,9 +66,9 @@ public final class Mantaro {
 		}
 
 		instance().loadClasses();
+		instance().postLoad();
 		Log.instance().print("Started MantaroBot " + instance().data[1] + " on JDA " + JDAInfo.VERSION, Type.INFO);
 	}
-
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
@@ -79,8 +82,8 @@ public final class Mantaro {
 	private Config cl;
 	//JDA and Loader. We need this and they're extremely important.
 	private JDA jda;
+	private List<Runnable> runnables = new ArrayList<>();
 	private State status = State.PRELOAD;
-
 	private Mantaro() {
 		cl = Config.load();
 		this.addClasses();
@@ -140,10 +143,19 @@ public final class Mantaro {
 	}
 
 	//What to do when a command is called?
-	public void onCommand(Parser.Container cmd) {
+	public void onCommand(CommandArguments cmd) {
 		if (Module.modules.containsKey(cmd.invoke)) {
-			new Thread(() -> Module.modules.get(cmd.invoke).onCommand(cmd.args, cmd.content, cmd.event)).start();
+			new Thread(() -> Module.modules.get(cmd.invoke).invoke(cmd)).start();
 		}
+	}
+
+	private void postLoad() {
+		runnables.remove(null);
+		runnables.forEach(Runnable::run);
+	}
+
+	public void schedule(Runnable runnable) {
+		runnables.add(runnable);
 	}
 
 	public void setStatus(State state) {

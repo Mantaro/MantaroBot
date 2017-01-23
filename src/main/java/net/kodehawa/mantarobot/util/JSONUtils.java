@@ -17,6 +17,7 @@ public class JSONUtils {
 	public static JSONUtils instance() {
 		return instance;
 	}
+
 	private File f;
 
 	private JSONUtils() {

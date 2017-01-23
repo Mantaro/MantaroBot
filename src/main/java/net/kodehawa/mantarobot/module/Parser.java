@@ -6,8 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public final class Parser {
-
-	public class Container {
+	public class CommandArguments {
 		public final String[] args;
 		public final String beheadedMain;
 		public final GuildMessageReceivedEvent event;
@@ -16,7 +15,7 @@ public final class Parser {
 		public final String[] splitBeheaded;
 		public String content = "";
 
-		public Container(String raw, String beheaded, String[] splitBeheaded, String invoke, String[] args, GuildMessageReceivedEvent evt) {
+		public CommandArguments(String raw, String beheaded, String[] splitBeheaded, String invoke, String[] args, GuildMessageReceivedEvent evt) {
 			rawCommand = raw;
 			beheadedMain = beheaded;
 			this.splitBeheaded = splitBeheaded;
@@ -31,7 +30,7 @@ public final class Parser {
 		}
 	}
 
-	public Container parse(String prefix, String rw, GuildMessageReceivedEvent evt) {
+	public CommandArguments parse(String prefix, String rw, GuildMessageReceivedEvent evt) {
 		if (rw.startsWith(prefix)) {
 			ArrayList<String> split = new ArrayList<>();
 			String beheaded = rw.replaceFirst(prefix, "");
@@ -41,7 +40,7 @@ public final class Parser {
 			String invoke = split.get(0);
 			String[] args = new String[split.size() - 1];
 			split.subList(1, split.size()).toArray(args);
-			return new Container(rw, beheaded, splitBeheaded, invoke, args, evt);
+			return new CommandArguments(rw, beheaded, splitBeheaded, invoke, args, evt);
 		}
 
 		return null;

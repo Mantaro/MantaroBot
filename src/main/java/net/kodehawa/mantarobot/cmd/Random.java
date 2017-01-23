@@ -2,8 +2,8 @@ package net.kodehawa.mantarobot.cmd;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 
@@ -22,11 +22,12 @@ public class Random extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("lewd", "T-Too lewd!", new Callback() {
+		super.register("lewd", "T-Too lewd!", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
 			}
+
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage("Y-You lewdie!\r\nhttp://puu.sh/rzVEe/c8272e7c84.png").queue();
@@ -37,10 +38,9 @@ public class Random extends Module {
 				return "Returns a image of a girl holding a paper that says lewd";
 			}
 
-
 		});
 
-		super.register("time", "Retrieves time in a specific timezone.", new Callback() {
+		super.register("time", "Retrieves time in a specific timezone.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();

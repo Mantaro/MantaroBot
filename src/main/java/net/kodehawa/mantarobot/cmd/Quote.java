@@ -14,8 +14,8 @@ import net.kodehawa.mantarobot.cmd.guild.Parameters;
 import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.GeneralUtils;
@@ -91,7 +91,7 @@ public class Quote extends Module {
 	@SuppressWarnings({"unused", "unchecked"})
 	@Override
 	public void registerCommands() {
-		super.register("quote", "Adds or retrieves quotes.", new Callback() {
+		super.register("quote", "Adds or retrieves quotes.", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;

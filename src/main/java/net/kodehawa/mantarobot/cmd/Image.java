@@ -9,8 +9,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.util.GeneralUtils;
@@ -46,82 +46,10 @@ public class Image extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("yandere", "", new Callback() {
+		super.register("yandere", "", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
-			}
-
-			@Override
-			public String help() {
-				return "This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
-					+ "but tags can be set to safe if you so desire.\n"
-					+ "~>yandere: Gets you a completely random image.\n"
-					+ "~>yandere get [page] [imagenumber] [rating]: Gets you an image with the specified parameters.\n"
-					+ "~>yandere tags page [tag] [rating] [imagenumber]: Gets you an image with the respective tag and specified parameters.\n"
-					+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
-					+ "> Parameter explanation:\n"
-					+ "[page]: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
-					+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-					+ "[tag]: Any valid image tag. For example animal_ears or yuri."
-					+ "[rating]: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.\n";
-			}
-
-			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				rating = "s";
-				if (args.length >= 4) needRating = true;
-				if (args.length <= 2) smallRequest = true;
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				int argscnt = args.length - 1;
-
-				try {
-					page = Integer.parseInt(args[1]);
-					tagsToEncode = args[2];
-					if (needRating) rating = nRating.get(args[3]);
-					number = Integer.parseInt(args[4]);
-				} catch (Exception ignored) {
-				}
-
-				try {
-					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
-				} catch (UnsupportedEncodingException ignored) {
-				} //Shouldn't happen.
-
-				String noArgs = content.split(" ")[0];
-				switch (noArgs) {
-					case "get":
-						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
-							sentMessage ->
-							{
-								String url = String.format(YANDERE_BASE + "page=%2s", String.valueOf(page)).replace(" ", "");
-								sentMessage.editMessage(getImage(argscnt, "get", url, rating, args, event)).queue();
-							});
-						break;
-					case "tags":
-						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
-							sentMessage ->
-							{
-								String url = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
-								sentMessage.editMessage(getImage(argscnt, "tags", url, rating, args, event)).queue();
-							});
-						break;
-					case "":
-						Random r = new Random();
-						int randomPage = r.nextInt(4);
-
-						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
-							sentMessage ->
-							{
-								String url = String.format(YANDERE_BASE + "&page=%2s", String.valueOf(randomPage)).replace(" ", "");
-								sentMessage.editMessage(getImage(argscnt, "random", url, rating, args, event)).queue();
-							});
-						break;
-					default:
-						channel.sendMessage(help()).queue();
-						break;
-				}
 			}
 
 			private String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
@@ -203,10 +131,81 @@ public class Image extends Module {
 				}
 			}
 
+			@Override
+			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				rating = "s";
+				if (args.length >= 4) needRating = true;
+				if (args.length <= 2) smallRequest = true;
+				User author = event.getAuthor();
+				TextChannel channel = event.getChannel();
+				int argscnt = args.length - 1;
+
+				try {
+					page = Integer.parseInt(args[1]);
+					tagsToEncode = args[2];
+					if (needRating) rating = nRating.get(args[3]);
+					number = Integer.parseInt(args[4]);
+				} catch (Exception ignored) {
+				}
+
+				try {
+					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
+				} catch (UnsupportedEncodingException ignored) {
+				} //Shouldn't happen.
+
+				String noArgs = content.split(" ")[0];
+				switch (noArgs) {
+					case "get":
+						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
+							sentMessage ->
+							{
+								String url = String.format(YANDERE_BASE + "page=%2s", String.valueOf(page)).replace(" ", "");
+								sentMessage.editMessage(getImage(argscnt, "get", url, rating, args, event)).queue();
+							});
+						break;
+					case "tags":
+						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
+							sentMessage ->
+							{
+								String url = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
+								sentMessage.editMessage(getImage(argscnt, "tags", url, rating, args, event)).queue();
+							});
+						break;
+					case "":
+						Random r = new Random();
+						int randomPage = r.nextInt(4);
+
+						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
+							sentMessage ->
+							{
+								String url = String.format(YANDERE_BASE + "&page=%2s", String.valueOf(randomPage)).replace(" ", "");
+								sentMessage.editMessage(getImage(argscnt, "random", url, rating, args, event)).queue();
+							});
+						break;
+					default:
+						channel.sendMessage(help()).queue();
+						break;
+				}
+			}
+
+			@Override
+			public String help() {
+				return "This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
+					+ "but tags can be set to safe if you so desire.\n"
+					+ "~>yandere: Gets you a completely random image.\n"
+					+ "~>yandere get [page] [imagenumber] [rating]: Gets you an image with the specified parameters.\n"
+					+ "~>yandere tags page [tag] [rating] [imagenumber]: Gets you an image with the respective tag and specified parameters.\n"
+					+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
+					+ "> Parameter explanation:\n"
+					+ "[page]: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
+					+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+					+ "[tag]: Any valid image tag. For example animal_ears or yuri."
+					+ "[rating]: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.\n";
+			}
 
 		});
 
-		super.register("konachan", "Retrieves images from konachan", new Callback() {
+		super.register("konachan", "Retrieves images from konachan", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -254,10 +253,10 @@ public class Image extends Module {
 						}
 
 						konachan1.search(page1, 60, tags, new WallpaperCallback() {
-							public void onStart() {
+							public void onFailure(int error, String message) {
 							}
 
-							public void onFailure(int error, String message) {
+							public void onStart() {
 							}
 
 							public void onSuccess(Wallpaper[] wallpapers, Tag[] tags) {

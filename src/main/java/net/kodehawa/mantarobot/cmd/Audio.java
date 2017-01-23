@@ -20,8 +20,8 @@ import net.kodehawa.mantarobot.core.Mantaro;
 import net.kodehawa.mantarobot.listeners.generic.FunctionListener;
 import net.kodehawa.mantarobot.log.Log;
 import net.kodehawa.mantarobot.log.Type;
-import net.kodehawa.mantarobot.module.Callback;
 import net.kodehawa.mantarobot.module.Category;
+import net.kodehawa.mantarobot.module.Command;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.thread.AsyncHelper;
@@ -35,6 +35,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Audio extends Module {
+	private static Audio instance;
+
 	private static void connectToNamedVoiceChannel(String voiceId, AudioManager audioManager) {
 		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
 			for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
@@ -55,10 +57,15 @@ public class Audio extends Module {
 		}
 	}
 
+	public static Audio getInstance() {
+		return instance;
+	}
+
 	private final Map<Long, MusicManager> musicManagers;
 	private final AudioPlayerManager playerManager;
 
 	public Audio() {
+		instance = this;
 		super.setCategory(Category.AUDIO);
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
@@ -69,7 +76,7 @@ public class Audio extends Module {
 
 	@Override
 	public void registerCommands() {
-		super.register("play", "Plays a song in the music voice channel.", new Callback() {
+		super.register("play", "Plays a song in the music voice channel.", new Command() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -95,7 +102,7 @@ public class Audio extends Module {
 
 		});
 
-		super.register("skip", "Stops the track and continues to the next one, if there is one.", new Callback() {
+		super.register("skip", "Stops the track and continues to the next one, if there is one.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				skipTrack(event);
@@ -114,7 +121,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("shuffle", "Shuffles the current playlist", new Callback() {
+		super.register("shuffle", "Shuffles the current playlist", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -133,7 +140,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("stop", "Clears queue and leaves the voice channel.", new Callback() {
+		super.register("stop", "Clears queue and leaves the voice channel.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -154,7 +161,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("queue", "Returns the current track list playing on the server.", new Callback() {
+		super.register("queue", "Returns the current track list playing on the server.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -179,7 +186,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("removetrack", "Removes the specified track from the queue.", new Callback() {
+		super.register("removetrack", "Removes the specified track from the queue.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -207,7 +214,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("pause", "Pauses the player.", new Callback() {
+		super.register("pause", "Pauses the player.", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -231,7 +238,7 @@ public class Audio extends Module {
 			}
 		});
 
-		super.register("np", "What's playing now?", new Callback() {
+		super.register("np", "What's playing now?", new Command() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = musicManagers.get(Long.parseLong(event.getGuild().getId()));
@@ -322,7 +329,7 @@ public class Audio extends Module {
 		return musicManager;
 	}
 
-	private void loadAndPlay(final GuildMessageReceivedEvent event, final String trackUrl) {
+	public void loadAndPlay(final GuildMessageReceivedEvent event, final String trackUrl) {
 		TextChannel channel = event.getChannel();
 		MusicManager musicManager = getGuildAudioPlayer(event);
 		playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
@@ -418,7 +425,7 @@ public class Audio extends Module {
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {
 			AudioTrack at = tracks.get(i);
-			b.append('[').append(i+1).append("] ").append(at.getInfo().title).append(" **(")
+			b.append('[').append(i + 1).append("] ").append(at.getInfo().title).append(" **(")
 				.append(GeneralUtils.instance().getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
 		}
 
