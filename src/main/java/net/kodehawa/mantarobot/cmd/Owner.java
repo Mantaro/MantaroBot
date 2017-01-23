@@ -113,11 +113,6 @@ public class Owner extends Module {
 					try {
 						Action.tsunLines.clear();
 						System.gc();
-						StringBuilder sb = new StringBuilder();
-						Thread.getAllStackTraces().keySet().forEach(e ->{
-							sb.append(e)
-									.append("\n");
-						});
 						Thread.sleep(500);
 					} catch (InterruptedException ignored) {
 					}
