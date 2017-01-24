@@ -12,6 +12,8 @@ import net.kodehawa.mantarobot.util.GeneralUtils;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
@@ -23,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Misc extends Module {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
 	private CopyOnWriteArrayList<String> facts = new CopyOnWriteArrayList<>();
 	private List<String> lyrics = new ArrayList<>();
 	private CopyOnWriteArrayList<String> nobleQuotes = new CopyOnWriteArrayList<>();
@@ -168,24 +171,28 @@ public class Misc extends Module {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					String textEncoded = "";
-					String url2;
-
-					try {
-						textEncoded = URLEncoder.encode(content, "UTF-8");
-					} catch (UnsupportedEncodingException ignored) {
-					} //Shouldn't fail.
-
-					String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
-					url2 = GeneralUtils.instance().restyGetObjectFromUrl(URL, event);
-
-					JSONObject jObject = new JSONObject(url2);
-					JSONObject data = jObject.getJSONObject("magic");
-
-					event.getChannel().sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
-				} else {
 					event.getChannel().sendMessage(help()).queue();
+					return;
 				}
+
+				String textEncoded;
+				String url2;
+
+				try {
+					textEncoded = URLEncoder.encode(content, "UTF-8");
+				} catch (UnsupportedEncodingException exception) {
+					event.getChannel().sendMessage("Error while encoding URL. My owners have been notified.").queue();
+					LOGGER.warn("Error while encoding URL", exception);
+					return;
+				}
+
+				String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
+				url2 = GeneralUtils.instance().restyGetObjectFromUrl(URL, event);
+
+				JSONObject jObject = new JSONObject(url2);
+				JSONObject data = jObject.getJSONObject("magic");
+
+				event.getChannel().sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
 			}
 
 			@Override

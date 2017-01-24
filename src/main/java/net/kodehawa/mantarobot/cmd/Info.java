@@ -300,8 +300,8 @@ public class Info extends Module {
 						String countryCode = jsys.getString("country").toLowerCase();
 
 						Double temp = (double) jMain.get("temp"); //Temperature in Kelvin.
-						int pressure = (int) jMain.get("pressure"); //Pressure in kPA.
-						int hum = (int) jMain.get("humidity"); //Humidity in percentage.
+						double pressure = (double) jMain.get("pressure"); //Pressure in kPA.
+						int hum  = (int) jMain.get("humidity"); //Humidity in percentage.
 						Double ws = (double) jWind.get("speed"); //Speed in m/h.
 						int clness = (int) jClouds.get("all"); //Cloudiness in percentage.
 
@@ -356,7 +356,7 @@ public class Info extends Module {
 				event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.PINK)
 					.setAuthor("About Mantaro", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
 					.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-					.setDescription("This is **MantaroBot** and I'm here to make your life a little easier. Remember to get commands from `~>help`\n"
+					.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. Remember to get commands from `~>help`\n"
 						+ "Some of my features include:\n \u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n"
 						+ "\u2713 Funny and useful commands ``see `~>help anime` or `~>help action` for examples``.	\n"
 						+ "\u2713 Extensive support!")

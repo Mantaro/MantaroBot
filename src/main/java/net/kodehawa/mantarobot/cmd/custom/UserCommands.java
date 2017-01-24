@@ -273,6 +273,13 @@ public class UserCommands extends Module {
 
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(!custom.containsKey(event.getGuild().getId())){
+					EmbedBuilder toSend = new EmbedBuilder();
+					toSend.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
+							.setDescription("There is nothing here, just dust.");
+					event.getChannel().sendMessage(toSend.build()).queue();
+					return;
+				}
 				Map<String, List<String>> guildCommands = custom.get(event.getGuild().getId());
 				StringBuilder customBuilder = new StringBuilder();
 				if (content.isEmpty()) {
