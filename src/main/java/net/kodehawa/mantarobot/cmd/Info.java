@@ -147,7 +147,7 @@ public class Info extends Module {
 				embed.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
 					.setDescription("Hardware and usage information.")
 					.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-					.addField("Threads", ManagementFactory.getThreadMXBean().getThreadCount() + "T", true)
+					.addField("Threads", String.valueOf(ManagementFactory.getThreadMXBean().getThreadCount()), true)
 					.addField("Memory Usage", totalMemory - freeMemory + "MB/" + maxMemory + "MB", true)
 					.addField("CPU Cores", String.valueOf(avaliableProcessors), true)
 					.addField("CPU Usage", cpuUsage + "%", true)
@@ -370,7 +370,7 @@ public class Info extends Module {
 						+ "Some of my features include:\n \u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n"
 						+ "\u2713 Funny and useful commands ``see `~>help anime` or `~>help action` for examples``.	\n"
 						+ "\u2713 Extensive support!")
-					.addField("Latest Build", Mantaro.getMetadata("build") + '.' + Mantaro.getMetadata("date"), true)
+					.addField("Latest Build", Mantaro.getMetadata("build"), true)
 					.addField("JDA Version", JDAInfo.VERSION, true)
 					.addField("Uptime", uptime, true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)

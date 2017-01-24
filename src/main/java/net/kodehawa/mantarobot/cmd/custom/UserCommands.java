@@ -218,7 +218,11 @@ public class UserCommands extends Module {
 
 			@Override
 			public String help() {
-				return "Creates a custom command. Only works on the guild where it was created.";
+				return "Creates a custom command. Only works on the guild where it was created.\n"
+						+ "You can add multiple responses to the command using the separator , (for example hello,hi,greetings will be 3 different replies)\n"
+						+ "There are multiple dynamic modificators available, with a list of them being found on: https://hastebin.com/baxeqovese.js\n"
+						+ "Also, there are multiple variables to modify how the reply will be displayed, with a list of them being found on: https://hastebin.com/usududubiv.makefile\n"
+						+ "Have fun creating commands!";
 			}
 
 		});
@@ -247,7 +251,7 @@ public class UserCommands extends Module {
 
 			@Override
 			public String help() {
-				return "Deletes a custom command.";
+				return "Deletes a custom command by its name.";
 			}
 
 			@Override

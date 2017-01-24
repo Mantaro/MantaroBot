@@ -21,15 +21,13 @@ public class JSONUtils {
 
 	private File f;
 
-	private JSONUtils() {
-	}
+	private JSONUtils() {}
 
 	public JSONUtils(HashMap<String, String> hash, String n, String subfolder, JSONObject o, boolean rewrite) {
-		String name = n;
 		if (Mantaro.isWindows()) {
-			this.f = new File("C:/mantaro/" + subfolder + "/" + name + ".json");
+			this.f = new File("C:/mantaro/" + subfolder + "/" + n + ".json");
 		} else if (Mantaro.isUnix()) {
-			this.f = new File("/home/mantaro/" + subfolder + "/" + name + ".json");
+			this.f = new File("/home/mantaro/" + subfolder + "/" + n + ".json");
 		}
 		if (!f.exists()) {
 			this.createFile(f);

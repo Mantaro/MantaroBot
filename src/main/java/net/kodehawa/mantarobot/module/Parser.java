@@ -2,6 +2,8 @@ package net.kodehawa.mantarobot.module;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.cmd.guild.Parameters;
+import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.core.State;
 import net.kodehawa.mantarobot.module.Module.Manager;
 
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ public final class Parser {
 		}
 
 		public boolean onCommand() {
+			if(!Mantaro.getState().equals(State.POSTLOAD)){
+				return false;
+			}
 			if (Manager.modules.containsKey(cmdName)) {
 				Manager.modules.get(cmdName).invoke(this);
 
@@ -56,6 +61,10 @@ public final class Parser {
 	};
 
 	public CommandArguments parse(GuildMessageReceivedEvent event) {
+		if(!Mantaro.getState().equals(State.POSTLOAD)){
+			return EMPTY;
+		}
+
 		String cmd = event.getMessage().getRawContent();
 		String defaultPrefix = Parameters.getDefaultPrefix();
 		String prefix = Parameters.getPrefixForServer(event.getGuild().getId());

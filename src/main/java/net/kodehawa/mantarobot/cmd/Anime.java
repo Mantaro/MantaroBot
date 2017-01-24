@@ -82,7 +82,7 @@ public class Anime extends Module {
 							ANIME_TITLE = entry.get("title_english").toString();
 							RELEASE_DATE = entry.get("start_date_fuzzy").toString(); //Returns as a date following this convention 20160116... cannot convert?
 							END_DATE = entry.get("end_date_fuzzy").toString();
-							ANIME_DESCRIPTION = entry.get("description").toString().replaceAll("<br>", "");
+							ANIME_DESCRIPTION = entry.get("description").toString().replaceAll("<br>", "\n");
 							AVERAGE_SCORE = entry.get("average_score").toString();
 							IMAGE_URL = entry.get("image_url_lge").toString();
 							i1++;

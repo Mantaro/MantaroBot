@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core;
 
+import com.osu.api.ciyfhx.Mod;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -36,7 +37,7 @@ public final class Mantaro {
 	//Bot data. Will be used in About command.
 	//In that command it returns it as data[0] + data[1]. Will be displayed as 1.1.1a2-0001.26112016, for example.
 	//The data after the dash is the hour (4 numbers) and the date.
-	private static final String[] data = {"22012017", "1.2.0a1-0001"};
+	private static final String[] data = {"23012017", "1.0.0"};
 	private static final Parser parser = new Parser();
 	public static Set<Class<? extends Module>> classes = null; //A Set of classes, which will be later on loaded on Loader.
 	//Am I debugging this?
