@@ -373,7 +373,7 @@ public class Audio extends Module {
 			public void loadFailed(FriendlyException exception) {
 				if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
 					LOGGER.warn("Couldn't play music", exception);
-					channel.sendMessage(":heavy_multiplication_x: Couldn't play music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
+					channel.sendMessage(":heavy_multiplication_x: Error while fetching music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
 				} else {
 					exception.printStackTrace();
 				}
@@ -473,9 +473,7 @@ public class Audio extends Module {
 
 		java.util.Random rand = new java.util.Random();
 		Collections.shuffle(temp, new java.util.Random(rand.nextInt(18975545)));
-
-		for (AudioTrack track : temp) bq.add(track);
-
+		temp.forEach(bq::add);
 		temp.clear();
 	}
 

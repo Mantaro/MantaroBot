@@ -3,16 +3,18 @@ package net.kodehawa.mantarobot.listeners;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.thread.ThreadPoolHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.TreeMap;
 
 public class CommandListener extends OptimizedListener<GuildMessageReceivedEvent> {
+	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	public static int commandTotal = 0;
 
-	//For later usage in LogListener. A short message cache of 250 messages. If it reaches 150 it will delete the first one stored, and continue being 250
+	//For later usage in LogListener.
+	//A short message cache of 250 messages. If it reaches 250 it will delete the first one stored, and continue being 250
 	static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
 
 	public static String getCommandTotal() {
@@ -43,7 +45,7 @@ public class CommandListener extends OptimizedListener<GuildMessageReceivedEvent
 			//Now this catch block handles the exceptions that can happen while on Command Execution.
 			//Should look a better way of handling/logging this.
 
-			Log.instance().print("Cannot process command? Prefix is probably null, look into this. " + event.getMessage().getRawContent(), this.getClass(), Type.WARNING, e);
+			LOGGER.warn("\"Cannot process command? Prefix is probably null, look into this. \" + event.getMessage().getRawContent()", e);
 			e.printStackTrace();
 		}
 	}

@@ -1,21 +1,28 @@
 package net.kodehawa.mantarobot.cmd;
 
 import bsh.Interpreter;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.Mantaro;
-import net.kodehawa.mantarobot.listeners.CommandListener;
-import net.kodehawa.mantarobot.log.Log;
-import net.kodehawa.mantarobot.log.Type;
 import net.kodehawa.mantarobot.module.Category;
 import net.kodehawa.mantarobot.module.CommandType;
 import net.kodehawa.mantarobot.module.Module;
 import net.kodehawa.mantarobot.module.SimpleCommand;
 import net.kodehawa.mantarobot.util.StringArrayUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Owner extends Module {
 
-	public static MessageReceivedEvent tempEvt = null;
+	private synchronized void shutdown(GuildMessageReceivedEvent event){
+		Mantaro.getSelf().getRegisteredListeners().forEach(listener -> Mantaro.getSelf().removeEventListener(listener));
+		System.gc();
+		event.getChannel().sendMessage("*goes to sleep*").queue();
+		System.exit(0);
+	}
+
+	private static Logger LOGGER = LoggerFactory.getLogger("Owner");
+	public static GuildMessageReceivedEvent tempEvt = null;
 
 	public Owner() {
 		super(Category.MODERATION);
@@ -66,23 +73,34 @@ public class Owner extends Module {
 		super.register("eval", "Evaluates arbitrary code.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
-					try {
-						Interpreter interpreter = new Interpreter();
-						String evalHeader =
+				if (!event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
+					return;
+				}
+				tempEvt = event;
+				try {
+					Interpreter interpreter = new Interpreter();
+					String evalHeader =
 							"import *; "
-								+ "private Mantaro bot = Mantaro; "
-								+ "private JDAImpl self = Mantaro.getSelf(); "
-								+ "private MessageReceivedEvent evt = net.kodehawa.mantarobot.cmd.Owner.tempEvt;";
-						Object toSendTmp = interpreter.eval(evalHeader + content.replaceAll("#", "().") + ";");
-						if (toSendTmp != null) {
-							String toSend = toSendTmp.toString();
-							event.getChannel().sendMessage(toSend).queue();
-						}
-					} catch (Exception e) {
-						Log.instance().print("Problem evaluating code!", this.getClass(), Type.WARNING, e);
-						e.printStackTrace();
+									+ "private Mantaro bot = new Mantaro(); "
+									+ "private JDAImpl self = Mantaro.getSelf(); "
+									+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.cmd.Owner.tempEvt;";
+					Object toSendTmp = interpreter.eval(evalHeader + content.replaceAll("#", "().") + ";");
+					EmbedBuilder embed = new EmbedBuilder();
+					if (toSendTmp != null) {
+						String toSend = toSendTmp.toString();
+						embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
+								.setDescription("Returned: " + toSend)
+								.setFooter("Asked by: " + event.getAuthor().getName(), null);
+					} else {
+						embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
+								.setDescription("No returns.")
+								.setFooter("Asked by: " + event.getAuthor().getName(), null);
 					}
+					event.getChannel().sendMessage(embed.build()).queue();
+				} catch (Exception e) {
+					event.getChannel().sendMessage("There was a problem with code evaluation. Check logs.").queue();
+					LOGGER.warn("Problem evaluating code!", e);
+					e.printStackTrace();
 				}
 			}
 
@@ -100,38 +118,15 @@ public class Owner extends Module {
 		super.register("shutdown", "Shuts down the bot.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
-					event.getChannel().sendMessage("Gathering information...").queue();
-					try {
-						Thread.sleep(500);
-					} catch (InterruptedException ignored) {
-					}
+				if (!event.getAuthor().getId().equals(Mantaro.OWNER_ID)) {
+					event.getChannel().sendMessage("Seems like you cannot do that, you silly <3").queue();
+					return;
+				}
 
-					event.getChannel().sendMessage("Gathered.").queue();
-
-					event.getChannel().sendMessage("Starting bot shutdown...").queue();
-					try {
-						Action.tsunLines.clear();
-						System.gc();
-						Thread.sleep(500);
-					} catch (InterruptedException ignored) {
-					}
-
-					event.getChannel().sendMessage("*goes to sleep*").queue();
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException ignored) {
-					}
-
-					try {
-						Mantaro.getSelf().removeEventListener(new CommandListener());
-						System.exit(1);
-					} catch (Exception e) {
-						Mantaro.getSelf().addEventListener(new CommandListener());
-						Log.instance().print(":heavy_multiplication_x: " + "Couldn't shut down." + e.toString(), this.getClass(), Type.CRITICAL, e);
-					}
-				} else {
-					event.getChannel().sendMessage(":heavy_multiplication_x:" + "You cannot do that, silly.").queue();
+				try {
+					shutdown(event);
+				} catch (Exception e) {
+					LOGGER.warn("Couldn't shut down." + e.toString(), e);
 				}
 			}
 

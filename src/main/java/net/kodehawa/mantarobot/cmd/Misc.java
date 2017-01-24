@@ -128,9 +128,7 @@ public class Misc extends Module {
 						break;
 					case "bp":
 						StringBuilder finalMessage = new StringBuilder();
-						for (String help : lyrics) {
-							finalMessage.append(help).append("\n\n");
-						}
+						lyrics.forEach(lyric -> finalMessage.append(lyric).append("\n"));
 						channel.sendMessage(finalMessage.toString()).queue();
 						break;
 					case "rndcolor":

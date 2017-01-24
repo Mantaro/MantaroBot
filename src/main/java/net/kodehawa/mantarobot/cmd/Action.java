@@ -18,9 +18,9 @@ public class Action extends Module {
 
 	static CopyOnWriteArrayList<String> greeting = new CopyOnWriteArrayList<>();
 	static CopyOnWriteArrayList<String> tsunLines = new CopyOnWriteArrayList<>();
-	private CopyOnWriteArrayList<String> bleach = new CopyOnWriteArrayList<>();
-	private CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<>();
-	private CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<>();
+	static CopyOnWriteArrayList<String> bleach = new CopyOnWriteArrayList<>();
+	static CopyOnWriteArrayList<String> hugs = new CopyOnWriteArrayList<>();
+	static CopyOnWriteArrayList<String> pats = new CopyOnWriteArrayList<>();
 
 	/**
 	 * Action module.

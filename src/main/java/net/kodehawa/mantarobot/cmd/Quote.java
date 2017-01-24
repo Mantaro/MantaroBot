@@ -71,6 +71,12 @@ public class Quote extends Module {
 		return result;
 	}
 
+	public static synchronized void shutdown(){
+		Mantaro.getSelf().getRegisteredListeners().forEach(listener -> Mantaro.getSelf().removeEventListener(listener));
+		Module.Manager.modules.forEach((module, callback) -> Module.Manager.modules.remove(module));
+		System.gc();
+	}
+
 	private static String toJson(Map<String, LinkedHashMap<String, List<String>>> map) {
 		return new Gson().toJson(map);
 	}

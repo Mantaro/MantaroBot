@@ -15,7 +15,6 @@ import java.util.Properties;
 public class HashMapUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger("HashMapUtils");
 
-	public volatile static HashMapUtils instance = new HashMapUtils();
 	private final Properties properties = new Properties();
 	String fileLocation = "";
 	private File file = null;
@@ -28,9 +27,6 @@ public class HashMapUtils {
 	private Map<Integer, String> mixHashmap;
 	private String name = "";
 	private Map<String, String> stringHashmap;
-
-	private HashMapUtils() {
-	}
 
 	public HashMapUtils(String fileLocation, String fileName, HashMap<String, String> map, String fileSignature, boolean isReactivated) {
 		this.fileLoc = fileLocation;
