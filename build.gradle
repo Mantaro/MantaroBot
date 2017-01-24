@@ -1,7 +1,3 @@
-plugins {
-    id 'com.sedmelluq.jdaction' version '1.0.0'
-}
-
 group 'com'
 version '1.0.1'
 

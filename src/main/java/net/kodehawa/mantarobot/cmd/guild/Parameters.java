@@ -172,7 +172,7 @@ public class Parameters extends Module {
 									JSONUtils.instance().read(logs, logObject);
 									channel.sendMessage(":mega: Log channel set to " + "#" + logChannel.getName()).queue();
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **Missing: ADMINISTRATOR**");
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **Missing: ADMINISTRATOR**").queue();
 									break;
 								}
 								break;
@@ -184,7 +184,7 @@ public class Parameters extends Module {
 									channel.sendMessage(":mega: Removed server from logging.").queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **Missing: ADMINISTRATOR**");
+									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **Missing: ADMINISTRATOR**").queue();
 									break;
 								}
 						}
