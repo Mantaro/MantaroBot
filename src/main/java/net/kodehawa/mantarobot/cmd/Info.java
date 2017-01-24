@@ -350,20 +350,10 @@ public class Info extends Module {
 		super.register("about", "Displays information about the bot.", new SimpleCommand() {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				int online = 0;
-				for (Guild g : Mantaro.getSelf().getGuilds()) {
-					for (Member u : g.getMembers()) {
-						if (!u.getOnlineStatus().equals(OnlineStatus.OFFLINE)) {
-							online++;
-						}
-					}
-				}
-
 				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
 				String uptime = String.format("%02d hrs, %02d min, %02d sec", TimeUnit.MILLISECONDS.toHours(millis), TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toHours(millis)), TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-				EmbedBuilder embed = new EmbedBuilder();
-				event.getChannel().sendTyping().queue();
-				embed.setColor(Color.PINK)
+
+				event.getChannel().sendMessage(new EmbedBuilder().setColor(Color.PINK)
 					.setAuthor("About Mantaro", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
 					.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
 					.setDescription("This is **MantaroBot** and I'm here to make your life a little easier. Remember to get commands from `~>help`\n"
@@ -375,12 +365,10 @@ public class Info extends Module {
 					.addField("Uptime", uptime, true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
 					.addField("Guilds", String.valueOf(Mantaro.getSelf().getGuilds().size()), true)
-					.addField("Users (Online/Unique)", online + "/" + Mantaro.getSelf().getUsers().size(), true)
+					.addField("Users (Online/Unique)", Mantaro.getSelf().getGuilds().stream().flatMap(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + Mantaro.getSelf().getUsers().size(), true)
 					.addField("Channels", String.valueOf(Mantaro.getSelf().getTextChannels().size()), true)
 					.addField("Voice Channels", String.valueOf(Mantaro.getSelf().getVoiceChannels().size()), true)
-					.setFooter("Invite link: https://is.gd/mantaro (Commands this session: " + CommandListener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null);
-
-				event.getChannel().sendMessage(embed.build()).queue();
+					.setFooter("Invite link: https://is.gd/mantaro (Commands this session: " + CommandListener.getCommandTotal() + " | Logs this session: " + LogListener.getLogTotal() + ")", null).build()).queue();
 			}
 
 			@Override

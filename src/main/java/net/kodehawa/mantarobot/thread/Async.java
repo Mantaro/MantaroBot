@@ -31,7 +31,7 @@ public class Async {
 		return threadPool;
 	}
 
-	private static void sleep(int milis) {
+	public static void sleep(int milis) {
 		try {
 			Thread.sleep(milis);
 		} catch (Exception e) {
