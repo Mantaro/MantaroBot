@@ -36,7 +36,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'net.kodehawa.mantarobot.core.Mantaro'
+        attributes 'Main-Class': 'net.kodehawa.mantarobot.old.core.Mantaro'
     }
     from configurations.compile.collect {
         it.isDirectory() ? it : zipTree(it)

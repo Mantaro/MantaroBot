@@ -4,7 +4,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import net.kodehawa.mantarobot.core.Mantaro;
+import net.kodehawa.mantarobot.MantaroBot;
 
 public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
@@ -24,7 +24,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		if (!enabled) return;
 		if (!event.getLevel().isGreaterOrEqual(Level.DEBUG)) return;
 
-		Mantaro.getSelf().getTextChannelById("266231083341840385").sendMessage(patternLayout.doLayout(event)).queue();
+		MantaroBot.getJDA().getTextChannelById("266231083341840385").sendMessage(patternLayout.doLayout(event)).queue();
 	}
 
 	@Override
