@@ -50,10 +50,11 @@ public class Mapifier {
 		map.put(prefix + "name", member.getEffectiveName());
 		map.put(prefix + "game", member.getGame().getName());
 		map.put(prefix + "status", capitalize(member.getOnlineStatus().getKey()));
+		map.put(prefix + "mention", member.getAsMention());
 	}
 
 	public static void map(String prefix, Map<String, String> map, GuildMessageReceivedEvent event) {
-		map.put(prefix, event.toString());
+		map.put(prefix, event.getMember().getAsMention() + "@" + event.getChannel().getAsMention());
 		prefix = prefix + ".";
 		map(prefix + "channel", map, event.getChannel());
 		map(prefix + "guild", map, event.getGuild());
