@@ -154,9 +154,9 @@ public class Parameters extends Module {
 									logObject.put(guild.getId(), logChannel.getName());
 									JSONUtils.instance().write(logFile, logObject);
 									JSONUtils.instance().read(logs, logObject);
-									channel.sendMessage(":mega: Log channel set to " + "#" + logChannel.getName()).queue();
+									channel.sendMessage("\uD83D\uDCE3 Log channel set to " + "#" + logChannel.getName()).queue();
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **Missing: ADMINISTRATOR**").queue();
+									channel.sendMessage("\u274C You have no permissions to do this. -> **Missing: ADMINISTRATOR**").queue();
 									break;
 								}
 								break;
@@ -165,10 +165,10 @@ public class Parameters extends Module {
 									logObject.remove(guild.getId());
 									JSONUtils.instance().write(logFile, logObject);
 									JSONUtils.instance().read(logs, logObject);
-									channel.sendMessage(":mega: Removed server from logging.").queue();
+									channel.sendMessage("\uD83D\uDCE3 Removed server from logging.").queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **Missing: ADMINISTRATOR**").queue();
+									channel.sendMessage("\u274C You have no permissions to do this. -> **Missing: ADMINISTRATOR**").queue();
 									break;
 								}
 						}
@@ -180,10 +180,10 @@ public class Parameters extends Module {
 									prefixObject.put(guild.getId(), args[2]);
 									JSONUtils.instance().write(prefixFile, prefixObject);
 									JSONUtils.instance().read(prefixes, prefixObject);
-									channel.sendMessage(":mega: Channel bot prefix set to " + args[2]).queue();
+									channel.sendMessage("\uD83D\uDCE3 Channel bot prefix set to " + args[2]).queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this. -> **You're not the server owner.**").queue();
+									channel.sendMessage("\u274C You have no permissions to do this. -> **You're not the server owner.**").queue();
 									break;
 								}
 							case "remove":
@@ -191,10 +191,10 @@ public class Parameters extends Module {
 									prefixObject.remove(guild.getId());
 									JSONUtils.instance().write(prefixFile, prefixObject);
 									JSONUtils.instance().read(prefixes, prefixObject);
-									channel.sendMessage(":mega: Channel bot prefix defaulted to ~>").queue();
+									channel.sendMessage("\uD83D\uDCE3 Channel bot prefix defaulted to ~>").queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this -> **You're not the server owner.**").queue();
+									channel.sendMessage("\u274C You have no permissions to do this -> **You're not the server owner.**").queue();
 									break;
 								}
 							default:
@@ -210,10 +210,10 @@ public class Parameters extends Module {
 									nsfwObject.put(guild.getId(), args[2]);
 									JSONUtils.instance().write(nsfwFile, nsfwObject);
 									JSONUtils.instance().read(nsfw, nsfwObject);
-									channel.sendMessage(":mega: NSFW channel set to #" + args[2]).queue();
+									channel.sendMessage("\uD83D\uDCE3 NSFW channel set to #" + args[2]).queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this -> **Missing: ADMINISTRATOR**").queue();
+									channel.sendMessage("\u274C You have no permissions to do this -> **Missing: ADMINISTRATOR**").queue();
 									break;
 								}
 							case "remove":
@@ -221,10 +221,10 @@ public class Parameters extends Module {
 									nsfwObject.remove(guild.getId());
 									JSONUtils.instance().write(nsfwFile, nsfwObject);
 									JSONUtils.instance().read(nsfw, nsfwObject);
-									channel.sendMessage(":mega: NSFW channel removed").queue();
+									channel.sendMessage("\uD83D\uDCE3 NSFW channel removed").queue();
 									break;
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: You have no permissions to do this -> **Missing: ADMINISTRATOR**").queue();
+									channel.sendMessage("\u274C You have no permissions to do this -> **Missing: ADMINISTRATOR**").queue();
 									break;
 								}
 							default:
@@ -244,14 +244,13 @@ public class Parameters extends Module {
 										"mantaro", "bd_data", bd_data, FILE_SIGN, true
 									);
 									channel.sendMessage(
-										":mega: Birthday channel set to **#" + birthdayChannel.getName()
+										"\uD83D\uDCE3 Birthday channel set to **#" + birthdayChannel.getName()
 											+ "** with role **" + birthdayRoleName + "**." + " (" + birthdayRole.getId() + ")"
 									).queue();
 									break;
 								} else {
 									channel.sendMessage(
-										":heavy_muliplication_x: " +
-											"``Cannot enable birthday role on this guild because of missing permissions -> Missing: MANAGE_ROLES``)"
+										"\u274C Cannot enable birthday role on this guild because of missing permissions -> Missing: ``MANAGE_ROLES``"
 									).queue();
 									return;
 								}
@@ -262,7 +261,7 @@ public class Parameters extends Module {
 								);
 
 								channel.sendMessage(
-									":mega: Removed birthday monitoring."
+									"\uD83D\uDCE3 Removed birthday monitoring."
 								).queue();
 								break;
 							default:
@@ -274,14 +273,14 @@ public class Parameters extends Module {
 						if (musicChannel.matches("^([A-Za-z])\\w+") || musicChannel.matches("^(?=.*[a-zA-Z])(?=.*[0-9])\\w+")) {
 							music_data.put(event.getGuild().getId(), event.getGuild().getVoiceChannelsByName(musicChannel, true).get(0).getId());
 							new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, true);
-							channel.sendMessage(":mega: Music channel set to (Name): **" + musicChannel + "** -> Guild: " + event.getGuild().getId()).queue();
+							channel.sendMessage("\uD83D\uDCE3 Music channel set to (Name): **" + musicChannel + "** -> Guild: " + event.getGuild().getId()).queue();
 						} else if (musicChannel.matches("^[0-9]*$")) {
 							//Assuming you enter a ID
 							music_data.put(event.getGuild().getId(), musicChannel);
 							new HashMapUtils("mantaro", "music_data", music_data, FILE_SIGN, true);
-							channel.sendMessage(":mega: Music channel set to (ID): **" + musicChannel + "** -> Guild: " + event.getGuild().getId()).queue();
+							channel.sendMessage("\uD83D\uDCE3 Music channel set to (ID): **" + musicChannel + "** -> Guild: " + event.getGuild().getId()).queue();
 						} else {
-							channel.sendMessage(":heavy_multiplication_x: " +
+							channel.sendMessage("\u274C " +
 								"Not a valid result? Not complaint with ``([a-zA-Z]) [Example: Hello] / ^(?=.*[a-zA-Z])(?=.*[0-9]) " +
 								"[Example: Hello 1/Hello1] / ^[0-9]*$ [Example: 28754478217527]``. Shouldn't happen. " +
 								"Maybe try using the channel id if you didn't already?").queue();

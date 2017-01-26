@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.data.Data.GuildData;
-import net.kodehawa.mantarobot.data.DataManager;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.awt.Color;
 import java.util.concurrent.TimeUnit;
@@ -17,17 +17,17 @@ import java.util.stream.Stream;
 
 public class AudioCmdUtils {
 	public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
-		VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(DataManager.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).musicChannel);
+		VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).musicChannel);
 		if (voiceChannel != null) {
 			if (event.getMember().getVoiceState().getChannel() == voiceChannel) {
 				AudioManager audioManager = event.getGuild().getAudioManager();
 				if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
 					audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
-					event.getChannel().sendMessage(":mega: Connected to channel **" + event.getMember().getVoiceState().getChannel().getName() + "**!").queue();
+					event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + event.getMember().getVoiceState().getChannel().getName() + "**!").queue();
 				}
 				return true;
 			} else {
-				event.getChannel().sendMessage(":x: I can only play music on channel **" + voiceChannel.getName() + "**!").queue();
+				event.getChannel().sendMessage("\u274C I can only play music on channel **" + voiceChannel.getName() + "**!").queue();
 				return false;
 			}
 		} else {
@@ -35,14 +35,14 @@ public class AudioCmdUtils {
 				AudioManager audioManager = event.getGuild().getAudioManager();
 				if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
 					audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
-					event.getChannel().sendMessage(":mega: Connected to channel **" + event.getMember().getVoiceState().getChannel().getName() + "**!").queue();
+					event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + event.getMember().getVoiceState().getChannel().getName() + "**!").queue();
 				} else if (audioManager.getConnectedChannel() != event.getMember().getVoiceState().getChannel()) {
-					event.getChannel().sendMessage(":x: I'm already connected on channel **" + audioManager.getConnectedChannel().getName() + "**! (Use the `move` command to move me to another channel)").queue();
+					event.getChannel().sendMessage("\u274C I'm already connected on channel **" + audioManager.getConnectedChannel().getName() + "**! (Use the `move` command to move me to another channel)").queue();
 					return false;
 				}
 				return true;
 			} else {
-				event.getChannel().sendMessage(":x: Please join a voice channel!").queue();
+				event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
 				return false;
 			}
 		}

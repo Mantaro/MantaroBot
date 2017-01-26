@@ -109,7 +109,7 @@ public class Anime extends Module {
 						if (Mantaro.isDebugEnabled) {
 							e.printStackTrace();
 						}
-						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
+						channel.sendMessage("\u274C No results or unreadable reply from API server.").queue();
 						return;
 					}
 					int i1 = 0;
@@ -201,7 +201,7 @@ public class Anime extends Module {
 						if (Mantaro.isDebugEnabled) {
 							e.printStackTrace();
 						}
-						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
+						channel.sendMessage("\u274C No results or unreadable reply from API server.").queue();
 						return;
 					}
 					int i1 = 0;

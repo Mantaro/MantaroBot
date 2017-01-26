@@ -132,7 +132,7 @@ public class MantaroListener implements EventListener {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		if (Parameters.getLogHash().containsKey(event.getGuild().getId())) {
 			TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
-			tc.sendMessage(":mega: " + event.getMember().getEffectiveName() + " just joined").queue();
+			tc.sendMessage("\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
 			logTotal++;
 		}
 	}
@@ -173,9 +173,9 @@ public class MantaroListener implements EventListener {
 											if (error instanceof PermissionException) {
 												PermissionException pe = (PermissionException) error;
 												TextChannel tc = guild.getTextChannelById(Parameters.getBirthdayChannelForServer(guildId));
-												tc.sendMessage(":big_multiplication_x: PermissionError while appling roles, (No permission provided: " + pe.getPermission() + ")").queue();
+												tc.sendMessage("\u274C PermissionError while appling roles, (No permission provided: " + pe.getPermission() + ")").queue();
 											} else {
-												channel.sendMessage(":heavy_multiplication_x:" + "Unknown error while applying roles [" + birthdayRole.getName()
+												channel.sendMessage("\u274C" + "Unknown error while applying roles [" + birthdayRole.getName()
 													+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 												error.printStackTrace();
 											}

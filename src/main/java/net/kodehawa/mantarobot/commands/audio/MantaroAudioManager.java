@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
-import net.kodehawa.mantarobot.data.DataManager;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.oldmantarobot.util.GeneralUtils;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class MantaroAudioManager {
 
 	public static void closeConnection(AudioManager audioManager, TextChannel channel) {
 		audioManager.closeAudioConnection();
-		channel.sendMessage(":mega: Closed audio connection.").queue();
+		channel.sendMessage("\uD83D\uDCE3 Closed audio connection.").queue();
 	}
 
 	public static MusicManager getGuildAudioPlayer(GuildMessageReceivedEvent event) {
@@ -99,7 +99,7 @@ public class MantaroAudioManager {
 
 			@Override
 			public void noMatches() {
-				channel.sendMessage(":heavy_multiplication_x: Nothing found on " + trackUrl).queue();
+				channel.sendMessage("\u274C Nothing found on " + trackUrl).queue();
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
 			}
 
@@ -108,7 +108,7 @@ public class MantaroAudioManager {
 				event.getGuild().getAudioManager().closeAudioConnection();
 				if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
 					LOGGER.warn("Couldn't play music", exception);
-					channel.sendMessage(":heavy_multiplication_x: Error while fetching music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
+					channel.sendMessage("\u274C Error while fetching music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
 				} else {
 					exception.printStackTrace();
 				}
@@ -119,9 +119,9 @@ public class MantaroAudioManager {
 	private static void loadTrack(GuildMessageReceivedEvent event, MusicManager musicManager, AudioTrack track, boolean isPlaylist) {
 		TextChannel channel = event.getChannel();
 		try {
-			if (track.getDuration() > 600000 && !DataManager.getConfig().get().isOwner(event.getMember())) {
+			if (track.getDuration() > 600000 && !MantaroData.getConfig().get().isOwner(event.getMember())) {
 				channel.sendMessage(
-					":heavy_multiplication_x:"
+					"\u274C"
 						+ " Track added is longer than 10 minutes (>600000ms). Cannot add "
 						+ track.getInfo().title
 						+ " (Track length: " + getDurationMinutes(track) + ")"
@@ -133,7 +133,7 @@ public class MantaroAudioManager {
 
 			if (!isPlaylist) {
 				channel.sendMessage(
-					":mega: Added to queue -> **" + track.getInfo().title + "**"
+					"\uD83D\uDCE3 Added to queue -> **" + track.getInfo().title + "**"
 						+ " **!(" + getDurationMinutes(track) + ")**"
 				).queue();
 			}
@@ -171,7 +171,7 @@ public class MantaroAudioManager {
 		Async.asyncSleepThen(10000, () -> {
 			if (!functionListener.isDone()) {
 				MantaroBot.getJDA().removeEventListener(functionListener);
-				event.getChannel().sendMessage(":x: Timeout: No reply in 10 seconds").queue();
+				event.getChannel().sendMessage("\u274C Timeout: No reply in 10 seconds").queue();
 			}
 		}).run();
 	}

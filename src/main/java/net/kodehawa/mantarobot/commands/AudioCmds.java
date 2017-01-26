@@ -37,16 +37,16 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "NowPlaying Command")
-					.addField("Description", "Returns what track is playing now.", false).build();
+			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				MusicManager musicManager = getGuildAudioPlayer(event);
+				event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
+					+ " (" + GeneralUtils.instance().getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
-				event.getChannel().sendMessage(":mega: Now playing ->``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
-					+ " (" + GeneralUtils.instance().getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "NowPlaying Command")
+					.addField("Description", "Returns what track is playing now.", false).build();
 			}
 
 		});
@@ -67,7 +67,7 @@ public class AudioCmds extends Module {
 				try {
 					musicManager.getScheduler().getPlayer().setPaused(Boolean.parseBoolean(content));
 				} catch (Exception e) {
-					event.getChannel().sendMessage(":heavy_multiplication_x " + "Error -> Not a boolean value").queue();
+					event.getChannel().sendMessage(":x " + "Error -> Not a boolean value").queue();
 				}
 			}
 
@@ -173,7 +173,7 @@ public class AudioCmds extends Module {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).shuffle();
-				event.getChannel().sendMessage(":mega: Randomized current queue order.").queue();
+				event.getChannel().sendMessage("\uD83D\uDCE3 Randomized current queue order.").queue();
 			}
 
 			@Override

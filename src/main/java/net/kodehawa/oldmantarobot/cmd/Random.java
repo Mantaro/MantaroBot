@@ -62,9 +62,9 @@ public class Random extends Module {
 
 				try {
 					if (content.startsWith("GMT")) {
-						channel.sendMessage(":mega: The time is: " + dateGMT(content) + " in " + content).queue();
+						channel.sendMessage("\uD83D\uDCE3 The time is: " + dateGMT(content) + " in " + content).queue();
 					} else {
-						channel.sendMessage(":heavy_multiplication_x: " + "You didn't specify a valid timezone").queue();
+						channel.sendMessage("\u274C " + "You didn't specify a valid timezone").queue();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

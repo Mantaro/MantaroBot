@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Data.GuildData;
-import net.kodehawa.mantarobot.data.DataManager;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -17,13 +17,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 
 public class InfoCmds extends Module {
 	private static String ratePing(long ping) {
@@ -161,13 +161,6 @@ public class InfoCmds extends Module {
 			"A help helping helping helping help."
 		));
 		super.register("help", new SimpleCommand() {
-			private String forType(Category category) {
-				return "``" + Manager.commands.entrySet().stream()
-					.filter(entry -> entry.getValue().getValue() == category && !entry.getValue().getKey().isHiddenFromHelp())
-					.map(Entry::getKey)
-					.sorted()
-					.collect(Collectors.joining("`` ``")) + "``";
-			}
 
 			@Override
 			public CommandType commandType() {
@@ -177,7 +170,7 @@ public class InfoCmds extends Module {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					String defaultPrefix = DataManager.getData().get().defaultPrefix, guildPrefix = DataManager.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).prefix;
+					String defaultPrefix = MantaroData.getData().get().defaultPrefix, guildPrefix = MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).prefix;
 					String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
 
 					event.getChannel().sendMessage(baseEmbed(event, "MantaroBot Help")
@@ -201,10 +194,10 @@ public class InfoCmds extends Module {
 						if (help != null) {
 							event.getChannel().sendMessage(help).queue();
 						} else {
-							event.getChannel().sendMessage(":heavy_multiplication_x: No extended help set for this command.").queue();
+							event.getChannel().sendMessage("\u274C No extended help set for this command.").queue();
 						}
 					} else {
-						event.getChannel().sendMessage(":heavy_multiplication_x: This command doesn't exist.").queue();
+						event.getChannel().sendMessage("\u274C This command doesn't exist.").queue();
 					}
 				}
 			}
@@ -235,7 +228,7 @@ public class InfoCmds extends Module {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					event.getChannel().sendMessage(":mega: The ping is " + ping + " ms, " + ratePing(ping)).queue();
+					event.getChannel().sendMessage("\uD83D\uDCE3 The ping is " + ping + " ms, " + ratePing(ping)).queue();
 				});
 			}
 

@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.Data;
-import net.kodehawa.mantarobot.data.DataManager;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
@@ -45,7 +45,7 @@ public class MantaroBot {
 		SimpleLogToSLF4JAdapter.install();
 		LOGGER.info("MantaroBot starting...");
 
-		Config config = DataManager.getConfig().get();
+		Config config = MantaroData.getConfig().get();
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
 			.submit(() -> new Reflections("net.kodehawa.mantarobot.old.cmd").getSubTypesOf(Module.class));
@@ -64,7 +64,7 @@ public class MantaroBot {
 		LOGGER.info("Started bot instance.");
 		LOGGER.info("Started MantaroBot " + BUILD + " on JDA " + JDAInfo.VERSION);
 
-		Data data = DataManager.getData().get();
+		Data data = MantaroData.getData().get();
 		Random r = new Random();
 
 		Async.startAsyncTask("Splash Thread", () -> {

@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.data;
 
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 
-public class DataManager {
+public class MantaroData {
 	private static GsonDataManager<Config> config;
 	private static GsonDataManager<Data> data;
 

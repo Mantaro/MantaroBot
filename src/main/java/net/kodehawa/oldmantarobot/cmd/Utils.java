@@ -68,13 +68,13 @@ public class Utils extends Module {
 							for (int i = 0; i < data.length(); i++) {
 								JSONObject entry = data.getJSONObject(i);
 								System.out.println(entry);
-								channel.sendMessage(":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString("trans")).queue();
+								channel.sendMessage("\uD83D\uDCAC " + "Translation for " + textToEncode + ": " + entry.getString("trans")).queue();
 							}
 
 							System.out.println(translatorUrl2);
 						} catch (IOException e) {
 							LOGGER.warn("Something went wrong when translating.", e);
-							channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating... :c").queue();
+							channel.sendMessage("\u274C" + "Something went wrong when translating... :c").queue();
 						}
 					} else {
 						channel.sendMessage(help()).queue();

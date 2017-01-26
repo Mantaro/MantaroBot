@@ -42,7 +42,7 @@ public class Birthday extends Module {
 					bd1 = format1.parse(args[0]);
 				} catch (Exception e) {
 					if (args[0] != null)
-						channel.sendMessage(":heavy_multiplication_x:" + args[0] + " is not a valid date or I cannot parse it.").queue();
+						channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue();
 					e.printStackTrace();
 				}
 
@@ -52,14 +52,14 @@ public class Birthday extends Module {
 
 						bd.put(event.getGuild().getId() + ":" + userId, finalBirthday);
 						new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, true);
-						channel.sendMessage(":mega: Added birthday date.").queue();
+						channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
 					} else {
 						String finalBirthday = format1.format(bd1);
 
 						bd.remove(userId);
 						bd.put(event.getGuild().getId() + ":" + userId, finalBirthday);
 						new HashMapUtils("mantaro", "bd", bd, FILE_SIGN, true);
-						channel.sendMessage(":mega: Changed birthday date.").queue();
+						channel.sendMessage("\uD83D\uDCE3 Changed birthday date.").queue();
 					}
 				}
 			}

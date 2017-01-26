@@ -84,7 +84,7 @@ public class Osu extends Module {
 			finalResponse = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch (Exception e) {
 			e.printStackTrace();
-			finalResponse = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";
+			finalResponse = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 
 		return finalResponse;
@@ -138,7 +138,7 @@ public class Osu extends Module {
 			finalMessage = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch (Exception e) {
 			e.printStackTrace();
-			finalMessage = ":heavy_multiplication_x: Error retrieving results or no results found. (" + e.getMessage() + ")";
+			finalMessage = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 		return finalMessage;
 	}
@@ -158,7 +158,7 @@ public class Osu extends Module {
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "best":
-						event.getChannel().sendMessage(":speech_balloon: Retrieving information from osu! server...").queue(sentMessage ->
+						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from osu! server...").queue(sentMessage ->
 						{
 							Future<String> task = Async.getThreadPool().submit(() -> best(content));
 							try {
@@ -166,7 +166,7 @@ public class Osu extends Module {
 								task.cancel(true);
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
-									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else
 									LOGGER.warn("[osu] Exception thrown while fetching data", e);
 								e.printStackTrace();
@@ -174,7 +174,7 @@ public class Osu extends Module {
 						});
 						break;
 					case "recent":
-						event.getChannel().sendMessage(":speech_balloon: Retrieving information from server...").queue(sentMessage ->
+						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from server...").queue(sentMessage ->
 						{
 							Future<String> task = Async.getThreadPool().submit(() -> recent(content));
 							try {
@@ -182,7 +182,7 @@ public class Osu extends Module {
 								task.cancel(true);
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
-									sentMessage.editMessage(":heavy_multiplication_x: Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else
 									LOGGER.warn("[osu] Exception thrown while fetching data", e);
 								e.printStackTrace();

@@ -170,7 +170,7 @@ public class Image extends Module {
 							trigger = true;
 						}
 					} catch (NullPointerException e) {
-						return ":heavy_multiplication_x: No NSFW channel set for this server.";
+						return "\u274C No NSFW channel set for this server.";
 					}
 
 				}
@@ -180,17 +180,17 @@ public class Image extends Module {
 						try {
 							return String.format(":mag_right: " + event.getAuthor().getAsMention() + " I found an image with rating: **" + rating1 + "** and tag: **" + tagsToEncode + "** | You can get a total of **%1s images**.\n %2s", urls.size(), urls.get(get - 1));
 						} catch (ArrayIndexOutOfBoundsException ex) {
-							return ":heavy_multiplication_x: There are no images here, just dust.";
+							return "\u274C There are no images here, just dust.";
 						}
 					} else {
 						try {
 							return String.format(":mag_right: " + event.getAuthor().getAsMention() + " I found an image | You can get a total of **%1s images**.\n %2s", urls.size(), urls.get(get - 1));
 						} catch (ArrayIndexOutOfBoundsException ex) {
-							return ":heavy_multiplication_x: There are no images here, just dust.";
+							return "\u274C There are no images here, just dust.";
 						}
 					}
 				} else {
-					return ":heavy_multiplication_x: " + "You only can use this command with explicit images in nsfw channels!";
+					return "\u274C " + "You only can use this command with explicit images in nsfw channels!";
 				}
 			}
 
@@ -253,7 +253,7 @@ public class Image extends Module {
 							String toSend = String.format("%s Image found! You can get a total of **%d images** on this page.\n %s", ":mag_right:", images.size(), "http:" + images.get(number - 1));
 							channel.sendMessage(toSend).queue();
 						} catch (ArrayIndexOutOfBoundsException exception) {
-							channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
+							channel.sendMessage("\u274C " + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
 					case "tags":
@@ -285,7 +285,7 @@ public class Image extends Module {
 									String toSend = String.format("%s Image found with tags **%s**. You can get a total of **%d images** in this page.\n %s", ":mag_right:", whole2[1], images1.size(), "http:" + images1.get(number1 - 1));
 									channel.sendMessage(toSend).queue();
 								} catch (ArrayIndexOutOfBoundsException exception) {
-									channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
+									channel.sendMessage("\u274C " + "There aren't more images! Try with a lower number.").queue();
 								}
 							}
 						});

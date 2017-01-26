@@ -180,7 +180,7 @@ public class Quote extends Module {
 							channel.sendMessage(builder.build()).queue();
 							break;
 						} catch (Exception e) {
-							channel.sendMessage(":heavy_multiplication_x: Error while adding quote: " + e.getCause() + e.getMessage()).queue();
+							channel.sendMessage("\u274C Error while adding quote: " + e.getCause() + e.getMessage()).queue();
 							e.printStackTrace();
 							break;
 						}

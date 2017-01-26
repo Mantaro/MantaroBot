@@ -38,10 +38,10 @@ public class Tools extends Module {
 				Message receivedMessage = event.getMessage();
 
 				//We need to check if this is in a guild AND if the member trying to kick the person has KICK_MEMBERS permission.
-				if (receivedMessage.isFromType(ChannelType.TEXT) && guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
+				if (guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
 					//If you mentioned someone to ban, continue.
 					if (receivedMessage.getMentionedUsers().isEmpty()) {
-						channel.sendMessage(":heavy_multiplication_x:" + "You need to mention at least one user to ban.").queue();
+						channel.sendMessage("\u274C" + "You need to mention at least one user to ban.").queue();
 						return;
 					}
 
@@ -51,13 +51,13 @@ public class Tools extends Module {
 						Member member = guild.getMember(user);
 						//If one of them is in a higher hierarchy than the bot, I cannot ban them.
 						if (!guild.getSelfMember().canInteract(member)) {
-							channel.sendMessage(":heavy_multiplication_x:" + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
+							channel.sendMessage("\u274C" + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
 							return;
 						}
 
 						//If I cannot ban, well..
 						if (!guild.getSelfMember().hasPermission(Permission.BAN_MEMBERS)) {
-							channel.sendMessage(":heavy_multiplication_x:" + "Sorry! I don't have permission to ban members in this server!").queue();
+							channel.sendMessage("\u274C" + "Sorry! I don't have permission to ban members in this server!").queue();
 							return;
 						}
 
@@ -70,10 +70,10 @@ public class Tools extends Module {
 								if (error instanceof PermissionException) {
 									PermissionException pe = (PermissionException) error; //Which permission am I missing?
 
-									channel.sendMessage(":heavy_multiplication_x:" + "Error banning " + member.getEffectiveName()
+									channel.sendMessage("\u274C" + "Error banning " + member.getEffectiveName()
 										+ ": " + "(No permission provided: " + pe.getPermission() + ")").queue();
 								} else {
-									channel.sendMessage(":heavy_multiplication_x:" + "Unknown error while banning " + member.getEffectiveName()
+									channel.sendMessage("\u274C" + "Unknown error while banning " + member.getEffectiveName()
 										+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
 									//I need more information in the case of an unexpected error.
@@ -82,7 +82,7 @@ public class Tools extends Module {
 							});
 					}
 				} else {
-					channel.sendMessage(":heavy_multiplication_x: " + "Cannot ban. Possible errors: You have no Tools Members permission or this was triggered outside of a guild.").queue();
+					channel.sendMessage("\u274C " + "Cannot ban. Possible errors: You have no Tools Members permission or this was triggered outside of a guild.").queue();
 				}
 			}
 
@@ -109,13 +109,13 @@ public class Tools extends Module {
 				if (receivedMessage.isFromType(ChannelType.TEXT) && guild.getMember(author).hasPermission(Permission.KICK_MEMBERS)) {
 					//If they mentioned a user this gets passed, if they didn't it just doesn't.
 					if (receivedMessage.getMentionedUsers().isEmpty()) {
-						channel.sendMessage(":heavy_multiplication_x:" + "You must mention 1 or more users to be kicked!").queue();
+						channel.sendMessage("\u274C" + "You must mention 1 or more users to be kicked!").queue();
 					} else {
 						Member selfMember = guild.getSelfMember();
 
 						//Do I have permissions to kick members, if yes continue, if no end command.
 						if (!selfMember.hasPermission(Permission.KICK_MEMBERS)) {
-							channel.sendMessage(":heavy_multiplication_x:" + "Sorry! I don't have permission to kick members in this server!").queue();
+							channel.sendMessage("\u274C" + "Sorry! I don't have permission to kick members in this server!").queue();
 							return;
 						}
 
@@ -125,7 +125,7 @@ public class Tools extends Module {
 							Member member = guild.getMember(user);
 							//If one of them is in a higher hierarchy than the bot, cannot kick.
 							if (!selfMember.canInteract(member)) {
-								channel.sendMessage(":heavy_multiplication_x:" + "Cannot kick member: " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
+								channel.sendMessage("\u274C" + "Cannot kick member: " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
 								return;
 							}
 
@@ -137,10 +137,10 @@ public class Tools extends Module {
 									if (error instanceof PermissionException) {
 										PermissionException pe = (PermissionException) error; //Which permission?
 
-										channel.sendMessage(":heavy_multiplication_x:" + "Error kicking [" + member.getEffectiveName()
+										channel.sendMessage("\u274C" + "Error kicking [" + member.getEffectiveName()
 											+ "]: " + "(No permission provided: " + pe.getPermission() + ")").queue();
 									} else {
-										channel.sendMessage(":heavy_multiplication_x:" + "Unknown error while kicking [" + member.getEffectiveName()
+										channel.sendMessage("\u274C" + "Unknown error while kicking [" + member.getEffectiveName()
 											+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
 										//Just so I get more info in the case of an unexpected error.
@@ -150,7 +150,7 @@ public class Tools extends Module {
 						}
 					}
 				} else {
-					channel.sendMessage(":heavy_multiplication_x: " + "Cannot kick. Possible errors: You have no Kick Members permission or this was triggered outside of a guild.").queue();
+					channel.sendMessage("\u274C " + "Cannot kick. Possible errors: You have no Kick Members permission or this was triggered outside of a guild.").queue();
 				}
 			}
 
@@ -194,24 +194,24 @@ public class Tools extends Module {
 
 						//Delete the last x messages. Doing this as a queue so I can avoid rate limiting too, after queuing check if it was successful or no, and if it wasn't warn the user.
 						channel2.deleteMessages(messageHistory).queue(
-							success -> channel.sendMessage(":pencil: Successfully pruned " + messagesToPrune + " messages").queue(),
+							success -> channel.sendMessage("\uD83D\uDCDD Successfully pruned " + messagesToPrune + " messages").queue(),
 							error ->
 							{
 								if (error instanceof PermissionException) {
 									PermissionException pe = (PermissionException) error; //Which permission am I missing?
 
-									channel.sendMessage(":heavy_multiplication_x: " + "Lack of permission while pruning messages" + "(No permission provided: " + pe.getPermission() + ")").queue();
+									channel.sendMessage("\u274C " + "Lack of permission while pruning messages" + "(No permission provided: " + pe.getPermission() + ")").queue();
 								} else {
-									channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while pruning messages" + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+									channel.sendMessage("\u274C " + "Unknown error while pruning messages" + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 									//Just so I get more data in a unexpected scenario.
 									error.printStackTrace();
 								}
 							});
 					} else {
-						channel.sendMessage(":heavy_multiplication_x: No messages to prune.").queue();
+						channel.sendMessage("\u274C No messages to prune.").queue();
 					}
 				} else {
-					channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
+					channel.sendMessage("\u274C " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
 				}
 			}
 

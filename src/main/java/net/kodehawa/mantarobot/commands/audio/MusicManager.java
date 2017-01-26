@@ -54,7 +54,7 @@ public class MusicManager {
 	public void skipTrack(GuildMessageReceivedEvent event) {
 		if (nextTrackAvailable()) {
 			getScheduler().nextTrack();
-			event.getChannel().sendMessage(":mega: Skipped to next track -> **" + getScheduler().getPlayer().getPlayingTrack().getInfo().title + "**").queue();
+			event.getChannel().sendMessage("\uD83D\uDCE3 Skipped to next track -> **" + getScheduler().getPlayer().getPlayingTrack().getInfo().title + "**").queue();
 		} else {
 			event.getChannel().sendMessage("No tracks next. Disconnecting...").queue();
 			MantaroAudioManager.closeConnection(this, event.getGuild().getAudioManager(), event.getChannel());

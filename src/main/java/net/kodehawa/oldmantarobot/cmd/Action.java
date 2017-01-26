@@ -61,7 +61,7 @@ public class Action extends Module {
 				for (User s : mentions) {
 					pString.append(s.getAsMention());
 				}
-				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(patint));
+				String pat = String.format("\uD83D\uDCAC %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(patint));
 				channel.sendMessage(pat).queue();
 			}
 
@@ -94,7 +94,7 @@ public class Action extends Module {
 
 				for (User s : hugMentions) hString.append(s.getAsMention());
 
-				String hug = String.format(":speech_balloon: %s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(hugint));
+				String hug = String.format("\uD83D\uDCAC %s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(hugint));
 				channel.sendMessage(hug).queue();
 			}
 
@@ -127,7 +127,7 @@ public class Action extends Module {
 						listString.append(s.getAsMention());
 					}
 
-					String bs = String.format(":speech_balloon: http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", listString);
+					String bs = String.format("\uD83D\uDCAC http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", listString);
 					channel.sendMessage(bs).queue();
 				}
 			}
@@ -159,9 +159,9 @@ public class Action extends Module {
 						builder.append(user.getName());
 					}
 					String mention = builder.toString().replace("MantaroBot", "");
-					channel.sendMessage(":speech_balloon: " + "*meows at " + mention + ".*\n" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();
+					channel.sendMessage("\uD83D\uDCAC " + "*meows at " + mention + ".*\n" + "http://puu.sh/rK5Nf/63d90628c2.gif").queue();
 				} else {
-					channel.sendMessage(":speech_balloon: " + "Meeeeow.\n " + "http://puu.sh/rK5K7/034039286e.gif").queue();
+					channel.sendMessage("\uD83D\uDCAC " + "Meeeeow.\n " + "http://puu.sh/rK5K7/034039286e.gif").queue();
 				}
 			}
 
@@ -183,7 +183,7 @@ public class Action extends Module {
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Random rd = new Random();
 				int greetRandomizer = rd.nextInt(greeting.size());
-				event.getChannel().sendMessage(":speech_balloon: " + greeting.get(greetRandomizer)).queue();
+				event.getChannel().sendMessage("\uD83D\uDCAC " + greeting.get(greetRandomizer)).queue();
 			}
 
 
@@ -202,7 +202,7 @@ public class Action extends Module {
 
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":mega: " + tsunLines.get(new Random().nextInt(tsunLines.size()))).queue();
+				event.getChannel().sendMessage("\uD83D\uDCE3 " + tsunLines.get(new Random().nextInt(tsunLines.size()))).queue();
 			}
 
 			@Override

@@ -1,46 +1,100 @@
-group 'com'
-version '1.0.1'
+/* Mantaro's build.gradle */
 
-apply plugin: 'java'
+//Imports
+import org.apache.tools.ant.filters.ReplaceTokens
 
+
+//Plugins
+plugins {
+	//Compiles Java
+	id 'java'
+	//Adds an Executable Manifest
+	id 'application'
+	//Creates FatJars
+	id 'com.github.johnrengelman.shadow' version '1.2.4'
+	//Checks for RestActions
+	id 'com.sedmelluq.jdaction' version '1.0.1'
+}
+
+//Define the Main Class
+mainClassName = "net.kodehawa.mantarobot.MantaroBot"
+
+//Use an unified versioning system
+
+def ver = new Version(major: 1, minor: 1, revision: 0)
+version ver.toString()
+
+//We are going to use Java 8
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
-    jcenter()
-    maven {
-        url 'http://maven.sedmelluq.com'
-    }
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.2'
+	mavenCentral()
+	jcenter()
+	maven {
+		url 'http://maven.sedmelluq.com'
+	}
 }
 
 dependencies {
-    compile 'net.dv8tion:JDA:3.0.BETA2_121'
-    compile 'org.reflections:reflections:0.9.10'
-    compile 'us.monoid.web:resty:0.3.2'
-    compile 'com.sedmelluq:jda-nas:1.0.3'
-    compile 'com.sedmelluq:lavaplayer:1.1.38'
-    compile 'ch.qos.logback:logback-classic:0.9.26'
-    compile fileTree(dir: 'lib', include: '*.jar')
-    compile 'com.google.code.gson:gson:2.8.0'
-    compile 'bsh:bsh:2.0b4'
-    compile group: 'com.google.guava', name: 'guava', version: '19.0'
-    compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
-    compile group: 'net.java.dev.jna', name: 'jna-platform', version: '4.2.2'
-    compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.2'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+	compile 'net.dv8tion:JDA:3.0.BETA2_121'
+	compile 'com.sedmelluq:jda-nas:1.0.3'
+	compile 'com.sedmelluq:lavaplayer:1.1.38'
+	compile 'ch.qos.logback:logback-classic:0.9.26'
+	compile 'org.reflections:reflections:0.9.10'
+	compile 'us.monoid.web:resty:0.3.2'
+	compile fileTree(dir: 'lib', include: '*.jar')
+	compile 'com.google.code.gson:gson:2.8.0'
+	compile 'bsh:bsh:2.0b4'
+	compile 'com.google.guava:guava:19.0'
+	compile 'commons-codec:commons-codec:1.5'
+	compile 'net.java.dev.jna:jna-platform:4.2.2'
+	compile 'org.apache.httpcomponents:fluent-hc:4.5.2'
 }
 
-jar {
-    manifest {
-        attributes 'Main-Class': 'net.kodehawa.mantarobot.old.core.Mantaro'
-    }
-    from configurations.compile.collect {
-        it.isDirectory() ? it : zipTree(it)
-    }
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.2'
 }
 
+//Task for the versioning system
+task prepareSource(type: Copy) {
+	from 'src/main/java'
+	into 'build/prepared-src'
+	filter(ReplaceTokens, tokens: [
+		versionMajor: ver.major.toString(),
+		versionMinor: ver.minor.toString(),
+		versionRevision: ver.revision.toString(),
+		versionBuild: ver.build.toString()
+	])
+}
 
+compileJava {
+	source = prepareSource.destinationDir
+	classpath = sourceSets.main.compileClasspath
+	options.encoding = 'UTF-8'
+	dependsOn prepareSource
+}
+
+build {
+	dependsOn clean
+	dependsOn jar
+	dependsOn shadowJar
+
+	jar.mustRunAfter clean
+	prepareSource.mustRunAfter jar
+}
+
+artifacts {
+    archives shadowJar
+}
+
+class Version {
+	String major, minor, revision
+
+	static String getBuild() {
+		return new Date().format('ddMMyyyy')
+	}
+
+	def toString = { ->
+		"${major}.${minor}.${revision}_$build"
+	}
+}

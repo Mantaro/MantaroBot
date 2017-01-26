@@ -38,20 +38,20 @@ public class Owner extends Module {
 							String greet = content.replace("greeting" + " ", "");
 							Action.greeting.add(greet);
 							new StringArrayUtils("greeting", Action.greeting, true, true);
-							event.getChannel().sendMessage(":speech_balloon:" + "Added to greeting list: " + greet);
+							event.getChannel().sendMessage("\uD83D\uDCAC" + "Added to greeting list: " + greet);
 							break;
 						case "tsun":
 							String tsun = content.replace("tsun" + " ", "");
 							Action.tsunLines.add(tsun);
 							new StringArrayUtils("tsunderelines", Action.tsunLines, true, true);
-							event.getChannel().sendMessage(":speech_balloon:" + "Added to tsundere list: " + tsun);
+							event.getChannel().sendMessage("\uD83D\uDCAC" + "Added to tsundere list: " + tsun);
 							break;
 						default:
-							event.getChannel().sendMessage(":speech_balloon:" + "Silly master, use ~>add greeting or ~>add tsun");
+							event.getChannel().sendMessage("\uD83D\uDCAC" + "Silly master, use ~>add greeting or ~>add tsun");
 							break;
 					}
 				} else {
-					event.getChannel().sendMessage(":heavy_multiplication_x:" + "How did you even know?");
+					event.getChannel().sendMessage("\u274C" + "How did you even know?");
 				}
 			}
 

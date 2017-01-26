@@ -69,6 +69,38 @@ public class GeneralUtils {
 		};
 	}
 
+	public static synchronized String paste(String toSend) {
+		HttpURLConnection connection = null;
+		try {
+			URL url = new URL("https://hastebin.com/documents");
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("User-Agent", "Mantaro");
+			connection.setRequestProperty("Content-Type", "text/plain");
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
+
+			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+			wr.writeBytes(toSend);
+			wr.flush();
+			wr.close();
+
+			InputStream inputstream = connection.getInputStream();
+			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+			System.out.println(json);
+			JSONObject jObject = new JSONObject(json);
+			String pasteToken = jObject.getString("key");
+			return "https://hastebin.com/" + pasteToken;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			if (connection == null) return null;
+			connection.disconnect();
+		}
+	}
+
 	/**
 	 * Capitalizes the first letter of a string.
 	 *
@@ -150,42 +182,10 @@ public class GeneralUtils {
 			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
 			e.printStackTrace();
-			event.getChannel().sendMessage(":heavy_multiplication_x: Error retrieving data from URL.");
+			event.getChannel().sendMessage("\u274C Error retrieving data from URL.");
 		}
 
 		return webobject;
-	}
-
-	public synchronized String paste(String toSend) {
-		HttpURLConnection connection = null;
-		try {
-			URL url = new URL("https://hastebin.com/documents");
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("User-Agent", "Mantaro");
-			connection.setRequestProperty("Content-Type", "text/plain");
-			connection.setDoInput(true);
-			connection.setDoOutput(true);
-
-			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-			wr.writeBytes(toSend);
-			wr.flush();
-			wr.close();
-
-			InputStream inputstream = connection.getInputStream();
-			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-			System.out.println(json);
-			JSONObject jObject = new JSONObject(json);
-			String pasteToken = jObject.getString("key");
-			return "https://hastebin.com/" + pasteToken;
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			if (connection == null) return null;
-			connection.disconnect();
-		}
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class GeneralUtils {
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			event.getChannel().sendMessage(":heavy_multiplication_x: Error retrieving data from URL [Resty]");
+			event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]");
 		}
 
 		return url2;

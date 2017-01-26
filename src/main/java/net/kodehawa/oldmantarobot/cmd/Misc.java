@@ -32,7 +32,7 @@ public class Misc extends Module {
 
 	public Misc() {
 		super(Category.MISC);
-		lyrics.add(":mega: Are you ready?");
+		lyrics.add("\uD83D\uDCE3 Are you ready?");
 		lyrics.add("O-oooooooooo AAAAE-A-A-I-A-U-");
 		lyrics.add("E-eee-ee-eee AAAAE-A-E-I-E-A-");
 		lyrics.add("JO-ooo-oo-oo-oo EEEEO-A-AAA-AAAA");
@@ -75,10 +75,10 @@ public class Misc extends Module {
 				if (!users.contains(author)) {
 					Random r1 = new Random();
 					int lottery = r1.nextInt(5000);
-					event.getChannel().sendMessage(":speech_balloon: " + "You won **" + lottery + "USD**, congrats!").queue();
+					event.getChannel().sendMessage("\uD83D\uDCAC " + "You won **" + lottery + "USD**, congrats!").queue();
 					users.add(author);
 				} else {
-					event.getChannel().sendMessage(":speech_balloon: " + "Try again in later! (10 minutes since you ran the command)").queue();
+					event.getChannel().sendMessage("\uD83D\uDCAC " + "Try again in later! (10 minutes since you ran the command)").queue();
 				}
 
 				if (users.contains(author)) {
@@ -110,7 +110,7 @@ public class Misc extends Module {
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Random rand = new Random();
 				int factrand = rand.nextInt(facts.size());
-				event.getChannel().sendMessage(":speech_balloon: " + facts.get(factrand)).queue();
+				event.getChannel().sendMessage("\uD83D\uDCAC " + facts.get(factrand)).queue();
 			}
 
 
@@ -149,7 +149,7 @@ public class Misc extends Module {
 					case "rob":
 						Random r = new Random();
 						int woah = r.nextInt(1200);
-						channel.sendMessage(":speech_balloon: " + "You robbed **" + woah + "USD** from " + mentioned).queue();
+						channel.sendMessage("\uD83D\uDCAC " + "You robbed **" + woah + "USD** from " + mentioned).queue();
 						break;
 					case "reverse":
 						String stringToReverse = content.replace("reverse ", "");
@@ -162,12 +162,12 @@ public class Misc extends Module {
 						channel.sendMessage(finalMessage.toString()).queue();
 						break;
 					case "rndcolor":
-						String s = String.format(":speech_balloon: Your random color is %s", randomColor());
+						String s = String.format("\uD83D\uDCAC Your random color is %s", randomColor());
 						channel.sendMessage(s).queue();
 						break;
 					case "noble":
 						int nobleQuote = rand.nextInt(nobleQuotes.size());
-						channel.sendMessage(":speech_balloon: " + nobleQuotes.get(nobleQuote) + " -Noble").queue();
+						channel.sendMessage("\uD83D\uDCAC " + nobleQuotes.get(nobleQuote) + " -Noble").queue();
 						break;
 					default:
 						channel.sendMessage(help()).queue();
@@ -213,7 +213,7 @@ public class Misc extends Module {
 				JSONObject jObject = new JSONObject(url2);
 				JSONObject data = jObject.getJSONObject("magic");
 
-				event.getChannel().sendMessage(":speech_balloon: " + data.getString("answer") + ".").queue();
+				event.getChannel().sendMessage("\uD83D\uDCAC " + data.getString("answer") + ".").queue();
 			}
 
 			@Override

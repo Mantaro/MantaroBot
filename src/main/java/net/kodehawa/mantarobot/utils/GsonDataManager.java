@@ -41,7 +41,7 @@ public class GsonDataManager<T> implements Supplier<T> {
 		return data;
 	}
 
-	public void update() throws IOException {
+	public void update() {
 		try {
 			IOUtils.write(configFile, GSON.toJson(data));
 		} catch (IOException e) {
