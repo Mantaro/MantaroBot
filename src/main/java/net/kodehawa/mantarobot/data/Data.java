@@ -8,6 +8,7 @@ import java.util.Map;
 public class Data {
 	public static class GuildData {
 		public String birthdayRole = null;
+		public Map<String, List<String>> customCommands = new HashMap<>();
 		public String musicChannel = null;
 		public String prefix = null;
 	}
