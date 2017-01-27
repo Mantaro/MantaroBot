@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.oldmantarobot.util.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GeneralUtils;
 
 import java.util.HashSet;
 import java.util.Map;

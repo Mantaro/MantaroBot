@@ -25,7 +25,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Future;
 
-import static net.kodehawa.mantarobot.MantaroInfo.BUILD;
+import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot {
@@ -48,7 +48,7 @@ public class MantaroBot {
 		Config config = MantaroData.getConfig().get();
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
-			.submit(() -> new Reflections("net.kodehawa.mantarobot.old.cmd").getSubTypesOf(Module.class));
+			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
 
 		status = LOADING;
 		jda = new JDABuilder(AccountType.BOT)
@@ -62,18 +62,20 @@ public class MantaroBot {
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		LOGGER.info("Started bot instance.");
-		LOGGER.info("Started MantaroBot " + BUILD + " on JDA " + JDAInfo.VERSION);
+		LOGGER.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
 
 		Data data = MantaroData.getData().get();
 		Random r = new Random();
 
-		Async.startAsyncTask("Splash Thread", () -> {
-			int i = r.nextInt(data.splashes.size());
-			if (!(i == data.splashes.size())) {
-				jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + data.splashes.get(i)));
-				LOGGER.info("Changed status to: " + data.splashes.get(i));
-			}
-		}, 600);
+		Runnable changeStatus = () -> {
+			int i = r.nextInt(data.splashes.size() - 1);
+			jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + data.splashes.get(i)));
+			LOGGER.info("Changed status to: " + data.splashes.get(i));
+		};
+
+		changeStatus.run();
+
+		Async.startAsyncTask("Splash Thread", changeStatus, 600);
 
 		Set<Module> modules = new HashSet<>();
 		for (Class<? extends Module> c : classesAsync.get()) {

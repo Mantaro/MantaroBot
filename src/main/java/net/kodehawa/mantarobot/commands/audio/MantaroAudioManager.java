@@ -15,7 +15,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.oldmantarobot.util.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GeneralUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -9,7 +9,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.oldmantarobot.util.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GeneralUtils;
 
 import java.net.URL;
 

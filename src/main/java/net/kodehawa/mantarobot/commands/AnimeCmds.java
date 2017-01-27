@@ -1,48 +1,37 @@
-package net.kodehawa.oldmantarobot.cmd;
+package net.kodehawa.mantarobot.commands;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.oldmantarobot.core.Mantaro;
-import net.kodehawa.oldmantarobot.util.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GeneralUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-/**
- * Anime module. Returns results for anime, manga and anime character queries.
- * Using AniList API.
- *
- * @author Yomura
- */
-public class Anime extends Module {
-	public static Logger LOGGER = LoggerFactory.getLogger("Anime");
-
-	private final String CLIENT_SECRET = Mantaro.getConfig().values().get("alsecret").toString();
+public class AnimeCmds extends Module {
+	public static Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
+	private final String CLIENT_SECRET = MantaroData.getConfig().get().alsecret;
 	private String authToken;
-
-	public Anime() {
-		super(Category.FUN);
-		this.registerCommands();
-		login(2000);
-	}
 
 	/**
 	 * @return The new AniList access token.
@@ -67,14 +56,14 @@ public class Anime extends Module {
 			LOGGER.info("Updated auth token.");
 		} catch (Exception e) {
 			LOGGER.warn("Problem while updating auth token! " + e.getCause() + " " + e.getMessage());
-			if (Mantaro.isDebugEnabled) {
+			if (MantaroData.getConfig().get().debug) {
 				e.printStackTrace();
 			}
 		}
 	}
 
 	/**
-	 * Refreshes the already given token in x ms. Usually 30 minutes.
+	 * Refreshes the already given token in x ms. Usually every 58 minutes.
 	 *
 	 * @param seconds will run every x seconds
 	 * @return the new AniList access token.
@@ -83,33 +72,34 @@ public class Anime extends Module {
 		Async.startAsyncTask("AniList Login Task", this::authenticate, seconds);
 	}
 
-	@Override
-	public void registerCommands() {
+	public AnimeCmds(){
+		super(Category.MISC);
+		anime();
+		character();
+		login(3500);
+	}
+
+	private void anime(){
 		super.register("anime", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-
-			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
 					//Set variables to use later. They will be parsed to JSON later on.
 					String ANIME_TITLE = null, RELEASE_DATE = null, END_DATE = null, AVERAGE_SCORE = null, ANIME_DESCRIPTION = null, IMAGE_URL = null;
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
-						URLEncoder.encode(content, "UTF-8"), authToken);
+							URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = GeneralUtils.instance().getObjectFromUrl(connection, event);
 					JSONArray data;
 
 					try {
 						data = new JSONArray(json);
 					} catch (JSONException e) {
-						if (Mantaro.isDebugEnabled) {
+						if (MantaroData.getConfig().get().debug) {
 							e.printStackTrace();
 						}
-						channel.sendMessage("\u274C No results or unreadable reply from API server.").queue();
+						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
 						return;
 					}
 					int i1 = 0;
@@ -150,58 +140,57 @@ public class Anime extends Module {
 
 					//Start building the embedded message.
 					embed.setColor(Color.LIGHT_GRAY)
-						.setTitle("Anime information for " + GeneralUtils.instance().capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()))
-						.setFooter("Information provided by AniList", null)
-						.setThumbnail(IMAGE_URL)
-						.addField("Description: ", ANIME_DESCRIPTION, false)
-						.addField("Release date: ", FINAL_RELEASE_DATE, true)
-						.addField("End date: ", FINAL_END_DATE, true)
-						.addField("Average score: ", AVERAGE_SCORE + "/100", false);
-
-					//Build the embedded and send it.
-					channel.sendMessage(embed.build()).queue();
-				} catch (Exception e) {
-					LOGGER.warn("Problem processing data.", e);
+							.setTitle("AnimeCmds information for " + GeneralUtils.instance().capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()))
+							.setFooter("Information provided by AniList", null)
+							.setThumbnail(IMAGE_URL)
+							.addField("Description: ", ANIME_DESCRIPTION, false)
+							.addField("Release date: ", FINAL_RELEASE_DATE, true)
+							.addField("End date: ", FINAL_END_DATE, true)
+							.addField("Average score: ", AVERAGE_SCORE + "/100", false);
+				} catch (UnsupportedEncodingException e){
 					e.printStackTrace();
 				}
+					channel.sendMessage(embed.build()).queue();
 			}
 
 			@Override
-			public String help() {
-				return "Retrieves anime info from **AniList** (For anime characters use ~>character).\n"
-					+ "Usage: \n"
-					+ "~>anime [animename]: Gets information of an anime based on parameters.\n"
-					+ "Parameter description:\n"
-					+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n";
+			public CommandType commandType() {
+				return CommandType.USER;
 			}
 
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "AnimeCmds command")
+						.setDescription("Retrieves anime info from **AniList** (For anime characters use ~>character).\n"
+								+ "Usage: \n"
+								+ "~>anime [animename]: Gets information of an anime based on parameters.\n"
+								+ "Parameter description:\n"
+								+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n")
+						.setColor(Color.PINK)
+						.build();
+			}
 		});
+	}
 
+	private void character(){
 		super.register("character", new SimpleCommand() {
 			@Override
-			public String help() {
-				return "Retrieves character info from **AniList**.\n"
-					+ "Usage: \n"
-					+ "~>character [charname]: Gets information of a character based on parameters.\n"
-					+ "Parameter description:\n"
-					+ "[character]: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n";
-			}			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
 					String CHAR_NAME = null, ALIASES = null, CHAR_DESCRIPTION = null, IMAGE_URL = null;
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s",
-						URLEncoder.encode(content, "UTF-8"), authToken);
+							URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = GeneralUtils.instance().getObjectFromUrl(url, event);
 					JSONArray data;
 					try {
 						data = new JSONArray(json);
 					} catch (JSONException e) {
-						if (Mantaro.isDebugEnabled) {
+						if (MantaroData.getConfig().get().debug) {
 							e.printStackTrace();
 						}
-						channel.sendMessage("\u274C No results or unreadable reply from API server.").queue();
+						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
 						return;
 					}
 					int i1 = 0;
@@ -222,13 +211,13 @@ public class Anime extends Module {
 					}
 
 					embed.setColor(Color.LIGHT_GRAY)
-						.setThumbnail(IMAGE_URL)
-						.setTitle("Information for " + CHAR_NAME);
+							.setThumbnail(IMAGE_URL)
+							.setTitle("Information for " + CHAR_NAME);
 					if (!ALIASES.equals("null")) {
 						embed.setDescription("Also known as " + ALIASES);
 					}
 					embed.addField("Information", CHAR_DESCRIPTION, true)
-						.setFooter("Information provided by AniList", null);
+							.setFooter("Information provided by AniList", null);
 
 					channel.sendMessage(embed.build()).queue();
 				} catch (Exception e) {
@@ -240,6 +229,18 @@ public class Anime extends Module {
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "AnimeCmds character command")
+						.setDescription("Retrieves character info from **AniList**.\n"
+								+ "Usage: \n"
+								+ "~>character [charname]: Gets information of a character based on parameters.\n"
+								+ "Parameter description:\n"
+								+ "[character]: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n")
+						.setColor(Color.DARK_GRAY)
+						.build();
 			}
 		});
 	}

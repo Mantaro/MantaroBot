@@ -13,7 +13,7 @@ plugins {
 	//Creates FatJars
 	id 'com.github.johnrengelman.shadow' version '1.2.4'
 	//Checks for RestActions
-	id 'com.sedmelluq.jdaction' version '1.0.1'
+//	id 'com.sedmelluq.jdaction' version '1.0.1'
 }
 
 //Define the Main Class
@@ -60,11 +60,9 @@ task prepareSource(type: Copy) {
 	from 'src/main/java'
 	into 'build/prepared-src'
 	filter(ReplaceTokens, tokens: [
-		versionMajor: ver.major.toString(),
-		versionMinor: ver.minor.toString(),
-		versionRevision: ver.revision.toString(),
-		versionBuild: ver.build.toString()
+			version: ver.toString()
 	])
+	dependsOn clean
 }
 
 compileJava {
@@ -84,7 +82,7 @@ build {
 }
 
 artifacts {
-    archives shadowJar
+	archives shadowJar
 }
 
 class Version {
@@ -94,7 +92,7 @@ class Version {
 		return new Date().format('ddMMyyyy')
 	}
 
-	def toString = { ->
+	String toString() {
 		"${major}.${minor}.${revision}_$build"
 	}
 }

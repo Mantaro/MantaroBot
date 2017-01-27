@@ -14,7 +14,7 @@ import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
-import net.kodehawa.oldmantarobot.util.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GeneralUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

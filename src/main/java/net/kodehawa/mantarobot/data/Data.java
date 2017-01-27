@@ -21,4 +21,9 @@ public class Data {
 	public Map<String, GuildData> guilds = new HashMap<>();
 	public List<String> splashes = new ArrayList<>();
 	public Map<String, UserData> users = new HashMap<>();
+	public List<String> greet = new ArrayList<>();
+	public List<String> pat = new ArrayList<>();
+	public List<String> bleach = new ArrayList<>();
+	public List<String> hugs = new ArrayList<>();
+	public List<String> tsun = new ArrayList<>();
 }

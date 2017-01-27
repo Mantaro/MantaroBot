@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.modules;
 
 public enum Category {
-	ACTION("Action"), FUN("Fun"), AUDIO("Audio"), INFO("Info"), MISC("Misc"), GAMES("Games"), MODERATION("Moderation"), CUSTOM("Custom");
+	ACTION("ActionCmds"), FUN("Fun"), AUDIO("Audio"), INFO("Info"), MISC("Misc"), GAMES("Games"), MODERATION("Moderation"), CUSTOM("Custom");
 
 	private final String s;
 

@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.kodehawa.mantarobot.data.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,9 +20,9 @@ public class GsonDataManager<T> implements Supplier<T> {
 		this.configFile = new File(file);
 		try {
 			if (!configFile.exists()) {
-				LOGGER.info("Could not find config file, creating a new one...");
+				LOGGER.info("Could not find config file at " + configFile.getAbsolutePath() + ", creating a new one...");
 				if (configFile.createNewFile()) {
-					LOGGER.info("Generated new config file at " + configFile.getPath() + ".");
+					LOGGER.info("Generated new config file at " + configFile.getAbsolutePath() + ".");
 					IOUtils.write(configFile, GSON.toJson(constructor.get()));
 					LOGGER.info("Please, fill the file with valid properties.");
 				} else {

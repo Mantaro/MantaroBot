@@ -8,18 +8,15 @@ import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
-import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
-import net.kodehawa.oldmantarobot.cmd.Birthday;
-import net.kodehawa.oldmantarobot.cmd.guild.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.TreeMap;
 
 public class MantaroListener implements EventListener {
@@ -45,37 +42,37 @@ public class MantaroListener implements EventListener {
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			ThreadPoolHelper.defaultPool().startThread("CmdThread", () -> onCommand(e));
-			ThreadPoolHelper.defaultPool().startThread("BirthdayThread", () -> onBirthday(e));
+			//ThreadPoolHelper.defaultPool().startThread("BirthdayThread", () -> onBirthday(e));
 			return;
 		}
 
 		if (event instanceof GuildMessageUpdateEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logEdit((GuildMessageUpdateEvent) event));
+			//ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logEdit((GuildMessageUpdateEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMessageDeleteEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logDelete((GuildMessageDeleteEvent) event));
+			//ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logDelete((GuildMessageDeleteEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMemberJoinEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logJoin((GuildMemberJoinEvent) event));
+			//ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logJoin((GuildMemberJoinEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildUnbanEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logUnban((GuildUnbanEvent) event));
+			//ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logUnban((GuildUnbanEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildBanEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logBan((GuildBanEvent) event));
+			//ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logBan((GuildBanEvent) event));
 			return;
 		}
 	}
 
-	public void logBan(GuildBanEvent event) {
+	/*public void logBan(GuildBanEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		if (Parameters.getLogHash().containsKey(event.getGuild().getId())) {
 			TextChannel tc = event.getGuild().getTextChannelsByName(Parameters.getLogChannelForServer(event.getGuild().getId()), true).get(0);
@@ -197,7 +194,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		}
-	}
+	}*/
 
 	private void onCommand(GuildMessageReceivedEvent event) {
 		if (shortMessageHistory.size() < 250) {
@@ -209,7 +206,7 @@ public class MantaroListener implements EventListener {
 
 		try {
 			//TODO AFTER PARSER
-			//if (Mantaro.getParser().run(event).onCommand()) commandTotal++;
+			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
 			//TODO HANDLE THIS PROPERLY NOW.
 			//Now this catch block handles the exceptions that can happen while on Command Execution.

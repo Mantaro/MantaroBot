@@ -1,4 +1,4 @@
-package net.kodehawa.oldmantarobot.util;
+package net.kodehawa.mantarobot.utils;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;

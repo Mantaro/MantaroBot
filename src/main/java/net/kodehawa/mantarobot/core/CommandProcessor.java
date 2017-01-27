@@ -2,8 +2,8 @@ package net.kodehawa.mantarobot.core;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Module.Manager;
-import net.kodehawa.oldmantarobot.cmd.guild.Parameters;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,11 +60,11 @@ public final class CommandProcessor {
 		if (MantaroBot.getStatus() != LoadState.POSTLOAD) return false;
 
 		String cmd = event.getMessage().getRawContent();
-		String defaultPrefix = Parameters.getDefaultPrefix();
-		String prefix = Parameters.getPrefixForServer(event.getGuild().getId());
+		String defaultPrefix = MantaroData.getData().get().defaultPrefix;
+		//String prefix = Parameters.getPrefixForServer(event.getGuild().getId());
 
 		if (cmd.startsWith(defaultPrefix)) cmd = cmd.substring(defaultPrefix.length());
-		else if (cmd.startsWith(prefix)) cmd = cmd.substring(prefix.length());
+		//else if (cmd.startsWith(prefix)) cmd = cmd.substring(prefix.length());
 		else return false;
 
 		ArrayList<String> split = new ArrayList<>();
@@ -73,7 +73,7 @@ public final class CommandProcessor {
 
 		String invoke = split.get(0);
 		String[] args = new String[split.size() - 1];
-		split.subList(1, split.size()).toArray(args);
+		split.subList(1, split.size()).	toArray(args);
 		return new Arguments(event, invoke, args, cmd, splitBeheaded).onCommand();
 	}
 }
