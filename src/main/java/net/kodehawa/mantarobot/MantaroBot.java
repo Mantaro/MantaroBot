@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -67,10 +68,12 @@ public class MantaroBot {
 		Data data = MantaroData.getData().get();
 		Random r = new Random();
 
+		List<String> splashes = MantaroData.getSplashes().get();
+
 		Runnable changeStatus = () -> {
-			int i = r.nextInt(data.splashes.size() - 1);
-			jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + data.splashes.get(i)));
-			LOGGER.info("Changed status to: " + data.splashes.get(i));
+			int i = r.nextInt(splashes.size() - 1);
+			jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + splashes.get(i)));
+			LOGGER.info("Changed status to: " + splashes.get(i));
 		};
 
 		changeStatus.run();

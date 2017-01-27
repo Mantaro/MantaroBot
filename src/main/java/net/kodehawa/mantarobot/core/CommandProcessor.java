@@ -64,7 +64,7 @@ public final class CommandProcessor {
 		//String prefix = Parameters.getPrefixForServer(event.getGuild().getId());
 
 		if (cmd.startsWith(defaultPrefix)) cmd = cmd.substring(defaultPrefix.length());
-		//else if (cmd.startsWith(prefix)) cmd = cmd.substring(prefix.length());
+			//else if (cmd.startsWith(prefix)) cmd = cmd.substring(prefix.length());
 		else return false;
 
 		ArrayList<String> split = new ArrayList<>();
@@ -73,7 +73,7 @@ public final class CommandProcessor {
 
 		String invoke = split.get(0);
 		String[] args = new String[split.size() - 1];
-		split.subList(1, split.size()).	toArray(args);
+		split.subList(1, split.size()).toArray(args);
 		return new Arguments(event, invoke, args, cmd, splitBeheaded).onCommand();
 	}
 }

@@ -13,22 +13,41 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class UtilsCmds extends Module{
+public class UtilsCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
 	private final Resty resty = new Resty();
 
-	public UtilsCmds(){
+	public UtilsCmds() {
 		super(Category.MISC);
 		translate();
 	}
 
-	private void translate(){
+	private void translate() {
 		super.register("translate", new SimpleCommand() {
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Translation command")
+					.setDescription("Translates any given sentence.\n"
+						+ "**Usage example:**\n"
+						+ "~>translate [sourcelang] [outputlang] [sentence].\n"
+						+ "**Parameter explanation**\n"
+						+ "[sourcelang] The language the sentence is written in. Use codes (english = en)\n"
+						+ "[outputlang] The language you want to translate to (french = fr, for example)\n"
+						+ "[sentence] The sentence to translate.")
+					.setColor(Color.BLUE)
+					.build();
+			}
+
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
@@ -74,25 +93,6 @@ public class UtilsCmds extends Module{
 					LOGGER.warn("Something went wrong while processing translation elements.", e);
 					e.printStackTrace();
 				}
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Translation command")
-						.setDescription("Translates any given sentence.\n"
-								+ "**Usage example:**\n"
-								+ "~>translate [sourcelang] [outputlang] [sentence].\n"
-								+ "**Parameter explanation**\n"
-								+ "[sourcelang] The language the sentence is written in. Use codes (english = en)\n"
-								+ "[outputlang] The language you want to translate to (french = fr, for example)\n"
-								+ "[sentence] The sentence to translate.")
-						.setColor(Color.BLUE)
-						.build();
 			}
 		});
 	}

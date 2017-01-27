@@ -1,8 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -15,11 +13,9 @@ import net.kodehawa.mantarobot.utils.GeneralUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
-import java.io.File;
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.List;
 
 public class QuoteCmd extends Module {
 
@@ -29,14 +25,35 @@ public class QuoteCmd extends Module {
 		return new Gson().toJson(map);
 	}
 
-	public QuoteCmd(){
+	public QuoteCmd() {
 		super(Category.MISC);
 		quote();
 	}
 
 	@SuppressWarnings({"unused", "unchecked"})
-	private void quote(){
+	private void quote() {
 		super.register("quote", new SimpleCommand() {
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Quote command")
+					.setDescription("> Usage:\n"
+						+ "~>quote add [number]: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
+						+ "~>quote random: Gets a random quote. \n"
+						+ "~>quote read [number]: Gets a quote matching the number. \n"
+						+ "~>quote addfrom [phrase] Adds a quote based in text search criteria.\n"
+						+ "~>quote getfrom [phrase]: Searches for the first quote which matches your search criteria and prints it.\n"
+						+ "> Parameters:\n"
+						+ "[number]: Message number to quote. For example 1 will quote the last message.\n"
+						+ "[phrase]: A part of the quote phrase.")
+					.setColor(Color.DARK_GRAY)
+					.build();
+			}
+
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				Random rand = new Random();
@@ -64,21 +81,21 @@ public class QuoteCmd extends Module {
 							Message m = messageHistory.get(i);
 
 							String[] sContent = {
-									m.getAuthor().getName(),
-									m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
-									m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+								m.getAuthor().getName(),
+								m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
+								m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
 							};
 
 							if (MantaroData.getQuotes().get().quotes.containsKey(guild.getId())) {
 								LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
 								MantaroData.getQuotes().get().quotes.get(
-										guild.getId()).put(m.getContent(), Arrays.asList(sContent)
+									guild.getId()).put(m.getContent(), Arrays.asList(sContent)
 								);
 
 							} else {
 								LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
 								temp.put(
-										m.getContent(), Arrays.asList(sContent)
+									m.getContent(), Arrays.asList(sContent)
 								);
 								MantaroData.getQuotes().get().quotes.put(guild.getId(), temp);
 							}
@@ -88,12 +105,12 @@ public class QuoteCmd extends Module {
 							Date quoteDate = new Date(System.currentTimeMillis());
 							EmbedBuilder builder = new EmbedBuilder();
 							builder.setAuthor(m.getAuthor().getName() + " said:", null, m.getAuthor().getEffectiveAvatarUrl())
-									.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
-									.setColor(m.getGuild().getMember(m.getAuthor()).getColor())
-									.setDescription("Quote made on server " + m.getGuild().getName()
-											+ " in channel " + "#" + m.getChannel().getName())
-									.addField("Content", m.getContent(), false)
-									.setFooter("Date: " + dateFormat.format(quoteDate), null);
+								.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
+								.setColor(m.getGuild().getMember(m.getAuthor()).getColor())
+								.setDescription("Quote made on server " + m.getGuild().getName()
+									+ " in channel " + "#" + m.getChannel().getName())
+								.addField("Content", m.getContent(), false)
+								.setFooter("Date: " + dateFormat.format(quoteDate), null);
 							channel.sendMessage(builder.build()).queue();
 							break;
 						} catch (Exception e) {
@@ -109,12 +126,12 @@ public class QuoteCmd extends Module {
 						EmbedBuilder embedBuilder = new EmbedBuilder();
 						Date dat = new Date(Long.parseLong(quoteElements.get(4)));
 						embedBuilder.setAuthor(quoteElements.get(0) + " said:", null, quoteElements.get(1))
-								.setThumbnail(quoteElements.get(1))
-								.setColor(Color.CYAN)
-								.setDescription("Quote made on server " + quoteElements.get(3)
-										+ " in channel " + "#" + quoteElements.get(2))
-								.addField("Content", keys.get(quoteN).toString(), false)
-								.setFooter("Date: " + dateFormat.format(dat), null);
+							.setThumbnail(quoteElements.get(1))
+							.setColor(Color.CYAN)
+							.setDescription("Quote made on server " + quoteElements.get(3)
+								+ " in channel " + "#" + quoteElements.get(2))
+							.addField("Content", keys.get(quoteN).toString(), false)
+							.setFooter("Date: " + dateFormat.format(dat), null);
 						channel.sendMessage(embedBuilder.build()).queue();
 						break;
 					case "read":
@@ -124,12 +141,12 @@ public class QuoteCmd extends Module {
 						EmbedBuilder embedBuilder2 = new EmbedBuilder();
 						Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
 						embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
-								.setThumbnail(quoteElements2.get(1))
-								.setColor(Color.CYAN)
-								.setDescription("Quote made on server " + quoteElements2.get(3)
-										+ " in channel " + "#" + quoteElements2.get(2))
-								.addField("Content", keys1.get(i).toString(), false)
-								.setFooter("Date: " + dateFormat.format(date1), null);
+							.setThumbnail(quoteElements2.get(1))
+							.setColor(Color.CYAN)
+							.setDescription("Quote made on server " + quoteElements2.get(3)
+								+ " in channel " + "#" + quoteElements2.get(2))
+							.addField("Content", keys1.get(i).toString(), false)
+							.setFooter("Date: " + dateFormat.format(date1), null);
 						channel.sendMessage(embedBuilder2.build()).queue();
 						break;
 					case "addfrom":
@@ -144,21 +161,21 @@ public class QuoteCmd extends Module {
 						}
 
 						String[] sContent = {
-								m.getAuthor().getName(),
-								m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
-								m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+							m.getAuthor().getName(),
+							m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
+							m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
 						};
 
 						if (MantaroData.getQuotes().get().quotes.containsKey(guild.getId())) {
 							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
 							MantaroData.getQuotes().get().quotes.get(
-									guild.getId()).put(m.getContent(), Arrays.asList(sContent)
+								guild.getId()).put(m.getContent(), Arrays.asList(sContent)
 							);
 
 						} else {
 							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
 							temp.put(
-									m.getContent(), Arrays.asList(sContent)
+								m.getContent(), Arrays.asList(sContent)
 							);
 							MantaroData.getQuotes().get().quotes.put(guild.getId(), temp);
 						}
@@ -168,12 +185,12 @@ public class QuoteCmd extends Module {
 						Date quoteDate = new Date(System.currentTimeMillis());
 						EmbedBuilder builder = new EmbedBuilder();
 						builder.setAuthor(m.getAuthor().getName() + " said:", null, m.getAuthor().getEffectiveAvatarUrl())
-								.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
-								.setColor(m.getGuild().getMember(m.getAuthor()).getColor())
-								.setDescription("Quote made on server " + m.getGuild().getName()
-										+ " in channel " + "#" + m.getChannel().getName())
-								.addField("Content", m.getContent(), false)
-								.setFooter("Date: " + dateFormat.format(quoteDate), null);
+							.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
+							.setColor(m.getGuild().getMember(m.getAuthor()).getColor())
+							.setDescription("Quote made on server " + m.getGuild().getName()
+								+ " in channel " + "#" + m.getChannel().getName())
+							.addField("Content", m.getContent(), false)
+							.setFooter("Date: " + dateFormat.format(quoteDate), null);
 						channel.sendMessage(builder.build()).queue();
 						break;
 					case "getfrom":
@@ -184,12 +201,12 @@ public class QuoteCmd extends Module {
 								Date date = new Date(Long.parseLong(quoteE.get(4)));
 								EmbedBuilder builder2 = new EmbedBuilder();
 								builder2.setAuthor(quoteE.get(0) + " said:", null, quoteE.get(1))
-										.setThumbnail(quoteE.get(1))
-										.setColor(Color.CYAN)
-										.setDescription("Quote made on server " + quoteE.get(3)
-												+ " in channel " + "#" + quoteE.get(2))
-										.addField("Content", quotes.get(i2), false)
-										.setFooter("Date: " + dateFormat.format(date), null);
+									.setThumbnail(quoteE.get(1))
+									.setColor(Color.CYAN)
+									.setDescription("Quote made on server " + quoteE.get(3)
+										+ " in channel " + "#" + quoteE.get(2))
+									.addField("Content", quotes.get(i2), false)
+									.setFooter("Date: " + dateFormat.format(date), null);
 								channel.sendMessage(builder2.build()).queue();
 								break;
 							}
@@ -201,27 +218,6 @@ public class QuoteCmd extends Module {
 							event.getChannel().sendMessage("What are you trying to do, silly.").queue();
 						break;
 				}
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Quote command")
-						.setDescription("> Usage:\n"
-								+ "~>quote add [number]: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
-								+ "~>quote random: Gets a random quote. \n"
-								+ "~>quote read [number]: Gets a quote matching the number. \n"
-								+ "~>quote addfrom [phrase] Adds a quote based in text search criteria.\n"
-								+ "~>quote getfrom [phrase]: Searches for the first quote which matches your search criteria and prints it.\n"
-								+ "> Parameters:\n"
-								+ "[number]: Message number to quote. For example 1 will quote the last message.\n"
-								+ "[phrase]: A part of the quote phrase.")
-						.setColor(Color.DARK_GRAY)
-						.build();
 			}
 		});
 	}

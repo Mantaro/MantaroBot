@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.core.listeners;
 
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
@@ -9,7 +9,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import org.slf4j.Logger;

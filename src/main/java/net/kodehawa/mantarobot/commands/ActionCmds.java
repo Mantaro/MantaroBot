@@ -11,13 +11,13 @@ import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Color;
 import java.util.List;
+import java.util.Random;
 
 public class ActionCmds extends Module {
 
-	public ActionCmds(){
+	public ActionCmds() {
 		super(Category.ACTION);
 		pat();
 		hug();
@@ -27,8 +27,13 @@ public class ActionCmds extends Module {
 		tsundere();
 	}
 
-	private void action(){
+	private void action() {
 		super.register("action", new SimpleCommand() {
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
@@ -50,36 +55,23 @@ public class ActionCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-
-			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "ActionCmds commands")
-						.addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
-								"~>action facedesk: Facedesks.\n" +
-								"~>action nom: nom nom.", false)
-						.setColor(Color.PINK)
-						.build();
+					.addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
+						"~>action facedesk: Facedesks.\n" +
+						"~>action nom: nom nom.", false)
+					.setColor(Color.PINK)
+					.build();
 			}
 		});
 	}
 
-	private void pat(){
-		super.register("pat", new SimpleCommand() {
+	private void greet() {
+		super.register("greet", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				List<String> pats = MantaroData.getData().get().pat;
-				Random rand = new Random();
-				List<User> mentions = event.getMessage().getMentionedUsers();
-				StringBuilder pString = new StringBuilder();
-				mentions.forEach(pString::append);
-				int i = rand.nextInt(pats.size());
-				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(i));
-				channel.sendMessage(pat).queue();
+				event.getChannel().sendMessage(":speech_balloon: " + MantaroData.getData().get().greet.get(
+					new Random().nextInt(MantaroData.getData().get().greet.size()))).queue();
 			}
 
 			@Override
@@ -89,15 +81,15 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Pat command")
-						.addField("Description:", "Pats the specified user	.", false)
-						.setColor(Color.PINK)
-						.build();
+				return baseEmbed(event, "Greeting")
+					.setDescription("Sends a random greeting")
+					.setColor(Color.DARK_GRAY)
+					.build();
 			}
 		});
 	}
 
-	private void hug(){
+	private void hug() {
 		super.register("hug", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -121,36 +113,14 @@ public class ActionCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Hug command")
-						.addField("Description:", "Hugs the specified user.", false)
-						.setColor(Color.PINK)
-						.build();			}
-		});
-	}
-
-	private void greet(){
-		super.register("greet", new SimpleCommand() {
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":speech_balloon: " + MantaroData.getData().get().greet.get(
-						new Random().nextInt(MantaroData.getData().get().greet.size()))).queue();
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Greeting")
-						.setDescription("Sends a random greeting")
-						.setColor(Color.DARK_GRAY)
-						.build();
+					.addField("Description:", "Hugs the specified user.", false)
+					.setColor(Color.PINK)
+					.build();
 			}
 		});
 	}
 
-	private void meow(){
+	private void meow() {
 		super.register("mew", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -174,19 +144,50 @@ public class ActionCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Meow command")
-						.setDescription("Meows at a user or just meows.")
-						.setColor(Color.cyan)
-						.build();
+					.setDescription("Meows at a user or just meows.")
+					.setColor(Color.cyan)
+					.build();
 			}
 		});
 	}
 
-	private void tsundere(){
+	private void pat() {
+		super.register("pat", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				User author = event.getAuthor();
+				TextChannel channel = event.getChannel();
+				List<String> pats = MantaroData.getData().get().pat;
+				Random rand = new Random();
+				List<User> mentions = event.getMessage().getMentionedUsers();
+				StringBuilder pString = new StringBuilder();
+				mentions.forEach(pString::append);
+				int i = rand.nextInt(pats.size());
+				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(i));
+				channel.sendMessage(pat).queue();
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Pat command")
+					.addField("Description:", "Pats the specified user	.", false)
+					.setColor(Color.PINK)
+					.build();
+			}
+		});
+	}
+
+	private void tsundere() {
 		super.register("tsundere", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(":mega: " + MantaroData.getData().get().tsun.get(
-						new Random().nextInt(MantaroData.getData().get().tsun.size()))).queue();
+					new Random().nextInt(MantaroData.getData().get().tsun.size()))).queue();
 			}
 
 			@Override
@@ -197,9 +198,9 @@ public class ActionCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Tsundere command")
-						.setDescription("Y-You baka!")
-						.setColor(Color.pink)
-						.build();
+					.setDescription("Y-You baka!")
+					.setColor(Color.pink)
+					.build();
 			}
 		});
 	}

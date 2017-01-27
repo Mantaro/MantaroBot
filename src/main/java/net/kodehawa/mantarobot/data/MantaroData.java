@@ -16,6 +16,7 @@ public class MantaroData {
 	private static SimpleFileDataManager noble;
 	private static SimpleFileDataManager patting;
 	private static GsonDataManager<QuotesData> quotes;
+	private static SimpleFileDataManager splashes;
 	private static SimpleFileDataManager tsunderelines;
 
 	public static GsonDataManager<Config> getConfig() {
@@ -56,6 +57,11 @@ public class MantaroData {
 	public static GsonDataManager<QuotesData> getQuotes() {
 		if (quotes == null) quotes = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new);
 		return quotes;
+	}
+
+	public static SimpleFileDataManager getSplashes() {
+		if (splashes == null) splashes = new SimpleFileDataManager("splashes.txt");
+		return splashes;
 	}
 
 	public static SimpleFileDataManager getTsundereLines() {
