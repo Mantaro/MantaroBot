@@ -73,16 +73,15 @@ public class ImageCmds extends Module {
 		int HEIGHT = filter.get(get).height;
 		int WIDTH = filter.get(get).width;
 		String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
-		String tagsFinal = tags == null ? "None" : tags;
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		if (!smallRequest) {
 			try {
 				return embedBuilder.setAuthor("Found image", null, null)
-						.setDescription("Image uploaded by: "+ AUTHOR + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
+						.setDescription("Image uploaded by: "+ (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 						.setImage(URL)
 						.addField("Height", String.valueOf(HEIGHT), true)
 						.addField("Width", String.valueOf(WIDTH), true)
-						.addField("Tags", "``" + tagsFinal + "``", false);
+						.addField("Tags", "``" +  (tags == null ? "None" : tags) + "``", false);
 			} catch (ArrayIndexOutOfBoundsException ex) {
 				return embedBuilder.setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 			}
@@ -90,11 +89,11 @@ public class ImageCmds extends Module {
 
 		try {
 			return embedBuilder.setAuthor("Found image", null, null)
-					.setDescription("Image uploaded by "+ AUTHOR + ", with rating **" + nRating.inverseBidiMap().get(RATING) + "**")
+					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 					.setImage(URL)
 					.addField("Height", String.valueOf(HEIGHT), true)
 					.addField("Width", String.valueOf(WIDTH), true)
-					.addField("Tags", "``" + tagsFinal + "``", false);
+					.addField("Tags", "``" +  (tags == null ? "None" : tags) + "``", false);
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			return embedBuilder.setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 		}
