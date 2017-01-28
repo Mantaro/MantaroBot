@@ -14,6 +14,10 @@ import net.kodehawa.mantarobot.modules.SimpleCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 public class OwnerCmds extends Module {
 	public static GuildMessageReceivedEvent tempEvt = null;
 	private static Logger LOGGER = LoggerFactory.getLogger("Owner");
@@ -62,14 +66,43 @@ public class OwnerCmds extends Module {
 				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
 					return;
 				}
+
+				if(args[0].equals("js")){
+					ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
+					script.put("jda", event.getJDA());
+					script.put("event", event);
+					script.put("guild", event.getGuild());
+					script.put("channel", event.getChannel());
+					String evalString = content.replaceAll(args[0], "");
+					Object toSend;
+					EmbedBuilder embedBuilder = new EmbedBuilder().setAuthor("Eval", null, event.getAuthor().getAvatarUrl()).setFooter("Asked by " + event.getAuthor().getName(), null);
+					try {
+						script.eval("imports = new JavaImporter(java.util, java.io, java.net)\n");
+						toSend = script.eval("(function() {" +
+								"with(imports) {"
+								+ evalString + "\n}" +
+								"})()");
+					} catch (ScriptException e) {
+						e.printStackTrace();
+						toSend = e.getMessage();
+						embedBuilder.setDescription(toSend.toString());
+					}
+					String out = toSend == null ? "Executed with no errors and no returns" : toSend.toString();
+					embedBuilder.setDescription(out);
+
+
+
+					event.getChannel().sendMessage(embedBuilder.build()).queue();
+					return;
+				}
+
 				tempEvt = event;
 				try {
 					Interpreter interpreter = new Interpreter();
 					String evalHeader =
 							"import *; "
-									+ "private Mantaro bot = new Mantaro(); "
-									+ "private JDAImpl self = Mantaro.getSelf(); "
-									+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.old.cmd.Owner.tempEvt;";
+									+ "private JDAImpl jda = MantaroBot.getJDA(); "
+									+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.commands.OwnerCmds.tempEvt;";
 					Object toSendTmp = interpreter.eval(evalHeader + content);
 					EmbedBuilder embed = new EmbedBuilder();
 					if (toSendTmp != null) {
