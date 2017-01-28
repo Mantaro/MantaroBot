@@ -32,7 +32,7 @@ public class AnimeData {
 	public String airing_status = null;
 	public String source = null;
 	public String classification = null;
-	public List<ListStats> list_stats = null;
+	public ListStats list_stats = null;
 
 	public static class ListStats {
 		public Integer completed = null;

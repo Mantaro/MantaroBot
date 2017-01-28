@@ -162,8 +162,7 @@ public class MantaroAudioManager {
 				if (choose < 1 || choose > 4) return false;
 				loadTrack(e, musicManager, playlist.getTracks().get(choose - 1), false);
 				return true;
-			} catch (Exception ignored) {
-			}
+			} catch (Exception ignored) {}
 			return false;
 		});
 

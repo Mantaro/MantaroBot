@@ -106,7 +106,8 @@ public class CustomCmds extends Module {
 				}
 
 				String action = args[0];
-				Map<String, List<String>> customCommands = MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new GuildData()).customCommands;
+				Map<String, List<String>> customCommands = MantaroData.getData().get().guilds.computeIfAbsent(
+						event.getGuild().getId(), k -> new GuildData()).customCommands;
 
 				if (action.equals("list") || action.equals("ls")) {
 					EmbedBuilder builder = new EmbedBuilder()

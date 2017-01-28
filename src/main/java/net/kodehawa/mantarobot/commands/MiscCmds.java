@@ -100,7 +100,7 @@ public class MiscCmds extends Module {
 					event.getChannel().sendMessage("\uD83D\uDCAC " + "You won **" + new Random().nextInt(350) + "USD**, congrats!").queue();
 					users.add(author);
 				} else {
-					event.getChannel().sendMessage("\uD83D\uDCAC " + "Try again in later! (Usable every 24 hours)").queue();
+					event.getChannel().sendMessage("\uD83D\uDCAC " + "Try again later! (Usable every 24 hours)").queue();
 				}
 				Async.asyncSleepThen(86400000, () -> users.remove(author));
 			}
