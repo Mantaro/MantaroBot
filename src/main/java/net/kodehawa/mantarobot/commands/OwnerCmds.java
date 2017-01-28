@@ -105,16 +105,10 @@ public class OwnerCmds extends Module {
 									+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.commands.OwnerCmds.tempEvt;";
 					Object toSendTmp = interpreter.eval(evalHeader + content);
 					EmbedBuilder embed = new EmbedBuilder();
-					if (toSendTmp != null) {
-						String toSend = toSendTmp.toString();
-						embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
-								.setDescription("Returned: " + toSend)
-								.setFooter("Asked by: " + event.getAuthor().getName(), null);
-					} else {
-						embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
-								.setDescription("No returns.")
-								.setFooter("Asked by: " + event.getAuthor().getName(), null);
-					}
+					String toSend = toSendTmp == null ? "Executed successfully with no objects returned" : toSendTmp.toString();
+					embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
+							.setDescription("Returned: " + toSend)
+							.setFooter("Asked by: " + event.getAuthor().getName(), null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Code evaluation returned ``" + e.getClass().getSimpleName() + "``, with cause" +
