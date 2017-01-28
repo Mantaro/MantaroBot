@@ -1,18 +1,18 @@
 package net.kodehawa.mantarobot.utils;
 
-import java.io.*;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class IOUtils {
-	public static String read(File f) throws IOException {
-		try (FileReader fr = new FileReader(f); BufferedReader reader = new BufferedReader(fr)) {
-			return reader.lines().collect(Collectors.joining());
-		}
+	private static final Charset UTF8 = Charset.forName("UTF-8");
+
+	public static String read(Path path) throws IOException {
+		return new String(Files.readAllBytes(path), UTF8);
 	}
 
-	public static void write(File f, String s) throws IOException {
-		try (FileOutputStream fos = new FileOutputStream(f)) {
-			fos.write(s.getBytes("UTF-8"));
-		}
+	public static void write(Path path, String file) throws IOException {
+		Files.write(path, file.getBytes(UTF8));
 	}
 }
