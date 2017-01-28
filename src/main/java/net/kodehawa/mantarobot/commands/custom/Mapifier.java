@@ -48,7 +48,9 @@ public class Mapifier {
 		map.put(prefix + "username", member.getUser().getName());
 		map.put(prefix + "discriminator", member.getUser().getDiscriminator());
 		map.put(prefix + "name", member.getEffectiveName());
-		map.put(prefix + "game", member.getGame().getName());
+		if (member.getGame() != null){
+			map.put(prefix + "game", member.getGame().getName());
+		}
 		map.put(prefix + "status", capitalize(member.getOnlineStatus().getKey()));
 		map.put(prefix + "mention", member.getAsMention());
 	}

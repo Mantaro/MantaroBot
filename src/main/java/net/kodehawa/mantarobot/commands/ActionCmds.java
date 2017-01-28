@@ -1,9 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -14,6 +11,7 @@ import net.kodehawa.mantarobot.modules.SimpleCommand;
 import java.awt.Color;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class ActionCmds extends Module {
 
@@ -38,7 +36,6 @@ public class ActionCmds extends Module {
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
 				TextChannel channel = event.getChannel();
-				Random rd = new Random();
 				switch (noArgs) {
 					case "facedesk":
 						channel.sendMessage("http://puu.sh/rK6E7/0b745e5544.gif").queue();
@@ -47,16 +44,16 @@ public class ActionCmds extends Module {
 						channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
 						break;
 					case "bleach":
-						channel.sendMessage(MantaroData.getData().get().bleach.get(new Random().nextInt(MantaroData.getData().get().bleach.size()))).queue();
+						channel.sendMessage(MantaroData.getBleach().get().get(new Random().nextInt(MantaroData.getBleach().get().size() - 1))).queue();
 						break;
 					default:
-						channel.sendMessage(help(event));
+						channel.sendMessage(help(event)).queue();
 				}
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "ActionCmds commands")
+				return baseEmbed(event, "Action commands")
 					.addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
 						"~>action facedesk: Facedesks.\n" +
 						"~>action nom: nom nom.", false)
@@ -70,8 +67,8 @@ public class ActionCmds extends Module {
 		super.register("greet", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":speech_balloon: " + MantaroData.getData().get().greet.get(
-					new Random().nextInt(MantaroData.getData().get().greet.size()))).queue();
+				event.getChannel().sendMessage(":speech_balloon: " + MantaroData.getGreeting().get().get(
+					new Random().nextInt(MantaroData.getGreeting().get().size()))).queue();
 			}
 
 			@Override
@@ -95,13 +92,9 @@ public class ActionCmds extends Module {
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
-				List<String> hugs = MantaroData.getData().get().hugs;
-				List<User> mentions = event.getMessage().getMentionedUsers();
-				Random rand = new Random();
-				StringBuilder hString = new StringBuilder();
-				mentions.forEach(hString::append);
-				int i = rand.nextInt(hugs.size());
-				String hug = String.format(":speech_balloon: %s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(i));
+				List<String> hugs = MantaroData.getHugs().get();
+				String hString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+				String hug = String.format(":speech_balloon: %s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(new Random().nextInt(hugs.size())));
 				channel.sendMessage(hug).queue();
 			}
 
@@ -127,10 +120,8 @@ public class ActionCmds extends Module {
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
-					List<User> mentions = receivedMessage.getMentionedUsers();
-					StringBuilder builder = new StringBuilder();
-					mentions.forEach(builder::append);
-					channel.sendMessage(String.format(":speech_balloon: *meows at* %s.* \n http://puu.sh/rK5Nf/63d90628c2.gif", builder.toString())).queue();
+					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+					channel.sendMessage(String.format(":speech_balloon: *meows at* %s.* \n http://puu.sh/rK5Nf/63d90628c2.gif", mew)).queue();
 				} else {
 					channel.sendMessage(":speech_balloon: Meeeeow.\n http://puu.sh/rK5K7/034039286e.gif").queue();
 				}
@@ -157,13 +148,10 @@ public class ActionCmds extends Module {
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
-				List<String> pats = MantaroData.getData().get().pat;
+				List<String> pats = MantaroData.getPatting().get();
 				Random rand = new Random();
-				List<User> mentions = event.getMessage().getMentionedUsers();
-				StringBuilder pString = new StringBuilder();
-				mentions.forEach(pString::append);
-				int i = rand.nextInt(pats.size());
-				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(i));
+				String pString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(new Random().nextInt(pats.size())));
 				channel.sendMessage(pat).queue();
 			}
 
@@ -186,8 +174,7 @@ public class ActionCmds extends Module {
 		super.register("tsundere", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":mega: " + MantaroData.getData().get().tsun.get(
-					new Random().nextInt(MantaroData.getData().get().tsun.size()))).queue();
+				event.getChannel().sendMessage(":mega: " + MantaroData.getTsundereLines().get().get(new Random().nextInt(MantaroData.getTsundereLines().get().size()))).queue();
 			}
 
 			@Override

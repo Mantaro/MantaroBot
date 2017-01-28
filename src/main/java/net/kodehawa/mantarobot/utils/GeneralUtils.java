@@ -107,7 +107,7 @@ public class GeneralUtils {
 	 * @param s the string to capitalize
 	 * @return A string with the first letter capitalized.
 	 */
-	private String capitalize(String s) {
+	public static String capitalize(String s) {
 		if (s.length() == 0) return s;
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}

@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.Data;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
@@ -17,6 +19,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UtilsCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
@@ -25,6 +29,7 @@ public class UtilsCmds extends Module {
 	public UtilsCmds() {
 		super(Category.MISC);
 		translate();
+		birthday();
 	}
 
 	private void translate() {
@@ -93,6 +98,48 @@ public class UtilsCmds extends Module {
 					LOGGER.warn("Something went wrong while processing translation elements.", e);
 					e.printStackTrace();
 				}
+			}
+		});
+	}
+
+	private void birthday(){
+		super.register("birthday", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannel channel = event.getChannel();
+				String userId = event.getMessage().getAuthor().getId();
+				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+				Date bd1;
+				//So they don't input something that isn't a date...
+				try {
+					bd1 = format1.parse(args[0]);
+				} catch (Exception e) {
+					if (args[0] != null)
+						channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue();
+					e.printStackTrace();
+					return;
+				}
+
+				MantaroData.getData().get().users.computeIfAbsent(userId, k -> new Data.UserData()).birthdayDate = format1.format(bd1);
+				MantaroData.getData().update();
+				channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Birthday")
+						.setDescription("Sets your birthday date.\n"
+								+ "**Usage:**\n"
+								+ "~>birthday [date]. Sets your birthday date. Only useful if the server enabled this functionality"
+								+ "**Parameter explanation:**\n"
+								+ "[date]. A date in dd-mm-yyyy format (13-02-1998 for example)")
+						.setColor(Color.DARK_GRAY)
+						.build();
 			}
 		});
 	}

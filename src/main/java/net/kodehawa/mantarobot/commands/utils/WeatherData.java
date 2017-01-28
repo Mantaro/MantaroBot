@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherData {
-	private class Clouds {
+	public class Clouds {
 		public int all = 0;
 	}
 
@@ -15,7 +15,7 @@ public class WeatherData {
 		public double temp = 0;
 	}
 
-	private class Sys {
+	public class Sys {
 		public String country = null;
 	}
 
@@ -23,7 +23,7 @@ public class WeatherData {
 		public String main = null;
 	}
 
-	private class Wind {
+	public class Wind {
 		public double speed = 0;
 	}
 

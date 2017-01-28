@@ -2,10 +2,13 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
+import com.google.gson.Gson;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.utils.AnimeData;
+import net.kodehawa.mantarobot.commands.utils.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
@@ -13,6 +16,8 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GsonDataManager;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +32,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AnimeCmds extends Module {
 	public static Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
@@ -34,7 +42,7 @@ public class AnimeCmds extends Module {
 	private String authToken;
 
 	public AnimeCmds() {
-		super(Category.MISC);
+		super(Category.FUN);
 		anime();
 		character();
 		login(3500);
@@ -53,70 +61,40 @@ public class AnimeCmds extends Module {
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
 					//Set variables to use later. They will be parsed to JSON later on.
-					String ANIME_TITLE = null, RELEASE_DATE = null, END_DATE = null, AVERAGE_SCORE = null, ANIME_DESCRIPTION = null, IMAGE_URL = null;
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
 						URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = GeneralUtils.instance().getObjectFromUrl(connection, event);
-					JSONArray data;
+					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
 
-					try {
-						data = new JSONArray(json);
-					} catch (JSONException e) {
-						if (MantaroData.getConfig().get().debug) {
-							e.printStackTrace();
-						}
-						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
-						return;
-					}
-					int i1 = 0;
-					for (int i = 0; i < data.length(); i++) {
-						//Only get first result.
-						if (i1 == 0) {
-							JSONObject entry = data.getJSONObject(i);
-							//Set variables based in what the JSON retrieved is telling me of the anime.
-							ANIME_TITLE = entry.get("title_english").toString();
-							RELEASE_DATE = entry.get("start_date_fuzzy").toString(); //Returns as a date following this convention 20160116... cannot convert?
-							END_DATE = entry.get("end_date_fuzzy").toString();
-							ANIME_DESCRIPTION = entry.get("description").toString().replaceAll("<br>", "\n");
-							AVERAGE_SCORE = entry.get("average_score").toString();
-							IMAGE_URL = entry.get("image_url_lge").toString();
-							i1++;
-						}
-					}
-
-					//The result was unparseable by java.text.SimpleDateFormat so there I go. <THIS IS SO BAD KILL ME>
-					String FINAL_RELEASE_YEAR = RELEASE_DATE.substring(0, 4);
-					String FINAL_RELEASE_MONTH = RELEASE_DATE.substring(4, 6);
-					String FINAL_RELEASE_DAY = RELEASE_DATE.substring(6, 8);
-					String FINAL_END_YEAR = null, FINAL_END_DAY = null, FINAL_END_MONTH = null;
-					if (!END_DATE.equals("null")) {
-						FINAL_END_YEAR = END_DATE.substring(0, 4);
-						FINAL_END_MONTH = END_DATE.substring(4, 6);
-						FINAL_END_DAY = END_DATE.substring(6, 8);
-					}
-
-					String FINAL_RELEASE_DATE = FINAL_RELEASE_DAY + "/" + FINAL_RELEASE_MONTH + "/" + FINAL_RELEASE_YEAR;
-					String FINAL_END_DATE;
-
-					if (!END_DATE.equals("null")) {
-						FINAL_END_DATE = FINAL_END_DAY + "/" + FINAL_END_MONTH + "/" + FINAL_END_YEAR;
-					} else {
-						FINAL_END_DATE = "Airing.";
-					}
+					String ANIME_TITLE = type[0].title_english;
+					String RELEASE_DATE = StringUtils.substringBefore(type[0].start_date, "T");
+					String END_DATE = StringUtils.substringBefore(type[0].end_date, "T");
+					String ANIME_DESCRIPTION = type[0].description.replaceAll("<br>", "\n");
+					String AVERAGE_SCORE = type[0].average_score;
+					String IMAGE_URL = type[0].image_url_lge;
+					String TYPE = GeneralUtils.capitalize(type[0].series_type);
+					String EPISODES = type[0].total_episodes.toString();
+					String DURATION = type[0].duration.toString();
+					String GENRES = type[0].genres.stream().collect(Collectors.joining(", "));
 
 					//Start building the embedded message.
 					embed.setColor(Color.LIGHT_GRAY)
-						.setTitle("AnimeCmds information for " + GeneralUtils.instance().capitalizeEachFirstLetter(ANIME_TITLE.toLowerCase()))
+						.setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
+								+ type[0].id, type[0].image_url_sml)
 						.setFooter("Information provided by AniList", null)
 						.setThumbnail(IMAGE_URL)
 						.addField("Description: ", ANIME_DESCRIPTION, false)
-						.addField("Release date: ", FINAL_RELEASE_DATE, true)
-						.addField("End date: ", FINAL_END_DATE, true)
-						.addField("Average score: ", AVERAGE_SCORE + "/100", false);
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
+						.addField("Release date: ", RELEASE_DATE, true)
+						.addField("End date: ", END_DATE, true)
+						.addField("Average score: ", AVERAGE_SCORE + "/100", true)
+						.addField("Type", TYPE, true)
+						.addField("Episodes", EPISODES, true)
+						.addField("Episode Duration", DURATION + " minutes.", true)
+						.addField("Genres", GENRES, false);
+					channel.sendMessage(embed.build()).queue();
+				} catch (Exception e) {
+					event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
-				channel.sendMessage(embed.build()).queue();
 			}
 
 			@Override
@@ -133,35 +111,6 @@ public class AnimeCmds extends Module {
 		});
 	}
 
-	/**
-	 * @return The new AniList access token.
-	 */
-	private void authenticate() {
-		URL aniList;
-		try {
-			aniList = new URL("https://anilist.co/api/auth/access_token");
-			HttpURLConnection alc = (HttpURLConnection) aniList.openConnection();
-			alc.setRequestMethod("POST");
-			alc.setRequestProperty("User-Agent", "Mantaro");
-			alc.setDoOutput(true);
-			alc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			OutputStreamWriter osw = new OutputStreamWriter(alc.getOutputStream());
-			String CLIENT_ID = "kodehawa-o43eq";
-			osw.write("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET);
-			osw.flush();
-			InputStream inputstream = alc.getInputStream();
-			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-			JSONObject jObject = new JSONObject(json);
-			authToken = jObject.getString("access_token");
-			LOGGER.info("Updated auth token.");
-		} catch (Exception e) {
-			LOGGER.warn("Problem while updating auth token! " + e.getCause() + " " + e.getMessage());
-			if (MantaroData.getConfig().get().debug) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	private void character() {
 		super.register("character", new SimpleCommand() {
 			@Override
@@ -169,50 +118,27 @@ public class AnimeCmds extends Module {
 				TextChannel channel = event.getChannel();
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
-					String CHAR_NAME = null, ALIASES = null, CHAR_DESCRIPTION = null, IMAGE_URL = null;
-					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s",
-						URLEncoder.encode(content, "UTF-8"), authToken);
+					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = GeneralUtils.instance().getObjectFromUrl(url, event);
-					JSONArray data;
-					try {
-						data = new JSONArray(json);
-					} catch (JSONException e) {
-						if (MantaroData.getConfig().get().debug) {
-							e.printStackTrace();
-						}
-						channel.sendMessage(":heavy_multiplication_x: No results or unreadable reply from API server.").queue();
-						return;
-					}
-					int i1 = 0;
-					for (int i = 0; i < data.length(); i++) {
-						//Only get first result.
-						if (i1 == 0) {
-							JSONObject entry = data.getJSONObject(i);
-							CHAR_NAME = entry.get("name_first").toString() + " " + entry.get("name_last");
-							ALIASES = entry.get("name_alt").toString();
-							IMAGE_URL = entry.get("image_url_lge").toString();
-							if (entry.get("info").toString().length() < 1000) {
-								CHAR_DESCRIPTION = entry.get("info").toString();
-							} else {
-								CHAR_DESCRIPTION = entry.get("info").toString().substring(0, 1000 - 1) + "(...)";
-							}
-							i1++;
-						}
-					}
+					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
+
+					String CHAR_NAME = character[0].name_first + " " + character[0].name_last + "\n(" + character[0].name_japanese + ")";
+					String ALIASES = character[0].name_alt == null ? "No aliases" : "Also known as: " + character[0].name_alt;
+					String IMAGE_URL = character[0].image_url_med;
+					String CHAR_DESCRIPTION = character[0].info.isEmpty() ? "No info."
+							: character[0].info.length() > 1000 ? character[0].info.substring(0, 1000-1) + "..." : character[0].info;
 
 					embed.setColor(Color.LIGHT_GRAY)
 						.setThumbnail(IMAGE_URL)
-						.setTitle("Information for " + CHAR_NAME);
-					if (!ALIASES.equals("null")) {
-						embed.setDescription("Also known as " + ALIASES);
-					}
-					embed.addField("Information", CHAR_DESCRIPTION, true)
+						.setAuthor("Information for " + CHAR_NAME, "http://anilist.co/character/" + character[0].id, IMAGE_URL)
+						.setDescription(ALIASES)
+						.addField("Information", CHAR_DESCRIPTION, true)
 						.setFooter("Information provided by AniList", null);
 
 					channel.sendMessage(embed.build()).queue();
 				} catch (Exception e) {
 					LOGGER.warn("Problem processing data.", e);
-					e.printStackTrace();
+					event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
 			}
 
@@ -243,5 +169,34 @@ public class AnimeCmds extends Module {
 	 */
 	private void login(int seconds) {
 		Async.startAsyncTask("AniList Login Task", this::authenticate, seconds);
+	}
+
+	/**
+	 * @return The new AniList access token.
+	 */
+	private void authenticate() {
+		URL aniList;
+		try {
+			aniList = new URL("https://anilist.co/api/auth/access_token");
+			HttpURLConnection alc = (HttpURLConnection) aniList.openConnection();
+			alc.setRequestMethod("POST");
+			alc.setRequestProperty("User-Agent", "Mantaro");
+			alc.setDoOutput(true);
+			alc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			OutputStreamWriter osw = new OutputStreamWriter(alc.getOutputStream());
+			String CLIENT_ID = "kodehawa-o43eq";
+			osw.write("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET);
+			osw.flush();
+			InputStream inputstream = alc.getInputStream();
+			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
+			JSONObject jObject = new JSONObject(json);
+			authToken = jObject.getString("access_token");
+			LOGGER.info("Updated auth token.");
+		} catch (Exception e) {
+			LOGGER.warn("Problem while updating auth token! " + e.getCause() + " " + e.getMessage());
+			if (MantaroData.getConfig().get().debug) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

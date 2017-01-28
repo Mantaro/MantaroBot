@@ -106,7 +106,7 @@ public class CustomCmds extends Module {
 				}
 
 				String action = args[0];
-				Map<String, List<String>> customCommands = MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).customCommands;
+				Map<String, List<String>> customCommands = MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new GuildData()).customCommands;
 
 				if (action.equals("list") || action.equals("ls")) {
 					EmbedBuilder builder = new EmbedBuilder()
@@ -192,6 +192,7 @@ public class CustomCmds extends Module {
 								event.getChannel().sendMessage("\u274C No Responses were added. Stopping creation without saving...").queue();
 							} else {
 								customCommands.put(saveTo, responses);
+								Manager.commands.put(saveTo, Pair.of(customCommand, null));
 								MantaroData.getData().update();
 								event.getChannel().sendMessage("\u2705 Saved to command ``" + saveTo + "``!").queue();
 
@@ -203,6 +204,7 @@ public class CustomCmds extends Module {
 
 						responses.add(s);
 						e.getMessage().addReaction("\u2705").queue();
+						timer.get().reset();
 						return false;
 					});
 
@@ -224,6 +226,9 @@ public class CustomCmds extends Module {
 				if (action.equals("remove") || action.equals("rm")) {
 					if (customCommands.remove(cmd) != null) {
 						MantaroData.getData().update();
+						if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
+							Manager.commands.remove(cmd);
+						}
 						event.getChannel().sendMessage("\uD83D\uDCDD Removed Custom Command ``" + cmd + "``!").queue();
 					} else {
 						event.getChannel().sendMessage("\u274C There's no Custom Command ``" + cmd + "`` in this Guild.").queue();

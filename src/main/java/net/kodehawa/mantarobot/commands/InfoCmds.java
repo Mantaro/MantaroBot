@@ -5,14 +5,18 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
+import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
@@ -54,6 +58,7 @@ public class InfoCmds extends Module {
 		ping();
 		usageinfo();
 		userinfo();
+		weather();
 	}
 
 	private void about() {
@@ -175,7 +180,7 @@ public class InfoCmds extends Module {
 
 					event.getChannel().sendMessage(baseEmbed(event, "MantaroBot Help")
 						.setColor(Color.PINK)
-						.setDescription(String.format("(For extended help about a command run `%shelp <command>)`", prefix))
+						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
 						.addField("Audio Commands:", forType(Category.AUDIO), false)
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
 						.addField("ActionCmds Commands:", forType(Category.ACTION), false)
@@ -322,6 +327,73 @@ public class InfoCmds extends Module {
 					.build();
 			}
 
+		});
+	}
+
+	private void weather(){
+		super.register("weather", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(content.isEmpty()){
+					event.getChannel().sendMessage(help(event)).queue();
+					return;
+				}
+
+				EmbedBuilder embed = new EmbedBuilder();
+				try {
+					long start = System.currentTimeMillis();
+					//Get a parsed JSON.
+					String APP_ID = MantaroData.getConfig().get().weatherAppId;
+					String json = GeneralUtils.instance().getObjectFromUrl(
+							"http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid=" + APP_ID, event);
+					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
+
+					String countryCode = data.sys.country;
+					String status = data.weather.get(0).main;
+					Double temp = data.main.temp;
+					double pressure = data.main.pressure;
+					int hum  = data.main.humidity;
+					Double ws = data.wind.speed;
+					int clness = data.clouds.all;
+
+					Double finalTemperatureCelcius = temp - 273.15;
+					Double finalTemperatureFarnheit = temp * 9 / 5 - 459.67;
+					Double finalWindSpeedMetric = ws * 3.6;
+					Double finalWindSpeedImperial = ws / 0.447046;
+					long end = System.currentTimeMillis() - start;
+
+					embed.setColor(Color.CYAN)
+							.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content)
+							.setDescription(status + " (" + clness + "% cloudiness)")
+							.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C |" + finalTemperatureFarnheit.intValue() + "°F", true)
+							.addField(":droplet: Humidity", hum + "%", true)
+							.addBlankField(true)
+							.addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " + finalWindSpeedImperial.intValue() + "mph", true)
+							.addField("Pressure", pressure + "kPA", true)
+							.addBlankField(true)
+							.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
+					event.getChannel().sendMessage(embed.build()).queue();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Weather command")
+						.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
+								+ "> Usage:\n"
+								+ "~>weather [city],[countrycode]: Retrieves the forecast information for such location.\n"
+								+ "> Parameters:\n"
+								+ "[city]: Your city name, for example New York\n"
+								+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
+						.build();
+			}
 		});
 	}
 }

@@ -11,6 +11,7 @@ public class DeathTimer {
 	public DeathTimer(long timeout, Runnable onTimeout) {
 		this.timeout = timeout;
 		this.onTimeout = onTimeout == null ? EMPTY : onTimeout;
+		this.updated = true;
 
 		Thread thread = new Thread(this::threadcode, "DeathTimer#" + Integer.toHexString(hashCode()) + " DThread");
 		thread.setDaemon(true);
@@ -41,11 +42,13 @@ public class DeathTimer {
 
 	private void threadcode() {
 		while (updated) {
+			updated = false;
 			try {
 				synchronized (this) {
 					wait(timeout);
 				}
-			} catch (InterruptedException ignored) {
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 

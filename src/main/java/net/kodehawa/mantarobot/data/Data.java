@@ -13,7 +13,7 @@ public class Data {
 	}
 
 	public static class UserData {
-		public String birthdayRole = null;
+		public String birthdayDate = null;
 	}
 
 	public String defaultPrefix = "~>";
