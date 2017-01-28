@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.TimeZone;
 
 public class RandomCmds extends Module {
@@ -19,6 +20,7 @@ public class RandomCmds extends Module {
 		super(Category.FUN);
 		lewd();
 		time();
+		dice();
 	}
 
 	private void lewd(){
@@ -72,6 +74,40 @@ public class RandomCmds extends Module {
 						.build();
 			}
 		});
+	}
+
+	private void dice(){
+		super.register("dice", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(Integer.parseInt(args[0]), event) + "** with a total of **" + args[0]
+					+ "** repetitions.").queue();
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Dice command")
+						.setDescription("Rolls a 6-sided dice with a defined number of repetitions")
+						.build();
+			}
+		});
+	}
+
+	private int diceRoll(int repetitions, GuildMessageReceivedEvent event)
+	{
+		int num = 0;
+		int roll;
+		for(int i = 0; i < repetitions; i++)
+		{
+			roll = new Random().nextInt(6)+1;
+			num = num + roll;
+		}
+		return num;
 	}
 
 	private String dateGMT(String timezone) throws ParseException, NullPointerException {

@@ -23,6 +23,7 @@ public class ActionCmds extends Module {
 		greet();
 		meow();
 		tsundere();
+		bloodsuck();
 	}
 
 	private void action() {
@@ -188,6 +189,35 @@ public class ActionCmds extends Module {
 					.setDescription("Y-You baka!")
 					.setColor(Color.pink)
 					.build();
+			}
+		});
+	}
+
+	private void bloodsuck(){
+		super.register("bloodsuck", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannel channel = event.getChannel();
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg").queue();
+				} else {
+					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+
+					String bs = String.format("\uD83D\uDCAC http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", bString);
+					channel.sendMessage(bs).queue();
+				}
+			}
+
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Bloodsuck")
+						.setDescription("Sucks the blood of the mentioned user(s)")
+						.build();
 			}
 		});
 	}

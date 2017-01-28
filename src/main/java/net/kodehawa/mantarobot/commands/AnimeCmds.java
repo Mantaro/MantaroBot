@@ -96,7 +96,7 @@ public class AnimeCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "AnimeCmds command")
+				return baseEmbed(event, "Anime command")
 					.setDescription("Retrieves anime info from **AniList** (For anime characters use ~>character).\n"
 						+ "Usage: \n"
 						+ "~>anime [animename]: Gets information of an anime based on parameters.\n"

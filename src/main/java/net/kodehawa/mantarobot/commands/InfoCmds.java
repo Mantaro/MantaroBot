@@ -189,7 +189,7 @@ public class InfoCmds extends Module {
 						.addField("Moderation Commands:", forType(Category.MODERATION), false)
 						.addField("Info Commands:", forType(Category.INFO), false)
 						.addField("Misc Commands:", forType(Category.MISC), false)
-						.setFooter(String.format("To check the command usage do %shelp <command>", prefix), null)
+						.setFooter(String.format("To check the command usage do %shelp <command>", prefix) + " >> Commands: " + Manager.commands.size(), null)
 						.build()
 					).queue();
 				} else {
