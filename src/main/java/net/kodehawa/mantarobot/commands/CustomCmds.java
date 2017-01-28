@@ -107,7 +107,7 @@ public class CustomCmds extends Module {
 
 				String action = args[0];
 				Map<String, List<String>> customCommands = MantaroData.getData().get().guilds.computeIfAbsent(
-						event.getGuild().getId(), k -> new GuildData()).customCommands;
+					event.getGuild().getId(), k -> new GuildData()).customCommands;
 
 				if (action.equals("list") || action.equals("ls")) {
 					EmbedBuilder builder = new EmbedBuilder()
@@ -115,10 +115,10 @@ public class CustomCmds extends Module {
 						.setColor(event.getMember().getColor());
 					if (customCommands.isEmpty()) {
 						builder.setDescription("There is nothing here, just dust.");
-					} else if (action.equals("detailed")) {
-						builder.setDescription(forType(customCommands.keySet()));
-					} else {
+					} else if (args.length > 1 && args[1].equals("detailed")) {
 						customCommands.entrySet().stream().sorted(Comparator.comparing(Entry::getKey)).forEach(entry -> builder.addField(entry.getKey(), entry.getValue().stream().map(s -> " - ``" + s + "``").collect(Collectors.joining("\n")), false));
+					} else {
+						builder.setDescription(forType(customCommands.keySet()));
 					}
 
 					event.getChannel().sendMessage(builder.build()).queue();
@@ -161,7 +161,12 @@ public class CustomCmds extends Module {
 
 				String cmd = args[1];
 
-				if (action.equals("add") || action.equals("make")) {
+				if (action.equals("add")) {
+					//TODO BACKPORT
+					return;
+				}
+
+				if (action.equals("make")) {
 					Runnable unlock = TextChannelLock.adquireLock(event.getChannel());
 					if (unlock == null) {
 						event.getChannel().sendMessage("\u274C There's already an Interactive Operation happening on this TextChannel.").queue();
@@ -236,7 +241,8 @@ public class CustomCmds extends Module {
 					}
 					return;
 				}
-				//TODO ADD a HELP
+
+				onHelp(event);
 			}
 
 			@Override
@@ -246,7 +252,19 @@ public class CustomCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return baseEmbed(event, "CustomCommand Manager")
+					.addField("Description:", "Manages the Custom Commands of the Guild.", false)
+					.addField(
+						"Usage:",
+						"`~>custom`: Shows this help\n" +
+							"`~>custom <list|ls> [detailed]`: List all commands. If detailed is supplied, it prints the responses of each command.\n" +
+							"`~>custom debug`: Gives a Hastebin of the Raw Custom Commands Data. **(OWNER-ONLY)**\n" +
+							"`~>custom clear`: Remove all Custom Commands from this Guild. **(OWNER-ONLY)**\n" +
+							"`~>custom add <name> <responses>`: Add a new Command with the response provided.\n" +
+							"`~>custom make <name>`: Starts a Interactive Operation to create a command with the specified name.\n" +
+							"`~>custom <remove|rm> <name>`: Removes a command with an specific name.",
+						false
+					).build();
 			}
 		});
 	}

@@ -214,7 +214,7 @@ public class InfoCmds extends Module {
 					.addField("Description:", jokes.get(r.nextInt(jokes.size())), false)
 					.addField(
 						"Usage:",
-						"`~>help`: Returns information about who issued the command." + "`~>help [command]`: Returns information about the specific command.\n",
+						"`~>help`: Returns information about who issued the command.\n~>help [command]`: Returns information about the specific command.",
 						false
 					).build();
 			}
