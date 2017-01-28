@@ -26,6 +26,75 @@ public class AnimeData {
 	public List<String> synonyms = null;
 	public String youtube_id = null;
 	public String hashtag = null;
+
+	public String getTitle_romaji() {
+		return title_romaji;
+	}
+
+	public String getTitle_japanese() {
+		return title_japanese;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getSeries_type() {
+		return series_type;
+	}
+
+	public String getStart_date() {
+		return start_date;
+	}
+
+	public String getEnd_date() {
+		return end_date;
+	}
+
+	public Boolean getFavourite() {
+		return favourite;
+	}
+
+	public String getImage_url_sml() {
+		return image_url_sml;
+	}
+
+	public String getImage_url_med() {
+		return image_url_med;
+	}
+
+	public String getImage_url_lge() {
+		return image_url_lge;
+	}
+
+	public String getImage_url_banner() {
+		return image_url_banner;
+	}
+
+	public List<String> getGenres() {
+		return genres;
+	}
+
+	public Integer getTotal_episodes() {
+		return total_episodes;
+	}
+
+	public Integer getDuration() {
+		return duration;
+	}
+
+	public String getAiring_status() {
+		return airing_status;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public ListStats getList_stats() {
+		return list_stats;
+	}
+
 	public String updated_at = null;
 	public Integer total_episodes = null;
 	public Integer duration = null;
@@ -33,6 +102,22 @@ public class AnimeData {
 	public String source = null;
 	public String classification = null;
 	public ListStats list_stats = null;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public String getAverage_score() {
+		return average_score;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getTitle_english() {
+		return title_english;
+	}
 
 	public static class ListStats {
 		public Integer completed = null;

@@ -175,22 +175,22 @@ public class AnimeCmds extends Module {
 	}
 
 	private void animeData(GuildMessageReceivedEvent event, AnimeData[] type, int pick){
-		String ANIME_TITLE = type[pick].title_english;
-		String RELEASE_DATE = StringUtils.substringBefore(type[pick].start_date, "T");
-		String END_DATE = StringUtils.substringBefore(type[pick].end_date, "T");
-		String ANIME_DESCRIPTION = type[pick].description.replaceAll("<br>", "\n");
-		String AVERAGE_SCORE = type[pick].average_score;
-		String IMAGE_URL = type[pick].image_url_lge;
-		String TYPE = GeneralUtils.capitalize(type[pick].series_type);
-		String EPISODES = type[pick].total_episodes.toString();
-		String DURATION = type[pick].duration.toString();
-		String GENRES = type[pick].genres.stream().collect(Collectors.joining(", "));
+		String ANIME_TITLE = type[pick].getTitle_english();
+		String RELEASE_DATE = StringUtils.substringBefore(type[pick].getStart_date(), "T");
+		String END_DATE = StringUtils.substringBefore(type[pick].getEnd_date(), "T");
+		String ANIME_DESCRIPTION = type[pick].getDescription().replaceAll("<br>", "\n");
+		String AVERAGE_SCORE = type[pick].getAverage_score();
+		String IMAGE_URL = type[pick].getImage_url_lge();
+		String TYPE = GeneralUtils.capitalize(type[pick].getSeries_type());
+		String EPISODES = type[pick].getTotal_episodes().toString();
+		String DURATION = type[pick].getDuration().toString();
+		String GENRES = type[pick].getGenres().stream().collect(Collectors.joining(", "));
 
 		//Start building the embedded message.
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setColor(Color.LIGHT_GRAY)
 				.setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
-						+ type[0].id, type[0].image_url_sml)
+						+ type[0].getId(), type[0].getImage_url_sml())
 				.setFooter("Information provided by AniList", null)
 				.setThumbnail(IMAGE_URL)
 				.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
@@ -205,15 +205,15 @@ public class AnimeCmds extends Module {
 	}
 
 	private void characterData(GuildMessageReceivedEvent event, CharacterData[] character, int pick){
-		String CHAR_NAME = character[pick].name_first + " " + character[pick].name_last + "\n(" + character[0].name_japanese + ")";
-		String ALIASES = character[pick].name_alt == null ? "No aliases" : "Also known as: " + character[0].name_alt;
-		String IMAGE_URL = character[pick].image_url_med;
-		String CHAR_DESCRIPTION = character[pick].info.isEmpty() ? "No info."
-				: character[pick].info.length() <= 1024 ? character[pick].info : character[pick].info.substring(0, 1020 - 1) + "...";
+		String CHAR_NAME = character[pick].getName_first() + " " + character[pick].getName_last() + "\n(" + character[0].getName_japanese() + ")";
+		String ALIASES = character[pick].getName_alt() == null ? "No aliases" : "Also known as: " + character[0].getName_alt();
+		String IMAGE_URL = character[pick].getImage_url_med();
+		String CHAR_DESCRIPTION = character[pick].getInfo().isEmpty() ? "No info."
+				: character[pick].getInfo().length() <= 1024 ? character[pick].getInfo() : character[pick].getInfo().substring(0, 1020 - 1) + "...";
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setColor(Color.LIGHT_GRAY)
 				.setThumbnail(IMAGE_URL)
-				.setAuthor("Information for " + CHAR_NAME, "http://anilist.co/character/" + character[0].id, IMAGE_URL)
+				.setAuthor("Information for " + CHAR_NAME, "http://anilist.co/character/" + character[0].getId(), IMAGE_URL)
 				.setDescription(ALIASES)
 				.addField("Information", CHAR_DESCRIPTION, true)
 				.setFooter("Information provided by AniList", null);

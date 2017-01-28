@@ -30,6 +30,7 @@ public class OsuCmd extends Module{
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
 	private Map<String, Object> map = new HashMap<>();
 	private OsuClient osuClient = null;
+	String mods1 = "";
 
 	public OsuCmd(){
 		super(Category.GAMES);
@@ -110,7 +111,6 @@ public class OsuCmd extends Module{
 			long start = System.currentTimeMillis();
 			String beheaded1 = content.replace("best ", "");
 			String[] args = beheaded1.split(" ");
-
 			map.put("m", 0);
 
 			User hey = osuClient.getUser(args[0], map);
@@ -118,34 +118,25 @@ public class OsuCmd extends Module{
 			StringBuilder sb = new StringBuilder();
 			List<String> best = new CopyOnWriteArrayList<>();
 
-			int n = -1;
 			int n1 = 0;
 			DecimalFormat df = new DecimalFormat("####0.0");
-			for (@SuppressWarnings("unused") UserScore u : userBest) {
-				n++;
+			for(UserScore userScore : userBest){
 				n1++;
-				String mods1 = "";
-				try {
-					if (userBest.get(n).getEnabledMods().size() > 0) {
-						List<Mod> mods = userBest.get(n).getEnabledMods();
-						int i = 0;
-						StringBuilder sb1 = new StringBuilder();
-						for (@SuppressWarnings("unused") Mod mod : mods) {
-							sb1.append(OsuMod.get(mod).getAbbreviation());
-							i++;
-						}
-						mods1 = " / Mods: " + sb1.toString();
-					}
-				} catch (ArrayIndexOutOfBoundsException ignored) {
+				if (userScore.getEnabledMods().size() > 0){
+					List<Mod> mods = userScore.getEnabledMods();
+					StringBuilder sb1 = new StringBuilder();
+					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
+					mods1 = " / Mods: " + sb1.toString();
 				}
 
-				best.add(n1 + ".- " + userBest.get(n).getBeatMap().getTitle().replace("'", "") +
-						" (\u2605" + df.format(userBest.get(n).getBeatMap().getDifficultyRating()) + ") - " + userBest.get(n).getBeatMap().getCreator()
+				best.add(n1 + ".- " + userScore.getBeatMap().getTitle().replace("'", "") +
+						" (\u2605" + df.format(userScore.getBeatMap().getDifficultyRating()) + ") - " + userScore.getBeatMap().getCreator()
 						+ mods1
-						+ "\n   Date: " + userBest.get(n).getDate() + " ~ Max Combo: " + userBest.get(n).getMaxCombo() +
-						" ~ PP: " + df.format(userBest.get(n).getPP()) + " ~ Rank: " + userBest.get(n).getRank() + "\n");
-				sb.append(best.get(n));
+						+ "\n   Date: " + userScore.getDate() + " ~ Max Combo: " + userScore.getMaxCombo() +
+						" ~ PP: " + df.format(userScore.getPP()) + " ~ Rank: " + userScore.getRank() + "\n");
+				best.forEach(sb::append);
 			}
+
 			long end = System.currentTimeMillis() - start;
 			finalResponse = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
 		} catch (Exception e) {
@@ -167,40 +158,30 @@ public class OsuCmd extends Module{
 			List<UserScore> userRecent = osuClient.getUserRecent(hey, map);
 			StringBuilder sb = new StringBuilder();
 			List<String> recent = new CopyOnWriteArrayList<>();
-
-			int n = -1;
 			int n1 = 0;
 			DecimalFormat df = new DecimalFormat("####0.0");
-			String mods1 = "";
-			for (@SuppressWarnings("unused") UserScore u : userRecent) {
-				try {
-					if (userRecent.get(n).getEnabledMods().size() > 0) {
-						List<Mod> mods = userRecent.get(n).getEnabledMods();
-						int i = 0;
-						StringBuilder sb1 = new StringBuilder();
-
-						for (@SuppressWarnings("unused") Mod mod : mods) {
-							sb1.append(OsuMod.get(mod).getAbbreviation());
-							i++;
-						}
-						mods1 = " / Mods: " + sb1.toString();
+			for (UserScore u : userRecent) {
+				StringBuilder sb1 = new StringBuilder();
+				userRecent.forEach(user -> {
+					if (u.getEnabledMods().size() > 0) {
+						List<Mod> mods = u.getEnabledMods();
+						mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
 					}
-				} catch (ArrayIndexOutOfBoundsException ignored) {}
+				});
 
 				n1++;
-				n++;
 
-				recent.add(n1 + ".- " + userRecent.get(n).getBeatMap().getTitle().replace("'", "") + " (\u2605"
-						+ df.format(userRecent.get(n).getBeatMap().getDifficultyRating()) + ") - " + userRecent.get(n).getBeatMap().getCreator()
-						+ mods1
-						+ "\n Date: " + userRecent.get(n).getDate() + " ~ Max Combo: " + userRecent.get(n).getMaxCombo() +
+				recent.add(n1 + ".- " + u.getBeatMap().getTitle().replace("'", "") + " (\u2605"
+						+ df.format(u.getBeatMap().getDifficultyRating()) + ") - " + u.getBeatMap().getCreator()
+						+ "Mods: " + sb1.toString()
+						+ "\n Date: " + u.getDate() + " ~ Max Combo: " + u.getMaxCombo() +
 						"\n");
-
-				sb.append(recent.get(n));
 			}
 
+			recent.forEach(sb::append);
 			long end = System.currentTimeMillis() - start;
 			finalMessage = "```ruby\n" + sb.toString() + " \nResponse time: " + end + "ms```";
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			finalMessage = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";

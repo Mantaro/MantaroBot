@@ -54,4 +54,92 @@ public class ImageData {
 	public List<String> getTags(){
 		return new ArrayList<>(Arrays.asList(tags.split(" ")));
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public Integer getScore() {
+		return score;
+	}
+
+	public Integer getFile_size() {
+		return file_size;
+	}
+
+	public String getFile_ext() {
+		return file_ext;
+	}
+
+	public String getFile_url() {
+		return file_url;
+	}
+
+	public String getPreview_url() {
+		return preview_url;
+	}
+
+	public Integer getPreview_width() {
+		return preview_width;
+	}
+
+	public Integer getPreview_height() {
+		return preview_height;
+	}
+
+	public Integer getActual_preview_width() {
+		return actual_preview_width;
+	}
+
+	public String getSample_url() {
+		return sample_url;
+	}
+
+	public Integer getSample_width() {
+		return sample_width;
+	}
+
+	public Integer getSample_height() {
+		return sample_height;
+	}
+
+	public Integer getSample_file_size() {
+		return sample_file_size;
+	}
+
+	public String getJpeg_url() {
+		return jpeg_url;
+	}
+
+	public Integer getJpeg_width() {
+		return jpeg_width;
+	}
+
+	public Integer getJpeg_height() {
+		return jpeg_height;
+	}
+
+	public Integer getJpeg_file_size() {
+		return jpeg_file_size;
+	}
+
+	public String getRating() {
+		return rating;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public Integer getWidth() {
+		return width;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
 }

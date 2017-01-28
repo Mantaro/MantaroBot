@@ -7,7 +7,6 @@ import com.marcomaldonado.web.callback.WallpaperCallback;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.utils.ImageData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -22,11 +21,7 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
@@ -41,6 +36,7 @@ public class ImageCmds extends Module {
 	private boolean smallRequest = false;
 	private String tagsEncoded = "";
 	private String tagsToEncode = "no";
+	Konachan konachan = new Konachan(true);
 
 	public ImageCmds() {
 		super(Category.MISC);
@@ -59,19 +55,17 @@ public class ImageCmds extends Module {
 		boolean trigger = true; //implement when parameters is done?
 		String json = GeneralUtils.instance().getObjectFromUrl(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
-		System.out.println(rating);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
-		System.out.println(filter.size());
 		int get;
 		try{
 			 get = requestType.equals("tags") ? argcount >= 4 ? number : new Random().nextInt(filter.size()) : argcount <= 2 ?
 					Integer.parseInt(messageArray[2]) : new Random().nextInt(filter.size());
 		} catch(ArrayIndexOutOfBoundsException e){ get = new Random().nextInt(filter.size()); }
-		String URL = filter.get(get).file_url;
-		String AUTHOR = filter.get(get).author;
-		String RATING = filter.get(get).rating;
-		int HEIGHT = filter.get(get).height;
-		int WIDTH = filter.get(get).width;
+		String URL = filter.get(get).getFile_url();
+		String AUTHOR = filter.get(get).getAuthor();
+		String RATING = filter.get(get).getRating();
+		int HEIGHT = filter.get(get).getHeight();
+		int WIDTH = filter.get(get).getWidth();
 		String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		if (!smallRequest) {
@@ -114,58 +108,61 @@ public class ImageCmds extends Module {
 				switch (noArgs) {
 					case "get":
 						channel.sendTyping().queue();
-						CopyOnWriteArrayList<String> images = new CopyOnWriteArrayList<>();
-						Konachan konachan = new Konachan(true);
 						String whole1 = content.replace("get ", "");
 						String[] wholeBeheaded = whole1.split(" ");
 						int page = Integer.parseInt(wholeBeheaded[0]);
 						int number;
-						try {
-							number = Integer.parseInt(wholeBeheaded[1]);
-						} catch (Exception e) {
-							number = 1;
-						}
 
 						Wallpaper[] wallpapers = konachan.posts(page, 60);
-						for (Wallpaper wallpaper : wallpapers) {
-							images.add(wallpaper.getJpeg_url());
-						}
+						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (Exception e) { number = new Random().nextInt(wallpapers.length-1); }
+						String URL = wallpapers[number - 1].getFile_url();
+						String AUTHOR = wallpapers[number - 1].getAuthor();
+						String TAGS = Arrays.stream(wallpapers[number - 1].getTags()).collect(Collectors.joining(", "));
+						Integer WIDTH = wallpapers[number - 1].getWidth();
+						Integer HEIGHT = wallpapers[number - 1].getHeight();
 
 						try {
-							String toSend = String.format("%s Image found! You can get a total of **%d images** on this page.\n %s", ":mag_right:", images.size(), "http:" + images.get(number - 1));
-							channel.sendMessage(toSend).queue();
+							EmbedBuilder builder = new EmbedBuilder();
+							builder.setAuthor("Found image", null, null)
+									.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+									.setImage("http:" + URL)
+									.addField("Height", String.valueOf(HEIGHT), true)
+									.addField("Width", String.valueOf(WIDTH), true)
+									.addField("Tags", "``" +  (TAGS == null ? "None" : TAGS) + "``", false);
+							channel.sendMessage(builder.build()).queue();
 						} catch (ArrayIndexOutOfBoundsException exception) {
 							channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
+
 					case "tags":
 						channel.sendTyping().queue();
-						CopyOnWriteArrayList<String> images1 = new CopyOnWriteArrayList<>();
-						Konachan konachan1 = new Konachan(true);
 						String whole11 = content.replace("tags ", "");
 						String[] whole2 = whole11.split(" ");
 						int page1 = Integer.parseInt(whole2[0]);
 						String tags = whole2[1];
-						try {
-							number1 = Integer.parseInt(whole2[2]);
-						} catch (Exception e) {
-							number1 = 1;
-						}
 
-						konachan1.search(page1, 60, tags, new WallpaperCallback() {
-							public void onFailure(int error, String message) {
-							}
-
-							public void onStart() {
-							}
+						konachan.search(page1, 60, tags, new WallpaperCallback() {
+							public void onFailure(int error, String message) {}
+							public void onStart() {}
 
 							public void onSuccess(Wallpaper[] wallpapers, Tag[] tags) {
-								for (Wallpaper wallpaper : wallpapers) {
-									images1.add(wallpaper.getJpeg_url());
-								}
+								try { number1 = Integer.parseInt(whole2[2]); } catch (Exception e) { number1 = new Random().nextInt(wallpapers.length -1); }
+								String URL = wallpapers[number1 - 1].getFile_url();
+								String AUTHOR = wallpapers[number1 - 1].getAuthor();
+								String TAGS = Arrays.stream(wallpapers[number1 - 1].getTags()).collect(Collectors.joining(", "));
+								Integer WIDTH = wallpapers[number1 - 1].getWidth();
+								Integer HEIGHT = wallpapers[number1- 1].getHeight();
+
 								try {
-									String toSend = String.format("%s Image found with tags **%s**. You can get a total of **%d images** in this page.\n %s", ":mag_right:", whole2[1], images1.size(), "http:" + images1.get(number1 - 1));
-									channel.sendMessage(toSend).queue();
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", null, null)
+											.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+											.setImage("http:" + URL)
+											.addField("Height", String.valueOf(HEIGHT), true)
+											.addField("Width", String.valueOf(WIDTH), true)
+											.addField("Tags", "``" +  (TAGS == null ? "None" : TAGS) + "``", false);
+									channel.sendMessage(builder.build()).queue();
 								} catch (ArrayIndexOutOfBoundsException exception) {
 									channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 								}
@@ -187,7 +184,7 @@ public class ImageCmds extends Module {
 						+ "~>konachan get [page] [imagenumber]: Gets an image based in parameters.\n"
 						+ "~>konachan tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
 						+ "> Parameter explanation:\n"
-						+ "[page]: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
+						+ "[page]: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
 						+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
 						+ "[tag]: Any valid image tag. For example animal_ears or original.")
 					.build();
