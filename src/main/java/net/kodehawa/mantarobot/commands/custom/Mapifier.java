@@ -66,11 +66,11 @@ public class Mapifier {
 	}
 
 	public static void map(String prefix, Map<String, String> map, Message message) {
-		map.put(prefix, message.getRawContent());
+		map.put(prefix, message.getRawContent().split("\\s+", 2)[1]);
 		prefix = prefix + ".";
-		map.put(prefix + "raw", message.getRawContent());
-		map.put(prefix + "textual", message.getContent());
-		map.put(prefix + "stripped", message.getStrippedContent());
+		map.put(prefix + "raw", message.getRawContent().split("\\s+", 2)[1]);
+		map.put(prefix + "textual", message.getContent().split("\\s+", 2)[1]);
+		map.put(prefix + "stripped", message.getStrippedContent().split("\\s+", 2)[1]);
 	}
 
 	public static void map(String prefix, Map<String, String> map, TextChannel channel) {
