@@ -204,14 +204,13 @@ public class MantaroListener implements EventListener {
 		}
 
 		try {
-			//TODO AFTER PARSER
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
 			//TODO HANDLE THIS PROPERLY NOW.
 			//Now this catch block handles the exceptions that can happen while on Command Execution.
 			//Should look a better way of handling/logging this.
 
-			LOGGER.warn("\"Cannot process command? Prefix is probably null, look into this. \" + event.getMessage().getRawContent()", e);
+			LOGGER.warn("Cannot process command? Prefix is probably null, look into this. " + event.getMessage().getRawContent(), e);
 			e.printStackTrace();
 		}
 	}

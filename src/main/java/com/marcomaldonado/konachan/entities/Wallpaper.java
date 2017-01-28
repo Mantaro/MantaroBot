@@ -2,9 +2,6 @@ package com.marcomaldonado.konachan.entities;
 
 import java.io.Serializable;
 
-/**
- * Created by Mxrck on 19/11/2015.
- */
 public class Wallpaper implements Serializable {
 
 	/**

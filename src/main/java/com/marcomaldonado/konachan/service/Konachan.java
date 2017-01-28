@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Mxrck on 22/11/2015.
- */
 public class Konachan {
 
 	private HTMLHelper htmlHelper = HTMLHelper.getInstance();
@@ -114,9 +111,8 @@ public class Konachan {
 			response = this.resty.text(
 				postsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)
 			).toString();
-			System.out.println(postsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams));
-		} catch (Exception ignored) {
-		} finally {
+		} catch (Exception ignored) {}
+		finally {
 			queryParams.clear();
 		}
 		Gson gson = new Gson();

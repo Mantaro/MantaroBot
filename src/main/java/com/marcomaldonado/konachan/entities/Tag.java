@@ -2,9 +2,6 @@ package com.marcomaldonado.konachan.entities;
 
 import java.io.Serializable;
 
-/**
- * Created by Mxrck on 05/12/15.
- */
 public class Tag implements Serializable {
 
 	private static final long serialVersionUID = 7884285067021077468L;

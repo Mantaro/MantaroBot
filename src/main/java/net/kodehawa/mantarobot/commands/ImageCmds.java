@@ -4,36 +4,40 @@ import com.marcomaldonado.konachan.entities.Tag;
 import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.konachan.service.Konachan;
 import com.marcomaldonado.web.callback.WallpaperCallback;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.utils.ImageData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.GsonDataManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
 
 	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
 	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	private boolean needRating = false;
-	private int number = 1;
+	private int number = 0;
 	private int number1;
 	private int page = 0;
-	private String rating;
+	private String rating = "";
 	private boolean smallRequest = false;
 	private String tagsEncoded = "";
 	private String tagsToEncode = "no";
@@ -42,6 +46,7 @@ public class ImageCmds extends Module {
 		super(Category.MISC);
 		yandere();
 		kona();
+		enterRatings();
 	}
 
 	private void enterRatings() {
@@ -50,81 +55,48 @@ public class ImageCmds extends Module {
 		nRating.put("explicit", "e");
 	}
 
-	private String getImage(int argcount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
-		boolean trigger = false;
-		String rating1 = "";
-		CopyOnWriteArrayList<String> urls = new CopyOnWriteArrayList<>();
-		JSONArray fetchedData = GeneralUtils.instance().getJSONArrayFromUrl(url, event);
-		for (int i = 0; i < fetchedData.length(); i++) {
-			JSONObject entry = fetchedData.getJSONObject(i);
-			if (entry.getString("rating").equals(rating)) {
-				urls.add(entry.getString("file_url"));
-			}
-		}
-
-		if (needRating) {
-			rating1 = nRating.inverseBidiMap().get(rating);
-		}
-
-		int get = 1;
-		try {
-			if (requestType.equals("tags")) {
-				if (argcount >= 4) {
-					get = number;
-				} else {
-					Random r = new Random();
-					int random = r.nextInt(urls.size());
-					if (random >= 1) {
-						get = random;
-					}
-				}
-			}
-			if (requestType.equals("get")) {
-				System.out.println(argcount);
-				if (argcount >= 2) {
-					get = Integer.parseInt(messageArray[2]);
-				} else {
-					Random r = new Random();
-					int random = r.nextInt(urls.size());
-					if (random >= 1) {
-						get = random;
-					}
-				}
-			}
-		} catch (Exception ignored) {
-		}
-
-		List<TextChannel> array = event.getJDA().getTextChannels();
-		/*for (MessageChannel ch : array) {
+	private EmbedBuilder getImage(int argcount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
+		boolean trigger = true; //implement when parameters is done?
+		String json = GeneralUtils.instance().getObjectFromUrl(url, event);
+		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
+		System.out.println(rating);
+		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
+		System.out.println(filter.size());
+		int get;
+		try{
+			 get = requestType.equals("tags") ? argcount >= 4 ? number : new Random().nextInt(filter.size()) : argcount <= 2 ?
+					Integer.parseInt(messageArray[2]) : new Random().nextInt(filter.size());
+		} catch(ArrayIndexOutOfBoundsException e){ get = new Random().nextInt(filter.size()); }
+		String URL = filter.get(get).file_url;
+		String AUTHOR = filter.get(get).author;
+		String RATING = filter.get(get).rating;
+		int HEIGHT = filter.get(get).height;
+		int WIDTH = filter.get(get).width;
+		String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
+		String tagsFinal = tags == null ? "None" : tags;
+		EmbedBuilder embedBuilder = new EmbedBuilder();
+		if (!smallRequest) {
 			try {
-				if (ch.getName().contains(Parameters.getNSFWChannelForServer(event.getGuild().getId())) && event.getChannel().getId().equals(ch.getId())) {
-					trigger = true;
-					break;
-				} else if (rating.equals("s")) {
-					trigger = true;
-				}
-			} catch (NullPointerException e) {
-				return ":heavy_multiplication_x: No NSFW channel set for this server.";
+				return embedBuilder.setAuthor("Found image", null, null)
+						.setDescription("Image uploaded by: "+ AUTHOR + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
+						.setImage(URL)
+						.addField("Height", String.valueOf(HEIGHT), true)
+						.addField("Width", String.valueOf(WIDTH), true)
+						.addField("Tags", "``" + tagsFinal + "``", false);
+			} catch (ArrayIndexOutOfBoundsException ex) {
+				return embedBuilder.setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 			}
+		}
 
-		}*/
-
-		if (trigger) {
-			if (!smallRequest) {
-				try {
-					return String.format(":mag_right: " + event.getAuthor().getAsMention() + " I found an image with rating: **" + rating1 + "** and tag: **" + tagsToEncode + "** | You can get a total of **%1s images**.\n %2s", urls.size(), urls.get(get - 1));
-				} catch (ArrayIndexOutOfBoundsException ex) {
-					return ":heavy_multiplication_x: There are no images here, just dust.";
-				}
-			} else {
-				try {
-					return String.format(":mag_right: " + event.getAuthor().getAsMention() + " I found an image | You can get a total of **%1s images**.\n %2s", urls.size(), urls.get(get - 1));
-				} catch (ArrayIndexOutOfBoundsException ex) {
-					return ":heavy_multiplication_x: There are no images here, just dust.";
-				}
-			}
-		} else {
-			return ":heavy_multiplication_x: " + "You only can use this command with explicit images in nsfw channels!";
+		try {
+			return embedBuilder.setAuthor("Found image", null, null)
+					.setDescription("Image uploaded by "+ AUTHOR + ", with rating **" + nRating.inverseBidiMap().get(RATING) + "**")
+					.setImage(URL)
+					.addField("Height", String.valueOf(HEIGHT), true)
+					.addField("Width", String.valueOf(WIDTH), true)
+					.addField("Tags", "``" + tagsFinal + "``", false);
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			return embedBuilder.setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 		}
 	}
 
@@ -161,7 +133,7 @@ public class ImageCmds extends Module {
 						}
 
 						try {
-							String toSend = String.format("%s ImageCmds found! You can get a total of **%d images** on this page.\n %s", ":mag_right:", images.size(), "http:" + images.get(number - 1));
+							String toSend = String.format("%s Image found! You can get a total of **%d images** on this page.\n %s", ":mag_right:", images.size(), "http:" + images.get(number - 1));
 							channel.sendMessage(toSend).queue();
 						} catch (ArrayIndexOutOfBoundsException exception) {
 							channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
@@ -193,7 +165,7 @@ public class ImageCmds extends Module {
 									images1.add(wallpaper.getJpeg_url());
 								}
 								try {
-									String toSend = String.format("%s ImageCmds found with tags **%s**. You can get a total of **%d images** in this page.\n %s", ":mag_right:", whole2[1], images1.size(), "http:" + images1.get(number1 - 1));
+									String toSend = String.format("%s Image found with tags **%s**. You can get a total of **%d images** in this page.\n %s", ":mag_right:", whole2[1], images1.size(), "http:" + images1.get(number1 - 1));
 									channel.sendMessage(toSend).queue();
 								} catch (ArrayIndexOutOfBoundsException exception) {
 									channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
@@ -229,9 +201,8 @@ public class ImageCmds extends Module {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				rating = "s";
-				if (args.length >= 4) needRating = true;
-				if (args.length <= 2) smallRequest = true;
-				User author = event.getAuthor();
+				needRating = args.length >= 4;
+				smallRequest = args.length <= 2;
 				TextChannel channel = event.getChannel();
 				int argscnt = args.length - 1;
 
@@ -240,42 +211,26 @@ public class ImageCmds extends Module {
 					tagsToEncode = args[2];
 					if (needRating) rating = nRating.get(args[3]);
 					number = Integer.parseInt(args[4]);
-				} catch (Exception ignored) {
-				}
+				} catch (Exception ignored) {}
 
 				try {
 					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
-				} catch (UnsupportedEncodingException ignored) {
-				} //Shouldn't happen.
+				} catch (UnsupportedEncodingException ignored) {} //Shouldn't happen.
 
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "get":
-						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
-							sentMessage ->
-							{
-								String url = String.format(YANDERE_BASE + "page=%2s", String.valueOf(page)).replace(" ", "");
-								sentMessage.editMessage(getImage(argscnt, "get", url, rating, args, event)).queue();
-							});
+						String url = String.format(YANDERE_BASE + "page=%2s", String.valueOf(page)).replace(" ", "");
+						channel.sendMessage(getImage(argscnt, "get", url, rating, args, event).build()).queue();
 						break;
 					case "tags":
-						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
-							sentMessage ->
-							{
-								String url = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
-								sentMessage.editMessage(getImage(argscnt, "tags", url, rating, args, event)).queue();
-							});
+						String url1 = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
+						channel.sendMessage(getImage(argscnt, "tags", url1, rating, args, event).build()).queue();
 						break;
 					case "":
-						Random r = new Random();
-						int randomPage = r.nextInt(4);
-
-						channel.sendMessage(":hourglass: " + author.getName() + " | Fetching data from yandere...").queue(
-							sentMessage ->
-							{
-								String url = String.format(YANDERE_BASE + "&page=%2s", String.valueOf(randomPage)).replace(" ", "");
-								sentMessage.editMessage(getImage(argscnt, "random", url, rating, args, event)).queue();
-							});
+						int randomPage = new Random().nextInt(5);
+						String url2 = String.format(YANDERE_BASE + "&page=%2s", String.valueOf(randomPage)).replace(" ", "");
+						channel.sendMessage(getImage(argscnt, "random", url2, rating, args, event).build()).queue();
 						break;
 					default:
 						channel.sendMessage(help(event)).queue();

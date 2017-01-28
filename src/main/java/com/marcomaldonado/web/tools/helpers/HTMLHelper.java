@@ -15,12 +15,7 @@ public class HTMLHelper {
 		return instance;
 	}
 
-	private HTMLHelper() {
-	}
-
-	public String get(String url) {
-		return null;
-	}
+	private HTMLHelper() {}
 
 	private String urlEncodeUTF8(String s) {
 		try {
