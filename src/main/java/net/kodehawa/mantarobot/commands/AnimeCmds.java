@@ -75,7 +75,6 @@ public class AnimeCmds extends Module {
 							int choose = Integer.parseInt(e.getMessage().getContent());
 							if (choose < 1 || choose > type.length) return false;
 							animeData(e, type, choose - 1);
-							System.out.println(choose);
 							return true;
 						} catch (Exception ex) {
 							event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + ex.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + ex.getMessage() + "``").queue();
