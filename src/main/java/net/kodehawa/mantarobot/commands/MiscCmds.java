@@ -12,8 +12,8 @@ import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +63,7 @@ public class MiscCmds extends Module {
 						channel.sendMessage("\uD83D\uDCAC " + MantaroData.getNoble().get().get(new Random().nextInt(MantaroData.getNoble().get().size() - 1)) + " -Noble").queue();
 						break;
 					default:
-						channel.sendMessage(help(event)).queue();
+						onHelp(event);
 						break;
 				}
 			}
@@ -123,7 +123,7 @@ public class MiscCmds extends Module {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					event.getChannel().sendMessage(help(event)).queue();
+					onHelp(event);
 					return;
 				}
 
@@ -139,7 +139,7 @@ public class MiscCmds extends Module {
 				}
 
 				String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
-				url2 = GeneralUtils.instance().restyGetObjectFromUrl(URL, event);
+				url2 = Utils.instance().restyGetObjectFromUrl(URL, event);
 
 				JSONObject jObject = new JSONObject(url2);
 				JSONObject data = jObject.getJSONObject("magic");
@@ -178,7 +178,7 @@ public class MiscCmds extends Module {
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace(); //TODO LOG THAT SHIT
 					}
-					String json = GeneralUtils.instance().restyGetObjectFromUrl(url, event);
+					String json = Utils.instance().restyGetObjectFromUrl(url, event);
 					UrbanData data = GsonDataManager.GSON.fromJson(json, UrbanData.class);
 
 					long end = System.currentTimeMillis() - start;
@@ -210,7 +210,7 @@ public class MiscCmds extends Module {
 							event.getChannel().sendMessage(embed.build()).queue();
 							break;
 						default:
-							event.getChannel().sendMessage(help(event)).queue();
+							onHelp(event);
 							break;
 					}
 				}

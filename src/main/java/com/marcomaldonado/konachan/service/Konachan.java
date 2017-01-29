@@ -6,6 +6,8 @@ import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.web.callback.DownloadCallback;
 import com.marcomaldonado.web.callback.WallpaperCallback;
 import com.marcomaldonado.web.tools.helpers.HTMLHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.monoid.web.BinaryResource;
 import us.monoid.web.Resty;
 
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Konachan {
+	private static final Logger LOGGER = LoggerFactory.getLogger("Konachan");
 
 	private HTMLHelper htmlHelper = HTMLHelper.getInstance();
 	private int limitRelatedTags = 5;
@@ -111,8 +114,8 @@ public class Konachan {
 			response = this.resty.text(
 				postsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)
 			).toString();
-		} catch (Exception ignored) {}
-		finally {
+		} catch (Exception ignored) {
+		} finally {
 			queryParams.clear();
 		}
 		Gson gson = new Gson();
@@ -143,10 +146,10 @@ public class Konachan {
 		try {
 			binaryResource = downloader.bytes(imageURL);
 			binaryResource.save(imageFile);
-		} catch (IOException e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
+		} catch (IOException ignored) {
 			return null;
 		}
+
 		return folderPath + File.separator + filename;
 	}
 

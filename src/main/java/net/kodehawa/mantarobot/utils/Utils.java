@@ -19,23 +19,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class GeneralUtils {
-
-	/**
-	 * Monitors CPU usage if needed.
-	 *
-	 * @author Yomura
-	 */
-	public static class PerformanceMonitor {
-
-	}
-
-	public static final GeneralUtils.PerformanceMonitor pm = new GeneralUtils.PerformanceMonitor();
-	private volatile static GeneralUtils instance = new GeneralUtils();
-
+public class Utils {
 	/**
 	 * Capitalizes the first letter of a string.
 	 *
@@ -48,39 +35,99 @@ public class GeneralUtils {
 	}
 
 	/**
-	 * @return The new instance of this class.
+	 * Capitalizes each first letter after a space.
+	 *
+	 * @param original the string to capitalize.
+	 * @return a string That Looks Like This. Useful for titles.
 	 */
-	public static GeneralUtils instance() {
-		return instance;
+	public static String capitalizeEachFirstLetter(String original) {
+		if (original == null || original.length() == 0) {
+			return original;
+		}
+
+		String[] words = original.split("\\s");
+		StringBuilder builder = new StringBuilder();
+		for (String s : words) {
+			builder.append(capitalize(s)).append(" ");
+		}
+		return builder.toString();
 	}
 
-	public static Iterable<String> iterate(Matcher matcher) {
-		return new Iterable<String>() {
-			@Override
-			public Iterator<String> iterator() {
-				return new Iterator<String>() {
-					@Override
-					public boolean hasNext() {
-						return matcher.find();
-					}
+	public static String getDurationMinutes(long length) {
+		return String.format("%d:%02d minutes",
+			TimeUnit.MILLISECONDS.toMinutes(length),
+			TimeUnit.MILLISECONDS.toSeconds(length) -
+				TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
+		);
+	}
 
-					@Override
-					public String next() {
-						return matcher.group();
-					}
-				};
-			}
+	/**
+	 * Gets a JSON Array from a specified URL
+	 *
+	 * @param url The URL to fetch the JSON from.
+	 * @param evt JDA message event.
+	 * @return The retrieved JSON object.
+	 */
+	public static JSONArray getJSONArrayFromUrl(String url, GuildMessageReceivedEvent evt) {
+		String urlParsed = getObjectFromUrl(url, evt);
+		return new JSONArray(urlParsed);
+	}
 
-			@Override
-			public void forEach(Consumer<? super String> action) {
-				while (matcher.find()) {
-					action.accept(matcher.group());
+	/**
+	 * Gets a JSON Array from a specified URL
+	 *
+	 * @param url The URL to fetch the JSON from.
+	 * @param evt JDA message event.
+	 * @return The retrieved JSON object.
+	 */
+	public static JSONObject getJSONObjectFromUrl(String url, GuildMessageReceivedEvent evt) {
+		String urlParsed = getObjectFromUrl(url, evt);
+		return new JSONObject(urlParsed);
+	}
+
+	/**
+	 * Fetches an Object from any given URL. Uses vanilla Java methods.
+	 * Can retrieve text, JSON Objects, XML and probably more.
+	 *
+	 * @param url   The URL to get the object from.
+	 * @param event
+	 * @return The object as a parsed UTF-8 string.
+	 */
+	public static String getObjectFromUrl(String url, GuildMessageReceivedEvent event) {
+		String webobject = null;
+
+		try {
+			URL ur1 = new URL(url);
+			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
+			ccnn.setRequestProperty("User-Agent", "Mantaro");
+			InputStream ism = ccnn.getInputStream();
+			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
+		} catch (Exception e) {
+			e.printStackTrace(); //TODO LOG THAT SHIT
+			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
+		}
+
+		return webobject;
+	}
+
+	public static Iterable<String> iterate(Pattern pattern, String string) {
+		return () -> {
+			Matcher matcher = pattern.matcher(string);
+			return new Iterator<String>() {
+				@Override
+				public boolean hasNext() {
+					return matcher.find();
 				}
-			}
+
+				@Override
+				public String next() {
+					return matcher.group();
+				}
+			};
 		};
 	}
 
-	public static synchronized String paste(String toSend) {
+	public static String paste(String toSend) {
 		HttpURLConnection connection = null;
 		try {
 			URL url = new URL("https://hastebin.com/documents");
@@ -107,85 +154,8 @@ public class GeneralUtils {
 			e.printStackTrace(); //TODO LOG THAT SHIT
 			return null;
 		} finally {
-			if (connection == null) return null;
-			connection.disconnect();
+			if (connection != null) connection.disconnect();
 		}
-	}
-
-	/**
-	 * Capitalizes each first letter after a space.
-	 *
-	 * @param original the string to capitalize.
-	 * @return a string That Looks Like This. Useful for titles.
-	 */
-	public String capitalizeEachFirstLetter(String original) {
-		if (original == null || original.length() == 0) {
-			return original;
-		}
-
-		String[] words = original.split("\\s");
-		StringBuilder builder = new StringBuilder();
-		for (String s : words) {
-			builder.append(capitalize(s)).append(" ");
-		}
-		return builder.toString();
-	}
-
-	public String getDurationMinutes(long length) {
-		return String.format("%d:%02d minutes",
-			TimeUnit.MILLISECONDS.toMinutes(length),
-			TimeUnit.MILLISECONDS.toSeconds(length) -
-				TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
-		);
-	}
-
-	/**
-	 * Gets a JSON Array from a specified URL
-	 *
-	 * @param url The URL to fetch the JSON from.
-	 * @param evt JDA message event.
-	 * @return The retrieved JSON object.
-	 */
-	public JSONArray getJSONArrayFromUrl(String url, GuildMessageReceivedEvent evt) {
-		String urlParsed = getObjectFromUrl(url, evt);
-		return new JSONArray(urlParsed);
-	}
-
-	/**
-	 * Gets a JSON Array from a specified URL
-	 *
-	 * @param url The URL to fetch the JSON from.
-	 * @param evt JDA message event.
-	 * @return The retrieved JSON object.
-	 */
-	public JSONObject getJSONObjectFromUrl(String url, GuildMessageReceivedEvent evt) {
-		String urlParsed = getObjectFromUrl(url, evt);
-		return new JSONObject(urlParsed);
-	}
-
-	/**
-	 * Fetches an Object from any given URL. Uses vanilla Java methods.
-	 * Can retrieve text, JSON Objects, XML and probably more.
-	 *
-	 * @param url   The URL to get the object from.
-	 * @param event
-	 * @return The object as a parsed UTF-8 string.
-	 */
-	public String getObjectFromUrl(String url, GuildMessageReceivedEvent event) {
-		String webobject = null;
-
-		try {
-			URL ur1 = new URL(url);
-			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
-			ccnn.setRequestProperty("User-Agent", "Mantaro");
-			InputStream ism = ccnn.getInputStream();
-			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
-		} catch (Exception e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
-			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
-		}
-
-		return webobject;
 	}
 
 	/**
@@ -195,7 +165,7 @@ public class GeneralUtils {
 	 * @param event JDA message event.
 	 * @return The object as a parsed string.
 	 */
-	public String restyGetObjectFromUrl(String url, GuildMessageReceivedEvent event) {
+	public static String restyGetObjectFromUrl(String url, GuildMessageReceivedEvent event) {
 		String url2 = null;
 		try {
 			Resty resty = new Resty();
@@ -209,7 +179,7 @@ public class GeneralUtils {
 		return url2;
 	}
 
-	public String toPrettyJson(String jsonString) {
+	public static String toPrettyJson(String jsonString) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement = jsonParser.parse(jsonString);

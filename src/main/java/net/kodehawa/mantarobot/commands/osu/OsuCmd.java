@@ -80,7 +80,7 @@ public class OsuCmd extends Module{
 						event.getChannel().sendMessage(user(content)).queue();
 						break;
 					default:
-						event.getChannel().sendMessage(help(event)).queue();
+						onHelp(event);
 						break;
 				}
 			}

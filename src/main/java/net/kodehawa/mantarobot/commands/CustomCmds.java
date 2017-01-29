@@ -13,8 +13,8 @@ import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,7 +130,7 @@ public class CustomCmds extends Module {
 				if (action.equals("debug")) {
 					if (event.getMember().isOwner() || MantaroData.getConfig().get().isOwner(event.getMember())) {
 						event.getChannel().sendMessage(
-							"Guild Commands Debug: " + GeneralUtils.paste(
+							"Guild Commands Debug: " + Utils.paste(
 								GsonDataManager.GSON.toJson(customCommands)
 							)
 						).queue();

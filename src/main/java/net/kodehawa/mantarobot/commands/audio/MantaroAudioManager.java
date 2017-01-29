@@ -15,7 +15,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +92,7 @@ public class MantaroAudioManager {
 					event.getChannel().sendMessage("Added **" + playlist.getTracks().size()
 						+ " songs** to queue on playlist: **"
 						+ playlist.getName() + "**" + " *("
-						+ GeneralUtils.instance().getDurationMinutes(templength) + ")*"
+						+ Utils.instance().getDurationMinutes(templength) + ")*"
 					).queue();
 				}
 			}
@@ -149,7 +149,7 @@ public class MantaroAudioManager {
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {
 			AudioTrack at = tracks.get(i);
 			b.append('[').append(i + 1).append("] ").append(at.getInfo().title).append(" **(")
-				.append(GeneralUtils.instance().getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
+				.append(Utils.instance().getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
 		}
 
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();

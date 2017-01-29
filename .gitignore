@@ -45,5 +45,5 @@ local.properties
 !/lib/*.jar
 
 # Runtime
-
-# TODO Add Config/Database files at Runtime
+config.json
+data.json

@@ -13,15 +13,18 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
@@ -53,7 +56,7 @@ public class ImageCmds extends Module {
 
 	private EmbedBuilder getImage(int argcount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
 		boolean trigger = true; //implement when parameters is done?
-		String json = GeneralUtils.instance().getObjectFromUrl(url, event);
+		String json = Utils.instance().getObjectFromUrl(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 		int get;
@@ -170,7 +173,9 @@ public class ImageCmds extends Module {
 						});
 						break;
 					default:
-						channel.sendMessage(help(event)).queue();
+						onHelp(event);
+						//Does exactly as:
+						onHelp(event);
 						break;
 				}
 			}
@@ -229,7 +234,7 @@ public class ImageCmds extends Module {
 						channel.sendMessage(getImage(argscnt, "random", url2, rating, args, event).build()).queue();
 						break;
 					default:
-						channel.sendMessage(help(event)).queue();
+						onHelp(event);
 						break;
 				}
 			}

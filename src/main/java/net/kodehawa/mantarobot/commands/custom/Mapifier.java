@@ -5,7 +5,6 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -13,16 +12,17 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.normalizeArray;
+import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class Mapifier {
-	private static final Pattern compiledPattern = Pattern.compile("\\$\\([A-Za-z0-9.]+?\\)");
+	private static final Pattern CUSTOM_COMMAND_PATTERN = Pattern.compile("\\$\\([A-Za-z0-9.]+?\\)");
 
 	public static String dynamicResolve(String string, Map<String, String> dynamicMap) {
 		if (!string.contains("$(")) return string;
 
 		Set<String> skipIfIterated = new HashSet<>();
-		for (String key : GeneralUtils.iterate(compiledPattern.matcher(string))) {
+		for (String key : iterate(CUSTOM_COMMAND_PATTERN,string)) {
 			if (skipIfIterated.contains(key)) continue;
 			String mapKey = key.substring(2, key.length() - 1);
 			string = string.replace(key, dynamicMap.getOrDefault(mapKey, mapKey));

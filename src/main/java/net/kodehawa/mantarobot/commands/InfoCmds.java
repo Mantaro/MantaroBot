@@ -10,8 +10,8 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.Color;
@@ -335,7 +335,7 @@ public class InfoCmds extends Module {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if(content.isEmpty()){
-					event.getChannel().sendMessage(help(event)).queue();
+					onHelp(event);
 					return;
 				}
 
@@ -344,7 +344,7 @@ public class InfoCmds extends Module {
 					long start = System.currentTimeMillis();
 					//Get a parsed JSON.
 					String APP_ID = MantaroData.getConfig().get().weatherAppId;
-					String json = GeneralUtils.instance().getObjectFromUrl(
+					String json = Utils.instance().getObjectFromUrl(
 							"http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid=" + APP_ID, event);
 					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
 

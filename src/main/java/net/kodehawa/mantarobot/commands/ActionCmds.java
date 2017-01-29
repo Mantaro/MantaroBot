@@ -48,7 +48,7 @@ public class ActionCmds extends Module {
 						channel.sendMessage(MantaroData.getBleach().get().get(new Random().nextInt(MantaroData.getBleach().get().size() - 1))).queue();
 						break;
 					default:
-						channel.sendMessage(help(event)).queue();
+						onHelp(event);
 				}
 			}
 

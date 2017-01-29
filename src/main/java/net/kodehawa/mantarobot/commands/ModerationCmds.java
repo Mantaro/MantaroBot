@@ -13,13 +13,13 @@ import java.util.List;
 
 public class ModerationCmds extends Module {
 
-	public ModerationCmds(){
+	public ModerationCmds() {
 		super(Category.MODERATION);
 		ban();
 		kick();
 	}
 
-	private void kick(){
+	private void kick() {
 		super.register("kick", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -28,8 +28,8 @@ public class ModerationCmds extends Module {
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
 
-				//We need to check if this is in a guild AND if the member trying to kick the person has KICK_MEMBERS permission.
-				if (receivedMessage.isFromType(ChannelType.TEXT) && guild.getMember(author).hasPermission(Permission.KICK_MEMBERS)) {
+				//We need to check if the member trying to kick the person has KICK_MEMBERS permission.
+				if (guild.getMember(author).hasPermission(Permission.KICK_MEMBERS)) {
 					//If they mentioned a user this gets passed, if they didn't it just doesn't.
 					if (receivedMessage.getMentionedUsers().isEmpty()) {
 						channel.sendMessage("\u274C" + "You must mention 1 or more users to be kicked!").queue();
@@ -54,26 +54,21 @@ public class ModerationCmds extends Module {
 
 							//Proceed to kick them. Again, using queue so I don't get rate limited.
 							guild.getController().kick(member).queue(
-									success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(), //Quite funny, I think.
-									error ->
-									{
-										if (error instanceof PermissionException) {
-											PermissionException pe = (PermissionException) error; //Which permission?
+								success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(), //Quite funny, I think.
+								error -> {
+									if (error instanceof PermissionException) {
+										channel.sendMessage(String.format("❌ Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
+									} else {
+										channel.sendMessage(String.format("❌ Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 
-											channel.sendMessage("\u274C" + "Error kicking [" + member.getEffectiveName()
-													+ "]: " + "(No permission provided: " + pe.getPermission() + ")").queue();
-										} else {
-											channel.sendMessage("\u274C" + "Unknown error while kicking [" + member.getEffectiveName()
-													+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-
-											//Just so I get more info in the case of an unexpected error.
-											error.printStackTrace(); //TODO LOG THAT SHIT
-										}
-									});
+										//Just so I get more info in the case of an unexpected error.
+										error.printStackTrace(); //TODO LOG THAT SHIT
+									}
+								});
 						}
 					}
 				} else {
-					channel.sendMessage("\u274C " + "Cannot kick. Possible errors: You have no Kick Members permission or this was triggered outside of a guild.").queue();
+					channel.sendMessage("❌ Cannot kick. Possible errors: You have no Kick Members permission or this was triggered outside of a guild.").queue();
 				}
 			}
 
@@ -85,13 +80,13 @@ public class ModerationCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Kick")
-						.setDescription("Kicks the mentioned users.")
-						.build();
+					.setDescription("Kicks the mentioned users.")
+					.build();
 			}
 		});
 	}
 
-	private void ban(){
+	private void ban() {
 		super.register("ban", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -128,22 +123,20 @@ public class ModerationCmds extends Module {
 						//Proceed to ban them. Again, using queue so I don't get rate limited.
 						//Also delete all messages from past 7 days.
 						guild.getController().ban(member, 7).queue(
-								success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(),
-								error ->
-								{
-									if (error instanceof PermissionException) {
-										PermissionException pe = (PermissionException) error; //Which permission am I missing?
+							success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(),
+							error ->
+							{
+								if (error instanceof PermissionException) {
+									channel.sendMessage("\u274C" + "Error banning " + member.getEffectiveName()
+										+ ": " + "(No permission provided: " + ((PermissionException) error).getPermission() + ")").queue();
+								} else {
+									channel.sendMessage("\u274C" + "Unknown error while banning " + member.getEffectiveName()
+										+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
-										channel.sendMessage("\u274C" + "Error banning " + member.getEffectiveName()
-												+ ": " + "(No permission provided: " + pe.getPermission() + ")").queue();
-									} else {
-										channel.sendMessage("\u274C" + "Unknown error while banning " + member.getEffectiveName()
-												+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-
-										//I need more information in the case of an unexpected error.
-										error.printStackTrace(); //TODO LOG THAT SHIT
-									}
-								});
+									//I need more information in the case of an unexpected error.
+									error.printStackTrace(); //TODO LOG THAT SHIT
+								}
+							});
 					}
 				} else {
 					channel.sendMessage("\u274C " + "Cannot ban. Possible errors: You have no Tools Members permission or this was triggered outside of a guild.").queue();
@@ -158,8 +151,8 @@ public class ModerationCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Ban")
-						.setDescription("Bans the mentioned users.")
-						.build();
+					.setDescription("Bans the mentioned users.")
+					.build();
 			}
 		});
 	}

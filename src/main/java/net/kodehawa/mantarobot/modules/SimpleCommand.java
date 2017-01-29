@@ -25,7 +25,7 @@ public abstract class SimpleCommand implements Command {
 			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
 	}
 
-	public void onHelp(GuildMessageReceivedEvent event) {
+	protected void onHelp(GuildMessageReceivedEvent event) {
 		event.getChannel().sendMessage(help(event)).queue();
 	}
 }

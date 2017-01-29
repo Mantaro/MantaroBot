@@ -5,7 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -27,7 +27,7 @@ public class Scheduler extends AudioEventAdapter {
 		if (endReason.mayStartNext) {
 			nextTrack();
 			event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
-				+ " (" + GeneralUtils.instance().getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
+				+ " (" + Utils.instance().getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
 		}
 	}
 

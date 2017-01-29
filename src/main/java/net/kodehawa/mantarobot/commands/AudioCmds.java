@@ -9,7 +9,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.net.URL;
 
@@ -40,7 +40,7 @@ public class AudioCmds extends Module {
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
-					+ " (" + GeneralUtils.instance().getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
+					+ " (" + Utils.instance().getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
 			}
 
 			@Override

@@ -9,7 +9,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -209,18 +209,18 @@ public class QuoteCmd extends Module {
 						}
 
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
-							event.getChannel().sendMessage(GeneralUtils.paste(GeneralUtils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
+							event.getChannel().sendMessage(Utils.paste(Utils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
 						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
 
 						break;
 					case "debug":
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
-							event.getChannel().sendMessage(GeneralUtils.paste(GeneralUtils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
+							event.getChannel().sendMessage(Utils.paste(Utils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
 						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
 
 						break;
 					default:
-						channel.sendMessage(help(event)).queue();
+						onHelp(event);
 						break;
 				}
 			}

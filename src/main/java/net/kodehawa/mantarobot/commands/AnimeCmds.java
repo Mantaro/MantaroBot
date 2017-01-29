@@ -16,8 +16,8 @@ import net.kodehawa.mantarobot.modules.CommandType;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.GeneralUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -57,7 +57,7 @@ public class AnimeCmds extends Module {
 					//Set variables to use later. They will be parsed to JSON later on.
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
 						URLEncoder.encode(content, "UTF-8"), authToken);
-					String json = GeneralUtils.instance().getObjectFromUrl(connection, event);
+					String json = Utils.instance().getObjectFromUrl(connection, event);
 					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
@@ -115,7 +115,7 @@ public class AnimeCmds extends Module {
 				TextChannel channel = event.getChannel();
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
-					String json = GeneralUtils.instance().getObjectFromUrl(url, event);
+					String json = Utils.instance().getObjectFromUrl(url, event);
 					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
@@ -181,7 +181,7 @@ public class AnimeCmds extends Module {
 		String ANIME_DESCRIPTION = type[pick].getDescription().replaceAll("<br>", "\n");
 		String AVERAGE_SCORE = type[pick].getAverage_score();
 		String IMAGE_URL = type[pick].getImage_url_lge();
-		String TYPE = GeneralUtils.capitalize(type[pick].getSeries_type());
+		String TYPE = Utils.capitalize(type[pick].getSeries_type());
 		String EPISODES = type[pick].getTotal_episodes().toString();
 		String DURATION = type[pick].getDuration().toString();
 		String GENRES = type[pick].getGenres().stream().collect(Collectors.joining(", "));
