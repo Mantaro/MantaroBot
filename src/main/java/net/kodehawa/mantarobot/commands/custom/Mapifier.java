@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import static net.kodehawa.mantarobot.utils.StringUtils.normalizeArray;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class Mapifier {
@@ -48,9 +49,7 @@ public class Mapifier {
 		map.put(prefix + "username", member.getUser().getName());
 		map.put(prefix + "discriminator", member.getUser().getDiscriminator());
 		map.put(prefix + "name", member.getEffectiveName());
-		if (member.getGame() != null){
-			map.put(prefix + "game", member.getGame().getName());
-		}
+		map.put(prefix + "game", member.getGame() != null ? member.getGame().getName() : "None");
 		map.put(prefix + "status", capitalize(member.getOnlineStatus().getKey()));
 		map.put(prefix + "mention", member.getAsMention());
 	}
@@ -66,11 +65,11 @@ public class Mapifier {
 	}
 
 	public static void map(String prefix, Map<String, String> map, Message message) {
-		map.put(prefix, message.getRawContent().split("\\s+", 2)[1]);
+		map.put(prefix, normalizeArray(message.getRawContent().split("\\s+", 2), 2)[1]);
 		prefix = prefix + ".";
-		map.put(prefix + "raw", message.getRawContent().split("\\s+", 2)[1]);
-		map.put(prefix + "textual", message.getContent().split("\\s+", 2)[1]);
-		map.put(prefix + "stripped", message.getStrippedContent().split("\\s+", 2)[1]);
+		map.put(prefix + "raw", normalizeArray(message.getRawContent().split("\\s+", 2), 2)[1]);
+		map.put(prefix + "textual", normalizeArray(message.getContent().split("\\s+", 2), 2)[1]);
+		map.put(prefix + "stripped", normalizeArray(message.getStrippedContent().split("\\s+", 2), 2)[1]);
 	}
 
 	public static void map(String prefix, Map<String, String> map, TextChannel channel) {

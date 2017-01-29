@@ -47,10 +47,12 @@ public class CustomCmds extends Module {
 			List<String> responses = guilds.get(event.getGuild().getId()).customCommands.get(cmdName);
 			String response = responses.get(r.nextInt(responses.size()));
 
-			Map<String, String> dynamicMap = new HashMap<>();
-			map("event", dynamicMap, event);
-			for (int i = 0; i < args.length; i++) dynamicMap.put("event.args" + i, args[i]);
-			response = dynamicResolve(response, dynamicMap);
+			if (response.contains("$(")) {
+				Map<String, String> dynamicMap = new HashMap<>();
+				map("event", dynamicMap, event);
+				for (int i = 0; i < args.length; i++) dynamicMap.put("event.args" + i, args[i]);
+				response = dynamicResolve(response, dynamicMap);
+			}
 
 			if (response.startsWith("play:")) {
 				String toSend = response.substring(5);
@@ -271,13 +273,11 @@ public class CustomCmds extends Module {
 
 	@Override
 	public void onPostLoad() {
-		Set<String> invalidCmds = new HashSet<>();
-		MantaroData.getData().get().guilds.values().forEach(guildData -> guildData.customCommands.values().removeIf(List::isEmpty));
-		MantaroData.getData().get().guilds.values().forEach(guildData -> guildData.customCommands.keySet().forEach(cmd -> {
-			if (!Manager.commands.containsKey(cmd)) Manager.commands.put(cmd, Pair.of(customCommand, null));
-			else invalidCmds.add(cmd);
-		}));
-		MantaroData.getData().get().guilds.values().forEach(d -> d.customCommands.keySet().removeAll(invalidCmds));
+		MantaroData.getData().get().guilds.values().forEach((GuildData guildData) -> {
+			guildData.customCommands.values().removeIf(List::isEmpty);
+			guildData.customCommands.keySet().removeIf(Manager.commands::containsKey);
+			guildData.customCommands.keySet().forEach(cmd -> Manager.commands.put(cmd, Pair.of(customCommand, null)));
+		});
 		MantaroData.getData().update();
 	}
 }
