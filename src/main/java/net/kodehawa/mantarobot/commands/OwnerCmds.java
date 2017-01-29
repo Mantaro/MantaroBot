@@ -29,19 +29,31 @@ public class OwnerCmds extends Module {
 		shutdown();
 	}
 
-	private void shutdown(){
-		super.register("shutdown", new SimpleCommand() {
+	private void add() {
+		super.register("varadd", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
-					event.getChannel().sendMessage("Seems like you cannot do that, you silly <3").queue();
-					return;
-				}
-
-				try {
-					shutdown(event);
-				} catch (Exception e) {
-					LOGGER.warn("Couldn't shut down." + e.toString(), e);
+				switch (args[0]) {
+					case "pat":
+						MantaroData.getPatting().get().add(args[1]);
+						MantaroData.getPatting().update();
+						event.getChannel().sendMessage("Added to pat list: " + args[1]).queue();
+						break;
+					case "hug":
+						MantaroData.getHugs().get().add(args[1]);
+						MantaroData.getHugs().update();
+						event.getChannel().sendMessage("Added to hug list: " + args[1]).queue();
+						break;
+					case "greeting":
+						MantaroData.getGreeting().get().add(content.replace(args[0], ""));
+						MantaroData.getGreeting().update();
+						event.getChannel().sendMessage("Added to greet list: " + content.replace(args[0], "")).queue();
+						break;
+					case "splash":
+						MantaroData.getSplashes().get().add(content.replace(args[0], ""));
+						MantaroData.getSplashes().update();
+						event.getChannel().sendMessage("Added to splash list: " + content.replace(args[0], "")).queue();
+						break;
 				}
 			}
 
@@ -52,8 +64,9 @@ public class OwnerCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Shutdown")
-						.setDescription("Shutdowns the bot.")
+				return baseEmbed(event, "Add to list command")
+					.setDescription("Adds a parameter to a list."
+						+ "\n Arguments: \n pat <args[1]>, hug <args[1]>, greeting <content>, splash <content>")
 						.build();
 			}
 		});
@@ -132,44 +145,31 @@ public class OwnerCmds extends Module {
 		});
 	}
 
-	private void add(){
-		super.register("varadd", new SimpleCommand() {
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				switch(args[0]){
-					case "pat":
-						MantaroData.getPatting().get().add(args[1]);
-						MantaroData.getPatting().update();
-						event.getChannel().sendMessage("Added to pat list: " + args[1]);
-						break;
-					case "hug":
-						MantaroData.getHugs().get().add(args[1]);
-						MantaroData.getHugs().update();
-						event.getChannel().sendMessage("Added to hug list: " + args[1]);
-						break;
-					case "greeting":
-						MantaroData.getGreeting().get().add(content.replace(args[0], ""));
-						MantaroData.getGreeting().update();
-						event.getChannel().sendMessage("Added to greet list: " + content.replace(args[0], ""));
-						break;
-					case "splash":
-						MantaroData.getSplashes().get().add(content.replace(args[0], ""));
-						MantaroData.getSplashes().update();
-						event.getChannel().sendMessage("Added to splash list: " + content.replace(args[0], ""));
-						break;
-				}
-			}
-
+	private void shutdown() {
+		super.register("shutdown", new SimpleCommand() {
 			@Override
 			public CommandType commandType() {
 				return CommandType.OWNER;
 			}
 
 			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
+					event.getChannel().sendMessage("Seems like you cannot do that, you silly <3").queue();
+					return;
+				}
+
+				try {
+					shutdown(event);
+				} catch (Exception e) {
+					LOGGER.warn("Couldn't shut down." + e.toString(), e);
+				}
+			}
+
+			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Add to list command")
-						.setDescription("Adds a parameter to a list."
-						+ "\n Arguments: \n pat <args[1]>, hug <args[1]>, greeting <content>, splash <content>")
+				return baseEmbed(event, "Shutdown")
+					.setDescription("Shutdowns the bot.")
 						.build();
 			}
 		});

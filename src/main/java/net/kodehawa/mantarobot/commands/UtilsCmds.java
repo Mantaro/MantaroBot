@@ -32,8 +32,29 @@ public class UtilsCmds extends Module {
 		birthday();
 	}
 
-	private void translate() {
-		super.register("translate", new SimpleCommand() {
+	private void birthday() {
+		super.register("birthday", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannel channel = event.getChannel();
+				String userId = event.getMessage().getAuthor().getId();
+				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+				Date bd1;
+				//So they don't input something that isn't a date...
+				try {
+					bd1 = format1.parse(args[0]);
+				} catch (Exception e) {
+					if (args[0] != null)
+						channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue();
+					e.printStackTrace();
+					return;
+				}
+
+				MantaroData.getData().get().users.computeIfAbsent(userId, k -> new Data.UserData()).birthdayDate = format1.format(bd1);
+				MantaroData.getData().update();
+				channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
+			}
+
 			@Override
 			public CommandType commandType() {
 				return CommandType.USER;
@@ -41,16 +62,23 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Translation command")
-					.setDescription("Translates any given sentence.\n"
-						+ "**Usage example:**\n"
-						+ "~>translate [sourcelang] [outputlang] [sentence].\n"
-						+ "**Parameter explanation**\n"
-						+ "[sourcelang] The language the sentence is written in. Use codes (english = en)\n"
-						+ "[outputlang] The language you want to translate to (french = fr, for example)\n"
-						+ "[sentence] The sentence to translate.")
-					.setColor(Color.BLUE)
+				return baseEmbed(event, "Birthday")
+					.setDescription("Sets your birthday date.\n"
+						+ "**Usage:**\n"
+						+ "~>birthday [date]. Sets your birthday date. Only useful if the server enabled this functionality"
+						+ "**Parameter explanation:**\n"
+						+ "[date]. A date in dd-mm-yyyy format (13-02-1998 for example)")
+					.setColor(Color.DARK_GRAY)
 					.build();
+			}
+		});
+	}
+
+	private void translate() {
+		super.register("translate", new SimpleCommand() {
+			@Override
+			public CommandType commandType() {
+				return CommandType.USER;
 			}
 
 			@Override
@@ -92,55 +120,28 @@ public class UtilsCmds extends Module {
 							channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating... :c").queue();
 						}
 					} else {
-						channel.sendMessage(help(event));
+						onHelp(event);
 					}
 				} catch (Exception e) {
 					LOGGER.warn("Something went wrong while processing translation elements.", e);
 					e.printStackTrace();
 				}
 			}
-		});
-	}
-
-	private void birthday(){
-		super.register("birthday", new SimpleCommand() {
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				TextChannel channel = event.getChannel();
-				String userId = event.getMessage().getAuthor().getId();
-				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-				Date bd1;
-				//So they don't input something that isn't a date...
-				try {
-					bd1 = format1.parse(args[0]);
-				} catch (Exception e) {
-					if (args[0] != null)
-						channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue();
-					e.printStackTrace();
-					return;
-				}
-
-				MantaroData.getData().get().users.computeIfAbsent(userId, k -> new Data.UserData()).birthdayDate = format1.format(bd1);
-				MantaroData.getData().update();
-				channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
-			}
-
-			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
-			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Birthday")
-						.setDescription("Sets your birthday date.\n"
-								+ "**Usage:**\n"
-								+ "~>birthday [date]. Sets your birthday date. Only useful if the server enabled this functionality"
-								+ "**Parameter explanation:**\n"
-								+ "[date]. A date in dd-mm-yyyy format (13-02-1998 for example)")
-						.setColor(Color.DARK_GRAY)
-						.build();
+				return baseEmbed(event, "Translation command")
+					.setDescription("Translates any given sentence.\n"
+						+ "**Usage example:**\n"
+						+ "~>translate [sourcelang] [outputlang] [sentence].\n"
+						+ "**Parameter explanation**\n"
+						+ "[sourcelang] The language the sentence is written in. Use codes (english = en)\n"
+						+ "[outputlang] The language you want to translate to (french = fr, for example)\n"
+						+ "[sentence] The sentence to translate.")
+					.setColor(Color.BLUE)
+					.build();
 			}
+
 		});
 	}
 }

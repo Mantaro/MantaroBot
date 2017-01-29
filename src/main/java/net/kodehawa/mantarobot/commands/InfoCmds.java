@@ -292,7 +292,7 @@ public class InfoCmds extends Module {
 				Member member = event.getGuild().getMember(user);
 				if (member == null) {
 					String name = user == null ? "Unknown User" : user.getName();
-					event.getChannel().sendMessage("Sorry but I couldn't get the Info fo the user " + name + ". Please make sure you and the user are in the same guild.");
+					event.getChannel().sendMessage("Sorry but I couldn't get the Info fo the user " + name + ". Please make sure you and the user are in the same guild.").queue();
 					return;
 				}
 

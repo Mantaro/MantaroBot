@@ -37,6 +37,17 @@ public class GeneralUtils {
 	private volatile static GeneralUtils instance = new GeneralUtils();
 
 	/**
+	 * Capitalizes the first letter of a string.
+	 *
+	 * @param s the string to capitalize
+	 * @return A string with the first letter capitalized.
+	 */
+	public static String capitalize(String s) {
+		if (s.length() == 0) return s;
+		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+	}
+
+	/**
 	 * @return The new instance of this class.
 	 */
 	public static GeneralUtils instance() {
@@ -99,17 +110,6 @@ public class GeneralUtils {
 			if (connection == null) return null;
 			connection.disconnect();
 		}
-	}
-
-	/**
-	 * Capitalizes the first letter of a string.
-	 *
-	 * @param s the string to capitalize
-	 * @return A string with the first letter capitalized.
-	 */
-	public static String capitalize(String s) {
-		if (s.length() == 0) return s;
-		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class GeneralUtils {
 			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
 			e.printStackTrace();
-			event.getChannel().sendMessage("\u274C Error retrieving data from URL.");
+			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
 		}
 
 		return webobject;
@@ -203,7 +203,7 @@ public class GeneralUtils {
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]");
+			event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue();
 		}
 
 		return url2;
