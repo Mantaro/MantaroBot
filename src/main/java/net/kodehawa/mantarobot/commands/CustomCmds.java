@@ -40,7 +40,7 @@ public class CustomCmds extends Module {
 			return CommandType.USER;
 		}
 
-		private void handle(GuildMessageReceivedEvent event, String cmdName, String rawArgs, String[] args) {
+		private void handle(GuildMessageReceivedEvent event, String cmdName, String[] args) {
 			Map<String, GuildData> guilds = MantaroData.getData().get().guilds;
 			if (!guilds.containsKey(event.getGuild().getId()) || !guilds.get(event.getGuild().getId()).customCommands.containsKey(cmdName))
 				return;
@@ -84,7 +84,7 @@ public class CustomCmds extends Module {
 
 		@Override
 		public void invoke(Arguments args) {
-			handle(args.event, args.cmdName, args.rawCommand, args.args);
+			handle(args.event, args.cmdName, args.args);
 		}
 
 		@Override
@@ -272,6 +272,7 @@ public class CustomCmds extends Module {
 	@Override
 	public void onPostLoad() {
 		Set<String> invalidCmds = new HashSet<>();
+		MantaroData.getData().get().guilds.values().forEach(guildData -> guildData.customCommands.values().removeIf(List::isEmpty));
 		MantaroData.getData().get().guilds.values().forEach(guildData -> guildData.customCommands.keySet().forEach(cmd -> {
 			if (!Manager.commands.containsKey(cmd)) Manager.commands.put(cmd, Pair.of(customCommand, null));
 			else invalidCmds.add(cmd);

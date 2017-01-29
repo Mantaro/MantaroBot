@@ -69,11 +69,12 @@ public class MantaroBot {
 		Random r = new Random();
 
 		List<String> splashes = MantaroData.getSplashes().get();
+		if (splashes.removeIf(s -> s == null || s.isEmpty())) MantaroData.getSplashes().update();
 
 		Runnable changeStatus = () -> {
-			int i = r.nextInt(splashes.size() - 1);
-			jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + splashes.get(i)));
-			LOGGER.info("Changed status to: " + splashes.get(i));
+			String newStatus = splashes.get(r.nextInt(splashes.size()));
+			jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus));
+			LOGGER.info("Changed status to: " + newStatus);
 		};
 
 		changeStatus.run();
