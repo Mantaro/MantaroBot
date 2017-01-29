@@ -110,7 +110,7 @@ public class MantaroAudioManager {
 					LOGGER.warn("Couldn't play music", exception);
 					channel.sendMessage("\u274C Error while fetching music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
 				} else {
-					exception.printStackTrace();
+					exception.printStackTrace(); //TODO LOG THAT SHIT
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class MantaroAudioManager {
 				).queue();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 		}
 	}
 

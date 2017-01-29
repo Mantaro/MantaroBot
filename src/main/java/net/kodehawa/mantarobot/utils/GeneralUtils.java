@@ -104,7 +104,7 @@ public class GeneralUtils {
 			return "https://hastebin.com/" + pasteToken;
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			return null;
 		} finally {
 			if (connection == null) return null;
@@ -181,7 +181,7 @@ public class GeneralUtils {
 			InputStream ism = ccnn.getInputStream();
 			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
 		}
 
@@ -202,7 +202,7 @@ public class GeneralUtils {
 			resty.identifyAsMozilla();
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue();
 		}
 

@@ -95,7 +95,7 @@ public class MantaroListener implements EventListener {
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException)) {
 				//Unexpected exception, log.
-				e.printStackTrace();
+				e.printStackTrace(); //TODO LOG THAT SHIT
 			}
 		}
 	}
@@ -119,7 +119,7 @@ public class MantaroListener implements EventListener {
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException)) {
 				//Unexpected exception, log.
-				e.printStackTrace();
+				e.printStackTrace(); //TODO LOG THAT SHIT
 			}
 		}
 	}
@@ -173,7 +173,7 @@ public class MantaroListener implements EventListener {
 											} else {
 												channel.sendMessage("\u274C" + "Unknown error while applying roles [" + birthdayRole.getName()
 													+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-												error.printStackTrace();
+												error.printStackTrace(); //TODO LOG THAT SHIT
 											}
 										});
 								}
@@ -188,7 +188,7 @@ public class MantaroListener implements EventListener {
 						}
 					} catch (Exception e) {
 						LOGGER.warn("Cannot process birthday for: " + userKey + " program will be still running.", this.getClass(), e);
-						e.printStackTrace();
+						e.printStackTrace(); //TODO LOG THAT SHIT
 					}
 				}
 			}
@@ -211,7 +211,7 @@ public class MantaroListener implements EventListener {
 			//Should look a better way of handling/logging this.
 
 			LOGGER.warn("Cannot process command? Prefix is probably null, look into this. " + event.getMessage().getRawContent(), e);
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 		}
 	}
 }

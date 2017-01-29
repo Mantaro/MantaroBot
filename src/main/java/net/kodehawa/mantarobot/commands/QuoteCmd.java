@@ -18,12 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class QuoteCmd extends Module {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger("Quote");
+	private static final Logger LOGGER = LoggerFactory.getLogger("QuoteCmd");
 
 	private static String toJson(Map<String, LinkedHashMap<String, List<String>>> map) {
 		return new Gson().toJson(map);
 	}
+
+	private final Random rand = new Random();
 
 	public QuoteCmd() {
 		super(Category.MISC);
@@ -56,25 +57,23 @@ public class QuoteCmd extends Module {
 
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				Random rand = new Random();
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
-				List<Message> messageHistory = null;
+				List<Message> messageHistory;
 				try {
 					messageHistory = channel.getHistory().retrievePast(100).complete();
 				} catch (Exception e) {
-					e.printStackTrace();
+					e.printStackTrace(); //TODO LOG THAT SHIT
+					//TODO Also log to Discord that shit exploded on the Backend.
+					return;
 				}
 
 				String noArgs = content.split(" ")[0];
 				String phrase = content.replace(noArgs + " ", "");
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				switch (noArgs) {
-					default:
-						channel.sendMessage(help(event)).queue();
-						break;
 					case "add":
 						try {
 							int i = Integer.parseInt(phrase);
@@ -112,14 +111,13 @@ public class QuoteCmd extends Module {
 								.addField("Content", m.getContent(), false)
 								.setFooter("Date: " + dateFormat.format(quoteDate), null);
 							channel.sendMessage(builder.build()).queue();
-							break;
 						} catch (Exception e) {
 							channel.sendMessage("\u274C Error while adding quote: " + e.getCause() + e.getMessage()).queue();
-							e.printStackTrace();
-							break;
+							e.printStackTrace(); //TODO LOG THAT SHIT
 						}
+						break;
 					case "random":
-						List keys = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+						List<String> keys = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 						int quoteN = rand.nextInt(keys.size());
 						List<String> quoteElements = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys.get(quoteN));
 
@@ -130,13 +128,14 @@ public class QuoteCmd extends Module {
 							.setColor(Color.CYAN)
 							.setDescription("Quote made on server " + quoteElements.get(3)
 								+ " in channel " + "#" + quoteElements.get(2))
-							.addField("Content", keys.get(quoteN).toString(), false)
+							.addField("Content", keys.get(quoteN), false)
 							.setFooter("Date: " + dateFormat.format(dat), null);
 						channel.sendMessage(embedBuilder.build()).queue();
+
 						break;
 					case "read":
 						int i = Integer.parseInt(phrase);
-						List keys1 = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+						List<String> keys1 = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 						List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
 						EmbedBuilder embedBuilder2 = new EmbedBuilder();
 						Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
@@ -145,9 +144,10 @@ public class QuoteCmd extends Module {
 							.setColor(Color.CYAN)
 							.setDescription("Quote made on server " + quoteElements2.get(3)
 								+ " in channel " + "#" + quoteElements2.get(2))
-							.addField("Content", keys1.get(i).toString(), false)
+							.addField("Content", keys1.get(i), false)
 							.setFooter("Date: " + dateFormat.format(date1), null);
 						channel.sendMessage(embedBuilder2.build()).queue();
+
 						break;
 					case "addfrom":
 						int i1 = -1;
@@ -168,15 +168,10 @@ public class QuoteCmd extends Module {
 
 						if (MantaroData.getQuotes().get().quotes.containsKey(guild.getId())) {
 							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
-							MantaroData.getQuotes().get().quotes.get(
-								guild.getId()).put(m.getContent(), Arrays.asList(sContent)
-							);
-
+							MantaroData.getQuotes().get().quotes.get(guild.getId()).put(m.getContent(), Arrays.asList(sContent));
 						} else {
 							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
-							temp.put(
-								m.getContent(), Arrays.asList(sContent)
-							);
+							temp.put(m.getContent(), Arrays.asList(sContent));
 							MantaroData.getQuotes().get().quotes.put(guild.getId(), temp);
 						}
 
@@ -192,6 +187,7 @@ public class QuoteCmd extends Module {
 							.addField("Content", m.getContent(), false)
 							.setFooter("Date: " + dateFormat.format(quoteDate), null);
 						channel.sendMessage(builder.build()).queue();
+
 						break;
 					case "getfrom":
 						List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
@@ -211,11 +207,20 @@ public class QuoteCmd extends Module {
 								break;
 							}
 						}
+
+						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
+							event.getChannel().sendMessage(GeneralUtils.paste(GeneralUtils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
+						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
+
+						break;
 					case "debug":
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
 							event.getChannel().sendMessage(GeneralUtils.paste(GeneralUtils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
-						else
-							event.getChannel().sendMessage("What are you trying to do, silly.").queue();
+						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
+
+						break;
+					default:
+						channel.sendMessage(help(event)).queue();
 						break;
 				}
 			}

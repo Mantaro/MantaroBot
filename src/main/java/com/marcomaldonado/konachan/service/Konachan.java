@@ -144,7 +144,7 @@ public class Konachan {
 			binaryResource = downloader.bytes(imageURL);
 			binaryResource.save(imageFile);
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			return null;
 		}
 		return folderPath + File.separator + filename;

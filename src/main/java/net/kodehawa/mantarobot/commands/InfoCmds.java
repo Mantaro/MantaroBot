@@ -374,7 +374,7 @@ public class InfoCmds extends Module {
 							.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e){
-					e.printStackTrace();
+					e.printStackTrace(); //TODO LOG THAT SHIT
 				}
 			}
 

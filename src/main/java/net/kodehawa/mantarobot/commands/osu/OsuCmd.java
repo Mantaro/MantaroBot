@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.utils.Async;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +56,7 @@ public class OsuCmd extends Module{
 									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else
 									LOGGER.warn("[osu] Exception thrown while fetching data", e);
-								e.printStackTrace();
+								e.printStackTrace(); //TODO LOG THAT SHIT
 							}
 						});
 						break;
@@ -72,7 +72,7 @@ public class OsuCmd extends Module{
 									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else
 									LOGGER.warn("[osu] Exception thrown while fetching data", e);
-									e.printStackTrace();
+									e.printStackTrace(); //TODO LOG THAT SHIT
 							}
 						});
 						break;
@@ -140,7 +140,7 @@ public class OsuCmd extends Module{
 			long end = System.currentTimeMillis() - start;
 			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			finalResponse = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 
@@ -181,7 +181,7 @@ public class OsuCmd extends Module{
 			finalMessage = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			finalMessage = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 		return finalMessage;
@@ -215,7 +215,7 @@ public class OsuCmd extends Module{
 					.setFooter("Response time: " + end + "ms.", null);
 			finalMessage = builder.build();
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(); //TODO LOG THAT SHIT
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.setTitle("Error.")
 					.setColor(Color.RED)

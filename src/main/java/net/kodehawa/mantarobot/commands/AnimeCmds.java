@@ -254,7 +254,7 @@ public class AnimeCmds extends Module {
 		} catch (Exception e) {
 			LOGGER.warn("Problem while updating auth token! " + e.getCause() + " " + e.getMessage());
 			if (MantaroData.getConfig().get().debug) {
-				e.printStackTrace();
+				e.printStackTrace(); //TODO LOG THAT SHIT
 			}
 		}
 	}

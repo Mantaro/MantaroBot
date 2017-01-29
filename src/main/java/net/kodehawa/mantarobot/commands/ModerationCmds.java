@@ -67,7 +67,7 @@ public class ModerationCmds extends Module {
 													+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
 											//Just so I get more info in the case of an unexpected error.
-											error.printStackTrace();
+											error.printStackTrace(); //TODO LOG THAT SHIT
 										}
 									});
 						}
@@ -141,7 +141,7 @@ public class ModerationCmds extends Module {
 												+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
 										//I need more information in the case of an unexpected error.
-										error.printStackTrace();
+										error.printStackTrace(); //TODO LOG THAT SHIT
 									}
 								});
 					}

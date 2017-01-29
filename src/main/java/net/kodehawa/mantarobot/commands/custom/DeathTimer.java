@@ -48,7 +48,7 @@ public class DeathTimer {
 					wait(timeout);
 				}
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				e.printStackTrace(); //TODO LOG THAT SHIT
 			}
 		}
 

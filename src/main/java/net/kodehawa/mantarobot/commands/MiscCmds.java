@@ -14,12 +14,11 @@ import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.GeneralUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -177,7 +176,7 @@ public class MiscCmds extends Module {
 					try {
 						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
 					} catch (UnsupportedEncodingException e) {
-						e.printStackTrace();
+						e.printStackTrace(); //TODO LOG THAT SHIT
 					}
 					String json = GeneralUtils.instance().restyGetObjectFromUrl(url, event);
 					UrbanData data = GsonDataManager.GSON.fromJson(json, UrbanData.class);

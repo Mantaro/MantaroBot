@@ -46,7 +46,7 @@ public class UtilsCmds extends Module {
 				} catch (Exception e) {
 					if (args[0] != null)
 						channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue();
-					e.printStackTrace();
+					e.printStackTrace(); //TODO LOG THAT SHIT
 					return;
 				}
 
@@ -96,7 +96,7 @@ public class UtilsCmds extends Module {
 						try {
 							textEncoded = URLEncoder.encode(textToEncode, "UTF-8");
 						} catch (UnsupportedEncodingException e1) {
-							e1.printStackTrace();
+							e1.printStackTrace(); //TODO LOG THAT SHIT
 						}
 
 						String translatorUrl = String.format("https://translate.google.com/translate_a/single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
@@ -124,7 +124,7 @@ public class UtilsCmds extends Module {
 					}
 				} catch (Exception e) {
 					LOGGER.warn("Something went wrong while processing translation elements.", e);
-					e.printStackTrace();
+					e.printStackTrace(); //TODO LOG THAT SHIT
 				}
 			}
 

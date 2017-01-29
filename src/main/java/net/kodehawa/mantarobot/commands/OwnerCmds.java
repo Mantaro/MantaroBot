@@ -96,7 +96,7 @@ public class OwnerCmds extends Module {
 								+ evalString + "\n}" +
 								"})()");
 					} catch (ScriptException e) {
-						e.printStackTrace();
+						e.printStackTrace(); //TODO LOG THAT SHIT
 						toSend = e.getMessage();
 						embedBuilder.setDescription(toSend.toString());
 					}
@@ -127,7 +127,7 @@ public class OwnerCmds extends Module {
 					event.getChannel().sendMessage("Code evaluation returned ``" + e.getClass().getSimpleName() + "``, with cause" +
 							" ``" + e.getCause() + "``").queue();
 					LOGGER.warn("Problem evaluating code!", e);
-					e.printStackTrace();
+					e.printStackTrace(); //TODO LOG THAT SHIT
 				}
 			}
 
