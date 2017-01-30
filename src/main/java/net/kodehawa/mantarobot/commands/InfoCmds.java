@@ -369,7 +369,7 @@ public class InfoCmds extends Module {
 					embed.setColor(Color.CYAN)
 							.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content)
 							.setDescription(status + " (" + clness + "% cloudiness)")
-							.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C |" + finalTemperatureFarnheit.intValue() + "°F", true)
+							.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " + finalTemperatureFarnheit.intValue() + "°F", true)
 							.addField(":droplet: Humidity", hum + "%", true)
 							.addBlankField(true)
 							.addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " + finalWindSpeedImperial.intValue() + "mph", true)

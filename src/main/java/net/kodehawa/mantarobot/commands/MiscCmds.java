@@ -175,7 +175,7 @@ public class MiscCmds extends Module {
 					String url = null;
 					try {
 						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
-					} catch (UnsupportedEncodingException e) {}
+					} catch (UnsupportedEncodingException ignored) {}
 					String json = Utils.restyGetObjectFromUrl(url, event);
 					UrbanData data = GsonDataManager.GSON.fromJson(json, UrbanData.class);
 

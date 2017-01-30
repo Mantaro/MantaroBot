@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -10,6 +11,7 @@ import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
+import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -102,6 +104,13 @@ public class CustomCmds extends Module {
 		super.register("custom", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(MantaroData.getData().get().getGuild(event.getGuild(), false).customCommandsAdminOnly){
+					if(!event.getGuild().getMember(event.getAuthor()).hasPermission(Permission.ADMINISTRATOR)){
+						event.getChannel().sendMessage("This guild only accepts custom commands from administrators.");
+						return;
+					}
+				}
+
 				if (args.length < 1) {
 					onHelp(event);
 					return;

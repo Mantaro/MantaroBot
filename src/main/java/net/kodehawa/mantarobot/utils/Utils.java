@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -106,32 +108,20 @@ public class Utils {
 	}
 
 	public static String paste(String toSend) {
-		HttpURLConnection connection = null;
 		try {
-			URL url = new URL("https://hastebin.com/documents");
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setRequestProperty("User-Agent", "Mantaro");
-			connection.setRequestProperty("Content-Type", "text/plain");
-			connection.setDoInput(true);
-			connection.setDoOutput(true);
-
-			DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-			wr.writeBytes(toSend);
-			wr.flush();
-			wr.close();
-
-			InputStream inputstream = connection.getInputStream();
-			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-			JSONObject jObject = new JSONObject(json);
-			String pasteToken = jObject.getString("key");
+			String pasteToken = Unirest.post("https://hastebin.com/documents")
+					.header("User-Agent", "Mantaro")
+					.header("Content-Type", "text/plain")
+					.body(toSend)
+					.asJson()
+					.getBody()
+					.getObject()
+					.getString("key");
 			return "https://hastebin.com/" + pasteToken;
 
-		} catch (IOException e) {
+		} catch (UnirestException e) {
 			LOGGER.warn("Hastebin is being funny, huh? Cannot send or retrieve paste.", e);
-			return null;
-		} finally {
-			if (connection != null) connection.disconnect();
+			return "Bot threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
 		}
 	}
 

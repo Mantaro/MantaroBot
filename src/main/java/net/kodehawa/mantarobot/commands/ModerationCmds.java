@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.kodehawa.mantarobot.data.Data;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -17,6 +19,7 @@ public class ModerationCmds extends Module {
 		super(Category.MODERATION);
 		ban();
 		kick();
+		opts();
 	}
 
 	private void ban() {
@@ -230,6 +233,15 @@ public class ModerationCmds extends Module {
 						return;
 					}
 					onHelp(event);
+					return;
+				}
+
+				if(option.equals("admincustom")){
+					MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData())
+							.customCommandsAdminOnly = Boolean.parseBoolean(action);
+					MantaroData.getData().update();
+					String toSend = Boolean.parseBoolean(action) ? "Now user command creation is admin only." : "Now user command creation can be done by users";
+					event.getChannel().sendMessage(toSend).queue();
 					return;
 				}
 

@@ -1,5 +1,9 @@
 package com.marcomaldonado.konachan.entities;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Wallpaper {
 
 	private String author;
@@ -110,13 +114,8 @@ public class Wallpaper {
 		return status;
 	}
 
-	public String[] getTags() {
-		String[] tagsArray = new String[0];
-		if (tags != null) {
-			tagsArray = tags.split(" ");
-		}
-		return tagsArray;
-
+	public List<String> getTags() {
+		return tags == null ? new ArrayList<>(Arrays.asList("empty", "")) : new ArrayList<>(Arrays.asList(tags.split(" ")));
 	}
 
 	public Integer getWidth() {

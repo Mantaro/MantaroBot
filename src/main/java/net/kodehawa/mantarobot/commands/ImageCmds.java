@@ -120,7 +120,7 @@ public class ImageCmds extends Module {
 						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (Exception e) { number = new Random().nextInt(wallpapers.length-1); }
 						String URL = wallpapers[number - 1].getFile_url();
 						String AUTHOR = wallpapers[number - 1].getAuthor();
-						String TAGS = Arrays.stream(wallpapers[number - 1].getTags()).collect(Collectors.joining(", "));
+						String TAGS = wallpapers[number - 1].getTags().stream().collect(Collectors.joining(", "));
 						Integer WIDTH = wallpapers[number - 1].getWidth();
 						Integer HEIGHT = wallpapers[number - 1].getHeight();
 
@@ -145,30 +145,25 @@ public class ImageCmds extends Module {
 						int page1 = Integer.parseInt(whole2[0]);
 						String tags = whole2[1];
 
-						konachan.search(page1, 60, tags, new WallpaperCallback() {
-							public void onFailure(int error, String message) {}
-							public void onStart() {}
+						konachan.search(page1, 60, tags, (wallpapers1, tags1) -> {
+							try { number1 = Integer.parseInt(whole2[2]); } catch (Exception e) { number1 = new Random().nextInt(wallpapers1.length -1); }
+							String URL1 = wallpapers1[number1 - 1].getFile_url();
+							String AUTHOR1 = wallpapers1[number1 - 1].getAuthor();
+							String TAGS1 = wallpapers1[number1 - 1].getTags().stream().collect(Collectors.joining(", "));
+							Integer WIDTH1 = wallpapers1[number1 - 1].getWidth();
+							Integer HEIGHT1 = wallpapers1[number1- 1].getHeight();
 
-							public void onSuccess(Wallpaper[] wallpapers, Tag[] tags) {
-								try { number1 = Integer.parseInt(whole2[2]); } catch (Exception e) { number1 = new Random().nextInt(wallpapers.length -1); }
-								String URL = wallpapers[number1 - 1].getFile_url();
-								String AUTHOR = wallpapers[number1 - 1].getAuthor();
-								String TAGS = Arrays.stream(wallpapers[number1 - 1].getTags()).collect(Collectors.joining(", "));
-								Integer WIDTH = wallpapers[number1 - 1].getWidth();
-								Integer HEIGHT = wallpapers[number1- 1].getHeight();
-
-								try {
-									EmbedBuilder builder = new EmbedBuilder();
-									builder.setAuthor("Found image", null, null)
-											.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-											.setImage("http:" + URL)
-											.addField("Height", String.valueOf(HEIGHT), true)
-											.addField("Width", String.valueOf(WIDTH), true)
-											.addField("Tags", "``" +  (TAGS == null ? "None" : TAGS) + "``", false);
-									channel.sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException exception) {
-									channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
-								}
+							try {
+								EmbedBuilder builder = new EmbedBuilder();
+								builder.setAuthor("Found image", null, null)
+										.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
+										.setImage("http:" + URL1)
+										.addField("Height", String.valueOf(HEIGHT1), true)
+										.addField("Width", String.valueOf(WIDTH1), true)
+										.addField("Tags", "``" +  (TAGS1 == null ? "None" : TAGS1) + "``", false);
+								channel.sendMessage(builder.build()).queue();
+							} catch (ArrayIndexOutOfBoundsException exception) {
+								channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 							}
 						});
 						break;
