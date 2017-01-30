@@ -7,8 +7,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.io.DataOutputStream;
@@ -23,6 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
+	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
+
 	/**
 	 * Capitalizes the first letter of a string.
 	 *
@@ -62,30 +65,6 @@ public class Utils {
 	}
 
 	/**
-	 * Gets a JSON Array from a specified URL
-	 *
-	 * @param url The URL to fetch the JSON from.
-	 * @param evt JDA message event.
-	 * @return The retrieved JSON object.
-	 */
-	public static JSONArray getJSONArrayFromUrl(String url, GuildMessageReceivedEvent evt) {
-		String urlParsed = getObjectFromUrl(url, evt);
-		return new JSONArray(urlParsed);
-	}
-
-	/**
-	 * Gets a JSON Array from a specified URL
-	 *
-	 * @param url The URL to fetch the JSON from.
-	 * @param evt JDA message event.
-	 * @return The retrieved JSON object.
-	 */
-	public static JSONObject getJSONObjectFromUrl(String url, GuildMessageReceivedEvent evt) {
-		String urlParsed = getObjectFromUrl(url, evt);
-		return new JSONObject(urlParsed);
-	}
-
-	/**
 	 * Fetches an Object from any given URL. Uses vanilla Java methods.
 	 * Can retrieve text, JSON Objects, XML and probably more.
 	 *
@@ -95,7 +74,6 @@ public class Utils {
 	 */
 	public static String getObjectFromUrl(String url, GuildMessageReceivedEvent event) {
 		String webobject = null;
-
 		try {
 			URL ur1 = new URL(url);
 			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
@@ -103,7 +81,7 @@ public class Utils {
 			InputStream ism = ccnn.getInputStream();
 			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
+			LOGGER.warn("Seems like I cannot fetch data from " + url, e);
 			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
 		}
 
@@ -145,13 +123,12 @@ public class Utils {
 
 			InputStream inputstream = connection.getInputStream();
 			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-			System.out.println(json);
 			JSONObject jObject = new JSONObject(json);
 			String pasteToken = jObject.getString("key");
 			return "https://hastebin.com/" + pasteToken;
 
 		} catch (IOException e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
+			LOGGER.warn("Hastebin is being funny, huh? Cannot send or retrieve paste.", e);
 			return null;
 		} finally {
 			if (connection != null) connection.disconnect();
@@ -172,7 +149,7 @@ public class Utils {
 			resty.identifyAsMozilla();
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
+			LOGGER.warn("[Resty] Seems like I cannot fetch data from " + url, e);
 			event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue();
 		}
 

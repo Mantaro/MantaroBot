@@ -65,8 +65,9 @@ public class QuoteCmd extends Module {
 				try {
 					messageHistory = channel.getHistory().retrievePast(100).complete();
 				} catch (Exception e) {
-					e.printStackTrace(); //TODO LOG THAT SHIT
-					//TODO Also log to Discord that shit exploded on the Backend.
+					event.getChannel().sendMessage("Seems like discord is having some problems for now, since a request to retrieve the history was denied" +
+							"with error `" + e.getClass().getSimpleName() + "`").queue();
+					LOGGER.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
 					return;
 				}
 
@@ -113,7 +114,7 @@ public class QuoteCmd extends Module {
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception e) {
 							channel.sendMessage("\u274C Error while adding quote: " + e.getCause() + e.getMessage()).queue();
-							e.printStackTrace(); //TODO LOG THAT SHIT
+							LOGGER.warn("Error while adding a quote", e);
 						}
 						break;
 					case "random":
@@ -209,13 +210,13 @@ public class QuoteCmd extends Module {
 						}
 
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
-							event.getChannel().sendMessage(Utils.paste(Utils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
+							event.getChannel().sendMessage(Utils.paste(Utils.toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
 						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
 
 						break;
 					case "debug":
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
-							event.getChannel().sendMessage(Utils.paste(Utils.instance().toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
+							event.getChannel().sendMessage(Utils.paste(Utils.toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
 						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
 
 						break;

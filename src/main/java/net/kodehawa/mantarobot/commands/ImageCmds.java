@@ -55,8 +55,8 @@ public class ImageCmds extends Module {
 	}
 
 	private EmbedBuilder getImage(int argcount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
-		boolean trigger = true; //implement when parameters is done?
-		String json = Utils.instance().getObjectFromUrl(url, event);
+		boolean trigger = true; //TODO implement when parameters is done
+		String json = Utils.getObjectFromUrl(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 		int get;

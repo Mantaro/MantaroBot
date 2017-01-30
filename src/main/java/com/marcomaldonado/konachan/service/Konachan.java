@@ -6,6 +6,7 @@ import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.web.callback.DownloadCallback;
 import com.marcomaldonado.web.callback.WallpaperCallback;
 import com.marcomaldonado.web.tools.helpers.HTMLHelper;
+import com.mashape.unirest.http.Unirest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.BinaryResource;
@@ -80,22 +81,16 @@ public class Konachan {
 		final Konachan self = this;
 		Thread thread = new Thread(() -> {
 			try {
-				if (callback != null) {
-					callback.onStart();
-				}
+				if (callback == null)
+					return;
 				Wallpaper[] wallpapers = self.posts(page, limit, search);
 				Tag[] tags = null;
 				if (search != null) {
 					tags = self.tags(search, 1, self.getLimitRelatedTags());
-				}
-				if (callback != null) {
 					callback.onSuccess(wallpapers, tags);
 				}
 			} catch (Exception ex) {
-				if (callback != null) callback.onFailure(
-					KonachanErrors.GENERIC_ERROR,
-					KonachanErrors.message(KonachanErrors.GENERIC_ERROR)
-				);
+				LOGGER.warn("Error while retrieving a image from Konachan.", ex);
 			}
 		});
 		thread.start();
@@ -111,11 +106,9 @@ public class Konachan {
 		String response = "[]";
 		try {
 			String postsUrl = "http://konachan.com/post.json";
-			response = this.resty.text(
-				postsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)
-			).toString();
-		} catch (Exception ignored) {
-		} finally {
+			response = this.resty.text(postsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)).toString();
+		} catch (Exception ignored) {}
+		finally {
 			queryParams.clear();
 		}
 		Gson gson = new Gson();
@@ -156,31 +149,16 @@ public class Konachan {
 	public Thread saveWallpaper(final String filename, final String folderPath, final String imageURL, final DownloadCallback callback) {
 		Thread thread = new Thread(() -> {
 			try {
-				if (callback != null) {
-					callback.onStart();
-				}
+				if (callback == null)
+					return;
 				String save = saveWallpaper(filename, folderPath, imageURL);
 				if (save != null) {
-					if (callback != null) {
-						callback.onSuccess(save);
-					}
+					callback.onSuccess(save);
 				} else {
-					if (callback != null) {
-						callback.onFailure(
-							KonachanErrors.UNKNOW_ERROR,
-							KonachanErrors.message(KonachanErrors.UNKNOW_ERROR
-							)
-						);
-					}
+					LOGGER.warn("Unknown error occurred while saving a wallpaper.");
 				}
 			} catch (Exception ex) {
-				if (callback != null) {
-					callback.onFailure(
-						KonachanErrors.GENERIC_ERROR,
-						KonachanErrors.message(KonachanErrors.GENERIC_ERROR
-						)
-					);
-				}
+				LOGGER.warn("A error occurred while fetching the wallpaper.", ex);
 			}
 		});
 		thread.start();
@@ -211,11 +189,9 @@ public class Konachan {
 		String response = "[]";
 		try {
 			String tagsUrl = "http://konachan.com/tag.json";
-			response = this.resty.text(
-				tagsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)
-			).toString();
-		} catch (Exception ignored) {
-		} finally {
+			response = this.resty.text(tagsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)).toString();
+		} catch (Exception ignored) {}
+		finally {
 			queryParams.clear();
 		}
 		Gson gson = new Gson();

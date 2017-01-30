@@ -50,13 +50,11 @@ public class OsuCmd extends Module{
 							Future<String> task = Async.getThreadPool().submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-								task.cancel(true);
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
 									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else
-									LOGGER.warn("[osu] Exception thrown while fetching data", e);
-								e.printStackTrace(); //TODO LOG THAT SHIT
+									LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
@@ -66,13 +64,11 @@ public class OsuCmd extends Module{
 							Future<String> task = Async.getThreadPool().submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-								task.cancel(true);
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
 									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else
-									LOGGER.warn("[osu] Exception thrown while fetching data", e);
-									e.printStackTrace(); //TODO LOG THAT SHIT
+									LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
@@ -140,8 +136,8 @@ public class OsuCmd extends Module{
 			long end = System.currentTimeMillis() - start;
 			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 		} catch (Exception e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
 			finalResponse = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
+			LOGGER.warn("Error retrieving results from osu!API", e);
 		}
 
 		return finalResponse;
@@ -181,7 +177,6 @@ public class OsuCmd extends Module{
 			finalMessage = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 
 		} catch (Exception e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
 			finalMessage = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 		return finalMessage;
@@ -215,7 +210,6 @@ public class OsuCmd extends Module{
 					.setFooter("Response time: " + end + "ms.", null);
 			finalMessage = builder.build();
 		} catch (Exception e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.setTitle("Error.")
 					.setColor(Color.RED)

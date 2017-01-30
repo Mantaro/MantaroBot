@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -19,16 +19,10 @@ import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.stream.Collectors;
 
@@ -41,7 +35,6 @@ public class AnimeCmds extends Module {
 		super(Category.FUN);
 		anime();
 		character();
-		login();
 	}
 
 	private void anime() {
@@ -57,7 +50,7 @@ public class AnimeCmds extends Module {
 					//Set variables to use later. They will be parsed to JSON later on.
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
 						URLEncoder.encode(content, "UTF-8"), authToken);
-					String json = Utils.instance().getObjectFromUrl(connection, event);
+					String json = Utils.getObjectFromUrl(connection, event);
 					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
@@ -115,7 +108,7 @@ public class AnimeCmds extends Module {
 				TextChannel channel = event.getChannel();
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
-					String json = Utils.instance().getObjectFromUrl(url, event);
+					String json = Utils.getObjectFromUrl(url, event);
 					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
@@ -222,40 +215,28 @@ public class AnimeCmds extends Module {
 	}
 
 	/**
-	 * Refreshes the already given token in x ms. Usually every 58 minutes.
-	 *
-	 * Gives the new AniList access token.
-	 */
-	private void login() {
-		Async.startAsyncTask("AniList Login Task", this::authenticate, 	3500);
-	}
-
-	/**
 	 * @return The new AniList access token.
 	 */
 	private void authenticate() {
-		URL aniList;
+		String aniList = "https://anilist.co/api/auth/access_token";
+		String CLIENT_ID = "kodehawa-o43eq";
 		try {
-			aniList = new URL("https://anilist.co/api/auth/access_token");
-			HttpURLConnection alc = (HttpURLConnection) aniList.openConnection();
-			alc.setRequestMethod("POST");
-			alc.setRequestProperty("User-Agent", "Mantaro");
-			alc.setDoOutput(true);
-			alc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-			OutputStreamWriter osw = new OutputStreamWriter(alc.getOutputStream());
-			String CLIENT_ID = "kodehawa-o43eq";
-			osw.write("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET);
-			osw.flush();
-			InputStream inputstream = alc.getInputStream();
-			String json = CharStreams.toString(new InputStreamReader(inputstream, Charsets.UTF_8));
-			JSONObject jObject = new JSONObject(json);
-			authToken = jObject.getString("access_token");
+			authToken = Unirest.post(aniList)
+					.header("User-Agent", "Mantaro")
+					.header("Content-Type", "application/x-www-form-urlencoded")
+					.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET)
+					.asJson()
+					.getBody()
+					.getObject().getString("access_token");
 			LOGGER.info("Updated auth token.");
-		} catch (Exception e) {
-			LOGGER.warn("Problem while updating auth token! " + e.getCause() + " " + e.getMessage());
-			if (MantaroData.getConfig().get().debug) {
-				e.printStackTrace(); //TODO LOG THAT SHIT
-			}
+		} catch (UnirestException e) {
+			LOGGER.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
 		}
+	}
+
+	@Override
+	public void onPostLoad() {
+		super.onPostLoad();
+		Async.startAsyncTask("AniList Login Task", this::authenticate, 	3500);
 	}
 }

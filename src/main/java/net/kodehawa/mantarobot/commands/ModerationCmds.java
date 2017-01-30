@@ -7,8 +7,11 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ModerationCmds extends Module {
+	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
 
 	public ModerationCmds() {
 		super(Category.MODERATION);
@@ -39,8 +42,8 @@ public class ModerationCmds extends Module {
 
 				//For all mentioned members..
 				receivedMessage.getMentionedUsers().forEach(user -> {
-					Member member = guild.getMember(user); //TODO CHECK MEMBER MIGHT BE NULL
-
+					Member member = guild.getMember(user);
+					if(member == null) return;
 					//If one of them is in a higher hierarchy than the bot, I cannot ban them.
 					if (!guild.getSelfMember().canInteract(member)) {
 						channel.sendMessage("\u274C" + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
@@ -67,7 +70,8 @@ public class ModerationCmds extends Module {
 									+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
 								//I need more information in the case of an unexpected error.
-								error.printStackTrace(); //TODO LOG THAT SHIT
+
+								LOGGER.warn("Unexpected error while banning someone.", error);
 							}
 						});
 				});
@@ -123,7 +127,8 @@ public class ModerationCmds extends Module {
 
 				//For all mentioned users in the command.
 				receivedMessage.getMentionedUsers().forEach(user -> {
-					Member member = guild.getMember(user); //TODO CHECK MEMBER MIGHT BE NULL
+					Member member = guild.getMember(user);
+					if(member == null) return;
 
 					//If one of them is in a higher hierarchy than the bot, cannot kick.
 					if (!selfMember.canInteract(member)) {
@@ -141,7 +146,7 @@ public class ModerationCmds extends Module {
 								channel.sendMessage(String.format("❌ Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 
 								//Just so I get more info in the case of an unexpected error.
-								error.printStackTrace(); //TODO LOG THAT SHIT
+								LOGGER.warn("Unexpected error while kicking someone.", error);
 							}
 						});
 				});

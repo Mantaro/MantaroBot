@@ -1,6 +1,6 @@
 package com.marcomaldonado.web.callback;
 
-public interface DownloadCallback extends Callback {
+public interface DownloadCallback {
 
 	void onSuccess(String route);
 

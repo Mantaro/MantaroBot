@@ -1,13 +1,7 @@
 package com.marcomaldonado.konachan.entities;
 
-import java.io.Serializable;
+public class Wallpaper {
 
-public class Wallpaper implements Serializable {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 5094422659987895824L;
 	private String author;
 	private Integer created_at;
 	private long file_size;

@@ -96,7 +96,6 @@ public class OwnerCmds extends Module {
 								+ evalString + "\n}" +
 								"})()");
 					} catch (ScriptException e) {
-						e.printStackTrace(); //TODO LOG THAT SHIT
 						toSend = e.getMessage();
 						embedBuilder.setDescription(toSend.toString());
 					}
@@ -124,10 +123,9 @@ public class OwnerCmds extends Module {
 							.setFooter("Asked by: " + event.getAuthor().getName(), null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
-					event.getChannel().sendMessage("Code evaluation returned ``" + e.getClass().getSimpleName() + "``, with cause" +
-							" ``" + e.getCause() + "``").queue();
+					event.getChannel().sendMessage("Code evaluation returned ``" + e.getClass().getSimpleName() + "``, with cause:" +
+							" ```md\n" + e.getMessage().replaceAll("``", "").replaceAll(": ", ":\n") + "```").queue();
 					LOGGER.warn("Problem evaluating code!", e);
-					e.printStackTrace(); //TODO LOG THAT SHIT
 				}
 			}
 

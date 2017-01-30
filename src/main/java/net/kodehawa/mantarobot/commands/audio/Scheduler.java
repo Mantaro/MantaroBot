@@ -27,7 +27,7 @@ public class Scheduler extends AudioEventAdapter {
 		if (endReason.mayStartNext) {
 			nextTrack();
 			event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
-				+ " (" + Utils.instance().getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
+				+ " (" + Utils.getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue(); //TODO: Unknown channel
 		}
 	}
 

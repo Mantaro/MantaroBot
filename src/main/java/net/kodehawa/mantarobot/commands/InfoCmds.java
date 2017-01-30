@@ -13,6 +13,8 @@ import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
@@ -30,6 +32,8 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 
 public class InfoCmds extends Module {
+	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
+
 	private static String ratePing(long ping) {
 		if (ping <= 0) return "which doesn't even make any sense at all. :upside_down:";
 		if (ping <= 10) return "which is faster than Sonic. :smiley:";
@@ -292,7 +296,7 @@ public class InfoCmds extends Module {
 				Member member = event.getGuild().getMember(user);
 				if (member == null) {
 					String name = user == null ? "Unknown User" : user.getName();
-					event.getChannel().sendMessage("Sorry but I couldn't get the Info fo the user " + name + ". Please make sure you and the user are in the same guild.").queue();
+					event.getChannel().sendMessage("Sorry but I couldn't get the Info for the user " + name + ". Please make sure you and the user are in the same guild.").queue();
 					return;
 				}
 
@@ -305,14 +309,14 @@ public class InfoCmds extends Module {
 
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(member.getColor())
-					.setAuthor("User info for " + user.getName() + "#" + user.getDiscriminator() + ":", null, event.getAuthor().getEffectiveAvatarUrl())
+					.setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
 					.setThumbnail(user.getAvatarUrl())
-					.addField("Join Date:", member.getJoinDate().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false)
-					.addField("Account Created:", user.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), false)
+					.addField("Join Date:", member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), true)
+					.addField("Account Created:", user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), true)
 					.addField("Voice Channel:", member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None", false)
 					.addField("Playing:", member.getGame() == null ? "None" : member.getGame().getName(), false)
-					.addField("Color:", member.getColor() != null ? "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase() : "Default", true)
-					.addField("Status:", member.getOnlineStatus().getKey().toLowerCase(), true)
+					.addField("Color:", member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase(), true)
+					.addField("Status:", Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()), true)
 					.addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles, true)
 					.setFooter("User ID: " + user.getId(), null)
 					.build()
@@ -344,7 +348,7 @@ public class InfoCmds extends Module {
 					long start = System.currentTimeMillis();
 					//Get a parsed JSON.
 					String APP_ID = MantaroData.getConfig().get().weatherAppId;
-					String json = Utils.instance().getObjectFromUrl(
+					String json = Utils.getObjectFromUrl(
 							"http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid=" + APP_ID, event);
 					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
 
@@ -374,7 +378,7 @@ public class InfoCmds extends Module {
 							.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e){
-					e.printStackTrace(); //TODO LOG THAT SHIT
+					LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
 

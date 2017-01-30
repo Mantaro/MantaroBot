@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import org.slf4j.Logger;
@@ -196,13 +197,12 @@ public class MantaroListener implements EventListener {
 	}*/
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-		if (shortMessageHistory.size() < 250) {
+		if (shortMessageHistory.size() <= 250) {
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		} else {
 			shortMessageHistory.remove(shortMessageHistory.firstKey());
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		}
-
 		try {
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
@@ -211,9 +211,9 @@ public class MantaroListener implements EventListener {
 			//Now this catch block handles the exceptions that can happen while on Command Execution.
 			//Should look a better way of handling/logging this.
 
-			//TODO BETTER LOG
-			LOGGER.warn("Cannot process command? Prefix is probably null, look into this. " + event.getMessage().getRawContent(), e);
-			e.printStackTrace(); //TODO LOG THAT SHIT
+			LOGGER.warn("Cannot process command: " + event.getMessage().getRawContent() +
+					". All we know is what's here and that the error is a, `"
+					+ e.getClass().getSimpleName() + "`", e);
 		}
 	}
 }

@@ -92,7 +92,7 @@ public class MantaroAudioManager {
 					event.getChannel().sendMessage("Added **" + playlist.getTracks().size()
 						+ " songs** to queue on playlist: **"
 						+ playlist.getName() + "**" + " *("
-						+ Utils.instance().getDurationMinutes(templength) + ")*"
+						+ Utils.getDurationMinutes(templength) + ")*"
 					).queue();
 				}
 			}
@@ -110,7 +110,7 @@ public class MantaroAudioManager {
 					LOGGER.warn("Couldn't play music", exception);
 					channel.sendMessage("\u274C Error while fetching music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
 				} else {
-					exception.printStackTrace(); //TODO LOG THAT SHIT
+					LOGGER.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
 				}
 			}
 		});
@@ -138,7 +138,7 @@ public class MantaroAudioManager {
 				).queue();
 			}
 		} catch (Exception e) {
-			e.printStackTrace(); //TODO LOG THAT SHIT
+			LOGGER.warn("Exception thrown while loading/adding a song, might be worth checking", e);
 		}
 	}
 
@@ -149,7 +149,7 @@ public class MantaroAudioManager {
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {
 			AudioTrack at = tracks.get(i);
 			b.append('[').append(i + 1).append("] ").append(at.getInfo().title).append(" **(")
-				.append(Utils.instance().getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
+				.append(Utils.getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
 		}
 
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();

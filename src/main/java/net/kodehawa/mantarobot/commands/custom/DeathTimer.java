@@ -1,9 +1,12 @@
 package net.kodehawa.mantarobot.commands.custom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DeathTimer {
 	private static final Runnable EMPTY = () -> {
 	};
-
+	private static final Logger LOGGER = LoggerFactory.getLogger("DeathTimer");
 	private final Runnable onTimeout;
 	private final long timeout;
 	private boolean updated = false, armed = true;
@@ -48,7 +51,7 @@ public class DeathTimer {
 					wait(timeout);
 				}
 			} catch (InterruptedException e) {
-				e.printStackTrace(); //TODO LOG THAT SHIT
+				LOGGER.warn("DeathTimer thread was interrupted for some reason, check it out.", e);
 			}
 		}
 

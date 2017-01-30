@@ -54,9 +54,7 @@ public class RandomCmds extends Module {
 					} else {
 						event.getChannel().sendMessage("\u274C " + "You didn't specify a valid timezone").queue();
 					}
-				} catch (Exception e) {
-					e.printStackTrace(); //TODO LOG THAT SHIT
-				}
+				} catch (Exception ignored) {}
 			}
 
 			@Override
