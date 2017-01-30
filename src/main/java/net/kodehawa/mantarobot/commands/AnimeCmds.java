@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.commands.utils.CharacterData;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandType;
+import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
@@ -47,8 +47,8 @@ public class AnimeCmds extends Module {
 	private void anime() {
 		super.register("anime", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -156,8 +156,8 @@ public class AnimeCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override

@@ -64,8 +64,8 @@ public class InfoCmds extends Module {
 	private void about() {
 		super.register("about", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -112,8 +112,8 @@ public class InfoCmds extends Module {
 	private void guildinfo() {
 		super.register("guildinfo", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -168,8 +168,8 @@ public class InfoCmds extends Module {
 		super.register("help", new SimpleCommand() {
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -224,8 +224,8 @@ public class InfoCmds extends Module {
 	private void ping() {
 		super.register("ping", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -250,8 +250,8 @@ public class InfoCmds extends Module {
 		start(500);
 		super.register("usageinfo", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -282,8 +282,8 @@ public class InfoCmds extends Module {
 	private void userinfo() {
 		super.register("userinfo", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -379,8 +379,8 @@ public class InfoCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override

@@ -36,8 +36,8 @@ public class CustomCmds extends Module {
 		private Random r = new Random();
 
 		@Override
-		public CommandType commandType() {
-			return CommandType.USER;
+		public CommandPermission permissionRequired() {
+			return CommandPermission.USER;
 		}
 
 		private void handle(GuildMessageReceivedEvent event, String cmdName, String[] args) {
@@ -248,8 +248,8 @@ public class CustomCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override

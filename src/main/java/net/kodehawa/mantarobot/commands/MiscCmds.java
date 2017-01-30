@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandType;
+import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
@@ -69,8 +69,8 @@ public class MiscCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -105,8 +105,8 @@ public class MiscCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -148,8 +148,8 @@ public class MiscCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -217,8 +217,8 @@ public class MiscCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -246,8 +246,8 @@ public class MiscCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override

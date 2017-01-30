@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.core;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module.Manager;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
@@ -25,7 +26,9 @@ public final class CommandProcessor {
 	private static boolean dispatchCommand(Arguments arguments) {
 		if (MantaroBot.getStatus() != LoadState.POSTLOAD) return false;
 		if (Manager.commands.containsKey(arguments.cmdName)) {
-			Manager.commands.get(arguments.cmdName).getLeft().invoke(arguments);
+			Command command = Manager.commands.get(arguments.cmdName).getLeft();
+			if (!command.permissionRequired().test(arguments.event.getMember())) return false;
+			command.invoke(arguments);
 			return true;
 		}
 		return false;

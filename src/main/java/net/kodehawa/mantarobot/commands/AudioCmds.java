@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.audio.MusicManager;
 import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandType;
+import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -32,8 +32,8 @@ public class AudioCmds extends Module {
 	public void np() {
 		super.register("np", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -72,8 +72,8 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}
@@ -81,8 +81,8 @@ public class AudioCmds extends Module {
 	public void play() {
 		super.register("play", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
@@ -126,8 +126,8 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}
@@ -156,8 +156,8 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}
@@ -177,8 +177,8 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}
@@ -197,8 +197,8 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}
@@ -219,8 +219,8 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.USER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}

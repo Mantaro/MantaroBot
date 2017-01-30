@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandType;
+import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import org.slf4j.Logger;
@@ -58,8 +58,8 @@ public class OwnerCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.OWNER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.BOT_OWNER;
 			}
 
 			@Override
@@ -132,8 +132,8 @@ public class OwnerCmds extends Module {
 			}
 
 			@Override
-			public CommandType commandType() {
-				return CommandType.OWNER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.BOT_OWNER;
 			}
 
 			@Override
@@ -148,8 +148,8 @@ public class OwnerCmds extends Module {
 	private void shutdown() {
 		super.register("shutdown", new SimpleCommand() {
 			@Override
-			public CommandType commandType() {
-				return CommandType.OWNER;
+			public CommandPermission permissionRequired() {
+				return CommandPermission.BOT_OWNER;
 			}
 
 			@Override

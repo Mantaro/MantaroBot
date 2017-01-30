@@ -12,6 +12,7 @@ public class Data {
 		public String birthdayRole = null;
 		public Map<String, List<String>> customCommands = new HashMap<>();
 		public String musicChannel = null;
+		public String logChannel = null;
 		public String prefix = null;
 	}
 
