@@ -173,7 +173,12 @@ public class CustomCmds extends Module {
 				String cmd = args[1];
 
 				if (action.equals("add")) {
-					//TODO BACKPORT
+					List<String> responses = Arrays.asList(content.replaceAll(String.format("%s %s ", args[0], cmd), "").split(","));
+					String responsesString = responses.stream().collect(Collectors.joining(", "));
+					customCommands.put(cmd, responses);
+					Manager.commands.put(cmd, Pair.of(customCommand, null));
+					MantaroData.getData().update();
+					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responsesString, event.getGuild().getId())).queue();
 					return;
 				}
 

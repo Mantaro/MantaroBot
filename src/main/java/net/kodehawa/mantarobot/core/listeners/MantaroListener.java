@@ -102,8 +102,7 @@ public class MantaroListener implements EventListener {
 			}
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException)) {
-				//Unexpected exception, log.
-				e.printStackTrace(); //TODO LOG THAT SHIT
+				LOGGER.warn("Unexpected exception while logging a deleted message.", e);
 			}
 		}
 	}
@@ -126,8 +125,7 @@ public class MantaroListener implements EventListener {
 			}
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException)) {
-				//Unexpected exception, log.
-				e.printStackTrace(); //TODO LOG THAT SHIT
+				LOGGER.warn("Unexpected error while logging a edit.", e);
 			}
 		}
 	}
@@ -181,7 +179,7 @@ public class MantaroListener implements EventListener {
 										} else {
 											channel.sendMessage("\u274C" + "Unknown error while applying roles [" + birthdayRole.getName()
 													+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-											error.printStackTrace(); //TODO LOG THAT SHIT
+											LOGGER.warn("Unknown error while applying roles", error);
 										}
 									});
 						}
