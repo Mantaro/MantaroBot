@@ -6,11 +6,9 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -18,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
-import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,7 +59,6 @@ public class InfoCmds extends Module {
 		ping();
 		usageinfo();
 		userinfo();
-		weather();
 	}
 
 	private void about() {
@@ -339,72 +335,6 @@ public class InfoCmds extends Module {
 					.build();
 			}
 
-		});
-	}
-
-	private void weather() {
-		super.register("weather", new SimpleCommand() {
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (content.isEmpty()) {
-					onHelp(event);
-					return;
-				}
-
-				EmbedBuilder embed = new EmbedBuilder();
-				try {
-					long start = System.currentTimeMillis();
-					//Get a parsed JSON.
-					String APP_ID = MantaroData.getConfig().get().weatherAppId;
-					String json = Utils.wget(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
-					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
-
-					String countryCode = data.sys.country;
-					String status = data.getWeather().get(0).main;
-					Double temp = data.getMain().getTemp();
-					double pressure = data.getMain().getPressure();
-					int hum = data.getMain().getHumidity();
-					Double ws = data.getWind().speed;
-					int clness = data.getClouds().all;
-
-					Double finalTemperatureCelcius = temp - 273.15;
-					Double finalTemperatureFarnheit = temp * 9 / 5 - 459.67;
-					Double finalWindSpeedMetric = ws * 3.6;
-					Double finalWindSpeedImperial = ws / 0.447046;
-					long end = System.currentTimeMillis() - start;
-
-					embed.setColor(Color.CYAN)
-						.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content)
-						.setDescription(status + " (" + clness + "% cloudiness)")
-						.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " + finalTemperatureFarnheit.intValue() + "°F", true)
-						.addField(":droplet: Humidity", hum + "%", true)
-						.addBlankField(true)
-						.addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " + finalWindSpeedImperial.intValue() + "mph", true)
-						.addField("Pressure", pressure + "kPA", true)
-						.addBlankField(true)
-						.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
-					event.getChannel().sendMessage(embed.build()).queue();
-				} catch (Exception e){
-					LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
-				}
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Weather command")
-					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
-						+ "> Usage:\n"
-						+ "~>weather [city],[countrycode]: Retrieves the forecast information for such location.\n"
-						+ "> Parameters:\n"
-						+ "[city]: Your city name, for example New York\n"
-						+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
-					.build();
-			}
 		});
 	}
 }
