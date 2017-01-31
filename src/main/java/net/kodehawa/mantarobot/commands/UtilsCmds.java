@@ -45,7 +45,7 @@ public class UtilsCmds extends Module {
 	private void birthday() {
 		super.register("birthday", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				String userId = event.getMessage().getAuthor().getId();
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -65,11 +65,6 @@ public class UtilsCmds extends Module {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Birthday")
 					.setDescription("Sets your birthday date.\n"
@@ -80,6 +75,12 @@ public class UtilsCmds extends Module {
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
 		});
 	}
 
@@ -91,7 +92,7 @@ public class UtilsCmds extends Module {
 			}
 
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
 					TextChannel channel = event.getChannel();
 
@@ -150,58 +151,10 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private void ytmp3() {
-		super.register("ytmp3", new SimpleCommand() {
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				YoutubeMp3Info info = YoutubeMp3Info.forLink(content, event);
-
-				if (info == null) return; //I think we already logged this in the YoutubeMp3Info class
-
-				if (info.error != null) {
-					//TODO PRINT ERROR TO USERS
-					return;
-				}
-
-				EmbedBuilder builder = new EmbedBuilder()
-					.setAuthor(info.title, info.link, event.getAuthor().getEffectiveAvatarUrl())
-					.setFooter("Powered by youtubeinmp3.com API", null);
-
-				try {
-					int length = Integer.parseInt(info.length);
-					builder.addField("Length",
-						String.format(
-							"%02d minutes, %02d seconds",
-							SECONDS.toMinutes(length),
-							length - MINUTES.toSeconds(SECONDS.toMinutes(length))
-						),
-						false
-					);
-				} catch (Exception ignored) {
-				}
-
-				event.getChannel().sendMessage(builder
-					.addField("Download","[Click Here!]("+info.link+")", false)
-					.build()
-				).queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
-			}
-		});
-	}
-
 	private void weather() {
 		super.register("weather", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
 					onHelp(event);
 					return;
@@ -240,7 +193,7 @@ public class UtilsCmds extends Module {
 						.addBlankField(true)
 						.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 					event.getChannel().sendMessage(embed.build()).queue();
-				} catch (Exception e){
+				} catch (Exception e) {
 					LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
@@ -260,6 +213,54 @@ public class UtilsCmds extends Module {
 						+ "[city]: Your city name, for example New York\n"
 						+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
 					.build();
+			}
+		});
+	}
+
+	private void ytmp3() {
+		super.register("ytmp3", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				YoutubeMp3Info info = YoutubeMp3Info.forLink(content, event);
+
+				if (info == null) return; //I think we already logged this in the YoutubeMp3Info class
+
+				if (info.error != null) {
+					//TODO PRINT ERROR TO USERS
+					return;
+				}
+
+				EmbedBuilder builder = new EmbedBuilder()
+					.setAuthor(info.title, info.link, event.getAuthor().getEffectiveAvatarUrl())
+					.setFooter("Powered by youtubeinmp3.com API", null);
+
+				try {
+					int length = Integer.parseInt(info.length);
+					builder.addField("Length",
+						String.format(
+							"%02d minutes, %02d seconds",
+							SECONDS.toMinutes(length),
+							length - MINUTES.toSeconds(SECONDS.toMinutes(length))
+						),
+						false
+					);
+				} catch (Exception ignored) {
+				}
+
+				event.getChannel().sendMessage(builder
+					.addField("Download", "[Click Here!](" + info.link + ")", false)
+					.build()
+				).queue();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
 			}
 		});
 	}

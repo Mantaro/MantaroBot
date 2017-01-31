@@ -6,7 +6,6 @@ import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.web.callback.DownloadCallback;
 import com.marcomaldonado.web.callback.WallpaperCallback;
 import com.marcomaldonado.web.tools.helpers.HTMLHelper;
-import com.mashape.unirest.http.Unirest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.BinaryResource;
@@ -107,8 +106,8 @@ public class Konachan {
 		try {
 			String postsUrl = "http://konachan.com/post.json";
 			response = this.resty.text(postsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)).toString();
-		} catch (Exception ignored) {}
-		finally {
+		} catch (Exception ignored) {
+		} finally {
 			queryParams.clear();
 		}
 		Gson gson = new Gson();
@@ -190,8 +189,8 @@ public class Konachan {
 		try {
 			String tagsUrl = "http://konachan.com/tag.json";
 			response = this.resty.text(tagsUrl + "?" + htmlHelper.urlEncodeUTF8(this.queryParams)).toString();
-		} catch (Exception ignored) {}
-		finally {
+		} catch (Exception ignored) {
+		} finally {
 			queryParams.clear();
 		}
 		Gson gson = new Gson();

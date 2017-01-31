@@ -37,15 +37,16 @@ public class AnimeCmds extends Module {
 		character();
 	}
 
+	@Override
+	public void onPostLoad() {
+		super.onPostLoad();
+		Async.startAsyncTask("AniList Login Task", this::authenticate, 3500);
+	}
+
 	private void anime() {
 		super.register("anime", new SimpleCommand() {
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
 					//Set variables to use later. They will be parsed to JSON later on.
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
@@ -56,7 +57,7 @@ public class AnimeCmds extends Module {
 					StringBuilder b = new StringBuilder();
 					for (int i = 0; i < 4 && i < type.length; i++) {
 						AnimeData animeData = type[i];
-						if(animeData != null)
+						if (animeData != null)
 							b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
 					}
 					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
@@ -97,14 +98,70 @@ public class AnimeCmds extends Module {
 						+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n")
 					.setColor(Color.PINK)
 					.build();
+			}			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
+
+
+
 		});
+	}
+
+	private void animeData(GuildMessageReceivedEvent event, AnimeData[] type, int pick) {
+		String ANIME_TITLE = type[pick].getTitle_english();
+		String RELEASE_DATE = StringUtils.substringBefore(type[pick].getStart_date(), "T");
+		String END_DATE = StringUtils.substringBefore(type[pick].getEnd_date(), "T");
+		String ANIME_DESCRIPTION = type[pick].getDescription().replaceAll("<br>", "\n");
+		String AVERAGE_SCORE = type[pick].getAverage_score();
+		String IMAGE_URL = type[pick].getImage_url_lge();
+		String TYPE = Utils.capitalize(type[pick].getSeries_type());
+		String EPISODES = type[pick].getTotal_episodes().toString();
+		String DURATION = type[pick].getDuration().toString();
+		String GENRES = type[pick].getGenres().stream().collect(Collectors.joining(", "));
+
+		//Start building the embedded message.
+		EmbedBuilder embed = new EmbedBuilder();
+		embed.setColor(Color.LIGHT_GRAY)
+			.setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
+				+ type[0].getId(), type[0].getImage_url_sml())
+			.setFooter("Information provided by AniList", null)
+			.setThumbnail(IMAGE_URL)
+			.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
+			.addField("Release date: ", RELEASE_DATE, true)
+			.addField("End date: ", END_DATE, true)
+			.addField("Average score: ", AVERAGE_SCORE + "/100", true)
+			.addField("Type", TYPE, true)
+			.addField("Episodes", EPISODES, true)
+			.addField("Episode Duration", DURATION + " minutes.", true)
+			.addField("Genres", GENRES, false);
+		event.getChannel().sendMessage(embed.build()).queue();
+	}
+
+	/**
+	 * @return The new AniList access token.
+	 */
+	private void authenticate() {
+		String aniList = "https://anilist.co/api/auth/access_token";
+		String CLIENT_ID = "kodehawa-o43eq";
+		try {
+			authToken = Unirest.post(aniList)
+				.header("User-Agent", "Mantaro")
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET)
+				.asJson()
+				.getBody()
+				.getObject().getString("access_token");
+			LOGGER.info("Updated auth token.");
+		} catch (UnirestException e) {
+			LOGGER.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
+		}
 	}
 
 	private void character() {
 		super.register("character", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
@@ -115,7 +172,7 @@ public class AnimeCmds extends Module {
 
 					for (int i = 0; i < 4 && i < character.length; i++) {
 						CharacterData characterData = character[i];
-						if(characterData != null)
+						if (characterData != null)
 							b.append('[').append(i + 1).append("] ").append(characterData.name_first).append(" ").append(characterData.name_last).append("\n");
 					}
 					channel.sendMessage(builder.setDescription(b.toString()).build()).queue();
@@ -167,76 +224,20 @@ public class AnimeCmds extends Module {
 		});
 	}
 
-	private void animeData(GuildMessageReceivedEvent event, AnimeData[] type, int pick){
-		String ANIME_TITLE = type[pick].getTitle_english();
-		String RELEASE_DATE = StringUtils.substringBefore(type[pick].getStart_date(), "T");
-		String END_DATE = StringUtils.substringBefore(type[pick].getEnd_date(), "T");
-		String ANIME_DESCRIPTION = type[pick].getDescription().replaceAll("<br>", "\n");
-		String AVERAGE_SCORE = type[pick].getAverage_score();
-		String IMAGE_URL = type[pick].getImage_url_lge();
-		String TYPE = Utils.capitalize(type[pick].getSeries_type());
-		String EPISODES = type[pick].getTotal_episodes().toString();
-		String DURATION = type[pick].getDuration().toString();
-		String GENRES = type[pick].getGenres().stream().collect(Collectors.joining(", "));
-
-		//Start building the embedded message.
-		EmbedBuilder embed = new EmbedBuilder();
-		embed.setColor(Color.LIGHT_GRAY)
-				.setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
-						+ type[0].getId(), type[0].getImage_url_sml())
-				.setFooter("Information provided by AniList", null)
-				.setThumbnail(IMAGE_URL)
-				.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
-				.addField("Release date: ", RELEASE_DATE, true)
-				.addField("End date: ", END_DATE, true)
-				.addField("Average score: ", AVERAGE_SCORE + "/100", true)
-				.addField("Type", TYPE, true)
-				.addField("Episodes", EPISODES, true)
-				.addField("Episode Duration", DURATION + " minutes.", true)
-				.addField("Genres", GENRES, false);
-		event.getChannel().sendMessage(embed.build()).queue();
-	}
-
-	private void characterData(GuildMessageReceivedEvent event, CharacterData[] character, int pick){
+	private void characterData(GuildMessageReceivedEvent event, CharacterData[] character, int pick) {
 		String CHAR_NAME = character[pick].getName_first() + " " + character[pick].getName_last() + "\n(" + character[0].getName_japanese() + ")";
 		String ALIASES = character[pick].getName_alt() == null ? "No aliases" : "Also known as: " + character[0].getName_alt();
 		String IMAGE_URL = character[pick].getImage_url_med();
 		String CHAR_DESCRIPTION = character[pick].getInfo().isEmpty() ? "No info."
-				: character[pick].getInfo().length() <= 1024 ? character[pick].getInfo() : character[pick].getInfo().substring(0, 1020 - 1) + "...";
+			: character[pick].getInfo().length() <= 1024 ? character[pick].getInfo() : character[pick].getInfo().substring(0, 1020 - 1) + "...";
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setColor(Color.LIGHT_GRAY)
-				.setThumbnail(IMAGE_URL)
-				.setAuthor("Information for " + CHAR_NAME, "http://anilist.co/character/" + character[0].getId(), IMAGE_URL)
-				.setDescription(ALIASES)
-				.addField("Information", CHAR_DESCRIPTION, true)
-				.setFooter("Information provided by AniList", null);
+			.setThumbnail(IMAGE_URL)
+			.setAuthor("Information for " + CHAR_NAME, "http://anilist.co/character/" + character[0].getId(), IMAGE_URL)
+			.setDescription(ALIASES)
+			.addField("Information", CHAR_DESCRIPTION, true)
+			.setFooter("Information provided by AniList", null);
 
 		event.getChannel().sendMessage(embed.build()).queue();
-	}
-
-	/**
-	 * @return The new AniList access token.
-	 */
-	private void authenticate() {
-		String aniList = "https://anilist.co/api/auth/access_token";
-		String CLIENT_ID = "kodehawa-o43eq";
-		try {
-			authToken = Unirest.post(aniList)
-					.header("User-Agent", "Mantaro")
-					.header("Content-Type", "application/x-www-form-urlencoded")
-					.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET)
-					.asJson()
-					.getBody()
-					.getObject().getString("access_token");
-			LOGGER.info("Updated auth token.");
-		} catch (UnirestException e) {
-			LOGGER.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
-		}
-	}
-
-	@Override
-	public void onPostLoad() {
-		super.onPostLoad();
-		Async.startAsyncTask("AniList Login Task", this::authenticate, 	3500);
 	}
 }

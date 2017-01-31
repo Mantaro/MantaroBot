@@ -33,7 +33,7 @@ public class OwnerCmds extends Module {
 	private void add() {
 		super.register("varadd", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String v = splitArgs(content, 2)[1];
 
 				switch (args[0]) {
@@ -61,24 +61,25 @@ public class OwnerCmds extends Module {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
-			}
-
-			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Add to list command")
 					.setDescription("Adds a parameter to a list."
 						+ "\n Arguments: \n pat <args[1]>, hug <args[1]>, greeting <content>, splash <content>")
 					.build();
 			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.BOT_OWNER;
+			}
+
 		});
 	}
 
 	private void eval() {
 		super.register("eval", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
 					return;
 				}
@@ -152,7 +153,7 @@ public class OwnerCmds extends Module {
 			}
 
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
 					event.getChannel().sendMessage("Seems like you cannot do that, you silly <3").queue();
 					return;

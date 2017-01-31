@@ -64,12 +64,7 @@ public class InfoCmds extends Module {
 	private void about() {
 		super.register("about", new SimpleCommand() {
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
 
 				event.getChannel().sendMessage(new EmbedBuilder()
@@ -106,6 +101,33 @@ public class InfoCmds extends Module {
 					.setColor(Color.PINK)
 					.build();
 			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+		});
+	}
+
+	private void cmdstats() {
+		super.register("cmdstats", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (args.length != 0) {
+
+				}
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return null;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
 		});
 	}
 
@@ -117,7 +139,7 @@ public class InfoCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
 				TextChannel channel = event.getChannel();
 
@@ -173,7 +195,7 @@ public class InfoCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
 					String defaultPrefix = MantaroData.getData().get().defaultPrefix, guildPrefix = MantaroData.getData().get().getGuild(event.getGuild(), false).prefix;
 					String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
@@ -237,7 +259,7 @@ public class InfoCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
@@ -263,7 +285,7 @@ public class InfoCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
 					.setDescription("Hardware and usage information.")
@@ -295,7 +317,7 @@ public class InfoCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				User user = event.getMessage().getMentionedUsers().size() > 0 ? event.getMessage().getMentionedUsers().get(0) : event.getAuthor();
 				Member member = event.getGuild().getMember(user);
 				if (member == null) {

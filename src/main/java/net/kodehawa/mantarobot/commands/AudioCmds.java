@@ -29,15 +29,10 @@ public class AudioCmds extends Module {
 		stop();
 	}
 
-	public void np() {
+	private void np() {
 		super.register("np", new SimpleCommand() {
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
 					+ " (" + Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
@@ -49,10 +44,14 @@ public class AudioCmds extends Module {
 					.addField("Description", "Returns what track is playing now.", false).build();
 			}
 
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
 		});
 	}
 
-	public void pause() {
+	private void pause() {
 		super.register("pause", new SimpleCommand() {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -62,7 +61,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				try {
 					musicManager.getScheduler().getPlayer().setPaused(Boolean.parseBoolean(content));
@@ -86,7 +85,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
 					new URL(content);
 				} catch (Exception e) {
@@ -116,7 +115,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				if (content.isEmpty()) {
 					event.getChannel().sendMessage(embedForQueue(event.getGuild(), musicManager)).queue();
@@ -142,7 +141,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				int n = 0;
 				for (AudioTrack audioTrack : musicManager.getScheduler().getQueue()) {
@@ -171,7 +170,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).shuffle();
 				event.getChannel().sendMessage("\uD83D\uDCE3 Randomized current queue order.").queue();
 			}
@@ -192,7 +191,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).skipTrack(event);
 			}
 
@@ -212,7 +211,7 @@ public class AudioCmds extends Module {
 			}
 
 			@Override
-			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				clearQueue(musicManager, event, false);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());

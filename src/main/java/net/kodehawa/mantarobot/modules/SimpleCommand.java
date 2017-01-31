@@ -6,11 +6,11 @@ import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 
 public abstract class SimpleCommand implements Command {
 
-	protected abstract void onCommand(String[] args, String content, GuildMessageReceivedEvent event);
+	protected abstract void call(String[] args, String content, GuildMessageReceivedEvent event);
 
 	@Override
 	public void invoke(Arguments cmd) {
-		onCommand(cmd.args, cmd.content, cmd.event);
+		call(cmd.args, cmd.content, cmd.event);
 	}
 
 	@Override

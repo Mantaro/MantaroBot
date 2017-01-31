@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class MantaroData {
+	private static SimpleFileDataManager bleach;
 	private static GsonDataManager<Config> config;
 	private static GsonDataManager<Data> data;
 	private static SimpleFileDataManager facts;
@@ -15,10 +16,14 @@ public class MantaroData {
 	private static SimpleFileDataManager hugs;
 	private static SimpleFileDataManager noble;
 	private static SimpleFileDataManager patting;
-	private static SimpleFileDataManager bleach;
 	private static GsonDataManager<QuotesData> quotes;
 	private static SimpleFileDataManager splashes;
 	private static SimpleFileDataManager tsunderelines;
+
+	public static SimpleFileDataManager getBleach() {
+		if (bleach == null) bleach = new SimpleFileDataManager("bleach.txt");
+		return bleach;
+	}
 
 	public static GsonDataManager<Config> getConfig() {
 		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
@@ -38,11 +43,6 @@ public class MantaroData {
 	public static SimpleFileDataManager getGreeting() {
 		if (greeting == null) greeting = new SimpleFileDataManager("greeting.txt");
 		return greeting;
-	}
-
-	public static SimpleFileDataManager getBleach() {
-		if (bleach == null) bleach = new SimpleFileDataManager("bleach.txt");
-		return bleach;
 	}
 
 	public static SimpleFileDataManager getHugs() {

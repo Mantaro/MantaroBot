@@ -26,9 +26,7 @@ import java.util.TreeMap;
 public class MantaroListener implements EventListener {
 	public static int commandTotal = 0;
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
-	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 	private static int logTotal = 0;
-
 	//For later usage in LogListener.
 	//A short message cache of 250 messages. If it reaches 250 it will delete the first one stored, and continue being 250
 	private static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
@@ -41,6 +39,7 @@ public class MantaroListener implements EventListener {
 		return String.valueOf(logTotal);
 	}
 
+	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
 	@Override
 	public void onEvent(Event event) {
@@ -79,10 +78,10 @@ public class MantaroListener implements EventListener {
 	private void logBan(GuildBanEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
-		if (logChannel != null){
+		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 			tc.sendMessage
-					(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
+				(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
 			logTotal++;
 		}
 	}
@@ -91,10 +90,10 @@ public class MantaroListener implements EventListener {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
-			if (logChannel != null){
+			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				Message deletedMessage = shortMessageHistory.get(event.getMessageId());
-				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)){
+				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
 					tc.sendMessage(":warning: `[" + hour + "]` " + deletedMessage.getAuthor().getName() + "#" + deletedMessage.getAuthor().getDiscriminator() + " *deleted*"
 						+ " a message in #" + event.getChannel().getName() + "\n" + "```diff\n-" + deletedMessage.getContent().replace("```", "") + "```").queue();
@@ -111,7 +110,7 @@ public class MantaroListener implements EventListener {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
-			if (logChannel != null){
+			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				User author = event.getAuthor();
 				Message editedMessage = shortMessageHistory.get(event.getMessage().getId());
@@ -132,7 +131,7 @@ public class MantaroListener implements EventListener {
 
 	private void logJoin(GuildMemberJoinEvent event) {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
-		if (logChannel != null){
+		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 			tc.sendMessage("\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
 			logTotal++;
@@ -142,7 +141,7 @@ public class MantaroListener implements EventListener {
 	private void logUnban(GuildUnbanEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
-		if (logChannel != null){
+		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 			tc.sendMessage(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got unbanned.").queue();
 			logTotal++;
@@ -155,7 +154,7 @@ public class MantaroListener implements EventListener {
 		boolean birthdayCheck = Optional.ofNullable(MantaroData.getData().get().getGuild(guild, false).birthdayRole).isPresent();
 		if (birthdayCheck) {
 			if (Optional.ofNullable(MantaroData.getData().get().users.get(event.getAuthor().getId())).isPresent() &&
-					Optional.ofNullable(MantaroData.getData().get().users.get(event.getAuthor().getId()).birthdayDate).isPresent()) {
+				Optional.ofNullable(MantaroData.getData().get().users.get(event.getAuthor().getId()).birthdayDate).isPresent()) {
 				try {
 					Calendar cal = Calendar.getInstance();
 					SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -164,30 +163,31 @@ public class MantaroListener implements EventListener {
 						Member member = event.getGuild().getMember(event.getAuthor());
 						if (!member.getRoles().contains(birthdayRole)) {
 							guild.getController().addRolesToMember(member, birthdayRole).queue(
-									success -> {
-										TextChannel tc = event.getGuild().getTextChannelById(
-												MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-										tc.sendMessage(":tada: **" + member.getEffectiveName() +
-												" is a year older now! Wish them a happy birthday.** :tada:").queue();
-									},
-									error -> {
-										if (error instanceof PermissionException) {
-												PermissionException pe = (PermissionException) error;
-											TextChannel tc = guild.getTextChannelById(
-													MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-											tc.sendMessage("\u274C PermissionError while appling roles, (No permission provided: " + pe.getPermission() + ")").queue();
-										} else {
-											channel.sendMessage("\u274C" + "Unknown error while applying roles [" + birthdayRole.getName()
-													+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-											LOGGER.warn("Unknown error while applying roles", error);
-										}
-									});
+								success -> {
+									TextChannel tc = event.getGuild().getTextChannelById(
+										MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
+									tc.sendMessage(":tada: **" + member.getEffectiveName() +
+										" is a year older now! Wish them a happy birthday.** :tada:").queue();
+								},
+								error -> {
+									if (error instanceof PermissionException) {
+										PermissionException pe = (PermissionException) error;
+										TextChannel tc = guild.getTextChannelById(
+											MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
+										tc.sendMessage("\u274C PermissionError while appling roles, (No permission provided: " + pe.getPermission() + ")").queue();
+									} else {
+										channel.sendMessage("\u274C" + "Unknown error while applying roles [" + birthdayRole.getName()
+											+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+										LOGGER.warn("Unknown error while applying roles", error);
+									}
+								});
 						}
 					} else {
 						Member memberToRemove = event.getGuild().getMember(event.getAuthor());
 						Role birthdayRole1 = guild.getRoleById(MantaroData.getData().get().getGuild(guild, false).birthdayRole);
 						System.out.println(birthdayRole1);
-						if(memberToRemove.getRoles().contains(birthdayRole1)) guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
+						if (memberToRemove.getRoles().contains(birthdayRole1))
+							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
 					}
 				} catch (Exception e) {
 					LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
@@ -212,8 +212,8 @@ public class MantaroListener implements EventListener {
 			//Should look a better way of handling/logging this.
 
 			LOGGER.warn("Cannot process command: " + event.getMessage().getRawContent() +
-					". All we know is what's here and that the error is a ``"
-					+ e.getClass().getSimpleName() + "``", e);
+				". All we know is what's here and that the error is a ``"
+				+ e.getClass().getSimpleName() + "``", e);
 		}
 	}
 }

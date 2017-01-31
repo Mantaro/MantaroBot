@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
 
+	Konachan konachan = new Konachan(true);
 	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
 	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	private boolean needRating = false;
@@ -38,7 +39,6 @@ public class ImageCmds extends Module {
 	private boolean smallRequest = false;
 	private String tagsEncoded = "";
 	private String tagsToEncode = "no";
-	Konachan konachan = new Konachan(true);
 
 	public ImageCmds() {
 		super(Category.MISC);
@@ -56,17 +56,19 @@ public class ImageCmds extends Module {
 	private EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
 		String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
 		boolean trigger = (rating.equals("s") || (nsfwChannel == null)) ? rating.equals("s") : nsfwChannel.equals(event.getChannel().getId());
-		if(!trigger)
+		if (!trigger)
 			return new EmbedBuilder().setDescription("Not on NSFW channel. Cannot send lewd images.");
 
 		String json = Utils.wget(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 		int get;
-		try{
-			 get = requestType.equals("tags") ? argsCount >= 4 ? number : new Random().nextInt(filter.size()) : argsCount <= 2 ?
-					Integer.parseInt(messageArray[2]) : new Random().nextInt(filter.size());
-		} catch(ArrayIndexOutOfBoundsException e){ get = new Random().nextInt(filter.size()); }
+		try {
+			get = requestType.equals("tags") ? argsCount >= 4 ? number : new Random().nextInt(filter.size()) : argsCount <= 2 ?
+				Integer.parseInt(messageArray[2]) : new Random().nextInt(filter.size());
+		} catch (ArrayIndexOutOfBoundsException e) {
+			get = new Random().nextInt(filter.size());
+		}
 		String URL = filter.get(get).getFile_url();
 		String AUTHOR = filter.get(get).getAuthor();
 		String RATING = filter.get(get).getRating();
@@ -77,11 +79,11 @@ public class ImageCmds extends Module {
 		if (!smallRequest) {
 			try {
 				return new EmbedBuilder().setAuthor("Found image", null, null)
-						.setDescription("Image uploaded by: "+ (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
-						.setImage(URL)
-						.addField("Width", String.valueOf(WIDTH), true)
-						.addField("Height", String.valueOf(HEIGHT), true)
-						.addField("Tags", "``" +  (tags == null ? "None" : tags) + "``", false);
+					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
+					.setImage(URL)
+					.addField("Width", String.valueOf(WIDTH), true)
+					.addField("Height", String.valueOf(HEIGHT), true)
+					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false);
 			} catch (ArrayIndexOutOfBoundsException ex) {
 				return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 			}
@@ -89,11 +91,11 @@ public class ImageCmds extends Module {
 
 		try {
 			return new EmbedBuilder().setAuthor("Found image", null, null)
-					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
-					.setImage(URL)
-					.addField("Width", String.valueOf(WIDTH), true)
-					.addField("Height", String.valueOf(HEIGHT), true)
-					.addField("Tags", "``" +  (tags == null ? "None" : tags) + "``", false);
+				.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
+				.setImage(URL)
+				.addField("Width", String.valueOf(WIDTH), true)
+				.addField("Height", String.valueOf(HEIGHT), true)
+				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false);
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 		}
@@ -102,12 +104,7 @@ public class ImageCmds extends Module {
 	private void kona() {
 		super.register("konachan", new SimpleCommand() {
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 
 				String noArgs = content.split(" ")[0];
@@ -120,7 +117,11 @@ public class ImageCmds extends Module {
 						int number;
 
 						Wallpaper[] wallpapers = konachan.posts(page, 60);
-						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (Exception e) { number = new Random().nextInt(wallpapers.length-1); }
+						try {
+							number = Integer.parseInt(wholeBeheaded[1]);
+						} catch (Exception e) {
+							number = new Random().nextInt(wallpapers.length - 1);
+						}
 						String URL = wallpapers[number - 1].getFile_url();
 						String AUTHOR = wallpapers[number - 1].getAuthor();
 						String TAGS = wallpapers[number - 1].getTags().stream().collect(Collectors.joining(", "));
@@ -130,11 +131,11 @@ public class ImageCmds extends Module {
 						try {
 							EmbedBuilder builder = new EmbedBuilder();
 							builder.setAuthor("Found image", null, null)
-									.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-									.setImage("http:" + URL)
-									.addField("Width", String.valueOf(WIDTH), true)
-									.addField("Height", String.valueOf(HEIGHT), true)
-									.addField("Tags", "``" +  (TAGS == null ? "None" : TAGS) + "``", false);
+								.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+								.setImage("http:" + URL)
+								.addField("Width", String.valueOf(WIDTH), true)
+								.addField("Height", String.valueOf(HEIGHT), true)
+								.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false);
 							channel.sendMessage(builder.build()).queue();
 						} catch (ArrayIndexOutOfBoundsException exception) {
 							channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
@@ -149,21 +150,25 @@ public class ImageCmds extends Module {
 						String tags = whole2[1];
 
 						konachan.search(page1, 60, tags, (wallpapers1, tags1) -> {
-							try { number1 = Integer.parseInt(whole2[2]); } catch (Exception e) { number1 = new Random().nextInt(wallpapers1.length -1); }
+							try {
+								number1 = Integer.parseInt(whole2[2]);
+							} catch (Exception e) {
+								number1 = new Random().nextInt(wallpapers1.length - 1);
+							}
 							String URL1 = wallpapers1[number1 - 1].getFile_url();
 							String AUTHOR1 = wallpapers1[number1 - 1].getAuthor();
 							String TAGS1 = wallpapers1[number1 - 1].getTags().stream().collect(Collectors.joining(", "));
 							Integer WIDTH1 = wallpapers1[number1 - 1].getWidth();
-							Integer HEIGHT1 = wallpapers1[number1- 1].getHeight();
+							Integer HEIGHT1 = wallpapers1[number1 - 1].getHeight();
 
 							try {
 								EmbedBuilder builder = new EmbedBuilder();
 								builder.setAuthor("Found image", null, null)
-										.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
-										.setImage("http:" + URL1)
-										.addField("Width", String.valueOf(WIDTH1), true)
-										.addField("Height", String.valueOf(HEIGHT1), true)
-										.addField("Tags", "``" +  (TAGS1 == null ? "None" : TAGS1) + "``", false);
+									.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
+									.setImage("http:" + URL1)
+									.addField("Width", String.valueOf(WIDTH1), true)
+									.addField("Height", String.valueOf(HEIGHT1), true)
+									.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false);
 								channel.sendMessage(builder.build()).queue();
 							} catch (ArrayIndexOutOfBoundsException exception) {
 								channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
@@ -192,13 +197,19 @@ public class ImageCmds extends Module {
 						+ "[tag]: Any valid image tag. For example animal_ears or original.")
 					.build();
 			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
 		});
 	}
 
 	private void yandere() {
 		super.register("yandere", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				rating = "s";
 				needRating = args.length >= 4;
 				smallRequest = args.length <= 2;
@@ -210,11 +221,13 @@ public class ImageCmds extends Module {
 					tagsToEncode = args[2];
 					if (needRating) rating = nRating.get(args[3]);
 					number = Integer.parseInt(args[4]);
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+				}
 
 				try {
 					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
-				} catch (UnsupportedEncodingException ignored) {} //Shouldn't happen.
+				} catch (UnsupportedEncodingException ignored) {
+				} //Shouldn't happen.
 
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {

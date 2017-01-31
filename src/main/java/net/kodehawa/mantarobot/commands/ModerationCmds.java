@@ -25,7 +25,7 @@ public class ModerationCmds extends Module {
 	private void ban() {
 		super.register("ban", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				//Initialize the variables I'll need.
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
@@ -81,16 +81,17 @@ public class ModerationCmds extends Module {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Ban")
 					.setDescription("Bans the mentioned users.")
 					.build();
 			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
 		});
 	}
 
@@ -102,7 +103,7 @@ public class ModerationCmds extends Module {
 			}
 
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
@@ -167,7 +168,7 @@ public class ModerationCmds extends Module {
 	private void opts() {
 		super.register("opts", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args.length < 2) {
 					onHelp(event);
 					return;

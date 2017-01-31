@@ -121,7 +121,7 @@ public class MantaroAudioManager {
 		TextChannel channel = event.getChannel();
 		try {
 			int trackDuration = Optional.ofNullable(MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit).isPresent() ?
-					MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit : 600000;
+				MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit : 600000;
 			if (track.getDuration() > trackDuration && !MantaroData.getConfig().get().isOwner(event.getMember())) {
 				channel.sendMessage(
 					"\u274C"
@@ -165,7 +165,8 @@ public class MantaroAudioManager {
 				if (choose < 1 || choose > 4) return false;
 				loadTrack(e, musicManager, playlist.getTracks().get(choose - 1), false);
 				return true;
-			} catch (Exception ignored) {}
+			} catch (Exception ignored) {
+			}
 			return false;
 		});
 

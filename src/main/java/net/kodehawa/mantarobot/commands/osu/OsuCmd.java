@@ -26,22 +26,64 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class OsuCmd extends Module{
+public class OsuCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
+	String mods1 = "";
 	private Map<String, Object> map = new HashMap<>();
 	private OsuClient osuClient = null;
-	String mods1 = "";
 
-	public OsuCmd(){
+	public OsuCmd() {
 		super(Category.GAMES);
 		osuClient = new OsuClient(MantaroData.getConfig().get().osuApiKey);
 		osu();
 	}
 
-	private void osu(){
+	private String best(String content) {
+		String finalResponse;
+		try {
+			long start = System.currentTimeMillis();
+			String beheaded1 = content.replace("best ", "");
+			String[] args = beheaded1.split(" ");
+			map.put("m", 0);
+
+			User hey = osuClient.getUser(args[0], map);
+			List<UserScore> userBest = osuClient.getUserBest(hey, map);
+			StringBuilder sb = new StringBuilder();
+			List<String> best = new CopyOnWriteArrayList<>();
+
+			int n1 = 0;
+			DecimalFormat df = new DecimalFormat("####0.0");
+			for (UserScore userScore : userBest) {
+				if (n1 > 9)
+					break;
+				if (userScore.getEnabledMods().size() > 0) {
+					List<Mod> mods = userScore.getEnabledMods();
+					StringBuilder sb1 = new StringBuilder();
+					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
+					mods1 = " Mods: " + sb1.toString();
+				}
+
+				best.add(
+					String.format("# %s -> %s\n | ###### |  [%spp] -> Rank: %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", userScore.getBeatMap().getTitle().replace("'", ""), mods1,
+						df.format(userScore.getPP()), userScore.getRank(), df.format(userScore.getBeatMap().getDifficultyRating()), userScore.getBeatMap().getCreator(), userScore.getDate(), userScore.getMaxCombo()));
+				sb.append(best.get(n1));
+				n1++;
+			}
+
+			long end = System.currentTimeMillis() - start;
+			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
+		} catch (Exception e) {
+			finalResponse = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
+			LOGGER.warn("Error retrieving results from osu!API", e);
+		}
+
+		return finalResponse;
+	}
+
+	private void osu() {
 		super.register("osu", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "best":
@@ -82,65 +124,23 @@ public class OsuCmd extends Module{
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "osu! command")
+					.setDescription("Retrieves information from the osu!api.\n"
+						+ "Usage: \n"
+						+ "~>osu best [player]: Retrieves best scores of the user specified in the specified gamemode.\n"
+						+ "~>osu recent [player]: Retrieves recent scores of the user specified in the specified gamemode.\n"
+						+ "~>osu user [player]: Retrieves information about a osu! player.\n"
+						+ "Parameter description:\n"
+						+ "[player]: The osu! player to look info for.")
+					.build();
 			}
 
 			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "osu! command")
-						.setDescription("Retrieves information from the osu!api.\n"
-								+ "Usage: \n"
-								+ "~>osu best [player]: Retrieves best scores of the user specified in the specified gamemode.\n"
-								+ "~>osu recent [player]: Retrieves recent scores of the user specified in the specified gamemode.\n"
-								+ "~>osu user [player]: Retrieves information about a osu! player.\n"
-								+ "Parameter description:\n"
-								+ "[player]: The osu! player to look info for.")
-						.build();
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
-	}
-
-	private String best(String content) {
-		String finalResponse;
-		try {
-			long start = System.currentTimeMillis();
-			String beheaded1 = content.replace("best ", "");
-			String[] args = beheaded1.split(" ");
-			map.put("m", 0);
-
-			User hey = osuClient.getUser(args[0], map);
-			List<UserScore> userBest = osuClient.getUserBest(hey, map);
-			StringBuilder sb = new StringBuilder();
-			List<String> best = new CopyOnWriteArrayList<>();
-
-			int n1 = 0;
-			DecimalFormat df = new DecimalFormat("####0.0");
-			for(UserScore userScore : userBest){
-				if(n1 > 9)
-					break;
-				if (userScore.getEnabledMods().size() > 0){
-					List<Mod> mods = userScore.getEnabledMods();
-					StringBuilder sb1 = new StringBuilder();
-					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
-					mods1 = " Mods: " + sb1.toString();
-				}
-
-				best.add(
-						String.format("# %s -> %s\n | ###### |  [%spp] -> Rank: %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", userScore.getBeatMap().getTitle().replace("'", ""), mods1,
-								df.format(userScore.getPP()), userScore.getRank(), df.format(userScore.getBeatMap().getDifficultyRating()), userScore.getBeatMap().getCreator(), userScore.getDate(), userScore.getMaxCombo()));
-				sb.append(best.get(n1));
-				n1++;
-			}
-
-			long end = System.currentTimeMillis() - start;
-			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
-		} catch (Exception e) {
-			finalResponse = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
-			LOGGER.warn("Error retrieving results from osu!API", e);
-		}
-
-		return finalResponse;
 	}
 
 	private String recent(String content) {
@@ -157,10 +157,10 @@ public class OsuCmd extends Module{
 			int n1 = 0;
 			DecimalFormat df = new DecimalFormat("####0.0");
 			for (UserScore u : userRecent) {
-				if(n1 > 9)
+				if (n1 > 9)
 					break;
 				n1++;
-				if (u.getEnabledMods().size() > 0){
+				if (u.getEnabledMods().size() > 0) {
 					List<Mod> mods = u.getEnabledMods();
 					StringBuilder sb1 = new StringBuilder();
 					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
@@ -168,8 +168,8 @@ public class OsuCmd extends Module{
 				}
 
 				recent.add(
-						String.format("# %s -> %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", u.getBeatMap().getTitle().replace("'", ""), mods1,
-								df.format(u.getBeatMap().getDifficultyRating()), u.getBeatMap().getCreator(), u.getDate(), u.getMaxCombo()));
+					String.format("# %s -> %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", u.getBeatMap().getTitle().replace("'", ""), mods1,
+						df.format(u.getBeatMap().getDifficultyRating()), u.getBeatMap().getCreator(), u.getDate(), u.getMaxCombo()));
 			}
 
 			recent.forEach(sb::append);
@@ -181,6 +181,7 @@ public class OsuCmd extends Module{
 		}
 		return finalMessage;
 	}
+
 	private MessageEmbed user(String content) {
 		MessageEmbed finalMessage;
 		try {
@@ -197,23 +198,23 @@ public class OsuCmd extends Module{
 			long end = System.currentTimeMillis() - start;
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.setAuthor("osu! statistics for " + osuClientUser.getUsername(), "https://osu.ppy.sh/" + osuClientUser.getUserID(), "https://a.ppy.sh/" + osuClientUser.getUserID())
-					.setColor(Color.GRAY)
-					.addField("Rank", "#" + df.format(osuClientUser.getPPRank()), true)
-					.addField(":flag_" + osuClientUser.getCountry().toLowerCase() + ": Country Rank", "#" + df.format(osuClientUser.getPPCountryRank()), true)
-					.addField("PP", df.format(osuClientUser.getPPRaw()) + "pp", true)
-					.addField("Accuracy", dfa.format(osuClientUser.getAccuracy()) + "%", true)
-					.addField("Level", df.format(osuClientUser.getLevel()), true)
-					.addField("Ranked Score", df.format(osuClientUser.getRankedScore()), true)
-					.addField("SS", df.format(osuClientUser.getCountRankSS()), true)
-					.addField("S", df.format(osuClientUser.getCountRankS()), true)
-					.addField("A", df.format(osuClientUser.getCountRankA()), true)
-					.setFooter("Response time: " + end + "ms.", null);
+				.setColor(Color.GRAY)
+				.addField("Rank", "#" + df.format(osuClientUser.getPPRank()), true)
+				.addField(":flag_" + osuClientUser.getCountry().toLowerCase() + ": Country Rank", "#" + df.format(osuClientUser.getPPCountryRank()), true)
+				.addField("PP", df.format(osuClientUser.getPPRaw()) + "pp", true)
+				.addField("Accuracy", dfa.format(osuClientUser.getAccuracy()) + "%", true)
+				.addField("Level", df.format(osuClientUser.getLevel()), true)
+				.addField("Ranked Score", df.format(osuClientUser.getRankedScore()), true)
+				.addField("SS", df.format(osuClientUser.getCountRankSS()), true)
+				.addField("S", df.format(osuClientUser.getCountRankS()), true)
+				.addField("A", df.format(osuClientUser.getCountRankA()), true)
+				.setFooter("Response time: " + end + "ms.", null);
 			finalMessage = builder.build();
 		} catch (Exception e) {
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.setTitle("Error.")
-					.setColor(Color.RED)
-					.addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
+				.setColor(Color.RED)
+				.addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
 			finalMessage = builder.build();
 		}
 		return finalMessage;

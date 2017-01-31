@@ -29,12 +29,7 @@ public class ActionCmds extends Module {
 	private void action() {
 		super.register("action", new SimpleCommand() {
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
 				TextChannel channel = event.getChannel();
 				switch (noArgs) {
@@ -61,13 +56,48 @@ public class ActionCmds extends Module {
 					.setColor(Color.PINK)
 					.build();
 			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+		});
+	}
+
+	private void bloodsuck() {
+		super.register("bloodsuck", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannel channel = event.getChannel();
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg").queue();
+				} else {
+					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+
+					String bs = String.format("\uD83D\uDCAC http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", bString);
+					channel.sendMessage(bs).queue();
+				}
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Bloodsuck")
+					.setDescription("Sucks the blood of the mentioned user(s)")
+					.build();
+			}
 		});
 	}
 
 	private void greet() {
 		super.register("greet", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(":speech_balloon: " + MantaroData.getGreeting().get().get(
 					new Random().nextInt(MantaroData.getGreeting().get().size()))).queue();
 			}
@@ -90,7 +120,7 @@ public class ActionCmds extends Module {
 	private void hug() {
 		super.register("hug", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				List<String> hugs = MantaroData.getHugs().get();
@@ -117,7 +147,7 @@ public class ActionCmds extends Module {
 	private void meow() {
 		super.register("mew", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
@@ -146,7 +176,7 @@ public class ActionCmds extends Module {
 	private void pat() {
 		super.register("pat", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				List<String> pats = MantaroData.getPatting().get();
@@ -174,7 +204,7 @@ public class ActionCmds extends Module {
 	private void tsundere() {
 		super.register("tsundere", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(":mega: " + MantaroData.getTsundereLines().get().get(new Random().nextInt(MantaroData.getTsundereLines().get().size()))).queue();
 			}
 
@@ -189,35 +219,6 @@ public class ActionCmds extends Module {
 					.setDescription("Y-You baka!")
 					.setColor(Color.pink)
 					.build();
-			}
-		});
-	}
-
-	private void bloodsuck(){
-		super.register("bloodsuck", new SimpleCommand() {
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				TextChannel channel = event.getChannel();
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg").queue();
-				} else {
-					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-
-					String bs = String.format("\uD83D\uDCAC http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", bString);
-					channel.sendMessage(bs).queue();
-				}
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Bloodsuck")
-						.setDescription("Sucks the blood of the mentioned user(s)")
-						.build();
 			}
 		});
 	}

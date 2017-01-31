@@ -15,7 +15,8 @@ public class HTMLHelper {
 		return instance;
 	}
 
-	private HTMLHelper() {}
+	private HTMLHelper() {
+	}
 
 	private String urlEncodeUTF8(String s) {
 		try {

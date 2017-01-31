@@ -35,28 +35,7 @@ public class QuoteCmd extends Module {
 	private void quote() {
 		super.register("quote", new SimpleCommand() {
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Quote command")
-					.setDescription("> Usage:\n"
-						+ "~>quote add [number]: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
-						+ "~>quote random: Gets a random quote. \n"
-						+ "~>quote read [number]: Gets a quote matching the number. \n"
-						+ "~>quote addfrom [phrase] Adds a quote based in text search criteria.\n"
-						+ "~>quote getfrom [phrase]: Searches for the first quote which matches your search criteria and prints it.\n"
-						+ "> Parameters:\n"
-						+ "[number]: Message number to quote. For example 1 will quote the last message.\n"
-						+ "[phrase]: A part of the quote phrase.")
-					.setColor(Color.DARK_GRAY)
-					.build();
-			}
-
-			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
@@ -66,7 +45,7 @@ public class QuoteCmd extends Module {
 					messageHistory = channel.getHistory().retrievePast(100).complete();
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Seems like discord is having some problems for now, since a request to retrieve the history was denied" +
-							"with error `" + e.getClass().getSimpleName() + "`").queue();
+						"with error `" + e.getClass().getSimpleName() + "`").queue();
 					LOGGER.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
 					return;
 				}
@@ -224,6 +203,27 @@ public class QuoteCmd extends Module {
 						onHelp(event);
 						break;
 				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Quote command")
+					.setDescription("> Usage:\n"
+						+ "~>quote add [number]: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
+						+ "~>quote random: Gets a random quote. \n"
+						+ "~>quote read [number]: Gets a quote matching the number. \n"
+						+ "~>quote addfrom [phrase] Adds a quote based in text search criteria.\n"
+						+ "~>quote getfrom [phrase]: Searches for the first quote which matches your search criteria and prints it.\n"
+						+ "> Parameters:\n"
+						+ "[number]: Message number to quote. For example 1 will quote the last message.\n"
+						+ "[phrase]: A part of the quote phrase.")
+					.setColor(Color.DARK_GRAY)
+					.build();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 		});
 	}

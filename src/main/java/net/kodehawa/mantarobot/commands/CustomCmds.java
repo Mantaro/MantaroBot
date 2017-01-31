@@ -37,8 +37,8 @@ public class CustomCmds extends Module {
 		private Random r = new Random();
 
 		@Override
-		public CommandPermission permissionRequired() {
-			return CommandPermission.USER;
+		public MessageEmbed help(GuildMessageReceivedEvent event) {
+			return null;
 		}
 
 		private void handle(GuildMessageReceivedEvent event, String cmdName, String[] args) {
@@ -81,8 +81,8 @@ public class CustomCmds extends Module {
 		}
 
 		@Override
-		public MessageEmbed help(GuildMessageReceivedEvent event) {
-			return null;
+		public CommandPermission permissionRequired() {
+			return CommandPermission.USER;
 		}
 
 		@Override
@@ -102,9 +102,9 @@ public class CustomCmds extends Module {
 
 		super.register("custom", new SimpleCommand() {
 			@Override
-			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(MantaroData.getData().get().getGuild(event.getGuild(), false).customCommandsAdminOnly){
-					if(!event.getGuild().getMember(event.getAuthor()).hasPermission(Permission.ADMINISTRATOR)){
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (MantaroData.getData().get().getGuild(event.getGuild(), false).customCommandsAdminOnly) {
+					if (!event.getGuild().getMember(event.getAuthor()).hasPermission(Permission.ADMINISTRATOR)) {
 						event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
 						return;
 					}

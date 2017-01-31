@@ -22,7 +22,7 @@ public class Mapifier {
 		if (!string.contains("$(")) return string;
 
 		Set<String> skipIfIterated = new HashSet<>();
-		for (String key : iterate(CUSTOM_COMMAND_PATTERN,string)) {
+		for (String key : iterate(CUSTOM_COMMAND_PATTERN, string)) {
 			if (skipIfIterated.contains(key)) continue;
 			String mapKey = key.substring(2, key.length() - 1);
 			string = string.replace(key, dynamicMap.getOrDefault(mapKey, mapKey));
