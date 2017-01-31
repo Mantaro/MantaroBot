@@ -2,7 +2,7 @@
 ***"Anime, Music, Moderation, and everything you might want too"***
 
 ### Using the Official Mantaro
-[***Click Here. No, serious. This is the only step to add Mantaro to your Guild!**](https://is.gd/mantaro)
+[***Click Here. No, serious. This is the only step to add Mantaro to your Guild!***](https://is.gd/mantaro)
 
 ### Building it your own
 **Warning**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
