@@ -13,6 +13,22 @@ public class WeatherData {
 		public double pressure = 0;
 		public double speed; //Speed in m/h.
 		public double temp = 0;
+
+		public int getHumidity() {
+			return humidity;
+		}
+
+		public double getPressure() {
+			return pressure;
+		}
+
+		public double getSpeed() {
+			return speed;
+		}
+
+		public double getTemp() {
+			return temp;
+		}
 	}
 
 	public class Sys {
@@ -32,4 +48,24 @@ public class WeatherData {
 	public Sys sys = new Sys();
 	public List<Weather> weather = new ArrayList<>();
 	public Wind wind = new Wind();
+
+	public Clouds getClouds() {
+		return clouds;
+	}
+
+	public Main getMain() {
+		return main;
+	}
+
+	public Sys getSys() {
+		return sys;
+	}
+
+	public List<Weather> getWeather() {
+		return weather;
+	}
+
+	public Wind getWind() {
+		return wind;
+	}
 }

@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.audio.MusicManager;
 import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -178,22 +180,40 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("logs")) {
 					if (action.equals("enable")) {
+						String logChannel = args[2];
+						boolean isId = args[2].matches("^[0-9]*$");
+						String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).logChannel = id;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(String.format(":mega: Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
+								logChannel, id)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).logChannel = null;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(":mega: Message logging disabled on this server.").queue();
 						return;
 					}
+
 					onHelp(event);
 					return;
 				}
 
 				if (option.equals("prefix")) {
 					if (action.equals("set")) {
+						String prefix = args[2];
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).prefix = prefix;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(":mega: Guild custom prefix set to " + prefix).queue();
 						return;
 					}
 
 					if (action.equals("clear")) {
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).prefix = null;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(":mega: Guild custom prefix disabled	").queue();
 						return;
 					}
 					onHelp(event);
@@ -202,10 +222,19 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("nsfw")) {
 					if (action.equals("setchannel")) {
+						String channel = args[2];
+						boolean isId = args[2].matches("^[0-9]*$");
+						String channelId = isId ? args[2] : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).nsfwChannel = channelId;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(String.format(":mega: NSFW channel set to %s (%s)", args[2], channelId)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).nsfwChannel = null;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(String.format(":mega: NSFW channel set to %s", "null")).queue();
 						return;
 					}
 					onHelp(event);
@@ -214,22 +243,45 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("birthday")) {
 					if (action.equals("enable")) {
+						boolean isId = args[2].matches("^[0-9]*$");
+						String channelId = isId ? args[2] : event.getJDA().getTextChannelsByName(args[2], true).get(0).getId();
+						String roleId = event.getGuild().getRolesByName(args[3].replace(channelId, ""), true).get(0).getId();
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayChannel = channelId;
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayRole = roleId;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(
+								String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
+										args[2], channelId, args[3], roleId)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayChannel = null;
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayRole = null;
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(":mega: Birthday logging disabled on this server").queue();
 						return;
 					}
+
 					onHelp(event);
 					return;
 				}
 
 				if (option.equals("music")) {
 					if (action.equals("limit")) {
+						boolean isNumber = args[2].matches("^[0-9]*$");
+						if(!isNumber) return;
+						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData())
+								.songDurationLimit = Integer.parseInt(args[2]);
+						MantaroData.getData().update();
+						event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
 						return;
 					}
 
 					if (action.equals("clear")) {
+						MusicManager musicManager = MantaroAudioManager.getGuildAudioPlayer(event);
+						MantaroAudioManager.clearQueue(musicManager, event, false);
+						event.getChannel().sendMessage(":mega: Cleared song queue.").queue();
 						return;
 					}
 					onHelp(event);
@@ -240,7 +292,7 @@ public class ModerationCmds extends Module {
 					MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData())
 							.customCommandsAdminOnly = Boolean.parseBoolean(action);
 					MantaroData.getData().update();
-					String toSend = Boolean.parseBoolean(action) ? "Now user command creation is admin only." : "Now user command creation can be done by users";
+					String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
 					event.getChannel().sendMessage(toSend).queue();
 					return;
 				}

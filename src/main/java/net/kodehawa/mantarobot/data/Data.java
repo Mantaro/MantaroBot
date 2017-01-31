@@ -10,6 +10,9 @@ import java.util.Optional;
 public class Data {
 	public static class GuildData {
 		public String birthdayRole = null;
+		public String birthdayChannel = null;
+		public String nsfwChannel = null;
+		public Integer songDurationLimit = null;
 		public Map<String, List<String>> customCommands = new HashMap<>();
 		public String musicChannel = null;
 		public String logChannel = null;

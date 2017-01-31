@@ -353,12 +353,12 @@ public class InfoCmds extends Module {
 					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
 
 					String countryCode = data.sys.country;
-					String status = data.weather.get(0).main;
-					Double temp = data.main.temp;
-					double pressure = data.main.pressure;
-					int hum  = data.main.humidity;
-					Double ws = data.wind.speed;
-					int clness = data.clouds.all;
+					String status = data.getWeather().get(0).main;
+					Double temp = data.getMain().getTemp();
+					double pressure = data.getMain().getPressure();
+					int hum  = data.getMain().getHumidity();
+					Double ws = data.getWind().speed;
+					int clness = data.getClouds().all;
 
 					Double finalTemperatureCelcius = temp - 273.15;
 					Double finalTemperatureFarnheit = temp * 9 / 5 - 459.67;
