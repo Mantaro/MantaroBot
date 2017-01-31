@@ -1,10 +1,23 @@
 # MantaroBot
+***"Anime, Music, Moderation, and everything you might want too"***
 
-Simple Discord bot made in JDA.
-To start the bot you need to populate config.json.
-Every file seen here will be created at your root directory in a folder called mantaro. Just move them there.
+### Using the Official Mantaro
+[***Click Here. No, serious. This is the only step to add Mantaro to your Guild!**](https://is.gd/mantaro)
 
-Copyright (C) 2016-2017 David Alejandro Rubio Escares/Kodehawa
+### Building it your own
+**Warning**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
+don't recommend trying to do this. Mantaro isn't documented in the slightest.
+Also you are going to need at least 3 or 4 API Keys that I ([**@AdrianTodt**](https://github.com/adriantodt))
+don't even know how [**@Kodehawa**](https://github.com/Kodehawa) got it. _You have been warned_.
+
+1. Clone this repository somewhere.
+2. Open a Terminal in the newest folder.
+3. Run `gradlew build`
+4. Grab the `-all.jar` jar in `build/libs`
+5. Run it and prepare yourself to start filling configs.
+
+### License
+_Copyright (C) 2016-2017 **David Alejandro Rubio Escares**/**Kodehawa**_
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,3 +31,5 @@ Copyright (C) 2016-2017 David Alejandro Rubio Escares/Kodehawa
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+([Full License can be found here](https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE))
