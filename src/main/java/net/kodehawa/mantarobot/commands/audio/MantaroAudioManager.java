@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.connectToVoiceChannel;
 import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.getDurationMinutes;
@@ -119,7 +120,9 @@ public class MantaroAudioManager {
 	private static void loadTrack(GuildMessageReceivedEvent event, MusicManager musicManager, AudioTrack track, boolean isPlaylist) {
 		TextChannel channel = event.getChannel();
 		try {
-			if (track.getDuration() > 600000 && !MantaroData.getConfig().get().isOwner(event.getMember())) {
+			int trackDuration = Optional.ofNullable(MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit).isPresent() ?
+					MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit : 600000;
+			if (track.getDuration() > trackDuration && !MantaroData.getConfig().get().isOwner(event.getMember())) {
 				channel.sendMessage(
 					"\u274C"
 						+ " Track added is longer than 10 minutes (>600000ms). Cannot add "
