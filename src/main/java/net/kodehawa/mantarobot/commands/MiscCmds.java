@@ -139,7 +139,7 @@ public class MiscCmds extends Module {
 				}
 
 				String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
-				url2 = Utils.restyGetObjectFromUrl(URL, event);
+				url2 = Utils.wgetResty(URL, event);
 
 				JSONObject jObject = new JSONObject(url2);
 				JSONObject data = jObject.getJSONObject("magic");
@@ -176,7 +176,7 @@ public class MiscCmds extends Module {
 					try {
 						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
 					} catch (UnsupportedEncodingException ignored) {}
-					String json = Utils.restyGetObjectFromUrl(url, event);
+					String json = Utils.wgetResty(url, event);
 					UrbanData data = GsonDataManager.GSON.fromJson(json, UrbanData.class);
 
 					long end = System.currentTimeMillis() - start;

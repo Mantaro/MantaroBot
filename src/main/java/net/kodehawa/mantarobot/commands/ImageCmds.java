@@ -1,9 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.marcomaldonado.konachan.entities.Tag;
 import com.marcomaldonado.konachan.entities.Wallpaper;
 import com.marcomaldonado.konachan.service.Konachan;
-import com.marcomaldonado.web.callback.WallpaperCallback;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -61,7 +59,7 @@ public class ImageCmds extends Module {
 		if(!trigger)
 			return new EmbedBuilder().setDescription("Not on NSFW channel. Cannot send lewd images.");
 
-		String json = Utils.getObjectFromUrl(url, event);
+		String json = Utils.wget(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 		int get;

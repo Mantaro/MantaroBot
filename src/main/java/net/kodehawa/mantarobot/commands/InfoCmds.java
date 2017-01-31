@@ -356,7 +356,7 @@ public class InfoCmds extends Module {
 					long start = System.currentTimeMillis();
 					//Get a parsed JSON.
 					String APP_ID = MantaroData.getConfig().get().weatherAppId;
-					String json = Utils.getObjectFromUrl(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
+					String json = Utils.wget(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
 					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
 
 					String countryCode = data.sys.country;

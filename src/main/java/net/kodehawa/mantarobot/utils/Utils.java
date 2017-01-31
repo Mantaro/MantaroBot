@@ -9,12 +9,10 @@ import com.google.gson.JsonParser;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -66,30 +64,6 @@ public class Utils {
 		);
 	}
 
-	/**
-	 * Fetches an Object from any given URL. Uses vanilla Java methods.
-	 * Can retrieve text, JSON Objects, XML and probably more.
-	 *
-	 * @param url   The URL to get the object from.
-	 * @param event
-	 * @return The object as a parsed UTF-8 string.
-	 */
-	public static String getObjectFromUrl(String url, GuildMessageReceivedEvent event) {
-		String webobject = null;
-		try {
-			URL ur1 = new URL(url);
-			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
-			ccnn.setRequestProperty("User-Agent", "Mantaro");
-			InputStream ism = ccnn.getInputStream();
-			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
-		} catch (Exception e) {
-			LOGGER.warn("Seems like I cannot fetch data from " + url, e);
-			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
-		}
-
-		return webobject;
-	}
-
 	public static Iterable<String> iterate(Pattern pattern, String string) {
 		return () -> {
 			Matcher matcher = pattern.matcher(string);
@@ -110,19 +84,50 @@ public class Utils {
 	public static String paste(String toSend) {
 		try {
 			String pasteToken = Unirest.post("https://hastebin.com/documents")
-					.header("User-Agent", "Mantaro")
-					.header("Content-Type", "text/plain")
-					.body(toSend)
-					.asJson()
-					.getBody()
-					.getObject()
-					.getString("key");
+				.header("User-Agent", "Mantaro")
+				.header("Content-Type", "text/plain")
+				.body(toSend)
+				.asJson()
+				.getBody()
+				.getObject()
+				.getString("key");
 			return "https://hastebin.com/" + pasteToken;
 
 		} catch (UnirestException e) {
 			LOGGER.warn("Hastebin is being funny, huh? Cannot send or retrieve paste.", e);
 			return "Bot threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
 		}
+	}
+
+	public static String toPrettyJson(String jsonString) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jsonParser = new JsonParser();
+		JsonElement jsonElement = jsonParser.parse(jsonString);
+		return gson.toJson(jsonElement);
+	}
+
+	/**
+	 * Fetches an Object from any given URL. Uses vanilla Java methods.
+	 * Can retrieve text, JSON Objects, XML and probably more.
+	 *
+	 * @param url   The URL to get the object from.
+	 * @param event
+	 * @return The object as a parsed UTF-8 string.
+	 */
+	public static String wget(String url, GuildMessageReceivedEvent event) {
+		String webobject = null;
+		try {
+			URL ur1 = new URL(url);
+			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
+			ccnn.setRequestProperty("User-Agent", "Mantaro");
+			InputStream ism = ccnn.getInputStream();
+			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
+		} catch (Exception e) {
+			LOGGER.warn("Seems like I cannot fetch data from " + url, e);
+			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
+		}
+
+		return webobject;
 	}
 
 	/**
@@ -132,7 +137,7 @@ public class Utils {
 	 * @param event JDA message event.
 	 * @return The object as a parsed string.
 	 */
-	public static String restyGetObjectFromUrl(String url, GuildMessageReceivedEvent event) {
+	public static String wgetResty(String url, GuildMessageReceivedEvent event) {
 		String url2 = null;
 		try {
 			Resty resty = new Resty();
@@ -140,16 +145,9 @@ public class Utils {
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
 			LOGGER.warn("[Resty] Seems like I cannot fetch data from " + url, e);
-			event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue();
+			if (event != null) event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue();
 		}
 
 		return url2;
-	}
-
-	public static String toPrettyJson(String jsonString) {
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonParser jsonParser = new JsonParser();
-		JsonElement jsonElement = jsonParser.parse(jsonString);
-		return gson.toJson(jsonElement);
 	}
 }

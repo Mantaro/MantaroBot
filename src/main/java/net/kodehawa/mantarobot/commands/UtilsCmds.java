@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -9,6 +10,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.YoutubeMp3Info;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -22,6 +24,9 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class UtilsCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
 	private final Resty resty = new Resty();
@@ -30,6 +35,7 @@ public class UtilsCmds extends Module {
 		super(Category.MISC);
 		translate();
 		birthday();
+		ytmp3();
 	}
 
 	private void birthday() {
@@ -94,7 +100,8 @@ public class UtilsCmds extends Module {
 
 						try {
 							textEncoded = URLEncoder.encode(textToEncode, "UTF-8");
-						} catch (UnsupportedEncodingException ignored) {}
+						} catch (UnsupportedEncodingException ignored) {
+						}
 
 						String translatorUrl = String.format("https://translate.google.com/translate_a/single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
 
@@ -138,4 +145,53 @@ public class UtilsCmds extends Module {
 
 		});
 	}
+
+	private void ytmp3() {
+		super.register("ytmp3", new SimpleCommand() {
+			@Override
+			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				YoutubeMp3Info info = YoutubeMp3Info.forLink(content, event);
+
+				if (info == null) return; //I think we already logged this in the YoutubeMp3Info class
+
+				if (info.error != null) {
+					//TODO PRINT ERROR TO USERS
+					return;
+				}
+
+				EmbedBuilder builder = new EmbedBuilder()
+					.setAuthor(info.title, info.link, event.getAuthor().getEffectiveAvatarUrl())
+					.setFooter("Powered by youtubeinmp3.com API", null);
+
+				try {
+					int length = Integer.parseInt(info.length);
+					builder.addField("Length",
+						String.format(
+							"%02d minutes, %02d seconds",
+							SECONDS.toMinutes(length),
+							length - MINUTES.toSeconds(SECONDS.toMinutes(length))
+						),
+						false
+					);
+				} catch (Exception ignored) {
+				}
+
+				event.getChannel().sendMessage(builder
+					.addField("Download","[Click Here!]("+info.link+")", false)
+					.build()
+				).queue();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
+	}
+
 }

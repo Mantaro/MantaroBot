@@ -50,7 +50,7 @@ public class AnimeCmds extends Module {
 					//Set variables to use later. They will be parsed to JSON later on.
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
 						URLEncoder.encode(content, "UTF-8"), authToken);
-					String json = Utils.getObjectFromUrl(connection, event);
+					String json = Utils.wget(connection, event);
 					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
@@ -108,7 +108,7 @@ public class AnimeCmds extends Module {
 				TextChannel channel = event.getChannel();
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
-					String json = Utils.getObjectFromUrl(url, event);
+					String json = Utils.wget(url, event);
 					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
