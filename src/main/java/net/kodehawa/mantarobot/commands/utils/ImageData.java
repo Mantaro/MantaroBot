@@ -52,7 +52,7 @@ public class ImageData {
 	public Integer last_commented_at = null;
 
 	public List<String> getTags(){
-		return new ArrayList<>(Arrays.asList(tags.split(" ")));
+		return new ArrayList<>(Arrays.asList(tags.split(" ")	));
 	}
 
 	public Integer getId() {

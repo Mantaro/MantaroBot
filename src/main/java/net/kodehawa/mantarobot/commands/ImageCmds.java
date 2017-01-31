@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.utils.ImageData;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -54,14 +55,18 @@ public class ImageCmds extends Module {
 		nRating.put("explicit", "e");
 	}
 
-	private EmbedBuilder getImage(int argcount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
-		boolean trigger = true; //TODO implement when parameters is done
+	private EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
+		String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
+		boolean trigger = (rating.equals("s") || (nsfwChannel == null)) ? rating.equals("s") : nsfwChannel.equals(event.getChannel().getId());
+		if(!trigger)
+			return new EmbedBuilder().setDescription("Not on NSFW channel. Cannot send lewd images.");
+
 		String json = Utils.getObjectFromUrl(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 		int get;
 		try{
-			 get = requestType.equals("tags") ? argcount >= 4 ? number : new Random().nextInt(filter.size()) : argcount <= 2 ?
+			 get = requestType.equals("tags") ? argsCount >= 4 ? number : new Random().nextInt(filter.size()) : argsCount <= 2 ?
 					Integer.parseInt(messageArray[2]) : new Random().nextInt(filter.size());
 		} catch(ArrayIndexOutOfBoundsException e){ get = new Random().nextInt(filter.size()); }
 		String URL = filter.get(get).getFile_url();
@@ -70,29 +75,29 @@ public class ImageCmds extends Module {
 		int HEIGHT = filter.get(get).getHeight();
 		int WIDTH = filter.get(get).getWidth();
 		String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
-		EmbedBuilder embedBuilder = new EmbedBuilder();
+
 		if (!smallRequest) {
 			try {
-				return embedBuilder.setAuthor("Found image", null, null)
+				return new EmbedBuilder().setAuthor("Found image", null, null)
 						.setDescription("Image uploaded by: "+ (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 						.setImage(URL)
-						.addField("Height", String.valueOf(HEIGHT), true)
 						.addField("Width", String.valueOf(WIDTH), true)
+						.addField("Height", String.valueOf(HEIGHT), true)
 						.addField("Tags", "``" +  (tags == null ? "None" : tags) + "``", false);
 			} catch (ArrayIndexOutOfBoundsException ex) {
-				return embedBuilder.setDescription(":heavy_multiplication_x: There are no images here, just dust.");
+				return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 			}
 		}
 
 		try {
-			return embedBuilder.setAuthor("Found image", null, null)
+			return new EmbedBuilder().setAuthor("Found image", null, null)
 					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 					.setImage(URL)
-					.addField("Height", String.valueOf(HEIGHT), true)
 					.addField("Width", String.valueOf(WIDTH), true)
+					.addField("Height", String.valueOf(HEIGHT), true)
 					.addField("Tags", "``" +  (tags == null ? "None" : tags) + "``", false);
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			return embedBuilder.setDescription(":heavy_multiplication_x: There are no images here, just dust.");
+			return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 		}
 	}
 
@@ -129,8 +134,8 @@ public class ImageCmds extends Module {
 							builder.setAuthor("Found image", null, null)
 									.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
 									.setImage("http:" + URL)
-									.addField("Height", String.valueOf(HEIGHT), true)
 									.addField("Width", String.valueOf(WIDTH), true)
+									.addField("Height", String.valueOf(HEIGHT), true)
 									.addField("Tags", "``" +  (TAGS == null ? "None" : TAGS) + "``", false);
 							channel.sendMessage(builder.build()).queue();
 						} catch (ArrayIndexOutOfBoundsException exception) {
@@ -158,8 +163,8 @@ public class ImageCmds extends Module {
 								builder.setAuthor("Found image", null, null)
 										.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
 										.setImage("http:" + URL1)
-										.addField("Height", String.valueOf(HEIGHT1), true)
 										.addField("Width", String.valueOf(WIDTH1), true)
+										.addField("Height", String.valueOf(HEIGHT1), true)
 										.addField("Tags", "``" +  (TAGS1 == null ? "None" : TAGS1) + "``", false);
 								channel.sendMessage(builder.build()).queue();
 							} catch (ArrayIndexOutOfBoundsException exception) {

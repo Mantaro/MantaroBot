@@ -106,7 +106,7 @@ public class CustomCmds extends Module {
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if(MantaroData.getData().get().getGuild(event.getGuild(), false).customCommandsAdminOnly){
 					if(!event.getGuild().getMember(event.getAuthor()).hasPermission(Permission.ADMINISTRATOR)){
-						event.getChannel().sendMessage("This guild only accepts custom commands from administrators.");
+						event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
 						return;
 					}
 				}
