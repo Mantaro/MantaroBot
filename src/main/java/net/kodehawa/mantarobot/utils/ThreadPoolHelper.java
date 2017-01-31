@@ -1,7 +1,8 @@
 package net.kodehawa.mantarobot.utils;
 
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ThreadPoolHelper {
 	private static final ThreadPoolHelper defaultPool = new ThreadPoolHelper();
@@ -10,7 +11,9 @@ public class ThreadPoolHelper {
 		return defaultPool;
 	}
 
-	private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 25,
+		60L, TimeUnit.SECONDS,
+		new SynchronousQueue<>());
 
 	public ThreadPoolExecutor getThreadPool() {
 		return executor;
