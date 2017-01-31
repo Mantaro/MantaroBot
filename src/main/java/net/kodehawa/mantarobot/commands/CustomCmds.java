@@ -11,7 +11,6 @@ import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
-import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -117,8 +116,7 @@ public class CustomCmds extends Module {
 				}
 
 				String action = args[0];
-				Map<String, List<String>> customCommands = MantaroData.getData().get().guilds.computeIfAbsent(
-					event.getGuild().getId(), k -> new GuildData()).customCommands;
+				Map<String, List<String>> customCommands = MantaroData.getData().get().getGuild(event.getGuild(), true).customCommands;
 
 				if (action.equals("list") || action.equals("ls")) {
 					EmbedBuilder builder = new EmbedBuilder()

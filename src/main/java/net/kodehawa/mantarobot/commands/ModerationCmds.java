@@ -3,9 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.audio.MusicManager;
-import net.kodehawa.mantarobot.data.Data;
+import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -48,7 +46,7 @@ public class ModerationCmds extends Module {
 				//For all mentioned members..
 				receivedMessage.getMentionedUsers().forEach(user -> {
 					Member member = guild.getMember(user);
-					if(member == null) return;
+					if (member == null) return;
 					//If one of them is in a higher hierarchy than the bot, I cannot ban them.
 					if (!guild.getSelfMember().canInteract(member)) {
 						channel.sendMessage("\u274C" + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
@@ -112,7 +110,7 @@ public class ModerationCmds extends Module {
 
 				//We need to check if the member trying to kick the person has KICK_MEMBERS permission.
 				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
-					channel.sendMessage("❌ Cannot kick: You have no Kick Members permission.").queue();
+					channel.sendMessage("\u274C Cannot kick: You have no Kick Members permission.").queue();
 					return;
 				}
 
@@ -133,7 +131,7 @@ public class ModerationCmds extends Module {
 				//For all mentioned users in the command.
 				receivedMessage.getMentionedUsers().forEach(user -> {
 					Member member = guild.getMember(user);
-					if(member == null) return;
+					if (member == null) return;
 
 					//If one of them is in a higher hierarchy than the bot, cannot kick.
 					if (!selfMember.canInteract(member)) {
@@ -146,9 +144,9 @@ public class ModerationCmds extends Module {
 						success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(), //Quite funny, I think.
 						error -> {
 							if (error instanceof PermissionException) {
-								channel.sendMessage(String.format("❌ Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
+								channel.sendMessage(String.format("\u274C Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
 							} else {
-								channel.sendMessage(String.format("❌ Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+								channel.sendMessage(String.format("\u274C Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 
 								//Just so I get more info in the case of an unexpected error.
 								LOGGER.warn("Unexpected error while kicking someone.", error);
@@ -178,20 +176,27 @@ public class ModerationCmds extends Module {
 				String option = args[0];
 				String action = args[1];
 
+				GuildData guildData = MantaroData.getData().get().getGuild(event.getGuild(), true);
+
 				if (option.equals("logs")) {
 					if (action.equals("enable")) {
+						if (args.length < 3) {
+							onHelp(event);
+							return;
+						}
+
 						String logChannel = args[2];
 						boolean isId = args[2].matches("^[0-9]*$");
 						String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).logChannel = id;
+						guildData.logChannel = id;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(String.format(":mega: Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
-								logChannel, id)).queue();
+							logChannel, id)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).logChannel = null;
+						guildData.logChannel = null;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(":mega: Message logging disabled on this server.").queue();
 						return;
@@ -203,15 +208,20 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("prefix")) {
 					if (action.equals("set")) {
+						if (args.length < 3) {
+							onHelp(event);
+							return;
+						}
+
 						String prefix = args[2];
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).prefix = prefix;
+						guildData.prefix = prefix;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(":mega: Guild custom prefix set to " + prefix).queue();
 						return;
 					}
 
 					if (action.equals("clear")) {
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).prefix = null;
+						guildData.prefix = null;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(":mega: Guild custom prefix disabled	").queue();
 						return;
@@ -222,17 +232,22 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("nsfw")) {
 					if (action.equals("setchannel")) {
+						if (args.length < 3) {
+							onHelp(event);
+							return;
+						}
+
 						String channel = args[2];
 						boolean isId = args[2].matches("^[0-9]*$");
 						String channelId = isId ? args[2] : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).nsfwChannel = channelId;
+						guildData.nsfwChannel = channelId;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(String.format(":mega: NSFW channel set to %s (%s)", args[2], channelId)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).nsfwChannel = null;
+						guildData.nsfwChannel = null;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(String.format(":mega: NSFW channel set to %s", "null")).queue();
 						return;
@@ -243,21 +258,29 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("birthday")) {
 					if (action.equals("enable")) {
-						boolean isId = args[2].matches("^[0-9]*$");
-						String channelId = isId ? args[2] : event.getGuild().getTextChannelsByName(args[2], true).get(0).getId();
-						String roleId = event.getGuild().getRolesByName(args[3].replace(channelId, ""), true).get(0).getId();
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayChannel = channelId;
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayRole = roleId;
+						if (args.length < 4) {
+							onHelp(event);
+							return;
+						}
+
+						String channel = args[2];
+						String role = args[3];
+
+						boolean isId = channel.matches("^[0-9]*$");
+						String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
+						String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
+						guildData.birthdayChannel = channelId;
+						guildData.birthdayRole = roleId;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(
-								String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-										args[2], channelId, args[3], roleId)).queue();
+							String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
+								channel, channelId, role, roleId)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayChannel = null;
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData()).birthdayRole = null;
+						guildData.birthdayChannel = null;
+						guildData.birthdayRole = null;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(":mega: Birthday logging disabled on this server").queue();
 						return;
@@ -270,27 +293,66 @@ public class ModerationCmds extends Module {
 				if (option.equals("music")) {
 					if (action.equals("limit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
-						if(!isNumber) return;
-						MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData())
-								.songDurationLimit = Integer.parseInt(args[2]);
+						if (!isNumber) return;
+						guildData
+							.songDurationLimit = Integer.parseInt(args[2]);
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
 						return;
 					}
 
+					//TODO Set Music Channel
+					/* Code Snippet from Previous Commit. Not sure if worth anything
+						if (args.length < 3) {
+							onHelp(event);
+							return;
+						}
+
+						String channelName = splitArgs(content, 3)[2];
+
+						VoiceChannel channel = event.getGuild().getVoiceChannelById(channelName);
+
+						if (channel == null) {
+							List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
+								.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
+								.collect(Collectors.toList());
+
+							if (voiceChannels.size() == 0) {
+								//TODO 404 ERROR
+								return;
+							} else if (voiceChannels.size() == 1) {
+								channel = voiceChannels.get(0);
+							} else {
+								int selected;
+								try {
+									//TODO EMBED SELECTION
+									selected = DiscordUtils.selectInt(event, voiceChannels.size()).get();
+								} catch (InterruptedException | ExecutionException ignored) {
+									return;
+								}
+
+								channel = voiceChannels.get(selected);
+							}
+						}
+
+						guildData.musicChannel = channel.getId();
+						MantaroData.getData().update();
+						//TODO RESPONSE
+					 */
+
 					if (action.equals("clear")) {
-						MusicManager musicManager = MantaroAudioManager.getGuildAudioPlayer(event);
-						MantaroAudioManager.clearQueue(musicManager, event, false);
-						event.getChannel().sendMessage(":mega: Cleared song queue.").queue();
+						guildData.musicChannel = null;
+						MantaroData.getData().update();
+						//TODO RESPONSE
 						return;
 					}
 					onHelp(event);
 					return;
 				}
 
-				if(option.equals("admincustom")){
-					MantaroData.getData().get().guilds.computeIfAbsent(event.getGuild().getId(), k -> new Data.GuildData())
-							.customCommandsAdminOnly = Boolean.parseBoolean(action);
+				if (option.equals("admincustom")) {
+					guildData
+						.customCommandsAdminOnly = Boolean.parseBoolean(action);
 					MantaroData.getData().update();
 					String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
 					event.getChannel().sendMessage(toSend).queue();

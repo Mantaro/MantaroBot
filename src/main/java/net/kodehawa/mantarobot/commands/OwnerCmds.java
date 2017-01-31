@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-
 import bsh.Interpreter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -18,12 +17,14 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
+
 public class OwnerCmds extends Module {
 	public static GuildMessageReceivedEvent tempEvt = null;
 	private static Logger LOGGER = LoggerFactory.getLogger("Owner");
 
 	public OwnerCmds() {
-		super(Category.MODERATION);
+		super(Category.OWNER);
 		add();
 		eval();
 		shutdown();
@@ -33,26 +34,28 @@ public class OwnerCmds extends Module {
 		super.register("varadd", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
+				String v = splitArgs(content, 2)[1];
+
 				switch (args[0]) {
 					case "pat":
-						MantaroData.getPatting().get().add(args[1]);
+						MantaroData.getPatting().get().add(v);
 						MantaroData.getPatting().update();
-						event.getChannel().sendMessage("Added to pat list: " + args[1]).queue();
+						event.getChannel().sendMessage("Added to pat list: " + v).queue();
 						break;
 					case "hug":
-						MantaroData.getHugs().get().add(args[1]);
+						MantaroData.getHugs().get().add(v);
 						MantaroData.getHugs().update();
-						event.getChannel().sendMessage("Added to hug list: " + args[1]).queue();
+						event.getChannel().sendMessage("Added to hug list: " + v).queue();
 						break;
 					case "greeting":
-						MantaroData.getGreeting().get().add(content.replace(args[0], ""));
+						MantaroData.getGreeting().get().add(v);
 						MantaroData.getGreeting().update();
-						event.getChannel().sendMessage("Added to greet list: " + content.replace(args[0], "")).queue();
+						event.getChannel().sendMessage("Added to greet list: " + v).queue();
 						break;
 					case "splash":
-						MantaroData.getSplashes().get().add(content.replace(args[0], ""));
+						MantaroData.getSplashes().get().add(v);
 						MantaroData.getSplashes().update();
-						event.getChannel().sendMessage("Added to splash list: " + content.replace(args[0], "")).queue();
+						event.getChannel().sendMessage("Added to splash list: " + v).queue();
 						break;
 				}
 			}
@@ -67,12 +70,12 @@ public class OwnerCmds extends Module {
 				return baseEmbed(event, "Add to list command")
 					.setDescription("Adds a parameter to a list."
 						+ "\n Arguments: \n pat <args[1]>, hug <args[1]>, greeting <content>, splash <content>")
-						.build();
+					.build();
 			}
 		});
 	}
 
-	private void eval(){
+	private void eval() {
 		super.register("eval", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -80,7 +83,7 @@ public class OwnerCmds extends Module {
 					return;
 				}
 
-				if(args[0].equals("js")){
+				if (args[0].equals("js")) {
 					ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
 					script.put("jda", event.getJDA());
 					script.put("event", event);
@@ -92,17 +95,15 @@ public class OwnerCmds extends Module {
 					try {
 						script.eval("imports = new JavaImporter(java.util, java.io, java.net)\n");
 						toSend = script.eval("(function() {" +
-								"with(imports) {"
-								+ evalString + "\n}" +
-								"})()");
+							"with(imports) {"
+							+ evalString + "\n}" +
+							"})()");
 					} catch (ScriptException e) {
 						toSend = e.getMessage();
 						embedBuilder.setDescription(toSend.toString());
 					}
 					String out = toSend == null ? "Executed with no errors and no returns" : toSend.toString();
 					embedBuilder.setDescription(out);
-
-
 
 					event.getChannel().sendMessage(embedBuilder.build()).queue();
 					return;
@@ -112,19 +113,19 @@ public class OwnerCmds extends Module {
 				try {
 					Interpreter interpreter = new Interpreter();
 					String evalHeader =
-							"import *; "
-									+ "private JDAImpl jda = MantaroBot.getJDA(); "
-									+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.commands.OwnerCmds.tempEvt;";
+						"import *; "
+							+ "private JDAImpl jda = MantaroBot.getJDA(); "
+							+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.commands.OwnerCmds.tempEvt;";
 					Object toSendTmp = interpreter.eval(evalHeader + content);
 					EmbedBuilder embed = new EmbedBuilder();
 					String toSend = toSendTmp == null ? "Executed successfully with no objects returned" : toSendTmp.toString();
 					embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
-							.setDescription("Returned: " + toSend)
-							.setFooter("Asked by: " + event.getAuthor().getName(), null);
+						.setDescription("Returned: " + toSend)
+						.setFooter("Asked by: " + event.getAuthor().getName(), null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Code evaluation returned ``" + e.getClass().getSimpleName() + "``, with cause:" +
-							" ```md\n" + e.getMessage().replaceAll("``", "").replaceAll(": ", ":\n") + "```").queue();
+						" ```md\n" + e.getMessage().replaceAll("``", "").replaceAll(": ", ":\n") + "```").queue();
 					LOGGER.warn("Problem evaluating code!", e);
 				}
 			}
@@ -137,8 +138,8 @@ public class OwnerCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Eval command")
-						.setDescription("Guess what, it evals.")
-						.build();
+					.setDescription("Guess what, it evals.")
+					.build();
 			}
 		});
 	}
@@ -168,7 +169,7 @@ public class OwnerCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Shutdown")
 					.setDescription("Shutdowns the bot.")
-						.build();
+					.build();
 			}
 		});
 	}

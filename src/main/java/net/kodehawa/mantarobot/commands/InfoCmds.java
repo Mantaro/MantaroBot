@@ -2,12 +2,12 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
-import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
@@ -179,23 +179,31 @@ public class InfoCmds extends Module {
 			@Override
 			public void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					String defaultPrefix = MantaroData.getData().get().defaultPrefix, guildPrefix = MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).prefix;
+					String defaultPrefix = MantaroData.getData().get().defaultPrefix, guildPrefix = MantaroData.getData().get().getGuild(event.getGuild(), false).prefix;
 					String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
 
-					event.getChannel().sendMessage(baseEmbed(event, "MantaroBot Help")
+					EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
+						.setFooter(String.format("To check the command usage do %shelp <command>", prefix) + " >> Commands: " + Manager.commands.size(), null)
 						.addField("Audio Commands:", forType(Category.AUDIO), false)
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
 						.addField("ActionCmds Commands:", forType(Category.ACTION), false)
 						.addField("Fun Commands:", forType(Category.FUN), false)
-						.addField("Gaming Commands:", forType(Category.GAMES), false)
-						.addField("Moderation Commands:", forType(Category.MODERATION), false)
+						.addField("Gaming Commands:", forType(Category.GAMES), false);
+
+					if (event.getMember().hasPermission(Permission.ADMINISTRATOR))
+						embed.addField("Moderation Commands:", forType(Category.MODERATION), false);
+
+					if (MantaroData.getConfig().get().isOwner(event.getMember()))
+						embed.addField("Owner Commands:", forType(Category.OWNER), false);
+
+					event.getChannel().sendMessage(embed
 						.addField("Info Commands:", forType(Category.INFO), false)
 						.addField("Misc Commands:", forType(Category.MISC), false)
-						.setFooter(String.format("To check the command usage do %shelp <command>", prefix) + " >> Commands: " + Manager.commands.size(), null)
 						.build()
 					).queue();
+
 				} else {
 					Pair<Command, Category> command = Manager.commands.get(content);
 					if (command != null && command.getValue() != null) {
@@ -334,11 +342,11 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void weather(){
+	private void weather() {
 		super.register("weather", new SimpleCommand() {
 			@Override
 			protected void onCommand(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(content.isEmpty()){
+				if (content.isEmpty()) {
 					onHelp(event);
 					return;
 				}
@@ -348,15 +356,14 @@ public class InfoCmds extends Module {
 					long start = System.currentTimeMillis();
 					//Get a parsed JSON.
 					String APP_ID = MantaroData.getConfig().get().weatherAppId;
-					String json = Utils.getObjectFromUrl(
-							"http://api.openweathermap.org/data/2.5/weather?q=" + URLEncoder.encode(content, "UTF-8") + "&appid=" + APP_ID, event);
+					String json = Utils.getObjectFromUrl(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
 					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
 
 					String countryCode = data.sys.country;
 					String status = data.getWeather().get(0).main;
 					Double temp = data.getMain().getTemp();
 					double pressure = data.getMain().getPressure();
-					int hum  = data.getMain().getHumidity();
+					int hum = data.getMain().getHumidity();
 					Double ws = data.getWind().speed;
 					int clness = data.getClouds().all;
 
@@ -367,15 +374,15 @@ public class InfoCmds extends Module {
 					long end = System.currentTimeMillis() - start;
 
 					embed.setColor(Color.CYAN)
-							.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content)
-							.setDescription(status + " (" + clness + "% cloudiness)")
-							.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " + finalTemperatureFarnheit.intValue() + "°F", true)
-							.addField(":droplet: Humidity", hum + "%", true)
-							.addBlankField(true)
-							.addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " + finalWindSpeedImperial.intValue() + "mph", true)
-							.addField("Pressure", pressure + "kPA", true)
-							.addBlankField(true)
-							.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
+						.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content)
+						.setDescription(status + " (" + clness + "% cloudiness)")
+						.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " + finalTemperatureFarnheit.intValue() + "°F", true)
+						.addField(":droplet: Humidity", hum + "%", true)
+						.addBlankField(true)
+						.addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " + finalWindSpeedImperial.intValue() + "mph", true)
+						.addField("Pressure", pressure + "kPA", true)
+						.addBlankField(true)
+						.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e){
 					LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
@@ -390,13 +397,13 @@ public class InfoCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Weather command")
-						.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
-								+ "> Usage:\n"
-								+ "~>weather [city],[countrycode]: Retrieves the forecast information for such location.\n"
-								+ "> Parameters:\n"
-								+ "[city]: Your city name, for example New York\n"
-								+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
-						.build();
+					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
+						+ "> Usage:\n"
+						+ "~>weather [city],[countrycode]: Retrieves the forecast information for such location.\n"
+						+ "> Parameters:\n"
+						+ "[city]: Your city name, for example New York\n"
+						+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
+					.build();
 			}
 		});
 	}

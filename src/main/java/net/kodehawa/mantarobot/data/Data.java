@@ -14,8 +14,8 @@ public class Data {
 		public String nsfwChannel = null;
 		public Integer songDurationLimit = null;
 		public Map<String, List<String>> customCommands = new HashMap<>();
-		public String musicChannel = null;
 		public String logChannel = null;
+		public String musicChannel = null;
 		public String prefix = null;
 		public boolean customCommandsAdminOnly = false;
 	}
@@ -29,10 +29,10 @@ public class Data {
 	public Map<String, UserData> users = new HashMap<>();
 
 	public String getPrefix(Guild guild) {
-		return Optional.ofNullable(guilds.getOrDefault(guild.getId(), new GuildData()).prefix).orElse(defaultPrefix);
+		return Optional.ofNullable(getGuild(guild, false).prefix).orElse(defaultPrefix);
 	}
 
-	public GuildData getGuild(Guild guild, boolean isRewritable){
+	public GuildData getGuild(Guild guild, boolean isRewritable) {
 		if (isRewritable) return guilds.computeIfAbsent(guild.getId(), s -> new GuildData());
 		return guilds.getOrDefault(guild.getId(), new GuildData());
 	}
