@@ -6,6 +6,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module.Manager;
 
+import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public final class CommandProcessor {
@@ -29,6 +30,7 @@ public final class CommandProcessor {
 			Command command = Manager.commands.get(arguments.cmdName).getLeft();
 			if (!command.permissionRequired().test(arguments.event.getMember())) return false;
 			command.invoke(arguments);
+			log(arguments.cmdName);
 			return true;
 		}
 		return false;
