@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
+import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 
 public class CustomCmds extends Module {
@@ -88,6 +89,7 @@ public class CustomCmds extends Module {
 		@Override
 		public void invoke(Arguments args) {
 			handle(args.event, args.cmdName, args.args);
+			log("custom command");
 		}
 
 		@Override

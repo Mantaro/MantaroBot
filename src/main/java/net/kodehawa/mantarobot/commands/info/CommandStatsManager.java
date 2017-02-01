@@ -30,6 +30,11 @@ public class CommandStatsManager {
 	public static EmbedBuilder fillEmbed(Map<String, AtomicInteger> commands, EmbedBuilder builder) {
 		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 
+		if (total == 0) {
+			builder.addField("Nothing Here.", "Just dust.", false);
+			return builder;
+		}
+
 		commands.forEach((s, i) -> {
 			int percent = i.get() * 100 / total;
 			builder.addField(s, String.format("%s %d%%", bar(percent, 15), percent), false);
@@ -50,16 +55,16 @@ public class CommandStatsManager {
 		EXPIRATOR.letExpire(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
 	}
 
-	public static String resume(Map<String, AtomicInteger> commands) {
+		public static String resume(Map<String, AtomicInteger> commands) {
 		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 
-		return "Count: " + total + "\n" + commands.entrySet().stream()
+		return (total == 0) ? ("No Commands issued.") : ("Count: " + total + "\n" + commands.entrySet().stream()
 			.sorted(Comparator.comparingInt(entry -> entry.getValue().get()))
 			.limit(5)
 			.map(entry -> {
 				int percent = entry.getValue().get() * 100 / total;
 				return String.format("%s %d%% **%s**", bar(percent, 15), percent, entry.getKey());
 			})
-			.collect(Collectors.joining("\n"));
+			.collect(Collectors.joining("\n")));
 	}
 }
