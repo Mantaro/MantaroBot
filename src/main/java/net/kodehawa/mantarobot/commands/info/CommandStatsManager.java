@@ -53,7 +53,7 @@ public class CommandStatsManager {
 	public static String resume(Map<String, AtomicInteger> commands) {
 		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 
-		return commands.entrySet().stream()
+		return "Count: " + total + "\n" + commands.entrySet().stream()
 			.sorted(Comparator.comparingInt(entry -> entry.getValue().get()))
 			.limit(5)
 			.map(entry -> {
