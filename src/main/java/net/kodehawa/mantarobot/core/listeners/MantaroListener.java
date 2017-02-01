@@ -205,10 +205,6 @@ public class MantaroListener implements EventListener {
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
-			//TODO HANDLE THIS PROPERLY NOW.
-			//Now this catch block handles the exceptions that can happen while on Command Execution.
-			//Should look a better way of handling/logging this.
-
 			LOGGER.warn("Cannot process command: " + event.getMessage().getRawContent() +
 				". All we know is what's here and that the error is a ``"
 				+ e.getClass().getSimpleName() + "``", e);

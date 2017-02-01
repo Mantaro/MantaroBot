@@ -302,7 +302,7 @@ public class UtilsCmds extends Module {
 				if (info == null) return; //I think we already logged this in the YoutubeMp3Info class
 
 				if (info.error != null) {
-					//TODO PRINT ERROR TO USERS
+					event.getChannel().sendMessage(":heavy_multiplication_x: Error while fetching link, maybe copyright? ``" + info.error + "``").queue();
 					return;
 				}
 

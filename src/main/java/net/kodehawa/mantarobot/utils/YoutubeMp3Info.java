@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.utils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,8 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class YoutubeMp3Info {
+	private static final Logger LOGGER = LoggerFactory.getLogger("YoutubeInMP3");
+
 	private static final String PROTOCOL_REGEX = "(?:http://|https://|)";
 	private static final String SUFFIX_REGEX = "(?:\\?.*|&.*|)";
 	private static final String VIDEO_ID_REGEX = "([a-zA-Z0-9_-]{11})";
@@ -32,7 +36,7 @@ public class YoutubeMp3Info {
 			UnaryOperator<String> op = partialPatterns.entrySet().stream().filter(entry -> entry.getKey().test(youtubeLink)).map(Entry::getValue).findFirst().orElse(null);
 
 			if (op == null) {
-				//TODO event.sendMessage("is invalid")
+				event.getChannel().sendMessage(":heavy_multiplication_x: Link seems to be invalid.").queue();
 				return null;
 			}
 
@@ -45,13 +49,15 @@ public class YoutubeMp3Info {
 
 		String s = Utils.wgetResty(link, event);
 
-		//TODO ALSO LOG NULL WITH LINK
-		if (s == null) return null;
+		if (s == null) {
+			LOGGER.warn("YTMP3 returned null link: " + link);
+			return null;
+		}
 
 		try {
 			return GsonDataManager.GSON.fromJson(s, YoutubeMp3Info.class);
 		} catch (Exception e) {
-			//TODO Guess what? Yes, log this with Link
+			LOGGER.warn("``" + e.getClass().getSimpleName() + "`` thrown while deserializing JSON.", e);
 		}
 		return null;
 	}

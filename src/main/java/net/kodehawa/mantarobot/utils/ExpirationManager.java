@@ -2,17 +2,18 @@ package net.kodehawa.mantarobot.utils;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ExpirationManager {
 	private final Map<Long, List<Runnable>> EXPIRATIONS;
 	private boolean updated = false;
 
 	public ExpirationManager() {
-		this(new HashMap<>());
+		this(new ConcurrentHashMap<>());
 	}
 
 	public ExpirationManager(Map<Long, List<Runnable>> expirations) {
-		EXPIRATIONS = Collections.synchronizedMap(expirations);
+		EXPIRATIONS = new ConcurrentHashMap<>(Collections.synchronizedMap(expirations));
 
 		Thread thread = new Thread(this::threadcode, "ExpirationManager Thread");
 		thread.setDaemon(true);
