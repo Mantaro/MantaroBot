@@ -59,6 +59,10 @@ public class CommandStatsManager {
 		EXPIRATOR.letExpire(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
 	}
 
+	public static void main(String[] args) {
+		System.out.println(bar(72,100));
+	}
+
 	public static String resume(Map<String, AtomicInteger> commands) {
 		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 

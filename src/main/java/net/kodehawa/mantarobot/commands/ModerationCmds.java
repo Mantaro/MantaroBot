@@ -9,8 +9,14 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class ModerationCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
@@ -302,8 +308,7 @@ public class ModerationCmds extends Module {
 						return;
 					}
 
-					//TODO Set Music Channel
-					/* Code Snippet from Previous Commit. Not sure if worth anything
+					if (action.equals("channel")) {
 						if (args.length < 3) {
 							onHelp(event);
 							return;
@@ -319,32 +324,33 @@ public class ModerationCmds extends Module {
 								.collect(Collectors.toList());
 
 							if (voiceChannels.size() == 0) {
-								//TODO 404 ERROR
+								event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
 								return;
 							} else if (voiceChannels.size() == 1) {
 								channel = voiceChannels.get(0);
 							} else {
-								int selected;
-								try {
-									//TODO EMBED SELECTION
-									selected = DiscordUtils.selectInt(event, voiceChannels.size()).get();
-								} catch (InterruptedException | ExecutionException ignored) {
-									return;
-								}
-
-								channel = voiceChannels.get(selected);
+								DiscordUtils.selectList(event, voiceChannels,
+									voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+									s -> baseEmbed(event,"Select the Channel:").setDescription(s).build(),
+									voiceChannel -> {
+										guildData.musicChannel = voiceChannel.getId();
+										MantaroData.getData().update();
+										event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue();
+									}
+								);
+								return;
 							}
 						}
 
 						guildData.musicChannel = channel.getId();
 						MantaroData.getData().update();
-						//TODO RESPONSE
-					 */
+						event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
+					}
 
 					if (action.equals("clear")) {
 						guildData.musicChannel = null;
 						MantaroData.getData().update();
-						//TODO RESPONSE
+						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
 						return;
 					}
 					onHelp(event);
@@ -352,8 +358,7 @@ public class ModerationCmds extends Module {
 				}
 
 				if (option.equals("admincustom")) {
-					guildData
-						.customCommandsAdminOnly = Boolean.parseBoolean(action);
+					guildData.customCommandsAdminOnly = Boolean.parseBoolean(action);
 					MantaroData.getData().update();
 					String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
 					event.getChannel().sendMessage(toSend).queue();
