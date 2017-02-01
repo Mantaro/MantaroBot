@@ -36,7 +36,7 @@ public class CommandStatsManager {
 		}
 
 		commands.entrySet().stream()
-			.filter(entry -> entry.getValue().get() < 0)
+			.filter(entry -> entry.getValue().get() > 0)
 			.sorted(Comparator.comparingInt(entry -> total - entry.getValue().get()))
 			.limit(12)
 			.forEachOrdered(entry -> {
@@ -63,7 +63,7 @@ public class CommandStatsManager {
 		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 
 		return (total == 0) ? ("No Commands issued.") : ("Count: " + total + "\n" + commands.entrySet().stream()
-			.filter(entry -> entry.getValue().get() < 0)
+			.filter(entry -> entry.getValue().get() > 0)
 			.sorted(Comparator.comparingInt(entry -> total - entry.getValue().get()))
 			.limit(5)
 			.map(entry -> {
