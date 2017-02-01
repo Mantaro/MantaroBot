@@ -23,7 +23,7 @@ public class CommandStatsManager {
 	public static String bar(int percent, int total) {
 		int activeBlocks = (int) ((float) percent / 100f * total);
 		StringBuilder builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
-		for (int i = 0; i < total; i++) builder.append(activeBlocks >= i ? ACTIVE_BLOCK : ' ');
+		for (int i = 0; i < total; i++) builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
 		return builder.append(EMPTY_BLOCK).append('`').toString();
 	}
 
@@ -35,9 +35,13 @@ public class CommandStatsManager {
 			return builder;
 		}
 
-		commands.forEach((s, i) -> {
-			int percent = i.get() * 100 / total;
-			builder.addField(s, String.format("%s %d%%", bar(percent, 15), percent), false);
+		commands.entrySet().stream()
+			.filter(entry -> entry.getValue().get() < 0)
+			.sorted(Comparator.comparingInt(entry -> total - entry.getValue().get()))
+			.limit(12)
+			.forEachOrdered(entry -> {
+			int percent = entry.getValue().get() * 100 / total;
+			builder.addField(entry.getKey(), String.format("%s %d%%", bar(percent, 15), percent), true);
 		});
 
 		return builder;
@@ -55,11 +59,12 @@ public class CommandStatsManager {
 		EXPIRATOR.letExpire(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
 	}
 
-		public static String resume(Map<String, AtomicInteger> commands) {
+	public static String resume(Map<String, AtomicInteger> commands) {
 		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
 
 		return (total == 0) ? ("No Commands issued.") : ("Count: " + total + "\n" + commands.entrySet().stream()
-			.sorted(Comparator.comparingInt(entry -> entry.getValue().get()))
+			.filter(entry -> entry.getValue().get() < 0)
+			.sorted(Comparator.comparingInt(entry -> total - entry.getValue().get()))
 			.limit(5)
 			.map(entry -> {
 				int percent = entry.getValue().get() * 100 / total;
