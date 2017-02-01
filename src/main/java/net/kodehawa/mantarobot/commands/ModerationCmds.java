@@ -335,7 +335,7 @@ public class ModerationCmds extends Module {
 									voiceChannel -> {
 										guildData.musicChannel = voiceChannel.getId();
 										MantaroData.getData().update();
-										event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue();
+										event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue(); //TODO Quick Look on Message (@Kodehawa; Just for sure)
 									}
 								);
 								return;
@@ -344,13 +344,13 @@ public class ModerationCmds extends Module {
 
 						guildData.musicChannel = channel.getId();
 						MantaroData.getData().update();
-						event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
+						event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue(); //TODO Quick Look on Message (@Kodehawa; Just for sure)
 					}
 
 					if (action.equals("clear")) {
 						guildData.musicChannel = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
+						event.getChannel().sendMessage("Now I can play music on all channels!").queue(); //TODO Quick Look on Message (@Kodehawa; Just for sure)
 						return;
 					}
 					onHelp(event);
@@ -375,7 +375,7 @@ public class ModerationCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Uhhh that one will be BIG.
+				return null; //TODO Help Embed (@AdrianTodt)
 			}
 		});
 	}

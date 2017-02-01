@@ -9,11 +9,7 @@ public class ExpirationManager {
 	private boolean updated = false;
 
 	public ExpirationManager() {
-		this(new ConcurrentHashMap<>());
-	}
-
-	public ExpirationManager(Map<Long, List<Runnable>> expirations) {
-		EXPIRATIONS = new ConcurrentHashMap<>(Collections.synchronizedMap(expirations));
+		EXPIRATIONS = new ConcurrentHashMap<>();
 
 		Thread thread = new Thread(this::threadcode, "ExpirationManager Thread");
 		thread.setDaemon(true);
@@ -45,14 +41,14 @@ public class ExpirationManager {
 			//noinspection OptionalGetWithoutIsPresent
 			Entry<Long, List<Runnable>> firstEntry = EXPIRATIONS.entrySet().stream().sorted(Comparator.comparingLong(Entry::getKey)).findFirst().get();
 
-			try {
-				long timeout = firstEntry.getKey() - System.currentTimeMillis();
-				if (timeout > 0) {
-					synchronized (this) {
+			long timeout = firstEntry.getKey() - System.currentTimeMillis();
+			if (timeout > 0) {
+				synchronized (this) {
+					try {
 						wait(timeout);
+					} catch (InterruptedException ignored) {
 					}
 				}
-			} catch (InterruptedException ignored) {
 			}
 
 			if (!updated) {

@@ -21,6 +21,11 @@ public abstract class SimpleCommand implements Command {
 		return false;
 	}
 
+	@Override
+	public CommandPermission permissionRequired() {
+		return CommandPermission.USER;
+	}
+
 	public EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
 		return new EmbedBuilder()
 			.setAuthor(name, null, event.getAuthor().getEffectiveAvatarUrl())

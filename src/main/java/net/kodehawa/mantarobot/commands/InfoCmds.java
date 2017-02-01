@@ -156,7 +156,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return null; //TODO Help Embed (@AdrianTodt)
 			}
 		});
 	}

@@ -239,12 +239,6 @@ public class CustomCmds extends Module {
 					MantaroBot.getJDA().addEventListener(f);
 					return;
 				}
-				//TODO Not sure if I want to do this. Look later
-				//REASON Code for operation might be at least 60 lines long.
-				/*if (action.equals("edit")) {
-
-					return;
-				}*/
 
 				if (action.equals("remove") || action.equals("rm")) {
 					if (customCommands.remove(cmd) != null) {
