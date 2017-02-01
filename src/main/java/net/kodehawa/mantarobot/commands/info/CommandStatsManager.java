@@ -60,6 +60,6 @@ public class CommandStatsManager {
 				int percent = entry.getValue().get() * 100 / total;
 				return String.format("%s %d%% **%s**", bar(percent, 15), percent, entry.getKey());
 			})
-			.collect(Collectors.joining());
+			.collect(Collectors.joining("\n"));
 	}
 }

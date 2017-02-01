@@ -60,6 +60,7 @@ public class InfoCmds extends Module {
 		ping();
 		usageinfo();
 		userinfo();
+		cmdstats();
 	}
 
 	private void about() {
@@ -118,22 +119,22 @@ public class InfoCmds extends Module {
 				if (args.length != 0) {
 					String what = args[0];
 					if (what.equals("total")) {
-						event.getChannel().sendMessage(fillEmbed(TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build());
+						event.getChannel().sendMessage(fillEmbed(TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
 						return;
 					}
 
 					if (what.equals("daily")) {
-						event.getChannel().sendMessage(fillEmbed(DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build());
+						event.getChannel().sendMessage(fillEmbed(DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
 						return;
 					}
 
 					if (what.equals("hourly")) {
-						event.getChannel().sendMessage(fillEmbed(HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build());
+						event.getChannel().sendMessage(fillEmbed(HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
 						return;
 					}
 
 					if (what.equals("now")) {
-						event.getChannel().sendMessage(fillEmbed(MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build());
+						event.getChannel().sendMessage(fillEmbed(MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
 						return;
 					}
 				}
@@ -145,12 +146,12 @@ public class InfoCmds extends Module {
 					.addField("Daily",resume(DAY_CMDS),false)
 					.addField("Total",resume(TOTAL_CMDS),false)
 					.build()
-				);
+				).queue();
 			}
 
 			@Override
 			public CommandPermission permissionRequired() {
-				return null;
+				return CommandPermission.USER;
 			}
 
 			@Override

@@ -174,10 +174,9 @@ public class MantaroListener implements EventListener {
 										PermissionException pe = (PermissionException) error;
 										TextChannel tc = guild.getTextChannelById(
 											MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-										tc.sendMessage("\u274C PermissionError while appling roles, (No permission provided: " + pe.getPermission() + ")").queue();
+										tc.sendMessage(String.format("\u274C PermissionError while appling roles, (No permission provided: %s)", pe.getPermission())).queue();
 									} else {
-										channel.sendMessage("\u274C" + "Unknown error while applying roles [" + birthdayRole.getName()
-											+ "]: " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+										channel.sendMessage(String.format("\u274C Unknown error while applying roles [%s]: <%s>: %s", birthdayRole.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 										LOGGER.warn("Unknown error while applying roles", error);
 									}
 								});
@@ -185,7 +184,6 @@ public class MantaroListener implements EventListener {
 					} else {
 						Member memberToRemove = event.getGuild().getMember(event.getAuthor());
 						Role birthdayRole1 = guild.getRoleById(MantaroData.getData().get().getGuild(guild, false).birthdayRole);
-						System.out.println(birthdayRole1);
 						if (memberToRemove.getRoles().contains(birthdayRole1))
 							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
 					}
