@@ -1,27 +1,41 @@
 package net.kodehawa.mantarobot.commands.info;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.kodehawa.mantarobot.utils.ExpirationManager;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class CommandStatsManager {
-	private static final char ACTIVE_BLOCK = '\u2588';
-	private static final char EMPTY_BLOCK = '\u200b';
-	private static final ExpirationManager EXPIRATOR = new ExpirationManager();
-	private static final int MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
-	private static final Map<String, AtomicInteger>
+	public static final Map<String, AtomicInteger>
 		TOTAL_CMDS = new HashMap<>(),
 		DAY_CMDS = new HashMap<>(),
 		HOUR_CMDS = new HashMap<>(),
 		MINUTE_CMDS = new HashMap<>();
+	private static final char ACTIVE_BLOCK = '\u2588';
+	private static final char EMPTY_BLOCK = '\u200b';
+	private static final ExpirationManager EXPIRATOR = new ExpirationManager();
+	private static final int MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
 
 	public static String bar(int percent, int total) {
 		int activeBlocks = (int) ((float) percent / 100f * total);
 		StringBuilder builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
 		for (int i = 0; i < total; i++) builder.append(activeBlocks >= i ? ACTIVE_BLOCK : ' ');
 		return builder.append(EMPTY_BLOCK).append('`').toString();
+	}
+
+	public static EmbedBuilder fillEmbed(Map<String, AtomicInteger> commands, EmbedBuilder builder) {
+		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
+
+		commands.forEach((s, i) -> {
+			int percent = i.get() * 100 / total;
+			builder.addField(s, String.format("%s %d%%", bar(percent, 15), percent), false);
+		});
+
+		return builder;
 	}
 
 	public static void log(String cmd) {
@@ -34,5 +48,18 @@ public class CommandStatsManager {
 		EXPIRATOR.letExpire(millis + MINUTE, () -> MINUTE_CMDS.get(cmd).decrementAndGet());
 		EXPIRATOR.letExpire(millis + HOUR, () -> HOUR_CMDS.get(cmd).decrementAndGet());
 		EXPIRATOR.letExpire(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
+	}
+
+	public static String resume(Map<String, AtomicInteger> commands) {
+		int total = commands.values().stream().mapToInt(AtomicInteger::get).sum();
+
+		return commands.entrySet().stream()
+			.sorted(Comparator.comparingInt(entry -> entry.getValue().get()))
+			.limit(5)
+			.map(entry -> {
+				int percent = entry.getValue().get() * 100 / total;
+				return String.format("%s %d%% **%s**", bar(percent, 15), percent, entry.getKey());
+			})
+			.collect(Collectors.joining());
 	}
 }

@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 
 public class InfoCmds extends Module {
@@ -115,8 +116,36 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args.length != 0) {
+					String what = args[0];
+					if (what.equals("total")) {
+						event.getChannel().sendMessage(fillEmbed(TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build());
+						return;
+					}
 
+					if (what.equals("daily")) {
+						event.getChannel().sendMessage(fillEmbed(DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build());
+						return;
+					}
+
+					if (what.equals("hourly")) {
+						event.getChannel().sendMessage(fillEmbed(HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build());
+						return;
+					}
+
+					if (what.equals("now")) {
+						event.getChannel().sendMessage(fillEmbed(MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build());
+						return;
+					}
 				}
+
+				//Default
+				event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
+					.addField("Now",resume(MINUTE_CMDS),false)
+					.addField("Hourly",resume(HOUR_CMDS),false)
+					.addField("Daily",resume(DAY_CMDS),false)
+					.addField("Total",resume(TOTAL_CMDS),false)
+					.build()
+				);
 			}
 
 			@Override

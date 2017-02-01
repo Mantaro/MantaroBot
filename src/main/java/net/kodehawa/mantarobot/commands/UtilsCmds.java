@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,6 +41,7 @@ public class UtilsCmds extends Module {
 		birthday();
 		ytmp3();
 		weather();
+		urban();
 	}
 
 	private void birthday() {
@@ -148,6 +150,80 @@ public class UtilsCmds extends Module {
 					.build();
 			}
 
+		});
+	}
+
+	private void urban() {
+		super.register("urban", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				//First split is definition, second one is number. I would use space but we need the ability to fetch with spaces too.
+				String beheadedSplit[] = content.split("->");
+				EmbedBuilder embed = new EmbedBuilder();
+
+				if (!content.isEmpty()) {
+					long start = System.currentTimeMillis();
+					String url = null;
+					try {
+						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
+					} catch (UnsupportedEncodingException ignored) {
+					}
+					String json = Utils.wgetResty(url, event);
+					UrbanData data = GsonDataManager.GSON.fromJson(json, UrbanData.class);
+
+					long end = System.currentTimeMillis() - start;
+					switch (beheadedSplit.length) {
+						case 1:
+							embed.setAuthor("Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
+								.setDescription("Main definition.")
+								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+								.setColor(Color.GREEN)
+								.addField("Definition", data.list.get(0).definition, false)
+								.addField("Thumbs up", data.list.get(0).thumbs_up, true)
+								.addField("Thumbs down", data.list.get(0).thumbs_down, true)
+								.addField("Example", data.list.get(0).example, false)
+								.setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);
+							event.getChannel().sendMessage(embed.build()).queue();
+							break;
+						case 2:
+							int defn = Integer.parseInt(beheadedSplit[1]) - 1;
+							String defns = String.valueOf(defn + 1);
+							embed.setAuthor("Urban Dictionary definition for " + beheadedSplit[0], data.list.get(defn).permalink, null)
+								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
+								.setDescription("Definition " + defns)
+								.setColor(Color.PINK)
+								.addField("Definition", data.list.get(defn).definition, false)
+								.addField("Thumbs up", data.list.get(defn).thumbs_up, true)
+								.addField("Thumbs down", data.list.get(defn).thumbs_down, true)
+								.addField("Example", data.list.get(defn).example, false)
+								.setFooter("Information by Urban Dictionary", null);
+							event.getChannel().sendMessage(embed.build()).queue();
+							break;
+						default:
+							onHelp(event);
+							break;
+					}
+				}
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Urban dictionary")
+					.setColor(Color.CYAN)
+					.setDescription("Retrieves definitions from *wo*Urban Dictionary**.\n"
+						+ "Usage: \n"
+						+ "~>urban [term]->[number]: Gets a definition based on parameters.\n"
+						+ "Parameter description:\n"
+						+ "[term]: The term you want to look up the urban definition for.\n"
+						+ "[number]: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\n"
+						+ "For example putting 2 will fetch the second result on Urban Dictionary")
+					.build();
+			}
 		});
 	}
 
