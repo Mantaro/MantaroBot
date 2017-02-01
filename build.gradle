@@ -38,7 +38,7 @@ repositories {
 dependencies {
 	compile 'net.dv8tion:JDA:3.0.BETA2_123'
 	compile 'com.sedmelluq:jda-nas:1.0.3'
-	compile 'com.sedmelluq:lavaplayer:1.1.45'
+	compile 'com.sedmelluq:lavaplayer:1.1.47'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
 	compile 'org.reflections:reflections:0.9.10'
 	compile 'us.monoid.web:resty:0.3.2'
