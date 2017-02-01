@@ -1,14 +1,14 @@
 # MantaroBot
-***"Anime, Music, Moderation, and everything you might want too"***
+***"Anime, Music, Moderation, and everything else you might want"***
 
 ### Using the Official Mantaro
-[***Click Here. No, serious. This is the only step to add Mantaro to your Guild!***](https://is.gd/mantaro)
+[***Click Here. No, seriously. This is the only step to add Mantaro to your Guild!***](https://is.gd/mantaro)
 
 ### Building it your own
 **Warning**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
-don't recommend trying to do this. Mantaro isn't documented in the slightest.
+don't recommend trying to do this as Mantaro isn't documented in the slightest and some builds here might be extremely unstable.
 Also you are going to need at least 3 or 4 API Keys that I ([**@AdrianTodt**](https://github.com/adriantodt))
-don't even know how [**@Kodehawa**](https://github.com/Kodehawa) got it. _You have been warned_.
+don't even know how [**@Kodehawa**](https://github.com/Kodehawa) got. _You have been warned_.
 
 1. Clone this repository somewhere.
 2. Open a Terminal in the newest folder.
