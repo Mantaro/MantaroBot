@@ -1,4 +1,4 @@
-package net.kodehawa.lib.konachan.konachan.entities;
+package net.kodehawa.lib.konachan.main.entities;
 
 public class Tag {
 

@@ -1,8 +1,8 @@
-package net.kodehawa.lib.konachan.konachan.service;
+package net.kodehawa.lib.konachan.main;
 
 import com.google.gson.Gson;
-import net.kodehawa.lib.konachan.konachan.entities.Tag;
-import net.kodehawa.lib.konachan.konachan.entities.Wallpaper;
+import net.kodehawa.lib.konachan.main.entities.Tag;
+import net.kodehawa.lib.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.konachan.providers.DownloadProvider;
 import net.kodehawa.lib.konachan.providers.WallpaperProvider;
 import net.kodehawa.mantarobot.utils.Async;
@@ -92,7 +92,7 @@ public class Konachan {
 		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", this.cleanTag(search)));
 		String response = "[]";
 		try {
-			response = this.resty.text("http://konachan.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
+			response = this.resty.text("http://main.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -139,7 +139,7 @@ public class Konachan {
 		queryParams.put("name", this.cleanTag(tagname));
 		String response = "";
 		try {
-			String tagsUrl = "http://konachan.com/tag.json";
+			String tagsUrl = "http://main.com/tag.json";
 			response = this.resty.text(tagsUrl + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
 		} catch (Exception e) {
 			e.printStackTrace();

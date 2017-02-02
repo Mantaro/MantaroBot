@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
-import net.kodehawa.lib.konachan.konachan.entities.Wallpaper;
-import net.kodehawa.lib.konachan.konachan.service.Konachan;
+import net.kodehawa.lib.konachan.main.entities.Wallpaper;
+import net.kodehawa.lib.konachan.main.Konachan;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -102,7 +102,7 @@ public class ImageCmds extends Module {
 	}
 
 	private void kona() {
-		super.register("konachan", new SimpleCommand() {
+		super.register("main", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -183,12 +183,12 @@ public class ImageCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "konachan.com commmand")
+				return baseEmbed(event, "main.com commmand")
 					.setColor(Color.PINK)
 					.setDescription("Retrieves images from the **Konachan** image board.\n"
 						+ "Usage:\n"
-						+ "~>konachan get [page] [imagenumber]: Gets an image based in parameters.\n"
-						+ "~>konachan tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
+						+ "~>main get [page] [imagenumber]: Gets an image based in parameters.\n"
+						+ "~>main tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
 						+ "> Parameter explanation:\n"
 						+ "[page]: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
 						+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
