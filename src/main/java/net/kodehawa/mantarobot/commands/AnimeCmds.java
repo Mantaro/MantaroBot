@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -25,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.Color;
 import java.net.URLEncoder;
 import java.util.Optional;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class AnimeCmds extends Module {
@@ -60,7 +62,7 @@ public class AnimeCmds extends Module {
 						AnimeData animeData = type[i];
 						if (animeData != null) b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
 					}
-					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+					final Future<Message> m = event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).submit();
 
 					FunctionListener functionListener = new FunctionListener(event.getChannel().getId(), (l, e) -> {
 						if (!e.getAuthor().equals(event.getAuthor())) return false;
@@ -69,6 +71,8 @@ public class AnimeCmds extends Module {
 							int choose = Integer.parseInt(e.getMessage().getContent());
 							if (choose < 1 || choose > type.length) return false;
 							animeData(e, type, choose - 1);
+							event.getMessage().addReaction("\ud83d\udc4c").queue();
+							m.get().deleteMessage().queue();
 							return true;
 						} catch (Exception ex) {
 							event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + ex.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + ex.getMessage() + "``").queue();
@@ -175,7 +179,7 @@ public class AnimeCmds extends Module {
 						if (characterData != null)
 							b.append('[').append(i + 1).append("] ").append(characterData.name_first).append(" ").append(characterData.name_last).append("\n");
 					}
-					channel.sendMessage(builder.setDescription(b.toString()).build()).queue();
+					final Future<Message> m = channel.sendMessage(builder.setDescription(b.toString()).build()).submit();
 
 					FunctionListener functionListener = new FunctionListener(event.getChannel().getId(), (l, e) -> {
 						if (!e.getAuthor().equals(event.getAuthor())) return false;
@@ -184,6 +188,8 @@ public class AnimeCmds extends Module {
 							int choose = Integer.parseInt(e.getMessage().getContent());
 							if (choose < 1 || choose > character.length) return false;
 							characterData(e, character, choose - 1);
+							event.getMessage().addReaction("\ud83d\udc4c").queue();
+							m.get().deleteMessage().queue();
 							return true;
 						} catch (Exception e1) {
 							event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e1.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e1.getMessage() + "``").queue();

@@ -58,7 +58,7 @@ public class QuoteCmd extends Module {
 						try {
 							int i = Integer.parseInt(phrase);
 							Message m = messageHistory.get(i);
-
+							m.addReaction("\ud83d\udc4c").queue();
 							String[] sContent = {
 								m.getAuthor().getName(),
 								m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
@@ -136,6 +136,7 @@ public class QuoteCmd extends Module {
 							i1++;
 							if (m1.getContent().contains(phrase) && !m1.getContent().startsWith(MantaroData.getData().get().defaultPrefix)) {
 								m = messageHistory.get(i1);
+								m.addReaction("\ud83d\udc4c").queue();
 								break;
 							}
 						}
