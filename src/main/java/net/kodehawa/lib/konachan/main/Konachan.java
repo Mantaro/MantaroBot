@@ -28,14 +28,10 @@ public class Konachan {
 	private boolean safeForWork = false;
 
 	public Konachan(boolean safeForWork) {
+		this.safeForWork = safeForWork;
 		queryParams = new HashMap<>();
 		resty = new Resty();
 		resty.identifyAsMozilla();
-		this.safeForWork = safeForWork;
-	}
-
-	private String cleanTag(String tagname) {
-		return tagname.toLowerCase().trim().replace(' ', '_');
 	}
 
 	private int getLimitRelatedTags() {
@@ -70,6 +66,10 @@ public class Konachan {
 		this.get(page, limit, null, provider);
 	}
 
+	public void onSearch(int page, int limit, String search, WallpaperProvider provider) {
+		this.get(page, limit, search, provider);
+	}
+
 	private void get(final int page, final int limit, final String search, final WallpaperProvider provider) {
 		Async.asyncThread("Image fetch thread", () -> {
 			try {
@@ -80,24 +80,18 @@ public class Konachan {
 					tags = this.getTags(search, 1, this.getLimitRelatedTags());
 					provider.onSuccess(wallpapers, tags);
 				});
-			} catch (Exception ex) {
-				LOGGER.warn("Error while retrieving a image from Konachan.", ex);
-			}
+			} catch (Exception ex) { LOGGER.warn("Error while retrieving a image from Konachan.", ex); }
 		}).run();
 	}
 
 	private List<Wallpaper> get(int page, int limit, String search) {
 		this.queryParams.put("limit", limit);
 		this.queryParams.put("page", page);
-		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", this.cleanTag(search)));
+		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", search.toLowerCase().trim()));
 		String response = "[]";
 		try {
 			response = this.resty.text("http://main.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			queryParams.clear();
-		}
+		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
 		Gson gson = new Gson();
 		Wallpaper[] wallpapers = gson.fromJson(response, Wallpaper[].class);
 		return isSafeForWork() ? Arrays.stream(wallpapers).filter((wallpaper1) ->
@@ -122,30 +116,20 @@ public class Konachan {
 				String save = saveWallpaper(filename, folderPath, imageURL);
 				Optional.ofNullable(save).ifPresent(provider::onSuccess);
 				if (save == null) LOGGER.warn("Unknown error occurred while saving a wallpaper.");
-			} catch (Exception ex) {
-				LOGGER.warn("A error occurred while fetching the wallpaper.", ex);
-			}
+			} catch (Exception ex) { LOGGER.warn("A error occurred while fetching the wallpaper.", ex); }
 		}).run();
-	}
-
-	public void onSearch(int page, int limit, String search, WallpaperProvider provider) {
-		this.get(page, limit, search, provider);
 	}
 
 	private Tag[] getTags(String tagname, int page, int limit) {
 		queryParams.put("order", "count");
 		queryParams.put("limit", limit);
 		queryParams.put("page", page);
-		queryParams.put("name", this.cleanTag(tagname));
+		queryParams.put("name", tagname.toLowerCase().trim());
 		String response = "";
 		try {
 			String tagsUrl = "http://main.com/tag.json";
 			response = this.resty.text(tagsUrl + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			queryParams.clear();
-		}
+		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
 		Gson gson = new Gson();
 		return gson.fromJson(response, Tag[].class);
 	}

@@ -20,6 +20,7 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -117,11 +118,7 @@ public class ImageCmds extends Module {
 						int number;
 
 						List<Wallpaper> wallpapers = konachan.posts(page, 60);
-						try {
-							number = Integer.parseInt(wholeBeheaded[1]);
-						} catch (Exception e) {
-							number = new Random().nextInt(wallpapers.size() - 1);
-						}
+						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (NumberFormatException e) { number = new Random().nextInt(wallpapers.size() - 1); }
 						String URL = wallpapers.get(number - 1).getFile_url();
 						String AUTHOR = wallpapers.get(number - 1).getAuthor();
 						String TAGS = wallpapers.get(number - 1).getTags().stream().collect(Collectors.joining(", "));
@@ -150,12 +147,7 @@ public class ImageCmds extends Module {
 						String tags = whole2[1];
 
 						konachan.onSearch(page1, 60, tags, (wallpapers1, tags1) -> {
-							try {
-								number1 = Integer.parseInt(whole2[2]);
-							} catch (Exception e) {
-								number1 = new Random().nextInt(wallpapers1.size() - 1);
-							}
-
+							try { number1 = Integer.parseInt(whole2[2]); } catch (NumberFormatException e) { number1 = new Random().nextInt(wallpapers1.size() - 1); }
 							String URL1 = wallpapers1.get(number1 - 1).getFile_url();
 							String AUTHOR1 = wallpapers1.get(number1 - 1).getAuthor();
 							String TAGS1 = wallpapers1.get(number1 - 1).getTags().stream().collect(Collectors.joining(", "));
