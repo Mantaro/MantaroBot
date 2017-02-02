@@ -323,7 +323,7 @@ public class UtilsCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(builder
-					.addField("Download", "[Click Here!](" + info.link + ")", false)
+					.addField("DownloadProvider", "[Click Here!](" + info.link + ")", false)
 					.build()
 				).queue();
 			}

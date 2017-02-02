@@ -1,4 +1,4 @@
-package com.marcomaldonado.konachan.entities;
+package net.kodehawa.lib.konachan.konachan.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;

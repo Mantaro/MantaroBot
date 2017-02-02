@@ -16,9 +16,12 @@ import us.monoid.web.Resty;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -150,5 +153,27 @@ public class Utils {
 		}
 
 		return url2;
+	}
+
+	private static String urlEncodeUTF8(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	public static String urlEncodeUTF8(Map<?, ?> map) {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<?, ?> entry : map.entrySet()) {
+			if (sb.length() > 0) {
+				sb.append("&");
+			}
+			sb.append(String.format("%s=%s",
+					urlEncodeUTF8(entry.getKey().toString()),
+					urlEncodeUTF8(entry.getValue().toString())
+			));
+		}
+		return sb.toString();
 	}
 }
