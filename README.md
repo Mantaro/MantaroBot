@@ -10,6 +10,10 @@ don't recommend trying to do this as Mantaro isn't documented in the slightest a
 Also you are going to need at least 3 or 4 API Keys that I ([**@AdrianTodt**](https://github.com/adriantodt))
 don't even know how [**@Kodehawa**](https://github.com/Kodehawa) got. _You have been warned_.
 
+## Konachan notice (net.kodehawa.lib.konachan)
+That package is a port of the [**original konachan library**](https://github.com/Mxrck/KonachanLib) to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.
+**To marcomaldonado: Si tienes algun problema con esta implementación, hazmelo saber**
+
 1. Clone this repository somewhere.
 2. Open a Terminal in the newest folder.
 3. Run `gradlew build`
