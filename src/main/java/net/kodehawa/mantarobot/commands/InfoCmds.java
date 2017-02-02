@@ -17,10 +17,7 @@ import org.slf4j.LoggerFactory;
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -254,13 +251,11 @@ public class InfoCmds extends Module {
 
 				} else {
 					Pair<Command, Category> command = Manager.commands.get(content);
+
 					if (command != null && command.getValue() != null) {
-						MessageEmbed help = command.getKey().help(event);
-						if (help != null) {
-							event.getChannel().sendMessage(help).queue();
-						} else {
-							event.getChannel().sendMessage("\u274C No extended help set for this command.").queue();
-						}
+						final MessageEmbed help = command.getKey().help(event);
+						Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
+						if(help == null) event.getChannel().sendMessage("\u274C No extended help set for this command.").queue();
 					} else {
 						event.getChannel().sendMessage("\u274C This command doesn't exist.").queue();
 					}

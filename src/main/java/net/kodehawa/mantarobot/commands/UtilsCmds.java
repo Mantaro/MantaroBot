@@ -27,6 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -56,8 +57,7 @@ public class UtilsCmds extends Module {
 				try {
 					bd1 = format1.parse(args[0]);
 				} catch (Exception e) {
-					if (args[0] != null)
-						channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue();
+					Optional.ofNullable(args[0]).ifPresent((s -> channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue()));
 					return;
 				}
 
@@ -179,9 +179,9 @@ public class UtilsCmds extends Module {
 								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
 								.setColor(Color.GREEN)
 								.addField("Definition", data.list.get(0).definition, false)
-								.addField("Thumbs up", data.list.get(0).thumbs_up, true)
-								.addField("Thumbs down", data.list.get(0).thumbs_down, true)
 								.addField("Example", data.list.get(0).example, false)
+								.addField(":thumbsup:", data.list.get(0).thumbs_up, true)
+								.addField(":thumbsdown:", data.list.get(0).thumbs_down, true)
 								.setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);
 							event.getChannel().sendMessage(embed.build()).queue();
 							break;
@@ -300,7 +300,6 @@ public class UtilsCmds extends Module {
 				YoutubeMp3Info info = YoutubeMp3Info.forLink(content, event);
 
 				if (info == null) return; //I think we already logged this in the YoutubeMp3Info class
-
 				if (info.error != null) {
 					event.getChannel().sendMessage(":heavy_multiplication_x: Error while fetching link, maybe copyright? ``" + info.error + "``").queue();
 					return;

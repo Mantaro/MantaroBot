@@ -241,15 +241,15 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
-					if (customCommands.remove(cmd) != null) {
-						MantaroData.getData().update();
-						if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
-							Manager.commands.remove(cmd);
-						}
-						event.getChannel().sendMessage("\uD83D\uDCDD Removed Custom Command ``" + cmd + "``!").queue();
-					} else {
-						event.getChannel().sendMessage("\u274C There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
-					}
+					Optional.ofNullable(customCommands.remove(cmd))
+							.ifPresent((command) -> {
+								MantaroData.getData().update();
+								if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
+									Manager.commands.remove(cmd);
+								}
+								event.getChannel().sendMessage("\uD83D\uDCDD Removed Custom Command ``" + cmd + "``!").queue();
+							});
+					if(cmd == null) event.getChannel().sendMessage("\u274C There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
 					return;
 				}
 

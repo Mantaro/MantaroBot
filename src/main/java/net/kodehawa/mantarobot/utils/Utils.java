@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -145,7 +146,7 @@ public class Utils {
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
 			LOGGER.warn("[Resty] Seems like I cannot fetch data from " + url, e);
-			if (event != null) event.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue();
+			Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue());
 		}
 
 		return url2;

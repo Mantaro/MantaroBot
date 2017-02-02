@@ -319,38 +319,44 @@ public class ModerationCmds extends Module {
 						VoiceChannel channel = event.getGuild().getVoiceChannelById(channelName);
 
 						if (channel == null) {
-							List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
-								.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
-								.collect(Collectors.toList());
+							try {
+								List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
+										.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
+										.collect(Collectors.toList());
 
-							if (voiceChannels.size() == 0) {
-								event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
-								return;
-							} else if (voiceChannels.size() == 1) {
-								channel = voiceChannels.get(0);
-							} else {
-								DiscordUtils.selectList(event, voiceChannels,
-									voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-									s -> baseEmbed(event,"Select the Channel:").setDescription(s).build(),
-									voiceChannel -> {
-										guildData.musicChannel = voiceChannel.getId();
-										MantaroData.getData().update();
-										event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue(); //TODO Quick Look on Message (@Kodehawa; Just for sure)
-									}
-								);
-								return;
+								if (voiceChannels.size() == 0) {
+									event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
+									return;
+								} else if (voiceChannels.size() == 1) {
+									channel = voiceChannels.get(0);
+								} else {
+									DiscordUtils.selectList(event, voiceChannels,
+											voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+											s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+											voiceChannel -> {
+												guildData.musicChannel = voiceChannel.getId();
+												MantaroData.getData().update();
+												event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue();
+											}
+									);
+									guildData.musicChannel = channel.getId();
+									MantaroData.getData().update();
+									event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
+								}
+							} catch (Exception e) {
+								LOGGER.warn("Error while setting voice channel", e);
+								event.getChannel().sendMessage("There has been an error while trying to set the voice channel, maybe try again? " +
+										"-> " + e.getClass().getSimpleName()).queue();
 							}
 						}
 
-						guildData.musicChannel = channel.getId();
-						MantaroData.getData().update();
-						event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue(); //TODO Quick Look on Message (@Kodehawa; Just for sure)
+						return;
 					}
 
 					if (action.equals("clear")) {
 						guildData.musicChannel = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage("Now I can play music on all channels!").queue(); //TODO Quick Look on Message (@Kodehawa; Just for sure)
+						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
 						return;
 					}
 					onHelp(event);

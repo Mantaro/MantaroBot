@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class Konachan {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Konachan");
@@ -83,11 +84,11 @@ public class Konachan {
 				if (callback == null)
 					return;
 				Wallpaper[] wallpapers = self.posts(page, limit, search);
-				Tag[] tags = null;
-				if (search != null) {
+				Optional.ofNullable(search).ifPresent((s) -> {
+					Tag[] tags;
 					tags = self.tags(search, 1, self.getLimitRelatedTags());
 					callback.onSuccess(wallpapers, tags);
-				}
+				});
 			} catch (Exception ex) {
 				LOGGER.warn("Error while retrieving a image from Konachan.", ex);
 			}
@@ -99,9 +100,7 @@ public class Konachan {
 	private Wallpaper[] posts(int page, int limit, String search) {
 		this.queryParams.put("limit", limit);
 		this.queryParams.put("page", page);
-		if (search != null) {
-			this.queryParams.put("tags", this.cleanTag(search));
-		}
+		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", this.cleanTag(search)));
 		String response = "[]";
 		try {
 			String postsUrl = "http://konachan.com/post.json";
@@ -151,11 +150,8 @@ public class Konachan {
 				if (callback == null)
 					return;
 				String save = saveWallpaper(filename, folderPath, imageURL);
-				if (save != null) {
-					callback.onSuccess(save);
-				} else {
-					LOGGER.warn("Unknown error occurred while saving a wallpaper.");
-				}
+				Optional.ofNullable(save).ifPresent(callback::onSuccess);
+				if(save == null) LOGGER.warn("Unknown error occurred while saving a wallpaper.");
 			} catch (Exception ex) {
 				LOGGER.warn("A error occurred while fetching the wallpaper.", ex);
 			}

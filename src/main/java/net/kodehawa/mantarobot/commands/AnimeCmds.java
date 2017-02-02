@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URLEncoder;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AnimeCmds extends Module {
@@ -57,8 +58,7 @@ public class AnimeCmds extends Module {
 					StringBuilder b = new StringBuilder();
 					for (int i = 0; i < 4 && i < type.length; i++) {
 						AnimeData animeData = type[i];
-						if (animeData != null)
-							b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
+						if (animeData != null) b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
 					}
 					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 
