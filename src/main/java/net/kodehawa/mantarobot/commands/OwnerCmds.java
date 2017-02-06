@@ -83,7 +83,7 @@ public class OwnerCmds extends Module {
 				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
 					return;
 				}
-
+				event.getJDA().getGuilds().forEach(guild -> event.getChannel().sendMessage(guild.getName()));
 				if (args[0].equals("js")) {
 					ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
 					script.put("jda", event.getJDA());

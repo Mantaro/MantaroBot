@@ -249,7 +249,7 @@ public class CustomCmds extends Module {
 								}
 								event.getChannel().sendMessage("\uD83D\uDCDD Removed Custom Command ``" + cmd + "``!").queue();
 							});
-					if(cmd == null) event.getChannel().sendMessage("\u274C There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+					if(cmd == null) event.getChannel().sendMessage("\u274C There's no such Custom Command in this Guild.").queue();
 					return;
 				}
 
@@ -271,7 +271,7 @@ public class CustomCmds extends Module {
 							"`~>custom <list|ls> [detailed]`: List all commands. If detailed is supplied, it prints the responses of each command.\n" +
 							"`~>custom debug`: Gives a Hastebin of the Raw Custom Commands Data. **(OWNER-ONLY)**\n" +
 							"`~>custom clear`: Remove all Custom Commands from this Guild. **(OWNER-ONLY)**\n" +
-							"`~>custom add <name> <responses>`: Add a new Command with the response provided.\n" +
+							"`~>custom add <name> <responses>`: Add a new Command with the response provided. (A list of modifiers can be found on [here](https://hastebin.com/xolijewitu.http)\n" +
 							"`~>custom make <name>`: Starts a Interactive Operation to create a command with the specified name.\n" +
 							"`~>custom <remove|rm> <name>`: Removes a command with an specific name.",
 						false

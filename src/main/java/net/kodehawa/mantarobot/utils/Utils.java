@@ -115,23 +115,23 @@ public class Utils {
 	 * Can retrieve text, JSON Objects, XML and probably more.
 	 *
 	 * @param url   The URL to get the object from.
-	 * @param event
+	 * @param event guild event
 	 * @return The object as a parsed UTF-8 string.
 	 */
 	public static String wget(String url, GuildMessageReceivedEvent event) {
-		String webobject = null;
+		String webObject = null;
 		try {
 			URL ur1 = new URL(url);
 			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
 			ccnn.setRequestProperty("User-Agent", "Mantaro");
 			InputStream ism = ccnn.getInputStream();
-			webobject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
+			webObject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
 			LOGGER.warn("Seems like I cannot fetch data from " + url, e);
 			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
 		}
 
-		return webobject;
+		return webObject;
 	}
 
 	/**
@@ -143,9 +143,8 @@ public class Utils {
 	 */
 	public static String wgetResty(String url, GuildMessageReceivedEvent event) {
 		String url2 = null;
+		Resty resty = new Resty().identifyAsMozilla();
 		try {
-			Resty resty = new Resty();
-			resty.identifyAsMozilla();
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
 			LOGGER.warn("[Resty] Seems like I cannot fetch data from " + url, e);

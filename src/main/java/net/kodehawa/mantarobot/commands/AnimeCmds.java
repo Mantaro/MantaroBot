@@ -25,12 +25,11 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URLEncoder;
-import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 public class AnimeCmds extends Module {
-	public static Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
+	public static final Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
 	private final String CLIENT_SECRET = MantaroData.getConfig().get().alsecret;
 	private String authToken;
 
@@ -143,7 +142,7 @@ public class AnimeCmds extends Module {
 	}
 
 	/**
-	 * @return The new AniList access token.
+	 * returns the new AniList access token.
 	 */
 	private void authenticate() {
 		String aniList = "https://anilist.co/api/auth/access_token";

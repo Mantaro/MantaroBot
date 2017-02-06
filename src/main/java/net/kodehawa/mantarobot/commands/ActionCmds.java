@@ -180,7 +180,6 @@ public class ActionCmds extends Module {
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				List<String> pats = MantaroData.getPatting().get();
-				Random rand = new Random();
 				String pString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(new Random().nextInt(pats.size())));
 				channel.sendMessage(pat).queue();

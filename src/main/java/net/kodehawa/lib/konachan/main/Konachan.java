@@ -24,7 +24,7 @@ public class Konachan {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Konachan");
 
 	private HashMap<String, Object> queryParams;
-	private Resty resty= new Resty().identifyAsMozilla();
+	private final Resty resty= new Resty().identifyAsMozilla();
 	private boolean safeForWork = false;
 
 	public Konachan(boolean safeForWork) {

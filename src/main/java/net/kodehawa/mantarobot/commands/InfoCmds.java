@@ -51,6 +51,7 @@ public class InfoCmds extends Module {
 		super(Category.INFO);
 
 		//Register Commands
+		avatar();
 		about();
 		guildinfo();
 		help();
@@ -88,7 +89,7 @@ public class InfoCmds extends Module {
 					.addField("Users (Online/Unique)", event.getJDA().getGuilds().stream().flatMap(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + event.getJDA().getUsers().size(), true)
 					.addField("Text Channels", String.valueOf(event.getJDA().getTextChannels().size()), true)
 					.addField("Voice Channels", String.valueOf(event.getJDA().getVoiceChannels().size()), true)
-					.setFooter("Invite link: https://is.gd/mantaro (Commands this session: " + MantaroListener.getCommandTotal() + " | Logs this session: " + MantaroListener.getLogTotal() + ")", null)
+					.setFooter(String.format("Invite link: https://is.gd/mantaro (Commands this session: %s | Logs this session: %s)", MantaroListener.getCommandTotal(), MantaroListener.getLogTotal()), null)
 					.build()
 				).queue();
 			}
@@ -242,7 +243,7 @@ public class InfoCmds extends Module {
 						.setFooter(String.format("To check the command usage do %shelp <command>", prefix) + " >> Commands: " + Manager.commands.size(), null)
 						.addField("Audio Commands:", forType(Category.AUDIO), false)
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
-						.addField("ActionCmds Commands:", forType(Category.ACTION), false)
+						.addField("Action Commands:", forType(Category.ACTION), false)
 						.addField("Fun Commands:", forType(Category.FUN), false)
 						.addField("Gaming Commands:", forType(Category.GAMES), false);
 
@@ -391,6 +392,26 @@ public class InfoCmds extends Module {
 					.build();
 			}
 
+		});
+	}
+
+	private void avatar(){
+		super.register("avatar", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(event.getMessage().getMentionedUsers() != null){
+					event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
+					return;
+				}
+				event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getAvatarUrl())).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Avatar")
+						.setDescription("Gets your user avatar")
+						.build();
+			}
 		});
 	}
 }
