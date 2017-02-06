@@ -24,14 +24,12 @@ public class Konachan {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Konachan");
 
 	private HashMap<String, Object> queryParams;
-	private Resty resty;
+	private Resty resty= new Resty().identifyAsMozilla();
 	private boolean safeForWork = false;
 
 	public Konachan(boolean safeForWork) {
 		this.safeForWork = safeForWork;
 		queryParams = new HashMap<>();
-		resty = new Resty();
-		resty.identifyAsMozilla();
 	}
 
 	private int getLimitRelatedTags() {
@@ -90,7 +88,7 @@ public class Konachan {
 		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", search.toLowerCase().trim()));
 		String response = "[]";
 		try {
-			response = this.resty.text("http://main.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
+			response = this.resty.text("http://konachan.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
 		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
 		Gson gson = new Gson();
 		Wallpaper[] wallpapers = gson.fromJson(response, Wallpaper[].class);
@@ -120,15 +118,14 @@ public class Konachan {
 		}).run();
 	}
 
-	private Tag[] getTags(String tagname, int page, int limit) {
+	private Tag[] getTags(String tagName, int page, int limit) {
 		queryParams.put("order", "count");
 		queryParams.put("limit", limit);
 		queryParams.put("page", page);
-		queryParams.put("name", tagname.toLowerCase().trim());
+		queryParams.put("name", tagName.toLowerCase().trim());
 		String response = "";
 		try {
-			String tagsUrl = "http://main.com/tag.json";
-			response = this.resty.text(tagsUrl + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
+			response = this.resty.text("http://konachan.com/tag.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
 		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
 		Gson gson = new Gson();
 		return gson.fromJson(response, Tag[].class);

@@ -185,10 +185,10 @@ public class CustomCmds extends Module {
 				if (action.equals("make")) {
 					Runnable unlock = TextChannelLock.adquireLock(event.getChannel());
 					if (unlock == null) {
-						event.getChannel().sendMessage("\u274C There's already an Interactive Operation happening on this TextChannel.").queue();
+						event.getChannel().sendMessage("\u274C There's already an Interactive Operation happening on this channel.").queue();
 						return;
 					}
-					event.getChannel().sendMessage("\uD83D\uDCDD Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beggining with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving if 60 seconds of inactivity.").queue();
+					event.getChannel().sendMessage("\uD83D\uDCDD Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.").queue();
 
 					Holder<DeathTimer> timer = new Holder<>();
 					List<String> responses = new ArrayList<>();
@@ -211,7 +211,7 @@ public class CustomCmds extends Module {
 							String arg = s.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 							if (responses.isEmpty()) {
-								event.getChannel().sendMessage("\u274C No Responses were added. Stopping creation without saving...").queue();
+								event.getChannel().sendMessage("\u274C No responses were added. Stopping creation without saving...").queue();
 							} else {
 								customCommands.put(saveTo, responses);
 								Manager.commands.put(saveTo, Pair.of(customCommand, null));

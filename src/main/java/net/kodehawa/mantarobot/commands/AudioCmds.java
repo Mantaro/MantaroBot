@@ -40,7 +40,7 @@ public class AudioCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "NowPlaying Command")
+				return baseEmbed(event, "NowPlaying (np) Command")
 					.addField("Description", "Returns what track is playing now.", false).build();
 			}
 

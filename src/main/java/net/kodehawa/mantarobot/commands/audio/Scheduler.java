@@ -26,8 +26,12 @@ public class Scheduler extends AudioEventAdapter {
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
 			nextTrack();
-			event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
-				+ " (" + Utils.getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue(); //	TODO: Unknown channel
+			/*event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
+				+ " (" + Utils.getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue(); //
+				TODO: java.lang.NullPointerException: null
+				at net.kodehawa.mantarobot.commands.audio.Scheduler.onTrackEnd(Scheduler.java:29) ~[main/:na]
+				at com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter.onEvent(AudioEventAdapter.java:70) ~[lavaplayer-1.1.47.jar:na]
+			*/
 		}
 	}
 

@@ -20,7 +20,6 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,6 +69,7 @@ public class ImageCmds extends Module {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			get = new Random().nextInt(filter.size());
 		}
+
 		String URL = filter.get(get).getFile_url();
 		String AUTHOR = filter.get(get).getAuthor();
 		String RATING = filter.get(get).getRating();
@@ -103,7 +103,7 @@ public class ImageCmds extends Module {
 	}
 
 	private void kona() {
-		super.register("main", new SimpleCommand() {
+		super.register("konachan", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -118,8 +118,8 @@ public class ImageCmds extends Module {
 						int number;
 
 						List<Wallpaper> wallpapers = konachan.posts(page, 60);
-						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (NumberFormatException e) { number = new Random().nextInt(wallpapers.size() - 1); }
-						String URL = wallpapers.get(number - 1).getFile_url();
+						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { number = new Random().nextInt(wallpapers.size() - 1); }
+						String URL = wallpapers.get(number - 1).getJpeg_url();
 						String AUTHOR = wallpapers.get(number - 1).getAuthor();
 						String TAGS = wallpapers.get(number - 1).getTags().stream().collect(Collectors.joining(", "));
 						Integer WIDTH = wallpapers.get(number - 1).getWidth();
@@ -127,7 +127,7 @@ public class ImageCmds extends Module {
 
 						try {
 							EmbedBuilder builder = new EmbedBuilder();
-							builder.setAuthor("Found image", null, null)
+							builder.setAuthor("Found image", null, "https:" + URL)
 								.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
 								.setImage("https:" + URL)
 								.addField("Width", String.valueOf(WIDTH), true)
@@ -147,15 +147,16 @@ public class ImageCmds extends Module {
 						String tags = whole2[1];
 
 						konachan.onSearch(page1, 60, tags, (wallpapers1, tags1) -> {
-							try { number1 = Integer.parseInt(whole2[2]); } catch (NumberFormatException e) { number1 = new Random().nextInt(wallpapers1.size() - 1); }
-							String URL1 = wallpapers1.get(number1 - 1).getFile_url();
+							try { number1 = Integer.parseInt(whole2[2]); } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { number1 = new Random().nextInt(wallpapers1.size() - 1); }
+							String URL1 = wallpapers1.get(number1 - 1).getJpeg_url();
 							String AUTHOR1 = wallpapers1.get(number1 - 1).getAuthor();
 							String TAGS1 = wallpapers1.get(number1 - 1).getTags().stream().collect(Collectors.joining(", "));
 							Integer WIDTH1 = wallpapers1.get(number1 - 1).getWidth();
 							Integer HEIGHT1 = wallpapers1.get(number1 - 1).getHeight();
+
 							try {
 								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", null, null)
+								builder.setAuthor("Found image", null, "https:" + URL1)
 									.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
 									.setImage("https:" + URL1)
 									.addField("Width", String.valueOf(WIDTH1), true)
@@ -175,12 +176,12 @@ public class ImageCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "main.com commmand")
+				return baseEmbed(event, "konachan.com commmand")
 					.setColor(Color.PINK)
 					.setDescription("Retrieves images from the **Konachan** image board.\n"
 						+ "Usage:\n"
-						+ "~>main get [page] [imagenumber]: Gets an image based in parameters.\n"
-						+ "~>main tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
+						+ "~>konachan get [page] [imagenumber]: Gets an image based in parameters.\n"
+						+ "~>konachan tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
 						+ "> Parameter explanation:\n"
 						+ "[page]: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
 						+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
@@ -204,7 +205,7 @@ public class ImageCmds extends Module {
 				needRating = args.length >= 4;
 				smallRequest = args.length <= 2;
 				TextChannel channel = event.getChannel();
-				int argscnt = args.length - 1;
+				int argCount = args.length - 1;
 
 				try {
 					page = Integer.parseInt(args[1]);
@@ -223,16 +224,16 @@ public class ImageCmds extends Module {
 				switch (noArgs) {
 					case "get":
 						String url = String.format(YANDERE_BASE + "page=%2s", String.valueOf(page)).replace(" ", "");
-						channel.sendMessage(getImage(argscnt, "get", url, rating, args, event).build()).queue();
+						channel.sendMessage(getImage(argCount, "get", url, rating, args, event).build()).queue();
 						break;
 					case "tags":
 						String url1 = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
-						channel.sendMessage(getImage(argscnt, "tags", url1, rating, args, event).build()).queue();
+						channel.sendMessage(getImage(argCount, "tags", url1, rating, args, event).build()).queue();
 						break;
 					case "":
 						int randomPage = new Random().nextInt(5);
 						String url2 = String.format(YANDERE_BASE + "&page=%2s", String.valueOf(randomPage)).replace(" ", "");
-						channel.sendMessage(getImage(argscnt, "random", url2, rating, args, event).build()).queue();
+						channel.sendMessage(getImage(argCount, "random", url2, rating, args, event).build()).queue();
 						break;
 					default:
 						onHelp(event);

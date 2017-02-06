@@ -107,18 +107,17 @@ public class UtilsCmds extends Module {
 
 						try {
 							textEncoded = URLEncoder.encode(textToEncode, "UTF-8");
-						} catch (UnsupportedEncodingException ignored) {
-						}
+						} catch (UnsupportedEncodingException ignored) {}
 
-						String translatorUrl = String.format("https://translate.google.com/translate_a/single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
+						String translatorUrl = String.format("https://translate.google.com/translate_a/" +
+								"ingle?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
+								"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
 
 						try {
 							resty.identifyAsMozilla();
 							translatorUrl2 = resty.text(translatorUrl).toString();
-
-							JSONObject jObject = new JSONObject(translatorUrl2);
-							JSONArray data = jObject.getJSONArray("sentences");
-
+							JSONArray data = new JSONObject(translatorUrl2).getJSONArray("sentences");
+							
 							for (int i = 0; i < data.length(); i++) {
 								JSONObject entry = data.getJSONObject(i);
 								channel.sendMessage(":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString("trans")).queue();
@@ -215,7 +214,7 @@ public class UtilsCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Urban dictionary")
 					.setColor(Color.CYAN)
-					.setDescription("Retrieves definitions from *wo*Urban Dictionary**.\n"
+					.setDescription("Retrieves definitions from **Urban Dictionary**.\n"
 						+ "Usage: \n"
 						+ "~>urban [term]->[number]: Gets a definition based on parameters.\n"
 						+ "Parameter description:\n"
@@ -323,7 +322,7 @@ public class UtilsCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(builder
-					.addField("DownloadProvider", "[Click Here!](" + info.link + ")", false)
+					.addField("Download Link", "[Click Here!](" + info.link + ")", false)
 					.build()
 				).queue();
 			}
