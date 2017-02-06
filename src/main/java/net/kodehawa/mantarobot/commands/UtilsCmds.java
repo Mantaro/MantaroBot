@@ -110,14 +110,14 @@ public class UtilsCmds extends Module {
 						} catch (UnsupportedEncodingException ignored) {}
 
 						String translatorUrl = String.format("https://translate.google.com/translate_a/" +
-								"ingle?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
+								"single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
 								"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
 
 						try {
 							resty.identifyAsMozilla();
 							translatorUrl2 = resty.text(translatorUrl).toString();
 							JSONArray data = new JSONObject(translatorUrl2).getJSONArray("sentences");
-							
+
 							for (int i = 0; i < data.length(); i++) {
 								JSONObject entry = data.getJSONObject(i);
 								channel.sendMessage(":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString("trans")).queue();

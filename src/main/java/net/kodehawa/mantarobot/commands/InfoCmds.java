@@ -399,7 +399,7 @@ public class InfoCmds extends Module {
 		super.register("avatar", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(event.getMessage().getMentionedUsers() != null){
+				if(!event.getMessage().getMentionedUsers().isEmpty()){
 					event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
 					return;
 				}

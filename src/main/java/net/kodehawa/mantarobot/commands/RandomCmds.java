@@ -35,7 +35,10 @@ public class RandomCmds extends Module {
 		super.register("dice", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(Integer.parseInt(args[0]), event) + "** with a total of **" + args[0]
+				int roll;
+				try{ roll = Integer.parseInt(args[0]); } catch(Exception e){ roll = 1; }
+				if(roll >= 100) roll = 100;
+				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
 			}
 
@@ -54,7 +57,7 @@ public class RandomCmds extends Module {
 		});
 	}
 
-	private int diceRoll(int repetitions, GuildMessageReceivedEvent event) {
+	private synchronized int diceRoll(int repetitions, GuildMessageReceivedEvent event) {
 		int num = 0;
 		int roll;
 		for (int i = 0; i < repetitions; i++) {
