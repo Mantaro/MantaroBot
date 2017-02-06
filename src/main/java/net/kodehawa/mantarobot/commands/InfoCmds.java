@@ -153,7 +153,16 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Help Embed (@AdrianTodt)
+				return baseEmbed(event, "Command stats")
+						.addField("Description", "Shows the statistics of the commands that has been run on this bot for its uptime.", false)
+						.addField("Usage",
+								"~>cmdstats - Shows all command statistics.\n"
+								+ "~>cmdstats now - Shows commands run in the last minute except for this one.\n"
+								+ "~>cmdstats total - Shows commands run in the bot's uptime\n"
+								+ "~>cmdstats daily - Shows commands statistics of today.\n"
+								+ "~>cmdstats hourly- Shows commands statistics of the last hour.\n"
+								, false)
+						.build();
 			}
 		});
 	}

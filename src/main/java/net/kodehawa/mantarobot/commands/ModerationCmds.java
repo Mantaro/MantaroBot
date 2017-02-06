@@ -354,6 +354,7 @@ public class ModerationCmds extends Module {
 					}
 
 					if (action.equals("clear")) {
+						guildData.songDurationLimit = null;
 						guildData.musicChannel = null;
 						MantaroData.getData().update();
 						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
@@ -381,7 +382,24 @@ public class ModerationCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Help Embed (@AdrianTodt)
+				return baseEmbed(event, "Bot options")
+						.addField("Description", "This command allows you to set different customizable options for your guild instance of the bot.\n" +
+								"All values set here are local, that means, they only take effect on your server and not on other " +
+								"servers the bot might be on.", false)
+						.addField("Usage",
+								"~>opts logs enable <channel> - Enables logs in the specified channel (use the name).\n" +
+										"~>opts logs disable - Disables server-wide logs.\n" +
+										"~>opts prefix set <prefix> - Sets a custom prefix for your server.\n" +
+										"~>opts prefix clear - Resets your server custom prefix.\n" +
+										"~>opts nsfw setchannel <channel> - Sets the NSFW channel for usage with explicit images in yandere.\n" +
+										"~>opts nsfw disable - Clears the NSFW channel.\n" +
+										"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
+										"~>opts birthday disable - Disables birthday monitoring.\n" +
+										"~>opts music limit <ms> - Changes the music lenght limit.\n" +
+										"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
+										"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
+										"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.", false)
+						.build();
 			}
 		});
 	}
