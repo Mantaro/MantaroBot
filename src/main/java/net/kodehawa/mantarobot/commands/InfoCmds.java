@@ -367,7 +367,6 @@ public class InfoCmds extends Module {
 
 				if (roles.length() > EmbedBuilder.TEXT_MAX_LENGTH)
 					roles = roles.substring(0, EmbedBuilder.TEXT_MAX_LENGTH - 4) + "...";
-
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(member.getColor())
 					.setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
@@ -410,6 +409,9 @@ public class InfoCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Avatar")
 						.setDescription("Gets your user avatar")
+						.addField("Usage",
+								"~>avatar - Gets your avatar url" +
+										"\n ~>avatar <mention> - Gets a user's avatar url.", false)
 						.build();
 			}
 		});
