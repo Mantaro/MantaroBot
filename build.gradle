@@ -64,6 +64,7 @@ task prepareSource(type: Copy) {
 	])
 	dependsOn clean
 }
+prepareSource.dependsOn clean
 
 compileJava {
 	source = prepareSource.destinationDir
@@ -72,17 +73,18 @@ compileJava {
 	dependsOn prepareSource
 }
 
-build {
-	dependsOn clean
-	dependsOn jar
-	dependsOn shadowJar
-
-	jar.mustRunAfter clean
-	prepareSource.mustRunAfter jar
-}
+build.dependsOn shadowJar
 
 artifacts {
 	archives shadowJar
+}
+
+jar {
+	classifier = "nodeps"
+}
+
+shadowJar {
+	classifier = ""
 }
 
 class Version {
