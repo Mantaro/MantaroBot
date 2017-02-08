@@ -50,7 +50,6 @@ public class InfoCmds extends Module {
 	public InfoCmds() {
 		super(Category.INFO);
 
-		//Register Commands
 		avatar();
 		about();
 		guildinfo();
@@ -245,6 +244,7 @@ public class InfoCmds extends Module {
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
 						.addField("Action Commands:", forType(Category.ACTION), false)
 						.addField("Fun Commands:", forType(Category.FUN), false)
+						.addField("Gif Commands:", forType(Category.GIF), false)
 						.addField("Gaming Commands:", forType(Category.GAMES), false);
 
 					if (event.getMember().hasPermission(Permission.ADMINISTRATOR))

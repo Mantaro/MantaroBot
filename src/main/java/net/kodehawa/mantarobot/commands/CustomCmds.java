@@ -69,12 +69,12 @@ public class CustomCmds extends Module {
 			}
 
 			if (response.startsWith("embed:")) {
-				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(cmdName).setColor(event.getMember().getColor()).build()).queue();
+				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(cmdName, null).setColor(event.getMember().getColor()).build()).queue();
 				return;
 			}
 
 			if (response.startsWith("imgembed:")) {
-				event.getChannel().sendMessage(new EmbedBuilder().setImage(response.substring(9)).setTitle(cmdName).setColor(event.getMember().getColor()).build()).queue();
+				event.getChannel().sendMessage(new EmbedBuilder().setImage(response.substring(9)).setTitle(cmdName, null).setColor(event.getMember().getColor()).build()).queue();
 				return;
 			}
 

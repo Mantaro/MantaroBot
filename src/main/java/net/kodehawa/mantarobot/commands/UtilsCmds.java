@@ -258,7 +258,7 @@ public class UtilsCmds extends Module {
 					long end = System.currentTimeMillis() - start;
 
 					embed.setColor(Color.CYAN)
-						.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content)
+						.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
 						.setDescription(status + " (" + clness + "% cloudiness)")
 						.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " + finalTemperatureFarnheit.intValue() + "°F", true)
 						.addField(":droplet: Humidity", hum + "%", true)

@@ -79,24 +79,26 @@ public class ImageCmds extends Module {
 
 		if (!smallRequest) {
 			try {
-				return new EmbedBuilder().setAuthor("Found image", null, null)
+				return new EmbedBuilder().setAuthor("Found image", URL, null)
 					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 					.setImage(URL)
 					.addField("Width", String.valueOf(WIDTH), true)
 					.addField("Height", String.valueOf(HEIGHT), true)
-					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false);
+					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
+					.setFooter("If the image doesn't load, click the title.", null);
 			} catch (ArrayIndexOutOfBoundsException ex) {
 				return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 			}
 		}
 
 		try {
-			return new EmbedBuilder().setAuthor("Found image", null, null)
+			return new EmbedBuilder().setAuthor("Found image", URL, null)
 				.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 				.setImage(URL)
 				.addField("Width", String.valueOf(WIDTH), true)
 				.addField("Height", String.valueOf(HEIGHT), true)
-				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false);
+				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
+				.setFooter("If the image doesn't load, click the title.", null);
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 		}
@@ -132,7 +134,9 @@ public class ImageCmds extends Module {
 								.setImage("https:" + URL)
 								.addField("Width", String.valueOf(WIDTH), true)
 								.addField("Height", String.valueOf(HEIGHT), true)
-								.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false);
+								.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+								.setFooter("If the image doesn't load, click the title.", null);
+
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception exception) {
 							if(exception instanceof ArrayIndexOutOfBoundsException) channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
@@ -161,7 +165,9 @@ public class ImageCmds extends Module {
 									.setImage("https:" + URL1)
 									.addField("Width", String.valueOf(WIDTH1), true)
 									.addField("Height", String.valueOf(HEIGHT1), true)
-									.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false);
+									.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
+									.setFooter("If the image doesn't load, click the title.", null);
+
 								channel.sendMessage(builder.build()).queue();
 							} catch (Exception exception) {
 								if(exception instanceof ArrayIndexOutOfBoundsException) channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();

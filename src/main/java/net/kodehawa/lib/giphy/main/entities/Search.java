@@ -6,7 +6,19 @@ public class Search {
 	public Meta meta = null;
 	public Pagination pagination = null;
 
-	public static class Data {
+	public Data[] getData() {
+		return data;
+	}
+
+	public Meta getMeta() {
+		return meta;
+	}
+
+	public Pagination getPagination() {
+		return pagination;
+	}
+
+	public class Data {
 		public String type = null;
 		public String id = null;
 		public String slug = null;
@@ -25,10 +37,10 @@ public class Search {
 		public String trending_datetime = null;
 		public Images images = null;
 
-		public static class Images {
+		public class Images {
 			public Original original = null;
 
-			public static class Original {
+			public class Original {
 				public String url = null;
 				public String width = null;
 				public String height = null;

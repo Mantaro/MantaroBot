@@ -55,7 +55,7 @@ public class AnimeCmds extends Module {
 						URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(connection, event);
 					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
-					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
+					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
 					for (int i = 0; i < 4 && i < type.length; i++) {
 						AnimeData animeData = type[i];
@@ -71,7 +71,7 @@ public class AnimeCmds extends Module {
 							if (choose < 1 || choose > type.length) return false;
 							animeData(e, type, choose - 1);
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
-							m.get().deleteMessage().queue();
+							m.get().delete().queue();
 							return true;
 						} catch (Exception ex) {
 							event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + ex.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + ex.getMessage() + "``").queue();
@@ -170,7 +170,7 @@ public class AnimeCmds extends Module {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(url, event);
 					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
-					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.").setFooter("This timeouts in 10 seconds.", null);
+					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
 
 					for (int i = 0; i < 4 && i < character.length; i++) {
@@ -188,7 +188,7 @@ public class AnimeCmds extends Module {
 							if (choose < 1 || choose > character.length) return false;
 							characterData(e, character, choose - 1);
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
-							m.get().deleteMessage().queue();
+							m.get().delete().queue();
 							return true;
 						} catch (Exception e1) {
 							event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e1.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e1.getMessage() + "``").queue();

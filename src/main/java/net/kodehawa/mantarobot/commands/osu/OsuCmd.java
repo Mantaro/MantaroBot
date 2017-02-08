@@ -212,7 +212,7 @@ public class OsuCmd extends Module {
 			finalMessage = builder.build();
 		} catch (Exception e) {
 			EmbedBuilder builder = new EmbedBuilder();
-			builder.setTitle("Error.")
+			builder.setTitle("Error.", null)
 				.setColor(Color.RED)
 				.addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
 			finalMessage = builder.build();

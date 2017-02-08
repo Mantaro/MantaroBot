@@ -146,7 +146,7 @@ public class MantaroAudioManager {
 	}
 
 	private static void onSearchResult(GuildMessageReceivedEvent event, AudioPlaylist playlist, MusicManager musicManager) {
-		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.").setFooter("This timeouts in 10 seconds.", null);
+		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 		List<AudioTrack> tracks = playlist.getTracks();
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {

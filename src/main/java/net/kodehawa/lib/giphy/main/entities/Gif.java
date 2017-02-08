@@ -18,7 +18,7 @@ public class Gif {
 		return pagination;
 	}
 
-	public static class Data {
+	public class Data {
 		public String type = null;
 		public String id = null;
 		public String slug = null;
@@ -37,10 +37,10 @@ public class Gif {
 		public String trending_datetime = null;
 		public Images images = null;
 
-		public static class Images {
+		public class Images {
 			public Original original = null;
 
-			public static class Original {
+			public class Original {
 				public String url = null;
 				public String width = null;
 				public String height = null;
