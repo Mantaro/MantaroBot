@@ -24,7 +24,7 @@ public class GifCmds extends Module {
 	}
 
 	private void search(){
-		super.register("gifsearch", new SimpleCommand() {
+		super.register("gsearch", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if(args.length <= 0){
@@ -55,7 +55,7 @@ public class GifCmds extends Module {
 							if(trigger) event.getChannel().sendMessage(embed).queue();
 							//Try to explain what went wrong.
 							else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
-									"besides the NSFW channel. Maybe try with a higher number or another query?").queue();
+									"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 						});
 			}
 
@@ -74,7 +74,7 @@ public class GifCmds extends Module {
 	}
 
 	private void random(){
-		super.register("randomgif", new SimpleCommand() {
+		super.register("grandom", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String tags = null;
@@ -82,7 +82,7 @@ public class GifCmds extends Module {
 				//Start the embed
 				giphy.random(tags, event, (result) -> {
 					MessageEmbed embed = new EmbedBuilder()
-							.setAuthor("Gif lookup result for random", result.getData().getImage_url(),
+							.setAuthor("Random gif.", result.getData().getImage_url(),
 									//Gifs are *always* cats, kappa.
 									"http://rollycat.com/wp-content/uploads/2014/09/apple-mac-cat-face-like-angel-soul_342655.jpg")
 							.setImage(result.getData().getImage_url())
@@ -104,7 +104,7 @@ public class GifCmds extends Module {
 	}
 
 	private void trending(){
-		super.register("trendinggif", new SimpleCommand() {
+		super.register("gtrending", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				giphy.trending(event, (query -> {
@@ -114,7 +114,7 @@ public class GifCmds extends Module {
 							!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
 					//Start the embed
 					MessageEmbed embed = new EmbedBuilder()
-							.setAuthor("Gif lookup result for trending", query.getData()[image1].getImages().original.getUrl(),
+							.setAuthor("Random trending gif.", query.getData()[image1].getImages().original.getUrl(),
 									//Gifs are *always* cats, kappa.
 									"http://rollycat.com/wp-content/uploads/2014/09/apple-mac-cat-face-like-angel-soul_342655.jpg")
 							.setImage(query.getData()[image1].getImages().original.getUrl())
@@ -127,7 +127,7 @@ public class GifCmds extends Module {
 					if(trigger) event.getChannel().sendMessage(embed).queue();
 						//Try to explain what went wrong.
 					else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
-							"besides the NSFW channel. Maybe try with a higher number or another query?").queue();
+							"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 				}));
 			}
 
