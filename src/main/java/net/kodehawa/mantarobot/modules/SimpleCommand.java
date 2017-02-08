@@ -12,8 +12,12 @@ public abstract class SimpleCommand implements Command {
 
 	@Override
 	public void invoke(Arguments cmd) {
-		call(cmd.args, cmd.content, cmd.event);
+		call(splitArgs(cmd.content), cmd.content, cmd.event);
 		log(cmd.cmdName);
+	}
+
+	protected String[] splitArgs(String content) {
+		return content.split("\\s+");
 	}
 
 	@Override

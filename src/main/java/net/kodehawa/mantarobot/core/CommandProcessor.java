@@ -10,15 +10,13 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public final class CommandProcessor {
 	public static class Arguments {
-		public final String[] args;
 		public final String cmdName;
 		public final String content;
 		public final GuildMessageReceivedEvent event;
 
-		private Arguments(GuildMessageReceivedEvent event, String cmdName, String content, String[] args) {
+		private Arguments(GuildMessageReceivedEvent event, String cmdName, String content) {
 			this.event = event;
 			this.cmdName = cmdName;
-			this.args = args;
 			this.content = content;
 		}
 	}
@@ -47,6 +45,6 @@ public final class CommandProcessor {
 
 		String[] parts = splitArgs(rawCmd, 2);
 
-		return dispatchCommand(new Arguments(event, parts[0], parts[1], parts[1].split("\\s+")));
+		return dispatchCommand(new Arguments(event, parts[0], parts[1]));
 	}
 }

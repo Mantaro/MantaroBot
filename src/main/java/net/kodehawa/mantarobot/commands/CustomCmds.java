@@ -32,9 +32,7 @@ import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 
 public class CustomCmds extends Module {
 	private static Logger LOGGER = LoggerFactory.getLogger("UserCommands");
-
-	private Command customCommand = new Command() {
-
+	private final Command customCommand = new Command() {
 		private Random r = new Random();
 
 		@Override
@@ -88,7 +86,7 @@ public class CustomCmds extends Module {
 
 		@Override
 		public void invoke(Arguments args) {
-			handle(args.event, args.cmdName, args.args);
+			handle(args.event, args.cmdName, args.cmdName.split("\\s+?"));
 			log("custom command");
 		}
 
@@ -98,6 +96,8 @@ public class CustomCmds extends Module {
 		}
 
 	};
+
+	private final Pair<Command, Category> cmdPair = Pair.of(customCommand, null);
 
 	public CustomCmds() {
 		super(Category.CUSTOM);
@@ -172,16 +172,6 @@ public class CustomCmds extends Module {
 
 				String cmd = args[1];
 
-				if (action.equals("add")) {
-					List<String> responses = Arrays.asList(content.replaceAll(String.format("%s %s ", args[0], cmd), "").split(","));
-					String responsesString = responses.stream().collect(Collectors.joining(", "));
-					customCommands.put(cmd, responses);
-					Manager.commands.put(cmd, Pair.of(customCommand, null));
-					MantaroData.getData().update();
-					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responsesString, event.getGuild().getId())).queue();
-					return;
-				}
-
 				if (action.equals("make")) {
 					Runnable unlock = TextChannelLock.adquireLock(event.getChannel());
 					if (unlock == null) {
@@ -214,7 +204,7 @@ public class CustomCmds extends Module {
 								event.getChannel().sendMessage("\u274C No responses were added. Stopping creation without saving...").queue();
 							} else {
 								customCommands.put(saveTo, responses);
-								Manager.commands.put(saveTo, Pair.of(customCommand, null));
+								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().update();
 								event.getChannel().sendMessage("\u2705 Saved to command ``" + saveTo + "``!").queue();
 
@@ -253,7 +243,28 @@ public class CustomCmds extends Module {
 					return;
 				}
 
+				if (args.length < 3) {
+					onHelp(event);
+					return;
+				}
+
+				String value = args[2];
+
+				if (action.equals("add")) {
+					List<String> responses = Arrays.asList(value.split(";"));
+					customCommands.put(cmd, responses);
+					Manager.commands.put(cmd, cmdPair);
+					MantaroData.getData().update();
+					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responses.stream().collect(Collectors.joining("``, ")), event.getGuild().getId())).queue();
+					return;
+				}
+
 				onHelp(event);
+			}
+
+			@Override
+			protected String[] splitArgs(String content) {
+				return content.split("\\s+", 3);
 			}
 
 			@Override
@@ -285,7 +296,7 @@ public class CustomCmds extends Module {
 		MantaroData.getData().get().guilds.values().forEach((GuildData guildData) -> {
 			guildData.customCommands.values().removeIf(List::isEmpty);
 			guildData.customCommands.keySet().removeIf(Manager.commands::containsKey);
-			guildData.customCommands.keySet().forEach(cmd -> Manager.commands.put(cmd, Pair.of(customCommand, null)));
+			guildData.customCommands.keySet().forEach(cmd -> Manager.commands.put(cmd, cmdPair));
 		});
 		MantaroData.getData().update();
 	}
