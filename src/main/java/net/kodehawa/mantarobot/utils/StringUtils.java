@@ -3,11 +3,14 @@ package net.kodehawa.mantarobot.utils;
 import java.io.BufferedReader;
 import java.io.StringReader;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Class made by AdrianTodt with a lot of useful and fast {@link String} and String[] utilities methods.
  */
 public class StringUtils {
+	public static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
+
 	//Short for:
 	//advancedSplitArgsUnbox
 	private static String advSplArgUnb(String s) {
@@ -77,11 +80,7 @@ public class StringUtils {
 		String[] normalized = new String[expectedSize];
 
 		Arrays.fill(normalized, "");
-		for (int i = 0; i < normalized.length; i++) {
-			if (i < raw.length && raw[i] != null && !raw[i].isEmpty()) {
-				normalized[i] = raw[i];
-			}
-		}
+		for (int i = 0; i < normalized.length; i++) if (i < raw.length && raw[i] != null && !raw[i].isEmpty()) normalized[i] = raw[i];
 		return normalized;
 	}
 
@@ -138,14 +137,14 @@ public class StringUtils {
 	}
 
 	/**
-	 * Enchanced {@link String#split(String, int)}.
+	 * Enchanced {@link String#split(String, int)} with SPLIT_PATTERN as the Pattern used.
 	 *
 	 * @param args         the {@link String} to be split.
 	 * @param expectedArgs the size of the returned array of Non-null {@link String}s
 	 * @return a {@link String}[] with the size of expectedArgs
 	 */
 	public static String[] splitArgs(String args, int expectedArgs) {
-		String[] raw = args.split("\\s+", expectedArgs);
+		String[] raw = SPLIT_PATTERN.split(args, expectedArgs);
 		if (expectedArgs < 1) return raw;
 		return normalizeArray(raw, expectedArgs);
 	}

@@ -5,8 +5,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
+import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 public abstract class SimpleCommand implements Command {
+
 
 	protected abstract void call(String[] args, String content, GuildMessageReceivedEvent event);
 
@@ -17,7 +19,7 @@ public abstract class SimpleCommand implements Command {
 	}
 
 	protected String[] splitArgs(String content) {
-		return content.split("\\s+");
+		return SPLIT_PATTERN.split(content);
 	}
 
 	@Override

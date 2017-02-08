@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SimpleFileDataManager implements Supplier<List<String>> {
 	private static final Logger LOGGER = LoggerFactory.getLogger("SimpleFileDataManager");
+	public static final Pattern NEWLINE_PATTERN = Pattern.compile("\\r\\n?|\\r?\\n");
 	private final List<String> data = new ArrayList<>();
 	private final Path path;
 
@@ -31,7 +33,7 @@ public class SimpleFileDataManager implements Supplier<List<String>> {
 				}
 			}
 
-			Collections.addAll(data, IOUtils.read(this.path).split("\\r\\n|\\n|\\r"));
+			Collections.addAll(data, NEWLINE_PATTERN.split(IOUtils.read(this.path)));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.SimpleFileDataManager.NEWLINE_PATTERN;
+
 public class AudioCmdUtils {
 	public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
 		VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).musicChannel);
@@ -50,7 +52,7 @@ public class AudioCmdUtils {
 
 	public static MessageEmbed embedForQueue(Guild guild, MusicManager musicManager) {
 		String toSend = musicManager.getScheduler().getQueueList();
-		String[] lines = toSend.split("\r\n|\r|\n");
+		String[] lines = NEWLINE_PATTERN.split(toSend);
 
 		if (lines.length > 15) {
 			toSend = Stream.concat(

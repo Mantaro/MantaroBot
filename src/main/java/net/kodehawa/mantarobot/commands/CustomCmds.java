@@ -23,12 +23,14 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
+import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 public class CustomCmds extends Module {
 	private static Logger LOGGER = LoggerFactory.getLogger("UserCommands");
@@ -86,7 +88,7 @@ public class CustomCmds extends Module {
 
 		@Override
 		public void invoke(Arguments args) {
-			handle(args.event, args.cmdName, args.cmdName.split("\\s+?"));
+			handle(args.event, args.cmdName, SPLIT_PATTERN.split(args.content));
 			log("custom command");
 		}
 
@@ -101,6 +103,8 @@ public class CustomCmds extends Module {
 
 	public CustomCmds() {
 		super(Category.CUSTOM);
+
+		Pattern addPattern = Pattern.compile(";");
 
 		super.register("custom", new SimpleCommand() {
 			@Override
@@ -251,7 +255,7 @@ public class CustomCmds extends Module {
 				String value = args[2];
 
 				if (action.equals("add")) {
-					List<String> responses = Arrays.asList(value.split(";"));
+					List<String> responses = Arrays.asList(addPattern.split(value));
 					customCommands.put(cmd, responses);
 					Manager.commands.put(cmd, cmdPair);
 					MantaroData.getData().update();
@@ -264,7 +268,7 @@ public class CustomCmds extends Module {
 
 			@Override
 			protected String[] splitArgs(String content) {
-				return content.split("\\s+", 3);
+				return SPLIT_PATTERN.split(content, 3);
 			}
 
 			@Override

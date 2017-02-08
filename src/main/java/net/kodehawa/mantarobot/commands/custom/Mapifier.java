@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.utils.StringUtils.normalizeArray;
+import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
@@ -65,11 +65,11 @@ public class Mapifier {
 	}
 
 	public static void map(String prefix, Map<String, String> map, Message message) {
-		map.put(prefix, normalizeArray(message.getRawContent().split("\\s+", 2), 2)[1]);
+		map.put(prefix, splitArgs(message.getRawContent(),2)[1]);
 		prefix = prefix + ".";
-		map.put(prefix + "raw", normalizeArray(message.getRawContent().split("\\s+", 2), 2)[1]);
-		map.put(prefix + "textual", normalizeArray(message.getContent().split("\\s+", 2), 2)[1]);
-		map.put(prefix + "stripped", normalizeArray(message.getStrippedContent().split("\\s+", 2), 2)[1]);
+		map.put(prefix + "raw", splitArgs(message.getRawContent(),2)[1]);
+		map.put(prefix + "textual", splitArgs(message.getContent(),2)[1]);
+		map.put(prefix + "stripped", splitArgs(message.getStrippedContent(),2)[1]);
 	}
 
 	public static void map(String prefix, Map<String, String> map, TextChannel channel) {

@@ -29,7 +29,6 @@ import java.util.regex.Pattern;
 
 public class Utils {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
-
 	/**
 	 * Capitalizes the first letter of a string.
 	 *
@@ -39,25 +38,6 @@ public class Utils {
 	public static String capitalize(String s) {
 		if (s.length() == 0) return s;
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
-	}
-
-	/**
-	 * Capitalizes each first letter after a space.
-	 *
-	 * @param original the string to capitalize.
-	 * @return a string That Looks Like This. Useful for titles.
-	 */
-	public static String capitalizeEachFirstLetter(String original) {
-		if (original == null || original.length() == 0) {
-			return original;
-		}
-
-		String[] words = original.split("\\s");
-		StringBuilder builder = new StringBuilder();
-		for (String s : words) {
-			builder.append(capitalize(s)).append(" ");
-		}
-		return builder.toString();
 	}
 
 	public static String getDurationMinutes(long length) {
