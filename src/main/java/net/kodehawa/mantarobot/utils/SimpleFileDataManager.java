@@ -34,6 +34,7 @@ public class SimpleFileDataManager implements Supplier<List<String>> {
 			}
 
 			Collections.addAll(data, NEWLINE_PATTERN.split(IOUtils.read(this.path)));
+			data.removeIf(s -> s.startsWith("//"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
