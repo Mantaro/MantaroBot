@@ -19,35 +19,42 @@ import static net.kodehawa.mantarobot.utils.SimpleFileDataManager.NEWLINE_PATTER
 
 public class AudioCmdUtils {
 	public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
-		VoiceChannel voiceChannel = event.getGuild().getVoiceChannelById(MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).musicChannel);
-		if (voiceChannel != null) {
-			if (event.getMember().getVoiceState().getChannel() == voiceChannel) {
-				AudioManager audioManager = event.getGuild().getAudioManager();
-				if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-					audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
-					event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + event.getMember().getVoiceState().getChannel().getName() + "**!").queue();
-				}
-				return true;
-			} else {
-				event.getChannel().sendMessage("\u274C I can only play music on channel **" + voiceChannel.getName() + "**!").queue();
-				return false;
-			}
-		} else {
-			if (event.getMember().getVoiceState().getChannel() != null) {
-				AudioManager audioManager = event.getGuild().getAudioManager();
-				if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-					audioManager.openAudioConnection(event.getMember().getVoiceState().getChannel());
-					event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + event.getMember().getVoiceState().getChannel().getName() + "**!").queue();
-				} else if (audioManager.getConnectedChannel() != event.getMember().getVoiceState().getChannel()) {
-					event.getChannel().sendMessage("\u274C I'm already connected on channel **" + audioManager.getConnectedChannel().getName() + "**! (Use the `move` command to move me to another channel)").queue();
-					return false;
-				}
-				return true;
-			} else {
-				event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
-				return false;
-			}
+		VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
+
+		if (userChannel == null) {
+			event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
+			return false;
 		}
+
+		VoiceChannel guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).musicChannel);
+		AudioManager audioManager = event.getGuild().getAudioManager();
+
+		if (guildMusicChannel != null) {
+			if (!userChannel.equals(guildMusicChannel)) {
+				event.getChannel().sendMessage("\u274C I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
+				return false;
+			}
+
+			if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
+				audioManager.openAudioConnection(userChannel);
+				event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
+			}
+
+			return true;
+		}
+
+		if (!audioManager.getConnectedChannel().equals(userChannel)) {
+			event.getChannel().sendMessage("\u274C I'm already connected on channel **" + audioManager.getConnectedChannel().getName() + "**! (Use the `move` command to move me to another channel)").queue();
+			//TODO The ACTUAL ~>move command. (Do this TODO at AudioCmds.java)
+			return false;
+		}
+
+		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
+			audioManager.openAudioConnection(userChannel);
+			event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
+		}
+
+		return true;
 	}
 
 	public static MessageEmbed embedForQueue(Guild guild, MusicManager musicManager) {
