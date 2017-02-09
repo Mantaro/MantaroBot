@@ -86,6 +86,11 @@ public class AudioCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (content.trim().isEmpty()) {
+					onHelp(event);
+					return;
+				}
+
 				try {
 					new URL(content);
 				} catch (Exception e) {
@@ -97,7 +102,7 @@ public class AudioCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "NowPlaying Command")
+				return baseEmbed(event, "Play Command")
 					.addField("Description", "Plays a song in the music voice channel.", false)
 					.addField("Usage:", "~>play <song url> (Can be a YouTube song, a playlist or a search)", false).build();
 			}
