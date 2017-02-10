@@ -79,23 +79,17 @@ public class MantaroAudioManager {
 				int i = 0;
 				if (playlist.isSearchResult()) {
 					onSearchResult(event, playlist, musicManager);
-				} else {
-					for (AudioTrack audioTrack : playlist.getTracks()) {
-						if (i <= 60) loadTrack(event, musicManager, audioTrack, true);
-						else break;
-						i++;
-					}
-					long templength = 0;
-					for (AudioTrack temp : playlist.getTracks()) {
-						templength = templength
-							+ temp.getInfo().length;
-					}
-					event.getChannel().sendMessage("Added **" + playlist.getTracks().size()
-						+ " songs** to queue on playlist: **"
-						+ playlist.getName() + "**" + " *("
-						+ Utils.getDurationMinutes(templength) + ")*"
-					).queue();
+					return;
 				}
+
+				playlist.getTracks().forEach(audioTrack -> loadTrack(event, musicManager, audioTrack, true));
+
+				event.getChannel().sendMessage(String.format(
+					"Added **%d songs** to queue on playlist: **%s** *(%s)*",
+					playlist.getTracks().size(),
+					playlist.getName(),
+					Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
+				)).queue();
 			}
 
 			@Override
