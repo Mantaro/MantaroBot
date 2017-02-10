@@ -19,9 +19,11 @@ import java.util.*;
 
 public class QuoteCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("QuoteCmd");
+
 	private static String toJson(Map<String, LinkedHashMap<String, List<String>>> map) {
 		return new Gson().toJson(map);
 	}
+
 	private final Random rand = new Random();
 
 	public QuoteCmd() {
@@ -128,29 +130,25 @@ public class QuoteCmd extends Module {
 
 						break;
 					case "addfrom":
-						int i1 = -1;
-						Message m = event.getMessage();
-						for (Message m1 : messageHistory) {
-							i1++;
-							if (m1.getContent().contains(phrase) && !m1.getContent().startsWith(MantaroData.getData().get().defaultPrefix)) {
-								m = messageHistory.get(i1);
-								m.addReaction("\ud83d\udc4c").queue();
-								break;
-							}
+						Message message = messageHistory.stream().filter(msg -> msg.getContent().contains(phrase) && !event.getMessage().getId().equals(msg.getId())).findFirst().orElse(null);
+
+						if (message == null) {
+							//TODO the 404 error
+							return;
 						}
 
 						String[] sContent = {
-							m.getAuthor().getName(),
-							m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
-							m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+							message.getAuthor().getName(),
+							message.getAuthor().getAvatarUrl(), message.getChannel().getName(),
+							message.getGuild().getName(), String.valueOf(System.currentTimeMillis())
 						};
 
 						if (MantaroData.getQuotes().get().quotes.containsKey(guild.getId())) {
 							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
-							MantaroData.getQuotes().get().quotes.get(guild.getId()).put(m.getContent(), Arrays.asList(sContent));
+							MantaroData.getQuotes().get().quotes.get(guild.getId()).put(message.getContent(), Arrays.asList(sContent));
 						} else {
 							LinkedHashMap<String, List<String>> temp = new LinkedHashMap<>();
-							temp.put(m.getContent(), Arrays.asList(sContent));
+							temp.put(message.getContent(), Arrays.asList(sContent));
 							MantaroData.getQuotes().get().quotes.put(guild.getId(), temp);
 						}
 
@@ -158,12 +156,12 @@ public class QuoteCmd extends Module {
 
 						Date quoteDate = new Date(System.currentTimeMillis());
 						EmbedBuilder builder = new EmbedBuilder();
-						builder.setAuthor(m.getAuthor().getName() + " said:", null, m.getAuthor().getEffectiveAvatarUrl())
-							.setThumbnail(m.getAuthor().getEffectiveAvatarUrl())
-							.setColor(m.getGuild().getMember(m.getAuthor()).getColor())
-							.setDescription("Quote made on server " + m.getGuild().getName()
-								+ " in channel " + "#" + m.getChannel().getName())
-							.addField("Content", m.getContent(), false)
+						builder.setAuthor(message.getAuthor().getName() + " said:", null, message.getAuthor().getEffectiveAvatarUrl())
+							.setThumbnail(message.getAuthor().getEffectiveAvatarUrl())
+							.setColor(message.getGuild().getMember(message.getAuthor()).getColor())
+							.setDescription("Quote made on server " + message.getGuild().getName()
+								+ " in channel " + "#" + message.getChannel().getName())
+							.addField("Content", message.getContent(), false)
 							.setFooter("Date: " + dateFormat.format(quoteDate), null);
 						channel.sendMessage(builder.build()).queue();
 
@@ -205,6 +203,11 @@ public class QuoteCmd extends Module {
 			}
 
 			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Quote command")
 					.setDescription("> Usage:\n"
@@ -218,11 +221,6 @@ public class QuoteCmd extends Module {
 						+ "[phrase]: A part of the quote phrase.")
 					.setColor(Color.DARK_GRAY)
 					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
 			}
 		});
 	}
