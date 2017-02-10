@@ -14,11 +14,8 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.soap.Text;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class ModerationCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
@@ -304,8 +301,7 @@ public class ModerationCmds extends Module {
 					if (action.equals("limit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
 						if (!isNumber) return;
-						guildData
-							.songDurationLimit = Integer.parseInt(args[2]);
+						guildData.songDurationLimit = Integer.parseInt(args[2]);
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
 						return;
@@ -323,19 +319,22 @@ public class ModerationCmds extends Module {
 
 						if (channel == null) {
 							try {
-								List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
-										.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
-										.collect(Collectors.toList());
+										List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
+												.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
+												.collect(Collectors.toList());
 
-								if (voiceChannels.size() == 0) {
-									event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
-									return;
-								} else if (voiceChannels.size() == 1) {
-									channel = voiceChannels.get(0);
-								} else {
-									DiscordUtils.selectList(event, voiceChannels,
-											voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-											s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+										if (voiceChannels.size() == 0) {
+											event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
+											return;
+										} else if (voiceChannels.size() == 1) {
+											channel = voiceChannels.get(0);
+											guildData.musicChannel = channel.getId();
+											MantaroData.getData().update();
+											event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
+										} else {
+											DiscordUtils.selectList(event, voiceChannels,
+													voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+													s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
 											voiceChannel -> {
 												guildData.musicChannel = voiceChannel.getId();
 												MantaroData.getData().update();

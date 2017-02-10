@@ -28,7 +28,7 @@ import java.util.concurrent.TimeoutException;
 
 public class OsuCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
-	String mods1 = "";
+	private String mods1 = "";
 	private Map<String, Object> map = new HashMap<>();
 	private OsuClient osuClient = null;
 
@@ -87,30 +87,24 @@ public class OsuCmd extends Module {
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "best":
-						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from osu! server...").queue(sentMessage ->
-						{
+						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from osu! server...").queue(sentMessage -> {
 							Future<String> task = Async.getThreadPool().submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException)
-									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
-								else
-									LOGGER.warn("Exception thrown while fetching data", e);
+								if (e instanceof TimeoutException) sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
+								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
 					case "recent":
-						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from server...").queue(sentMessage ->
-						{
+						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from server...").queue(sentMessage -> {
 							Future<String> task = Async.getThreadPool().submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException)
-									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
-								else
-									LOGGER.warn("Exception thrown while fetching data", e);
+								if (e instanceof TimeoutException) sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
+								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;

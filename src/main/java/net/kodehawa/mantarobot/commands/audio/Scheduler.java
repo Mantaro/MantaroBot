@@ -11,12 +11,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Scheduler extends AudioEventAdapter {
-	private final GuildMessageReceivedEvent event;
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
 
 	public Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
-		this.event = event;
+		GuildMessageReceivedEvent event1 = event;
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
 	}

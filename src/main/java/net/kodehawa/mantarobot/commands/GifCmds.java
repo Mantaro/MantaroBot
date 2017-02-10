@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class GifCmds extends Module {
 
-	Giphy giphy = new Giphy();
+	private Giphy giphy = new Giphy();
 
 	public GifCmds(){
 		super(Category.GIF);

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot;
 
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -54,7 +55,7 @@ public class MantaroBot {
 		jda = new JDABuilder(AccountType.BOT)
 			.setToken(config.token)
 			.addListener(new MantaroListener())
-			//.setAudioSendFactory(new NativeAudioSendFactory())
+			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
 			.setGame(Game.of("Hold your seatbelts!"))
 			.buildBlocking();
