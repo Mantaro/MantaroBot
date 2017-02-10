@@ -1,11 +1,11 @@
 package net.kodehawa.lib.konachan.main;
 
-import com.google.gson.Gson;
 import net.kodehawa.lib.konachan.main.entities.Tag;
 import net.kodehawa.lib.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.konachan.providers.DownloadProvider;
 import net.kodehawa.lib.konachan.providers.WallpaperProvider;
 import net.kodehawa.mantarobot.utils.Async;
+import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +32,6 @@ public class Konachan {
 		queryParams = new HashMap<>();
 	}
 
-	private int getLimitRelatedTags() {
-		return 5;
-	}
-
 	private boolean isSafeForWork() {
 		return safeForWork;
 	}
@@ -50,10 +46,6 @@ public class Konachan {
 
 	public List<Wallpaper> posts(int page, int limit) {
 		return this.get(page, limit, (String) null);
-	}
-
-	public void get(WallpaperProvider provider) {
-		this.get(1, 25, null, provider);
 	}
 
 	public void get(int limit, WallpaperProvider provider) {
@@ -75,7 +67,7 @@ public class Konachan {
 				List<Wallpaper> wallpapers = this.get(page, limit, search);
 				Optional.ofNullable(search).ifPresent((s) -> {
 					Tag[] tags;
-					tags = this.getTags(search, 1, this.getLimitRelatedTags());
+					tags = this.getTags(search, 1, 5);
 					provider.onSuccess(wallpapers, tags);
 				});
 			} catch (Exception ex) { LOGGER.warn("Error while retrieving a image from Konachan.", ex); }
@@ -86,12 +78,17 @@ public class Konachan {
 		this.queryParams.put("limit", limit);
 		this.queryParams.put("page", page);
 		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", search.toLowerCase().trim()));
-		String response = "[]";
+		String response;
 		try {
 			response = this.resty.text("http://konachan.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
-		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
-		Gson gson = new Gson();
-		Wallpaper[] wallpapers = gson.fromJson(response, Wallpaper[].class);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		finally {
+			queryParams.clear();
+		}
+		Wallpaper[] wallpapers = GsonDataManager.GSON.fromJson(response, Wallpaper[].class);
 		return isSafeForWork() ? Arrays.stream(wallpapers).filter((wallpaper1) ->
 				wallpaper1.getRating().equalsIgnoreCase("s")).collect(Collectors.toList()) : Arrays.asList(wallpapers);
 	}
@@ -127,7 +124,6 @@ public class Konachan {
 		try {
 			response = this.resty.text("http://konachan.com/tag.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
 		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
-		Gson gson = new Gson();
-		return gson.fromJson(response, Tag[].class);
+		return GsonDataManager.GSON.fromJson(response, Tag[].class);
 	}
 }

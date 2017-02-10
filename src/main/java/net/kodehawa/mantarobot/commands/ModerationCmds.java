@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -13,6 +14,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.soap.Text;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class ModerationCmds extends Module {
 		ban();
 		kick();
 		opts();
+		prune();
 	}
 
 	private void ban() {
@@ -314,7 +317,7 @@ public class ModerationCmds extends Module {
 							return;
 						}
 
-						String channelName = splitArgs(content, 3)[2];
+						String channelName = splitArgs(content)[2];
 
 						VoiceChannel channel = event.getGuild().getVoiceChannelById(channelName);
 
@@ -399,6 +402,56 @@ public class ModerationCmds extends Module {
 										"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
 										"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
 										"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.")
+						.build();
+			}
+		});
+	}
+
+	private void prune(){
+		super.register("prune", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				Guild guild = event.getGuild();
+				User author = event.getAuthor();
+				TextChannel channel = event.getChannel();
+				Message receivedMessage = event.getMessage();
+
+				if(!receivedMessage.isFromType(ChannelType.TEXT) && guild.getMember(author).hasPermission(Permission.MESSAGE_MANAGE)){
+					channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
+					return;
+				}
+
+				if (content.isEmpty()) {
+					channel.sendMessage(":heavy_multiplication_x: No messages to prune.").queue();
+					return;
+				}
+
+				int container = Integer.parseInt(content);
+				if (container > 100) container = 100;
+				final int i = container;
+				TextChannel channel2 = event.getGuild().getTextChannelById(channel.getId());
+				List<Message> messageHistory = channel2.getHistory().retrievePast(i).complete();
+				channel2.deleteMessages(messageHistory).queue(
+						success -> channel.sendMessage(":pencil: Successfully pruned " + i + " messages").queue(),
+						error -> {
+							if (error instanceof PermissionException) {
+								PermissionException pe = (PermissionException) error;
+								channel.sendMessage(":heavy_multiplication_x: " + "Lack of permission while pruning messages" +
+										"(No permission provided: " + pe.getPermission() + ")").queue();
+							} else {
+								channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while pruning messages" + "<"
+										+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+								error.printStackTrace();
+							}
+						});
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Prune command")
+						.setDescription("Prunes a specific amount of messages.")
+						.addField("Usage", "~>prune <x> - Prunes messages", false)
+						.addField("Parameters", "x = number of messages to delete", false)
 						.build();
 			}
 		});

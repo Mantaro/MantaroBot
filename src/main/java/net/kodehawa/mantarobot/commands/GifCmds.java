@@ -125,7 +125,7 @@ public class GifCmds extends Module {
 
 					//If the channel is nsfw or the rating is not explicit, go ahead.
 					if(trigger) event.getChannel().sendMessage(embed).queue();
-						//Try to explain what went wrong.
+					//Try to explain what went wrong.
 					else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
 							"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 				}));
