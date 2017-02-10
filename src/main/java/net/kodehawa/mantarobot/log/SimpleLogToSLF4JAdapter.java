@@ -49,7 +49,7 @@ public class SimpleLogToSLF4JAdapter implements SimpleLog.LogListener {
 		convert(simpleLog).error("An exception occurred", err);
 	}
 
-	public Logger convert(SimpleLog log) {
+	private Logger convert(SimpleLog log) {
 		return LOGGERS.computeIfAbsent(log, ignored -> LoggerFactory.getLogger(log.name));
 	}
 }

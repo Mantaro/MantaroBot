@@ -17,11 +17,9 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
-
 public class OwnerCmds extends Module {
 	public static GuildMessageReceivedEvent tempEvt = null;
-	private static Logger LOGGER = LoggerFactory.getLogger("Owner");
+	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
 
 	public OwnerCmds() {
 		super(Category.OWNER);
@@ -34,7 +32,7 @@ public class OwnerCmds extends Module {
 		super.register("varadd", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String v = splitArgs(content, 2)[1];
+				String v = splitArgs(content)[1];
 
 				switch (args[0]) {
 					case "pat":

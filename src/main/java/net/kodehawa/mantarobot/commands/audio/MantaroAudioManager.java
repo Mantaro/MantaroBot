@@ -81,8 +81,7 @@ public class MantaroAudioManager {
 					onSearchResult(event, playlist, musicManager);
 				} else {
 					for (AudioTrack audioTrack : playlist.getTracks()) {
-						if (i <= 60) loadTrack(event, musicManager, audioTrack, true);
-						else break;
+						loadTrack(event, musicManager, audioTrack, true);
 						i++;
 					}
 					long templength = 0;

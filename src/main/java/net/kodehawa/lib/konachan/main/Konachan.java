@@ -22,9 +22,8 @@ import java.util.stream.Collectors;
 
 public class Konachan {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Konachan");
-
+	private final Resty resty = new Resty().identifyAsMozilla();
 	private HashMap<String, Object> queryParams;
-	private final Resty resty= new Resty().identifyAsMozilla();
 	private boolean safeForWork = false;
 
 	public Konachan(boolean safeForWork) {
@@ -70,7 +69,9 @@ public class Konachan {
 					tags = this.getTags(search, 1, 5);
 					provider.onSuccess(wallpapers, tags);
 				});
-			} catch (Exception ex) { LOGGER.warn("Error while retrieving a image from Konachan.", ex); }
+			} catch (Exception ex) {
+				LOGGER.warn("Error while retrieving a image from Konachan.", ex);
+			}
 		}).run();
 	}
 
@@ -84,8 +85,7 @@ public class Konachan {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
-		}
-		finally {
+		} finally {
 			queryParams.clear();
 		}
 		Wallpaper[] wallpapers = GsonDataManager.GSON.fromJson(response, Wallpaper[].class);
@@ -105,13 +105,15 @@ public class Konachan {
 	}
 
 	public void saveWallpaper(final String filename, final String folderPath, final String imageURL, final DownloadProvider provider) {
-		Async.asyncThread("Wallpaper Save", () ->{
+		Async.asyncThread("Wallpaper Save", () -> {
 			try {
 				if (provider == null) return;
 				String save = saveWallpaper(filename, folderPath, imageURL);
 				Optional.ofNullable(save).ifPresent(provider::onSuccess);
 				if (save == null) LOGGER.warn("Unknown error occurred while saving a wallpaper.");
-			} catch (Exception ex) { LOGGER.warn("A error occurred while fetching the wallpaper.", ex); }
+			} catch (Exception ex) {
+				LOGGER.warn("A error occurred while fetching the wallpaper.", ex);
+			}
 		}).run();
 	}
 
@@ -123,7 +125,11 @@ public class Konachan {
 		String response = "";
 		try {
 			response = this.resty.text("http://konachan.com/tag.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
-		} catch (Exception e) { e.printStackTrace(); } finally { queryParams.clear(); }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			queryParams.clear();
+		}
 		return GsonDataManager.GSON.fromJson(response, Tag[].class);
 	}
 }

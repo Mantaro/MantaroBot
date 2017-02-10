@@ -19,11 +19,9 @@ import java.util.*;
 
 public class QuoteCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("QuoteCmd");
-
 	private static String toJson(Map<String, LinkedHashMap<String, List<String>>> map) {
 		return new Gson().toJson(map);
 	}
-
 	private final Random rand = new Random();
 
 	public QuoteCmd() {
