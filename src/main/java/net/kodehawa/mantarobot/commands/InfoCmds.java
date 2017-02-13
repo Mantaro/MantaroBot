@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -18,7 +19,10 @@ import java.awt.Color;
 import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -64,6 +68,43 @@ public class InfoCmds extends Module {
 		super.register("about", new SimpleCommand() {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (content.equals("stats")) {
+					Function<ToIntFunction<Guild>, IntStream> guildToInt = f -> event.getJDA().getGuilds().stream().mapToInt(f);
+
+					int minUG = guildToInt.apply(value -> value.getMembers().size()).min().orElse(0);
+					double midUG = guildToInt.apply(value -> value.getMembers().size()).average().orElse(0);
+					int maxUG = guildToInt.apply(value -> value.getMembers().size()).max().orElse(0);
+
+					int minOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).min().orElse(0);
+					double midOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).average().orElse(0);
+					int maxOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).max().orElse(0);
+
+					int minTG = guildToInt.apply(value -> value.getTextChannels().size()).min().orElse(0);
+					double midTG = guildToInt.apply(value -> value.getTextChannels().size()).average().orElse(0);
+					int maxTG = guildToInt.apply(value -> value.getTextChannels().size()).max().orElse(0);
+
+					int minVG = guildToInt.apply(value -> value.getVoiceChannels().size()).min().orElse(0);
+					double midVG = guildToInt.apply(value -> value.getVoiceChannels().size()).average().orElse(0);
+					int maxVG = guildToInt.apply(value -> value.getVoiceChannels().size()).max().orElse(0);
+
+					double cG = (double) MantaroAudioManager.getPlayingCount() / (double) event.getJDA().getGuilds().size();
+
+					event.getChannel().sendMessage(
+						new EmbedBuilder()
+							.setColor(Color.PINK)
+							.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
+							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+							.setDescription("Well... I did my maths!")
+							.addField("Users/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minUG, midUG, maxUG), true)
+							.addField("Online Users/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minOG, midOG, maxOG), true)
+							.addField("Text Channels/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minTG, midTG, maxTG), true)
+							.addField("Voice Channels/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minVG, midVG, maxVG), true)
+							.addField("Connections/Guilds", String.format("%.1f%% (%d Connections)", cG, MantaroAudioManager.getPlayingCount()), true)
+							.build()
+					).queue();
+					return;
+				}
+
 				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
 
 				event.getChannel().sendMessage(new EmbedBuilder()
@@ -109,6 +150,29 @@ public class InfoCmds extends Module {
 		});
 	}
 
+	private void avatar() {
+		super.register("avatar", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMessage().getMentionedUsers().isEmpty()) {
+					event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
+					return;
+				}
+				event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getAvatarUrl())).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Avatar")
+					.setDescription("Gets your user avatar")
+					.addField("Usage",
+						"~>avatar - Gets your avatar url" +
+							"\n ~>avatar <mention> - Gets a user's avatar url.", false)
+					.build();
+			}
+		});
+	}
+
 	private void cmdstats() {
 		super.register("cmdstats", new SimpleCommand() {
 			@Override
@@ -138,10 +202,10 @@ public class InfoCmds extends Module {
 
 				//Default
 				event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
-					.addField("Now",resume(MINUTE_CMDS),false)
-					.addField("Hourly",resume(HOUR_CMDS),false)
-					.addField("Daily",resume(DAY_CMDS),false)
-					.addField("Total",resume(TOTAL_CMDS),false)
+					.addField("Now", resume(MINUTE_CMDS), false)
+					.addField("Hourly", resume(HOUR_CMDS), false)
+					.addField("Daily", resume(DAY_CMDS), false)
+					.addField("Total", resume(TOTAL_CMDS), false)
 					.build()
 				).queue();
 			}
@@ -154,15 +218,15 @@ public class InfoCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Command stats")
-						.addField("Description", "Shows the statistics of the commands that has been run on this bot for its uptime.", false)
-						.addField("Usage",
-								"~>cmdstats - Shows all command statistics.\n"
-								+ "~>cmdstats now - Shows commands run in the last minute except for this one.\n"
-								+ "~>cmdstats total - Shows commands run in the bot's uptime\n"
-								+ "~>cmdstats daily - Shows commands statistics of today.\n"
-								+ "~>cmdstats hourly- Shows commands statistics of the last hour.\n"
-								, false)
-						.build();
+					.addField("Description", "Shows the statistics of the commands that has been run on this bot for its uptime.", false)
+					.addField("Usage",
+						"~>cmdstats - Shows all command statistics.\n"
+							+ "~>cmdstats now - Shows commands run in the last minute except for this one.\n"
+							+ "~>cmdstats total - Shows commands run in the bot's uptime\n"
+							+ "~>cmdstats daily - Shows commands statistics of today.\n"
+							+ "~>cmdstats hourly- Shows commands statistics of the last hour.\n"
+						, false)
+					.build();
 			}
 		});
 	}
@@ -265,7 +329,8 @@ public class InfoCmds extends Module {
 					if (command != null && command.getValue() != null) {
 						final MessageEmbed help = command.getKey().help(event);
 						Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
-						if(help == null) event.getChannel().sendMessage("\u274C No extended help set for this command.").queue();
+						if (help == null)
+							event.getChannel().sendMessage("\u274C No extended help set for this command.").queue();
 					} else {
 						event.getChannel().sendMessage("\u274C This command doesn't exist.").queue();
 					}
@@ -391,29 +456,6 @@ public class InfoCmds extends Module {
 					.build();
 			}
 
-		});
-	}
-
-	private void avatar(){
-		super.register("avatar", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(!event.getMessage().getMentionedUsers().isEmpty()){
-					event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
-					return;
-				}
-				event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getAvatarUrl())).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Avatar")
-						.setDescription("Gets your user avatar")
-						.addField("Usage",
-								"~>avatar - Gets your avatar url" +
-										"\n ~>avatar <mention> - Gets a user's avatar url.", false)
-						.build();
-			}
 		});
 	}
 }

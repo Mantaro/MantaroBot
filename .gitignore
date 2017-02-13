@@ -47,3 +47,4 @@ local.properties
 # Runtime
 config.json
 data.json
+quotes.json

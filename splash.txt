@@ -8,7 +8,8 @@ Shiny new JDA 3.0.
 Finally 1.0!
 With now more embeds!
 Check ~>osu
-Check ~>hi
+Check ~>misc
+Check ~>action
 Check ~>konachan
 I would use sharding but I don't wanna split myself!
 Cookiezi would eat this... or I would eat a cookie?
@@ -56,7 +57,5 @@ with bluescreens
 with greenscreens
 with min
 Nothing is impossible if you have a cookie, specially if it's in your nickname.
-with more JSON
+Doom wasn't 3D!
 There is only one hotel with 1.1 million stars. Guess which one.
-Adrian making mantaro great again!
-Adrian owns a bit of me! (the good code)
