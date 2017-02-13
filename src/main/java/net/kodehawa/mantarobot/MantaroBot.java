@@ -1,11 +1,13 @@
 package net.kodehawa.mantarobot;
 
+import com.mashape.unirest.http.Unirest;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
+import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Config;
@@ -16,6 +18,7 @@ import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
+import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +83,22 @@ public class MantaroBot {
 		changeStatus.run();
 
 		Async.startAsyncTask("Splash Thread", changeStatus, 600);
+
+		Holder<Integer> guildCount = new Holder<>(0);
+		Async.startAsyncTask("DBots Thread", () -> {
+			int newC = jda.getGuilds().size();
+			if (newC != guildCount.get()) {
+				guildCount.accept(newC);
+
+				Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
+					.header("Authorization", MantaroData.getConfig().get().dbotsToken)
+					.header("Content-Type", "application/json")
+					.body(new JSONObject().put("server_count", newC).toString())
+					.asJsonAsync();
+
+				LOGGER.info("Updated DBots Guild Count: " + newC + " guilds");
+			}
+		}, 3600);
 
 		Set<Module> modules = new HashSet<>();
 		for (Class<? extends Module> c : classesAsync.get()) {

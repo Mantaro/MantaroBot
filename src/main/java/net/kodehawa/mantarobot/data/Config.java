@@ -14,6 +14,7 @@ public class Config {
 	public List<String> owners = new ArrayList<>();
 	public String token = null;
 	public String weatherAppId = null;
+	public String dbotsToken = null;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());
