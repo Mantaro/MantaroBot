@@ -196,14 +196,20 @@ public class CustomCmds extends Module {
 
 						if (s.startsWith("~>stop")) {
 							timer.get().disarm().explode();
-							event.getChannel().sendMessage("\u274C There's already an Interactive Operation happening on this TextChannel.").queue();
+							event.getChannel().sendMessage("\u274C Command Creation canceled.").queue();
 							unlock.run();
 							return true;
 						}
 
 						if (s.startsWith("~>save")) {
-							String arg = s.substring(6).trim();
+							String arg = s.substring(7).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
+
+							if (Manager.commands.containsKey(saveTo) && !Manager.commands.get(saveTo).equals(cmdPair)) {
+								event.getChannel().sendMessage("\u274C A command already exists with this name!").queue();
+								return false;
+							}
+
 							if (responses.isEmpty()) {
 								event.getChannel().sendMessage("\u274C No responses were added. Stopping creation without saving...").queue();
 							} else {
@@ -256,8 +262,13 @@ public class CustomCmds extends Module {
 
 				if (action.equals("add")) {
 					List<String> responses = Arrays.asList(addPattern.split(value));
-					customCommands.put(cmd, responses);
+					if (Manager.commands.containsKey(cmd) && !Manager.commands.get(cmd).equals(cmdPair)) {
+						event.getChannel().sendMessage("\u274C A command already exists with this name!").queue();
+						return;
+					}
+
 					Manager.commands.put(cmd, cmdPair);
+					customCommands.put(cmd, responses);
 					MantaroData.getData().update();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responses.stream().collect(Collectors.joining("``, ")), event.getGuild().getId())).queue();
 					return;
