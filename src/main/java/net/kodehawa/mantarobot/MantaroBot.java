@@ -84,7 +84,7 @@ public class MantaroBot {
 
 		Async.startAsyncTask("Splash Thread", changeStatus, 600);
 
-		Holder<Integer> guildCount = new Holder<>(0);
+		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
 		Async.startAsyncTask("DBots Thread", () -> {
 			int newC = jda.getGuilds().size();
 			if (newC != guildCount.get()) {

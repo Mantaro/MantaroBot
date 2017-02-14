@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -72,22 +71,38 @@ public class InfoCmds extends Module {
 					Function<ToIntFunction<Guild>, IntStream> guildToInt = f -> event.getJDA().getGuilds().stream().mapToInt(f);
 
 					int minUG = guildToInt.apply(value -> value.getMembers().size()).min().orElse(0);
-					double midUG = guildToInt.apply(value -> value.getMembers().size()).average().orElse(0);
+					double avgUG = guildToInt.apply(value -> value.getMembers().size()).average().orElse(0);
 					int maxUG = guildToInt.apply(value -> value.getMembers().size()).max().orElse(0);
 
 					int minOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).min().orElse(0);
-					double midOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).average().orElse(0);
+					double avgOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).average().orElse(0);
 					int maxOG = guildToInt.apply(value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()).max().orElse(0);
 
+					List<Double> UOG = event.getJDA().getGuilds().stream().map(value -> (double) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() / (double) value.getMembers().size() * 100).collect(Collectors.toList());
+					double minUOG = UOG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
+					double avgUOG = UOG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+					double maxUOG = UOG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
+
+					List<Double> LUG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100).collect(Collectors.toList());
+					double minLUG = LUG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
+					double avgLUG = LUG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+					double maxLUG = LUG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
+
+					List<Double> LOG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100).collect(Collectors.toList());
+					double minLOG = LOG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
+					double avgLOG = LOG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
+					double maxLOG = LOG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
+
 					int minTG = guildToInt.apply(value -> value.getTextChannels().size()).min().orElse(0);
-					double midTG = guildToInt.apply(value -> value.getTextChannels().size()).average().orElse(0);
+					double avgTG = guildToInt.apply(value -> value.getTextChannels().size()).average().orElse(0);
 					int maxTG = guildToInt.apply(value -> value.getTextChannels().size()).max().orElse(0);
 
 					int minVG = guildToInt.apply(value -> value.getVoiceChannels().size()).min().orElse(0);
-					double midVG = guildToInt.apply(value -> value.getVoiceChannels().size()).average().orElse(0);
+					double avgVG = guildToInt.apply(value -> value.getVoiceChannels().size()).average().orElse(0);
 					int maxVG = guildToInt.apply(value -> value.getVoiceChannels().size()).max().orElse(0);
 
-					double cG = (double) MantaroAudioManager.getPlayingCount() / (double) event.getJDA().getGuilds().size();
+					int c = (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count();
+					double cG = (double) c / (double) event.getJDA().getGuilds().size() * 100;
 
 					event.getChannel().sendMessage(
 						new EmbedBuilder()
@@ -95,11 +110,14 @@ public class InfoCmds extends Module {
 							.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
 							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
 							.setDescription("Well... I did my maths!")
-							.addField("Users/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minUG, midUG, maxUG), true)
-							.addField("Online Users/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minOG, midOG, maxOG), true)
-							.addField("Text Channels/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minTG, midTG, maxTG), true)
-							.addField("Voice Channels/Guild", String.format("Min: %d; Avg: %.1f; Max: %d", minVG, midVG, maxVG), true)
-							.addField("Connections/Guilds", String.format("%.1f%% (%d Connections)", cG, MantaroAudioManager.getPlayingCount()), true)
+							.addField("Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", minUG, avgUG, maxUG), true)
+							.addField("Online Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", minOG, avgOG, maxOG), true)
+							.addField("Online Users per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", minUOG, avgUOG, maxUOG), true)
+							.addField("Text Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", minTG, avgTG, maxTG), true)
+							.addField("Voice Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", minVG, avgVG, maxVG), true)
+							.addField("Music Listeners per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", minLUG, avgLUG, maxLUG), true)
+							.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", minLOG, avgLOG, maxLOG), true)
+							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.build()
 					).queue();
 					return;

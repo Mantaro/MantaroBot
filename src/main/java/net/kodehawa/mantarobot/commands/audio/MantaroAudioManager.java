@@ -37,10 +37,6 @@ public class MantaroAudioManager {
 		AudioSourceManagers.registerRemoteSources(playerManager);
 	}
 
-	public static int getPlayingCount() {
-		return musicManagers.size();
-	}
-
 	public static void clearQueue(MusicManager musicManager, GuildMessageReceivedEvent event, boolean askForSkip) {
 		int TEMP_QUEUE_LENGHT = musicManager.getScheduler().getQueue().size();
 		musicManager.getScheduler().getQueue().clear();
