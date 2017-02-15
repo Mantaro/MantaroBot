@@ -133,7 +133,7 @@ public class QuoteCmd extends Module {
 						Message message = messageHistory.stream().filter(msg -> msg.getContent().contains(phrase) && !event.getMessage().getId().equals(msg.getId())).findFirst().orElse(null);
 
 						if (message == null) {
-							//TODO the 404 error
+							event.getChannel().sendMessage(":heavy_multiplication_x: We couldn't find any message matching the search criteria. Please try with a more specific phrase.").queue();
 							return;
 						}
 

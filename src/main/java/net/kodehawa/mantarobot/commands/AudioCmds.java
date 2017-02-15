@@ -65,7 +65,10 @@ public class AudioCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				try {
-					musicManager.getScheduler().getPlayer().setPaused(Boolean.parseBoolean(content));
+					boolean paused = Boolean.parseBoolean(content);
+					String toSend = paused ? ":mega: Player paused." : ":mega: Player unpaused.";
+					musicManager.getScheduler().getPlayer().setPaused(paused);
+					event.getChannel().sendMessage(toSend).queue();
 				} catch (Exception e) {
 					event.getChannel().sendMessage(":x " + "Error -> Not a boolean value").queue();
 				}

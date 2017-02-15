@@ -171,7 +171,11 @@ public class MantaroAudioManager {
 				event.getChannel().sendMessage("\u274C Timeout: No reply in 10 seconds").queue();
 			}
 		}).run();
-
 		//TODO Use DiscordUtils (@AdrianTodt)
+	}
+
+	public static int getTotalQueueSize() {
+		return musicManagers.values().stream().filter(musicManager -> !musicManager.getScheduler().getQueue().isEmpty()).
+				map(musicManager -> musicManager.getScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
 	}
 }

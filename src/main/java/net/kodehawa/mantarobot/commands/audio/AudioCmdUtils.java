@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.awt.Color;
 import java.util.concurrent.TimeUnit;
@@ -82,6 +83,8 @@ public class AudioCmdUtils {
 
 		if (!toSend.isEmpty()) {
 			builder.setDescription(toSend)
+				.addField("Currently playing", "``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
+						+ " (" + Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``", true)
 				.addField("Queue runtime", getDurationMinutes(length), true)
 				.addField("Total queue size", String.valueOf(musicManager.getScheduler().getQueue().size()), true);
 		} else {

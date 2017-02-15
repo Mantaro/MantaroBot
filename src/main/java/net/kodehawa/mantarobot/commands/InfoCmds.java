@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -83,12 +84,17 @@ public class InfoCmds extends Module {
 					double avgUOG = UOG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
 					double maxUOG = UOG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
 
-					List<Double> LUG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100).collect(Collectors.toList());
+					List<Double> LUG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+							voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() /
+							(double) value.getGuild().getMembers().size() * 100).collect(Collectors.toList());
 					double minLUG = LUG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
 					double avgLUG = LUG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
 					double maxLUG = LUG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
 
-					List<Double> LOG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100).collect(Collectors.toList());
+					List<Double> LOG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+							voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() /
+							(double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()
+							* 100).collect(Collectors.toList());
 					double minLOG = LOG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
 					double avgLOG = LOG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
 					double maxLOG = LOG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
@@ -101,7 +107,8 @@ public class InfoCmds extends Module {
 					double avgVG = guildToInt.apply(value -> value.getVoiceChannels().size()).average().orElse(0);
 					int maxVG = guildToInt.apply(value -> value.getVoiceChannels().size()).max().orElse(0);
 
-					int c = (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count();
+					int c = (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+							voiceChannel.getGuild().getSelfMember())).count();
 					double cG = (double) c / (double) event.getJDA().getGuilds().size() * 100;
 
 					event.getChannel().sendMessage(
@@ -118,6 +125,7 @@ public class InfoCmds extends Module {
 							.addField("Music Listeners per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", minLUG, avgLUG, maxLUG), true)
 							.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", minLOG, avgLOG, maxLOG), true)
 							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
+							.addField("Total queue size", Integer.toString(MantaroAudioManager.getTotalQueueSize()), true)
 							.build()
 					).queue();
 					return;
@@ -395,7 +403,7 @@ public class InfoCmds extends Module {
 	}
 
 	private void usageinfo() {
-		start(500);
+		start(1000);
 		super.register("usageinfo", new SimpleCommand() {
 			@Override
 			public CommandPermission permissionRequired() {
@@ -411,7 +419,7 @@ public class InfoCmds extends Module {
 					.addField("Threads:", getThreadCount() + " Threads", true)
 					.addField("Memory Usage:", getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
 					.addField("CPU Cores:", getAvailableProcessors() + " Cores", true)
-					.addField("CPU Usage:", getCpuUsage() + "%", true)
+					.addField("CPU Usage:", Math.round(getCpuUsage()) + "%", true)
 					.addField("Assigned Memory:", getTotalMemory() + "MB", true)
 					.addField("Remaining from assigned:", getFreeMemory() + "MB", true)
 					.build()
