@@ -10,26 +10,30 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.closeConnection;
+import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.getGuildAudioPlayer;
+
 public class Scheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
+	private GuildMessageReceivedEvent event;
 
-	public Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
-		GuildMessageReceivedEvent event1 = event;
+	Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
+		this.event = event;
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
 	}
 
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-		if (endReason.mayStartNext) {
+		if (endReason.mayStartNext && getGuildAudioPlayer(event).nextTrackAvailable()) {
 			nextTrack();
-			/*event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + getPlayer().getPlayingTrack().getInfo().title
-				+ " (" + Utils.getDurationMinutes(getPlayer().getPlayingTrack().getInfo().length) + ")``").queue(); //
-				TODO: java.lang.NullPointerException: null
-				at net.kodehawa.mantarobot.commands.audio.Scheduler.onTrackEnd(Scheduler.java:29) ~[main/:na]
-				at com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter.onEvent(AudioEventAdapter.java:70) ~[lavaplayer-1.1.47.jar:na]
-			*/
+		}
+
+		if(!getGuildAudioPlayer(event).nextTrackAvailable()){
+			MusicManager musicManager = getGuildAudioPlayer(event);
+			closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
+			event.getChannel().sendMessage(":mega: Finished playing queue, disconnecting.").queue();
 		}
 	}
 

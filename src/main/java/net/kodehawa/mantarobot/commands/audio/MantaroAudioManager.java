@@ -76,7 +76,6 @@ public class MantaroAudioManager {
 
 			@Override
 			public void playlistLoaded(AudioPlaylist playlist) {
-				int i = 0;
 				if (playlist.isSearchResult()) {
 					onSearchResult(event, playlist, musicManager);
 					return;

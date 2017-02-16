@@ -35,7 +35,7 @@ public class MusicManager {
 		return new AudioPlayerSendHandler(player);
 	}
 
-	private boolean nextTrackAvailable() {
+	public boolean nextTrackAvailable() {
 		return getScheduler().getQueueSize() > 0;
 	}
 
@@ -57,7 +57,6 @@ public class MusicManager {
 			event.getChannel().sendMessage("\uD83D\uDCE3 Skipped to next track -> **" + getScheduler().getPlayer().getPlayingTrack().getInfo().title + "**").queue();
 		} else {
 			event.getChannel().sendMessage("No tracks next. Disconnecting...").queue();
-			MantaroAudioManager.closeConnection(this, event.getGuild().getAudioManager(), event.getChannel());
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -28,6 +29,7 @@ public class AudioCmds extends Module {
 		shuffle();
 		skip();
 		stop();
+		volume();
 	}
 
 	private void np() {
@@ -229,6 +231,32 @@ public class AudioCmds extends Module {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
+			}
+		});
+	}
+
+	private void volume(){
+		super.register("volume", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				AudioPlayer player = getGuildAudioPlayer(event).getScheduler().getPlayer();
+				int volume;
+				try {
+					volume = Integer.parseInt(args[0]);
+				} catch (Exception e){
+					event.getChannel().sendMessage(":heavy_multiplication_x: Not a valid integer.").queue();
+					return;
+				}
+				player.setVolume(volume);
+				event.getChannel().sendMessage(String.format(":ok_hand: Volume set to %d", volume)).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Volume command")
+						.addField("Usage", "~>volume <number>", false)
+						.addField("Parameters", "number: Integer number from 1 to 99", false)
+						.build();
 			}
 		});
 	}

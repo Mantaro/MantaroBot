@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -87,6 +88,10 @@ public class AnimeCmds extends Module {
 						}
 					}).run();
 				} catch (Exception e) {
+					if(e instanceof JsonSyntaxException){
+						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
+						return;
+					}
 					event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
 			}
