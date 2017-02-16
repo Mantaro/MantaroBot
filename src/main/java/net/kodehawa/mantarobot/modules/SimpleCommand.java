@@ -8,8 +8,6 @@ import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 public abstract class SimpleCommand implements Command {
-
-
 	protected abstract void call(String[] args, String content, GuildMessageReceivedEvent event);
 
 	@Override

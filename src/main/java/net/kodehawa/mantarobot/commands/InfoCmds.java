@@ -403,7 +403,7 @@ public class InfoCmds extends Module {
 	}
 
 	private void usageinfo() {
-		start(1000);
+		start();
 		super.register("usageinfo", new SimpleCommand() {
 			@Override
 			public CommandPermission permissionRequired() {

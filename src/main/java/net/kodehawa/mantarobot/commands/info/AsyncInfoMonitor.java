@@ -67,7 +67,7 @@ public class AsyncInfoMonitor {
 		return totalMemory;
 	}
 
-	public static void start(int everyMs) {
+	public static void start() {
 		if (started) throw new IllegalStateException("Already Started.");
 		OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
 		ThreadMXBean thread = ManagementFactory.getThreadMXBean();
@@ -84,7 +84,7 @@ public class AsyncInfoMonitor {
 			maxMemory = Runtime.getRuntime().maxMemory() / mb;
 			totalMemory = Runtime.getRuntime().totalMemory() / mb;
 			cpuUsage = calculateCpuUsage(os);
-		}, everyMs);
+		}, 1);
 		started = true;
 	}
 }
