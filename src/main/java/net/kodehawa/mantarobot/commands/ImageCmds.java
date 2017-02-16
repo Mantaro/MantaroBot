@@ -56,8 +56,7 @@ public class ImageCmds extends Module {
 	private EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
 		String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
 		boolean trigger = (rating.equals("s") || (nsfwChannel == null)) ? rating.equals("s") : nsfwChannel.equals(event.getChannel().getId());
-		if (!trigger)
-			return new EmbedBuilder().setDescription("Not on NSFW channel. Cannot send lewd images.");
+		if (!trigger) return new EmbedBuilder().setDescription("Not on NSFW channel. Cannot send lewd images.");
 
 		String json = Utils.wget(url, event);
 		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);

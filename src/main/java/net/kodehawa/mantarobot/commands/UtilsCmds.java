@@ -130,7 +130,7 @@ public class UtilsCmds extends Module {
 						onHelp(event);
 					}
 				} catch (Exception e) {
-					//trans not found intensifies?
+					event.getChannel().sendMessage("Error while fetching results.").queue();
 					LOGGER.warn("Something went wrong while processing translation elements.", e);
 				}
 			}
@@ -269,6 +269,7 @@ public class UtilsCmds extends Module {
 						.setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
+					event.getChannel().sendMessage("Error while fetching results.").queue();
 					LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
@@ -318,8 +319,7 @@ public class UtilsCmds extends Module {
 						),
 						false
 					);
-				} catch (Exception ignored) {
-				}
+				} catch (Exception ignored) {}
 
 				event.getChannel().sendMessage(builder
 					.addField("Download Link", "[Click Here!](" + info.link + ")", false)

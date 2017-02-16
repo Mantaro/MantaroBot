@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.core.listeners;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
+import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
@@ -50,6 +52,7 @@ public class MantaroListener implements EventListener {
 			return;
 		}
 
+		//Log intensifies
 		if (event instanceof GuildMessageUpdateEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logEdit((GuildMessageUpdateEvent) event));
 			return;
@@ -72,6 +75,16 @@ public class MantaroListener implements EventListener {
 
 		if (event instanceof GuildBanEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logBan((GuildBanEvent) event));
+			return;
+		}
+
+		if(event instanceof GuildJoinEvent){
+			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onJoin((GuildJoinEvent) event));
+			return;
+		}
+
+		if(event instanceof GuildLeaveEvent){
+			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onLeave((GuildLeaveEvent) event));
 		}
 	}
 
@@ -95,8 +108,7 @@ public class MantaroListener implements EventListener {
 				Message deletedMessage = shortMessageHistory.get(event.getMessageId());
 				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
-					tc.sendMessage(":warning: `[" + hour + "]` " + deletedMessage.getAuthor().getName() + "#" + deletedMessage.getAuthor().getDiscriminator() + " *deleted*"
-						+ " a message in #" + event.getChannel().getName() + "\n" + "```diff\n-" + deletedMessage.getContent().replace("```", "") + "```").queue();
+					tc.sendMessage(String.format(":warning: `[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
 				}
 			}
 		} catch (Exception e) {
@@ -115,9 +127,7 @@ public class MantaroListener implements EventListener {
 				User author = event.getAuthor();
 				Message editedMessage = shortMessageHistory.get(event.getMessage().getId());
 				if (!editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
-					tc.sendMessage(":warning: `[" + hour + "]` " + author.getName() + "#" + author.getDiscriminator() + " *modified* a message in #" + event.getChannel().getName() + ".\n"
-						+ "```diff\n-" + editedMessage.getContent().replace("```", "") +
-						"\n+" + event.getMessage().getContent().replace("```", "") + "```").queue();
+					tc.sendMessage(String.format(":warning: `[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
 					shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
 				}
@@ -138,17 +148,29 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
+	private void onJoin(GuildJoinEvent event){
+		TextChannel tc = event.getGuild().getTextChannelById("266231083341840385");
+		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		logTotal++;
+	}
+
+	private void onLeave(GuildLeaveEvent event){
+		TextChannel tc = event.getGuild().getTextChannelById("266231083341840385");
+		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		logTotal++;
+	}
+
 	private void logUnban(GuildUnbanEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got unbanned.").queue();
+			tc.sendMessage(String.format(":warning: `[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
 			logTotal++;
 		}
 	}
 
-	//TODO Music timeout
+	//TODO Music timeout (@AdrianTodt)
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
 		Guild guild = event.getGuild();
@@ -168,8 +190,7 @@ public class MantaroListener implements EventListener {
 								success -> {
 									TextChannel tc = event.getGuild().getTextChannelById(
 										MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-									tc.sendMessage(":tada: **" + member.getEffectiveName() +
-										" is a year older now! Wish them a happy birthday.** :tada:").queue();
+									tc.sendMessage(String.format(":tada: **%s is a year older now! Wish them a happy birthday.** :tada:", member.getEffectiveName())).queue();
 								},
 								error -> {
 									if (error instanceof PermissionException) {
@@ -212,9 +233,7 @@ public class MantaroListener implements EventListener {
 		} catch (Exception e) {
 			//Shouldn't happen, but it happens *shrug*
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``", e.getClass().getSimpleName(), e.getMessage())).queue();
-			LOGGER.warn("Cannot process command: " + event.getMessage().getRawContent() +
-				". All we know is what's here and that the error is a ``"
-				+ e.getClass().getSimpleName() + "``", e);
+			LOGGER.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
 		}
 	}
 }
