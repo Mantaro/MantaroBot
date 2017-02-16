@@ -210,6 +210,7 @@ public class MantaroListener implements EventListener {
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
+			//Shouldn't happen, but it happens *shrug*
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``", e.getClass().getSimpleName(), e.getMessage())).queue();
 			LOGGER.warn("Cannot process command: " + event.getMessage().getRawContent() +
 				". All we know is what's here and that the error is a ``"
