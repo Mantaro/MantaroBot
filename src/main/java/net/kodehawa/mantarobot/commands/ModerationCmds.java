@@ -415,7 +415,7 @@ public class ModerationCmds extends Module {
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
 
-				if(!receivedMessage.isFromType(ChannelType.TEXT) && guild.getMember(author).hasPermission(Permission.MESSAGE_MANAGE)){
+				if(!receivedMessage.isFromType(ChannelType.TEXT) || guild.getMember(author).hasPermission(Permission.MESSAGE_MANAGE)){
 					channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
 					return;
 				}

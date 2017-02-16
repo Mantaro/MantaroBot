@@ -156,12 +156,16 @@ public class AudioCmds extends Module {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				int n = 0;
 				for (AudioTrack audioTrack : musicManager.getScheduler().getQueue()) {
-					if (n == Integer.parseInt(content) - 1) {
-						event.getChannel().sendMessage("Removed track: " + audioTrack.getInfo().title).queue();
-						musicManager.getScheduler().getQueue().remove(audioTrack);
-						break;
+					try{
+						if (n == Integer.parseInt(content) - 1) {
+							event.getChannel().sendMessage("Removed track: " + audioTrack.getInfo().title).queue();
+							musicManager.getScheduler().getQueue().remove(audioTrack);
+							break;
+						}
+						n++;
+					} catch (NumberFormatException ex){
+						event.getChannel().sendMessage(":heavy_multiplication_x: That's not a number.").queue();
 					}
-					n++;
 				}
 			}
 
