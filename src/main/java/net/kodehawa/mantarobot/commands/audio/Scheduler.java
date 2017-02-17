@@ -18,7 +18,6 @@ public class Scheduler extends AudioEventAdapter {
 	private final BlockingQueue<AudioTrack> queue;
 	private GuildMessageReceivedEvent event;
 	private boolean repeat = false;
-	private AudioTrack tempTrack;
 
 	Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
 		this.event = event;
@@ -38,7 +37,7 @@ public class Scheduler extends AudioEventAdapter {
 			return;
 		}
 
-		player.startTrack(tempTrack.makeClone(), false);
+		player.startTrack(track.makeClone(), false);
 	}
 
 	public AudioPlayer getPlayer() {
@@ -86,8 +85,7 @@ public class Scheduler extends AudioEventAdapter {
 		}
 	}
 
-	public void setRepeat(boolean r, AudioTrack t){
+	public void setRepeat(boolean r){
 		repeat = r;
-		tempTrack = t;
 	}
 }

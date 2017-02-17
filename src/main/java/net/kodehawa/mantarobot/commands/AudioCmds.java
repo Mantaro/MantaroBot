@@ -273,13 +273,11 @@ public class AudioCmds extends Module {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				try {
 					if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
-						boolean repeat = Boolean.parseBoolean(content);
+						boolean repeat;
+						if(content.equals("true") || content.equals("false")) repeat = Boolean.parseBoolean(content);
+						else throw new IllegalStateException();
 						String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
-						if(repeat){
-							musicManager.getScheduler().setRepeat(true, musicManager.getScheduler().getPlayer().getPlayingTrack());
-						} else{
-							musicManager.getScheduler().setRepeat(false, null);
-						}
+						musicManager.getScheduler().setRepeat(repeat);
 
 						event.getChannel().sendMessage(toSend).queue();
 						return;
@@ -296,7 +294,7 @@ public class AudioCmds extends Module {
 				return baseEmbed(event, "Repeat command")
 						.setDescription("Repeats a song.")
 						.addField("Usage", "~>repeat <true/false>", false)
-						.addField("Parameters", "<true/false> true if you want it to repeat, false otherwise", false)
+						.addField("Parameters", "<true/false> true if you want the player to repeat the current track, false otherwise", false)
 						.build();
 			}
 		});
