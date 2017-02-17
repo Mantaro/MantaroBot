@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.core.listeners;
 
+import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
+import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
@@ -25,8 +27,8 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public class MantaroListener implements EventListener {
-	public static int commandTotal = 0;
+public class MantaroListener implements EventListener, ConnectionListener {
+	private static int commandTotal = 0;
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	private static int logTotal = 0;
 	//For later usage in LogListener.
@@ -149,13 +151,13 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onJoin(GuildJoinEvent event){
-		TextChannel tc = event.getGuild().getTextChannelById("266231083341840385");
+		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
 		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}
 
 	private void onLeave(GuildLeaveEvent event){
-		TextChannel tc = event.getGuild().getTextChannelById("266231083341840385");
+		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
 		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}
@@ -171,6 +173,15 @@ public class MantaroListener implements EventListener {
 	}
 
 	//TODO Music timeout (@AdrianTodt)
+
+	//another thing pls
+	@Override
+	public void onStatusChange(ConnectionStatus connectionStatus) {
+
+	}
+
+	public void onPing(long l) {}
+	public void onUserSpeaking(User user, boolean b) {}
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
 		Guild guild = event.getGuild();
