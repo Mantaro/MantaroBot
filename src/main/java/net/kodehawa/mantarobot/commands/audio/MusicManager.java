@@ -59,4 +59,6 @@ public class MusicManager {
 			event.getChannel().sendMessage("No tracks next. Disconnecting...").queue();
 		}
 	}
+
+
 }

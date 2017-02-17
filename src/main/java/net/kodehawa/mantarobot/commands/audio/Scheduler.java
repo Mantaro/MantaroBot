@@ -17,6 +17,8 @@ public class Scheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
 	private GuildMessageReceivedEvent event;
+	private boolean repeat = false;
+	private AudioTrack tempTrack;
 
 	Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
 		this.event = event;
@@ -26,15 +28,17 @@ public class Scheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-		if (endReason.mayStartNext && getGuildAudioPlayer(event).nextTrackAvailable()) {
-			nextTrack();
+		if(!repeat) {
+			if (endReason.mayStartNext && getGuildAudioPlayer(event).nextTrackAvailable()) nextTrack();
+			if(!getGuildAudioPlayer(event).nextTrackAvailable()){
+				MusicManager musicManager = getGuildAudioPlayer(event);
+				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
+				event.getChannel().sendMessage(":mega: Finished playing queue, disconnecting.").queue();
+			}
+			return;
 		}
 
-		if(!getGuildAudioPlayer(event).nextTrackAvailable()){
-			MusicManager musicManager = getGuildAudioPlayer(event);
-			closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
-			event.getChannel().sendMessage(":mega: Finished playing queue, disconnecting.").queue();
-		}
+		player.startTrack(tempTrack.makeClone(), false);
 	}
 
 	public AudioPlayer getPlayer() {
@@ -80,5 +84,10 @@ public class Scheduler extends AudioEventAdapter {
 		if (!player.startTrack(track, true)) {
 			queue.offer(track);
 		}
+	}
+
+	public void setRepeat(boolean r, AudioTrack t){
+		repeat = r;
+		tempTrack = t;
 	}
 }

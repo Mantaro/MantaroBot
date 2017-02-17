@@ -30,6 +30,7 @@ public class AudioCmds extends Module {
 		skip();
 		stop();
 		volume();
+		repeat();
 	}
 
 	private void np() {
@@ -265,5 +266,39 @@ public class AudioCmds extends Module {
 		});
 	}
 
-	//TODO repeat command (@AdrianTodt)
+	private void repeat(){
+		super.register("repeat", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				MusicManager musicManager = getGuildAudioPlayer(event);
+				try {
+					if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
+						boolean repeat = Boolean.parseBoolean(content);
+						String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
+						if(repeat){
+							musicManager.getScheduler().setRepeat(true, musicManager.getScheduler().getPlayer().getPlayingTrack());
+						} else{
+							musicManager.getScheduler().setRepeat(false, null);
+						}
+
+						event.getChannel().sendMessage(toSend).queue();
+						return;
+					}
+
+					event.getChannel().sendMessage(":heavy_multiplication_x: Cannot repeat a non-existant track.").queue();
+				} catch (Exception e) {
+					event.getChannel().sendMessage(":heavy_multiplication_x: " + "Error -> Not a boolean value").queue();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Repeat command")
+						.setDescription("Repeats a song.")
+						.addField("Usage", "~>repeat <true/false>", false)
+						.addField("Parameters", "<true/false> true if you want it to repeat, false otherwise", false)
+						.build();
+			}
+		});
+	}
 }
