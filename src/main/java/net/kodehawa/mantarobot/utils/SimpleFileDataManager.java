@@ -47,7 +47,7 @@ public class SimpleFileDataManager implements Supplier<List<String>> {
 
 	public void update() {
 		try {
-			IOUtils.write(path, this.data.stream().collect(Collectors.joining()));
+			IOUtils.write(path, this.data.stream().collect(Collectors.joining("\n")));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
