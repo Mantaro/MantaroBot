@@ -284,7 +284,7 @@ public class AudioCmds extends Module {
 					}
 
 					event.getChannel().sendMessage(":heavy_multiplication_x: Cannot repeat a non-existant track.").queue();
-				} catch (Exception e) {
+				} catch (IllegalStateException e) {
 					event.getChannel().sendMessage(":heavy_multiplication_x: " + "Error -> Not a boolean value").queue();
 				}
 			}
@@ -295,6 +295,7 @@ public class AudioCmds extends Module {
 						.setDescription("Repeats a song.")
 						.addField("Usage", "~>repeat <true/false>", false)
 						.addField("Parameters", "<true/false> true if you want the player to repeat the current track, false otherwise", false)
+						.addField("Warning", "Might not work correctly, if the bot leaves the voice channel after disabling repeat, just add a song to the queue", true)
 						.build();
 			}
 		});

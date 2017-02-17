@@ -141,7 +141,7 @@ public class InfoCmds extends Module {
 						"Some of my features include:\n" +
 						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help action` for examples.\n" +
-						"\u2713 Extensive support!"
+						"\u2713 Extensive [support](https://discordapp.com/invite/cMTmuPa)!"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(

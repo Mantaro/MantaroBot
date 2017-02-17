@@ -45,13 +45,13 @@ public class AudioCmdUtils {
 		}
 
 		if (audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
-			event.getChannel().sendMessage("\u274C I'm already connected on channel **" + audioManager.getConnectedChannel().getName() + "**! (Use the `move` command to move me to another channel)").queue();
+			event.getChannel().sendMessage(String.format("\u274C I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
 			//TODO The ACTUAL ~>move command. (Do this TODO at AudioCmds.java)
 			return false;
 		}
 
 		if (audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
-			event.getChannel().sendMessage("\u274C I'm already trying to connect to channel **" + audioManager.getQueuedAudioConnection().getName() + "**! (Use the `move` command to move me to another channel)").queue();
+			event.getChannel().sendMessage(String.format("\u274C I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
 			//TODO The ACTUAL ~>move command. (Do this TODO at AudioCmds.java)
 			return false;
 		}

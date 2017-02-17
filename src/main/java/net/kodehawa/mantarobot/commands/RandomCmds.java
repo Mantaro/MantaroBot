@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.Category;
@@ -13,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 public class RandomCmds extends Module {
 
@@ -78,7 +80,8 @@ public class RandomCmds extends Module {
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage("Y-You lewdie!\r\nhttp://puu.sh/rzVEe/c8272e7c84.png").queue();
+				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+				event.getChannel().sendMessage(lood + " Y-You lewdie!\nhttp://puu.sh/rzVEe/c8272e7c84.png").queue();
 			}
 
 			@Override
