@@ -31,8 +31,8 @@ public class Scheduler extends AudioEventAdapter {
 			if (endReason.mayStartNext && getGuildAudioPlayer(event).nextTrackAvailable()) nextTrack();
 			if(!getGuildAudioPlayer(event).nextTrackAvailable()){
 				MusicManager musicManager = getGuildAudioPlayer(event);
+				event.getChannel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
-				event.getChannel().sendMessage(":mega: Finished playing queue, disconnecting.").queue();
 			}
 			return;
 		}

@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -11,6 +12,7 @@ import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 
+import javax.xml.soap.Text;
 import java.awt.Color;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -46,19 +48,16 @@ public class AudioCmdUtils {
 
 		if (audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
 			event.getChannel().sendMessage(String.format("\u274C I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
-			//TODO The ACTUAL ~>move command. (Do this TODO at AudioCmds.java)
 			return false;
 		}
 
 		if (audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
 			event.getChannel().sendMessage(String.format("\u274C I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
-			//TODO The ACTUAL ~>move command. (Do this TODO at AudioCmds.java)
 			return false;
 		}
 
 		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-			audioManager.openAudioConnection(userChannel);
-			event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
+			openAudioConnection(event, audioManager, userChannel);
 		}
 
 		return true;
@@ -104,5 +103,15 @@ public class AudioCmdUtils {
 
 	public static String getDurationMinutes(AudioTrack track) {
 		return getDurationMinutes(track.getInfo().length);
+	}
+
+	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel){
+		audioManager.openAudioConnection(userChannel);
+		event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
+	}
+
+	public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager){
+		audioManager.closeAudioConnection();
+		event.getChannel().sendMessage("\uD83D\uDCE3 Closed audio connection.").queue();
 	}
 }

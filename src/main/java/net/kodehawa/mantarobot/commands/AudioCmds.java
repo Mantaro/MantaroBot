@@ -3,7 +3,10 @@ package net.kodehawa.mantarobot.commands;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.commands.audio.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.audio.MusicManager;
 import net.kodehawa.mantarobot.modules.Category;
@@ -21,6 +24,7 @@ import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.*;
 public class AudioCmds extends Module {
 	public AudioCmds() {
 		super(Category.AUDIO);
+		//Audio intensifies.
 		np();
 		pause();
 		play();
@@ -31,6 +35,7 @@ public class AudioCmds extends Module {
 		stop();
 		volume();
 		repeat();
+		move();
 	}
 
 	private void np() {
@@ -38,8 +43,7 @@ public class AudioCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				event.getChannel().sendMessage("\uD83D\uDCE3 Now playing ->``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
-					+ " (" + Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``").queue();
+				event.getChannel().sendMessage(String.format("\uD83D\uDCE3 Now playing ->``%s (%s)``", musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length))).queue();
 			}
 
 			@Override
@@ -296,6 +300,33 @@ public class AudioCmds extends Module {
 						.addField("Usage", "~>repeat <true/false>", false)
 						.addField("Parameters", "<true/false> true if you want the player to repeat the current track, false otherwise", false)
 						.addField("Warning", "Might not work correctly, if the bot leaves the voice channel after disabling repeat, just add a song to the queue", true)
+						.build();
+			}
+		});
+	}
+
+	private void move(){
+		super.register("move", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
+				AudioManager am = event.getGuild().getAudioManager();
+				if(vc == null){
+					event.getChannel().sendMessage("Voice Channel not found.").queue();
+					return;
+				}
+
+				AudioCmdUtils.closeAudioConnection(event, am);
+				AudioCmdUtils.openAudioConnection(event, am, vc);
+				event.getChannel().sendMessage(":ok_hand: Moved bot to VC: ``" + vc.getName() + "``").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Move command")
+						.setDescription("Moves the bot from one VC to another")
+						.addField("Usage", "~>move <vc>", false)
+						.addField("Parameters", "vc: voice channel to move the bot to (exact name, caps doesn't matter).", false)
 						.build();
 			}
 		});

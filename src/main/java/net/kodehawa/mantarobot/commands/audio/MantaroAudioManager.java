@@ -15,6 +15,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Async;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.IntConsumer;
 
 import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.connectToVoiceChannel;
 import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.getDurationMinutes;
@@ -149,28 +151,8 @@ public class MantaroAudioManager {
 		}
 
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
-
-		FunctionListener functionListener = new FunctionListener(event.getChannel().getId(), (l, e) -> {
-			if (!e.getAuthor().equals(event.getAuthor())) return false;
-
-			try {
-				int choose = Integer.parseInt(e.getMessage().getContent());
-				if (choose < 1 || choose > 4) return false;
-				loadTrack(e, musicManager, playlist.getTracks().get(choose - 1), false);
-				return true;
-			} catch (Exception ignored) {
-			}
-			return false;
-		});
-
-		MantaroBot.getJDA().addEventListener(functionListener);
-		Async.asyncSleepThen(10000, () -> {
-			if (!functionListener.isDone()) {
-				MantaroBot.getJDA().removeEventListener(functionListener);
-				event.getChannel().sendMessage("\u274C Timeout: No reply in 10 seconds").queue();
-			}
-		}).run();
-		//TODO Use DiscordUtils (@AdrianTodt)
+		IntConsumer consumer = (c) -> loadTrack(event, musicManager, playlist.getTracks().get(c - 1), false);
+		DiscordUtils.selectInt(event, 4, consumer);
 	}
 
 	public static int getTotalQueueSize() {

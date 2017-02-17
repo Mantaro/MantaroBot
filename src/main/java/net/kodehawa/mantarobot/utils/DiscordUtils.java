@@ -41,8 +41,7 @@ public class DiscordUtils {
 				if (choose < 1 || choose >= max) return false;
 				valueConsumer.accept(choose);
 				return true;
-			} catch (Exception ignored) {
-			}
+			} catch (Exception ignored) {}
 			return false;
 		});
 
