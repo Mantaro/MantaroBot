@@ -42,6 +42,10 @@ public class AudioCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
+				if(musicManager.getScheduler().getPlayer().getPlayingTrack() == null){
+					event.getChannel().sendMessage("There is no track playing.").queue();
+					return;
+				}
 				event.getChannel().sendMessage(String.format("\uD83D\uDCE3 Now playing ->``%s (%s)``", musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length))).queue();
 			}
 
