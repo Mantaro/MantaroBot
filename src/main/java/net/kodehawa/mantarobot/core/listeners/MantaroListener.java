@@ -242,7 +242,11 @@ public class MantaroListener implements EventListener, ConnectionListener {
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
 			//Shouldn't happen, but it happens *shrug*
-			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``", e.getClass().getSimpleName(), e.getMessage())).queue();
+			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
+					+ "**You might want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
+							"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
+					, e.getClass().getSimpleName(), e.getMessage())).queue();
+
 			LOGGER.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
 		}
 	}

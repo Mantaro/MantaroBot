@@ -80,10 +80,16 @@ public class AudioCmdUtils {
 			.setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
 			.setColor(Color.CYAN);
 
+		//why would this happen is something it's out of my range, since it couldn't be null if there was objects on the queue and I think paused tracks count
+		String nowPlaying = musicManager.getScheduler().getPlayer().getPlayingTrack() != null ? "``"
+				+ musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
+				+ " (" + Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``" :
+				"Nothing or title/duration not found";
+
+
 		if (!toSend.isEmpty()) {
 			builder.setDescription(toSend)
-				.addField("Currently playing", "``" + musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
-						+ " (" + Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``", true)
+				.addField("Currently playing", nowPlaying, true)
 				.addField("Queue runtime", getDurationMinutes(length), true)
 				.addField("Total queue size", String.valueOf(musicManager.getScheduler().getQueue().size()), true);
 		} else {

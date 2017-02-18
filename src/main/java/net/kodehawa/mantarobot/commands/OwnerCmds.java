@@ -173,9 +173,10 @@ public class OwnerCmds extends Module {
 	}
 
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
+		MantaroData.getData().update();
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
-		System.gc();
 		event.getChannel().sendMessage("*goes to sleep*").queue();
+		MantaroBot.getJDA().shutdown();
 		System.exit(0);
 	}
 }

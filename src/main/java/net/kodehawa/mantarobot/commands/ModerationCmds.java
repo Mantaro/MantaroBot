@@ -269,20 +269,31 @@ public class ModerationCmds extends Module {
 							onHelp(event);
 							return;
 						}
+						try{
+							String channel = args[2];
+							String role = args[3];
 
-						String channel = args[2];
-						String role = args[3];
-
-						boolean isId = channel.matches("^[0-9]*$");
-						String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
-						String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
-						guildData.birthdayChannel = channelId;
-						guildData.birthdayRole = roleId;
-						MantaroData.getData().update();
-						event.getChannel().sendMessage(
-							String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-								channel, channelId, role, roleId)).queue();
-						return;
+							boolean isId = channel.matches("^[0-9]*$");
+							String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
+							String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
+							guildData.birthdayChannel = channelId;
+							guildData.birthdayRole = roleId;
+							MantaroData.getData().update();
+							event.getChannel().sendMessage(
+									String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
+											channel, channelId, role, roleId)).queue();
+							return;
+						} catch (Exception e){
+							if(e instanceof IndexOutOfBoundsException){
+								event.getChannel().sendMessage(":heavy_multiplication_x: Nothing found on channel or role.\n " +
+										"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
+										.queue();
+								return;
+							}
+							event.getChannel().sendMessage(":heavy_multiplication_x: Wrong command arguments.").queue();
+							onHelp(event);
+							return;
+						}
 					}
 
 					if (action.equals("disable")) {
@@ -300,7 +311,10 @@ public class ModerationCmds extends Module {
 				if (option.equals("music")) {
 					if (action.equals("limit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
-						if (!isNumber) return;
+						if (!isNumber){
+							event.getChannel().sendMessage("That's not a valid number.").queue();
+							return;
+						}
 						guildData.songDurationLimit = Integer.parseInt(args[2]);
 						MantaroData.getData().update();
 						event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
@@ -367,11 +381,16 @@ public class ModerationCmds extends Module {
 				}
 
 				if (option.equals("admincustom")) {
-					guildData.customCommandsAdminOnly = Boolean.parseBoolean(action);
-					MantaroData.getData().update();
-					String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
-					event.getChannel().sendMessage(toSend).queue();
-					return;
+					try{
+						guildData.customCommandsAdminOnly = Boolean.parseBoolean(action);
+						MantaroData.getData().update();
+						String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
+						event.getChannel().sendMessage(toSend).queue();
+						return;
+					} catch (Exception e){
+						event.getChannel().sendMessage("Not a boolean value.").queue();
+						return;
+					}
 				}
 
 				onHelp(event);
@@ -410,13 +429,11 @@ public class ModerationCmds extends Module {
 		super.register("prune", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				Guild guild = event.getGuild();
-				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
 
-				if(!receivedMessage.isFromType(ChannelType.TEXT) || !guild.getMember(author).hasPermission(Permission.MESSAGE_MANAGE)){
-					channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Possible errors: You have no Manage Messages permission or this was triggered outside of a guild.").queue();
+				if(!receivedMessage.isFromType(ChannelType.TEXT)){
+					channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Command was triggered outside of a guild.").queue();
 					return;
 				}
 
