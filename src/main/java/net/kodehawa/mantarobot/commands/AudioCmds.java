@@ -318,6 +318,7 @@ public class AudioCmds extends Module {
 					AudioCmdUtils.openAudioConnection(event, am, vc);
 					event.getChannel().sendMessage(":ok_hand: Moved bot to VC: ``" + vc.getName() + "``").queue();
 				} catch(IndexOutOfBoundsException e){
+					onHelp(event);
 					event.getChannel().sendMessage("Voice Channel not found or you didn't specify any voice channel.").queue();
 				}
 			}

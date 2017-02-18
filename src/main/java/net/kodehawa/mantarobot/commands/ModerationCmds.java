@@ -404,7 +404,7 @@ public class ModerationCmds extends Module {
 						"All values set here are local, that means, they only take effect on your server and not on other " +
 						"servers the bot might be on.", false)
 					.setDescription("Usage\n" +
-						"~>opts logs enable <channel> - Enables logs in the specified channel (use the name).\n" +
+						"~>opts logs enable <channel> - Enables logs to the specified channel (use the name).\n" +
 						"~>opts logs disable - Disables server-wide logs.\n" +
 						"~>opts prefix set <prefix> - Sets a custom prefix for your server.\n" +
 						"~>opts prefix clear - Resets your server custom prefix.\n" +
