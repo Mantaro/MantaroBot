@@ -310,16 +310,16 @@ public class AudioCmds extends Module {
 		super.register("move", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
-				AudioManager am = event.getGuild().getAudioManager();
-				if (vc == null) {
-					event.getChannel().sendMessage("Voice Channel not found.").queue();
-					return;
-				}
+				try{
+					VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
+					AudioManager am = event.getGuild().getAudioManager();
 
-				AudioCmdUtils.closeAudioConnection(event, am);
-				AudioCmdUtils.openAudioConnection(event, am, vc);
-				event.getChannel().sendMessage(":ok_hand: Moved bot to VC: ``" + vc.getName() + "``").queue();
+					AudioCmdUtils.closeAudioConnection(event, am);
+					AudioCmdUtils.openAudioConnection(event, am, vc);
+					event.getChannel().sendMessage(":ok_hand: Moved bot to VC: ``" + vc.getName() + "``").queue();
+				} catch(IndexOutOfBoundsException e){
+					event.getChannel().sendMessage("Voice Channel not found or you didn't specify any voice channel.").queue();
+				}
 			}
 
 			@Override
