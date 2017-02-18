@@ -158,7 +158,6 @@ public class Gif {
 		}
 	}
 
-
 	public class Meta {
 		public Integer status = null;
 		public String msg = null;
@@ -172,7 +171,7 @@ public class Gif {
 		}
 	}
 
-	public class Pagination{
+	public class Pagination {
 		public Integer count = null;
 		public Integer offset = null;
 

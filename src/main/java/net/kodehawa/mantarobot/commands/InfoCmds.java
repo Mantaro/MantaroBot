@@ -85,16 +85,16 @@ public class InfoCmds extends Module {
 					double maxUOG = UOG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
 
 					List<Double> LUG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-							voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() /
-							(double) value.getGuild().getMembers().size() * 100).collect(Collectors.toList());
+						voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() /
+						(double) value.getGuild().getMembers().size() * 100).collect(Collectors.toList());
 					double minLUG = LUG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
 					double avgLUG = LUG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
 					double maxLUG = LUG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
 
 					List<Double> LOG = event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-							voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() /
-							(double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()
-							* 100).collect(Collectors.toList());
+						voiceChannel.getGuild().getSelfMember())).map(value -> (double) value.getMembers().size() /
+						(double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()
+						* 100).collect(Collectors.toList());
 					double minLOG = LOG.stream().mapToDouble(Double::doubleValue).min().orElse(0);
 					double avgLOG = LOG.stream().mapToDouble(Double::doubleValue).average().orElse(0);
 					double maxLOG = LOG.stream().mapToDouble(Double::doubleValue).max().orElse(0);
@@ -108,7 +108,7 @@ public class InfoCmds extends Module {
 					int maxVG = guildToInt.apply(value -> value.getVoiceChannels().size()).max().orElse(0);
 
 					int c = (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-							voiceChannel.getGuild().getSelfMember())).count();
+						voiceChannel.getGuild().getSelfMember())).count();
 					double cG = (double) c / (double) event.getJDA().getGuilds().size() * 100;
 
 					event.getChannel().sendMessage(

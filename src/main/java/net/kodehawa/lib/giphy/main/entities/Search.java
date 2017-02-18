@@ -171,7 +171,7 @@ public class Search {
 		}
 	}
 
-	public class Pagination{
+	public class Pagination {
 		public Integer count = null;
 		public Integer offset = null;
 

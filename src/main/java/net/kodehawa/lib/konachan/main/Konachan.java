@@ -90,7 +90,7 @@ public class Konachan {
 		}
 		Wallpaper[] wallpapers = GsonDataManager.GSON.fromJson(response, Wallpaper[].class);
 		return isSafeForWork() ? Arrays.stream(wallpapers).filter((wallpaper1) ->
-				wallpaper1.getRating().equalsIgnoreCase("s")).collect(Collectors.toList()) : Arrays.asList(wallpapers);
+			wallpaper1.getRating().equalsIgnoreCase("s")).collect(Collectors.toList()) : Arrays.asList(wallpapers);
 	}
 
 	private String saveWallpaper(String filename, String folderPath, String imageURL) throws IOException {

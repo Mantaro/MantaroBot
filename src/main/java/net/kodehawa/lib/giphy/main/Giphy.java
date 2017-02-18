@@ -20,18 +20,18 @@ public class Giphy {
 	private String GIPHY_URL = "http://api.giphy.com/v1/gifs/";
 	private String PUBLIC_API_KEY = "dc6zaTOxFJmzC";
 
-	public void trending(GuildMessageReceivedEvent event, final SearchProvider provider){
-		Async.asyncThread("Gif lookup", () ->{
+	public void trending(GuildMessageReceivedEvent event, final SearchProvider provider) {
+		Async.asyncThread("Gif lookup", () -> {
 			if (provider == null) throw new IllegalStateException("Provider is null"); //shouldn't happen anyway
 			query.put("api_key", PUBLIC_API_KEY);
-			String json = Utils.wget(GIPHY_URL + "trending?" + Utils.urlEncodeUTF8(query) , event);
+			String json = Utils.wget(GIPHY_URL + "trending?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
 			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Search.class));
 		}).run();
 	}
 
 	public void search(GuildMessageReceivedEvent event, final String query, @Nullable final String limit, @Nullable final String offset,
-					  	@Nullable final String rating, final SearchProvider provider){
+					   @Nullable final String rating, final SearchProvider provider) {
 		Async.asyncThread("Gif lookup", () -> {
 			if (provider == null) throw new IllegalStateException("Provider is null");
 			this.query.put("q", query);
@@ -39,30 +39,30 @@ public class Giphy {
 			Optional.ofNullable(offset).ifPresent(r -> this.query.put("offset", offset));
 			Optional.ofNullable(rating).ifPresent(r -> this.query.put("rating", rating));
 			this.query.put("api_key", PUBLIC_API_KEY);
-			String json = Utils.wget(GIPHY_URL + "search?" + Utils.urlEncodeUTF8(this.query) , event);
+			String json = Utils.wget(GIPHY_URL + "search?" + Utils.urlEncodeUTF8(this.query), event);
 			this.query.clear();
 			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Search.class));
 		}).run();
 	}
 
-	public void random(final String tags, GuildMessageReceivedEvent event, final RandomProvider provider){
+	public void random(final String tags, GuildMessageReceivedEvent event, final RandomProvider provider) {
 		Async.asyncThread("Gif lookup", () -> {
 			if (provider == null) throw new IllegalStateException("Provider is null");
 			query.put("api_key", PUBLIC_API_KEY);
 			Optional.ofNullable(tags).ifPresent(r -> query.put("tag", tags));
-			String json = Utils.wget(GIPHY_URL + "random?" + Utils.urlEncodeUTF8(query) , event);
+			String json = Utils.wget(GIPHY_URL + "random?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
 			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Random.class));
 		}).run();
 	}
 
-	public void translate(final String term, @Nullable final String rating, GuildMessageReceivedEvent event, final Provider provider){
+	public void translate(final String term, @Nullable final String rating, GuildMessageReceivedEvent event, final Provider provider) {
 		Async.asyncThread("Gif lookup", () -> {
 			if (provider == null) throw new IllegalStateException("Provider is null");
 			query.put("s", term);
 			Optional.ofNullable(rating).ifPresent(r -> query.put("rating", r));
 			query.put("api_key", PUBLIC_API_KEY);
-			String json = Utils.wget(GIPHY_URL + "translate?" + Utils.urlEncodeUTF8(query) , event);
+			String json = Utils.wget(GIPHY_URL + "translate?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
 			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Gif.class));
 		}).run();

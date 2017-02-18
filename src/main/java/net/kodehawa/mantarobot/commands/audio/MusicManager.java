@@ -19,7 +19,7 @@ public class MusicManager {
 	 * Creates a player and a track scheduler.
 	 *
 	 * @param manager Audio player manager to use for creating the player.
-	 * @param event Guild event
+	 * @param event   Guild event
 	 */
 	public MusicManager(AudioPlayerManager manager, GuildMessageReceivedEvent event) {
 		player = manager.createPlayer();
@@ -59,6 +59,5 @@ public class MusicManager {
 			event.getChannel().sendMessage("No tracks next. Disconnecting...").queue();
 		}
 	}
-
 
 }

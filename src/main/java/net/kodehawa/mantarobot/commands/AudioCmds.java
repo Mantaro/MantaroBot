@@ -160,14 +160,14 @@ public class AudioCmds extends Module {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				int n = 0;
 				for (AudioTrack audioTrack : musicManager.getScheduler().getQueue()) {
-					try{
+					try {
 						if (n == Integer.parseInt(content) - 1) {
 							event.getChannel().sendMessage("Removed track: " + audioTrack.getInfo().title).queue();
 							musicManager.getScheduler().getQueue().remove(audioTrack);
 							break;
 						}
 						n++;
-					} catch (NumberFormatException ex){
+					} catch (NumberFormatException ex) {
 						event.getChannel().sendMessage(":heavy_multiplication_x: That's not a number.").queue();
 					}
 				}
@@ -232,7 +232,8 @@ public class AudioCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null) musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
+				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null)
+					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				clearQueue(musicManager, event, false);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
 			}
@@ -244,7 +245,7 @@ public class AudioCmds extends Module {
 		});
 	}
 
-	private void volume(){
+	private void volume() {
 		super.register("volume", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -252,7 +253,7 @@ public class AudioCmds extends Module {
 				int volume;
 				try {
 					volume = Integer.parseInt(args[0]);
-				} catch (Exception e){
+				} catch (Exception e) {
 					event.getChannel().sendMessage(":heavy_multiplication_x: Not a valid integer.").queue();
 					return;
 				}
@@ -263,22 +264,22 @@ public class AudioCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Volume command")
-						.addField("Usage", "~>volume <number>", false)
-						.addField("Parameters", "number: Integer number from 1 to 99", false)
-						.build();
+					.addField("Usage", "~>volume <number>", false)
+					.addField("Parameters", "number: Integer number from 1 to 99", false)
+					.build();
 			}
 		});
 	}
 
-	private void repeat(){
+	private void repeat() {
 		super.register("repeat", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				try {
-					if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
+					if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null) {
 						boolean repeat;
-						if(content.equals("true") || content.equals("false")) repeat = Boolean.parseBoolean(content);
+						if (content.equals("true") || content.equals("false")) repeat = Boolean.parseBoolean(content);
 						else throw new IllegalStateException();
 						String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
 						musicManager.getScheduler().setRepeat(repeat);
@@ -296,22 +297,22 @@ public class AudioCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Repeat command")
-						.setDescription("Repeats a song.")
-						.addField("Usage", "~>repeat <true/false>", false)
-						.addField("Parameters", "<true/false> true if you want the player to repeat the current track, false otherwise", false)
-						.addField("Warning", "Might not work correctly, if the bot leaves the voice channel after disabling repeat, just add a song to the queue", true)
-						.build();
+					.setDescription("Repeats a song.")
+					.addField("Usage", "~>repeat <true/false>", false)
+					.addField("Parameters", "<true/false> true if you want the player to repeat the current track, false otherwise", false)
+					.addField("Warning", "Might not work correctly, if the bot leaves the voice channel after disabling repeat, just add a song to the queue", true)
+					.build();
 			}
 		});
 	}
 
-	private void move(){
+	private void move() {
 		super.register("move", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
 				AudioManager am = event.getGuild().getAudioManager();
-				if(vc == null){
+				if (vc == null) {
 					event.getChannel().sendMessage("Voice Channel not found.").queue();
 					return;
 				}
@@ -324,10 +325,10 @@ public class AudioCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Move command")
-						.setDescription("Moves the bot from one VC to another")
-						.addField("Usage", "~>move <vc>", false)
-						.addField("Parameters", "vc: voice channel to move the bot to (exact name, caps doesn't matter).", false)
-						.build();
+					.setDescription("Moves the bot from one VC to another")
+					.addField("Usage", "~>move <vc>", false)
+					.addField("Parameters", "vc: voice channel to move the bot to (exact name, caps doesn't matter).", false)
+					.build();
 			}
 		});
 	}

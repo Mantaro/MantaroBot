@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
+
 	/**
 	 * Capitalizes the first letter of a string.
 	 *
@@ -149,8 +150,8 @@ public class Utils {
 				sb.append("&");
 			}
 			sb.append(String.format("%s=%s",
-					urlEncodeUTF8(entry.getKey().toString()),
-					urlEncodeUTF8(entry.getValue().toString())
+				urlEncodeUTF8(entry.getKey().toString()),
+				urlEncodeUTF8(entry.getValue().toString())
 			));
 		}
 		return sb.toString();

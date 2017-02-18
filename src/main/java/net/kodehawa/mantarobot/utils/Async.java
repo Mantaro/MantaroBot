@@ -42,8 +42,8 @@ public class Async {
 	/**
 	 * Start an Async single thread task every x seconds. Replacement for Timer.
 	 *
-	 * @param task The name of the task to run
-	 * @param scheduled The runnable.
+	 * @param task         The name of the task to run
+	 * @param scheduled    The runnable.
 	 * @param everySeconds the amount of seconds the task will take to loop.
 	 */
 	public static void startAsyncTask(String task, Runnable scheduled, int everySeconds) {

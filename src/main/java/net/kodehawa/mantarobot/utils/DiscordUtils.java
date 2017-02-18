@@ -13,17 +13,17 @@ import java.util.function.Function;
 import java.util.function.IntConsumer;
 
 public class DiscordUtils {
-	public static <T> void selectList(GuildMessageReceivedEvent event, List<T> list, Function<T,String> toString, Function<String,MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+	public static <T> void selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
 		Pair<String, Integer> r = embedList(list, toString);
 		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 		selectInt(event, r.getRight(), i -> valueConsumer.accept(list.get(i)));
 	}
 
-	public static <T> Pair<String,Integer> embedList(List<T> list, Function<T, String> toString) {
+	public static <T> Pair<String, Integer> embedList(List<T> list, Function<T, String> toString) {
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < list.size(); i++) {
 			String s = toString.apply(list.get(i));
-			if (b.length() + s.length() + 5 > EmbedBuilder.TEXT_MAX_LENGTH) return Pair.of(b.toString(),i);
+			if (b.length() + s.length() + 5 > EmbedBuilder.TEXT_MAX_LENGTH) return Pair.of(b.toString(), i);
 			b.append('[').append(i + 1).append("] ");
 			b.append(s);
 			b.append("\n");
@@ -41,7 +41,8 @@ public class DiscordUtils {
 				if (choose < 1 || choose >= max) return false;
 				valueConsumer.accept(choose);
 				return true;
-			} catch (Exception ignored) {}
+			} catch (Exception ignored) {
+			}
 			return false;
 		});
 

@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot;
 
 import com.mashape.unirest.http.Unirest;
-import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;

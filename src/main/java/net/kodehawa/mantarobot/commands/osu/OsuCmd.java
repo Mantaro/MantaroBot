@@ -92,7 +92,8 @@ public class OsuCmd extends Module {
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException) sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
+								if (e instanceof TimeoutException)
+									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
@@ -103,7 +104,8 @@ public class OsuCmd extends Module {
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException) sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
+								if (e instanceof TimeoutException)
+									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});

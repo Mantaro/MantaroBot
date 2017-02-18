@@ -16,7 +16,8 @@ public class Module {
 		this.category = category;
 	}
 
-	public void onPostLoad() {}
+	public void onPostLoad() {
+	}
 
 	public void register(String name, Command command) {
 		Manager.commands.put(name, Pair.of(command, category));

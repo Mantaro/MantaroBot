@@ -27,12 +27,12 @@ public class Scheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-		if(!repeat) {
-			if (endReason.mayStartNext){
+		if (!repeat) {
+			if (endReason.mayStartNext) {
 				nextTrack();
 			}
 
-			if(player.getPlayingTrack() == null){
+			if (player.getPlayingTrack() == null) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
 				event.getChannel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
@@ -90,7 +90,7 @@ public class Scheduler extends AudioEventAdapter {
 		}
 	}
 
-	public void setRepeat(boolean r){
+	public void setRepeat(boolean r) {
 		repeat = r;
 	}
 }

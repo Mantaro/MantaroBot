@@ -38,8 +38,12 @@ public class RandomCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				int roll;
-				try{ roll = Integer.parseInt(args[0]); } catch(Exception e){ roll = 1; }
-				if(roll >= 100) roll = 100;
+				try {
+					roll = Integer.parseInt(args[0]);
+				} catch (Exception e) {
+					roll = 1;
+				}
+				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
 			}

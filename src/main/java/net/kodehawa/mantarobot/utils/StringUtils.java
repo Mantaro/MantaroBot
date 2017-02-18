@@ -80,7 +80,8 @@ public class StringUtils {
 		String[] normalized = new String[expectedSize];
 
 		Arrays.fill(normalized, "");
-		for (int i = 0; i < normalized.length; i++) if (i < raw.length && raw[i] != null && !raw[i].isEmpty()) normalized[i] = raw[i];
+		for (int i = 0; i < normalized.length; i++)
+			if (i < raw.length && raw[i] != null && !raw[i].isEmpty()) normalized[i] = raw[i];
 		return normalized;
 	}
 

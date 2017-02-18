@@ -80,12 +80,12 @@ public class MantaroListener implements EventListener, ConnectionListener {
 			return;
 		}
 
-		if(event instanceof GuildJoinEvent){
+		if (event instanceof GuildJoinEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onJoin((GuildJoinEvent) event));
 			return;
 		}
 
-		if(event instanceof GuildLeaveEvent){
+		if (event instanceof GuildLeaveEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onLeave((GuildLeaveEvent) event));
 		}
 	}
@@ -150,13 +150,13 @@ public class MantaroListener implements EventListener, ConnectionListener {
 		}
 	}
 
-	private void onJoin(GuildJoinEvent event){
+	private void onJoin(GuildJoinEvent event) {
 		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
 		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}
 
-	private void onLeave(GuildLeaveEvent event){
+	private void onLeave(GuildLeaveEvent event) {
 		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
 		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
@@ -180,8 +180,11 @@ public class MantaroListener implements EventListener, ConnectionListener {
 
 	}
 
-	public void onPing(long l) {}
-	public void onUserSpeaking(User user, boolean b) {}
+	public void onPing(long l) {
+	}
+
+	public void onUserSpeaking(User user, boolean b) {
+	}
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
 		Guild guild = event.getGuild();
@@ -221,7 +224,8 @@ public class MantaroListener implements EventListener, ConnectionListener {
 					} else {
 						Member memberToRemove = event.getGuild().getMember(event.getAuthor());
 						Role birthdayRole1 = guild.getRoleById(MantaroData.getData().get().getGuild(guild, false).birthdayRole);
-						if (memberToRemove.getRoles().contains(birthdayRole1)) guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
+						if (memberToRemove.getRoles().contains(birthdayRole1))
+							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
 					}
 				} catch (Exception e) {
 					LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
@@ -244,8 +248,8 @@ public class MantaroListener implements EventListener, ConnectionListener {
 			//Shouldn't happen, but it happens *shrug*
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
 					+ "**You might want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
-							"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
-					, e.getClass().getSimpleName(), e.getMessage())).queue();
+					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
+				, e.getClass().getSimpleName(), e.getMessage())).queue();
 
 			LOGGER.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
 		}

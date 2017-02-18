@@ -107,11 +107,12 @@ public class UtilsCmds extends Module {
 
 						try {
 							textEncoded = URLEncoder.encode(textToEncode, "UTF-8");
-						} catch (UnsupportedEncodingException ignored) {}
+						} catch (UnsupportedEncodingException ignored) {
+						}
 
 						String translatorUrl = String.format("https://translate.google.com/translate_a/" +
-								"single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
-								"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
+							"single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
+							"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang, textEncoded);
 
 						try {
 							resty.identifyAsMozilla();
@@ -319,7 +320,8 @@ public class UtilsCmds extends Module {
 						),
 						false
 					);
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+				}
 
 				event.getChannel().sendMessage(builder
 					.addField("Download Link", "[Click Here!](" + info.link + ")", false)

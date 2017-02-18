@@ -11,12 +11,9 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.Utils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +45,11 @@ public class MiscCmds extends Module {
 				try {
 					textEncoded = URLEncoder.encode(content, "UTF-8");
 					answer = Unirest.get(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded))
-							.asJson()
-							.getBody()
-							.getObject()
-							.getJSONObject("magic")
-							.getString("answer");
+						.asJson()
+						.getBody()
+						.getObject()
+						.getJSONObject("magic")
+						.getString("answer");
 				} catch (Exception exception) {
 					event.getChannel().sendMessage("Error while fetching results. My owners have been notified.").queue();
 					LOGGER.warn("Error while processing answer <@155867458203287552>", exception);
@@ -193,6 +190,5 @@ public class MiscCmds extends Module {
 			}
 		});
 	}
-
 
 }

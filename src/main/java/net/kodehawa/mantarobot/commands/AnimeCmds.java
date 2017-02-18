@@ -4,14 +4,10 @@ import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.AnimeData;
 import net.kodehawa.mantarobot.commands.utils.CharacterData;
-import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -27,7 +23,6 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URLEncoder;
-import java.util.concurrent.Future;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
@@ -59,7 +54,7 @@ public class AnimeCmds extends Module {
 					String json = Utils.wget(connection, event);
 					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
 
-					if(type.length == 1){
+					if (type.length == 1) {
 						animeData(event, type, 0);
 						return;
 					}
@@ -68,7 +63,8 @@ public class AnimeCmds extends Module {
 					StringBuilder b = new StringBuilder();
 					for (int i = 0; i < 4 && i < type.length; i++) {
 						AnimeData animeData = type[i];
-						if (animeData != null) b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
+						if (animeData != null)
+							b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
 					}
 
 					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
@@ -80,7 +76,7 @@ public class AnimeCmds extends Module {
 
 					DiscordUtils.selectInt(event, type.length, animeSelector);
 				} catch (Exception e) {
-					if(e instanceof JsonSyntaxException){
+					if (e instanceof JsonSyntaxException) {
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
 						return;
 					}
@@ -98,12 +94,12 @@ public class AnimeCmds extends Module {
 						+ "animename: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n")
 					.setColor(Color.PINK)
 					.build();
-			}			@Override
+			}
+
+			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
 			}
-
-
 
 		});
 	}
@@ -167,7 +163,7 @@ public class AnimeCmds extends Module {
 					String json = Utils.wget(url, event);
 					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
 
-					if(character.length == 1){
+					if (character.length == 1) {
 						characterData(event, character, 0);
 						return;
 					}
@@ -189,7 +185,7 @@ public class AnimeCmds extends Module {
 					};
 					DiscordUtils.selectInt(event, character.length, characterSelector);
 				} catch (Exception e) {
-					if(e instanceof JsonSyntaxException){
+					if (e instanceof JsonSyntaxException) {
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
 						return;
 					}

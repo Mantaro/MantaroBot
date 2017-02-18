@@ -40,9 +40,9 @@ public class CommandStatsManager {
 			.sorted(Comparator.comparingInt(entry -> total - entry.getValue().get()))
 			.limit(12)
 			.forEachOrdered(entry -> {
-			int percent = entry.getValue().get() * 100 / total;
-			builder.addField(entry.getKey(), String.format("%s %d%%", bar(percent, 15), percent), true);
-		});
+				int percent = entry.getValue().get() * 100 / total;
+				builder.addField(entry.getKey(), String.format("%s %d%%", bar(percent, 15), percent), true);
+			});
 
 		return builder;
 	}

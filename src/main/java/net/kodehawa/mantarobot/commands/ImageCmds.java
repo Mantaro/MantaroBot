@@ -1,11 +1,11 @@
 package net.kodehawa.mantarobot.commands;
 
-import net.kodehawa.lib.konachan.main.entities.Wallpaper;
-import net.kodehawa.lib.konachan.main.Konachan;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.lib.konachan.main.Konachan;
+import net.kodehawa.lib.konachan.main.entities.Wallpaper;
 import net.kodehawa.mantarobot.commands.utils.ImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -67,8 +67,9 @@ public class ImageCmds extends Module {
 				Integer.parseInt(messageArray[2]) : new Random().nextInt(filter.size());
 		} catch (IndexOutOfBoundsException e) {
 			get = new Random().nextInt(filter.size());
-		} catch (IllegalArgumentException e){
-			if(e.getMessage().equals("bound must be positive")) return new EmbedBuilder().setDescription("No results found.");
+		} catch (IllegalArgumentException e) {
+			if (e.getMessage().equals("bound must be positive"))
+				return new EmbedBuilder().setDescription("No results found.");
 			else return new EmbedBuilder().setDescription("Query not valid.");
 		}
 
@@ -122,7 +123,11 @@ public class ImageCmds extends Module {
 						int number;
 
 						List<Wallpaper> wallpapers = konachan.posts(page, 60);
-						try { number = Integer.parseInt(wholeBeheaded[1]); } catch (Exception e) { number = new Random().nextInt(wallpapers.size() - 1); }
+						try {
+							number = Integer.parseInt(wholeBeheaded[1]);
+						} catch (Exception e) {
+							number = new Random().nextInt(wallpapers.size() - 1);
+						}
 						String URL = wallpapers.get(number - 1).getJpeg_url();
 						String AUTHOR = wallpapers.get(number - 1).getAuthor();
 						String TAGS = wallpapers.get(number - 1).getTags().stream().collect(Collectors.joining(", "));
@@ -141,7 +146,8 @@ public class ImageCmds extends Module {
 
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception exception) {
-							if(exception instanceof IndexOutOfBoundsException) channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
+							if (exception instanceof IndexOutOfBoundsException)
+								channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
 
@@ -153,7 +159,11 @@ public class ImageCmds extends Module {
 						String tags = whole2[1];
 
 						konachan.onSearch(page1, 60, tags, (wallpapers1, tags1) -> {
-							try { number1 = Integer.parseInt(whole2[2]); } catch (Exception e) { number1 = new Random().nextInt(wallpapers1.size() > 0 ? wallpapers1.size() - 1 : wallpapers1.size()); }
+							try {
+								number1 = Integer.parseInt(whole2[2]);
+							} catch (Exception e) {
+								number1 = new Random().nextInt(wallpapers1.size() > 0 ? wallpapers1.size() - 1 : wallpapers1.size());
+							}
 							String URL1 = wallpapers1.get(number1 - 1).getJpeg_url();
 							String AUTHOR1 = wallpapers1.get(number1 - 1).getAuthor();
 							String TAGS1 = wallpapers1.get(number1 - 1).getTags().stream().collect(Collectors.joining(", "));
@@ -172,7 +182,8 @@ public class ImageCmds extends Module {
 
 								channel.sendMessage(builder.build()).queue();
 							} catch (Exception exception) {
-								if(exception instanceof IndexOutOfBoundsException) channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
+								if (exception instanceof IndexOutOfBoundsException)
+									channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
 							}
 						});
 						break;
