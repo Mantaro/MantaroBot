@@ -16,7 +16,8 @@ public enum OsuMod {
 	NIGHTCORE(Mod.NIGHTCORE, "NC"),
 	RELAX(Mod.RELAX, "RX"),
 	SPUN_OUT(Mod.SPUN_OUT, "SO"),
-	SUDDEN_DEATH(Mod.SUDDEN_DEATH, "SD");
+	SUDDEN_DEATH(Mod.SUDDEN_DEATH, "SD"),
+	PERFECT(Mod.PERFECT, "PF");
 
 	public static OsuMod get(Mod mod) {
 		return Arrays.stream(values())

@@ -221,8 +221,7 @@ public class MantaroListener implements EventListener, ConnectionListener {
 					} else {
 						Member memberToRemove = event.getGuild().getMember(event.getAuthor());
 						Role birthdayRole1 = guild.getRoleById(MantaroData.getData().get().getGuild(guild, false).birthdayRole);
-						if (memberToRemove.getRoles().contains(birthdayRole1))
-							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
+						if (memberToRemove.getRoles().contains(birthdayRole1)) guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
 					}
 				} catch (Exception e) {
 					LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
