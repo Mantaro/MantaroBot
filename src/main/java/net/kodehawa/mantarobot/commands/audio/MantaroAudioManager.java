@@ -8,6 +8,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -53,17 +54,30 @@ public class MantaroAudioManager {
 		channel.sendMessage("\uD83D\uDCE3 Closed audio connection.").queue();
 	}
 
-	public static MusicManager getGuildAudioPlayer(GuildMessageReceivedEvent event) {
-		return musicManagers.computeIfAbsent(event.getGuild().getId(), k -> {
-			MusicManager manager = new MusicManager(playerManager, event);
-			event.getGuild().getAudioManager().setSendingHandler(manager.getSendHandler());
+	public static MusicManager getGuildAudioPlayer(Guild guild) {
+		return getGuildAudioPlayer(guild, guild.getPublicChannel());
+	}
+
+	public static MusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
+		return musicManagers.computeIfAbsent(guild.getId(), k -> {
+			MusicManager manager = new MusicManager(playerManager, channel);
+			guild.getAudioManager().setSendingHandler(manager.getSendHandler());
 			return manager;
 		});
 	}
 
+	public static Map<String, MusicManager> getMusicManagers() {
+		return musicManagers;
+	}
+
+	public static int getTotalQueueSize() {
+		return musicManagers.values().stream().filter(musicManager -> !musicManager.getScheduler().getQueue().isEmpty()).
+			map(musicManager -> musicManager.getScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
+	}
+
 	public static void loadAndPlay(final GuildMessageReceivedEvent event, final String trackUrl) {
 		TextChannel channel = event.getChannel();
-		MusicManager musicManager = getGuildAudioPlayer(event);
+		MusicManager musicManager = getGuildAudioPlayer(event.getGuild(), channel);
 
 		if (!connectToVoiceChannel(event)) return;
 
@@ -150,10 +164,5 @@ public class MantaroAudioManager {
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 		IntConsumer consumer = (c) -> loadTrack(event, musicManager, playlist.getTracks().get(c - 1), false);
 		DiscordUtils.selectInt(event, 4, consumer);
-	}
-
-	public static int getTotalQueueSize() {
-		return musicManagers.values().stream().filter(musicManager -> !musicManager.getScheduler().getQueue().isEmpty()).
-			map(musicManager -> musicManager.getScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
 	}
 }

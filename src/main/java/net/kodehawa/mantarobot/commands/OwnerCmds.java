@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -25,6 +26,7 @@ public class OwnerCmds extends Module {
 		super(Category.OWNER);
 		add();
 		eval();
+		notifymusic();
 		shutdown();
 	}
 
@@ -167,6 +169,28 @@ public class OwnerCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Shutdown")
 					.setDescription("Shutdowns the bot.")
+					.build();
+			}
+		});
+	}
+
+	private void notifymusic() {
+		super.register("notifymusic", new SimpleCommand() {
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.BOT_OWNER;
+			}
+
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				MantaroAudioManager.getMusicManagers().values()
+					.forEach(musicManager -> musicManager.getScheduler().channel().sendMessage(content).queue());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "MusicNotify")
+					.setDescription("Notifies the Audio People of something.")
 					.build();
 			}
 		});

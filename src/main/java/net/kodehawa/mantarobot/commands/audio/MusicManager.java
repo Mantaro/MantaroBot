@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.audio;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ public class MusicManager {
 	 * Creates a player and a track scheduler.
 	 *
 	 * @param manager Audio player manager to use for creating the player.
-	 * @param event   Guild event
+	 * @param channel   TextChannel
 	 */
-	public MusicManager(AudioPlayerManager manager, GuildMessageReceivedEvent event) {
+	public MusicManager(AudioPlayerManager manager, TextChannel channel) {
 		player = manager.createPlayer();
-		scheduler = new Scheduler(event, player);
+		scheduler = new Scheduler(channel, player);
 		player.addListener(scheduler);
 	}
 

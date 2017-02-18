@@ -4,7 +4,8 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -16,13 +17,22 @@ import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.getGuil
 public class Scheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
-	private GuildMessageReceivedEvent event;
+	private final JDA jda;
+	private String channel, guild;
 	private boolean repeat = false;
 
-	Scheduler(GuildMessageReceivedEvent event, AudioPlayer player) {
-		this.event = event;
+	Scheduler(TextChannel channel, AudioPlayer player) {
+		this.jda = channel.getJDA();
+		this.channel = channel.getId();
+		this.guild = channel.getGuild().getId();
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
+	}
+
+	public TextChannel channel() {
+		TextChannel channel = jda.getTextChannelById(this.channel);
+		if (channel == null) channel = jda.getGuildById(guild).getPublicChannel();
+		return channel;
 	}
 
 	@Override
@@ -33,9 +43,9 @@ public class Scheduler extends AudioEventAdapter {
 			}
 
 			if (player.getPlayingTrack() == null) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
-				event.getChannel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
-				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
+				MusicManager musicManager = getGuildAudioPlayer(channel().getGuild());
+				channel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
+				closeConnection(musicManager, channel().getGuild().getAudioManager(), channel());
 				return;
 			}
 
