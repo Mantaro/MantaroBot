@@ -232,7 +232,7 @@ public class AudioCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null)
+				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null && !musicManager.getScheduler().getPlayer().isPaused())
 					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				clearQueue(musicManager, event, false);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
