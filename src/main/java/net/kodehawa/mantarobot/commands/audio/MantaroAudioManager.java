@@ -58,6 +58,10 @@ public class MantaroAudioManager {
 		return getGuildAudioPlayer(guild, guild.getPublicChannel());
 	}
 
+	public static MusicManager getGuildAudioPlayer(GuildMessageReceivedEvent event) {
+		return getGuildAudioPlayer(event.getGuild(), event.getChannel());
+	}
+
 	public static MusicManager getGuildAudioPlayer(Guild guild, TextChannel channel) {
 		return musicManagers.computeIfAbsent(guild.getId(), k -> {
 			MusicManager manager = new MusicManager(playerManager, channel);
