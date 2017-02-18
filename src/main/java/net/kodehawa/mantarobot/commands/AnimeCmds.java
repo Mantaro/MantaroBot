@@ -93,9 +93,9 @@ public class AnimeCmds extends Module {
 				return baseEmbed(event, "Anime command")
 					.setDescription("Retrieves anime info from **AniList** (For anime characters use ~>character).\n"
 						+ "Usage: \n"
-						+ "~>anime [animename]: Gets information of an anime based on parameters.\n"
+						+ "~>anime <animename>: Gets information of an anime based on parameters.\n"
 						+ "Parameter description:\n"
-						+ "[animename]: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n")
+						+ "animename: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n")
 					.setColor(Color.PINK)
 					.build();
 			}			@Override
