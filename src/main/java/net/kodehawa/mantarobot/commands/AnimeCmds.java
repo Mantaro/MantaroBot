@@ -58,6 +58,12 @@ public class AnimeCmds extends Module {
 						URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(connection, event);
 					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
+
+					if(type.length == 1){
+						animeData(event, type, 0);
+						return;
+					}
+
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
 					for (int i = 0; i < 4 && i < type.length; i++) {
@@ -67,12 +73,12 @@ public class AnimeCmds extends Module {
 
 					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 
-					IntConsumer animesel = (c) -> {
+					IntConsumer animeSelector = (c) -> {
 						animeData(event, type, c - 1);
 						event.getMessage().addReaction("\ud83d\udc4c").queue();
 					};
 
-					DiscordUtils.selectInt(event, type.length, animesel);
+					DiscordUtils.selectInt(event, type.length, animeSelector);
 				} catch (Exception e) {
 					if(e instanceof JsonSyntaxException){
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
@@ -156,11 +162,16 @@ public class AnimeCmds extends Module {
 		super.register("character", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				TextChannel channel = event.getChannel();
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(url, event);
 					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
+
+					if(character.length == 1){
+						characterData(event, character, 0);
+						return;
+					}
+
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
 
@@ -172,11 +183,11 @@ public class AnimeCmds extends Module {
 
 					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 
-					IntConsumer charsel = (c) -> {
+					IntConsumer characterSelector = (c) -> {
 						characterData(event, character, c - 1);
 						event.getMessage().addReaction("\ud83d\udc4c").queue();
 					};
-					DiscordUtils.selectInt(event, character.length, charsel);
+					DiscordUtils.selectInt(event, character.length, characterSelector);
 				} catch (Exception e) {
 					if(e instanceof JsonSyntaxException){
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
