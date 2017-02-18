@@ -4,11 +4,14 @@ import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.utils.AnimeData;
 import net.kodehawa.mantarobot.commands.utils.CharacterData;
+import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -24,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URLEncoder;
+import java.util.concurrent.Future;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
@@ -61,12 +65,14 @@ public class AnimeCmds extends Module {
 						if (animeData != null) b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
 					}
 
-					IntConsumer animeSelector = (c) -> {
+					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+
+					IntConsumer animesel = (c) -> {
 						animeData(event, type, c - 1);
 						event.getMessage().addReaction("\ud83d\udc4c").queue();
 					};
 
-					DiscordUtils.selectInt(event, type.length, animeSelector);
+					DiscordUtils.selectInt(event, type.length, animesel);
 				} catch (Exception e) {
 					if(e instanceof JsonSyntaxException){
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
@@ -164,11 +170,13 @@ public class AnimeCmds extends Module {
 							b.append('[').append(i + 1).append("] ").append(characterData.name_first).append(" ").append(characterData.name_last).append("\n");
 					}
 
-					IntConsumer charSelector = (c) -> {
+					event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+
+					IntConsumer charsel = (c) -> {
 						characterData(event, character, c - 1);
 						event.getMessage().addReaction("\ud83d\udc4c").queue();
 					};
-					DiscordUtils.selectInt(event, character.length, charSelector);
+					DiscordUtils.selectInt(event, character.length, charsel);
 				} catch (Exception e) {
 					if(e instanceof JsonSyntaxException){
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();

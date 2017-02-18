@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -43,23 +44,22 @@ public class MiscCmds extends Module {
 				}
 
 				String textEncoded;
-				String url2;
-
+				String answer;
 				try {
 					textEncoded = URLEncoder.encode(content, "UTF-8");
-				} catch (UnsupportedEncodingException exception) {
-					event.getChannel().sendMessage("Error while encoding URL. My owners have been notified.").queue();
-					LOGGER.warn("Error while encoding URL", exception);
+					answer = Unirest.get(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded))
+							.asJson()
+							.getBody()
+							.getObject()
+							.getJSONObject("magic")
+							.getString("answer");
+				} catch (Exception exception) {
+					event.getChannel().sendMessage("Error while fetching results. My owners have been notified.").queue();
+					LOGGER.warn("Error while processing answer <@155867458203287552>", exception);
 					return;
 				}
 
-				String URL = String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded);
-				url2 = Utils.wgetResty(URL, event);
-
-				JSONObject jObject = new JSONObject(url2);
-				JSONObject data = jObject.getJSONObject("magic");
-
-				event.getChannel().sendMessage("\uD83D\uDCAC " + data.getString("answer") + ".").queue();
+				event.getChannel().sendMessage("\uD83D\uDCAC " + answer + ".").queue();
 			}
 
 			@Override

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -124,7 +125,7 @@ public class UtilsCmds extends Module {
 							}
 						} catch (IOException e) {
 							LOGGER.warn("Something went wrong when translating.", e);
-							channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating... :c").queue();
+							channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating. " + e.getClass().getSimpleName()).queue();
 						}
 					} else {
 						onHelp(event);
@@ -140,11 +141,11 @@ public class UtilsCmds extends Module {
 				return baseEmbed(event, "Translation command")
 					.setDescription("Translates any given sentence.\n"
 						+ "**Usage example:**\n"
-						+ "~>translate [sourcelang] [outputlang] [sentence].\n"
+						+ "~>translate <sourcelang> <outputlang> <sentence>.\n"
 						+ "**Parameter explanation**\n"
-						+ "[sourcelang] The language the sentence is written in. Use codes (english = en)\n"
-						+ "[outputlang] The language you want to translate to (french = fr, for example)\n"
-						+ "[sentence] The sentence to translate.")
+						+ "sourcelang: The language the sentence is written in. Use codes (english = en)\n"
+						+ "outputlang: The language you want to translate to (french = fr, for example)\n"
+						+ "sentence: The sentence to translate.")
 					.setColor(Color.BLUE)
 					.build();
 			}
@@ -216,10 +217,10 @@ public class UtilsCmds extends Module {
 					.setColor(Color.CYAN)
 					.setDescription("Retrieves definitions from **Urban Dictionary**.\n"
 						+ "Usage: \n"
-						+ "~>urban [term]->[number]: Gets a definition based on parameters.\n"
+						+ "~>urban term]->[number]: Gets a definition based on parameters.\n"
 						+ "Parameter description:\n"
-						+ "[term]: The term you want to look up the urban definition for.\n"
-						+ "[number]: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\n"
+						+ "term: The term you want to look up the urban definition for.\n"
+						+ "number: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\n"
 						+ "For example putting 2 will fetch the second result on Urban Dictionary")
 					.build();
 			}
@@ -284,10 +285,10 @@ public class UtilsCmds extends Module {
 				return baseEmbed(event, "Weather command")
 					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
 						+ "> Usage:\n"
-						+ "~>weather [city],[countrycode]: Retrieves the forecast information for such location.\n"
+						+ "~>weather <city>,<countrycode>: Retrieves the forecast information for such location.\n"
 						+ "> Parameters:\n"
-						+ "[city]: Your city name, for example New York\n"
-						+ "[countrycode]: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
+						+ "city: Your city name, for example New York\n"
+						+ "countrycode: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
 					.build();
 			}
 		});
