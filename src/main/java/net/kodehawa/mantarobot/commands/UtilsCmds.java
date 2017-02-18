@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -335,7 +334,7 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return null; //TODO Help Embed
 			}
 		});
 	}

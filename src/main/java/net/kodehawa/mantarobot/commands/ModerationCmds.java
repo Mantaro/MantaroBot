@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -269,7 +268,7 @@ public class ModerationCmds extends Module {
 							onHelp(event);
 							return;
 						}
-						try{
+						try {
 							String channel = args[2];
 							String role = args[3];
 
@@ -280,14 +279,14 @@ public class ModerationCmds extends Module {
 							guildData.birthdayRole = roleId;
 							MantaroData.getData().update();
 							event.getChannel().sendMessage(
-									String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-											channel, channelId, role, roleId)).queue();
+								String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
+									channel, channelId, role, roleId)).queue();
 							return;
-						} catch (Exception e){
-							if(e instanceof IndexOutOfBoundsException){
+						} catch (Exception e) {
+							if (e instanceof IndexOutOfBoundsException) {
 								event.getChannel().sendMessage(":heavy_multiplication_x: Nothing found on channel or role.\n " +
-										"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
-										.queue();
+									"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
+									.queue();
 								return;
 							}
 							event.getChannel().sendMessage(":heavy_multiplication_x: Wrong command arguments.").queue();
@@ -311,7 +310,7 @@ public class ModerationCmds extends Module {
 				if (option.equals("music")) {
 					if (action.equals("limit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
-						if (!isNumber){
+						if (!isNumber) {
 							event.getChannel().sendMessage("That's not a valid number.").queue();
 							return;
 						}
@@ -333,36 +332,33 @@ public class ModerationCmds extends Module {
 
 						if (channel == null) {
 							try {
-										List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
-												.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
-												.collect(Collectors.toList());
+								List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
+									.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
+									.collect(Collectors.toList());
 
-										if (voiceChannels.size() == 0) {
-											event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
-											return;
-										} else if (voiceChannels.size() == 1) {
-											channel = voiceChannels.get(0);
-											guildData.musicChannel = channel.getId();
-											MantaroData.getData().update();
-											event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
-										} else {
-											DiscordUtils.selectList(event, voiceChannels,
-													voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-													s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-											voiceChannel -> {
-												guildData.musicChannel = voiceChannel.getId();
-												MantaroData.getData().update();
-												event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue();
-											}
-									);
+								if (voiceChannels.size() == 0) {
+									event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
+									return;
+								} else if (voiceChannels.size() == 1) {
+									channel = voiceChannels.get(0);
 									guildData.musicChannel = channel.getId();
 									MantaroData.getData().update();
 									event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
+								} else {
+									DiscordUtils.selectList(event, voiceChannels,
+										voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+										s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+										voiceChannel -> {
+											guildData.musicChannel = voiceChannel.getId();
+											MantaroData.getData().update();
+											event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue();
+										}
+									);
 								}
 							} catch (Exception e) {
 								LOGGER.warn("Error while setting voice channel", e);
 								event.getChannel().sendMessage("There has been an error while trying to set the voice channel, maybe try again? " +
-										"-> " + e.getClass().getSimpleName()).queue();
+									"-> " + e.getClass().getSimpleName()).queue();
 							}
 						}
 
@@ -381,13 +377,13 @@ public class ModerationCmds extends Module {
 				}
 
 				if (option.equals("admincustom")) {
-					try{
+					try {
 						guildData.customCommandsAdminOnly = Boolean.parseBoolean(action);
 						MantaroData.getData().update();
 						String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
 						event.getChannel().sendMessage(toSend).queue();
 						return;
-					} catch (Exception e){
+					} catch (Exception e) {
 						event.getChannel().sendMessage("Not a boolean value.").queue();
 						return;
 					}
@@ -404,71 +400,67 @@ public class ModerationCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Bot options")
-						.addField("Description", "This command allows you to set different customizable options for your guild instance of the bot.\n" +
-								"All values set here are local, that means, they only take effect on your server and not on other " +
-								"servers the bot might be on.", false)
-						.setDescription("Usage\n" +
-										"~>opts logs enable <channel> - Enables logs in the specified channel (use the name).\n" +
-										"~>opts logs disable - Disables server-wide logs.\n" +
-										"~>opts prefix set <prefix> - Sets a custom prefix for your server.\n" +
-										"~>opts prefix clear - Resets your server custom prefix.\n" +
-										"~>opts nsfw setchannel <channel> - Sets the NSFW channel for usage with explicit images in yandere.\n" +
-										"~>opts nsfw disable - Clears the NSFW channel.\n" +
-										"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
-										"~>opts birthday disable - Disables birthday monitoring.\n" +
-										"~>opts music limit <ms> - Changes the music lenght limit.\n" +
-										"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
-										"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
-										"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.")
-						.build();
+					.addField("Description", "This command allows you to set different customizable options for your guild instance of the bot.\n" +
+						"All values set here are local, that means, they only take effect on your server and not on other " +
+						"servers the bot might be on.", false)
+					.setDescription("Usage\n" +
+						"~>opts logs enable <channel> - Enables logs in the specified channel (use the name).\n" +
+						"~>opts logs disable - Disables server-wide logs.\n" +
+						"~>opts prefix set <prefix> - Sets a custom prefix for your server.\n" +
+						"~>opts prefix clear - Resets your server custom prefix.\n" +
+						"~>opts nsfw setchannel <channel> - Sets the NSFW channel for usage with explicit images in yandere.\n" +
+						"~>opts nsfw disable - Clears the NSFW channel.\n" +
+						"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
+						"~>opts birthday disable - Disables birthday monitoring.\n" +
+						"~>opts music limit <ms> - Changes the music lenght limit.\n" +
+						"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
+						"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
+						"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.")
+					.build();
 			}
 		});
 	}
 
-	private void prune(){
+	private void prune() {
 		super.register("prune", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
-				Message receivedMessage = event.getMessage();
-
-				if(!receivedMessage.isFromType(ChannelType.TEXT)){
-					channel.sendMessage(":heavy_multiplication_x: " + "Cannot prune. Command was triggered outside of a guild.").queue();
-					return;
-				}
 
 				if (content.isEmpty()) {
 					channel.sendMessage(":heavy_multiplication_x: No messages to prune.").queue();
 					return;
 				}
 
-				int container = Integer.parseInt(content);
-				if (container > 100) container = 100;
-				final int i = container;
-				TextChannel channel2 = event.getGuild().getTextChannelById(channel.getId());
-				List<Message> messageHistory = channel2.getHistory().retrievePast(i).complete();
-				channel2.deleteMessages(messageHistory).queue(
-						success -> channel.sendMessage(":pencil: Successfully pruned " + i + " messages").queue(),
+				channel.getHistory().retrievePast(Math.min(Integer.parseInt(content), 100)).queue(
+					messageHistory -> channel.deleteMessages(messageHistory).queue(
+						success -> channel.sendMessage(":pencil: Successfully pruned " + messageHistory.size() + " messages").queue(),
 						error -> {
 							if (error instanceof PermissionException) {
 								PermissionException pe = (PermissionException) error;
 								channel.sendMessage(":heavy_multiplication_x: " + "Lack of permission while pruning messages" +
-										"(No permission provided: " + pe.getPermission() + ")").queue();
+									"(No permission provided: " + pe.getPermission() + ")").queue();
 							} else {
 								channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while pruning messages" + "<"
-										+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+									+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 								error.printStackTrace();
 							}
-						});
+						}),
+					error -> {
+						channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while retrieving the history to prune the messages" + "<"
+							+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+						error.printStackTrace();
+					}
+				);
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Prune command")
-						.setDescription("Prunes a specific amount of messages.")
-						.addField("Usage", "~>prune <x> - Prunes messages", false)
-						.addField("Parameters", "x = number of messages to delete", false)
-						.build();
+					.setDescription("Prunes a specific amount of messages.")
+					.addField("Usage", "~>prune <x> - Prunes messages", false)
+					.addField("Parameters", "x = number of messages to delete", false)
+					.build();
 			}
 		});
 	}

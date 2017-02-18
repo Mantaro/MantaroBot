@@ -14,7 +14,6 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Utils;
-import sun.util.resources.cldr.ta.TimeZoneNames_ta;
 
 import java.net.URL;
 
@@ -88,7 +87,7 @@ public class AudioCmds extends Module {
 		});
 	}
 
-	public void play() {
+	private void play() {
 		super.register("play", new SimpleCommand() {
 			@Override
 			public CommandPermission permissionRequired() {
@@ -147,7 +146,7 @@ public class AudioCmds extends Module {
 		});
 	}
 
-	public void removetrack() {
+	private void removetrack() {
 		super.register("removetrack", new SimpleCommand() {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -181,7 +180,7 @@ public class AudioCmds extends Module {
 		});
 	}
 
-	public void shuffle() {
+	private void shuffle() {
 		super.register("shuffle", new SimpleCommand() {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -202,7 +201,7 @@ public class AudioCmds extends Module {
 		});
 	}
 
-	public void skip() {
+	private void skip() {
 		super.register("skip", new SimpleCommand() {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
