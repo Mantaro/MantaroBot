@@ -200,7 +200,7 @@ public class CustomCmds extends Module {
 						}
 
 						if (s.startsWith("~>save")) {
-							String arg = s.substring(7).trim();
+							String arg = s.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
 							if (Manager.commands.containsKey(saveTo) && !Manager.commands.get(saveTo).equals(cmdPair)) {
