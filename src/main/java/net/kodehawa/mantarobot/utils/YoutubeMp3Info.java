@@ -55,7 +55,7 @@ public class YoutubeMp3Info {
 		}
 
 		try {
-			return GsonDataManager.GSON.fromJson(s, YoutubeMp3Info.class);
+			return GsonDataManager.GSON_PRETTY.fromJson(s, YoutubeMp3Info.class);
 		} catch (Exception e) {
 			LOGGER.warn("``" + e.getClass().getSimpleName() + "`` thrown while deserializing JSON.", e);
 		}

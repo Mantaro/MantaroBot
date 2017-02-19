@@ -142,7 +142,7 @@ public class CustomCmds extends Module {
 					if (event.getMember().isOwner() || MantaroData.getConfig().get().isOwner(event.getMember())) {
 						event.getChannel().sendMessage(
 							"Guild Commands Debug: " + Utils.paste(
-								GsonDataManager.GSON.toJson(customCommands)
+								GsonDataManager.GSON_PRETTY.toJson(customCommands)
 							)
 						).queue();
 					} else {

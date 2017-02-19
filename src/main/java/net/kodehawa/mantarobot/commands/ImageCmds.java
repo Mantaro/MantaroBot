@@ -59,7 +59,7 @@ public class ImageCmds extends Module {
 		if (!trigger) return new EmbedBuilder().setDescription("Not on NSFW channel. Cannot send lewd images.");
 
 		String json = Utils.wget(url, event);
-		ImageData[] imageData = GsonDataManager.GSON.fromJson(json, ImageData[].class);
+		ImageData[] imageData = GsonDataManager.GSON_PRETTY.fromJson(json, ImageData[].class);
 		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 		int get;
 		try {

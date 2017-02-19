@@ -26,7 +26,7 @@ public class Giphy {
 			query.put("api_key", PUBLIC_API_KEY);
 			String json = Utils.wget(GIPHY_URL + "trending?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
-			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Search.class));
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Search.class));
 		}).run();
 	}
 
@@ -41,7 +41,7 @@ public class Giphy {
 			this.query.put("api_key", PUBLIC_API_KEY);
 			String json = Utils.wget(GIPHY_URL + "search?" + Utils.urlEncodeUTF8(this.query), event);
 			this.query.clear();
-			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Search.class));
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Search.class));
 		}).run();
 	}
 
@@ -52,7 +52,7 @@ public class Giphy {
 			Optional.ofNullable(tags).ifPresent(r -> query.put("tag", tags));
 			String json = Utils.wget(GIPHY_URL + "random?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
-			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Random.class));
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Random.class));
 		}).run();
 	}
 
@@ -64,7 +64,7 @@ public class Giphy {
 			query.put("api_key", PUBLIC_API_KEY);
 			String json = Utils.wget(GIPHY_URL + "translate?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
-			provider.onSuccess(GsonDataManager.GSON.fromJson(json, Gif.class));
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Gif.class));
 		}).run();
 	}
 }

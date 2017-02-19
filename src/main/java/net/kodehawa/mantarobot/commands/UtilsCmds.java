@@ -169,7 +169,7 @@ public class UtilsCmds extends Module {
 					} catch (UnsupportedEncodingException ignored) {
 					}
 					String json = Utils.wgetResty(url, event);
-					UrbanData data = GsonDataManager.GSON.fromJson(json, UrbanData.class);
+					UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
 					long end = System.currentTimeMillis() - start;
 					switch (beheadedSplit.length) {
@@ -242,7 +242,7 @@ public class UtilsCmds extends Module {
 					//Get a parsed JSON.
 					String APP_ID = MantaroData.getConfig().get().weatherAppId;
 					String json = Utils.wget(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
-					WeatherData data = GsonDataManager.GSON.fromJson(json, WeatherData.class);
+					WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(json, WeatherData.class);
 
 					String countryCode = data.sys.country;
 					String status = data.getWeather().get(0).main;

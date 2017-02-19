@@ -52,7 +52,7 @@ public class AnimeCmds extends Module {
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
 						URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(connection, event);
-					AnimeData[] type = GsonDataManager.GSON.fromJson(json, AnimeData[].class);
+					AnimeData[] type = GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
 
 					if (type.length == 1) {
 						animeData(event, type, 0);
@@ -161,7 +161,7 @@ public class AnimeCmds extends Module {
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(url, event);
-					CharacterData[] character = GsonDataManager.GSON.fromJson(json, CharacterData[].class);
+					CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
 
 					if (character.length == 1) {
 						characterData(event, character, 0);

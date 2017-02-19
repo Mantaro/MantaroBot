@@ -26,12 +26,12 @@ public class MantaroData {
 	}
 
 	public static GsonDataManager<Config> getConfig() {
-		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
+		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new, true);
 		return config;
 	}
 
 	public static GsonDataManager<Data> getData() {
-		if (data == null) data = new GsonDataManager<>(Data.class, "data.json", Data::new);
+		if (data == null) data = new GsonDataManager<>(Data.class, "data.json", Data::new, false);
 		return data;
 	}
 
@@ -61,7 +61,7 @@ public class MantaroData {
 	}
 
 	public static GsonDataManager<QuotesData> getQuotes() {
-		if (quotes == null) quotes = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new);
+		if (quotes == null) quotes = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new, false);
 		return quotes;
 	}
 

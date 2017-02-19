@@ -88,7 +88,7 @@ public class Konachan {
 		} finally {
 			queryParams.clear();
 		}
-		Wallpaper[] wallpapers = GsonDataManager.GSON.fromJson(response, Wallpaper[].class);
+		Wallpaper[] wallpapers = GsonDataManager.GSON_PRETTY.fromJson(response, Wallpaper[].class);
 		return isSafeForWork() ? Arrays.stream(wallpapers).filter((wallpaper1) ->
 			wallpaper1.getRating().equalsIgnoreCase("s")).collect(Collectors.toList()) : Arrays.asList(wallpapers);
 	}
@@ -130,6 +130,6 @@ public class Konachan {
 		} finally {
 			queryParams.clear();
 		}
-		return GsonDataManager.GSON.fromJson(response, Tag[].class);
+		return GsonDataManager.GSON_PRETTY.fromJson(response, Tag[].class);
 	}
 }
