@@ -114,20 +114,24 @@ public class QuoteCmd extends Module {
 
 						break;
 					case "read":
-						int i = Integer.parseInt(phrase);
-						List<String> keys1 = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
-						List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
-						EmbedBuilder embedBuilder2 = new EmbedBuilder();
-						Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
-						embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
-							.setThumbnail(quoteElements2.get(1))
-							.setColor(Color.CYAN)
-							.setDescription("Quote made on server " + quoteElements2.get(3)
-								+ " in channel " + "#" + quoteElements2.get(2))
-							.addField("Content", keys1.get(i), false)
-							.setFooter("Date: " + dateFormat.format(date1), null);
-						channel.sendMessage(embedBuilder2.build()).queue();
-
+						try{
+							int i = Integer.parseInt(phrase);
+							List<String> keys1 = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+							List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
+							EmbedBuilder embedBuilder2 = new EmbedBuilder();
+							Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
+							embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
+									.setThumbnail(quoteElements2.get(1))
+									.setColor(Color.CYAN)
+									.setDescription("Quote made on server " + quoteElements2.get(3)	+ " in channel " + "#" + quoteElements2.get(2))
+									.addField("Content", keys1.get(i), false)
+									.setFooter("Date: " + dateFormat.format(date1), null);
+							channel.sendMessage(embedBuilder2.build()).queue();
+						} catch (IndexOutOfBoundsException e){
+							event.getChannel().sendMessage("There is no quote with such number, try with a lower one. (Max: " +
+									MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).size() + ")").queue();
+							break;
+						}
 						break;
 					case "addfrom":
 						Message message = messageHistory.stream().filter(msg -> msg.getContent().contains(phrase) && !event.getMessage().getId().equals(msg.getId())).findFirst().orElse(null);
@@ -167,28 +171,47 @@ public class QuoteCmd extends Module {
 
 						break;
 					case "getfrom":
-						List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
-						for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
-							if (quotes.get(i2).contains(phrase)) {
-								List<String> quoteE = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(quotes.get(i2));
-								Date date = new Date(Long.parseLong(quoteE.get(4)));
-								EmbedBuilder builder2 = new EmbedBuilder();
-								builder2.setAuthor(quoteE.get(0) + " said:", null, quoteE.get(1))
-									.setThumbnail(quoteE.get(1))
-									.setColor(Color.CYAN)
-									.setDescription("Quote made on server " + quoteE.get(3)
-										+ " in channel " + "#" + quoteE.get(2))
-									.addField("Content", quotes.get(i2), false)
-									.setFooter("Date: " + dateFormat.format(date), null);
-								channel.sendMessage(builder2.build()).queue();
-								break;
+						try{
+							List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+							for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+								if (quotes.get(i2).contains(phrase)) {
+									List<String> quoteE = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(quotes.get(i2));
+									Date date = new Date(Long.parseLong(quoteE.get(4)));
+									EmbedBuilder builder2 = new EmbedBuilder();
+									builder2.setAuthor(quoteE.get(0) + " said:", null, quoteE.get(1))
+											.setThumbnail(quoteE.get(1))
+											.setColor(Color.CYAN)
+											.setDescription("Quote made on server " + quoteE.get(3)
+													+ " in channel " + "#" + quoteE.get(2))
+											.addField("Content", quotes.get(i2), false)
+											.setFooter("Date: " + dateFormat.format(date), null);
+									channel.sendMessage(builder2.build()).queue();
+									break;
+								}
 							}
+						} catch (IndexOutOfBoundsException e){
+							event.getChannel().sendMessage(
+									"No results found with the specified query. Maybe try a more specific phrase if you know it exists?")
+									.queue();
+							break;
 						}
-
-						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
-							event.getChannel().sendMessage(Utils.paste(Utils.toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
-						else event.getChannel().sendMessage("What are you trying to do, silly.").queue();
-
+						break;
+				case "deletefrom":
+						try{
+							List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+							for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+								if (quotes.get(i2).contains(phrase)) {
+									event.getChannel().sendMessage(":ok_hand: Removed quote with content: " + quotes.get(i2)).queue();
+									quotes.remove(i2);
+									break;
+								}
+							}
+						} catch (IndexOutOfBoundsException e){
+							event.getChannel().sendMessage(
+									"No results found with the specified query. Maybe try a more specific phrase if you know it exists?")
+									.queue();
+							break;
+						}
 						break;
 					case "debug":
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
@@ -211,14 +234,15 @@ public class QuoteCmd extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Quote command")
 					.setDescription("> Usage:\n"
-						+ "~>quote add [number]: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
+						+ "~>quote add <number>: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
 						+ "~>quote random: Gets a random quote. \n"
-						+ "~>quote read [number]: Gets a quote matching the number. \n"
-						+ "~>quote addfrom [phrase] Adds a quote based in text search criteria.\n"
-						+ "~>quote getfrom [phrase]: Searches for the first quote which matches your search criteria and prints it.\n"
+						+ "~>quote read <number>: Gets a quote matching the number. \n"
+						+ "~>quote addfrom <phrase>: Adds a quote based in text search criteria.\n"
+						+ "~>quote removefrom <phrase>: Removes a quote based in text search criteria.\n"
+						+ "~>quote getfrom <phrase>: Searches for the first quote which matches your search criteria and prints it.\n"
 						+ "> Parameters:\n"
-						+ "[number]: Message number to quote. For example 1 will quote the last message.\n"
-						+ "[phrase]: A part of the quote phrase.")
+						+ "number: Message number to quote. For example 1 will quote the last message.\n"
+						+ "phrase: A part of the quote phrase.")
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}
