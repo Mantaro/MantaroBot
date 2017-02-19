@@ -257,7 +257,7 @@ public class AudioCmds extends Module {
 				AudioPlayer player = getGuildAudioPlayer(event).getScheduler().getPlayer();
 				int volume;
 				try {
-					volume = Integer.parseInt(args[0]);
+					volume = Math.max(0,Math.min(100,Integer.parseInt(args[0])));
 				} catch (Exception e) {
 					event.getChannel().sendMessage(":heavy_multiplication_x: Not a valid integer.").queue();
 					return;
