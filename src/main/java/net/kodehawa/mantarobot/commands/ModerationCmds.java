@@ -455,6 +455,11 @@ public class ModerationCmds extends Module {
 			}
 
 			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.ADMIN;
+			}
+
+			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Prune command")
 					.setDescription("Prunes a specific amount of messages.")
