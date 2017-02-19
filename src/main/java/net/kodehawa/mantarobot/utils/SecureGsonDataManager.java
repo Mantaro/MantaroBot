@@ -15,7 +15,7 @@ import java.util.Base64;
 import java.util.Properties;
 import java.util.function.Supplier;
 
-
+//TODO Use this for potentially big JSON files
 public class SecureGsonDataManager<T> implements Supplier<T> {
 
 	public static final Gson GSON = GsonDataManager.GSON_UNPRETTY;

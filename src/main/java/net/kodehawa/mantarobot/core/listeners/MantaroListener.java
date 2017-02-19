@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.listeners;
 
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
 import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.*;
@@ -242,6 +243,7 @@ public class MantaroListener implements EventListener, ConnectionListener {
 			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
 		}
 		try {
+			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE)) return;
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
