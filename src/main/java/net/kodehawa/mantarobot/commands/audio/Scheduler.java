@@ -32,7 +32,12 @@ public class Scheduler extends AudioEventAdapter {
 
 	public TextChannel channel() {
 		TextChannel channel = jda.getTextChannelById(this.channel);
-		if (channel == null) channel = jda.getGuildById(guild).getPublicChannel();
+
+		if (channel == null) {
+			Guild g = jda.getGuildById(guild);
+
+			if (g != null) channel = g.getPublicChannel();
+		}
 		return channel;
 	}
 

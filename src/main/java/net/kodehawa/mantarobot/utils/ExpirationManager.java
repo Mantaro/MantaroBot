@@ -16,7 +16,7 @@ public class ExpirationManager {
 		thread.start();
 	}
 
-	public void letExpire(Long milis, Runnable onExpire) {
+	public void letExpire(long milis, Runnable onExpire) {
 		Objects.requireNonNull(onExpire);
 		EXPIRATIONS.computeIfAbsent(milis, k -> new ArrayList<>()).add(onExpire);
 		updated = true;
