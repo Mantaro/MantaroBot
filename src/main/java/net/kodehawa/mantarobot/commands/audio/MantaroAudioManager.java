@@ -116,10 +116,8 @@ public class MantaroAudioManager {
 
 			@Override
 			public void loadFailed(FriendlyException exception) {
-				event.getGuild().getAudioManager().closeAudioConnection();
 				if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
-					LOGGER.warn("Couldn't play music", exception);
-					channel.sendMessage("\u274C Error while fetching music: " + exception.getMessage() + " SEVERITY: " + exception.severity).queue();
+					channel.sendMessage("\u274C Error while fetching music: " + exception.getMessage()).queue();
 				} else {
 					LOGGER.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
 				}
