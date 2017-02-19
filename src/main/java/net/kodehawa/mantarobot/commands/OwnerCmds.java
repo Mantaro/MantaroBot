@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.audio.MusicManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.closeConnection;
 
 public class OwnerCmds extends Module {
 	public static GuildMessageReceivedEvent tempEvt = null;
@@ -199,6 +202,14 @@ public class OwnerCmds extends Module {
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
+		MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
+			if(musicManager.getScheduler().getPlayer() != null)
+				musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
+				musicManager.getScheduler().getQueue().clear();
+				closeConnection(
+						musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel()
+				);
+		});
 		event.getChannel().sendMessage("*goes to sleep*").queue();
 		MantaroBot.getJDA().shutdown();
 		System.exit(0);
