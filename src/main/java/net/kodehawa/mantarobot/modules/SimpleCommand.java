@@ -31,9 +31,16 @@ public abstract class SimpleCommand implements Command {
 		return CommandPermission.USER;
 	}
 
-	public EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
+	protected EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
 		return new EmbedBuilder()
-			.setAuthor(name, null, event.getAuthor().getEffectiveAvatarUrl())
+			.setTitle(name, null)
+			.setColor(event.getMember().getColor())
+			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
+	}
+
+	protected EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {
+		return new EmbedBuilder()
+			.setAuthor(name, null, image)
 			.setColor(event.getMember().getColor())
 			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
 	}

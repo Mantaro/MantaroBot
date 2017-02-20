@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.kodehawa.mantarobot.utils.ExpirationManager;
+import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ public class CommandStatsManager {
 		MINUTE_CMDS = new HashMap<>();
 	private static final char ACTIVE_BLOCK = '\u2588';
 	private static final char EMPTY_BLOCK = '\u200b';
-	private static final ExpirationManager EXPIRATOR = new ExpirationManager();
+	private static final Expirator EXPIRATOR = new Expirator();
 	private static final int MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
 
 	public static String bar(int percent, int total) {

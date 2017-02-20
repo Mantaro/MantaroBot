@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.data;
 
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,8 @@ public class Data {
 
 	public static class UserData {
 		public String birthdayDate = null;
+		public long money = 0;
+		public Map<Integer,Integer> inventory = new HashMap<>();
 	}
 
 	public String defaultPrefix = "~>";
@@ -35,5 +38,10 @@ public class Data {
 
 	public String getPrefix(Guild guild) {
 		return Optional.ofNullable(getGuild(guild, false).prefix).orElse(defaultPrefix);
+	}
+
+	public UserData getUser(User user, boolean isRewritable) {
+		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new UserData());
+		return users.getOrDefault(user.getId(), new UserData());
 	}
 }

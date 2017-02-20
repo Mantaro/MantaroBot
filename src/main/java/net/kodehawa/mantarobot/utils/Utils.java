@@ -20,9 +20,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +41,15 @@ public class Utils {
 	public static String capitalize(String s) {
 		if (s.length() == 0) return s;
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+	}
+
+	public static Comparator<String> randomOrder() {
+		ThreadLocalRandom r = ThreadLocalRandom.current();
+		int x = r.nextInt(), y = r.nextInt();
+		boolean b = r.nextBoolean();
+		return Comparator.comparingInt((String s)->s.hashCode()^x)
+			.thenComparingInt(s->s.length()^y)
+			.thenComparing(b? Comparator.naturalOrder(): Comparator.reverseOrder());
 	}
 
 	public static String getDurationMinutes(long length) {
