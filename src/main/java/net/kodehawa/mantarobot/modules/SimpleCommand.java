@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.modules;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -34,6 +35,7 @@ public abstract class SimpleCommand implements Command {
 		return new EmbedBuilder()
 			.setAuthor(name, null, event.getAuthor().getEffectiveAvatarUrl())
 			.setColor(event.getMember().getColor())
+			.addField("Permission required", Utils.capitalize(permissionRequired().toString().toLowerCase()), true)
 			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
 	}
 

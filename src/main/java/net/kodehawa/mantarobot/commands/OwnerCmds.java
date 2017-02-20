@@ -201,15 +201,16 @@ public class OwnerCmds extends Module {
 
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
-		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
 		MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-			if(musicManager.getScheduler().getPlayer() != null)
+			if(musicManager != null && musicManager.getScheduler() != null && musicManager.getScheduler().getPlayer() != null){
 				musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				musicManager.getScheduler().getQueue().clear();
 				closeConnection(
 						musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel()
 				);
+			}
 		});
+		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
 		event.getChannel().sendMessage("*goes to sleep*").queue();
 		MantaroBot.getJDA().shutdown();
 		System.exit(0);

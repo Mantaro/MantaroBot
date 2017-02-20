@@ -255,6 +255,12 @@ public class AudioCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				AudioPlayer player = getGuildAudioPlayer(event).getScheduler().getPlayer();
+
+				if(args[0].equals("check")){
+					event.getChannel().sendMessage("The current volume in this session is: " + player.getVolume()).queue();
+					return;
+				}
+
 				int volume;
 				try {
 					volume = Math.max(0,Math.min(100,Integer.parseInt(args[0])));
@@ -271,6 +277,7 @@ public class AudioCmds extends Module {
 				return baseEmbed(event, "Volume command")
 					.addField("Usage", "~>volume <number>", false)
 					.addField("Parameters", "number: Integer number from 1 to 99", false)
+					.addField("Notice", "To check the current volume do ~>volume check", false)
 					.build();
 			}
 		});
