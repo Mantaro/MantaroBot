@@ -7,6 +7,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.Collections;
 
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
+
 public class MusicManager {
 	private final AudioPlayer player;
 	private final Scheduler scheduler;
@@ -45,6 +47,7 @@ public class MusicManager {
 			event.getChannel().sendMessage("\uD83D\uDCE3 Skipped to next track -> **" + getScheduler().getPlayer().getPlayingTrack().getInfo().title + "**").queue();
 		} else {
 			event.getChannel().sendMessage("No tracks next. Disconnecting...").queue();
+			getScheduler().channel().getGuild().getAudioManager().closeAudioConnection();
 		}
 	}
 
