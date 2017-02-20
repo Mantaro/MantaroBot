@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.audio;
+package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.IntConsumer;
 
-import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.connectToVoiceChannel;
-import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.getDurationMinutes;
+import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.connectToVoiceChannel;
+import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.getDurationMinutes;
 
 public class MantaroAudioManager {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroAudioManager");

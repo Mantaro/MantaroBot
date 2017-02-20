@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -18,7 +18,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.closeConnection;
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
 
 public class OwnerCmds extends Module {
 	public static GuildMessageReceivedEvent tempEvt = null;

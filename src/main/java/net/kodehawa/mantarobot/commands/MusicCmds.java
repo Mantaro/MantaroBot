@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
-import net.kodehawa.mantarobot.commands.audio.AudioCmdUtils;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.audio.MusicManager;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.MusicManager;
 import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -17,12 +17,12 @@ import net.kodehawa.mantarobot.utils.Utils;
 
 import java.net.URL;
 
-import static net.kodehawa.mantarobot.commands.audio.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.*;
+import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.*;
 
-public class AudioCmds extends Module {
-	public AudioCmds() {
-		super(Category.AUDIO);
+public class MusicCmds extends Module {
+	public MusicCmds() {
+		super(Category.MUSIC);
 		//Audio intensifies.
 		np();
 		pause();
@@ -219,7 +219,7 @@ public class AudioCmds extends Module {
 						return;
 					}
 
-					list.remove(i);
+					event.getChannel().sendMessage(":ok_hand: Removed music **" + list.remove(i).getInfo().title + "** from the queue.").queue();
 					InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
 				});
 			}

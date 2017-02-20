@@ -81,7 +81,7 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				UserData data = MantaroData.getData().get().getUser(event.getAuthor(), false);
-				event.getChannel().sendMessage(baseEmbed(event, "Profile")
+				event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
 					.addField(":credit_card: Credits", "$ " + data.money, false)
 					.addField(":pouch: Inventory", print(resolve(data.inventory)), false)
 					.build()

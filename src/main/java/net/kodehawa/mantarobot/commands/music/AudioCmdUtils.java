@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.audio;
+package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;

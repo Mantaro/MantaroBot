@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -331,7 +331,7 @@ public class InfoCmds extends Module {
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
 						.setFooter(String.format("To check the command usage do %shelp <command>", prefix) + " >> Commands: " + Manager.commands.size(), null)
-						.addField("Audio Commands:", forType(Category.AUDIO), false)
+						.addField("Music Commands:", forType(Category.MUSIC), false)
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
 						.addField("Action Commands:", forType(Category.ACTION), false)
 						.addField("Fun Commands:", forType(Category.FUN), false)

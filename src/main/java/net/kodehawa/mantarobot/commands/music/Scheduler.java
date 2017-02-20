@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.audio;
+package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -15,8 +15,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.closeConnection;
-import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.getGuildAudioPlayer;
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.getGuildAudioPlayer;
 
 public class Scheduler extends AudioEventAdapter {
 	private final JDA jda;
@@ -72,7 +72,7 @@ public class Scheduler extends AudioEventAdapter {
 		return queue;
 	}
 
-	public void getQueueAsList(Consumer<List> list) {
+	public void getQueueAsList(Consumer<List<AudioTrack>> list) {
 		List<AudioTrack> tempList = new ArrayList<>(getQueue());
 
 		list.accept(tempList);

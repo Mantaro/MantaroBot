@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.commands.custom.DeathTimer;
 import net.kodehawa.mantarobot.commands.custom.Holder;

@@ -32,10 +32,7 @@ public abstract class SimpleCommand implements Command {
 	}
 
 	protected EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
-		return new EmbedBuilder()
-			.setTitle(name, null)
-			.setColor(event.getMember().getColor())
-			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
+		return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
 	}
 
 	protected EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {

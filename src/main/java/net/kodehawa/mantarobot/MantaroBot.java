@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
-import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.concurrent.Future;
 
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
-import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.closeConnection;
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot {
