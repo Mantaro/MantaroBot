@@ -41,6 +41,12 @@ public class MusicCmds extends Module {
 		super.register("move", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(content.isEmpty()){
+					event.getChannel().sendMessage("Cannot move to no channel, remember to write the name.").queue();
+					onHelp(event);
+					return;
+				}
+
 				try {
 					VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
 					AudioManager am = event.getGuild().getAudioManager();
@@ -321,9 +327,7 @@ public class MusicCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null && !musicManager.getScheduler().getPlayer().isPaused())
-					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
-				clearQueue(musicManager, event, false);
+				clearQueue(musicManager, event, true);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
 				InventoryResolver.dropWithChance(event.getChannel(), 0, 30);
 			}

@@ -28,7 +28,7 @@ public class OwnerCmds extends Module {
 		super(Category.OWNER);
 		add();
 		eval();
-		notifymusic();
+		notifyMusic();
 		shutdown();
 	}
 
@@ -50,12 +50,12 @@ public class OwnerCmds extends Module {
 						event.getChannel().sendMessage("Added to hug list: " + v).queue();
 						break;
 					case "greeting":
-						MantaroData.getGreeting().get().add(v);
+						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
 						MantaroData.getGreeting().update();
 						event.getChannel().sendMessage("Added to greet list: " + v).queue();
 						break;
 					case "splash":
-						MantaroData.getSplashes().get().add(v);
+						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
 						MantaroData.getSplashes().update();
 						event.getChannel().sendMessage("Added to splash list: " + v).queue();
 						break;
@@ -176,7 +176,7 @@ public class OwnerCmds extends Module {
 		});
 	}
 
-	private void notifymusic() {
+	private void notifyMusic() {
 		super.register("notifymusic", new SimpleCommand() {
 			@Override
 			public CommandPermission permissionRequired() {
@@ -209,6 +209,7 @@ public class OwnerCmds extends Module {
 				);
 			}
 		});
+
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
 		event.getChannel().sendMessage("*goes to sleep*").queue();
 		MantaroBot.getJDA().shutdown();

@@ -321,6 +321,7 @@ public class ModerationCmds extends Module {
 							event.getChannel().sendMessage("That's not a valid number.").queue();
 							return;
 						}
+
 						try{
 							guildData.songDurationLimit = Integer.parseInt(args[2]);
 							MantaroData.getData().update();

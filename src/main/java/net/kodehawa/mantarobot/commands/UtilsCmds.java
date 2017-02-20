@@ -338,7 +338,11 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Help Embed
+				return helpEmbed(event, "Youtube MP3 command")
+						.setDescription("Gives you a link to a MP3 download of almost any youtube video you want.")
+						.addField("Usage", "~>ytmp3 <youtube link>", true)
+						.addField("Parameters", "youtube link: The link of the video to translate to MP3", true)
+						.build();
 			}
 		});
 	}

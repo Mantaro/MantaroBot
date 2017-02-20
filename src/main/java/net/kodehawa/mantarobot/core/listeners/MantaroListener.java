@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.core.listeners;
 
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
-import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
@@ -28,13 +27,12 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.TreeMap;
 
-public class MantaroListener implements EventListener, ConnectionListener {
+public class MantaroListener implements EventListener {
 	private static int commandTotal = 0;
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	private static int logTotal = 0;
-	//For later usage in LogListener.
-	//A short message cache of 250 messages. If it reaches 250 it will delete the first one stored, and continue being 250
-	private static TreeMap<String, Message> shortMessageHistory = new TreeMap<>();
+	//Message cache of 350 messages. If it reaches 350 it will delete the first one stored, and continue being 350
+	private static TreeMap<String, Message> messageCache = new TreeMap<>();
 
 	public static String getCommandTotal() {
 		return String.valueOf(commandTotal);
@@ -108,7 +106,7 @@ public class MantaroListener implements EventListener, ConnectionListener {
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				Message deletedMessage = shortMessageHistory.get(event.getMessageId());
+				Message deletedMessage = messageCache.get(event.getMessageId());
 				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
 					tc.sendMessage(String.format(":warning: `[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
@@ -128,10 +126,10 @@ public class MantaroListener implements EventListener, ConnectionListener {
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				User author = event.getAuthor();
-				Message editedMessage = shortMessageHistory.get(event.getMessage().getId());
+				Message editedMessage = messageCache.get(event.getMessage().getId());
 				if (!editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					tc.sendMessage(String.format(":warning: `[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
-					shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
+					messageCache.put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
 				}
 			}
@@ -174,18 +172,6 @@ public class MantaroListener implements EventListener, ConnectionListener {
 	}
 
 	//TODO Music timeout (@AdrianTodt)
-
-	//another thing pls
-	@Override
-	public void onStatusChange(ConnectionStatus connectionStatus) {
-
-	}
-
-	public void onPing(long l) {
-	}
-
-	public void onUserSpeaking(User user, boolean b) {
-	}
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
 		Guild guild = event.getGuild();
@@ -236,11 +222,11 @@ public class MantaroListener implements EventListener, ConnectionListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-		if (shortMessageHistory.size() <= 250) {
-			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
+		if (messageCache.size() <= 350) {
+			messageCache.put(event.getMessage().getId(), event.getMessage());
 		} else {
-			shortMessageHistory.remove(shortMessageHistory.firstKey());
-			shortMessageHistory.put(event.getMessage().getId(), event.getMessage());
+			messageCache.remove(messageCache.firstKey());
+			messageCache.put(event.getMessage().getId(), event.getMessage());
 		}
 		try {
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE)) return;

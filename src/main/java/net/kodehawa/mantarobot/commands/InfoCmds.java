@@ -126,6 +126,7 @@ public class InfoCmds extends Module {
 							.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", minLOG, avgLOG, maxLOG), true)
 							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.addField("Total queue size", Integer.toString(MantaroAudioManager.getTotalQueueSize()), true)
+							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.build()
 					).queue();
 					InventoryResolver.dropWithChance(event.getChannel(),4,40);
@@ -330,7 +331,10 @@ public class InfoCmds extends Module {
 					EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
-						.setFooter(String.format("To check the command usage do %shelp <command>", prefix) + " >> Commands: " + Manager.commands.size(), null)
+						.setFooter(String.format("To check the command usage do %shelp <command> // -> Commands: " +
+								Manager.commands.entrySet().stream().filter(
+										(command) -> !command.getValue().getKey().isHiddenFromHelp()).collect(Collectors.toSet()).size()
+								, prefix), null)
 						.addField("Music Commands:", forType(Category.MUSIC), false)
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
 						.addField("Action Commands:", forType(Category.ACTION), false)
@@ -367,7 +371,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Help Command")
+				return helpEmbed(event, "Help Command")
 					.setColor(Color.PINK)
 					.addField("Description:", jokes.get(r.nextInt(jokes.size())), false)
 					.addField(
