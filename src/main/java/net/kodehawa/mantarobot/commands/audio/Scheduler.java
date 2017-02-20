@@ -8,17 +8,20 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.closeConnection;
 import static net.kodehawa.mantarobot.commands.audio.MantaroAudioManager.getGuildAudioPlayer;
 
 public class Scheduler extends AudioEventAdapter {
+	private final JDA jda;
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
-	private final JDA jda;
 	private String channel, guild;
 	private boolean repeat = false;
 
@@ -28,17 +31,6 @@ public class Scheduler extends AudioEventAdapter {
 		this.guild = channel.getGuild().getId();
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
-	}
-
-	public TextChannel channel() {
-		TextChannel channel = jda.getTextChannelById(this.channel);
-
-		if (channel == null) {
-			Guild g = jda.getGuildById(guild);
-
-			if (g != null) channel = g.getPublicChannel();
-		}
-		return channel;
 	}
 
 	@Override
@@ -61,12 +53,32 @@ public class Scheduler extends AudioEventAdapter {
 		player.startTrack(track.makeClone(), false);
 	}
 
+	public TextChannel channel() {
+		TextChannel channel = jda.getTextChannelById(this.channel);
+
+		if (channel == null) {
+			Guild g = jda.getGuildById(guild);
+
+			if (g != null) channel = g.getPublicChannel();
+		}
+		return channel;
+	}
+
 	public AudioPlayer getPlayer() {
 		return player;
 	}
 
 	public BlockingQueue<AudioTrack> getQueue() {
 		return queue;
+	}
+
+	public void getQueueAsList(Consumer<List> list) {
+		List<AudioTrack> tempList = new ArrayList<>(getQueue());
+
+		list.accept(tempList);
+
+		queue.clear();
+		queue.addAll(tempList);
 	}
 
 	public String getQueueList() {

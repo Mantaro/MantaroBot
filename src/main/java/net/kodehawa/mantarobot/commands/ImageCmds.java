@@ -27,8 +27,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
-
-	Konachan konachan = new Konachan(true);
+	private Konachan konachan = new Konachan(true);
 	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
 	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	private boolean needRating = false;

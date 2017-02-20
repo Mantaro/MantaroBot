@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -67,7 +68,10 @@ public class ModerationCmds extends Module {
 					//Proceed to ban them. Again, using queue so I don't get rate limited.
 					//Also delete all messages from past 7 days.
 					guild.getController().ban(member, 7).queue(
-						success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(),
+						success -> {
+							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue();
+							InventoryResolver.dropWithChance(event.getChannel(),1,40);
+						},
 						error ->
 						{
 							if (error instanceof PermissionException) {
@@ -147,7 +151,10 @@ public class ModerationCmds extends Module {
 
 					//Proceed to kick them. Again, using queue so I don't get rate limited.
 					guild.getController().kick(member).queue(
-						success -> channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(), //Quite funny, I think.
+						success -> {
+							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
+							InventoryResolver.dropWithChance(event.getChannel(),2,40);
+						},
 						error -> {
 							if (error instanceof PermissionException) {
 								channel.sendMessage(String.format("\u274C Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();

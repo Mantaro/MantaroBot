@@ -4,6 +4,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.utils.Expirator;
 import org.apache.commons.collections4.list.SetUniqueList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,6 +49,8 @@ public class InventoryResolver {
 			return value;
 		}
 	}
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("InventoryResolver");
 	public static final List<Item> ITEMS = SetUniqueList.setUniqueList(new ArrayList<>());
 	private static final Map<String, List<Holder<Item>>> DROPPED_ITEMS = new HashMap<>();
 	private static final Expirator EXPIRATOR = new Expirator();
@@ -61,6 +65,7 @@ public class InventoryResolver {
 		ITEMS.add(new Item(":ping_pong:", "Ping Racket", "Ping Rackets", "I won the ping-pong with Discord by a few miliseconds", 5));
 		ITEMS.add(new Item(":game_die:", "Loaded dice", "Stolen from `~>dice` command", 5));
 		ITEMS.add(new Item(":musical_note:", "Forgotten Music", "Forgotten Musics", "Never downloaded. Probably has Copyright.", 2));
+		ITEMS.add(new Item(":pencil2:", "Custom Commands Pencil", "Custom Command Pencils", "We have plenty of those!", 5));
 	}
 
 	public static void drop(TextChannel channel, Item item) {
@@ -71,6 +76,20 @@ public class InventoryResolver {
 		EXPIRATOR.letExpire(System.currentTimeMillis() + 120000, () -> {
 			if (DROPPED_ITEMS.containsKey(id)) DROPPED_ITEMS.get(id).remove(itemHolder);
 		});
+
+		LOGGER.info(id + "Dropped " + item.emoji + " " + item.desc);
+	}
+
+	public static void drop(TextChannel channel, int item) {
+		drop(channel, item(item));
+	}
+
+	public static void dropWithChance(TextChannel channel, Item item, int weight) {
+		if (r.nextInt(weight) == 0) drop(channel, item);
+	}
+
+	public static void dropWithChance(TextChannel channel, int item, int weight) {
+		dropWithChance(channel, item(item), weight);
 	}
 
 	public static Item item(int id) {

@@ -24,17 +24,18 @@ public class CurrencyCmds extends Module {
 	public final List<String> usersRatelimited = new ArrayList<>();
 
 	public CurrencyCmds() {
-		super(Category.FUN);
+		super(Category.CURRENCY);
 
 		profile();
 		loot();
-		//summon();
+		summon();
 
 		/*
 		TODO NEXT:
 		 - inventory command
 		 - sell command
 		 - loot command
+		 - transfer command
 		 */
 	}
 

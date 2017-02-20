@@ -2,11 +2,11 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -128,6 +128,7 @@ public class InfoCmds extends Module {
 							.addField("Total queue size", Integer.toString(MantaroAudioManager.getTotalQueueSize()), true)
 							.build()
 					).queue();
+					InventoryResolver.dropWithChance(event.getChannel(),4,40);
 					return;
 				}
 
@@ -334,13 +335,14 @@ public class InfoCmds extends Module {
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
 						.addField("Action Commands:", forType(Category.ACTION), false)
 						.addField("Fun Commands:", forType(Category.FUN), false)
+						.addField("Currency Commands:", forType(Category.CURRENCY), false)
 						.addField("Gif Commands:", forType(Category.GIF), false)
 						.addField("Gaming Commands:", forType(Category.GAMES), false);
 
-					if (event.getMember().hasPermission(Permission.ADMINISTRATOR))
+					if (CommandPermission.ADMIN.test(event.getMember()))
 						embed.addField("Moderation Commands:", forType(Category.MODERATION), false);
 
-					if (MantaroData.getConfig().get().isOwner(event.getMember()))
+					if (CommandPermission.BOT_OWNER.test(event.getMember()))
 						embed.addField("Owner Commands:", forType(Category.OWNER), false);
 
 					event.getChannel().sendMessage(embed
@@ -390,6 +392,7 @@ public class InfoCmds extends Module {
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
 					event.getChannel().sendMessage("\uD83D\uDCE3 The ping is " + ping + " ms, " + ratePing(ping)).queue();
+					InventoryResolver.dropWithChance(event.getChannel(),5,40);
 				});
 			}
 

@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.audio.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.audio.MusicManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -202,7 +201,7 @@ public class OwnerCmds extends Module {
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
 		MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-			if(musicManager != null && musicManager.getScheduler() != null && musicManager.getScheduler().getPlayer() != null){
+			if(musicManager != null && musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
 				musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				musicManager.getScheduler().getQueue().clear();
 				closeConnection(

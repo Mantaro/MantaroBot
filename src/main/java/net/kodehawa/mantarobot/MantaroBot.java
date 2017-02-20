@@ -122,7 +122,7 @@ public class MantaroBot {
 			MantaroData.getData().update();
 			MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
 			MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-				if(musicManager != null && musicManager.getScheduler() != null && musicManager.getScheduler().getPlayer() != null){
+				if(musicManager != null && musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
 					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 					musicManager.getScheduler().getQueue().clear();
 					closeConnection(

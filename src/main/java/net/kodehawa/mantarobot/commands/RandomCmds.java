@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -46,6 +47,7 @@ public class RandomCmds extends Module {
 				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
+				InventoryResolver.dropWithChance(event.getChannel(),6,10);
 			}
 
 			@Override

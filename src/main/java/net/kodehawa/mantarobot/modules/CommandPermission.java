@@ -8,8 +8,8 @@ import java.util.function.Predicate;
 
 public enum CommandPermission implements Predicate<Member> {
 	USER(member -> true),
-	ADMIN(member -> member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner()),
-	BOT_OWNER(MantaroData.getConfig().get()::isOwner);
+	BOT_OWNER(MantaroData.getConfig().get()::isOwner),
+	ADMIN(member -> BOT_OWNER.test(member) || member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner());
 
 	private final Predicate<Member> memberPredicate;
 
