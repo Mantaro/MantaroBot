@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.utils;
+package net.kodehawa.mantarobot.commands.utils.data;
 
 import java.util.LinkedHashMap;
 import java.util.List;

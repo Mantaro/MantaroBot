@@ -84,12 +84,14 @@ public class InventoryResolver {
 		drop(channel, item(item));
 	}
 
-	public static void dropWithChance(TextChannel channel, Item item, int weight) {
-		if (r.nextInt(weight) == 0) drop(channel, item);
+	public static boolean dropWithChance(TextChannel channel, Item item, int weight) {
+		boolean doDrop = r.nextInt(weight) == 0;
+		if (doDrop) drop(channel, item);
+		return doDrop;
 	}
 
-	public static void dropWithChance(TextChannel channel, int item, int weight) {
-		dropWithChance(channel, item(item), weight);
+	public static boolean dropWithChance(TextChannel channel, int item, int weight) {
+		return dropWithChance(channel, item(item), weight);
 	}
 
 	public static Item item(int id) {

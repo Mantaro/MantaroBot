@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.konachan.main.Konachan;
 import net.kodehawa.lib.konachan.main.entities.Wallpaper;
-import net.kodehawa.mantarobot.commands.utils.ImageData;
+import net.kodehawa.mantarobot.commands.utils.data.ImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;

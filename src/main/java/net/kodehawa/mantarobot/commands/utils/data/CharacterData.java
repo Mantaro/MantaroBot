@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.utils;
+package net.kodehawa.mantarobot.commands.utils.data;
 
 public class CharacterData {
 	public Boolean favourite = null;

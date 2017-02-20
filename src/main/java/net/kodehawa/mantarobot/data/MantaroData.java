@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.data;
 
-import net.kodehawa.mantarobot.commands.utils.QuotesData;
+import net.kodehawa.mantarobot.commands.utils.data.QuotesData;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.SimpleFileDataManager;
 
