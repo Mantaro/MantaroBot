@@ -314,10 +314,14 @@ public class ModerationCmds extends Module {
 							event.getChannel().sendMessage("That's not a valid number.").queue();
 							return;
 						}
-						guildData.songDurationLimit = Integer.parseInt(args[2]);
-						MantaroData.getData().update();
-						event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
-						return;
+						try{
+							guildData.songDurationLimit = Integer.parseInt(args[2]);
+							MantaroData.getData().update();
+							event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
+							return;
+						} catch (NumberFormatException e){
+							event.getChannel().sendMessage("You're trying to set a big af number, silly").queue();
+						}
 					}
 
 					if (action.equals("channel")) {

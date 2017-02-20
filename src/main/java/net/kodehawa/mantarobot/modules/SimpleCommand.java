@@ -35,8 +35,11 @@ public abstract class SimpleCommand implements Command {
 		return new EmbedBuilder()
 			.setAuthor(name, null, event.getAuthor().getEffectiveAvatarUrl())
 			.setColor(event.getMember().getColor())
-			.addField("Permission required", Utils.capitalize(permissionRequired().toString().toLowerCase()), true)
 			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
+	}
+
+	protected EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
+		return baseEmbed(event, name).addField("Permission required", Utils.capitalize(permissionRequired().toString().toLowerCase()), true);
 	}
 
 	protected void onHelp(GuildMessageReceivedEvent event) {
