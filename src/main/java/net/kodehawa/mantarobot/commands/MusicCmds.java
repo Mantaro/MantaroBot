@@ -55,7 +55,6 @@ public class MusicCmds extends Module {
 					AudioCmdUtils.openAudioConnection(event, am, vc);
 					event.getChannel().sendMessage(":ok_hand: Moved bot to VC: ``" + vc.getName() + "``").queue();
 				} catch (IndexOutOfBoundsException e) {
-					onHelp(event);
 					event.getChannel().sendMessage("Voice Channel not found or you didn't specify any voice channel.").queue();
 				}
 			}
@@ -195,7 +194,12 @@ public class MusicCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "RemoveTrack Command")
 					.addField("Description", "Removes the specified track from the queue.", false)
-					.addField("Usage:", "~>removetrack [tracknumber] (as specified on the ~>queue command)", false).build();
+					.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
+					.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
+							"first: remove first track\n"
+							+ "next: remove next track\n"
+							+ "last: remove last track", false)
+					.build();
 			}
 
 			@Override

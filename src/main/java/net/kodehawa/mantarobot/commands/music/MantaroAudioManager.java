@@ -165,6 +165,6 @@ public class MantaroAudioManager {
 
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 		IntConsumer consumer = (c) -> loadTrack(event, musicManager, playlist.getTracks().get(c - 1), false);
-		DiscordUtils.selectInt(event, 4, consumer);
+		DiscordUtils.selectInt(event, 5, consumer);
 	}
 }
