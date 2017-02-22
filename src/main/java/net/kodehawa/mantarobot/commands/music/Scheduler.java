@@ -47,12 +47,7 @@ public class Scheduler extends AudioEventAdapter {
 			MusicManager musicManager = getGuildAudioPlayer(channel().getGuild());
 			channel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
 			closeConnection(musicManager, channel().getGuild().getAudioManager(), channel());
-			return;
 		}
-
-		return;
-
-
 	}
 
 	public TextChannel channel() {
