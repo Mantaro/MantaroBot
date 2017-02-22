@@ -187,7 +187,9 @@ public class OwnerCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MantaroAudioManager.getMusicManagers().values()
-					.forEach(musicManager -> musicManager.getScheduler().channel().sendMessage(content).queue());
+					.forEach(musicManager -> {
+						if(musicManager.getScheduler().channel() != null) musicManager.getScheduler().channel().sendMessage(content).queue();
+					});
 			}
 
 			@Override

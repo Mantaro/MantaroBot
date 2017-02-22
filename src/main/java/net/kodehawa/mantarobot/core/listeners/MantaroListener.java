@@ -198,11 +198,12 @@ public class MantaroListener implements EventListener {
 										PermissionException pe = (PermissionException) error;
 										TextChannel tc = guild.getTextChannelById(
 											MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-										tc.sendMessage(String.format("\u274C PermissionError while appling roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable again", pe.getPermission())).queue();
+										tc.sendMessage(String.format("\u274C PermissionError while appling roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
 									} else {
 										channel.sendMessage(String.format("\u274C Unknown error while applying roles [%s]: <%s>: %s", birthdayRole.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 										LOGGER.warn("Unknown error while applying roles", error);
 									}
+
 									MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
 									MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
 									MantaroData.getData().update();
