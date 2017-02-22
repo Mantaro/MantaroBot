@@ -9,7 +9,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -164,5 +166,10 @@ public class MantaroAudioManager {
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 		IntConsumer consumer = (c) -> loadTrack(event, musicManager, playlist.getTracks().get(c - 1), false);
 		DiscordUtils.selectInt(event, 5, consumer);
+	}
+
+	public static boolean isAlone(VoiceChannel channel) {
+		for (Member member : channel.getMembers()) if (!member.getUser().isBot()) return false;
+		return true;
 	}
 }

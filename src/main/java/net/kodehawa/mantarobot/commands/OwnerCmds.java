@@ -53,12 +53,12 @@ public class OwnerCmds extends Module {
 					case "greeting":
 						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
 						MantaroData.getGreeting().update();
-						event.getChannel().sendMessage("Added to greet list: " + v).queue();
+						event.getChannel().sendMessage("Added to greet list: " + content.replace("greeting ", "")).queue();
 						break;
 					case "splash":
 						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
 						MantaroData.getSplashes().update();
-						event.getChannel().sendMessage("Added to splash list: " + v).queue();
+						event.getChannel().sendMessage("Added to splash list: " + content.replace("splash ", "")).queue();
 						break;
 				}
 			}
