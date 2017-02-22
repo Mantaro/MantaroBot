@@ -39,8 +39,10 @@ public class Scheduler extends AudioEventAdapter {
 			if (!repeat) {
 				nextTrack();
 				return;
+			} else {
+				player.startTrack(track.makeClone(), false);
+				return;
 			}
-			player.startTrack(track.makeClone(), false);
 		}
 
 		if (player.getPlayingTrack() == null) {
