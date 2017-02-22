@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.data;
 
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
@@ -61,5 +62,9 @@ public class Data {
 	public UserData getUser(User user, boolean isRewritable) {
 		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new UserData());
 		return users.getOrDefault(user.getId(), new UserData());
+	}
+
+	public UserData getUser(Member member, boolean isRewritable) {
+		return getUser(member.getUser(), isRewritable);
 	}
 }

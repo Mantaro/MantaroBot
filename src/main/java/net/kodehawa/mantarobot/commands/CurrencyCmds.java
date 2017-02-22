@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -16,8 +17,10 @@ import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,6 +32,7 @@ public class CurrencyCmds extends Module {
 		loot();
 		summon();
 		gamble();
+		richest();
 
 		/*
 		TODO NEXT:
@@ -46,6 +50,11 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
+
+				if (user.money <= 0) {
+					event.getChannel().sendMessage("\u274C You're broke. Search for some credits first!").queue();
+					return;
+				}
 
 				double multiplier;
 				int i;
@@ -78,7 +87,7 @@ public class CurrencyCmds extends Module {
 					}
 				} else {
 					user.money = Math.max(0, user.money - i);
-					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + i + " credits! \uD83D\uDE26").queue();
+					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (user.money == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
 				MantaroData.getData().update();
@@ -115,13 +124,13 @@ public class CurrencyCmds extends Module {
 				int moneyFound = Math.max(0, r.nextInt(400));
 
 				if (!loot.isEmpty()) {
-					String s = ItemStack.toString(loot);
+					String s = ItemStack.toString(ItemStack.reduce(loot));
 					userData.getInventory().merge(loot);
 					if (moneyFound != 0) {
 						if (userData.addMoney(moneyFound)) {
-							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with" + moneyFound + " credits!").queue();
+							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with" + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found " + s).queue();
@@ -200,6 +209,32 @@ public class CurrencyCmds extends Module {
 				return helpEmbed(event, "Profile command.")
 					.setDescription("Retrieves your current user profile.")
 					.build();
+			}
+		});
+	}
+
+	private void richest() {
+		super.register("richest", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				boolean global = !content.equals("guild");
+
+				AtomicInteger integer = new AtomicInteger(1);
+				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : "Guild richest Users", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
+					.setDescription(
+						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser)).filter(user -> !user.isBot())
+							.sorted(Comparator.comparingInt(user -> Integer.MAX_VALUE - MantaroData.getData().get().getUser(user, false).money))
+							.limit(15)
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(user, false).money))
+							.collect(Collectors.joining("\n"))
+					)
+					.build()
+				).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
 			}
 		});
 	}
