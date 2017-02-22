@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.data;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
+import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,8 @@ public class Data {
 				this.money = Math.addExact(this.money, money);
 				return true;
 			} catch (ArithmeticException ignored) {
+				this.money = 0;
+				this.getInventory().add(new ItemStack(9,1));
 				return false;
 			}
 		}

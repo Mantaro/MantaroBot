@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 
 import net.kodehawa.mantarobot.data.Data.UserData;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,6 +33,10 @@ public class Inventory {
 
 	public void replaceWith(List<ItemStack> inv) {
 		userData.inventory = serialize(inv);
+	}
+
+	public void add(ItemStack stack) {
+		merge(Collections.singletonList(stack));
 	}
 
 	public void merge(List<ItemStack> inv) {

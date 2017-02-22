@@ -60,6 +60,10 @@ public class ItemStack {
 		this.amount = amount;
 	}
 
+	public ItemStack(int i, int amount) {
+		this(Items.fromId(i), amount);
+	}
+
 	@Override
 	public String toString() {
 		return getItem().getEmoji() + " x " + getAmount();

@@ -28,6 +28,7 @@ public class CurrencyCmds extends Module {
 		profile();
 		loot();
 		summon();
+		gamble();
 
 		/*
 		TODO NEXT:
@@ -50,7 +51,7 @@ public class CurrencyCmds extends Module {
 				int i;
 				int luck;
 				try {
-					if (content.equals("all") || content.equals("everything") || content.equals("")) {
+					if (content.equals("all") || content.equals("everything")) {
 						i = user.money;
 						multiplier = 1.5d + (r.nextInt(1500) / 1000d);
 						luck = 60 + (int) (multiplier * 10) + r.nextInt(10);
@@ -61,23 +62,26 @@ public class CurrencyCmds extends Module {
 						luck = 15 + (int) (multiplier * 30) + r.nextInt(10);
 					}
 				} catch (NumberFormatException e) {
-					//TODO INVALID NUMBER
+					event.getChannel().sendMessage("\u274C Please type a valid number equal or less than your credits or `all` to gamble all your credits.").queue();
 					return;
 				} catch (UnsupportedOperationException e) {
-					//TODO NOT ENOUGH MONEY
+					event.getChannel().sendMessage("\u274C Please type a value within your credits amount.").queue();
 					return;
 				}
 
 				if (luck > r.nextInt(100)) {
 					int gains = (int) (i * multiplier);
 					if (user.addMoney(gains)) {
-
+						event.getChannel().sendMessage("Congrats, you won " + gains + " credits!").queue();
 					} else {
-						//TODO
+						event.getChannel().sendMessage("Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
 					}
 				} else {
-					user.money = Math.min(0, user.money - i);
+					user.money = Math.max(0, user.money - i);
+					event.getChannel().sendMessage("Sadly, you lost " + i + " credits!").queue();
 				}
+
+				MantaroData.getData().update();
 			}
 
 			@Override
@@ -108,12 +112,12 @@ public class CurrencyCmds extends Module {
 
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 				List<ItemStack> loot = TextChannelGround.of(event).collect();
-				int moneyFound = Math.min(0, r.nextInt(400) - 300);
+				int moneyFound = Math.max(0, r.nextInt(400));
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(loot);
+					userData.getInventory().merge(loot);
 					if (moneyFound != 0) {
-
 						if (userData.addMoney(moneyFound)) {
 							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with" + moneyFound + " credits!").queue();
 						} else {
@@ -133,8 +137,6 @@ public class CurrencyCmds extends Module {
 						event.getChannel().sendMessage("Digging through messages, you found nothing but dust").queue();
 					}
 				}
-
-				userData.getInventory().merge(loot);
 
 				MantaroData.getData().update();
 			}
