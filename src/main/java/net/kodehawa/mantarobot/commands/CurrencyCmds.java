@@ -72,13 +72,13 @@ public class CurrencyCmds extends Module {
 				if (luck > r.nextInt(100)) {
 					int gains = (int) (i * multiplier);
 					if (user.addMoney(gains)) {
-						event.getChannel().sendMessage("Congrats, you won " + gains + " credits!").queue();
+						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits!").queue();
 					} else {
-						event.getChannel().sendMessage("Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
+						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
 					}
 				} else {
 					user.money = Math.max(0, user.money - i);
-					event.getChannel().sendMessage("Sadly, you lost " + i + " credits!").queue();
+					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + i + " credits! \uD83D\uDE26").queue();
 				}
 
 				MantaroData.getData().update();
