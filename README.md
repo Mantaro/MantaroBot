@@ -1,25 +1,32 @@
 <img align="left" src="https://i.imgur.com/P7ra93n.png" height="190" width="190">
 # MantaroBot
-***"Anime, Music, Moderation, and everything else you might want"***
+**Anime, Music, Moderation, weather information, osu! and everything you might want in a customizable and stable bot**
 
 ### Using the Official Mantaro
-[***Click Here. No, seriously. This is the only step to add Mantaro to your Guild!***](https://is.gd/mantaro)
+[***Click Here. No, seriously. This is the only step to add Mantaro to your server!***](https://is.gd/mantaro)
 
 ### Building it your own
-**Warning**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
-don't recommend trying to do this as Mantaro isn't documented in the slightest and some builds here might be extremely unstable.
-Also you are going to need at least 3 or 4 API Keys that I ([**@AdrianTodt**](https://github.com/adriantodt))
-don't even know how [**@Kodehawa**](https://github.com/Kodehawa) got. _You have been warned_.
-
-#### Konachan notice (net.kodehawa.lib.konachan)
-That package is a port of the [**original konachan library**](https://github.com/Mxrck/KonachanLib) to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.
-**To marcomaldonado: Si tienes algun problema con esta implementación, hazmelo saber**
+**WARNING**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
+don't recommend trying to do this as Mantaro isn't documented in the slightest and also some builds here might be extremely unstable or outright untested due to the nature of our collaborative work.
+Also you are going to need a couple of API keys including **but not limited to**: osu!API, AniList API and OpenWeatherMap API keys, which are *your* responsability to get.
+__You have been warned__.
 
 1. Clone this repository somewhere.
 2. Open a Terminal in the newest folder.
 3. Run `gradlew build`
 4. Grab the `-all.jar` jar in `build/libs`
 5. Run it and prepare yourself to start filling configs.
+
+
+#### Konachan notice (net.kodehawa.lib.konachan)
+That package is a port of the [**original konachan library**](https://github.com/Mxrck/KonachanLib) to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.
+
+**To marcomaldonado: Si tienes algun problema con esta implementación, hazmelo saber**
+
+
+
+### Demo:
+<img align="center" src="http://i.imgur.com/QgPQE8J.png" height="500" width="1000">
 
 ### License
 _Copyright (C) 2016-2017 **David Alejandro Rubio Escares**/**Kodehawa**_
