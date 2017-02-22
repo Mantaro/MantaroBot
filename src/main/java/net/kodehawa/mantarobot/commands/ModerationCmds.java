@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
+import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -70,7 +70,7 @@ public class ModerationCmds extends Module {
 					guild.getController().ban(member, 7).queue(
 						success -> {
 							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue();
-							InventoryResolver.dropWithChance(event.getChannel(),1,40);
+							TextChannelGround.of(event).dropWithChance(1,40);
 						},
 						error ->
 						{
@@ -153,7 +153,7 @@ public class ModerationCmds extends Module {
 					guild.getController().kick(member).queue(
 						success -> {
 							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
-							InventoryResolver.dropWithChance(event.getChannel(),2,40);
+							TextChannelGround.of(event).dropWithChance(2,40);
 						},
 						error -> {
 							if (error instanceof PermissionException) {

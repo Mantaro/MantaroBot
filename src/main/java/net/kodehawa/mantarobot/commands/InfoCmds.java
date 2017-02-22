@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
+import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -129,7 +129,7 @@ public class InfoCmds extends Module {
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.build()
 					).queue();
-					InventoryResolver.dropWithChance(event.getChannel(),4,40);
+					TextChannelGround.of(event).dropWithChance(4,40);
 					return;
 				}
 
@@ -396,7 +396,7 @@ public class InfoCmds extends Module {
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
 					event.getChannel().sendMessage("\uD83D\uDCE3 The ping is " + ping + " ms, " + ratePing(ping)).queue();
-					InventoryResolver.dropWithChance(event.getChannel(),5,40);
+					TextChannelGround.of(event).dropWithChance(5,40);
 				});
 			}
 

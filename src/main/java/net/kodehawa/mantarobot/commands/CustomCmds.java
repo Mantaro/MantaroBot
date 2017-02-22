@@ -5,11 +5,11 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
+import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.DeathTimer;
 import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.Data.GuildData;
@@ -216,7 +216,7 @@ public class CustomCmds extends Module {
 								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().update();
 								event.getChannel().sendMessage("\u2705 Saved to command ``" + saveTo + "``!").queue();
-								InventoryResolver.dropWithChance(event.getChannel(),8,70);
+								TextChannelGround.of(event).dropWithChance(8,70);
 							}
 							timer.get().disarm().explode();
 							unlock.run();
@@ -272,7 +272,7 @@ public class CustomCmds extends Module {
 					MantaroData.getData().update();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responses.stream().collect(Collectors.joining("``, ")), event.getGuild().getId())).queue();
 
-					InventoryResolver.dropWithChance(event.getChannel(),8,90);
+					TextChannelGround.of(event).dropWithChance(8,90);
 					return;
 				}
 

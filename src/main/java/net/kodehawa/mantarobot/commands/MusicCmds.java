@@ -5,10 +5,10 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.MusicManager;
-import net.kodehawa.mantarobot.commands.currency.InventoryResolver;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -81,7 +81,7 @@ public class MusicCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(String.format("\uD83D\uDCE3 Now playing ->``%s (%s)``", musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length))).queue();
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
+				TextChannelGround.of(event).dropWithChance(0, 40);
 			}
 
 			@Override
@@ -113,7 +113,7 @@ public class MusicCmds extends Module {
 				String toSend = paused ? ":mega: Player paused." : ":mega: Player unpaused.";
 				musicManager.getScheduler().getPlayer().setPaused(paused);
 				event.getChannel().sendMessage(toSend).queue();
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
+				TextChannelGround.of(event).dropWithChance(0, 40);
 			}
 
 			@Override
@@ -144,7 +144,7 @@ public class MusicCmds extends Module {
 				}
 
 				MantaroAudioManager.loadAndPlay(event, content);
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
+				TextChannelGround.of(event).dropWithChance(0, 40);
 			}
 
 			@Override
@@ -174,7 +174,7 @@ public class MusicCmds extends Module {
 				} else if (content.startsWith("clear")) {
 					MantaroAudioManager.clearQueue(musicManager, event, true);
 				}
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 50);
+				TextChannelGround.of(event).dropWithChance(0, 50);
 			}
 
 			@Override
@@ -226,7 +226,7 @@ public class MusicCmds extends Module {
 					}
 
 					event.getChannel().sendMessage(":ok_hand: Removed music **" + list.remove(i).getInfo().title + "** from the queue.").queue();
-					InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
+					TextChannelGround.of(event).dropWithChance(0, 40);
 				});
 			}
 
@@ -247,7 +247,7 @@ public class MusicCmds extends Module {
 					String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
 					musicManager.getScheduler().setRepeat(repeat);
 					event.getChannel().sendMessage(toSend).queue();
-					InventoryResolver.dropWithChance(event.getChannel(), 0, 70);
+					TextChannelGround.of(event).dropWithChance(0, 70);
 					return;
 				}
 
@@ -277,7 +277,7 @@ public class MusicCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).shuffle();
 				event.getChannel().sendMessage("\uD83D\uDCE3 Randomized current queue order.").queue();
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 70);
+				TextChannelGround.of(event).dropWithChance(0, 70);
 			}
 
 			@Override
@@ -298,7 +298,7 @@ public class MusicCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).skipTrack(event);
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 50);
+				TextChannelGround.of(event).dropWithChance(0, 50);
 			}
 
 			@Override
@@ -323,7 +323,7 @@ public class MusicCmds extends Module {
 					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				clearQueue(musicManager, event, false);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
-				InventoryResolver.dropWithChance(event.getChannel(), 0, 30);
+				TextChannelGround.of(event).dropWithChance(0, 30);
 			}
 
 			@Override

@@ -3,30 +3,25 @@ package net.kodehawa.mantarobot.commands;
 import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Async;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MiscCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
-	private List<User> users = new ArrayList<>();
+
 
 	public MiscCmds() {
 		super(Category.MISC);
 		misc();
-		lottery();
 		eightBall();
 		randomFact();
 	}
@@ -72,34 +67,6 @@ public class MiscCmds extends Module {
 				return CommandPermission.USER;
 			}
 
-		});
-	}
-
-	private void lottery() {
-		super.register("lottery", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				User author = event.getAuthor();
-				if (!users.contains(author)) {
-					event.getChannel().sendMessage("\uD83D\uDCAC " + "You won **" + new Random().nextInt(350) + "USD**, congrats!").queue();
-					users.add(author);
-				} else {
-					event.getChannel().sendMessage("\uD83D\uDCAC " + "Try again later! (Usable every 24 hours)").queue();
-				}
-				Async.asyncSleepThen(86400000, () -> users.remove(author));
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "lottery")
-					.setDescription("Retrieves a random amount of money.")
-					.build();
-			}
 		});
 	}
 

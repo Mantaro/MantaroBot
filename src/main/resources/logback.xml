@@ -5,7 +5,7 @@
         </filter>
         <file>logs/mantaro.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/miyuki.%d{yyyyMMdd}.log</fileNamePattern>
+            <fileNamePattern>logs/mantaro.%d{yyyyMMdd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>

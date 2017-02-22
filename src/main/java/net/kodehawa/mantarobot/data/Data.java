@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.data;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +23,23 @@ public class Data {
 	}
 
 	public static class UserData {
+
 		public String birthdayDate = null;
-		public long money = 0;
-		public Map<Integer,Integer> inventory = new HashMap<>();
+		public Map<Integer, Integer> inventory = new HashMap<>();
+		public int money = 0;
+
+		public Inventory getInventory() {
+			return new Inventory(this);
+		}
+
+		public boolean addMoney(int money) {
+			try {
+				this.money = Math.addExact(this.money, money);
+				return true;
+			} catch (ArithmeticException ignored) {
+				return false;
+			}
+		}
 	}
 
 	public String defaultPrefix = "~>";
