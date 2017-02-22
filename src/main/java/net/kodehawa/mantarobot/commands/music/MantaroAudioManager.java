@@ -40,7 +40,7 @@ public class MantaroAudioManager {
 	public static void clearQueue(MusicManager musicManager, GuildMessageReceivedEvent event, boolean askForSkip) {
 		int TEMP_QUEUE_LENGHT = musicManager.getScheduler().getQueue().size();
 		musicManager.getScheduler().getQueue().clear();
-		event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from queue.").queue();
+		if(event != null) event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from queue.").queue();
 		if (askForSkip) musicManager.skipTrack(event);
 	}
 
@@ -131,13 +131,6 @@ public class MantaroAudioManager {
 			int trackDuration = Optional.ofNullable(MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit).isPresent() ?
 				MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit : 600000;
 			if (track.getDuration() > trackDuration && !MantaroData.getConfig().get().isOwner(event.getMember())) {
-				channel.sendMessage(
-					"\u274C"
-						+ " Track added is longer than 10 minutes (>600000ms). Cannot add "
-						+ track.getInfo().title
-						+ " (Track length: " + getDurationMinutes(track) + ")"
-				).queue();
-				return;
 			}
 
 			musicManager.getScheduler().queue(track);

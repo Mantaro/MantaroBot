@@ -97,7 +97,7 @@ public class CurrencyCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Profile command.")
 						.setDescription("Retrieves your current user profile.")
-						.build()	;
+						.build();
 			}
 		});
 	}

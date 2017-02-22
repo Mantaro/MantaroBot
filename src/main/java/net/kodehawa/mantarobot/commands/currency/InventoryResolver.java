@@ -77,7 +77,7 @@ public class InventoryResolver {
 			if (DROPPED_ITEMS.containsKey(id)) DROPPED_ITEMS.get(id).remove(itemHolder);
 		});
 
-		LOGGER.info(id + "Dropped " + item.emoji + " " + item.desc);
+		LOGGER.info(String.format("%s -> Dropped %s ``%s``", id, item.emoji, item.desc));
 	}
 
 	public static void drop(TextChannel channel, int item) {

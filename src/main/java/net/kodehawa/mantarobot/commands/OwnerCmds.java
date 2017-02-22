@@ -18,6 +18,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.clearQueue;
 import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
 
 public class OwnerCmds extends Module {
@@ -201,13 +202,9 @@ public class OwnerCmds extends Module {
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
 		MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-			if(musicManager != null && musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
-				musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
-				musicManager.getScheduler().getQueue().clear();
-				closeConnection(
-						musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel()
-				);
-			}
+			if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null) musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
+			clearQueue(musicManager, null, false);
+			closeConnection(musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel());
 		});
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
