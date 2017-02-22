@@ -22,7 +22,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	@Override
 	protected void append(ILoggingEvent event) {
 		if (!enabled) return;
-		if (!event.getLevel().isGreaterOrEqual(Level.DEBUG)) return;
+		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
 
 		MantaroBot.getJDA().getTextChannelById("266231083341840385").sendMessage(patternLayout.doLayout(event)).queue();
 	}
