@@ -1,3 +1,4 @@
+<img align="left" src="https://i.imgur.com/P7ra93n.png" height="190" width="190">
 # MantaroBot
 ***"Anime, Music, Moderation, and everything else you might want"***
 
