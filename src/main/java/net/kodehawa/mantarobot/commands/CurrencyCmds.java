@@ -46,8 +46,8 @@ public class CurrencyCmds extends Module {
 				String id = event.getAuthor().getId();
 
 				if (usersRatelimited.contains(id)) {
-					//TODO YOU ARE RATELIMITED (Better version/Revision?)
-					event.getChannel().sendMessage("Waaaait a bit! Let other users loot too, you weirdo.").queue();
+					event.getChannel().sendMessage(":stopwatch:" +
+							"Cooldown a lil bit, you're ratelimited right now so maybe wait a little bit more and let other people loot.").queue();
 					return;
 				}
 
@@ -71,7 +71,12 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Help Embed
+				return helpEmbed(event, "Loot command")
+						.setDescription("Loots the current chat for items, for usage in Mantaro's currency system.\n"
+								+ "Currently, there are ``" + InventoryResolver.ITEMS.size() + "`` items avaliable in chance," +
+								"for which you have a random chance of getting one or more.")
+						.addField("Usage", "~>loot", false)
+						.build();
 			}
 		});
 	}
@@ -90,7 +95,9 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Help Embed
+				return helpEmbed(event, "Profile command.")
+						.setDescription("Retrieves your current user profile.")
+						.build();
 			}
 		});
 	}

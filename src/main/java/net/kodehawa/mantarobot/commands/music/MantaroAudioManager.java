@@ -9,7 +9,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,7 +42,7 @@ public class MantaroAudioManager {
 	public static void clearQueue(MusicManager musicManager, GuildMessageReceivedEvent event, boolean askForSkip) {
 		int TEMP_QUEUE_LENGHT = musicManager.getScheduler().getQueue().size();
 		musicManager.getScheduler().getQueue().clear();
-		event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from queue.").queue();
+		if(event != null) event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from queue.").queue();
 		if (askForSkip) musicManager.skipTrack(event);
 	}
 
@@ -131,9 +133,7 @@ public class MantaroAudioManager {
 			int trackDuration = Optional.ofNullable(MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit).isPresent() ?
 				MantaroData.getData().get().getGuild(event.getGuild(), false).songDurationLimit : 600000;
 			if (track.getDuration() > trackDuration && !MantaroData.getConfig().get().isOwner(event.getMember())) {
-				channel.sendMessage(
-					"\u274C"
-						+ " Track added is longer than 10 minutes (>600000ms). Cannot add "
+				channel.sendMessage("\u274C" + " Track added is longer than 10 minutes (>600000ms). Cannot add "
 						+ track.getInfo().title
 						+ " (Track length: " + getDurationMinutes(track) + ")"
 				).queue();
@@ -165,6 +165,11 @@ public class MantaroAudioManager {
 
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 		IntConsumer consumer = (c) -> loadTrack(event, musicManager, playlist.getTracks().get(c - 1), false);
-		DiscordUtils.selectInt(event, 4, consumer);
+		DiscordUtils.selectInt(event, 5, consumer);
+	}
+
+	public static boolean isAlone(VoiceChannel channel) {
+		for (Member member : channel.getMembers()) if (!member.getUser().isBot()) return false;
+		return true;
 	}
 }

@@ -49,8 +49,7 @@ public class AnimeCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
 					//Set variables to use later. They will be parsed to JSON later on.
-					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s",
-						URLEncoder.encode(content, "UTF-8"), authToken);
+					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(connection, event);
 					AnimeData[] type = GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
 
@@ -61,7 +60,7 @@ public class AnimeCmds extends Module {
 
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Anime selection. Type a number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
-					for (int i = 0; i < 4 && i < type.length; i++) {
+					for (int i = 0; i < 5 && i < type.length; i++) {
 						AnimeData animeData = type[i];
 						if (animeData != null)
 							b.append('[').append(i + 1).append("] ").append(animeData.title_english).append(" (").append(animeData.title_japanese).append(")").append("\n");
@@ -74,7 +73,7 @@ public class AnimeCmds extends Module {
 						event.getMessage().addReaction("\ud83d\udc4c").queue();
 					};
 
-					DiscordUtils.selectInt(event, type.length, animeSelector);
+					DiscordUtils.selectInt(event, type.length + 1, animeSelector);
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
@@ -171,7 +170,7 @@ public class AnimeCmds extends Module {
 					EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Character selection. Type a number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
 					StringBuilder b = new StringBuilder();
 
-					for (int i = 0; i < 4 && i < character.length; i++) {
+					for (int i = 0; i < 5 && i < character.length; i++) {
 						CharacterData characterData = character[i];
 						if (characterData != null)
 							b.append('[').append(i + 1).append("] ").append(characterData.name_first).append(" ").append(characterData.name_last).append("\n");
@@ -183,7 +182,7 @@ public class AnimeCmds extends Module {
 						characterData(event, character, c - 1);
 						event.getMessage().addReaction("\ud83d\udc4c").queue();
 					};
-					DiscordUtils.selectInt(event, character.length, characterSelector);
+					DiscordUtils.selectInt(event, character.length + 1, characterSelector);
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
 						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
@@ -214,8 +213,9 @@ public class AnimeCmds extends Module {
 	}
 
 	private void characterData(GuildMessageReceivedEvent event, CharacterData[] character, int pick) {
-		String CHAR_NAME = character[pick].getName_first() + " " + character[pick].getName_last() + "\n(" + character[0].getName_japanese() + ")";
-		String ALIASES = character[pick].getName_alt() == null ? "No aliases" : "Also known as: " + character[0].getName_alt();
+		String JAP_NAME = character[pick].getName_japanese() == null ? "" : "\n(" + character[pick].getName_japanese() + ")";
+		String CHAR_NAME = character[pick].getName_first() + " " + character[pick].getName_last() + JAP_NAME;
+		String ALIASES = character[pick].getName_alt() == null ? "No aliases" : "Also known as: " + character[pick].getName_alt();
 		String IMAGE_URL = character[pick].getImage_url_med();
 		String CHAR_DESCRIPTION = character[pick].getInfo().isEmpty() ? "No info."
 			: character[pick].getInfo().length() <= 1024 ? character[pick].getInfo() : character[pick].getInfo().substring(0, 1020 - 1) + "...";

@@ -41,6 +41,12 @@ public class MusicCmds extends Module {
 		super.register("move", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(content.isEmpty()){
+					event.getChannel().sendMessage("Cannot move to no channel, remember to write the name.").queue();
+					onHelp(event);
+					return;
+				}
+
 				try {
 					VoiceChannel vc = event.getGuild().getVoiceChannelsByName(content, true).get(0);
 					AudioManager am = event.getGuild().getAudioManager();
@@ -49,7 +55,6 @@ public class MusicCmds extends Module {
 					AudioCmdUtils.openAudioConnection(event, am, vc);
 					event.getChannel().sendMessage(":ok_hand: Moved bot to VC: ``" + vc.getName() + "``").queue();
 				} catch (IndexOutOfBoundsException e) {
-					onHelp(event);
 					event.getChannel().sendMessage("Voice Channel not found or you didn't specify any voice channel.").queue();
 				}
 			}
@@ -98,21 +103,17 @@ public class MusicCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Pause Command")
 					.addField("Description", "Pauses or unpauses the current track.", false)
-					.addField("Usage:", "~>pause true/false (pause/unpause)", false).build();
+					.addField("Usage:", "~>pause (if paused will unpause and viseversa)", false).build();
 			}
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				try {
-					boolean paused = Boolean.parseBoolean(content);
-					String toSend = paused ? ":mega: Player paused." : ":mega: Player unpaused.";
-					musicManager.getScheduler().getPlayer().setPaused(paused);
-					event.getChannel().sendMessage(toSend).queue();
-					InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
-				} catch (Exception e) {
-					event.getChannel().sendMessage(":x " + "Error -> Not a boolean value").queue();
-				}
+				boolean paused = !musicManager.getScheduler().getPlayer().isPaused();
+				String toSend = paused ? ":mega: Player paused." : ":mega: Player unpaused.";
+				musicManager.getScheduler().getPlayer().setPaused(paused);
+				event.getChannel().sendMessage(toSend).queue();
+				InventoryResolver.dropWithChance(event.getChannel(), 0, 40);
 			}
 
 			@Override
@@ -189,7 +190,12 @@ public class MusicCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "RemoveTrack Command")
 					.addField("Description", "Removes the specified track from the queue.", false)
-					.addField("Usage:", "~>removetrack [tracknumber] (as specified on the ~>queue command)", false).build();
+					.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
+					.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
+							"first: remove first track\n"
+							+ "next: remove next track\n"
+							+ "last: remove last track", false)
+					.build();
 			}
 
 			@Override
@@ -236,31 +242,23 @@ public class MusicCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				try {
-					if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null) {
-						boolean repeat;
-						if (content.equals("true") || content.equals("false")) repeat = Boolean.parseBoolean(content);
-						else throw new IllegalStateException();
-						String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
-						musicManager.getScheduler().setRepeat(repeat);
-
-						event.getChannel().sendMessage(toSend).queue();
-						InventoryResolver.dropWithChance(event.getChannel(), 0, 70);
-						return;
-					}
-
-					event.getChannel().sendMessage(":heavy_multiplication_x: Cannot repeat a non-existant track.").queue();
-				} catch (IllegalStateException e) {
-					event.getChannel().sendMessage(":heavy_multiplication_x: " + "Error -> Not a boolean value").queue();
+				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null) {
+					boolean repeat = !musicManager.getScheduler().isRepeat();
+					String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
+					musicManager.getScheduler().setRepeat(repeat);
+					event.getChannel().sendMessage(toSend).queue();
+					InventoryResolver.dropWithChance(event.getChannel(), 0, 70);
+					return;
 				}
+
+				event.getChannel().sendMessage(":heavy_multiplication_x: Cannot repeat a non-existant track.").queue();
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Repeat command")
 					.setDescription("Repeats a song.")
-					.addField("Usage", "~>repeat <true/false>", false)
-					.addField("Parameters", "<true/false> true if you want the player to repeat the current track, false otherwise", false)
+					.addField("Usage", "~>repeat (if it's not repeating, start repeating and viseversa)", false)
 					.addField("Warning", "Might not work correctly, if the bot leaves the voice channel after disabling repeat, just add a song to the queue", true)
 					.build();
 			}
@@ -321,7 +319,7 @@ public class MusicCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MusicManager musicManager = getGuildAudioPlayer(event);
-				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null && !musicManager.getScheduler().getPlayer().isPaused())
+				if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null && !musicManager.getScheduler().getPlayer().isPaused())
 					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				clearQueue(musicManager, event, false);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());

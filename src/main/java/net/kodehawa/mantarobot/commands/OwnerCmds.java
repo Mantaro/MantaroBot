@@ -18,6 +18,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
+import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.clearQueue;
 import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
 
 public class OwnerCmds extends Module {
@@ -28,7 +29,7 @@ public class OwnerCmds extends Module {
 		super(Category.OWNER);
 		add();
 		eval();
-		notifymusic();
+		notifyMusic();
 		shutdown();
 	}
 
@@ -50,14 +51,14 @@ public class OwnerCmds extends Module {
 						event.getChannel().sendMessage("Added to hug list: " + v).queue();
 						break;
 					case "greeting":
-						MantaroData.getGreeting().get().add(v);
+						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
 						MantaroData.getGreeting().update();
-						event.getChannel().sendMessage("Added to greet list: " + v).queue();
+						event.getChannel().sendMessage("Added to greet list: " + content.replace("greeting ", "")).queue();
 						break;
 					case "splash":
-						MantaroData.getSplashes().get().add(v);
+						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
 						MantaroData.getSplashes().update();
-						event.getChannel().sendMessage("Added to splash list: " + v).queue();
+						event.getChannel().sendMessage("Added to splash list: " + content.replace("splash ", "")).queue();
 						break;
 				}
 			}
@@ -176,7 +177,7 @@ public class OwnerCmds extends Module {
 		});
 	}
 
-	private void notifymusic() {
+	private void notifyMusic() {
 		super.register("notifymusic", new SimpleCommand() {
 			@Override
 			public CommandPermission permissionRequired() {
@@ -186,7 +187,9 @@ public class OwnerCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MantaroAudioManager.getMusicManagers().values()
-					.forEach(musicManager -> musicManager.getScheduler().channel().sendMessage(content).queue());
+					.forEach(musicManager -> {
+						if(musicManager.getScheduler().channel() != null) musicManager.getScheduler().channel().sendMessage(content).queue();
+					});
 			}
 
 			@Override
@@ -201,14 +204,11 @@ public class OwnerCmds extends Module {
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
 		MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-			if(musicManager != null && musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
-				musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
-				musicManager.getScheduler().getQueue().clear();
-				closeConnection(
-						musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel()
-				);
-			}
+			if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null) musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
+			clearQueue(musicManager, null, false);
+			closeConnection(musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel());
 		});
+
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
 		event.getChannel().sendMessage("*goes to sleep*").queue();
 		MantaroBot.getJDA().shutdown();

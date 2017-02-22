@@ -71,37 +71,31 @@ public class ImageCmds extends Module {
 				return new EmbedBuilder().setDescription("No results found.");
 			else return new EmbedBuilder().setDescription("Query not valid.");
 		}
+		try {
+			String URL = filter.get(get).getFile_url();
+			String AUTHOR = filter.get(get).getAuthor();
+			String RATING = filter.get(get).getRating();
+			int HEIGHT = filter.get(get).getHeight();
+			int WIDTH = filter.get(get).getWidth();
+			String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
 
-		String URL = filter.get(get).getFile_url();
-		String AUTHOR = filter.get(get).getAuthor();
-		String RATING = filter.get(get).getRating();
-		int HEIGHT = filter.get(get).getHeight();
-		int WIDTH = filter.get(get).getWidth();
-		String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
-
-		if (!smallRequest) {
-			try {
+			if (!smallRequest) {
 				return new EmbedBuilder().setAuthor("Found image", URL, null)
+						.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
+						.setImage(URL)
+						.addField("Width", String.valueOf(WIDTH), true)
+						.addField("Height", String.valueOf(HEIGHT), true)
+						.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
+						.setFooter("If the image doesn't load, click the title.", null);
+			}
+			return new EmbedBuilder().setAuthor("Found image", URL, null)
 					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 					.setImage(URL)
 					.addField("Width", String.valueOf(WIDTH), true)
 					.addField("Height", String.valueOf(HEIGHT), true)
 					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 					.setFooter("If the image doesn't load, click the title.", null);
-			} catch (Exception ex) {
-				return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
-			}
-		}
-
-		try {
-			return new EmbedBuilder().setAuthor("Found image", URL, null)
-				.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
-				.setImage(URL)
-				.addField("Width", String.valueOf(WIDTH), true)
-				.addField("Height", String.valueOf(HEIGHT), true)
-				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
-				.setFooter("If the image doesn't load, click the title.", null);
-		} catch (Exception ex) {
+		} catch (IndexOutOfBoundsException ex) {
 			return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
 		}
 	}

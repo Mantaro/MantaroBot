@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -30,7 +29,6 @@ import java.util.Set;
 import java.util.concurrent.Future;
 
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
-import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot {
@@ -117,24 +115,6 @@ public class MantaroBot {
 		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands");
 
 		modules.forEach(Module::onPostLoad);
-
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			MantaroData.getData().update();
-			MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
-			MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-				if(musicManager != null && musicManager.getScheduler().getPlayer().getPlayingTrack() != null){
-					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
-					musicManager.getScheduler().getQueue().clear();
-					closeConnection(
-							musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel()
-					);
-				}
-			});
-
-			MantaroBot.getJDA().getTextChannelById("266231083341840385")
-					.sendMessage("<@155867458203287552> Something made mantaro finish unexpectedly.").queue();
-			MantaroBot.getJDA().shutdown();
-		}));
 	}
 
 	public static void main(String[] args) {

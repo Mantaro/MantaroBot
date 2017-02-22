@@ -121,4 +121,8 @@ public class Scheduler extends AudioEventAdapter {
 	public void setRepeat(boolean r) {
 		repeat = r;
 	}
+
+	public boolean isRepeat(){
+		return repeat;
+	}
 }

@@ -60,9 +60,9 @@ public class QuoteCmd extends Module {
 							Message m = messageHistory.get(i);
 							m.addReaction("\ud83d\udc4c").queue();
 							String[] sContent = {
-								m.getAuthor().getName(),
-								m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
-								m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+									m.getAuthor().getName(),
+									m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
+									m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
 							};
 
 							if (MantaroData.getQuotes().get().quotes.containsKey(guild.getId())) {
