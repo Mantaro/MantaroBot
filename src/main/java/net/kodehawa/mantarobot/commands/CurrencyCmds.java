@@ -117,7 +117,7 @@ public class CurrencyCmds extends Module {
 						if (userData.addMoney(moneyFound)) {
 							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with" + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with" + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.");
+							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with" + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found " + s).queue();
@@ -127,7 +127,7 @@ public class CurrencyCmds extends Module {
 						if (userData.addMoney(moneyFound)) {
 							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.");
+							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found nothing but dust").queue();
