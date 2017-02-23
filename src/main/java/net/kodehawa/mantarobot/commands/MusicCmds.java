@@ -42,9 +42,23 @@ public class MusicCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if(content.isEmpty()){
-					event.getChannel().sendMessage("Cannot move to no channel, remember to write the name.").queue();
-					onHelp(event);
-					return;
+					try{
+						AudioManager am = event.getGuild().getAudioManager();
+						VoiceChannel vc = event.getGuild().getMember(event.getAuthor()).getVoiceState().getChannel();
+
+						if(vc != event.getGuild().getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()){
+							event.getChannel().sendMessage(":thinking: Bot will try and move to the channel you're on").queue();
+							AudioCmdUtils.closeAudioConnection(event, am);
+							AudioCmdUtils.openAudioConnection(event, am, vc);
+							return;
+						}
+
+						event.getChannel().sendMessage(":heavy_multiplication_x: Cannot move to the same channel.").queue();
+					} catch (Exception e){
+						event.getChannel().sendMessage("Cannot move to inexistant channel.").queue();
+						onHelp(event);
+						return;
+					}
 				}
 
 				try {
@@ -65,6 +79,8 @@ public class MusicCmds extends Module {
 					.setDescription("Moves the bot from one VC to another")
 					.addField("Usage", "~>move <vc>", false)
 					.addField("Parameters", "vc: voice channel to move the bot to (exact name, caps doesn't matter).", false)
+					.addField("Special cases", "If you don't specify vc, the bot will try to move to the channel you're " +
+							"in it's different from the one the bot's in", false)
 					.build();
 			}
 		});

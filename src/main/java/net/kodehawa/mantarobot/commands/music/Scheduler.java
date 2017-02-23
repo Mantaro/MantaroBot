@@ -37,18 +37,17 @@ public class Scheduler extends AudioEventAdapter {
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
 			if (!repeat) {
+				if (player.getPlayingTrack() == null) {
+					MusicManager musicManager = getGuildAudioPlayer(channel().getGuild());
+					channel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
+					closeConnection(musicManager, channel().getGuild().getAudioManager(), channel());
+					return;
+				}
+
 				nextTrack();
-				return;
 			} else {
 				player.startTrack(track.makeClone(), false);
-				return;
 			}
-		}
-
-		if (player.getPlayingTrack() == null) {
-			MusicManager musicManager = getGuildAudioPlayer(channel().getGuild());
-			channel().sendMessage(":zap: Finished playing queue, disconnecting...").queue();
-			closeConnection(musicManager, channel().getGuild().getAudioManager(), channel());
 		}
 	}
 
