@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.udojava.evalex.Expression;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -25,6 +26,8 @@ import us.monoid.web.Resty;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +47,7 @@ public class UtilsCmds extends Module {
 		ytmp3();
 		weather();
 		urban();
+		math();
 	}
 
 	private void birthday() {
@@ -342,6 +346,34 @@ public class UtilsCmds extends Module {
 						.setDescription("Gives you a link to a MP3 download of almost any youtube video you want.")
 						.addField("Usage", "~>ytmp3 <youtube link>", true)
 						.addField("Parameters", "youtube link: The link of the video to translate to MP3", true)
+						.build();
+			}
+		});
+	}
+
+	private void math(){
+		super.register("math", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				try{
+					BigDecimal expressionResult = new Expression(content)
+							.setPrecision(15)
+							.setRoundingMode(RoundingMode.UP)
+							.eval();
+
+					event.getChannel().sendMessage(":pencil: The result for your math operation is: " + expressionResult).queue();
+				} catch(RuntimeException e){
+					event.getChannel().sendMessage(":heavy_multiplication_x: Wrong syntax: ``" + e.getMessage() + "``").queue();
+				}
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Math command")
+						.setDescription("Does your math work.")
+						.addField("Possible arguments", "You can find a list of possible arguments on: https://hastebin.com/ayafikamip.vbs", true)
+						.addField("Warning", "The floating point precision is set to 15 with a upwards rounding", true)
 						.build();
 			}
 		});

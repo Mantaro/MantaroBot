@@ -36,6 +36,7 @@ dependencies {
 	compile 'com.sedmelluq:jda-nas:1.0.3'
 	compile 'com.sedmelluq:lavaplayer:1.2.13'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
+	compile 'com.udojava:EvalEx:1.0'
 	compile 'org.reflections:reflections:0.9.10'
 	compile 'us.monoid.web:resty:0.3.2'
 	compile fileTree(dir: 'lib', include: '*.jar')
