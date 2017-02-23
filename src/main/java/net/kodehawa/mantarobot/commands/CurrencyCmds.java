@@ -126,7 +126,7 @@ public class CurrencyCmds extends Module {
 
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 				List<ItemStack> loot = TextChannelGround.of(event).collect();
-				int moneyFound = Math.max(0, r.nextInt(400));
+				int moneyFound = Math.max(0, r.nextInt(400) - 300);
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
