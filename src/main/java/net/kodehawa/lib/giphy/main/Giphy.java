@@ -2,7 +2,7 @@ package net.kodehawa.lib.giphy.main;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.giphy.main.entities.Gif;
-import net.kodehawa.lib.giphy.main.entities.Random;
+import net.kodehawa.lib.giphy.main.entities.RandomGif;
 import net.kodehawa.lib.giphy.main.entities.Search;
 import net.kodehawa.lib.giphy.provider.Provider;
 import net.kodehawa.lib.giphy.provider.RandomProvider;
@@ -52,7 +52,7 @@ public class Giphy {
 			Optional.ofNullable(tags).ifPresent(r -> query.put("tag", tags));
 			String json = Utils.wget(GIPHY_URL + "random?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
-			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Random.class));
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, RandomGif.class));
 		}).run();
 	}
 

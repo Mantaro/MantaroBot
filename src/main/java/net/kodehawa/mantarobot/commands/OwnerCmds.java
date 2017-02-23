@@ -210,8 +210,8 @@ public class OwnerCmds extends Module {
 		});
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
-		event.getChannel().sendMessage("*goes to sleep*").queue();
-		MantaroBot.getJDA().shutdown();
+		event.getChannel().sendMessage("*goes to sleep*").complete();
+		MantaroBot.getJDA().shutdownNow(true);
 		System.exit(0);
 	}
 }

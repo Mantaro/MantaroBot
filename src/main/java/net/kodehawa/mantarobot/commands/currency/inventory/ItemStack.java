@@ -27,14 +27,6 @@ public class ItemStack {
 		return mapped(Arrays.asList(stacks));
 	}
 
-	public static Map<Integer, Integer> serialized(List<ItemStack> list) {
-		return list.stream().collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
-	}
-
-	public static Map<Integer, Integer> serialized(ItemStack... stacks) {
-		return serialized(Arrays.asList(stacks));
-	}
-
 	public static List<ItemStack> reduce(List<ItemStack> list) {
 		return new ArrayList<>(mapped(list).values());
 	}

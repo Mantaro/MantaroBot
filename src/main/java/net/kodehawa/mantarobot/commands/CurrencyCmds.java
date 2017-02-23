@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.BanzyEnforcer;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
@@ -15,15 +14,15 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Async;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static net.kodehawa.mantarobot.commands.currency.inventory.Items.BROM_PICKAXE;
 
 public class CurrencyCmds extends Module {
 	public CurrencyCmds() {
@@ -33,6 +32,7 @@ public class CurrencyCmds extends Module {
 		loot();
 		summon();
 		gamble();
+		mine();
 		richest();
 		inventory();
 
@@ -121,6 +121,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
+				//TODO MOVE TO MARKET
 				if (args.length > 0) {
 					if (args[0].equals("sell")) {
 						if (args.length > 1) {
@@ -129,7 +130,7 @@ public class CurrencyCmds extends Module {
 						}
 
 						long all = user.getInventory().asList().stream()
-							.mapToLong(value -> value.getItem().getValue() * value.getAmount())
+							.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 							.sum();
 
 						user.getInventory().clear();
@@ -142,6 +143,11 @@ public class CurrencyCmds extends Module {
 
 						return;
 					}
+
+					if (args[0].equals("buy")) {
+						//TODO
+						return;
+					}
 				}
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
@@ -149,7 +155,7 @@ public class CurrencyCmds extends Module {
 				List<ItemStack> list = user.getInventory().asList();
 				if (list.isEmpty()) builder.setDescription("There is only dust.");
 				else
-					user.getInventory().asList().forEach(stack -> builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), stack.getItem().getDesc(), false));
+					user.getInventory().asList().forEach(stack -> builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", (long)(stack.getItem().getValue() * 1.1),(long)(stack.getItem().getValue() * 0.9), stack.getItem().getDesc()), false));
 
 				event.getChannel().sendMessage(builder.build()).queue();
 			}
@@ -219,32 +225,39 @@ public class CurrencyCmds extends Module {
 		});
 	}
 
-	private void lottery() {
-		//TODO @AdrianTodt re-do this with Currency system + Expirator
-		List<User> users = new ArrayList<>();
-		super.register("lottery", new SimpleCommand() {
+	private void mine() {
+		BanzyEnforcer banzyEnforcer = new BanzyEnforcer(1000);
+		Random r = new Random();
+
+		super.register("mine", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				User author = event.getAuthor();
-				if (!users.contains(author)) {
-					event.getChannel().sendMessage("\uD83D\uDCAC " + "You won **" + new Random().nextInt(350) + "USD**, congrats!").queue();
-					users.add(author);
-				} else {
-					event.getChannel().sendMessage("\uD83D\uDCAC " + "Try again later! (Usable every 24 hours)").queue();
-				}
-				Async.asyncSleepThen(86400000, () -> users.remove(author));
-			}
+				String id = event.getAuthor().getId();
 
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
+				if (!banzyEnforcer.process(id)) {
+					event.getChannel().sendMessage(":stopwatch:" +
+						"Cooldown a lil bit, you're mining so fast that I can't print enough money!").queue();
+					return;
+				}
+
+				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
+
+				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
+				long moneyFound = (long) (r.nextInt(400) * (1.0d + picks * 0.5d));
+				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+
+				if (userData.addMoney(moneyFound)) {
+					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "")).queue();
+				} else {
+					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "")).queue();
+				}
+
+				MantaroData.getData().update();
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "lottery")
-					.setDescription("Retrieves a random amount of money.")
-					.build();
+				return null;
 			}
 		});
 	}

@@ -1,6 +1,6 @@
 package net.kodehawa.lib.giphy.main.entities;
 
-public class Random {
+public class RandomGif {
 	public Data data = null;
 	public Meta meta = null;
 

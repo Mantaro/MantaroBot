@@ -17,8 +17,8 @@ public class Inventory {
 			return map.entrySet().stream().map(entry -> new ItemStack(Items.fromId(entry.getKey()), entry.getValue())).collect(Collectors.toList());
 		}
 
-		public static Map<Integer, Integer> serialize(List<ItemStack> inventory) {
-			return ItemStack.serialized(inventory);
+		public static Map<Integer, Integer> serialize(List<ItemStack> list) {
+			return list.stream().collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
 		}
 	}
 
@@ -30,6 +30,10 @@ public class Inventory {
 
 	public List<ItemStack> asList() {
 		return unserialize(userData.inventory);
+	}
+
+	public Map<Item,ItemStack> asMap() {
+		return ItemStack.mapped(asList());
 	}
 
 	public void clear() {
