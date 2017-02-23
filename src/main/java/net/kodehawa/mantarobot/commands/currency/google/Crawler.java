@@ -16,7 +16,6 @@ public class Crawler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Crawler");
 
-
 	public static List<SearchResult> get(String query) {
 		List<SearchResult> results = new ArrayList<>();
 

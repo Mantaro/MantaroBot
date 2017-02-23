@@ -15,6 +15,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.YoutubeMp3Info;
@@ -32,8 +33,10 @@ import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -386,7 +389,23 @@ public class UtilsCmds extends Module {
 		super.register("google", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(Crawler.get(content).get(0).getUrl()).queue();
+				StringBuilder b = new StringBuilder();
+				EmbedBuilder builder = new EmbedBuilder();
+				List<Crawler.SearchResult> result = Crawler.get(content);
+				for (int i = 0; i < 5 && i < result.size(); i++) {
+					Crawler.SearchResult data = result.get(i);
+					if (data != null)
+						b.append('[').append(i + 1).append("] ").append(data.getTitle()).append("\n");
+				}
+
+				event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+
+				IntConsumer selector = (c) -> {
+					event.getChannel().sendMessage(":ok_hand: Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
+
+					event.getMessage().addReaction("\ud83d\udc4c").queue();
+				};
+				DiscordUtils.selectInt(event, result.size() + 1, selector);
 			}
 
 			@Override
