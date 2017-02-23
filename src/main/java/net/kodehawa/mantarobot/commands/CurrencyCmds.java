@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -33,6 +34,7 @@ public class CurrencyCmds extends Module {
 		summon();
 		gamble();
 		richest();
+		inventory();
 
 		/*
 		TODO NEXT:
@@ -73,6 +75,10 @@ public class CurrencyCmds extends Module {
 						i = user.money;
 						multiplier = 1.5d + (r.nextInt(1500) / 1000d);
 						luck = 50 + (int) (multiplier * 10) + r.nextInt(20);
+					} else if (content.equals("half")) {
+						i = user.money == 1 ? 1 : user.money / 2;
+						multiplier = 1d + (r.nextInt(1500) / 1000d);
+						luck = 45 + (int) (multiplier * 15) + r.nextInt(20);
 					} else {
 						i = Integer.parseInt(content);
 						if (i > user.money || i < 0) throw new UnsupportedOperationException();
@@ -92,7 +98,7 @@ public class CurrencyCmds extends Module {
 					if (user.addMoney(gains)) {
 						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits!").queue();
 					} else {
-						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
+						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 					}
 				} else {
 					user.money = Math.max(0, user.money - i);
@@ -100,6 +106,52 @@ public class CurrencyCmds extends Module {
 				}
 
 				MantaroData.getData().update();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
+	}
+
+	private void inventory() {
+		super.register("inventory", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
+
+				if (args.length > 0) {
+					if (args[0].equals("sell")) {
+						if (args.length > 1) {
+							//TODO
+							return;
+						}
+
+						long all = user.getInventory().asList().stream()
+							.mapToLong(value -> value.getItem().getValue() * value.getAmount())
+							.sum();
+
+						user.getInventory().clear();
+
+						if (user.addMoney(all)) {
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits!").queue();
+						} else {
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+						}
+
+						return;
+					}
+				}
+
+				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
+
+				List<ItemStack> list = user.getInventory().asList();
+				if (list.isEmpty()) builder.setDescription("There is only dust.");
+				else
+					user.getInventory().asList().forEach(stack -> builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), stack.getItem().getDesc(), false));
+
+				event.getChannel().sendMessage(builder.build()).queue();
 			}
 
 			@Override
@@ -135,7 +187,7 @@ public class CurrencyCmds extends Module {
 						if (userData.addMoney(moneyFound)) {
 							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found " + s).queue();
@@ -145,7 +197,7 @@ public class CurrencyCmds extends Module {
 						if (userData.addMoney(moneyFound)) {
 							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java integer. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found nothing but dust").queue();

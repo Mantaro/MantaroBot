@@ -34,7 +34,7 @@ public class Data {
 			return new Inventory(this);
 		}
 
-		public boolean addMoney(int money) {
+		public boolean addMoney(long money) {
 			try {
 				this.money = Math.addExact(this.money, money);
 				return true;

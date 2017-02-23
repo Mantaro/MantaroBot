@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 
 import net.kodehawa.mantarobot.data.Data.UserData;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,10 @@ public class Inventory {
 
 	public List<ItemStack> asList() {
 		return unserialize(userData.inventory);
+	}
+
+	public void clear() {
+		replaceWith(new ArrayList<>());
 	}
 
 	public void replaceWith(List<ItemStack> inv) {
