@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
@@ -54,9 +55,14 @@ public class MusicCmds extends Module {
 						}
 
 						event.getChannel().sendMessage(":heavy_multiplication_x: Cannot move to the same channel.").queue();
+						return;
 					} catch (Exception e){
+						if(e instanceof PermissionException){
+							event.getChannel().sendMessage("Cannot connect to a channel I cannot talk or move.").queue();
+							return;
+						}
+
 						event.getChannel().sendMessage("Cannot move to inexistant channel.").queue();
-						onHelp(event);
 						return;
 					}
 				}
