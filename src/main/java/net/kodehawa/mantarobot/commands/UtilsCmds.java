@@ -328,7 +328,7 @@ public class UtilsCmds extends Module {
 					.addField("Download Link", "[Click Here!](" + info.link + ")", false)
 					.build()
 				).queue();
-				TextChannelGround.of(event).dropWithChance(7,10);
+				TextChannelGround.of(event).dropWithChance(7,5);
 			}
 
 			@Override

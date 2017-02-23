@@ -2,9 +2,9 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 
 public class Item {
 	private final String emoji, name, plural, desc;
-	private final int value;
+	private final long value;
 
-	public Item(String emoji, String name, String plural, String desc, int value) {
+	public Item(String emoji, String name, String plural, String desc, long value) {
 		this.emoji = emoji;
 		this.name = name;
 		this.desc = desc;
@@ -32,7 +32,7 @@ public class Item {
 		return plural;
 	}
 
-	public int getValue() {
+	public long getValue() {
 		return value;
 	}
 }

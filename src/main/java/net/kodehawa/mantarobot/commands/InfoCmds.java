@@ -105,7 +105,7 @@ public class InfoCmds extends Module {
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.build()
 					).queue();
-					TextChannelGround.of(event).dropWithChance(4,40);
+					TextChannelGround.of(event).dropWithChance(4,5);
 					return;
 				}
 
@@ -372,7 +372,7 @@ public class InfoCmds extends Module {
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
 					event.getChannel().sendMessage("\uD83D\uDCE3 The ping is " + ping + " ms, " + ratePing(ping)).queue();
-					TextChannelGround.of(event).dropWithChance(5,40);
+					TextChannelGround.of(event).dropWithChance(5,5);
 				});
 			}
 

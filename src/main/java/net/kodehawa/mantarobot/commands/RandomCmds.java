@@ -47,7 +47,7 @@ public class RandomCmds extends Module {
 				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
-				TextChannelGround.of(event).dropWithChance(6,10);
+				TextChannelGround.of(event).dropWithChance(6,5);
 			}
 
 			@Override

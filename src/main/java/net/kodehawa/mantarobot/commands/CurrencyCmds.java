@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.BanzyEnforcer;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
@@ -14,7 +15,6 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -38,17 +38,26 @@ public class CurrencyCmds extends Module {
 		TODO NEXT:
 		 - inventory command
 		 - sell command
-		 - loot command
 		 - transfer command
-		 - gamble command
+		 - mine command
 		 */
 	}
 
 	private void gamble() {
+		BanzyEnforcer banzyEnforcer = new BanzyEnforcer(2000);
 		Random r = new Random();
+
 		super.register("gamble", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				String id = event.getAuthor().getId();
+
+				if (!banzyEnforcer.process(id)) {
+					event.getChannel().sendMessage(":stopwatch:" +
+						"Cooldown a lil bit, you're gambling so fast that I can't print enough money!").queue();
+					return;
+				}
+
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				if (user.money <= 0) {
@@ -57,18 +66,18 @@ public class CurrencyCmds extends Module {
 				}
 
 				double multiplier;
-				int i;
+				long i;
 				int luck;
 				try {
 					if (content.equals("all") || content.equals("everything")) {
 						i = user.money;
 						multiplier = 1.5d + (r.nextInt(1500) / 1000d);
-						luck = 60 + (int) (multiplier * 10) + r.nextInt(10);
+						luck = 50 + (int) (multiplier * 10) + r.nextInt(20);
 					} else {
 						i = Integer.parseInt(content);
 						if (i > user.money) throw new UnsupportedOperationException();
 						multiplier = 1.2d + (i / user.money * r.nextInt(1300) / 1000d);
-						luck = 15 + (int) (multiplier * 30) + r.nextInt(10);
+						luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
 					}
 				} catch (NumberFormatException e) {
 					event.getChannel().sendMessage("\u274C Please type a valid number equal or less than your credits or `all` to gamble all your credits.").queue();
@@ -101,23 +110,19 @@ public class CurrencyCmds extends Module {
 	}
 
 	private void loot() {
+		BanzyEnforcer banzyEnforcer = new BanzyEnforcer(5000);
 		Random r = new Random();
-		Expirator expirator = new Expirator();
-		List<String> usersRatelimited = new ArrayList<>();
 
 		super.register("loot", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String id = event.getAuthor().getId();
 
-				if (usersRatelimited.contains(id)) {
+				if (!banzyEnforcer.process(id)) {
 					event.getChannel().sendMessage(":stopwatch:" +
 						"Cooldown a lil bit, you're ratelimited right now so maybe wait a little bit more and let other people loot.").queue();
 					return;
 				}
-
-				usersRatelimited.add(id);
-				expirator.letExpire(System.currentTimeMillis() + 10000, () -> usersRatelimited.remove(id));
 
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 				List<ItemStack> loot = TextChannelGround.of(event).collect();
@@ -223,7 +228,7 @@ public class CurrencyCmds extends Module {
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : "Guild richest Users", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
 						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser)).filter(user -> !user.isBot())
-							.sorted(Comparator.comparingInt(user -> Integer.MAX_VALUE - MantaroData.getData().get().getUser(user, false).money))
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(user, false).money))
 							.limit(15)
 							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(user, false).money))
 							.collect(Collectors.joining("\n"))

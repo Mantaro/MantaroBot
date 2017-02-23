@@ -70,7 +70,7 @@ public class ModerationCmds extends Module {
 					guild.getController().ban(member, 7).queue(
 						success -> {
 							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue();
-							TextChannelGround.of(event).dropWithChance(1,40);
+							TextChannelGround.of(event).dropWithChance(1,2);
 						},
 						error ->
 						{
@@ -153,7 +153,7 @@ public class ModerationCmds extends Module {
 					guild.getController().kick(member).queue(
 						success -> {
 							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
-							TextChannelGround.of(event).dropWithChance(2,40);
+							TextChannelGround.of(event).dropWithChance(2,2);
 						},
 						error -> {
 							if (error instanceof PermissionException) {

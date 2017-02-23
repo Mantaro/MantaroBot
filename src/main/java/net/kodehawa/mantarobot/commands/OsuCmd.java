@@ -87,7 +87,7 @@ public class OsuCmd extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
-				TextChannelGround.of(event).dropWithChance(4,40);
+				TextChannelGround.of(event).dropWithChance(4,5);
 				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from osu! server...").queue(sentMessage -> {

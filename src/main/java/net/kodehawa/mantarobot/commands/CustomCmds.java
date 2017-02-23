@@ -216,7 +216,7 @@ public class CustomCmds extends Module {
 								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().update();
 								event.getChannel().sendMessage("\u2705 Saved to command ``" + saveTo + "``!").queue();
-								TextChannelGround.of(event).dropWithChance(8,70);
+								TextChannelGround.of(event).dropWithChance(8,2);
 							}
 							timer.get().disarm().explode();
 							unlock.run();
@@ -272,7 +272,7 @@ public class CustomCmds extends Module {
 					MantaroData.getData().update();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responses.stream().collect(Collectors.joining("``, ")), event.getGuild().getId())).queue();
 
-					TextChannelGround.of(event).dropWithChance(8,90);
+					TextChannelGround.of(event).dropWithChance(8,2);
 					return;
 				}
 

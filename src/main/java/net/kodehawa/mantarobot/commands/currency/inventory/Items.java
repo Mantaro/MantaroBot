@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 import java.util.Arrays;
 
 public class Items {
-	public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET, LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG;
+	public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET, LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE;
 	public static final Item[] ALL = {
 		HEADPHONES =
 			new Item(":headphones:", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 5),
@@ -24,7 +24,9 @@ public class Items {
 		CC_PENCIL =
 			new Item(":pencil2:", "Custom Commands Pencil", "Custom Command Pencils", "We have plenty of those!", 5),
 		OVERFLOWED_BAG =
-			new Item(":moneybag:", "Overflowed Moneybag", "Overflowed Moneybags", "Congratulations, you fucked up the game!", 1000)
+			new Item(":moneybag:", "Overflowed Moneybag", "Overflowed Moneybags", "Congratulations, you fucked up the game!", 1000),
+		BROM_PICKAXE =
+			new Item(":pick:", "Brom's Pickaxe", "Brom's Pickaxes", "That guy liked Minecraft way too much.", 10)
 	};
 
 	public static Item fromId(int id) {

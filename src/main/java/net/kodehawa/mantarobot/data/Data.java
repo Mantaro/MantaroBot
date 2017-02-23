@@ -28,7 +28,7 @@ public class Data {
 
 		public String birthdayDate = null;
 		public Map<Integer, Integer> inventory = new HashMap<>();
-		public int money = 0;
+		public long money = 0;
 
 		public Inventory getInventory() {
 			return new Inventory(this);

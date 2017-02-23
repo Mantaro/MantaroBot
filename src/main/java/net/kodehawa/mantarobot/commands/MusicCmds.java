@@ -81,7 +81,7 @@ public class MusicCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(String.format("\uD83D\uDCE3 Now playing ->``%s (%s)``", musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length))).queue();
-				TextChannelGround.of(event).dropWithChance(0, 40);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -113,7 +113,7 @@ public class MusicCmds extends Module {
 				String toSend = paused ? ":mega: Player paused." : ":mega: Player unpaused.";
 				musicManager.getScheduler().getPlayer().setPaused(paused);
 				event.getChannel().sendMessage(toSend).queue();
-				TextChannelGround.of(event).dropWithChance(0, 40);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -144,7 +144,7 @@ public class MusicCmds extends Module {
 				}
 
 				MantaroAudioManager.loadAndPlay(event, content);
-				TextChannelGround.of(event).dropWithChance(0, 40);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -174,7 +174,7 @@ public class MusicCmds extends Module {
 				} else if (content.startsWith("clear")) {
 					MantaroAudioManager.clearQueue(musicManager, event, true);
 				}
-				TextChannelGround.of(event).dropWithChance(0, 50);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -226,7 +226,7 @@ public class MusicCmds extends Module {
 					}
 
 					event.getChannel().sendMessage(":ok_hand: Removed music **" + list.remove(i).getInfo().title + "** from the queue.").queue();
-					TextChannelGround.of(event).dropWithChance(0, 40);
+					TextChannelGround.of(event).dropWithChance(0, 10);
 				});
 			}
 
@@ -247,7 +247,7 @@ public class MusicCmds extends Module {
 					String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
 					musicManager.getScheduler().setRepeat(repeat);
 					event.getChannel().sendMessage(toSend).queue();
-					TextChannelGround.of(event).dropWithChance(0, 70);
+					TextChannelGround.of(event).dropWithChance(0, 10);
 					return;
 				}
 
@@ -277,7 +277,7 @@ public class MusicCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).shuffle();
 				event.getChannel().sendMessage("\uD83D\uDCE3 Randomized current queue order.").queue();
-				TextChannelGround.of(event).dropWithChance(0, 70);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -298,7 +298,7 @@ public class MusicCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				getGuildAudioPlayer(event).skipTrack(event);
-				TextChannelGround.of(event).dropWithChance(0, 50);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -323,7 +323,7 @@ public class MusicCmds extends Module {
 					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
 				clearQueue(musicManager, event, false);
 				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
-				TextChannelGround.of(event).dropWithChance(0, 30);
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
