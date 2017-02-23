@@ -1,9 +1,11 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.udojava.evalex.Expression;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
@@ -13,6 +15,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.YoutubeMp3Info;
@@ -25,10 +28,15 @@ import us.monoid.web.Resty;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -44,6 +52,8 @@ public class UtilsCmds extends Module {
 		ytmp3();
 		weather();
 		urban();
+		math();
+		googleSearch();
 	}
 
 	private void birthday() {
@@ -343,6 +353,64 @@ public class UtilsCmds extends Module {
 						.addField("Usage", "~>ytmp3 <youtube link>", true)
 						.addField("Parameters", "youtube link: The link of the video to translate to MP3", true)
 						.build();
+			}
+		});
+	}
+
+	private void math(){
+		super.register("math", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				try{
+					BigDecimal expressionResult = new Expression(content)
+							.setPrecision(15)
+							.setRoundingMode(RoundingMode.UP)
+							.eval();
+
+					event.getChannel().sendMessage(":pencil: The result for your math operation is: " + expressionResult).queue();
+				} catch(RuntimeException e){
+					event.getChannel().sendMessage(":heavy_multiplication_x: Wrong syntax: ``" + e.getMessage() + "``").queue();
+				}
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Math command")
+						.setDescription("Does your math work.")
+						.addField("Possible arguments", "You can find a list of possible arguments on: https://hastebin.com/ayafikamip.vbs", true)
+						.addField("Warning", "The floating point precision is set to 15 with a upwards rounding", true)
+						.build();
+			}
+		});
+	}
+
+	private void googleSearch(){
+		super.register("google", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				StringBuilder b = new StringBuilder();
+				EmbedBuilder builder = new EmbedBuilder();
+				List<Crawler.SearchResult> result = Crawler.get(content);
+				for (int i = 0; i < 5 && i < result.size(); i++) {
+					Crawler.SearchResult data = result.get(i);
+					if (data != null)
+						b.append('[').append(i + 1).append("] ").append(data.getTitle()).append("\n");
+				}
+
+				event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+
+				IntConsumer selector = (c) -> {
+					event.getChannel().sendMessage(":ok_hand: Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
+
+					event.getMessage().addReaction("\ud83d\udc4c").queue();
+				};
+				DiscordUtils.selectInt(event, result.size() + 1, selector);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
 			}
 		});
 	}

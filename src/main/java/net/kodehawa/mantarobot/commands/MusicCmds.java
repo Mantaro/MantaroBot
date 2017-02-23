@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -42,12 +43,14 @@ public class MusicCmds extends Module {
 		super.register("move", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				Guild guild = event.getGuild();
 				if(content.isEmpty()){
-					try{
-						AudioManager am = event.getGuild().getAudioManager();
-						VoiceChannel vc = event.getGuild().getMember(event.getAuthor()).getVoiceState().getChannel();
+					AudioManager am = guild.getAudioManager();
 
-						if(vc != event.getGuild().getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()){
+					try{
+						VoiceChannel vc = guild.getMember(event.getAuthor()).getVoiceState().getChannel();
+
+						if(vc != guild.getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()){
 							event.getChannel().sendMessage(":thinking: Bot will try and move to the channel you're on").queue();
 							AudioCmdUtils.closeAudioConnection(event, am);
 							AudioCmdUtils.openAudioConnection(event, am, vc);
