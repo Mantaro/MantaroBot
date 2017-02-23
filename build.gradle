@@ -46,6 +46,7 @@ dependencies {
 	compile 'commons-codec:commons-codec:1.5'
 	compile 'net.java.dev.jna:jna-platform:4.2.2'
 	compile 'org.apache.httpcomponents:fluent-hc:4.5.2'
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
 }
 
 task wrapper(type: Wrapper) {
