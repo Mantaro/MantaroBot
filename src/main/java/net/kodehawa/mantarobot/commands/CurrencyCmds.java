@@ -75,7 +75,7 @@ public class CurrencyCmds extends Module {
 						luck = 50 + (int) (multiplier * 10) + r.nextInt(20);
 					} else {
 						i = Integer.parseInt(content);
-						if (i > user.money) throw new UnsupportedOperationException();
+						if (i > user.money || i < 0) throw new UnsupportedOperationException();
 						multiplier = 1.2d + (i / user.money * r.nextInt(1300) / 1000d);
 						luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
 					}
