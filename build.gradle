@@ -20,7 +20,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 2, minor: 0, revision: 4)
+def ver = new Version(major: 2, minor: 1, revision: 0)
 version ver.toString()
 
 //We are going to use Java 8
