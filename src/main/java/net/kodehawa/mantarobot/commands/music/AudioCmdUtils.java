@@ -88,7 +88,9 @@ public class AudioCmdUtils {
 			builder.setDescription(toSend)
 				.addField("Currently playing", nowPlaying, true)
 				.addField("Queue runtime", getDurationMinutes(length), true)
-				.addField("Total queue size", String.valueOf(musicManager.getScheduler().getQueue().size()), true);
+				.addField("Total queue size", String.valueOf(musicManager.getScheduler().getQueue().size()), true)
+				.addField("Repeat / Pause", String.valueOf(musicManager.getScheduler().isRepeat())
+						+ " / " + String.valueOf(musicManager.getScheduler().getPlayer().isPaused()), false);
 		} else {
 			builder.setDescription("Nothing here, just dust.");
 		}

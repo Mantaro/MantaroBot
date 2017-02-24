@@ -39,14 +39,14 @@ dependencies {
 	compile 'com.udojava:EvalEx:1.0'
 	compile 'org.reflections:reflections:0.9.10'
 	compile 'us.monoid.web:resty:0.3.2'
-	compile fileTree(dir: 'lib', include: '*.jar')
 	compile 'com.google.code.gson:gson:2.8.0'
-	compile 'bsh:bsh:2.0b4'
+	compile 'org.apache-extras.beanshell:bsh:2.0b6'
 	compile 'com.google.guava:guava:19.0'
 	compile 'commons-codec:commons-codec:1.5'
 	compile 'net.java.dev.jna:jna-platform:4.2.2'
 	compile 'org.apache.httpcomponents:fluent-hc:4.5.2'
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
+	compile fileTree(dir: 'lib', include: '*.jar')
 }
 
 task wrapper(type: Wrapper) {
