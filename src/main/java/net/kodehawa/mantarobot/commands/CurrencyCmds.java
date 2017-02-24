@@ -94,7 +94,7 @@ public class CurrencyCmds extends Module {
 				}
 
 				if (luck > r.nextInt(100)) {
-					int gains = (int) (i * multiplier);
+					long gains = (long) (i * multiplier);
 					if (user.addMoney(gains)) {
 						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits!").queue();
 					} else {
