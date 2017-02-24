@@ -22,6 +22,7 @@ public class ActionCmds extends Module {
 		action();
 		greet();
 		meow();
+		kiss();
 		tsundere();
 		bloodsuck();
 	}
@@ -193,9 +194,38 @@ public class ActionCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Pat command")
-					.addField("Description:", "Pats the specified user	.", false)
+					.addField("Description:", "Pats the specified user.", false)
 					.setColor(Color.PINK)
 					.build();
+			}
+		});
+	}
+
+	private void kiss() {
+		super.register("kiss", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				User author = event.getAuthor();
+				TextChannel channel = event.getChannel();
+				List<String> kisses = MantaroData.getKisses().get();
+				String kString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention)
+						.collect(Collectors.joining(" "));
+				String kiss = String.format(":speech_balloon: %s you have been kissed by %s \n %s", kString, author.getAsMention(),
+						kisses.get(new Random().nextInt(kisses.size())));
+				channel.sendMessage(kiss).queue();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Kiss command")
+						.addField("Description:", "Kisses the specified user.", false)
+						.setColor(Color.PINK)
+						.build();
 			}
 		});
 	}

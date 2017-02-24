@@ -30,12 +30,12 @@ public class Crawler {
 				String temp = link.attr("href");
 				if (temp.startsWith("/url?q=")) {
 					URL tempUrl = new URL(temp.replace("/url?q=", ""));
+					//doesn't work *always* but it works most of the times so cannot complain
 					String path = tempUrl.getFile().substring(0, tempUrl.getFile().indexOf('&'));
 					String base = tempUrl.getProtocol() + "://" + tempUrl.getHost() + path;
 					results.add(new SearchResult(base, link.text()));
 				}
 			}
-
 		} catch (IOException e) {
 			LOGGER.error("Error while getting results from google", e);
 		}

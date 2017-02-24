@@ -14,6 +14,7 @@ public class MantaroData {
 	private static SimpleFileDataManager facts;
 	private static SimpleFileDataManager greeting;
 	private static SimpleFileDataManager hugs;
+	private static SimpleFileDataManager kisses;
 	private static SimpleFileDataManager noble;
 	private static SimpleFileDataManager patting;
 	private static GsonDataManager<QuotesData> quotes;
@@ -43,6 +44,11 @@ public class MantaroData {
 	public static SimpleFileDataManager getGreeting() {
 		if (greeting == null) greeting = new SimpleFileDataManager("greeting.txt");
 		return greeting;
+	}
+
+	public static SimpleFileDataManager getKisses() {
+		if (kisses == null) kisses = new SimpleFileDataManager("kisses.txt");
+		return kisses;
 	}
 
 	public static SimpleFileDataManager getHugs() {

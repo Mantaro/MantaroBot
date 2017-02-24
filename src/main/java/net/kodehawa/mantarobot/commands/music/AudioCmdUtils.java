@@ -106,7 +106,7 @@ public class AudioCmdUtils {
 		);
 	}
 
-	public static String getDurationMinutes(AudioTrack track) {
+	static String getDurationMinutes(AudioTrack track) {
 		return getDurationMinutes(track.getInfo().length);
 	}
 
