@@ -2,13 +2,11 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.*;
 
 public class TextChannelGround {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
-	private static final Expirator EXPIRATOR = new Expirator();
 	private static Random r = new Random(System.currentTimeMillis());
 
 	public static TextChannelGround of(String id) {
@@ -32,10 +30,6 @@ public class TextChannelGround {
 	public TextChannelGround drop(List<ItemStack> stacks) {
 		List<ItemStack> finalStacks = new ArrayList<>(stacks);
 		this.stacks.addAll(finalStacks);
-		EXPIRATOR.letExpire(System.currentTimeMillis() + 120000, () -> {
-			this.stacks.removeAll(finalStacks);
-		});
-
 		return this;
 	}
 
