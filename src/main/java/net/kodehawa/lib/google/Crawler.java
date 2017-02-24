@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.currency.google;
+package net.kodehawa.lib.google;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

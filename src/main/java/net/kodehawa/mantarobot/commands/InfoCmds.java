@@ -309,7 +309,7 @@ public class InfoCmds extends Module {
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
 						.setFooter(String.format("To check the command usage do %shelp <command> // -> Commands: " +
 								Manager.commands.entrySet().stream().filter(
-										(command) -> !command.getValue().getKey().isHiddenFromHelp()).collect(Collectors.toSet()).size()
+										(command) -> !command.getValue().getKey().isHiddenFromHelp()).count()
 								, prefix), null)
 						.addField("Music Commands:", forType(Category.MUSIC), false)
 						.addField("Custom Commands:", forType(Category.CUSTOM), false)
