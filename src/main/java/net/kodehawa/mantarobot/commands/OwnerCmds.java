@@ -123,7 +123,7 @@ public class OwnerCmds extends Module {
 					EmbedBuilder embed = new EmbedBuilder();
 					String toSend = toSendTmp == null ? "Executed successfully with no objects returned" : toSendTmp.toString();
 					embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
-						.setDescription("Returned: " + toSend)
+						.setDescription(toSend)
 						.setFooter("Asked by: " + event.getAuthor().getName(), null);
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
@@ -141,7 +141,7 @@ public class OwnerCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Eval command")
-					.setDescription("Guess what, it evals.")
+					.setDescription("Guess what, it evals (js for javascript and no arguments for normal java).")
 					.build();
 			}
 		});
