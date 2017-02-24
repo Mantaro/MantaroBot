@@ -35,6 +35,7 @@ public class CurrencyCmds extends Module {
 		mine();
 		richest();
 		inventory();
+		market();
 
 		/*
 		TODO NEXT:
@@ -155,7 +156,7 @@ public class CurrencyCmds extends Module {
 				List<ItemStack> list = user.getInventory().asList();
 				if (list.isEmpty()) builder.setDescription("There is only dust.");
 				else
-					user.getInventory().asList().forEach(stack -> builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", (long)(stack.getItem().getValue() * 1.1),(long)(stack.getItem().getValue() * 0.9), stack.getItem().getDesc()), false));
+					user.getInventory().asList().forEach(stack -> builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", (long) (stack.getItem().getValue() * 1.1), (long) (stack.getItem().getValue() * 0.9), stack.getItem().getDesc()), false));
 
 				event.getChannel().sendMessage(builder.build()).queue();
 			}
@@ -221,6 +222,26 @@ public class CurrencyCmds extends Module {
 						"for which you have a random chance of getting one or more.")
 					.addField("Usage", "~>loot", false)
 					.build();
+			}
+		});
+	}
+
+	private void market() {
+		super.register("market", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				EmbedBuilder embed = baseEmbed(event, "\uD83D\uDED2 Mantaro Market");
+
+				Stream.of(Items.ALL).forEach(item ->
+					embed.addField(item.getEmoji() + " " + item.getName(), "\uD83D\uDCE5 " + (long) (item.getValue() * 1.1) + "c \uD83D\uDCE4 " + (long) (item.getValue() * 0.9) + "c", true)
+				);
+
+				event.getChannel().sendMessage(embed.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
 			}
 		});
 	}
