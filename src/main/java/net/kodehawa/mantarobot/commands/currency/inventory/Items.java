@@ -30,14 +30,18 @@ public class Items {
 		CC_PENCIL =
 			new Item("\u270f", "Pencil", "We have plenty of those!", 5),
 		OVERFLOWED_BAG =
-			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "Congratulations, you fucked up the game!", Short.MAX_VALUE * 2),
+			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "Congratulations, you fucked up the game!", 2) {
+				@Override public void changePrices(Random r) {
+					price = value << (r.nextInt(10) + 15);
+				}
+			},
 		BROM_PICKAXE =
 			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much.", 100)
 	};
 
 	static {
 		Random r = new Random();
-		Async.startAsyncTask("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 3600);
+		Async.startAsyncTask("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 2);
 	}
 
 	public static Optional<Item> fromEmoji(String emoji) {

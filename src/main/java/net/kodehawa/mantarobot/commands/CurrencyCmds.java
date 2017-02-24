@@ -230,6 +230,7 @@ public class CurrencyCmds extends Module {
 		super.register("market", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				//TODO BUY AND SELL
 				EmbedBuilder embed = baseEmbed(event, "\uD83D\uDED2 Mantaro Market");
 
 				Stream.of(Items.ALL).forEach(item ->
