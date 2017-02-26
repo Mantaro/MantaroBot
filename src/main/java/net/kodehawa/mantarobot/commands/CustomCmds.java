@@ -271,7 +271,7 @@ public class CustomCmds extends Module {
 					Manager.commands.put(cmd, cmdPair);
 					customCommands.put(cmd, responses);
 					MantaroData.getData().update();
-					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s`` -> ``Guild: %s``", cmd, responses.stream().collect(Collectors.joining("``, ")), event.getGuild().getId())).queue();
+					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
 
 					TextChannelGround.of(event).dropWithChance(8,2);
 					return;

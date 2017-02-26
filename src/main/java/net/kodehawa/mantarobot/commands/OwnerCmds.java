@@ -96,7 +96,7 @@ public class OwnerCmds extends Module {
 					Object toSend;
 					EmbedBuilder embedBuilder = new EmbedBuilder().setAuthor("Eval", null, event.getAuthor().getAvatarUrl()).setFooter("Asked by " + event.getAuthor().getName(), null);
 					try {
-						script.eval("imports = new JavaImporter(java.util, java.io, java.net)\n");
+						script.eval("load(\"nashorn:mozilla_compat.js\"); imports = new JavaImporter(java.util, java.io, java.net)\n");
 						toSend = script.eval("(function() {" +
 							"with(imports) {"
 							+ evalString + "\n}" +
