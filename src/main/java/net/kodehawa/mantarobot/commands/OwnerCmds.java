@@ -44,12 +44,10 @@ public class OwnerCmds extends Module {
 						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
 						event.getChannel().sendMessage("Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
 						MantaroData.getData().update();
-						return;
 					} else if (args[1].equals("remove")){
 						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
 						event.getChannel().sendMessage("Unblacklisted Guild: " + args[2]).queue();
 						MantaroData.getData().update();
-						return;
 					}
 					return;
 				}
@@ -62,7 +60,7 @@ public class OwnerCmds extends Module {
 						MantaroData.getData().update();
 					} else if (args[1].equals("remove")){
 						if(event.getJDA().getUserById(args[2]) == null) return;
-						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
+						MantaroData.getData().get().blacklistedUsers.remove(args[2]);
 						event.getChannel().sendMessage("Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
 						MantaroData.getData().update();
 					}

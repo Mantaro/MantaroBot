@@ -199,7 +199,7 @@ public class AnimeCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "AnimeCmds character command")
+				return helpEmbed(event, "Character command")
 					.setDescription("Retrieves character info from **AniList**.\n"
 						+ "Usage: \n"
 						+ "~>character [charname]: Gets information of a character based on parameters.\n"

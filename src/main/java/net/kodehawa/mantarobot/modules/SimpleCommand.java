@@ -43,7 +43,7 @@ public abstract class SimpleCommand implements Command {
 	}
 
 	protected EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
-		return baseEmbed(event, name).addField("Permission required", Utils.capitalize(permissionRequired().toString().toLowerCase()), true);
+		return baseEmbed(event, name).addField("Permission required", permissionRequired().toString(), true);
 	}
 
 	protected void onHelp(GuildMessageReceivedEvent event) {

@@ -91,7 +91,7 @@ public class ModerationCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Ban")
+				return helpEmbed(event, "Ban")
 					.setDescription("Bans the mentioned users.")
 					.build();
 			}
@@ -170,7 +170,7 @@ public class ModerationCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Kick")
+				return helpEmbed(event, "Kick")
 					.setDescription("Kicks the mentioned users.")
 					.build();
 			}
@@ -411,7 +411,7 @@ public class ModerationCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Bot options")
+				return helpEmbed(event, "Bot options")
 					.addField("Description", "This command allows you to set different customizable options for your guild instance of the bot.\n" +
 						"All values set here are local, that means, they only take effect on your server and not on other " +
 						"servers the bot might be on.", false)
@@ -473,7 +473,7 @@ public class ModerationCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Prune command")
+				return helpEmbed(event, "Prune command")
 					.setDescription("Prunes a specific amount of messages.")
 					.addField("Usage", "~>prune <x> - Prunes messages", false)
 					.addField("Parameters", "x = number of messages to delete", false)
