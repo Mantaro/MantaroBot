@@ -119,7 +119,7 @@ public class TrackScheduler extends AudioEventAdapter {
         } else {
             previousTrack = currentTrack;
             currentTrack = queue.poll();
-            getAudioPlayer().startTrack(getCurrentTrack().getAudioTrack(), false);
+            getAudioPlayer().startTrack(getCurrentTrack() == null ? null : getCurrentTrack().getAudioTrack(), false);
             if (repeat == Repeat.QUEUE)
                 queue.offer(previousTrack);
         }
