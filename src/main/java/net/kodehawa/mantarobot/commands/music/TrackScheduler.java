@@ -80,6 +80,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void queue(AudioTrackContext audioTrackContext) {
         getQueue().offer(audioTrackContext);
+        if (isStopped()) next(true);
     }
 
     public boolean isStopped() {
