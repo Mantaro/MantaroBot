@@ -1,6 +1,4 @@
-package net.kodehawa.mantarobot.commands.music.rewrite;
-
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+package net.kodehawa.mantarobot.commands.music;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;

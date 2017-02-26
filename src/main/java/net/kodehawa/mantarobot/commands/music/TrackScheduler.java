@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.music.rewrite;
+package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
@@ -11,9 +11,11 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.function.Consumer;
 
 public class TrackScheduler extends AudioEventAdapter {
     private BlockingQueue<AudioTrackContext> queue;
@@ -48,6 +50,18 @@ public class TrackScheduler extends AudioEventAdapter {
         return queue;
     }
 
+    public void setRepeat(Repeat repeat) {
+        this.repeat = repeat;
+    }
+    public void getQueueAsList(Consumer<List<AudioTrackContext>> list) {
+        List<AudioTrackContext> tempList = new ArrayList<>(getQueue());
+
+        list.accept(tempList);
+
+        queue.clear();
+        queue.addAll(tempList);
+    }
+
     public List<String> getVoteSkips() {
         return voteSkips;
     }
@@ -72,6 +86,9 @@ public class TrackScheduler extends AudioEventAdapter {
         return getCurrentTrack() == null && getQueue().isEmpty();
     }
 
+    public Repeat getRepeat() {
+        return repeat;
+    }
     private void announce() {
         try {
             if (getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())
@@ -107,12 +124,22 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
+    public void shuffle() {
+        getQueueAsList(Collections::shuffle);
+    }
+
+    public void stop() {
+        getQueue().clear();
+        next(true);
+    }
+
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if (endReason.mayStartNext) {
             next(false);
         }
         announce();
+        getVoteSkips().clear();
     }
 
     @Override

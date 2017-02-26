@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
 import net.kodehawa.mantarobot.commands.custom.Holder;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Config;
@@ -35,6 +36,7 @@ public class MantaroBot {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	private static JDA jda;
 	private static LoadState status = PRELOAD;
+	private static MantaroAudioManager audioManager;
 
 	public static JDA getJDA() {
 		return jda;
@@ -44,6 +46,9 @@ public class MantaroBot {
 		return status;
 	}
 
+	public static MantaroAudioManager getAudioManager() {
+		return audioManager;
+	}
 	private static void init() throws Exception {
 		SimpleLogToSLF4JAdapter.install();
 		LOGGER.info("MantaroBot starting...");

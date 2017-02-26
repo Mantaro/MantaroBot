@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.music.rewrite;
+package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
