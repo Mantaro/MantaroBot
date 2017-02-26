@@ -113,10 +113,6 @@ public class TrackScheduler extends AudioEventAdapter {
     public void next(boolean skip) {
         if (repeat == Repeat.SONG && !skip && getCurrentTrack() != null) {
             getAudioPlayer().startTrack(getCurrentTrack().makeClone().getAudioTrack(), false);
-            if (currentTrack != null)
-                previousTrack = currentTrack;
-            currentTrack = queue.poll();
-            getAudioPlayer().startTrack(getCurrentTrack().getAudioTrack(), false);
         } else {
             if (currentTrack != null)
                 previousTrack = currentTrack;
