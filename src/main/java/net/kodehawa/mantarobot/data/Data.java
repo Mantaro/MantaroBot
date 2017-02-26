@@ -19,6 +19,7 @@ public class Data {
 		public String nsfwChannel = null;
 		public String prefix = null;
 		public Integer songDurationLimit = null;
+		public Integer queueSizeLimit = null;
 	}
 
 	public static class UserData {
