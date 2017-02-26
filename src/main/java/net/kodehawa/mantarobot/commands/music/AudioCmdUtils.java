@@ -90,7 +90,7 @@ public class AudioCmdUtils {
 				.addField("Queue runtime", getDurationMinutes(length), true)
 				.addField("Total queue size", String.valueOf(musicManager.getTrackScheduler().getQueue().size()), true)
 				.addField("Repeat / Pause", musicManager.getTrackScheduler().getRepeat()
-						+ " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), false);
+						+ " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), true);
 		} else {
 			builder.setDescription("Nothing here, just dust.");
 		}

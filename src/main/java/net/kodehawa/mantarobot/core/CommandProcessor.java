@@ -26,7 +26,7 @@ public final class CommandProcessor {
 		if (Manager.commands.containsKey(arguments.cmdName)) {
 			Command command = Manager.commands.get(arguments.cmdName).getLeft();
 			if (!command.permissionRequired().test(arguments.event.getMember())){
-				event.getChannel().sendMessage(":pencil: You have no permissions to trigger this command").queue();
+				event.getChannel().sendMessage(":octagonal_sign: You have no permissions to trigger this command").queue();
 				return false;
 			}
 			command.invoke(arguments);

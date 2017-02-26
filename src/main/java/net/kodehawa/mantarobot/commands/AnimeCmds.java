@@ -202,9 +202,9 @@ public class AnimeCmds extends Module {
 				return helpEmbed(event, "Character command")
 					.setDescription("Retrieves character info from **AniList**.\n"
 						+ "Usage: \n"
-						+ "~>character [charname]: Gets information of a character based on parameters.\n"
+						+ "~>character <charname>: Gets information of a character based on parameters.\n"
 						+ "Parameter description:\n"
-						+ "[character]: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n")
+						+ "character: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n")
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}

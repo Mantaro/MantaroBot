@@ -77,13 +77,13 @@ public class MiscCmds extends Module {
 				return helpEmbed(event, "Misc Commands")
 					.setDescription("Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\n"
 						+ "Usage:\n"
-						+ "~>misc rob [@user]: Rob random amount of money from a user.\n"
-						+ "~>misc reverse [sentence]: Reverses any given sentence.\n"
+						+ "~>misc rob <@user>: Rob random amount of money from a user.\n"
+						+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
 						+ "~>misc noble: Random Lost Pause quote.\n"
 						+ "~>misc rndcolor: Gives you a random hex color.\n"
 						+ "Parameter explanation:\n"
-						+ "[sentence]: A sentence to reverse."
-						+ "[@user]: A user to mention.")
+						+ "sentence: A sentence to reverse."
+						+ "@user: A user to mention.")
 					.build();
 			}
 

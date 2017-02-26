@@ -56,6 +56,7 @@ public class InfoCmds extends Module {
 
 	public InfoCmds() {
 		super(Category.INFO);
+		start();
 
 		avatar();
 		about();
@@ -165,7 +166,7 @@ public class InfoCmds extends Module {
 
 				if(args[0].equals("usage")){
 					event.getChannel().sendMessage(new EmbedBuilder()
-							.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
+							.setAuthor("Mantaro's usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
 							.setDescription("Hardware and usage information.")
 							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
 							.addField("Threads:", getThreadCount() + " Threads", true)
@@ -182,10 +183,11 @@ public class InfoCmds extends Module {
 
 				if(args[0].equals("vps")){
 					TextChannelGround.of(event).dropWithChance(4,5);
-					EmbedBuilder embedBuilder = new EmbedBuilder();
-					embedBuilder.setTitle("VPS Stats", null);
-					embedBuilder.addField("CPU Usage", String.format("%.2f", getVpsCPUUsage()) + "%", true);
-					embedBuilder.addField("RAM (TOTAL/FREE/USED)", String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
+					EmbedBuilder embedBuilder = new EmbedBuilder()
+							.setAuthor("Mantaro's VPS information", null, "https://puu.sh/sMsVC/576856f52b.png")
+							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+							.addField("CPU Usage", String.format("%.2f", getVpsCPUUsage()) + "%", true)
+							.addField("RAM (TOTAL/FREE/USED)", String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
 							+ "GB/" + String.format("%.2f", getVpsUsedMemory()) + "GB", false);
 
 					event.getChannel().sendMessage(embedBuilder.build()).queue();

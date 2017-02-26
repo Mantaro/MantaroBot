@@ -8,8 +8,6 @@ import java.util.List;
 
 public class Config {
 	public String alsecret = null;
-	public boolean console = false;
-	public boolean debug = false;
 	public String osuApiKey = null;
 	public List<String> owners = new ArrayList<>();
 	public String token = null;
