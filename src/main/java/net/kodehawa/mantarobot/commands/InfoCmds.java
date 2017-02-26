@@ -124,7 +124,7 @@ public class InfoCmds extends Module {
 		super.register("stats", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(args[0].equals("bot")){
+				if(content.isEmpty()){
 					List<Guild> guilds = event.getJDA().getGuilds();
 
 					List<VoiceChannel> voiceChannels = event.getJDA().getVoiceChannels();

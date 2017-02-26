@@ -31,10 +31,10 @@ public class MusicCmds extends Module {
 		removetrack();
 		shuffle();
 		skip();
-		stop();
 		volume();
-		repeat();
+		//repeat();
 		move();
+		stop();
 	}
 
 	private void move() {
