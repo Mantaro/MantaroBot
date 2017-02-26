@@ -151,6 +151,13 @@ public class MantaroListener implements EventListener {
 
 	private void onJoin(GuildJoinEvent event) {
 		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
+
+		if(MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())){
+			event.getGuild().leave().queue();
+			tc.sendMessage(String.format(":mega: I left a guild with name: ``%s`` (%s members) since it was blacklisted.", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			return;
+		}
+
 		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}

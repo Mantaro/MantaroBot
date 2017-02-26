@@ -41,7 +41,7 @@ public class ActionCmds extends Module {
 						channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
 						break;
 					case "bleach":
-						channel.sendMessage(MantaroData.getBleach().get().get(new Random().nextInt(MantaroData.getBleach().get().size() - 1))).queue();
+						channel.sendMessage(MantaroData.getBleach().get().get(new Random().nextInt(MantaroData.getBleach().get().size()))).queue();
 						break;
 					default:
 						onHelp(event);

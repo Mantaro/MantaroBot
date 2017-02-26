@@ -6,10 +6,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class Data {
 	public static class GuildData {
@@ -49,6 +46,8 @@ public class Data {
 	public String defaultPrefix = "~>";
 	public Map<String, GuildData> guilds = new HashMap<>();
 	public Map<String, UserData> users = new HashMap<>();
+	public List<String> blacklistedGuilds = new ArrayList<>();
+	public List<String> blacklistedUsers = new ArrayList<>();
 
 	public GuildData getGuild(Guild guild, boolean isRewritable) {
 		if (isRewritable) return guilds.computeIfAbsent(guild.getId(), s -> new GuildData());

@@ -44,7 +44,6 @@ public class CustomCmds extends Module {
 		}
 
 		private void handle(GuildMessageReceivedEvent event, String cmdName, String[] args) {
-			event.getJDA().getGuilds().stream().filter(guild -> guild.getMembers().size() > 3000).collect(Collectors.toList()).forEach(guild -> event.getChannel().sendMessage(guild.toString()));
 			Map<String, GuildData> guilds = MantaroData.getData().get().guilds;
 			if (!guilds.containsKey(event.getGuild().getId()) || !guilds.get(event.getGuild().getId()).customCommands.containsKey(cmdName))
 				return;

@@ -9,6 +9,10 @@ import java.lang.management.ThreadMXBean;
 public class AsyncInfoMonitor {
 	private static int availableProcessors = Runtime.getRuntime().availableProcessors();
 	private static double cpuUsage = 0;
+	private static double vpsCPUUsage = 0;
+	private static double vpsFreeMemory = 0;
+	private static double vpsMaxMemory = 0;
+	private static double vpsUsedMemory = 0;
 	private static double freeMemory = 0;
 	private static double lastProcessCpuTime = 0;
 	private static long lastSystemTime = 0;
@@ -17,7 +21,9 @@ public class AsyncInfoMonitor {
 	private static int threadCount = 0;
 	private static double totalMemory = 0;
 
-	public static double calculateCpuUsage(OperatingSystemMXBean os) {
+	private static double gb = 1024 * 1024 * 1024;
+
+	private static double calculateCpuUsage(OperatingSystemMXBean os) {
 		long systemTime = System.nanoTime();
 		double processCpuTime = calculateProcessCpuTime(os);
 
@@ -33,6 +39,19 @@ public class AsyncInfoMonitor {
 		return ((com.sun.management.OperatingSystemMXBean) os).getProcessCpuTime();
 	}
 
+	private static double getVpsCPUUsage(OperatingSystemMXBean os) {
+		vpsCPUUsage = ((com.sun.management.OperatingSystemMXBean) os).getSystemCpuLoad() * 100;
+		return vpsCPUUsage;
+	}
+
+	private static double calculateVPSMaxMemory(OperatingSystemMXBean os) {
+		return ((com.sun.management.OperatingSystemMXBean) os).getTotalPhysicalMemorySize() / gb;
+	}
+
+	private static double calculateVPSFreeMemory(OperatingSystemMXBean os) {
+		return ((com.sun.management.OperatingSystemMXBean) os).getFreePhysicalMemorySize() / gb;
+	}
+
 	private static void check() {
 		if (!started) throw new IllegalStateException("AsyncInfoMonitor not started");
 	}
@@ -46,10 +65,29 @@ public class AsyncInfoMonitor {
 		check();
 		return cpuUsage;
 	}
-
 	public static double getFreeMemory() {
 		check();
 		return freeMemory;
+	}
+
+	public static double getVpsMaxMemory() {
+		check();
+		return vpsMaxMemory;
+	}
+
+	public static double getVpsCPUUsage() {
+		check();
+		return vpsCPUUsage;
+	}
+
+	public static double getVpsFreeMemory() {
+		check();
+		return vpsFreeMemory;
+	}
+
+	public static double getVpsUsedMemory() {
+		check();
+		return vpsUsedMemory;
 	}
 
 	public static double getMaxMemory() {
@@ -84,6 +122,10 @@ public class AsyncInfoMonitor {
 			maxMemory = Runtime.getRuntime().maxMemory() / mb;
 			totalMemory = Runtime.getRuntime().totalMemory() / mb;
 			cpuUsage = calculateCpuUsage(os);
+			vpsCPUUsage = getVpsCPUUsage(os);
+			vpsFreeMemory = calculateVPSFreeMemory(os);
+			vpsMaxMemory = calculateVPSMaxMemory(os);
+			vpsUsedMemory = vpsMaxMemory - vpsFreeMemory;
 		}, 1);
 		started = true;
 	}

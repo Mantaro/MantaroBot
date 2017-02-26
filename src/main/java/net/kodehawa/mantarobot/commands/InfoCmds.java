@@ -4,7 +4,6 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.CurrencyManager;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
@@ -62,9 +61,9 @@ public class InfoCmds extends Module {
 		guildinfo();
 		help();
 		ping();
-		usageinfo();
 		userinfo();
 		cmdstats();
+		stats();
 	}
 
 	private void about() {
@@ -74,42 +73,6 @@ public class InfoCmds extends Module {
 				List<Guild> guilds = event.getJDA().getGuilds();
 				List<TextChannel> textChannels = event.getJDA().getTextChannels();
 				List<VoiceChannel> voiceChannels = event.getJDA().getVoiceChannels();
-				List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
-				if (content.equals("stats")) {
-					CalculatedIntValues usersPerGuild = calculateInt(guilds, value -> value.getMembers().size());
-					CalculatedIntValues onlineUsersPerGuild = calculateInt(guilds, value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count());
-					CalculatedDoubleValues onlineUsersPerUserPerGuild = calculateDouble(guilds, value -> (double) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() / (double) value.getMembers().size() * 100);
-					CalculatedDoubleValues listeningUsersPerUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100);
-					CalculatedDoubleValues listeningUsersPerOnlineUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100);
-					CalculatedIntValues textChannelsPerGuild = calculateInt(guilds, value -> value.getTextChannels().size());
-					CalculatedIntValues voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
-					int c = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-						voiceChannel.getGuild().getSelfMember())).count();
-					double cG = (double) c / (double) guilds.size() * 100;
-
-					event.getChannel().sendMessage(
-						new EmbedBuilder()
-							.setColor(Color.PINK)
-							.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
-							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-							.setDescription("Well... I did my maths!")
-							.addField("Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.min, usersPerGuild.avg, usersPerGuild.max), true)
-							.addField("Online Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.min, onlineUsersPerGuild.avg, onlineUsersPerGuild.max), true)
-							.addField("Online Users per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.min, onlineUsersPerUserPerGuild.avg, onlineUsersPerUserPerGuild.max), true)
-							.addField("Text Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.min, textChannelsPerGuild.avg, textChannelsPerGuild.max), true)
-							.addField("Voice Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.min, voiceChannelsPerGuild.avg, voiceChannelsPerGuild.max), true)
-							.addField("Music Listeners per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.min, listeningUsersPerUsersPerGuilds.avg, listeningUsersPerUsersPerGuilds.max), true)
-							.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.min, listeningUsersPerOnlineUsersPerGuilds.avg, listeningUsersPerOnlineUsersPerGuilds.max), true)
-							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
-							.addField("Total queue size", Long.toString(MantaroBot.getAudioManager().getTotalQueueSize()), true)
-							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
-							.addField("MantaroCredits IRL:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
-							.build()
-					).queue();
-					TextChannelGround.of(event).dropWithChance(4,5);
-					return;
-				}
-
 				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
 
 				event.getChannel().sendMessage(new EmbedBuilder()
@@ -152,6 +115,92 @@ public class InfoCmds extends Module {
 				return CommandPermission.USER;
 			}
 
+		});
+	}
+
+	private void stats(){
+		super.register("stats", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(args[0].equals("bot")){
+					List<Guild> guilds = event.getJDA().getGuilds();
+
+					List<VoiceChannel> voiceChannels = event.getJDA().getVoiceChannels();
+					List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
+
+					CalculatedIntValues usersPerGuild = calculateInt(guilds, value -> value.getMembers().size());
+					CalculatedIntValues onlineUsersPerGuild = calculateInt(guilds, value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count());
+					CalculatedDoubleValues onlineUsersPerUserPerGuild = calculateDouble(guilds, value -> (double) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() / (double) value.getMembers().size() * 100);
+					CalculatedDoubleValues listeningUsersPerUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100);
+					CalculatedDoubleValues listeningUsersPerOnlineUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100);
+					CalculatedIntValues textChannelsPerGuild = calculateInt(guilds, value -> value.getTextChannels().size());
+					CalculatedIntValues voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
+					int c = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+							voiceChannel.getGuild().getSelfMember())).count();
+					double cG = (double) c / (double) guilds.size() * 100;
+
+					event.getChannel().sendMessage(
+							new EmbedBuilder()
+									.setColor(Color.PINK)
+									.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
+									.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+									.setDescription("Well... I did my maths!")
+									.addField("Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.min, usersPerGuild.avg, usersPerGuild.max), true)
+									.addField("Online Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.min, onlineUsersPerGuild.avg, onlineUsersPerGuild.max), true)
+									.addField("Online Users per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.min, onlineUsersPerUserPerGuild.avg, onlineUsersPerUserPerGuild.max), true)
+									.addField("Text Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.min, textChannelsPerGuild.avg, textChannelsPerGuild.max), true)
+									.addField("Voice Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.min, voiceChannelsPerGuild.avg, voiceChannelsPerGuild.max), true)
+									.addField("Music Listeners per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.min, listeningUsersPerUsersPerGuilds.avg, listeningUsersPerUsersPerGuilds.max), true)
+									.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.min, listeningUsersPerOnlineUsersPerGuilds.avg, listeningUsersPerOnlineUsersPerGuilds.max), true)
+									.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
+									.addField("Total queue size", Integer.toString(MantaroAudioManager.getTotalQueueSize()), true)
+									.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
+									.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
+									.build()
+					).queue();
+					TextChannelGround.of(event).dropWithChance(4,5);
+					return;
+				}
+
+				if(args[0].equals("usage")){
+					event.getChannel().sendMessage(new EmbedBuilder()
+							.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
+							.setDescription("Hardware and usage information.")
+							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+							.addField("Threads:", getThreadCount() + " Threads", true)
+							.addField("Memory Usage:", getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
+							.addField("CPU Cores:", getAvailableProcessors() + " Cores", true)
+							.addField("CPU Usage:", Math.round(getCpuUsage()) + "%", true)
+							.addField("Assigned Memory:", getTotalMemory() + "MB", true)
+							.addField("Remaining from assigned:", getFreeMemory() + "MB", true)
+							.build()
+					).queue();
+					TextChannelGround.of(event).dropWithChance(4,5);
+					return;
+				}
+
+				if(args[0].equals("vps")){
+					TextChannelGround.of(event).dropWithChance(4,5);
+					EmbedBuilder embedBuilder = new EmbedBuilder();
+					embedBuilder.setTitle("VPS Stats", null);
+					embedBuilder.addField("CPU Usage", String.format("%.2f", getVpsCPUUsage()) + "%", true);
+					embedBuilder.addField("RAM (TOTAL/FREE/USED)", String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())
+							+ "GB/" + String.format("%.2f", getVpsUsedMemory()) + "GB", false);
+
+					event.getChannel().sendMessage(embedBuilder.build()).queue();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Statistics command")
+						.setDescription("Returns bot, usage or vps statistics")
+						.addField("Usage", "~>stats <bot/usage/vps>", true)
+						.addField("Parameters", "bot: returns the bot statistics\n" +
+								"usage: returns the resources used by the bot\n" +
+								"vps: returns how much of the vps resources are used.", true)
+						.build();
+			}
 		});
 	}
 
@@ -381,39 +430,6 @@ public class InfoCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Ping Command")
 					.addField("Description:", "Plays Ping-Pong with Discord and prints out the result.", false)
-					.build();
-			}
-		});
-	}
-
-	private void usageinfo() {
-		start();
-		super.register("usageinfo", new SimpleCommand() {
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(new EmbedBuilder()
-					.setAuthor("MantaroBot information", null, "https://puu.sh/sMsVC/576856f52b.png")
-					.setDescription("Hardware and usage information.")
-					.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
-					.addField("Threads:", getThreadCount() + " Threads", true)
-					.addField("Memory Usage:", getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
-					.addField("CPU Cores:", getAvailableProcessors() + " Cores", true)
-					.addField("CPU Usage:", Math.round(getCpuUsage()) + "%", true)
-					.addField("Assigned Memory:", getTotalMemory() + "MB", true)
-					.addField("Remaining from assigned:", getFreeMemory() + "MB", true)
-					.build()
-				).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "UsageInfo Command")
-					.addField("Description:", "Sends the current Bot Hardware Usage.", false)
 					.build();
 			}
 		});

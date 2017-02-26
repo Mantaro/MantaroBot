@@ -7,14 +7,21 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import java.util.function.Predicate;
 
 public enum CommandPermission implements Predicate<Member> {
-	USER(member -> true),
-	BOT_OWNER(MantaroData.getConfig().get()::isOwner),
-	ADMIN(member -> BOT_OWNER.test(member) || member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner());
+	USER(member -> true, "User"),
+	BOT_OWNER(MantaroData.getConfig().get()::isOwner, "Bot Owner"),
+	ADMIN(member -> BOT_OWNER.test(member) || member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner(), "Adminstrator");
 
 	private final Predicate<Member> memberPredicate;
+	private String verbose;
 
-	CommandPermission(Predicate<Member> memberPredicate) {
+	CommandPermission(Predicate<Member> memberPredicate, String s) {
 		this.memberPredicate = memberPredicate;
+		verbose = s;
+	}
+
+	@Override
+	public String toString(){
+		return verbose;
 	}
 
 	@Override
