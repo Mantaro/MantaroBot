@@ -31,6 +31,56 @@ public class OwnerCmds extends Module {
 		eval();
 		notifyMusic();
 		shutdown();
+		blacklist();
+	}
+
+	private void blacklist(){
+		super.register("blacklist", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (args[0].equals("guild")){
+					if(args[1].equals("add")){
+						if(event.getJDA().getGuildById(args[2]) == null) return;
+						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
+						event.getChannel().sendMessage("Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+						MantaroData.getData().update();
+						return;
+					} else if (args[1].equals("remove")){
+						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
+						event.getChannel().sendMessage("Unblacklisted Guild: " + args[2]).queue();
+						MantaroData.getData().update();
+						return;
+					}
+					return;
+				}
+
+				if (args[0].equals("user")){
+					if(args[1].equals("add")){
+						if(event.getJDA().getUserById(args[2]) == null) return;
+						MantaroData.getData().get().blacklistedUsers.add(args[2]);
+						event.getChannel().sendMessage("Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						MantaroData.getData().update();
+					} else if (args[1].equals("remove")){
+						if(event.getJDA().getUserById(args[2]) == null) return;
+						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
+						event.getChannel().sendMessage("Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						MantaroData.getData().update();
+					}
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Blacklist command")
+						.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+						.build();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.BOT_OWNER;
+			}
+		});
 	}
 
 	private void add() {
@@ -75,7 +125,6 @@ public class OwnerCmds extends Module {
 			public CommandPermission permissionRequired() {
 				return CommandPermission.BOT_OWNER;
 			}
-
 		});
 	}
 

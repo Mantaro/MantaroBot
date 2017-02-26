@@ -37,6 +37,7 @@ public final class CommandProcessor {
 
 	public static boolean run(GuildMessageReceivedEvent event) {
 		if (MantaroBot.getStatus() != LoadState.POSTLOAD) return false;
+		if (MantaroData.getData().get().blacklistedUsers.contains(event.getAuthor().getId())) return false;
 
 		String rawCmd = event.getMessage().getRawContent();
 		String defaultPrefix = MantaroData.getData().get().defaultPrefix;
