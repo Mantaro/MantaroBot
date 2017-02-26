@@ -67,8 +67,7 @@ public class ImageCmds extends Module {
 		} catch (IndexOutOfBoundsException e) {
 			get = new Random().nextInt(filter.size());
 		} catch (IllegalArgumentException e) {
-			if (e.getMessage().equals("bound must be positive"))
-				return new EmbedBuilder().setDescription("No results found.");
+			if (e.getMessage().equals("bound must be positive")) return new EmbedBuilder().setDescription("No results found.");
 			else return new EmbedBuilder().setDescription("Query not valid.");
 		}
 		try {
@@ -114,7 +113,6 @@ public class ImageCmds extends Module {
 						String[] wholeBeheaded = whole1.split(" ");
 						int page = Integer.parseInt(wholeBeheaded[0]);
 						int number;
-
 						List<Wallpaper> wallpapers = konachan.posts(page, 60);
 						try {
 							number = Integer.parseInt(wholeBeheaded[1]);
@@ -146,14 +144,17 @@ public class ImageCmds extends Module {
 
 					case "tags":
 						channel.sendTyping().queue();
-						String whole11 = content.replace("tags ", "");
-						String[] whole2 = whole11.split(" ");
-						int page1 = Integer.parseInt(whole2[0]);
-						String tags = whole2[1];
-
+						String sNoArgs = content.replace("tags ", "");
+						String[] expectedNumber = sNoArgs.split(" ");
+						int page1 = Integer.parseInt(expectedNumber[0]);
+						String tags = expectedNumber[1];
+						if(!expectedNumber[1].matches("^[0-9]*$")){
+							event.getChannel().sendMessage("Not a valid page number.").queue();
+							return;
+						}
 						konachan.onSearch(page1, 60, tags, (wallpapers1, tags1) -> {
 							try {
-								number1 = Integer.parseInt(whole2[2]);
+								number1 = Integer.parseInt(expectedNumber[2]);
 							} catch (Exception e) {
 								number1 = new Random().nextInt(wallpapers1.size() > 0 ? wallpapers1.size() - 1 : wallpapers1.size());
 							}
@@ -188,16 +189,14 @@ public class ImageCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "konachan.com commmand")
+				return helpEmbed(event, "Konachan commmand")
 					.setColor(Color.PINK)
-					.setDescription("Retrieves images from the **Konachan** image board.\n"
-						+ "Usage:\n"
-						+ "~>konachan get [page] [imagenumber]: Gets an image based in parameters.\n"
-						+ "~>konachan tags [page] [tag] [imagenumber]: Gets an image based in the specified tag and parameters.\n"
-						+ "> Parameter explanation:\n"
-						+ "[page]: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
-						+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-						+ "[tag]: Any valid image tag. For example animal_ears or original.")
+					.setDescription("Retrieves images from the **Konachan** image board.")
+						.addField("Usage", "~>konachan get <page> <imagenumber>: Gets an image based in parameters.\n"
+								+ "~>konachan tags <page> <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
+						.addField("Parameters", "page: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
+								+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+								+ "tag: Any valid image tag. For example animal_ears or original.", false)
 					.build();
 			}
 
@@ -260,19 +259,19 @@ public class ImageCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Yande.re command")
+				return helpEmbed(event, "Yande.re command")
 					.setColor(Color.DARK_GRAY)
 					.setDescription("This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
 						+ "but tags can be set to safe if you so desire.\n"
 						+ "~>yandere: Gets you a completely random image.\n"
-						+ "~>yandere get [page] [imagenumber] [rating]: Gets you an image with the specified parameters.\n"
-						+ "~>yandere tags page [tag] [rating] [imagenumber]: Gets you an image with the respective tag and specified parameters.\n"
+						+ "~>yandere get <page> <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
+						+ "~>yandere tags page <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
 						+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
 						+ "> Parameter explanation:\n"
-						+ "[page]: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
-						+ "[imagenumber]: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-						+ "[tag]: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
-						+ "[rating]: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
+						+ "page: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
+						+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+						+ "tag: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
+						+ "rating: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
 					.build();
 			}
 		});

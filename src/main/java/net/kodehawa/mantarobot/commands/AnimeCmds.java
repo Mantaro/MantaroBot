@@ -48,7 +48,6 @@ public class AnimeCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
-					//Set variables to use later. They will be parsed to JSON later on.
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(connection, event);
 					AnimeData[] type = GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);

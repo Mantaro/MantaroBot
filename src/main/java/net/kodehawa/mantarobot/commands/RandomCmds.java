@@ -52,7 +52,7 @@ public class RandomCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Dice command")
+				return helpEmbed(event, "Dice command")
 					.setDescription("Rolls a 6-sided dice with a defined number of repetitions")
 					.build();
 			}
@@ -79,7 +79,7 @@ public class RandomCmds extends Module {
 		super.register("lewd", new SimpleCommand() {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Lewd")
+				return helpEmbed(event, "Lewd")
 					.setDescription("Y-You lewdie")
 					.build();
 			}
@@ -119,7 +119,7 @@ public class RandomCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Time")
+				return helpEmbed(event, "Time")
 					.setDescription("Retrieves time in a specific timezone.\n"
 						+ "~>time [timezone]. Retrieves the time in the specified timezone.\n"
 						+ "**Parameter specification**\n"

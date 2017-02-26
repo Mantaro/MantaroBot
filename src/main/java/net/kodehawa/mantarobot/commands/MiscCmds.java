@@ -56,7 +56,7 @@ public class MiscCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "8ball")
+				return helpEmbed(event, "8ball")
 					.setDescription("Retrieves an answer from 8Ball. Requires a sentence.\n"
 						+ "~>8ball [question]. Retrieves an answer from 8ball based on the question provided.")
 					.build();
@@ -74,7 +74,7 @@ public class MiscCmds extends Module {
 		super.register("misc", new SimpleCommand() {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Misc Commands")
+				return helpEmbed(event, "Misc Commands")
 					.setDescription("Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\n"
 						+ "Usage:\n"
 						+ "~>misc rob [@user]: Rob random amount of money from a user.\n"
@@ -151,7 +151,7 @@ public class MiscCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Random Fact")
+				return helpEmbed(event, "Random Fact")
 					.setDescription("Sends a random fact.")
 					.build();
 			}

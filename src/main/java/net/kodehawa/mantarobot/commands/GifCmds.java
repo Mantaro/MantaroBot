@@ -46,7 +46,6 @@ public class GifCmds extends Module {
 						String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
 						boolean trigger = (!query.getData()[image1].getRating().equals("r") || (nsfwChannel == null)) ?
 							!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
-						//Start the embed
 						MessageEmbed embed = new EmbedBuilder()
 							.setAuthor("Gif lookup result for " + args[0], query.getData()[image1].getImages().original.getUrl(),
 								//Gifs are *always* cats, kappa.
@@ -57,19 +56,15 @@ public class GifCmds extends Module {
 							.setFooter("If the image doesn't load, click the title.", null)
 							.build();
 
-						//If the channel is nsfw or the rating is not explicit, go ahead.
 						if (trigger) event.getChannel().sendMessage(embed).queue();
-
-						//Try to explain what went wrong.
-						else
-							event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
+						else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
 								"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 					});
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Gif search")
+				return helpEmbed(event, "Gif search")
 					.addField("Description", "Searches for gifs on the internet using Giphy", false)
 					.addField("Usage", "~>gifsearch <tag> <number> <rating>)\n", false)
 					.addField("Parameters",
@@ -90,11 +85,9 @@ public class GifCmds extends Module {
 					tags = args[0];
 				} catch (Exception ignored) {
 				}
-				//Start the embed
 				giphy.random(tags, event, (result) -> {
 					MessageEmbed embed = new EmbedBuilder()
 						.setAuthor("Random gif.", result.getData().getImage_url(),
-							//Gifs are *always* cats, kappa.
 							"http://rollycat.com/wp-content/uploads/2014/09/apple-mac-cat-face-like-angel-soul_342655.jpg")
 						.setImage(result.getData().getImage_url())
 						.addField("Width", result.getData().getImage_width(), true)
@@ -107,7 +100,7 @@ public class GifCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Random gif")
+				return helpEmbed(event, "Random gif")
 					.setDescription("Gets a random gif.")
 					.build();
 			}
@@ -123,10 +116,8 @@ public class GifCmds extends Module {
 					String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
 					boolean trigger = (!query.getData()[image1].getRating().equals("r") || (nsfwChannel == null)) ?
 						!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
-					//Start the embed
 					MessageEmbed embed = new EmbedBuilder()
 						.setAuthor("Random trending gif.", query.getData()[image1].getImages().original.getUrl(),
-							//Gifs are *always* cats, kappa.
 							"http://rollycat.com/wp-content/uploads/2014/09/apple-mac-cat-face-like-angel-soul_342655.jpg")
 						.setImage(query.getData()[image1].getImages().original.getUrl())
 						.addField("Width", query.getData()[image1].getImages().original.getWidth(), true)
@@ -134,18 +125,15 @@ public class GifCmds extends Module {
 						.setFooter("If the image doesn't load, click the title. Provided by Giphy", null)
 						.build();
 
-					//If the channel is nsfw or the rating is not explicit, go ahead.
 					if (trigger) event.getChannel().sendMessage(embed).queue();
-						//Try to explain what went wrong.
-					else
-						event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
+					else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
 							"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 				}));
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Trending gif.")
+				return helpEmbed(event, "Trending gif.")
 					.setDescription("Return a random gif from the trending section.")
 					.build();
 			}

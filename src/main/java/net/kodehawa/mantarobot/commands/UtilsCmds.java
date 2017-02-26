@@ -78,7 +78,7 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Birthday")
+				return helpEmbed(event, "Birthday")
 					.setDescription("Sets your birthday date.\n"
 						+ "**Usage:**\n"
 						+ "~>birthday [date]. Sets your birthday date. Only useful if the server enabled this functionality"
@@ -148,7 +148,7 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Translation command")
+				return helpEmbed(event, "Translation command")
 					.setDescription("Translates any given sentence.\n"
 						+ "**Usage example:**\n"
 						+ "~>translate <sourcelang> <outputlang> <sentence>.\n"
@@ -223,7 +223,7 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Urban dictionary")
+				return helpEmbed(event, "Urban dictionary")
 					.setColor(Color.CYAN)
 					.setDescription("Retrieves definitions from **Urban Dictionary**.\n"
 						+ "Usage: \n"
@@ -292,7 +292,7 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Weather command")
+				return helpEmbed(event, "Weather command")
 					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
 						+ "> Usage:\n"
 						+ "~>weather <city>,<countrycode>: Retrieves the forecast information for such location.\n"
@@ -409,7 +409,11 @@ public class UtilsCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Google search")
+						.setDescription("Searches on google.")
+						.addField("Usage", "~>google <query>", false)
+						.addField("Parameters", "query: The search query to look for", false)
+						.build();
 			}
 		});
 	}

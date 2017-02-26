@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * I would call this class {@literal RateLimiter}.
  * <br>But then I remembered of this: https://pbs.twimg.com/media/C0MHQOMVQAEBlhj.jpg
+ * Made by @AdrianTodt
  */
 public class BanzyEnforcer {
 	private static final Expirator EXPIRATOR = new Expirator();

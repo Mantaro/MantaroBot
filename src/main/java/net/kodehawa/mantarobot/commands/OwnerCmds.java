@@ -65,7 +65,7 @@ public class OwnerCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Add to list command")
+				return helpEmbed(event, "Add to list command")
 					.setDescription("Adds a parameter to a list."
 						+ "\n Arguments: \n pat <args[1]>, hug <args[1]>, greeting <content>, splash <content>")
 					.build();
@@ -140,7 +140,7 @@ public class OwnerCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Eval command")
+				return helpEmbed(event, "Eval command")
 					.setDescription("Guess what, it evals (js for javascript and no arguments for normal java).")
 					.build();
 			}
@@ -170,7 +170,7 @@ public class OwnerCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Shutdown")
+				return helpEmbed(event, "Shutdown")
 					.setDescription("Shutdowns the bot.")
 					.build();
 			}
@@ -194,7 +194,7 @@ public class OwnerCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "MusicNotify")
+				return helpEmbed(event, "MusicNotify")
 					.setDescription("Notifies the Audio People of something.")
 					.build();
 			}

@@ -163,7 +163,9 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Inventory command")
+						.setDescription("Shows your current inventory.")
+						.build();
 			}
 		});
 	}
@@ -242,7 +244,9 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Mantaro's market")
+						.setDescription("List current items for buying and selling (WIP).")
+						.build();
 			}
 		});
 	}
@@ -279,7 +283,11 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Mine command")
+						.setDescription("Mines money. Just like the good ol' gold days")
+						.addField("Usage", "~>mine", false)
+						.addField("Note", "Pickaxes make you mine faster.", false)
+						.build();
 			}
 		});
 	}
@@ -326,7 +334,10 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Money list")
+						.setDescription("Returns the global richest users, or the guild ones if you want.")
+						.addField("Usage", "~>richest <global/guild>", false)
+						.build();
 			}
 		});
 	}

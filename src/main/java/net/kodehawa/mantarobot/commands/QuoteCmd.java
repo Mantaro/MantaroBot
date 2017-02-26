@@ -232,7 +232,7 @@ public class QuoteCmd extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Quote command")
+				return helpEmbed(event, "Quote command")
 					.setDescription("> Usage:\n"
 						+ "~>quote add <number>: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
 						+ "~>quote random: Gets a random quote. \n"

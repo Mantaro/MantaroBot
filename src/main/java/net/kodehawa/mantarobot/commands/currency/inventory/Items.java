@@ -41,7 +41,7 @@ public class Items {
 
 	static {
 		Random r = new Random();
-		Async.startAsyncTask("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 2);
+		Async.startAsyncTask("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 3600);
 	}
 
 	public static Optional<Item> fromEmoji(String emoji) {

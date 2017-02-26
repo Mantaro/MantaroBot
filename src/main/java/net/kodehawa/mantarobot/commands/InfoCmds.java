@@ -73,7 +73,6 @@ public class InfoCmds extends Module {
 				List<TextChannel> textChannels = event.getJDA().getTextChannels();
 				List<VoiceChannel> voiceChannels = event.getJDA().getVoiceChannels();
 				List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
-
 				if (content.equals("stats")) {
 					CalculatedIntValues usersPerGuild = calculateInt(guilds, value -> value.getMembers().size());
 					CalculatedIntValues onlineUsersPerGuild = calculateInt(guilds, value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count());
@@ -82,7 +81,6 @@ public class InfoCmds extends Module {
 					CalculatedDoubleValues listeningUsersPerOnlineUsersPerGuilds = calculateDouble(musicChannels, value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100);
 					CalculatedIntValues textChannelsPerGuild = calculateInt(guilds, value -> value.getTextChannels().size());
 					CalculatedIntValues voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
-
 					int c = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
 						voiceChannel.getGuild().getSelfMember())).count();
 					double cG = (double) c / (double) guilds.size() * 100;
@@ -140,7 +138,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "About Command")
+				return helpEmbed(event, "About Command")
 					.addField("Description:", "Sends a message of what the bot is.", false)
 					.setColor(Color.PINK)
 					.build();
@@ -167,7 +165,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Avatar")
+				return helpEmbed(event, "Avatar")
 					.setDescription("Gets your user avatar")
 					.addField("Usage",
 						"~>avatar - Gets your avatar url" +
@@ -221,7 +219,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Command stats")
+				return helpEmbed(event, "Command stats")
 					.addField("Description", "Shows the statistics of the commands that has been run on this bot for its uptime.", false)
 					.addField("Usage",
 						"~>cmdstats - Shows all command statistics.\n"
@@ -274,7 +272,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "GuildInfo Command")
+				return helpEmbed(event, "GuildInfo Command")
 					.addField("Description:", "Sends the current Guild information.", false)
 					.setColor(event.getGuild().getOwner().getColor() == null ? Color.ORANGE : event.getGuild().getOwner().getColor())
 					.build();
@@ -378,7 +376,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Ping Command")
+				return helpEmbed(event, "Ping Command")
 					.addField("Description:", "Plays Ping-Pong with Discord and prints out the result.", false)
 					.build();
 			}
@@ -411,7 +409,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "UsageInfo Command")
+				return helpEmbed(event, "UsageInfo Command")
 					.addField("Description:", "Sends the current Bot Hardware Usage.", false)
 					.build();
 			}
@@ -459,7 +457,7 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "UserInfo Command")
+				return helpEmbed(event, "UserInfo Command")
 					.addField("Description:", "Sends the information about a specific user.", false)
 					.addField("Usage:", "`~>userinfo [@userMention]`: Returns information about the specific user.\n`~>userinfo`: Returns information about who issued the command.", false)
 					.build();

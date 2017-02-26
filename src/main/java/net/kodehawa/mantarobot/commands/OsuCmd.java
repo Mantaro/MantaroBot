@@ -124,14 +124,14 @@ public class OsuCmd extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "osu! command")
+				return helpEmbed(event, "osu! command")
 					.setDescription("Retrieves information from the osu!api.\n"
 						+ "Usage: \n"
-						+ "~>osu best [player]: Retrieves best scores of the user specified in the specified gamemode.\n"
-						+ "~>osu recent [player]: Retrieves recent scores of the user specified in the specified gamemode.\n"
-						+ "~>osu user [player]: Retrieves information about a osu! player.\n"
+						+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
+						+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
+						+ "~>osu user <player>: Retrieves information about a osu! player.\n"
 						+ "Parameter description:\n"
-						+ "[player]: The osu! player to look info for.")
+						+ "player: The osu! player to look info for.")
 					.build();
 			}
 
