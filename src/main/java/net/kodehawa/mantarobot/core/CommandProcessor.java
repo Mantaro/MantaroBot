@@ -21,11 +21,14 @@ public final class CommandProcessor {
 		}
 	}
 
-	private static boolean dispatchCommand(Arguments arguments) {
+	private static boolean dispatchCommand(Arguments arguments, GuildMessageReceivedEvent event) {
 		if (MantaroBot.getStatus() != LoadState.POSTLOAD) return false;
 		if (Manager.commands.containsKey(arguments.cmdName)) {
 			Command command = Manager.commands.get(arguments.cmdName).getLeft();
-			if (!command.permissionRequired().test(arguments.event.getMember())) return false;
+			if (!command.permissionRequired().test(arguments.event.getMember())){
+				event.getChannel().sendMessage(":pencil: You have no permissions to trigger this command").queue();
+				return false;
+			}
 			command.invoke(arguments);
 			return true;
 		}
@@ -45,6 +48,6 @@ public final class CommandProcessor {
 
 		String[] parts = splitArgs(rawCmd, 2);
 
-		return dispatchCommand(new Arguments(event, parts[0], parts[1]));
+		return dispatchCommand(new Arguments(event, parts[0], parts[1]), event);
 	}
 }
