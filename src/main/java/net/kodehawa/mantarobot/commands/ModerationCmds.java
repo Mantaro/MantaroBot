@@ -332,6 +332,25 @@ public class ModerationCmds extends Module {
 						}
 					}
 
+					if(action.equals("queuelimit")){
+						boolean isNumber = args[2].matches("^[0-9]*$");
+						if (!isNumber) {
+							event.getChannel().sendMessage("That's not a valid number.").queue();
+							return;
+						}
+						try{
+							int finalSize = Integer.parseInt(args[2]);
+							int applySize = finalSize >= 200 ? 200 : finalSize;
+							guildData.queueSizeLimit = applySize;
+							MantaroData.getData().update();
+							event.getChannel().sendMessage(String.format(":mega: Queue limit on this server is now: %d songs.", applySize)).queue();
+							return;
+						} catch (NumberFormatException e){
+							event.getChannel().sendMessage("You're trying to set a big af number (which won't be applied anyway), silly").queue();
+						}
+						return;
+					}
+
 					if (action.equals("channel")) {
 						if (args.length < 3) {
 							onHelp(event);
