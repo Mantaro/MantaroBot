@@ -99,7 +99,7 @@ public class AudioRequester implements AudioLoadResultHandler {
         }
 
         event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
-        IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), true);
+        IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), false);
         DiscordUtils.selectInt(event, 5, consumer);
     }
 }
