@@ -74,7 +74,7 @@ public class MantaroBot {
 
 		Data data = MantaroData.getData().get();
 		Random r = new Random();
-
+		audioManager = new MantaroAudioManager();
 		List<String> splashes = MantaroData.getSplashes().get();
 		if (splashes.removeIf(s -> s == null || s.isEmpty())) MantaroData.getSplashes().update();
 
