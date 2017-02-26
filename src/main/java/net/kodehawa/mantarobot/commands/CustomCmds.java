@@ -65,7 +65,7 @@ public class CustomCmds extends Module {
 					toSend = "ytsearch: " + toSend;
 				}
 
-				MantaroAudioManager.loadAndPlay(event, toSend);
+				MantaroBot.getAudioManager().loadAndPlay(event, toSend);
 				return;
 			}
 

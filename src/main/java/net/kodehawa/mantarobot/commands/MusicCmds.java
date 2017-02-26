@@ -7,10 +7,9 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.music.MusicManager;
+import net.kodehawa.mantarobot.commands.music.*;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -20,7 +19,6 @@ import net.kodehawa.mantarobot.utils.Utils;
 import java.net.URL;
 
 import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
-import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.*;
 
 public class MusicCmds extends Module {
 	public MusicCmds() {
@@ -99,13 +97,13 @@ public class MusicCmds extends Module {
 		super.register("np", new SimpleCommand() {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
-				if (musicManager.getScheduler().getPlayer().getPlayingTrack() == null) {
+				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
+				if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() == null) {
 					event.getChannel().sendMessage("There is no track playing or we cannot seem to find it, maybe try playing a song?").queue();
 					return;
 				}
 
-				event.getChannel().sendMessage(String.format("\uD83D\uDCE3 Now playing ->``%s (%s)``", musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length))).queue();
+				event.getChannel().sendMessage(String.format("\uD83D\uDCE3 Now playing ->``%s (%s)``", musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length))).queue();
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
@@ -133,10 +131,10 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
-				boolean paused = !musicManager.getScheduler().getPlayer().isPaused();
+				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
+				boolean paused = !musicManager.getTrackScheduler().getAudioPlayer().isPaused();
 				String toSend = paused ? ":mega: Player paused." : ":mega: Player unpaused.";
-				musicManager.getScheduler().getPlayer().setPaused(paused);
+				musicManager.getTrackScheduler().getAudioPlayer().setPaused(paused);
 				event.getChannel().sendMessage(toSend).queue();
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
@@ -168,7 +166,7 @@ public class MusicCmds extends Module {
 					content = "ytsearch: " + content;
 				}
 
-				MantaroAudioManager.loadAndPlay(event, content);
+				MantaroBot.getAudioManager().loadAndPlay(event, content);
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
@@ -193,11 +191,14 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
+				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
 				if (content.isEmpty()) {
 					event.getChannel().sendMessage(embedForQueue(event.getGuild(), musicManager)).queue();
 				} else if (content.startsWith("clear")) {
-					MantaroAudioManager.clearQueue(musicManager, event, true);
+					int TEMP_QUEUE_LENGHT = musicManager.getTrackScheduler().getQueue().size();
+					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+					event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from the queue.").queue();
+					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				}
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
@@ -225,7 +226,7 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				getGuildAudioPlayer(event).getScheduler().getQueueAsList(list -> {
+				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueueAsList(list -> {
 					int i;
 					try {
 						switch (content) {
@@ -266,17 +267,22 @@ public class MusicCmds extends Module {
 		super.register("repeat", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
-				if (musicManager.getScheduler().getPlayer().getPlayingTrack() != null) {
-					boolean repeat = !musicManager.getScheduler().isRepeat();
-					String toSend = repeat ? ":mega: Repeating current song." : ":mega: Continuing with normal queue.";
-					musicManager.getScheduler().setRepeat(repeat);
-					event.getChannel().sendMessage(toSend).queue();
-					TextChannelGround.of(event).dropWithChance(0, 10);
-					return;
+				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
+				switch (args[0].toLowerCase()) {
+					case "song":
+						musicManager.getTrackScheduler().setRepeat(Repeat.SONG);
+						event.getChannel().sendMessage(":mega: Repeating current song.").queue();
+						break;
+					case "queue":
+						musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
+						event.getChannel().sendMessage(":mega: Repeating current queue.").queue();
+						break;
+					default:
+						musicManager.getTrackScheduler().setRepeat(null);
+						event.getChannel().sendMessage(":mega: Continuing with normal queue.").queue();
+						break;
 				}
-
-				event.getChannel().sendMessage(":heavy_multiplication_x: Cannot repeat a non-existant track.").queue();
+				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
 			@Override
@@ -300,7 +306,7 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				getGuildAudioPlayer(event).shuffle();
+				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().shuffle();
 				event.getChannel().sendMessage("\uD83D\uDCE3 Randomized current queue order.").queue();
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
@@ -322,7 +328,7 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				getGuildAudioPlayer(event).skipTrack(event);
+				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
@@ -343,11 +349,14 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MusicManager musicManager = getGuildAudioPlayer(event);
-				if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null && !musicManager.getScheduler().getPlayer().isPaused())
-					musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
-				clearQueue(musicManager, event, false);
-				closeConnection(musicManager, event.getGuild().getAudioManager(), event.getChannel());
+				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
+				if(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
+					musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
+				int TEMP_QUEUE_LENGHT = musicManager.getTrackScheduler().getQueue().size();
+				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+				event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from the queue.").queue();
+				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+				event.getGuild().getAudioManager().closeAudioConnection();
 				TextChannelGround.of(event).dropWithChance(0, 10);
 			}
 
@@ -362,7 +371,7 @@ public class MusicCmds extends Module {
 		super.register("volume", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				AudioPlayer player = getGuildAudioPlayer(event).getScheduler().getPlayer();
+				AudioPlayer player = MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
 
 				if (args[0].equals("check")) {
 					event.getChannel().sendMessage("The current volume in this session is: " + player.getVolume()).queue();

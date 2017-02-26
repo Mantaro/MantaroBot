@@ -18,9 +18,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.clearQueue;
-import static net.kodehawa.mantarobot.commands.music.MantaroAudioManager.closeConnection;
-
 public class OwnerCmds extends Module {
 	public static GuildMessageReceivedEvent tempEvt = null;
 	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
@@ -233,9 +230,9 @@ public class OwnerCmds extends Module {
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MantaroAudioManager.getMusicManagers().values()
+				MantaroBot.getAudioManager().getMusicManagers().values()
 					.forEach(musicManager -> {
-						if(musicManager.getScheduler().channel() != null) musicManager.getScheduler().channel().sendMessage(content).queue();
+						if(musicManager.getTrackScheduler().getCurrentTrack() != null && musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null && musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk()) musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(content).queue();
 					});
 			}
 
@@ -250,10 +247,8 @@ public class OwnerCmds extends Module {
 
 	private synchronized void shutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
-		MantaroAudioManager.getMusicManagers().forEach((s, musicManager) -> {
-			if(musicManager.getScheduler().getPlayer().getPlayingTrack() != null) musicManager.getScheduler().getPlayer().getPlayingTrack().stop();
-			clearQueue(musicManager, null, false);
-			closeConnection(musicManager, musicManager.getScheduler().channel().getGuild().getAudioManager(), musicManager.getScheduler().channel());
+		MantaroBot.getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+			musicManager.getTrackScheduler().stop();
 		});
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));

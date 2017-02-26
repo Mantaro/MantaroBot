@@ -61,8 +61,8 @@ public class AudioCmdUtils {
 		return true;
 	}
 
-	public static MessageEmbed embedForQueue(Guild guild, MusicManager musicManager) {
-		String toSend = musicManager.getScheduler().getQueueList();
+	public static MessageEmbed embedForQueue(Guild guild, GuildMusicManager musicManager) {
+		String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
 		String[] lines = NEWLINE_PATTERN.split(toSend);
 
 		if (lines.length > 15) {
@@ -72,25 +72,25 @@ public class AudioCmdUtils {
 			).collect(Collectors.joining("\n"));
 		}
 
-		long length = musicManager.getScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+		long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
 
 		EmbedBuilder builder = new EmbedBuilder()
 			.setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
 			.setColor(Color.CYAN);
 
 		//why would this happen is something it's out of my range, since it couldn't be null if there was objects on the queue and I think paused tracks count
-		String nowPlaying = musicManager.getScheduler().getPlayer().getPlayingTrack() != null ? "``"
-			+ musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().title
-			+ " (" + Utils.getDurationMinutes(musicManager.getScheduler().getPlayer().getPlayingTrack().getInfo().length) + ")``" :
+		String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ? "``"
+			+ musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+			+ " (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")``" :
 			"Nothing or title/duration not found";
 
 		if (!toSend.isEmpty()) {
 			builder.setDescription(toSend)
 				.addField("Currently playing", nowPlaying, true)
 				.addField("Queue runtime", getDurationMinutes(length), true)
-				.addField("Total queue size", String.valueOf(musicManager.getScheduler().getQueue().size()), true)
-				.addField("Repeat / Pause", String.valueOf(musicManager.getScheduler().isRepeat())
-						+ " / " + String.valueOf(musicManager.getScheduler().getPlayer().isPaused()), false);
+				.addField("Total queue size", String.valueOf(musicManager.getTrackScheduler().getQueue().size()), true)
+				.addField("Repeat / Pause", musicManager.getTrackScheduler().getRepeat()
+						+ " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), false);
 		} else {
 			builder.setDescription("Nothing here, just dust.");
 		}
