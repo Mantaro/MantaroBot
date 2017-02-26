@@ -42,6 +42,6 @@ public class MantaroAudioManager {
     }
 
     public long getTotalQueueSize() {
-        return musicManagers.values().stream().mapToLong(m -> m.getTrackScheduler().getQueue().size()).count();
+        return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 }
