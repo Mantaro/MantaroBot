@@ -41,10 +41,7 @@ public class CurrencyCmds extends Module {
 
 		/*
 		TODO NEXT:
-		 - inventory command
-		 - sell command
 		 - transfer command
-		 - mine command
 		 */
 	}
 
@@ -182,6 +179,7 @@ public class CurrencyCmds extends Module {
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 				List<ItemStack> loot = TextChannelGround.of(event).collect();
 				int moneyFound = Math.max(0, r.nextInt(400) - 300);
+				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
@@ -231,6 +229,7 @@ public class CurrencyCmds extends Module {
 		super.register("market", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				if (args.length > 0) {
@@ -347,8 +346,28 @@ public class CurrencyCmds extends Module {
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
+				if(picks == 0){
+					//Let's make it a chance.
+					TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 5);
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with. You can try your luck and do ~>loot to see if there is any.").queue();
+					return;
+				}
+
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+
+				double expectedToBreak = Math.random() * 100;
+
+				//Little chance, but chance.
+				if(expectedToBreak < 90){
+					ItemStack stack = userData.getInventory().asMap().get(BROM_PICKAXE);
+					userData.getInventory().asMap().remove(BROM_PICKAXE);
+					int newAmount = stack.getAmount() - 1;
+					if(newAmount >= 1){
+						userData.getInventory().asMap().put(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, newAmount));
+						event.getChannel().sendMessage(":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.").queue();
+					}
+				}
 
 				if(userData.money >= Integer.MAX_VALUE){
 					event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
@@ -398,7 +417,7 @@ public class CurrencyCmds extends Module {
 					).queue();
 					return;
 				}
-
+				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
 				event.getChannel().sendMessage(":heavy_multiplication_x: You need to mention a valid user.").queue();
 			}
 
