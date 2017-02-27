@@ -107,8 +107,9 @@ public class CurrencyCmds extends Module {
 
 				if (luck > r.nextInt(100)) {
 					long gains = (long) (i * multiplier);
+					gains = Math.round(gains * 0.55);
 					if (user.addMoney(gains)) {
-						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits!").queue();
+						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits and got to keep what you had!").queue();
 					} else {
 						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 					}
