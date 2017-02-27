@@ -79,23 +79,23 @@ public class CurrencyCmds extends Module {
 						case "everything":
 							i = user.money;
 							multiplier = 1.5d + (r.nextInt(1500) / 1000d);
-							luck = 35 + (int) (multiplier * 10) + r.nextInt(20);
+							luck = 42 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
 							i = user.money == 1 ? 1 : user.money / 2;
 							multiplier = 1d + (r.nextInt(1500) / 1000d);
-							luck = 30 + (int) (multiplier * 15) + r.nextInt(20);
+							luck = 35 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						case "quarter":
 							i = user.money == 1 ? 1 : user.money / 4;
 							multiplier = 1d + (r.nextInt(1000) / 1000d);
-							luck = 25 + (int) (multiplier * 15) + r.nextInt(20);
+							luck = 40 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						default:
 							i = Integer.parseInt(content);
 							if (i > user.money || i < 0) throw new UnsupportedOperationException();
 							multiplier = 1.2d + (i / user.money * r.nextInt(1300) / 1000d);
-							luck = 10 + (int) (multiplier * 15) + r.nextInt(10);
+							luck = 45 + (int) (multiplier * 15) + r.nextInt(10);
 							break;
 					}
 				} catch (NumberFormatException e) {
@@ -146,7 +146,11 @@ public class CurrencyCmds extends Module {
 				List<ItemStack> list = user.getInventory().asList();
 				if (list.isEmpty()) builder.setDescription("There is only dust.");
 				else
-					user.getInventory().asList().forEach(stack -> builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", (long) (stack.getItem().getValue() * 1.1), (long) (stack.getItem().getValue() * 0.9), stack.getItem().getDesc()), false));
+					user.getInventory().asList().forEach(stack -> {
+						long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
+						long sellValue = stack.getItem().isSellable() ?(long) (stack.getItem().getValue() * 0.9) : 0;
+						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
+					});
 
 				event.getChannel().sendMessage(builder.build()).queue();
 			}
@@ -230,9 +234,11 @@ public class CurrencyCmds extends Module {
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				if (args.length > 0) {
+					String itemName = content.replace(args[0] + " ", "");
 					if (args[0].equals("sell")) {
 						if(user.money >= Integer.MAX_VALUE){
-							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. " +
+									"Maybe you should spend some before getting more.").queue();
 							return;
 						}
 
@@ -249,9 +255,10 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
-						Item toSell = Items.fromEmoji(args[0]).isPresent() ? Items.fromEmoji(args[0]).get() : null;
+						Item toSell = Items.fromName(itemName).isPresent() ? Items.fromName(itemName).get() : null;
 						if(user.getInventory().asMap().getOrDefault(toSell, null) == null){
 							event.getChannel().sendMessage(":octagonal_sign: You cannot sell an item you don't have.").queue();
+							return;
 						}
 
 						long amount = Math.round(toSell.getValue() * 0.9);
@@ -263,16 +270,18 @@ public class CurrencyCmds extends Module {
 						}
 
 						if (user.addMoney(amount)) {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold" + toSell.getName() + "and gained " + amount + " credits!").queue();
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
+									"** and gained " + amount + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold\" + toSell.getName() + \"and gained \" + amount + \" credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
+									"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 						}
 
 						return;
 					}
 
 					if (args[0].equals("buy")) {
-						Item itemToBuy = Items.fromEmoji(args[0]).isPresent() ? Items.fromEmoji(args[0]).get() : null;
+						Item itemToBuy = Items.fromName(itemName).isPresent() ? Items.fromName(itemName).get() : null;
 						if(itemToBuy == null){
 							event.getChannel().sendMessage(":heavy_multiplication_x: You cannot buy an unexistant item.").queue();
 							return;

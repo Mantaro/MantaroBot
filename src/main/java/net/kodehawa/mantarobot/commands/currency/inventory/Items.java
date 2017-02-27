@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class Items {
 	public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET, LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE;
-	//TODO USE UNICODE INSTEAD OF DISCORD NOTATION BECAUSE ***REASONS***
+
 	public static final Item[] ALL = {
 		HEADPHONES =
 			new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 50, true, false),
@@ -46,6 +46,10 @@ public class Items {
 
 	public static Optional<Item> fromEmoji(String emoji) {
 		return Stream.of(ALL).filter(item -> item.getEmoji().equals(emoji)).findFirst();
+	}
+
+	public static Optional<Item> fromName(String name) {
+		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().equals(name.toLowerCase())).findFirst();
 	}
 
 	public static Item fromId(int id) {
