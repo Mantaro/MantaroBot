@@ -30,13 +30,13 @@ public class Items {
 		CC_PENCIL =
 			new Item("\u270f", "Pencil", "We have plenty of those!", 5),
 		OVERFLOWED_BAG =
-			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "Congratulations, you fucked up the game!", 2) {
+			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "Congratulations, you fucked up the game!", 2, true, false) {
 				@Override public void changePrices(Random r) {
 					price = value << (r.nextInt(10) + 15);
 				}
 			},
 		BROM_PICKAXE =
-			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much.", 100)
+			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much.", 100, false, true)
 	};
 
 	static {

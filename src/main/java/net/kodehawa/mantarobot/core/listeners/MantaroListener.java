@@ -65,7 +65,7 @@ public class MantaroListener implements EventListener {
 		}
 
 		if (event instanceof GuildMemberJoinEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logJoin((GuildMemberJoinEvent) event));
+			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onUserJoin((GuildMemberJoinEvent) event));
 			return;
 		}
 
@@ -140,7 +140,23 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	private void logJoin(GuildMemberJoinEvent event) {
+	private void onUserJoin(GuildMemberJoinEvent event) {
+
+		String role = MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole;
+		if(role != null){
+			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> {
+				LOGGER.debug("Successfully added a new role to " + event.getMember());
+			}, error -> {
+				if(error instanceof PermissionException){
+					MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole = null;
+					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
+							messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
+				} else {
+					LOGGER.warn("Error while applying roles", error);
+				}
+			});
+		}
+
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
@@ -164,6 +180,11 @@ public class MantaroListener implements EventListener {
 
 	private void onLeave(GuildLeaveEvent event) {
 		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
+		if(event.getGuild().getMembers().isEmpty()){
+			tc.sendMessage(String.format(":thinking: A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
+			logTotal++;
+			return;
+		}
 		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}

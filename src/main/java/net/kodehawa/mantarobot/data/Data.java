@@ -20,6 +20,7 @@ public class Data {
 		public String prefix = null;
 		public Integer songDurationLimit = null;
 		public Integer queueSizeLimit = null;
+		public String autoRole = null;
 	}
 
 	public static class UserData {

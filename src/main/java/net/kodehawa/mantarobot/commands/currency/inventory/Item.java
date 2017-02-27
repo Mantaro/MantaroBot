@@ -6,19 +6,26 @@ public class Item {
 	protected final boolean staticPrice;
 	protected final long value;
 	private final String emoji, name, desc;
+	private boolean sellable, buyable;
 	protected long price;
 
 	public Item(String emoji, String name, String desc, long value) {
-		this(emoji, name, desc, value, false);
+		this(emoji, name, desc, value, false, true, true);
 	}
 
-	public Item(String emoji, String name, String desc, long value, boolean staticPrice) {
+	public Item(String emoji, String name, String desc, long value, boolean staticPrice, boolean sellable, boolean buyable) {
 		this.emoji = emoji;
 		this.name = name;
 		this.desc = desc;
 		this.value = value;
 		this.price = value;
 		this.staticPrice = staticPrice;
+		this.sellable = sellable;
+		this.buyable = buyable;
+	}
+
+	public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
+		this(emoji, name, desc, value, false, sellable, buyable);
 	}
 
 	public void changePrices(Random r) {
@@ -37,6 +44,14 @@ public class Item {
 
 	public String getName() {
 		return name;
+	}
+
+	public boolean isBuyable(){
+		return buyable;
+	}
+
+	public boolean isSellable(){
+		return sellable;
 	}
 
 	public long getValue() {

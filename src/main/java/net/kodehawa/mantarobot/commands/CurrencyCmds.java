@@ -108,6 +108,12 @@ public class CurrencyCmds extends Module {
 				if (luck > r.nextInt(100)) {
 					long gains = (long) (i * multiplier);
 					gains = Math.round(gains * 0.55);
+
+					if(user.money >= Integer.MAX_VALUE){
+						event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+						return;
+					}
+
 					if (user.addMoney(gains)) {
 						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits and got to keep what you had!").queue();
 					} else {
@@ -215,6 +221,11 @@ public class CurrencyCmds extends Module {
 					}
 				} else {
 					if (moneyFound != 0) {
+						if(userData.money >= Integer.MAX_VALUE){
+							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+							return;
+						}
+
 						if (userData.addMoney(moneyFound)) {
 							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits!").queue();
 						} else {
@@ -247,9 +258,11 @@ public class CurrencyCmds extends Module {
 				//TODO BUY AND SELL
 				EmbedBuilder embed = baseEmbed(event, "\uD83D\uDED2 Mantaro Market");
 
-				Stream.of(Items.ALL).forEach(item ->
-					embed.addField(item.getEmoji() + " " + item.getName(), "\uD83D\uDCE5 " + (long) (item.getValue() * 1.1) + "c \uD83D\uDCE4 " + (long) (item.getValue() * 0.9) + "c", true)
-				);
+				Stream.of(Items.ALL).forEach(item -> {
+					String buyValue = item.isBuyable () ? "\uD83D\uDCE5" + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
+					String sellValue = item.isSellable () ? "\uD83D\uDCE4" +  String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
+					embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
+				});
 
 				event.getChannel().sendMessage(embed.build()).queue();
 			}
@@ -283,6 +296,11 @@ public class CurrencyCmds extends Module {
 				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+
+				if(userData.money >= Integer.MAX_VALUE){
+					event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+					return;
+				}
 
 				if (userData.addMoney(moneyFound)) {
 					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "")).queue();

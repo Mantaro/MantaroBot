@@ -1,9 +1,11 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
 public class ModerationCmds extends Module {
@@ -420,6 +423,41 @@ public class ModerationCmds extends Module {
 					}
 				}
 
+				if(option.equals("autorole")){
+					if(action.equals("set")){
+
+						if(event.getGuild().getRolesByName(args[2], true).isEmpty()){
+							event.getChannel().sendMessage(":heavy_multiplication_x: We didn't find any roles with that name").queue();
+							return;
+						}
+
+						StringBuilder b = new StringBuilder();
+						List<Role> roles = event.getGuild().getRolesByName(args[2], true);
+
+						for (int i = 0; i < 5 && i < roles.size(); i++) {
+							Role role = roles.get(i);
+							if (role != null)
+								b.append('[').append(i + 1).append("] ").append(role.getName()).append(" Position: ").append(role.getPosition()).append("\n");
+						}
+
+						event.getChannel().sendMessage(new EmbedBuilder().setDescription(b.toString()).build()).queue();
+
+						IntConsumer roleSelector = (c) -> {
+							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(c - 1).getId();
+							event.getMessage().addReaction("\ud83d\udc4c").queue();
+							MantaroData.getData().update();
+							event.getChannel().sendMessage(":ok_hand: Autorole now set to: " + roles.get(c - 1)).queue();
+						};
+
+						DiscordUtils.selectInt(event, roles.size() + 1, roleSelector);
+						return;
+
+					} else if(action.equals("unbind")){
+						MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = null;
+						event.getChannel().sendMessage(":ok_hand: Autorole resetted.").queue();
+					}
+				}
+
 				onHelp(event);
 			}
 
@@ -444,6 +482,8 @@ public class ModerationCmds extends Module {
 						"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
 						"~>opts birthday disable - Disables birthday monitoring.\n" +
 						"~>opts music limit <ms> - Changes the music lenght limit.\n" +
+						"~>opts autorole set <role> - Sets the new autorole which will be assigned to users on user join.\n" +
+						"~>opts autorole unbind - Clears the autorole config.\n" +
 						"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
 						"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
 						"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.")
