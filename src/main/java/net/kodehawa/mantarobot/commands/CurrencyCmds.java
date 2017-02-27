@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.BanzyEnforcer;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
@@ -306,12 +307,26 @@ public class CurrencyCmds extends Module {
 		super.register("profile", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				UserData data = MantaroData.getData().get().getUser(event.getAuthor(), false);
-				event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
-					.addField(":credit_card: Credits", "$ " + data.money, false)
-					.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
-					.build()
-				).queue();
+				if(event.getMessage().getMentionedUsers().isEmpty()){
+					UserData data = MantaroData.getData().get().getUser(event.getAuthor(), false);
+					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
+							.addField(":credit_card: Credits", "$ " + data.money, false)
+							.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+							.build()
+					).queue();
+					return;
+				} else if(!event.getMessage().getMentionedUsers().isEmpty()) {
+					User user = event.getMessage().getMentionedUsers().get(0);
+					UserData data = MantaroData.getData().get().getUser(user, false);
+					event.getChannel().sendMessage(baseEmbed(event, user.getName() + "'s Profile", user.getEffectiveAvatarUrl())
+							.addField(":credit_card: Credits", "$ " + data.money, false)
+							.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+							.build()
+					).queue();
+					return;
+				}
+
+				event.getChannel().sendMessage(":heavy_multiplication_x: You need to mention a valid user.").queue();
 			}
 
 			@Override
