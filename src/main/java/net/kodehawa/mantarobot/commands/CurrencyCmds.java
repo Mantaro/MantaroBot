@@ -279,7 +279,7 @@ public class CurrencyCmds extends Module {
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
-				long moneyFound = (long) (r.nextInt(400) * (1.0d + picks * 0.5d));
+				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
 
 				if (userData.addMoney(moneyFound)) {
