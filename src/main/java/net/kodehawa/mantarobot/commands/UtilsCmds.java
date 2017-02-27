@@ -257,7 +257,7 @@ public class UtilsCmds extends Module {
 					.setColor(Color.CYAN)
 					.setDescription("Retrieves definitions from **Urban Dictionary**.\n"
 						+ "Usage: \n"
-						+ "~>urban term]->[number]: Gets a definition based on parameters.\n"
+						+ "~>urban <term>-><number>: Gets a definition based on parameters.\n"
 						+ "Parameter description:\n"
 						+ "term: The term you want to look up the urban definition for.\n"
 						+ "number: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it.\n"
@@ -279,7 +279,6 @@ public class UtilsCmds extends Module {
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
 					long start = System.currentTimeMillis();
-					//Get a parsed JSON.
 					String APP_ID = MantaroData.getConfig().get().weatherAppId;
 					String json = Utils.wget(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
 					WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(json, WeatherData.class);

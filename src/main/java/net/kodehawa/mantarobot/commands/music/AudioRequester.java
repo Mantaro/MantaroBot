@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.Optional;
 import java.util.function.IntConsumer;
 
 public class AudioRequester implements AudioLoadResultHandler {
@@ -93,16 +94,17 @@ public class AudioRequester implements AudioLoadResultHandler {
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
-
-        if(getMusicManager().getTrackScheduler().getQueue().size() > MAX_QUEUE_LENGTH){
-            event.getChannel().sendMessage("Could not queue " + audioTrack.getInfo().title + ": Surpassed 300 songs limit!").queue();
+        int guildqueueLimit = MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit;
+        int queueLimit = !Optional.ofNullable(guildqueueLimit).isPresent() ? MAX_QUEUE_LENGTH : guildqueueLimit;
+        if(getMusicManager().getTrackScheduler().getQueue().size() > queueLimit){
+            if(!silent) event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue();
             if (musicManager.getTrackScheduler().isStopped())
                 event.getGuild().getAudioManager().closeAudioConnection();
             return;
         }
 
         if (audioTrack.getInfo().length > MAX_SONG_LENGTH) {
-            event.getChannel().sendMessage("Could not queue " + audioTrack.getInfo().title + ": Track is longer than 10 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
+            event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 10 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
             if (musicManager.getTrackScheduler().isStopped())
                 event.getGuild().getAudioManager().closeAudioConnection();
             return;

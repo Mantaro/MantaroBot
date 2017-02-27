@@ -343,10 +343,10 @@ public class ModerationCmds extends Module {
 						}
 						try{
 							int finalSize = Integer.parseInt(args[2]);
-							int applySize = finalSize >= 200 ? 200 : finalSize;
+							int applySize = finalSize >= 300 ? 300 : finalSize;
 							guildData.queueSizeLimit = applySize;
 							MantaroData.getData().update();
-							event.getChannel().sendMessage(String.format(":mega: Queue limit on this server is now: %d songs.", applySize)).queue();
+							event.getChannel().sendMessage(String.format(":mega: Queue limit on this server is now **%d** songs.", applySize)).queue();
 							return;
 						} catch (NumberFormatException e){
 							event.getChannel().sendMessage("You're trying to set a big af number (which won't be applied anyway), silly").queue();
@@ -406,7 +406,7 @@ public class ModerationCmds extends Module {
 						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
 						return;
 					}
-					
+
 					onHelp(event);
 					return;
 				}
@@ -483,6 +483,7 @@ public class ModerationCmds extends Module {
 						"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
 						"~>opts birthday disable - Disables birthday monitoring.\n" +
 						"~>opts music limit <ms> - Changes the music lenght limit.\n" +
+						"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 regardless).\n" +
 						"~>opts autorole set <role> - Sets the new autorole which will be assigned to users on user join.\n" +
 						"~>opts autorole unbind - Clears the autorole config.\n" +
 						"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
