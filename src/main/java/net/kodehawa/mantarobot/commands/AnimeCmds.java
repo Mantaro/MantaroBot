@@ -40,7 +40,7 @@ public class AnimeCmds extends Module {
 	@Override
 	public void onPostLoad() {
 		super.onPostLoad();
-		Async.startAsyncTask("AniList Login Task", this::authenticate, 3500);
+		Async.startAsyncTask("AniList Login Task", this::authenticate, 1900);
 	}
 
 	private void anime() {
@@ -135,7 +135,7 @@ public class AnimeCmds extends Module {
 	/**
 	 * returns the new AniList access token.
 	 */
-	private void authenticate() {
+	public void authenticate() {
 		String aniList = "https://anilist.co/api/auth/access_token";
 		String CLIENT_ID = "kodehawa-o43eq";
 		try {
@@ -147,7 +147,7 @@ public class AnimeCmds extends Module {
 				.getBody()
 				.getObject().getString("access_token");
 			LOGGER.info("Updated auth token.");
-		} catch (UnirestException e) {
+		} catch (Exception e) {
 			LOGGER.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
 		}
 	}

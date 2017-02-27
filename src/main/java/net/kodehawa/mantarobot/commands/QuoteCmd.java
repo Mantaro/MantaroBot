@@ -100,7 +100,10 @@ public class QuoteCmd extends Module {
 						List<String> keys = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 						int quoteN = rand.nextInt(keys.size());
 						List<String> quoteElements = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys.get(quoteN));
-
+						if(quoteElements.isEmpty()){
+							event.getChannel().sendMessage(":heavy_multiplication_x: There are no quotes on this server.").queue();
+							return;
+						}
 						EmbedBuilder embedBuilder = new EmbedBuilder();
 						Date dat = new Date(Long.parseLong(quoteElements.get(4)));
 						embedBuilder.setAuthor(quoteElements.get(0) + " said:", null, quoteElements.get(1))
@@ -119,6 +122,11 @@ public class QuoteCmd extends Module {
 							List<String> keys1 = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 							List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
 							EmbedBuilder embedBuilder2 = new EmbedBuilder();
+							if(quoteElements2.isEmpty()){
+								event.getChannel().sendMessage(":heavy_multiplication_x: There are no quotes on this server.").queue();
+								return;
+							}
+
 							Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
 							embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
 									.setThumbnail(quoteElements2.get(1))
@@ -173,6 +181,11 @@ public class QuoteCmd extends Module {
 					case "getfrom":
 						try{
 							List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+							if(quotes.isEmpty()){
+								event.getChannel().sendMessage(":heavy_multiplication_x: There are no quotes on this server.").queue();
+								return;
+							}
+
 							for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
 								if (quotes.get(i2).contains(phrase)) {
 									List<String> quoteE = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(quotes.get(i2));

@@ -74,12 +74,12 @@ public class AudioCmdUtils {
 		List<String> lines = Arrays.asList(NEWLINE_PATTERN.split(toSend));
 		List<List<String>> list = new ArrayList<>();
 
-		if (lines.size() >= 20) {
-			int pages = (int)Math.floor(lines.size() / 5);
-			if(lines.size() <= 60) pages = (int)Math.floor(lines.size() / 6);
-			if(lines.size() <= 100) pages = (int)Math.floor(lines.size() / 7);
-			if(lines.size() <= 200) pages = (int)Math.floor(lines.size() / 10);
-			if(lines.size() <= 300) pages = (int)Math.floor(lines.size() / 13);
+		if (lines.size() >= 15) {
+			int pages = (int) Math.floor(lines.size() / 5);
+			if(lines.size() <= 60) pages = (int) Math.floor(lines.size() / 6);
+			if(lines.size() <= 100) pages = (int) Math.floor(lines.size() / 7);
+			if(lines.size() <= 200) pages = (int) Math.floor(lines.size() / 10);
+			if(lines.size() <= 300) pages = (int) Math.floor(lines.size() / 13);
 
 			list = chunks(lines, pages);
 			try{
@@ -108,7 +108,7 @@ public class AudioCmdUtils {
 				.addField("Total queue size", String.valueOf(musicManager.getTrackScheduler().getQueue().size()), true)
 				.addField("Repeat/Pause", (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
 						+ "/" + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), true)
-				.setFooter("Total pages: " + list.size() + " -> Do ~>quote <page> to go to next page. Currently in page " + (page + 1), guild.getIconUrl());
+				.setFooter("Total pages: " + list.size() + " -> Do ~>queue <page> to go to next page. Currently in page " + (page + 1), guild.getIconUrl());
 		} else {
 			builder.setDescription("Nothing here, just dust.");
 		}

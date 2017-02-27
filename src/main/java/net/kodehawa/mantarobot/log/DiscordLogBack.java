@@ -25,7 +25,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		if (!enabled) return;
 		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
 		//Editing has ratelimit, so just ignore if the last message = new message.
-		if(event.getMessage().equals(previousEvent.getMessage())) return;
+		if(previousEvent!= null && event.getMessage().equals(previousEvent.getMessage())) return;
 
 		MantaroBot.getJDA().getTextChannelById("266231083341840385").sendMessage(patternLayout.doLayout(event)).queue();
 		previousEvent = event;
