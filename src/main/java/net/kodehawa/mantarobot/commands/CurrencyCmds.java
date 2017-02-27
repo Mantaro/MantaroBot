@@ -77,23 +77,23 @@ public class CurrencyCmds extends Module {
 						case "everything":
 							i = user.money;
 							multiplier = 1.5d + (r.nextInt(1500) / 1000d);
-							luck = 50 + (int) (multiplier * 10) + r.nextInt(20);
+							luck = 35 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
 							i = user.money == 1 ? 1 : user.money / 2;
 							multiplier = 1d + (r.nextInt(1500) / 1000d);
-							luck = 45 + (int) (multiplier * 15) + r.nextInt(20);
+							luck = 30 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						case "quarter":
 							i = user.money == 1 ? 1 : user.money / 4;
 							multiplier = 1d + (r.nextInt(1000) / 1000d);
-							luck = 40 + (int) (multiplier * 15) + r.nextInt(20);
+							luck = 25 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						default:
 							i = Integer.parseInt(content);
 							if (i > user.money || i < 0) throw new UnsupportedOperationException();
 							multiplier = 1.2d + (i / user.money * r.nextInt(1300) / 1000d);
-							luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
+							luck = 10 + (int) (multiplier * 15) + r.nextInt(10);
 							break;
 					}
 				} catch (NumberFormatException e) {
