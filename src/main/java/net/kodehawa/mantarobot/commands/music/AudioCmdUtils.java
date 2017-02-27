@@ -130,6 +130,10 @@ public class AudioCmdUtils {
 	}
 
 	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
+		if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
+			event.getChannel().sendMessage("\u2716 I can't connect to that channel because it is full!").queue();
+			return;
+		}
 		audioManager.openAudioConnection(userChannel);
 		event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
 	}
