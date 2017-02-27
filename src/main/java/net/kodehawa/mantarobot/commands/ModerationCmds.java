@@ -437,7 +437,7 @@ public class ModerationCmds extends Module {
 						for (int i = 0; i < 5 && i < roles.size(); i++) {
 							Role role = roles.get(i);
 							if (role != null)
-								b.append('[').append(i + 1).append("] ").append(role.getName()).append(" Position: ").append(role.getPosition()).append("\n");
+								b.append('[').append(i + 1).append("] ").append(role.getName()).append(" | Position: ").append(role.getPosition()).append("\n");
 						}
 
 						event.getChannel().sendMessage(new EmbedBuilder().setDescription(b.toString()).build()).queue();

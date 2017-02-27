@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -24,6 +25,11 @@ public class AudioCmdUtils {
 
 		if (userChannel == null) {
 			event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
+			return false;
+		}
+
+		if(event.getGuild().getMember(event.getJDA().getSelfUser()).hasPermission(userChannel, Permission.VOICE_CONNECT)){
+			event.getChannel().sendMessage("heavy_multiplication_x: I cannot connect to this channel due to the lack of permission.").queue();
 			return false;
 		}
 
