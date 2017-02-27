@@ -262,10 +262,10 @@ public class CurrencyCmds extends Module {
 
 						long amount = Math.round(toSell.getValue() * 0.9);
 						ItemStack stack = user.getInventory().asMap().get(toSell);
-						user.getInventory().asMap().remove(toSell);
+						user.getInventory().remove(stack);
 						int newAmount = stack.getAmount() - 1;
 						if(newAmount >= 1){
-							user.getInventory().asMap().put(toSell, new ItemStack(toSell, newAmount));
+							user.getInventory().add(new ItemStack(toSell, newAmount));
 						}
 
 						if (user.addMoney(amount)) {
@@ -359,12 +359,12 @@ public class CurrencyCmds extends Module {
 				double expectedToBreak = Math.random() * 100;
 
 				//Little chance, but chance.
-				if(expectedToBreak < 90){
+				if(expectedToBreak > 90){
 					ItemStack stack = userData.getInventory().asMap().get(BROM_PICKAXE);
-					userData.getInventory().asMap().remove(BROM_PICKAXE);
+					userData.getInventory().remove(stack);
 					int newAmount = stack.getAmount() - 1;
 					if(newAmount >= 1){
-						userData.getInventory().asMap().put(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, newAmount));
+						userData.getInventory().add(new ItemStack(BROM_PICKAXE, newAmount));
 						event.getChannel().sendMessage(":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.").queue();
 					}
 				}

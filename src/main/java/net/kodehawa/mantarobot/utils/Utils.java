@@ -25,8 +25,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class Utils {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");

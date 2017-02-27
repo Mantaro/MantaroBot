@@ -94,8 +94,8 @@ public class AudioRequester implements AudioLoadResultHandler {
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
-        int guildqueueLimit = MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit;
-        int queueLimit = !Optional.ofNullable(guildqueueLimit).isPresent() ? MAX_QUEUE_LENGTH : guildqueueLimit;
+        int queueLimit = !Optional.ofNullable(MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit).
+                isPresent() ? MAX_QUEUE_LENGTH : MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit;
         if(getMusicManager().getTrackScheduler().getQueue().size() > queueLimit){
             if(!silent) event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue();
             if (musicManager.getTrackScheduler().isStopped())
