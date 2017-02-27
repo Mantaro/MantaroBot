@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
@@ -18,7 +19,7 @@ import java.util.function.IntConsumer;
 public class AudioRequester implements AudioLoadResultHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger("AudioRequester");
     public static final long MAX_SONG_LENGTH = 600000;
-    public static final int MAX_QUEUE_LENGTH = 200;
+    public static final int MAX_QUEUE_LENGTH = 300;
 
     private GuildMusicManager musicManager;
     private GuildMessageReceivedEvent event;
@@ -38,6 +39,7 @@ public class AudioRequester implements AudioLoadResultHandler {
     public void trackLoaded(AudioTrack track) {
         loadSingle(track, false);
     }
+
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         if (playlist.isSearchResult()) {
@@ -45,11 +47,29 @@ public class AudioRequester implements AudioLoadResultHandler {
             return;
         }
 
-        playlist.getTracks().forEach(track -> loadSingle(track, true));
+        int i = 0;
+        for(AudioTrack track : playlist.getTracks()){
+            if(MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit != null){
+                if(i < MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit){
+                    loadSingle(track, true);
+                } else{
+                    event.getChannel().sendMessage(":warning: The queue you added had more than" + MantaroData.getData().get().getGuild(
+                            event.getGuild(), false).queueSizeLimit + "songs, so we added songs until this limit and ignored the rest.").queue();
+                    break;
+                }
+            } else {
+                if(i < MAX_QUEUE_LENGTH){
+                    loadSingle(track, true);
+                } else{
+                    event.getChannel().sendMessage(":warning: The queue you added had more than 200 songs, so we added songs until this limit and ignored the rest.").queue();
+                    break;
+                }
+            }
+            i++;
+        }
 
         event.getChannel().sendMessage(String.format(
-                "Added **%d songs** to queue on playlist: **%s** *(%s)*",
-                playlist.getTracks().size(),
+                "Added **%d songs** to queue on playlist: **%s** *(%s)*", i,
                 playlist.getName(),
                 Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
         )).queue();
@@ -73,6 +93,14 @@ public class AudioRequester implements AudioLoadResultHandler {
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
+
+        if(getMusicManager().getTrackScheduler().getQueue().size() > MAX_QUEUE_LENGTH){
+            event.getChannel().sendMessage("Could not queue " + audioTrack.getInfo().title + ": Surpassed 300 songs limit!").queue();
+            if (musicManager.getTrackScheduler().isStopped())
+                event.getGuild().getAudioManager().closeAudioConnection();
+            return;
+        }
+
         if (audioTrack.getInfo().length > MAX_SONG_LENGTH) {
             event.getChannel().sendMessage("Could not queue " + audioTrack.getInfo().title + ": Track is longer than 10 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
             if (musicManager.getTrackScheduler().isStopped())
