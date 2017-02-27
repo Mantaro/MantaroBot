@@ -104,7 +104,7 @@ public class AudioCmdUtils {
 		if (!toSend.isEmpty()) {
 			builder.setDescription(toSend)
 				.addField("Currently playing", nowPlaying, false)
-				.addField("Queue runtime", getDurationMinutes(length), true)
+				.addField("Total queue time", getDurationMinutes(length), true)
 				.addField("Total queue size", String.valueOf(musicManager.getTrackScheduler().getQueue().size()), true)
 				.addField("Repeat/Pause", (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
 						+ "/" + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), true)

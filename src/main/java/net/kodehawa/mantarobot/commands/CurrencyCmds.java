@@ -145,7 +145,7 @@ public class CurrencyCmds extends Module {
 				else
 					user.getInventory().asList().forEach(stack -> {
 						long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
-						long sellValue = stack.getItem().isSellable() ?(long) (stack.getItem().getValue() * 0.9) : 0;
+						long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
 						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
 					});
 

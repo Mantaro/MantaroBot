@@ -20,14 +20,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Utils {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
@@ -88,7 +87,6 @@ public class Utils {
 				.getObject()
 				.getString("key");
 			return "https://hastebin.com/" + pasteToken;
-
 		} catch (UnirestException e) {
 			LOGGER.warn("Hastebin is being funny, huh? Cannot send or retrieve paste.", e);
 			return "Bot threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
