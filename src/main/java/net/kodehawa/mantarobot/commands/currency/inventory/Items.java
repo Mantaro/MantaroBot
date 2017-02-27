@@ -12,23 +12,23 @@ public class Items {
 	//TODO USE UNICODE INSTEAD OF DISCORD NOTATION BECAUSE ***REASONS***
 	public static final Item[] ALL = {
 		HEADPHONES =
-			new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 50),
+			new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 50, true, false),
 		BAN_HAMMER =
-			new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 20),
+			new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 20, true, false),
 		KICK_BOOT =
-			new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 15),
+			new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 15, true, false),
 		FLOPPY_DISK =
-			new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 15),
+			new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 15, true, false),
 		MY_MATHS =
-			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 10),
+			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 10, true, false),
 		PING_RACKET =
-			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 25),
+			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 25, true, false),
 		LOADED_DICE =
-			new Item("\uD83C\uDFB2", "Loaded dice", "Stolen from `~>dice` command", 30),
+			new Item("\uD83C\uDFB2", "Loaded dice", "Stolen from `~>dice` command", 30, true, false),
 		FORGOTTEN_MUSIC =
-			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 5),
+			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 5, true, false),
 		CC_PENCIL =
-			new Item("\u270f", "Pencil", "We have plenty of those!", 5),
+			new Item("\u270f", "Pencil", "We have plenty of those!", 5, true, false),
 		OVERFLOWED_BAG =
 			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "Congratulations, you fucked up the game!", 2, true, false) {
 				@Override public void changePrices(Random r) {
