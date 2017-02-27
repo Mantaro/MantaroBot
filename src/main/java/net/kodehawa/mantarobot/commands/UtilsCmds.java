@@ -32,9 +32,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -59,9 +59,39 @@ public class UtilsCmds extends Module {
 		super.register("birthday", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+
+				if(content.startsWith("month")){
+					Map<String, String> closeBirthdays = new HashMap<>();
+					final int currentMonth = Integer.parseInt(String.format("%02d", Calendar.MONTH));
+					event.getGuild().getMembers().forEach(member ->{
+						try{
+							Date date = format1.parse(MantaroData.getData().get().getUser(member, false).birthdayDate);
+							LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+							if(currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))){
+								closeBirthdays.put(member.getEffectiveName()+"#"+member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(member, false).birthdayDate);
+							}
+						} catch (Exception e){
+							LOGGER.debug("Error while retrieving close birthdays", e);
+						}
+					});
+
+					if(closeBirthdays.isEmpty()){
+						event.getChannel().sendMessage("No one has a birthday this month.").queue();
+						return;
+					}
+
+					StringBuilder builder = new StringBuilder();
+
+					closeBirthdays.forEach((name, birthday) -> builder.append(name).append(": ").append(birthday.substring(0, 5)).append("\n"));
+
+					event.getChannel().sendMessage("```md\n" + "--Birthdays this month--\n\n" + builder.toString() + "```").queue();
+
+					return;
+				}
+
 				TextChannel channel = event.getChannel();
 				String userId = event.getMessage().getAuthor().getId();
-				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 				Date bd1;
 				//So they don't input something that isn't a date...
 				try {
@@ -79,11 +109,11 @@ public class UtilsCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Birthday")
-					.setDescription("Sets your birthday date.\n"
-						+ "**Usage:**\n"
-						+ "~>birthday [date]. Sets your birthday date. Only useful if the server enabled this functionality"
-						+ "**Parameter explanation:**\n"
-						+ "[date]. A date in dd-mm-yyyy format (13-02-1998 for example)")
+					.setDescription("Sets your birthday date.\n")
+					.addField("Usage", "~>birthday <date>. Sets your birthday date. Only useful if the server enabled this functionality"
+							+ "**Parameter explanation:**\n"
+							+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
+					.addField("Tip", "To see birthdays this month do ~>birthday month", false)
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}
