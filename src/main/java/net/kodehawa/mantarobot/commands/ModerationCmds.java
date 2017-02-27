@@ -406,6 +406,7 @@ public class ModerationCmds extends Module {
 						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
 						return;
 					}
+					
 					onHelp(event);
 					return;
 				}

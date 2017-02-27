@@ -13,14 +13,16 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.kodehawa.mantarobot.utils.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
-	public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
+	static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
 		VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
 
 		if (userChannel == null) {
@@ -28,8 +30,8 @@ public class AudioCmdUtils {
 			return false;
 		}
 
-		if(event.getGuild().getMember(event.getJDA().getSelfUser()).hasPermission(userChannel, Permission.VOICE_CONNECT)){
-			event.getChannel().sendMessage("heavy_multiplication_x: I cannot connect to this channel due to the lack of permission.").queue();
+		if(!event.getGuild().getMember(event.getJDA().getSelfUser()).hasPermission(userChannel, Permission.VOICE_CONNECT)){
+			event.getChannel().sendMessage(":heavy_multiplication_x: I cannot connect to this channel due to the lack of permission.").queue();
 			return false;
 		}
 
@@ -67,15 +69,19 @@ public class AudioCmdUtils {
 		return true;
 	}
 
-	public static MessageEmbed embedForQueue(Guild guild, GuildMusicManager musicManager) {
+	public static MessageEmbed embedForQueue(int page, Guild guild, GuildMusicManager musicManager) {
 		String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
-		String[] lines = NEWLINE_PATTERN.split(toSend);
+		List<String> lines = Arrays.asList(NEWLINE_PATTERN.split(toSend));
+		List<List<String>> list = new ArrayList<>();
 
-		if (lines.length > 15) {
-			toSend = Stream.concat(
-				Stream.of(lines).limit(14),
-				Stream.of("Showing only first **15** results.")
-			).collect(Collectors.joining("\n"));
+		if (lines.size() >= 15) {
+			int pages = (int)Math.floor(lines.size() / 4);
+			list = chunks(lines, pages);
+			try{
+				toSend = list.get(page).stream().collect(Collectors.joining("\n"));
+			} catch (IndexOutOfBoundsException e){
+				toSend = "Nothing on this page, just dust";
+			}
 		}
 
 		long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
@@ -95,14 +101,16 @@ public class AudioCmdUtils {
 				.addField("Currently playing", nowPlaying, true)
 				.addField("Queue runtime", getDurationMinutes(length), true)
 				.addField("Total queue size", String.valueOf(musicManager.getTrackScheduler().getQueue().size()), true)
-				.addField("Repeat / Pause", musicManager.getTrackScheduler().getRepeat()
-						+ " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), true);
+				.addField("Repeat/Pause", (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
+						+ "/" + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), true)
+				.setFooter("Total pages: " + list.size() + " -> Do ~>quote <page> to go to next page. Currently in page " + (page + 1), guild.getIconUrl());
 		} else {
 			builder.setDescription("Nothing here, just dust.");
 		}
 
 		return builder.build();
 	}
+
 
 	public static String getDurationMinutes(long length) {
 		return String.format("%d:%02d minutes",
@@ -124,5 +132,16 @@ public class AudioCmdUtils {
 	public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager) {
 		audioManager.closeAudioConnection();
 		event.getChannel().sendMessage("\uD83D\uDCE3 Closed audio connection.").queue();
+	}
+
+	private static List<List<String>> chunks(List<String> bigList, int n){
+		List<List<String>> chunks = new ArrayList<>();
+
+		for (int i = 0; i < bigList.size(); i += n) {
+			List<String> chunk = bigList.subList(i, Math.min(bigList.size(), i + n));
+			chunks.add(chunk);
+		}
+
+		return chunks;
 	}
 }

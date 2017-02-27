@@ -191,10 +191,15 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
 				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
-				if (content.isEmpty()) {
-					event.getChannel().sendMessage(embedForQueue(event.getGuild(), musicManager)).queue();
-				} else if (content.startsWith("clear")) {
+				int page = 0;
+				try {
+					page = Integer.parseInt(args[0]) - 1;
+				} catch(Exception ignored){}
+				event.getChannel().sendMessage(embedForQueue(page, event.getGuild(), musicManager)).queue();
+
+				if (content.startsWith("clear")) {
 					int TEMP_QUEUE_LENGHT = musicManager.getTrackScheduler().getQueue().size();
 					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
 					event.getChannel().sendMessage("Removed **" + TEMP_QUEUE_LENGHT + " songs** from the queue.").queue();
