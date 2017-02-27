@@ -43,6 +43,12 @@ public class Data {
 				return false;
 			}
 		}
+
+		public boolean removeMoney(long money){
+			if(this.money - money < 0) return false;
+			this.money = this.money - money;
+			return true;
+		}
 	}
 
 	public String defaultPrefix = "~>";

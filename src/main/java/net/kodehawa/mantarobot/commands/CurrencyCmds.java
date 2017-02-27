@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.BanzyEnforcer;
+import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
@@ -140,35 +141,6 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
-				//TODO MOVE TO MARKET
-				if (args.length > 0) {
-					if (args[0].equals("sell")) {
-						if (args.length > 1) {
-							//TODO
-							return;
-						}
-
-						long all = user.getInventory().asList().stream()
-							.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-							.sum();
-
-						user.getInventory().clear();
-
-						if (user.addMoney(all)) {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits!").queue();
-						} else {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
-						}
-
-						return;
-					}
-
-					if (args[0].equals("buy")) {
-						//TODO
-						return;
-					}
-				}
-
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
 				List<ItemStack> list = user.getInventory().asList();
@@ -255,7 +227,75 @@ public class CurrencyCmds extends Module {
 		super.register("market", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				//TODO BUY AND SELL
+				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
+
+				if (args.length > 0) {
+					if (args[0].equals("sell")) {
+						if(user.money >= Integer.MAX_VALUE){
+							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+							return;
+						}
+
+						if (args[1].equals("all")) {
+							long all = user.getInventory().asList().stream()
+									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+									.sum();
+
+							if (user.addMoney(all)) {
+								event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits!").queue();
+							} else {
+								event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+							}
+							return;
+						}
+
+						Item toSell = Items.fromEmoji(args[0]).isPresent() ? Items.fromEmoji(args[0]).get() : null;
+						if(user.getInventory().asMap().getOrDefault(toSell, null) == null){
+							event.getChannel().sendMessage(":octagonal_sign: You cannot sell an item you don't have.").queue();
+						}
+
+						long amount = Math.round(toSell.getValue() * 0.9);
+						ItemStack stack = user.getInventory().asMap().get(toSell);
+						user.getInventory().asMap().remove(toSell);
+						int newAmount = stack.getAmount() - 1;
+						if(newAmount >= 1){
+							user.getInventory().asMap().put(toSell, new ItemStack(toSell, newAmount));
+						}
+
+						if (user.addMoney(amount)) {
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold" + toSell.getName() + "and gained " + amount + " credits!").queue();
+						} else {
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold\" + toSell.getName() + \"and gained \" + amount + \" credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+						}
+
+						return;
+					}
+
+					if (args[0].equals("buy")) {
+						Item itemToBuy = Items.fromEmoji(args[0]).isPresent() ? Items.fromEmoji(args[0]).get() : null;
+						if(itemToBuy == null){
+							event.getChannel().sendMessage(":heavy_multiplication_x: You cannot buy an unexistant item.").queue();
+							return;
+						}
+
+						if(user.removeMoney(itemToBuy.getValue())){
+							ItemStack stack = user.getInventory().asMap().getOrDefault(itemToBuy, null);
+							if(stack != null){
+								user.getInventory().add(stack.join(new ItemStack(itemToBuy, 1)));
+								event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
+										" successfully. You now have " + user.money + " credits.").queue();
+								return;
+							}
+
+							user.getInventory().add(new ItemStack(itemToBuy, 1));
+						} else {
+							event.getChannel().sendMessage(":octagonal_sign: You don't have enough money to buy this item.").queue();
+						}
+
+						return;
+					}
+				}
+
 				EmbedBuilder embed = baseEmbed(event, "\uD83D\uDED2 Mantaro Market");
 
 				Stream.of(Items.ALL).forEach(item -> {
@@ -270,7 +310,11 @@ public class CurrencyCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Mantaro's market")
-						.setDescription("List current items for buying and selling (WIP).")
+						.setDescription("List current items for buying and selling.")
+						.addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will substract the value from your money and give you the item.\n" +
+								"To sell do ~>market sell all to sell all your items or ~>market sell <item emoji> to sell the specified item. " +
+								"You'll get the sell value of the item on coins to spend.", false)
+						.addField("To know", "If you don't have enough money you cannot buy the items.", false)
 						.build();
 			}
 		});
@@ -331,6 +375,7 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
 							.addField(":credit_card: Credits", "$ " + data.money, false)
 							.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+							.addField(":tada: Birthday", data.birthdayDate != null ? data.birthdayDate.substring(0, 5) : "Not specified." ,false)
 							.build()
 					).queue();
 					return;
