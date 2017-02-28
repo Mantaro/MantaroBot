@@ -243,6 +243,7 @@ public class CurrencyCmds extends Module {
 							long all = user.getInventory().asList().stream()
 									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 									.sum();
+							//TODO remove all items.
 
 							if (user.addMoney(all)) {
 								event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits!").queue();
@@ -258,10 +259,13 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
+						//TODO not removing at all?
 						long amount = Math.round(toSell.getValue() * 0.9);
 						ItemStack stack = user.getInventory().asMap().get(toSell);
-						user.getInventory().remove(stack);
+						System.out.println(stack.getAmount());
+						System.out.println(stack.getAmount() - 1);
 						int newAmount = stack.getAmount() - 1;
+						user.getInventory().remove(stack);
 						if(newAmount >= 1){
 							user.getInventory().add(new ItemStack(toSell, newAmount));
 						}
@@ -287,6 +291,7 @@ public class CurrencyCmds extends Module {
 						if(user.removeMoney(itemToBuy.getValue())){
 							ItemStack stack = user.getInventory().asMap().getOrDefault(itemToBuy, null);
 							if(stack != null){
+								//TODO why is this exponential? @AdrianTodt
 								user.getInventory().add(stack.join(new ItemStack(itemToBuy, 1)));
 								event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
 										" successfully. You now have " + user.money + " credits.").queue();
