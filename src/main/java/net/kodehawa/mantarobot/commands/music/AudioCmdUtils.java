@@ -76,11 +76,11 @@ public class AudioCmdUtils {
 
 		if (lines.size() >= 20) {
 
-			int pages = (int) Math.floor(lines.size() / 2);
-			if(lines.size() <= 60) pages = (int) Math.floor(lines.size() / 3);
-			if(lines.size() <= 100) pages = (int) Math.floor(lines.size() / 4);
-			if(lines.size() <= 200) pages = (int) Math.floor(lines.size() / 5);
-			if(lines.size() <= 300) pages = (int) Math.floor(lines.size() / 9);
+			int pages = list.size() % 2 == 0 ? lines.size() / 2 : (lines.size() / 2) + 1;
+			if(lines.size() <= 60) pages = lines.size() % 4 == 0 ? lines.size() / 4 : (lines.size() / 3) + 1;
+			else if(lines.size() <= 100) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 5) + 1;
+			else if(lines.size() <= 200) pages = lines.size() % 9 == 0 ? lines.size() / 9 : (lines.size() / 9) + 1;
+			else if(lines.size() <= 300) pages = lines.size() % 13 == 0 ? lines.size() / 13 : (lines.size() / 13) + 1;
 
 			list = chunks(lines, pages);
 
