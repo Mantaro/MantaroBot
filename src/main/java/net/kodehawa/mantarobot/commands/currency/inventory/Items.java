@@ -52,6 +52,31 @@ public class Items {
 		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().equals(name.toLowerCase())).findFirst();
 	}
 
+	public static Optional<Item> fromPartialName(String name) {
+		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().contains(name.toLowerCase())).findFirst();
+	}
+
+	public static Optional<Item> fromAny(String any) {
+		try {
+			Item item = fromId(Integer.parseInt(any));
+			if (item != null) return Optional.of(item);
+		} catch (NumberFormatException ignored) {
+		}
+
+		Optional<Item> itemOptional;
+
+		itemOptional = fromEmoji(any);
+		if (itemOptional.isPresent()) return itemOptional;
+
+		itemOptional = fromName(any);
+		if (itemOptional.isPresent()) return itemOptional;
+
+		itemOptional = fromPartialName(any);
+		if (itemOptional.isPresent()) return itemOptional;
+
+		return Optional.empty();
+	}
+
 	public static Item fromId(int id) {
 		return ALL[id];
 	}

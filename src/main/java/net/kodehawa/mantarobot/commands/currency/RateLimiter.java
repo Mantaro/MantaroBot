@@ -12,12 +12,12 @@ import java.util.List;
  * <br>But then I remembered of this: https://pbs.twimg.com/media/C0MHQOMVQAEBlhj.jpg
  * Made by @AdrianTodt
  */
-public class BanzyEnforcer {
+public class RateLimiter {
 	private static final Expirator EXPIRATOR = new Expirator();
 	private final int timeout;
 	private final List<String> usersRateLimited = new ArrayList<>();
 
-	public BanzyEnforcer(int timeout) {
+	public RateLimiter(int timeout) {
 		this.timeout = timeout;
 	}
 

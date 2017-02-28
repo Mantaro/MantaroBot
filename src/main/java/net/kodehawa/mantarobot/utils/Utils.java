@@ -20,7 +20,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -38,15 +41,6 @@ public class Utils {
 	public static String capitalize(String s) {
 		if (s.length() == 0) return s;
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
-	}
-
-	public static Comparator<String> randomOrder() {
-		ThreadLocalRandom r = ThreadLocalRandom.current();
-		int x = r.nextInt(), y = r.nextInt();
-		boolean b = r.nextBoolean();
-		return Comparator.comparingInt((String s)->s.hashCode()^x)
-			.thenComparingInt(s->s.length()^y)
-			.thenComparing(b? Comparator.naturalOrder(): Comparator.reverseOrder());
 	}
 
 	public static String getDurationMinutes(long length) {
@@ -91,11 +85,42 @@ public class Utils {
 		}
 	}
 
+	public static Comparator<String> randomOrder() {
+		ThreadLocalRandom r = ThreadLocalRandom.current();
+		int x = r.nextInt(), y = r.nextInt();
+		boolean b = r.nextBoolean();
+		return Comparator.comparingInt((String s) -> s.hashCode() ^ x)
+			.thenComparingInt(s -> s.length() ^ y)
+			.thenComparing(b ? Comparator.naturalOrder() : Comparator.reverseOrder());
+	}
+
 	public static String toPrettyJson(String jsonString) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		JsonParser jsonParser = new JsonParser();
 		JsonElement jsonElement = jsonParser.parse(jsonString);
 		return gson.toJson(jsonElement);
+	}
+
+	private static String urlEncodeUTF8(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			throw new UnsupportedOperationException(e);
+		}
+	}
+
+	public static String urlEncodeUTF8(Map<?, ?> map) {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<?, ?> entry : map.entrySet()) {
+			if (sb.length() > 0) {
+				sb.append("&");
+			}
+			sb.append(String.format("%s=%s",
+				urlEncodeUTF8(entry.getKey().toString()),
+				urlEncodeUTF8(entry.getValue().toString())
+			));
+		}
+		return sb.toString();
 	}
 
 	/**
@@ -140,27 +165,5 @@ public class Utils {
 		}
 
 		return url2;
-	}
-
-	private static String urlEncodeUTF8(String s) {
-		try {
-			return URLEncoder.encode(s, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new UnsupportedOperationException(e);
-		}
-	}
-
-	public static String urlEncodeUTF8(Map<?, ?> map) {
-		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<?, ?> entry : map.entrySet()) {
-			if (sb.length() > 0) {
-				sb.append("&");
-			}
-			sb.append(String.format("%s=%s",
-				urlEncodeUTF8(entry.getKey().toString()),
-				urlEncodeUTF8(entry.getValue().toString())
-			));
-		}
-		return sb.toString();
 	}
 }

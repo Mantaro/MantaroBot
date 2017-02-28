@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.BanzyEnforcer;
+import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
@@ -17,7 +17,9 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -44,7 +46,7 @@ public class CurrencyCmds extends Module {
 	}
 
 	private void gamble() {
-		BanzyEnforcer banzyEnforcer = new BanzyEnforcer(2000);
+		RateLimiter rateLimiter = new RateLimiter(2000);
 		Random r = new Random();
 
 		super.register("gamble", new SimpleCommand() {
@@ -52,7 +54,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String id = event.getAuthor().getId();
 
-				if (!banzyEnforcer.process(id)) {
+				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(":stopwatch:" +
 						"Cooldown a lil bit, you're gambling so fast that I can't print enough money!").queue();
 					return;
@@ -105,7 +107,7 @@ public class CurrencyCmds extends Module {
 					long gains = (long) (i * multiplier);
 					gains = Math.round(gains * 0.55);
 
-					if(user.money >= Integer.MAX_VALUE){
+					if (user.money >= Integer.MAX_VALUE) {
 						event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
 						return;
 					}
@@ -153,14 +155,14 @@ public class CurrencyCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Inventory command")
-						.setDescription("Shows your current inventory.")
-						.build();
+					.setDescription("Shows your current inventory.")
+					.build();
 			}
 		});
 	}
 
 	private void loot() {
-		BanzyEnforcer banzyEnforcer = new BanzyEnforcer(5000);
+		RateLimiter rateLimiter = new RateLimiter(5000);
 		Random r = new Random();
 
 		super.register("loot", new SimpleCommand() {
@@ -168,7 +170,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String id = event.getAuthor().getId();
 
-				if (!banzyEnforcer.process(id)) {
+				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(":stopwatch:" +
 						"Cooldown a lil bit, you're ratelimited right now so maybe wait a little bit more and let other people loot.").queue();
 					return;
@@ -193,7 +195,7 @@ public class CurrencyCmds extends Module {
 					}
 				} else {
 					if (moneyFound != 0) {
-						if(userData.money >= Integer.MAX_VALUE){
+						if (userData.money >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
 							return;
 						}
@@ -233,16 +235,16 @@ public class CurrencyCmds extends Module {
 				if (args.length > 0) {
 					String itemName = content.replace(args[0] + " ", "");
 					if (args[0].equals("sell")) {
-						if(user.money >= Integer.MAX_VALUE){
+						if (user.money >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. " +
-									"Maybe you should spend some before getting more.").queue();
+								"Maybe you should spend some before getting more.").queue();
 							return;
 						}
 
 						if (args[1].equals("all")) {
 							long all = user.getInventory().asList().stream()
-									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-									.sum();
+								.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+								.sum();
 							//TODO remove all items.
 
 							if (user.addMoney(all)) {
@@ -253,8 +255,8 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
-						Item toSell = Items.fromName(itemName).orElse(null);
-						if(user.getInventory().asMap().getOrDefault(toSell, null) == null){
+						Item toSell = Items.fromAny(itemName).orElse(null);
+						if (user.getInventory().asMap().getOrDefault(toSell, null) == null) {
 							event.getChannel().sendMessage(":octagonal_sign: You cannot sell an item you don't have.").queue();
 							return;
 						}
@@ -264,26 +266,26 @@ public class CurrencyCmds extends Module {
 
 						if (user.addMoney(amount)) {
 							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
-									"** and gained " + amount + " credits!").queue();
+								"** and gained " + amount + " credits!").queue();
 						} else {
 							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
-									"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+								"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 						}
 
 						return;
 					}
 
 					if (args[0].equals("buy")) {
-						Item itemToBuy = Items.fromName(itemName).isPresent() ? Items.fromName(itemName).get() : null;
-						if(itemToBuy == null){
+						Item itemToBuy = Items.fromAny(itemName).isPresent() ? Items.fromName(itemName).get() : null;
+						if (itemToBuy == null) {
 							event.getChannel().sendMessage(":heavy_multiplication_x: You cannot buy an unexistant item.").queue();
 							return;
 						}
 
-						if(user.removeMoney(itemToBuy.getValue())){
+						if (user.removeMoney(itemToBuy.getValue())) {
 							user.getInventory().process(new ItemStack(itemToBuy, 1));
 							event.getChannel().sendMessage(":ok_hand: Bought " + itemToBuy.getEmoji() +
-									" successfully. You now have " + user.money + " credits.").queue();
+								" successfully. You now have " + user.money + " credits.").queue();
 						} else {
 							event.getChannel().sendMessage(":octagonal_sign: You don't have enough money to buy this item.").queue();
 						}
@@ -295,8 +297,8 @@ public class CurrencyCmds extends Module {
 				EmbedBuilder embed = baseEmbed(event, "\uD83D\uDED2 Mantaro Market");
 
 				Stream.of(Items.ALL).forEach(item -> {
-					String buyValue = item.isBuyable () ? "\uD83D\uDCE5" + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
-					String sellValue = item.isSellable () ? "\uD83D\uDCE4" +  String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
+					String buyValue = item.isBuyable() ? "\uD83D\uDCE5" + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
+					String sellValue = item.isSellable() ? "\uD83D\uDCE4" + String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
 					embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
 				});
 
@@ -306,18 +308,18 @@ public class CurrencyCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Mantaro's market")
-						.setDescription("List current items for buying and selling.")
-						.addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will substract the value from your money and give you the item.\n" +
-								"To sell do ~>market sell all to sell all your items or ~>market sell <item emoji> to sell the specified item. " +
-								"You'll get the sell value of the item on coins to spend.", false)
-						.addField("To know", "If you don't have enough money you cannot buy the items.", false)
-						.build();
+					.setDescription("List current items for buying and selling.")
+					.addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will substract the value from your money and give you the item.\n" +
+						"To sell do ~>market sell all to sell all your items or ~>market sell <item emoji> to sell the specified item. " +
+						"You'll get the sell value of the item on coins to spend.", false)
+					.addField("To know", "If you don't have enough money you cannot buy the items.", false)
+					.build();
 			}
 		});
 	}
 
 	private void mine() {
-		BanzyEnforcer banzyEnforcer = new BanzyEnforcer(1000);
+		RateLimiter rateLimiter = new RateLimiter(1000);
 		Random r = new Random();
 
 		super.register("mine", new SimpleCommand() {
@@ -325,7 +327,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String id = event.getAuthor().getId();
 
-				if (!banzyEnforcer.process(id)) {
+				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(":stopwatch:" +
 						"Cooldown a lil bit, you're mining so fast that I can't print enough money!").queue();
 					return;
@@ -334,33 +336,30 @@ public class CurrencyCmds extends Module {
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
-				if(picks == 0){
-					//Let's make it a chance.
-					TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 5);
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with. You can try your luck and do ~>loot to see if there is any.").queue();
+				if (picks == 0) {
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with. You can try your luck and do ~>loot to see if there is any." + (TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 5) ? " :pick:" : "")).queue();
 					return;
 				}
 
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
 				String toSend = "";
-				double expectedToBreak = Math.random() * 100;
 
 				//Little chance, but chance.
-				if(expectedToBreak > 90){
+				if (Math.random() * 100 > 90) {
 					userData.getInventory().process(new ItemStack(BROM_PICKAXE, -1));
-					toSend = ":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.\n";
+					toSend = "\n:sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
 				}
 
-				if(userData.money >= Integer.MAX_VALUE){
+				if (userData.money >= Integer.MAX_VALUE) {
 					event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
 					return;
 				}
 
 				if (userData.addMoney(moneyFound)) {
-					event.getChannel().sendMessage(toSend + "Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "")).queue();
+					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "") + toSend).queue();
 				} else {
-					event.getChannel().sendMessage(toSend + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "")).queue();
+					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
 				}
 
 				MantaroData.getData().update();
@@ -369,10 +368,10 @@ public class CurrencyCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Mine command")
-						.setDescription("Mines money. Just like the good ol' gold days")
-						.addField("Usage", "~>mine", false)
-						.addField("Note", "Pickaxes make you mine faster.", false)
-						.build();
+					.setDescription("Mines money. Just like the good ol' gold days")
+					.addField("Usage", "~>mine", false)
+					.addField("Note", "More pickaxes make you mine faster.", false)
+					.build();
 			}
 		});
 	}
@@ -381,22 +380,22 @@ public class CurrencyCmds extends Module {
 		super.register("profile", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(event.getMessage().getMentionedUsers().isEmpty()){
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					UserData data = MantaroData.getData().get().getUser(event.getAuthor(), false);
 					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
-							.addField(":credit_card: Credits", "$ " + data.money, false)
-							.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
-							.addField(":tada: Birthday", data.birthdayDate != null ? data.birthdayDate.substring(0, 5) : "Not specified." ,false)
-							.build()
+						.addField(":credit_card: Credits", "$ " + data.money, false)
+						.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+						.addField(":tada: Birthday", data.birthdayDate != null ? data.birthdayDate.substring(0, 5) : "Not specified.", false)
+						.build()
 					).queue();
 					return;
-				} else if(!event.getMessage().getMentionedUsers().isEmpty()) {
+				} else if (!event.getMessage().getMentionedUsers().isEmpty()) {
 					User user = event.getMessage().getMentionedUsers().get(0);
 					UserData data = MantaroData.getData().get().getUser(user, false);
 					event.getChannel().sendMessage(baseEmbed(event, user.getName() + "'s Profile", user.getEffectiveAvatarUrl())
-							.addField(":credit_card: Credits", "$ " + data.money, false)
-							.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
-							.build()
+						.addField(":credit_card: Credits", "$ " + data.money, false)
+						.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+						.build()
 					).queue();
 					return;
 				}
@@ -435,9 +434,9 @@ public class CurrencyCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Money list")
-						.setDescription("Returns the global richest users, or the guild ones if you want.")
-						.addField("Usage", "~>richest <global/guild>", false)
-						.build();
+					.setDescription("Returns the global richest users, or the guild ones if you want.")
+					.addField("Usage", "~>richest <global/guild>", false)
+					.build();
 			}
 		});
 	}
