@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
 import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Config;
@@ -61,7 +62,7 @@ public class MantaroBot {
 		status = LOADING;
 		jda = new JDABuilder(AccountType.BOT)
 			.setToken(config.token)
-			.addListener(new MantaroListener())
+			.addListener(new MantaroListener(), new VoiceChannelListener())
 			//.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
 			.setGame(Game.of("Hold your seatbelts!"))
