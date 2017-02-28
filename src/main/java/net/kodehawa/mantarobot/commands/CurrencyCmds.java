@@ -261,7 +261,7 @@ public class CurrencyCmds extends Module {
 
 						long amount = Math.round(toSell.getValue() * 0.9);
 						ItemStack stack = user.getInventory().asMap().get(toSell);
-						user.getInventory().add(stack.join(new ItemStack(toSell, -1)));
+						user.getInventory().process(stack.join(new ItemStack(toSell, -1)));
 
 						if (user.addMoney(amount)) {
 							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
@@ -285,13 +285,13 @@ public class CurrencyCmds extends Module {
 							ItemStack stack = user.getInventory().asMap().getOrDefault(itemToBuy, null);
 							if(stack != null){
 								//TODO why is this exponential? @AdrianTodt
-								user.getInventory().add(stack.join(new ItemStack(itemToBuy, 1)));
+								user.getInventory().process(stack.join(new ItemStack(itemToBuy, 1)));
 								event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
 										" successfully. You now have " + user.money + " credits.").queue();
 								return;
 							}
 
-							user.getInventory().add(new ItemStack(itemToBuy, 1));
+							user.getInventory().process(new ItemStack(itemToBuy, 1));
 							event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
 									" successfully. You now have " + user.money + " credits.").queue();
 						} else {
@@ -359,7 +359,7 @@ public class CurrencyCmds extends Module {
 				//Little chance, but chance.
 				if(expectedToBreak > 90){
 					ItemStack stack = userData.getInventory().asMap().get(BROM_PICKAXE);
-					userData.getInventory().add(stack.join(new ItemStack(BROM_PICKAXE, -1)));
+					userData.getInventory().process(stack.join(new ItemStack(BROM_PICKAXE, -1)));
 					toSend = ":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.\n";
 				}
 

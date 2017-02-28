@@ -44,23 +44,13 @@ public class Inventory {
 		userData.inventory = serialize(inv);
 	}
 
-	public void add(ItemStack stack) {
+	public void process(ItemStack stack) {
 		merge(Collections.singletonList(stack));
-	}
-
-	public void remove(ItemStack stack) {
-		mergerm(Collections.singletonList(stack));
 	}
 
 	public void merge(List<ItemStack> inv) {
 		List<ItemStack> cur = asList();
 		cur.addAll(inv);
-		replaceWith(ItemStack.reduce(cur));
-	}
-
-	public void mergerm(List<ItemStack> inv) {
-		List<ItemStack> cur = asList();
-		cur.removeAll(inv);
 		replaceWith(ItemStack.reduce(cur));
 	}
 }
