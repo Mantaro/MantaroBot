@@ -30,8 +30,8 @@ public class VoiceLeaveTimer {
         return expiring.get(key);
     }
 
-    public void addMusicPlayer(String id, Long milis) {
-        expiring.put(id, milis);
+    public void addMusicPlayer(String id, long millis) {
+        expiring.put(id, millis);
         updated = true;
         synchronized (this) {
             notify();
@@ -87,10 +87,10 @@ public class VoiceLeaveTimer {
                 Guild guild = MantaroBot.getJDA().getGuildById(id);
                 if (guild == null) continue;
                 AudioManager am = guild.getAudioManager();
-                if (!am.isConnected() && !am.isAttemptingToConnect()) {
+                if (am.isConnected() || am.isAttemptingToConnect()) {
                     GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(guild);
                     am.closeAudioConnection();
-                    if (musicManager.getTrackScheduler().isStopped() || am.getConnectedChannel().getMembers().size() == 1) {
+                    if (musicManager.getTrackScheduler().isStopped()) {
                         continue;
                     }
                     TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
