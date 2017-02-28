@@ -259,16 +259,9 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
-						//TODO not removing at all?
 						long amount = Math.round(toSell.getValue() * 0.9);
 						ItemStack stack = user.getInventory().asMap().get(toSell);
-						System.out.println(stack.getAmount());
-						System.out.println(stack.getAmount() - 1);
-						int newAmount = stack.getAmount() - 1;
-						user.getInventory().remove(stack);
-						if(newAmount >= 1){
-							user.getInventory().add(new ItemStack(toSell, newAmount));
-						}
+						user.getInventory().add(stack.join(new ItemStack(toSell, -1)));
 
 						if (user.addMoney(amount)) {
 							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
@@ -366,12 +359,8 @@ public class CurrencyCmds extends Module {
 				//Little chance, but chance.
 				if(expectedToBreak > 90){
 					ItemStack stack = userData.getInventory().asMap().get(BROM_PICKAXE);
-					userData.getInventory().remove(stack);
-					int newAmount = stack.getAmount() - 1;
-					if(newAmount >= 1){
-						userData.getInventory().add(new ItemStack(BROM_PICKAXE, newAmount));
-						toSend = ":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.\n";
-					}
+					userData.getInventory().add(stack.join(new ItemStack(BROM_PICKAXE, -1)));
+					toSend = ":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.\n";
 				}
 
 				if(userData.money >= Integer.MAX_VALUE){
