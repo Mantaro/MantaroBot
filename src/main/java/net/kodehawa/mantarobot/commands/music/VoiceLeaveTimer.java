@@ -63,8 +63,7 @@ public class VoiceLeaveTimer {
                         wait();
                         updated = false;
                     }
-                } catch (InterruptedException ignored) {
-                }
+                } catch (InterruptedException ignored) {}
             }
 
             //noinspection OptionalGetWithoutIsPresent

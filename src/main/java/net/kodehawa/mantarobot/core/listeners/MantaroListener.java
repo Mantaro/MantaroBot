@@ -227,14 +227,16 @@ public class MantaroListener implements EventListener {
 										TextChannel tc = guild.getTextChannelById(
 											MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
 										tc.sendMessage(String.format("\u274C PermissionError while appling roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
+										MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
+										MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
+										MantaroData.getData().update();
 									} else {
 										channel.sendMessage(String.format("\u274C Unknown error while applying roles [%s]: <%s>: %s", birthdayRole.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 										LOGGER.warn("Unknown error while applying roles", error);
+										MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
+										MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
+										MantaroData.getData().update();
 									}
-
-									MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
-									MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
-									MantaroData.getData().update();
 								});
 						}
 					} else {
@@ -244,7 +246,15 @@ public class MantaroListener implements EventListener {
 							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
 					}
 				} catch (Exception e) {
-					LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
+					if(e instanceof PermissionException){
+						PermissionException pe = (PermissionException) e;
+						MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
+						MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
+						TextChannel tc = guild.getTextChannelById(
+								MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
+						tc.sendMessage(String.format("\u274C PermissionError while removing roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
+					}
+					else LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
 				}
 			}
 		}
