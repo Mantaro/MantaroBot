@@ -353,14 +353,14 @@ public class CurrencyCmds extends Module {
 				}
 
 				if(userData.money >= Integer.MAX_VALUE){
-					event.getChannel().sendMessage(toSend + ":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+					event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
 					return;
 				}
 
 				if (userData.addMoney(moneyFound)) {
-					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "")).queue();
+					event.getChannel().sendMessage(toSend + "Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "")).queue();
 				} else {
-					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "")).queue();
+					event.getChannel().sendMessage(toSend + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "")).queue();
 				}
 
 				MantaroData.getData().update();
