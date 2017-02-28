@@ -348,8 +348,7 @@ public class CurrencyCmds extends Module {
 
 				//Little chance, but chance.
 				if(expectedToBreak > 90){
-					ItemStack stack = userData.getInventory().asMap().get(BROM_PICKAXE);
-					userData.getInventory().process(stack.join(new ItemStack(BROM_PICKAXE, -1)));
+					userData.getInventory().process(new ItemStack(BROM_PICKAXE, -1));
 					toSend = ":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.\n";
 				}
 
