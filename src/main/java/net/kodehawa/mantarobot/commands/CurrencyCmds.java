@@ -253,15 +253,14 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
-						Item toSell = Items.fromName(itemName).isPresent() ? Items.fromName(itemName).get() : null;
+						Item toSell = Items.fromName(itemName).orElse(null);
 						if(user.getInventory().asMap().getOrDefault(toSell, null) == null){
 							event.getChannel().sendMessage(":octagonal_sign: You cannot sell an item you don't have.").queue();
 							return;
 						}
 
 						long amount = Math.round(toSell.getValue() * 0.9);
-						ItemStack stack = user.getInventory().asMap().get(toSell);
-						user.getInventory().process(stack.join(new ItemStack(toSell, -1)));
+						user.getInventory().process(new ItemStack(toSell, -1));
 
 						if (user.addMoney(amount)) {
 							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
@@ -282,17 +281,8 @@ public class CurrencyCmds extends Module {
 						}
 
 						if(user.removeMoney(itemToBuy.getValue())){
-							ItemStack stack = user.getInventory().asMap().getOrDefault(itemToBuy, null);
-							if(stack != null){
-								//TODO why is this exponential? @AdrianTodt
-								user.getInventory().process(stack.join(new ItemStack(itemToBuy, 1)));
-								event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
-										" successfully. You now have " + user.money + " credits.").queue();
-								return;
-							}
-
 							user.getInventory().process(new ItemStack(itemToBuy, 1));
-							event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
+							event.getChannel().sendMessage(":ok_hand: Bought " + itemToBuy.getEmoji() +
 									" successfully. You now have " + user.money + " credits.").queue();
 						} else {
 							event.getChannel().sendMessage(":octagonal_sign: You don't have enough money to buy this item.").queue();

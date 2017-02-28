@@ -11,14 +11,6 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.Utils.randomOrder;
 
 public class ItemStack {
-	public static List<ItemStack> stackfy(List<Item> items) {
-		return stackfy(items, item -> 1);
-	}
-
-	private static List<ItemStack> stackfy(List<Item> items, ToIntFunction<Item> amountFunction) {
-		return items.stream().map(item -> new ItemStack(item, amountFunction.applyAsInt(item))).collect(Collectors.toList());
-	}
-
 	public static Map<Item, ItemStack> mapped(List<ItemStack> list) {
 		return list.stream().collect(Collectors.toMap(ItemStack::getItem, UnaryOperator.identity(), ItemStack::join));
 	}
@@ -33,6 +25,14 @@ public class ItemStack {
 
 	public static List<ItemStack> reduce(ItemStack... stacks) {
 		return reduce(Arrays.asList(stacks));
+	}
+
+	public static List<ItemStack> stackfy(List<Item> items) {
+		return stackfy(items, item -> 1);
+	}
+
+	private static List<ItemStack> stackfy(List<Item> items, ToIntFunction<Item> amountFunction) {
+		return items.stream().map(item -> new ItemStack(item, amountFunction.applyAsInt(item))).collect(Collectors.toList());
 	}
 
 	public static String toString(List<ItemStack> list) {
