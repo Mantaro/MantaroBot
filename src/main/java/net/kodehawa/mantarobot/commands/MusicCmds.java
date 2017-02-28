@@ -32,7 +32,7 @@ public class MusicCmds extends Module {
 		shuffle();
 		skip();
 		volume();
-		//repeat();
+		repeat();
 		move();
 		stop();
 	}
@@ -274,17 +274,24 @@ public class MusicCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
 				switch (args[0].toLowerCase()) {
-					case "song":
-						musicManager.getTrackScheduler().setRepeat(Repeat.SONG);
-						event.getChannel().sendMessage(":mega: Repeating current song.").queue();
-						break;
 					case "queue":
-						musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
-						event.getChannel().sendMessage(":mega: Repeating current queue.").queue();
+						if (musicManager.getTrackScheduler().getRepeat() == Repeat.QUEUE) {
+							musicManager.getTrackScheduler().setRepeat(null);
+							event.getChannel().sendMessage(":mega: Continuing with normal queue.").queue();
+						}
+						else {
+							musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
+							event.getChannel().sendMessage(":mega: Repeating current queue.").queue();
+						}
 						break;
 					default:
-						musicManager.getTrackScheduler().setRepeat(null);
-						event.getChannel().sendMessage(":mega: Continuing with normal queue.").queue();
+						if (musicManager.getTrackScheduler().getRepeat() == Repeat.SONG) {
+							musicManager.getTrackScheduler().setRepeat(null);
+							event.getChannel().sendMessage(":mega: Continuing with normal queue.").queue();
+						} else {
+							musicManager.getTrackScheduler().setRepeat(Repeat.SONG);
+							event.getChannel().sendMessage(":mega: Repeating current song.").queue();
+						}
 						break;
 				}
 				TextChannelGround.of(event).dropWithChance(0, 10);
