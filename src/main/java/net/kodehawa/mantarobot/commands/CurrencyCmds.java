@@ -17,9 +17,7 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -296,6 +294,8 @@ public class CurrencyCmds extends Module {
 							}
 
 							user.getInventory().add(new ItemStack(itemToBuy, 1));
+							event.getChannel().sendMessage(":ok_hand: Bought " + stack.getItem().getEmoji() +
+									" successfully. You now have " + user.money + " credits.").queue();
 						} else {
 							event.getChannel().sendMessage(":octagonal_sign: You don't have enough money to buy this item.").queue();
 						}
@@ -355,7 +355,7 @@ public class CurrencyCmds extends Module {
 
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
-
+				String toSend = "";
 				double expectedToBreak = Math.random() * 100;
 
 				//Little chance, but chance.
@@ -365,12 +365,12 @@ public class CurrencyCmds extends Module {
 					int newAmount = stack.getAmount() - 1;
 					if(newAmount >= 1){
 						userData.getInventory().add(new ItemStack(BROM_PICKAXE, newAmount));
-						event.getChannel().sendMessage(":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.").queue();
+						toSend = ":sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.\n";
 					}
 				}
 
 				if(userData.money >= Integer.MAX_VALUE){
-					event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+					event.getChannel().sendMessage(toSend + ":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
 					return;
 				}
 
