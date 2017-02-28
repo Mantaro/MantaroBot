@@ -44,7 +44,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
         TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
         if (channel != null && channel.canTalk())
             channel.sendMessage("I was left alone in the Voice Channel so I paused the player. If nobody join this channel within 2 minutes I'll stop the player.").queue();
-        timer.addMusicPlayer(guild.getId(), 2000L);
+        timer.addMusicPlayer(guild.getId(), 2000);
     }
 
     @Override
