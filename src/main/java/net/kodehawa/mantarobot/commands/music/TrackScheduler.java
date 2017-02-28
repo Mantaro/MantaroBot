@@ -90,6 +90,7 @@ public class TrackScheduler extends AudioEventAdapter {
     public Repeat getRepeat() {
         return repeat;
     }
+
     private void announce() {
         try {
             if (getPreviousTrack() != null && getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())

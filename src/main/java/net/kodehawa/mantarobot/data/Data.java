@@ -39,7 +39,7 @@ public class Data {
 				return true;
 			} catch (ArithmeticException ignored) {
 				this.money = 0;
-				this.getInventory().add(new ItemStack(9,1));
+				this.getInventory().process(new ItemStack(9,1));
 				return false;
 			}
 		}

@@ -19,7 +19,7 @@ public class AudioUtils {
                     .append(audioTrack.getInfo().title)
                     .append(" **(")
                     .append(duration)
-                    .append(")**").append(audioTrack.getDJ() != null ? " DJ: " + audioTrack.getDJ().getName() : "")
+                    .append(")**").append(audioTrack.getDJ() != null ? " **(DJ: " + audioTrack.getDJ().getName() + ")**" : "")
                     .append("\n"
                     );
             n++;
