@@ -13,6 +13,8 @@ public class Data {
 		public String birthdayChannel = null;
 		public String birthdayRole = null;
 		public Map<String, List<String>> customCommands = new HashMap<>();
+		public Map<String, UserData> users = new HashMap<>();
+		public boolean localMode = false;
 		public boolean customCommandsAdminOnly = false;
 		public String logChannel = null;
 		public String musicChannel = null;
@@ -69,6 +71,13 @@ public class Data {
 	public UserData getUser(User user, boolean isRewritable) {
 		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new UserData());
 		return users.getOrDefault(user.getId(), new UserData());
+	}
+
+	public UserData getUser(Guild guild, User user, boolean isRewritable) {
+		GuildData guildData = getGuild(guild, isRewritable);
+		Map<String, UserData> usersMap = guildData.localMode ? guildData.users : users;
+		if (isRewritable) return usersMap.computeIfAbsent(user.getId(), s -> new UserData());
+		return usersMap.getOrDefault(user.getId(), new UserData());
 	}
 
 	public UserData getUser(Member member, boolean isRewritable) {
