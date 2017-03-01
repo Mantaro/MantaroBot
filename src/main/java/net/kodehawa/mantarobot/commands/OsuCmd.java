@@ -15,6 +15,7 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +76,7 @@ public class OsuCmd extends Module {
 			long end = System.currentTimeMillis() - start;
 			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 		} catch (Exception e) {
-			finalResponse = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
+			finalResponse = EmoteReference.ERROR + "Error retrieving results or no results found. (" + e.getMessage() + ")";
 			LOGGER.warn("Error retrieving results from osu!API", e);
 		}
 
@@ -90,25 +91,25 @@ public class OsuCmd extends Module {
 				TextChannelGround.of(event).dropItemWithChance(4,5);
 				switch (noArgs) {
 					case "best":
-						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from osu! server...").queue(sentMessage -> {
+						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
 							Future<String> task = Async.getThreadPool().submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
-									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
 					case "recent":
-						event.getChannel().sendMessage("\uD83D\uDCAC Retrieving information from server...").queue(sentMessage -> {
+						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
 							Future<String> task = Async.getThreadPool().submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
-									sentMessage.editMessage("\u274C Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
@@ -176,7 +177,7 @@ public class OsuCmd extends Module {
 			finalMessage = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 
 		} catch (Exception e) {
-			finalMessage = "\u274C Error retrieving results or no results found. (" + e.getMessage() + ")";
+			finalMessage = EmoteReference.ERROR + "Error retrieving results or no results found. (" + e.getMessage() + ")";
 		}
 		return finalMessage;
 	}

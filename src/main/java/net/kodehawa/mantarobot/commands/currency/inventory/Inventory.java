@@ -41,7 +41,7 @@ public class Inventory {
 	public void clear() {
 		replaceWith(new ArrayList<>());
 	}
-
+	
 	public void replaceWith(List<ItemStack> inv) {
 		userData.inventory = serialize(inv);
 	}

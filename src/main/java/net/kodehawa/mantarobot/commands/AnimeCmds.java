@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.StringUtils;
@@ -74,10 +75,10 @@ public class AnimeCmds extends Module {
 					DiscordUtils.selectInt(event, type.length + 1, animeSelector);
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
-						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "No results or the API query was unsuccessful").queue();
 						return;
 					}
-					event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
 			}
 
@@ -183,11 +184,11 @@ public class AnimeCmds extends Module {
 					DiscordUtils.selectInt(event, character.length + 1, characterSelector);
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
-						event.getChannel().sendMessage(":heavy_multiplication_x: No results or the API query was unsuccessful").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "No results or the API query was unsuccessful").queue();
 						return;
 					}
 					LOGGER.warn("Problem processing data.", e);
-					event.getChannel().sendMessage("**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
 			}
 

@@ -193,7 +193,7 @@ public class CurrencyCmds extends Module {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
-						event.getChannel().sendMessage("Digging through messages, you found " + s).queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s).queue();
 					}
 				} else {
 					if (moneyFound != 0) {
@@ -208,7 +208,7 @@ public class CurrencyCmds extends Module {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
-						event.getChannel().sendMessage("Digging through messages, you found nothing but dust").queue();
+						event.getChannel().sendMessage(EmoteReference.SAD + "Digging through messages, you found nothing but dust").queue();
 					}
 				}
 
@@ -295,10 +295,10 @@ public class CurrencyCmds extends Module {
 						user.getInventory().process(new ItemStack(toSell, many));
 
 						if (user.addMoney(amount)) {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold " + Math.abs(many) + " **" + toSell.getName() +
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
 								"** and gained " + amount + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold **" + toSell.getName() +
 								"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 						}
 
@@ -364,7 +364,7 @@ public class CurrencyCmds extends Module {
 				String id = event.getAuthor().getId();
 
 				if (!rateLimiter.process(id)) {
-					event.getChannel().sendMessage(":stopwatch:" +
+					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you're mining so fast that I can't print enough money!").queue();
 					return;
 				}
@@ -384,18 +384,18 @@ public class CurrencyCmds extends Module {
 				//Little chance, but chance.
 				if (Math.random() * 100 > 90) {
 					userData.getInventory().process(new ItemStack(BROM_PICKAXE, -1));
-					toSend = "\n:sob: Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
+					toSend = "\n" + EmoteReference.SAD + "Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
 				}
 
 				if (userData.money >= Integer.MAX_VALUE) {
-					event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 					return;
 				}
 
 				if (userData.addMoney(moneyFound)) {
-					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "") + toSend).queue();
+					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "") + toSend).queue();
 				} else {
-					event.getChannel().sendMessage("Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
+					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
 				}
 
 				MantaroData.getData().update();
@@ -436,7 +436,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
-				event.getChannel().sendMessage(":heavy_multiplication_x: You need to mention a valid user.").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a valid user.").queue();
 			}
 
 			@Override
