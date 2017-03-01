@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,22 +53,22 @@ public class OwnerCmd extends Module {
 					case "pat":
 						MantaroData.getPatting().get().add(v);
 						MantaroData.getPatting().update();
-						event.getChannel().sendMessage("Added to pat list: " + v).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
 						break;
 					case "hug":
 						MantaroData.getHugs().get().add(v);
 						MantaroData.getHugs().update();
-						event.getChannel().sendMessage("Added to hug list: " + v).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
 						break;
 					case "greeting":
 						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
 						MantaroData.getGreeting().update();
-						event.getChannel().sendMessage("Added to greet list: " + content.replace("greeting ", "")).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
 						break;
 					case "splash":
 						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
 						MantaroData.getSplashes().update();
-						event.getChannel().sendMessage("Added to splash list: " + content.replace("splash ", "")).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
 						break;
 				}
 			}
@@ -95,11 +96,11 @@ public class OwnerCmd extends Module {
 					if (args[1].equals("add")) {
 						if (event.getJDA().getGuildById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
-						event.getChannel().sendMessage("Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
 						MantaroData.getData().update();
 					} else if (args[1].equals("remove")) {
 						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
-						event.getChannel().sendMessage("Unblacklisted Guild: " + args[2]).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
 						MantaroData.getData().update();
 					}
 					return;
@@ -109,12 +110,12 @@ public class OwnerCmd extends Module {
 					if (args[1].equals("add")) {
 						if (event.getJDA().getUserById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedUsers.add(args[2]);
-						event.getChannel().sendMessage("Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
 						MantaroData.getData().update();
 					} else if (args[1].equals("remove")) {
 						if (event.getJDA().getUserById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedUsers.remove(args[2]);
-						event.getChannel().sendMessage("Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
 						MantaroData.getData().update();
 					}
 				}
@@ -221,7 +222,7 @@ public class OwnerCmd extends Module {
 					try {
 						prepareShutdown(event);
 					} catch (Exception e) {
-						LOGGER.warn("Couldn't prepare shutdown." + e.toString(), e);
+						LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown." + e.toString(), e);
 						return;
 					}
 
@@ -260,7 +261,7 @@ public class OwnerCmd extends Module {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
-								LOGGER.warn("Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+								LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 							}
 							System.exit(restart ? 15 : 0);
 						});

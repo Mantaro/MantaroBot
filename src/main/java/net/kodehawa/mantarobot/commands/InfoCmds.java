@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,7 +212,7 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!event.getMessage().getMentionedUsers().isEmpty()) {
-					event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
+					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
 					return;
 				}
 				event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getAvatarUrl())).queue();
@@ -390,9 +391,9 @@ public class InfoCmds extends Module {
 						final MessageEmbed help = command.getKey().help(event);
 						Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
 						if (help == null)
-							event.getChannel().sendMessage("\u274C No extended help set for this command.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "No extended help set for this command.").queue();
 					} else {
-						event.getChannel().sendMessage("\u274C This command doesn't exist.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "This command doesn't exist.").queue();
 					}
 				}
 			}
@@ -423,7 +424,7 @@ public class InfoCmds extends Module {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					event.getChannel().sendMessage("\uD83D\uDCE3 The ping is " + ping + " ms, " + ratePing(ping)).queue();
+					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping)).queue();
 					TextChannelGround.of(event).dropWithChance(5,5);
 				});
 			}
@@ -450,7 +451,7 @@ public class InfoCmds extends Module {
 				Member member = event.getGuild().getMember(user);
 				if (member == null) {
 					String name = user == null ? "Unknown User" : user.getName();
-					event.getChannel().sendMessage("Sorry but I couldn't get the Info for the user " + name + ". Please make sure you and the user are in the same guild.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry but I couldn't get the Info for the user " + name + ". Please make sure you and the user are in the same guild.").queue();
 					return;
 				}
 
