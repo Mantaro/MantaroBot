@@ -14,11 +14,13 @@ import static net.kodehawa.mantarobot.commands.currency.inventory.Inventory.Reso
 public class Inventory {
 	static class Resolver {
 		public static List<ItemStack> unserialize(Map<Integer, Integer> map) {
-			return map.entrySet().stream().map(entry -> new ItemStack(Items.fromId(entry.getKey()), entry.getValue())).collect(Collectors.toList());
+			return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(Items.fromId(entry.getKey()), entry.getValue())).collect(Collectors.toList());
 		}
 
 		public static Map<Integer, Integer> serialize(List<ItemStack> list) {
-			return list.stream().collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
+			Map<Integer, Integer> collect = list.stream().collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
+			collect.values().remove(0);
+			return collect;
 		}
 	}
 

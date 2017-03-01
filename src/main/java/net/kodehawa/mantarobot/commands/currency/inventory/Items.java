@@ -49,11 +49,11 @@ public class Items {
 	}
 
 	public static Optional<Item> fromName(String name) {
-		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().equals(name.toLowerCase())).findFirst();
+		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().equals(name.toLowerCase().trim())).findFirst();
 	}
 
 	public static Optional<Item> fromPartialName(String name) {
-		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().contains(name.toLowerCase())).findFirst();
+		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().contains(name.toLowerCase().trim())).findFirst();
 	}
 
 	public static Optional<Item> fromAny(String any) {
