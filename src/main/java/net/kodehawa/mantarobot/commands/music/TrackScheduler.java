@@ -159,7 +159,14 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     private void onTrackSchedulerStop() {
-        getGuild().getAudioManager().closeAudioConnection();
+        Guild g = getGuild();
+        if (g == null) return;
+
+        AudioManager m = g.getAudioManager();
+        if (m == null) return;
+
+        m.closeAudioConnection();
+
         if (getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())
             getPreviousTrack().getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
     }

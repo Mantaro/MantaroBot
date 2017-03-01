@@ -276,7 +276,8 @@ public class CurrencyCmds extends Module {
 					}
 
 					if (args[0].equals("buy")) {
-						Item itemToBuy = Items.fromAny(itemName).isPresent() ? Items.fromName(itemName).get() : null;
+						Item itemToBuy = Items.fromAny(itemName).orElse(null);
+
 						if (itemToBuy == null) {
 							event.getChannel().sendMessage(":heavy_multiplication_x: You cannot buy an unexistant item.").queue();
 							return;
