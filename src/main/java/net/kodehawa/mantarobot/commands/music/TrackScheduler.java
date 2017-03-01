@@ -95,16 +95,14 @@ public class TrackScheduler extends AudioEventAdapter {
         try {
             if (getPreviousTrack() != null && getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())
                 getPreviousTrack().getRequestedChannel().getMessageById(lastAnnounce).complete().delete().queue();
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         try {
             if (getCurrentTrack() != null && getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk())
                 getCurrentTrack().getRequestedChannel()
                         .sendMessage("\uD83D\uDCE3 Now playing in " + getAudioManager().getConnectedChannel().getName()
                                 + ": " + getCurrentTrack().getInfo().title + " (" + AudioUtils.getLength(getCurrentTrack().getInfo().length) + ")"
                                 + (getCurrentTrack().getDJ() != null ? " requested by " + getCurrentTrack().getDJ().getName() : "")).queue(this::setLastAnnounce);
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 
     private void setLastAnnounce(Message m) {
@@ -115,15 +113,13 @@ public class TrackScheduler extends AudioEventAdapter {
         if (repeat == Repeat.SONG && !skip && getCurrentTrack() != null) {
             getAudioPlayer().startTrack(getCurrentTrack().makeClone().getAudioTrack(), false);
         } else {
-            if (currentTrack != null)
-                previousTrack = currentTrack;
+            if (currentTrack != null) previousTrack = currentTrack;
             currentTrack = queue.poll();
             getAudioPlayer().startTrack(getCurrentTrack() == null ? null : getCurrentTrack().getAudioTrack(), false);
-            if (repeat == Repeat.QUEUE)
-                queue.offer(previousTrack);
+            if (repeat == Repeat.QUEUE) queue.offer(previousTrack);
         }
-        if (currentTrack == null)
-            onTrackSchedulerStop();
+
+        if (currentTrack == null) onTrackSchedulerStop();
     }
 
     public void shuffle() {
@@ -146,16 +142,18 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
-        if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk())
+        if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()){
             getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage() + " (Severity: " + exception.severity + ")").queue();
-        //next(true);
+            //next(true);
+        }
     }
 
     @Override
     public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
-        if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk())
+        if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
             getCurrentTrack().getRequestedChannel().sendMessage("Track got stuck, skipping...").queue();
-        //next(true);
+            //next(true);
+        }
     }
 
     private void onTrackSchedulerStop() {
