@@ -34,7 +34,6 @@ public class OwnerCmd extends Module {
 	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
-	public static GuildMessageReceivedEvent tempEvt = null;
 
 	public OwnerCmd() {
 		super(Category.OWNER);
