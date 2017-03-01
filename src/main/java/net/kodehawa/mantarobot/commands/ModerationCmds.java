@@ -13,6 +13,7 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,12 +44,12 @@ public class ModerationCmds extends Module {
 
 				//We need to check if this is in a guild AND if the member trying to kick the person has KICK_MEMBERS permission.
 				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-					channel.sendMessage("\u274C " + "Cannot ban: You have no Ban Members permission.").queue();
+					channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You have no Ban Members permission.").queue();
 					return;
 				}
 
 				if (receivedMessage.getMentionedUsers().isEmpty()) {
-					channel.sendMessage("\u274C" + "You need to mention at least one user to ban.").queue();
+					channel.sendMessage(EmoteReference.ERROR + "You need to mention at least one user to ban.").queue();
 					return;
 				}
 
@@ -58,13 +59,13 @@ public class ModerationCmds extends Module {
 					if (member == null) return;
 					//If one of them is in a higher hierarchy than the bot, I cannot ban them.
 					if (!guild.getSelfMember().canInteract(member)) {
-						channel.sendMessage("\u274C" + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
+						channel.sendMessage(EmoteReference.ERROR + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
 						return;
 					}
 
 					//If I cannot ban, well..
 					if (!guild.getSelfMember().hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-						channel.sendMessage("\u274C" + "Sorry! I don't have permission to ban members in this server!").queue();
+						channel.sendMessage(EmoteReference.ERROR + "Sorry! I don't have permission to ban members in this server!").queue();
 						return;
 					}
 
@@ -72,16 +73,16 @@ public class ModerationCmds extends Module {
 					//Also delete all messages from past 7 days.
 					guild.getController().ban(member, 7).queue(
 						success -> {
-							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue();
+							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue();
 							TextChannelGround.of(event).dropWithChance(1,2);
 						},
 						error ->
 						{
 							if (error instanceof PermissionException) {
-								channel.sendMessage("\u274C" + "Error banning " + member.getEffectiveName()
+								channel.sendMessage(EmoteReference.ERROR + "Error banning " + member.getEffectiveName()
 									+ ": " + "(No permission provided: " + ((PermissionException) error).getPermission() + ")").queue();
 							} else {
-								channel.sendMessage("\u274C" + "Unknown error while banning " + member.getEffectiveName()
+								channel.sendMessage(EmoteReference.ERROR + "Unknown error while banning " + member.getEffectiveName()
 									+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
 								//I need more information in the case of an unexpected error.
@@ -123,13 +124,13 @@ public class ModerationCmds extends Module {
 
 				//We need to check if the member trying to kick the person has KICK_MEMBERS permission.
 				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
-					channel.sendMessage("\u274C Cannot kick: You have no Kick Members permission.").queue();
+					channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick: You have no Kick Members permission.").queue();
 					return;
 				}
 
 				//If they mentioned a user this gets passed, if they didn't it just doesn't.
 				if (receivedMessage.getMentionedUsers().isEmpty()) {
-					channel.sendMessage("\u274C" + "You must mention 1 or more users to be kicked!").queue();
+					channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be kicked!").queue();
 					return;
 				}
 
@@ -137,7 +138,7 @@ public class ModerationCmds extends Module {
 
 				//Do I have permissions to kick members, if yes continue, if no end command.
 				if (!selfMember.hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
-					channel.sendMessage("\u274C" + "Sorry! I don't have permission to kick members in this server!").queue();
+					channel.sendMessage(EmoteReference.ERROR2 + "Sorry! I don't have permission to kick members in this server!").queue();
 					return;
 				}
 
@@ -148,21 +149,21 @@ public class ModerationCmds extends Module {
 
 					//If one of them is in a higher hierarchy than the bot, cannot kick.
 					if (!selfMember.canInteract(member)) {
-						channel.sendMessage("\u274C" + "Cannot kick member: " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
+						channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
 						return;
 					}
 
 					//Proceed to kick them. Again, using queue so I don't get rate limited.
 					guild.getController().kick(member).queue(
 						success -> {
-							channel.sendMessage(":zap: You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
+							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
 							TextChannelGround.of(event).dropWithChance(2,2);
 						},
 						error -> {
 							if (error instanceof PermissionException) {
-								channel.sendMessage(String.format("\u274C Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
+								channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
 							} else {
-								channel.sendMessage(String.format("\u274C Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+								channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 
 								//Just so I get more info in the case of an unexpected error.
 								LOGGER.warn("Unexpected error while kicking someone.", error);
@@ -206,7 +207,7 @@ public class ModerationCmds extends Module {
 						String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
 						guildData.logChannel = id;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(String.format(":mega: Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
+						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
 							logChannel, id)).queue();
 						return;
 					}
@@ -214,7 +215,7 @@ public class ModerationCmds extends Module {
 					if (action.equals("disable")) {
 						guildData.logChannel = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(":mega: Message logging disabled on this server.").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging disabled on this server.").queue();
 						return;
 					}
 
@@ -232,14 +233,14 @@ public class ModerationCmds extends Module {
 						String prefix = args[2];
 						guildData.prefix = prefix;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(":mega: Guild custom prefix set to " + prefix).queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Guild custom prefix set to " + prefix).queue();
 						return;
 					}
 
 					if (action.equals("clear")) {
 						guildData.prefix = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(":mega: Guild custom prefix disabled	").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Guild custom prefix disabled	").queue();
 						return;
 					}
 					onHelp(event);
@@ -258,14 +259,14 @@ public class ModerationCmds extends Module {
 						String channelId = isId ? args[2] : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
 						guildData.nsfwChannel = channelId;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(String.format(":mega: NSFW channel set to %s (%s)", args[2], channelId)).queue();
+						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "NSFW channel set to %s (%s)", args[2], channelId)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
 						guildData.nsfwChannel = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(String.format(":mega: NSFW channel set to %s", "null")).queue();
+						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "NSFW channel set to %s", "null")).queue();
 						return;
 					}
 					onHelp(event);
@@ -289,17 +290,17 @@ public class ModerationCmds extends Module {
 							guildData.birthdayRole = roleId;
 							MantaroData.getData().update();
 							event.getChannel().sendMessage(
-								String.format(":mega: Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
+								String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
 									channel, channelId, role, roleId)).queue();
 							return;
 						} catch (Exception e) {
 							if (e instanceof IndexOutOfBoundsException) {
-								event.getChannel().sendMessage(":heavy_multiplication_x: Nothing found on channel or role.\n " +
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Nothing found on channel or role.\n " +
 									"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
 									.queue();
 								return;
 							}
-							event.getChannel().sendMessage(":heavy_multiplication_x: Wrong command arguments.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong command arguments.").queue();
 							onHelp(event);
 							return;
 						}
@@ -309,7 +310,7 @@ public class ModerationCmds extends Module {
 						guildData.birthdayChannel = null;
 						guildData.birthdayRole = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage(":mega: Birthday logging disabled on this server").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging disabled on this server").queue();
 						return;
 					}
 
@@ -321,24 +322,24 @@ public class ModerationCmds extends Module {
 					if (action.equals("limit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
 						if (!isNumber) {
-							event.getChannel().sendMessage("That's not a valid number.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number.").queue();
 							return;
 						}
 
 						try{
 							guildData.songDurationLimit = Integer.parseInt(args[2]);
 							MantaroData.getData().update();
-							event.getChannel().sendMessage(String.format(":mega: Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
+							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
 							return;
 						} catch (NumberFormatException e){
-							event.getChannel().sendMessage("You're trying to set a big af number, silly").queue();
+							event.getChannel().sendMessage(EmoteReference.WARNING + "You're trying to set a big af number, silly").queue();
 						}
 					}
 
 					if(action.equals("queuelimit")){
 						boolean isNumber = args[2].matches("^[0-9]*$");
 						if (!isNumber) {
-							event.getChannel().sendMessage("That's not a valid number.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number.").queue();
 							return;
 						}
 						try{
@@ -346,10 +347,10 @@ public class ModerationCmds extends Module {
 							int applySize = finalSize >= 300 ? 300 : finalSize;
 							guildData.queueSizeLimit = applySize;
 							MantaroData.getData().update();
-							event.getChannel().sendMessage(String.format(":mega: Queue limit on this server is now **%d** songs.", applySize)).queue();
+							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Queue limit on this server is now **%d** songs.", applySize)).queue();
 							return;
 						} catch (NumberFormatException e){
-							event.getChannel().sendMessage("You're trying to set a big af number (which won't be applied anyway), silly").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set a big af number (which won't be applied anyway), silly").queue();
 						}
 						return;
 					}
@@ -371,13 +372,13 @@ public class ModerationCmds extends Module {
 									.collect(Collectors.toList());
 
 								if (voiceChannels.size() == 0) {
-									event.getChannel().sendMessage("\u274C I couldn't found any Voice Channel with that Name or Id").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found any Voice Channel with that Name or Id").queue();
 									return;
 								} else if (voiceChannels.size() == 1) {
 									channel = voiceChannels.get(0);
 									guildData.musicChannel = channel.getId();
 									MantaroData.getData().update();
-									event.getChannel().sendMessage("Music Channel set to: " + channel.getName()).queue();
+									event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + channel.getName()).queue();
 								} else {
 									DiscordUtils.selectList(event, voiceChannels,
 										voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
@@ -385,7 +386,7 @@ public class ModerationCmds extends Module {
 										voiceChannel -> {
 											guildData.musicChannel = voiceChannel.getId();
 											MantaroData.getData().update();
-											event.getChannel().sendMessage("Music Channel set to: " + voiceChannel.getName()).queue();
+											event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + voiceChannel.getName()).queue();
 										}
 									);
 								}
@@ -403,7 +404,7 @@ public class ModerationCmds extends Module {
 						guildData.songDurationLimit = null;
 						guildData.musicChannel = null;
 						MantaroData.getData().update();
-						event.getChannel().sendMessage("Now I can play music on all channels!").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now I can play music on all channels!").queue();
 						return;
 					}
 
@@ -415,11 +416,11 @@ public class ModerationCmds extends Module {
 					try {
 						guildData.customCommandsAdminOnly = Boolean.parseBoolean(action);
 						MantaroData.getData().update();
-						String toSend = Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``";
+						String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
 					} catch (Exception e) {
-						event.getChannel().sendMessage("Not a boolean value.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a boolean value.").queue();
 						return;
 					}
 				}
@@ -428,7 +429,7 @@ public class ModerationCmds extends Module {
 					if(action.equals("set")){
 
 						if(event.getGuild().getRolesByName(args[2], true).isEmpty()){
-							event.getChannel().sendMessage(":heavy_multiplication_x: We didn't find any roles with that name").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "We didn't find any roles with that name").queue();
 							return;
 						}
 
@@ -447,7 +448,7 @@ public class ModerationCmds extends Module {
 							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(c - 1).getId();
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
 							MantaroData.getData().update();
-							event.getChannel().sendMessage(":ok_hand: Autorole now set to: " + roles.get(c - 1)).queue();
+							event.getChannel().sendMessage(EmoteReference.OK + "Autorole now set to: " + roles.get(c - 1)).queue();
 						};
 
 						DiscordUtils.selectInt(event, roles.size() + 1, roleSelector);
@@ -455,7 +456,7 @@ public class ModerationCmds extends Module {
 
 					} else if(action.equals("unbind")){
 						MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = null;
-						event.getChannel().sendMessage(":ok_hand: Autorole resetted.").queue();
+						event.getChannel().sendMessage(EmoteReference.OK + "Autorole resetted.").queue();
 					}
 				}
 
@@ -501,26 +502,26 @@ public class ModerationCmds extends Module {
 				TextChannel channel = event.getChannel();
 
 				if (content.isEmpty()) {
-					channel.sendMessage(":heavy_multiplication_x: No messages to prune.").queue();
+					channel.sendMessage(EmoteReference.ERROR + "No messages to prune.").queue();
 					return;
 				}
 
 				channel.getHistory().retrievePast(Math.min(Integer.parseInt(content), 100)).queue(
 					messageHistory -> channel.deleteMessages(messageHistory).queue(
-						success -> channel.sendMessage(":pencil: Successfully pruned " + messageHistory.size() + " messages").queue(),
+						success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + messageHistory.size() + " messages").queue(),
 						error -> {
 							if (error instanceof PermissionException) {
 								PermissionException pe = (PermissionException) error;
-								channel.sendMessage(":heavy_multiplication_x: " + "Lack of permission while pruning messages" +
+								channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
 									"(No permission provided: " + pe.getPermission() + ")").queue();
 							} else {
-								channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while pruning messages" + "<"
+								channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
 									+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 								error.printStackTrace();
 							}
 						}),
 					error -> {
-						channel.sendMessage(":heavy_multiplication_x: " + "Unknown error while retrieving the history to prune the messages" + "<"
+						channel.sendMessage(EmoteReference.ERROR +  "Unknown error while retrieving the history to prune the messages" + "<"
 							+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 						error.printStackTrace();
 					}

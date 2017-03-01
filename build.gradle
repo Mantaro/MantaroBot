@@ -43,7 +43,6 @@ dependencies {
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
 	compile 'com.google.guava:guava:19.0'
 	compile 'org.codehaus.groovy:groovy-all:2.4.9'
-
 	compile 'commons-codec:commons-codec:1.5'
 	compile 'net.java.dev.jna:jna-platform:4.2.2'
 	compile 'org.apache.httpcomponents:fluent-hc:4.5.2'

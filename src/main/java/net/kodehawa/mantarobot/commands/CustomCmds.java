@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -17,6 +18,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -147,24 +149,24 @@ public class CustomCmds extends Module {
 							)
 						).queue();
 					} else {
-						event.getChannel().sendMessage("\u274C You cannot do that, silly.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
 					}
 					return;
 				}
 
 				if (action.equals("clear")) {
 					if (!event.getMember().isOwner() && !MantaroData.getConfig().get().isOwner(event.getMember())) {
-						event.getChannel().sendMessage("\u274C You cannot do that, silly.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
 						return;
 					}
 
 					if (customCommands.isEmpty()) {
-						event.getChannel().sendMessage("\u274C There's no Custom Commands registered in this Guild.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "There's no Custom Commands registered in this Guild.").queue();
 					}
 					int size = customCommands.size();
 					customCommands.clear();
 					MantaroData.getData().update();
-					event.getChannel().sendMessage("\uD83D\uDCDD Cleared **" + size + " Custom Commands**!").queue();
+					event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!").queue();
 					return;
 				}
 
@@ -178,10 +180,10 @@ public class CustomCmds extends Module {
 				if (action.equals("make")) {
 					Runnable unlock = TextChannelLock.adquireLock(event.getChannel());
 					if (unlock == null) {
-						event.getChannel().sendMessage("\u274C There's already an Interactive Operation happening on this channel.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "There's already an Interactive Operation happening on this channel.").queue();
 						return;
 					}
-					event.getChannel().sendMessage("\uD83D\uDCDD Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.").queue();
+					event.getChannel().sendMessage(EmoteReference.PENCIL + "Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.").queue();
 
 					Holder<DeathTimer> timer = new Holder<>();
 					List<String> responses = new ArrayList<>();
@@ -195,7 +197,7 @@ public class CustomCmds extends Module {
 
 						if (s.startsWith("~>stop")) {
 							timer.get().disarm().explode();
-							event.getChannel().sendMessage("\u274C Command Creation canceled.").queue();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Command Creation canceled.").queue();
 							unlock.run();
 							return true;
 						}
@@ -205,17 +207,17 @@ public class CustomCmds extends Module {
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
 							if (Manager.commands.containsKey(saveTo) && !Manager.commands.get(saveTo).equals(cmdPair)) {
-								event.getChannel().sendMessage("\u274C A command already exists with this name!").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 								return false;
 							}
 
 							if (responses.isEmpty()) {
-								event.getChannel().sendMessage("\u274C No responses were added. Stopping creation without saving...").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "No responses were added. Stopping creation without saving...").queue();
 							} else {
 								customCommands.put(saveTo, responses);
 								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().update();
-								event.getChannel().sendMessage("\u2705 Saved to command ``" + saveTo + "``!").queue();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
 								TextChannelGround.of(event).dropWithChance(8,2);
 							}
 							timer.get().disarm().explode();
@@ -231,7 +233,7 @@ public class CustomCmds extends Module {
 
 					timer.accept(new DeathTimer(60000, () -> {
 						MantaroBot.getJDA().removeEventListener(f);
-						event.getChannel().sendMessage("\u274C Interactive Operation **\"Creation of Custom Command ``" + cmd + "``\"** expired due to inactivity.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR +"Interactive Operation **\"Creation of Custom Command ``" + cmd + "``\"** expired due to inactivity.").queue();
 						unlock.run();
 					}));
 
@@ -246,10 +248,10 @@ public class CustomCmds extends Module {
 							if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
 								Manager.commands.remove(cmd);
 							}
-							event.getChannel().sendMessage("\uD83D\uDCDD Removed Custom Command ``" + cmd + "``!").queue();
+							event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!").queue();
 						});
 					if (cmd == null)
-						event.getChannel().sendMessage("\u274C There's no such Custom Command in this Guild.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no such Custom Command in this Guild.").queue();
 					return;
 				}
 
@@ -263,7 +265,7 @@ public class CustomCmds extends Module {
 				if (action.equals("add")) {
 					List<String> responses = Arrays.asList(addPattern.split(value));
 					if (Manager.commands.containsKey(cmd) && !Manager.commands.get(cmd).equals(cmdPair)) {
-						event.getChannel().sendMessage("\u274C A command already exists with this name!").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 						return;
 					}
 

@@ -8,6 +8,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Optional;
 import java.util.Random;
@@ -57,7 +58,7 @@ public class GifCmds extends Module {
 							.build();
 
 						if (trigger) event.getChannel().sendMessage(embed).queue();
-						else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
+						else event.getChannel().sendMessage(EmoteReference.ERROR + "Image queried was explicit and called in channel " +
 								"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 					});
 			}
@@ -66,11 +67,11 @@ public class GifCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Gif search")
 					.addField("Description", "Searches for gifs on the internet using Giphy", false)
-					.addField("Usage", "~>gifsearch <tag> <number> <rating>)\n", false)
+					.addField("Usage", "~>gsearch <tag> <number> <rating>\n", false)
 					.addField("Parameters",
 						"tag: The search query.\n" +
-							"image: (OPTIONAL) Image number, from 1 to around 5.\n" +
-							"rating: y, g, pg, pg-13 or r (r is explicit and can be only be used on the nsfw channel of the guild).", false)
+						"number: (OPTIONAL) Image number, from 1 to around 5.\n" +
+						"rating: y, g, pg, pg-13 or r (r is explicit and can be only be used on the nsfw channel of the guild).", false)
 					.build();
 			}
 		});
@@ -83,8 +84,7 @@ public class GifCmds extends Module {
 				String tags = null;
 				try {
 					tags = args[0];
-				} catch (Exception ignored) {
-				}
+				} catch (Exception ignored) {}
 				giphy.random(tags, event, (result) -> {
 					MessageEmbed embed = new EmbedBuilder()
 						.setAuthor("Random gif.", result.getData().getImage_url(),
@@ -126,7 +126,7 @@ public class GifCmds extends Module {
 						.build();
 
 					if (trigger) event.getChannel().sendMessage(embed).queue();
-					else event.getChannel().sendMessage(":heavy_multiplication_x: Image queried was explicit and called in channel " +
+					else event.getChannel().sendMessage(EmoteReference.ERROR + "Image queried was explicit and called in channel " +
 							"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
 				}));
 			}

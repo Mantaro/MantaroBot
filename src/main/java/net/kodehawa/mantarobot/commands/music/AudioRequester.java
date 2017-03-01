@@ -54,8 +54,8 @@ public class AudioRequester implements AudioLoadResultHandler {
                 if(i < MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit){
                     loadSingle(track, true);
                 } else{
-                    event.getChannel().sendMessage(":warning: The queue you added had more than" + MantaroData.getData().get().getGuild(
-                            event.getGuild(), false).queueSizeLimit + "songs, so we added songs until this limit and ignored the rest.").queue();
+                    event.getChannel().sendMessage(":warning: The queue you added had more than " + MantaroData.getData().get().getGuild(
+                            event.getGuild(), false).queueSizeLimit + " songs, so we added songs until this limit and ignored the rest.").queue();
                     break;
                 }
             } else {

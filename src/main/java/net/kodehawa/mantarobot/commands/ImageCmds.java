@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
@@ -95,7 +96,7 @@ public class ImageCmds extends Module {
 					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 					.setFooter("If the image doesn't load, click the title.", null);
 		} catch (IndexOutOfBoundsException ex) {
-			return new EmbedBuilder().setDescription(":heavy_multiplication_x: There are no images here, just dust.");
+			return new EmbedBuilder().setDescription(EmoteReference.ERROR + "There are no images here, just dust.");
 		}
 	}
 
@@ -108,78 +109,83 @@ public class ImageCmds extends Module {
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "get":
-						channel.sendTyping().queue();
-						String whole1 = content.replace("get ", "");
-						String[] wholeBeheaded = whole1.split(" ");
-						int page = Integer.parseInt(wholeBeheaded[0]);
-						int number;
-						List<Wallpaper> wallpapers = konachan.posts(page, 60);
-						try {
-							number = Integer.parseInt(wholeBeheaded[1]);
-						} catch (Exception e) {
-							number = new Random().nextInt(wallpapers.size() - 1);
-						}
-						String URL = wallpapers.get(number - 1).getJpeg_url();
-						String AUTHOR = wallpapers.get(number - 1).getAuthor();
-						String TAGS = wallpapers.get(number - 1).getTags().stream().collect(Collectors.joining(", "));
-						Integer WIDTH = wallpapers.get(number - 1).getWidth();
-						Integer HEIGHT = wallpapers.get(number - 1).getHeight();
+						try{
+							channel.sendTyping().queue();
+							String whole1 = content.replace("get ", "");
+							String[] wholeBeheaded = whole1.split(" ");
+							int page = Integer.parseInt(wholeBeheaded[0]);
+							int number;
+							List<Wallpaper> wallpapers = konachan.posts(page, 60);
+							try {
+								number = Integer.parseInt(wholeBeheaded[1]);
+							} catch (Exception e) {
+								number = new Random().nextInt(wallpapers.size() - 1);
+							}
+							String URL = wallpapers.get(number - 1).getJpeg_url();
+							String AUTHOR = wallpapers.get(number - 1).getAuthor();
+							String TAGS = wallpapers.get(number - 1).getTags().stream().collect(Collectors.joining(", "));
+							Integer WIDTH = wallpapers.get(number - 1).getWidth();
+							Integer HEIGHT = wallpapers.get(number - 1).getHeight();
 
-						try {
 							EmbedBuilder builder = new EmbedBuilder();
 							builder.setAuthor("Found image", null, "https:" + URL)
-								.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-								.setImage("https:" + URL)
-								.addField("Width", String.valueOf(WIDTH), true)
-								.addField("Height", String.valueOf(HEIGHT), true)
-								.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-								.setFooter("If the image doesn't load, click the title.", null);
+									.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+									.setImage("https:" + URL)
+									.addField("Width", String.valueOf(WIDTH), true)
+									.addField("Height", String.valueOf(HEIGHT), true)
+									.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+									.setFooter("If the image doesn't load, click the title.", null);
 
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception exception) {
+							if (exception instanceof NumberFormatException)
+								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue();
 							if (exception instanceof IndexOutOfBoundsException)
-								channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
+								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
-
 					case "tags":
-						channel.sendTyping().queue();
-						String sNoArgs = content.replace("tags ", "");
-						String[] expectedNumber = sNoArgs.split(" ");
-						int page1 = Integer.parseInt(expectedNumber[0]);
-						String tags = expectedNumber[1];
-						if(!expectedNumber[1].matches("^[0-9]*$")){
-							event.getChannel().sendMessage("Not a valid page number.").queue();
-							return;
-						}
-						konachan.onSearch(page1, 60, tags, (wallpapers1, tags1) -> {
-							try {
-								number1 = Integer.parseInt(expectedNumber[2]);
-							} catch (Exception e) {
-								number1 = new Random().nextInt(wallpapers1.size() > 0 ? wallpapers1.size() - 1 : wallpapers1.size());
+						try{
+							channel.sendTyping().queue();
+							String sNoArgs = content.replace("tags ", "");
+							String[] expectedNumber = sNoArgs.split(" ");
+							int page1 = Integer.parseInt(expectedNumber[0]);
+							String tags = expectedNumber[1];
+							if(!String.valueOf(page1).matches("^[0-9]*$")){
+								event.getChannel().sendMessage("Not a valid page number.").queue();
+								return;
 							}
-							String URL1 = wallpapers1.get(number1 - 1).getJpeg_url();
-							String AUTHOR1 = wallpapers1.get(number1 - 1).getAuthor();
-							String TAGS1 = wallpapers1.get(number1 - 1).getTags().stream().collect(Collectors.joining(", "));
-							Integer WIDTH1 = wallpapers1.get(number1 - 1).getWidth();
-							Integer HEIGHT1 = wallpapers1.get(number1 - 1).getHeight();
+							konachan.onSearch(page1, 60, tags, (wallpapers1, tags1) -> {
+								try {
+									number1 = Integer.parseInt(expectedNumber[2]);
+								} catch (Exception e) {
+									number1 = new Random().nextInt(wallpapers1.size() > 0 ? wallpapers1.size() - 1 : wallpapers1.size());
+									number1 = new Random().nextInt(wallpapers1.size() > 0 ? wallpapers1.size() - 1 : wallpapers1.size());
+								}
 
-							try {
+								String URL1 = wallpapers1.get(number1 - 1).getJpeg_url();
+								String AUTHOR1 = wallpapers1.get(number1 - 1).getAuthor();
+								String TAGS1 = wallpapers1.get(number1 - 1).getTags().stream().collect(Collectors.joining(", "));
+								Integer WIDTH1 = wallpapers1.get(number1 - 1).getWidth();
+								Integer HEIGHT1 = wallpapers1.get(number1 - 1).getHeight();
+
 								EmbedBuilder builder = new EmbedBuilder();
 								builder.setAuthor("Found image", null, "https:" + URL1)
-									.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
-									.setImage("https:" + URL1)
-									.addField("Width", String.valueOf(WIDTH1), true)
-									.addField("Height", String.valueOf(HEIGHT1), true)
-									.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
-									.setFooter("If the image doesn't load, click the title.", null);
+										.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
+										.setImage("https:" + URL1)
+										.addField("Width", String.valueOf(WIDTH1), true)
+										.addField("Height", String.valueOf(HEIGHT1), true)
+										.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
+										.setFooter("If the image doesn't load, click the title.", null);
 
 								channel.sendMessage(builder.build()).queue();
-							} catch (Exception exception) {
+							});
+						} catch (Exception exception) {
+								if (exception instanceof NumberFormatException)
+									channel.sendMessage(EmoteReference.ERROR +"Wrong argument type. Check ~>help konachan").queue();
 								if (exception instanceof IndexOutOfBoundsException)
-									channel.sendMessage(":heavy_multiplication_x: " + "There aren't more images! Try with a lower number.").queue();
-							}
-						});
+									channel.sendMessage(EmoteReference.ERROR +"There aren't more images! Try with a lower number.").queue();
+						}
 						break;
 					default:
 						onHelp(event);

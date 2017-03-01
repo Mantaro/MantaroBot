@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -16,6 +17,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Comparator;
 import java.util.List;
@@ -55,7 +57,7 @@ public class CurrencyCmds extends Module {
 				String id = event.getAuthor().getId();
 
 				if (!rateLimiter.process(id)) {
-					event.getChannel().sendMessage(":stopwatch:" +
+					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you're gambling so fast that I can't print enough money!").queue();
 					return;
 				}
@@ -63,7 +65,7 @@ public class CurrencyCmds extends Module {
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				if (user.money <= 0) {
-					event.getChannel().sendMessage("\u274C You're broke. Search for some credits first!").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
 					return;
 				}
 
@@ -96,10 +98,10 @@ public class CurrencyCmds extends Module {
 							break;
 					}
 				} catch (NumberFormatException e) {
-					event.getChannel().sendMessage("\u274C Please type a valid number equal or less than your credits or `all` to gamble all your credits.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid number equal or less than your credits or `all` to gamble all your credits.").queue();
 					return;
 				} catch (UnsupportedOperationException e) {
-					event.getChannel().sendMessage("\u274C Please type a value within your credits amount.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a value within your credits amount.").queue();
 					return;
 				}
 
@@ -108,14 +110,14 @@ public class CurrencyCmds extends Module {
 					gains = Math.round(gains * 0.55);
 
 					if (user.money >= Integer.MAX_VALUE) {
-						event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 						return;
 					}
 
 					if (user.addMoney(gains)) {
-						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits and got to keep what you had!").queue();
+						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
 					} else {
-						event.getChannel().sendMessage("\uD83C\uDFB2 Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 					}
 				} else {
 					user.money = Math.max(0, user.money - i);
@@ -171,7 +173,7 @@ public class CurrencyCmds extends Module {
 				String id = event.getAuthor().getId();
 
 				if (!rateLimiter.process(id)) {
-					event.getChannel().sendMessage(":stopwatch:" +
+					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you're ratelimited right now so maybe wait a little bit more and let other people loot.").queue();
 					return;
 				}
@@ -186,9 +188,9 @@ public class CurrencyCmds extends Module {
 					userData.getInventory().merge(loot);
 					if (moneyFound != 0) {
 						if (userData.addMoney(moneyFound)) {
-							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits!").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with " + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found " + s).queue();
@@ -196,14 +198,14 @@ public class CurrencyCmds extends Module {
 				} else {
 					if (moneyFound != 0) {
 						if (userData.money >= Integer.MAX_VALUE) {
-							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. Maybe you should spend some before getting more.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 							return;
 						}
 
 						if (userData.addMoney(moneyFound)) {
-							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits!").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage("Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage("Digging through messages, you found nothing but dust").queue();
@@ -229,14 +231,34 @@ public class CurrencyCmds extends Module {
 		super.register("market", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				RateLimiter rateLimiter = new RateLimiter(2000);
+
+				if (!rateLimiter.process(event.getAuthor().getId())) {
+					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+							"Cooldown a lil bit, you're buying so fast that I can't get enough items!").queue();
+					return;
+				}
+
 				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				if (args.length > 0) {
+					int itemNumber = 1;
 					String itemName = content.replace(args[0] + " ", "");
+					boolean isMassive = itemName.split(" ")[0].matches("^[0-9]*$");
+					if(isMassive){
+						try{
+							itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+							itemName = itemName.replace(args[1] + " ", "");
+						} catch (Exception e){
+							if(e instanceof NumberFormatException){
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+							}
+						}
+					}
 					if (args[0].equals("sell")) {
 						if (user.money >= Integer.MAX_VALUE) {
-							event.getChannel().sendMessage(":heavy_multiplication_x: You have too many credits. " +
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. " +
 								"Maybe you should spend some before getting more.").queue();
 							return;
 						}
@@ -245,27 +267,35 @@ public class CurrencyCmds extends Module {
 							long all = user.getInventory().asList().stream()
 								.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 								.sum();
-							//TODO remove all items.
+
+							user.getInventory().clear();
 
 							if (user.addMoney(all)) {
-								event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits!").queue();
+								event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();
 							} else {
-								event.getChannel().sendMessage("\uD83D\uDCB0 You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+								event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 							}
 							return;
 						}
 
 						Item toSell = Items.fromAny(itemName).orElse(null);
-						if (user.getInventory().asMap().getOrDefault(toSell, null) == null) {
-							event.getChannel().sendMessage(":octagonal_sign: You cannot sell an item you don't have.").queue();
+
+						if(!toSell.isSellable()){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.").queue();
 							return;
 						}
 
-						long amount = Math.round(toSell.getValue() * 0.9);
-						user.getInventory().process(new ItemStack(toSell, -1));
+						if (user.getInventory().asMap().getOrDefault(toSell, null) == null) {
+							event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
+							return;
+						}
+
+						int many = itemNumber * - 1;
+						long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
+						user.getInventory().process(new ItemStack(toSell, many));
 
 						if (user.addMoney(amount)) {
-							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
+							event.getChannel().sendMessage("\uD83D\uDCB0 You sold " + Math.abs(many) + " **" + toSell.getName() +
 								"** and gained " + amount + " credits!").queue();
 						} else {
 							event.getChannel().sendMessage("\uD83D\uDCB0 You sold **" + toSell.getName() +
@@ -278,28 +308,33 @@ public class CurrencyCmds extends Module {
 					if (args[0].equals("buy")) {
 						Item itemToBuy = Items.fromAny(itemName).orElse(null);
 
-						if (itemToBuy == null) {
-							event.getChannel().sendMessage(":heavy_multiplication_x: You cannot buy an unexistant item.").queue();
+						if(!itemToBuy.isBuyable()){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
 							return;
 						}
 
-						if (user.removeMoney(itemToBuy.getValue())) {
-							user.getInventory().process(new ItemStack(itemToBuy, 1));
-							event.getChannel().sendMessage(":ok_hand: Bought " + itemToBuy.getEmoji() +
+						if (itemToBuy == null) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
+							return;
+						}
+
+						if (user.removeMoney(itemToBuy.getValue() * itemNumber)) {
+							user.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+							event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
 								" successfully. You now have " + user.money + " credits.").queue();
 						} else {
-							event.getChannel().sendMessage(":octagonal_sign: You don't have enough money to buy this item.").queue();
+							event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 						}
 
 						return;
 					}
 				}
 
-				EmbedBuilder embed = baseEmbed(event, "\uD83D\uDED2 Mantaro Market");
+				EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
 
 				Stream.of(Items.ALL).forEach(item -> {
-					String buyValue = item.isBuyable() ? "\uD83D\uDCE5" + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
-					String sellValue = item.isSellable() ? "\uD83D\uDCE4" + String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
+					String buyValue = item.isBuyable() ? EmoteReference.BUY + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
+					String sellValue = item.isSellable() ? EmoteReference.SELL + String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
 					embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
 				});
 

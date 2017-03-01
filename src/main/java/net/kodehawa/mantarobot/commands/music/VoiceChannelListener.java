@@ -36,6 +36,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
     }
 
     private void onLeave(VoiceChannel vc) {
+        if(isAlone(vc)) return;
         Guild guild = vc.getGuild();
         if (timer.isExpiring(guild.getId())) return;
         GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(guild);

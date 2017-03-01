@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ public class OwnerCmds extends Module {
 		notifyMusic();
 		shutdown();
 		blacklist();
-		owner();
+		//owner();
 	}
 
 	private void add() {
@@ -46,22 +47,22 @@ public class OwnerCmds extends Module {
 					case "pat":
 						MantaroData.getPatting().get().add(v);
 						MantaroData.getPatting().update();
-						event.getChannel().sendMessage("Added to pat list: " + v).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
 						break;
 					case "hug":
 						MantaroData.getHugs().get().add(v);
 						MantaroData.getHugs().update();
-						event.getChannel().sendMessage("Added to hug list: " + v).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
 						break;
 					case "greeting":
 						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
 						MantaroData.getGreeting().update();
-						event.getChannel().sendMessage("Added to greet list: " + content.replace("greeting ", "")).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
 						break;
 					case "splash":
 						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
 						MantaroData.getSplashes().update();
-						event.getChannel().sendMessage("Added to splash list: " + content.replace("splash ", "")).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
 						break;
 				}
 			}
@@ -89,11 +90,11 @@ public class OwnerCmds extends Module {
 					if (args[1].equals("add")) {
 						if (event.getJDA().getGuildById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
-						event.getChannel().sendMessage("Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
 						MantaroData.getData().update();
 					} else if (args[1].equals("remove")) {
 						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
-						event.getChannel().sendMessage("Unblacklisted Guild: " + args[2]).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
 						MantaroData.getData().update();
 					}
 					return;
@@ -103,12 +104,12 @@ public class OwnerCmds extends Module {
 					if (args[1].equals("add")) {
 						if (event.getJDA().getUserById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedUsers.add(args[2]);
-						event.getChannel().sendMessage("Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
 						MantaroData.getData().update();
 					} else if (args[1].equals("remove")) {
 						if (event.getJDA().getUserById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedUsers.remove(args[2]);
-						event.getChannel().sendMessage("Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
 						MantaroData.getData().update();
 					}
 				}
@@ -190,7 +191,7 @@ public class OwnerCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Eval command")
-					.setDescription("Guess what, it evals (js for javascript and no arguments for normal java).")
+					.setDescription("Guess what, it evals (js for javascript, bsh for java (no lambdas), groovy for groovy).")
 					.build();
 			}
 		});
@@ -221,6 +222,7 @@ public class OwnerCmds extends Module {
 						if (musicManager.getTrackScheduler().getCurrentTrack() != null && musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null && musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk())
 							musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(content).queue();
 					});
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Notified music users of the upcoming event.").queue();
 			}
 
 			@Override
@@ -294,7 +296,7 @@ public class OwnerCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
-					event.getChannel().sendMessage("Seems like you cannot do that, you silly <3").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you cannot do that, you silly <3").queue();
 					return;
 				}
 

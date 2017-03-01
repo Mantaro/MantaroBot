@@ -141,7 +141,6 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onUserJoin(GuildMemberJoinEvent event) {
-
 		String role = MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole;
 		if(role != null){
 			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> {
@@ -198,8 +197,6 @@ public class MantaroListener implements EventListener {
 			logTotal++;
 		}
 	}
-
-	//TODO Music timeout (@AdrianTodt)
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
 		Guild guild = event.getGuild();

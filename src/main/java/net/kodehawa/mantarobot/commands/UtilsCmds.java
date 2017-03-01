@@ -19,6 +19,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.YoutubeMp3Info;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -395,9 +396,9 @@ public class UtilsCmds extends Module {
 							.setRoundingMode(RoundingMode.UP)
 							.eval();
 
-					event.getChannel().sendMessage(":pencil: The result for your math operation is: " + expressionResult).queue();
+					event.getChannel().sendMessage(EmoteReference.PENCIL + "The result for your math operation is: " + expressionResult).queue();
 				} catch(RuntimeException e){
-					event.getChannel().sendMessage(":heavy_multiplication_x: Wrong syntax: ``" + e.getMessage() + "``").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong syntax: ``" + e.getMessage() + "``").queue();
 				}
 
 			}
@@ -429,9 +430,9 @@ public class UtilsCmds extends Module {
 				event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 
 				IntConsumer selector = (c) -> {
-					event.getChannel().sendMessage(":ok_hand: Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
+					event.getChannel().sendMessage(EmoteReference.OK + "Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
 
-					event.getMessage().addReaction("\ud83d\udc4c").queue();
+					event.getMessage().addReaction(EmoteReference.OK.getUnicode()).queue();
 				};
 				DiscordUtils.selectInt(event, result.size() + 1, selector);
 			}

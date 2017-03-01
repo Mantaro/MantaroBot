@@ -8,6 +8,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -45,7 +46,7 @@ public class RandomCmds extends Module {
 					roll = 1;
 				}
 				if (roll >= 100) roll = 100;
-				event.getChannel().sendMessage(":game_die: You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
+				event.getChannel().sendMessage(EmoteReference.DICE + "You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
 				TextChannelGround.of(event).dropWithChance(6,5);
 			}
@@ -104,9 +105,9 @@ public class RandomCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
 					if (content.startsWith("GMT")) {
-						event.getChannel().sendMessage("\uD83D\uDCE3 The time is: " + dateGMT(content) + " in " + content).queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "The time is: " + dateGMT(content) + " in " + content).queue();
 					} else {
-						event.getChannel().sendMessage("\u274C " + "You didn't specify a valid timezone").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "You didn't specify a valid timezone").queue();
 					}
 				} catch (Exception ignored) {
 				}

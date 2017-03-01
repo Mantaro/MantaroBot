@@ -9,6 +9,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +47,7 @@ public class MiscCmds extends Module {
 						.getJSONObject("magic")
 						.getString("answer");
 				} catch (Exception exception) {
-					event.getChannel().sendMessage("Error while fetching results. My owners have been notified.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. My owners have been notified.").queue();
 					LOGGER.warn("Error while processing answer <@155867458203287552>", exception);
 					return;
 				}
@@ -58,7 +59,7 @@ public class MiscCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "8ball")
 					.setDescription("Retrieves an answer from 8Ball. Requires a sentence.\n"
-						+ "~>8ball [question]. Retrieves an answer from 8ball based on the question provided.")
+						+ "~>8ball <question>. Retrieves an answer from 8ball based on the question provided.")
 					.build();
 			}
 
@@ -96,7 +97,7 @@ public class MiscCmds extends Module {
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "rob":
-						channel.sendMessage("\uD83D\uDCAC " + "You robbed **" + new Random().nextInt(1000) + "USD** from " + mentioned).queue();
+						channel.sendMessage(EmoteReference.TALKING + "You robbed **" + new Random().nextInt(1000) + "USD** from " + mentioned).queue();
 						break;
 					case "reverse":
 						String stringToReverse = content.replace("reverse ", "");
@@ -104,11 +105,11 @@ public class MiscCmds extends Module {
 						channel.sendMessage(reversed).queue();
 						break;
 					case "rndcolor":
-						String s = String.format("\uD83D\uDCAC Your random color is %s", randomColor());
+						String s = String.format(EmoteReference.TALKING + "Your random color is %s", randomColor());
 						channel.sendMessage(s).queue();
 						break;
 					case "noble":
-						channel.sendMessage("\uD83D\uDCAC " + MantaroData.getNoble().get().get(new Random().nextInt(MantaroData.getNoble().get().size() - 1)) + " -Noble").queue();
+						channel.sendMessage(EmoteReference.TALKING + MantaroData.getNoble().get().get(new Random().nextInt(MantaroData.getNoble().get().size() - 1)) + " -Noble").queue();
 						break;
 					default:
 						onHelp(event);
@@ -136,12 +137,11 @@ public class MiscCmds extends Module {
 		return color;
 	}
 
-	//small af
 	private void randomFact() {
 		super.register("randomfact", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage("\uD83D\uDCAC " + MantaroData.getFacts().get().get(new Random().nextInt(MantaroData.getFacts().get().size() - 1))).queue();
+				event.getChannel().sendMessage(EmoteReference.TALKING + MantaroData.getFacts().get().get(new Random().nextInt(MantaroData.getFacts().get().size() - 1))).queue();
 			}
 
 			@Override
@@ -157,5 +157,4 @@ public class MiscCmds extends Module {
 			}
 		});
 	}
-
 }

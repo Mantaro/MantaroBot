@@ -7,6 +7,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Action commands")
+				return helpEmbed(event, "Action commands")
 					.addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
 						"~>action facedesk: Facedesks.\n" +
 						"~>action nom: nom nom.", false)
@@ -76,7 +77,7 @@ public class ActionCmds extends Module {
 				} else {
 					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 
-					String bs = String.format("\uD83D\uDCAC http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", bString);
+					String bs = String.format(EmoteReference.TALKING + "http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", bString);
 					channel.sendMessage(bs).queue();
 				}
 			}
@@ -99,7 +100,7 @@ public class ActionCmds extends Module {
 		super.register("greet", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":speech_balloon: " + MantaroData.getGreeting().get().get(
+				event.getChannel().sendMessage(EmoteReference.TALKING + MantaroData.getGreeting().get().get(
 					new Random().nextInt(MantaroData.getGreeting().get().size()))).queue();
 			}
 
@@ -110,7 +111,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Greeting")
+				return helpEmbed(event, "Greeting")
 					.setDescription("Sends a random greeting")
 					.setColor(Color.DARK_GRAY)
 					.build();
@@ -126,7 +127,7 @@ public class ActionCmds extends Module {
 				TextChannel channel = event.getChannel();
 				List<String> hugs = MantaroData.getHugs().get();
 				String hString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				String hug = String.format(":speech_balloon: %s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(new Random().nextInt(hugs.size())));
+				String hug = String.format(EmoteReference.TALKING + "%s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(new Random().nextInt(hugs.size())));
 				channel.sendMessage(hug).queue();
 			}
 
@@ -137,7 +138,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Hug command")
+				return helpEmbed(event, "Hug command")
 					.addField("Description:", "Hugs the specified user.", false)
 					.setColor(Color.PINK)
 					.build();
@@ -153,7 +154,7 @@ public class ActionCmds extends Module {
 				Message receivedMessage = event.getMessage();
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
 					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-					channel.sendMessage(String.format(":speech_balloon: *meows at* %s.* \n http://puu.sh/rK5Nf/63d90628c2.gif", mew)).queue();
+					channel.sendMessage(String.format(EmoteReference.TALKING + "*meows at* %s.* \n http://puu.sh/rK5Nf/63d90628c2.gif", mew)).queue();
 				} else {
 					channel.sendMessage(":speech_balloon: Meeeeow.\n http://puu.sh/rK5K7/034039286e.gif").queue();
 				}
@@ -166,7 +167,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Meow command")
+				return helpEmbed(event, "Meow command")
 					.setDescription("Meows at a user or just meows.")
 					.setColor(Color.cyan)
 					.build();
@@ -182,7 +183,7 @@ public class ActionCmds extends Module {
 				TextChannel channel = event.getChannel();
 				List<String> pats = MantaroData.getPatting().get();
 				String pString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				String pat = String.format(":speech_balloon: %s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(new Random().nextInt(pats.size())));
+				String pat = String.format(EmoteReference.TALKING + "%s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(new Random().nextInt(pats.size())));
 				channel.sendMessage(pat).queue();
 			}
 
@@ -193,7 +194,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Pat command")
+				return helpEmbed(event, "Pat command")
 					.addField("Description:", "Pats the specified user.", false)
 					.setColor(Color.PINK)
 					.build();
@@ -210,7 +211,7 @@ public class ActionCmds extends Module {
 				List<String> kisses = MantaroData.getKisses().get();
 				String kString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention)
 						.collect(Collectors.joining(" "));
-				String kiss = String.format(":speech_balloon: %s you have been kissed by %s \n %s", kString, author.getAsMention(),
+				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s \n %s", kString, author.getAsMention(),
 						kisses.get(new Random().nextInt(kisses.size())));
 				channel.sendMessage(kiss).queue();
 			}
@@ -222,7 +223,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Kiss command")
+				return helpEmbed(event, "Kiss command")
 						.addField("Description:", "Kisses the specified user.", false)
 						.setColor(Color.PINK)
 						.build();
@@ -234,7 +235,7 @@ public class ActionCmds extends Module {
 		super.register("tsundere", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(":mega: " + MantaroData.getTsundereLines().get().get(new Random().nextInt(MantaroData.getTsundereLines().get().size()))).queue();
+				event.getChannel().sendMessage(EmoteReference.MEGA + MantaroData.getTsundereLines().get().get(new Random().nextInt(MantaroData.getTsundereLines().get().size()))).queue();
 			}
 
 			@Override
@@ -244,7 +245,7 @@ public class ActionCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Tsundere command")
+				return helpEmbed(event, "Tsundere command")
 					.setDescription("Y-You baka!")
 					.setColor(Color.pink)
 					.build();
