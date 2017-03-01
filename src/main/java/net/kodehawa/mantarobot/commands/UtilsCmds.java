@@ -18,7 +18,7 @@ import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.YoutubeMp3Info;
+import net.kodehawa.mantarobot.utils.commands.YoutubeMp3Info;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONArray;
 import org.json.JSONObject;

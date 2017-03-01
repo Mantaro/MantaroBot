@@ -1,8 +1,9 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.commands;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

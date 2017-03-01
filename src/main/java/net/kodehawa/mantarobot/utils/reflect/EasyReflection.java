@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
