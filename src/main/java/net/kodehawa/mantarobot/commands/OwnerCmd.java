@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot.commands;
 
 import bsh.Interpreter;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -11,27 +13,32 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.Async;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.IntSupplier;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
-public class OwnerCmds extends Module {
+public class OwnerCmd extends Module {
+	private interface Evaluator {
+		Object eval(GuildMessageReceivedEvent event, String code);
+	}
+
 	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
 	public static GuildMessageReceivedEvent tempEvt = null;
 
-	public OwnerCmds() {
+	public OwnerCmd() {
 		super(Category.OWNER);
 		add();
-		eval();
-		notifyMusic();
-		shutdown();
 		blacklist();
 		owner();
 	}
@@ -128,74 +135,6 @@ public class OwnerCmds extends Module {
 		});
 	}
 
-	private void eval() {
-		super.register("eval", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
-					return;
-				}
-				if (args[0].equals("js")) {
-					ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
-					script.put("jda", event.getJDA());
-					script.put("event", event);
-					script.put("guild", event.getGuild());
-					script.put("channel", event.getChannel());
-					String evalString = content.replaceAll(args[0], "");
-					Object toSend;
-					EmbedBuilder embedBuilder = new EmbedBuilder().setAuthor("Eval", null, event.getAuthor().getAvatarUrl()).setFooter("Asked by " + event.getAuthor().getName(), null);
-					try {
-						script.eval("load(\"nashorn:mozilla_compat.js\"); imports = new JavaImporter(java.util, java.io, java.net)\n");
-						toSend = script.eval("(function() {" +
-							"with(imports) {"
-							+ evalString + "\n}" +
-							"})()");
-					} catch (ScriptException e) {
-						toSend = e.getMessage();
-						embedBuilder.setDescription(toSend.toString());
-					}
-					String out = toSend == null ? "Executed with no errors and no returns" : toSend.toString();
-					embedBuilder.setDescription(out);
-
-					event.getChannel().sendMessage(embedBuilder.build()).queue();
-					return;
-				}
-
-				tempEvt = event;
-				try {
-					Interpreter interpreter = new Interpreter();
-					String evalHeader =
-						"import *; "
-							+ "private JDAImpl jda = MantaroBot.getJDA(); "
-							+ "private GuildMessageReceivedEvent evt = net.kodehawa.mantarobot.commands.OwnerCmds.tempEvt;";
-					Object toSendTmp = interpreter.eval(evalHeader + content);
-					EmbedBuilder embed = new EmbedBuilder();
-					String toSend = toSendTmp == null ? "Executed successfully with no objects returned" : toSendTmp.toString();
-					embed.setAuthor("Executed eval with success", null, event.getAuthor().getAvatarUrl())
-						.setDescription(toSend)
-						.setFooter("Asked by: " + event.getAuthor().getName(), null);
-					event.getChannel().sendMessage(embed.build()).queue();
-				} catch (Exception e) {
-					event.getChannel().sendMessage("Code evaluation returned ``" + e.getClass().getSimpleName() + "``, with cause:" +
-						" ```md\n" + e.getMessage().replaceAll("``", "").replaceAll(": ", ":\n") + "```").queue();
-					LOGGER.warn("Problem evaluating code!", e);
-				}
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Eval command")
-					.setDescription("Guess what, it evals (js for javascript and no arguments for normal java).")
-					.build();
-			}
-		});
-	}
-
 	public CompletableFuture<Void> notifyMusic(String content) {
 		return CompletableFuture.allOf(MantaroBot.getAudioManager().getMusicManagers().values()
 			.stream()
@@ -207,32 +146,61 @@ public class OwnerCmds extends Module {
 			.toArray(CompletableFuture[]::new));
 	}
 
-	private void notifyMusic() {
-		super.register("notifymusic", new SimpleCommand() {
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
-			}
+	private void owner() {
+		Map<String, Evaluator> evals = new HashMap<>();
+		evals.put("js", (event, code) -> {
+			ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
+			script.put("jda", event.getJDA());
+			script.put("event", event);
+			script.put("guild", event.getGuild());
+			script.put("channel", event.getChannel());
 
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MantaroBot.getAudioManager().getMusicManagers().values()
-					.forEach(musicManager -> {
-						if (musicManager.getTrackScheduler().getCurrentTrack() != null && musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null && musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk())
-							musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(content).queue();
-					});
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "MusicNotify")
-					.setDescription("Notifies the Audio People of something.")
-					.build();
+			try {
+				return script.eval(String.join("\n",
+					"load(\"nashorn:mozilla_compat.js\");",
+					"imports = new JavaImporter(java.util, java.io, java.net);",
+					"(function() {",
+					"with(imports) {",
+					code,
+					"}",
+					"})()"
+				));
+			} catch (Exception e) {
+				return e;
 			}
 		});
-	}
 
-	private void owner() {
+		evals.put("bsh", (event, code) -> {
+			Interpreter interpreter = new Interpreter();
+			try {
+				interpreter.set("jda", event.getJDA());
+				interpreter.set("event", event);
+				interpreter.set("guild", event.getGuild());
+				interpreter.set("channel", event.getChannel());
+
+				return interpreter.eval(String.join("\n",
+					"import *;",
+					code
+				));
+			} catch (Exception e) {
+				return e;
+			}
+		});
+
+		evals.put("groovy", (event, code) -> {
+			Binding b = new Binding();
+			b.setVariable("jda", event.getJDA());
+			b.setVariable("event", event);
+			b.setVariable("guild", event.getGuild());
+			b.setVariable("channel", event.getChannel());
+			GroovyShell sh = new GroovyShell(b);
+			try {
+				return sh.evaluate(code);
+			} catch (Exception e) {
+				return e;
+			}
+		});
+
 		super.register("owner", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -251,6 +219,18 @@ public class OwnerCmds extends Module {
 						}
 					}
 
+					try {
+						prepareShutdown(event);
+					} catch (Exception e) {
+						LOGGER.warn("Couldn't prepare shutdown." + e.toString(), e);
+						return;
+					}
+
+					//If we manage to get here, there's nothing else except us.
+
+					//Here in Darkness, everything is okay.
+					//Listen to the waves, and let them fade away.
+
 					System.exit(option.equals("restart") ? 15 : 0);
 					return;
 				}
@@ -262,9 +242,84 @@ public class OwnerCmds extends Module {
 
 				String value = args[1];
 
-				if(option.equals("notifymusic")) {
+				if (option.equals("notifymusic")) {
 					notifyMusic(args[1]);
 				}
+
+				String[] values = SPLIT_PATTERN.split(value, 2);
+				if (values.length < 2) {
+					onHelp(event);
+					return;
+				}
+
+				String k = values[0], v = values[1];
+
+				if (option.equals("scheduleshutdown") || option.equals("schedulerestart")) {
+					boolean restart = option.equals("schedulerestart");
+					if (k.equals("time")) {
+						Async.asyncSleepThen(Integer.parseInt(v), () -> {
+							try {
+								prepareShutdown(event);
+							} catch (Exception e) {
+								LOGGER.warn("Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+							}
+							System.exit(restart ? 15 : 0);
+						});
+						return;
+					}
+
+					if (k.equals("connections")) {
+						int connections = Integer.parseInt(v);
+
+						IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+							voiceChannel.getGuild().getSelfMember())).count();
+
+						Async.startAsyncTask("Watching Thread.", s -> {
+							if (currentConnections.getAsInt() > connections) return;
+
+							try {
+								prepareShutdown(event);
+							} catch (Exception e) {
+								LOGGER.warn("Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(), e);
+							}
+
+							System.exit(restart ? 15 : 0);
+							s.shutdown();
+						}, 1000);
+						return;
+					}
+
+					onHelp(event);
+					return;
+				}
+
+				if (option.equals("varadd")) {
+					//TODO FUTURE
+				}
+
+				if (option.equals("eval")) {
+					System.out.printf("k = %s; v = %s%n", k, v);
+					Evaluator evaluator = evals.get(k);
+					if (evaluator == null) {
+						onHelp(event);
+						return;
+					}
+
+					Object result = evaluator.eval(event, v);
+					boolean errored = result instanceof Exception;
+
+					event.getChannel().sendMessage(new EmbedBuilder()
+						.setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
+						.setColor(errored ? Color.RED : Color.GREEN)
+						.setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfuly and returned: ") + result.toString()))
+						.setFooter("Asked by: " + event.getAuthor().getName(), null)
+						.build()
+					).queue();
+
+					return;
+				}
+
+				onHelp(event);
 			}
 
 			@Override
@@ -284,45 +339,16 @@ public class OwnerCmds extends Module {
 		});
 	}
 
-	private void shutdown() {
-		super.register("shutdown", new SimpleCommand() {
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
-			}
-
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (!MantaroData.getConfig().get().owners.contains(event.getAuthor().getId())) {
-					event.getChannel().sendMessage("Seems like you cannot do that, you silly <3").queue();
-					return;
-				}
-
-				try {
-					shutdown(event);
-				} catch (Exception e) {
-					LOGGER.warn("Couldn't shut down." + e.toString(), e);
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Shutdown")
-					.setDescription("Shutdowns the bot.")
-					.build();
-			}
-		});
-	}
-
-	private synchronized void shutdown(GuildMessageReceivedEvent event) {
+	private void prepareShutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().update();
 		MantaroBot.getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			musicManager.getTrackScheduler().stop();
 		});
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
+
 		event.getChannel().sendMessage("*goes to sleep*").complete();
+
 		MantaroBot.getJDA().shutdownNow(true);
-		System.exit(0);
 	}
 }
