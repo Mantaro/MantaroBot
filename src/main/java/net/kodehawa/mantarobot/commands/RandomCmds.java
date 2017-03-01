@@ -48,7 +48,7 @@ public class RandomCmds extends Module {
 				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(EmoteReference.DICE + "You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
-				TextChannelGround.of(event).dropWithChance(6,5);
+				TextChannelGround.of(event).dropItemWithChance(6,5);
 			}
 
 			@Override

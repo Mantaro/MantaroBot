@@ -10,13 +10,12 @@ import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.DeathTimer;
 import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.Data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
@@ -218,7 +217,7 @@ public class CustomCmds extends Module {
 								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().update();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
-								TextChannelGround.of(event).dropWithChance(8,2);
+								TextChannelGround.of(event).dropItemWithChance(8,2);
 							}
 							timer.get().disarm().explode();
 							unlock.run();
@@ -274,7 +273,7 @@ public class CustomCmds extends Module {
 					MantaroData.getData().update();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
 
-					TextChannelGround.of(event).dropWithChance(8,2);
+					TextChannelGround.of(event).dropItemWithChance(8,2);
 					return;
 				}
 

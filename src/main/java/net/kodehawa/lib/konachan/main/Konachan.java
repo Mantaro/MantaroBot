@@ -5,7 +5,7 @@ import net.kodehawa.lib.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.konachan.providers.DownloadProvider;
 import net.kodehawa.lib.konachan.providers.WallpaperProvider;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

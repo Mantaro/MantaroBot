@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.data;
 
 import net.kodehawa.mantarobot.commands.utils.data.QuotesData;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
-import net.kodehawa.mantarobot.utils.SimpleFileDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.io.File;
 import java.io.IOException;

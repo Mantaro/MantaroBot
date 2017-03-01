@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.SimpleFileDataManager.NEWLINE_PATTERN;
+import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
 	static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {

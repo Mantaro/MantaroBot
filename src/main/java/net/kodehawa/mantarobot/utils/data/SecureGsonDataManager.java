@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.data;
 
 import com.google.gson.Gson;
 import org.apache.commons.codec.digest.DigestUtils;

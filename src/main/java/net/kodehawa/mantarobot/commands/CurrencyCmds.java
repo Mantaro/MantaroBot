@@ -179,9 +179,9 @@ public class CurrencyCmds extends Module {
 				}
 
 				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
-				List<ItemStack> loot = TextChannelGround.of(event).collect();
+				List<ItemStack> loot = TextChannelGround.of(event).collectItems();
 				int moneyFound = Math.max(0, r.nextInt(400) - 300);
-				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
@@ -239,7 +239,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
 				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
 
 				if (args.length > 0) {
@@ -373,12 +373,12 @@ public class CurrencyCmds extends Module {
 
 				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
 				if (picks == 0) {
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with. You can try your luck and do ~>loot to see if there is any." + (TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 5) ? " :pick:" : "")).queue();
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with. You can try your luck and do ~>loot to see if there is any." + (TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 5) ? " :pick:" : "")).queue();
 					return;
 				}
 
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
-				boolean dropped = TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+				boolean dropped = TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
 				String toSend = "";
 
 				//Little chance, but chance.
@@ -435,7 +435,7 @@ public class CurrencyCmds extends Module {
 					).queue();
 					return;
 				}
-				TextChannelGround.of(event).dropWithChance(BROM_PICKAXE, 10);
+				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
 				event.getChannel().sendMessage(":heavy_multiplication_x: You need to mention a valid user.").queue();
 			}
 
@@ -484,7 +484,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Random r = new Random(System.currentTimeMillis());
 				List<ItemStack> toDrop = ItemStack.stackfy(Stream.of(Items.ALL).filter(item -> r.nextBoolean()).collect(Collectors.toList()));
-				TextChannelGround.of(event).drop(toDrop);
+				TextChannelGround.of(event).dropItems(toDrop);
 				event.getChannel().sendMessage("Dropped " + ItemStack.toString(toDrop) + " in the channel").queue();
 			}
 

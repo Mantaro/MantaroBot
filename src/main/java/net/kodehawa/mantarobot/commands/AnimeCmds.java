@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -15,7 +14,7 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

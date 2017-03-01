@@ -8,7 +8,7 @@ import net.kodehawa.lib.giphy.provider.Provider;
 import net.kodehawa.lib.giphy.provider.RandomProvider;
 import net.kodehawa.lib.giphy.provider.SearchProvider;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import javax.annotation.Nullable;

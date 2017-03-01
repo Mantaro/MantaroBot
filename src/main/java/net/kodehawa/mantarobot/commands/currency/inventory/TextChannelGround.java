@@ -4,13 +4,15 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextChannelGround {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
+	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
 	private static Random r = new Random(System.currentTimeMillis());
 
 	public static TextChannelGround of(String id) {
-		return new TextChannelGround(DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()));
+		return new TextChannelGround(DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()), DROPPED_MONEY.computeIfAbsent(id, k -> new AtomicInteger(0)));
 	}
 
 	public static TextChannelGround of(TextChannel channel) {
@@ -20,44 +22,59 @@ public class TextChannelGround {
 	public static TextChannelGround of(GuildMessageReceivedEvent event) {
 		return of(event.getChannel());
 	}
-
+	private final AtomicInteger money;
 	private final List<ItemStack> stacks;
 
-	private TextChannelGround(List<ItemStack> stacks) {
+	private TextChannelGround(List<ItemStack> stacks, AtomicInteger money) {
 		this.stacks = stacks;
+		this.money = money;
 	}
 
-	public TextChannelGround drop(List<ItemStack> stacks) {
-		List<ItemStack> finalStacks = new ArrayList<>(stacks);
-		this.stacks.addAll(finalStacks);
-		return this;
-	}
-
-	public TextChannelGround drop(ItemStack... stacks) {
-		return drop(Arrays.asList(stacks));
-	}
-
-	public TextChannelGround drop(Item item) {
-		return drop(new ItemStack(item, 1));
-	}
-
-	public TextChannelGround drop(int item) {
-		return drop(Items.ALL[item]);
-	}
-
-	public boolean dropWithChance(Item item, int weight) {
-		boolean doDrop = r.nextInt(weight) == 0;
-		if (doDrop) drop(item);
-		return doDrop;
-	}
-
-	public List<ItemStack> collect() {
+	public List<ItemStack> collectItems() {
 		List<ItemStack> finalStacks = new ArrayList<>(stacks);
 		stacks.clear();
 		return finalStacks;
 	}
 
-	public boolean dropWithChance(int item, int weight) {
-		return dropWithChance(Items.fromId(item), weight);
+	public int collectMoney() {
+		return money.getAndSet(0);
+	}
+
+	public TextChannelGround dropItem(Item item) {
+		return dropItems(new ItemStack(item, 1));
+	}
+
+	public TextChannelGround dropItem(int item) {
+		return dropItem(Items.ALL[item]);
+	}
+
+	public TextChannelGround dropItems(List<ItemStack> stacks) {
+		List<ItemStack> finalStacks = new ArrayList<>(stacks);
+		this.stacks.addAll(finalStacks);
+		return this;
+	}
+
+	public TextChannelGround dropItems(ItemStack... stacks) {
+		return dropItems(Arrays.asList(stacks));
+	}
+
+	public boolean dropItemWithChance(Item item, int weight) {
+		boolean doDrop = r.nextInt(weight) == 0;
+		if (doDrop) dropItem(item);
+		return doDrop;
+	}
+
+	public boolean dropMoneyWithChance(int money, int weight) {
+		boolean doDrop = r.nextInt(weight) == 0;
+		if (doDrop) dropMoney(money);
+		return doDrop;
+	}
+
+	public void dropMoney(int money) {
+		this.money.addAndGet(money);
+	}
+
+	public boolean dropItemWithChance(int item, int weight) {
+		return dropItemWithChance(Items.fromId(item), weight);
 	}
 }

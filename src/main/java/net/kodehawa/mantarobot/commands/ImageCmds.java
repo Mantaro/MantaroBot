@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.collections4.BidiMap;
