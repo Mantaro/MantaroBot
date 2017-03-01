@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.music;
 
 public enum Repeat {
-    SONG("Current song"), QUEUE("Full queue");
+    SONG("song"), QUEUE("queue");
 
     String s;
 
