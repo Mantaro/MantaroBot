@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -12,7 +11,7 @@ import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
-import net.kodehawa.mantarobot.data.Data.GuildData;
+import net.kodehawa.mantarobot.data.data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -164,7 +163,7 @@ public class CustomCmds extends Module {
 					}
 					int size = customCommands.size();
 					customCommands.clear();
-					MantaroData.getData().update();
+					MantaroData.getData().save();
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!").queue();
 					return;
 				}
@@ -215,7 +214,7 @@ public class CustomCmds extends Module {
 							} else {
 								customCommands.put(saveTo, responses);
 								Manager.commands.put(saveTo, cmdPair);
-								MantaroData.getData().update();
+								MantaroData.getData().save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
 								TextChannelGround.of(event).dropItemWithChance(8,2);
 							}
@@ -243,7 +242,7 @@ public class CustomCmds extends Module {
 				if (action.equals("remove") || action.equals("rm")) {
 					Optional.ofNullable(customCommands.remove(cmd))
 						.ifPresent((command) -> {
-							MantaroData.getData().update();
+							MantaroData.getData().save();
 							if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
 								Manager.commands.remove(cmd);
 							}
@@ -270,7 +269,7 @@ public class CustomCmds extends Module {
 
 					Manager.commands.put(cmd, cmdPair);
 					customCommands.put(cmd, responses);
-					MantaroData.getData().update();
+					MantaroData.getData().save();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
 
 					TextChannelGround.of(event).dropItemWithChance(8,2);
@@ -316,6 +315,6 @@ public class CustomCmds extends Module {
 			guildData.customCommands.keySet().removeIf(Manager.commands::containsKey);
 			guildData.customCommands.keySet().forEach(cmd -> Manager.commands.put(cmd, cmdPair));
 		});
-		MantaroData.getData().update();
+		MantaroData.getData().save();
 	}
 }

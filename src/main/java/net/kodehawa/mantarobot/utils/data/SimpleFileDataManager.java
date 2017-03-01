@@ -10,11 +10,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class SimpleFileDataManager implements Supplier<List<String>> {
+public class SimpleFileDataManager implements DataManager<List<String>> {
 	private static final Logger LOGGER = LoggerFactory.getLogger("SimpleFileDataManager");
 	public static final Pattern NEWLINE_PATTERN = Pattern.compile("\\r\\n?|\\r?\\n");
 	private final List<String> data = new ArrayList<>();
@@ -46,7 +45,7 @@ public class SimpleFileDataManager implements Supplier<List<String>> {
 		return data;
 	}
 
-	public void update() {
+	public void save() {
 		try {
 			IOUtils.write(path, this.data.stream().collect(Collectors.joining("\n")));
 		} catch (IOException e) {

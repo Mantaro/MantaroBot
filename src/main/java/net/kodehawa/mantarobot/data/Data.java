@@ -3,59 +3,19 @@ package net.kodehawa.mantarobot.data;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
-import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.data.GlobalUserData;
+import net.kodehawa.mantarobot.data.data.GuildData;
+import net.kodehawa.mantarobot.data.data.UserData;
 
 import java.util.*;
 
 public class Data {
-	public static class GuildData {
-		public String birthdayChannel = null;
-		public String birthdayRole = null;
-		public Map<String, List<String>> customCommands = new HashMap<>();
-		public boolean customCommandsAdminOnly = false;
-		public String logChannel = null;
-		public String musicChannel = null;
-		public String nsfwChannel = null;
-		public String prefix = null;
-		public Integer songDurationLimit = null;
-		public Integer queueSizeLimit = null;
-		public String autoRole = null;
-	}
-
-	public static class UserData {
-
-		public String birthdayDate = null;
-		public Map<Integer, Integer> inventory = new HashMap<>();
-		public long money = 0;
-
-		public Inventory getInventory() {
-			return new Inventory(this);
-		}
-
-		public boolean addMoney(long money) {
-			try {
-				this.money = Math.addExact(this.money, money);
-				return true;
-			} catch (ArithmeticException ignored) {
-				this.money = 0;
-				this.getInventory().process(new ItemStack(9,1));
-				return false;
-			}
-		}
-
-		public boolean removeMoney(long money){
-			if(this.money - money < 0) return false;
-			this.money = this.money - money;
-			return true;
-		}
-	}
-
-	public String defaultPrefix = "~>";
-	public Map<String, GuildData> guilds = new HashMap<>();
-	public Map<String, UserData> users = new HashMap<>();
 	public List<String> blacklistedGuilds = new ArrayList<>();
 	public List<String> blacklistedUsers = new ArrayList<>();
+	public String defaultPrefix = "~>";
+	public Map<String, GuildData> guilds = new HashMap<>();
+	public Map<String, GlobalUserData> users = new HashMap<>();
 
 	public GuildData getGuild(Guild guild, boolean isRewritable) {
 		if (isRewritable) return guilds.computeIfAbsent(guild.getId(), s -> new GuildData());
@@ -66,12 +26,27 @@ public class Data {
 		return Optional.ofNullable(getGuild(guild, false).prefix).orElse(defaultPrefix);
 	}
 
-	public UserData getUser(User user, boolean isRewritable) {
-		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new UserData());
-		return users.getOrDefault(user.getId(), new UserData());
+	public GlobalUserData getUser(User user, boolean isRewritable) {
+		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new GlobalUserData());
+		return users.getOrDefault(user.getId(), new GlobalUserData());
 	}
 
-	public UserData getUser(Member member, boolean isRewritable) {
+	public UserData getUser(GuildMessageReceivedEvent event, boolean isRewritable) {
+		return getUser(event.getGuild(), event.getAuthor(), isRewritable);
+	}
+
+	public UserData getUser(Guild guild, User user, boolean isRewritable) {
+		GuildData guildData = getGuild(guild, isRewritable);
+
+		if (guildData.localMode) {
+			if (isRewritable) return guildData.users.computeIfAbsent(user.getId(), s -> new UserData());
+			return guildData.users.getOrDefault(user.getId(), new UserData());
+		}
+
+		return getUser(user, isRewritable);
+	}
+
+	public GlobalUserData getUser(Member member, boolean isRewritable) {
 		return getUser(member.getUser(), isRewritable);
 	}
 }

@@ -9,17 +9,16 @@ import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
-import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.YoutubeMp3Info;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.YoutubeMp3Info;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -67,10 +66,10 @@ public class UtilsCmds extends Module {
 					final int currentMonth = Integer.parseInt(String.format("%02d", Calendar.MONTH));
 					event.getGuild().getMembers().forEach(member ->{
 						try{
-							Date date = format1.parse(MantaroData.getData().get().getUser(member, false).birthdayDate);
+							Date date = format1.parse(MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
 							LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 							if(currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))){
-								closeBirthdays.put(member.getEffectiveName()+"#"+member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(member, false).birthdayDate);
+								closeBirthdays.put(member.getEffectiveName()+"#"+member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
 							}
 						} catch (Exception e){
 							LOGGER.debug("Error while retrieving close birthdays", e);
@@ -102,8 +101,8 @@ public class UtilsCmds extends Module {
 					return;
 				}
 
-				MantaroData.getData().get().users.computeIfAbsent(userId, k -> new Data.UserData()).birthdayDate = format1.format(bd1);
-				MantaroData.getData().update();
+				MantaroData.getData().get().getUser(event.getAuthor(), true).birthdayDate = format1.format(bd1);
+				MantaroData.getData().save();
 				channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
 			}
 

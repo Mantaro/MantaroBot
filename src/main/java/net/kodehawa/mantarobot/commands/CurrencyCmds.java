@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -11,7 +10,8 @@ import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
-import net.kodehawa.mantarobot.data.Data.UserData;
+import net.kodehawa.mantarobot.data.data.GlobalUserData;
+import net.kodehawa.mantarobot.data.data.UserData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -25,8 +25,6 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static net.kodehawa.mantarobot.commands.currency.inventory.Items.BROM_PICKAXE;
 
 public class CurrencyCmds extends Module {
 	public CurrencyCmds() {
@@ -62,7 +60,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
+				UserData user = MantaroData.getData().get().getUser(event, true);
 
 				if (user.money <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
@@ -124,7 +122,7 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (user.money == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
-				MantaroData.getData().update();
+				MantaroData.getData().save();
 			}
 
 			@Override
@@ -138,7 +136,7 @@ public class CurrencyCmds extends Module {
 		super.register("inventory", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
+				UserData user = MantaroData.getData().get().getUser(event, true);
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
@@ -178,10 +176,10 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
-				List<ItemStack> loot = TextChannelGround.of(event).collectItems();
-				int moneyFound = Math.max(0, r.nextInt(400) - 300);
-				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
+				UserData userData = MantaroData.getData().get().getUser(event, true);
+				TextChannelGround ground = TextChannelGround.of(event);
+				List<ItemStack> loot = ground.collectItems();
+				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 300);
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
@@ -212,7 +210,7 @@ public class CurrencyCmds extends Module {
 					}
 				}
 
-				MantaroData.getData().update();
+				MantaroData.getData().save();
 			}
 
 			@Override
@@ -239,8 +237,8 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
-				UserData user = MantaroData.getData().get().getUser(event.getAuthor(), true);
+				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
+				UserData user = MantaroData.getData().get().getUser(event, true);
 
 				if (args.length > 0) {
 					int itemNumber = 1;
@@ -308,13 +306,13 @@ public class CurrencyCmds extends Module {
 					if (args[0].equals("buy")) {
 						Item itemToBuy = Items.fromAny(itemName).orElse(null);
 
-						if(!itemToBuy.isBuyable()){
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
+						if (itemToBuy == null) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
 							return;
 						}
 
-						if (itemToBuy == null) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
+						if(!itemToBuy.isBuyable()){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
 							return;
 						}
 
@@ -369,21 +367,21 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				UserData userData = MantaroData.getData().get().getUser(event.getAuthor(), true);
+				UserData userData = MantaroData.getData().get().getUser(event, true);
 
-				int picks = userData.getInventory().asMap().getOrDefault(BROM_PICKAXE, new ItemStack(BROM_PICKAXE, 0)).getAmount();
+				int picks = userData.getInventory().asMap().getOrDefault(Items.BROM_PICKAXE, new ItemStack(Items.BROM_PICKAXE, 0)).getAmount();
 				if (picks == 0) {
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with. You can try your luck and do ~>loot to see if there is any." + (TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 5) ? " :pick:" : "")).queue();
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
 					return;
 				}
 
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
-				boolean dropped = TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
+				boolean dropped = TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				String toSend = "";
 
 				//Little chance, but chance.
 				if (Math.random() * 100 > 90) {
-					userData.getInventory().process(new ItemStack(BROM_PICKAXE, -1));
+					userData.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
 					toSend = "\n" + EmoteReference.SAD + "Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
 				}
 
@@ -398,7 +396,7 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
 				}
 
-				MantaroData.getData().update();
+				MantaroData.getData().save();
 			}
 
 			@Override
@@ -417,17 +415,19 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					UserData data = MantaroData.getData().get().getUser(event.getAuthor(), false);
+					UserData data = MantaroData.getData().get().getUser(event, false);
+					GlobalUserData user = MantaroData.getData().get().getUser(event.getAuthor(), false);
+
 					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
 						.addField(":credit_card: Credits", "$ " + data.money, false)
 						.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
-						.addField(":tada: Birthday", data.birthdayDate != null ? data.birthdayDate.substring(0, 5) : "Not specified.", false)
+						.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
 						.build()
 					).queue();
 					return;
 				} else if (!event.getMessage().getMentionedUsers().isEmpty()) {
 					User user = event.getMessage().getMentionedUsers().get(0);
-					UserData data = MantaroData.getData().get().getUser(user, false);
+					UserData data = MantaroData.getData().get().getUser(event, false);
 					event.getChannel().sendMessage(baseEmbed(event, user.getName() + "'s Profile", user.getEffectiveAvatarUrl())
 						.addField(":credit_card: Credits", "$ " + data.money, false)
 						.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
@@ -435,7 +435,7 @@ public class CurrencyCmds extends Module {
 					).queue();
 					return;
 				}
-				TextChannelGround.of(event).dropItemWithChance(BROM_PICKAXE, 10);
+				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a valid user.").queue();
 			}
 
@@ -452,15 +452,16 @@ public class CurrencyCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				boolean global = !content.equals("guild");
+				boolean global = !MantaroData.getData().get().getGuild(event.getGuild(), false).localMode && !content.equals("guild");
 
 				AtomicInteger integer = new AtomicInteger(1);
+
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : "Guild richest Users", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
 						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser)).filter(user -> !user.isBot())
-							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(user, false).money))
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).money))
 							.limit(15)
-							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(user, false).money))
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).money))
 							.collect(Collectors.joining("\n"))
 					)
 					.build()
