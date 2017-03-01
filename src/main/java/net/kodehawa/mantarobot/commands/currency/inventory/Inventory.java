@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.currency.inventory;
 
-import net.kodehawa.mantarobot.data.Data.UserData;
+import net.kodehawa.mantarobot.data.data.UserData;
 
 import java.util.ArrayList;
 import java.util.Collections;

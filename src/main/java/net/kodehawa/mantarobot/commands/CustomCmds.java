@@ -11,7 +11,7 @@ import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
-import net.kodehawa.mantarobot.data.Data.GuildData;
+import net.kodehawa.mantarobot.data.data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
