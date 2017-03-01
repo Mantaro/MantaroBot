@@ -80,7 +80,7 @@ public class QuoteCmd extends Module {
 								MantaroData.getQuotes().get().quotes.put(guild.getId(), temp);
 							}
 
-							MantaroData.getQuotes().update();
+							MantaroData.getQuotes().save();
 
 							Date quoteDate = new Date(System.currentTimeMillis());
 							EmbedBuilder builder = new EmbedBuilder();
@@ -165,7 +165,7 @@ public class QuoteCmd extends Module {
 							MantaroData.getQuotes().get().quotes.put(guild.getId(), temp);
 						}
 
-						MantaroData.getQuotes().update();
+						MantaroData.getQuotes().save();
 
 						Date quoteDate = new Date(System.currentTimeMillis());
 						EmbedBuilder builder = new EmbedBuilder();

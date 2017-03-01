@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
 
-public class GsonDataManager<T> implements Supplier<T> {
+public class GsonDataManager<T> implements DataManager<T> {
 	public static final Gson GSON_PRETTY = new GsonBuilder().setPrettyPrinting().serializeNulls().create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
 	private static final Logger LOGGER = LoggerFactory.getLogger("GsonDataManager");
 
@@ -50,7 +50,8 @@ public class GsonDataManager<T> implements Supplier<T> {
 		return data;
 	}
 
-	public void update() {
+	@Override
+	public void save() {
 		try {
 			IOUtils.write(configPath, gson(pretty).toJson(data));
 		} catch (IOException e) {

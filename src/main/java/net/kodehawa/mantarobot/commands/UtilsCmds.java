@@ -103,7 +103,7 @@ public class UtilsCmds extends Module {
 				}
 
 				MantaroData.getData().get().users.computeIfAbsent(userId, k -> new Data.UserData()).birthdayDate = format1.format(bd1);
-				MantaroData.getData().update();
+				MantaroData.getData().save();
 				channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
 			}
 

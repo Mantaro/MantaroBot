@@ -52,22 +52,22 @@ public class OwnerCmd extends Module {
 				switch (args[0]) {
 					case "pat":
 						MantaroData.getPatting().get().add(v);
-						MantaroData.getPatting().update();
+						MantaroData.getPatting().save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
 						break;
 					case "hug":
 						MantaroData.getHugs().get().add(v);
-						MantaroData.getHugs().update();
+						MantaroData.getHugs().save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
 						break;
 					case "greeting":
 						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
-						MantaroData.getGreeting().update();
+						MantaroData.getGreeting().save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
 						break;
 					case "splash":
 						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
-						MantaroData.getSplashes().update();
+						MantaroData.getSplashes().save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
 						break;
 				}
@@ -97,11 +97,11 @@ public class OwnerCmd extends Module {
 						if (event.getJDA().getGuildById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
-						MantaroData.getData().update();
+						MantaroData.getData().save();
 					} else if (args[1].equals("remove")) {
 						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
-						MantaroData.getData().update();
+						MantaroData.getData().save();
 					}
 					return;
 				}
@@ -111,12 +111,12 @@ public class OwnerCmd extends Module {
 						if (event.getJDA().getUserById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedUsers.add(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						MantaroData.getData().update();
+						MantaroData.getData().save();
 					} else if (args[1].equals("remove")) {
 						if (event.getJDA().getUserById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedUsers.remove(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						MantaroData.getData().update();
+						MantaroData.getData().save();
 					}
 				}
 			}
@@ -340,7 +340,7 @@ public class OwnerCmd extends Module {
 	}
 
 	private void prepareShutdown(GuildMessageReceivedEvent event) {
-		MantaroData.getData().update();
+		MantaroData.getData().save();
 		MantaroBot.getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			musicManager.getTrackScheduler().stop();
 		});
