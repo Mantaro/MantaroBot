@@ -10,6 +10,7 @@ import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.data.GlobalUserData;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
@@ -17,6 +18,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Comparator;
@@ -32,7 +34,6 @@ public class CurrencyCmds extends Module {
 
 		profile();
 		loot();
-		//summon();
 		gamble();
 		mine();
 		richest();
@@ -62,7 +63,7 @@ public class CurrencyCmds extends Module {
 
 				EntityPlayer user = MantaroData.getData().get().getUser(event, true);
 
-				if (user.money <= 0) {
+				if (user.getMoney() <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
 					return;
 				}
@@ -74,24 +75,24 @@ public class CurrencyCmds extends Module {
 					switch (content) {
 						case "all":
 						case "everything":
-							i = user.money;
+							i = user.getMoney();
 							multiplier = 1.5d + (r.nextInt(1500) / 1000d);
 							luck = 42 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
-							i = user.money == 1 ? 1 : user.money / 2;
+							i = user.getMoney() == 1 ? 1 : user.getMoney() / 2;
 							multiplier = 1d + (r.nextInt(1500) / 1000d);
 							luck = 35 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						case "quarter":
-							i = user.money == 1 ? 1 : user.money / 4;
+							i = user.getMoney() == 1 ? 1 : user.getMoney() / 4;
 							multiplier = 1d + (r.nextInt(1000) / 1000d);
 							luck = 40 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						default:
 							i = Integer.parseInt(content);
-							if (i > user.money || i < 0) throw new UnsupportedOperationException();
-							multiplier = 1.2d + (i / user.money * r.nextInt(1300) / 1000d);
+							if (i > user.getMoney() || i < 0) throw new UnsupportedOperationException();
+							multiplier = 1.2d + (i / user.getMoney() * r.nextInt(1300) / 1000d);
 							luck = 45 + (int) (multiplier * 15) + r.nextInt(10);
 							break;
 					}
@@ -107,7 +108,7 @@ public class CurrencyCmds extends Module {
 					long gains = (long) (i * multiplier);
 					gains = Math.round(gains * 0.55);
 
-					if (user.money >= Integer.MAX_VALUE) {
+					if (user.getMoney() >= Integer.MAX_VALUE) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 						return;
 					}
@@ -118,8 +119,8 @@ public class CurrencyCmds extends Module {
 						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 					}
 				} else {
-					user.money = Math.max(0, user.money - i);
-					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (user.money == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
+					user.setMoney(Math.max(0, user.getMoney() - i));
+					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (user.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
 				MantaroData.getData().save();
@@ -196,7 +197,7 @@ public class CurrencyCmds extends Module {
 					}
 				} else {
 					if (moneyFound != 0) {
-						if (userData.money >= Integer.MAX_VALUE) {
+						if (userData.getMoney() >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 							return;
 						}
@@ -256,7 +257,7 @@ public class CurrencyCmds extends Module {
 						}
 					}
 					if (args[0].equals("sell")) {
-						if (user.money >= Integer.MAX_VALUE) {
+						if (user.getMoney() >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. " +
 								"Maybe you should spend some before getting more.").queue();
 							return;
@@ -320,7 +321,7 @@ public class CurrencyCmds extends Module {
 						if (user.removeMoney(itemToBuy.getValue() * itemNumber)) {
 							user.getInventory().process(new ItemStack(itemToBuy, itemNumber));
 							event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
-								" successfully. You now have " + user.money + " credits.").queue();
+								" successfully. You now have " + user.getMoney() + " credits.").queue();
 						} else {
 							event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 						}
@@ -368,30 +369,54 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer userData = MantaroData.getData().get().getUser(event, true);
+				EntityPlayer player = MantaroData.getData().get().getUser(event, true);
 
-				int picks = userData.getInventory().asMap().getOrDefault(Items.BROM_PICKAXE, new ItemStack(Items.BROM_PICKAXE, 0)).getAmount();
+				if(player.getStamina() < 10){
+					if(player.isProcessing()){
+						event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
+						return;
+					}
+
+					player.setProcessing(true);
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. Wait a minute for it to be completely regenerated.").queue();
+					Async.startAsyncTask("Stamina Task", s -> {
+						if(!player.addStamina(10)) {
+							player.setProcessing(false);
+							s.shutdown();
+						}
+					}, 10);
+					return;
+				}
+
+				int picks = player.getInventory().asMap().getOrDefault(Items.BROM_PICKAXE, new ItemStack(Items.BROM_PICKAXE, 0)).getAmount();
 				if (picks == 0) {
 					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
 					return;
 				}
 
+				player.consumeStamina(10);
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				String toSend = "";
 
 				//Little chance, but chance.
 				if (Math.random() * 100 > 90) {
-					userData.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
+					player.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
 					toSend = "\n" + EmoteReference.SAD + "Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
 				}
 
-				if (userData.money >= Integer.MAX_VALUE) {
+				//Even less chance, but chance.
+				if (Math.random() * 100 > 95) {
+					player.consumeHealth(10);
+					toSend = "\n" + EmoteReference.SAD + "Sadly, you caught a sickness while mining. You lost 10 health.";
+				}
+
+				if (player.getMoney() >= Integer.MAX_VALUE) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 					return;
 				}
 
-				if (userData.addMoney(moneyFound)) {
+				if (player.addMoney(moneyFound)) {
 					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "") + toSend).queue();
 				} else {
 					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
@@ -416,22 +441,30 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					EntityPlayer data = MantaroData.getData().get().getUser(event, false);
+					EntityPlayer player = MantaroData.getData().get().getUser(event, false);
 					GlobalUserData user = MantaroData.getData().get().getUser(event.getAuthor(), false);
 
 					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
-						.addField(":credit_card: Credits", "$ " + data.money, false)
-						.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+						.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
+						.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
 						.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
+						.setDescription("HP: " + CommandStatsManager.bar(player.getHealth() / 100 * player.getMaxHealth(), 15)
+								+ "(" + player.getHealth() + ")\n" +
+								" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 15)
+								+ "(" + player.getStamina() + ")")
 						.build()
 					).queue();
 					return;
 				} else if (!event.getMessage().getMentionedUsers().isEmpty()) {
 					User user = event.getMessage().getMentionedUsers().get(0);
-					EntityPlayer data = MantaroData.getData().get().getUser(event, false);
+					EntityPlayer player = MantaroData.getData().get().getUser(event, false);
 					event.getChannel().sendMessage(baseEmbed(event, user.getName() + "'s Profile", user.getEffectiveAvatarUrl())
-						.addField(":credit_card: Credits", "$ " + data.money, false)
-						.addField(":pouch: Inventory", ItemStack.toString(data.getInventory().asList()), false)
+						.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
+						.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
+						.setDescription("HP: " + CommandStatsManager.bar(player.getHealth() / 100 * player.getMaxHealth(), 10)
+								+ "(" + player.getHealth() + ")\n" +
+								" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 10)
+								+ "(" + player.getStamina() + ")")
 						.build()
 					).queue();
 					return;
@@ -461,9 +494,9 @@ public class CurrencyCmds extends Module {
 					.setDescription(
 						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
 							.filter(user -> !user.isBot())
-							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).money))
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
 							.limit(15)
-							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).money))
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
 							.collect(Collectors.joining("\n"))
 					)
 					.build()

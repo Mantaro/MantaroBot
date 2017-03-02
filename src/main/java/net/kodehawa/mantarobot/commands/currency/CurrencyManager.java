@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.currency;
 
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 public class CurrencyManager {
@@ -8,6 +9,6 @@ public class CurrencyManager {
 
 	public static double creditsWorth() {
 		return (double) USD_ESTIMATIVE / (double) MantaroData.getData().get().users.values().stream()
-			.mapToLong(userData -> userData.money).sum();
+			.mapToLong(EntityPlayer::getMoney).sum();
 	}
 }

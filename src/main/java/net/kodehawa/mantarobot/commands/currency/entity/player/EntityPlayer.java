@@ -11,27 +11,41 @@ import java.util.UUID;
 
 public class EntityPlayer implements Entity {
 	public Map<Integer, Integer> inventory = new HashMap<>();
-	public long money = 0;
-	public int health = 250, stamina = 100;
+	private long money = 0;
+	private int health = 250, stamina = 100;
+	private boolean processing;
 
+	@Override
+	public int getMaxHealth(){
+		return 250;
+	}
+
+	@Override
+	public int getMaxStamina(){
+		return 100;
+	}
+
+	@Override
 	public boolean addStamina(int amount) {
-		if (stamina + amount < 0 || stamina + amount > 100) return false;
+		if (stamina + amount < 0 || stamina + amount > getMaxStamina()) return false;
 		stamina += amount;
 		return true;
 	}
 
-	public boolean consumeStamina(int amount) {
-		return addStamina(-amount);
-	}
-
 	@Override
 	public boolean addHealth(int amount) {
-		if (health - amount < 0 || health + amount > 250) return false;
-		health -= amount;
+		if (health - amount < 0 || health + amount > getMaxHealth()) return false;
+		health += amount;
 		return true;
 	}
 
+	public boolean consumeStamina(int amount) {
+		if (this.stamina - amount < 0) return false;
+		return addStamina(-amount);
+	}
+
 	public boolean consumeHealth(int amount) {
+		if (this.health - amount < 0) return false;
 		return addHealth(-amount);
 	}
 
@@ -60,5 +74,29 @@ public class EntityPlayer implements Entity {
 		if (this.money - money < 0) return false;
 		this.money -= money;
 		return true;
+	}
+
+	public long getMoney() {
+		return money;
+	}
+
+	public void setMoney(long amount){
+		money = amount;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public int getStamina() {
+		return stamina;
+	}
+
+	public void setProcessing(boolean processing) {
+		this.processing = processing;
+	}
+
+	public boolean isProcessing() {
+		return processing;
 	}
 }
