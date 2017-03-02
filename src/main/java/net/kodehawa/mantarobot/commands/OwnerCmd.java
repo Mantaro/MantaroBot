@@ -217,8 +217,7 @@ public class OwnerCmd extends Module {
 					if (args.length == 2) {
 						try {
 							notifyMusic(args[1]).get();
-						} catch (InterruptedException | ExecutionException ignored) {
-						}
+						} catch (InterruptedException | ExecutionException ignored) {}
 					}
 
 					try {
@@ -246,6 +245,7 @@ public class OwnerCmd extends Module {
 
 				if (option.equals("notifymusic")) {
 					notifyMusic(args[1]);
+					return;
 				}
 
 				String[] values = SPLIT_PATTERN.split(value, 2);
@@ -317,7 +317,7 @@ public class OwnerCmd extends Module {
 					event.getChannel().sendMessage(new EmbedBuilder()
 						.setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
 						.setColor(errored ? Color.RED : Color.GREEN)
-						.setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfuly and returned: ") + result.toString()))
+						.setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result.toString()))
 						.setFooter("Asked by: " + event.getAuthor().getName(), null)
 						.build()
 					).queue();
@@ -348,7 +348,7 @@ public class OwnerCmd extends Module {
 	private void prepareShutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().save();
 		MantaroBot.getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
-			musicManager.getTrackScheduler().stop();
+			if(musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));

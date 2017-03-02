@@ -38,7 +38,18 @@ public interface Entity {
 		return "Saved data";
 	}
 
-	public enum Type{
-		PLAYER, MOB
+	enum Type{
+		PLAYER("player"), MOB("mob"), SPECIAL("entity");
+
+		String type;
+
+		Type(String s){
+			type = s;
+		}
+
+		@Override
+		public String toString() {
+			return type;
+		}
 	}
 }

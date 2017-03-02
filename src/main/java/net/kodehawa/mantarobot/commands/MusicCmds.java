@@ -27,6 +27,7 @@ public class MusicCmds extends Module {
 	public MusicCmds() {
 		super(Category.MUSIC);
 		//Audio intensifies.
+
 		np();
 		pause();
 		play();
@@ -260,7 +261,7 @@ public class MusicCmds extends Module {
 						return;
 					}
 
-					event.getChannel().sendMessage(EmoteReference.OK + "Removed music **" + list.remove(i).getInfo().title + "** from the queue.").queue();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed track **" + list.remove(i).getInfo().title + "** from the queue.").queue();
 					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				});
 			}
@@ -343,8 +344,12 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				try{
+					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+					TextChannelGround.of(event).dropItemWithChance(0, 10);
+				} catch (NullPointerException e){
+					event.getChannel().sendMessage(EmoteReference.ERROR  + "There is no track to skip").queue();
+				}
 			}
 
 			@Override
