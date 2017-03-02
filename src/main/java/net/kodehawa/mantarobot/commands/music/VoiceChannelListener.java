@@ -28,7 +28,6 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
         VoiceChannel v = guild.getAudioManager().isAttemptingToConnect() ? guild.getAudioManager().getQueuedAudioConnection() : guild.getAudioManager().getConnectedChannel();
         if (vc != v) return;
         GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(guild);
-        musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
         TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
         if (channel != null && channel.canTalk())
             channel.sendMessage(member.equals(guild.getSelfMember()) ? "I was moved into a Voice Channel with users listening, resumed the player!" : "Someone joined the Voice Channel, resumed the player!").queue();
@@ -41,10 +40,9 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
         if (timer.isExpiring(guild.getId())) return;
         GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(guild);
         if (musicManager.getTrackScheduler().isStopped()) return;
-        musicManager.getTrackScheduler().getAudioPlayer().setPaused(true);
         TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
         if (channel != null && channel.canTalk())
-            channel.sendMessage("I was left alone in the Voice Channel so I paused the player. If nobody join this channel within 2 minutes I'll stop the player.").queue();
+            channel.sendMessage("I was left alone in the Voice Channel. If nobody join this channel within 2 minutes I'll stop the player.").queue();
         timer.addMusicPlayer(guild.getId(), 120000 + System.currentTimeMillis());
     }
 
