@@ -41,6 +41,5 @@ public class MantaroAudioManager {
 		if (!AudioCmdUtils.connectToVoiceChannel(event)) return;
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
 		playerManager.loadItemOrdered(musicManager, trackUrl, new AudioRequester(musicManager, event, trackUrl));
-
 	}
 }
