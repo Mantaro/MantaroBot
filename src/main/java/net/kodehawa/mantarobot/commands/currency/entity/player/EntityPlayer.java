@@ -26,7 +26,7 @@ public class EntityPlayer implements Entity {
 		return MantaroData.getData().get().getUser(e, true);
 	}
 
-	public EntityPlayer getPlayer(String entityId){
+	public static EntityPlayer getPlayer(String entityId){
 		Objects.requireNonNull(entityId,  "Player id cannot be null!");
 		entity = entityId;
 		return MantaroData.getData().get().users.getOrDefault(entityId, new EntityPlayerMP());
@@ -128,9 +128,5 @@ public class EntityPlayer implements Entity {
 		return String.format(this.getClass().getSimpleName() +
 						"({type: %s, id: %s, entity: %s, health: %s, stamina: %s, processing: %s, inventory: %s})",
 							getType(), getId(), entity, getHealth(), getStamina(), isProcessing(), getInventory().asList());
-	}
-
-	public static EntityPlayer instance(){
-		return new EntityPlayer();
 	}
 }
