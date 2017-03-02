@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.data.GlobalUserData;
 import net.kodehawa.mantarobot.data.data.GuildData;
-import net.kodehawa.mantarobot.data.data.UserData;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 
 import java.util.*;
 
@@ -31,16 +31,16 @@ public class Data {
 		return users.getOrDefault(user.getId(), new GlobalUserData());
 	}
 
-	public UserData getUser(GuildMessageReceivedEvent event, boolean isRewritable) {
+	public EntityPlayer getUser(GuildMessageReceivedEvent event, boolean isRewritable) {
 		return getUser(event.getGuild(), event.getAuthor(), isRewritable);
 	}
 
-	public UserData getUser(Guild guild, User user, boolean isRewritable) {
+	public EntityPlayer getUser(Guild guild, User user, boolean isRewritable) {
 		GuildData guildData = getGuild(guild, isRewritable);
 
 		if (guildData.localMode) {
-			if (isRewritable) return guildData.users.computeIfAbsent(user.getId(), s -> new UserData());
-			return guildData.users.getOrDefault(user.getId(), new UserData());
+			if (isRewritable) return guildData.users.computeIfAbsent(user.getId(), s -> new EntityPlayer());
+			return guildData.users.getOrDefault(user.getId(), new EntityPlayer());
 		}
 
 		return getUser(user, isRewritable);

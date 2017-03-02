@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.currency.inventory;
 
-import net.kodehawa.mantarobot.data.data.UserData;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,9 +24,9 @@ public class Inventory {
 		}
 	}
 
-	private UserData userData;
+	private EntityPlayer userData;
 
-	public Inventory(UserData userData) {
+	public Inventory(EntityPlayer userData) {
 		this.userData = userData;
 	}
 

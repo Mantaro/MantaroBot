@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.data.data;
 
-public class GlobalUserData extends UserData {
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
+
+public class GlobalUserData extends EntityPlayer {
 	public String birthdayDate = null;
 }
