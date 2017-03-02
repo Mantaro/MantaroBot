@@ -168,6 +168,7 @@ public class CurrencyCmds extends Module {
 		super.register("loot", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
 				String id = event.getAuthor().getId();
 
 				if (!rateLimiter.process(id)) {
@@ -227,13 +228,13 @@ public class CurrencyCmds extends Module {
 
 	private void market() {
 		super.register("market", new SimpleCommand() {
+			RateLimiter rateLimiter = new RateLimiter(4500);
+
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				RateLimiter rateLimiter = new RateLimiter(2000);
-
 				if (!rateLimiter.process(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-							"Cooldown a lil bit, you're buying so fast that I can't get enough items!").queue();
+							"Cooldown a lil bit, you're calling me so fast that I can't get enough items!").queue();
 					return;
 				}
 

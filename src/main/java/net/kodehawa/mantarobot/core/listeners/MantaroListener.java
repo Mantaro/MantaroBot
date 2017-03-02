@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -268,7 +269,16 @@ public class MantaroListener implements EventListener {
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
-			//Shouldn't happen, but it happens *shrug*
+			if(e instanceof NumberFormatException){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments.").queue();
+				return;
+			}
+
+			if(e instanceof IndexOutOfBoundsException){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results.").queue();
+				return;
+			}
+
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
 					+ "**You might want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
 					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
