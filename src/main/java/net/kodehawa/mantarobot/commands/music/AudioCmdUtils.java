@@ -134,10 +134,19 @@ public class AudioCmdUtils {
 	}
 
 	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
+		if(userChannel == null){
+			event.getChannel().sendMessage(EmoteReference.ERROR + "We received a non-existant channel as response. If you set a voice channel and then deleted it, that might be the cause." +
+					"\n We resetted your music channel for you, try to play the music again.").queue();
+			MantaroData.getData().get().getGuild(event.getGuild(), true).musicChannel = null;
+			MantaroData.getData().save();
+			return;
+		}
+
 		if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
 			return;
 		}
+
 		audioManager.openAudioConnection(userChannel);
 		event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
 	}

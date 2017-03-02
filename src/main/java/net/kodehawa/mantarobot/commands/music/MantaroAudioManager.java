@@ -34,7 +34,6 @@ public class MantaroAudioManager {
 
     public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl) {
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
-
         if (!AudioCmdUtils.connectToVoiceChannel(event)) return;
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioRequester(musicManager, event, trackUrl));
