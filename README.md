@@ -1,4 +1,4 @@
-<img align="right" src="https://i.imgur.com/P7ra93n.png" height="210" width="210">
+<img align="right" src="https://i.imgur.com/SWDen2V.png" height="220" width="220">
 # MantaroBot
 **Anime, Music, Moderation, weather information, osu! and everything you might want in a customizable and stable bot**
 
