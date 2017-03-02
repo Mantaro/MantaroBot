@@ -32,7 +32,7 @@ public class Data {
 	}
 
 	public EntityPlayer getUser(GuildMessageReceivedEvent event, boolean isRewritable) {
-		return getUser(event.getGuild(), event.getAuthor(), isRewritable);
+		return getUser(event.getMember(), isRewritable);
 	}
 
 	public EntityPlayer getUser(Guild guild, User user, boolean isRewritable) {
@@ -46,7 +46,7 @@ public class Data {
 		return getUser(user, isRewritable);
 	}
 
-	public EntityPlayerMP getUser(Member member, boolean isRewritable) {
-		return getUser(member.getUser(), isRewritable);
+	public EntityPlayer getUser(Member member, boolean isRewritable) {
+		return getUser(member.getGuild(), member.getUser(), isRewritable);
 	}
 }

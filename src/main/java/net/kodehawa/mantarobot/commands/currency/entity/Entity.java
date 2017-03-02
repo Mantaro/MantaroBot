@@ -33,7 +33,7 @@ public interface Entity {
 				getType(), getId(), 0, getHealth(), getStamina(), false, getInventory().asList());
 	}
 
-	default String save(){
+	static String save(){
 		MantaroData.getData().save();
 		return "Saved data";
 	}
