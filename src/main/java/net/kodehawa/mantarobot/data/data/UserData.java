@@ -9,6 +9,27 @@ import java.util.Map;
 public class UserData {
 	public Map<Integer, Integer> inventory = new HashMap<>();
 	public long money = 0;
+	public int health = 250, stamina = 100;
+
+	public boolean addStamina(int amount) {
+		if (stamina + amount < 0 || stamina + amount > 100) return false;
+		stamina += amount;
+		return true;
+	}
+
+	public boolean consumeStamina(int amount) {
+		return addStamina(-amount);
+	}
+
+	public boolean addHealth(int amount) {
+		if (health - amount < 0 || health + amount > 250) return false;
+		health -= amount;
+		return true;
+	}
+
+	public boolean consumeHealth(int amount) {
+		return addHealth(-amount);
+	}
 
 	public boolean addMoney(long money) {
 		try {
@@ -27,7 +48,7 @@ public class UserData {
 
 	public boolean removeMoney(long money) {
 		if (this.money - money < 0) return false;
-		this.money = this.money - money;
+		this.money -= money;
 		return true;
 	}
 }
