@@ -36,7 +36,7 @@ public class OwnerCmd extends Module {
 	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
-	private final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*","*grabs plushie*","Momma, where's my Milk cup? *drinks and goes to sleep*"};
+	private final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
 
 	public OwnerCmd() {
 		super(Category.OWNER);

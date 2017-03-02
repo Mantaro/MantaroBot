@@ -31,7 +31,8 @@ public class Items {
 			new Item("\u270f", "Pencil", "We have plenty of those!", 5, true, false),
 		OVERFLOWED_BAG =
 			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "A reward from gaining too much money while testing.", 2, true, false) {
-				@Override public void changePrices(Random r) {
+				@Override
+				public void changePrices(Random r) {
 					price = value << (r.nextInt(10) + 15);
 				}
 			},
@@ -42,18 +43,6 @@ public class Items {
 	static {
 		Random r = new Random();
 		Async.startAsyncTask("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 3600);
-	}
-
-	public static Optional<Item> fromEmoji(String emoji) {
-		return Stream.of(ALL).filter(item -> item.getEmoji().equals(emoji)).findFirst();
-	}
-
-	public static Optional<Item> fromName(String name) {
-		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().equals(name.toLowerCase().trim())).findFirst();
-	}
-
-	public static Optional<Item> fromPartialName(String name) {
-		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().contains(name.toLowerCase().trim())).findFirst();
 	}
 
 	public static Optional<Item> fromAny(String any) {
@@ -77,8 +66,20 @@ public class Items {
 		return Optional.empty();
 	}
 
+	public static Optional<Item> fromEmoji(String emoji) {
+		return Stream.of(ALL).filter(item -> item.getEmoji().equals(emoji)).findFirst();
+	}
+
 	public static Item fromId(int id) {
 		return ALL[id];
+	}
+
+	public static Optional<Item> fromName(String name) {
+		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().equals(name.toLowerCase().trim())).findFirst();
+	}
+
+	public static Optional<Item> fromPartialName(String name) {
+		return Arrays.stream(ALL).filter(item -> item.getName().toLowerCase().trim().contains(name.toLowerCase().trim())).findFirst();
 	}
 
 	public static int idOf(Item item) {

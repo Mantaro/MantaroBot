@@ -46,14 +46,14 @@ public class MantaroData {
 		return greeting;
 	}
 
-	public static SimpleFileDataManager getKisses() {
-		if (kisses == null) kisses = new SimpleFileDataManager("kisses.txt");
-		return kisses;
-	}
-
 	public static SimpleFileDataManager getHugs() {
 		if (hugs == null) hugs = new SimpleFileDataManager("hugs.txt");
 		return hugs;
+	}
+
+	public static SimpleFileDataManager getKisses() {
+		if (kisses == null) kisses = new SimpleFileDataManager("kisses.txt");
+		return kisses;
 	}
 
 	public static SimpleFileDataManager getNoble() {

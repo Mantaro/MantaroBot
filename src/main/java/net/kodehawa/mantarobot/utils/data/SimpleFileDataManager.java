@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SimpleFileDataManager implements DataManager<List<String>> {
-	private static final Logger LOGGER = LoggerFactory.getLogger("SimpleFileDataManager");
 	public static final Pattern NEWLINE_PATTERN = Pattern.compile("\\r\\n?|\\r?\\n");
+	private static final Logger LOGGER = LoggerFactory.getLogger("SimpleFileDataManager");
 	private final List<String> data = new ArrayList<>();
 	private final Path path;
 

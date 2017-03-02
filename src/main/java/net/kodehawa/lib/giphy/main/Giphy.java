@@ -8,25 +8,26 @@ import net.kodehawa.lib.giphy.provider.Provider;
 import net.kodehawa.lib.giphy.provider.RandomProvider;
 import net.kodehawa.lib.giphy.provider.SearchProvider;
 import net.kodehawa.mantarobot.utils.Async;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Optional;
 
 public class Giphy {
-	private HashMap<String, Object> query = new HashMap<>();
 	private String GIPHY_URL = "http://api.giphy.com/v1/gifs/";
 	private String PUBLIC_API_KEY = "dc6zaTOxFJmzC";
+	private HashMap<String, Object> query = new HashMap<>();
 
-	public void trending(GuildMessageReceivedEvent event, final SearchProvider provider) {
+	public void random(final String tags, GuildMessageReceivedEvent event, final RandomProvider provider) {
 		Async.asyncThread("Gif lookup", () -> {
-			if (provider == null) throw new IllegalStateException("Provider is null"); //shouldn't happen anyway
+			if (provider == null) throw new IllegalStateException("Provider is null");
 			query.put("api_key", PUBLIC_API_KEY);
-			String json = Utils.wget(GIPHY_URL + "trending?" + Utils.urlEncodeUTF8(query), event);
+			Optional.ofNullable(tags).ifPresent(r -> query.put("tag", tags));
+			String json = Utils.wget(GIPHY_URL + "random?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
-			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Search.class));
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, RandomGif.class));
 		}).run();
 	}
 
@@ -45,17 +46,6 @@ public class Giphy {
 		}).run();
 	}
 
-	public void random(final String tags, GuildMessageReceivedEvent event, final RandomProvider provider) {
-		Async.asyncThread("Gif lookup", () -> {
-			if (provider == null) throw new IllegalStateException("Provider is null");
-			query.put("api_key", PUBLIC_API_KEY);
-			Optional.ofNullable(tags).ifPresent(r -> query.put("tag", tags));
-			String json = Utils.wget(GIPHY_URL + "random?" + Utils.urlEncodeUTF8(query), event);
-			query.clear();
-			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, RandomGif.class));
-		}).run();
-	}
-
 	public void translate(final String term, @Nullable final String rating, GuildMessageReceivedEvent event, final Provider provider) {
 		Async.asyncThread("Gif lookup", () -> {
 			if (provider == null) throw new IllegalStateException("Provider is null");
@@ -65,6 +55,16 @@ public class Giphy {
 			String json = Utils.wget(GIPHY_URL + "translate?" + Utils.urlEncodeUTF8(query), event);
 			query.clear();
 			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Gif.class));
+		}).run();
+	}
+
+	public void trending(GuildMessageReceivedEvent event, final SearchProvider provider) {
+		Async.asyncThread("Gif lookup", () -> {
+			if (provider == null) throw new IllegalStateException("Provider is null"); //shouldn't happen anyway
+			query.put("api_key", PUBLIC_API_KEY);
+			String json = Utils.wget(GIPHY_URL + "trending?" + Utils.urlEncodeUTF8(query), event);
+			query.clear();
+			provider.onSuccess(GsonDataManager.GSON_PRETTY.fromJson(json, Search.class));
 		}).run();
 	}
 }

@@ -216,7 +216,7 @@ public class CustomCmds extends Module {
 								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
-								TextChannelGround.of(event).dropItemWithChance(8,2);
+								TextChannelGround.of(event).dropItemWithChance(8, 2);
 							}
 							timer.get().disarm().explode();
 							unlock.run();
@@ -231,7 +231,7 @@ public class CustomCmds extends Module {
 
 					timer.accept(new DeathTimer(60000, () -> {
 						MantaroBot.getJDA().removeEventListener(f);
-						event.getChannel().sendMessage(EmoteReference.ERROR +"Interactive Operation **\"Creation of Custom Command ``" + cmd + "``\"** expired due to inactivity.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Interactive Operation **\"Creation of Custom Command ``" + cmd + "``\"** expired due to inactivity.").queue();
 						unlock.run();
 					}));
 
@@ -272,7 +272,7 @@ public class CustomCmds extends Module {
 					MantaroData.getData().save();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
 
-					TextChannelGround.of(event).dropItemWithChance(8,2);
+					TextChannelGround.of(event).dropItemWithChance(8, 2);
 					return;
 				}
 
@@ -280,13 +280,13 @@ public class CustomCmds extends Module {
 			}
 
 			@Override
-			protected String[] splitArgs(String content) {
-				return SPLIT_PATTERN.split(content, 3);
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
+			protected String[] splitArgs(String content) {
+				return SPLIT_PATTERN.split(content, 3);
 			}
 
 			@Override

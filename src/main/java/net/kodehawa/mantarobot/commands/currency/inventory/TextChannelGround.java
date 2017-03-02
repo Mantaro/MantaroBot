@@ -22,6 +22,7 @@ public class TextChannelGround {
 	public static TextChannelGround of(GuildMessageReceivedEvent event) {
 		return of(event.getChannel());
 	}
+
 	private final AtomicInteger money;
 	private final List<ItemStack> stacks;
 
@@ -48,6 +49,16 @@ public class TextChannelGround {
 		return dropItem(Items.ALL[item]);
 	}
 
+	public boolean dropItemWithChance(Item item, int weight) {
+		boolean doDrop = r.nextInt(weight) == 0;
+		if (doDrop) dropItem(item);
+		return doDrop;
+	}
+
+	public boolean dropItemWithChance(int item, int weight) {
+		return dropItemWithChance(Items.fromId(item), weight);
+	}
+
 	public TextChannelGround dropItems(List<ItemStack> stacks) {
 		List<ItemStack> finalStacks = new ArrayList<>(stacks);
 		this.stacks.addAll(finalStacks);
@@ -58,23 +69,13 @@ public class TextChannelGround {
 		return dropItems(Arrays.asList(stacks));
 	}
 
-	public boolean dropItemWithChance(Item item, int weight) {
-		boolean doDrop = r.nextInt(weight) == 0;
-		if (doDrop) dropItem(item);
-		return doDrop;
+	public void dropMoney(int money) {
+		this.money.addAndGet(money);
 	}
 
 	public boolean dropMoneyWithChance(int money, int weight) {
 		boolean doDrop = r.nextInt(weight) == 0;
 		if (doDrop) dropMoney(money);
 		return doDrop;
-	}
-
-	public void dropMoney(int money) {
-		this.money.addAndGet(money);
-	}
-
-	public boolean dropItemWithChance(int item, int weight) {
-		return dropItemWithChance(Items.fromId(item), weight);
 	}
 }

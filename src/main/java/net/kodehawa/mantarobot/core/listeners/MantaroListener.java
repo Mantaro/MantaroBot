@@ -28,8 +28,8 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 public class MantaroListener implements EventListener {
-	private static int commandTotal = 0;
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
+	private static int commandTotal = 0;
 	private static int logTotal = 0;
 	//Message cache of 350 messages. If it reaches 350 it will delete the first one stored, and continue being 350
 	private static TreeMap<String, Message> messageCache = new TreeMap<>();
@@ -140,54 +140,6 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	private void onUserJoin(GuildMemberJoinEvent event) {
-		String role = MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole;
-		if(role != null){
-			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> {
-				LOGGER.debug("Successfully added a new role to " + event.getMember());
-			}, error -> {
-				if(error instanceof PermissionException){
-					MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole = null;
-					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
-							messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
-				} else {
-					LOGGER.warn("Error while applying roles", error);
-				}
-			});
-		}
-
-		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
-		if (logChannel != null) {
-			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
-			logTotal++;
-		}
-	}
-
-	private void onJoin(GuildJoinEvent event) {
-		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
-
-		if(MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())){
-			event.getGuild().leave().queue();
-			tc.sendMessage(String.format(":mega: I left a guild with name: ``%s`` (%s members) since it was blacklisted.", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-			return;
-		}
-
-		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-		logTotal++;
-	}
-
-	private void onLeave(GuildLeaveEvent event) {
-		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
-		if(event.getGuild().getMembers().isEmpty()){
-			tc.sendMessage(String.format(":thinking: A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
-			logTotal++;
-			return;
-		}
-		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-		logTotal++;
-	}
-
 	private void logUnban(GuildUnbanEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
@@ -243,15 +195,15 @@ public class MantaroListener implements EventListener {
 							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
 					}
 				} catch (Exception e) {
-					if(e instanceof PermissionException){
+					if (e instanceof PermissionException) {
 						PermissionException pe = (PermissionException) e;
 						TextChannel tc = guild.getTextChannelById(
-								MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
+							MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
 						tc.sendMessage(String.format("\u274C PermissionError while removing roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
 						MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
 						MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
-					}
-					else LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
+					} else
+						LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
 				}
 			}
 		}
@@ -265,16 +217,17 @@ public class MantaroListener implements EventListener {
 			messageCache.put(event.getMessage().getId(), event.getMessage());
 		}
 		try {
-			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE)) return;
+			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE))
+				return;
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
-			if(e instanceof NumberFormatException){
+			if (e instanceof NumberFormatException) {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
 				return;
 			}
 
-			if(e instanceof IndexOutOfBoundsException){
+			if (e instanceof IndexOutOfBoundsException) {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
 				return;
 			}
@@ -285,6 +238,54 @@ public class MantaroListener implements EventListener {
 				, e.getClass().getSimpleName(), e.getMessage())).queue();
 
 			LOGGER.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
+		}
+	}
+
+	private void onJoin(GuildJoinEvent event) {
+		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
+
+		if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
+			event.getGuild().leave().queue();
+			tc.sendMessage(String.format(":mega: I left a guild with name: ``%s`` (%s members) since it was blacklisted.", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			return;
+		}
+
+		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		logTotal++;
+	}
+
+	private void onLeave(GuildLeaveEvent event) {
+		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
+		if (event.getGuild().getMembers().isEmpty()) {
+			tc.sendMessage(String.format(":thinking: A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
+			logTotal++;
+			return;
+		}
+		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		logTotal++;
+	}
+
+	private void onUserJoin(GuildMemberJoinEvent event) {
+		String role = MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole;
+		if (role != null) {
+			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> {
+				LOGGER.debug("Successfully added a new role to " + event.getMember());
+			}, error -> {
+				if (error instanceof PermissionException) {
+					MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole = null;
+					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
+						messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
+				} else {
+					LOGGER.warn("Error while applying roles", error);
+				}
+			});
+		}
+
+		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
+		if (logChannel != null) {
+			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+			tc.sendMessage("\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
+			logTotal++;
 		}
 	}
 }

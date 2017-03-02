@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
@@ -16,13 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
-import java.util.stream.Collectors;
 
 public class RandomCmds extends Module {
 
 	public RandomCmds() {
 		super(Category.FUN);
-		lewd();
 		time();
 		dice();
 	}
@@ -48,7 +45,7 @@ public class RandomCmds extends Module {
 				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(EmoteReference.DICE + "You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
-				TextChannelGround.of(event).dropItemWithChance(6,5);
+				TextChannelGround.of(event).dropItemWithChance(6, 5);
 			}
 
 			@Override
@@ -74,29 +71,6 @@ public class RandomCmds extends Module {
 			num = num + roll;
 		}
 		return num;
-	}
-
-	private void lewd() {
-		super.register("lewd", new SimpleCommand() {
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Lewd")
-					.setDescription("Y-You lewdie")
-					.build();
-			}
-
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				event.getChannel().sendMessage(lood + " Y-You lewdie!\nhttp://puu.sh/rzVEe/c8272e7c84.png").queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-		});
 	}
 
 	private void time() {

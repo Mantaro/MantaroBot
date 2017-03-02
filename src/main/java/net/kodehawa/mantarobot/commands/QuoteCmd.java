@@ -61,9 +61,9 @@ public class QuoteCmd extends Module {
 							Message m = messageHistory.get(i);
 							m.addReaction(EmoteReference.OK.getUnicode()).queue();
 							String[] sContent = {
-									m.getAuthor().getName(),
-									m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
-									m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
+								m.getAuthor().getName(),
+								m.getAuthor().getAvatarUrl(), m.getChannel().getName(),
+								m.getGuild().getName(), String.valueOf(System.currentTimeMillis())
 							};
 
 							if (MantaroData.getQuotes().get().quotes.containsKey(guild.getId())) {
@@ -101,7 +101,7 @@ public class QuoteCmd extends Module {
 						List<String> keys = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 						int quoteN = rand.nextInt(keys.size());
 						List<String> quoteElements = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys.get(quoteN));
-						if(quoteElements.isEmpty()){
+						if (quoteElements.isEmpty()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
 							return;
 						}
@@ -118,27 +118,27 @@ public class QuoteCmd extends Module {
 
 						break;
 					case "read":
-						try{
+						try {
 							int i = Integer.parseInt(phrase);
 							List<String> keys1 = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 							List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
 							EmbedBuilder embedBuilder2 = new EmbedBuilder();
-							if(quoteElements2.isEmpty()){
+							if (quoteElements2.isEmpty()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
 								return;
 							}
 
 							Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
 							embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
-									.setThumbnail(quoteElements2.get(1))
-									.setColor(Color.CYAN)
-									.setDescription("Quote made on server " + quoteElements2.get(3)	+ " in channel " + "#" + quoteElements2.get(2))
-									.addField("Content", keys1.get(i), false)
-									.setFooter("Date: " + dateFormat.format(date1), null);
+								.setThumbnail(quoteElements2.get(1))
+								.setColor(Color.CYAN)
+								.setDescription("Quote made on server " + quoteElements2.get(3) + " in channel " + "#" + quoteElements2.get(2))
+								.addField("Content", keys1.get(i), false)
+								.setFooter("Date: " + dateFormat.format(date1), null);
 							channel.sendMessage(embedBuilder2.build()).queue();
-						} catch (IndexOutOfBoundsException e){
+						} catch (IndexOutOfBoundsException e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There is no quote with such number, try with a lower one. (Max: " +
-									MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).size() + ")").queue();
+								MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).size() + ")").queue();
 							break;
 						}
 						break;
@@ -180,9 +180,9 @@ public class QuoteCmd extends Module {
 
 						break;
 					case "getfrom":
-						try{
+						try {
 							List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
-							if(quotes.isEmpty()){
+							if (quotes.isEmpty()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
 								return;
 							}
@@ -193,25 +193,25 @@ public class QuoteCmd extends Module {
 									Date date = new Date(Long.parseLong(quoteE.get(4)));
 									EmbedBuilder builder2 = new EmbedBuilder();
 									builder2.setAuthor(quoteE.get(0) + " said:", null, quoteE.get(1))
-											.setThumbnail(quoteE.get(1))
-											.setColor(Color.CYAN)
-											.setDescription("Quote made on server " + quoteE.get(3)
-													+ " in channel " + "#" + quoteE.get(2))
-											.addField("Content", quotes.get(i2), false)
-											.setFooter("Date: " + dateFormat.format(date), null);
+										.setThumbnail(quoteE.get(1))
+										.setColor(Color.CYAN)
+										.setDescription("Quote made on server " + quoteE.get(3)
+											+ " in channel " + "#" + quoteE.get(2))
+										.addField("Content", quotes.get(i2), false)
+										.setFooter("Date: " + dateFormat.format(date), null);
 									channel.sendMessage(builder2.build()).queue();
 									break;
 								}
 							}
-						} catch (IndexOutOfBoundsException e){
+						} catch (IndexOutOfBoundsException e) {
 							event.getChannel().sendMessage(
-									EmoteReference.ERROR + "No results found with the specified query. Maybe try a more specific phrase if you know it exists?")
-									.queue();
+								EmoteReference.ERROR + "No results found with the specified query. Maybe try a more specific phrase if you know it exists?")
+								.queue();
 							break;
 						}
 						break;
-				case "deletefrom":
-						try{
+					case "deletefrom":
+						try {
 							List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
 							for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
 								if (quotes.get(i2).contains(phrase)) {
@@ -220,17 +220,18 @@ public class QuoteCmd extends Module {
 									break;
 								}
 							}
-						} catch (IndexOutOfBoundsException e){
+						} catch (IndexOutOfBoundsException e) {
 							event.getChannel().sendMessage(
-									EmoteReference.ERROR + "No results found with the specified query. Maybe try a more specific phrase if you know it exists?")
-									.queue();
+								EmoteReference.ERROR + "No results found with the specified query. Maybe try a more specific phrase if you know it exists?")
+								.queue();
 							break;
 						}
 						break;
 					case "debug":
 						if (MantaroData.getConfig().get().owners.contains(event.getAuthor().getId()))
 							event.getChannel().sendMessage(Utils.paste(Utils.toPrettyJson(toJson(MantaroData.getQuotes().get().quotes)))).queue();
-						else event.getChannel().sendMessage(EmoteReference.ERROR + "What are you trying to do, silly.").queue();
+						else
+							event.getChannel().sendMessage(EmoteReference.ERROR + "What are you trying to do, silly.").queue();
 
 						break;
 					default:

@@ -116,12 +116,14 @@ public class MantaroBot {
 			Async.startAsyncTask("Carbon Thread", () -> {
 				int newC = jda.getGuilds().size();
 
-				Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
-					.header("Content-Type", "application/json")
-					.body(new JSONObject().put("key", carbonToken).put("servercount", newC).toString())
-					.asJsonAsync();
-
-				LOGGER.info("Updated Carbon Guild Count: " + newC + " guilds");
+				try {
+					LOGGER.info("Successfully posted the botdata to carbonitex.com: " + Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
+						.field("key", carbonToken)
+						.field("servercount", newC)
+						.asString().getBody());
+				} catch (Exception e) {
+					LOGGER.error("An error occured while posting the botdata to carbonitex.com", e);
+				}
 			}, 1800);
 		}
 
