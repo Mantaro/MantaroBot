@@ -26,6 +26,30 @@ public class ActionCmds extends Module {
 		kiss();
 		tsundere();
 		bloodsuck();
+		lewd();
+	}
+
+	private void lewd() {
+		super.register("lewd", new SimpleCommand() {
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Lewd")
+					.setDescription("Y-You lewdie")
+					.build();
+			}
+
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+				event.getChannel().sendMessage(lood + " Y-You lewdie!\nhttp://puu.sh/rzVEe/c8272e7c84.png").queue();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+		});
 	}
 
 	private void action() {
