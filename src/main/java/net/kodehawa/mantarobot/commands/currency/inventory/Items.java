@@ -14,30 +14,30 @@ public class Items {
 		HEADPHONES =
 			new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 50, true, false),
 		BAN_HAMMER =
-			new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 20, true, false),
+			new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 200, true, false),
 		KICK_BOOT =
-			new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 15, true, false),
+			new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 150, true, false),
 		FLOPPY_DISK =
-			new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 15, true, false),
+			new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 150, true, false),
 		MY_MATHS =
-			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 10, true, false),
+			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 100, true, false),
 		PING_RACKET =
-			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 25, true, false),
+			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 400, true, false),
 		LOADED_DICE =
-			new Item("\uD83C\uDFB2", "Loaded dice", "Stolen from `~>dice` command", 30, true, false),
+			new Item("\uD83C\uDFB2", "Loaded dice", "Stolen from `~>dice` command", 300, true, false),
 		FORGOTTEN_MUSIC =
-			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 5, true, false),
+			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 150, true, false),
 		CC_PENCIL =
-			new Item("\u270f", "Pencil", "We have plenty of those!", 5, true, false),
+			new Item("\u270f", "Pencil", "We have plenty of those!", 150, true, false),
 		OVERFLOWED_BAG =
-			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "A reward from gaining too much money while testing.", 2, true, false) {
+			new Item("\uD83D\uDCB0", "Overflowed Moneybag", "A reward from gaining too much money while testing.", 100, true, false) {
 				@Override
 				public void changePrices(Random r) {
 					price = value << (r.nextInt(10) + 15);
 				}
 			},
 		BROM_PICKAXE =
-			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much. Gives you a stackable boost when doing ~>mine.", 100, false, true)
+			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much. Gives you a stackable boost when doing ~>mine.", 2500, true, true)
 	};
 
 	static {
