@@ -44,7 +44,8 @@ public class GifCmds extends Module {
 				int image1 = Optional.ofNullable(image).isPresent() ? Integer.parseInt(image) : 0;
 				giphy.search(event, args[0], null, null, rating,
 					(query) -> {
-						String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
+						String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).unsafeChannels.stream()
+								.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 						boolean trigger = (!query.getData()[image1].getRating().equals("r") || (nsfwChannel == null)) ?
 							!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
 						MessageEmbed embed = new EmbedBuilder()
@@ -59,7 +60,7 @@ public class GifCmds extends Module {
 
 						if (trigger) event.getChannel().sendMessage(embed).queue();
 						else event.getChannel().sendMessage(EmoteReference.ERROR + "Image queried was explicit and called in channel " +
-								"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
+								"that isn't a NSFW channel. Maybe try with a higher number or another query?").queue();
 					});
 			}
 
@@ -127,7 +128,7 @@ public class GifCmds extends Module {
 
 					if (trigger) event.getChannel().sendMessage(embed).queue();
 					else event.getChannel().sendMessage(EmoteReference.ERROR + "Image queried was explicit and called in channel " +
-							"that isn't the NSFW channel. Maybe try with a higher number or another query?").queue();
+							"that isn't a NSFW channel. Maybe try with a higher number or another query?").queue();
 				}));
 			}
 
