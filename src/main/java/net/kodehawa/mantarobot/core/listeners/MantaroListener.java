@@ -270,17 +270,17 @@ public class MantaroListener implements EventListener {
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (Exception e) {
 			if(e instanceof NumberFormatException){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments.").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
 				return;
 			}
 
 			if(e instanceof IndexOutOfBoundsException){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results.").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
 				return;
 			}
 
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
-					+ "**You might want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
+					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
 					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
 				, e.getClass().getSimpleName(), e.getMessage())).queue();
 

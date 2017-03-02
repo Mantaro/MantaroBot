@@ -444,14 +444,22 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("autorole")) {
 					if (action.equals("set")) {
+						String name = content.replace(option + " " + action + " ", "");
+						List<Role> roles = event.getGuild().getRolesByName(name, true);
+						StringBuilder b = new StringBuilder();
 
-						if (event.getGuild().getRolesByName(args[2], true).isEmpty()) {
+						if (roles.isEmpty()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "We didn't find any roles with that name").queue();
 							return;
 						}
 
-						StringBuilder b = new StringBuilder();
-						List<Role> roles = event.getGuild().getRolesByName(args[2], true);
+						if(roles.size() <= 1){
+							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(0).getId();
+							event.getMessage().addReaction("\ud83d\udc4c").queue();
+							MantaroData.getData().save();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Autorole now set to role: **" + roles.get(0).getName() + "** (Position: " + roles.get(0).getPosition() + ")").queue();
+							return;
+						}
 
 						for (int i = 0; i < 5 && i < roles.size(); i++) {
 							Role role = roles.get(i);
@@ -459,13 +467,13 @@ public class ModerationCmds extends Module {
 								b.append('[').append(i + 1).append("] ").append(role.getName()).append(" | Position: ").append(role.getPosition()).append("\n");
 						}
 
-						event.getChannel().sendMessage(new EmbedBuilder().setDescription(b.toString()).build()).queue();
+						event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription(b.toString()).build()).queue();
 
 						IntConsumer roleSelector = (c) -> {
 							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(c - 1).getId();
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
 							MantaroData.getData().save();
-							event.getChannel().sendMessage(EmoteReference.OK + "Autorole now set to: " + roles.get(c - 1)).queue();
+							event.getChannel().sendMessage(EmoteReference.OK + "Autorole now set to role: **" + roles.get(c - 1).getName() + "** (Position: " + roles.get(c - 1).getPosition() + ")").queue();
 						};
 
 						DiscordUtils.selectInt(event, roles.size() + 1, roleSelector);
