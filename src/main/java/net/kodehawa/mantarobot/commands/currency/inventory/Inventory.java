@@ -18,7 +18,7 @@ public class Inventory {
 		}
 
 		public static Map<Integer, Integer> serialize(List<ItemStack> list) {
-			Map<Integer, Integer> collect = list.stream().collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
+			Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
 			collect.values().remove(0);
 			return collect;
 		}

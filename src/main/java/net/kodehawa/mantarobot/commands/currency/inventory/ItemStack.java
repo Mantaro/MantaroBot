@@ -12,7 +12,7 @@ import static net.kodehawa.mantarobot.utils.Utils.randomOrder;
 
 public class ItemStack {
 	public static Map<Item, ItemStack> mapped(List<ItemStack> list) {
-		return list.stream().collect(Collectors.toMap(ItemStack::getItem, UnaryOperator.identity(), ItemStack::join));
+		return list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(ItemStack::getItem, UnaryOperator.identity(), ItemStack::join));
 	}
 
 	public static Map<Item, ItemStack> mapped(ItemStack... stacks) {
@@ -32,12 +32,12 @@ public class ItemStack {
 	}
 
 	private static List<ItemStack> stackfy(List<Item> items, ToIntFunction<Item> amountFunction) {
-		return items.stream().map(item -> new ItemStack(item, amountFunction.applyAsInt(item))).collect(Collectors.toList());
+		return items.stream().map(item -> new ItemStack(item, amountFunction.applyAsInt(item))).filter(stack -> stack.getAmount() != 0).collect(Collectors.toList());
 	}
 
 	public static String toString(List<ItemStack> list) {
 		if (list.isEmpty()) return "There's only dust.";
-		return list.stream().map(Object::toString).sorted(randomOrder()).collect(Collectors.joining(", "));
+		return list.stream().filter(stack -> stack.getAmount() != 0).map(Object::toString).sorted(randomOrder()).collect(Collectors.joining(", "));
 	}
 
 	public static String toString(ItemStack... stacks) {
