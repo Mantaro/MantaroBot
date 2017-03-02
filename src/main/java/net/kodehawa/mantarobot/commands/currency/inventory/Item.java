@@ -6,8 +6,8 @@ public class Item {
 	protected final boolean staticPrice;
 	protected final long value;
 	private final String emoji, name, desc;
-	private boolean sellable, buyable;
 	protected long price;
+	private boolean sellable, buyable;
 
 	public Item(String emoji, String name, String desc, long value) {
 		this(emoji, name, desc, value, false, true, true);
@@ -46,15 +46,15 @@ public class Item {
 		return name;
 	}
 
-	public boolean isBuyable(){
+	public long getValue() {
+		return price;
+	}
+
+	public boolean isBuyable() {
 		return buyable;
 	}
 
-	public boolean isSellable(){
+	public boolean isSellable() {
 		return sellable;
-	}
-
-	public long getValue() {
-		return price;
 	}
 }

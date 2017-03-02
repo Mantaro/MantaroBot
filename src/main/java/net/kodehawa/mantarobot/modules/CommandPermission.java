@@ -20,12 +20,12 @@ public enum CommandPermission implements Predicate<Member> {
 	}
 
 	@Override
-	public String toString(){
-		return verbose;
+	public boolean test(Member member) {
+		return memberPredicate.test(member);
 	}
 
 	@Override
-	public boolean test(Member member) {
-		return memberPredicate.test(member);
+	public String toString() {
+		return verbose;
 	}
 }

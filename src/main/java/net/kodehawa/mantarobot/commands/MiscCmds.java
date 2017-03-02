@@ -19,7 +19,6 @@ import java.util.Random;
 public class MiscCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
 
-
 	public MiscCmds() {
 		super(Category.MISC);
 		misc();

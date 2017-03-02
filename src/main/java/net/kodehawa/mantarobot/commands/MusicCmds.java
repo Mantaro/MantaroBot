@@ -9,7 +9,9 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.*;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
+import net.kodehawa.mantarobot.commands.music.Repeat;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -43,13 +45,13 @@ public class MusicCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
-				if(content.isEmpty()){
+				if (content.isEmpty()) {
 					AudioManager am = guild.getAudioManager();
 
-					try{
+					try {
 						VoiceChannel vc = guild.getMember(event.getAuthor()).getVoiceState().getChannel();
 
-						if(vc != guild.getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()){
+						if (vc != guild.getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()) {
 							event.getChannel().sendMessage(EmoteReference.THINKING + "Bot will try and move to the channel you're on").queue();
 							AudioCmdUtils.closeAudioConnection(event, am);
 							AudioCmdUtils.openAudioConnection(event, am, vc);
@@ -58,8 +60,8 @@ public class MusicCmds extends Module {
 
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot move to the same channel.").queue();
 						return;
-					} catch (Exception e){
-						if(e instanceof PermissionException){
+					} catch (Exception e) {
+						if (e instanceof PermissionException) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot connect to a channel I cannot talk or move.").queue();
 							return;
 						}
@@ -88,7 +90,7 @@ public class MusicCmds extends Module {
 					.addField("Usage", "~>move <vc>", false)
 					.addField("Parameters", "vc: voice channel to move the bot to (exact name, caps doesn't matter).", false)
 					.addField("Special cases", "If you don't specify vc, the bot will try to move to the channel you're " +
-							"in it's different from the one the bot's in", false)
+						"in it's different from the one the bot's in", false)
 					.build();
 			}
 		});
@@ -197,7 +199,8 @@ public class MusicCmds extends Module {
 				int page = 0;
 				try {
 					page = Integer.parseInt(args[0]) - 1;
-				} catch(Exception ignored){}
+				} catch (Exception ignored) {
+				}
 				event.getChannel().sendMessage(embedForQueue(page, event.getGuild(), musicManager)).queue();
 
 				if (content.startsWith("clear")) {
@@ -224,9 +227,9 @@ public class MusicCmds extends Module {
 					.addField("Description", "Removes the specified track from the queue.", false)
 					.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
 					.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
-							"first: remove first track\n"
-							+ "next: remove next track\n"
-							+ "last: remove last track", false)
+						"first: remove first track\n"
+						+ "next: remove next track\n"
+						+ "last: remove last track", false)
 					.build();
 			}
 
@@ -279,8 +282,7 @@ public class MusicCmds extends Module {
 						if (musicManager.getTrackScheduler().getRepeat() == Repeat.QUEUE) {
 							musicManager.getTrackScheduler().setRepeat(null);
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with normal queue.").queue();
-						}
-						else {
+						} else {
 							musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating current queue.").queue();
 						}
@@ -363,7 +365,7 @@ public class MusicCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
-				if(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
+				if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
 					musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
 				int TEMP_QUEUE_LENGHT = musicManager.getTrackScheduler().getQueue().size();
 				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
@@ -399,7 +401,7 @@ public class MusicCmds extends Module {
 					return;
 				}
 				player.setVolume(volume);
-				event.getChannel().sendMessage(String.format(EmoteReference.OK +"Volume set to %d", volume)).queue();
+				event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume)).queue();
 			}
 
 			@Override

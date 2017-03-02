@@ -10,9 +10,9 @@ import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.data.GlobalUserData;
 import net.kodehawa.mantarobot.data.data.UserData;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -234,7 +234,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!rateLimiter.process(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-							"Cooldown a lil bit, you're calling me so fast that I can't get enough items!").queue();
+						"Cooldown a lil bit, you're calling me so fast that I can't get enough items!").queue();
 					return;
 				}
 
@@ -245,12 +245,12 @@ public class CurrencyCmds extends Module {
 					int itemNumber = 1;
 					String itemName = content.replace(args[0] + " ", "");
 					boolean isMassive = itemName.split(" ")[0].matches("^[0-9]*$");
-					if(isMassive){
-						try{
+					if (isMassive) {
+						try {
 							itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
 							itemName = itemName.replace(args[1] + " ", "");
-						} catch (Exception e){
-							if(e instanceof NumberFormatException){
+						} catch (Exception e) {
+							if (e instanceof NumberFormatException) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
 							}
 						}
@@ -279,7 +279,7 @@ public class CurrencyCmds extends Module {
 
 						Item toSell = Items.fromAny(itemName).orElse(null);
 
-						if(!toSell.isSellable()){
+						if (!toSell.isSellable()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.").queue();
 							return;
 						}
@@ -289,7 +289,7 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
-						int many = itemNumber * - 1;
+						int many = itemNumber * -1;
 						long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
 						user.getInventory().process(new ItemStack(toSell, many));
 
@@ -312,7 +312,7 @@ public class CurrencyCmds extends Module {
 							return;
 						}
 
-						if(!itemToBuy.isBuyable()){
+						if (!itemToBuy.isBuyable()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
 							return;
 						}

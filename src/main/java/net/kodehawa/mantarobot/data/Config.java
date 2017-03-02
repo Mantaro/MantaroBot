@@ -8,12 +8,12 @@ import java.util.List;
 
 public class Config {
 	public String alsecret = null;
+	public String carbonToken = null;
+	public String dbotsToken = null;
 	public String osuApiKey = null;
 	public List<String> owners = new ArrayList<>();
 	public String token = null;
 	public String weatherAppId = null;
-	public String dbotsToken = null;
-	public String carbonToken = null;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

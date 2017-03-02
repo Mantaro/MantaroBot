@@ -61,22 +61,22 @@ public class UtilsCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 
-				if(content.startsWith("month")){
+				if (content.startsWith("month")) {
 					Map<String, String> closeBirthdays = new HashMap<>();
 					final int currentMonth = Integer.parseInt(String.format("%02d", Calendar.MONTH));
-					event.getGuild().getMembers().forEach(member ->{
-						try{
+					event.getGuild().getMembers().forEach(member -> {
+						try {
 							Date date = format1.parse(MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
 							LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-							if(currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))){
-								closeBirthdays.put(member.getEffectiveName()+"#"+member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
+							if (currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))) {
+								closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
 							}
-						} catch (Exception e){
+						} catch (Exception e) {
 							LOGGER.debug("Error while retrieving close birthdays", e);
 						}
 					});
 
-					if(closeBirthdays.isEmpty()){
+					if (closeBirthdays.isEmpty()) {
 						event.getChannel().sendMessage("No one has a birthday this month.").queue();
 						return;
 					}
@@ -111,8 +111,8 @@ public class UtilsCmds extends Module {
 				return helpEmbed(event, "Birthday")
 					.setDescription("Sets your birthday date.\n")
 					.addField("Usage", "~>birthday <date>. Sets your birthday date. Only useful if the server enabled this functionality"
-							+ "**Parameter explanation:**\n"
-							+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
+						+ "**Parameter explanation:**\n"
+						+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
 					.addField("Tip", "To see birthdays this month do ~>birthday month", false)
 					.setColor(Color.DARK_GRAY)
 					.build();
@@ -123,6 +123,68 @@ public class UtilsCmds extends Module {
 				return CommandPermission.USER;
 			}
 
+		});
+	}
+
+	private void googleSearch() {
+		super.register("google", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				StringBuilder b = new StringBuilder();
+				EmbedBuilder builder = new EmbedBuilder();
+				List<Crawler.SearchResult> result = Crawler.get(content);
+				for (int i = 0; i < 5 && i < result.size(); i++) {
+					Crawler.SearchResult data = result.get(i);
+					if (data != null)
+						b.append('[').append(i + 1).append("] ").append(data.getTitle()).append("\n");
+				}
+
+				event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+
+				IntConsumer selector = (c) -> {
+					event.getChannel().sendMessage(EmoteReference.OK + "Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
+
+					event.getMessage().addReaction(EmoteReference.OK.getUnicode()).queue();
+				};
+				DiscordUtils.selectInt(event, result.size() + 1, selector);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Google search")
+					.setDescription("Searches on google.")
+					.addField("Usage", "~>google <query>", false)
+					.addField("Parameters", "query: The search query to look for", false)
+					.build();
+			}
+		});
+	}
+
+	private void math() {
+		super.register("math", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				try {
+					BigDecimal expressionResult = new Expression(content)
+						.setPrecision(15)
+						.setRoundingMode(RoundingMode.UP)
+						.eval();
+
+					event.getChannel().sendMessage(EmoteReference.PENCIL + "The result for your math operation is: " + expressionResult).queue();
+				} catch (RuntimeException e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong syntax: ``" + e.getMessage() + "``").queue();
+				}
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Math command")
+					.setDescription("Does your math work.")
+					.addField("Possible arguments", "You can find a list of possible arguments on: https://hastebin.com/ayafikamip.vbs", true)
+					.addField("Warning", "The floating point precision is set to 15 with a upwards rounding", true)
+					.build();
+			}
 		});
 	}
 
@@ -366,7 +428,7 @@ public class UtilsCmds extends Module {
 					.addField("Download Link", "[Click Here!](" + info.link + ")", false)
 					.build()
 				).queue();
-				TextChannelGround.of(event).dropItemWithChance(7,5);
+				TextChannelGround.of(event).dropItemWithChance(7, 5);
 			}
 
 			@Override
@@ -377,72 +439,10 @@ public class UtilsCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Youtube MP3 command")
-						.setDescription("Gives you a link to a MP3 download of almost any youtube video you want.")
-						.addField("Usage", "~>ytmp3 <youtube link>", true)
-						.addField("Parameters", "youtube link: The link of the video to translate to MP3", true)
-						.build();
-			}
-		});
-	}
-
-	private void math(){
-		super.register("math", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				try{
-					BigDecimal expressionResult = new Expression(content)
-							.setPrecision(15)
-							.setRoundingMode(RoundingMode.UP)
-							.eval();
-
-					event.getChannel().sendMessage(EmoteReference.PENCIL + "The result for your math operation is: " + expressionResult).queue();
-				} catch(RuntimeException e){
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong syntax: ``" + e.getMessage() + "``").queue();
-				}
-
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Math command")
-						.setDescription("Does your math work.")
-						.addField("Possible arguments", "You can find a list of possible arguments on: https://hastebin.com/ayafikamip.vbs", true)
-						.addField("Warning", "The floating point precision is set to 15 with a upwards rounding", true)
-						.build();
-			}
-		});
-	}
-
-	private void googleSearch(){
-		super.register("google", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				StringBuilder b = new StringBuilder();
-				EmbedBuilder builder = new EmbedBuilder();
-				List<Crawler.SearchResult> result = Crawler.get(content);
-				for (int i = 0; i < 5 && i < result.size(); i++) {
-					Crawler.SearchResult data = result.get(i);
-					if (data != null)
-						b.append('[').append(i + 1).append("] ").append(data.getTitle()).append("\n");
-				}
-
-				event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
-
-				IntConsumer selector = (c) -> {
-					event.getChannel().sendMessage(EmoteReference.OK + "Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
-
-					event.getMessage().addReaction(EmoteReference.OK.getUnicode()).queue();
-				};
-				DiscordUtils.selectInt(event, result.size() + 1, selector);
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Google search")
-						.setDescription("Searches on google.")
-						.addField("Usage", "~>google <query>", false)
-						.addField("Parameters", "query: The search query to look for", false)
-						.build();
+					.setDescription("Gives you a link to a MP3 download of almost any youtube video you want.")
+					.addField("Usage", "~>ytmp3 <youtube link>", true)
+					.addField("Parameters", "youtube link: The link of the video to translate to MP3", true)
+					.build();
 			}
 		});
 	}

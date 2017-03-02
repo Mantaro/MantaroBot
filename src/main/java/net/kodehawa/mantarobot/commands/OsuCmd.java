@@ -31,8 +31,8 @@ import java.util.concurrent.TimeoutException;
 
 public class OsuCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
-	private String mods1 = "";
 	private Map<String, Object> map = new HashMap<>();
+	private String mods1 = "";
 	private OsuClient osuClient = null;
 
 	public OsuCmd() {
@@ -88,7 +88,7 @@ public class OsuCmd extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
-				TextChannelGround.of(event).dropItemWithChance(4,5);
+				TextChannelGround.of(event).dropItemWithChance(4, 5);
 				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
@@ -124,6 +124,11 @@ public class OsuCmd extends Module {
 			}
 
 			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
+			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "osu! command")
 					.setDescription("Retrieves information from the osu!api.\n"
@@ -134,11 +139,6 @@ public class OsuCmd extends Module {
 						+ "Parameter description:\n"
 						+ "player: The osu! player to look info for.")
 					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
 			}
 		});
 	}

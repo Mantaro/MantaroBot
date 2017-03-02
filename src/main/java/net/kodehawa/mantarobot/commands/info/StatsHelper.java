@@ -41,11 +41,12 @@ public class StatsHelper {
 		return new CalculatedDoubleValues(streams.remove(0).min().orElse(0), streams.remove(0).max().orElse(0), streams.remove(0).average().orElse(0));
 	}
 
-	public static <T> CalculatedIntValues calculateInt(Collection<T> collection, ToIntFunction<T> toInt) {
-		return calculate(collection.stream().mapToInt(toInt));
-	}
 	public static <T> CalculatedDoubleValues calculateDouble(Collection<T> collection, ToDoubleFunction<T> toDouble) {
 		return calculate(collection.stream().mapToDouble(toDouble));
+	}
+
+	public static <T> CalculatedIntValues calculateInt(Collection<T> collection, ToIntFunction<T> toInt) {
+		return calculate(collection.stream().mapToInt(toInt));
 	}
 
 	public static <T> List<IntStream> clone(IntStream original, int times) {
@@ -60,6 +61,5 @@ public class StatsHelper {
 		List<T> collect = original.collect(Collectors.toList());
 		return IntStream.range(0, times).mapToObj(value -> collect.stream()).collect(Collectors.toList());
 	}
-
 
 }

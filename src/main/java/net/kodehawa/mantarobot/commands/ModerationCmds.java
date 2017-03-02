@@ -260,7 +260,7 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("nsfw")) {
 					if (action.equals("toggle")) {
-						if(guildData.unsafeChannels.contains(event.getChannel().getId())){
+						if (guildData.unsafeChannels.contains(event.getChannel().getId())) {
 							guildData.unsafeChannels.remove(event.getChannel().getId());
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
 							MantaroData.getData().save();
@@ -453,7 +453,7 @@ public class ModerationCmds extends Module {
 							return;
 						}
 
-						if(roles.size() <= 1){
+						if (roles.size() <= 1) {
 							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(0).getId();
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
 							MantaroData.getData().save();

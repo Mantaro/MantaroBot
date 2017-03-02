@@ -7,7 +7,6 @@ import ch.qos.logback.core.AppenderBase;
 import net.kodehawa.mantarobot.MantaroBot;
 
 public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
-	ILoggingEvent previousEvent;
 	private static boolean enabled = false;
 
 	public static void disable() {
@@ -17,15 +16,15 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	public static void enable() {
 		enabled = true;
 	}
-
 	private PatternLayout patternLayout;
+	private ILoggingEvent previousEvent;
 
 	@Override
 	protected void append(ILoggingEvent event) {
 		if (!enabled) return;
 		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
 		//Editing has ratelimit, so just ignore if the last message = new message.
-		if(previousEvent!= null && event.getMessage().equals(previousEvent.getMessage())) return;
+		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
 
 		MantaroBot.getJDA().getTextChannelById("266231083341840385").sendMessage(patternLayout.doLayout(event)).queue();
 		previousEvent = event;

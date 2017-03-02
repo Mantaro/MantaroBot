@@ -12,9 +12,9 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
@@ -28,8 +28,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
-	private Konachan konachan = new Konachan(true);
 	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
+	private Konachan konachan = new Konachan(true);
 	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	private boolean needRating = false;
 	private int number = 0;
@@ -55,7 +55,7 @@ public class ImageCmds extends Module {
 
 	private EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
 		String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).unsafeChannels.stream().filter
-				(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
+			(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 		boolean trigger = (rating.equals("s") || (nsfwChannel == null)) ? rating.equals("s") : nsfwChannel.equals(event.getChannel().getId());
 		if (!trigger) return new EmbedBuilder().setDescription("Not on a NSFW channel. Cannot send lewd images.");
 
@@ -69,7 +69,8 @@ public class ImageCmds extends Module {
 		} catch (IndexOutOfBoundsException e) {
 			get = new Random().nextInt(filter.size());
 		} catch (IllegalArgumentException e) {
-			if (e.getMessage().equals("bound must be positive")) return new EmbedBuilder().setDescription("No results found.");
+			if (e.getMessage().equals("bound must be positive"))
+				return new EmbedBuilder().setDescription("No results found.");
 			else return new EmbedBuilder().setDescription("Query not valid.");
 		}
 		try {
@@ -82,20 +83,20 @@ public class ImageCmds extends Module {
 
 			if (!smallRequest) {
 				return new EmbedBuilder().setAuthor("Found image", URL, null)
-						.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
-						.setImage(URL)
-						.addField("Width", String.valueOf(WIDTH), true)
-						.addField("Height", String.valueOf(HEIGHT), true)
-						.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
-						.setFooter("If the image doesn't load, click the title.", null);
-			}
-			return new EmbedBuilder().setAuthor("Found image", URL, null)
 					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
 					.setImage(URL)
 					.addField("Width", String.valueOf(WIDTH), true)
 					.addField("Height", String.valueOf(HEIGHT), true)
 					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 					.setFooter("If the image doesn't load, click the title.", null);
+			}
+			return new EmbedBuilder().setAuthor("Found image", URL, null)
+				.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(RATING) + "**")
+				.setImage(URL)
+				.addField("Width", String.valueOf(WIDTH), true)
+				.addField("Height", String.valueOf(HEIGHT), true)
+				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
+				.setFooter("If the image doesn't load, click the title.", null);
 		} catch (IndexOutOfBoundsException ex) {
 			return new EmbedBuilder().setDescription(EmoteReference.ERROR + "There are no images here, just dust.");
 		}
@@ -110,7 +111,7 @@ public class ImageCmds extends Module {
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
 					case "get":
-						try{
+						try {
 							channel.sendTyping().queue();
 							String whole1 = content.replace("get ", "");
 							String[] wholeBeheaded = whole1.split(" ");
@@ -130,12 +131,12 @@ public class ImageCmds extends Module {
 
 							EmbedBuilder builder = new EmbedBuilder();
 							builder.setAuthor("Found image", null, "https:" + URL)
-									.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-									.setImage("https:" + URL)
-									.addField("Width", String.valueOf(WIDTH), true)
-									.addField("Height", String.valueOf(HEIGHT), true)
-									.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-									.setFooter("If the image doesn't load, click the title.", null);
+								.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+								.setImage("https:" + URL)
+								.addField("Width", String.valueOf(WIDTH), true)
+								.addField("Height", String.valueOf(HEIGHT), true)
+								.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+								.setFooter("If the image doesn't load, click the title.", null);
 
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception exception) {
@@ -146,13 +147,13 @@ public class ImageCmds extends Module {
 						}
 						break;
 					case "tags":
-						try{
+						try {
 							channel.sendTyping().queue();
 							String sNoArgs = content.replace("tags ", "");
 							String[] expectedNumber = sNoArgs.split(" ");
 							int page1 = Integer.parseInt(expectedNumber[0]);
 							String tags = expectedNumber[1];
-							if(!String.valueOf(page1).matches("^[0-9]*$")){
+							if (!String.valueOf(page1).matches("^[0-9]*$")) {
 								event.getChannel().sendMessage("Not a valid page number.").queue();
 								return;
 							}
@@ -172,20 +173,20 @@ public class ImageCmds extends Module {
 
 								EmbedBuilder builder = new EmbedBuilder();
 								builder.setAuthor("Found image", null, "https:" + URL1)
-										.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
-										.setImage("https:" + URL1)
-										.addField("Width", String.valueOf(WIDTH1), true)
-										.addField("Height", String.valueOf(HEIGHT1), true)
-										.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
-										.setFooter("If the image doesn't load, click the title.", null);
+									.setDescription("Image uploaded by: " + (AUTHOR1 == null ? "not found" : AUTHOR1))
+									.setImage("https:" + URL1)
+									.addField("Width", String.valueOf(WIDTH1), true)
+									.addField("Height", String.valueOf(HEIGHT1), true)
+									.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
+									.setFooter("If the image doesn't load, click the title.", null);
 
 								channel.sendMessage(builder.build()).queue();
 							});
 						} catch (Exception exception) {
-								if (exception instanceof NumberFormatException)
-									channel.sendMessage(EmoteReference.ERROR +"Wrong argument type. Check ~>help konachan").queue();
-								if (exception instanceof IndexOutOfBoundsException)
-									channel.sendMessage(EmoteReference.ERROR +"There aren't more images! Try with a lower number.").queue();
+							if (exception instanceof NumberFormatException)
+								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue();
+							if (exception instanceof IndexOutOfBoundsException)
+								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
 					default:
@@ -199,11 +200,11 @@ public class ImageCmds extends Module {
 				return helpEmbed(event, "Konachan commmand")
 					.setColor(Color.PINK)
 					.setDescription("Retrieves images from the **Konachan** image board.")
-						.addField("Usage", "~>konachan get <page> <imagenumber>: Gets an image based in parameters.\n"
-								+ "~>konachan tags <page> <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
-						.addField("Parameters", "page: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
-								+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-								+ "tag: Any valid image tag. For example animal_ears or original.", false)
+					.addField("Usage", "~>konachan get <page> <imagenumber>: Gets an image based in parameters.\n"
+						+ "~>konachan tags <page> <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
+					.addField("Parameters", "page: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
+						+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+						+ "tag: Any valid image tag. For example animal_ears or original.", false)
 					.build();
 			}
 
