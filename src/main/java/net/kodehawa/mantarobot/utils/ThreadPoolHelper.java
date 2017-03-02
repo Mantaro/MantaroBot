@@ -27,7 +27,4 @@ public class ThreadPoolHelper {
 		executor.execute(thread);
 	}
 
-	public void startThread(String task, ThreadPoolExecutor exec, Runnable thread) {
-		exec.execute(thread);
-	}
 }

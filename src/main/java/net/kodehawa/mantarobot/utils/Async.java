@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.utils;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -10,9 +11,10 @@ public class Async {
 	private static final ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 5);
 
 	public static Runnable asyncSleepThen(final int milis, final Runnable doAfter) {
+		Objects.requireNonNull(doAfter);
 		return asyncThread(() -> {
 			sleep(milis);
-			if (doAfter != null) doAfter.run();
+			doAfter.run();
 		});
 	}
 

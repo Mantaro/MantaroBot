@@ -1,12 +1,12 @@
 package net.kodehawa.mantarobot;
 
+import br.com.brjdevs.java.utils.Holder;
 import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
-import net.kodehawa.mantarobot.commands.custom.Holder;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
@@ -35,9 +35,13 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
+	private static MantaroAudioManager audioManager;
 	private static JDA jda;
 	private static LoadState status = PRELOAD;
-	private static MantaroAudioManager audioManager;
+
+	public static MantaroAudioManager getAudioManager() {
+		return audioManager;
+	}
 
 	public static JDA getJDA() {
 		return jda;
@@ -47,9 +51,6 @@ public class MantaroBot {
 		return status;
 	}
 
-	public static MantaroAudioManager getAudioManager() {
-		return audioManager;
-	}
 	private static void init() throws Exception {
 		SimpleLogToSLF4JAdapter.install();
 		LOGGER.info("MantaroBot starting...");
@@ -90,20 +91,41 @@ public class MantaroBot {
 		Async.startAsyncTask("Splash Thread", changeStatus, 600);
 
 		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
-		Async.startAsyncTask("DBots Thread", () -> {
-			int newC = jda.getGuilds().size();
-			if (newC != guildCount.get()) {
-				guildCount.accept(newC);
 
-				Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
-					.header("Authorization", MantaroData.getConfig().get().dbotsToken)
+		String dbotsToken = config.dbotsToken;
+		String carbonToken = config.carbonToken;
+
+		if (dbotsToken != null) {
+			Async.startAsyncTask("DBots Thread", () -> {
+				int newC = jda.getGuilds().size();
+				if (newC != guildCount.get()) {
+					guildCount.accept(newC);
+
+					Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
+						.header("Authorization", dbotsToken)
+						.header("Content-Type", "application/json")
+						.body(new JSONObject().put("server_count", newC).toString())
+						.asJsonAsync();
+
+					LOGGER.info("Updated DBots Guild Count: " + newC + " guilds");
+				}
+			}, 1800);
+		}
+
+		if (carbonToken != null) {
+			Async.startAsyncTask("Carbon Thread", () -> {
+				int newC = jda.getGuilds().size();
+
+				Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
 					.header("Content-Type", "application/json")
-					.body(new JSONObject().put("server_count", newC).toString())
+					.body(new JSONObject().put("key", carbonToken).put("servercount", newC).toString())
 					.asJsonAsync();
 
-				LOGGER.info("Updated DBots Guild Count: " + newC + " guilds");
-			}
-		}, 3600);
+				LOGGER.info("Updated Carbon Guild Count: " + newC + " guilds");
+			}, 1800);
+		}
+
+		MantaroData.getConfig().save();
 
 		Set<Module> modules = new HashSet<>();
 		for (Class<? extends Module> c : classesAsync.get()) {
@@ -119,6 +141,9 @@ public class MantaroBot {
 		status = POSTLOAD;
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
 		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands");
+
+		//TODO THIS NEEDS TO BE RAN ONLY ONCE ON PROD. REMOVE THEM AFTER FIRST LOAD.
+		MantaroData.getData().get().guilds.values().forEach(guildData -> guildData.unsafeChannels.add(guildData.nsfwChannel));
 
 		modules.forEach(Module::onPostLoad);
 	}

@@ -1,8 +1,6 @@
 package net.kodehawa.mantarobot.data.data;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GuildData {
 	public String birthdayChannel = null;
@@ -13,6 +11,7 @@ public class GuildData {
 	public boolean customCommandsAdminOnly = false;
 	public String logChannel = null;
 	public String musicChannel = null;
+	public Set<String> unsafeChannels = new HashSet<>();
 	public String nsfwChannel = null;
 	public String prefix = null;
 	public Integer songDurationLimit = null;

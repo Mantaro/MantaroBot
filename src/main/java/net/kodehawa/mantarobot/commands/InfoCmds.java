@@ -79,13 +79,13 @@ public class InfoCmds extends Module {
 
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(Color.PINK)
-					.setAuthor("About Mantaro", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
+					.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
 					.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
 					.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
 						"Some of my features include:\n" +
 						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help action` for examples.\n" +
-						"\u2713 Extensive [support](https://discordapp.com/invite/cMTmuPa)!"
+						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)!"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
@@ -99,7 +99,7 @@ public class InfoCmds extends Module {
 					.addField("Users (Online/Unique)", guilds.stream().flatMap(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + event.getJDA().getUsers().size(), true)
 					.addField("Text Channels", String.valueOf(textChannels.size()), true)
 					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-					.setFooter(String.format("Invite link: https://is.gd/mantaro (Commands this session: %s | Logs this session: %s)", MantaroListener.getCommandTotal(), MantaroListener.getLogTotal()), null)
+					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Logs this session: %s)", MantaroListener.getCommandTotal(), MantaroListener.getLogTotal()), null)
 					.build()
 				).queue();
 			}

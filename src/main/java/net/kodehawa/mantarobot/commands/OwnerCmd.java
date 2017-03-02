@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import bsh.Interpreter;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -35,6 +36,7 @@ public class OwnerCmd extends Module {
 	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
+	private final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*","*grabs plushie*","Momma, where's my Milk cup? *drinks and goes to sleep*"};
 
 	public OwnerCmd() {
 		super(Category.OWNER);
@@ -257,14 +259,18 @@ public class OwnerCmd extends Module {
 				if (option.equals("scheduleshutdown") || option.equals("schedulerestart")) {
 					boolean restart = option.equals("schedulerestart");
 					if (k.equals("time")) {
-						Async.asyncSleepThen(Integer.parseInt(v), () -> {
+						double s = Double.parseDouble(v);
+						int millis = (int) (s * 1000);
+						Async.asyncSleepThen(millis, () -> {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
 								LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 							}
 							System.exit(restart ? 15 : 0);
-						});
+						}).run();
+
+						event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...").queue();
 						return;
 					}
 
@@ -285,7 +291,7 @@ public class OwnerCmd extends Module {
 
 							System.exit(restart ? 15 : 0);
 							s.shutdown();
-						}, 1000);
+						}, 2);
 						return;
 					}
 
@@ -324,7 +330,7 @@ public class OwnerCmd extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return null; //TODO Uhh
 			}
 
 			@Override
@@ -347,7 +353,7 @@ public class OwnerCmd extends Module {
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
 
-		event.getChannel().sendMessage("*goes to sleep*").complete();
+		event.getChannel().sendMessage(CollectionUtils.random(sleepQuotes)).complete();
 
 		MantaroBot.getJDA().shutdownNow(true);
 	}

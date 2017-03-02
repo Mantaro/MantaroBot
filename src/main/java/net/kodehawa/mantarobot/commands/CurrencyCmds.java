@@ -456,9 +456,10 @@ public class CurrencyCmds extends Module {
 
 				AtomicInteger integer = new AtomicInteger(1);
 
-				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : "Guild richest Users", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
+				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
-						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser)).filter(user -> !user.isBot())
+						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
+							.filter(user -> !user.isBot())
 							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).money))
 							.limit(15)
 							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).money))

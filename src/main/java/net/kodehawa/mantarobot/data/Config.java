@@ -13,6 +13,7 @@ public class Config {
 	public String token = null;
 	public String weatherAppId = null;
 	public String dbotsToken = null;
+	public String carbonToken = null;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());
