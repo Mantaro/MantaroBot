@@ -95,7 +95,7 @@ public class MantaroListener implements EventListener {
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 			tc.sendMessage
-				(":warning: `[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
+				(EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
 			logTotal++;
 		}
 	}
@@ -109,7 +109,7 @@ public class MantaroListener implements EventListener {
 				Message deletedMessage = messageCache.get(event.getMessageId());
 				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
-					tc.sendMessage(String.format(":warning: `[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
+					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
 				}
 			}
 		} catch (Exception e) {
@@ -128,7 +128,7 @@ public class MantaroListener implements EventListener {
 				User author = event.getAuthor();
 				Message editedMessage = messageCache.get(event.getMessage().getId());
 				if (!editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
-					tc.sendMessage(String.format(":warning: `[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
+					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
 					messageCache.put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
 				}
@@ -145,7 +145,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage(String.format(":warning: `[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
+			tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
 			logTotal++;
 		}
 	}
@@ -168,19 +168,19 @@ public class MantaroListener implements EventListener {
 								success -> {
 									TextChannel tc = event.getGuild().getTextChannelById(
 										MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-									tc.sendMessage(String.format(":tada: **%s is a year older now! Wish them a happy birthday.** :tada:", member.getEffectiveName())).queue();
+									tc.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:", member.getEffectiveName())).queue();
 								},
 								error -> {
 									if (error instanceof PermissionException) {
 										PermissionException pe = (PermissionException) error;
 										TextChannel tc = guild.getTextChannelById(
 											MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-										tc.sendMessage(String.format("\u274C PermissionError while appling roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
+										tc.sendMessage(String.format(EmoteReference.ERROR + "PermissionError while appling roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
 										MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
 										MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
 										MantaroData.getData().save();
 									} else {
-										channel.sendMessage(String.format("\u274C Unknown error while applying roles [%s]: <%s>: %s", birthdayRole.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
+										channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while applying roles [%s]: <%s>: %s", birthdayRole.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
 										LOGGER.warn("Unknown error while applying roles", error);
 										MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
 										MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
@@ -199,7 +199,7 @@ public class MantaroListener implements EventListener {
 						PermissionException pe = (PermissionException) e;
 						TextChannel tc = guild.getTextChannelById(
 							MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-						tc.sendMessage(String.format("\u274C PermissionError while removing roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
+						tc.sendMessage(String.format(EmoteReference.ERROR + "PermissionError while removing roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
 						MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
 						MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
 					} else
@@ -232,6 +232,12 @@ public class MantaroListener implements EventListener {
 				return;
 			}
 
+			if(e instanceof PermissionException){
+				PermissionException ex = (PermissionException) e;
+				event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + ex.getPermission()).queue();
+				return;
+			}
+
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
 					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
 					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
@@ -246,22 +252,23 @@ public class MantaroListener implements EventListener {
 
 		if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
 			event.getGuild().leave().queue();
-			tc.sendMessage(String.format(":mega: I left a guild with name: ``%s`` (%s members) since it was blacklisted.", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.MEGA + "I left a guild with name: ``%s`` (%s members) since it was blacklisted.", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			return;
 		}
 
-		tc.sendMessage(String.format(":mega: I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		tc.sendMessage(String.format(EmoteReference.MEGA + "I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}
 
 	private void onLeave(GuildLeaveEvent event) {
 		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
 		if (event.getGuild().getMembers().isEmpty()) {
-			tc.sendMessage(String.format(":thinking: A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
+			tc.sendMessage(String.format(EmoteReference.THINKING + "A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
 			logTotal++;
 			return;
 		}
-		tc.sendMessage(String.format(":cry: I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+
+		tc.sendMessage(String.format(EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 	}
 
