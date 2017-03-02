@@ -32,7 +32,7 @@ public class CurrencyCmds extends Module {
 
 		profile();
 		loot();
-		summon();
+		//summon();
 		gamble();
 		mine();
 		richest();
