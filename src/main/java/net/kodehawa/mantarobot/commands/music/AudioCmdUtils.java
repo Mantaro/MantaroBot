@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.music;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -11,6 +12,7 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.data.data.GuildData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -40,25 +42,25 @@ public class AudioCmdUtils {
 
 		if (guildMusicChannel != null) {
 			if (!userChannel.equals(guildMusicChannel)) {
-				event.getChannel().sendMessage("\u274C I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
 				return false;
 			}
 
 			if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
 				audioManager.openAudioConnection(userChannel);
-				event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
 			}
 
 			return true;
 		}
 
 		if (audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
-			event.getChannel().sendMessage(String.format("\u274C I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
+			event.getChannel().sendMessage(String.format(EmoteReference.WARNING + "I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
 			return false;
 		}
 
 		if (audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
-			event.getChannel().sendMessage(String.format("\u274C I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
+			event.getChannel().sendMessage(String.format(EmoteReference.ERROR + "I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
 			return false;
 		}
 
@@ -133,16 +135,16 @@ public class AudioCmdUtils {
 
 	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
 		if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
-			event.getChannel().sendMessage("\u2716 I can't connect to that channel because it is full!").queue();
+			event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
 			return;
 		}
 		audioManager.openAudioConnection(userChannel);
-		event.getChannel().sendMessage("\uD83D\uDCE3 Connected to channel **" + userChannel.getName() + "**!").queue();
+		event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
 	}
 
 	public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager) {
 		audioManager.closeAudioConnection();
-		event.getChannel().sendMessage("\uD83D\uDCE3 Closed audio connection.").queue();
+		event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
 	}
 
 	private static List<List<String>> chunks(List<String> bigList, int n){

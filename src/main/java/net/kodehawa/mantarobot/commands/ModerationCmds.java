@@ -259,27 +259,20 @@ public class ModerationCmds extends Module {
 				}
 
 				if (option.equals("nsfw")) {
-					if (action.equals("setchannel")) {
-						if (args.length < 3) {
-							onHelp(event);
+					if (action.equals("toggle")) {
+						if(guildData.unsafeChannels.contains(event.getChannel().getId())){
+							guildData.unsafeChannels.remove(event.getChannel().getId());
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
+							MantaroData.getData().save();
 							return;
 						}
 
-						String channel = args[2];
-						boolean isId = args[2].matches("^[0-9]*$");
-						String channelId = isId ? args[2] : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
-						guildData.nsfwChannel = channelId;
+						guildData.unsafeChannels.add(event.getChannel().getId());
 						MantaroData.getData().save();
-						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "NSFW channel set to %s (%s)", args[2], channelId)).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
 						return;
 					}
 
-					if (action.equals("disable")) {
-						guildData.nsfwChannel = null;
-						MantaroData.getData().save();
-						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "NSFW channel set to %s", "null")).queue();
-						return;
-					}
 					onHelp(event);
 					return;
 				}
@@ -503,8 +496,7 @@ public class ModerationCmds extends Module {
 						"~>opts logs disable - Disables server-wide logs.\n" +
 						"~>opts prefix set <prefix> - Sets a custom prefix for your server.\n" +
 						"~>opts prefix clear - Resets your server custom prefix.\n" +
-						"~>opts nsfw setchannel <channel> - Sets the NSFW channel for usage with explicit images in yandere.\n" +
-						"~>opts nsfw disable - Clears the NSFW channel.\n" +
+						"~>opts nsfw toggle - Toggles NSFW usage for this channel to allow usage with explicit images in yandere and other commands.\n" +
 						"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
 						"~>opts birthday disable - Disables birthday monitoring.\n" +
 						"~>opts music limit <ms> - Changes the music lenght limit.\n" +
