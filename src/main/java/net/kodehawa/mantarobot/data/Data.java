@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.data.data.GlobalUserData;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.data.data.GuildData;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 
@@ -15,7 +15,7 @@ public class Data {
 	public List<String> blacklistedUsers = new ArrayList<>();
 	public String defaultPrefix = "~>";
 	public Map<String, GuildData> guilds = new HashMap<>();
-	public Map<String, GlobalUserData> users = new HashMap<>();
+	public Map<String, EntityPlayerMP> users = new HashMap<>();
 
 	public GuildData getGuild(Guild guild, boolean isRewritable) {
 		if (isRewritable) return guilds.computeIfAbsent(guild.getId(), s -> new GuildData());
@@ -26,9 +26,9 @@ public class Data {
 		return Optional.ofNullable(getGuild(guild, false).prefix).orElse(defaultPrefix);
 	}
 
-	public GlobalUserData getUser(User user, boolean isRewritable) {
-		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new GlobalUserData());
-		return users.getOrDefault(user.getId(), new GlobalUserData());
+	public EntityPlayerMP getUser(User user, boolean isRewritable) {
+		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new EntityPlayerMP());
+		return users.getOrDefault(user.getId(), new EntityPlayerMP());
 	}
 
 	public EntityPlayer getUser(GuildMessageReceivedEvent event, boolean isRewritable) {
@@ -46,7 +46,7 @@ public class Data {
 		return getUser(user, isRewritable);
 	}
 
-	public GlobalUserData getUser(Member member, boolean isRewritable) {
+	public EntityPlayerMP getUser(Member member, boolean isRewritable) {
 		return getUser(member.getUser(), isRewritable);
 	}
 }

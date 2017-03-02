@@ -19,4 +19,20 @@ public interface Entity {
 	int getMaxHealth();
 
 	int getMaxStamina();
+
+	int getHealth();
+
+	int getStamina();
+
+	Type getType();
+
+	default String debug(){
+		return String.format(this.getClass().getSimpleName() +
+						"({type: %s, id: %s, entity: %s, health: %s, stamina: %s, processing: %s, inventory: %s})",
+				getType(), getId(), 0, getHealth(), getStamina(), false, getInventory().asList());
+	}
+
+	public enum Type{
+		PLAYER, MOB
+	}
 }

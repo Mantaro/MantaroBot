@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.data.GlobalUserData;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -61,7 +61,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer user = MantaroData.getData().get().getUser(event, true);
+				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
 
 				if (user.getMoney() <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
@@ -137,7 +137,7 @@ public class CurrencyCmds extends Module {
 		super.register("inventory", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				EntityPlayer user = MantaroData.getData().get().getUser(event, true);
+				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
@@ -178,16 +178,16 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer userData = MantaroData.getData().get().getUser(event, true);
+				EntityPlayer player = EntityPlayer.getPlayer(event.getAuthor());
 				TextChannelGround ground = TextChannelGround.of(event);
 				List<ItemStack> loot = ground.collectItems();
 				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 300);
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
-					userData.getInventory().merge(loot);
+					player.getInventory().merge(loot);
 					if (moneyFound != 0) {
-						if (userData.addMoney(moneyFound)) {
+						if (player.addMoney(moneyFound)) {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with " + moneyFound + " credits!").queue();
 						} else {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
@@ -197,12 +197,12 @@ public class CurrencyCmds extends Module {
 					}
 				} else {
 					if (moneyFound != 0) {
-						if (userData.getMoney() >= Integer.MAX_VALUE) {
+						if (player.getMoney() >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 							return;
 						}
 
-						if (userData.addMoney(moneyFound)) {
+						if (player.addMoney(moneyFound)) {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits!").queue();
 						} else {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
@@ -240,7 +240,7 @@ public class CurrencyCmds extends Module {
 				}
 
 				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
-				EntityPlayer user = MantaroData.getData().get().getUser(event, true);
+				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
 
 				if (args.length > 0) {
 					int itemNumber = 1;
@@ -369,7 +369,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = MantaroData.getData().get().getUser(event, true);
+				EntityPlayer player = EntityPlayer.getPlayer(event.getAuthor());
 
 				if(player.getStamina() < 10){
 					if(player.isProcessing()){
@@ -442,7 +442,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					EntityPlayer player = MantaroData.getData().get().getUser(event, false);
-					GlobalUserData user = MantaroData.getData().get().getUser(event.getAuthor(), false);
+					EntityPlayerMP user = MantaroData.getData().get().getUser(event.getAuthor(), false);
 
 					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
 						.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
