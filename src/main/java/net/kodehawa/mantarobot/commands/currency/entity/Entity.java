@@ -5,6 +5,13 @@ import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.UUID;
 
+/**
+ * Interface for all Entities.
+ * All entities have a UUID (Unique Identifier), a {@link net.kodehawa.mantarobot.commands.currency.inventory.Inventory}, health and stamina by default.
+ * More types of variables can and might be added to the specific entity.
+ * All entities have a {@link Type}, which determines its behaviour with the surrounding {@link net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround}
+ * Data is saved to a serialized JSON-type file for concurrent usage.
+ */
 public interface Entity {
 
 	default UUID getId() {

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Trivia extends Game {
+
 	private String expectedAnswer;
 	private int maxAttempts = 10;
 
@@ -33,7 +34,6 @@ public class Trivia extends Game {
 			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
 			expectedAnswer = data[1];
 
-			System.out.println(data[1]);
 			event.getChannel().sendMessage(EmoteReference.THINKING + data[0] + " (Type end to end the game)").queue();
 
 			return true;
@@ -63,7 +63,7 @@ public class Trivia extends Game {
 
 		if(event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)){
 			if(triviaAnswers >= maxAnswers){
-				onSuccess(player, event, 0.5);
+				onSuccess(player, event, 0.6);
 				return;
 			}
 
@@ -71,7 +71,6 @@ public class Trivia extends Game {
 			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
 			expectedAnswer = data[1];
 			event.getChannel().sendMessage(EmoteReference.THINKING + data[0]).queue();
-			System.out.println(data[1]);
 			attempts = 0;
 			return;
 		}

@@ -12,6 +12,18 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import javax.annotation.Nullable;
 import java.util.*;
 
+/**
+ * Single Guild {@link net.kodehawa.mantarobot.commands.currency.entity.Entity} wrapper.
+ * This contains all the functions necessary to make the Player interact with the TextChannelGround (World).
+ *
+ * This is extended on {@link net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP} (Global), so it also contains those objects.
+ * When returned, it will return a {@link java.lang.String}  representation of all the objects here.
+ *
+ * The user will see a representation of this if the guild is in local mode, else it will be a representation of EntityPlayerMP
+ *
+ * @see net.kodehawa.mantarobot.commands.currency.entity.Entity
+ * @author Kodehawa
+ */
 public class EntityPlayer implements Entity {
 	public Map<Integer, Integer> inventory = new HashMap<>();
 	private long money = 0;
@@ -25,6 +37,11 @@ public class EntityPlayer implements Entity {
 
 	public EntityPlayer(){}
 
+	/**
+	 * Gets the specified EntityPlayer which needs to be seeked.
+	 * @param e
+	 * @return
+	 */
 	public static EntityPlayer getPlayer(User e){
 		Objects.requireNonNull(e,  "Player user cannot be null!");
 		entity = e.toString();
