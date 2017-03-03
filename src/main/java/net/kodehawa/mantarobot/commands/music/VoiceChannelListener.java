@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEvent> {
 	private static VoiceLeaveTimer timer;
@@ -67,7 +68,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 		if (channel != null && channel.canTalk())
-			channel.sendMessage(member.equals(guild.getSelfMember()) ? "I was moved into a Voice Channel with users listening, resumed the player!" : "Someone joined the Voice Channel, resumed the player!").queue();
+			channel.sendMessage(EmoteReference.CORRECT + (member.equals(guild.getSelfMember()) ? "I was moved into a Voice Channel with users listening, resumed the player!" : "Someone joined the Voice Channel, resumed the player!")).queue();
 		timer.removeMusicPlayer(guild.getId());
 	}
 
@@ -80,7 +81,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(true);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 		if (channel != null && channel.canTalk())
-			channel.sendMessage("I was left alone in the Voice Channel so I paused the player. If nobody join this channel within 2 minutes I'll stop the player.").queue();
+			channel.sendMessage(EmoteReference.THINKING + "I was left alone in the Voice Channel so I paused the player. If nobody join this channel within 2 minutes I'll stop the player.").queue();
 		timer.addMusicPlayer(guild.getId(), 120000 + System.currentTimeMillis());
 	}
 }

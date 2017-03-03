@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -95,7 +96,7 @@ public class VoiceLeaveTimer {
 					}
 					TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 					if (channel != null && channel.canTalk()) {
-						channel.sendMessage("Nobody joined the VoiceChannel after 2 minutes, stopping the player...").queue();
+						channel.sendMessage(EmoteReference.STOPWATCH + "Nobody joined the VoiceChannel after 2 minutes, stopping the player...").queue();
 					}
 					musicManager.getTrackScheduler().stop();
 				}

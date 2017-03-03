@@ -9,6 +9,7 @@ import com.google.gson.JsonParser;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import org.apache.commons.io.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
@@ -20,10 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -145,6 +143,24 @@ public class Utils {
 		}
 
 		return webObject;
+	}
+
+	public static byte[] toByteArray(String imageUrl) {
+		Objects.requireNonNull(imageUrl);
+
+		InputStream is = null;
+		try{
+			URL url = new URL(imageUrl);
+			is = url.openStream();
+			return org.apache.commons.io.IOUtils.toByteArray(is);
+		} catch (Exception e) {
+			LOGGER.error("Cannot process file to byte[]", e);
+			return null;
+		} finally {
+			try{
+				is.close();
+			} catch (Exception ignored){}
+		}
 	}
 
 	/**
