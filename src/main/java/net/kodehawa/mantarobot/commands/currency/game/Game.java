@@ -3,21 +3,35 @@ package net.kodehawa.mantarobot.commands.currency.game;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-public interface Game {
+public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> {
 
-	boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player);
+	Game() {
+		super(GuildMessageReceivedEvent.class);
+	}
 
-	void call(GuildMessageReceivedEvent event, EntityPlayer player);
+	abstract boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player);
 
-	boolean check(GuildMessageReceivedEvent event, GameReference type);
+	abstract void call(GuildMessageReceivedEvent event, EntityPlayer player);
 
-	default void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout){
+	boolean check(GuildMessageReceivedEvent event, GameReference type){
+		if(type == null) return true;
+
+		return !TextChannelGround.of(event.getChannel()).getRunningGames().containsKey(type);
+	}
+
+	void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout){
 		player.setCurrentGame(null, event.getChannel());
 		TextChannelGround.of(event.getChannel()).removeEntity(player);
 		event.getJDA().removeEventListener(this);
 		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 60 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
 		event.getChannel().sendMessage(toSend).queue();
+	}
+
+	@Override
+	public void event(GuildMessageReceivedEvent event){
+		call(event, EntityPlayer.getPlayer(event.getAuthor()));
 	}
 }
