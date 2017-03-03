@@ -12,6 +12,7 @@ public class TextChannelGround {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
 	private static Map<Entity, GameReference> ACTIVE_ENTITIES = new HashMap<>();
+	private static Map<GameReference, Integer> ACTIVE_GAMES = new HashMap<>();
 	private static Random r = new Random(System.currentTimeMillis());
 
 	public static TextChannelGround of(String id) {
@@ -84,6 +85,25 @@ public class TextChannelGround {
 	public TextChannelGround removeEntity(Entity entity){
 		ACTIVE_ENTITIES.remove(entity);
 		return this;
+	}
+
+	public TextChannelGround addGame(GameReference game, int people){
+		//if it's running.
+		removeGame(game);
+
+		//add it with new quantity of people
+		ACTIVE_GAMES.put(game, people);
+
+		return this;
+	}
+
+	public TextChannelGround removeGame(GameReference game){
+		ACTIVE_GAMES.remove(game);
+		return this;
+	}
+
+	public Map<GameReference, Integer> getRunningGames(){
+		return ACTIVE_GAMES;
 	}
 
 	public boolean dropMoneyWithChance(int money, int weight) {

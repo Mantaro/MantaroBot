@@ -512,27 +512,4 @@ public class CurrencyCmds extends Module {
 			}
 		});
 	}
-
-	//TODO Remove before release
-	private void summon() {
-		super.register("summon", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				Random r = new Random(System.currentTimeMillis());
-				List<ItemStack> toDrop = ItemStack.stackfy(Stream.of(Items.ALL).filter(item -> r.nextBoolean()).collect(Collectors.toList()));
-				TextChannelGround.of(event).dropItems(toDrop);
-				event.getChannel().sendMessage("Dropped " + ItemStack.toString(toDrop) + " in the channel").queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
-			}
-		});
-	}
 }
