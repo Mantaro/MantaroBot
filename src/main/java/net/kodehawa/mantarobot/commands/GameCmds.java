@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.game.GameReference;
 import net.kodehawa.mantarobot.commands.currency.game.ImageGuess;
+import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
@@ -30,11 +31,13 @@ public class GameCmds extends Module {
 						guess.onStart(event, GameReference.IMAGEGUESS, player);
 					}
 
-					Async.asyncSleepThen(60000, () -> {
+					//TODO Make it actually work.
+					/*Async.asyncSleepThen(60000, () -> {
 						if(!guess.check(event, GameReference.IMAGEGUESS)) return;
+						if(EntityPlayer.getPlayer(event.getAuthor()).getGame() == null) return;
 						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 60 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
 						guess.endGame(event, player, false);
-					}).run();
+					}).run();*/
 				}
 			}
 

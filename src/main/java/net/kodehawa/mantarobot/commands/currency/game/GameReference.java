@@ -25,4 +25,9 @@ public enum GameReference {
 	public int getId() {
 		return id;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("Game({name: %s, type: %s, id: %s})", getName(), getType(), getId());
+	}
 }

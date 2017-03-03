@@ -6,6 +6,7 @@ import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -76,7 +77,8 @@ public class ImageGuess extends ListenerAdapter implements Game {
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player){
-		if(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.IMAGEGUESS){
+		if(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.IMAGEGUESS
+				&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild()))){
 			if(attempts > maxAttempts){
 				event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
 				endGame(event, player, false);
