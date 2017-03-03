@@ -2,6 +2,8 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.entity.Entity;
+import net.kodehawa.mantarobot.commands.currency.game.GameReference;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TextChannelGround {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
+	private static Map<Entity, GameReference> ACTIVE_ENTITIES = new HashMap<>();
 	private static Random r = new Random(System.currentTimeMillis());
 
 	public static TextChannelGround of(String id) {
@@ -71,6 +74,16 @@ public class TextChannelGround {
 
 	public void dropMoney(int money) {
 		this.money.addAndGet(money);
+	}
+
+	public TextChannelGround addEntity(Entity entity, GameReference game){
+		ACTIVE_ENTITIES.put(entity, game);
+		return this;
+	}
+
+	public TextChannelGround removeEntity(Entity entity){
+		ACTIVE_ENTITIES.remove(entity);
+		return this;
 	}
 
 	public boolean dropMoneyWithChance(int money, int weight) {

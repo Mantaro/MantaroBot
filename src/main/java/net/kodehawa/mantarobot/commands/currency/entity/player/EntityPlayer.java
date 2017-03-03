@@ -1,11 +1,15 @@
 package net.kodehawa.mantarobot.commands.currency.entity.player;
 
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.entity.Entity;
+import net.kodehawa.mantarobot.commands.currency.game.GameReference;
 import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityPlayer implements Entity {
@@ -17,6 +21,7 @@ public class EntityPlayer implements Entity {
 	//Don't serialize this.
 	private transient boolean processing;
 	private transient static String entity;
+	private transient GameReference currentGame;
 
 	public EntityPlayer(){}
 
@@ -123,10 +128,20 @@ public class EntityPlayer implements Entity {
 		return processing;
 	}
 
+	public GameReference getGame(){
+		return currentGame;
+	}
+
+	public void setCurrentGame(@Nullable GameReference game, TextChannel channel){
+		currentGame = game;
+		if(game != null) TextChannelGround.of(channel).addEntity(this, game);
+		else TextChannelGround.of(channel).removeEntity(this);
+	}
+
 	@Override
 	public String toString(){
 		return String.format(this.getClass().getSimpleName() +
-						"({type: %s, id: %s, entity: %s, health: %s, stamina: %s, processing: %s, inventory: %s})",
-							getType(), getId(), entity, getHealth(), getStamina(), isProcessing(), getInventory().asList());
+						"({type: %s, id: %s, entity: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s)",
+							getType(), getId(), entity, getMoney(), getHealth(), getStamina(), isProcessing(), getInventory().asList(), getGame());
 	}
 }

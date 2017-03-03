@@ -144,9 +144,6 @@ public class MantaroBot {
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
 		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands");
 
-		//TODO THIS NEEDS TO BE RAN ONLY ONCE ON PROD. REMOVE THEM AFTER FIRST LOAD.
-		MantaroData.getData().get().guilds.values().forEach(guildData -> guildData.unsafeChannels.add(guildData.nsfwChannel));
-
 		modules.forEach(Module::onPostLoad);
 	}
 
