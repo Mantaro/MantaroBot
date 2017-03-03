@@ -5,11 +5,9 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.game.GameReference;
 import net.kodehawa.mantarobot.commands.currency.game.ImageGuess;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class GameCmds extends Module {
@@ -29,6 +27,8 @@ public class GameCmds extends Module {
 					if(guess.check(event, player.getGame())){
 						event.getJDA().addEventListener(guess);
 						guess.onStart(event, GameReference.IMAGEGUESS, player);
+					} else {
+						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 					}
 
 					//TODO Make it actually work.

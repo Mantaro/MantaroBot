@@ -54,8 +54,6 @@ public class ImageGuess extends ListenerAdapter implements Game {
 			characterName = character[0].getName_first();
 			if(characterName.equals("Takane")) characterName = "Ene";
 
-			System.out.println(characterName);
-
 			event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Guess the character! You have 60 seconds and 10 attempts. Type end to end the game.").queue();
 
 			byte[] image = toByteArray(imageUrl);
@@ -86,7 +84,7 @@ public class ImageGuess extends ListenerAdapter implements Game {
 			}
 
 			if(event.getMessage().getContent().equalsIgnoreCase(characterName)){
-				long moneyAward = (long) ((player.getMoney() * 0.2) + new Random().nextInt(1200));
+				long moneyAward = (long) ((player.getMoney() * 0.2) + new Random().nextInt(400));
 				event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
 				player.addMoney(moneyAward);
 				player.setCurrentGame(null, event.getChannel());

@@ -28,7 +28,7 @@ public final class CommandProcessor {
 		if (Manager.commands.containsKey(arguments.cmdName)) {
 			Command command = Manager.commands.get(arguments.cmdName).getLeft();
 			if (!command.permissionRequired().test(arguments.event.getMember())) {
-				event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue(); //TODO KODE EMOTE HERE
+				event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();
 				return false;
 			}
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
