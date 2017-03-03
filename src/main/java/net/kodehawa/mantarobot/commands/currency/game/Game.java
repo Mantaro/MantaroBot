@@ -1,18 +1,26 @@
 package net.kodehawa.mantarobot.commands.currency.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-public abstract class Game extends ListenerAdapter {
+public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> {
+
+	Game() {
+		super(GuildMessageReceivedEvent.class);
+	}
 
 	abstract boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player);
 
 	abstract void call(GuildMessageReceivedEvent event, EntityPlayer player);
 
-	abstract boolean check(GuildMessageReceivedEvent event, GameReference type);
+	boolean check(GuildMessageReceivedEvent event, GameReference type){
+		if(type == null) return true;
+
+		return !TextChannelGround.of(event.getChannel()).getRunningGames().containsKey(type);
+	}
 
 	void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout){
 		player.setCurrentGame(null, event.getChannel());
@@ -23,7 +31,7 @@ public abstract class Game extends ListenerAdapter {
 	}
 
 	@Override
-	public void onGuildMessageReceived(GuildMessageReceivedEvent event){
+	public void event(GuildMessageReceivedEvent event){
 		call(event, EntityPlayer.getPlayer(event.getAuthor()));
 	}
 }

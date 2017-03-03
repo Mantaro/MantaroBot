@@ -28,13 +28,6 @@ public class ImageGuess extends Game {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
 
 	@Override
-	public boolean check(GuildMessageReceivedEvent event, GameReference type){
-		if(type == null) return true;
-
-		return !TextChannelGround.of(event.getChannel()).getRunningGames().containsKey(type);
-	}
-
-	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player){
 		player.setCurrentGame(type, event.getChannel());
 		TextChannelGround.of(event.getChannel()).addEntity(player, type);
@@ -83,7 +76,7 @@ public class ImageGuess extends Game {
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(characterName)) {
-			long moneyAward = (long) ((player.getMoney() * 0.2) + new Random().nextInt(350));
+			long moneyAward = (long) ((player.getMoney() * 0.1) + new Random().nextInt(350));
 			event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
 			player.addMoney(moneyAward);
 			player.setCurrentGame(null, event.getChannel());
