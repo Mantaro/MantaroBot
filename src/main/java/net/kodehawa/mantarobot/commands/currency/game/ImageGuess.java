@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.currency.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
+import net.kodehawa.mantarobot.commands.currency.entity.Entity;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
@@ -75,15 +76,15 @@ public class ImageGuess extends Game {
 			return;
 		}
 
-		if (event.getMessage().getContent().equalsIgnoreCase(characterName)) {
-			long moneyAward = (long) ((player.getMoney() * 0.1) + new Random().nextInt(350));
-			event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
-			player.addMoney(moneyAward);
-			player.setCurrentGame(null, event.getChannel());
-			player.save();
-			endGame(event, player, false);
-			return;
-		}
+			if(event.getMessage().getContent().equalsIgnoreCase(characterName)){
+				long moneyAward = (long) ((player.getMoney() * 0.1) + new Random().nextInt(350));
+				event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
+				player.addMoney(moneyAward);
+				player.setCurrentGame(null, event.getChannel());
+				Entity.save();
+				endGame(event, player, false);
+				return;
+			}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
 			endGame(event, player, false);

@@ -1,7 +1,7 @@
-package net.kodehawa.mantarolang;
+package net.kodehawa.lib.mantarolang;
 
-import net.kodehawa.mantarolang.objects.LangContainer;
-import net.kodehawa.mantarolang.objects.LangObject;
+import net.kodehawa.lib.mantarolang.objects.LangContainer;
+import net.kodehawa.lib.mantarolang.objects.LangObject;
 
 import java.util.HashMap;
 import java.util.List;

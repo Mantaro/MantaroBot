@@ -1,8 +1,8 @@
-package net.kodehawa.mantarolang.objects;
+package net.kodehawa.lib.mantarolang.objects;
 
 public class LangBoolean implements LangWrapped<Boolean>, LangContainer {
-	public static final LangBoolean TRUE = new LangBoolean(true);
 	public static final LangBoolean FALSE = new LangBoolean(false);
+	public static final LangBoolean TRUE = new LangBoolean(true);
 	private final boolean bool;
 
 	private LangBoolean(boolean bool) {
@@ -22,4 +22,10 @@ public class LangBoolean implements LangWrapped<Boolean>, LangContainer {
 
 		return invalidProperty(name);
 	}
+
+	@Override
+	public String toString() {
+		return "LangBoolean{" + bool + '}';
+	}
+
 }

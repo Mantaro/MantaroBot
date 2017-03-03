@@ -1,6 +1,6 @@
-package net.kodehawa.mantarolang;
+package net.kodehawa.lib.mantarolang;
 
-import net.kodehawa.mantarolang.objects.LangObject;
+import net.kodehawa.lib.mantarolang.objects.LangObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,11 @@ public class Runtime {
 
 	public List<LangObject> done() {
 		next();
+		return done;
+	}
+
+	public List<LangObject> doneWithoutThis() {
+		if (current != thisObj) next();
 		return done;
 	}
 

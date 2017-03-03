@@ -1,4 +1,4 @@
-package net.kodehawa.mantarolang.objects;
+package net.kodehawa.lib.mantarolang.objects;
 
 public class LangString implements LangWrapped<String> {
 	private final String s;
@@ -10,5 +10,10 @@ public class LangString implements LangWrapped<String> {
 	@Override
 	public String get() {
 		return s;
+	}
+
+	@Override
+	public String toString() {
+		return "LangString{" + '\'' + s + '\'' + '}';
 	}
 }

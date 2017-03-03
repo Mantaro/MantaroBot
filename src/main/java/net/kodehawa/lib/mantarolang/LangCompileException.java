@@ -1,4 +1,4 @@
-package net.kodehawa.mantarolang;
+package net.kodehawa.lib.mantarolang;
 
 public class LangCompileException extends RuntimeException {
 	public LangCompileException() {

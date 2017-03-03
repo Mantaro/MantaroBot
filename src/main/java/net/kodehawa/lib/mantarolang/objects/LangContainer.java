@@ -1,6 +1,6 @@
-package net.kodehawa.mantarolang.objects;
+package net.kodehawa.lib.mantarolang.objects;
 
-import net.kodehawa.mantarolang.LangRuntimeException;
+import net.kodehawa.lib.mantarolang.LangRuntimeException;
 
 public interface LangContainer extends LangObject {
 	LangObject get(String name);

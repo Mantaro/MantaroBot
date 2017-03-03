@@ -1,6 +1,6 @@
-package net.kodehawa.mantarolang;
+package net.kodehawa.lib.mantarolang;
 
-import net.kodehawa.mantarolang.objects.*;
+import net.kodehawa.lib.mantarolang.objects.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -44,7 +44,7 @@ public class MantaroLangCompiler {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T> T cast(LangObject object, Class<T> c) {
+	public static <T extends LangObject> T cast(LangObject object, Class<T> c) {
 		if (!c.isInstance(object)) throw new LangRuntimeException("Can't cast " + object + " to " + c);
 		return ((T) object);
 	}
@@ -97,7 +97,7 @@ public class MantaroLangCompiler {
 			The operation (...) have a special property on "this"
 			 */
 			if (onThis) {
-				//region OPERATIONS (...) {...} "..." 0.0
+				//region OPERATIONS (...) {...} [...] "..." 0.0
 				if (c == '(') {
 					//region OPERATION (...)
 					int pCount = 0;
@@ -113,7 +113,6 @@ public class MantaroLangCompiler {
 					}
 
 					if (pCount != -1) throw new LangCompileException("Unbalanced parenthesis at line " + line);
-
 
 					String block = functionBlock.toString().trim();
 					if (block.isEmpty()) {
@@ -149,6 +148,34 @@ public class MantaroLangCompiler {
 					} else {
 						UnaryOperator<Runtime> function = asFunction(compile(block));
 						runtime.replace((r, cur) -> closure(function, r.thisObj()));
+					}
+
+					onThis = false;
+					continue;
+					//endregion
+				} else if (c == '[') {
+					//region OPERATION [...]
+					int pCount = 0;
+					StringBuilder functionBlock = new StringBuilder();
+					i++;
+
+					for (; i < array.length; i++) {
+						c = array[i];
+						if (c == '[') pCount++;
+						if (c == ']') pCount--;
+						if (pCount == -1) break;
+						functionBlock.append(c);
+					}
+
+					if (pCount != -1) throw new LangCompileException("Unbalanced squared brackets at line " + line);
+
+					String block = functionBlock.toString().trim();
+
+					if (block.isEmpty()) {
+						runtime.replace(cur -> new LangList());
+					} else {
+						UnaryOperator<Runtime> function = asFunction(compile(block));
+						runtime.replace((r, cur) -> new LangList(function.apply(r.copy()).doneWithoutThis()));
 					}
 
 					onThis = false;
@@ -379,6 +406,14 @@ public class MantaroLangCompiler {
 					if (block.equals("this")) {
 						onThis = false;
 						continue;
+					} else if (block.equals("true")) {
+						runtime.replace(r -> LangBoolean.TRUE);
+						onThis = false;
+						continue;
+					} else if (block.equals("false")) {
+						runtime.replace(r -> LangBoolean.FALSE);
+						onThis = false;
+						continue;
 					}
 				}
 
@@ -407,12 +442,12 @@ public class MantaroLangCompiler {
 		try {
 			System.out.print("Compiling...");
 			long millis = -System.currentTimeMillis();
-			Consumer<Runtime> compiled = compile("this({{this}(this)})");
+			Consumer<Runtime> compiled = compile("[true,false].collect({this.not}).unpack()");
 			millis += System.currentTimeMillis();
 			System.out.println(" took " + millis + " ms");
 			System.out.print("Running...");
 			millis = -System.currentTimeMillis();
-			List<LangObject> result = asFunction(compiled).apply(new Runtime((LangCallable) a -> a)).done();
+			List<LangObject> result = asFunction(compiled).apply(new Runtime(null)).done();
 			millis += System.currentTimeMillis();
 			System.out.println(" took " + millis + " ms");
 

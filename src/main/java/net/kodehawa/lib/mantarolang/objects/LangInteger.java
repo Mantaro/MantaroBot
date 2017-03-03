@@ -1,4 +1,4 @@
-package net.kodehawa.mantarolang.objects;
+package net.kodehawa.lib.mantarolang.objects;
 
 public class LangInteger implements LangWrapped<Long>, LangContainer {
 	private final long number;

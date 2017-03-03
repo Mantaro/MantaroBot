@@ -1,4 +1,4 @@
-package net.kodehawa.mantarolang.objects;
+package net.kodehawa.lib.mantarolang.objects;
 
 public class LangFloat implements LangWrapped<Double> {
 	private final double number;
