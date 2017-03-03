@@ -31,6 +31,7 @@ public class GameCmds extends Module {
 					}
 
 					Async.asyncSleepThen(60000, () -> {
+						if(!guess.check(event, GameReference.IMAGEGUESS)) return;
 						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 60 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
 						guess.endGame(event, player, false);
 					}).run();
