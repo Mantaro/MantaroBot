@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.commands.currency.inventory;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.Entity;
-import net.kodehawa.mantarobot.commands.currency.game.GameReference;
+import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

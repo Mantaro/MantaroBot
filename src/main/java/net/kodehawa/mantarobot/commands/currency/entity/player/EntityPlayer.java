@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.commands.currency.entity.player;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.entity.Entity;
-import net.kodehawa.mantarobot.commands.currency.game.GameReference;
+import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;

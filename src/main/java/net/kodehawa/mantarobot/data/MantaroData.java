@@ -18,6 +18,8 @@ public class MantaroData {
 	private static SimpleFileDataManager noble;
 	private static SimpleFileDataManager patting;
 	private static GsonDataManager<QuotesData> quotes;
+	private static SimpleFileDataManager trivia;
+	private static SimpleFileDataManager pokemon;
 	private static SimpleFileDataManager splashes;
 	private static SimpleFileDataManager tsunderelines;
 
@@ -25,6 +27,17 @@ public class MantaroData {
 		if (bleach == null) bleach = new SimpleFileDataManager("bleach.txt");
 		return bleach;
 	}
+
+	public static SimpleFileDataManager getTrivia() {
+		if (trivia == null) trivia = new SimpleFileDataManager("trivia.txt");
+		return trivia;
+	}
+
+	public static SimpleFileDataManager getPokemonGuesses() {
+		if (pokemon == null) pokemon = new SimpleFileDataManager("pokemonguess.txt");
+		return pokemon;
+	}
+
 
 	public static GsonDataManager<Config> getConfig() {
 		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new, true);

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.currency.game;
 
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.game.core.Game;
@@ -13,28 +14,35 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Random;
 
-public class Trivia extends Game {
+import static net.kodehawa.mantarobot.utils.Utils.toByteArray;
+
+public class Pokemon extends Game {
+
 	private String expectedAnswer;
 	private int maxAttempts = 10;
-
-	//did you just assume I answered one
-	private int triviaAnswers = 1;
-	private int maxAnswers = 10;
 	private int attempts = 0;
-	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
-	private List<String> trivia = MantaroData.getTrivia().get();
-	private Random rand = new Random();
+	private static final Logger LOGGER = LoggerFactory.getLogger("Game[PokemonTrivia]");
 
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try{
 			player.setCurrentGame(type, event.getChannel());
 			TextChannelGround.of(event.getChannel()).addEntity(player, type);
-			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
+			Random rand = new Random();
+			List<String> guesses = MantaroData.getPokemonGuesses().get();
+			String[] data = guesses.get(rand.nextInt(guesses.size())).split("`");
+			String pokemonImage = data[0];
 			expectedAnswer = data[1];
+			byte[] image = toByteArray(pokemonImage);
 
-			System.out.println(data[1]);
-			event.getChannel().sendMessage(EmoteReference.THINKING + data[0] + " (Type end to end the game)").queue();
+			if(image == null){
+				onError(LOGGER, event, player, null);
+				return false;
+			}
+
+			event.getChannel().sendFile(image, "pokemon.jpg",
+					new MessageBuilder().append(EmoteReference.TALKING).append("Who's that pokemon?. You have 10 attempts to do it. (Type end to end the game)")
+							.build()).queue();
 
 			return true;
 		} catch (Exception e){
@@ -62,22 +70,13 @@ public class Trivia extends Game {
 		}
 
 		if(event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)){
-			if(triviaAnswers >= maxAnswers){
-				onSuccess(player, event, 0.5);
-				return;
-			}
-
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "That was it! Now you have to reply " + (maxAnswers - triviaAnswers) + " questions more to get the big prize! Type end to give up.").queue();
-			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
-			expectedAnswer = data[1];
-			event.getChannel().sendMessage(EmoteReference.THINKING + data[0]).queue();
-			System.out.println(data[1]);
-			attempts = 0;
+			onSuccess(player, event);
 			return;
 		}
 
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
 				+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
+
 		attempts++;
 	}
 }

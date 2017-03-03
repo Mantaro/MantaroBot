@@ -2,8 +2,9 @@ package net.kodehawa.mantarobot.commands.currency.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
-import net.kodehawa.mantarobot.commands.currency.entity.Entity;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.currency.game.core.Game;
+import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -47,8 +48,7 @@ public class ImageGuess extends Game {
 			byte[] image = toByteArray(imageUrl);
 
 			if(image == null){
-				event.getChannel().sendMessage(EmoteReference.SAD + "There was an error while converting the image to bytes, game needs to end.").queue();
-				endGame(event, player, false);
+				onError(LOGGER, event, player, null);
 				return false;
 			}
 
@@ -56,9 +56,7 @@ public class ImageGuess extends Game {
 
 			return true;
 		} catch (Exception e){
-			event.getChannel().sendMessage(EmoteReference.ERROR + "We cannot start this game due to an unknown error. My owners have been notified.").queue();
-			LOGGER.error("Error while starting a instance of a game", e);
-			endGame(event, player, false);
+			onError(LOGGER, event, player, e);
 			return false;
 		}
 	}
@@ -76,15 +74,10 @@ public class ImageGuess extends Game {
 			return;
 		}
 
-			if(event.getMessage().getContent().equalsIgnoreCase(characterName)){
-				long moneyAward = (long) ((player.getMoney() * 0.1) + new Random().nextInt(350));
-				event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
-				player.addMoney(moneyAward);
-				player.setCurrentGame(null, event.getChannel());
-				Entity.save();
-				endGame(event, player, false);
-				return;
-			}
+		if (event.getMessage().getContent().equalsIgnoreCase(characterName)) {
+			onSuccess(player, event);
+			return;
+		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
 			endGame(event, player, false);
@@ -92,7 +85,7 @@ public class ImageGuess extends Game {
 		}
 
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
-				+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " remaning").queue();
+				+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
 
 		attempts++;
 	}
