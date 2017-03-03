@@ -1,5 +1,7 @@
 package net.kodehawa.mantarolang;
 
+import net.kodehawa.mantarolang.objects.LangObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
