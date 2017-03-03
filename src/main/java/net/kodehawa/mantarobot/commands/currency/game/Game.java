@@ -16,7 +16,7 @@ public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> 
 
 	abstract void call(GuildMessageReceivedEvent event, EntityPlayer player);
 
-	boolean check(GuildMessageReceivedEvent event, GameReference type){
+	public boolean check(GuildMessageReceivedEvent event, GameReference type){
 		if(type == null) return true;
 
 		return !TextChannelGround.of(event.getChannel()).getRunningGames().containsKey(type);

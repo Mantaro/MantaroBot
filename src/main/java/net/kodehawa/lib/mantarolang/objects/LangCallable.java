@@ -16,11 +16,11 @@ public interface LangCallable extends LangObject {
 	}
 
 	default LangObject get(List<LangObject> list, int index) {
-		return index < list.size() ? null : list.get(index);
+		return index >= list.size() ? null : list.get(index);
 	}
 
 	default LangObject get(List<LangObject> list, int index, LangObject orDefault) {
-		return index <= list.size() ? orDefault : list.get(index);
+		return index >= list.size() ? orDefault : list.get(index);
 	}
 
 	List<LangObject> call(List<LangObject> args);

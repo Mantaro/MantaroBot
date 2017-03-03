@@ -8,6 +8,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.lib.mantarolang.MantaroLang;
+import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -23,6 +25,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -198,6 +201,15 @@ public class OwnerCmd extends Module {
 			GroovyShell sh = new GroovyShell(b);
 			try {
 				return sh.evaluate(code);
+			} catch (Exception e) {
+				return e;
+			}
+		});
+
+		evals.put("m", (event, code) -> {
+			try {
+				List<LangObject> r = new MantaroLang().eval(code);
+				return r.isEmpty() ? null : r;
 			} catch (Exception e) {
 				return e;
 			}

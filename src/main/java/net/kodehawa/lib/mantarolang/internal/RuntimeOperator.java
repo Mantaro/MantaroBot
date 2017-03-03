@@ -1,4 +1,4 @@
-package net.kodehawa.lib.mantarolang;
+package net.kodehawa.lib.mantarolang.internal;
 
 import net.kodehawa.lib.mantarolang.objects.LangObject;
 

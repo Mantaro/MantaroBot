@@ -34,23 +34,24 @@ public class LangList implements LangCallable, LangContainer {
 			case "unpack":
 				return LangCallable.of(args -> list);
 			case "collect":
-				return LangCallable.of(new LangCallable() {
-					@Override
-					public List<LangObject> call(List<LangObject> args) {
-						System.out.println(args);
-						return Collections.singletonList(new LangList(
-							list.stream()
-								.map(langObject -> {
-									System.out.println(langObject);
-									return langObject;
-								})
-								.flatMap(o -> cast(get(args, 0, (LangCallable) self -> self), LangCallable.class).call(o).stream())
-								.map(langObject -> {
-									System.out.println(langObject);
-									return langObject;
-								}).collect(Collectors.toList()))
-						);
-					}
+				return LangCallable.of(args -> {
+					LangCallable callable = cast(get(args, 0, (LangCallable) self -> self), LangCallable.class);
+					return Collections.singletonList(new LangList(
+						list.stream()
+							.flatMap(o -> callable.call(o).stream())
+							.collect(Collectors.toList()))
+					);
+				});
+			case "concat":
+				return LangCallable.of(args -> {
+					String join = cast(get(args,0, new LangString("")),LangString.class).asString();
+					LangCallable callable = cast(get(args, 1, (LangCallable) self -> self), LangCallable.class);
+					return Collections.singletonList(new LangString(
+						list.stream()
+							.flatMap(o -> callable.call(o).stream())
+							.map(LangObject::asString)
+							.collect(Collectors.joining(join))
+					));
 				});
 		}
 

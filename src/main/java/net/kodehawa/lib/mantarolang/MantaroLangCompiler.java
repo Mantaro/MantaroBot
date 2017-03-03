@@ -1,5 +1,7 @@
 package net.kodehawa.lib.mantarolang;
 
+import net.kodehawa.lib.mantarolang.internal.Runtime;
+import net.kodehawa.lib.mantarolang.internal.RuntimeOperator;
 import net.kodehawa.lib.mantarolang.objects.*;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class MantaroLangCompiler {
 
 		@Override
 		public List<LangObject> call(List<LangObject> args) {
-			return compiled.apply(new Runtime(thisObj, args.size() == 0 ? thisObj : args.get(0))).done();
+			return compiled.apply(new Runtime(get(args, 0, thisObj))).done();
 		}
 
 		@Override
@@ -74,9 +76,7 @@ public class MantaroLangCompiler {
 				case '\t':
 					continue;
 				case ',': {
-					if (onThis) {
-						runtime.replace(cur -> null);
-					}
+					if (onThis) throw new LangCompileException("Invalid character '" + c + "' at line " + line);
 
 					runtime.modify(Runtime::next);
 					onThis = true;
@@ -181,10 +181,12 @@ public class MantaroLangCompiler {
 					onThis = false;
 					continue;
 					//endregion
-				} else if (c == '"') {
+				} else if (c == '"' || c == '\'') {
 					//region OPERATION "..."
 					boolean invalid = true, escaping = false;
 					StringBuilder s = new StringBuilder();
+
+					char closeChar = c;
 
 					i++;
 					for (; i < array.length; i++) {
@@ -200,7 +202,7 @@ public class MantaroLangCompiler {
 							line++;
 						}
 
-						if (c == '"') {
+						if (c == closeChar) {
 							invalid = false;
 							break;
 						}
@@ -442,7 +444,7 @@ public class MantaroLangCompiler {
 		try {
 			System.out.print("Compiling...");
 			long millis = -System.currentTimeMillis();
-			Consumer<Runtime> compiled = compile("[true,false].collect({this.not}).unpack()");
+			Consumer<Runtime> compiled = compile(",");
 			millis += System.currentTimeMillis();
 			System.out.println(" took " + millis + " ms");
 			System.out.print("Running...");
