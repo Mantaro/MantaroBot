@@ -72,7 +72,7 @@ public interface Entity {
 	int getMaxStamina();
 
 	/**
-	 * @return How much health do I have left?
+	 * @return How much stamina do I have left?
 	 */
 	int getStamina();
 
