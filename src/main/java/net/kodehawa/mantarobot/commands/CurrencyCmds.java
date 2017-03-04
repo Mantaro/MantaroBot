@@ -60,7 +60,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
+				EntityPlayer user = EntityPlayer.getPlayer(event.getMember());
 
 				if (user.getMoney() <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
@@ -136,7 +136,7 @@ public class CurrencyCmds extends Module {
 		super.register("inventory", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
+				EntityPlayer user = EntityPlayer.getPlayer(event.getMember());
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
@@ -177,7 +177,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event.getAuthor());
+				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
 				TextChannelWorld ground = TextChannelWorld.of(event);
 				List<ItemStack> loot = ground.collectItems();
 				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 300);
@@ -239,7 +239,7 @@ public class CurrencyCmds extends Module {
 				}
 
 				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
-				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
+				EntityPlayer user = EntityPlayer.getPlayer(event.getMember());
 
 				if (args.length > 0) {
 					int itemNumber = 1;
@@ -368,7 +368,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event.getAuthor());
+				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
 
 				if (player.getStamina() < 10) {
 					if (player.isProcessing()) {

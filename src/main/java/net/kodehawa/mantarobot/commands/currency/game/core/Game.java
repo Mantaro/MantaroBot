@@ -21,7 +21,7 @@ public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> 
 
 	@Override
 	public void event(GuildMessageReceivedEvent event) {
-		call(event, EntityPlayer.getPlayer(event.getAuthor()));
+		call(event, EntityPlayer.getPlayer(event.getMember()));
 	}
 
 	public boolean check(GuildMessageReceivedEvent event, GameReference type) {

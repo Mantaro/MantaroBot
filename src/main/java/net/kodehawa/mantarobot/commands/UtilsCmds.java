@@ -6,6 +6,8 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
@@ -90,20 +92,16 @@ public class UtilsCmds extends Module {
 					return;
 				}
 
-				TextChannel channel = event.getChannel();
-				String userId = event.getMessage().getAuthor().getId();
 				Date bd1;
-				//So they don't input something that isn't a date...
 				try {
 					bd1 = format1.parse(args[0]);
 				} catch (Exception e) {
-					Optional.ofNullable(args[0]).ifPresent((s -> channel.sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue()));
+					Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage("\u274C" + args[0] + " is not a valid date or I cannot parse it.").queue()));
 					return;
 				}
 
-				MantaroData.getData().get().getUser(event.getAuthor(), true).birthdayDate = format1.format(bd1);
-				MantaroData.getData().save();
-				channel.sendMessage("\uD83D\uDCE3 Added birthday date.").queue();
+				EntityPlayerMP.getPlayer(event.getAuthor()).setBirthdayDate(format1.format(bd1)).save();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Added birthday date.").queue();
 			}
 
 			@Override

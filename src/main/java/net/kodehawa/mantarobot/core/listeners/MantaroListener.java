@@ -33,7 +33,7 @@ public class MantaroListener implements EventListener {
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	private static int commandTotal = 0;
 	private static int logTotal = 0;
-	//Message cache of 350 messages. If it reaches 350 it will delete the first one stored, and continue being 350
+	//Message cache of 1500 messages. If it reaches 1500 it will delete the first one stored, and continue being 350
 	private static TreeMap<String, Message> messageCache = new TreeMap<>();
 
 	public static String getCommandTotal() {
@@ -212,7 +212,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-		if (messageCache.size() <= 350) {
+		if (messageCache.size() <= 1500) {
 			messageCache.put(event.getMessage().getId(), event.getMessage());
 		} else {
 			messageCache.remove(messageCache.firstKey());

@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.currency.entity.player;
 
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.entity.Entity;
 import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
@@ -31,13 +31,13 @@ public class EntityPlayer implements Entity {
 	 * (INTERNAL)
 	 * Gets the specified EntityPlayer which needs to be seeked.
 	 *
-	 * @param e The user to seek for.
+	 * @param m The user to seek for.
 	 * @return The EntityPlayer instance.
 	 */
-	public static EntityPlayer getPlayer(User e) {
-		Objects.requireNonNull(e, "Player user cannot be null!");
-		entity = e.toString();
-		return MantaroData.getData().get().getUser(e, true);
+	public static EntityPlayer getPlayer(Member m) {
+		Objects.requireNonNull(m, "Player user cannot be null!");
+		entity = m.toString();
+		return MantaroData.getData().get().getUser(m, true);
 	}
 
 	/**

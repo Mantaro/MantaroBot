@@ -51,6 +51,8 @@ dependencies {
 	compile 'com.google.code.gson:gson:2.8.0'
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 
+	compile 'com.fasterxml:jackson-xml-databind:0.6.2'
+
 	compile fileTree(dir: 'lib', include: '*.jar')
 }
 
