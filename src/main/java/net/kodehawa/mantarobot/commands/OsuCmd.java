@@ -7,7 +7,7 @@ import com.osu.api.ciyfhx.UserScore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -88,7 +88,7 @@ public class OsuCmd extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
-				TextChannelGround.of(event).dropItemWithChance(4, 5);
+				TextChannelWorld.of(event).dropItemWithChance(4, 5);
 				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {

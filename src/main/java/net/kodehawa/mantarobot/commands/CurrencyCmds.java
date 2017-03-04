@@ -9,7 +9,7 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
@@ -178,7 +178,7 @@ public class CurrencyCmds extends Module {
 				}
 
 				EntityPlayer player = EntityPlayer.getPlayer(event.getAuthor());
-				TextChannelGround ground = TextChannelGround.of(event);
+				TextChannelWorld ground = TextChannelWorld.of(event);
 				List<ItemStack> loot = ground.collectItems();
 				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 300);
 
@@ -238,7 +238,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
+				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				EntityPlayer user = EntityPlayer.getPlayer(event.getAuthor());
 
 				if (args.length > 0) {
@@ -389,13 +389,13 @@ public class CurrencyCmds extends Module {
 
 				int picks = player.getInventory().asMap().getOrDefault(Items.BROM_PICKAXE, new ItemStack(Items.BROM_PICKAXE, 0)).getAmount();
 				if (picks == 0) {
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
 					return;
 				}
 
 				player.consumeStamina(10);
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
-				boolean dropped = TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
+				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				String toSend = "";
 
 				//Little chance, but chance.
@@ -468,7 +468,7 @@ public class CurrencyCmds extends Module {
 					).queue();
 					return;
 				}
-				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
+				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a valid user.").queue();
 			}
 

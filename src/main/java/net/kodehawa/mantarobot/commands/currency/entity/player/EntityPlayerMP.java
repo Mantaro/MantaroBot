@@ -13,5 +13,23 @@ package net.kodehawa.mantarobot.commands.currency.entity.player;
  * @author Kodehawa
  */
 public class EntityPlayerMP extends EntityPlayer {
+	/**
+	 * The birthday date for the specified user. It's *always* global.
+	 */
 	public String birthdayDate = null;
+
+	/**
+	 * Sets this {@link EntityPlayer} birthday date.
+	 * @param birthdayDate The date to set.
+	 */
+	public void setBirthdayDate(String birthdayDate) {
+		this.birthdayDate = birthdayDate;
+	}
+
+	/**
+	 * Gets this {@link EntityPlayer} birthday date.
+	 */
+	public String getBirthdayDate() {
+		return birthdayDate;
+	}
 }

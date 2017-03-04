@@ -5,7 +5,7 @@ import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.game.core.Game;
 import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -32,7 +32,7 @@ public class ImageGuess extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player){
 		player.setCurrentGame(type, event.getChannel());
-		TextChannelGround.of(event.getChannel()).addEntity(player, type);
+		TextChannelWorld.of(event.getChannel()).addEntity(player, type);
 		int random = new Random().nextInt(search.length);
 		try{
 			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(search[random], "UTF-8"), authToken);

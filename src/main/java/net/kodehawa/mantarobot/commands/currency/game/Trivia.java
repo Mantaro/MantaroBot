@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.game.core.Game;
 import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class Trivia extends Game {
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try{
 			player.setCurrentGame(type, event.getChannel());
-			TextChannelGround.of(event.getChannel()).addEntity(player, type);
+			TextChannelWorld.of(event.getChannel()).addEntity(player, type);
 			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
 			expectedAnswer = data[1];
 

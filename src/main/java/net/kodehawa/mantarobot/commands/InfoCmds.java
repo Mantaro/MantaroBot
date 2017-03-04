@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.CurrencyManager;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -338,7 +338,7 @@ public class InfoCmds extends Module {
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
 					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping)).queue();
-					TextChannelGround.of(event).dropItemWithChance(5, 5);
+					TextChannelWorld.of(event).dropItemWithChance(5, 5);
 				});
 			}
 
@@ -391,7 +391,7 @@ public class InfoCmds extends Module {
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
 							.build()
 					).queue();
-					TextChannelGround.of(event).dropItemWithChance(4, 5);
+					TextChannelWorld.of(event).dropItemWithChance(4, 5);
 					return;
 				}
 
@@ -408,12 +408,12 @@ public class InfoCmds extends Module {
 						.addField("Remaining from assigned:", getFreeMemory() + "MB", true)
 						.build()
 					).queue();
-					TextChannelGround.of(event).dropItemWithChance(4, 5);
+					TextChannelWorld.of(event).dropItemWithChance(4, 5);
 					return;
 				}
 
 				if (args[0].equals("vps")) {
-					TextChannelGround.of(event).dropItemWithChance(4, 5);
+					TextChannelWorld.of(event).dropItemWithChance(4, 5);
 					EmbedBuilder embedBuilder = new EmbedBuilder()
 						.setAuthor("Mantaro's VPS information", null, "https://puu.sh/sMsVC/576856f52b.png")
 						.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")

@@ -1,36 +1,39 @@
-package net.kodehawa.mantarobot.commands.currency.inventory;
+package net.kodehawa.mantarobot.commands.currency.world;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.Entity;
 import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
+import net.kodehawa.mantarobot.commands.currency.inventory.Item;
+import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TextChannelGround {
+public class TextChannelWorld {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
 	private static Map<Entity, GameReference> ACTIVE_ENTITIES = new HashMap<>();
 	private static Map<GameReference, Integer> ACTIVE_GAMES = new HashMap<>();
 	private static Random r = new Random(System.currentTimeMillis());
 
-	public static TextChannelGround of(String id) {
-		return new TextChannelGround(DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()), DROPPED_MONEY.computeIfAbsent(id, k -> new AtomicInteger(0)));
+	public static TextChannelWorld of(String id) {
+		return new TextChannelWorld(DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()), DROPPED_MONEY.computeIfAbsent(id, k -> new AtomicInteger(0)));
 	}
 
-	public static TextChannelGround of(TextChannel channel) {
+	public static TextChannelWorld of(TextChannel channel) {
 		return of(channel.getId());
 	}
 
-	public static TextChannelGround of(GuildMessageReceivedEvent event) {
+	public static TextChannelWorld of(GuildMessageReceivedEvent event) {
 		return of(event.getChannel());
 	}
 
 	private final AtomicInteger money;
 	private final List<ItemStack> stacks;
 
-	private TextChannelGround(List<ItemStack> stacks, AtomicInteger money) {
+	private TextChannelWorld(List<ItemStack> stacks, AtomicInteger money) {
 		this.stacks = stacks;
 		this.money = money;
 	}
@@ -45,11 +48,11 @@ public class TextChannelGround {
 		return money.getAndSet(0);
 	}
 
-	public TextChannelGround dropItem(Item item) {
+	public TextChannelWorld dropItem(Item item) {
 		return dropItems(new ItemStack(item, 1));
 	}
 
-	public TextChannelGround dropItem(int item) {
+	public TextChannelWorld dropItem(int item) {
 		return dropItem(Items.ALL[item]);
 	}
 
@@ -63,13 +66,13 @@ public class TextChannelGround {
 		return dropItemWithChance(Items.fromId(item), weight);
 	}
 
-	public TextChannelGround dropItems(List<ItemStack> stacks) {
+	public TextChannelWorld dropItems(List<ItemStack> stacks) {
 		List<ItemStack> finalStacks = new ArrayList<>(stacks);
 		this.stacks.addAll(finalStacks);
 		return this;
 	}
 
-	public TextChannelGround dropItems(ItemStack... stacks) {
+	public TextChannelWorld dropItems(ItemStack... stacks) {
 		return dropItems(Arrays.asList(stacks));
 	}
 
@@ -77,17 +80,17 @@ public class TextChannelGround {
 		this.money.addAndGet(money);
 	}
 
-	public TextChannelGround addEntity(Entity entity, GameReference game){
+	public TextChannelWorld addEntity(Entity entity, GameReference game){
 		ACTIVE_ENTITIES.put(entity, game);
 		return this;
 	}
 
-	public TextChannelGround removeEntity(Entity entity){
+	public TextChannelWorld removeEntity(Entity entity){
 		ACTIVE_ENTITIES.remove(entity);
 		return this;
 	}
 
-	public TextChannelGround addGame(GameReference game, int people){
+	public TextChannelWorld addGame(GameReference game, int people){
 		//if it's running.
 		removeGame(game);
 
@@ -97,7 +100,7 @@ public class TextChannelGround {
 		return this;
 	}
 
-	public TextChannelGround removeGame(GameReference game){
+	public TextChannelWorld removeGame(GameReference game){
 		ACTIVE_GAMES.remove(game);
 		return this;
 	}

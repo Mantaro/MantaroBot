@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.custom.DeathTimer;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
@@ -216,7 +216,7 @@ public class CustomCmds extends Module {
 								Manager.commands.put(saveTo, cmdPair);
 								MantaroData.getData().save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
-								TextChannelGround.of(event).dropItemWithChance(8, 2);
+								TextChannelWorld.of(event).dropItemWithChance(8, 2);
 							}
 							timer.get().disarm().explode();
 							unlock.run();
@@ -272,7 +272,7 @@ public class CustomCmds extends Module {
 					MantaroData.getData().save();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
 
-					TextChannelGround.of(event).dropItemWithChance(8, 2);
+					TextChannelWorld.of(event).dropItemWithChance(8, 2);
 					return;
 				}
 

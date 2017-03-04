@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.Repeat;
@@ -108,7 +108,7 @@ public class MusicCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Now playing ->``%s (%s)``", musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length))).queue();
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -140,7 +140,7 @@ public class MusicCmds extends Module {
 				String toSend = EmoteReference.MEGA + (paused ? "Player paused." : "Player unpaused.");
 				musicManager.getTrackScheduler().getAudioPlayer().setPaused(paused);
 				event.getChannel().sendMessage(toSend).queue();
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -171,7 +171,7 @@ public class MusicCmds extends Module {
 				}
 
 				MantaroBot.getAudioManager().loadAndPlay(event, content);
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -210,7 +210,7 @@ public class MusicCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGHT + " songs** from the queue.").queue();
 					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				}
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -262,7 +262,7 @@ public class MusicCmds extends Module {
 					}
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed track **" + list.remove(i).getInfo().title + "** from the queue.").queue();
-					TextChannelGround.of(event).dropItemWithChance(0, 10);
+					TextChannelWorld.of(event).dropItemWithChance(0, 10);
 				});
 			}
 
@@ -298,7 +298,7 @@ public class MusicCmds extends Module {
 						}
 						break;
 				}
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -324,7 +324,7 @@ public class MusicCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().shuffle();
 				event.getChannel().sendMessage(EmoteReference.OK + "Randomized current queue order.").queue();
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -346,7 +346,7 @@ public class MusicCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try{
 					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
-					TextChannelGround.of(event).dropItemWithChance(0, 10);
+					TextChannelWorld.of(event).dropItemWithChance(0, 10);
 				} catch (NullPointerException e){
 					event.getChannel().sendMessage(EmoteReference.ERROR  + "There is no track to skip").queue();
 				}
@@ -377,7 +377,7 @@ public class MusicCmds extends Module {
 				event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGHT + " songs** from the queue.").queue();
 				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				event.getGuild().getAudioManager().closeAudioConnection();
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override

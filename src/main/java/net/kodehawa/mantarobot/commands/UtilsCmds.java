@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
-import net.kodehawa.mantarobot.commands.currency.inventory.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -428,7 +428,7 @@ public class UtilsCmds extends Module {
 					.addField("Download Link", "[Click Here!](" + info.link + ")", false)
 					.build()
 				).queue();
-				TextChannelGround.of(event).dropItemWithChance(7, 5);
+				TextChannelWorld.of(event).dropItemWithChance(7, 5);
 			}
 
 			@Override
