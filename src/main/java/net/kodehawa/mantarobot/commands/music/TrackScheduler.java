@@ -50,6 +50,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	@Override
 	public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
 		if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
+			super.onTrackException(player, track, exception);
 			getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage() + " (Severity: " + exception.severity + ")").queue();
 			//next(true);
 		}
@@ -59,6 +60,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
 		if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
 			getCurrentTrack().getRequestedChannel().sendMessage("Track got stuck, skipping...").queue();
+			super.onTrackStuck(player, track, thresholdMs);
 			//next(true);
 		}
 	}
