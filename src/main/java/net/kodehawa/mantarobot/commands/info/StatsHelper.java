@@ -4,10 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+import java.util.stream.*;
 
 public class StatsHelper {
 	public static class CalculatedDoubleValues {
@@ -62,4 +59,7 @@ public class StatsHelper {
 		return IntStream.range(0, times).mapToObj(value -> collect.stream()).collect(Collectors.toList());
 	}
 
+	public static List<LongStream> clone(LongStream original, int times) {
+		return clone(original.mapToObj(Long::valueOf), times).stream().map(s -> s.mapToLong(Long::longValue)).collect(Collectors.toList());
+	}
 }
