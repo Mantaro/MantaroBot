@@ -78,7 +78,7 @@ public class GuildStatsManager {
 			.limit(5)
 			.map(entry -> {
 				int percent = entry.getValue().get() * 100 / total;
-				return String.format("%s %d%% (%d) **%s**", bar(percent, 15), percent, entry.getValue().get(), entry.getKey().toString());
+				return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, entry.getKey().toString(), entry.getValue().get());
 			})
 			.collect(Collectors.joining("\n")));
 	}

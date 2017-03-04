@@ -439,37 +439,27 @@ public class CurrencyCmds extends Module {
 		super.register("profile", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					EntityPlayer player = MantaroData.getData().get().getUser(event, false);
-					EntityPlayerMP user = MantaroData.getData().get().getUser(event.getAuthor(), false);
+				EntityPlayer player = MantaroData.getData().get().getUser(event, false);
+				User author = event.getAuthor();
+				EntityPlayerMP user = MantaroData.getData().get().getUser(author, false);
+				Member member = event.getMember();
 
-					event.getChannel().sendMessage(baseEmbed(event, event.getMember().getEffectiveName() + "'s Profile", event.getAuthor().getEffectiveAvatarUrl())
-						.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
-						.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
-						.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
-						.setDescription("HP: " + CommandStatsManager.bar(player.getHealth() / 100 * player.getMaxHealth(), 15)
-							+ "(" + player.getHealth() + ")\n" +
-							" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 15)
-							+ "(" + player.getStamina() + ")")
-						.build()
-					).queue();
-					return;
-				} else if (!event.getMessage().getMentionedUsers().isEmpty()) {
-					User user = event.getMessage().getMentionedUsers().get(0);
-					EntityPlayer player = MantaroData.getData().get().getUser(event, false);
-					event.getChannel().sendMessage(baseEmbed(event, user.getName() + "'s Profile", user.getEffectiveAvatarUrl())
-						.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
-						.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
-						.setDescription("HP: " + CommandStatsManager.bar(player.getHealth() / 100 * player.getMaxHealth(), 10)
-							+ "(" + player.getHealth() + ")\n" +
-							" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 10)
-							+ "(" + player.getStamina() + ")")
-						.build()
-					).queue();
-					return;
+				if (!event.getMessage().getMentionedUsers().isEmpty()) {
+					author = event.getMessage().getMentionedUsers().get(0);
+					member = event.getGuild().getMember(author);
+
+					user = MantaroData.getData().get().getUser(author, false);
+					player = MantaroData.getData().get().getUser(member, false);
 				}
-				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a valid user.").queue();
+
+				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+					.addField(EmoteReference.HEART + "Health", "**" + player.getHealth() + "** " + CommandStatsManager.bar((int) (((double) player.getHealth() / (double) player.getMaxHealth()) * 100), 15), false)
+					.addField(EmoteReference.RUNNER + "Stamina", "**" + player.getStamina() + "** " + CommandStatsManager.bar((int) (((double) player.getStamina() / (double) player.getMaxStamina()) * 100), 15), false)
+					.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
+					.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
+					.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
+					.build()
+				).queue();
 			}
 
 			@Override
