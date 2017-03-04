@@ -8,12 +8,12 @@ import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 public class Hangman extends Game {
 
 	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
-		return false;
+	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
+
 	}
 
 	@Override
-	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-
+	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
+		return false;
 	}
 }

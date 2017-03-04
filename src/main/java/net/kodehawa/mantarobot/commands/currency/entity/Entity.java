@@ -16,20 +16,26 @@ import java.util.UUID;
 public interface Entity {
 
 	/**
-	 * @return The ID of this Entity.
+	 * The possible {@link Entity} types possible.
 	 */
-	default UUID getId() {
-		return UUID.randomUUID();
+	enum Type {
+		PLAYER("player"), MOB("mob"), SPECIAL("entity");
+
+		String type;
+
+		Type(String s) {
+			type = s;
+		}
+
+		@Override
+		public String toString() {
+			return type;
+		}
 	}
 
 	/**
-	 * A wrapper for Inventory.
-	 * @return The inventory for this entity.
-	 */
-	Inventory getInventory();
-
-	/**
 	 * Adds x amount of health to the entity. Used in recovery and potion process.
+	 *
 	 * @param amount How much?
 	 * @return Did it pass through? Please? (aka, did it not overflow?)
 	 */
@@ -37,10 +43,23 @@ public interface Entity {
 
 	/**
 	 * Adds x amount of stamina to the entity. Used in recovery and potion process.
+	 *
 	 * @param amount How much?
 	 * @return Did it pass through? Please? (aka, did it not overflow?)
 	 */
 	boolean addStamina(int amount);
+
+	/**
+	 * @return How much health do I have left?
+	 */
+	int getHealth();
+
+	/**
+	 * A wrapper for Inventory.
+	 *
+	 * @return The inventory for this entity.
+	 */
+	Inventory getInventory();
 
 	/**
 	 * @return How much health do I have to spare?
@@ -55,15 +74,11 @@ public interface Entity {
 	/**
 	 * @return How much health do I have left?
 	 */
-	int getHealth();
-
-	/**
-	 * @return How much health do I have left?
-	 */
 	int getStamina();
 
 	/**
 	 * The specified {@link Entity} type. Used for {@link TextChannelWorld} interactions.
+	 *
 	 * @return What am I?
 	 */
 	Type getType();
@@ -71,36 +86,26 @@ public interface Entity {
 	/**
 	 * @return A string representation of this {@link Entity}
 	 */
-	default String debug(){
+	default String debug() {
 		return String.format(this.getClass().getSimpleName() +
-						"({type: %s, id: %s, entity: %s, health: %s, stamina: %s, processing: %s, inventory: %s})",
-				getType(), getId(), 0, getHealth(), getStamina(), false, getInventory().asList());
+				"({type: %s, id: %s, entity: %s, health: %s, stamina: %s, processing: %s, inventory: %s})",
+			getType(), getId(), 0, getHealth(), getStamina(), false, getInventory().asList());
+	}
+
+	/**
+	 * @return The ID of this Entity.
+	 */
+	default UUID getId() {
+		return UUID.randomUUID();
 	}
 
 	/**
 	 * Saves the current Entity data, if needed. Only used for players.
+	 *
 	 * @return like, idk why it even returns.
 	 */
-	default String save(){
+	default String save() {
 		MantaroData.getData().save();
 		return "Saved data";
-	}
-
-	/**
-	 * The possible {@link Entity} types possible.
-	 */
-	enum Type{
-		PLAYER("player"), MOB("mob"), SPECIAL("entity");
-
-		String type;
-
-		Type(String s){
-			type = s;
-		}
-
-		@Override
-		public String toString() {
-			return type;
-		}
 	}
 }

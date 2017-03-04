@@ -67,6 +67,7 @@ public class RandomGif {
 		}
 
 	}
+
 	public Data data = null;
 	public Meta meta = null;
 

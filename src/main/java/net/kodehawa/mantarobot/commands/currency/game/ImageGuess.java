@@ -21,50 +21,18 @@ import static net.kodehawa.mantarobot.utils.Utils.toByteArray;
 
 public class ImageGuess extends Game {
 
-	private int maxAttempts = 10;
-	private int attempts = 0;
-	private String characterName = null;
-	private String[] search = {"Mato Kuroi", "Kotori Kanbe", "Kotarou Tennouji", "Akane Senri", "Misaki Mei", "Tomoe Mami"
-						, "Shintaro Kisaragi", "Momo Kisaragi", "Takane Enomoto", "Ruuko Kominato", "Homura Akemi", "Madoka Kaname"};
-	private String authToken = AnimeCmds.authToken;
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
-
-	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player){
-		player.setCurrentGame(type, event.getChannel());
-		TextChannelWorld.of(event.getChannel()).addEntity(player, type);
-		int random = new Random().nextInt(search.length);
-		try{
-			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(search[random], "UTF-8"), authToken);
-			String json = Utils.wget(url, event);
-			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
-
-			String imageUrl = character[0].getImage_url_med();
-			characterName = character[0].getName_first();
-			if(characterName.equals("Takane")) characterName = "Ene";
-
-			event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Guess the character! You have 60 seconds and 10 attempts. Type end to end the game.").queue();
-
-			byte[] image = toByteArray(imageUrl);
-
-			if(image == null){
-				onError(LOGGER, event, player, null);
-				return false;
-			}
-
-			event.getChannel().sendFile(image, "image.png", null).queue();
-
-			return true;
-		} catch (Exception e){
-			onError(LOGGER, event, player, e);
-			return false;
-		}
-	}
+	private int attempts = 0;
+	private String authToken = AnimeCmds.authToken;
+	private String characterName = null;
+	private int maxAttempts = 10;
+	private String[] search = {"Mato Kuroi", "Kotori Kanbe", "Kotarou Tennouji", "Akane Senri", "Misaki Mei", "Tomoe Mami"
+		, "Shintaro Kisaragi", "Momo Kisaragi", "Takane Enomoto", "Ruuko Kominato", "Homura Akemi", "Madoka Kaname"};
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
 		if (!(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.IMAGEGUESS
-				&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
+			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
 		}
 
@@ -85,9 +53,41 @@ public class ImageGuess extends Game {
 		}
 
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
-				+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
+			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
 
 		attempts++;
+	}
+
+	@Override
+	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
+		player.setCurrentGame(type, event.getChannel());
+		TextChannelWorld.of(event.getChannel()).addEntity(player, type);
+		int random = new Random().nextInt(search.length);
+		try {
+			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(search[random], "UTF-8"), authToken);
+			String json = Utils.wget(url, event);
+			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
+
+			String imageUrl = character[0].getImage_url_med();
+			characterName = character[0].getName_first();
+			if (characterName.equals("Takane")) characterName = "Ene";
+
+			event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Guess the character! You have 60 seconds and 10 attempts. Type end to end the game.").queue();
+
+			byte[] image = toByteArray(imageUrl);
+
+			if (image == null) {
+				onError(LOGGER, event, player, null);
+				return false;
+			}
+
+			event.getChannel().sendFile(image, "image.png", null).queue();
+
+			return true;
+		} catch (Exception e) {
+			onError(LOGGER, event, player, e);
+			return false;
+		}
 	}
 
 	public String getCharacterName() {

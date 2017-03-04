@@ -13,25 +13,6 @@ public class LangFloat implements LangWrapped<Double>, LangContainer, LangOpAdd,
 	}
 
 	@Override
-	public Double get() {
-		return number;
-	}
-
-	@Override
-	public String toString() {
-		return "LFloat{" + number + '}';
-	}
-
-	@Override
-	public LangObject get(String name) {
-		if (name.equals("int")) {
-			return new LangInteger(get().longValue());
-		}
-		return invalidProperty(name);
-	}
-
-
-	@Override
 	public LangObject add(LangObject object) {
 		return new LangFloat(number + _cast(object, LangFloat.class).get());
 	}
@@ -42,6 +23,19 @@ public class LangFloat implements LangWrapped<Double>, LangContainer, LangOpAdd,
 	}
 
 	@Override
+	public Double get() {
+		return number;
+	}
+
+	@Override
+	public LangObject get(String name) {
+		if (name.equals("int")) {
+			return new LangInteger(get().longValue());
+		}
+		return invalidProperty(name);
+	}
+
+	@Override
 	public LangObject multiply(LangObject object) {
 		return new LangFloat(number * _cast(object, LangFloat.class).get());
 	}
@@ -49,5 +43,10 @@ public class LangFloat implements LangWrapped<Double>, LangContainer, LangOpAdd,
 	@Override
 	public LangObject subtract(LangObject object) {
 		return new LangFloat(number - _cast(object, LangFloat.class).get());
+	}
+
+	@Override
+	public String toString() {
+		return "LFloat{" + number + '}';
 	}
 }

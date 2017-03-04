@@ -28,17 +28,7 @@ public class MantaroLang implements LangContainer {
 		return ENV.get(object);
 	}
 
-	public List<LangObject> eval(String code) {
-		if (code == null) return null;
-
-		Runtime runtime = new Runtime(this);
-
-		MantaroLangCompiler.compile(code).accept(runtime);
-
-		return runtime.done();
-	}
-
-	public CompiledFunction<Pair<Long,List<LangObject>>> compile(String code) {
+	public CompiledFunction<Pair<Long, List<LangObject>>> compile(String code) {
 		if (code == null) return null;
 
 		long millis = -System.currentTimeMillis();
@@ -47,20 +37,30 @@ public class MantaroLang implements LangContainer {
 
 		long finalMillis = millis;
 
-		return new CompiledFunction<Pair<Long,List<LangObject>>>() {
+		return new CompiledFunction<Pair<Long, List<LangObject>>>() {
 			@Override
-			public long timeTook() {
-				return finalMillis;
-			}
-
-			@Override
-			public Pair<Long,List<LangObject>> run() {
+			public Pair<Long, List<LangObject>> run() {
 				Runtime runtime = new Runtime(MantaroLang.this);
 				long millis = -System.currentTimeMillis();
 				compiled.accept(runtime);
 				millis += System.currentTimeMillis();
-				return Pair.of(millis,runtime.done());
+				return Pair.of(millis, runtime.done());
+			}
+
+			@Override
+			public long timeTook() {
+				return finalMillis;
 			}
 		};
+	}
+
+	public List<LangObject> eval(String code) {
+		if (code == null) return null;
+
+		Runtime runtime = new Runtime(this);
+
+		MantaroLangCompiler.compile(code).accept(runtime);
+
+		return runtime.done();
 	}
 }

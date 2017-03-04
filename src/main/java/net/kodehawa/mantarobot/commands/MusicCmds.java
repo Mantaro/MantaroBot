@@ -344,11 +344,11 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				try{
+				try {
 					MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 					TextChannelWorld.of(event).dropItemWithChance(0, 10);
-				} catch (NullPointerException e){
-					event.getChannel().sendMessage(EmoteReference.ERROR  + "There is no track to skip").queue();
+				} catch (NullPointerException e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no track to skip").queue();
 				}
 			}
 

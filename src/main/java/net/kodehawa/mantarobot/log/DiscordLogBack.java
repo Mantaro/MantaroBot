@@ -16,6 +16,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	public static void enable() {
 		enabled = true;
 	}
+
 	private PatternLayout patternLayout;
 	private ILoggingEvent previousEvent;
 

@@ -38,6 +38,21 @@ public class TextChannelWorld {
 		this.money = money;
 	}
 
+	public TextChannelWorld addEntity(Entity entity, GameReference game) {
+		ACTIVE_ENTITIES.put(entity, game);
+		return this;
+	}
+
+	public TextChannelWorld addGame(GameReference game, int people) {
+		//if it's running.
+		removeGame(game);
+
+		//add it with new quantity of people
+		ACTIVE_GAMES.put(game, people);
+
+		return this;
+	}
+
 	public List<ItemStack> collectItems() {
 		List<ItemStack> finalStacks = new ArrayList<>(stacks);
 		stacks.clear();
@@ -80,38 +95,23 @@ public class TextChannelWorld {
 		this.money.addAndGet(money);
 	}
 
-	public TextChannelWorld addEntity(Entity entity, GameReference game){
-		ACTIVE_ENTITIES.put(entity, game);
-		return this;
-	}
-
-	public TextChannelWorld removeEntity(Entity entity){
-		ACTIVE_ENTITIES.remove(entity);
-		return this;
-	}
-
-	public TextChannelWorld addGame(GameReference game, int people){
-		//if it's running.
-		removeGame(game);
-
-		//add it with new quantity of people
-		ACTIVE_GAMES.put(game, people);
-
-		return this;
-	}
-
-	public TextChannelWorld removeGame(GameReference game){
-		ACTIVE_GAMES.remove(game);
-		return this;
-	}
-
-	public Map<GameReference, Integer> getRunningGames(){
-		return ACTIVE_GAMES;
-	}
-
 	public boolean dropMoneyWithChance(int money, int weight) {
 		boolean doDrop = r.nextInt(weight) == 0;
 		if (doDrop) dropMoney(money);
 		return doDrop;
+	}
+
+	public Map<GameReference, Integer> getRunningGames() {
+		return ACTIVE_GAMES;
+	}
+
+	public TextChannelWorld removeEntity(Entity entity) {
+		ACTIVE_ENTITIES.remove(entity);
+		return this;
+	}
+
+	public TextChannelWorld removeGame(GameReference game) {
+		ACTIVE_GAMES.remove(game);
+		return this;
 	}
 }

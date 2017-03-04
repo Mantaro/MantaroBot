@@ -26,7 +26,10 @@ import org.slf4j.LoggerFactory;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.Color;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.IntSupplier;
@@ -209,7 +212,7 @@ public class OwnerCmd extends Module {
 		evals.put("m", (event, code) -> {
 			OptionalLong compileTime = OptionalLong.empty();
 			OptionalLong executeTime = OptionalLong.empty();
-			Object r = null;
+			Object r;
 			try {
 				CompiledFunction<Pair<Long, List<LangObject>>> compiledFunction = new MantaroLang().compile(code);
 				compileTime = OptionalLong.of(compiledFunction.timeTook());
@@ -225,9 +228,7 @@ public class OwnerCmd extends Module {
 			}
 
 			OptionalLong runningTime = executeTime;
-			compileTime.ifPresent(l -> {
-				event.getChannel().sendMessage("**MantaroLang Debug**\n**Compile Time**: " + l + " ms" + (runningTime.isPresent() ? "\n**Executing Time**: " + runningTime.orElse(0) + " ms" : "")).queue();
-			});
+			compileTime.ifPresent(l -> event.getChannel().sendMessage("**MantaroLang Debug**\n**Compile Time**: " + l + " ms" + (runningTime.isPresent() ? "\n**Executing Time**: " + runningTime.orElse(0) + " ms" : "")).queue());
 
 			return r;
 		});
@@ -246,7 +247,8 @@ public class OwnerCmd extends Module {
 					if (args.length == 2) {
 						try {
 							notifyMusic(args[1]).get();
-						} catch (InterruptedException | ExecutionException ignored) {}
+						} catch (InterruptedException | ExecutionException ignored) {
+						}
 					}
 
 					try {
@@ -376,7 +378,7 @@ public class OwnerCmd extends Module {
 	private void prepareShutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().save();
 		MantaroBot.getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
-			if(musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
+			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
 
 		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));

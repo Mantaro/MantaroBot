@@ -232,7 +232,7 @@ public class MantaroListener implements EventListener {
 				return;
 			}
 
-			if(e instanceof PermissionException){
+			if (e instanceof PermissionException) {
 				PermissionException ex = (PermissionException) e;
 				event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + ex.getPermission()).queue();
 				return;
@@ -275,9 +275,7 @@ public class MantaroListener implements EventListener {
 	private void onUserJoin(GuildMemberJoinEvent event) {
 		String role = MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole;
 		if (role != null) {
-			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> {
-				LOGGER.debug("Successfully added a new role to " + event.getMember());
-			}, error -> {
+			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> LOGGER.debug("Successfully added a new role to " + event.getMember()), error -> {
 				if (error instanceof PermissionException) {
 					MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole = null;
 					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->

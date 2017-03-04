@@ -51,8 +51,10 @@ public class Search {
 					return width;
 				}
 			}
+
 			public Original original = null;
 		}
+
 		public String bitly_gif_url = null;
 		public String bitly_url = null;
 		public String caption = null;
@@ -165,6 +167,7 @@ public class Search {
 			return offset;
 		}
 	}
+
 	public Data[] data = null;
 	public Meta meta = null;
 	public Pagination pagination = null;

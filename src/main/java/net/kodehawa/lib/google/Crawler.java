@@ -31,6 +31,7 @@ public class Crawler {
 			return url;
 		}
 	}
+
 	private static final Logger LOGGER = LoggerFactory.getLogger("Crawler");
 
 	public static List<SearchResult> get(String query) {

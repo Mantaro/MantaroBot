@@ -9,7 +9,7 @@ public enum EmoteReference {
 	CRYING(":sob:", "\uD83D\uDE2D"), WARNING(":warning:", "\u26a0"), POPPER(":tada:", "\uD83C\uDF89"), ZAP(":zap:", "\u26a1"), MEGA(":mega:", "\uD83D\uDCE3"),
 	CONFUSED(":confused:", "\uD83D\uDE15"), WORRIED(":worried:", "\uD83D\uDE1F"), THINKING(":thinking:", "\uD83E\uDD14"), STOPWATCH(":stopwatch:", "\u23f1"),
 	BUY(":inbox_tray:", "\uD83D\uDCE5"), SELL(":outbox_tray:", "\uD83D\uDCE4"), MARKET(":shopping_car:", "\uD83D\uDED2"), MONEY(":money_bag:", "\uD83D\uDCB0"),
-	PENCIL(":pencil:", "\uD83D\uDCDD"), SMILE(":smile:", "\uD83D\uDE04"), PICK(":pick:", "\u26cf"), HEART(":heart:","\u2764"), RUNNER(":runner:","\uD83C\uDFC3");
+	PENCIL(":pencil:", "\uD83D\uDCDD"), SMILE(":smile:", "\uD83D\uDE04"), PICK(":pick:", "\u26cf"), HEART(":heart:", "\u2764"), RUNNER(":runner:", "\uD83C\uDFC3");
 
 	String discordNotation;
 	String unicode;

@@ -5,12 +5,18 @@ import net.kodehawa.lib.mantarolang.LangRuntimeException;
 import java.util.List;
 
 public interface LangObject {
-	default String asString() {
-		return toString();
+	@SuppressWarnings("unchecked")
+	static <T extends LangObject> T cast(LangObject object, Class<T> c) {
+		if (!c.isInstance(object)) throw new LangRuntimeException("Can't cast " + object + " to " + c);
+		return ((T) object);
 	}
 
-	default boolean asTruth() {
-		return true;
+	static LangObject get(List<LangObject> list, int index) {
+		return index >= list.size() ? null : list.get(index);
+	}
+
+	static LangObject get(List<LangObject> list, int index, LangObject orDefault) {
+		return index >= list.size() ? orDefault : list.get(index);
 	}
 
 	default <T extends LangObject> T _cast(LangObject object, Class<T> c) {
@@ -25,17 +31,11 @@ public interface LangObject {
 		return get(list, index, orDefault);
 	}
 
-	@SuppressWarnings("unchecked")
-	static  <T extends LangObject> T cast(LangObject object, Class<T> c) {
-		if (!c.isInstance(object)) throw new LangRuntimeException("Can't cast " + object + " to " + c);
-		return ((T) object);
+	default String asString() {
+		return toString();
 	}
 
-	static LangObject get(List<LangObject> list, int index) {
-		return index >= list.size() ? null : list.get(index);
-	}
-
-	static LangObject get(List<LangObject> list, int index, LangObject orDefault) {
-		return index >= list.size() ? orDefault : list.get(index);
+	default boolean asTruth() {
+		return true;
 	}
 }

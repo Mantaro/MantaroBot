@@ -15,42 +15,24 @@ import java.util.Random;
 
 public class Trivia extends Game {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
+	private int attempts = 0;
 	private String expectedAnswer;
+	private int maxAnswers = 10;
 	private int maxAttempts = 10;
-
+	private Random rand = new Random();
+	private List<String> trivia = MantaroData.getTrivia().get();
 	//did you just assume I answered one
 	private int triviaAnswers = 1;
-	private int maxAnswers = 10;
-	private int attempts = 0;
-	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
-	private List<String> trivia = MantaroData.getTrivia().get();
-	private Random rand = new Random();
-
-	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
-		try{
-			player.setCurrentGame(type, event.getChannel());
-			TextChannelWorld.of(event.getChannel()).addEntity(player, type);
-			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
-			expectedAnswer = data[1];
-
-			event.getChannel().sendMessage(EmoteReference.THINKING + data[0] + " (Type end to end the game)").queue();
-
-			return true;
-		} catch (Exception e){
-			onError(LOGGER, event, player, e);
-			return false;
-		}
-	}
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
 		if (!(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.TRIVIA
-				&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
+			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
 		}
 
-		if(event.getMessage().getContent().equalsIgnoreCase("end")){
+		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
 			endGame(event, player, false);
 			return;
 		}
@@ -61,8 +43,8 @@ public class Trivia extends Game {
 			return;
 		}
 
-		if(event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)){
-			if(triviaAnswers >= maxAnswers){
+		if (event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
+			if (triviaAnswers >= maxAnswers) {
 				onSuccess(player, event, 0.6);
 				return;
 			}
@@ -76,7 +58,24 @@ public class Trivia extends Game {
 		}
 
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
-				+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
+			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
 		attempts++;
+	}
+
+	@Override
+	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
+		try {
+			player.setCurrentGame(type, event.getChannel());
+			TextChannelWorld.of(event.getChannel()).addEntity(player, type);
+			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
+			expectedAnswer = data[1];
+
+			event.getChannel().sendMessage(EmoteReference.THINKING + data[0] + " (Type end to end the game)").queue();
+
+			return true;
+		} catch (Exception e) {
+			onError(LOGGER, event, player, e);
+			return false;
+		}
 	}
 }

@@ -10,6 +10,21 @@ public class LangInteger implements LangWrapped<Long>, LangContainer, LangOpAdd,
 	}
 
 	@Override
+	public LangObject add(LangObject object) {
+		return new LangInteger(number + _cast(object, LangInteger.class).get());
+	}
+
+	@Override
+	public LangObject and(LangObject object) {
+		return new LangInteger(number & _cast(object, LangInteger.class).get());
+	}
+
+	@Override
+	public LangObject divide(LangObject object) {
+		return new LangInteger(number / _cast(object, LangInteger.class).get());
+	}
+
+	@Override
 	public Long get() {
 		return number;
 	}
@@ -23,33 +38,8 @@ public class LangInteger implements LangWrapped<Long>, LangContainer, LangOpAdd,
 	}
 
 	@Override
-	public String toString() {
-		return "LInteger{" + number + '}';
-	}
-
-	@Override
-	public LangObject or(LangObject object) {
-		return new LangInteger(number | _cast(object, LangInteger.class).get());
-	}
-
-	@Override
-	public LangObject add(LangObject object) {
-		return new LangInteger(number + _cast(object, LangInteger.class).get());
-	}
-
-	@Override
-	public LangObject and(LangObject object) {
-		return new LangInteger(number & _cast(object, LangInteger.class).get());
-	}
-
-	@Override
-	public LangObject xor(LangObject object) {
-		return new LangInteger(number ^ _cast(object, LangInteger.class).get());
-	}
-
-	@Override
-	public LangObject divide(LangObject object) {
-		return new LangInteger(number / _cast(object, LangInteger.class).get());
+	public LangObject leftShift(LangObject object) {
+		return new LangInteger(number << _cast(object, LangInteger.class).get());
 	}
 
 	@Override
@@ -58,17 +48,27 @@ public class LangInteger implements LangWrapped<Long>, LangContainer, LangOpAdd,
 	}
 
 	@Override
-	public LangObject subtract(LangObject object) {
-		return new LangInteger(number - _cast(object, LangInteger.class).get());
-	}
-
-	@Override
-	public LangObject leftShift(LangObject object) {
-		return new LangInteger(number << _cast(object, LangInteger.class).get());
+	public LangObject or(LangObject object) {
+		return new LangInteger(number | _cast(object, LangInteger.class).get());
 	}
 
 	@Override
 	public LangObject rightShift(LangObject object) {
 		return new LangInteger(number >> _cast(object, LangInteger.class).get());
+	}
+
+	@Override
+	public LangObject subtract(LangObject object) {
+		return new LangInteger(number - _cast(object, LangInteger.class).get());
+	}
+
+	@Override
+	public String toString() {
+		return "LInteger{" + number + '}';
+	}
+
+	@Override
+	public LangObject xor(LangObject object) {
+		return new LangInteger(number ^ _cast(object, LangInteger.class).get());
 	}
 }

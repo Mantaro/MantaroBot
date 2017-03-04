@@ -25,6 +25,11 @@ public class LangString implements LangWrapped<String>, LangOpAdd, LangOpMultipl
 	}
 
 	@Override
+	public LangObject leftShift(LangObject object) {
+		return add(object);
+	}
+
+	@Override
 	public LangObject multiply(LangObject object) {
 		return new LangString(IntStream.range(0, Math.min(200, Math.max(0, _cast(object, LangInteger.class).get().intValue()))).mapToObj(i -> s).collect(Collectors.joining()));
 	}
@@ -32,10 +37,5 @@ public class LangString implements LangWrapped<String>, LangOpAdd, LangOpMultipl
 	@Override
 	public String toString() {
 		return "LString{" + '\'' + s + '\'' + '}';
-	}
-
-	@Override
-	public LangObject leftShift(LangObject object) {
-		return add(object);
 	}
 }

@@ -17,27 +17,16 @@ public class MantaroData {
 	private static SimpleFileDataManager kisses;
 	private static SimpleFileDataManager noble;
 	private static SimpleFileDataManager patting;
-	private static GsonDataManager<QuotesData> quotes;
-	private static SimpleFileDataManager trivia;
 	private static SimpleFileDataManager pokemon;
+	private static GsonDataManager<QuotesData> quotes;
 	private static SimpleFileDataManager splashes;
+	private static SimpleFileDataManager trivia;
 	private static SimpleFileDataManager tsunderelines;
 
 	public static SimpleFileDataManager getBleach() {
 		if (bleach == null) bleach = new SimpleFileDataManager("bleach.txt");
 		return bleach;
 	}
-
-	public static SimpleFileDataManager getTrivia() {
-		if (trivia == null) trivia = new SimpleFileDataManager("trivia.txt");
-		return trivia;
-	}
-
-	public static SimpleFileDataManager getPokemonGuesses() {
-		if (pokemon == null) pokemon = new SimpleFileDataManager("pokemonguess.txt");
-		return pokemon;
-	}
-
 
 	public static GsonDataManager<Config> getConfig() {
 		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new, true);
@@ -79,6 +68,11 @@ public class MantaroData {
 		return patting;
 	}
 
+	public static SimpleFileDataManager getPokemonGuesses() {
+		if (pokemon == null) pokemon = new SimpleFileDataManager("pokemonguess.txt");
+		return pokemon;
+	}
+
 	public static GsonDataManager<QuotesData> getQuotes() {
 		if (quotes == null) quotes = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new, false);
 		return quotes;
@@ -87,6 +81,11 @@ public class MantaroData {
 	public static SimpleFileDataManager getSplashes() {
 		if (splashes == null) splashes = new SimpleFileDataManager("splashes.txt");
 		return splashes;
+	}
+
+	public static SimpleFileDataManager getTrivia() {
+		if (trivia == null) trivia = new SimpleFileDataManager("trivia.txt");
+		return trivia;
 	}
 
 	public static SimpleFileDataManager getTsundereLines() {

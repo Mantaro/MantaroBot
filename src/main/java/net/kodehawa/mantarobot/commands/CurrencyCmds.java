@@ -6,14 +6,14 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.inventory.Items;
 import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
@@ -370,8 +370,8 @@ public class CurrencyCmds extends Module {
 
 				EntityPlayer player = EntityPlayer.getPlayer(event.getAuthor());
 
-				if(player.getStamina() < 10){
-					if(player.isProcessing()){
+				if (player.getStamina() < 10) {
+					if (player.isProcessing()) {
 						event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
 						return;
 					}
@@ -379,7 +379,7 @@ public class CurrencyCmds extends Module {
 					player.setProcessing(true);
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. Wait a minute for it to be completely regenerated.").queue();
 					Async.startAsyncTask("Stamina Task", s -> {
-						if(!player.addStamina(10)) {
+						if (!player.addStamina(10)) {
 							player.setProcessing(false);
 							s.shutdown();
 						}
@@ -448,9 +448,9 @@ public class CurrencyCmds extends Module {
 						.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
 						.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
 						.setDescription("HP: " + CommandStatsManager.bar(player.getHealth() / 100 * player.getMaxHealth(), 15)
-								+ "(" + player.getHealth() + ")\n" +
-								" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 15)
-								+ "(" + player.getStamina() + ")")
+							+ "(" + player.getHealth() + ")\n" +
+							" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 15)
+							+ "(" + player.getStamina() + ")")
 						.build()
 					).queue();
 					return;
@@ -461,9 +461,9 @@ public class CurrencyCmds extends Module {
 						.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
 						.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
 						.setDescription("HP: " + CommandStatsManager.bar(player.getHealth() / 100 * player.getMaxHealth(), 10)
-								+ "(" + player.getHealth() + ")\n" +
-								" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 10)
-								+ "(" + player.getStamina() + ")")
+							+ "(" + player.getHealth() + ")\n" +
+							" Stamina: " + CommandStatsManager.bar(player.getStamina() / 100 * player.getStamina(), 10)
+							+ "(" + player.getStamina() + ")")
 						.build()
 					).queue();
 					return;

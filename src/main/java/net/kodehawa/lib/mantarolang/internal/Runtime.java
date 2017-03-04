@@ -34,6 +34,12 @@ public class Runtime {
 		return current;
 	}
 
+	public LangObject discard() {
+		LangObject before = current;
+		current = thisObj;
+		return before;
+	}
+
 	public List<LangObject> done() {
 		next();
 		return done;
@@ -61,12 +67,6 @@ public class Runtime {
 	public LangObject replace(LangObject current) {
 		LangObject before = this.current;
 		this.current = current;
-		return before;
-	}
-
-	public LangObject discard() {
-		LangObject before = current;
-		current = thisObj;
 		return before;
 	}
 
