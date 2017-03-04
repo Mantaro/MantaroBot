@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.utils.data;
 
-import net.kodehawa.mantarobot.utils.IOUtils;
+import net.kodehawa.mantarobot.utils.FileIOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +26,14 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 				LOGGER.info("Could not find config file at " + this.path.toFile().getAbsolutePath() + ", creating a new one...");
 				if (this.path.toFile().createNewFile()) {
 					LOGGER.info("Generated new config file at " + this.path.toFile().getAbsolutePath() + ".");
-					IOUtils.write(this.path, this.data.stream().collect(Collectors.joining()));
+					FileIOUtils.write(this.path, this.data.stream().collect(Collectors.joining()));
 					LOGGER.info("Please, fill the file with valid properties.");
 				} else {
 					LOGGER.warn("Could not create config file at " + file);
 				}
 			}
 
-			Collections.addAll(data, NEWLINE_PATTERN.split(IOUtils.read(this.path)));
+			Collections.addAll(data, NEWLINE_PATTERN.split(FileIOUtils.read(this.path)));
 			data.removeIf(s -> s.startsWith("//"));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -47,7 +47,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 
 	public void save() {
 		try {
-			IOUtils.write(path, this.data.stream().collect(Collectors.joining("\n")));
+			FileIOUtils.write(path, this.data.stream().collect(Collectors.joining("\n")));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

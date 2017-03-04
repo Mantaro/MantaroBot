@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class IOUtils {
+public class FileIOUtils {
 	private static final Charset UTF8 = Charset.forName("UTF-8");
 
 	public static String read(Path path) throws IOException {

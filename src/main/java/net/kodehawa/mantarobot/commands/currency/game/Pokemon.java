@@ -11,10 +11,9 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Random;
-
-import static net.kodehawa.mantarobot.utils.Utils.toByteArray;
 
 public class Pokemon extends Game {
 
@@ -62,14 +61,8 @@ public class Pokemon extends Game {
 			String[] data = guesses.get(rand.nextInt(guesses.size())).split("`");
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
-			byte[] image = toByteArray(pokemonImage);
 
-			if (image == null) {
-				onError(LOGGER, event, player, null);
-				return false;
-			}
-
-			event.getChannel().sendFile(image, "pokemon.jpg",
+			event.getChannel().sendFile(new URL(pokemonImage).openStream(), "pokemon.jpg",
 				new MessageBuilder().append(EmoteReference.TALKING).append("Who's that pokemon?. You have 10 attempts to do it. (Type end to end the game)")
 					.build()).queue();
 

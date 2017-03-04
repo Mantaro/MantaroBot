@@ -41,7 +41,7 @@ public class CommandStatsManager {
 			.limit(12)
 			.forEachOrdered(entry -> {
 				int percent = entry.getValue().get() * 100 / total;
-				builder.addField(entry.getKey(), String.format("%s %d%%", bar(percent, 15), percent), true);
+				builder.addField(entry.getKey(), String.format("%s %d %d%%", bar(percent, 15), entry.getValue().get(), percent), true);
 			});
 
 		return builder;

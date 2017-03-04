@@ -9,6 +9,7 @@ import com.google.gson.JsonParser;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
@@ -94,19 +95,11 @@ public class Utils {
 	public static byte[] toByteArray(String imageUrl) {
 		Objects.requireNonNull(imageUrl);
 
-		InputStream is = null;
-		try {
-			URL url = new URL(imageUrl);
-			is = url.openStream();
-			return org.apache.commons.io.IOUtils.toByteArray(is);
+		try (InputStream stream = new URL(imageUrl).openStream()) {
+			return IOUtils.toByteArray(stream);
 		} catch (Exception e) {
 			LOGGER.error("Cannot process file to byte[]", e);
 			return null;
-		} finally {
-			try {
-				if (is != null) is.close();
-			} catch (Exception ignored) {
-			}
 		}
 	}
 

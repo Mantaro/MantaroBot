@@ -8,6 +8,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.CurrencyManager;
 import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -28,7 +30,6 @@ import java.util.stream.Collectors;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
-import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
@@ -147,37 +148,7 @@ public class InfoCmds extends Module {
 		super.register("cmdstats", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (args.length != 0) {
-					String what = args[0];
-					if (what.equals("total")) {
-						event.getChannel().sendMessage(fillEmbed(TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
-						return;
-					}
 
-					if (what.equals("daily")) {
-						event.getChannel().sendMessage(fillEmbed(DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
-						return;
-					}
-
-					if (what.equals("hourly")) {
-						event.getChannel().sendMessage(fillEmbed(HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
-						return;
-					}
-
-					if (what.equals("now")) {
-						event.getChannel().sendMessage(fillEmbed(MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
-						return;
-					}
-				}
-
-				//Default
-				event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
-					.addField("Now", resume(MINUTE_CMDS), false)
-					.addField("Hourly", resume(HOUR_CMDS), false)
-					.addField("Daily", resume(DAY_CMDS), false)
-					.addField("Total", resume(TOTAL_CMDS), false)
-					.build()
-				).queue();
 			}
 
 			@Override
@@ -422,14 +393,90 @@ public class InfoCmds extends Module {
 							+ "GB/" + String.format("%.2f", getVpsUsedMemory()) + "GB", false);
 
 					event.getChannel().sendMessage(embedBuilder.build()).queue();
+					return;
 				}
+
+				if (args[0].equals("cmds")) {
+					if (args.length > 1) {
+						String what = args[1];
+						if (what.equals("total")) {
+							event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
+							return;
+						}
+
+						if (what.equals("daily")) {
+							event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
+							return;
+						}
+
+						if (what.equals("hourly")) {
+							event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
+							return;
+						}
+
+						if (what.equals("now")) {
+							event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
+							return;
+						}
+					}
+
+					//Default
+					event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
+						.addField("Now", CommandStatsManager.resume(CommandStatsManager.MINUTE_CMDS), false)
+						.addField("Hourly", CommandStatsManager.resume(CommandStatsManager.HOUR_CMDS), false)
+						.addField("Daily", CommandStatsManager.resume(CommandStatsManager.DAY_CMDS), false)
+						.addField("Total", CommandStatsManager.resume(CommandStatsManager.TOTAL_CMDS), false)
+						.build()
+					).queue();
+
+					return;
+				}
+
+				if (args[0].equals("guilds")) {
+					if (args.length > 1) {
+						String what = args[1];
+						if (what.equals("total")) {
+							event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
+							return;
+						}
+
+						if (what.equals("daily")) {
+							event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
+							return;
+						}
+
+						if (what.equals("hourly")) {
+							event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
+							return;
+						}
+
+						if (what.equals("now")) {
+							event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
+							return;
+						}
+					}
+
+					//Default
+					event.getChannel().sendMessage(baseEmbed(event, "Guild Stats")
+						.addField("Now", GuildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
+						.addField("Hourly", GuildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
+						.addField("Daily", GuildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
+						.addField("Total", GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
+						.setFooter("Guilds: " + MantaroBot.getJDA().getGuilds().size(), null)
+						.build()
+					).queue();
+
+					return;
+				}
+
+				onHelp(event);
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Statistics command")
 					.setDescription("Returns bot, usage or vps statistics")
-					.addField("Usage", "~>stats <bot/usage/vps>", true)
+					.addField("Usage", "~>stats <bot/usage/vps/cmds/guilds>", true)
 					.addField("Parameters", "bot: returns the bot statistics\n" +
 						"usage: returns the resources used by the bot\n" +
 						"vps: returns how much of the vps resources are used.", true)

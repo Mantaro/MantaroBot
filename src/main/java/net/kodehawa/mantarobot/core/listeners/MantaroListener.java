@@ -13,6 +13,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
+import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
+import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
@@ -258,6 +260,8 @@ public class MantaroListener implements EventListener {
 
 		tc.sendMessage(String.format(EmoteReference.MEGA + "I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
+
+		GuildStatsManager.log(LoggedEvent.JOIN);
 	}
 
 	private void onLeave(GuildLeaveEvent event) {
@@ -270,6 +274,8 @@ public class MantaroListener implements EventListener {
 
 		tc.sendMessage(String.format(EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
+
+		GuildStatsManager.log(LoggedEvent.LEAVE);
 	}
 
 	private void onUserJoin(GuildMemberJoinEvent event) {

@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.utils.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.kodehawa.mantarobot.utils.IOUtils;
+import net.kodehawa.mantarobot.utils.FileIOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 				LOGGER.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
 				if (configPath.toFile().createNewFile()) {
 					LOGGER.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
-					IOUtils.write(configPath, gson(pretty).toJson(constructor.get()));
+					FileIOUtils.write(configPath, gson(pretty).toJson(constructor.get()));
 					LOGGER.info("Please, fill the file with valid properties.");
 				} else {
 					LOGGER.warn("Could not create config file at " + file);
@@ -39,7 +39,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 				System.exit(0);
 			}
 
-			this.data = gson(pretty).fromJson(IOUtils.read(configPath), clazz);
+			this.data = gson(pretty).fromJson(FileIOUtils.read(configPath), clazz);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -53,7 +53,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 	@Override
 	public void save() {
 		try {
-			IOUtils.write(configPath, gson(pretty).toJson(data));
+			FileIOUtils.write(configPath, gson(pretty).toJson(data));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
