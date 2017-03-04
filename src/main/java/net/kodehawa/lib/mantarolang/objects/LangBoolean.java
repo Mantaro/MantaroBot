@@ -10,6 +10,11 @@ public class LangBoolean implements LangWrapped<Boolean>, LangContainer {
 	}
 
 	@Override
+	public boolean asTruth() {
+		return bool;
+	}
+
+	@Override
 	public Boolean get() {
 		return bool;
 	}

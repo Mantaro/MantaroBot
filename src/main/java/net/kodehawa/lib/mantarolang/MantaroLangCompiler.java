@@ -3,14 +3,16 @@ package net.kodehawa.lib.mantarolang;
 import net.kodehawa.lib.mantarolang.internal.Runtime;
 import net.kodehawa.lib.mantarolang.internal.RuntimeOperator;
 import net.kodehawa.lib.mantarolang.objects.*;
+import net.kodehawa.lib.mantarolang.objects.operations.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
 public class MantaroLangCompiler {
-	private static class LangClosure implements LangCallable {
+	private static class LangClosure implements LangCallable/*, LangOpMultiply*/ {
 		private final UnaryOperator<Runtime> compiled;
 		private final LangObject thisObj;
 
@@ -21,12 +23,31 @@ public class MantaroLangCompiler {
 
 		@Override
 		public List<LangObject> call(List<LangObject> args) {
-			return compiled.apply(new Runtime(get(args, 0, thisObj))).done();
+			return compiled.apply(new Runtime(_get(args, 0, thisObj))).done();
 		}
+
+//		@Override
+//		public LangObject multiply(LangObject object) {
+//			return new LangClosure(
+//				IntStream.range(0, Math.min(200, Math.max(0, _cast(object, LangInteger.class).get().intValue())))
+//					.mapToObj(i -> compiled).reduce(UnaryOperator.identity(), (compiled1, compiled2) -> new UnaryOperator<Runtime>() {
+//					@Override
+//					public Runtime apply(Runtime r) {
+//						return compiled2.apply(compiled1.apply(r));
+//					}
+//
+//					@Override
+//					public String toString() {
+//						return "UnaryOperator{" + compiled1 + '&' + compiled2 + '}';
+//					}
+//				})
+//				, thisObj
+//			);
+//		}
 
 		@Override
 		public String toString() {
-			return "LangClosure{" + compiled + '@' + thisObj + '}';
+			return "LClosure{" + compiled + '@' + thisObj + '}';
 		}
 	}
 
@@ -63,6 +84,9 @@ public class MantaroLangCompiler {
 		char[] array = code.toCharArray();
 
 		int line = 0;
+
+		BinaryOperator<LangObject> queuedOperation = null;
+		char queuedOpChar = 0;
 		boolean onThis = true;
 		for (int i = 0; i < array.length; i++) {
 			char c = array[i];
@@ -76,6 +100,16 @@ public class MantaroLangCompiler {
 				case '\t':
 					continue;
 				case ',': {
+					if (queuedOperation != null) {
+						if (onThis)
+							throw new LangCompileException("Queued Operation '" + queuedOpChar + "' unsatified at line " + line);
+						BinaryOperator<LangObject> op = queuedOperation;
+						runtime.modify(r -> r.applyOperation(op));
+						queuedOperation = null;
+						i--;
+						continue;
+					}
+
 					if (onThis) throw new LangCompileException("Invalid character '" + c + "' at line " + line);
 
 					runtime.modify(Runtime::next);
@@ -83,7 +117,17 @@ public class MantaroLangCompiler {
 					continue;
 				}
 				case ';':
-					runtime.replace((r, cur) -> r.thisObj());
+					if (queuedOperation != null) {
+						if (onThis)
+							throw new LangCompileException("Queued Operation '" + queuedOpChar + "' unsatified at line " + line);
+						BinaryOperator<LangObject> op = queuedOperation;
+						runtime.modify(r -> r.applyOperation(op));
+						queuedOperation = null;
+						i--;
+						continue;
+					}
+
+					runtime.modify(Runtime::discard);
 					onThis = true;
 					continue;
 				default:
@@ -223,7 +267,7 @@ public class MantaroLangCompiler {
 					onThis = false;
 					continue;
 					//endregion
-				} else if (Character.isDigit(c)) {
+				} else if (Character.isDigit(c) || c == '-') {
 					//region OPERATION NUMBERS
 					StringBuilder num = new StringBuilder();
 					/*
@@ -254,6 +298,10 @@ public class MantaroLangCompiler {
 
 						switch (state) {
 							case 0: {
+								if (c == '+' || c == '-' || c == '*' || c == '/' || c == '|' || c == '&' || c == '<' || c == '>' || c == '^') {
+									i--;
+									break loop;
+								}
 								if (c == '.') {
 									state = 1;
 									num.append(c);
@@ -281,6 +329,10 @@ public class MantaroLangCompiler {
 								state = 2;
 							}
 							case 2: {
+								if (c == '+' || c == '-' || c == '*' || c == '/' || c == '|' || c == '&' || c == '<' || c == '>' || c == '^') {
+									i--;
+									break loop;
+								}
 								if (c == '.') {
 									break loop;
 								}
@@ -322,7 +374,7 @@ public class MantaroLangCompiler {
 				}
 				//endregion
 			} else {
-				//region OPERATIONS (...) .
+				//region OPERATIONS (...) . + - * / | & < > ^
 				if (c == '(') {
 					//region OPERATION (...)
 					int pCount = 0;
@@ -365,7 +417,51 @@ public class MantaroLangCompiler {
 						}
 					}
 					//endregion
+				} else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '|' || c == '&' || c == '<' || c == '>' || c == '^') {
+					//region OPERATORS + - * / | & < > ^
+					if (queuedOperation != null) {
+						BinaryOperator<LangObject> op = queuedOperation;
+						runtime.modify(r -> r.applyOperation(op));
+						queuedOperation = null;
+					}
+
+					queuedOpChar = c;
+					switch (c) {
+						case '+':
+							queuedOperation = (q, cur) -> cast(q, LangOpAdd.class).add(cur);
+							break;
+						case '-':
+							queuedOperation = (q, cur) -> cast(q, LangOpSubtract.class).subtract(cur);
+							break;
+						case '*':
+							queuedOperation = (q, cur) -> cast(q, LangOpMultiply.class).multiply(cur);
+							break;
+						case '/':
+							queuedOperation = (q, cur) -> cast(q, LangOpDivide.class).divide(cur);
+							break;
+						case '|':
+							queuedOperation = (q, cur) -> cast(q, LangOpOr.class).or(cur);
+							break;
+						case '&':
+							queuedOperation = (q, cur) -> cast(q, LangOpAnd.class).and(cur);
+							break;
+						case '<':
+							queuedOperation = (q, cur) -> cast(q, LangOpLeftShift.class).leftShift(cur);
+							break;
+						case '>':
+							queuedOperation = (q, cur) -> cast(q, LangOpRightShift.class).rightShift(cur);
+							break;
+						case '^':
+							queuedOperation = (q, cur) -> cast(q, LangOpXor.class).xor(cur);
+							break;
+					}
+
+					runtime.modify(Runtime::queue);
+					onThis = true;
+					continue;
+					//endregion
 				}
+
 				//endregion
 				//region INVALID OPERATIONS
 				else throw new LangCompileException("Invalid character '" + c + "' at line " + line);
@@ -385,6 +481,15 @@ public class MantaroLangCompiler {
 						case ' ':
 						case '\t':
 							break loop;
+						case '+':
+						case '-':
+						case '*':
+						case '/':
+						case '|':
+						case '&':
+						case '<':
+						case '>':
+						case '^':
 						case ';':
 						case '.':
 						case ',':
@@ -424,6 +529,12 @@ public class MantaroLangCompiler {
 			} else throw new LangCompileException("Invalid character '" + c + "' at line " + line);
 		}
 
+		if (queuedOperation != null) {
+			BinaryOperator<LangObject> op = queuedOperation;
+			runtime.modify(r -> r.applyOperation(op));
+			queuedOperation = null;
+		}
+
 		return runtime.getOperation();
 	}
 
@@ -444,7 +555,7 @@ public class MantaroLangCompiler {
 		try {
 			System.out.print("Compiling...");
 			long millis = -System.currentTimeMillis();
-			Consumer<Runtime> compiled = compile(",");
+			Consumer<Runtime> compiled = compile("{this+this}*2");
 			millis += System.currentTimeMillis();
 			System.out.println(" took " + millis + " ms");
 			System.out.print("Running...");

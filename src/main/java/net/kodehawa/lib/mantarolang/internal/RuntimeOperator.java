@@ -25,7 +25,7 @@ public class RuntimeOperator {
 
 			@Override
 			public String toString() {
-				return "Consumer{from=" +RuntimeOperator.this.toString() + ";opCount=" + opCount + '}';
+				return "Consumer{from=" + RuntimeOperator.this.toString() + ";opCount=" + opCount + '}';
 			}
 		};
 	}

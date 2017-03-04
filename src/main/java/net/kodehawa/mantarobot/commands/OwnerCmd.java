@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.lib.mantarolang.CompiledFunction;
 import net.kodehawa.lib.mantarolang.MantaroLang;
 import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -18,15 +19,14 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.IntSupplier;
@@ -207,12 +207,29 @@ public class OwnerCmd extends Module {
 		});
 
 		evals.put("m", (event, code) -> {
+			OptionalLong compileTime = OptionalLong.empty();
+			OptionalLong executeTime = OptionalLong.empty();
+			Object r = null;
 			try {
-				List<LangObject> r = new MantaroLang().eval(code);
-				return r.isEmpty() ? null : r;
+				CompiledFunction<Pair<Long, List<LangObject>>> compiledFunction = new MantaroLang().compile(code);
+				compileTime = OptionalLong.of(compiledFunction.timeTook());
+
+				Pair<Long, List<LangObject>> run = compiledFunction.run();
+				executeTime = OptionalLong.of(run.getKey());
+
+				List<LangObject> returnList = run.getRight();
+
+				r = returnList.isEmpty() ? null : returnList.size() == 1 ? returnList.get(0) : returnList;
 			} catch (Exception e) {
-				return e;
+				r = e;
 			}
+
+			OptionalLong runningTime = executeTime;
+			compileTime.ifPresent(l -> {
+				event.getChannel().sendMessage("**MantaroLang Debug**\n**Compile Time**: " + l + " ms" + (runningTime.isPresent() ? "\n**Executing Time**: " + runningTime.orElse(0) + " ms" : "")).queue();
+			});
+
+			return r;
 		});
 
 		super.register("owner", new SimpleCommand() {
@@ -316,7 +333,6 @@ public class OwnerCmd extends Module {
 				}
 
 				if (option.equals("eval")) {
-					System.out.printf("k = %s; v = %s%n", k, v);
 					Evaluator evaluator = evals.get(k);
 					if (evaluator == null) {
 						onHelp(event);

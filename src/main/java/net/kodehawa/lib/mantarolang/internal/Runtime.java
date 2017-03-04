@@ -4,11 +4,13 @@ import net.kodehawa.lib.mantarolang.objects.LangObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BinaryOperator;
 
 public class Runtime {
 	private final LangObject thisObj;
 	private LangObject current;
 	private List<LangObject> done = new ArrayList<>();
+	private LangObject queue;
 
 	public Runtime(LangObject thisObj, LangObject current) {
 		this.thisObj = thisObj;
@@ -17,6 +19,11 @@ public class Runtime {
 
 	public Runtime(LangObject thisObj) {
 		this(thisObj, thisObj);
+	}
+
+	public void applyOperation(BinaryOperator<LangObject> operator) {
+		current = operator.apply(queue, current);
+		queue = null;
 	}
 
 	public Runtime copy() {
@@ -46,9 +53,20 @@ public class Runtime {
 		current = next;
 	}
 
+	public void queue() {
+		queue = current;
+		current = thisObj;
+	}
+
 	public LangObject replace(LangObject current) {
 		LangObject before = this.current;
 		this.current = current;
+		return before;
+	}
+
+	public LangObject discard() {
+		LangObject before = current;
+		current = thisObj;
 		return before;
 	}
 

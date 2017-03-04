@@ -62,7 +62,6 @@ public class StaticSerializator<T> {
 				return call.apply(obj, args);
 			}
 
-
 			@Override
 			public String toString() {
 				return "LangCallable{of=" + obj + ";from=" + StaticSerializator.this.toString() + "}";
@@ -74,7 +73,6 @@ public class StaticSerializator<T> {
 				if (!map.containsKey(name)) invalidProperty(name);
 				return map.get(name).apply(obj);
 			}
-
 
 			@Override
 			public String toString() {
