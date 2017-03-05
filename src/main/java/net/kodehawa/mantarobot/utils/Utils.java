@@ -1,5 +1,8 @@
 package net.kodehawa.mantarobot.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import com.google.gson.Gson;
@@ -29,6 +32,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
+	public static ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	/**
 	 * Capitalizes the first letter of a string.

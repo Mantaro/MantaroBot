@@ -1,4 +1,4 @@
-package net.kodehawa.lib.konachan.main.entities;
+package net.kodehawa.lib.imageboard.konachan.main.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;

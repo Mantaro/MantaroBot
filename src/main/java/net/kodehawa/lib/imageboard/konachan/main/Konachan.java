@@ -1,9 +1,9 @@
-package net.kodehawa.lib.konachan.main;
+package net.kodehawa.lib.imageboard.konachan.main;
 
-import net.kodehawa.lib.konachan.main.entities.Tag;
-import net.kodehawa.lib.konachan.main.entities.Wallpaper;
-import net.kodehawa.lib.konachan.providers.DownloadProvider;
-import net.kodehawa.lib.konachan.providers.WallpaperProvider;
+import net.kodehawa.lib.imageboard.konachan.main.entities.Tag;
+import net.kodehawa.lib.imageboard.konachan.main.entities.Wallpaper;
+import net.kodehawa.lib.imageboard.konachan.providers.DownloadProvider;
+import net.kodehawa.lib.imageboard.konachan.providers.WallpaperProvider;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;

@@ -1,4 +1,4 @@
-package net.kodehawa.lib.konachan.providers;
+package net.kodehawa.lib.imageboard.konachan.providers;
 
 @FunctionalInterface
 public interface DownloadProvider {

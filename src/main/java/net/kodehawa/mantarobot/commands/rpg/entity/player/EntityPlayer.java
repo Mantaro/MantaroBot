@@ -67,7 +67,7 @@ public class EntityPlayer implements Entity {
 
 	@Override
 	public boolean addHealth(int amount) {
-		if (health - amount < 0 || health + amount > getMaxHealth()) return false;
+		if (health + amount < 0 || health + amount > getMaxHealth()) return false;
 		health += amount;
 		return true;
 	}

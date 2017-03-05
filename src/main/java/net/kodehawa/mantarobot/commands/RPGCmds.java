@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RPGCmds extends Module {
+
 	public RPGCmds() {
 		super(Category.RPG);
 
@@ -54,7 +55,7 @@ public class RPGCmds extends Module {
 	}
 
 	private void gamble() {
-		RateLimiter rateLimiter = new RateLimiter(2000);
+		RateLimiter rateLimiter = new RateLimiter(3500);
 		Random r = new Random();
 
 		super.register("gamble", new SimpleCommand() {
@@ -68,12 +69,15 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				EntityPlayer user = EntityPlayer.getPlayer(event.getMember());
 
-				if (user.getMoney() <= 0) {
+				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+
+				if (player.getMoney() <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
 					return;
 				}
+
+				if(!check(player, event)) return;
 
 				double multiplier;
 				long i;
@@ -82,24 +86,24 @@ public class RPGCmds extends Module {
 					switch (content) {
 						case "all":
 						case "everything":
-							i = user.getMoney();
+							i = player.getMoney();
 							multiplier = 1.5d + (r.nextInt(1500) / 1000d);
 							luck = 42 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
-							i = user.getMoney() == 1 ? 1 : user.getMoney() / 2;
+							i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
 							multiplier = 1d + (r.nextInt(1500) / 1000d);
 							luck = 35 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						case "quarter":
-							i = user.getMoney() == 1 ? 1 : user.getMoney() / 4;
+							i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
 							multiplier = 1d + (r.nextInt(1000) / 1000d);
 							luck = 40 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						default:
 							i = Integer.parseInt(content);
-							if (i > user.getMoney() || i < 0) throw new UnsupportedOperationException();
-							multiplier = 1.2d + (i / user.getMoney() * r.nextInt(1300) / 1000d);
+							if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
+							multiplier = 1.2d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
 							luck = 45 + (int) (multiplier * 15) + r.nextInt(10);
 							break;
 					}
@@ -115,19 +119,19 @@ public class RPGCmds extends Module {
 					long gains = (long) (i * multiplier);
 					gains = Math.round(gains * 0.55);
 
-					if (user.getMoney() >= Integer.MAX_VALUE) {
+					if (player.getMoney() >= Integer.MAX_VALUE) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
 						return;
 					}
 
-					if (user.addMoney(gains)) {
+					if (player.addMoney(gains)) {
 						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
 					} else {
 						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 					}
 				} else {
-					user.setMoney(Math.max(0, user.getMoney() - i));
-					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (user.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
+					player.setMoney(Math.max(0, player.getMoney() - i));
+					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
 				MantaroData.getData().save();
@@ -186,6 +190,7 @@ public class RPGCmds extends Module {
 				}
 
 				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+				if(!check(player, event)) return;
 				TextChannelWorld ground = TextChannelWorld.of(event);
 				List<ItemStack> loot = ground.collectItems();
 				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 300);
@@ -247,7 +252,9 @@ public class RPGCmds extends Module {
 				}
 
 				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
-				EntityPlayer user = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+
+				if(!check(player, event)) return;
 
 				if (args.length > 0) {
 					int itemNumber = 1;
@@ -264,20 +271,20 @@ public class RPGCmds extends Module {
 						}
 					}
 					if (args[0].equals("sell")) {
-						if (user.getMoney() >= Integer.MAX_VALUE) {
+						if (player.getMoney() >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. " +
 								"Maybe you should spend some before getting more.").queue();
 							return;
 						}
 
 						if (args[1].equals("all")) {
-							long all = user.getInventory().asList().stream()
+							long all = player.getInventory().asList().stream()
 								.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 								.sum();
 
-							user.getInventory().clear();
+							player.getInventory().clear();
 
-							if (user.addMoney(all)) {
+							if (player.addMoney(all)) {
 								event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();
 							} else {
 								event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
@@ -292,16 +299,16 @@ public class RPGCmds extends Module {
 							return;
 						}
 
-						if (user.getInventory().asMap().getOrDefault(toSell, null) == null) {
+						if (player.getInventory().asMap().getOrDefault(toSell, null) == null) {
 							event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
 							return;
 						}
 
 						int many = itemNumber * -1;
 						long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-						user.getInventory().process(new ItemStack(toSell, many));
+						player.getInventory().process(new ItemStack(toSell, many));
 
-						if (user.addMoney(amount)) {
+						if (player.addMoney(amount)) {
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
 								"** and gained " + amount + " credits!").queue();
 						} else {
@@ -325,10 +332,10 @@ public class RPGCmds extends Module {
 							return;
 						}
 
-						if (user.removeMoney(itemToBuy.getValue() * itemNumber)) {
-							user.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+						if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
+							player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
 							event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
-								" successfully. You now have " + user.getMoney() + " credits.").queue();
+								" successfully. You now have " + player.getMoney() + " credits.").queue();
 						} else {
 							event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 						}
@@ -362,7 +369,7 @@ public class RPGCmds extends Module {
 	}
 
 	private void mine() {
-		RateLimiter rateLimiter = new RateLimiter(1000);
+		RateLimiter rateLimiter = new RateLimiter(3500);
 		Random r = new Random();
 
 		super.register("mine", new SimpleCommand() {
@@ -378,22 +385,7 @@ public class RPGCmds extends Module {
 
 				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
 
-				if (player.getStamina() < 10) {
-					if (player.isProcessing()) {
-						event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
-						return;
-					}
-
-					player.setProcessing(true);
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. Wait a minute for it to be completely regenerated.").queue();
-					Async.startAsyncTask("Stamina Task", s -> {
-						if (!player.addStamina(10)) {
-							player.setProcessing(false);
-							s.shutdown();
-						}
-					}, 10);
-					return;
-				}
+				if(!check(player, event)) return;
 
 				int picks = player.getInventory().asMap().getOrDefault(Items.BROM_PICKAXE, new ItemStack(Items.BROM_PICKAXE, 0)).getAmount();
 				if (picks == 0) {
@@ -456,8 +448,8 @@ public class RPGCmds extends Module {
 					author = event.getMessage().getMentionedUsers().get(0);
 					member = event.getGuild().getMember(author);
 
-					user = MantaroData.getData().get().getUser(author, false);
-					player = MantaroData.getData().get().getUser(member, false);
+					user = EntityPlayerMP.getPlayer(author);
+					player = EntityPlayer.getPlayer(member);
 				}
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
@@ -466,6 +458,7 @@ public class RPGCmds extends Module {
 					.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
 					.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
+					.setFooter("In treatment: " + player.isProcessing(), author.getEffectiveAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -508,5 +501,41 @@ public class RPGCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	private boolean check(EntityPlayer player, GuildMessageReceivedEvent event){
+		if (player.getStamina() < 10) {
+			if (player.isProcessing()) {
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
+				return false;
+			}
+
+			player.setProcessing(true);
+			event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. You need to rest for a bit. Wait a minute for it to be completely regenerated.").queue();
+			Async.startAsyncTask("Stamina Task (Process) [" + player + "]", s -> {
+				if (!player.addStamina(10)) {
+					player.setProcessing(false);
+					s.shutdown();
+				}
+			}, 10);
+			return false;
+		}
+
+		if (player.getHealth() < 10) {
+			if (player.isProcessing()) {
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
+				return false;
+			}
+
+			player.setProcessing(true);
+			event.getChannel().sendMessage(EmoteReference.ERROR + "You're too sick, so you were transferred to the hospital. In 15 minutes you should be okay.").queue();
+			Async.asyncSleepThen(900000, () -> {
+				player.addHealth(player.getMaxHealth() - 10);
+				player.setProcessing(false);
+			});
+			return false;
+		}
+
+		return true;
 	}
 }
