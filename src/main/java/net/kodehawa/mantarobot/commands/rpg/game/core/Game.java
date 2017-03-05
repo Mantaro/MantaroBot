@@ -19,18 +19,22 @@ public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> 
 
 	public abstract boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player);
 
+	public abstract GameReference type();
+
 	@Override
 	public void event(GuildMessageReceivedEvent event) {
 		call(event, EntityPlayer.getPlayer(event.getMember()));
 	}
 
 	public boolean check(GuildMessageReceivedEvent event, GameReference type) {
-		return type == null || !TextChannelWorld.of(event.getChannel()).getRunningGames().containsKey(type);
+		System.out.println(TextChannelWorld.of(event.getChannel()).getRunningGames().keySet());
+		System.out.println(TextChannelWorld.of(event.getChannel()).getActiveEntities().keySet());
+		return !TextChannelWorld.of(event.getChannel()).getRunningGames().containsKey(type);
 	}
 
 	protected void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {
+		TextChannelWorld.of(event.getChannel()).removeGame(player.getGame());
 		player.setCurrentGame(null, event.getChannel());
-		TextChannelWorld.of(event.getChannel()).removeEntity(player);
 		event.getJDA().removeEventListener(this);
 		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 60 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
 		event.getChannel().sendMessage(toSend).queue();

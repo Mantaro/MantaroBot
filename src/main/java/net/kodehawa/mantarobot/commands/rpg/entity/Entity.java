@@ -77,6 +77,35 @@ public interface Entity {
 	int getStamina();
 
 	/**
+	 * The behaviour of this entity with the surrending {@link TextChannelWorld}. A tree will never move, but a player might randomly change coords.
+	 * Also a tree will check if their surrondings are empty and spawn more trees. That's behaviour for ya.
+	 */
+	void behaviour();
+
+	/**
+	 * Implementation.
+	 * @return Where am I in the current {@link TextChannelWorld}?
+	 */
+	default Coordinates coordinates() {
+		return new Coordinates(0, 0, null);
+	}
+
+	/**
+	 * Normally do nothing. But some entities will do special things on spawn.
+	 */
+	default void onSpawn(){}
+
+	/**
+	 * Normally do nothing. But some entities will do special things on death.
+	 */
+	default void onDeath(){}
+
+	/**
+	 * Normally do nothing. For future uses.
+	 */
+	default void onRespawn(){}
+
+	/**
 	 * The specified {@link Entity} type. Used for {@link TextChannelWorld} interactions.
 	 *
 	 * @return What am I?
@@ -107,5 +136,20 @@ public interface Entity {
 	default String save() {
 		MantaroData.getData().save();
 		return "Saved data";
+	}
+
+	/**
+	 * Where am I?
+	 */
+	class Coordinates {
+		int x;
+		int y;
+		TextChannelWorld entityWorld;
+
+		Coordinates(int x, int y, TextChannelWorld world){
+			this.x = x;
+			this.y = y;
+			this.entityWorld = world;
+		}
 	}
 }
