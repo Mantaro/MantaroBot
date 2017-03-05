@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.rpg.inventory;
+package net.kodehawa.mantarobot.commands.rpg.item;
 
 import java.util.Random;
 

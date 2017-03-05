@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
-import net.kodehawa.mantarobot.commands.rpg.inventory.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 

@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * When returned, it will return a {@link java.lang.String}  representation of all the objects here.
  *
- * The user will see a representation of this if the guild is in local mode, else it will be a representation of EntityPlayerMP
+ * The user will see a representation of this if the guild isn't in local mode, else it will be a representation of EntityPlayer
  *
  * @see net.kodehawa.mantarobot.commands.rpg.entity.Entity
  * @see EntityPlayer

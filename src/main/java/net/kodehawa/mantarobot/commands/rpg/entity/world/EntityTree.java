@@ -27,7 +27,7 @@ public class EntityTree implements Entity {
 
 	@Override
 	public int getMaxHealth() {
-		return 0;
+		return 20;
 	}
 
 	@Override
@@ -52,6 +52,6 @@ public class EntityTree implements Entity {
 
 	@Override
 	public Type getType() {
-		return null;
+		return Type.SPECIAL;
 	}
 }

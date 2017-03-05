@@ -3,11 +3,10 @@ package net.kodehawa.mantarobot.commands.rpg.world;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
-import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.rpg.inventory.Item;
-import net.kodehawa.mantarobot.commands.rpg.inventory.ItemStack;
-import net.kodehawa.mantarobot.commands.rpg.inventory.Items;
+import net.kodehawa.mantarobot.commands.rpg.item.Item;
+import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.item.Items;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

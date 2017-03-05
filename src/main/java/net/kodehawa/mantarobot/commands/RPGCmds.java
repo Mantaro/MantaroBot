@@ -9,9 +9,9 @@ import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
-import net.kodehawa.mantarobot.commands.rpg.inventory.Item;
-import net.kodehawa.mantarobot.commands.rpg.inventory.ItemStack;
-import net.kodehawa.mantarobot.commands.rpg.inventory.Items;
+import net.kodehawa.mantarobot.commands.rpg.item.Item;
+import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.item.Items;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -458,7 +458,7 @@ public class RPGCmds extends Module {
 					.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
 					.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
-					.setFooter("In treatment: " + player.isProcessing(), author.getEffectiveAvatarUrl())
+					.setFooter("In treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -523,7 +523,7 @@ public class RPGCmds extends Module {
 
 		if (player.getHealth() < 10) {
 			if (player.isProcessing()) {
-				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You're still on the hospital.").queue();
 				return false;
 			}
 

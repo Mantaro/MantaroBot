@@ -1,6 +1,9 @@
 package net.kodehawa.mantarobot.commands.rpg.inventory;
 
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.item.Item;
+import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.item.Items;
 
 import java.util.ArrayList;
 import java.util.Collections;
