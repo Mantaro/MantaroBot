@@ -1,7 +1,7 @@
-package net.kodehawa.mantarobot.commands.currency.entity.world;
+package net.kodehawa.mantarobot.commands.rpg.entity.world;
 
-import net.kodehawa.mantarobot.commands.currency.entity.Entity;
-import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
+import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
+import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 
 public class EntityTree implements Entity {
 
@@ -46,12 +46,12 @@ public class EntityTree implements Entity {
 	}
 
 	@Override
-	public Type getType() {
-		return null;
+	public void onDeath() {
+
 	}
 
 	@Override
-	public void onDeath(){
-
+	public Type getType() {
+		return null;
 	}
 }
