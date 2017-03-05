@@ -267,6 +267,29 @@ public class OwnerCmd extends Module {
 					return;
 				}
 
+				if (option.equals("forceshutdown") || option.equals("forcerestart")) {
+					if (args.length == 2) {
+						try {
+							notifyMusic(args[1]).get();
+						} catch (InterruptedException | ExecutionException ignored) {
+						}
+					}
+
+					try {
+						prepareShutdown(event);
+					} catch (Exception e) {
+						LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+					}
+
+					//If we manage to get here, there's nothing else except us.
+
+					//Here in Darkness, everything is okay.
+					//Listen to the waves, and let them fade away.
+
+					System.exit(option.equals("forcerestart") ? 15 : 0);
+					return;
+				}
+
 				if (args.length < 2) {
 					onHelp(event);
 					return;
