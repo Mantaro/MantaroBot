@@ -372,9 +372,9 @@ public class MusicCmds extends Module {
 				GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(event.getGuild());
 				if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
 					musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
-				int TEMP_QUEUE_LENGHT = musicManager.getTrackScheduler().getQueue().size();
+				int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
 				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
-				event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGHT + " songs** from the queue.").queue();
+				event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 				MantaroBot.getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				event.getGuild().getAudioManager().closeAudioConnection();
 				TextChannelWorld.of(event).dropItemWithChance(0, 10);

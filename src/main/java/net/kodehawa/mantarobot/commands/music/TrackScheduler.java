@@ -152,8 +152,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
 		m.closeAudioConnection();
 
-		if (getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())
-			getPreviousTrack().getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
+		AudioTrackContext previousTrack = getPreviousTrack();
+
+		if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
+			previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
 	}
 
 	public void queue(AudioTrackContext audioTrackContext) {
