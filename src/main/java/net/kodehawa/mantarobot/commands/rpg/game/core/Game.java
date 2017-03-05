@@ -1,8 +1,8 @@
-package net.kodehawa.mantarobot.commands.currency.game.core;
+package net.kodehawa.mantarobot.commands.rpg.game.core;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;

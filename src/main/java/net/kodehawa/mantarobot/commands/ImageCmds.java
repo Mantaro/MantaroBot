@@ -41,7 +41,7 @@ public class ImageCmds extends Module {
 	private String tagsToEncode = "no";
 
 	public ImageCmds() {
-		super(Category.MISC);
+		super(Category.IMAGE);
 		yandere();
 		kona();
 		enterRatings();

@@ -1,8 +1,17 @@
 package net.kodehawa.mantarobot.modules;
 
 public enum Category {
-	ACTION("Action"), FUN("Fun"), CURRENCY("Currency"), MUSIC("Audio"), INFO("Info"), MISC("Misc"), GAMES("Games"),
-	MODERATION("Moderation"), CUSTOM("Custom"), OWNER("Owner"), GIF("Gif");
+	MUSIC("Audio"),
+	ACTION("Action"),
+	RPG("RPG"),
+	GAMES("Games"),
+	IMAGE("Image"),
+	FUN("Fun"),
+	MODERATION("Moderation"),
+	OWNER("Owner"),
+	INFO("Info"),
+	UTILS("Utils"),
+	MISC("Misc");
 
 	private final String s;
 

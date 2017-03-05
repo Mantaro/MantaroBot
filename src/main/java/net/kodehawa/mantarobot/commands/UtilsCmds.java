@@ -6,9 +6,8 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -33,6 +32,8 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -47,7 +48,7 @@ public class UtilsCmds extends Module {
 	private final Resty resty = new Resty();
 
 	public UtilsCmds() {
-		super(Category.MISC);
+		super(Category.UTILS);
 		translate();
 		birthday();
 		ytmp3();
@@ -124,6 +125,14 @@ public class UtilsCmds extends Module {
 		});
 	}
 
+	private String dateGMT(String timezone) throws ParseException, NullPointerException {
+		SimpleDateFormat dateGMT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		dateGMT.setTimeZone(TimeZone.getTimeZone(timezone));
+		SimpleDateFormat dateLocal = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		Date date1 = dateLocal.parse(dateGMT.format(new Date()));
+		return DateFormat.getInstance().format(date1);
+	}
+
 	private void googleSearch() {
 		super.register("google", new SimpleCommand() {
 			@Override
@@ -183,6 +192,38 @@ public class UtilsCmds extends Module {
 					.addField("Warning", "The floating point precision is set to 15 with a upwards rounding", true)
 					.build();
 			}
+		});
+	}
+
+	private void time() {
+		super.register("time", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				try {
+					if (content.startsWith("GMT")) {
+						event.getChannel().sendMessage(EmoteReference.MEGA + "The time is: " + dateGMT(content) + " in " + content).queue();
+					} else {
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "You didn't specify a valid timezone").queue();
+					}
+				} catch (Exception ignored) {
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Time")
+					.setDescription("Retrieves time in a specific timezone.\n"
+						+ "~>time [timezone]. Retrieves the time in the specified timezone.\n"
+						+ "**Parameter specification**\n"
+						+ "[timezone] A valid timezone between GMT-12 and GMT+14")
+					.build();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.USER;
+			}
+
 		});
 	}
 

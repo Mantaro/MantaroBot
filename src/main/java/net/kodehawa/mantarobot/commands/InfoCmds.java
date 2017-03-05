@@ -6,12 +6,12 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.commands.currency.CurrencyManager;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
+import net.kodehawa.mantarobot.commands.rpg.CurrencyManager;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
@@ -247,26 +247,14 @@ public class InfoCmds extends Module {
 						.setFooter(String.format("To check the command usage do %shelp <command> // -> Commands: " +
 								Manager.commands.entrySet().stream().filter(
 									(command) -> !command.getValue().getKey().isHiddenFromHelp()).count()
-							, prefix), null)
-						.addField("Music Commands:", forType(Category.MUSIC), false)
-						.addField("Custom Commands:", forType(Category.CUSTOM), false)
-						.addField("Action Commands:", forType(Category.ACTION), false)
-						.addField("Fun Commands:", forType(Category.FUN), false)
-						.addField("Currency Commands:", forType(Category.CURRENCY), false)
-						.addField("Gif Commands:", forType(Category.GIF), false)
-						.addField("Gaming Commands:", forType(Category.GAMES), false);
+							, prefix), null);
 
-					if (CommandPermission.ADMIN.test(event.getMember()))
-						embed.addField("Moderation Commands:", forType(Category.MODERATION), false);
+					Arrays.stream(Category.values())
+						.filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
+						.filter(c -> c != Category.OWNER || CommandPermission.BOT_OWNER.test(event.getMember()))
+						.forEach(c -> embed.addField(c + " Commands:", forType(c), false));
 
-					if (CommandPermission.BOT_OWNER.test(event.getMember()))
-						embed.addField("Owner Commands:", forType(Category.OWNER), false);
-
-					event.getChannel().sendMessage(embed
-						.addField("Info Commands:", forType(Category.INFO), false)
-						.addField("Misc Commands:", forType(Category.MISC), false)
-						.build()
-					).queue();
+					event.getChannel().sendMessage(embed.build()).queue();
 
 				} else {
 					Pair<Command, Category> command = Manager.commands.get(content);

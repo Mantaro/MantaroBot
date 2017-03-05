@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.currency.inventory;
+package net.kodehawa.mantarobot.commands.rpg.inventory;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,12 +1,12 @@
-package net.kodehawa.mantarobot.commands.currency.world;
+package net.kodehawa.mantarobot.commands.rpg.world;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.entity.Entity;
-import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.currency.inventory.Item;
-import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.inventory.Items;
+import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
+import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
+import net.kodehawa.mantarobot.commands.rpg.inventory.Item;
+import net.kodehawa.mantarobot.commands.rpg.inventory.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.inventory.Items;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

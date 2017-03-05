@@ -4,8 +4,8 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.data.data.GuildData;
 
 import java.util.*;

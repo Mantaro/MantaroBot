@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.currency.game.core;
+package net.kodehawa.mantarobot.commands.rpg.game.core;
 
 public enum GameReference {
 

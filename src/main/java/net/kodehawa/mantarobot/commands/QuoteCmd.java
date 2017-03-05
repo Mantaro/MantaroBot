@@ -28,7 +28,7 @@ public class QuoteCmd extends Module {
 	private final Random rand = new Random();
 
 	public QuoteCmd() {
-		super(Category.MISC);
+		super(Category.UTILS);
 		quote();
 	}
 

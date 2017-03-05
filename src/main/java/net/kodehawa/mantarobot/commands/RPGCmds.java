@@ -5,14 +5,14 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.RateLimiter;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP;
-import net.kodehawa.mantarobot.commands.currency.inventory.Item;
-import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.inventory.Items;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
+import net.kodehawa.mantarobot.commands.rpg.inventory.Item;
+import net.kodehawa.mantarobot.commands.rpg.inventory.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.inventory.Items;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
@@ -27,9 +27,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CurrencyCmds extends Module {
-	public CurrencyCmds() {
-		super(Category.CURRENCY);
+public class RPGCmds extends Module {
+	public RPGCmds() {
+		super(Category.RPG);
 
 		profile();
 		loot();
@@ -43,6 +43,14 @@ public class CurrencyCmds extends Module {
 		TODO NEXT:
 		 - transfer command
 		 */
+
+		Async.startAsyncTask("RPG Thread", () -> {
+			MantaroData.getData().get().users.values().forEach(player -> player.setMoney((long) Math.max(0, 0.999d + (player.getMoney() * 0.99562d))));
+			MantaroData.getData().get().guilds.values().stream()
+				.filter(guildData -> guildData.localMode && guildData.devaluation)
+				.flatMap(guildData -> guildData.users.values().stream())
+				.forEach(player -> player.setMoney((long) Math.floor(Math.max(0, 0.999d + (player.getMoney() * 0.99562d)))));
+		}, 3600);
 	}
 
 	private void gamble() {

@@ -7,8 +7,8 @@ import com.osu.api.ciyfhx.UserScore;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -29,16 +29,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class OsuCmd extends Module {
+public class OsuStatsCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
 	private Map<String, Object> map = new HashMap<>();
 	private String mods1 = "";
 	private OsuClient osuClient = null;
 
-	public OsuCmd() {
+	public OsuStatsCmd() {
 		super(Category.GAMES);
 		osuClient = new OsuClient(MantaroData.getConfig().get().osuApiKey);
-		osu();
+		osustats();
 	}
 
 	private String best(String content) {
@@ -83,8 +83,8 @@ public class OsuCmd extends Module {
 		return finalResponse;
 	}
 
-	private void osu() {
-		super.register("osu", new SimpleCommand() {
+	private void osustats() {
+		super.register("osustats", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];

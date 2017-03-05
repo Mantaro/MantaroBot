@@ -1,28 +1,28 @@
-package net.kodehawa.mantarobot.commands.currency.entity.player;
+package net.kodehawa.mantarobot.commands.rpg.entity.player;
 
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.commands.currency.entity.Entity;
-import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.currency.inventory.Inventory;
-import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
+import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
+import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
+import net.kodehawa.mantarobot.commands.rpg.inventory.ItemStack;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 /**
- * Single Guild {@link net.kodehawa.mantarobot.commands.currency.entity.Entity} wrapper.
+ * Single Guild {@link net.kodehawa.mantarobot.commands.rpg.entity.Entity} wrapper.
  * This contains all the functions necessary to make the Player interact with the {@link TextChannelWorld} (World).
  * <p>
- * This is extended on {@link net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayerMP} (Global), so it also contains those objects.
+ * This is extended on {@link net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP} (Global), so it also contains those objects.
  * When returned, it will return a {@link java.lang.String}  representation of all the objects here.
  * <p>
  * The user will see a representation of this if the guild is in local mode, else it will be a representation of EntityPlayerMP
  *
  * @author Kodehawa
- * @see net.kodehawa.mantarobot.commands.currency.entity.Entity
+ * @see net.kodehawa.mantarobot.commands.rpg.entity.Entity
  */
 public class EntityPlayer implements Entity {
 	private transient static String entity;
@@ -202,7 +202,7 @@ public class EntityPlayer implements Entity {
 	}
 
 	/**
-	 * Sets a game. Normally done on a instance of {@link net.kodehawa.mantarobot.commands.currency.game.core.Game}
+	 * Sets a game. Normally done on a instance of {@link net.kodehawa.mantarobot.commands.rpg.game.core.Game}
 	 *
 	 * @param game    The game you're gonna set. If set to null, it's taken as "no game" and normally done on Game close operations.
 	 * @param channel The channel this was set on.

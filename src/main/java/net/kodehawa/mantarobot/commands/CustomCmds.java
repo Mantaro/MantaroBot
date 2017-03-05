@@ -6,9 +6,9 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.custom.DeathTimer;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -103,7 +103,7 @@ public class CustomCmds extends Module {
 	private final Pair<Command, Category> cmdPair = Pair.of(customCommand, null);
 
 	public CustomCmds() {
-		super(Category.CUSTOM);
+		super(Category.UTILS);
 
 		Pattern addPattern = Pattern.compile(";");
 

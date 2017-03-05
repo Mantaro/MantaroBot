@@ -1,6 +1,6 @@
-package net.kodehawa.mantarobot.commands.currency;
+package net.kodehawa.mantarobot.commands.rpg;
 
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 public class CurrencyManager {

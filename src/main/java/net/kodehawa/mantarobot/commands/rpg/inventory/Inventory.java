@@ -1,6 +1,6 @@
-package net.kodehawa.mantarobot.commands.currency.inventory;
+package net.kodehawa.mantarobot.commands.rpg.inventory;
 
-import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.commands.currency.inventory.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.commands.currency.inventory.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.commands.rpg.inventory.Inventory.Resolver.serialize;
+import static net.kodehawa.mantarobot.commands.rpg.inventory.Inventory.Resolver.unserialize;
 
 public class Inventory {
 	static class Resolver {

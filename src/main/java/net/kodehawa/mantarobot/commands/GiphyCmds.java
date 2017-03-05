@@ -13,15 +13,17 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.Optional;
 import java.util.Random;
 
-public class GifCmds extends Module {
+public class GiphyCmds extends Module {
 
 	private Giphy giphy = new Giphy();
 
-	public GifCmds() {
-		super(Category.GIF);
+	public GiphyCmds() {
+		super(Category.UTILS);
 		random();
 		search();
 		trending();
+		//TODO JOIN THE COMMANDS
+		//I'M TOO LAZY LOL
 	}
 
 	private void random() {

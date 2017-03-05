@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.currency;
+package net.kodehawa.mantarobot.commands.rpg;
 
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
