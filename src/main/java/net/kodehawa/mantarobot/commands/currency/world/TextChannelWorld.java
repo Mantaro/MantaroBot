@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.currency.world;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.Entity;
+import net.kodehawa.mantarobot.commands.currency.game.core.Game;
 import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.currency.inventory.Item;
 import net.kodehawa.mantarobot.commands.currency.inventory.ItemStack;
@@ -103,6 +104,10 @@ public class TextChannelWorld {
 
 	public Map<GameReference, Integer> getRunningGames() {
 		return ACTIVE_GAMES;
+	}
+
+	public Map<Entity, GameReference> getActiveEntities() {
+		return ACTIVE_ENTITIES;
 	}
 
 	public TextChannelWorld removeEntity(Entity entity) {

@@ -61,7 +61,7 @@ public class ImageGuess extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		player.setCurrentGame(type, event.getChannel());
-		TextChannelWorld.of(event.getChannel()).addEntity(player, type);
+		TextChannelWorld.of(event.getChannel()).addGame(type, 1);
 		int random = new Random().nextInt(search.length);
 		try {
 			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(search[random], "UTF-8"), authToken);
@@ -88,6 +88,11 @@ public class ImageGuess extends Game {
 			onError(LOGGER, event, player, e);
 			return false;
 		}
+	}
+
+	@Override
+	public GameReference type() {
+		return GameReference.IMAGEGUESS;
 	}
 
 	public String getCharacterName() {

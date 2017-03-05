@@ -25,7 +25,20 @@ import java.util.*;
  * @see net.kodehawa.mantarobot.commands.currency.entity.Entity
  */
 public class EntityPlayer implements Entity {
+	public Map<Integer, Integer> inventory = new HashMap<>();
+	private int health = 250, stamina = 100;
+	private long money = 0;
+	private UUID uniqueId;
+
+	//Don't serialize this.
 	private transient static String entity;
+	private transient GameReference currentGame;
+	private transient boolean processing;
+
+	/**
+	 * Default constructor for this player. Won't do much, tbh.
+	 */
+	public EntityPlayer() {}
 
 	/**
 	 * (INTERNAL)
@@ -50,17 +63,6 @@ public class EntityPlayer implements Entity {
 		Objects.requireNonNull(entityId, "Player id cannot be null!");
 		entity = entityId;
 		return MantaroData.getData().get().users.getOrDefault(entityId, new EntityPlayerMP());
-	}
-
-	public Map<Integer, Integer> inventory = new HashMap<>();
-	private transient GameReference currentGame;
-	private int health = 250, stamina = 100;
-	private long money = 0;
-	//Don't serialize this.
-	private transient boolean processing;
-	private UUID uniqueId;
-
-	public EntityPlayer() {
 	}
 
 	@Override
@@ -101,6 +103,9 @@ public class EntityPlayer implements Entity {
 	}
 
 	@Override
+	public void behaviour() {}
+
+	@Override
 	public Type getType() {
 		return Type.PLAYER;
 	}
@@ -114,7 +119,7 @@ public class EntityPlayer implements Entity {
 	@Override
 	public String toString() {
 		return String.format(this.getClass().getSimpleName() +
-				"({type: %s, id: %s, entity: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s)",
+				"({type: %s, id: %s, entity: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s)}",
 			getType(), getId(), entity, getMoney(), getHealth(), getStamina(), isProcessing(), getInventory().asList(), getGame());
 	}
 

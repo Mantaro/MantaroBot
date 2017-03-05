@@ -4,7 +4,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.currency.game.Trivia;
-import net.kodehawa.mantarobot.commands.currency.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.currency.game.ImageGuess;
 import net.kodehawa.mantarobot.commands.currency.game.Pokemon;
 import net.kodehawa.mantarobot.modules.Category;
@@ -28,9 +27,9 @@ public class GameCmds extends Module {
 				if(args[0].equals("image")){
 					ImageGuess guess = new ImageGuess();
 					EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
-					if(guess.check(event, player.getGame())){
+					if(guess.check(event, guess.type())){
 						event.getJDA().addEventListener(guess);
-						guess.onStart(event, GameReference.IMAGEGUESS, player);
+						guess.onStart(event, guess.type(), player);
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 					}
@@ -48,9 +47,9 @@ public class GameCmds extends Module {
 				if(args[0].equals("pokemon")){
 					Pokemon pokemon = new Pokemon();
 					EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
-					if(pokemon.check(event, player.getGame())){
+					if(pokemon.check(event, pokemon.type())){
 						event.getJDA().addEventListener(pokemon);
-						pokemon.onStart(event, GameReference.TRIVIA, player);
+						pokemon.onStart(event, pokemon.type(), player);
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 					}
@@ -73,9 +72,9 @@ public class GameCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Trivia trivia = new Trivia();
 				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
-				if(trivia.check(event, player.getGame())){
+				if(trivia.check(event, trivia.type())){
 					event.getJDA().addEventListener(trivia);
-					trivia.onStart(event, GameReference.TRIVIA, player);
+					trivia.onStart(event, trivia.type(), player);
 				} else {
 					event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 				}
@@ -92,14 +91,7 @@ public class GameCmds extends Module {
 		super.register("hangman", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				/*Hangman hangman = new Hangman();
-				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
-				if(hangman.check(event, player.getGame())){
-					event.getJDA().addEventListener(hangman);
-					hangman.onStart(event, GameReference.HANGMAN, player);
-				} else {
-					event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
-				}*/
+
 			}
 
 			@Override

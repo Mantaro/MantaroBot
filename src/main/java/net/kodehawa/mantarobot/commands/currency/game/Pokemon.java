@@ -54,8 +54,8 @@ public class Pokemon extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try {
+			TextChannelWorld.of(event.getChannel()).addGame(type, 1);
 			player.setCurrentGame(type, event.getChannel());
-			TextChannelWorld.of(event.getChannel()).addEntity(player, type);
 			Random rand = new Random();
 			List<String> guesses = MantaroData.getPokemonGuesses().get();
 			String[] data = guesses.get(rand.nextInt(guesses.size())).split("`");
@@ -71,5 +71,10 @@ public class Pokemon extends Game {
 			onError(LOGGER, event, player, e);
 			return false;
 		}
+	}
+
+	@Override
+	public GameReference type() {
+		return GameReference.TRIVIA;
 	}
 }
