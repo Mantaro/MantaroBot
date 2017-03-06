@@ -245,7 +245,13 @@ public class EntityPlayer extends EntityTickable {
 	 */
 	public void setCurrentGame(@Nullable GameReference game, TextChannel channel) {
 		currentGame = game;
-		if (game != null) TextChannelWorld.of(channel).addGame(game);
-		else TextChannelWorld.of(channel).removeGame(game);
+		if (game != null){
+			TextChannelWorld.of(channel).addGame(game);
+			TextChannelWorld.of(channel).addEntity(this);
+		}
+		else{
+			TextChannelWorld.of(channel).removeGame(game);
+			TextChannelWorld.of(channel).removeEntity(this);
+		}
 	}
 }
