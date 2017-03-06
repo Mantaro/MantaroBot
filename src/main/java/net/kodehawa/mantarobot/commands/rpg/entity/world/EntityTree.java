@@ -76,20 +76,17 @@ public class EntityTree extends EntityTickable {
 	public void onSpawn(TextChannelWorld world){
 		this.world = world;
 		if(getWorld().getActiveEntities().stream().filter(entity -> (entity instanceof EntityTree)).count() >= 10){
-			System.out.println("Entity cap reached.");
 			return;
 		}
 		Random random = new Random();
 		int base = random.nextInt(350);
 		this.setCoordinates(new Coordinates(Math.abs(base - random.nextInt(200)), 0, Math.abs(base - random.nextInt(30)), getWorld()));
 		getWorld().addEntity(this);
-		System.out.println(this + " spawned on " + getWorld());
 	}
 
 	public void onDeath(){
 		if(health == 0){
 			getWorld().removeEntity(this);
-			System.out.println(this + " died on " + getWorld());
 		}
 	}
 

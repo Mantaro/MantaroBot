@@ -169,7 +169,7 @@ public interface Entity {
 		}
 
 		public String toString(){
-			return String.format("[Coordinates(%d, %d, %d), World(%s)]", x, y, z, entityWorld);
+			return String.format("[Coordinates(%d, %d, %d)]", x, y, z);
 		}
 	}
 }

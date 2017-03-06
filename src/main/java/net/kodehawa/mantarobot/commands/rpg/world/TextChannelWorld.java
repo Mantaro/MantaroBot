@@ -151,11 +151,9 @@ public class TextChannelWorld {
 			}
 
 			if(!entityTickable.check(event)){
-				System.out.println("Ticked entity");
-				entityTickable.tick(thi	s, event);
+				entityTickable.tick(this, event);
 			}
 		});
-		System.out.println("Ticked world.");
 	}
 
 	public String toString(){

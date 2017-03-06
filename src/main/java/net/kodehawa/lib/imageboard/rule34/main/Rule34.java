@@ -49,6 +49,7 @@ public class Rule34 {
 					.header("Content-Type", "text/xml")
 					.asString()
 					.getBody();
+			System.out.println(Utils.paste(response));
 			wallpapers =  Utils.XML_MAPPER.readValue(response, Hentai[].class);
 		} catch (Exception e) {
 			e.printStackTrace();

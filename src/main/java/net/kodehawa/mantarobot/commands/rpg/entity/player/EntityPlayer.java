@@ -52,7 +52,6 @@ public class EntityPlayer extends EntityTickable {
 	public void tick(TextChannelWorld world, GuildMessageReceivedEvent event) {
 		//this is a test pls.
 		behaviour(world);
-		System.out.println("Ticked player.");
 	}
 
 	/**
@@ -251,7 +250,7 @@ public class EntityPlayer extends EntityTickable {
 			TextChannelWorld.of(channel).addEntity(this);
 		}
 		else{
-			TextChannelWorld.of(channel).removeGame(game);
+			TextChannelWorld.of(channel).addGame(null);
 			TextChannelWorld.of(channel).removeEntity(this);
 		}
 	}
