@@ -1,6 +1,7 @@
 package net.kodehawa.lib.mantarolang;
 
 import net.kodehawa.lib.mantarolang.internal.Runtime;
+import net.kodehawa.lib.mantarolang.internal.RuntimeOperation;
 import net.kodehawa.lib.mantarolang.internal.RuntimeOperator;
 import net.kodehawa.lib.mantarolang.objects.*;
 import net.kodehawa.lib.mantarolang.objects.operations.*;
@@ -76,7 +77,7 @@ public class MantaroLangCompiler {
 		return new LangClosure(compiled, thisObj);
 	}
 
-	public static Consumer<Runtime> compile(String code) {
+	public static RuntimeOperation compile(String code) {
 		Objects.requireNonNull(code, "code");
 
 		RuntimeOperator runtime = new RuntimeOperator();
@@ -162,7 +163,9 @@ public class MantaroLangCompiler {
 					if (block.isEmpty()) {
 						runtime.replace(cur -> null);
 					} else {
-						UnaryOperator<Runtime> function = asFunction(compile(block));
+						RuntimeOperation compiled = compile(block);
+						runtime.countSub(compiled);
+						UnaryOperator<Runtime> function = asFunction(compiled);
 						runtime.replaceWithList((r, cur) -> function.apply(r.copy()).done());
 					}
 
@@ -190,7 +193,9 @@ public class MantaroLangCompiler {
 					if (block.isEmpty()) {
 						runtime.replace((r, cur) -> closure(asFunction(r1 -> r1.replace(null)), r.thisObj()));
 					} else {
-						UnaryOperator<Runtime> function = asFunction(compile(block));
+						RuntimeOperation compiled = compile(block);
+						runtime.countSub(compiled);
+						UnaryOperator<Runtime> function = asFunction(compiled);
 						runtime.replace((r, cur) -> closure(function, r.thisObj()));
 					}
 
@@ -218,7 +223,9 @@ public class MantaroLangCompiler {
 					if (block.isEmpty()) {
 						runtime.replace(cur -> new LangList());
 					} else {
-						UnaryOperator<Runtime> function = asFunction(compile(block));
+						RuntimeOperation compiled = compile(block);
+						runtime.countSub(compiled);
+						UnaryOperator<Runtime> function = asFunction(compiled);
 						runtime.replace((r, cur) -> new LangList(function.apply(r.copy()).doneWithoutThis()));
 					}
 
@@ -395,7 +402,9 @@ public class MantaroLangCompiler {
 					if (block.isEmpty()) {
 						runtime.replaceWithList(cur -> cast(cur, LangCallable.class).call());
 					} else {
-						UnaryOperator<Runtime> function = asFunction(compile(block));
+						RuntimeOperation compiled = compile(block);
+						runtime.countSub(compiled);
+						UnaryOperator<Runtime> function = asFunction(compiled);
 						runtime.replaceWithList((r, cur) -> cast(cur, LangCallable.class).call(function.apply(r.copy()).done()));
 					}
 					continue;
@@ -535,7 +544,7 @@ public class MantaroLangCompiler {
 			queuedOperation = null;
 		}
 
-		return runtime.getOperation();
+		return runtime.done();
 	}
 
 	private static char escape(char c) {
@@ -555,12 +564,12 @@ public class MantaroLangCompiler {
 		try {
 			System.out.print("Compiling...");
 			long millis = -System.currentTimeMillis();
-			Consumer<Runtime> compiled = compile("{this+this}*2");
+			RuntimeOperation compiled = compile("{this+this}*2");
 			millis += System.currentTimeMillis();
 			System.out.println(" took " + millis + " ms");
 			System.out.print("Running...");
 			millis = -System.currentTimeMillis();
-			List<LangObject> result = asFunction(compiled).apply(new Runtime(null)).done();
+			List<LangObject> result = asFunction(compiled::execute).apply(new Runtime(null)).done();
 			millis += System.currentTimeMillis();
 			System.out.println(" took " + millis + " ms");
 
