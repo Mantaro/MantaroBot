@@ -10,6 +10,7 @@ public class Config {
 	public String alsecret = null;
 	public String carbonToken = null;
 	public String dbotsToken = null;
+	public String dbotsorgToken = null;
 	public String osuApiKey = null;
 	public List<String> owners = new ArrayList<>();
 	public String token = null;

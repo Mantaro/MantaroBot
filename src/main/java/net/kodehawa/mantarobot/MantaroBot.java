@@ -94,12 +94,15 @@ public class MantaroBot {
 
 		String dbotsToken = config.dbotsToken;
 		String carbonToken = config.carbonToken;
+		String dbotsorgToken = config.dbotsorgToken;
 
 		if (dbotsToken != null) {
-			Async.startAsyncTask("DBots Thread", () -> {
+			Async.startAsyncTask("List API update Thread", () -> {
 				int newC = jda.getGuilds().size();
 				if (newC != guildCount.get()) {
+					try {
 					guildCount.accept(newC);
+					//Unirest.post intensifies
 
 					Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
 						.header("Authorization", dbotsToken)
@@ -107,22 +110,22 @@ public class MantaroBot {
 						.body(new JSONObject().put("server_count", newC).toString())
 						.asJsonAsync();
 
-					LOGGER.info("Updated DBots Guild Count: " + newC + " guilds");
-				}
-			}, 1800);
-		}
+					LOGGER.info("Successfully posted the botdata to carbonitex.com: " +
+							Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
+							.field("key", carbonToken)
+							.field("servercount", newC)
+							.asString().getBody());
 
-		if (carbonToken != null) {
-			Async.startAsyncTask("Carbon Thread", () -> {
-				int newC = jda.getGuilds().size();
+					Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
+							.header("Authorization", dbotsorgToken)
+							.header("Content-Type", "application/json")
+							.body(new JSONObject().put("server_count", newC).toString())
+							.asJsonAsync();
 
-				try {
-					LOGGER.info("Successfully posted the botdata to carbonitex.com: " + Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
-						.field("key", carbonToken)
-						.field("servercount", newC)
-						.asString().getBody());
-				} catch (Exception e) {
-					LOGGER.error("An error occured while posting the botdata to carbonitex.com", e);
+					LOGGER.info("Updated discord lists Guild Count: " + newC + " guilds");
+					} catch (Exception e) {
+						LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org", e);
+					}
 				}
 			}, 1800);
 		}
