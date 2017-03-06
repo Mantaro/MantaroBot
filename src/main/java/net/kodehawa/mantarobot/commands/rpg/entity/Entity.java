@@ -126,6 +126,12 @@ public interface Entity {
 	 */
 	Type getType();
 
+	default void add(TextChannelWorld world){
+		if(!world.getActiveEntities().contains(this)){
+			world.addEntity(this);
+		}
+	}
+
 	/**
 	 * @return A string representation of this {@link Entity}
 	 */
@@ -161,7 +167,7 @@ public interface Entity {
 		int z;
 		TextChannelWorld entityWorld;
 
-		public Coordinates(int x, int z, int y, TextChannelWorld world){
+		public Coordinates(int x, int y, int z, TextChannelWorld world){
 			this.x = x;
 			this.y = y;
 			this.z = z;

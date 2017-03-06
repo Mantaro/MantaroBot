@@ -6,6 +6,8 @@ import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
 import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 
+import java.util.Random;
+
 public class EntityTree extends EntityTickable {
 
 	private int health = 100;
@@ -14,6 +16,7 @@ public class EntityTree extends EntityTickable {
 
 	@Override
 	public void tick(TextChannelWorld world, GuildMessageReceivedEvent event) {
+		onSpawn();
 		onDeath();
 	}
 
@@ -73,15 +76,18 @@ public class EntityTree extends EntityTickable {
 	}
 
 	public void onSpawn(){
-		if(getWorld().getActiveEntities().stream().filter(entity -> (entity instanceof EntityTree)).count() > 20) return;
+		if(getWorld().getActiveEntities().stream().filter(entity -> (entity instanceof EntityTree)).count() > 1) return;
 		getWorld().addEntity(this);
+		Random random = new Random();
+		int base = random.nextInt(350);
+		this.setCoordinates(new Coordinates(Math.abs(base - random.nextInt(200)), 0, Math.abs(base - random.nextInt(30)), getWorld()));
 		System.out.println(this + " spawned on " + getWorld());
 	}
 
 	public void onDeath(){
 		if(health == 0){
 			getWorld().removeEntity(this);
-			System.out.println(this + " died " + getWorld());
+			System.out.println(this + " died on " + getWorld());
 		}
 	}
 

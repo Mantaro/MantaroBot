@@ -26,7 +26,7 @@ public class GameCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if(args[0].equals("image")){
 					ImageGuess guess = new ImageGuess();
-					EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(guess.check(event, guess.type())){
 						event.getJDA().addEventListener(guess);
 						guess.onStart(event, guess.type(), player);
@@ -46,7 +46,7 @@ public class GameCmds extends Module {
 
 				if(args[0].equals("pokemon")){
 					Pokemon pokemon = new Pokemon();
-					EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(pokemon.check(event, pokemon.type())){
 						event.getJDA().addEventListener(pokemon);
 						pokemon.onStart(event, pokemon.type(), player);
@@ -85,7 +85,7 @@ public class GameCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Trivia trivia = new Trivia();
-				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer player = EntityPlayer.getPlayer(event);
 				if(trivia.check(event, trivia.type())){
 					event.getJDA().addEventListener(trivia);
 					trivia.onStart(event, trivia.type(), player);

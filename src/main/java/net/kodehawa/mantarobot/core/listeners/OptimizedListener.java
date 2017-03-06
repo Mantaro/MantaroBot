@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.hooks.EventListener;
 
 public abstract class OptimizedListener<T extends Event> implements EventListener {
-	private final Class<T> tClass;
+	private transient final Class<T> tClass;
 
 	public OptimizedListener(Class<T> tClass) {
 		this.tClass = tClass;

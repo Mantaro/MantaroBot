@@ -33,7 +33,7 @@ public class EntityPlayer extends EntityTickable {
 
 	//Don't serialize this.
 	private static transient TextChannelWorld world;
-	private transient Coordinates coordinates;
+	private transient Coordinates coordinates = new Coordinates(0, 0, 0, world);
 	private transient static String entity;
 	private transient GameReference currentGame;
 	private transient boolean processing;
