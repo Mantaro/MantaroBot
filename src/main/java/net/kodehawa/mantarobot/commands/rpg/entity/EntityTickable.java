@@ -8,9 +8,12 @@ public abstract class EntityTickable implements Entity {
     public abstract void tick(TextChannelWorld world, GuildMessageReceivedEvent event);
 
     public boolean check(GuildMessageReceivedEvent event){
-        if(!(getWorld() == TextChannelWorld.of(event.getChannel()))) return false;
+        return getWorld() == TextChannelWorld.of(event.getChannel());
+    }
 
-        tick(getWorld(), event);
-        return true;
+    public void add(TextChannelWorld world){
+        if(!world.getActiveEntities().contains(this)){
+            world.addEntity(this);
+        }
     }
 }

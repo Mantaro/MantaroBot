@@ -126,12 +126,6 @@ public interface Entity {
 	 */
 	Type getType();
 
-	default void add(TextChannelWorld world){
-		if(!world.getActiveEntities().contains(this)){
-			world.addEntity(this);
-		}
-	}
-
 	/**
 	 * @return A string representation of this {@link Entity}
 	 */

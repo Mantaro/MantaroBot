@@ -52,6 +52,7 @@ public class EntityPlayer extends EntityTickable {
 	public void tick(TextChannelWorld world, GuildMessageReceivedEvent event) {
 		//this is a test pls.
 		behaviour(world);
+		System.out.println("Ticked player.");
 	}
 
 	/**

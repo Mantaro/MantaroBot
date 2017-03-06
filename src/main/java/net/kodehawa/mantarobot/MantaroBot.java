@@ -9,8 +9,6 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Game;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.VoiceChannelListener;
-import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Config;
@@ -150,11 +148,6 @@ public class MantaroBot {
 		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands");
 
 		modules.forEach(Module::onPostLoad);
-
-		Async.startAsyncTask("Entity updating", () ->
-						jda.getTextChannels().forEach(textChannel -> TextChannelWorld.of(textChannel).getActiveEntities().
-								forEach(entity -> entity.behaviour(TextChannelWorld.of(textChannel))))
-				, 850);
 	}
 
 	public static void main(String[] args) {

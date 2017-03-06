@@ -44,7 +44,6 @@ public class Rule34 {
 		Hentai[] wallpapers;
 		Optional.ofNullable(search).ifPresent((element) -> queryParams.put("tags", search.toLowerCase().trim()));
 		try {
-			System.out.println("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams));
 			String response = Unirest.get("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams))
 					.header("User-Agent", "Mantaro")
 					.header("Content-Type", "text/xml")

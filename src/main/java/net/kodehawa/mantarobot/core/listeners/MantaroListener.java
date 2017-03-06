@@ -15,6 +15,8 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
+import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
@@ -24,10 +26,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
-import java.util.TreeMap;
+import java.util.*;
 
 public class MantaroListener implements EventListener {
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
@@ -35,6 +34,8 @@ public class MantaroListener implements EventListener {
 	private static int logTotal = 0;
 	//Message cache of 1500 messages. If it reaches 1500 it will delete the first one stored, and continue being 350
 	private static TreeMap<String, Message> messageCache = new TreeMap<>();
+	private static long ticks;
+	Random r = new Random();
 
 	public static String getCommandTotal() {
 		return String.valueOf(commandTotal);
@@ -212,6 +213,14 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
+
+		//Tick worlds and entities.
+		if(r.nextInt(200) > 150){
+			ticks++;
+			TextChannelWorld world = TextChannelWorld.of(event);
+			world.tick(event);
+		}
+
 		if (messageCache.size() <= 1500) {
 			messageCache.put(event.getMessage().getId(), event.getMessage());
 		} else {
@@ -298,5 +307,9 @@ public class MantaroListener implements EventListener {
 			tc.sendMessage("\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
 			logTotal++;
 		}
+	}
+
+	public static long getTotalTicks(){
+		return ticks;
 	}
 }

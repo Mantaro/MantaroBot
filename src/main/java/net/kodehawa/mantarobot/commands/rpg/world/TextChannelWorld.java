@@ -3,18 +3,23 @@ package net.kodehawa.mantarobot.commands.rpg.world;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
+import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.commands.rpg.entity.world.EntityTree;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.item.Items;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextChannelWorld {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
-	private static List<Entity> ACTIVE_ENTITIES = new ArrayList<>();
+	private static List<EntityTickable> ACTIVE_ENTITIES = new CopyOnWriteArrayList<>();
+	private static List<Entity> ACTIVE_STATIC_ENTITIES = new CopyOnWriteArrayList<>(); //non-tickable
 	private static List<GameReference> ACTIVE_GAMES = new ArrayList<>();
 	private static Random r = new Random(System.currentTimeMillis());
 	private static TextChannel channel;
@@ -41,7 +46,13 @@ public class TextChannelWorld {
 		this.money = money;
 	}
 
-	public TextChannelWorld addEntity(Entity entity) {
+	public TextChannelWorld addStaticEntity(Entity entity) {
+		ACTIVE_STATIC_ENTITIES.add(entity);
+		return this;
+	}
+
+
+	public TextChannelWorld addEntity(EntityTickable entity) {
 		ACTIVE_ENTITIES.add(entity);
 		return this;
 	}
@@ -108,18 +119,43 @@ public class TextChannelWorld {
 		return ACTIVE_GAMES;
 	}
 
-	public List<Entity> getActiveEntities() {
+	public List<EntityTickable> getActiveEntities() {
 		return ACTIVE_ENTITIES;
 	}
 
-	public TextChannelWorld removeEntity(Entity entity) {
+	public TextChannelWorld removeEntity(EntityTickable entity) {
 		ACTIVE_ENTITIES.remove(entity);
+		return this;
+	}
+
+	public TextChannelWorld removeStaticEntity(Entity entity) {
+		ACTIVE_STATIC_ENTITIES.remove(entity);
 		return this;
 	}
 
 	public TextChannelWorld removeGame(GameReference game) {
 		ACTIVE_GAMES.remove(game);
 		return this;
+	}
+
+	public void tick(GuildMessageReceivedEvent event){
+		if(ACTIVE_ENTITIES.isEmpty()){
+			EntityTree tree = new EntityTree();
+			tree.onSpawn(TextChannelWorld.of(event));
+		}
+
+		ACTIVE_ENTITIES.forEach(entityTickable -> {
+			if(entityTickable instanceof EntityPlayer){
+				if(((EntityPlayer) entityTickable).getGame() == null && !((EntityPlayer) entityTickable).isProcessing())
+					ACTIVE_ENTITIES.remove(entityTickable);
+			}
+
+			if(!entityTickable.check(event)){
+				System.out.println("Ticked entity");
+				entityTickable.tick(thi	s, event);
+			}
+		});
+		System.out.println("Ticked world.");
 	}
 
 	public String toString(){

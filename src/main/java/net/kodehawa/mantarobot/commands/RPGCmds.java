@@ -511,6 +511,7 @@ public class RPGCmds extends Module {
 			}
 
 			player.setProcessing(true);
+			player.add(TextChannelWorld.of(event));
 			event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. You need to rest for a bit. Wait a minute for it to be completely regenerated.").queue();
 			Async.startAsyncTask("Stamina Task (Process) [" + player + "]", s -> {
 				if (!player.addStamina(10)) {
@@ -528,6 +529,7 @@ public class RPGCmds extends Module {
 			}
 
 			player.setProcessing(true);
+			player.add(TextChannelWorld.of(event));
 			event.getChannel().sendMessage(EmoteReference.ERROR + "You're too sick, so you were transferred to the hospital. In 15 minutes you should be okay.").queue();
 			Async.asyncSleepThen(900000, () -> {
 				player.addHealth(player.getMaxHealth() - 10);
