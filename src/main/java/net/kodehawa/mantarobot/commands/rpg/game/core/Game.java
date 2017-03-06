@@ -23,13 +23,13 @@ public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> 
 
 	@Override
 	public void event(GuildMessageReceivedEvent event) {
-		call(event, EntityPlayer.getPlayer(event.getMember()));
+		call(event, EntityPlayer.getPlayer(event));
 	}
 
 	public boolean check(GuildMessageReceivedEvent event, GameReference type) {
-		System.out.println(TextChannelWorld.of(event.getChannel()).getRunningGames().keySet());
-		System.out.println(TextChannelWorld.of(event.getChannel()).getActiveEntities().keySet());
-		return !TextChannelWorld.of(event.getChannel()).getRunningGames().containsKey(type);
+		System.out.println(TextChannelWorld.of(event.getChannel()).getRunningGames());
+		System.out.println(TextChannelWorld.of(event.getChannel()).getActiveEntities());
+		return !TextChannelWorld.of(event.getChannel()).getRunningGames().contains(type);
 	}
 
 	protected void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {

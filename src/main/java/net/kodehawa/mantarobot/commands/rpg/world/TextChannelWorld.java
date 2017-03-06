@@ -14,19 +14,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TextChannelWorld {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
-	private static Map<Entity, GameReference> ACTIVE_ENTITIES = new HashMap<>();
-	private static Map<GameReference, Integer> ACTIVE_GAMES = new HashMap<>();
+	private static List<Entity> ACTIVE_ENTITIES = new ArrayList<>();
+	private static List<GameReference> ACTIVE_GAMES = new ArrayList<>();
 	private static Random r = new Random(System.currentTimeMillis());
+	private static TextChannel channel;
 
 	public static TextChannelWorld of(String id) {
 		return new TextChannelWorld(DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()), DROPPED_MONEY.computeIfAbsent(id, k -> new AtomicInteger(0)));
 	}
 
-	public static TextChannelWorld of(TextChannel channel) {
-		return of(channel.getId());
+	public static TextChannelWorld of(TextChannel ch) {
+		channel = ch;
+		return of(ch.getId());
 	}
 
 	public static TextChannelWorld of(GuildMessageReceivedEvent event) {
+		channel = event.getChannel();
 		return of(event.getChannel());
 	}
 
@@ -38,17 +41,17 @@ public class TextChannelWorld {
 		this.money = money;
 	}
 
-	public TextChannelWorld addEntity(Entity entity, GameReference game) {
-		ACTIVE_ENTITIES.put(entity, game);
+	public TextChannelWorld addEntity(Entity entity) {
+		ACTIVE_ENTITIES.add(entity);
 		return this;
 	}
 
-	public TextChannelWorld addGame(GameReference game, int people) {
+	public TextChannelWorld addGame(GameReference game) {
 		//if it's running.
 		removeGame(game);
 
 		//add it with new quantity of people
-		ACTIVE_GAMES.put(game, people);
+		ACTIVE_GAMES.add(game);
 
 		return this;
 	}
@@ -101,11 +104,11 @@ public class TextChannelWorld {
 		return doDrop;
 	}
 
-	public Map<GameReference, Integer> getRunningGames() {
+	public List<GameReference> getRunningGames() {
 		return ACTIVE_GAMES;
 	}
 
-	public Map<Entity, GameReference> getActiveEntities() {
+	public List<Entity> getActiveEntities() {
 		return ACTIVE_ENTITIES;
 	}
 
@@ -117,5 +120,9 @@ public class TextChannelWorld {
 	public TextChannelWorld removeGame(GameReference game) {
 		ACTIVE_GAMES.remove(game);
 		return this;
+	}
+
+	public String toString(){
+		return String.format("{World(%s, %s)}", channel, getActiveEntities().size());
 	}
 }

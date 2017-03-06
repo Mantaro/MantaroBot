@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.commands.rpg.entity.player;
 
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
@@ -24,13 +24,16 @@ import java.util.*;
  * @author Kodehawa
  * @see net.kodehawa.mantarobot.commands.rpg.entity.Entity
  */
-public class EntityPlayer implements Entity {
+public class EntityPlayer extends EntityTickable {
 	public Map<Integer, Integer> inventory = new HashMap<>();
-	private int health = 250, stamina = 100;
+	private int health = 250;
+	private int stamina = 100;
 	private long money = 0;
 	private UUID uniqueId;
 
 	//Don't serialize this.
+	private static transient TextChannelWorld world;
+	private transient Coordinates coordinates;
 	private transient static String entity;
 	private transient GameReference currentGame;
 	private transient boolean processing;
@@ -41,16 +44,28 @@ public class EntityPlayer implements Entity {
 	public EntityPlayer() {}
 
 	/**
+	 * Ticks this entity on every message received on the world.
+	 * @param world The world where this entity is located at.
+	 * @param event The received event.
+	 */
+	@Override
+	public void tick(TextChannelWorld world, GuildMessageReceivedEvent event) {
+		//this is a test pls.
+		behaviour(world);
+	}
+
+	/**
 	 * (INTERNAL)
 	 * Gets the specified EntityPlayer which needs to be seeked.
 	 *
 	 * @param m The user to seek for.
 	 * @return The EntityPlayer instance.
 	 */
-	public static EntityPlayer getPlayer(Member m) {
-		Objects.requireNonNull(m, "Player user cannot be null!");
-		entity = m.toString();
-		return MantaroData.getData().get().getUser(m, true);
+	public static EntityPlayer getPlayer(GuildMessageReceivedEvent m) {
+		Objects.requireNonNull(m.getMember(), "Player user cannot be null!");
+		entity = m.getMember().toString();
+		world = TextChannelWorld.of(m.getChannel());
+		return MantaroData.getData().get().getUser(m.getMember(), true);
 	}
 
 	/**
@@ -66,17 +81,18 @@ public class EntityPlayer implements Entity {
 	}
 
 	@Override
-	public boolean addHealth(int amount) {
-		if (health + amount < 0 || health + amount > getMaxHealth()) return false;
-		health += amount;
-		return true;
+	public void setHealth(int amount) {
+		health = amount;
 	}
 
 	@Override
-	public boolean addStamina(int amount) {
-		if (stamina + amount < 0 || stamina + amount > getMaxStamina()) return false;
-		stamina += amount;
-		return true;
+	public void setStamina(int amount) {
+		stamina = amount;
+	}
+
+	@Override
+	public TextChannelWorld getWorld() {
+		return world;
 	}
 
 	public int getHealth() {
@@ -103,7 +119,22 @@ public class EntityPlayer implements Entity {
 	}
 
 	@Override
-	public void behaviour() {}
+	public void behaviour(TextChannelWorld world) {
+		Random r = new Random();
+		int i = r.nextInt(350);
+		int shift = r.nextInt(2);
+		setCoordinates(new Coordinates(i / shift, 0, i / shift, world));
+	}
+
+	@Override
+	public Coordinates getCoordinates() {
+		return coordinates;
+	}
+
+	@Override
+	public void setCoordinates(Coordinates coordinates) {
+		this.coordinates = coordinates;
+	}
 
 	@Override
 	public Type getType() {
@@ -119,8 +150,8 @@ public class EntityPlayer implements Entity {
 	@Override
 	public String toString() {
 		return String.format(this.getClass().getSimpleName() +
-				"({type: %s, id: %s, entity: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s)}",
-			getType(), getId(), entity, getMoney(), getHealth(), getStamina(), isProcessing(), getInventory().asList(), getGame());
+				"({type: %s, id: %s, entity: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s, coordinates: %s)}",
+			getType(), getId(), entity, getMoney(), getHealth(), getStamina(), isProcessing(), getInventory().asList(), getGame(), getCoordinates());
 	}
 
 	/**
@@ -214,7 +245,7 @@ public class EntityPlayer implements Entity {
 	 */
 	public void setCurrentGame(@Nullable GameReference game, TextChannel channel) {
 		currentGame = game;
-		if (game != null) TextChannelWorld.of(channel).addEntity(this, game);
-		else TextChannelWorld.of(channel).removeEntity(this);
+		if (game != null) TextChannelWorld.of(channel).addGame(game);
+		else TextChannelWorld.of(channel).removeGame(game);
 	}
 }

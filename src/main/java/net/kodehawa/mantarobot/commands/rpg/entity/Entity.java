@@ -33,13 +33,23 @@ public interface Entity {
 		}
 	}
 
+	void setHealth(int amount);
+
+	void setStamina(int amount);
+
+	TextChannelWorld getWorld();
+
 	/**
 	 * Adds x amount of health to the entity. Used in recovery and potion process.
 	 *
 	 * @param amount How much?
 	 * @return Did it pass through? Please? (aka, did it not overflow?)
 	 */
-	boolean addHealth(int amount);
+	default boolean addHealth(int amount) {
+		if (getHealth() + amount < 0 || getHealth() + amount > getMaxHealth()) return false;
+		setHealth(getHealth() + amount);
+		return true;
+	}
 
 	/**
 	 * Adds x amount of stamina to the entity. Used in recovery and potion process.
@@ -47,7 +57,11 @@ public interface Entity {
 	 * @param amount How much?
 	 * @return Did it pass through? Please? (aka, did it not overflow?)
 	 */
-	boolean addStamina(int amount);
+	default boolean addStamina(int amount) {
+		if (getStamina() + amount < 0 || getStamina() + amount > getMaxStamina()) return false;
+		setStamina(getStamina() + amount);
+		return true;
+	}
 
 	/**
 	 * @return How much health do I have left?
@@ -80,15 +94,15 @@ public interface Entity {
 	 * The behaviour of this entity with the surrending {@link TextChannelWorld}. A tree will never move, but a player might randomly change coords.
 	 * Also a tree will check if their surrondings are empty and spawn more trees. That's behaviour for ya.
 	 */
-	void behaviour();
+	void behaviour(TextChannelWorld world);
 
 	/**
 	 * Implementation.
 	 * @return Where am I in the current {@link TextChannelWorld}?
 	 */
-	default Coordinates coordinates() {
-		return new Coordinates(0, 0, null);
-	}
+	Coordinates getCoordinates();
+
+	void setCoordinates(Coordinates coordinates);
 
 	/**
 	 * Normally do nothing. But some entities will do special things on spawn.
@@ -144,12 +158,18 @@ public interface Entity {
 	class Coordinates {
 		int x;
 		int y;
+		int z;
 		TextChannelWorld entityWorld;
 
-		Coordinates(int x, int y, TextChannelWorld world){
+		public Coordinates(int x, int z, int y, TextChannelWorld world){
 			this.x = x;
 			this.y = y;
+			this.z = z;
 			this.entityWorld = world;
+		}
+
+		public String toString(){
+			return String.format("[Coordinates(%d, %d, %d), World(%s)]", x, y, z, entityWorld);
 		}
 	}
 }

@@ -70,7 +70,7 @@ public class RPGCmds extends Module {
 				}
 
 
-				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer player = EntityPlayer.getPlayer(event);
 
 				if (player.getMoney() <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
@@ -148,7 +148,7 @@ public class RPGCmds extends Module {
 		super.register("inventory", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				EntityPlayer user = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer user = EntityPlayer.getPlayer(event);
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
@@ -189,7 +189,7 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer player = EntityPlayer.getPlayer(event);
 				if(!check(player, event)) return;
 				TextChannelWorld ground = TextChannelWorld.of(event);
 				List<ItemStack> loot = ground.collectItems();
@@ -252,7 +252,7 @@ public class RPGCmds extends Module {
 				}
 
 				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
-				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer player = EntityPlayer.getPlayer(event);
 
 				if(!check(player, event)) return;
 
@@ -383,7 +383,7 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event.getMember());
+				EntityPlayer player = EntityPlayer.getPlayer(event);
 
 				if(!check(player, event)) return;
 
@@ -449,7 +449,7 @@ public class RPGCmds extends Module {
 					member = event.getGuild().getMember(author);
 
 					user = EntityPlayerMP.getPlayer(author);
-					player = EntityPlayer.getPlayer(member);
+					player = EntityPlayer.getPlayer(event);
 				}
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())

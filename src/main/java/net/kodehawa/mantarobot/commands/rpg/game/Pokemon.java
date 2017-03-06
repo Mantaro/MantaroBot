@@ -54,7 +54,7 @@ public class Pokemon extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try {
-			TextChannelWorld.of(event.getChannel()).addGame(type, 1);
+			TextChannelWorld.of(event.getChannel()).addGame(type);
 			player.setCurrentGame(type, event.getChannel());
 			Random rand = new Random();
 			List<String> guesses = MantaroData.getPokemonGuesses().get();
