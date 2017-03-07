@@ -15,29 +15,19 @@ public class RuntimeOperator {
 	private Consumer<Runtime> operation = r -> {
 	};
 
-	public RuntimeOperation done() {
+	public Consumer<Runtime> getOperation() {
 		Consumer<Runtime> op = this.operation;
-		int count = opCount;
-		return new RuntimeOperation() {
+		return new Consumer<Runtime>() {
 			@Override
-			public void execute(Runtime r) {
-				op.accept(r);
-			}
-
-			@Override
-			public int opCount() {
-				return count;
+			public void accept(Runtime runtime) {
+				op.accept(runtime);
 			}
 
 			@Override
 			public String toString() {
-				return "RuntimeOperator{" + "operationCount=" + count + ", operation=" + op + '}';
+				return "Consumer{from=" + RuntimeOperator.this.toString() + ";opCount=" + opCount + '}';
 			}
 		};
-	}
-
-	public void countSub(RuntimeOperation operation) {
-		opCount += operation.opCount();
 	}
 
 	public void modify(Consumer<Runtime> operator) {
@@ -74,4 +64,8 @@ public class RuntimeOperator {
 		});
 	}
 
+	@Override
+	public String toString() {
+		return "RuntimeOperator#" + Integer.toHexString(hashCode());
+	}
 }

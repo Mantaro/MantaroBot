@@ -7,7 +7,7 @@ import net.kodehawa.lib.mantarolang.objects.operations.LangOpMultiply;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class LangString implements LangOpAdd, LangOpMultiply, LangOpLeftShift {
+public class LangString implements LangWrapped<String>, LangOpAdd, LangOpMultiply, LangOpLeftShift {
 	private final String s;
 
 	public LangString(String s) {
@@ -20,7 +20,7 @@ public class LangString implements LangOpAdd, LangOpMultiply, LangOpLeftShift {
 	}
 
 	@Override
-	public String asString() {
+	public String get() {
 		return s;
 	}
 
@@ -31,7 +31,7 @@ public class LangString implements LangOpAdd, LangOpMultiply, LangOpLeftShift {
 
 	@Override
 	public LangObject multiply(LangObject object) {
-		return new LangString(IntStream.range(0, (int) Math.min(200, Math.max(0, _cast(object, LangInteger.class).get()))).mapToObj(i -> s).collect(Collectors.joining()));
+		return new LangString(IntStream.range(0, Math.min(200, Math.max(0, _cast(object, LangInteger.class).get().intValue()))).mapToObj(i -> s).collect(Collectors.joining()));
 	}
 
 	@Override

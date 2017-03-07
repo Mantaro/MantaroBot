@@ -2,7 +2,7 @@ package net.kodehawa.lib.mantarolang.objects;
 
 import net.kodehawa.lib.mantarolang.objects.operations.*;
 
-public class LangInteger implements LangContainer, LangOpAdd, LangOpSubtract, LangOpDivide, LangOpMultiply, LangOpAnd, LangOpOr, LangOpXor, LangOpLeftShift, LangOpRightShift {
+public class LangInteger implements LangWrapped<Long>, LangContainer, LangOpAdd, LangOpSubtract, LangOpDivide, LangOpMultiply, LangOpAnd, LangOpOr, LangOpXor, LangOpLeftShift, LangOpRightShift {
 	private final long number;
 
 	public LangInteger(long number) {
@@ -24,7 +24,8 @@ public class LangInteger implements LangContainer, LangOpAdd, LangOpSubtract, La
 		return new LangInteger(number / _cast(object, LangInteger.class).get());
 	}
 
-	public long get() {
+	@Override
+	public Long get() {
 		return number;
 	}
 

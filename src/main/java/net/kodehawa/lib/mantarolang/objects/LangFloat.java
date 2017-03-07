@@ -5,7 +5,7 @@ import net.kodehawa.lib.mantarolang.objects.operations.LangOpDivide;
 import net.kodehawa.lib.mantarolang.objects.operations.LangOpMultiply;
 import net.kodehawa.lib.mantarolang.objects.operations.LangOpSubtract;
 
-public class LangFloat implements LangContainer, LangOpAdd, LangOpSubtract, LangOpDivide, LangOpMultiply {
+public class LangFloat implements LangWrapped<Double>, LangContainer, LangOpAdd, LangOpSubtract, LangOpDivide, LangOpMultiply {
 	private final double number;
 
 	public LangFloat(double number) {
@@ -22,14 +22,15 @@ public class LangFloat implements LangContainer, LangOpAdd, LangOpSubtract, Lang
 		return new LangFloat(number / _cast(object, LangFloat.class).get());
 	}
 
-	public double get() {
+	@Override
+	public Double get() {
 		return number;
 	}
 
 	@Override
 	public LangObject get(String name) {
 		if (name.equals("int")) {
-			return new LangInteger((long) get());
+			return new LangInteger(get().longValue());
 		}
 		return invalidProperty(name);
 	}
