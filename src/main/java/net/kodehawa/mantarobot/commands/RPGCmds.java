@@ -74,7 +74,8 @@ public class RPGCmds extends Module {
 							}
 
 							player.getInventory().process(new ItemStack(healthPotion, -1));
-							player.setHealth(player.getMaxHealth() - player.getHealth()); //Recover all health.
+							player.addHealth(player.getMaxHealth() - player.getHealth()); //Recover all health.
+							player.save();
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your health.").queue();
 							break;
 						case "stamina":
@@ -86,8 +87,9 @@ public class RPGCmds extends Module {
 							}
 
 							player1.getInventory().process(new ItemStack(staminaPotion, -1));
-							player1.setStamina(player1.getMaxStamina() - player1.getStamina()); //Recover all stamina.
+							player1.addStamina(player1.getMaxStamina() - player1.getStamina()); //Recover all stamina.
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your stamina.").queue();
+							player1.save();
 							break;
 						default:
 							onHelp(event);
@@ -330,7 +332,7 @@ public class RPGCmds extends Module {
 				if (args.length > 0) {
 					int itemNumber = 1;
 					String itemName = content.replace(args[0] + " ", "");
-					boolean isMassive = itemName.split(" ")[0].matches("^[0-9]*$");
+					boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
 					if (isMassive) {
 						try {
 							itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
