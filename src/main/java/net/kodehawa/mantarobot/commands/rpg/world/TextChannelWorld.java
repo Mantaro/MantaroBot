@@ -18,14 +18,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TextChannelWorld {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
-	private static List<EntityTickable> ACTIVE_ENTITIES = new CopyOnWriteArrayList<>();
-	private static List<Entity> ACTIVE_STATIC_ENTITIES = new CopyOnWriteArrayList<>(); //non-tickable
-	private static List<GameReference> ACTIVE_GAMES = new ArrayList<>();
+	private static final Map<String, List<EntityTickable>> ACTIVE_ENTITIES = new HashMap<>();
+	private static final Map<String, List<Entity>> ACTIVE_STATIC_ENTITIES = new HashMap<>(); //non-tickable
+	private static final Map<String, List<GameReference>> ACTIVE_GAMES = new HashMap<>();
 	private static Random r = new Random(System.currentTimeMillis());
 	private static TextChannel channel;
 
 	public static TextChannelWorld of(String id) {
-		return new TextChannelWorld(DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()), DROPPED_MONEY.computeIfAbsent(id, k -> new AtomicInteger(0)));
+		return new TextChannelWorld(
+				DROPPED_ITEMS.computeIfAbsent(id, k -> new ArrayList<>()),
+				DROPPED_MONEY.computeIfAbsent(id, k -> new AtomicInteger(0)),
+				ACTIVE_ENTITIES.computeIfAbsent(id, k -> new CopyOnWriteArrayList<>()),
+				ACTIVE_STATIC_ENTITIES.computeIfAbsent(id, k -> new CopyOnWriteArrayList<>()),
+				ACTIVE_GAMES.computeIfAbsent(id, k -> new CopyOnWriteArrayList<>()));
 	}
 
 	public static TextChannelWorld of(TextChannel ch) {
@@ -40,20 +45,27 @@ public class TextChannelWorld {
 
 	private final AtomicInteger money;
 	private final List<ItemStack> stacks;
+	private final List<EntityTickable> entityTickables;
+	private final List<Entity> entities;
+	private final List<GameReference> games;
 
-	private TextChannelWorld(List<ItemStack> stacks, AtomicInteger money) {
+	private TextChannelWorld(List<ItemStack> stacks, AtomicInteger money, List<EntityTickable> entityTickables,
+							 List<Entity> entities, List<GameReference> games) {
 		this.stacks = stacks;
 		this.money = money;
+		this.entityTickables = entityTickables;
+		this.entities = entities;
+		this.games = games;
 	}
 
 	public TextChannelWorld addStaticEntity(Entity entity) {
-		ACTIVE_STATIC_ENTITIES.add(entity);
+		entities.add(entity);
 		return this;
 	}
 
 
 	public TextChannelWorld addEntity(EntityTickable entity) {
-		ACTIVE_ENTITIES.add(entity);
+		entityTickables.add(entity);
 		return this;
 	}
 
@@ -62,7 +74,7 @@ public class TextChannelWorld {
 		removeGame(game);
 
 		//add it with new quantity of people
-		ACTIVE_GAMES.add(game);
+		games.add(game);
 
 		return this;
 	}
@@ -116,38 +128,42 @@ public class TextChannelWorld {
 	}
 
 	public List<GameReference> getRunningGames() {
-		return ACTIVE_GAMES;
+		return games;
 	}
 
 	public List<EntityTickable> getActiveEntities() {
-		return ACTIVE_ENTITIES;
+		return entityTickables;
+	}
+
+	public List<Entity> getStaticEntities() {
+		return entities;
 	}
 
 	public TextChannelWorld removeEntity(EntityTickable entity) {
-		ACTIVE_ENTITIES.remove(entity);
+		entityTickables.remove(entity);
 		return this;
 	}
 
 	public TextChannelWorld removeStaticEntity(Entity entity) {
-		ACTIVE_STATIC_ENTITIES.remove(entity);
+		entities.remove(entity);
 		return this;
 	}
 
 	public TextChannelWorld removeGame(GameReference game) {
-		ACTIVE_GAMES.remove(game);
+		games.remove(game);
 		return this;
 	}
 
 	public void tick(GuildMessageReceivedEvent event){
-		if(ACTIVE_ENTITIES.isEmpty()){
+		if(entityTickables.isEmpty()){
 			EntityTree tree = new EntityTree();
 			tree.onSpawn(TextChannelWorld.of(event));
 		}
 
-		ACTIVE_ENTITIES.forEach(entityTickable -> {
+		entityTickables.forEach(entityTickable -> {
 			if(entityTickable instanceof EntityPlayer){
 				if(((EntityPlayer) entityTickable).getGame() == null && !((EntityPlayer) entityTickable).isProcessing())
-					ACTIVE_ENTITIES.remove(entityTickable);
+					entityTickables.remove(entityTickable);
 			}
 
 			if(!entityTickable.check(event)){
@@ -158,5 +174,9 @@ public class TextChannelWorld {
 
 	public String toString(){
 		return String.format("{World(%s, %s)}", channel, getActiveEntities().size());
+	}
+
+	public String getRepresentation(){
+		return "";
 	}
 }

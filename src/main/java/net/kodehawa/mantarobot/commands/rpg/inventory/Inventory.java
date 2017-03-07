@@ -51,6 +51,10 @@ public class Inventory {
 		replaceWith(ItemStack.reduce(cur));
 	}
 
+	public boolean containsItem(Item item){
+		return asMap().containsKey(item);
+	}
+
 	public void process(ItemStack stack) {
 		merge(Collections.singletonList(stack));
 	}

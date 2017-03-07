@@ -1,7 +1,9 @@
 package net.kodehawa.mantarobot.commands.rpg.entity.player;
 
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
@@ -14,7 +16,8 @@ import java.util.*;
 
 /**
  * Single Guild {@link net.kodehawa.mantarobot.commands.rpg.entity.Entity} wrapper.
- * This contains all the functions necessary to make the Player interact with the {@link TextChannelWorld} (World).
+ * This contains all the functions necessary to make the Player interact with the {@link TextChannelWorld} (World) and the necessary functions to make
+ * this {@link Entity} interact with the rest of the players and with itself.
  * <p>
  * This is extended on {@link net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP} (Global), so it also contains those objects.
  * When returned, it will return a {@link java.lang.String}  representation of all the objects here.
@@ -30,6 +33,7 @@ public class EntityPlayer extends EntityTickable {
 	private int stamina = 100;
 	private long money = 0;
 	private UUID uniqueId;
+	private int reputation = 0;
 
 	//Don't serialize this.
 	private static transient TextChannelWorld world;
@@ -58,7 +62,7 @@ public class EntityPlayer extends EntityTickable {
 	 * (INTERNAL)
 	 * Gets the specified EntityPlayer which needs to be seeked.
 	 *
-	 * @param m The user to seek for.
+	 * @param m The user to seek for (from event).
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(GuildMessageReceivedEvent m) {
@@ -66,6 +70,19 @@ public class EntityPlayer extends EntityTickable {
 		entity = m.getMember().toString();
 		world = TextChannelWorld.of(m.getChannel());
 		return MantaroData.getData().get().getUser(m.getMember(), true);
+	}
+
+	/**
+	 * (INTERNAL)
+	 * Gets the specified EntityPlayer which needs to be seeked.
+	 *
+	 * @param m The user to seek for.
+	 * @return The EntityPlayer instance.
+	 */
+	public static EntityPlayer getPlayer(Member m) {
+		Objects.requireNonNull(m, "Player user cannot be null!");
+		entity = m.toString();
+		return MantaroData.getData().get().getUser(m, true);
 	}
 
 	/**
@@ -90,6 +107,14 @@ public class EntityPlayer extends EntityTickable {
 		stamina = amount;
 	}
 
+	/**
+	 * Sets a player reputation, ignoring the value already set.
+	 * @param amount How much?
+	 */
+	public void setReputation(int amount){
+		reputation = amount;
+	}
+
 	@Override
 	public TextChannelWorld getWorld() {
 		return world;
@@ -109,38 +134,69 @@ public class EntityPlayer extends EntityTickable {
 		return 250;
 	}
 
+	/**
+	 * Gets a player's reputation. Normally a result of community interaction, it's more like a merit than an actual RPG statistic.
+	 * @return How much reputation do I have.
+	 */
+	public int getReputation(){
+		return reputation;
+	}
+
+	/**
+	 * @return How much stamina do I have to spare?
+	 */
 	@Override
 	public int getMaxStamina() {
 		return 100;
 	}
 
+	/**
+	 * @return How much stamina do I have?
+	 */
 	public int getStamina() {
 		return stamina;
 	}
 
+	/**
+	 * Normally what to do on each tick.
+	 * @param world The {@link TextChannelWorld} this entity is in.
+	 */
 	@Override
 	public void behaviour(TextChannelWorld world) {
 		Random r = new Random();
 		int i = r.nextInt(350);
-		int shift = r.nextInt(2);
+		int shift = r.nextInt(2) + 1;
 		setCoordinates(new Coordinates(i / shift, 0, i / shift, world));
 	}
 
+	/**
+	 * @return Where am I?
+	 */
 	@Override
 	public Coordinates getCoordinates() {
 		return coordinates;
 	}
 
+	/**
+	 * Where I will be?.
+	 */
 	@Override
 	public void setCoordinates(Coordinates coordinates) {
 		this.coordinates = coordinates;
 	}
 
+	/**
+	 * @return What am I?
+	 */
 	@Override
 	public Type getType() {
 		return Type.PLAYER;
 	}
 
+	/**
+	 * UUID identifier. It's unique and gets saved to the DB when it's generated. Used for various checks.
+	 * @return the UUID.
+	 */
 	@Override
 	public UUID getId() {
 		return uniqueId == null ?
@@ -150,8 +206,8 @@ public class EntityPlayer extends EntityTickable {
 	@Override
 	public String toString() {
 		return String.format(this.getClass().getSimpleName() +
-				"({type: %s, id: %s, entity: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s, coordinates: %s)}",
-			getType(), getId(), entity, getMoney(), getHealth(), getStamina(), isProcessing(), getInventory().asList(), getGame(), getCoordinates());
+				"({type: %s, id: %s, entity: %s, reputation: %s, money: %s, health: %s, stamina: %s, processing: %s, inventory: %s, game: %s, coordinates: %s)}",
+			getType(), getId(), entity, getReputation(), getMoney(), getHealth(), getStamina(), isProcessing(), getInventory().asList(), getGame(), getCoordinates());
 	}
 
 	/**
@@ -171,10 +227,31 @@ public class EntityPlayer extends EntityTickable {
 		}
 	}
 
+	/**
+	 * Adds x amount of reputation to a player. Normally 1.
+	 * @param rep how much?
+	 * @return are you less than 400?
+	 */
+	public boolean addReputation(long rep) {
+		if (this.reputation + rep > 4000) return false;
+		this.reputation += rep;
+		return true;
+	}
+
+	/**
+	 * Makes a player a little bit sicker. Normally the result of sick-inducing activities like mining.
+	 * @param amount how much am I gonna consume?
+	 * @return if it's more than zero.
+	 */
 	public boolean consumeHealth(int amount) {
 		return this.health - amount >= 0 && addHealth(-amount);
 	}
 
+	/**
+	 * Makes a player tired. If stamina reaches a critical point, you cannot do much action in the RPG.
+	 * @param amount how much am I gonna consume?
+	 * @return if it's more than zero.
+	 */
 	public boolean consumeStamina(int amount) {
 		return this.stamina - amount >= 0 && addStamina(-amount);
 	}
@@ -188,10 +265,16 @@ public class EntityPlayer extends EntityTickable {
 		return currentGame;
 	}
 
+	/**
+	 * @return How much money do I have to spare?
+	 */
 	public long getMoney() {
 		return money;
 	}
 
+	/**
+	 * Set a specific amount of money to the player, overwritting previous values.
+	 */
 	public void setMoney(long amount) {
 		money = amount;
 	}
@@ -235,6 +318,15 @@ public class EntityPlayer extends EntityTickable {
 		if (this.money - money < 0) return false;
 		this.money -= money;
 		return true;
+	}
+
+	/**
+	 * Adds one reputation point.
+	 * @return this.
+	 */
+	public EntityPlayer addReputation() {
+		this.reputation = reputation++;
+		return this;
 	}
 
 	/**

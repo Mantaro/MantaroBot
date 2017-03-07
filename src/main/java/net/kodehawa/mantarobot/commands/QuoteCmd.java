@@ -121,12 +121,14 @@ public class QuoteCmd extends Module {
 						try {
 							int i = Integer.parseInt(phrase);
 							List<String> keys1 = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
-							List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
-							EmbedBuilder embedBuilder2 = new EmbedBuilder();
-							if (quoteElements2.isEmpty()) {
+							if (keys1.isEmpty()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
 								return;
 							}
+
+							List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
+							EmbedBuilder embedBuilder2 = new EmbedBuilder();
+
 
 							Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
 							embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
@@ -213,6 +215,11 @@ public class QuoteCmd extends Module {
 					case "deletefrom":
 						try {
 							List<String> quotes = new ArrayList(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+							if (quotes.isEmpty()) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
+								return;
+							}
+
 							for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
 								if (quotes.get(i2).contains(phrase)) {
 									event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quotes.get(i2)).queue();

@@ -1,12 +1,14 @@
 package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
+import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
@@ -39,10 +41,13 @@ public class RPGCmds extends Module {
 		richest();
 		inventory();
 		market();
+		rep();
+		transfer();
+		item();
 
 		/*
-		TODO NEXT:
-		 - transfer command
+		TODO NEXT:"
+		 - cross-bot transfer command
 		 */
 
 		Async.startAsyncTask("RPG Thread", () -> {
@@ -52,6 +57,72 @@ public class RPGCmds extends Module {
 				.flatMap(guildData -> guildData.users.values().stream())
 				.forEach(player -> player.setMoney((long) Math.floor(Math.max(0, 0.999d + (player.getMoney() * 0.99562d)))));
 		}, 3600);
+	}
+
+	private void item(){
+		super.register("item", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(args[0].equals("potion")){
+					switch (args[1]){
+						case "health":
+							Item healthPotion = Items.POTION_HEALTH;
+							EntityPlayer player = EntityPlayer.getPlayer(event);
+							if(!player.getInventory().containsItem(healthPotion)){
+								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
+								return;
+							}
+
+							player.getInventory().process(new ItemStack(healthPotion, -1));
+							player.setHealth(player.getMaxHealth() - player.getHealth()); //Recover all health.
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your health.").queue();
+							break;
+						case "stamina":
+							Item staminaPotion = Items.POTION_STAMINA;
+							EntityPlayer player1 = EntityPlayer.getPlayer(event);
+							if(!player1.getInventory().containsItem(staminaPotion)){
+								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
+								return;
+							}
+
+							player1.getInventory().process(new ItemStack(staminaPotion, -1));
+							player1.setStamina(player1.getMaxStamina() - player1.getStamina()); //Recover all stamina.
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your stamina.").queue();
+							break;
+						default:
+							onHelp(event);
+					}
+					return;
+				}
+
+				if(args[0].equals("trash")){
+					Item trash = Items.fromAny(content.replace(args[0] + " ", "")).orElse(null);
+
+					if(trash == null){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot trash a non existant item").queue();
+						return;
+					}
+					EntityPlayer player = EntityPlayer.getPlayer(event);
+
+					if(!player.getInventory().containsItem(trash)){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
+						return;
+					}
+
+					player.getInventory().process(new ItemStack(trash, -1));
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Trashed " + trash.getEmoji()).queue();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Item command")
+						.setDescription("Does actions with items.")
+						.addField("Usage", "~>item potion <health/stamina>: uses an avaliable potion to recover your health or stamina.", false)
+						.addField("Important", "You cannot use a potion you don't have", false)
+						.build();
+			}
+		});
 	}
 
 	private void gamble() {
@@ -449,16 +520,17 @@ public class RPGCmds extends Module {
 					member = event.getGuild().getMember(author);
 
 					user = EntityPlayerMP.getPlayer(author);
-					player = EntityPlayer.getPlayer(event);
+					player = EntityPlayer.getPlayer(member);
 				}
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.addField(EmoteReference.HEART + "Health", "**" + player.getHealth() + "** " + CommandStatsManager.bar((int) (((double) player.getHealth() / (double) player.getMaxHealth()) * 100), 15), false)
 					.addField(EmoteReference.RUNNER + "Stamina", "**" + player.getStamina() + "** " + CommandStatsManager.bar((int) (((double) player.getStamina() / (double) player.getMaxStamina()) * 100), 15), false)
-					.addField(":credit_card: Credits", "$ " + player.getMoney(), false)
-					.addField(":pouch: Inventory", ItemStack.toString(player.getInventory().asList()), false)
-					.addField(":tada: Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
-					.setFooter("In treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
+					.addField(EmoteReference.CREDITCARD + "Credits", "$ " + player.getMoney(), false)
+					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
+					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+					.addField(EmoteReference.POPPER + "Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
+					.setFooter(EmoteReference.ZAP + "In	 treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -468,6 +540,91 @@ public class RPGCmds extends Module {
 				return helpEmbed(event, "Profile command.")
 					.setDescription("Retrieves your current user profile.")
 					.build();
+			}
+		});
+	}
+
+	private void rep(){
+		super.register("rep", new SimpleCommand() {
+			RateLimiter rateLimiter = new RateLimiter(86400000);
+
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())){
+					event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself.").queue();
+					return;
+				}
+
+				if(!rateLimiter.process(event.getMember())){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
+					return;
+				}
+
+				if(event.getMessage().getMentionedUsers().isEmpty()){
+					event.getChannel().sendMessage(EmoteReference.THINKING + "You need to mention one user.").queue();
+					return;
+				}
+
+				User mentioned = event.getMessage().getMentionedUsers().get(0);
+				EntityPlayerMP player = EntityPlayerMP.getPlayer(mentioned);
+				if(player.addReputation(1)){
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
+				} else {
+					event.getChannel().sendMessage(EmoteReference.CONFUSED + "You have more than 4000 reputation, congrats, you're popular.").queue();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Reputation command")
+						.setDescription("Reps an user.")
+						.addField("Usage", "~>rep <@user>", false)
+						.addField("Parameters", "@user: user to mention", false)
+						.addField("Important", "Only usable every 24 hours.", false)
+						.build();
+			}
+		});
+	}
+
+	private void transfer(){
+		//for now, local transfer.
+		super.register("transfer", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())){
+					event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot transfer money to yourself.").queue();
+					return;
+				}
+
+				if(event.getMessage().getMentionedUsers().isEmpty()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
+					return;
+				}
+
+				int toSend = Integer.parseInt(args[1]);
+				EntityPlayer transferPlayer = EntityPlayer.getPlayer(event);
+				if(transferPlayer.getMoney() < toSend){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money you don't have.").queue();
+					return;
+				}
+
+				EntityPlayer toTransfer = EntityPlayer.getPlayer(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)));
+				transferPlayer.removeMoney(toSend);
+				toTransfer.addMoney(toSend);
+				transferPlayer.save(); //this'll save both.
+
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Transfer command")
+						.setDescription("Transfers money from one you to another player.")
+						.addField("Usage", "~>transfer <@user> <money>", false)
+						.addField("Parameters", "@user: user to send money to\n" +
+								"money: money to transfer.", false)
+						.addField("Important", "You cannot send more money than what you already have", false)
+						.build();
 			}
 		});
 	}
