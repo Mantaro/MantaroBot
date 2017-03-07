@@ -11,7 +11,7 @@ public enum EmoteReference {
 	BUY(":inbox_tray:", "\uD83D\uDCE5"), SELL(":outbox_tray:", "\uD83D\uDCE4"), MARKET(":shopping_car:", "\uD83D\uDED2"), MONEY(":money_bag:", "\uD83D\uDCB0"),
 	PENCIL(":pencil:", "\uD83D\uDCDD"), SMILE(":smile:", "\uD83D\uDE04"), PICK(":pick:", "\u26cf"), HEART(":heart:", "\u2764"), RUNNER(":runner:", "\uD83C\uDFC3"),
 	POTION1(":milk:", "\uD83E\uDD5B"), POTION2(":champagne:", "\uD83C\uDF7E"), CREDITCARD(":credit_card:", "\uD83D\uDCB3"), POUCH(":pouch:", "\uD83D\uDC5D"),
-	REP(":military_medal:", "\uD83C\uDF96"), MAGAZINE(":newspaper:", "\uD83D\uDCF0");
+	REP(":military_medal:", "\uD83C\uDF96"), MAGAZINE(":newspaper:", "\uD83D\uDCF0"), AXE(":hammer_pick:", "\u2692");
 
 	String discordNotation;
 	String unicode;

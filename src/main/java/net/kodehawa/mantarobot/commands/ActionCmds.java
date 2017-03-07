@@ -76,14 +76,12 @@ public class ActionCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd"), "suck.png", null).queue();
+					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
 				} else {
 					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-
 					String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(), bString);
-					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd"), "suck.png",
+					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd.png"), "suck.png",
 							new MessageBuilder().append(bs).build()).queue();
-					channel.sendMessage(bs).queue();
 				}
 			}
 
