@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -7,6 +8,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
@@ -74,11 +76,13 @@ public class ActionCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					channel.sendMessage("http://puu.sh/qEYYH/e5094405a5.jpg").queue();
+					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd"), "suck.png", null).queue();
 				} else {
 					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 
-					String bs = String.format(EmoteReference.TALKING + "http://puu.sh/qEYYH/e5094405a5.jpg \nSucks the blood of %s", bString);
+					String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(), bString);
+					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd"), "suck.png",
+							new MessageBuilder().append(bs).build()).queue();
 					channel.sendMessage(bs).queue();
 				}
 			}
@@ -128,8 +132,14 @@ public class ActionCmds extends Module {
 				TextChannel channel = event.getChannel();
 				List<String> hugs = MantaroData.getHugs().get();
 				String hString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				String hug = String.format(EmoteReference.TALKING + "%s you have been hugged by %s \n %s", hString, author.getAsMention(), hugs.get(new Random().nextInt(hugs.size())));
-				channel.sendMessage(hug).queue();
+				byte[] toSend = Utils.toByteArray(hugs.get(new Random().nextInt(hugs.size())));
+				if(toSend == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it;s down?").queue();
+					return;
+				}
+
+				String hug = String.format(EmoteReference.TALKING + "%s you have been hugged by %s", hString, author.getAsMention());
+				channel.sendFile(toSend, "hug.gif", new MessageBuilder().append(hug).build()).queue();
 			}
 
 			@Override
@@ -156,9 +166,13 @@ public class ActionCmds extends Module {
 				List<String> kisses = MantaroData.getKisses().get();
 				String kString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention)
 					.collect(Collectors.joining(" "));
-				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s \n %s", kString, author.getAsMention(),
-					kisses.get(new Random().nextInt(kisses.size())));
-				channel.sendMessage(kiss).queue();
+				byte[] toSend = Utils.toByteArray(kisses.get(new Random().nextInt(kisses.size())));
+				if(toSend == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
+					return;
+				}
+				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s \n %s", kString, author.getAsMention());
+				channel.sendFile(toSend, "kiss.gif", new MessageBuilder().append(kiss).build()).queue();
 			}
 
 			@Override
@@ -181,7 +195,8 @@ public class ActionCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				event.getChannel().sendMessage(lood + " Y-You lewdie!\nhttp://puu.sh/rzVEe/c8272e7c84.png").queue();
+				event.getChannel().sendFile(Utils.toByteArray("http://imgur.com/LJfZYau.png"), "lewd.png"
+						, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
 			}
 
 			@Override
@@ -207,9 +222,11 @@ public class ActionCmds extends Module {
 				Message receivedMessage = event.getMessage();
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
 					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-					channel.sendMessage(String.format(EmoteReference.TALKING + "*meows at* %s.* \n http://puu.sh/rK5Nf/63d90628c2.gif", mew)).queue();
+					channel.sendFile(Utils.toByteArray("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+							new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
 				} else {
-					channel.sendMessage(":speech_balloon: Meeeeow.\n http://puu.sh/rK5K7/034039286e.gif").queue();
+					channel.sendFile(Utils.toByteArray("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+							new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
 				}
 			}
 
@@ -236,8 +253,14 @@ public class ActionCmds extends Module {
 				TextChannel channel = event.getChannel();
 				List<String> pats = MantaroData.getPatting().get();
 				String pString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				String pat = String.format(EmoteReference.TALKING + "%s you have been patted by %s \n %s", pString, author.getAsMention(), pats.get(new Random().nextInt(pats.size())));
-				channel.sendMessage(pat).queue();
+				byte[] toSend = Utils.toByteArray(pats.get(new Random().nextInt(pats.size())));
+				if(toSend == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
+					return;
+				}
+
+				String pat = String.format(EmoteReference.TALKING + "%s you have been patted by %s", pString, author.getAsMention());
+				channel.sendFile(toSend, "pat.gif", new MessageBuilder().append(pat).build()).queue();
 			}
 
 			@Override
