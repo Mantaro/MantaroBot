@@ -18,6 +18,8 @@ __You have been warned__.
 5. Run it and prepare yourself to start filling configs.
 
 
+###Please, don't be a dick. If you're gonna use something from here, credit us. Take your time to read the full license too so you don't expect anything coming from us. We don't mind you using anything here as long as it's not a blatant copy nor a copy without credits.
+
 #### Konachan notice (net.kodehawa.lib.imageboard.konachan)
 That package is a port of the [**original konachan library**](https://github.com/Mxrck/KonachanLib) to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.
 
