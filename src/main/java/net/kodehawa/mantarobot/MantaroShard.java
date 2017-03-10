@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.stream.Stream;
 
 public class MantaroShard {
     private final Logger LOGGER;
