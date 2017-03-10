@@ -531,7 +531,7 @@ public class RPGCmds extends Module {
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.addField(EmoteReference.HEART + "Health", "**" + player.getHealth() + "** " + CommandStatsManager.bar((int) (((double) player.getHealth() / (double) player.getMaxHealth()) * 100), 15), false)
 					.addField(EmoteReference.RUNNER + "Stamina", "**" + player.getStamina() + "** " + CommandStatsManager.bar((int) (((double) player.getStamina() / (double) player.getMaxStamina()) * 100), 15), false)
-					.addField(EmoteReference.CREDITCARD + "Credits", "$ " + player.getMoney(), false)
+					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)

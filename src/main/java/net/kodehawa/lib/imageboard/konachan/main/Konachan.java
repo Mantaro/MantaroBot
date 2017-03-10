@@ -57,9 +57,7 @@ public class Konachan {
 					tags = this.getTags(search, 1, 5);
 					provider.onSuccess(wallpapers, tags);
 				});
-			} catch (Exception ex) {
-				LOGGER.warn("Error while retrieving a image from Konachan.", ex);
-			}
+			} catch (Exception ignored) {}
 		}).run();
 	}
 
@@ -107,29 +105,5 @@ public class Konachan {
 
 	public List<Wallpaper> posts(int page, int limit) {
 		return this.get(page, limit, (String) null);
-	}
-
-	private String saveWallpaper(String filename, String folderPath, String imageURL) throws IOException {
-		if (filename == null) filename = imageURL.substring(imageURL.lastIndexOf('/') + 1, imageURL.length());
-		resty.identifyAsMozilla();
-		File imageFile = new File(folderPath + File.separator + filename);
-		if (imageFile.exists()) return imageFile.getPath();
-		BinaryResource binaryResource = resty.bytes(imageURL);
-		binaryResource.save(imageFile);
-
-		return folderPath + File.separator + filename;
-	}
-
-	public void saveWallpaper(final String filename, final String folderPath, final String imageURL, final DownloadProvider provider) {
-		Async.asyncThread("Wallpaper Save", () -> {
-			try {
-				if (provider == null) return;
-				String save = saveWallpaper(filename, folderPath, imageURL);
-				Optional.ofNullable(save).ifPresent(provider::onSuccess);
-				if (save == null) LOGGER.warn("Unknown error occurred while saving a wallpaper.");
-			} catch (Exception ex) {
-				LOGGER.warn("A error occurred while fetching the wallpaper.", ex);
-			}
-		}).run();
 	}
 }

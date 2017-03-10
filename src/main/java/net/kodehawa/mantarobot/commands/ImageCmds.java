@@ -174,10 +174,13 @@ public class ImageCmds extends Module {
 								channel.sendMessage(builder.build()).queue();
 							});
 						} catch (Exception exception) {
+							if (exception instanceof IndexOutOfBoundsException){
+								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+								return;
+							}
+
 							if (exception instanceof NumberFormatException)
 								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue();
-							if (exception instanceof IndexOutOfBoundsException)
-								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
 					default:
