@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroShard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,8 +27,9 @@ public class TrackScheduler extends AudioEventAdapter {
 	private BlockingQueue<AudioTrackContext> queue;
 	private Repeat repeat;
 	private List<String> voteSkips;
+	private int shardId;
 
-	TrackScheduler(AudioPlayer audioPlayer, String guildId) {
+	TrackScheduler(AudioPlayer audioPlayer, String guildId, int shardId) {
 		this.queue = new LinkedBlockingQueue<>();
 		this.voteSkips = new ArrayList<>();
 		this.previousTrack = null;
@@ -36,6 +38,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		this.repeat = null;
 		this.audioPlayer = audioPlayer;
 		this.guildId = guildId;
+		this.shardId = shardId;
 	}
 
 	@Override
@@ -93,8 +96,12 @@ public class TrackScheduler extends AudioEventAdapter {
 		return currentTrack;
 	}
 
+	public MantaroShard getShard() {
+		return MantaroBot.getInstance().getShard(shardId);
+	}
+
 	public Guild getGuild() {
-		return MantaroBot.getJDA().getGuildById(guildId);
+		return getShard().getJDA().getGuildById(guildId);
 	}
 
 	public AudioTrackContext getPreviousTrack() {

@@ -12,6 +12,7 @@ import net.kodehawa.lib.mantarolang.CompiledFunction;
 import net.kodehawa.lib.mantarolang.MantaroLang;
 import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -26,10 +27,7 @@ import org.slf4j.LoggerFactory;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.Color;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalLong;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.IntSupplier;
@@ -144,7 +142,7 @@ public class OwnerCmd extends Module {
 	}
 
 	public CompletableFuture<Void> notifyMusic(String content) {
-		return CompletableFuture.allOf(MantaroBot.getAudioManager().getMusicManagers().values()
+		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
 			.stream()
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null)
@@ -400,14 +398,14 @@ public class OwnerCmd extends Module {
 
 	private void prepareShutdown(GuildMessageReceivedEvent event) {
 		MantaroData.getData().save();
-		MantaroBot.getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
 
-		MantaroBot.getJDA().getRegisteredListeners().forEach(listener -> MantaroBot.getJDA().removeEventListener(listener));
+		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
 		event.getChannel().sendMessage(CollectionUtils.random(sleepQuotes)).complete();
 
-		MantaroBot.getJDA().shutdown(true);
+		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
 	}
 }

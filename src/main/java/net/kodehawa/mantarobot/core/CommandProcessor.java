@@ -24,7 +24,7 @@ public final class CommandProcessor {
 	}
 
 	private static boolean dispatchCommand(Arguments arguments, GuildMessageReceivedEvent event) {
-		if (MantaroBot.getStatus() != LoadState.POSTLOAD) return false;
+		if (MantaroBot.getInstance().getStatus() != LoadState.POSTLOAD) return false;
 		if (Manager.commands.containsKey(arguments.cmdName)) {
 			Command command = Manager.commands.get(arguments.cmdName).getLeft();
 			if (!command.permissionRequired().test(arguments.event.getMember())) {
@@ -42,7 +42,7 @@ public final class CommandProcessor {
 	}
 
 	public static boolean run(GuildMessageReceivedEvent event) {
-		if (MantaroBot.getStatus() != LoadState.POSTLOAD) return false;
+		if (MantaroBot.getInstance().getStatus() != LoadState.POSTLOAD) return false;
 		if (MantaroData.getData().get().blacklistedUsers.contains(event.getAuthor().getId())) return false;
 
 		String rawCmd = event.getMessage().getRawContent();

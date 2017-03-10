@@ -64,7 +64,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
 		if (!timer.isExpiring(guild.getId())) return;
 		VoiceChannel v = guild.getAudioManager().isAttemptingToConnect() ? guild.getAudioManager().getQueuedAudioConnection() : guild.getAudioManager().getConnectedChannel();
 		if (vc != v) return;
-		GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(guild);
+		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 		if (channel != null && channel.canTalk())
@@ -76,7 +76,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
 		if (isAlone(vc)) return;
 		Guild guild = vc.getGuild();
 		if (timer.isExpiring(guild.getId())) return;
-		GuildMusicManager musicManager = MantaroBot.getAudioManager().getMusicManager(guild);
+		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
 		if (musicManager.getTrackScheduler().isStopped()) return;
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(true);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();

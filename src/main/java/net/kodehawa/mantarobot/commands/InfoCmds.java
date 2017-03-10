@@ -73,9 +73,9 @@ public class InfoCmds extends Module {
 		super.register("about", new SimpleCommand() {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				List<Guild> guilds = event.getJDA().getGuilds();
-				List<TextChannel> textChannels = event.getJDA().getTextChannels();
-				List<VoiceChannel> voiceChannels = event.getJDA().getVoiceChannels();
+				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
+				List<TextChannel> textChannels = MantaroBot.getInstance().getTextChannels();
+				List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
 				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
 
 				event.getChannel().sendMessage(new EmbedBuilder()
@@ -345,7 +345,7 @@ public class InfoCmds extends Module {
 							.addField("Music Listeners per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.min, listeningUsersPerUsersPerGuilds.avg, listeningUsersPerUsersPerGuilds.max), true)
 							.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.min, listeningUsersPerOnlineUsersPerGuilds.avg, listeningUsersPerOnlineUsersPerGuilds.max), true)
 							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
-							.addField("Total queue size", Long.toString(MantaroBot.getAudioManager().getTotalQueueSize()), true)
+							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
 							.build()
@@ -450,7 +450,7 @@ public class InfoCmds extends Module {
 						.addField("Hourly", GuildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
 						.addField("Daily", GuildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
 						.addField("Total", GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
-						.setFooter("Guilds: " + MantaroBot.getJDA().getGuilds().size(), null)
+						.setFooter("Guilds: " + MantaroBot.getInstance().getGuilds().size(), null)
 						.build()
 					).queue();
 

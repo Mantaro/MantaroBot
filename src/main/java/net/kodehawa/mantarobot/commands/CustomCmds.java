@@ -65,7 +65,7 @@ public class CustomCmds extends Module {
 					toSend = "ytsearch: " + toSend;
 				}
 
-				MantaroBot.getAudioManager().loadAndPlay(event, toSend);
+				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, toSend);
 				return;
 			}
 
@@ -228,14 +228,13 @@ public class CustomCmds extends Module {
 						timer.get().reset();
 						return false;
 					});
-
 					timer.accept(new DeathTimer(60000, () -> {
-						MantaroBot.getJDA().removeEventListener(f);
+						event.getJDA().removeEventListener(f);
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Interactive Operation **\"Creation of Custom Command ``" + cmd + "``\"** expired due to inactivity.").queue();
 						unlock.run();
 					}));
 
-					MantaroBot.getJDA().addEventListener(f);
+					event.getJDA().addEventListener(f);
 					return;
 				}
 

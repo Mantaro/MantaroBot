@@ -5,26 +5,33 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroShard;
 
 public class AudioTrackContext {
 	private AudioTrack audioTrack;
 	private String channel;
 	private String dj;
 	private String url;
+	private int shardId;
 
 	public AudioTrackContext(User dj, TextChannel textChannel, String url, AudioTrack audioTrack) {
 		this.dj = dj.getId();
 		this.url = url;
 		this.channel = textChannel.getId();
 		this.audioTrack = audioTrack;
+		this.shardId = MantaroBot.getInstance().getId(textChannel.getJDA());
 	}
 
 	public AudioTrack getAudioTrack() {
 		return audioTrack;
 	}
 
+	public MantaroShard getShard() {
+		return MantaroBot.getInstance().getShard(shardId);
+	}
+
 	public User getDJ() {
-		return MantaroBot.getJDA().getUserById(dj);
+		return getShard().getJDA().getUserById(dj);
 	}
 
 	public long getDuration() {
@@ -40,7 +47,7 @@ public class AudioTrackContext {
 	}
 
 	public TextChannel getRequestedChannel() {
-		return MantaroBot.getJDA().getTextChannelById(channel);
+		return getShard().getJDA().getTextChannelById(channel);
 	}
 
 	public String getUrl() {

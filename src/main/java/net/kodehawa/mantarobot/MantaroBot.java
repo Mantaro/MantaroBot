@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.Holder;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
@@ -9,7 +11,7 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.*;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
@@ -22,58 +24,74 @@ import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
-import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot {
+	private static MantaroBot instance;
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
-	private static MantaroAudioManager audioManager;
-	private static JDA jda;
-	private static LoadState status = PRELOAD;
+	private MantaroShard[] shards;
+	private MantaroAudioManager audioManager;
+	private LoadState status = PRELOAD;
+	private int totalShards;
 	private static final RethinkDB database = RethinkDB.r;
 	//TODO actual db
 	//private static final Connection conn = database.connection().hostname("localhost").port(28015).connect();
 
-	public static MantaroAudioManager getAudioManager() {
+	public MantaroAudioManager getAudioManager() {
 		return audioManager;
 	}
 
-	public static JDA getJDA() {
-		return jda;
+	public MantaroShard[] getShards() {
+		return shards;
+	}
+	public MantaroShard getShard(JDA jda) {
+		if (jda.getShardInfo() == null) return shards[0];
+		return Arrays.stream(shards).filter(shard -> shard.getId() == jda.getShardInfo().getShardId()).findFirst().orElse(null);
 	}
 
-	public static LoadState getStatus() {
+	public MantaroShard getShard(int id) {
+		return Arrays.stream(shards).filter(shard -> shard.getId() == id).findFirst().orElse(null);
+	}
+
+	public int getId(JDA jda) {
+		return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
+	}
+
+	public MantaroShard getShard(long guildId) {
+		return getShard((int) ((guildId >> 22) % totalShards));
+	}
+
+	public LoadState getStatus() {
 		return status;
 	}
 
-	private static void init() throws Exception {
+	private void init() throws Exception {
 		SimpleLogToSLF4JAdapter.install();
 		LOGGER.info("MantaroBot starting...");
 
 		Config config = MantaroData.getConfig().get();
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
-			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
+				.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
 
+		totalShards = getRecommendedShards(config);
+		shards = new MantaroShard[totalShards];
 		status = LOADING;
-		jda = new JDABuilder(AccountType.BOT)
-			.setToken(config.token)
-			.addListener(new MantaroListener(), new VoiceChannelListener())
-			.setAudioSendFactory(new NativeAudioSendFactory())
-			.setAutoReconnect(true)
-			.setGame(Game.of("Hold your seatbelts!"))
-			.buildBlocking();
+		for (int i = 0; i < totalShards; i++) {
+			LOGGER.info("Starting shard #" + i + " of " + totalShards);
+			shards[i] = new MantaroShard(i, totalShards);
+			LOGGER.info("Finished loading shard #" + i + ".");
+			Thread.sleep(5_000L);
+		}
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
@@ -88,7 +106,7 @@ public class MantaroBot {
 
 		Runnable changeStatus = () -> {
 			String newStatus = splashes.get(r.nextInt(splashes.size()));
-			jda.getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus));
+			Arrays.stream(shards).forEach(shard -> shard.getJDA().getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus + " | [" + shard.getId() + "]")));
 			LOGGER.info("Changed status to: " + newStatus);
 		};
 
@@ -96,45 +114,6 @@ public class MantaroBot {
 
 		Async.startAsyncTask("Splash Thread", changeStatus, 600);
 
-		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
-
-		String dbotsToken = config.dbotsToken;
-		String carbonToken = config.carbonToken;
-		String dbotsorgToken = config.dbotsorgToken;
-
-		if (dbotsToken != null) {
-			Async.startAsyncTask("List API update Thread", () -> {
-				int newC = jda.getGuilds().size();
-				if (newC != guildCount.get()) {
-					try {
-					guildCount.accept(newC);
-					//Unirest.post intensifies
-
-					Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
-						.header("Authorization", dbotsToken)
-						.header("Content-Type", "application/json")
-						.body(new JSONObject().put("server_count", newC).toString())
-						.asJsonAsync();
-
-					LOGGER.info("Successfully posted the botdata to carbonitex.com: " +
-							Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
-							.field("key", carbonToken)
-							.field("servercount", newC)
-							.asString().getBody());
-
-					Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
-							.header("Authorization", dbotsorgToken)
-							.header("Content-Type", "application/json")
-							.body(new JSONObject().put("server_count", newC).toString())
-							.asJsonAsync();
-
-					LOGGER.info("Updated discord lists Guild Count: " + newC + " guilds");
-					} catch (Exception e) {
-						LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org", e);
-					}
-				}
-			}, 1800);
-		}
 
 		MantaroData.getConfig().save();
 
@@ -156,9 +135,48 @@ public class MantaroBot {
 		modules.forEach(Module::onPostLoad);
 	}
 
+
+	private int getRecommendedShards(Config config) {
+		try {
+			HttpResponse<JsonNode> shards = Unirest.get("https://discordapp.com/api/gateway/bot")
+					.header("Authorization", "Bot " + config.token)
+					.header("Content-Type", "application/json")
+					.asJson();
+			return shards.getBody().getObject().getInt("shards");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 1;
+	}
+
+	public List<Guild> getGuilds() {
+		return Arrays.stream(shards).map(bot -> bot.getJDA().getGuilds()).flatMap(List::stream).collect(Collectors.toList());
+	}
+
+	public List<User> getUsers() {
+		return Arrays.stream(shards).map(bot -> bot.getJDA().getUsers()).flatMap(List::stream).collect(Collectors.toList());
+	}
+
+	public User getUserById(String id) {
+		return Arrays.stream(shards).map(shard -> shard.getJDA().getUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	public List<TextChannel> getTextChannels() {
+		return Arrays.stream(shards).map(bot -> bot.getJDA().getTextChannels()).flatMap(List::stream).collect(Collectors.toList());
+	}
+
+	public List<VoiceChannel> getVoiceChannels() {
+		return Arrays.stream(shards).map(bot -> bot.getJDA().getVoiceChannels()).flatMap(List::stream).collect(Collectors.toList());
+	}
+
+	public long getResponseTotal() {
+		return Arrays.stream(shards).map(bot -> bot.getJDA().getResponseTotal()).mapToLong(Long::longValue).sum();
+	}
+
 	public static void main(String[] args) {
 		try {
-			init();
+			instance = new MantaroBot();
+			instance.init();
 		} catch (Exception e) {
 			DiscordLogBack.disable();
 			LOGGER.error("Could not complete Main Thread Routine!", e);
@@ -167,6 +185,9 @@ public class MantaroBot {
 		}
 	}
 
+	public static MantaroBot getInstance() {
+		return instance;
+	}
 	public static RethinkDB database(){
 		return database;
 	}

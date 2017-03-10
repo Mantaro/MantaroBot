@@ -42,10 +42,10 @@ public class DiscordUtils {
 			return false;
 		});
 
-		MantaroBot.getJDA().addEventListener(functionListener);
+		event.getJDA().addEventListener(functionListener);
 		Async.asyncSleepThen(10000, () -> {
 			if (!functionListener.isDone()) {
-				MantaroBot.getJDA().removeEventListener(functionListener);
+				event.getJDA().removeEventListener(functionListener);
 				event.getChannel().sendMessage("\u274C Timeout: No reply in 10 seconds").queue();
 			}
 		}).run();
