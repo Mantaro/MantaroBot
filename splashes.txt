@@ -3,16 +3,20 @@ Stop this already...
 I'm not the shiny kind, stop asking!
 Having fun with ya!
 Doing bot things.
-Lambda'ing my way out.
-Shiny new JDA 3.0.
-Finally 1.0!
 With now more embeds!
 Check ~>osu
 Check ~>misc
 Check ~>action
 Check ~>konachan
-I would use sharding but I don't wanna split myself!
-Cookiezi would eat this... or I would eat a cookie?
+Check ~>richest
+Check ~>loot
+Check ~>profile
+Check ~>8ball <question>
+Check ~>gamble
+Check ~>grandom
+Check ~>tsundere
+Check ~>greet
+Cookiezi would eat this... or would I eat a cookie?
 I want food!
 Coca-Cola is bad for your health but you still drank it at least once.
 Here comes the great bot to destroy all the people it hates... not you of course.
@@ -20,8 +24,9 @@ How can I calm myself when someone looks at my "special" HDD collections?!
 with you.
 in a remote server far away from you.
 an instance of Game.
+an instance of EntityPlayerMP
 404.
-lambda expressions.
+Making your life a little easier.
 Shounen surely has a lot of ripples.
 Cast no dirt into the well, that gives you water!
 Maximum explosion for maximum justice!
@@ -29,7 +34,11 @@ Lets go and stick those protest signs somewhere less visible.
 Yamete!
 Lemme put my serious face.
 I don't wanna, but I guess I gotta.
-Running in 30MB of allocated memory!... I guess that will be enough... I hope.
+Running in 2GB of allocated memory!... I guess that will be enough... I hope.
+Cores of pure power.
+Now singing along you.
+Now rethinking your DB.
+Making a life out of being a bot it's pretty hard.
 I'm also a CPU. No, really!
 with a bunch of zeros and ones... basically with myself.
 This is a hot server. It is like a normal server but with me.
@@ -44,18 +53,48 @@ I do everything bad to myself.
 Whose grabbing who?
 Quit exploding me!
 Your king is on fire!
-Not really into furry.
-With over 9000 users!... not really, but who cannot dream?
+Now with more RPG.
+Let's hope I finish my assignment on time.
+Helping you help yourself.
+Helping you.
+With over 1000000 users!... not really, but who cannot dream?
 Have they released Neko models so people could play with them?
 Bill Nye the science guy! *plays chinese theme*
 Did your pp grow bigger?
 Damn! I should've finished my backlog before formatting Windows.
+Playing music for you!
 Bluescreening your life.
 Kernel Panicking your life.
 two series worth of backlog.
+with more than 50000 users!
 with bluescreens
 with greenscreens
 with min
+with you~
+with magic
+with songs
+with JDA
+with RPG
+with lavaplayer
+with coins
+with actions
+with music beats
+with all your custom commands
+with hot milk.
+watching anime
 Nothing is impossible if you have a cookie, specially if it's in your nickname.
-Doom wasn't 3D!
-There is only one hotel with 1.1 million stars. Guess which one.
+Now with more splashes!
+Now with more ~>tsundere
+Y-You baka.
+Don't you all love me?... Oh well.
+Celebrating 1000 servers.
+More features than ever!
+Cookies are delicious!
+o, true.
+You're right, little cowboy.
+Try our dealer, Pablo Escobar! (yes it's an actual bot)
+Try our sister bot, Bran!
+On a new home... I mean datacenter.
+ra-mu-ne.
+what could this be?
+Want support? Join our support guild. Link is in ~>about.

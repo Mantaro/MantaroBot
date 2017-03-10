@@ -107,7 +107,7 @@ public class RPGCmds extends Module {
 					EntityPlayer player = EntityPlayer.getPlayer(event);
 
 					if(!player.getInventory().containsItem(trash)){
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot trash an item you don't have.").queue();
 						return;
 					}
 

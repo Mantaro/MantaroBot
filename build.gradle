@@ -31,9 +31,9 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.0.BETA2_143'
+	compile 'net.dv8tion:JDA:3.0.BETA2_147'
 
-	compile 'com.sedmelluq:lavaplayer:1.2.25'
+	compile 'com.sedmelluq:lavaplayer:1.2.29'
 	compile 'com.sedmelluq:jda-nas:1.0.3'
 
 	compile 'org.reflections:reflections:0.9.10'
@@ -52,6 +52,8 @@ dependencies {
 	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0.pr1'
+
+	compile group: 'com.rethinkdb', name: 'rethinkdb-driver', version: '2.3.3'
 
 	compile fileTree(dir: 'lib', include: '*.jar')
 }

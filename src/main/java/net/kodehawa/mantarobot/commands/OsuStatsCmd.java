@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,8 +77,11 @@ public class OsuStatsCmd extends Module {
 			long end = System.currentTimeMillis() - start;
 			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 		} catch (Exception e) {
-			finalResponse = EmoteReference.ERROR + "Error retrieving results or no results found. (" + e.getMessage() + ")";
-			LOGGER.warn("Error retrieving results from osu!API", e);
+			if(e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
+			else{
+				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
+				LOGGER.warn("Error retrieving results from osu!API", e);
+			}
 		}
 
 		return finalResponse;
@@ -177,7 +181,11 @@ public class OsuStatsCmd extends Module {
 			finalMessage = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 
 		} catch (Exception e) {
-			finalMessage = EmoteReference.ERROR + "Error retrieving results or no results found. (" + e.getMessage() + ")";
+			if(e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
+			else{
+				finalMessage = EmoteReference.ERROR + "Error while looking for results.";
+				LOGGER.warn("Error retrieving results from osu!API", e);
+			}
 		}
 		return finalMessage;
 	}
