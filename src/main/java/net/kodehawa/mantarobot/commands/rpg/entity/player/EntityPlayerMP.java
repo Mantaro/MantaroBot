@@ -25,7 +25,9 @@ public class EntityPlayerMP extends EntityPlayer {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayerMP getPlayer(User e){
-		Objects.requireNonNull(e,  "Player user cannot be null!");
+		if(e == null){
+			return null;
+		}
 		return MantaroData.getData().get().getUser(e, true);
 	}
 

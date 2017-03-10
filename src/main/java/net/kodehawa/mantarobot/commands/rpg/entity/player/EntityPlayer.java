@@ -66,7 +66,10 @@ public class EntityPlayer extends EntityTickable {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(GuildMessageReceivedEvent m) {
-		Objects.requireNonNull(m.getMember(), "Player user cannot be null!");
+		if(m.getMember() == null){
+			return null;
+		}
+
 		entity = m.getMember().toString();
 		world = TextChannelWorld.of(m.getChannel());
 		return MantaroData.getData().get().getUser(m.getMember(), true);
@@ -80,7 +83,9 @@ public class EntityPlayer extends EntityTickable {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(Member m) {
-		Objects.requireNonNull(m, "Player user cannot be null!");
+		if(m == null){
+			return null;
+		}
 		entity = m.toString();
 		return MantaroData.getData().get().getUser(m, true);
 	}
@@ -92,7 +97,10 @@ public class EntityPlayer extends EntityTickable {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(String entityId) {
-		Objects.requireNonNull(entityId, "Player id cannot be null!");
+		if(entityId == null){
+			return null;
+		}
+
 		entity = entityId;
 		return MantaroData.getData().get().users.getOrDefault(entityId, new EntityPlayerMP());
 	}

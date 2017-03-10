@@ -52,7 +52,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
 			super.onTrackException(player, track, exception);
 			getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage() + " (Severity: " + exception.severity + ")").queue();
-			//next(true);
+			next(true);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
 			getCurrentTrack().getRequestedChannel().sendMessage("Track got stuck, skipping...").queue();
 			super.onTrackStuck(player, track, thresholdMs);
-			//next(true);
+			next(true);
 		}
 	}
 
@@ -130,7 +130,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		return getCurrentTrack() == null && getQueue().isEmpty();
 	}
 
-	public void next(boolean skip) {
+	public synchronized void next(boolean skip) {
 		if (repeat == Repeat.SONG && !skip && getCurrentTrack() != null) {
 			getAudioPlayer().startTrack(getCurrentTrack().makeClone().getAudioTrack(), false);
 		} else {
@@ -152,10 +152,13 @@ public class TrackScheduler extends AudioEventAdapter {
 
 		m.closeAudioConnection();
 
-		AudioTrackContext previousTrack = getPreviousTrack();
+		AudioTrackContext previousTrack;
 
-		if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
-			previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
+		try{
+			previousTrack = getPreviousTrack();
+			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
+				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
+		} catch (Exception ignored){} //fuck
 	}
 
 	public void queue(AudioTrackContext audioTrackContext) {

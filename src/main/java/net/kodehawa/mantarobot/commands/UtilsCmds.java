@@ -272,8 +272,7 @@ public class UtilsCmds extends Module {
 						onHelp(event);
 					}
 				} catch (Exception e) {
-					event.getChannel().sendMessage("Error while fetching results.").queue();
-					LOGGER.warn("Something went wrong while processing translation elements.", e);
+					event.getChannel().sendMessage("Error while fetching results. Probably google doesn't like us for now.").queue();
 				}
 			}
 

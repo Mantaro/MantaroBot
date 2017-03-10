@@ -48,11 +48,12 @@ public class ImageCmds extends Module {
 
 	public ImageCmds() {
 		super(Category.IMAGE);
+		enterRatings();
+
 		yandere();
 		kona();
 		e621();
 		rule34();
-		enterRatings();
 	}
 
 	private void enterRatings() {
@@ -97,7 +98,8 @@ public class ImageCmds extends Module {
 				.addField("Height", String.valueOf(filter.get(get).getWidth()), true)
 				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 				.setFooter("If the image doesn't load, click the title.", null);
-		} catch (IndexOutOfBoundsException ex) {
+		} catch (Exception ex) {
+			if(ex instanceof NullPointerException) return builder.setDescription(EmoteReference.ERROR + "Wrong syntax.");
 			return builder.setDescription(EmoteReference.ERROR + "There are no images here, just dust.");
 		}
 	}
@@ -141,6 +143,12 @@ public class ImageCmds extends Module {
 						break;
 					case "tags":
 						try {
+							boolean isOldFormat = args[1].matches("^[0-9]*$");
+							if(isOldFormat){
+								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>konachan tags <tag>").queue();
+								return;
+							}
+
 							channel.sendTyping().queue();
 							String sNoArgs = content.replace("tags ", "");
 							String[] expectedNumber = sNoArgs.split(" ");
@@ -242,6 +250,11 @@ public class ImageCmds extends Module {
 							String[] expectedNumber = sNoArgs.split(" ");
 							String tags = expectedNumber[0];
 
+							boolean isOldFormat = args[1].matches("^[0-9]*$");
+							if(isOldFormat){
+								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>e621 tags <tag>").queue();
+								return;
+							}
 							e621.onSearch(r.nextInt(50), 60, tags, images -> {
 								try {
 									number1 = Integer.parseInt(expectedNumber[2]);
@@ -330,6 +343,12 @@ public class ImageCmds extends Module {
 
 					case "tags":
 						try {
+							boolean isOldFormat = args[1].matches("^[0-9]*$");
+							if(isOldFormat){
+								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>rule34 tags <tag>").queue();
+								return;
+							}
+
 							String sNoArgs = content.replace("tags ", "");
 							String[] expectedNumber = sNoArgs.split(" ");
 							String tags = expectedNumber[0];
@@ -383,16 +402,16 @@ public class ImageCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				rating = "s";
-				needRating = args.length >= 4;
-				smallRequest = args.length <= 2;
+				needRating = args.length >= 3;
+				smallRequest = args.length <= 1;
 				TextChannel channel = event.getChannel();
 				int argCount = args.length - 1;
 
 				try {
-					page = Integer.parseInt(args[1]);
-					tagsToEncode = args[2];
-					if (needRating) rating = nRating.get(args[3]);
-					number = Integer.parseInt(args[4]);
+					page = Math.max(r.nextInt(50), 1);
+					tagsToEncode = args[1];
+					if (needRating) rating = nRating.get(args[2]);
+					number = Integer.parseInt(args[3]);
 				} catch (Exception ignored) {}
 
 				try {
@@ -407,6 +426,12 @@ public class ImageCmds extends Module {
 						channel.sendMessage(getImage(argCount, "get", url, rating, args, event).build()).queue();
 						break;
 					case "tags":
+						boolean isOldFormat = args[1].matches("^[0-9]*$");
+						if(isOldFormat){
+							event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>yandere tags <tag>").queue();
+							return;
+						}
+
 						String url1 = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
 						channel.sendMessage(getImage(argCount, "tags", url1, rating, args, event).build()).queue();
 						break;

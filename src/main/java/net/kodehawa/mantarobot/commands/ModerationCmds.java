@@ -530,6 +530,11 @@ public class ModerationCmds extends Module {
 					return;
 				}
 
+
+				if(Integer.parseInt(content) <= 3){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 4 messages.").queue();
+					return;
+				}
 				channel.getHistory().retrievePast(Math.min(Integer.parseInt(content), 100)).queue(
 					messageHistory -> channel.deleteMessages(messageHistory).queue(
 						success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + messageHistory.size() + " messages").queue(),
@@ -563,6 +568,7 @@ public class ModerationCmds extends Module {
 					.setDescription("Prunes a specific amount of messages.")
 					.addField("Usage", "~>prune <x> - Prunes messages", false)
 					.addField("Parameters", "x = number of messages to delete", false)
+					.addField("Important", "You need to provide at least 3 messages. I'd say better 10 or more.", false)
 					.build();
 			}
 		});

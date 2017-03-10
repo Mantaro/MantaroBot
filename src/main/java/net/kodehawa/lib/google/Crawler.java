@@ -55,7 +55,7 @@ public class Crawler {
 				}
 			}
 		} catch (IOException e) {
-			LOGGER.error("Error while getting results from google", e);
+			results.add(new SearchResult("http://worrydream.com/404notfound", "Error."));
 		}
 
 		return results;
