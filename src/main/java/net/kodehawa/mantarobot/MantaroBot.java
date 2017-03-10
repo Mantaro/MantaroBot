@@ -4,6 +4,7 @@ import br.com.brjdevs.java.utils.Holder;
 import com.mashape.unirest.http.Unirest;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -21,7 +22,6 @@ import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -43,7 +43,7 @@ public class MantaroBot {
 	private static LoadState status = PRELOAD;
 	private static final RethinkDB database = RethinkDB.r;
 	//TODO actual db
-	private static final Connection conn = database.connection().hostname("localhost").port(28015).connect();
+	//private static final Connection conn = database.connection().hostname("localhost").port(28015).connect();
 
 	public static MantaroAudioManager getAudioManager() {
 		return audioManager;
@@ -70,7 +70,7 @@ public class MantaroBot {
 		jda = new JDABuilder(AccountType.BOT)
 			.setToken(config.token)
 			.addListener(new MantaroListener(), new VoiceChannelListener())
-			//.setAudioSendFactory(new NativeAudioSendFactory())
+			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
 			.setGame(Game.of("Hold your seatbelts!"))
 			.buildBlocking();
@@ -79,7 +79,7 @@ public class MantaroBot {
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		LOGGER.info("Started bot instance.");
 		LOGGER.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
-		LOGGER.info("Started RethinkDB on " + conn.hostname + " successfully.");
+		//LOGGER.info("Started RethinkDB on " + conn.hostname + " successfully.");
 		Data data = MantaroData.getData().get();
 		Random r = new Random();
 		audioManager = new MantaroAudioManager();
@@ -171,7 +171,7 @@ public class MantaroBot {
 		return database;
 	}
 
-	public static Connection databaseConnection(){
+	/*public static Connection databaseConnection(){
 		return conn;
-	}
+	}*/
 }

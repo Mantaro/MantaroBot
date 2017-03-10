@@ -55,6 +55,10 @@ public class Inventory {
 		return asMap().containsKey(item);
 	}
 
+	public int getAmount(Item item){
+		return asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount();
+	}
+
 	public void process(ItemStack stack) {
 		merge(Collections.singletonList(stack));
 	}

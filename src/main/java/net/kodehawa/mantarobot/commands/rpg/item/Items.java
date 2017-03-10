@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.rpg.item;
 
-import net.dv8tion.jda.core.entities.Emote;
 import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -11,7 +10,7 @@ import java.util.stream.Stream;
 
 public class Items {
 	public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET, LOADED_DICE, FORGOTTEN_MUSIC,
-			CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, AXE;
+			CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, AXE, WOOD;
 
 	public static final Item[] ALL = {
 		HEADPHONES =
@@ -48,7 +47,9 @@ public class Items {
 		LEWD_MAGAZINE =
 			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd magazine", "Too many lewd commands.", 1000, true, false),
 		AXE =
-			new Item(EmoteReference.AXE.getUnicode(), "Axe", "Gives a stackable boost when doing ~>chop.", 3500, true, false)
+			new Item(EmoteReference.AXE.getUnicode(), "Axe", "Gives a stackable boost when doing ~>chop.", 4000, true, true),
+		WOOD =
+			new Item(EmoteReference.WOOD.getUnicode(), "Wood", "Choppy chop. Useful for recipes", 150, true, false)
 	};
 
 	static {

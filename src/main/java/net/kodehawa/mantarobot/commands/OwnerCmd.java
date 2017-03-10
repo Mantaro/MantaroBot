@@ -408,6 +408,6 @@ public class OwnerCmd extends Module {
 
 		event.getChannel().sendMessage(CollectionUtils.random(sleepQuotes)).complete();
 
-		MantaroBot.getJDA().shutdownNow(true);
+		MantaroBot.getJDA().shutdown(true);
 	}
 }

@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
+import net.kodehawa.mantarobot.commands.rpg.entity.world.EntityTree;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.item.Items;
@@ -41,9 +42,11 @@ public class RPGCmds extends Module {
 		richest();
 		inventory();
 		market();
+		market();
 		rep();
 		transfer();
 		item();
+		chop();
 
 		/*
 		TODO NEXT:"
@@ -442,7 +445,7 @@ public class RPGCmds extends Module {
 	}
 
 	private void mine() {
-		RateLimiter rateLimiter = new RateLimiter(3500);
+		RateLimiter rateLimiter = new RateLimiter(2000);
 		Random r = new Random();
 
 		super.register("mine", new SimpleCommand() {
@@ -460,12 +463,12 @@ public class RPGCmds extends Module {
 
 				if(!check(player, event)) return;
 
-				int picks = player.getInventory().asMap().getOrDefault(Items.BROM_PICKAXE, new ItemStack(Items.BROM_PICKAXE, 0)).getAmount();
-				if (picks == 0) {
+				if (!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
 					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
 					return;
 				}
 
+				int picks = player.getInventory().getAmount(Items.BROM_PICKAXE);
 				player.consumeStamina(10);
 				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
 				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
@@ -662,7 +665,60 @@ public class RPGCmds extends Module {
 		});
 	}
 
-	private boolean check(EntityPlayer player, GuildMessageReceivedEvent event){
+	private void chop(){
+		RateLimiter rateLimiter = new RateLimiter(3500);
+
+		super.register("chop", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannelWorld world = TextChannelWorld.of(event);
+				EntityPlayer player = EntityPlayer.getPlayer(event);
+
+				EntityTree tree = (EntityTree) world.getActiveEntities().stream().filter
+						(entity -> (entity instanceof EntityTree)).findFirst().orElse(null);
+
+				if(!rateLimiter.process(event.getMember())){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You're chopping too fast, I cannot create enough wood!").queue();
+					return;
+				}
+
+				if(!check(player, event)) return;
+
+				if (!player.getInventory().containsItem(Items.AXE)) {
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any axe to chop with."
+							+ (TextChannelWorld.of(event).dropItemWithChance(Items.AXE, 5) ?
+							" I think I saw an axe somewhere, though. " + EmoteReference.AXE : "")).queue();
+					return;
+				}
+
+				player.consumeStamina(10);
+
+				if(tree == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "There are no trees in this world").queue();
+					return;
+				}
+
+				int axes = player.getInventory().getAmount(Items.AXE);
+				tree.setHealth(0);
+				//if ticks aren't enough kek
+				tree.onDeath();
+				int give = (int) Math.max((axes * 0.5), 1);
+				player.getInventory().process(new ItemStack(Items.WOOD, give));
+				event.getChannel().sendMessage(String.format("%sChopping in %s got you %d wood.", EmoteReference.CORRECT, event.getChannel().getAsMention(), give)).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Chop command")
+						.setDescription("Chops a tree.")
+						.addField("Usage", "~>chop", false)
+						.addField("Important", "Trees will be taken off the world and respawned later", false)
+						.build();
+			}
+		});
+	}
+
+	private boolean check(EntityPlayer player, GuildMessageReceivedEvent event) {
 		if (player.getStamina() < 10) {
 			if (player.isProcessing()) {
 				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
