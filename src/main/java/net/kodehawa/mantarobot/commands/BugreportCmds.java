@@ -21,6 +21,7 @@ public class BugreportCmds extends Module
     public BugreportCmds() {
         super(Category.UTILS);
         report();
+        admin();
     }
 
     private void report()
@@ -73,7 +74,7 @@ public class BugreportCmds extends Module
         });
     }
 
-    private void accept()
+    private void admin()
     {
         super.register("bug", new SimpleCommand() {
             @Override
@@ -115,6 +116,11 @@ public class BugreportCmds extends Module
                         .addField("Description:", "~>bug accept: accepts a bug\n" +
                                                   "~>bug decline: declines a bug\n",
                                 false).build();
+            }
+
+            @Override
+            public CommandPermission permissionRequired() {
+                return CommandPermission.BOT_OWNER;
             }
         });
     }
