@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
@@ -524,30 +525,42 @@ public class ModerationCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
+				int i = Integer.parseInt(content);
 
 				if (content.isEmpty()) {
 					channel.sendMessage(EmoteReference.ERROR + "No messages to prune.").queue();
 					return;
 				}
 
-				if (Integer.parseInt(content) <= 3) {
+				if (i <= 3) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 4 messages.").queue();
 					return;
 				}
-				channel.getHistory().retrievePast(Math.min(Integer.parseInt(content), 100)).queue(
-					messageHistory -> channel.deleteMessages(messageHistory).queue(
-						success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + messageHistory.size() + " messages").queue(),
-						error -> {
-							if (error instanceof PermissionException) {
-								PermissionException pe = (PermissionException) error;
-								channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
-									"(No permission provided: " + pe.getPermission() + ")").queue();
-							} else {
-								channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
-									+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-								error.printStackTrace();
-							}
-						}),
+				channel.getHistory().retrievePast(Math.min(i, 100)).queue(
+					messageHistory -> {
+						OffsetDateTime limit = OffsetDateTime.now().minusWeeks(2);
+						List<Message> messages = messageHistory.stream()
+							.filter(message -> message.getCreationTime().isBefore(limit))
+							.collect(Collectors.toList());
+
+						if (messages.size() < 1) {
+							//TODO Error Message
+							return;
+						}
+						channel.deleteMessages(messageHistory).queue(
+							success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + messages.size() + " messages").queue(),
+							error -> {
+								if (error instanceof PermissionException) {
+									PermissionException pe = (PermissionException) error;
+									channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
+										"(No permission provided: " + pe.getPermission() + ")").queue();
+								} else {
+									channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
+										+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+									error.printStackTrace();
+								}
+							});
+					},
 					error -> {
 						channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the messages" + "<"
 							+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
