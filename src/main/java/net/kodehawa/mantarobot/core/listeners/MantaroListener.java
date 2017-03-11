@@ -13,6 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
@@ -36,6 +37,15 @@ public class MantaroListener implements EventListener {
 	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 350
 	private static TreeMap<String, Message> messageCache = new TreeMap<>();
 	private static long ticks;
+	private int logChannelShardId;
+
+	public MantaroListener() {
+		logChannelShardId = Arrays.stream(MantaroBot.getInstance().getShards()).filter(shard -> shard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null).getId();
+	}
+
+	public TextChannel getLogChannel() {
+		return MantaroBot.getInstance().getShard(logChannelShardId).getJDA().getTextChannelById("266231083341840385");
+	}
 	Random r = new Random();
 
 	public static String getCommandTotal() {
@@ -227,7 +237,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onJoin(GuildJoinEvent event) {
-		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
+		TextChannel tc = getLogChannel();
 
 		if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
 			event.getGuild().leave().queue();
@@ -242,7 +252,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onLeave(GuildLeaveEvent event) {
-		TextChannel tc = event.getJDA().getTextChannelById("266231083341840385");
+		TextChannel tc = getLogChannel();
 		if (event.getGuild().getMembers().isEmpty()) {
 			tc.sendMessage(String.format(EmoteReference.THINKING + "A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
 			logTotal++;

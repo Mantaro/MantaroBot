@@ -112,6 +112,8 @@ public class MantaroBot {
 
 		changeStatus.run();
 
+		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
+
 		Async.startAsyncTask("Splash Thread", changeStatus, 600);
 
 
