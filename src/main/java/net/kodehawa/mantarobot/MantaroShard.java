@@ -83,7 +83,7 @@ public class MantaroShard {
                             Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
                                     .header("Authorization", dbotsToken)
                                     .header("Content-Type", "application/json")
-                                    .body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", toString()).toString())
+                                    .body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", totalShards).toString())
                                     .asJsonAsync();
                             LOGGER.info("Successfully posted the botdata to discordbots");
 
@@ -98,7 +98,7 @@ public class MantaroShard {
                             Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
                                     .header("Authorization", dbotsorgToken)
                                     .header("Content-Type", "application/json")
-                                    .body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", toString()).toString())
+                                    .body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", totalShards).toString())
                                     .asJsonAsync();
                             LOGGER.info("Successfully posted the botdata to discordbots.org");
                         } catch (Exception e) {
