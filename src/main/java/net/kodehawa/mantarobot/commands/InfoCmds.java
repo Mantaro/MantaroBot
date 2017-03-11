@@ -328,9 +328,9 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					List<Guild> guilds = event.getJDA().getGuilds();
+					List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
-					List<VoiceChannel> voiceChannels = event.getJDA().getVoiceChannels();
+					List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
 					List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
 
 					CalculatedIntValues usersPerGuild = calculateInt(guilds, value -> value.getMembers().size());
