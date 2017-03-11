@@ -74,7 +74,7 @@ public class MantaroShard {
 		String carbonToken = config.carbonToken;
 		String dbotsorgToken = config.dbotsorgToken;
 
-		if (dbotsToken != null) {
+		if (dbotsToken != null || carbonToken != null || dbotsorgToken != null) {
 			Async.task("List API update Thread", () -> {
 				int newC = jda.getGuilds().size();
 				try {
@@ -82,27 +82,33 @@ public class MantaroShard {
 					//Unirest.post intensifies
 
 					try {
-						LOGGER.info("Successfully posted the botdata to discordbots" + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
+						if (dbotsToken != null) {
+							LOGGER.info("Successfully posted the botdata to bots.discord.pw: " + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
 								.header("Authorization", dbotsToken)
 								.header("Content-Type", "application/json")
 								.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
 								.asString().getBody());
+						}
 
-
-						LOGGER.info("Successfully posted the botdata to carbonitex.com: " +
+						if (carbonToken != null) {
+							LOGGER.info("Successfully posted the botdata to carbonitex.com: " +
 								Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
-										.field("key", carbonToken)
-										.field("servercount", newC)
-										.field("shardid", getId())
-										.field("shardcount", totalShards)
-										.asString().getBody());
+									.field("key", carbonToken)
+									.field("servercount", newC)
+									.field("shardid", getId())
+									.field("shardcount", totalShards)
+									.asString().getBody());
+						}
 
-						LOGGER.info("Successfully posted the botdata to discordbots.org: " +
+						if (dbotsorgToken != null) {
+							LOGGER.info("Successfully posted the botdata to discordbots.org: " +
 								Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
-										.header("Authorization", dbotsorgToken)
-										.header("Content-Type", "application/json")
-										.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
-										.asString().getBody());
+									.header("Authorization", dbotsorgToken)
+									.header("Content-Type", "application/json")
+									.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
+									.asString().getBody());
+						}
+
 					} catch (Exception e) {
 						LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org) - Shard " + getId(), e);
 					}
