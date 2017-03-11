@@ -753,4 +753,126 @@ public class RPGCmds extends Module {
 			}
 		});
 	}
+
+	private void richest() {
+		super.register("richest", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				boolean global = !MantaroData.getData().get().getGuild(event.getGuild(), false).localMode && !content.equals("guild");
+
+				AtomicInteger integer = new AtomicInteger(1);
+
+				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
+					.setDescription(
+						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
+							.filter(user -> !user.isBot())
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
+							.limit(15)
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
+							.collect(Collectors.joining("\n"))
+					)
+					.build()
+				).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Money list")
+					.setDescription("Returns the global richest users, or the guild ones if you want.")
+					.addField("Usage", "~>richest <global/guild>", false)
+					.build();
+			}
+		});
+	}
+
+	private void chop(){
+		RateLimiter rateLimiter = new RateLimiter(3500);
+
+		super.register("chop", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				TextChannelWorld world = TextChannelWorld.of(event);
+				EntityPlayer player = EntityPlayer.getPlayer(event);
+
+				EntityTree tree = (EntityTree) world.getActiveEntities().stream().filter
+						(entity -> (entity instanceof EntityTree)).findFirst().orElse(null);
+
+				if(!rateLimiter.process(event.getMember())){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You're chopping too fast, I cannot create enough wood!").queue();
+					return;
+				}
+
+				if(!check(player, event)) return;
+
+				if (!player.getInventory().containsItem(Items.AXE)) {
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any axe to chop with."
+							+ (TextChannelWorld.of(event).dropItemWithChance(Items.AXE, 5) ?
+							" I think I saw an axe somewhere, though. " + EmoteReference.AXE : "")).queue();
+					return;
+				}
+
+				player.consumeStamina(10);
+
+				if(tree == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "There are no trees in this world").queue();
+					return;
+				}
+
+				int axes = player.getInventory().getAmount(Items.AXE);
+				tree.setHealth(0);
+				//if ticks aren't enough kek
+				tree.onDeath();
+				int give = (int) Math.max((axes * 0.5), 1);
+				player.getInventory().process(new ItemStack(Items.WOOD, give));
+				event.getChannel().sendMessage(String.format("%sChopping in %s got you %d wood.", EmoteReference.CORRECT, event.getChannel().getAsMention(), give)).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Chop command")
+						.setDescription("Chops a tree.")
+						.addField("Usage", "~>chop", false)
+						.addField("Important", "Trees will be taken off the world and respawned later", false)
+						.build();
+			}
+		});
+	}
+
+	private boolean check(EntityPlayer player, GuildMessageReceivedEvent event) {
+		if (player.getStamina() < 10) {
+			if (player.isProcessing()) {
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
+				return false;
+			}
+
+			player.setProcessing(true);
+			player.add(TextChannelWorld.of(event));
+			event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. You need to rest for a bit. Wait a minute for it to be completely regenerated.").queue();
+			Async.startAsyncTask("Stamina Task (Process) [" + player + "]", s -> {
+				if (!player.addStamina(10)) {
+					player.setProcessing(false);
+					s.shutdown();
+				}
+			}, 10);
+			return false;
+		}
+
+		if (player.getHealth() < 10) {
+			if (player.isProcessing()) {
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You're still on the hospital.").queue();
+				return false;
+			}
+
+			player.setProcessing(true);
+			player.add(TextChannelWorld.of(event));
+			event.getChannel().sendMessage(EmoteReference.ERROR + "You're too sick, so you were transferred to the hospital. In 15 minutes you should be okay.").queue();
+			Async.asyncSleepThen(900000, () -> {
+				player.addHealth(player.getMaxHealth() - 10);
+				player.setProcessing(false);
+			}).run();
+			return false;
+		}
+
+		return true;
+	}
 }
