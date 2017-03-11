@@ -195,8 +195,8 @@ public class MantaroListener implements EventListener {
 		//Tick worlds and entities.
 		if(r.nextInt(200) > 100){
 			ticks++;
-			TextChannelWorld world = TextChannelWorld.of(event);
-			world.tick(event);
+			/*TextChannelWorld world = TextChannelWorld.of(event);
+			world.tick(event);*/
 		}
 
 		if (messageCache.size() <= 2500) {

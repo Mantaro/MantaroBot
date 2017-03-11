@@ -169,7 +169,7 @@ public class ActionCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
 					return;
 				}
-				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s \n %s", kString, author.getAsMention());
+				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s", kString, author.getAsMention());
 				channel.sendFile(toSend, "kiss.gif", new MessageBuilder().append(kiss).build()).queue();
 			}
 
