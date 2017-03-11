@@ -544,7 +544,7 @@ public class ModerationCmds extends Module {
 							.collect(Collectors.toList());
 
 						if (messages.size() < 1) {
-							//TODO Error Message
+							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, discord won't let me delete them.").queue();
 							return;
 						}
 						channel.deleteMessages(messageHistory).queue(

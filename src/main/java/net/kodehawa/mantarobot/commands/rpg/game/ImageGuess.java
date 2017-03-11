@@ -31,7 +31,7 @@ public class ImageGuess extends Game {
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (!(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.IMAGEGUESS
+		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.IMAGEGUESS
 			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
 		}

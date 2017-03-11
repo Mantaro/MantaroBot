@@ -272,6 +272,7 @@ public class InfoCmds extends Module {
 					+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
 					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
+					+ "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
 					+ "CPU Usage: " + getCpuUsage() + "%" + "\n"
 					+ "CPU Cores: " + getAvailableProcessors()
 					+ "\n\n ------------------ \n\n"

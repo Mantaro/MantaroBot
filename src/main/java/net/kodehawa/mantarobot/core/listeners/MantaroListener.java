@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
+import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
@@ -197,8 +198,8 @@ public class MantaroListener implements EventListener {
 		//Tick worlds and entities.
 		if (r.nextInt(200) > 100) {
 			ticks++;
-			/*TextChannelWorld world = TextChannelWorld.of(event);
-			world.tick(event);*/
+			TextChannelWorld world = TextChannelWorld.of(event);
+			world.tick(event);
 		}
 
 		if (messageCache.size() <= 2500) {
