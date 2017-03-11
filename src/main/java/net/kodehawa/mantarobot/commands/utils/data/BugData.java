@@ -6,8 +6,10 @@ import java.util.concurrent.atomic.AtomicLong;
 public class BugData {
     public static class Bug {
         public String bug;
-        public String reporterId;
+        public long reporterId;
         public long time;
+        public long messageId;
+        public boolean accepted = false;
     }
 
     public ConcurrentHashMap<Long, Bug> bugs = new ConcurrentHashMap<>();

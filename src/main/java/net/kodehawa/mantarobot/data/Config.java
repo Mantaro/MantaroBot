@@ -16,16 +16,17 @@ public class Config {
 	public List<String> owners = new ArrayList<>();
 	public String token = null;
 	public String weatherAppId = null;
+	public String bugreportChannel = null;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());
 	}
 
-	private boolean isOwner(User user) {
+	public boolean isOwner(User user) {
 		return isOwner(user.getId());
 	}
 
-	private boolean isOwner(String id) {
+	public boolean isOwner(String id) {
 		return owners.contains(id);
 	}
 }

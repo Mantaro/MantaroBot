@@ -116,6 +116,10 @@ public class MantaroBot {
 		return Arrays.stream(shards).map(bot -> bot.getJDA().getTextChannels()).flatMap(List::stream).collect(Collectors.toList());
 	}
 
+	public TextChannel getTextChannelById(String id) {
+        return Arrays.stream(shards).map(bot -> bot.getJDA().getTextChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
+
 	public User getUserById(String id) {
 		return Arrays.stream(shards).map(shard -> shard.getJDA().getUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
