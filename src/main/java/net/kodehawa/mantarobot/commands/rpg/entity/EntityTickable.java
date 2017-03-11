@@ -5,15 +5,15 @@ import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 
 public abstract class EntityTickable implements Entity {
 
-    public abstract void tick(TextChannelWorld world, GuildMessageReceivedEvent event);
+	public abstract void tick(TextChannelWorld world, GuildMessageReceivedEvent event);
 
-    public boolean check(GuildMessageReceivedEvent event){
-        return getWorld() == TextChannelWorld.of(event.getChannel());
-    }
+	public void add(TextChannelWorld world) {
+		if (!world.getActiveEntities().contains(this)) {
+			world.addEntity(this);
+		}
+	}
 
-    public void add(TextChannelWorld world){
-        if(!world.getActiveEntities().contains(this)){
-            world.addEntity(this);
-        }
-    }
+	public boolean check(GuildMessageReceivedEvent event) {
+		return getWorld() == TextChannelWorld.of(event.getChannel());
+	}
 }

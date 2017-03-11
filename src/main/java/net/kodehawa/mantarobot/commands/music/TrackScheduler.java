@@ -26,8 +26,8 @@ public class TrackScheduler extends AudioEventAdapter {
 	private AudioTrackContext previousTrack;
 	private BlockingQueue<AudioTrackContext> queue;
 	private Repeat repeat;
-	private List<String> voteSkips;
 	private int shardId;
+	private List<String> voteSkips;
 
 	TrackScheduler(AudioPlayer audioPlayer, String guildId, int shardId) {
 		this.queue = new LinkedBlockingQueue<>();
@@ -96,10 +96,6 @@ public class TrackScheduler extends AudioEventAdapter {
 		return currentTrack;
 	}
 
-	public MantaroShard getShard() {
-		return MantaroBot.getInstance().getShard(shardId);
-	}
-
 	public Guild getGuild() {
 		return getShard().getJDA().getGuildById(guildId);
 	}
@@ -127,6 +123,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	public void setRepeat(Repeat repeat) {
 		this.repeat = repeat;
+	}
+
+	public MantaroShard getShard() {
+		return MantaroBot.getInstance().getShard(shardId);
 	}
 
 	public List<String> getVoteSkips() {
@@ -161,11 +161,12 @@ public class TrackScheduler extends AudioEventAdapter {
 
 		AudioTrackContext previousTrack;
 
-		try{
+		try {
 			previousTrack = getPreviousTrack();
 			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
 				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
-		} catch (Exception ignored){} //fuck
+		} catch (Exception ignored) {
+		} //fuck
 	}
 
 	public void queue(AudioTrackContext audioTrackContext) {

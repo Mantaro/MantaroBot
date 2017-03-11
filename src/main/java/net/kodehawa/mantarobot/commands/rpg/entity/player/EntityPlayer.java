@@ -12,7 +12,10 @@ import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Single Guild {@link net.kodehawa.mantarobot.commands.rpg.entity.Entity} wrapper.
@@ -28,35 +31,9 @@ import java.util.*;
  * @see net.kodehawa.mantarobot.commands.rpg.entity.Entity
  */
 public class EntityPlayer extends EntityTickable {
-	public Map<Integer, Integer> inventory = new HashMap<>();
-	private int health = 250;
-	private int stamina = 100;
-	private long money = 0;
-	private UUID uniqueId;
-	private int reputation = 0;
-
+	private transient static String entity;
 	//Don't serialize this.
 	private static transient TextChannelWorld world;
-	private transient Coordinates coordinates = new Coordinates(0, 0, 0, world);
-	private transient static String entity;
-	private transient GameReference currentGame;
-	private transient boolean processing;
-
-	/**
-	 * Default constructor for this player. Won't do much, tbh.
-	 */
-	public EntityPlayer() {}
-
-	/**
-	 * Ticks this entity on every message received on the world.
-	 * @param world The world where this entity is located at.
-	 * @param event The received event.
-	 */
-	@Override
-	public void tick(TextChannelWorld world, GuildMessageReceivedEvent event) {
-		//this is a test pls.
-		behaviour(world);
-	}
 
 	/**
 	 * (INTERNAL)
@@ -66,7 +43,7 @@ public class EntityPlayer extends EntityTickable {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(GuildMessageReceivedEvent m) {
-		if(m.getMember() == null){
+		if (m.getMember() == null) {
 			return null;
 		}
 
@@ -83,7 +60,7 @@ public class EntityPlayer extends EntityTickable {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(Member m) {
-		if(m == null){
+		if (m == null) {
 			return null;
 		}
 		entity = m.toString();
@@ -97,7 +74,7 @@ public class EntityPlayer extends EntityTickable {
 	 * @return The EntityPlayer instance.
 	 */
 	public static EntityPlayer getPlayer(String entityId) {
-		if(entityId == null){
+		if (entityId == null) {
 			return null;
 		}
 
@@ -105,68 +82,25 @@ public class EntityPlayer extends EntityTickable {
 		return MantaroData.getData().get().users.getOrDefault(entityId, new EntityPlayerMP());
 	}
 
-	@Override
-	public void setHealth(int amount) {
-		health = amount;
-	}
-
-	@Override
-	public void setStamina(int amount) {
-		stamina = amount;
-	}
-
-	/**
-	 * Sets a player reputation, ignoring the value already set.
-	 * @param amount How much?
-	 */
-	public void setReputation(int amount){
-		reputation = amount;
-	}
-
-	@Override
-	public TextChannelWorld getWorld() {
-		return world;
-	}
-
-	public int getHealth() {
-		return health;
-	}
-
-	@Override
-	public Inventory getInventory() {
-		return new Inventory(this);
-	}
-
-	@Override
-	public int getMaxHealth() {
-		return 250;
-	}
+	public Map<Integer, Integer> inventory = new HashMap<>();
+	private transient Coordinates coordinates = new Coordinates(0, 0, 0, world);
+	private transient GameReference currentGame;
+	private int health = 250;
+	private long money = 0;
+	private transient boolean processing;
+	private int reputation = 0;
+	private int stamina = 100;
+	private UUID uniqueId;
 
 	/**
-	 * Gets a player's reputation. Normally a result of community interaction, it's more like a merit than an actual RPG statistic.
-	 * @return How much reputation do I have.
+	 * Default constructor for this player. Won't do much, tbh.
 	 */
-	public int getReputation(){
-		return reputation;
-	}
-
-	/**
-	 * @return How much stamina do I have to spare?
-	 */
-	@Override
-	public int getMaxStamina() {
-		return 100;
-	}
-
-	/**
-	 * @return How much stamina do I have?
-	 */
-	public int getStamina() {
-		return stamina;
+	public EntityPlayer() {
 	}
 
 	/**
 	 * Normally what to do on each tick.
+	 *
 	 * @param world The {@link TextChannelWorld} this entity is in.
 	 */
 	@Override
@@ -193,6 +127,45 @@ public class EntityPlayer extends EntityTickable {
 		this.coordinates = coordinates;
 	}
 
+	public int getHealth() {
+		return health;
+	}
+
+	@Override
+	public void setHealth(int amount) {
+		health = amount;
+	}
+
+	@Override
+	public Inventory getInventory() {
+		return new Inventory(this);
+	}
+
+	@Override
+	public int getMaxHealth() {
+		return 250;
+	}
+
+	/**
+	 * @return How much stamina do I have to spare?
+	 */
+	@Override
+	public int getMaxStamina() {
+		return 100;
+	}
+
+	/**
+	 * @return How much stamina do I have?
+	 */
+	public int getStamina() {
+		return stamina;
+	}
+
+	@Override
+	public void setStamina(int amount) {
+		stamina = amount;
+	}
+
 	/**
 	 * @return What am I?
 	 */
@@ -201,14 +174,32 @@ public class EntityPlayer extends EntityTickable {
 		return Type.PLAYER;
 	}
 
+	@Override
+	public TextChannelWorld getWorld() {
+		return world;
+	}
+
 	/**
 	 * UUID identifier. It's unique and gets saved to the DB when it's generated. Used for various checks.
+	 *
 	 * @return the UUID.
 	 */
 	@Override
 	public UUID getId() {
 		return uniqueId == null ?
 			uniqueId = new UUID(money * new Random().nextInt(15), System.currentTimeMillis()) : uniqueId;
+	}
+
+	/**
+	 * Ticks this entity on every message received on the world.
+	 *
+	 * @param world The world where this entity is located at.
+	 * @param event The received event.
+	 */
+	@Override
+	public void tick(TextChannelWorld world, GuildMessageReceivedEvent event) {
+		//this is a test pls.
+		behaviour(world);
 	}
 
 	@Override
@@ -237,6 +228,7 @@ public class EntityPlayer extends EntityTickable {
 
 	/**
 	 * Adds x amount of reputation to a player. Normally 1.
+	 *
 	 * @param rep how much?
 	 * @return are you less than 400?
 	 */
@@ -247,7 +239,18 @@ public class EntityPlayer extends EntityTickable {
 	}
 
 	/**
+	 * Adds one reputation point.
+	 *
+	 * @return this.
+	 */
+	public EntityPlayer addReputation() {
+		this.reputation = reputation++;
+		return this;
+	}
+
+	/**
 	 * Makes a player a little bit sicker. Normally the result of sick-inducing activities like mining.
+	 *
 	 * @param amount how much am I gonna consume?
 	 * @return if it's more than zero.
 	 */
@@ -257,6 +260,7 @@ public class EntityPlayer extends EntityTickable {
 
 	/**
 	 * Makes a player tired. If stamina reaches a critical point, you cannot do much action in the RPG.
+	 *
 	 * @param amount how much am I gonna consume?
 	 * @return if it's more than zero.
 	 */
@@ -285,6 +289,24 @@ public class EntityPlayer extends EntityTickable {
 	 */
 	public void setMoney(long amount) {
 		money = amount;
+	}
+
+	/**
+	 * Gets a player's reputation. Normally a result of community interaction, it's more like a merit than an actual RPG statistic.
+	 *
+	 * @return How much reputation do I have.
+	 */
+	public int getReputation() {
+		return reputation;
+	}
+
+	/**
+	 * Sets a player reputation, ignoring the value already set.
+	 *
+	 * @param amount How much?
+	 */
+	public void setReputation(int amount) {
+		reputation = amount;
 	}
 
 	/**
@@ -329,15 +351,6 @@ public class EntityPlayer extends EntityTickable {
 	}
 
 	/**
-	 * Adds one reputation point.
-	 * @return this.
-	 */
-	public EntityPlayer addReputation() {
-		this.reputation = reputation++;
-		return this;
-	}
-
-	/**
 	 * Sets a game. Normally done on a instance of {@link net.kodehawa.mantarobot.commands.rpg.game.core.Game}
 	 *
 	 * @param game    The game you're gonna set. If set to null, it's taken as "no game" and normally done on Game close operations.
@@ -345,11 +358,10 @@ public class EntityPlayer extends EntityTickable {
 	 */
 	public void setCurrentGame(@Nullable GameReference game, TextChannel channel) {
 		currentGame = game;
-		if (game != null){
+		if (game != null) {
 			TextChannelWorld.of(channel).addGame(game);
 			TextChannelWorld.of(channel).addEntity(this);
-		}
-		else{
+		} else {
 			TextChannelWorld.of(channel).addGame(null);
 			TextChannelWorld.of(channel).removeEntity(this);
 		}

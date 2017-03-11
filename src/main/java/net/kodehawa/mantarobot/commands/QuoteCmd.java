@@ -129,7 +129,6 @@ public class QuoteCmd extends Module {
 							List<String> quoteElements2 = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys1.get(i));
 							EmbedBuilder embedBuilder2 = new EmbedBuilder();
 
-
 							Date date1 = new Date(Long.parseLong(quoteElements2.get(4)));
 							embedBuilder2.setAuthor(quoteElements2.get(0) + " said:", null, quoteElements2.get(1))
 								.setThumbnail(quoteElements2.get(1))

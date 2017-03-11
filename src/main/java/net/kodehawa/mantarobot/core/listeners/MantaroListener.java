@@ -16,9 +16,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
-import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
@@ -37,16 +35,6 @@ public class MantaroListener implements EventListener {
 	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 350
 	private static TreeMap<String, Message> messageCache = new TreeMap<>();
 	private static long ticks;
-	private int logChannelShardId;
-
-	public MantaroListener() {
-		logChannelShardId = Arrays.stream(MantaroBot.getInstance().getShards()).filter(shard -> shard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null).getId();
-	}
-
-	public TextChannel getLogChannel() {
-		return MantaroBot.getInstance().getShard(logChannelShardId).getJDA().getTextChannelById("266231083341840385");
-	}
-	Random r = new Random();
 
 	public static String getCommandTotal() {
 		return String.valueOf(commandTotal);
@@ -56,7 +44,17 @@ public class MantaroListener implements EventListener {
 		return String.valueOf(logTotal);
 	}
 
+	public static long getTotalTicks() {
+		return ticks;
+	}
+
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
+	Random r = new Random();
+	private int logChannelShardId;
+
+	public MantaroListener() {
+		logChannelShardId = Arrays.stream(MantaroBot.getInstance().getShards()).filter(shard -> shard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null).getId();
+	}
 
 	@Override
 	public void onEvent(Event event) {
@@ -101,6 +99,10 @@ public class MantaroListener implements EventListener {
 		if (event instanceof GuildLeaveEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onLeave((GuildLeaveEvent) event));
 		}
+	}
+
+	public TextChannel getLogChannel() {
+		return MantaroBot.getInstance().getShard(logChannelShardId).getJDA().getTextChannelById("266231083341840385");
 	}
 
 	private void logBan(GuildBanEvent event) {
@@ -165,7 +167,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
-		try{
+		try {
 			Role birthdayRole = event.getGuild().getRoleById(MantaroData.getData().get().getGuild(event.getGuild(), false).birthdayRole);
 			EntityPlayerMP user = EntityPlayerMP.getPlayer(event.getAuthor());
 			if (birthdayRole != null && user.getBirthdayDate() != null) {
@@ -175,7 +177,7 @@ public class MantaroListener implements EventListener {
 				if (user.getBirthdayDate().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
 					if (!event.getMember().getRoles().contains(birthdayRole)) {
 						event.getGuild().getController().addRolesToMember(event.getMember(), birthdayRole).queue(s ->
-						channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
+							channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
 								event.getMember().getEffectiveName())).queue()
 						);
 					}
@@ -185,7 +187,7 @@ public class MantaroListener implements EventListener {
 					}
 				}
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			resetBirthdays(event.getGuild());
 		}
 	}
@@ -193,7 +195,7 @@ public class MantaroListener implements EventListener {
 	private void onCommand(GuildMessageReceivedEvent event) {
 
 		//Tick worlds and entities.
-		if(r.nextInt(200) > 100){
+		if (r.nextInt(200) > 100) {
 			ticks++;
 			/*TextChannelWorld world = TextChannelWorld.of(event);
 			world.tick(event);*/
@@ -287,11 +289,7 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	public static long getTotalTicks(){
-		return ticks;
-	}
-
-	private void resetBirthdays(Guild guild){
+	private void resetBirthdays(Guild guild) {
 		MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
 		MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
 		MantaroData.getData().save();

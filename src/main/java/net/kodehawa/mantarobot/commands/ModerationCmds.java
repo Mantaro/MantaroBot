@@ -530,8 +530,7 @@ public class ModerationCmds extends Module {
 					return;
 				}
 
-
-				if(Integer.parseInt(content) <= 3){
+				if (Integer.parseInt(content) <= 3) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 4 messages.").queue();
 					return;
 				}

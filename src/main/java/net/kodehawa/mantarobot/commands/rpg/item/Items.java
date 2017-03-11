@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class Items {
 	public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET, LOADED_DICE, FORGOTTEN_MUSIC,
-			CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, AXE, WOOD;
+		CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, AXE, WOOD;
 
 	public static final Item[] ALL = {
 		HEADPHONES =
@@ -41,9 +41,9 @@ public class Items {
 		BROM_PICKAXE =
 			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much. Gives you a stackable boost when doing ~>mine.", 2500, true, true),
 		POTION_HEALTH =
-			new Item(EmoteReference.POTION1.getUnicode(), "Health potion" ,"Recovers your full health.", 5000, false, true),
+			new Item(EmoteReference.POTION1.getUnicode(), "Health potion", "Recovers your full health.", 5000, false, true),
 		POTION_STAMINA =
-			new Item(EmoteReference.POTION2.getUnicode(), "Stamina potion" ,"Recovers your full stamina.", 3500, false, true),
+			new Item(EmoteReference.POTION2.getUnicode(), "Stamina potion", "Recovers your full stamina.", 3500, false, true),
 		LEWD_MAGAZINE =
 			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd magazine", "Too many lewd commands.", 1000, true, false),
 		AXE =

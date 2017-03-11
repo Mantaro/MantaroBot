@@ -81,7 +81,7 @@ public class ActionCmds extends Module {
 					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 					String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(), bString);
 					channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd.png"), "suck.png",
-							new MessageBuilder().append(bs).build()).queue();
+						new MessageBuilder().append(bs).build()).queue();
 				}
 			}
 
@@ -131,7 +131,7 @@ public class ActionCmds extends Module {
 				List<String> hugs = MantaroData.getHugs().get();
 				String hString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 				byte[] toSend = Utils.toByteArray(hugs.get(new Random().nextInt(hugs.size())));
-				if(toSend == null){
+				if (toSend == null) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it;s down?").queue();
 					return;
 				}
@@ -165,7 +165,7 @@ public class ActionCmds extends Module {
 				String kString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention)
 					.collect(Collectors.joining(" "));
 				byte[] toSend = Utils.toByteArray(kisses.get(new Random().nextInt(kisses.size())));
-				if(toSend == null){
+				if (toSend == null) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
 					return;
 				}
@@ -194,7 +194,7 @@ public class ActionCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 				event.getChannel().sendFile(Utils.toByteArray("http://imgur.com/LJfZYau.png"), "lewd.png"
-						, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
+					, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
 			}
 
 			@Override
@@ -221,10 +221,10 @@ public class ActionCmds extends Module {
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
 					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 					channel.sendFile(Utils.toByteArray("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-							new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
+						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
 				} else {
 					channel.sendFile(Utils.toByteArray("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-							new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
+						new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
 				}
 			}
 
@@ -252,7 +252,7 @@ public class ActionCmds extends Module {
 				List<String> pats = MantaroData.getPatting().get();
 				String pString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 				byte[] toSend = Utils.toByteArray(pats.get(new Random().nextInt(pats.size())));
-				if(toSend == null){
+				if (toSend == null) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
 					return;
 				}

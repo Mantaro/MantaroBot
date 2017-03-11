@@ -33,9 +33,79 @@ public interface Entity {
 		}
 	}
 
+	/**
+	 * Where am I?
+	 */
+	class Coordinates {
+		TextChannelWorld entityWorld;
+		int x;
+		int y;
+		int z;
+
+		public Coordinates(int x, int y, int z, TextChannelWorld world) {
+			this.x = x;
+			this.y = y;
+			this.z = z;
+			this.entityWorld = world;
+		}
+
+		public String toString() {
+			return String.format("[Coordinates(%d, %d, %d)]", x, y, z);
+		}
+	}
+
+	/**
+	 * The behaviour of this entity with the surrending {@link TextChannelWorld}. A tree will never move, but a player might randomly change coords.
+	 * Also a tree will check if their surrondings are empty and spawn more trees. That's behaviour for ya.
+	 */
+	void behaviour(TextChannelWorld world);
+
+	/**
+	 * Implementation.
+	 *
+	 * @return Where am I in the current {@link TextChannelWorld}?
+	 */
+	Coordinates getCoordinates();
+
+	void setCoordinates(Coordinates coordinates);
+
+	/**
+	 * @return How much health do I have left?
+	 */
+	int getHealth();
+
 	void setHealth(int amount);
 
+	/**
+	 * A wrapper for Inventory.
+	 *
+	 * @return The inventory for this entity.
+	 */
+	Inventory getInventory();
+
+	/**
+	 * @return How much health do I have to spare?
+	 */
+	int getMaxHealth();
+
+	/**
+	 * @return How much stamina do I have to spare?
+	 */
+	int getMaxStamina();
+
+	/**
+	 * @return How much stamina do I have left?
+	 */
+	int getStamina();
+
 	void setStamina(int amount);
+
+	/**
+	 * The specified {@link Entity} type. Used for {@link TextChannelWorld} interactions.
+	 *
+	 * @return What am I?
+	 */
+	Type getType();
 
 	TextChannelWorld getWorld();
 
@@ -64,69 +134,6 @@ public interface Entity {
 	}
 
 	/**
-	 * @return How much health do I have left?
-	 */
-	int getHealth();
-
-	/**
-	 * A wrapper for Inventory.
-	 *
-	 * @return The inventory for this entity.
-	 */
-	Inventory getInventory();
-
-	/**
-	 * @return How much health do I have to spare?
-	 */
-	int getMaxHealth();
-
-	/**
-	 * @return How much stamina do I have to spare?
-	 */
-	int getMaxStamina();
-
-	/**
-	 * @return How much stamina do I have left?
-	 */
-	int getStamina();
-
-	/**
-	 * The behaviour of this entity with the surrending {@link TextChannelWorld}. A tree will never move, but a player might randomly change coords.
-	 * Also a tree will check if their surrondings are empty and spawn more trees. That's behaviour for ya.
-	 */
-	void behaviour(TextChannelWorld world);
-
-	/**
-	 * Implementation.
-	 * @return Where am I in the current {@link TextChannelWorld}?
-	 */
-	Coordinates getCoordinates();
-
-	void setCoordinates(Coordinates coordinates);
-
-	/**
-	 * Normally do nothing. But some entities will do special things on spawn.
-	 */
-	default void onSpawn(){}
-
-	/**
-	 * Normally do nothing. But some entities will do special things on death.
-	 */
-	default void onDeath(){}
-
-	/**
-	 * Normally do nothing. For future uses.
-	 */
-	default void onRespawn(){}
-
-	/**
-	 * The specified {@link Entity} type. Used for {@link TextChannelWorld} interactions.
-	 *
-	 * @return What am I?
-	 */
-	Type getType();
-
-	/**
 	 * @return A string representation of this {@link Entity}
 	 */
 	default String debug() {
@@ -143,6 +150,24 @@ public interface Entity {
 	}
 
 	/**
+	 * Normally do nothing. But some entities will do special things on death.
+	 */
+	default void onDeath() {
+	}
+
+	/**
+	 * Normally do nothing. For future uses.
+	 */
+	default void onRespawn() {
+	}
+
+	/**
+	 * Normally do nothing. But some entities will do special things on spawn.
+	 */
+	default void onSpawn() {
+	}
+
+	/**
 	 * Saves the current Entity data, if needed. Only used for players.
 	 *
 	 * @return like, idk why it even returns.
@@ -150,26 +175,5 @@ public interface Entity {
 	default String save() {
 		MantaroData.getData().save();
 		return "Saved data";
-	}
-
-	/**
-	 * Where am I?
-	 */
-	class Coordinates {
-		int x;
-		int y;
-		int z;
-		TextChannelWorld entityWorld;
-
-		public Coordinates(int x, int y, int z, TextChannelWorld world){
-			this.x = x;
-			this.y = y;
-			this.z = z;
-			this.entityWorld = world;
-		}
-
-		public String toString(){
-			return String.format("[Coordinates(%d, %d, %d)]", x, y, z);
-		}
 	}
 }

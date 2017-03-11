@@ -8,7 +8,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
@@ -21,9 +20,9 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		enabled = true;
 	}
 
+	private MantaroShard channelShard;
 	private PatternLayout patternLayout;
 	private ILoggingEvent previousEvent;
-	private MantaroShard channelShard;
 
 	@Override
 	protected void append(ILoggingEvent event) {

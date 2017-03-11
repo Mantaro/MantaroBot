@@ -41,12 +41,12 @@ public class Rule34 {
 		Optional.ofNullable(search).ifPresent((element) -> queryParams.put("tags", search.toLowerCase().trim()));
 		try {
 			String response = Unirest.get("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams))
-					.header("User-Agent", "Mantaro")
-					.header("Content-Type", "text/xml")
-					.asString()
-					.getBody();
+				.header("User-Agent", "Mantaro")
+				.header("Content-Type", "text/xml")
+				.asString()
+				.getBody();
 			System.out.println(Utils.paste(response));
-			wallpapers =  Utils.XML_MAPPER.readValue(response, Hentai[].class);
+			wallpapers = Utils.XML_MAPPER.readValue(response, Hentai[].class);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

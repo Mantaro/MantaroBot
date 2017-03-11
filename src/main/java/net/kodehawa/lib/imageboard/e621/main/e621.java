@@ -46,7 +46,7 @@ public class e621 {
 		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", search.toLowerCase().trim()));
 		try {
 			String response = this.resty.text("https://e621.net/post/index.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
-			wallpapers =  GsonDataManager.GSON_PRETTY.fromJson(response, Furry[].class);
+			wallpapers = GsonDataManager.GSON_PRETTY.fromJson(response, Furry[].class);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

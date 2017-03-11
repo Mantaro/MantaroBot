@@ -20,14 +20,14 @@ public class GameCmds extends Module {
 		hangman();
 	}
 
-	private void guess(){
+	private void guess() {
 		super.register("guess", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(args[0].equals("image")){
+				if (args[0].equals("image")) {
 					ImageGuess guess = new ImageGuess();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
-					if(guess.check(event, guess.type())){
+					if (guess.check(event, guess.type())) {
 						event.getJDA().addEventListener(guess);
 						guess.onStart(event, guess.type(), player);
 					} else {
@@ -44,10 +44,10 @@ public class GameCmds extends Module {
 					return;
 				}
 
-				if(args[0].equals("pokemon")){
+				if (args[0].equals("pokemon")) {
 					Pokemon pokemon = new Pokemon();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
-					if(pokemon.check(event, pokemon.type())){
+					if (pokemon.check(event, pokemon.type())) {
 						event.getJDA().addEventListener(pokemon);
 						pokemon.onStart(event, pokemon.type(), player);
 					} else {
@@ -59,9 +59,9 @@ public class GameCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-						.addField("Games", "~>guess image: Starts a instance of Guess the image, with anime characters.", false)
-						.addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends", false)
-						.build();
+					.addField("Games", "~>guess image: Starts a instance of Guess the image, with anime characters.", false)
+					.addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends", false)
+					.build();
 			}
 		});
 	}
@@ -86,7 +86,7 @@ public class GameCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Trivia trivia = new Trivia();
 				EntityPlayer player = EntityPlayer.getPlayer(event);
-				if(trivia.check(event, trivia.type())){
+				if (trivia.check(event, trivia.type())) {
 					event.getJDA().addEventListener(trivia);
 					trivia.onStart(event, trivia.type(), player);
 				} else {

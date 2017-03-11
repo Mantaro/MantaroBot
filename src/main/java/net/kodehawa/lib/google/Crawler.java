@@ -51,7 +51,7 @@ public class Crawler {
 					//doesn't work *always* but it works most of the times so cannot complain
 					String path = tempUrl.getFile().substring(0, tempUrl.getFile().indexOf('&'));
 					String base = tempUrl.getProtocol() + "://" + tempUrl.getHost() + path;
-					if(!link.text().equals("Cached")) results.add(new SearchResult(base, link.text()));
+					if (!link.text().equals("Cached")) results.add(new SearchResult(base, link.text()));
 				}
 			}
 		} catch (IOException e) {

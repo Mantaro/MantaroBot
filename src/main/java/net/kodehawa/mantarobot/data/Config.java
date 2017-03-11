@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.data;
 
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.MantaroBot;
 
 import java.util.ArrayList;
 import java.util.List;

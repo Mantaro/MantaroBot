@@ -11,8 +11,8 @@ public class AudioTrackContext {
 	private AudioTrack audioTrack;
 	private String channel;
 	private String dj;
-	private String url;
 	private int shardId;
+	private String url;
 
 	public AudioTrackContext(User dj, TextChannel textChannel, String url, AudioTrack audioTrack) {
 		this.dj = dj.getId();
@@ -24,10 +24,6 @@ public class AudioTrackContext {
 
 	public AudioTrack getAudioTrack() {
 		return audioTrack;
-	}
-
-	public MantaroShard getShard() {
-		return MantaroBot.getInstance().getShard(shardId);
 	}
 
 	public User getDJ() {
@@ -48,6 +44,10 @@ public class AudioTrackContext {
 
 	public TextChannel getRequestedChannel() {
 		return getShard().getJDA().getTextChannelById(channel);
+	}
+
+	public MantaroShard getShard() {
+		return MantaroBot.getInstance().getShard(shardId);
 	}
 
 	public String getUrl() {

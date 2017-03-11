@@ -102,8 +102,8 @@ public class InfoCmds extends Module {
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
 					.addField("Guilds", String.valueOf(guilds.size()), true)
 					.addField("Users (Online/Unique)", guilds.stream().flatMap
-							(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
-							guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
+						(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
+						guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
 					.addField("Text Channels", String.valueOf(textChannels.size()), true)
 					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
 					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", MantaroListener.getCommandTotal(), MantaroBot.getInstance().getShard(event.getJDA()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
@@ -124,40 +124,6 @@ public class InfoCmds extends Module {
 				return CommandPermission.USER;
 			}
 
-		});
-	}
-
-	private void info(){
-		super.register("info", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-				event.getChannel().sendMessage("```prolog\n"
-						+ "---MantaroBot Technical Information---\n\n"
-						+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
-						+ "JDA Version: " + JDAInfo.VERSION + "\n"
-						+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-						+ "CPU Usage: " + getCpuUsage() + "%" + "\n"
-						+ "CPU Cores: " + getAvailableProcessors()
-						+ "\n\n ------------------ \n\n"
-						+ "Guilds: " + guilds.size() + "\n"
-						+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-						+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + MantaroBot.getInstance().getShard(event.getJDA()).getId() + ")" + "\n"
-						+ "Threads: " + Thread.activeCount() + "\n"
-						+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
-						+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
-						/*+ "Active Worlds: " + TextChannelWorld.getWorldCount() + "\n"
-						+ "Active Entities: " + TextChannelWorld.activeEntityCount() + "\n"*/
-						+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
-						+ "```").queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Info")
-						.setDescription("Gets the bot technical information")
-						.build();
-			}
 		});
 	}
 
@@ -292,6 +258,40 @@ public class InfoCmds extends Module {
 						"`~>help`: Returns information about who issued the command.\n~>help [command]`: Returns information about the specific command.",
 						false
 					).build();
+			}
+		});
+	}
+
+	private void info() {
+		super.register("info", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
+				event.getChannel().sendMessage("```prolog\n"
+					+ "---MantaroBot Technical Information---\n\n"
+					+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
+					+ "JDA Version: " + JDAInfo.VERSION + "\n"
+					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
+					+ "CPU Usage: " + getCpuUsage() + "%" + "\n"
+					+ "CPU Cores: " + getAvailableProcessors()
+					+ "\n\n ------------------ \n\n"
+					+ "Guilds: " + guilds.size() + "\n"
+					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
+					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + MantaroBot.getInstance().getShard(event.getJDA()).getId() + ")" + "\n"
+					+ "Threads: " + Thread.activeCount() + "\n"
+					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
+					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
+						/*+ "Active Worlds: " + TextChannelWorld.getWorldCount() + "\n"
+						+ "Active Entities: " + TextChannelWorld.activeEntityCount() + "\n"*/
+					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
+					+ "```").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Info")
+					.setDescription("Gets the bot technical information")
+					.build();
 			}
 		});
 	}

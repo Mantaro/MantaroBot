@@ -135,7 +135,7 @@ public class MantaroBot {
 		Config config = MantaroData.getConfig().get();
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
-				.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
+			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];
@@ -170,7 +170,6 @@ public class MantaroBot {
 		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
 
 		Async.task("Splash Thread", changeStatus, 600);
-
 
 		MantaroData.getConfig().save();
 

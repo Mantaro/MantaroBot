@@ -45,18 +45,18 @@ public class Inventory {
 		replaceWith(new ArrayList<>());
 	}
 
+	public boolean containsItem(Item item) {
+		return asMap().containsKey(item);
+	}
+
+	public int getAmount(Item item) {
+		return asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount();
+	}
+
 	public void merge(List<ItemStack> inv) {
 		List<ItemStack> cur = asList();
 		cur.addAll(inv);
 		replaceWith(ItemStack.reduce(cur));
-	}
-
-	public boolean containsItem(Item item){
-		return asMap().containsKey(item);
-	}
-
-	public int getAmount(Item item){
-		return asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount();
 	}
 
 	public void process(ItemStack stack) {

@@ -59,5 +59,4 @@ public class FunCmds extends Module {
 		return num;
 	}
 
-
 }
