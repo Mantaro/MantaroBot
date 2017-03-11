@@ -130,7 +130,7 @@ public class MantaroBot {
 
 		status = POSTLOAD;
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
-		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands");
+		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands in " + totalShards + " shards.");
 
 		modules.forEach(Module::onPostLoad);
 	}

@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
+import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -32,7 +33,7 @@ public class MantaroListener implements EventListener {
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	private static int commandTotal = 0;
 	private static int logTotal = 0;
-	//Message cache of 1500 messages. If it reaches 1500 it will delete the first one stored, and continue being 350
+	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 350
 	private static TreeMap<String, Message> messageCache = new TreeMap<>();
 	private static long ticks;
 	Random r = new Random();
@@ -154,74 +155,41 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onBirthday(GuildMessageReceivedEvent event) {
-		Guild guild = event.getGuild();
-		TextChannel channel = event.getChannel();
-		boolean birthdayCheck = Optional.ofNullable(MantaroData.getData().get().getGuild(guild, false).birthdayRole).isPresent();
-		if (birthdayCheck) {
-			if (Optional.ofNullable(MantaroData.getData().get().users.get(event.getAuthor().getId())).isPresent() &&
-				Optional.ofNullable(MantaroData.getData().get().users.get(event.getAuthor().getId()).birthdayDate).isPresent()) {
-				try {
-					Calendar cal = Calendar.getInstance();
-					SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-					if (MantaroData.getData().get().users.get(event.getAuthor().getId()).birthdayDate.substring(0, 5).equals(format1.format(cal.getTime()).substring(0, 5))) {
-						Role birthdayRole = guild.getRoleById(MantaroData.getData().get().getGuild(guild, false).birthdayRole);
-						Member member = event.getGuild().getMember(event.getAuthor());
-						if (!member.getRoles().contains(birthdayRole)) {
-							guild.getController().addRolesToMember(member, birthdayRole).queue(
-								success -> {
-									TextChannel tc = event.getGuild().getTextChannelById(
-										MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-									tc.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:", member.getEffectiveName())).queue();
-								},
-								error -> {
-									if (error instanceof PermissionException) {
-										PermissionException pe = (PermissionException) error;
-										TextChannel tc = guild.getTextChannelById(
-											MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-										tc.sendMessage(String.format(EmoteReference.ERROR + "PermissionError while appling roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
-										MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
-										MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
-										MantaroData.getData().save();
-									} else {
-										channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while applying roles [%s]: <%s>: %s", birthdayRole.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
-										LOGGER.warn("Unknown error while applying roles", error);
-										MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
-										MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
-										MantaroData.getData().save();
-									}
-								});
-						}
-					} else {
-						Member memberToRemove = event.getGuild().getMember(event.getAuthor());
-						Role birthdayRole1 = guild.getRoleById(MantaroData.getData().get().getGuild(guild, false).birthdayRole);
-						if (memberToRemove.getRoles().contains(birthdayRole1))
-							guild.getController().removeRolesFromMember(memberToRemove, birthdayRole1).queue();
+		try{
+			Role birthdayRole = event.getGuild().getRoleById(MantaroData.getData().get().getGuild(event.getGuild(), false).birthdayRole);
+			EntityPlayerMP user = EntityPlayerMP.getPlayer(event.getAuthor());
+			if (birthdayRole != null && user.getBirthdayDate() != null) {
+				TextChannel channel = event.getGuild().getTextChannelById(MantaroData.getData().get().getGuild(event.getGuild(), false).birthdayChannel);
+				Calendar cal = Calendar.getInstance();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+				if (user.getBirthdayDate().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
+					if (!event.getMember().getRoles().contains(birthdayRole)) {
+						event.getGuild().getController().addRolesToMember(event.getMember(), birthdayRole).queue(s ->
+						channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
+								event.getMember().getEffectiveName())).queue()
+						);
 					}
-				} catch (Exception e) {
-					if (e instanceof PermissionException) {
-						PermissionException pe = (PermissionException) e;
-						TextChannel tc = guild.getTextChannelById(
-							MantaroData.getData().get().getGuild(guild, false).birthdayChannel);
-						tc.sendMessage(String.format(EmoteReference.ERROR + "PermissionError while removing roles, (No permission provided: %s) Birthday module will be disabled. Check permissions and enable it again", pe.getPermission())).queue();
-						MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
-						MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
-					} else
-						LOGGER.warn("Cannot process birthday for: " + event.getAuthor().getName() + " program will be still running.", this.getClass(), e);
+				} else {
+					if (event.getGuild().getRoles().contains(birthdayRole)) {
+						event.getGuild().getController().removeRolesFromMember(event.getMember(), birthdayRole).queue();
+					}
 				}
 			}
+		} catch (Exception e){
+			resetBirthdays(event.getGuild());
 		}
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
 
 		//Tick worlds and entities.
-		if(r.nextInt(200) > 150){
+		if(r.nextInt(200) > 100){
 			ticks++;
 			TextChannelWorld world = TextChannelWorld.of(event);
 			world.tick(event);
 		}
 
-		if (messageCache.size() <= 1500) {
+		if (messageCache.size() <= 2500) {
 			messageCache.put(event.getMessage().getId(), event.getMessage());
 		} else {
 			messageCache.remove(messageCache.firstKey());
@@ -311,5 +279,11 @@ public class MantaroListener implements EventListener {
 
 	public static long getTotalTicks(){
 		return ticks;
+	}
+
+	private void resetBirthdays(Guild guild){
+		MantaroData.getData().get().getGuild(guild, false).birthdayChannel = null;
+		MantaroData.getData().get().getGuild(guild, false).birthdayRole = null;
+		MantaroData.getData().save();
 	}
 }

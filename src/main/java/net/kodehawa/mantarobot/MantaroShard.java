@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.stream.Stream;
 
 public class MantaroShard {
     private final Logger LOGGER;
@@ -30,7 +29,6 @@ public class MantaroShard {
         this.shardId = shardId;
         this.totalShards = totalShards;
         LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
-
         restartJDA();
     }
 
@@ -88,6 +86,7 @@ public class MantaroShard {
                                     .header("Content-Type", "application/json")
                                     .body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", toString()).toString())
                                     .asJsonAsync();
+                            LOGGER.info("Successfully posted the botdata to discordbots");
 
                             LOGGER.info("Successfully posted the botdata to carbonitex.com: " +
                                     Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
@@ -102,6 +101,7 @@ public class MantaroShard {
                                     .header("Content-Type", "application/json")
                                     .body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", toString()).toString())
                                     .asJsonAsync();
+                            LOGGER.info("Successfully posted the botdata to discordbots.org");
                         } catch (Exception e) {
                             LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org) - Shard " + getId(), e);
                         }

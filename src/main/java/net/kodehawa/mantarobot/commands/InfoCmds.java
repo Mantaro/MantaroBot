@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -65,7 +67,7 @@ public class InfoCmds extends Module {
 		help();
 		ping();
 		userinfo();
-		cmdstats();
+		info();
 		stats();
 	}
 
@@ -85,22 +87,26 @@ public class InfoCmds extends Module {
 					.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
 						"Some of my features include:\n" +
 						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
-						"\u2713 Funny and useful commands see `~>help anime` or `~>help action` for examples.\n" +
+						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
 						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)!"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
-						"%02d hrs, %02d min, %02d sec",
-						MILLISECONDS.toHours(millis),
+						"%d days, %02d hrs, %02d min, %02d sec",
+						MILLISECONDS.toDays(millis),
+						MILLISECONDS.toHours(millis) - MINUTES.toSeconds(MILLISECONDS.toDays(millis)),
 						MILLISECONDS.toMinutes(millis) - MINUTES.toSeconds(MILLISECONDS.toHours(millis)),
 						MILLISECONDS.toSeconds(millis) - MINUTES.toSeconds(MILLISECONDS.toMinutes(millis))
-					), true)
+					), false)
+					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShards().length), true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
 					.addField("Guilds", String.valueOf(guilds.size()), true)
-					.addField("Users (Online/Unique)", guilds.stream().flatMap(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + event.getJDA().getUsers().size(), true)
+					.addField("Users (Online/Unique)", guilds.stream().flatMap
+							(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
+							guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
 					.addField("Text Channels", String.valueOf(textChannels.size()), true)
 					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Logs this session: %s)", MantaroListener.getCommandTotal(), MantaroListener.getLogTotal()), null)
+					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", MantaroListener.getCommandTotal(), MantaroBot.getInstance().getShard(event.getJDA()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -118,6 +124,40 @@ public class InfoCmds extends Module {
 				return CommandPermission.USER;
 			}
 
+		});
+	}
+
+	private void info(){
+		super.register("info", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
+				event.getChannel().sendMessage("```prolog\n"
+						+ "---MantaroBot Technical Information---\n\n"
+						+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
+						+ "JDA Version: " + JDAInfo.VERSION + "\n"
+						+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
+						+ "CPU Usage: " + getCpuUsage() + "%" + "\n"
+						+ "CPU Cores: " + getAvailableProcessors()
+						+ "\n\n ------------------ \n\n"
+						+ "Guilds: " + guilds.size() + "\n"
+						+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
+						+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + MantaroBot.getInstance().getShard(event.getJDA()).getId() + ")" + "\n"
+						+ "Threads: " + Thread.activeCount() + "\n"
+						+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
+						+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
+						/*+ "Active Worlds: " + TextChannelWorld.getWorldCount() + "\n"
+						+ "Active Entities: " + TextChannelWorld.activeEntityCount() + "\n"*/
+						+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
+						+ "```").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Info")
+						.setDescription("Gets the bot technical information")
+						.build();
+			}
 		});
 	}
 
@@ -139,34 +179,6 @@ public class InfoCmds extends Module {
 					.addField("Usage",
 						"~>avatar - Gets your avatar url" +
 							"\n ~>avatar <mention> - Gets a user's avatar url.", false)
-					.build();
-			}
-		});
-	}
-
-	private void cmdstats() {
-		super.register("cmdstats", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Command stats")
-					.addField("Description", "Shows the statistics of the commands that has been run on this bot for its uptime.", false)
-					.addField("Usage",
-						"~>cmdstats - Shows all command statistics.\n"
-							+ "~>cmdstats now - Shows commands run in the last minute except for this one.\n"
-							+ "~>cmdstats total - Shows commands run in the bot's uptime\n"
-							+ "~>cmdstats daily - Shows commands statistics of today.\n"
-							+ "~>cmdstats hourly- Shows commands statistics of the last hour.\n"
-						, false)
 					.build();
 			}
 		});
