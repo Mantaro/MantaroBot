@@ -35,7 +35,6 @@ public class MantaroShard {
     public void restartJDA() throws RateLimitedException, LoginException, InterruptedException {
         JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
                 .setToken(MantaroData.getConfig().get().token)
-                .addListener(new MantaroListener(), new VoiceChannelListener())
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setAutoReconnect(true)
                 .setGame(Game.of("Hold your seatbelts!"));

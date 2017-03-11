@@ -92,6 +92,7 @@ public class MantaroBot {
 			LOGGER.info("Finished loading shard #" + i + ".");
 			Thread.sleep(5_000L);
 		}
+		Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA().addEventListener(new MantaroListener(), new VoiceChannelListener()));
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
