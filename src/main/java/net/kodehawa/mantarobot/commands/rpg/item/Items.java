@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.rpg.item;
 
-import net.kodehawa.mantarobot.utils.Async;
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public class Items {
 
 	static {
 		Random r = new Random();
-		Async.startAsyncTask("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 3600);
+		Async.task("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 3600);
 	}
 
 	public static Optional<Item> fromAny(String any) {

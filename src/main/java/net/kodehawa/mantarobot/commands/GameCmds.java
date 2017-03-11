@@ -40,7 +40,7 @@ public class GameCmds extends Module {
 						if(EntityPlayer.getPlayer(event.getAuthor()).getGame() == null) return;
 						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 60 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
 						guess.endGame(event, player, false);
-					}).run();*/
+					});*/
 					return;
 				}
 

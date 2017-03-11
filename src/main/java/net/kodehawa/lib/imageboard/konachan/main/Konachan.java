@@ -1,19 +1,15 @@
 package net.kodehawa.lib.imageboard.konachan.main;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.kodehawa.lib.imageboard.konachan.main.entities.Tag;
 import net.kodehawa.lib.imageboard.konachan.main.entities.Wallpaper;
-import net.kodehawa.lib.imageboard.konachan.providers.DownloadProvider;
 import net.kodehawa.lib.imageboard.konachan.providers.WallpaperProvider;
-import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import us.monoid.web.BinaryResource;
 import us.monoid.web.Resty;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +44,7 @@ public class Konachan {
 	}
 
 	private void get(final int page, final int limit, final String search, final WallpaperProvider provider) {
-		Async.asyncThread("Image fetch thread", () -> {
+		Async.thread("Image fetch thread", () -> {
 			try {
 				if (provider == null) throw new IllegalStateException("Provider is null");
 				List<Wallpaper> wallpapers = this.get(page, limit, search);
@@ -58,7 +54,7 @@ public class Konachan {
 					provider.onSuccess(wallpapers, tags);
 				});
 			} catch (Exception ignored) {}
-		}).run();
+		});
 	}
 
 	private List<Wallpaper> get(int page, int limit, String search) {

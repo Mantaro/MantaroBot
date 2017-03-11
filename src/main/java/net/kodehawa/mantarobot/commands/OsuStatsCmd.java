@@ -14,7 +14,7 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Async;
+import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 import org.slf4j.Logger;
@@ -77,8 +77,8 @@ public class OsuStatsCmd extends Module {
 			long end = System.currentTimeMillis() - start;
 			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 		} catch (Exception e) {
-			if(e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
-			else{
+			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
+			else {
 				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
 				LOGGER.warn("Error retrieving results from osu!API", e);
 			}
@@ -96,7 +96,7 @@ public class OsuStatsCmd extends Module {
 				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
-							Future<String> task = Async.getThreadPool().submit(() -> best(content));
+							Future<String> task = ThreadPoolHelper.defaultPool().getThreadPool().submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
@@ -108,7 +108,7 @@ public class OsuStatsCmd extends Module {
 						break;
 					case "recent":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
-							Future<String> task = Async.getThreadPool().submit(() -> recent(content));
+							Future<String> task = ThreadPoolHelper.defaultPool().getThreadPool().submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
@@ -181,8 +181,8 @@ public class OsuStatsCmd extends Module {
 			finalMessage = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
 
 		} catch (Exception e) {
-			if(e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
-			else{
+			if (e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
+			else {
 				finalMessage = EmoteReference.ERROR + "Error while looking for results.";
 				LOGGER.warn("Error retrieving results from osu!API", e);
 			}

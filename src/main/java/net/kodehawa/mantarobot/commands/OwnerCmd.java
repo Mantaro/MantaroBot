@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import br.com.brjdevs.java.utils.extensions.Async;
 import bsh.Interpreter;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
@@ -18,7 +18,6 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
@@ -32,6 +31,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.IntSupplier;
 
+import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 public class OwnerCmd extends Module {
@@ -313,14 +313,14 @@ public class OwnerCmd extends Module {
 					if (k.equals("time")) {
 						double s = Double.parseDouble(v);
 						int millis = (int) (s * 1000);
-						Async.asyncSleepThen(millis, () -> {
+						Async.thread(millis, () -> {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
 								LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 							}
 							System.exit(restart ? 15 : 0);
-						}).run();
+						});
 
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...").queue();
 						return;
@@ -332,7 +332,7 @@ public class OwnerCmd extends Module {
 						IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
 							voiceChannel.getGuild().getSelfMember())).count();
 
-						Async.startAsyncTask("Watching Thread.", s -> {
+						Async.task("Watching Thread.", s -> {
 							if (currentConnections.getAsInt() > connections) return;
 
 							try {
@@ -404,7 +404,7 @@ public class OwnerCmd extends Module {
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
-		event.getChannel().sendMessage(CollectionUtils.random(sleepQuotes)).complete();
+		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
 	}

@@ -1,9 +1,9 @@
 package net.kodehawa.mantarobot.utils;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -43,12 +43,12 @@ public class DiscordUtils {
 		});
 
 		event.getJDA().addEventListener(functionListener);
-		Async.asyncSleepThen(10000, () -> {
+		Async.thread(10000, () -> {
 			if (!functionListener.isDone()) {
 				event.getJDA().removeEventListener(functionListener);
 				event.getChannel().sendMessage("\u274C Timeout: No reply in 10 seconds").queue();
 			}
-		}).run();
+		});
 	}
 
 	public static <T> void selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {

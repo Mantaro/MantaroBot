@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.info;
 
-import net.kodehawa.mantarobot.utils.Async;
+import br.com.brjdevs.java.utils.extensions.Async;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -115,7 +115,7 @@ public class AsyncInfoMonitor {
 		lastSystemTime = System.nanoTime();
 		lastProcessCpuTime = calculateProcessCpuTime(os);
 
-		Async.startAsyncTask("AsyncInfoMonitorThread", () -> {
+		Async.task("AsyncInfoMonitorThread", () -> {
 			threadCount = thread.getThreadCount();
 			availableProcessors = r.availableProcessors();
 			freeMemory = Runtime.getRuntime().freeMemory() / mb;

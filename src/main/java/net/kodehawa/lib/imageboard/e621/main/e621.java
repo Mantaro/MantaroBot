@@ -1,8 +1,8 @@
 package net.kodehawa.lib.imageboard.e621.main;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.kodehawa.lib.imageboard.e621.main.entities.Furry;
 import net.kodehawa.lib.imageboard.e621.providers.FurryProvider;
-import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
@@ -27,12 +27,8 @@ public class e621 {
 		this.get(page, limit, null, provider);
 	}
 
-	public void onSearch(int page, int limit, String search, FurryProvider provider) {
-		this.get(page, limit, search, provider);
-	}
-
 	private void get(final int page, final int limit, final String search, final FurryProvider provider) {
-		Async.asyncThread("Image fetch thread", () -> {
+		Async.thread("Image fetch thread", () -> {
 			try {
 				if (provider == null) throw new IllegalStateException("Provider is null");
 				List<Furry> wallpapers = this.get(page, limit, search);
@@ -40,7 +36,7 @@ public class e621 {
 			} catch (Exception ex) {
 				LOGGER.warn("Error while retrieving a image from e621.", ex);
 			}
-		}).run();
+		});
 	}
 
 	private List<Furry> get(int page, int limit, String search) {
@@ -58,5 +54,9 @@ public class e621 {
 			queryParams.clear();
 		}
 		return Arrays.asList(wallpapers);
+	}
+
+	public void onSearch(int page, int limit, String search, FurryProvider provider) {
+		this.get(page, limit, search, provider);
 	}
 }

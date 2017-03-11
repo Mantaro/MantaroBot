@@ -1,9 +1,9 @@
 package net.kodehawa.lib.imageboard.rule34.main;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.Unirest;
 import net.kodehawa.lib.imageboard.rule34.entities.Hentai;
 import net.kodehawa.lib.imageboard.rule34.providers.HentaiProvider;
-import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +23,8 @@ public class Rule34 {
 		get(limit, null, provider);
 	}
 
-	public static void onSearch(int limit, String search, HentaiProvider provider) {
-		get(limit, search, provider);
-	}
-
 	private static void get(final int limit, final String search, final HentaiProvider provider) {
-		Async.asyncThread("Image fetch thread", () -> {
+		Async.thread("Image fetch thread", () -> {
 			try {
 				if (provider == null) throw new IllegalStateException("Provider is null");
 				List<Hentai> wallpapers = get(limit, search);
@@ -36,7 +32,7 @@ public class Rule34 {
 			} catch (Exception ex) {
 				LOGGER.warn("Error while retrieving a image from rule34.", ex);
 			}
-		}).run();
+		});
 	}
 
 	private static List<Hentai> get(int limit, String search) {
@@ -58,5 +54,9 @@ public class Rule34 {
 			queryParams.clear();
 		}
 		return Arrays.asList(wallpapers);
+	}
+
+	public static void onSearch(int limit, String search, HentaiProvider provider) {
+		get(limit, search, provider);
 	}
 }

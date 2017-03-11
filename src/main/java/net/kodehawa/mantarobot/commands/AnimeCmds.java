@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -12,7 +13,6 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Async;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -40,7 +40,7 @@ public class AnimeCmds extends Module {
 	@Override
 	public void onPostLoad() {
 		super.onPostLoad();
-		Async.startAsyncTask("AniList Login Task", this::authenticate, 1900);
+		Async.task("AniList Login Task", this::authenticate, 1900);
 	}
 
 	private void anime() {
