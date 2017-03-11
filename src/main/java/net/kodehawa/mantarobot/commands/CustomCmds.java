@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.holding.Holder;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -14,6 +16,7 @@ import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.data.GuildData;
 import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -249,6 +252,51 @@ public class CustomCmds extends Module {
 						});
 					if (cmd == null)
 						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no such Custom Command in this Guild.").queue();
+					return;
+				}
+
+				if (action.equals("import")) {
+					Map<String, Guild> mapped = MantaroBot.getInstance().getGuilds().stream().collect(Collectors.toMap(ISnowflake::getId, g -> g));
+
+					List<Pair<Guild, Entry<String, List<String>>>> queried = MantaroData.getData().get().guilds.entrySet().stream()
+						.map(entry -> {
+							Guild guild = mapped.get(entry.getKey());
+							if (guild == null) return null;
+							if (guild.getMember(event.getAuthor()) == null) return null;
+							Map<String, List<String>> commands = entry.getValue().customCommands;
+							return commands.entrySet().stream().filter(e -> e.getKey().contains(cmd)).map(e -> Pair.of(guild, e));
+						})
+						.filter(Objects::nonNull)
+						.flatMap(pairStream -> pairStream)
+						.collect(Collectors.toList());
+
+					if (queried.size() == 0) {
+						//TODO NO MATCHES
+						return;
+					}
+
+					DiscordUtils.selectList(
+						event, queried,
+						pair -> "``" + pair.getValue().getKey() + "`` - Guild: ``" + pair.getKey() + "``",
+						s -> baseEmbed(event, "Select the Command:").setDescription(s).setFooter("(You can only select custom commands from guilds that you are a member of)", null).build(),
+						pair -> {
+							String cmdName = pair.getValue().getKey();
+							List<String> responses = pair.getValue().getValue();
+
+							if (Manager.commands.containsKey(cmdName) && !Manager.commands.get(cmdName).equals(cmdPair)) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
+								return;
+							}
+
+							Manager.commands.put(cmdName, cmdPair);
+							customCommands.put(cmdName, responses);
+							MantaroData.getData().save();
+							event.getChannel().sendMessage(String.format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName, pair.getKey().getName(), String.join("``, ``", responses))).queue();
+
+							TextChannelWorld.of(event).dropItemWithChance(8, 2);
+						}
+					);
+
 					return;
 				}
 
