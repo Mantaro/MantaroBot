@@ -50,6 +50,20 @@ public class TrackScheduler extends AudioEventAdapter {
 		getVoteSkips().clear();
 	}
 
+	@Override
+	public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+		if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
+			getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage() + " (Severity: " + exception.severity + ")").queue();
+		}
+	}
+
+	@Override
+	public void onTrackStuck(AudioPlayer player, AudioTrack track, long thresholdMs) {
+		if (getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
+			getCurrentTrack().getRequestedChannel().sendMessage("Track got stuck, If it doesn't skip automatically, please do ~>skip.").queue();
+		}
+	}
+
 	private void announce() {
 		try {
 			if (getPreviousTrack() != null && getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())
