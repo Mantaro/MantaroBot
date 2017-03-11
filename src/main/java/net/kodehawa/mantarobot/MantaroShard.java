@@ -85,7 +85,7 @@ public class MantaroShard {
 						LOGGER.info("Successfully posted the botdata to discordbots" + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
 								.header("Authorization", dbotsToken)
 								.header("Content-Type", "application/json")
-								.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", totalShards).toString())
+								.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
 								.asString().getBody());
 
 
@@ -101,7 +101,7 @@ public class MantaroShard {
 								Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
 										.header("Authorization", dbotsorgToken)
 										.header("Content-Type", "application/json")
-										.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_total", totalShards).toString())
+										.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
 										.asString().getBody());
 					} catch (Exception e) {
 						LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org) - Shard " + getId(), e);
