@@ -17,17 +17,16 @@ public class GameCmds extends Module {
 		super(Category.GAMES);
 		guess();
 		trivia();
-		hangman();
 	}
 
-	private void guess() {
+	private void guess(){
 		super.register("guess", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (args[0].equals("image")) {
+				if(args[0].equals("image")){
 					ImageGuess guess = new ImageGuess();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
-					if (guess.check(event, guess.type())) {
+					if(guess.check(event, guess.type())){
 						event.getJDA().addEventListener(guess);
 						guess.onStart(event, guess.type(), player);
 					} else {
@@ -40,14 +39,14 @@ public class GameCmds extends Module {
 						if(EntityPlayer.getPlayer(event.getAuthor()).getGame() == null) return;
 						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 60 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
 						guess.endGame(event, player, false);
-					});*/
+					}).run();*/
 					return;
 				}
 
-				if (args[0].equals("pokemon")) {
+				if(args[0].equals("pokemon")){
 					Pokemon pokemon = new Pokemon();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
-					if (pokemon.check(event, pokemon.type())) {
+					if(pokemon.check(event, pokemon.type())){
 						event.getJDA().addEventListener(pokemon);
 						pokemon.onStart(event, pokemon.type(), player);
 					} else {
@@ -59,23 +58,10 @@ public class GameCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "~>guess image: Starts a instance of Guess the image, with anime characters.", false)
-					.addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends", false)
-					.build();
-			}
-		});
-	}
-
-	private void hangman() {
-		super.register("hangman", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+						.addField("Games", "~>guess image: Starts a instance of Guess the image, with anime characters.\n"
+								+ "~>guess pokemon: Starts a instance of who's that pokemon?", false)
+						.addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends", false)
+						.build();
 			}
 		});
 	}
@@ -86,7 +72,7 @@ public class GameCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Trivia trivia = new Trivia();
 				EntityPlayer player = EntityPlayer.getPlayer(event);
-				if (trivia.check(event, trivia.type())) {
+				if(trivia.check(event, trivia.type())){
 					event.getJDA().addEventListener(trivia);
 					trivia.onStart(event, trivia.type(), player);
 				} else {
@@ -96,7 +82,10 @@ public class GameCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Trivia command.")
+						.setDescription("Starts an instance of trivia.")
+						.addField("Important", "You need to answer 10 questions correctly to win.", false)
+						.build();
 			}
 		});
 	}
