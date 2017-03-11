@@ -749,7 +749,7 @@ public class RPGCmds extends Module {
 			Async.asyncSleepThen(900000, () -> {
 				player.addHealth(player.getMaxHealth() - 10);
 				player.setProcessing(false);
-			});
+			}).run();
 			return false;
 		}
 
