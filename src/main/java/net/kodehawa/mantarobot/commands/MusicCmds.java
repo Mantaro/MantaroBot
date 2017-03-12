@@ -354,6 +354,7 @@ public class MusicCmds extends Module {
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
 					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())) {
 						event.getChannel().sendMessage("The song DJ has decided to skip!").queue();
+						scheduler.next(true);
 						return;
 					}
 					List<String> voteSkips = scheduler.getVoteSkips();
