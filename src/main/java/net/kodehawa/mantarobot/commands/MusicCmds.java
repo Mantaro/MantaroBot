@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.Repeat;
+import net.kodehawa.mantarobot.commands.music.TrackScheduler;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -20,6 +21,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.net.URL;
+import java.util.List;
 
 import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
 
@@ -345,7 +347,29 @@ public class MusicCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
-					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+						event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+						return;
+					}
+					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
+					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())) {
+						event.getChannel().sendMessage("The song DJ has decided to skip!").queue();
+						return;
+					}
+					List<String> voteSkips = scheduler.getVoteSkips();
+					int requiredVotes = scheduler.getRequiredSkipVotes();
+					if (voteSkips.contains(event.getAuthor().getId())) {
+						voteSkips.remove(event.getAuthor().getId());
+						event.getChannel().sendMessage("Your vote has been removed! More " + (requiredVotes - voteSkips.size()) + " are required to skip!").queue();
+					} else {
+						voteSkips.add(event.getAuthor().getId());
+						if (voteSkips.size() >= requiredVotes) {
+							event.getChannel().sendMessage("Reached required amount of votes, skipping song...").queue();
+							scheduler.next(true);
+							return;
+						}
+						event.getChannel().sendMessage("Your vote has been submitted! More " + (requiredVotes - voteSkips.size()) + " are required to skip!").queue();
+					}
 					TextChannelWorld.of(event).dropItemWithChance(0, 10);
 				} catch (NullPointerException e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no track to skip").queue();

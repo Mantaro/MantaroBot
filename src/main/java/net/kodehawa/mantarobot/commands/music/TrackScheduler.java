@@ -43,11 +43,11 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+		getVoteSkips().clear();
 		if (endReason.mayStartNext) {
 			next(false);
 		}
 		announce();
-		getVoteSkips().clear();
 	}
 
 	@Override
@@ -128,6 +128,12 @@ public class TrackScheduler extends AudioEventAdapter {
 	public List<String> getVoteSkips() {
 		return voteSkips;
 	}
+	public int getRequiredSkipVotes() {
+		int listeners = (int) getGuild().getAudioManager().getConnectedChannel().getMembers().stream()
+				.filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened()).count();
+		return (int) Math.ceil(listeners * .55);
+	}
+
 
 	public boolean isStopped() {
 		return getCurrentTrack() == null && getQueue().isEmpty();
