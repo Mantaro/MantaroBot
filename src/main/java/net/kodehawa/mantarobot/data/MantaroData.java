@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.data;
 
 import net.kodehawa.mantarobot.commands.utils.data.BugData;
 import net.kodehawa.mantarobot.commands.utils.data.QuotesData;
+import net.kodehawa.mantarobot.utils.data.CrossBotDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
@@ -27,6 +28,35 @@ public class MantaroData {
 	private static SimpleFileDataManager trivia;
 	private static SimpleFileDataManager tsunderelines;
 	private static GsonDataManager<BugData> bugs;
+	private static CrossBotDataManager crossBot;
+
+	public static CrossBotDataManager getCrossBot() {
+	    if(crossBot == null)
+	        synchronized (LOCK) {
+	            if(crossBot == null)
+                {
+                    Config config = getConfig().get();
+                    Data data = getData().get();
+                    CrossBotDataManager.Builder builder;
+                    if(config.crossBotServer) {
+                        builder = new CrossBotDataManager.Builder(CrossBotDataManager.Builder.Type.SERVER);
+                    } else {
+                        builder = new CrossBotDataManager.Builder(CrossBotDataManager.Builder.Type.CLIENT).name("Mantaro").host(config.crossBotHost);
+                    }
+                    builder
+                            .port(config.crossBotPort)
+                            .getMoney((userid)->
+                                data.users.get(String.valueOf(userid)).getMoney()
+                            )
+                            .setMoney((userid,money)->{
+                                data.users.get(String.valueOf(userid)).setMoney(money);
+                                MantaroData.data.save();
+                            });
+                    crossBot = builder.build();
+                }
+            }
+        return crossBot;
+    }
 
 	public static GsonDataManager<BugData> getBugs() {
 	    if(bugs == null)

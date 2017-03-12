@@ -118,7 +118,8 @@ public class Utils {
 		try {
 			return URLEncoder.encode(s, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			throw new UnsupportedOperationException(e);
+            UnsafeUtils.throwException(e);
+            return null; //cheating compiler
 		}
 	}
 

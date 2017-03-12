@@ -40,7 +40,6 @@ public class CategorizedCommand extends SimpleCommand {
 
 		if (callable.call(event, args.length > 2 ? args[3] : null)) {
 			onHelp(event);
-			return;
 		}
 	}
 

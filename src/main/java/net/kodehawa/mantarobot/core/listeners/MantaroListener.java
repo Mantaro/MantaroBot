@@ -35,8 +35,8 @@ public class MantaroListener implements EventListener {
 	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	private static int commandTotal = 0;
 	private static int logTotal = 0;
-	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 350
-	private static TreeMap<String, Message> messageCache = new TreeMap<>();
+	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500
+	private static LinkedHashMap<String, Message> messageCache = new LinkedHashMap<>(2500);
 	private static long ticks;
 
 	public static String getCommandTotal() {
@@ -213,12 +213,9 @@ public class MantaroListener implements EventListener {
 			world.tick(event);
 		}
 
-		if (messageCache.size() <= 2500) {
-			messageCache.put(event.getMessage().getId(), event.getMessage());
-		} else {
-			messageCache.remove(messageCache.firstKey());
-			messageCache.put(event.getMessage().getId(), event.getMessage());
-		}
+        messageCache.put(event.getMessage().getId(), event.getMessage());
+		assert messageCache.size() <= 2500 : "Cache not deleting";
+
 		try {
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE))
 				return;

@@ -17,6 +17,9 @@ public class Config {
 	public String token = null;
 	public String weatherAppId = null;
 	public String bugreportChannel = null;
+	public int crossBotPort = 0;
+	public String crossBotHost = null;
+	public boolean crossBotServer = true;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

@@ -3,10 +3,12 @@ package net.kodehawa.mantarobot.utils.data;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.kodehawa.mantarobot.utils.FileIOUtils;
+import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.Supplier;
@@ -41,7 +43,8 @@ public class GsonDataManager<T> implements DataManager<T> {
 
 			this.data = gson(pretty).fromJson(FileIOUtils.read(configPath), clazz);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+            UnsafeUtils.throwException(e);
+            throw new AssertionError(); //otherwise it doesn't compile
 		}
 	}
 
@@ -55,7 +58,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 		try {
 			FileIOUtils.write(configPath, gson(pretty).toJson(data));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+            UnsafeUtils.throwException(e);
 		}
 	}
 }

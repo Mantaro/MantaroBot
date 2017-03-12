@@ -9,6 +9,7 @@ import net.kodehawa.mantarobot.commands.utils.data.BugData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -56,6 +57,7 @@ public class BugreportCmds extends Module
                                 .setTitle("Bug #" + id, null)
                                 .setAuthor(event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator(), null, event.getAuthor().getEffectiveAvatarUrl())
                                 .setDescription(bug.bug)
+                                .setTimestamp(Instant.ofEpochMilli(bug.time))
                                 .build()
                         ).complete().getId()
                 );

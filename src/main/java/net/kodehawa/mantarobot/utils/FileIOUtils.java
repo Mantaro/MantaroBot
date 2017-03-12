@@ -12,7 +12,7 @@ public class FileIOUtils {
 		return new String(Files.readAllBytes(path), UTF8);
 	}
 
-	public static void write(Path path, String file) throws IOException {
-		Files.write(path, file.getBytes(UTF8));
+	public static void write(Path path, String contents) throws IOException {
+		Files.write(path, contents.getBytes(UTF8));
 	}
 }
