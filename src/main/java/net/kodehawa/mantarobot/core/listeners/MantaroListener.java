@@ -1,8 +1,10 @@
 package net.kodehawa.mantarobot.core.listeners;
 
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.StatusChangeEvent;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
@@ -100,10 +102,19 @@ public class MantaroListener implements EventListener {
 		if (event instanceof GuildLeaveEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onLeave((GuildLeaveEvent) event));
 		}
+
+		if (event instanceof StatusChangeEvent) {
+			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logStatusChange((StatusChangeEvent) event));
+		}
 	}
 
 	public TextChannel getLogChannel() {
 		return MantaroBot.getInstance().getShard(logChannelShardId).getJDA().getTextChannelById("266231083341840385");
+	}
+
+	private void logStatusChange(StatusChangeEvent event) {
+		JDA jda = event.getJDA();
+		getLogChannel().sendMessage("Status Change Event on Shard " + jda.getShardInfo().getShardId() + ": Changed from " + event.getOldStatus() + " to " + event.getStatus()).queue();
 	}
 
 	private void logBan(GuildBanEvent event) {
