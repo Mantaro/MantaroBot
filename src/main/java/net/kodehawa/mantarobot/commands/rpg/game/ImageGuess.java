@@ -38,17 +38,17 @@ public class ImageGuess extends Game {
 
 		if (attempts > maxAttempts) {
 			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, false);
+			endGame(event, player, this, false);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(characterName)) {
-			onSuccess(player, event);
+			onSuccess(player, this, event);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, false);
+			endGame(event, player, this, false);
 			return;
 		}
 
@@ -77,7 +77,7 @@ public class ImageGuess extends Game {
 			byte[] image = toByteArray(imageUrl);
 
 			if (image == null) {
-				onError(LOGGER, event, player, null);
+				onError(LOGGER, event, this, player, null);
 				return false;
 			}
 
@@ -85,7 +85,7 @@ public class ImageGuess extends Game {
 
 			return true;
 		} catch (Exception e) {
-			onError(LOGGER, event, player, e);
+			onError(LOGGER, event, this, player, e);
 			return false;
 		}
 	}

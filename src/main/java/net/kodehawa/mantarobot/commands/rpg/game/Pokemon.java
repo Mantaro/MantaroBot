@@ -30,18 +30,18 @@ public class Pokemon extends Game {
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, false);
+			endGame(event, player, this, false);
 			return;
 		}
 
 		if (attempts > maxAttempts) {
 			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, false);
+			endGame(event, player, this, false);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
-			onSuccess(player, event);
+			onSuccess(player, this, event);
 			return;
 		}
 
@@ -68,7 +68,7 @@ public class Pokemon extends Game {
 
 			return true;
 		} catch (Exception e) {
-			onError(LOGGER, event, player, e);
+			onError(LOGGER, event, this, player, e);
 			return false;
 		}
 	}

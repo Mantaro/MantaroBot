@@ -33,19 +33,19 @@ public class Trivia extends Game {
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, false);
+			endGame(event, player, this, false);
 			return;
 		}
 
 		if (attempts > maxAttempts) {
 			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, false);
+			endGame(event, player, this, false);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
 			if (triviaAnswers >= maxAnswers) {
-				onSuccess(player, event, 0.6);
+				onSuccess(player, event, this, 0.6);
 				return;
 			}
 
@@ -74,7 +74,7 @@ public class Trivia extends Game {
 
 			return true;
 		} catch (Exception e) {
-			onError(LOGGER, event, player, e);
+			onError(LOGGER, event, this, player, e);
 			return false;
 		}
 	}
