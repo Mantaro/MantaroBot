@@ -129,6 +129,10 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void logDelete(GuildMessageDeleteEvent event) {
+		if(event.getMessage().getContent().length() > 1990){
+			return;
+		}
+
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
@@ -148,6 +152,10 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void logEdit(GuildMessageUpdateEvent event) {
+		if(event.getMessage().getContent().length() > 1990){
+			return;
+		}
+
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;

@@ -127,7 +127,7 @@ public class MantaroShard {
 				} catch (Exception e) {
 					LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
 				}
-			}, 1800);
+			}, 3600);
 		}
 	}
 }
