@@ -275,10 +275,11 @@ public class InfoCmds extends Module {
 					+ "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
 					+ "CPU Usage: " + getCpuUsage() + "%" + "\n"
 					+ "CPU Cores: " + getAvailableProcessors()
+					+ "Current shard: " + event.getJDA().getShardInfo() + "\n"
 					+ "\n\n ------------------ \n\n"
 					+ "Guilds: " + guilds.size() + "\n"
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + MantaroBot.getInstance().getShard(event.getJDA()).getId() + ")" + "\n"
+					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShard(event.getJDA()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
 					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")

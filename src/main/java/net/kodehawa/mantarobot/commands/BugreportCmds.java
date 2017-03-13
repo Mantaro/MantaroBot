@@ -32,7 +32,7 @@ public class BugreportCmds extends Module
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Bug commands")
                         .addField("Description",
-                                "~>bugreport bug",
+                                "~>bugreport <bug>",
                         false)
                         .build();
             }
@@ -62,11 +62,6 @@ public class BugreportCmds extends Module
                         ).complete().getId()
                 );
                 MantaroData.getBugs().save();
-            }
-
-            @Override
-            public boolean isHiddenFromHelp() {
-                return false;
             }
 
             @Override
@@ -107,7 +102,7 @@ public class BugreportCmds extends Module
                         );
                         break;
                     default:
-                        event.getChannel().sendMessage("Usage: bug accept/close number").queue();
+                        event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
                         break;
                 }
             }

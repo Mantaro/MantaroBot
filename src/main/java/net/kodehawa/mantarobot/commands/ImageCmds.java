@@ -314,7 +314,8 @@ public class ImageCmds extends Module {
 	private boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String acceptedRating) {
 		String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).unsafeChannels.stream().
 			filter(ch -> ch.equals(event.getChannel().getId())).findFirst().orElse(null);
-		boolean trigger = !isGlobal ? ((acceptedRating.equals("s") || (nsfwChannel == null)) ? acceptedRating.equals("s") : nsfwChannel.equals(event.getChannel().getId())) :
+		String rating1 = rating == null ? "s" : rating;
+		boolean trigger = !isGlobal ? ((rating1.equals("s") || (nsfwChannel == null)) ? rating1.equals("s") : nsfwChannel.equals(event.getChannel().getId())) :
 			nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
 
 		if (!trigger) {

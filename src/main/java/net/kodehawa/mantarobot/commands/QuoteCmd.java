@@ -98,25 +98,31 @@ public class QuoteCmd extends Module {
 						}
 						break;
 					case "random":
-						List<String> keys = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
-						int quoteN = rand.nextInt(keys.size());
-						List<String> quoteElements = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys.get(quoteN));
-						if (quoteElements.isEmpty()) {
+						try{
+							List<String> keys = new ArrayList<>(MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).keySet());
+							int quoteN = rand.nextInt(keys.size());
+							List<String> quoteElements = MantaroData.getQuotes().get().quotes.get(event.getGuild().getId()).get(keys.get(quoteN));
+							if (quoteElements.isEmpty()) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
+								return;
+							}
+							EmbedBuilder embedBuilder = new EmbedBuilder();
+							Date dat = new Date(Long.parseLong(quoteElements.get(4)));
+							embedBuilder.setAuthor(quoteElements.get(0) + " said:", null, quoteElements.get(1))
+									.setThumbnail(quoteElements.get(1))
+									.setColor(Color.CYAN)
+									.setDescription("Quote made on server " + quoteElements.get(3)
+											+ " in channel " + "#" + quoteElements.get(2))
+									.addField("Content", keys.get(quoteN), false)
+									.setFooter("Date: " + dateFormat.format(dat), null);
+							channel.sendMessage(embedBuilder.build()).queue();
+							break;
+						} catch (NullPointerException e){
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes on this server.").queue();
-							return;
 						}
-						EmbedBuilder embedBuilder = new EmbedBuilder();
-						Date dat = new Date(Long.parseLong(quoteElements.get(4)));
-						embedBuilder.setAuthor(quoteElements.get(0) + " said:", null, quoteElements.get(1))
-							.setThumbnail(quoteElements.get(1))
-							.setColor(Color.CYAN)
-							.setDescription("Quote made on server " + quoteElements.get(3)
-								+ " in channel " + "#" + quoteElements.get(2))
-							.addField("Content", keys.get(quoteN), false)
-							.setFooter("Date: " + dateFormat.format(dat), null);
-						channel.sendMessage(embedBuilder.build()).queue();
 
 						break;
+
 					case "read":
 						try {
 							int i = Integer.parseInt(phrase);

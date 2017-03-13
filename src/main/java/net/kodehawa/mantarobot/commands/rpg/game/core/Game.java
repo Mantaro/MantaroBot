@@ -30,7 +30,7 @@ public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> 
 		return !TextChannelWorld.of(event.getChannel()).getRunningGames().contains(type);
 	}
 
-	protected void endGame(GuildMessageReceivedEvent event, EntityPlayer player, Game game, boolean isTimeout) {
+	public void endGame(GuildMessageReceivedEvent event, EntityPlayer player, Game game, boolean isTimeout) {
 		TextChannelWorld.of(event.getChannel()).getRunningGames().clear();
 		player.setCurrentGame(null, event.getChannel());
 		event.getJDA().removeEventListener(game);

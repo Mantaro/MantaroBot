@@ -73,6 +73,10 @@ public class Pokemon extends Game {
 		}
 	}
 
+	public String answer(){
+		return expectedAnswer;
+	}
+
 	@Override
 	public GameReference type() {
 		return GameReference.TRIVIA;

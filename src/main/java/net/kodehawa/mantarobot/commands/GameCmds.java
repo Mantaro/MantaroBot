@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
@@ -23,23 +24,28 @@ public class GameCmds extends Module {
 		super.register("guess", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
+				if(content.isEmpty()){
+					onHelp(event);
+					return;
+				}
+
 				if(args[0].equals("image")){
 					ImageGuess guess = new ImageGuess();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(guess.check(event, guess.type())){
 						event.getJDA().addEventListener(guess);
 						guess.onStart(event, guess.type(), player);
+						Async.thread(120000, () -> {
+							if(guess.check(event, guess.type())) return;
+							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
+							event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
+							guess.endGame(event, player, guess, true);
+						}).run();
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 					}
 
-					//TODO Make it actually work.
-					/*Async.asyncSleepThen(60000, () -> {
-						if(!guess.check(event, GameReference.IMAGEGUESS)) return;
-						if(EntityPlayer.getPlayer(event.getAuthor()).getGame() == null) return;
-						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 60 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
-						guess.endGame(event, player, false);
-					}).run();*/
 					return;
 				}
 
@@ -49,6 +55,12 @@ public class GameCmds extends Module {
 					if(pokemon.check(event, pokemon.type())){
 						event.getJDA().addEventListener(pokemon);
 						pokemon.onStart(event, pokemon.type(), player);
+						Async.thread(120000, () -> {
+							if(pokemon.check(event, pokemon.type())) return;
+							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
+							event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + pokemon.answer() + "**").queue();
+							pokemon.endGame(event, player, pokemon, true);
+						}).run();
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 					}
@@ -60,7 +72,7 @@ public class GameCmds extends Module {
 				return helpEmbed(event, "Guessing games.")
 						.addField("Games", "~>guess image: Starts a instance of Guess the image, with anime characters.\n"
 								+ "~>guess pokemon: Starts a instance of who's that pokemon?", false)
-						.addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends", false)
+						.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
 						.build();
 			}
 		});
@@ -75,6 +87,12 @@ public class GameCmds extends Module {
 				if(trivia.check(event, trivia.type())){
 					event.getJDA().addEventListener(trivia);
 					trivia.onStart(event, trivia.type(), player);
+					Async.thread(120000, () -> {
+						if(trivia.check(event, trivia.type())) return;
+						if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
+						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + trivia.answer() + "**").queue();
+						trivia.endGame(event, player, trivia, true);
+					}).run();
 				} else {
 					event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 				}
@@ -84,7 +102,7 @@ public class GameCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Trivia command.")
 						.setDescription("Starts an instance of trivia.")
-						.addField("Important", "You need to answer 10 questions correctly to win.", false)
+						.addField("Important", "You need to answer 10 questions correctly to win. You have 120 seconds to answer.", false)
 						.build();
 			}
 		});
