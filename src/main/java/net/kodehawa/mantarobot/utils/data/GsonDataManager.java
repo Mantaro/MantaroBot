@@ -56,7 +56,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 	@Override
 	public void save() {
 		try {
-			FileIOUtils.write(configPath, gson(pretty).toJson(data));
+			FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
 		} catch (IOException e) {
             UnsafeUtils.throwException(e);
 		}
