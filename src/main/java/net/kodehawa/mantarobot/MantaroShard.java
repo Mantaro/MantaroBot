@@ -8,7 +8,9 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import org.json.JSONObject;
@@ -55,6 +57,14 @@ public class MantaroShard {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(MantaroData.getConfig().get().token)
 			.setAudioSendFactory(new NativeAudioSendFactory())
+			.setEventManager(new InterfacedEventManager() {
+				@Override
+				public void handle(Event event) {
+					Async.thread("Async EventHandling", () -> {
+						super.handle(event);
+					});
+				}
+			})
 			.setAutoReconnect(true)
 			.setGame(Game.of("Hold your seatbelts!"));
 		if (totalShards > 1)

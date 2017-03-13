@@ -37,7 +37,7 @@ public class MusicCmds extends Module {
 		removetrack();
 		shuffle();
 		skip();
-		volume();
+		//volume();
 		repeat();
 		move();
 		stop();

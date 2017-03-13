@@ -30,7 +30,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
@@ -79,6 +78,10 @@ public class InfoCmds extends Module {
 				List<TextChannel> textChannels = MantaroBot.getInstance().getTextChannels();
 				List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
 				long millis = ManagementFactory.getRuntimeMXBean().getUptime();
+				long seconds = millis / 1000;
+				long minutes = seconds / 60;
+				long hours = minutes / 60;
+				long days = hours / 24;
 
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(Color.PINK)
@@ -93,10 +96,7 @@ public class InfoCmds extends Module {
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
 						"%d days, %02d hrs, %02d min, %02d sec",
-						MILLISECONDS.toDays(millis),
-						MILLISECONDS.toHours(millis) - MINUTES.toSeconds(MILLISECONDS.toDays(millis)),
-						MILLISECONDS.toMinutes(millis) - MINUTES.toSeconds(MILLISECONDS.toHours(millis)),
-						MILLISECONDS.toSeconds(millis) - MINUTES.toSeconds(MILLISECONDS.toMinutes(millis))
+						days, hours % 24, minutes % 60, seconds % 60
 					), false)
 					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShards().length), true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
