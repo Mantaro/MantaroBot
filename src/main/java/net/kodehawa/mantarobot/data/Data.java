@@ -9,13 +9,15 @@ import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.data.data.GuildData;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Data {
-	public List<String> blacklistedGuilds = new ArrayList<>();
-	public List<String> blacklistedUsers = new ArrayList<>();
+	public List<String> blacklistedGuilds = new CopyOnWriteArrayList<>();
+	public List<String> blacklistedUsers = new CopyOnWriteArrayList<>();
 	public String defaultPrefix = "~>";
-	public Map<String, GuildData> guilds = new HashMap<>();
-	public Map<String, EntityPlayerMP> users = new HashMap<>();
+	public Map<String, GuildData> guilds = new ConcurrentHashMap<>();
+	public Map<String, EntityPlayerMP> users = new ConcurrentHashMap<>();
 
 	public GuildData getGuild(Guild guild, boolean isRewritable) {
 		if (isRewritable) return guilds.computeIfAbsent(guild.getId(), s -> new GuildData());
