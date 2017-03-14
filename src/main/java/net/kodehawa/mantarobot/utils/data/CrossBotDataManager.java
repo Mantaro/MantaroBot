@@ -1,11 +1,13 @@
 package net.kodehawa.mantarobot.utils.data;
 
 import br.com.brjdevs.crossbot.currency.GetMoneyPacket;
-import br.com.brjdevs.crossbot.currency.IdentifyPacket;
+import br.com.brjdevs.crossbot.IdentifyPacket;
 import br.com.brjdevs.crossbot.currency.SetMoneyPacket;
 import br.com.brjdevs.crossbot.currency.UpdateMoneyPacket;
 import br.com.brjdevs.network.*;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.java_websocket.WebSocket;
 import org.json.JSONObject;
 
@@ -23,14 +25,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class CrossBotDataManager implements Closeable{
+public class CrossBotDataManager implements Closeable {
     private final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
-    private final Map<String, Integer> bots = new ConcurrentHashMap<>();
+    private final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
     private final Connection connection;
     private volatile Object lastServerPacket;
     private volatile int lastSenderId;
 
-    private CrossBotDataManager(String host, int port, String name, Function<Long, Long> getmoney, BiConsumer<Long, Long> setmoney, List<SocketListener> listenersToAdd) throws URISyntaxException {
+    private CrossBotDataManager(String host, int port, String name, String password, Function<Long, Long> getmoney, BiConsumer<Long, Long> setmoney, List<SocketListener> listenersToAdd) throws URISyntaxException {
         if(getmoney == null) throw new NullPointerException("getmoney");
         if(setmoney == null) throw new NullPointerException("setmoney");
         if(host == null) throw new NullPointerException("host");
@@ -69,7 +71,6 @@ public class CrossBotDataManager implements Closeable{
 
             @Override
             public void onClose(Connection connection, int id, int code, String message) {
-                bots.entrySet().removeIf((entry)->entry.getValue() == id);
                 for(SocketListener listener : listeners)
                     listener.onClose(connection, id, code, message);
             }
@@ -94,10 +95,10 @@ public class CrossBotDataManager implements Closeable{
             throw new InternalError("Error connecting", e);
         }
         client.getPacketClient().waitForValidation();
-        client.getPacketClient().sendPacket(new IdentifyPacket(name));
+        client.getPacketClient().sendPacket(new IdentifyPacket(name, password));
     }
 
-    private CrossBotDataManager(int port, Function<Long, Long> getmoney, BiConsumer<Long, Long> setmoney, List<SocketListener> listenersToAdd) {
+    private CrossBotDataManager(int port, String password, Function<Long, Long> getmoney, BiConsumer<Long, Long> setmoney, List<SocketListener> listenersToAdd) {
         if(getmoney == null) throw new NullPointerException("getmoney");
         if(setmoney == null) throw new NullPointerException("setmoney");
         if(port == 0) throw new IllegalArgumentException("port == 0");
@@ -108,6 +109,15 @@ public class CrossBotDataManager implements Closeable{
         connection = server = new Server(new InetSocketAddress(port), pr, new SocketListenerAdapter() {
             @Override
             public Object onPacket(Connection connection, int i, Object o) {
+                if(o instanceof IdentifyPacket) {
+                    IdentifyPacket pkt = (IdentifyPacket)o;
+                    if(password != null && !password.equals(pkt.password)) {
+                        connection.getSocket(i).close(1403, "Invalid password");
+                        return null;
+                    }
+                    bots.put(getAddress(connection.getSocket(i)), new ImmutablePair<>(pkt.name, i));
+                    return null;
+                }
                 if(o instanceof GetMoneyPacket) {
                     long id = ((GetMoneyPacket) o).userid;
                     try {
@@ -121,9 +131,6 @@ public class CrossBotDataManager implements Closeable{
                 } else if(o instanceof UpdateMoneyPacket) {
                     UpdateMoneyPacket ump = (UpdateMoneyPacket)o;
                     setmoney.accept(ump.userid, getmoney.apply(ump.userid) + ump.delta);
-                    return null;
-                } else if(o instanceof IdentifyPacket) {
-                    bots.put(((IdentifyPacket) o).name, i);
                     return null;
                 }
                 for(SocketListener listener : listeners) {
@@ -149,6 +156,12 @@ public class CrossBotDataManager implements Closeable{
             public void onError(Connection connection, int id, Exception ex) {
                 for(SocketListener listener : listeners)
                     listener.onError(connection, id, ex);
+            }
+
+            private String getAddress(WebSocket socket) {
+                InetSocketAddress addr = socket.getRemoteSocketAddress();
+                if(addr == null) return socket.getLocalSocketAddress().getHostString();
+                return addr.getHostString();
             }
         });
         server.start();
@@ -186,7 +199,7 @@ public class CrossBotDataManager implements Closeable{
         else {
             if(bot == null)
                 throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.get(bot);
+            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
             if(id == null)
                 throw new IllegalArgumentException("No bot identified as " + bot + " connected");
             Server server = (Server)connection;
@@ -210,7 +223,7 @@ public class CrossBotDataManager implements Closeable{
         else {
             if(bot == null)
                 throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.get(bot);
+            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
             if(id == null)
                 throw new IllegalArgumentException("No bot identified as " + bot + " connected");
             Server server = (Server)connection;
@@ -226,7 +239,7 @@ public class CrossBotDataManager implements Closeable{
         else {
             if(bot == null)
                 throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.get(bot);
+            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
             if(id == null)
                 throw new IllegalArgumentException("No bot identified as " + bot + " connected");
             Server server = (Server)connection;
@@ -242,7 +255,7 @@ public class CrossBotDataManager implements Closeable{
         else {
             if(bot == null)
                 throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.get(bot);
+            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
             if(id == null)
                 throw new IllegalArgumentException("No bot identified as " + bot + " connected");
             Server server = (Server)connection;
@@ -265,6 +278,7 @@ public class CrossBotDataManager implements Closeable{
         private final Type type;
         private final List<SocketListener> listeners = new ArrayList<>();
         private String host;
+        private String password;
         private int port;
         private String name;
         private Function<Long, Long> getmoney;
@@ -306,16 +320,21 @@ public class CrossBotDataManager implements Closeable{
             return this;
         }
 
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
         public CrossBotDataManager build() {
             switch(type) {
                 case CLIENT:
                     try {
-                        return new CrossBotDataManager(host, port, name, getmoney, setmoney, listeners);
+                        return new CrossBotDataManager(host, port, password, name, getmoney, setmoney, listeners);
                     } catch(URISyntaxException e) {
                         UnsafeUtils.throwException(e);
                     }
                 case SERVER:
-                    return new CrossBotDataManager(port, getmoney, setmoney, listeners);
+                    return new CrossBotDataManager(port, password, getmoney, setmoney, listeners);
                 default:
                     throw new AssertionError();
             }
