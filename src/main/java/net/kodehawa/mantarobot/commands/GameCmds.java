@@ -34,7 +34,8 @@ public class GameCmds extends Module {
 					ImageGuess guess = new ImageGuess();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(guess.check(event, guess.type())){
-						event.getJDA().addEventListener(guess);
+						if(event.getJDA().getRegisteredListeners().contains(guess)) event.getJDA().addEventListener(guess);
+						else return;
 						guess.onStart(event, guess.type(), player);
 						Async.thread(120000, () -> {
 							if(guess.check(event, guess.type())) return;
@@ -53,7 +54,8 @@ public class GameCmds extends Module {
 					Pokemon pokemon = new Pokemon();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(pokemon.check(event, pokemon.type())){
-						event.getJDA().addEventListener(pokemon);
+						if(event.getJDA().getRegisteredListeners().contains(pokemon)) event.getJDA().addEventListener(pokemon);
+						else return;
 						pokemon.onStart(event, pokemon.type(), player);
 						Async.thread(120000, () -> {
 							if(pokemon.check(event, pokemon.type())) return;
@@ -85,7 +87,8 @@ public class GameCmds extends Module {
 				Trivia trivia = new Trivia();
 				EntityPlayer player = EntityPlayer.getPlayer(event);
 				if(trivia.check(event, trivia.type())){
-					event.getJDA().addEventListener(trivia);
+					if(event.getJDA().getRegisteredListeners().contains(trivia)) event.getJDA().addEventListener(trivia);
+					else return;
 					trivia.onStart(event, trivia.type(), player);
 					Async.thread(120000, () -> {
 						if(trivia.check(event, trivia.type())) return;
