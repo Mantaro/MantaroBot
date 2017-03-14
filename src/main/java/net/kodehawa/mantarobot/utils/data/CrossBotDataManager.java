@@ -115,6 +115,10 @@ public class CrossBotDataManager implements Closeable {
                         connection.getSocket(i).close(1403, "Invalid password");
                         return null;
                     }
+                    if(bots.values().stream().filter((pair)->pair.getLeft().equals(pkt.name)).count() != 0) {
+                        connection.getSocket(i).close(1403, "Client named " + pkt.name + " alredy connected");
+                        return null;
+                    }
                     bots.put(getAddress(connection.getSocket(i)), new ImmutablePair<>(pkt.name, i));
                     return null;
                 }
@@ -273,7 +277,7 @@ public class CrossBotDataManager implements Closeable {
 
     public static class Builder {
         public enum Type {
-            CLIENT, SERVER;
+            CLIENT, SERVER
         }
         private final Type type;
         private final List<SocketListener> listeners = new ArrayList<>();
