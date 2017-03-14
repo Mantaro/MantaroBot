@@ -40,6 +40,10 @@ public class BugreportCmds extends Module
             @Override
             public void call(String[] args, String content, GuildMessageReceivedEvent event)
             {
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessage("No bug specified").queue();
+                    return;
+                }
                 if(!limiter.process(event.getAuthor().getId())) {
                     event.getChannel().sendMessage(RATELIMIT_MESSAGE).queue();
                     return;
@@ -77,7 +81,7 @@ public class BugreportCmds extends Module
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 if(args.length < 2) {
-                    event.getChannel().sendMessage("Usage: bug accept/close number").queue();
+                    event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
                     return;
                 }
                 Map<Long, BugData.Bug> bugs = MantaroData.getBugs().get().bugs;
@@ -85,12 +89,15 @@ public class BugreportCmds extends Module
                 try {
                     bug = bugs.get(Long.parseLong(args[1]));
                 } catch (NumberFormatException nfe) {
+                    event.getChannel().sendMessage("Invalid bug identifier " + args[1]).queue();
+                    return;
+                }
+                if(bug == null) {
                     event.getChannel().sendMessage("No bug with id " + args[1]).queue();
                     return;
                 }
                 switch(args[0]) {
                     case "accept":
-                        bugs.remove(Long.parseLong(args[1]));
                         MantaroBot.getInstance().getTextChannelById(MantaroData.getConfig().get().bugreportChannel).pinMessageById("" + bug.messageId).queue();
                         break;
                     case "close":
@@ -110,8 +117,8 @@ public class BugreportCmds extends Module
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Bug commands")
-                        .addField("Description:", "~>bug accept: accepts a bug\n" +
-                                                  "~>bug decline: declines a bug\n",
+                        .addField("Description:", "~>bug accept <number>: accepts a bug\n" +
+                                                  "~>bug decline <number>: declines a bug\n",
                                 false).build();
             }
 
