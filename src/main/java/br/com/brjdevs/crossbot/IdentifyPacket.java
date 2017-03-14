@@ -10,6 +10,7 @@ public class IdentifyPacket {
     public final String password;
 
     public IdentifyPacket(String name, String password) {
+        if(name == null) throw new NullPointerException("name");
         this.name = name;
         this.password = password;
     }
