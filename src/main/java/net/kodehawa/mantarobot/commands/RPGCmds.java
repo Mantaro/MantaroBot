@@ -152,7 +152,7 @@ public class RPGCmds extends Module {
 	}
 
 	private void gamble() {
-		RateLimiter rateLimiter = new RateLimiter(3500);
+		RateLimiter rateLimiter = new RateLimiter(5000);
 		Random r = new Random();
 
 		super.register("gamble", new SimpleCommand() {
@@ -533,7 +533,7 @@ public class RPGCmds extends Module {
 	}
 
 	private void mine() {
-		RateLimiter rateLimiter = new RateLimiter(2000);
+		RateLimiter rateLimiter = new RateLimiter(4000);
 		Random r = new Random();
 
 		super.register("mine", new SimpleCommand() {
@@ -543,7 +543,7 @@ public class RPGCmds extends Module {
 
 				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Cooldown a lil bit, you're mining so fast that I can't print enough money!").queue();
+						"Cooldown a lil bit, you're mining so fast that I can't print enough money! (Once every 4 seconds)").queue();
 					return;
 				}
 
@@ -690,7 +690,7 @@ public class RPGCmds extends Module {
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
 						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
-							.filter(user -> !user.isBot())
+							.filter(user -> user != null && !user.isBot())
 							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
 							.limit(15)
 							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))

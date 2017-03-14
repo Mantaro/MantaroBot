@@ -39,6 +39,10 @@ public class GameCmds extends Module {
 						guess.onStart(event, guess.type(), player);
 						Async.thread(120000, () -> {
 							if(guess.check(event, guess.type())) return;
+							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null && event.getJDA().getRegisteredListeners().contains(guess)){
+								event.getJDA().removeEventListener(guess);
+								return;
+							}
 							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
 							event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
 							guess.endGame(event, player, guess, true);
@@ -59,6 +63,10 @@ public class GameCmds extends Module {
 						pokemon.onStart(event, pokemon.type(), player);
 						Async.thread(120000, () -> {
 							if(pokemon.check(event, pokemon.type())) return;
+							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null && event.getJDA().getRegisteredListeners().contains(pokemon)){
+								event.getJDA().removeEventListener(pokemon);
+								return;
+							}
 							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
 							event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + pokemon.answer() + "**").queue();
 							pokemon.endGame(event, player, pokemon, true);
@@ -90,10 +98,13 @@ public class GameCmds extends Module {
 					if(event.getJDA().getRegisteredListeners().contains(trivia)) event.getJDA().addEventListener(trivia);
 					else return;
 					trivia.onStart(event, trivia.type(), player);
-					Async.thread(120000, () -> {
+					Async.thread(600000, () -> {
 						if(trivia.check(event, trivia.type())) return;
-						if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
-						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + trivia.answer() + "**").queue();
+						if(EntityPlayer.getPlayer(event.getMember()).getGame() == null && event.getJDA().getRegisteredListeners().contains(trivia)){
+							event.getJDA().removeEventListener(trivia);
+							return;
+						}
+						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 600 seconds, ending game. Correct reply was **" + trivia.answer() + "**").queue();
 						trivia.endGame(event, player, trivia, true);
 					}).run();
 				} else {
@@ -105,7 +116,7 @@ public class GameCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Trivia command.")
 						.setDescription("Starts an instance of trivia.")
-						.addField("Important", "You need to answer 10 questions correctly to win. You have 120 seconds to answer.", false)
+						.addField("Important", "You need to answer 10 questions correctly to win. You have 600 seconds to answer.", false)
 						.build();
 			}
 		});

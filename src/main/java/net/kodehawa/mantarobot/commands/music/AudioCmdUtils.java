@@ -114,7 +114,6 @@ public class AudioCmdUtils {
 			.setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
 			.setColor(Color.CYAN);
 
-		//why would this happen is something it's out of my range, since it couldn't be null if there was objects on the queue and I think paused tracks count
 		String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ? "``"
 			+ musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
 			+ " (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")``" :
