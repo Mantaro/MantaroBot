@@ -213,8 +213,8 @@ public class InfoCmds extends Module {
 					.map(Role::getName)
 					.collect(Collectors.joining(", "));
 
-				if (roles.length() > 1024)
-					roles = roles.substring(0, 1024 - 4) + "...";
+				if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
+					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
 				channel.sendMessage(new EmbedBuilder()
 					.setAuthor("Guild Information", null, guild.getIconUrl())
@@ -559,8 +559,8 @@ public class InfoCmds extends Module {
 					.map(Role::getName)
 					.collect(Collectors.joining(", "));
 
-				if (roles.length() > 1024)
-					roles = roles.substring(0, 1024 - 4) + "...";
+				if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
+					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(member.getColor())
 					.setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
