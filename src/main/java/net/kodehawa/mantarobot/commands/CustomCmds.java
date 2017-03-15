@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.DeathTimer;
+import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
@@ -73,7 +74,7 @@ public class CustomCmds extends Module {
 			}
 
 			if (response.startsWith("embed:")) {
-				event.getChannel().sendMessage(new EmbedBuilder().setDescription(response.substring(6)).setTitle(cmdName, null).setColor(event.getMember().getColor()).build()).queue();
+				event.getChannel().sendMessage(GsonDataManager.gson(false).fromJson('{' +response.substring(6) + '}', EmbedJSON.class).gen()).queue();
 				return;
 			}
 
@@ -242,7 +243,7 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
-					Optional.ofNullable(customCommands.remove(cmd))
+					Optional.ofNullable(customCommands.remove(cmd)) //FIXME AdrianTodt
 						.ifPresent((command) -> {
 							MantaroData.getData().save();
 							if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
@@ -252,6 +253,11 @@ public class CustomCmds extends Module {
 						});
 					if (cmd == null)
 						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no such Custom Command in this Guild.").queue();
+					return;
+				}
+
+				if (action.equals("raw")) {
+					//TODO AdrianTodt
 					return;
 				}
 

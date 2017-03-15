@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.utils;
 
 import br.com.brjdevs.java.utils.extensions.Async;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
@@ -19,7 +18,7 @@ public class DiscordUtils {
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < list.size(); i++) {
 			String s = toString.apply(list.get(i));
-			if (b.length() + s.length() + 5 > EmbedBuilder.TEXT_MAX_LENGTH) return Pair.of(b.toString(), i);
+			if (b.length() + s.length() + 5 > MessageEmbed.TEXT_MAX_LENGTH) return Pair.of(b.toString(), i);
 			b.append('[').append(i + 1).append("] ");
 			b.append(s);
 			b.append("\n");
