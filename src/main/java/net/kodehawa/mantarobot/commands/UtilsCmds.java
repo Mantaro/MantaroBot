@@ -56,6 +56,7 @@ public class UtilsCmds extends Module {
 		urban();
 		math();
 		googleSearch();
+		time();
 	}
 
 	private void birthday() {
@@ -265,8 +266,7 @@ public class UtilsCmds extends Module {
 								channel.sendMessage(":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString("trans")).queue();
 							}
 						} catch (IOException e) {
-							LOGGER.warn("Something went wrong when translating.", e);
-							channel.sendMessage(":heavy_multiplication_x:" + "Something went wrong when translating. " + e.getClass().getSimpleName()).queue();
+							event.getChannel().sendMessage("Error while fetching results. Probably google doesn't like us for now.").queue();
 						}
 					} else {
 						onHelp(event);

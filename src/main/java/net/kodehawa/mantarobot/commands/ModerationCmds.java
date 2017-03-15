@@ -430,7 +430,7 @@ public class ModerationCmds extends Module {
 					}
 				}
 
-				if (option.equals("localmoney")) { //TODO DOCUMENT ON HELP
+				if (option.equals("localmoney")) {
 					try {
 						guildData.localMode = Boolean.parseBoolean(action);
 						MantaroData.getData().save();
@@ -512,6 +512,8 @@ public class ModerationCmds extends Module {
 						"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 regardless).\n" +
 						"~>opts autorole set <role> - Sets the new autorole which will be assigned to users on user join.\n" +
 						"~>opts autorole unbind - Clears the autorole config.\n" +
+						"~>opts resetmoney - Resets local money.\n" +
+						"~>opts localmode <true/false> - Toggles guild local mode (currency and RPG stats only for your guild).\n" +
 						"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
 						"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
 						"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.")

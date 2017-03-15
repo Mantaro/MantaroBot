@@ -2,12 +2,14 @@ package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
@@ -68,6 +70,7 @@ public class InfoCmds extends Module {
 		userinfo();
 		info();
 		stats();
+		shard();
 	}
 
 	private void about() {
@@ -127,6 +130,49 @@ public class InfoCmds extends Module {
 		});
 	}
 
+	private void shard(){
+		super.register("shardinfo", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if(content.isEmpty()){
+					onHelp(event);
+					return;
+				}
+
+				int choosenShard = Integer.parseInt(args[0]);
+				int finalShard = choosenShard - 1;
+				MantaroShard[] shards = MantaroBot.getInstance().getShards();
+				if(choosenShard - 1 > shards.length || choosenShard < 1){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no shard " + choosenShard).queue();
+					return;
+				}
+
+				EmbedBuilder b = new EmbedBuilder();
+				JDA shardJDA = shards[finalShard].getJDA();
+				b.setAuthor("Shard info for shard #" + choosenShard + " (" + shards[finalShard].getJDA().getShardInfo() + ")", null, event.getJDA().getSelfUser().getAvatarUrl())
+						.setDescription("Shard " + choosenShard + "/" + shards.length)
+						.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+						.addField("Status", shardJDA.getStatus().toString(), true)
+						.addField("API Responses", String.valueOf(shardJDA.getResponseTotal()), true)
+						.addField("Guilds", String.valueOf(shardJDA.getGuilds().size()), true)
+						.addField("Users", String.valueOf(shardJDA.getUsers().size()), true)
+						.addField("Text Channels", String.valueOf(shardJDA.getTextChannels().size()), true)
+						.addField("Voice Channels", String.valueOf(shardJDA.getVoiceChannels().size()), true);
+
+				event.getChannel().sendMessage(b.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Shard info")
+						.setDescription("Gets the information of a shard.")
+						.addField("Usage", "~>shardinfo <shard>", false)
+						.addField("Important", "Write the number you see in the footer of ~>about", false)
+						.build();
+			}
+		});
+	}
+
 	private void avatar() {
 		super.register("avatar", new SimpleCommand() {
 			@Override
@@ -151,7 +197,7 @@ public class InfoCmds extends Module {
 	}
 
 	private void guildinfo() {
-		super.register("guildinfo", new SimpleCommand() {
+		super.register("serverinfo", new SimpleCommand() {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
@@ -167,8 +213,8 @@ public class InfoCmds extends Module {
 					.map(Role::getName)
 					.collect(Collectors.joining(", "));
 
-				if (roles.length() > EmbedBuilder.TEXT_MAX_LENGTH)
-					roles = roles.substring(0, EmbedBuilder.TEXT_MAX_LENGTH - 4) + "...";
+				if (roles.length() > 1024)
+					roles = roles.substring(0, 1024 - 4) + "...";
 
 				channel.sendMessage(new EmbedBuilder()
 					.setAuthor("Guild Information", null, guild.getIconUrl())
@@ -267,25 +313,30 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
+				List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
+				int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+						voiceChannel.getGuild().getSelfMember())).count();
+
 				event.getChannel().sendMessage("```prolog\n"
 					+ "---MantaroBot Technical Information---\n\n"
 					+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
 					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
 					+ "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
-					+ "CPU Usage: " + getCpuUsage() + "%" + "\n"
-					+ "CPU Cores: " + getAvailableProcessors()
-					+ "Current shard: " + event.getJDA().getShardInfo() + "\n"
+					+ "CPU Usage: " + getVpsCPUUsage() + "%" + "\n"
+					+ "CPU Cores: " + getAvailableProcessors() + "\n"
+					+ "Shard Info: " + event.getJDA().getShardInfo()
 					+ "\n\n ------------------ \n\n"
 					+ "Guilds: " + guilds.size() + "\n"
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShard(event.getJDA()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
+					+ "Commands: " + MantaroListener.getCommandTotal() + "\n"
+					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
-						/*+ "Active Worlds: " + TextChannelWorld.getWorldCount() + "\n"
-						+ "Active Entities: " + TextChannelWorld.activeEntityCount() + "\n"*/
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
+					+ "Music Connections: " + c + "\n"
 					+ "```").queue();
 			}
 
@@ -376,7 +427,7 @@ public class InfoCmds extends Module {
 						.addField("Threads:", getThreadCount() + " Threads", true)
 						.addField("Memory Usage:", getTotalMemory() - getFreeMemory() + "MB/" + getMaxMemory() + "MB", true)
 						.addField("CPU Cores:", getAvailableProcessors() + " Cores", true)
-						.addField("CPU Usage:", Math.round(getCpuUsage()) + "%", true)
+						.addField("CPU Usage:", getVpsCPUUsage() + "%", true)
 						.addField("Assigned Memory:", getTotalMemory() + "MB", true)
 						.addField("Remaining from assigned:", getFreeMemory() + "MB", true)
 						.build()
@@ -508,8 +559,8 @@ public class InfoCmds extends Module {
 					.map(Role::getName)
 					.collect(Collectors.joining(", "));
 
-				if (roles.length() > EmbedBuilder.TEXT_MAX_LENGTH)
-					roles = roles.substring(0, EmbedBuilder.TEXT_MAX_LENGTH - 4) + "...";
+				if (roles.length() > 1024)
+					roles = roles.substring(0, 1024 - 4) + "...";
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(member.getColor())
 					.setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())

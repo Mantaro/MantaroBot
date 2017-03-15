@@ -324,6 +324,8 @@ public class RPGCmds extends Module {
 					player.getInventory().process(new ItemStack(trash, -1));
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Trashed " + trash.getEmoji()).queue();
 				}
+
+				onHelp(event);
 			}
 
 			@Override
@@ -434,52 +436,57 @@ public class RPGCmds extends Module {
 							}
 						}
 					}
+
+
 					if (args[0].equals("sell")) {
 						if (player.getMoney() >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. " +
 								"Maybe you should spend some before getting more.").queue();
 							return;
 						}
+						try{
+							if (args[1].equals("all")) {
+								long all = player.getInventory().asList().stream()
+										.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+										.sum();
 
-						if (args[1].equals("all")) {
-							long all = player.getInventory().asList().stream()
-								.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-								.sum();
+								player.getInventory().clear();
 
-							player.getInventory().clear();
-
-							if (player.addMoney(all)) {
-								event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();
-							} else {
-								event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+								if (player.addMoney(all)) {
+									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();
+								} else {
+									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+								}
+								return;
 							}
-							return;
+
+							Item toSell = Items.fromAny(itemName).orElse(null);
+
+							if (!toSell.isSellable()) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.").queue();
+								return;
+							}
+
+							if (player.getInventory().asMap().getOrDefault(toSell, null) == null) {
+								event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
+								return;
+							}
+
+							int many = itemNumber * -1;
+							long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
+							player.getInventory().process(new ItemStack(toSell, many));
+
+							if (player.addMoney(amount)) {
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
+										"** and gained " + amount + " credits!").queue();
+							} else {
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold **" + toSell.getName() +
+										"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+							}
+
+						} catch (NullPointerException e){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
 						}
-
-						Item toSell = Items.fromAny(itemName).orElse(null);
-
-						if (!toSell.isSellable()) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.").queue();
-							return;
-						}
-
-						if (player.getInventory().asMap().getOrDefault(toSell, null) == null) {
-							event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
-							return;
-						}
-
-						int many = itemNumber * -1;
-						long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-						player.getInventory().process(new ItemStack(toSell, many));
-
-						if (player.addMoney(amount)) {
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
-								"** and gained " + amount + " credits!").queue();
-						} else {
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold **" + toSell.getName() +
-								"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
-						}
-
 						return;
 					}
 
@@ -491,21 +498,26 @@ public class RPGCmds extends Module {
 							return;
 						}
 
-						if (!itemToBuy.isBuyable()) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
+						try{
+							if (!itemToBuy.isBuyable()) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
+								return;
+							}
+
+							if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
+								player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+								event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
+										" successfully. You now have " + player.getMoney() + " credits.").queue();
+							} else {
+								event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
+							}
+
+						} catch (NullPointerException e){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax.").queue();
 							return;
 						}
-
-						if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
-							player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
-							event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
-								" successfully. You now have " + player.getMoney() + " credits.").queue();
-						} else {
-							event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
-						}
-
-						return;
 					}
+					return;
 				}
 
 				EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
@@ -527,6 +539,7 @@ public class RPGCmds extends Module {
 						"To sell do ~>market sell all to sell all your items or ~>market sell <item emoji> to sell the specified item. " +
 						"You'll get the sell value of the item on coins to spend.", false)
 					.addField("To know", "If you don't have enough money you cannot buy the items.", false)
+					.addField("Information", "To buy and sell multiple items you need to do ~>market <buy/sell> <amount> <item>", false)
 					.build();
 			}
 		});

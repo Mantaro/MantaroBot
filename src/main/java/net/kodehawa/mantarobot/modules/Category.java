@@ -4,13 +4,13 @@ public enum Category {
 	MUSIC("Audio"),
 	ACTION("Action"),
 	RPG("RPG"),
-	GAMES("Games"),
+	GAMES("Game"),
 	IMAGE("Image"),
 	FUN("Fun"),
 	MODERATION("Moderation"),
 	OWNER("Owner"),
 	INFO("Info"),
-	UTILS("Utils"),
+	UTILS("Utility"),
 	MISC("Misc");
 
 	private final String s;
