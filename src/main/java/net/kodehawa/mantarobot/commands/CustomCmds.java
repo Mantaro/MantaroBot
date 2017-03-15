@@ -94,6 +94,7 @@ public class CustomCmds extends Module {
 		@Override
 		public void invoke(Arguments args) {
 			handle(args.event, args.cmdName, SPLIT_PATTERN.split(args.content));
+			//TODO TRY-CATCH
 			log("custom command");
 		}
 
