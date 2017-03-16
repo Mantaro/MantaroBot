@@ -207,7 +207,7 @@ public class MantaroListener implements EventListener {
 	private void onCommand(GuildMessageReceivedEvent event) {
 
 		//Tick worlds and entities.
-		if (r.nextInt(200) > 100) {
+		if (r.nextInt(200) > 150) {
 			ticks++;
 			TextChannelWorld world = TextChannelWorld.of(event);
 			world.tick(event);
