@@ -29,15 +29,18 @@ public class Data {
 	}
 
 	public EntityPlayerMP getUser(User user, boolean isRewritable) {
+		if(user.getId() == null) return null;
 		if (isRewritable) return users.computeIfAbsent(user.getId(), s -> new EntityPlayerMP());
 		return users.getOrDefault(user.getId(), new EntityPlayerMP());
 	}
 
 	public EntityPlayer getUser(GuildMessageReceivedEvent event, boolean isRewritable) {
+		if(event.getMember() == null) return null;
 		return getUser(event.getMember(), isRewritable);
 	}
 
 	public EntityPlayer getUser(Guild guild, User user, boolean isRewritable) {
+		if(user.getId() == null) return null;
 		GuildData guildData = getGuild(guild, isRewritable);
 
 		if (guildData.localMode) {
@@ -49,6 +52,7 @@ public class Data {
 	}
 
 	public EntityPlayer getUser(Member member, boolean isRewritable) {
+		if(member == null) return null;
 		return getUser(member.getGuild(), member.getUser(), isRewritable);
 	}
 }

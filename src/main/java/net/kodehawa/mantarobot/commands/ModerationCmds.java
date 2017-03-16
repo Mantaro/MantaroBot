@@ -542,7 +542,7 @@ public class ModerationCmds extends Module {
 					messageHistory -> {
 						OffsetDateTime limit = OffsetDateTime.now().minusWeeks(2);
 						List<Message> messages = messageHistory.stream()
-							.filter(message -> message.getCreationTime().isBefore(limit))
+							.filter(message -> message.getCreationTime().isAfter(limit))
 							.collect(Collectors.toList());
 
 						if (messages.size() < 1) {

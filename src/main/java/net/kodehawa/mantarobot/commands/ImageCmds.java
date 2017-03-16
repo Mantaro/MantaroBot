@@ -47,12 +47,13 @@ public class ImageCmds extends Module {
 
 	public ImageCmds() {
 		super(Category.IMAGE);
-		enterRatings();
 
 		yandere();
 		kona();
 		e621();
 		rule34();
+
+		enterRatings();
 	}
 
 	private void e621() {
@@ -167,19 +168,20 @@ public class ImageCmds extends Module {
 			return builder.setDescription("Cannot send a lewd image in a non-nsfw channel.");
 
 		String json = Utils.wget(url, event);
-		ImageData[] imageData = GsonDataManager.GSON_PRETTY.fromJson(json, ImageData[].class);
-		List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
-		int get;
 		try {
-			get = requestType.equals("tags") ? argsCount >= 4 ? number : r.nextInt(filter.size()) : argsCount <= 2 ? Integer.parseInt(messageArray[2]) : r.nextInt(filter.size());
-		} catch (IndexOutOfBoundsException e) {
-			get = r.nextInt(filter.size());
-		} catch (IllegalArgumentException e) {
-			if (e.getMessage().equals("bound must be positive"))
-				return builder.setDescription("No results found.");
-			else return builder.setDescription("Query not valid.");
-		}
-		try {
+			ImageData[] imageData = GsonDataManager.GSON_PRETTY.fromJson(json, ImageData[].class);
+			List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
+			int get;
+			try {
+				get = requestType.equals("tags") ? argsCount >= 4 ? number : r.nextInt(filter.size()) : argsCount <= 2 ? Integer.parseInt(messageArray[2]) : r.nextInt(filter.size());
+			} catch (IndexOutOfBoundsException e) {
+				get = r.nextInt(filter.size());
+			} catch (IllegalArgumentException e) {
+				if (e.getMessage().equals("bound must be positive"))
+					return builder.setDescription("No results found.");
+				else return builder.setDescription("Query not valid.");
+			}
+
 			String AUTHOR = filter.get(get).getAuthor();
 			String tags = filter.get(get).getTags().stream().collect(Collectors.joining(", "));
 
@@ -201,8 +203,7 @@ public class ImageCmds extends Module {
 				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 				.setFooter("If the image doesn't load, click the title.", null);
 		} catch (Exception ex) {
-			if (ex instanceof NullPointerException)
-				return builder.setDescription(EmoteReference.ERROR + "Wrong syntax.");
+			if (ex instanceof NullPointerException) return builder.setDescription(EmoteReference.ERROR + "Wrong syntax.");
 			return builder.setDescription(EmoteReference.ERROR + "There are no images here, just dust.");
 		}
 	}
@@ -443,8 +444,7 @@ public class ImageCmds extends Module {
 					tagsToEncode = args[1];
 					if (needRating) rating = nRating.get(args[2]);
 					number = Integer.parseInt(args[3]);
-				} catch (Exception ignored) {
-				}
+				} catch (Exception ignored) {}
 
 				try {
 					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
