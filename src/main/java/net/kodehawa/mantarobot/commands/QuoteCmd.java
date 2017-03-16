@@ -94,7 +94,6 @@ public class QuoteCmd extends Module {
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception e) {
 							channel.sendMessage(EmoteReference.ERROR + "Error while adding quote: " + e.getCause() + e.getMessage()).queue();
-							LOGGER.warn("Error while adding a quote", e);
 						}
 						break;
 					case "random":

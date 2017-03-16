@@ -91,7 +91,7 @@ public class EntityTree extends EntityTickable {
 
 	public void onSpawn(TextChannelWorld world) {
 		this.world = world;
-		if (getWorld().getActiveEntities().stream().filter(entity -> (entity instanceof EntityTree)).count() >= 10) {
+		if (getWorld().getActiveEntities().stream().filter(entity -> (entity instanceof EntityTree)).count() >= 3) {
 			return;
 		}
 		Random random = new Random();

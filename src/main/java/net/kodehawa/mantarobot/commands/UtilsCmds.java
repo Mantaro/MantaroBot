@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -410,7 +411,8 @@ public class UtilsCmds extends Module {
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Error while fetching results.").queue();
-					LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
+					if(!(e instanceof NullPointerException))
+							LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
 
