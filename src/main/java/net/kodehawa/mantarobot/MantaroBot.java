@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -9,12 +8,11 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.*;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.music.VoiceChannelListener;
+import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.rpg.game.listener.GameListener;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;

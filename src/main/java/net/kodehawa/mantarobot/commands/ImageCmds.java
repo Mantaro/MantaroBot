@@ -131,7 +131,7 @@ public class ImageCmds extends Module {
 						} catch (Exception exception) {
 							if (exception instanceof NumberFormatException)
 								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue();
-							if (exception instanceof IndexOutOfBoundsException)
+							if (exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException)
 								event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;

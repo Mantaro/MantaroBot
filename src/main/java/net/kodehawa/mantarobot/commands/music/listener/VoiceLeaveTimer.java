@@ -1,9 +1,10 @@
-package net.kodehawa.mantarobot.commands.music;
+package net.kodehawa.mantarobot.commands.music.listener;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;

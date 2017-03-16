@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.music;
+package net.kodehawa.mantarobot.commands.music.listener;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -78,6 +79,7 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
 		if (timer.isExpiring(guild.getId())) return;
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
 		if (musicManager.getTrackScheduler().isStopped()) return;
+		if(musicManager.getTrackScheduler().getCurrentTrack() == null) return;
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(true);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 		if (channel != null && channel.canTalk())

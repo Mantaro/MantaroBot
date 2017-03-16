@@ -232,9 +232,15 @@ public class MantaroListener implements EventListener {
 				return;
 			}
 
+
 			if (e instanceof PermissionException) {
 				PermissionException ex = (PermissionException) e;
 				event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + ex.getPermission()).queue();
+				return;
+			}
+
+			if (e instanceof IllegalArgumentException) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
 				return;
 			}
 
