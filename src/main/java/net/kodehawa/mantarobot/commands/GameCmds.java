@@ -33,22 +33,15 @@ public class GameCmds extends Module {
 				if(args[0].equals("image")){
 					ImageGuess guess = new ImageGuess();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
-					if(guess.check(event, guess.type())){
-						if(event.getJDA().getRegisteredListeners().contains(guess)) event.getJDA().addEventListener(guess);
-						else return;
+					if(guess.check(event)){
 						guess.onStart(event, guess.type(), player);
-						Async.thread(120000, () -> {
-							if(guess.check(event, guess.type())) return;
-							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null && event.getJDA().getRegisteredListeners().contains(guess)){
-								event.getJDA().removeEventListener(guess);
-								return;
-							}
+						/**Async.thread(120000, () -> {
+							if(guess.check(event)) return;
 							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
-							event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + guess.getCharacterName() + "**").queue();
 							guess.endGame(event, player, guess, true);
-						}).run();
+						}).run();**/
 					} else {
-						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
+						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing a game on this channel. Try later or in another one.").queue();
 					}
 
 					return;
@@ -57,22 +50,14 @@ public class GameCmds extends Module {
 				if(args[0].equals("pokemon")){
 					Pokemon pokemon = new Pokemon();
 					EntityPlayer player = EntityPlayer.getPlayer(event);
-					if(pokemon.check(event, pokemon.type())){
-						if(event.getJDA().getRegisteredListeners().contains(pokemon)) event.getJDA().addEventListener(pokemon);
-						else return;
+					if(pokemon.check(event)){
 						pokemon.onStart(event, pokemon.type(), player);
-						Async.thread(120000, () -> {
-							if(pokemon.check(event, pokemon.type())) return;
-							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null && event.getJDA().getRegisteredListeners().contains(pokemon)){
-								event.getJDA().removeEventListener(pokemon);
-								return;
-							}
-							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
-							event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 120 seconds, ending game. Correct reply was **" + pokemon.answer() + "**").queue();
+						/**Async.thread(120000, () -> {
+							if(pokemon.check(event)) return;
 							pokemon.endGame(event, player, pokemon, true);
-						}).run();
+						}).run();**/
 					} else {
-						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
+						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the a game on this channel. Try later or in another one.").queue();
 					}
 				}
 			}
@@ -94,19 +79,12 @@ public class GameCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Trivia trivia = new Trivia();
 				EntityPlayer player = EntityPlayer.getPlayer(event);
-				if(trivia.check(event, trivia.type())){
-					if(event.getJDA().getRegisteredListeners().contains(trivia)) event.getJDA().addEventListener(trivia);
-					else return;
+				if(trivia.check(event)){
 					trivia.onStart(event, trivia.type(), player);
-					Async.thread(600000, () -> {
-						if(trivia.check(event, trivia.type())) return;
-						if(EntityPlayer.getPlayer(event.getMember()).getGame() == null && event.getJDA().getRegisteredListeners().contains(trivia)){
-							event.getJDA().removeEventListener(trivia);
-							return;
-						}
-						event.getChannel().sendMessage(EmoteReference.THINKING + "No correct reply on 600 seconds, ending game. Correct reply was **" + trivia.answer() + "**").queue();
+					/**	Async.thread(600000, () -> {
+						if(trivia.check(event)) return;
 						trivia.endGame(event, player, trivia, true);
-					}).run();
+					}).run();**/
 				} else {
 					event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 				}

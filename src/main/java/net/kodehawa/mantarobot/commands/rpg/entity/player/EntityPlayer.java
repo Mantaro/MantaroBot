@@ -32,7 +32,6 @@ import java.util.UUID;
  */
 public class EntityPlayer extends EntityTickable {
 	private transient static String entity;
-	//Don't serialize this.
 	private static transient TextChannelWorld world;
 
 	/**
@@ -359,10 +358,10 @@ public class EntityPlayer extends EntityTickable {
 	public void setCurrentGame(@Nullable GameReference game, TextChannel channel) {
 		currentGame = game;
 		if (game != null) {
-			TextChannelWorld.of(channel).addGame(game);
+			currentGame = game;
 			TextChannelWorld.of(channel).addEntity(this);
 		} else {
-			TextChannelWorld.of(channel).addGame(null);
+			currentGame = null;
 			TextChannelWorld.of(channel).removeEntity(this);
 		}
 	}

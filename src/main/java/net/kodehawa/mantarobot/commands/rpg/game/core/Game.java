@@ -9,11 +9,7 @@ import org.slf4j.Logger;
 
 import java.util.Random;
 
-public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> {
-
-	protected Game() {
-		super(GuildMessageReceivedEvent.class);
-	}
+public abstract class Game {
 
 	public abstract void call(GuildMessageReceivedEvent event, EntityPlayer player);
 
@@ -21,20 +17,14 @@ public abstract class Game extends OptimizedListener<GuildMessageReceivedEvent> 
 
 	public abstract GameReference type();
 
-	@Override
-	public void event(GuildMessageReceivedEvent event) {
-		call(event, EntityPlayer.getPlayer(event));
-	}
-
-	public boolean check(GuildMessageReceivedEvent event, GameReference type) {
-		return !TextChannelWorld.of(event.getChannel()).getRunningGames().contains(type);
+	public boolean check(GuildMessageReceivedEvent event) {
+		return TextChannelWorld.of(event.getChannel()).getRunningGames().isEmpty();
 	}
 
 	public void endGame(GuildMessageReceivedEvent event, EntityPlayer player, Game game, boolean isTimeout) {
 		TextChannelWorld.of(event.getChannel()).getRunningGames().clear();
 		player.setCurrentGame(null, event.getChannel());
-		event.getJDA().removeEventListener(game);
-		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 60 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
+		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 120 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
 		event.getChannel().sendMessage(toSend).queue();
 	}
 

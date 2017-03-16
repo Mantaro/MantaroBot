@@ -54,17 +54,15 @@ public class Pokemon extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try {
-			TextChannelWorld.of(event.getChannel()).addGame(type);
 			player.setCurrentGame(type, event.getChannel());
+			TextChannelWorld.of(event.getChannel()).addGame(player, this);
 			Random rand = new Random();
 			List<String> guesses = MantaroData.getPokemonGuesses().get();
 			String[] data = guesses.get(rand.nextInt(guesses.size())).split("`");
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
 
-			event.getChannel().sendFile(new URL(pokemonImage).openStream(), "pokemon.jpg",
-				new MessageBuilder().append(EmoteReference.TALKING).append("Who's that pokemon?. You have 10 attempts to do it. (Type end to end the game)")
-					.build()).queue();
+			event.getChannel().sendMessage("Who's that pokemon?. You have 10 attempts to do it. (Type end to end the game)\n" + pokemonImage).queue();
 
 			return true;
 		} catch (Exception e) {

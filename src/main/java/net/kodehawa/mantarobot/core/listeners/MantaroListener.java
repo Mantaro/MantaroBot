@@ -129,10 +129,6 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void logDelete(GuildMessageDeleteEvent event) {
-		if(event.getMessage().getContent().length() > 1990){
-			return;
-		}
-
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
@@ -145,17 +141,13 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof NullPointerException)) {
+			if (!(e instanceof NullPointerException) || !(e instanceof IllegalArgumentException)) {
 				LOGGER.warn("Unexpected exception while logging a deleted message.", e);
 			}
 		}
 	}
 
 	private void logEdit(GuildMessageUpdateEvent event) {
-		if(event.getMessage().getContent().length() > 1990){
-			return;
-		}
-
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
@@ -170,7 +162,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof NullPointerException)) {
+			if (!(e instanceof NullPointerException) || !(e instanceof IllegalArgumentException)) {
 				LOGGER.warn("Unexpected error while logging a edit.", e);
 			}
 		}

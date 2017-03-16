@@ -65,8 +65,8 @@ public class Trivia extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try {
-			TextChannelWorld.of(event.getChannel()).addGame(type);
 			player.setCurrentGame(type, event.getChannel());
+			TextChannelWorld.of(event.getChannel()).addGame(player, this);
 			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
 			expectedAnswer = data[1];
 
