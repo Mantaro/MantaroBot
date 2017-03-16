@@ -35,11 +35,6 @@ public class GameCmds extends Module {
 					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(guess.check(event)){
 						guess.onStart(event, guess.type(), player);
-						/**Async.thread(120000, () -> {
-							if(guess.check(event)) return;
-							if(EntityPlayer.getPlayer(event.getMember()).getGame() == null) return;
-							guess.endGame(event, player, guess, true);
-						}).run();**/
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing a game on this channel. Try later or in another one.").queue();
 					}
@@ -52,10 +47,6 @@ public class GameCmds extends Module {
 					EntityPlayer player = EntityPlayer.getPlayer(event);
 					if(pokemon.check(event)){
 						pokemon.onStart(event, pokemon.type(), player);
-						/**Async.thread(120000, () -> {
-							if(pokemon.check(event)) return;
-							pokemon.endGame(event, player, pokemon, true);
-						}).run();**/
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the a game on this channel. Try later or in another one.").queue();
 					}
@@ -81,10 +72,6 @@ public class GameCmds extends Module {
 				EntityPlayer player = EntityPlayer.getPlayer(event);
 				if(trivia.check(event)){
 					trivia.onStart(event, trivia.type(), player);
-					/**	Async.thread(600000, () -> {
-						if(trivia.check(event)) return;
-						trivia.endGame(event, player, trivia, true);
-					}).run();**/
 				} else {
 					event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
 				}

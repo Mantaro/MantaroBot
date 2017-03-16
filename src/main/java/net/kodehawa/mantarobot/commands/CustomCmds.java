@@ -94,15 +94,17 @@ public class CustomCmds extends Module {
 		@Override
 		public void invoke(Arguments args) {
 			handle(args.event, args.cmdName, SPLIT_PATTERN.split(args.content));
-			//TODO TRY-CATCH
-			log("custom command");
+			try{
+				log("custom command");
+			} catch(Exception e){
+				LOGGER.error("An exception occurred while processing a custom command", e);
+			}
 		}
 
 		@Override
 		public boolean isHiddenFromHelp() {
 			return true;
 		}
-
 	};
 
 	private final Pair<Command, Category> cmdPair = Pair.of(customCommand, null);
@@ -278,7 +280,7 @@ public class CustomCmds extends Module {
 						.collect(Collectors.toList());
 
 					if (queried.size() == 0) {
-						//TODO NO MATCHES
+						event.getChannel().sendMessage(EmoteReference.ERROR + "There are no custom commands matching your search query.").queue();
 						return;
 					}
 
@@ -355,7 +357,8 @@ public class CustomCmds extends Module {
 							"`~>custom clear`: Remove all Custom Commands from this Guild. **(OWNER-ONLY)**\n" +
 							"`~>custom add <name> <responses>`: Add a new Command with the response provided. (A list of modifiers can be found on [here](https://hastebin.com/xolijewitu.http)\n" +
 							"`~>custom make <name>`: Starts a Interactive Operation to create a command with the specified name.\n" +
-							"`~>custom <remove|rm> <name>`: Removes a command with an specific name.",
+							"`~>custom <remove|rm> <name>`: Removes a command with an specific name.\n" +
+							"`~>custom import <search>`: Imports a command from another guild you're in.",
 						false
 					).build();
 			}

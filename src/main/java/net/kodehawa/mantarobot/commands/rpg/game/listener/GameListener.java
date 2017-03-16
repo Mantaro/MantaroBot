@@ -13,14 +13,13 @@ public class GameListener extends OptimizedListener<GuildMessageReceivedEvent> {
 
     @Override
     public void event(GuildMessageReceivedEvent event) {
-        TextChannelWorld world = TextChannelWorld.of(event);
-        EntityPlayer player = EntityPlayer.getPlayer(event);
-        if(world.getRunningGames().isEmpty() || player.getGame() == null){
-            return;
-        }
+        try{
+            TextChannelWorld world = TextChannelWorld.of(event);
+            if(world.getRunningGames().isEmpty()) return;
+            EntityPlayer player = EntityPlayer.getPlayer(event);
+            if(world == null || player == null || player.getGame() == null) return; //it's not always false, trust me.
 
-        if(world == null || player == null) return;
-
-        world.getRunningGames().get(player).call(event, player);
+            world.getRunningGames().get(player).call(event, player);
+        } catch (Exception ignored){}
     }
 }

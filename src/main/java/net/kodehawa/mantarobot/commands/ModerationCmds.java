@@ -193,7 +193,7 @@ public class ModerationCmds extends Module {
 				String option = args[0];
 				GuildData guildData = MantaroData.getData().get().getGuild(event.getGuild(), true);
 
-				if (option.equals("resetmoney")) { //TODO DOCUMENT ON HELP
+				if (option.equals("resetmoney")) {
 					guildData.users.clear();
 					MantaroData.getData().save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + " Local Guild Money cleared.").queue();

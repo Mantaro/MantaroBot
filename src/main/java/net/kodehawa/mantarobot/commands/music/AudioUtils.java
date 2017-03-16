@@ -3,15 +3,15 @@ package net.kodehawa.mantarobot.commands.music;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-public class AudioUtils {
-	public static String getLength(long length) {
+ class AudioUtils {
+ 	static String getLength(long length) {
 		return String.format("%02d:%02d",
 			TimeUnit.MILLISECONDS.toMinutes(length),
 			TimeUnit.MILLISECONDS.toSeconds(length) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
 		);
 	}
 
-	public static String getQueueList(BlockingQueue<AudioTrackContext> queue) {
+	static String getQueueList(BlockingQueue<AudioTrackContext> queue) {
 		StringBuilder sb = new StringBuilder();
 		int n = 1;
 		for (AudioTrackContext audioTrack : queue) {

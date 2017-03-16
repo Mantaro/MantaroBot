@@ -44,54 +44,8 @@ public class OwnerCmd extends Module {
 
 	public OwnerCmd() {
 		super(Category.OWNER);
-		add();
 		blacklist();
 		owner();
-	}
-
-	private void add() {
-		super.register("varadd", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String v = splitArgs(content)[1];
-
-				switch (args[0]) {
-					case "pat":
-						MantaroData.getPatting().get().add(v);
-						MantaroData.getPatting().save();
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
-						break;
-					case "hug":
-						MantaroData.getHugs().get().add(v);
-						MantaroData.getHugs().save();
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
-						break;
-					case "greeting":
-						MantaroData.getGreeting().get().add(content.replace("greeting ", ""));
-						MantaroData.getGreeting().save();
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
-						break;
-					case "splash":
-						MantaroData.getSplashes().get().add(content.replace("splash ", ""));
-						MantaroData.getSplashes().save();
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
-						break;
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Add to list command")
-					.setDescription("Adds a parameter to a list."
-						+ "\n Arguments: \n pat <args[1]>, hug <args[1]>, greeting <content>, splash <content>")
-					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
-			}
-		});
 	}
 
 	private void blacklist() {
@@ -240,6 +194,7 @@ public class OwnerCmd extends Module {
 				}
 
 				String option = args[0];
+				String action = args[1];
 
 				if (option.equals("shutdown") || option.equals("restart")) {
 					if (args.length == 2) {
@@ -352,7 +307,35 @@ public class OwnerCmd extends Module {
 				}
 
 				if (option.equals("varadd")) {
-					//TODO FUTURE
+					try{
+						String v1 = values[1];
+						switch (values[0]) {
+							case "pat":
+								MantaroData.getPatting().get().add(v1);
+								MantaroData.getPatting().save();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
+								break;
+							case "hug":
+								MantaroData.getHugs().get().add(v1);
+								MantaroData.getHugs().save();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
+								break;
+							case "greeting":
+								MantaroData.getGreeting().get().add(content.replace("varadd greeting ", ""));
+								MantaroData.getGreeting().save();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
+								break;
+							case "splash":
+								MantaroData.getSplashes().get().add(content.replace("varadd splash ", ""));
+								MantaroData.getSplashes().save();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
+								break;
+						}
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+
+					return;
 				}
 
 				if (option.equals("eval")) {
@@ -381,7 +364,14 @@ public class OwnerCmd extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null; //TODO Uhh
+				return helpEmbed(event, "Owner command")
+						.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
+								"~>owner restart/forcerestart: Restarts the bot.\n" +
+								"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
+								"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
+								"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.")
+						.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
+						.build();
 			}
 
 			@Override

@@ -53,7 +53,7 @@ public class InfoCmds extends Module {
 		if (ping <= 800) return "which is too slow. :disappointed:";
 		if (ping <= 800) return "which is awful. :weary:";
 		if (ping <= 900) return "which is bad. :sob: (helpme)";
-		if (ping <= 1600) return "which is because Discord is lagging. :angry:";
+		if (ping <= 1600) return "which is (probably) because Discord is lagging. :angry:";
 		if (ping <= 10000) return "which makes less sense than 0 ping. :thinking:";
 		return "which is slow af. :dizzy_face:";
 	}
@@ -77,6 +77,12 @@ public class InfoCmds extends Module {
 		super.register("about", new SimpleCommand() {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
+				if(!content.isEmpty() && args[0].equals("patreon")){
+					//TODO ~>about patreon
+					return;
+				}
+
 				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 				List<TextChannel> textChannels = MantaroBot.getInstance().getTextChannels();
 				List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
@@ -94,12 +100,13 @@ public class InfoCmds extends Module {
 						"Some of my features include:\n" +
 						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
-						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)!"
+						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
+						" [Support the bot development!](https://www.patreon.com/mantaro)"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
-						"%d days, %02d hrs, %02d min, %02d sec",
-						days, hours % 24, minutes % 60, seconds % 60
+						"%d days, %02d hrs, %02d min",
+						days, hours % 24, minutes % 60
 					), false)
 					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShards().length), true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
@@ -141,16 +148,16 @@ public class InfoCmds extends Module {
 
 				int choosenShard = Integer.parseInt(args[0]);
 				int finalShard = choosenShard - 1;
-				MantaroShard[] shards = MantaroBot.getInstance().getShards();
-				if(choosenShard - 1 > shards.length || choosenShard < 1){
+				List<MantaroShard> shards = MantaroBot.getInstance().getShardList();
+				if(choosenShard - 1 > shards.size() || choosenShard < 1){
 					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no shard " + choosenShard).queue();
 					return;
 				}
 
 				EmbedBuilder b = new EmbedBuilder();
-				JDA shardJDA = shards[finalShard].getJDA();
-				b.setAuthor("Shard info for shard #" + choosenShard + " (" + shards[finalShard].getJDA().getShardInfo() + ")", null, event.getJDA().getSelfUser().getAvatarUrl())
-						.setDescription("Shard " + choosenShard + "/" + shards.length)
+				JDA shardJDA = shards.get(finalShard).getJDA();
+				b.setAuthor("Shard info for shard #" + choosenShard + " (" + shardJDA.getShardInfo() + ")", null, event.getJDA().getSelfUser().getAvatarUrl())
+						.setDescription("Shard " + choosenShard + "/" + shards.size())
 						.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
 						.addField("Status", shardJDA.getStatus().toString(), true)
 						.addField("API Responses", String.valueOf(shardJDA.getResponseTotal()), true)

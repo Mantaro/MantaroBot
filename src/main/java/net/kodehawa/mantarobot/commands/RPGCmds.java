@@ -135,7 +135,7 @@ public class RPGCmds extends Module {
 				tree.setHealth(0);
 				//if ticks aren't enough kek
 				tree.onDeath();
-				int give = (int) Math.max((axes * 0.5), 1);
+				int give = Math.min(64, (int) Math.max((axes * 0.5), 1));
 				player.getInventory().process(new ItemStack(Items.WOOD, give));
 				event.getChannel().sendMessage(String.format("%sChopping in %s got you %d wood.", EmoteReference.CORRECT, event.getChannel().getAsMention(), give)).queue();
 			}
@@ -184,23 +184,23 @@ public class RPGCmds extends Module {
 						case "everything":
 							i = player.getMoney();
 							multiplier = 1.5d + (r.nextInt(1500) / 1000d);
-							luck = 42 + (int) (multiplier * 10) + r.nextInt(20);
+							luck = 30 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
 							i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
 							multiplier = 1d + (r.nextInt(1500) / 1000d);
-							luck = 35 + (int) (multiplier * 15) + r.nextInt(20);
+							luck = 20 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						case "quarter":
 							i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
 							multiplier = 1d + (r.nextInt(1000) / 1000d);
-							luck = 40 + (int) (multiplier * 15) + r.nextInt(20);
+							luck = 35 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						default:
 							i = Integer.parseInt(content);
 							if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
 							multiplier = 1.2d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
-							luck = 45 + (int) (multiplier * 15) + r.nextInt(10);
+							luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
 							break;
 					}
 				} catch (NumberFormatException e) {
@@ -571,7 +571,7 @@ public class RPGCmds extends Module {
 
 				int picks = player.getInventory().getAmount(Items.BROM_PICKAXE);
 				player.consumeStamina(10);
-				long moneyFound = (long) (r.nextInt(250) * (1.0d + picks * 0.5d));
+				long moneyFound = Math.min(3000, (long) (r.nextInt(250) * (1.0d + picks * 0.5d)));
 				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				String toSend = "";
 

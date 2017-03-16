@@ -22,8 +22,6 @@ public class GiphyCmds extends Module {
 		random();
 		search();
 		trending();
-		//TODO JOIN THE COMMANDS
-		//I'M TOO LAZY LOL
 	}
 
 	private void random() {

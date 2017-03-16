@@ -19,7 +19,7 @@ import java.util.function.IntConsumer;
 
 public class AudioRequester implements AudioLoadResultHandler {
 	public static final int MAX_QUEUE_LENGTH = 300;
-	public static final long MAX_SONG_LENGTH = 600000;
+	public static final long MAX_SONG_LENGTH = 1260000;
 	private static final Logger LOGGER = LoggerFactory.getLogger("AudioRequester");
 	private GuildMessageReceivedEvent event;
 	private GuildMusicManager musicManager;
@@ -57,7 +57,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 				if (i < MAX_QUEUE_LENGTH) {
 					loadSingle(track, true);
 				} else {
-					event.getChannel().sendMessage(":warning: The queue you added had more than 200 songs, so we added songs until this limit and ignored the rest.").queue();
+					event.getChannel().sendMessage(":warning: The queue you added had more than 300 songs, so we added songs until this limit and ignored the rest.").queue();
 					break;
 				}
 			}
@@ -106,7 +106,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 		}
 
 		if (audioTrack.getInfo().length > MAX_SONG_LENGTH) {
-			event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 10 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
+			event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 21 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
 			if (musicManager.getTrackScheduler().isStopped())
 				event.getGuild().getAudioManager().closeAudioConnection();
 			return;

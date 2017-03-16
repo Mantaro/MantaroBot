@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
@@ -31,24 +32,25 @@ public class ImageGuess extends Game {
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.IMAGEGUESS
+		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
+				player.getGame() == type()
 			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
 		}
 
 		if (attempts > maxAttempts) {
 			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, this, false);
+			endGame(event, player, false);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(characterName)) {
-			onSuccess(player, this, event);
+			onSuccess(player, event);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, this, false);
+			endGame(event, player, false);
 			return;
 		}
 
@@ -74,18 +76,12 @@ public class ImageGuess extends Game {
 
 			event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Guess the character! You have 60 seconds and 10 attempts. Type end to end the game.").queue();
 
-			byte[] image = toByteArray(imageUrl);
-
-			if (image == null) {
-				onError(LOGGER, event, this, player, null);
-				return false;
-			}
-
-			event.getChannel().sendFile(image, "image.png", null).queue();
+			event.getChannel().sendMessage(new EmbedBuilder().setTitle("Guess the character", event.getJDA().getSelfUser().getAvatarUrl())
+											.setImage(imageUrl).setFooter("You have 120 seconds to answer. (Type end to end the game)", null).build()).queue();
 
 			return true;
 		} catch (Exception e) {
-			onError(LOGGER, event, this, player, e);
+			onError(LOGGER, event, player, e);
 			return false;
 		}
 	}

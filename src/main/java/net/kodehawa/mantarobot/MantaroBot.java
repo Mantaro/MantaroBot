@@ -109,6 +109,10 @@ public class MantaroBot {
 		return shards;
 	}
 
+	public List<MantaroShard> getShardList() {
+		return Arrays.asList(shards);
+	}
+
 	public LoadState getStatus() {
 		return status;
 	}
@@ -145,12 +149,14 @@ public class MantaroBot {
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];
 		status = LOADING;
+
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
 			shards[i] = new MantaroShard(i, totalShards);
 			LOGGER.info("Finished loading shard #" + i + ".");
 			Thread.sleep(5_000L);
 		}
+
 		Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
 				.addEventListener(new MantaroListener(), new VoiceChannelListener(), new GameListener()));
 		DiscordLogBack.enable();
@@ -159,23 +165,10 @@ public class MantaroBot {
 		LOGGER.info("Started bot instance.");
 		LOGGER.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
 		//LOGGER.info("Started RethinkDB on " + conn.hostname + " successfully.");
-		Data data = MantaroData.getData().get();
-		Random r = new Random();
 		audioManager = new MantaroAudioManager();
-		List<String> splashes = MantaroData.getSplashes().get();
-		if (splashes.removeIf(s -> s == null || s.isEmpty())) MantaroData.getSplashes().save();
-
-		Runnable changeStatus = () -> {
-			String newStatus = splashes.get(r.nextInt(splashes.size()));
-			Arrays.stream(shards).forEach(shard -> shard.getJDA().getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus + " | [" + shard.getId() + "]")));
-			LOGGER.info("Changed status to: " + newStatus);
-		};
-
-		changeStatus.run();
 
 		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
-
-		Async.task("Splash Thread", changeStatus, 600);
+		Arrays.stream(shards).forEach(MantaroShard::updateStatus);
 
 		MantaroData.getConfig().save();
 
@@ -196,8 +189,4 @@ public class MantaroBot {
 
 		modules.forEach(Module::onPostLoad);
 	}
-
-	/*public static Connection databaseConnection(){
-		return conn;
-	}*/
 }

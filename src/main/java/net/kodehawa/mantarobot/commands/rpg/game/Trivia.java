@@ -27,25 +27,26 @@ public class Trivia extends Game {
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.TRIVIA
+		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
+				player.getGame() == type()
 			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, this, false);
+			endGame(event, player, false);
 			return;
 		}
 
 		if (attempts > maxAttempts) {
 			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, this, false);
+			endGame(event, player, false);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
 			if (triviaAnswers >= maxAnswers) {
-				onSuccess(player, event, this, 0.6);
+				onSuccess(player, event, 0.6);
 				return;
 			}
 
@@ -58,7 +59,7 @@ public class Trivia extends Game {
 		}
 
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
-			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
+			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaining").queue();
 		attempts++;
 	}
 
@@ -74,7 +75,7 @@ public class Trivia extends Game {
 
 			return true;
 		} catch (Exception e) {
-			onError(LOGGER, event, this, player, e);
+			onError(LOGGER, event, player, e);
 			return false;
 		}
 	}

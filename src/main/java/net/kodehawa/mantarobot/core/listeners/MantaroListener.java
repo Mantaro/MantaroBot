@@ -114,7 +114,7 @@ public class MantaroListener implements EventListener {
 
 	private void logStatusChange(StatusChangeEvent event) {
 		JDA jda = event.getJDA();
-		getLogChannel().sendMessage("Status Change Event on Shard " + jda.getShardInfo().getShardId() + ": Changed from " + event.getOldStatus() + " to " + event.getStatus()).queue();
+		LOGGER.info(String.format("Status Change Event on Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
 
 	private void logBan(GuildBanEvent event) {
@@ -141,7 +141,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) || !(e instanceof IllegalArgumentException)) {
+			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)) {
 				LOGGER.warn("Unexpected exception while logging a deleted message.", e);
 			}
 		}
@@ -162,7 +162,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) || !(e instanceof IllegalArgumentException)) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				LOGGER.warn("Unexpected error while logging a edit.", e);
 			}
 		}
@@ -240,7 +240,7 @@ public class MantaroListener implements EventListener {
 
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
 					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
-					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about)"
+					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about. There is probably people working on the fix already, though. (Also maybe you just got the arguments wrong))"
 				, e.getClass().getSimpleName(), e.getMessage())).queue();
 
 			LOGGER.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
@@ -249,14 +249,15 @@ public class MantaroListener implements EventListener {
 
 	private void onJoin(GuildJoinEvent event) {
 		TextChannel tc = getLogChannel();
+		String hour = df.format(new Date(System.currentTimeMillis()));
 
 		if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
 			event.getGuild().leave().queue();
-			tc.sendMessage(String.format(EmoteReference.MEGA + "I left a guild with name: ``%s`` (%s members) since it was blacklisted.", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			return;
 		}
 
-		tc.sendMessage(String.format(EmoteReference.MEGA + "I joined a new guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 
 		GuildStatsManager.log(LoggedEvent.JOIN);
@@ -264,8 +265,10 @@ public class MantaroListener implements EventListener {
 
 	private void onLeave(GuildLeaveEvent event) {
 		TextChannel tc = getLogChannel();
+		String hour = df.format(new Date(System.currentTimeMillis()));
+
 		if (event.getGuild().getMembers().isEmpty()) {
-			tc.sendMessage(String.format(EmoteReference.THINKING + "A guild with name: ``%s`` just got deleted.", event.getGuild().getName())).queue();
+			tc.sendMessage(String.format(EmoteReference.THINKING + "[%s] A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
 			logTotal++;
 			return;
 		}
@@ -278,6 +281,7 @@ public class MantaroListener implements EventListener {
 
 	private void onUserJoin(GuildMemberJoinEvent event) {
 		String role = MantaroData.getData().get().getGuild(event.getGuild(), false).autoRole;
+		String hour = df.format(new Date(System.currentTimeMillis()));
 		if (role != null) {
 			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> LOGGER.debug("Successfully added a new role to " + event.getMember()), error -> {
 				if (error instanceof PermissionException) {
@@ -293,7 +297,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
+			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
 			logTotal++;
 		}
 	}

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
@@ -24,24 +25,25 @@ public class Pokemon extends Game {
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() && player.getGame() == GameReference.TRIVIA
+		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
+				player.getGame() == type()
 				&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, this, false);
+			endGame(event, player, false);
 			return;
 		}
 
 		if (attempts > maxAttempts) {
 			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, this, false);
+			endGame(event, player, false);
 			return;
 		}
 
 		if (event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
-			onSuccess(player, this, event);
+			onSuccess(player, event);
 			return;
 		}
 
@@ -62,11 +64,12 @@ public class Pokemon extends Game {
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
 
-			event.getChannel().sendMessage("Who's that pokemon?. You have 10 attempts to do it. (Type end to end the game)\n" + pokemonImage).queue();
+			event.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", event.getJDA().getSelfUser().getAvatarUrl())
+					.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
 
 			return true;
 		} catch (Exception e) {
-			onError(LOGGER, event, this, player, e);
+			onError(LOGGER, event, player, e);
 			return false;
 		}
 	}

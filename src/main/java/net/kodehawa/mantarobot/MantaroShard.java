@@ -12,12 +12,16 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 public class MantaroShard {
 	private final Logger LOGGER;
@@ -129,5 +133,21 @@ public class MantaroShard {
 				}
 			}, 3600);
 		}
+	}
+
+	public void updateStatus(){
+		Data data = MantaroData.getData().get();
+		Random r = new Random();
+		List<String> splashes = MantaroData.getSplashes().get();
+		if (splashes.removeIf(s -> s == null || s.isEmpty())) MantaroData.getSplashes().save();
+
+		Runnable changeStatus = () -> {
+			String newStatus = splashes.get(r.nextInt(splashes.size()));
+			getJDA().getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus + " | [" + getId() + "]"));
+			LOGGER.info("Changed status to: " + newStatus);
+		};
+
+		changeStatus.run();
+		Async.task("Splash Thread", changeStatus, 600);
 	}
 }
