@@ -2,30 +2,26 @@
 # MantaroBot
 **Anime, Music, Moderation, weather information, osu! and everything you might want in a customizable and stable bot**
 
-### Using the Official Mantaro
-[***Click Here. No, seriously. This is the only step to add Mantaro to your server!***](http://polr.me/mantaro)
+### Using the Official Mantaro Bot
+[***Just one click and you can add Mantaro to your own server ^_^***](http://polr.me/mantaro)
 
 ### Building it your own
 **WARNING**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
-don't recommend trying to do this as Mantaro isn't documented in the slightest and also some builds here might be extremely unstable or outright untested due to the nature of our collaborative work.
-Also you are going to need a couple of API keys including **but not limited to**: osu!API, AniList API and OpenWeatherMap API keys, which are *your* responsability to get.
-__You have been warned__.
+**do not** recommend compiling Mantaro, as it is **not** documented and some builds here might be extremely unstable or untested.
+If you still want to build your own Mantaro instance, you will need API keys from the following services, **but not limited to**: osu!API, AniList API, and OpenWeatherMap API keys, which are *your* responsability to obtain.
+__We will **not** help you with this process__.
 
-1. Clone this repository somewhere.
-2. Open a Terminal in the newest folder.
+1. Clone this repository.
+2. Open a Terminal in the root folder.
 3. Run `gradlew build`
 4. Grab the `-all.jar` jar in `build/libs`
-5. Run it and prepare yourself to start filling configs.
+5. Run it and prepare yourself to start filling configs [rip].
 
 
-###Please, don't be a dick. If you're gonna use something from here, credit us. Take your time to read the full license too so you don't expect anything coming from us. We don't mind you using anything here as long as it's not a blatant copy nor a copy without credits.
+###Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, as it *is* open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
 
 #### Konachan notice (net.kodehawa.lib.imageboard.konachan)
 That package is a port of the [**original konachan library**](https://github.com/Mxrck/KonachanLib) to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.
-
-**To marcomaldonado: Si tienes algun problema con esta implementación, hazmelo saber**
-
-
 
 ### Demo:
 <img align="center" src="http://i.imgur.com/QgPQE8J.png" height="500" width="1000">
@@ -46,4 +42,4 @@ _Copyright (C) 2016-2017 **David Alejandro Rubio Escares**/**Kodehawa**_
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-([Full License can be found here](https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE))
+([The Full License can be found here](https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE))
