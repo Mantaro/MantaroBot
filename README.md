@@ -4,7 +4,7 @@
 **Anime, Music, Moderation, weather information, osu! and everything you might want in a customizable and stable bot**
 
 ### Using the Official Mantaro Bot
-[***Just one click and you can add Mantaro to your own server ^_^***](http://polr.me/mantaro)
+***Just one [click](http://polr.me/mantaro) and you can add Mantaro to your own server ^_^***]
 
 ### Building it your own
 **WARNING**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
