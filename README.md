@@ -6,7 +6,7 @@
 ### Using the Official Mantaro Bot
 ***Just one [click](http://polr.me/mantaro) and you can add Mantaro to your own server ^_^***
 
-### Building it your own
+### Building Mantaro on your own
 **WARNING**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
 **do not** recommend compiling Mantaro, as it is **not** documented and some builds here might be extremely unstable or untested.
 If you still want to build your own Mantaro instance, you will need API keys from the following services, **but not limited to**: osu!API, AniList API, and OpenWeatherMap API keys, which are *your* responsability to obtain.
@@ -19,7 +19,7 @@ __We will **not** help you with this process__.
 5. Run it and prepare yourself to start filling configs [rip].
 
 
-###Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, as it *is* open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
+### Give credit where credit is due. If you wish to use our code in a project, **please** credit us, and take your time to read our full license. We don't mind you using Mantaro code, as it *is* open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.
 
 #### Konachan notice (net.kodehawa.lib.imageboard.konachan)
 That package is a port of the [**original konachan library**](https://github.com/Mxrck/KonachanLib) to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.
