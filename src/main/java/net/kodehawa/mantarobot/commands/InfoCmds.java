@@ -387,6 +387,7 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
+					GuildStatsManager.MILESTONE = (((MantaroBot.getInstance().getGuilds().size() + 99) / 100 ) * 100) + 100;
 					List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
 					List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
@@ -420,6 +421,8 @@ public class InfoCmds extends Module {
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
+							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
+									, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()
 					).queue();
 					TextChannelWorld.of(event).dropItemWithChance(4, 5);

@@ -517,7 +517,6 @@ public class RPGCmds extends Module {
 							return;
 						}
 					}
-					return;
 				}
 
 				EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");

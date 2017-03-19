@@ -28,10 +28,11 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	protected void append(ILoggingEvent event) {
 		if (!enabled) return;
 		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
-		//Editing has ratelimit, so just ignore if the last message = new message.
+		String toSend = patternLayout.doLayout(event);
 		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
+		if(toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
 		channelShard = Arrays.stream(MantaroBot.getInstance().getShards()).filter(mantaroShard -> mantaroShard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null);
-		channelShard.getJDA().getTextChannelById("266231083341840385").sendMessage(patternLayout.doLayout(event)).queue();
+		channelShard.getJDA().getTextChannelById("266231083341840385").sendMessage(toSend).queue();
 		previousEvent = event;
 	}
 

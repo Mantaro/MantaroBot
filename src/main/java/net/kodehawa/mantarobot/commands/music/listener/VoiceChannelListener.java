@@ -79,7 +79,6 @@ public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEve
 		if (timer.isExpiring(guild.getId())) return;
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
 		if (musicManager.getTrackScheduler().isStopped()) return;
-		if(musicManager.getTrackScheduler().getCurrentTrack() == null) return;
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(true);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 		if (channel != null && channel.canTalk())

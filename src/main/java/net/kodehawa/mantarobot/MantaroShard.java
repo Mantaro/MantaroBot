@@ -64,9 +64,7 @@ public class MantaroShard {
 			.setEventManager(new InterfacedEventManager() {
 				@Override
 				public void handle(Event event) {
-					Async.thread("Async EventHandling", () -> {
-						super.handle(event);
-					});
+					Async.thread("Async EventHandling", () -> super.handle(event));
 				}
 			})
 			.setAutoReconnect(true)
