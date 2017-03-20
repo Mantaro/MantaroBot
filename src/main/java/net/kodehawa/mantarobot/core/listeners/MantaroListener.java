@@ -129,6 +129,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void logDelete(GuildMessageDeleteEvent event) {
+		if(event.getJDA().getSelfUser().getId().equals(event.getAuthor().getId())) return;
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
