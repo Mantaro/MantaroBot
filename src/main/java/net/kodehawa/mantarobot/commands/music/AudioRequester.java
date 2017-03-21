@@ -25,7 +25,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 	private GuildMusicManager musicManager;
 	private String trackUrl;
 
-	public AudioRequester(GuildMusicManager musicManager, GuildMessageReceivedEvent event, String trackUrl) {
+	AudioRequester(GuildMusicManager musicManager, GuildMessageReceivedEvent event, String trackUrl) {
 		this.musicManager = musicManager;
 		this.trackUrl = trackUrl;
 		this.event = event;
