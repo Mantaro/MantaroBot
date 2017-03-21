@@ -66,6 +66,12 @@ public class UtilsCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 
+				if(content.startsWith("remove")){
+					EntityPlayerMP.getPlayer(event.getAuthor()).setBirthdayDate(null).save();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.").queue();
+					return;
+				}
+
 				if (content.startsWith("month")) {
 					Map<String, String> closeBirthdays = new HashMap<>();
 					final int currentMonth = Integer.parseInt(String.format("%02d", Calendar.MONTH));
@@ -114,7 +120,7 @@ public class UtilsCmds extends Module {
 					.addField("Usage", "~>birthday <date>. Sets your birthday date. Only useful if the server enabled this functionality"
 						+ "**Parameter explanation:**\n"
 						+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
-					.addField("Tip", "To see birthdays this month do ~>birthday month", false)
+					.addField("Tip", "To see birthdays this month do ~>birthday month\nTo remove your birthday date do ~>birthday remove", false)
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}

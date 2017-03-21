@@ -142,7 +142,13 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if(content.isEmpty()){
-					onHelp(event);
+					StringBuilder builder = new StringBuilder();
+					for(MantaroShard shard : MantaroBot.getInstance().getShardList()){
+						builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
+								.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append("\n");
+					}
+
+					event.getChannel().sendMessage(String.format("```prolog\n%s```", builder.toString())).queue();
 					return;
 				}
 

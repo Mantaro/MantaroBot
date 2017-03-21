@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.*;
 
 public class MantaroListener implements EventListener {
@@ -258,6 +259,11 @@ public class MantaroListener implements EventListener {
 		TextChannel tc = getLogChannel();
 		String hour = df.format(new Date(System.currentTimeMillis()));
 
+		if(event.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusMinutes(1))){
+			LOGGER.debug("Received an Join Event for an already joined guild (" + event.getGuild().getName() + ")");
+			return;
+		}
+
 		if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
 			event.getGuild().leave().queue();
 			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
@@ -280,7 +286,7 @@ public class MantaroListener implements EventListener {
 			return;
 		}
 
-		tc.sendMessage(String.format(EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		tc.sendMessage(String.format("[%s] " + EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 
 		GuildStatsManager.log(LoggedEvent.LEAVE);

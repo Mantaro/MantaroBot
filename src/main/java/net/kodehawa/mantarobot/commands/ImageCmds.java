@@ -371,41 +371,46 @@ public class ImageCmds extends Module {
 						break;
 
 					case "tags":
-						try {
-							boolean isOldFormat = args[1].matches("^[0-9]*$");
-							if (isOldFormat) {
-								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>rule34 tags <tag>").queue();
-								return;
-							}
+						try{
 
-							String sNoArgs = content.replace("tags ", "");
-							String[] expectedNumber = sNoArgs.split(" ");
-							String tags = expectedNumber[0];
-
-							Rule34.onSearch(60, tags, images -> {
-								try {
-									number1 = Integer.parseInt(expectedNumber[2]);
-								} catch (Exception e) {
-									number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
+							try {
+								boolean isOldFormat = args[1].matches("^[0-9]*$");
+								if (isOldFormat) {
+									event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>rule34 tags <tag>").queue();
+									return;
 								}
 
-								String TAGS = images.get(number).getTags().replace(" ", " ,");
+								String sNoArgs = content.replace("tags ", "");
+								String[] expectedNumber = sNoArgs.split(" ");
+								String tags = expectedNumber[0];
 
-								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", null, "http://" + images.get(number1 - 1).getFile_url())
-									.setImage("http://" + images.get(number1 - 1).getFile_url())
-									.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
-									.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
-									.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-									.setFooter("If the image doesn't load, click the title.", null);
+								Rule34.onSearch(60, tags, images -> {
+									try {
+										number1 = Integer.parseInt(expectedNumber[2]);
+									} catch (Exception e) {
+										number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
+									}
 
-								event.getChannel().sendMessage(builder.build()).queue();
-							});
-						} catch (Exception exception) {
-							if (exception instanceof NumberFormatException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue();
-							if (exception instanceof IndexOutOfBoundsException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+									String TAGS = images.get(number).getTags().replace(" ", " ,");
+
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", null, "http://" + images.get(number1 - 1).getFile_url())
+											.setImage("http://" + images.get(number1 - 1).getFile_url())
+											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
+											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
+											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+											.setFooter("If the image doesn't load, click the title.", null);
+
+									event.getChannel().sendMessage(builder.build()).queue();
+								});
+							} catch (Exception exception) {
+								if (exception instanceof NumberFormatException)
+									event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue();
+								if (exception instanceof IndexOutOfBoundsException)
+									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+							}
+						} catch (NullPointerException e){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Rule34 decided to not fetch the image. Well, you can try with another number or tag.").queue();
 						}
 						break;
 					default:

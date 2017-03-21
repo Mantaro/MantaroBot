@@ -21,35 +21,41 @@ public abstract class Game {
 		return TextChannelWorld.of(event.getChannel()).getRunningGames().isEmpty();
 	}
 
-	protected void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {
-		TextChannelWorld.of(event.getChannel()).getRunningGames().clear();
+	protected void endGame(TextChannelWorld world, GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {
 		player.setCurrentGame(null, event.getChannel());
 		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 120 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
 		event.getChannel().sendMessage(toSend).queue();
+		world.getRunningGames().clear();
 	}
 
 	protected void onError(Logger logger, GuildMessageReceivedEvent event, EntityPlayer player, Exception e) {
+		TextChannelWorld world = TextChannelWorld.of(event.getChannel());
 		event.getChannel().sendMessage(EmoteReference.ERROR + "We cannot start this game due to an unknown error. My owners have been notified.").queue();
 		if (e == null) logger.error("Error while setting up/handling a game");
 		else logger.error("Error while setting up/handling a game", e);
-		endGame(event, player, false);
+		endGame(world, event, player, false);
+		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear(); //You might think this is redundant, but it actually happens.
 	}
 
 	protected void onSuccess(EntityPlayer player, GuildMessageReceivedEvent event, double multiplier) {
+		TextChannelWorld world = TextChannelWorld.of(event.getChannel());
 		long moneyAward = Math.min((long) ((player.getMoney() * multiplier) + new Random().nextInt(350)), 1500);
 		event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
 		player.addMoney(moneyAward);
 		player.setCurrentGame(null, event.getChannel());
 		player.save();
-		endGame(event, player, false);
+		endGame(world, event, player, false);
+		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear();
 	}
 
 	protected void onSuccess(EntityPlayer player, GuildMessageReceivedEvent event) {
+		TextChannelWorld world = TextChannelWorld.of(event.getChannel());
 		long moneyAward = Math.min((long) ((player.getMoney() * 0.1) + new Random().nextInt(350)), 1500);
 		event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
 		player.addMoney(moneyAward);
 		player.setCurrentGame(null, event.getChannel());
 		player.save();
-		endGame(event, player, false);
+		endGame(world, event, player, false);
+		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear();
 	}
 }

@@ -37,6 +37,7 @@ public class MusicCmds extends Module {
 		removetrack();
 		shuffle();
 		skip();
+		forceskip();
 		//volume();
 		repeat();
 		move();
@@ -109,7 +110,10 @@ public class MusicCmds extends Module {
 					return;
 				}
 
-				event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Now playing ->``%s (%s)``", musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title, Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length))).queue();
+				event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Now playing -> ``%s (%s/%s)``",
+						musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title,
+						Utils.getDurationMinutes(musicManager.getTrackScheduler().getCurrentTrack().getPosition()),
+						Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration()))).queue();
 				TextChannelWorld.of(event).dropItemWithChance(0, 10);
 			}
 
@@ -169,20 +173,45 @@ public class MusicCmds extends Module {
 				try {
 					new URL(content);
 				} catch (Exception e) {
-					content = "ytsearch: " + content;
+					if(content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+					else content = "ytsearch: " + content;
 				}
 
 				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content);
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelWorld.of(event).dropItemWithChance(0, 5);
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Play Command")
 					.addField("Description", "Plays a song in the music voice channel.", false)
-					.addField("Usage:", "~>play <song url> (Can be a YouTube song, a playlist or a search)", false).build();
+					.addField("Usage", "~>play <song url> (Can be a YouTube song, a playlist or a search)", false)
+					.addField("Tip", "If you do ~>play <search term> it will search on youtube (default), " +
+							"but if you do ~>play soundcloud <search term> it will search on soundcloud.", false)
+					.build();
 			}
 
+		});
+	}
+
+	public void forceskip(){
+		super.register("forceskip", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin has decided to skip.").queue();
+				scheduler.next(true);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Force skip").setDescription("Well, administrators should be able to forceskip, shouldn't they?").build();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.ADMIN;
+			}
 		});
 	}
 
@@ -213,11 +242,6 @@ public class MusicCmds extends Module {
 					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				}
 				TextChannelWorld.of(event).dropItemWithChance(0, 10);
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
 			}
 		});
 	}
@@ -352,8 +376,9 @@ public class MusicCmds extends Module {
 						return;
 					}
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
-					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())) {
-						event.getChannel().sendMessage("The song DJ has decided to skip!").queue();
+					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())
+							|| event.getMember().isOwner()) {
+						event.getChannel().sendMessage(event.getMember().isOwner() ? "The guild owner has decided to skip." : "The song DJ has decided to skip!").queue();
 						scheduler.next(true);
 						return;
 					}

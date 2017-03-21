@@ -540,9 +540,9 @@ public class ModerationCmds extends Module {
 				}
 				channel.getHistory().retrievePast(Math.min(i, 100)).queue(
 					messageHistory -> {
-						OffsetDateTime limit = OffsetDateTime.now().minusWeeks(2);
+						OffsetDateTime limit = OffsetDateTime.now().minusWeeks(1);
 						List<Message> messages = messageHistory.stream()
-							.filter(message -> message.getCreationTime().isAfter(limit))
+							.filter(message -> message.getCreationTime().isBefore(limit))
 							.collect(Collectors.toList());
 
 						if (messages.size() < 1) {
