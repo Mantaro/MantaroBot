@@ -51,6 +51,7 @@ public class Trivia extends Game {
 			}
 
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "That was it! Now you have to reply " + (maxAnswers - triviaAnswers) + " questions more to get the big prize! Type end to give up.").queue();
+			triviaAnswers++;
 			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
 			expectedAnswer = data[1];
 			event.getChannel().sendMessage(EmoteReference.THINKING + data[0]).queue();
@@ -72,7 +73,7 @@ public class Trivia extends Game {
 			expectedAnswer = data[1];
 
 			event.getChannel().sendMessage(EmoteReference.THINKING + data[0] + " (Type end to end the game)").queue();
-
+			super.onStart(TextChannelWorld.of(event.getChannel()), event, player);
 			return true;
 		} catch (Exception e) {
 			onError(LOGGER, event, player, e);

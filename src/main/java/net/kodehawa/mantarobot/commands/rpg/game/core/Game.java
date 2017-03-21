@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.rpg.game.core;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
@@ -8,6 +9,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public abstract class Game {
 
@@ -21,11 +23,25 @@ public abstract class Game {
 		return TextChannelWorld.of(event.getChannel()).getRunningGames().isEmpty();
 	}
 
-	protected void endGame(TextChannelWorld world, GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {
+	protected void onStart(TextChannelWorld world, GuildMessageReceivedEvent event, EntityPlayer player){
+		Async.task("Game timer.", (scheduler) -> scheduler.scheduleAtFixedRate(() ->{
+			if(!world.getRunningGames().isEmpty()) endGame(event, player, true);
+			scheduler.shutdown();
+		}, 120, 1, TimeUnit.SECONDS), 120);
+	}
+
+	private void endGame(TextChannelWorld world, GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {
 		player.setCurrentGame(null, event.getChannel());
 		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 120 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
 		event.getChannel().sendMessage(toSend).queue();
 		world.getRunningGames().clear();
+	}
+
+	protected void endGame(GuildMessageReceivedEvent event, EntityPlayer player, boolean isTimeout) {
+		player.setCurrentGame(null, event.getChannel());
+		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 120 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
+		event.getChannel().sendMessage(toSend).queue();
+		TextChannelWorld.of(event.getChannel()).getRunningGames().clear();
 	}
 
 	protected void onError(Logger logger, GuildMessageReceivedEvent event, EntityPlayer player, Exception e) {

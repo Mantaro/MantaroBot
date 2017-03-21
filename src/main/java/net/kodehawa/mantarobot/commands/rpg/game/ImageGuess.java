@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
@@ -74,11 +75,9 @@ public class ImageGuess extends Game {
 			characterName = character[0].getName_first();
 			if (characterName.equals("Takane")) characterName = "Ene";
 
-			event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Guess the character! You have 60 seconds and 10 attempts. Type end to end the game.").queue();
-
 			event.getChannel().sendMessage(new EmbedBuilder().setTitle("Guess the character", event.getJDA().getSelfUser().getAvatarUrl())
 											.setImage(imageUrl).setFooter("You have 120 seconds to answer. (Type end to end the game)", null).build()).queue();
-
+			super.onStart(TextChannelWorld.of(event.getChannel()), event, player);
 			return true;
 		} catch (Exception e) {
 			onError(LOGGER, event, player, e);
