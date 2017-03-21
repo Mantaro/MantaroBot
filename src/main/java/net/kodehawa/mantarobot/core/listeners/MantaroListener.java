@@ -138,7 +138,7 @@ public class MantaroListener implements EventListener {
 
 	private void logDelete(GuildMessageDeleteEvent event) {
 		try {
-			if(event.getMessage().getContent().contains("Now playing in")) return;
+
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 			if (logChannel != null) {
@@ -146,7 +146,13 @@ public class MantaroListener implements EventListener {
 				Message deletedMessage = messageCache.get(event.getMessageId());
 				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
-					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
+					if(deletedMessage.getContent().contains("Now playing in")){
+						return;
+					}
+					tc.sendMessage(String.format(EmoteReference.WARNING +
+							"`[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(),
+							deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", "")))
+							.queue();
 				}
 			}
 		} catch (Exception e) {
@@ -273,11 +279,11 @@ public class MantaroListener implements EventListener {
 
 		if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
 			event.getGuild().leave().queue();
-			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			return;
 		}
 
-		tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 
 		GuildStatsManager.log(LoggedEvent.JOIN);
@@ -288,7 +294,7 @@ public class MantaroListener implements EventListener {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 
 		if (event.getGuild().getMembers().isEmpty()) {
-			tc.sendMessage(String.format(EmoteReference.THINKING + "[%s] A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
+			tc.sendMessage(String.format(EmoteReference.THINKING + "`[%s]` A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
 			logTotal++;
 			return;
 		}
@@ -317,7 +323,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
+			tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
 			logTotal++;
 		}
 	}
@@ -327,7 +333,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just leaved.").queue();
+			tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just leaved.").queue();
 			logTotal++;
 		}
 	}
