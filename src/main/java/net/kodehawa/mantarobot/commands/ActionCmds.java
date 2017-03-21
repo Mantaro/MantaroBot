@@ -127,6 +127,7 @@ public class ActionCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				User author = event.getAuthor();
+
 				TextChannel channel = event.getChannel();
 				List<String> hugs = MantaroData.getHugs().get();
 				String hString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
@@ -137,6 +138,9 @@ public class ActionCmds extends Module {
 				}
 
 				String hug = String.format(EmoteReference.TALKING + "%s you have been hugged by %s", hString, author.getAsMention());
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					hug = EmoteReference.TALKING + "Are you lonely? Take a hug! <3";
+				}
 				channel.sendFile(toSend, "hug.gif", new MessageBuilder().append(hug).build()).queue();
 			}
 
@@ -170,6 +174,10 @@ public class ActionCmds extends Module {
 					return;
 				}
 				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s", kString, author.getAsMention());
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					kiss = EmoteReference.TALKING + "Are you lonely? Take a kiss! <3";
+				}
+
 				channel.sendFile(toSend, "kiss.gif", new MessageBuilder().append(kiss).build()).queue();
 			}
 
@@ -258,6 +266,10 @@ public class ActionCmds extends Module {
 				}
 
 				String pat = String.format(EmoteReference.TALKING + "%s you have been patted by %s", pString, author.getAsMention());
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					pat = EmoteReference.TALKING + "Are you lonely? Take a pat, cutie! <3";
+				}
+
 				channel.sendFile(toSend, "pat.gif", new MessageBuilder().append(pat).build()).queue();
 			}
 
