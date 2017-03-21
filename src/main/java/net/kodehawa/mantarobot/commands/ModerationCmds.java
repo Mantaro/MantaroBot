@@ -540,17 +540,19 @@ public class ModerationCmds extends Module {
 				}
 				channel.getHistory().retrievePast(Math.min(i, 100)).queue(
 					messageHistory -> {
-						OffsetDateTime limit = OffsetDateTime.now().minusWeeks(1);
-						List<Message> messages = messageHistory.stream()
-							.filter(message -> message.getCreationTime().isBefore(limit))
-							.collect(Collectors.toList());
+						messageHistory = messageHistory.stream().filter(message -> !message.getCreationTime()
+								.isBefore(OffsetDateTime.now().minusWeeks(2)))
+								.collect(Collectors.toList());
 
-						if (messages.size() < 1) {
+						if (messageHistory.isEmpty()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, discord won't let me delete them.").queue();
 							return;
 						}
+
+						final int size = messageHistory.size();
+
 						channel.deleteMessages(messageHistory).queue(
-							success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + messages.size() + " messages").queue(),
+							success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages").queue(),
 							error -> {
 								if (error instanceof PermissionException) {
 									PermissionException pe = (PermissionException) error;
