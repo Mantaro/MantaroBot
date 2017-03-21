@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
@@ -54,7 +55,7 @@ public class MantaroListener implements EventListener {
 
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 	Random r = new Random();
-	private int logChannelShardId;
+	private static int logChannelShardId;
 
 	public MantaroListener() {
 		logChannelShardId = Arrays.stream(MantaroBot.getInstance().getShards()).filter(shard -> shard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null).getId();
@@ -85,6 +86,12 @@ public class MantaroListener implements EventListener {
 			return;
 		}
 
+		if (event instanceof GuildMemberLeaveEvent) {
+			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onUserLeave((GuildMemberLeaveEvent) event));
+			return;
+		}
+
+
 		if (event instanceof GuildUnbanEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logUnban((GuildUnbanEvent) event));
 			return;
@@ -109,7 +116,7 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	public TextChannel getLogChannel() {
+	public static TextChannel getLogChannel() {
 		return MantaroBot.getInstance().getShard(logChannelShardId).getJDA().getTextChannelById("266231083341840385");
 	}
 
@@ -131,7 +138,7 @@ public class MantaroListener implements EventListener {
 
 	private void logDelete(GuildMessageDeleteEvent event) {
 		try {
-			if(event.getJDA().getSelfUser().getId().equals(event.getAuthor().getId())) return;
+			if(event.getMessage().getContent().contains("Now playing in")) return;
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 			if (logChannel != null) {
@@ -311,6 +318,16 @@ public class MantaroListener implements EventListener {
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
+			logTotal++;
+		}
+	}
+
+	private void onUserLeave(GuildMemberLeaveEvent event) {
+		String hour = df.format(new Date(System.currentTimeMillis()));
+		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
+		if (logChannel != null) {
+			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just leaved.").queue();
 			logTotal++;
 		}
 	}

@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.awt.Color;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,11 @@ public class EmbedJSON {
 		if (image != null) embed.setImage(image);
 		if (thumbnail != null) embed.setThumbnail(thumbnail);
 		if (color != null) {
-			Color c = Color.getColor(color);
+			Color c = null;
+			try{
+				final Field f = Color.class.getField(color);
+				c = (Color) f.get(null);
+			} catch (Exception ignored){}
 			if (c != null) embed.setColor(c);
 		}
 

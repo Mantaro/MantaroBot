@@ -48,6 +48,12 @@ public class MusicCmds extends Module {
 		super.register("move", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
+
 				Guild guild = event.getGuild();
 				if (content.isEmpty()) {
 					AudioManager am = guild.getAudioManager();
@@ -141,6 +147,11 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 				boolean paused = !musicManager.getTrackScheduler().getAudioPlayer().isPaused();
 				String toSend = EmoteReference.MEGA + (paused ? "Player paused." : "Player unpaused.");
@@ -198,6 +209,11 @@ public class MusicCmds extends Module {
 		super.register("forceskip", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
 				TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin has decided to skip.").queue();
 				scheduler.next(true);
@@ -262,6 +278,11 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
 				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueueAsList(list -> {
 					int i;
 					try {
@@ -303,6 +324,11 @@ public class MusicCmds extends Module {
 		super.register("repeat", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 				switch (args[0].toLowerCase()) {
 					case "queue":
@@ -348,6 +374,11 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
 				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().shuffle();
 				event.getChannel().sendMessage(EmoteReference.OK + "Randomized current queue order.").queue();
 				TextChannelWorld.of(event).dropItemWithChance(0, 10);
@@ -419,6 +450,13 @@ public class MusicCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
+
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 				if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
 					musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
@@ -441,6 +479,11 @@ public class MusicCmds extends Module {
 		super.register("volume", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage("You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
 				AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
 
 				if (args[0].equals("check")) {
