@@ -527,6 +527,10 @@ public class ModerationCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
+				if (content.isEmpty()) {
+					channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
+					return;
+				}
 
 				if(content.startsWith("bot")) {
 					channel.getHistory().retrievePast(100).queue(
@@ -565,16 +569,10 @@ public class ModerationCmds extends Module {
 					);
 					return;
 				}
-
 				int i = Integer.parseInt(content);
 
-				if (content.isEmpty()) {
-					channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
-					return;
-				}
-
-				if (i <= 3) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 4 messages.").queue();
+				if (i <= 5) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
 					return;
 				}
 

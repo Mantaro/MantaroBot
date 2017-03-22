@@ -66,6 +66,10 @@ public class UtilsCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 
+				if(content.isEmpty()){
+					onHelp(event);
+				}
+
 				if(content.startsWith("remove")){
 					EntityPlayerMP.getPlayer(event.getAuthor()).setBirthdayDate(null).save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.").queue();
@@ -195,9 +199,9 @@ public class UtilsCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Math command")
-					.setDescription("Does your math work.")
+					.setDescription("Does your math work (kinda).")
 					.addField("Possible arguments", "You can find a list of possible arguments on: https://hastebin.com/ayafikamip.vbs", true)
-					.addField("Warning", "The floating point precision is set to 15 with a upwards rounding", true)
+					.addField("Warning", "The floating point precision is set to 15 with a upwards rounding\nEquations not supported.", true)
 					.build();
 			}
 		});

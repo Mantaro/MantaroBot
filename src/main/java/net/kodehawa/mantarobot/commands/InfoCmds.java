@@ -408,7 +408,9 @@ public class InfoCmds extends Module {
 					CalculatedIntValues voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
 					int c = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
 						voiceChannel.getGuild().getSelfMember())).count();
+					long exclusiveness = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
 					double cG = (double) c / (double) guilds.size() * 100;
+					double ex = (double) exclusiveness / (double) guilds.size() * 100;
 
 					event.getChannel().sendMessage(
 						new EmbedBuilder()
@@ -427,6 +429,7 @@ public class InfoCmds extends Module {
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
+							.addField("Exclusiveness per Total Guilds", ex + "% (" + exclusiveness + ")", true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
 									, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()
@@ -545,10 +548,7 @@ public class InfoCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Statistics command")
 					.setDescription("Returns bot, usage or vps statistics")
-					.addField("Usage", "~>stats <bot/usage/vps/cmds/guilds>", true)
-					.addField("Parameters", "bot: returns the bot statistics\n" +
-						"usage: returns the resources used by the bot\n" +
-						"vps: returns how much of the vps resources are used.", true)
+					.addField("Usage", "~>stats <usage/vps/cmds/guilds>", true)
 					.build();
 			}
 		});
