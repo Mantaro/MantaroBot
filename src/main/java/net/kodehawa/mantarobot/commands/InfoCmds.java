@@ -71,6 +71,29 @@ public class InfoCmds extends Module {
 		info();
 		stats();
 		shard();
+		invite();
+	}
+
+	private void invite(){
+		super.register("invite", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
+						.addField("OAuth Invite URL", "http://polr.me/mantaro", false)
+						.addField("Support Guild Invite", "https://discordapp.com/invite/cMTmuPa", false)
+						.addField("Patreon URL", "http://patreon.com/mantaro", false)
+						.setDescription("Here are some useful links related to mantaro. If you have any questions about the bot feel free to join the support guild." +
+								"\nWe provided a patreon link in case you want to donate to keep mantaro running. Thanks you in advance for using the bot! <3")
+						.setFooter("Hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
+						.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Invite command")
+						.setDescription("Gives you a bot OAuth invite link.").build();
+			}
+		});
 	}
 
 	private void about() {
@@ -79,7 +102,26 @@ public class InfoCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 
 				if(!content.isEmpty() && args[0].equals("patreon")){
-					//TODO ~>about patreon
+					//TODO should do with db.
+					EmbedBuilder builder = new EmbedBuilder();
+					builder.setAuthor("Patreon supporters.", null, event.getJDA().getSelfUser().getAvatarUrl())
+							.setDescription("On construction.")
+							.setColor(Color.PINK)
+							.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
+					event.getChannel().sendMessage(builder.build()).queue();
+					return;
+				}
+
+				if(!content.isEmpty() && args[0].equals("credits")){
+					EmbedBuilder builder = new EmbedBuilder();
+					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
+							.setColor(Color.BLUE)
+							.setDescription("**Main developer**: Kodehawa#3457\n"
+							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289")
+							.addField("Special mentions",
+									"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping with bot visibility.", false)
+							.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
+					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
 
@@ -101,7 +143,8 @@ public class InfoCmds extends Module {
 						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
 						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
-						" [Support the bot development!](https://www.patreon.com/mantaro)"
+						" [Support the bot development!](https://www.patreon.com/mantaro)\n\n" +
+						EmoteReference.POPPER + "Bot made by Kodehawa#3457 and AdrianTodt#0722"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
