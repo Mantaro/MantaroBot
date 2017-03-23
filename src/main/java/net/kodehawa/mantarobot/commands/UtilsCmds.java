@@ -68,6 +68,7 @@ public class UtilsCmds extends Module {
 
 				if(content.isEmpty()){
 					onHelp(event);
+					return;
 				}
 
 				if(content.startsWith("remove")){
@@ -121,7 +122,7 @@ public class UtilsCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Birthday")
 					.setDescription("Sets your birthday date.\n")
-					.addField("Usage", "~>birthday <date>. Sets your birthday date. Only useful if the server enabled this functionality"
+					.addField("Usage", "~>birthday <date>. Sets your birthday date. Only useful if the server enabled this functionality\n"
 						+ "**Parameter explanation:**\n"
 						+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
 					.addField("Tip", "To see birthdays this month do ~>birthday month\nTo remove your birthday date do ~>birthday remove", false)
