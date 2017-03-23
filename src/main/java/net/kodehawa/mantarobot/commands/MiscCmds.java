@@ -77,7 +77,6 @@ public class MiscCmds extends Module {
 				return helpEmbed(event, "Misc Commands")
 					.setDescription("Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot hardware information\n"
 						+ "Usage:\n"
-						+ "~>misc rob <@user>: Rob random amount of money from a user.\n"
 						+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
 						+ "~>misc noble: Random Lost Pause quote.\n"
 						+ "~>misc rndcolor: Gives you a random hex color.\n"
@@ -89,15 +88,9 @@ public class MiscCmds extends Module {
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String mentioned = "";
-				if (!event.getMessage().getMentionedUsers().isEmpty())
-					mentioned = event.getMessage().getMentionedUsers().get(0).getAsMention();
 				TextChannel channel = event.getChannel();
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
-					case "rob":
-						channel.sendMessage(EmoteReference.TALKING + "You robbed **" + new Random().nextInt(1000) + "USD** from " + mentioned).queue();
-						break;
 					case "reverse":
 						String stringToReverse = content.replace("reverse ", "");
 						String reversed = new StringBuilder(stringToReverse).reverse().toString();
