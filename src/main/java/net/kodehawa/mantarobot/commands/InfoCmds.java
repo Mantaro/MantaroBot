@@ -377,7 +377,7 @@ public class InfoCmds extends Module {
 				event.getChannel().sendMessage("```prolog\n"
 					+ "---MantaroBot Technical Information---\n\n"
 					+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
-					+ "Bot Version:" + MantaroInfo.VERSION + "\n"
+					+ "Bot Version: " + MantaroInfo.VERSION + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
 					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
 					+ "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
@@ -476,7 +476,7 @@ public class InfoCmds extends Module {
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
 							.addField("Exclusiveness per Total Guilds", ex + "% (" + exclusiveness + ")", true)
-							.addField("Big Guilds", String.valueOf(bG), true)
+							.addField("Big Guilds", String.format("%.1d", bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
 									, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()

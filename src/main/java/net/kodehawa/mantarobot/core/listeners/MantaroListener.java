@@ -299,7 +299,7 @@ public class MantaroListener implements EventListener {
 			return;
 		}
 
-		tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] " + EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+		tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` " + EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
 
 		GuildStatsManager.log(LoggedEvent.LEAVE);
@@ -323,7 +323,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "` just joined `" + event.getGuild().getName() + "`.").queue();
+			tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just joined `" + event.getGuild().getName() + "`.").queue();
 			logTotal++;
 		}
 	}
@@ -333,7 +333,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).logChannel;
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "` just left `" + event.getGuild().getName() + "`.").queue();
+			tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "`.").queue();
 			logTotal++;
 		}
 	}
