@@ -117,7 +117,7 @@ public class InfoCmds extends Module {
 					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
 							.setColor(Color.BLUE)
 							.setDescription("**Main developer**: Kodehawa#3457\n"
-							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289")
+							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289\n**Grammar corrections**: Adam#9261")
 							.addField("Special mentions",
 									"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping with bot visibility.", false)
 							.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
@@ -168,6 +168,7 @@ public class InfoCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "About Command")
 					.addField("Description:", "Sends a message of what the bot is.", false)
+					.addField("Information", "~>about credits sends a message telling who helped on the bot's development, ~>about patreon sends a message with the patreon supporters", false)
 					.setColor(Color.PINK)
 					.build();
 			}
@@ -376,6 +377,7 @@ public class InfoCmds extends Module {
 				event.getChannel().sendMessage("```prolog\n"
 					+ "---MantaroBot Technical Information---\n\n"
 					+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
+					+ "Bot Version:" + MantaroInfo.VERSION + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
 					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
 					+ "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
@@ -454,6 +456,7 @@ public class InfoCmds extends Module {
 					long exclusiveness = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
 					double cG = (double) c / (double) guilds.size() * 100;
 					double ex = (double) exclusiveness / (double) guilds.size() * 100;
+					long bG = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count();
 
 					event.getChannel().sendMessage(
 						new EmbedBuilder()
@@ -473,6 +476,7 @@ public class InfoCmds extends Module {
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
 							.addField("Exclusiveness per Total Guilds", ex + "% (" + exclusiveness + ")", true)
+							.addField("Big Guilds", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
 									, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()

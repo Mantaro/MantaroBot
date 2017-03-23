@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Rule34 {
-	private static final Logger LOGGER = LoggerFactory.getLogger("rule34");
-	private final static Resty resty = new Resty().identifyAsMozilla();
 	private static HashMap<String, Object> queryParams = new HashMap<>();
 
 	public static void get(int limit, HentaiProvider provider) {
@@ -29,9 +27,7 @@ public class Rule34 {
 				if (provider == null) throw new IllegalStateException("Provider is null");
 				List<Hentai> wallpapers = get(limit, search);
 				provider.onSuccess(wallpapers);
-			} catch (Exception ex) {
-				LOGGER.warn("Error while retrieving a image from rule34.", ex);
-			}
+			} catch (Exception ignored) {}
 		});
 	}
 
@@ -45,7 +41,6 @@ public class Rule34 {
 				.header("Content-Type", "text/xml")
 				.asString()
 				.getBody();
-			System.out.println(Utils.paste(response));
 			wallpapers = Utils.XML_MAPPER.readValue(response, Hentai[].class);
 		} catch (Exception e) {
 			e.printStackTrace();
