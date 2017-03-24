@@ -4,7 +4,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.function.BiPredicate;
 
-public class FunctionListener extends OptimizedListener<GuildMessageReceivedEvent> {
+/**
+ * @deprecated use {@link net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations} now
+ */
+@Deprecated public class FunctionListener extends OptimizedListener<GuildMessageReceivedEvent> {
 	private final BiPredicate<FunctionListener, GuildMessageReceivedEvent> eventConsumer;
 	private final String targetChannel;
 	private boolean isDone = false;

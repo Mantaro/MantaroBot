@@ -5,21 +5,26 @@ import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
 
+/**
+ * @deprecated use {@link net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations} now
+ */
+@Deprecated
 public class GameListener extends OptimizedListener<GuildMessageReceivedEvent> {
 
-    public GameListener(){
-        super(GuildMessageReceivedEvent.class);
-    }
+	public GameListener() {
+		super(GuildMessageReceivedEvent.class);
+	}
 
-    @Override
-    public void event(GuildMessageReceivedEvent event) {
-        try{
-            TextChannelWorld world = TextChannelWorld.of(event);
-            if(world.getRunningGames().isEmpty()) return;
-            EntityPlayer player = EntityPlayer.getPlayer(event);
-            if(world == null || player == null || player.getGame() == null) return; //it's not always false, trust me.
+	@Override
+	public void event(GuildMessageReceivedEvent event) {
+		try {
+			TextChannelWorld world = TextChannelWorld.of(event);
+			if (world.getRunningGames().isEmpty()) return;
+			EntityPlayer player = EntityPlayer.getPlayer(event);
+			if (world == null || player == null || player.getGame() == null) return; //it's not always false, trust me.
 
-            world.getRunningGames().get(player).call(event, player);
-        } catch (Exception ignored){}
-    }
+			world.getRunningGames().get(player).call(event, player);
+		} catch (Exception ignored) {
+		}
+	}
 }

@@ -7,20 +7,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-
-	public String alsecret = null;
-	public String carbonToken = null;
-	public String dbotsToken = null;
-	public String dbotsorgToken = null;
-	public String osuApiKey = null;
+	public String alsecret;
+	public String bugreportChannel;
+	public String carbonToken;
+	public String consoleChannel = "266231083341840385";
+	public String crossBotHost;
+	public int crossBotPort;
+	public boolean crossBotServer = false;
+	public String dbDb = "mantaro";
+	public String dbHost = "localhost";
+	public int dbPort = 28015;
+	public String dbotsToken;
+	public String dbotsorgToken;
+	public String osuApiKey;
 	public List<String> owners = new ArrayList<>();
-	public String token = null;
-	public String weatherAppId = null;
-	public String bugreportChannel = null;
-	public int crossBotPort = 0;
-	public String remoteNode = null;
-	public String crossBotHost = null;
-	public boolean crossBotServer = true;
+	public String prefix = "~>";
+	public String remoteNode;
+	public String token;
+	public String weatherAppId;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

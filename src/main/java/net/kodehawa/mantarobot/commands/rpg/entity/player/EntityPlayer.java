@@ -7,10 +7,10 @@ import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
 import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -240,10 +240,6 @@ public class EntityPlayer extends EntityTickable {
 		return true;
 	}
 
-	public Game getCurrentGame(){
-		return gameInstance;
-	}
-
 	/**
 	 * Adds one reputation point.
 	 *
@@ -272,6 +268,10 @@ public class EntityPlayer extends EntityTickable {
 	 */
 	public boolean consumeStamina(int amount) {
 		return this.stamina - amount >= 0 && addStamina(-amount);
+	}
+
+	public Game getCurrentGame() {
+		return gameInstance;
 	}
 
 	/**

@@ -1,14 +1,14 @@
 package net.kodehawa.mantarobot.commands.rpg.entity;
 
-import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 
 import java.util.UUID;
 
 /**
  * Interface for all Entities.
- * All entities have a UUID (Unique Identifier), a {@link net.kodehawa.mantarobot.commands.rpg.inventory.Inventory}, health and stamina by default.
+ * All entities have a UUID (Unique Identifier), a {@link Inventory}, health and stamina by default.
  * More types of variables can and might be added to the specific entity.
  * All entities have a {@link Type}, which determines its behaviour with the surrounding {@link TextChannelWorld}
  * Data is saved to a serialized JSON-type file for concurrent usage.

@@ -1,32 +1,70 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.IMentionable;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
+import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.DataManager;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.Color;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ActionCmds extends Module {
+	public static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
+	public static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
+	public static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
+	public static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
+	public static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
+	public static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
 	public ActionCmds() {
 		super(Category.ACTION);
-		pat();
-		hug();
+
+		//pat();
+		super.register("pat", new ImageActionCmd(
+			"Pat", "Pats the specified user.", Color.PINK,
+			"pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", PATS.get()
+		));
+
+		//hug();
+		super.register("hug", new ImageActionCmd(
+			"Hug", "Hugs the specified user.", Color.PINK,
+			"hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", HUGS.get()
+		));
+
+		//kiss();
+		super.register("kiss", new ImageActionCmd(
+			"Kiss", "Kisses the specified user.", Color.PINK,
+			"kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", KISSES.get()
+		));
+
+		//greet();
+		super.register("greet", new TextActionCmd(
+			"Greet", "Sends a random greeting", Color.DARK_GRAY,
+			EmoteReference.TALKING + "%s", GREETINGS.get()
+		));
+
+		//tsundere();
+		super.register("tsundere", new TextActionCmd(
+			"Tsundere Command", "Y-You baka!", Color.PINK,
+			EmoteReference.MEGA + "%s", TSUNDERE.get()
+		));
+
 		action();
-		greet();
 		meow();
-		kiss();
-		tsundere();
 		bloodsuck();
 		lewd();
 	}
@@ -45,7 +83,7 @@ public class ActionCmds extends Module {
 						channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
 						break;
 					case "bleach":
-						channel.sendMessage(MantaroData.getBleach().get().get(new Random().nextInt(MantaroData.getBleach().get().size()))).queue();
+						channel.sendMessage(CollectionUtils.random(BLEACH.get())).queue();
 						break;
 					default:
 						onHelp(event);
@@ -94,103 +132,6 @@ public class ActionCmds extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Bloodsuck")
 					.setDescription("Sucks the blood of the mentioned user(s)")
-					.build();
-			}
-		});
-	}
-
-	private void greet() {
-		super.register("greet", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(EmoteReference.TALKING + MantaroData.getGreeting().get().get(
-					new Random().nextInt(MantaroData.getGreeting().get().size()))).queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Greeting")
-					.setDescription("Sends a random greeting")
-					.setColor(Color.DARK_GRAY)
-					.build();
-			}
-		});
-	}
-
-	private void hug() {
-		super.register("hug", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				User author = event.getAuthor();
-
-				TextChannel channel = event.getChannel();
-				List<String> hugs = MantaroData.getHugs().get();
-				String hString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				byte[] toSend = Utils.toByteArray(hugs.get(new Random().nextInt(hugs.size())));
-				if (toSend == null) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it;s down?").queue();
-					return;
-				}
-
-				String hug = String.format(EmoteReference.TALKING + "%s you have been hugged by %s", hString, author.getAsMention());
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					hug = EmoteReference.TALKING + "Are you lonely? Take a hug! <3";
-				}
-				channel.sendFile(toSend, "hug.gif", new MessageBuilder().append(hug).build()).queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Hug command")
-					.addField("Description:", "Hugs the specified user.", false)
-					.setColor(Color.PINK)
-					.build();
-			}
-		});
-	}
-
-	private void kiss() {
-		super.register("kiss", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				List<String> kisses = MantaroData.getKisses().get();
-				String kString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention)
-					.collect(Collectors.joining(" "));
-				byte[] toSend = Utils.toByteArray(kisses.get(new Random().nextInt(kisses.size())));
-				if (toSend == null) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
-					return;
-				}
-				String kiss = String.format(EmoteReference.TALKING + "%s you have been kissed by %s", kString, author.getAsMention());
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					kiss = EmoteReference.TALKING + "Are you lonely? Take a kiss! <3";
-				}
-
-				channel.sendFile(toSend, "kiss.gif", new MessageBuilder().append(kiss).build()).queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Kiss command")
-					.addField("Description:", "Kisses the specified user.", false)
-					.setColor(Color.PINK)
 					.build();
 			}
 		});
@@ -246,65 +187,6 @@ public class ActionCmds extends Module {
 				return helpEmbed(event, "Meow command")
 					.setDescription("Meows at a user or just meows.")
 					.setColor(Color.cyan)
-					.build();
-			}
-		});
-	}
-
-	private void pat() {
-		super.register("pat", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				List<String> pats = MantaroData.getPatting().get();
-				String pString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-				byte[] toSend = Utils.toByteArray(pats.get(new Random().nextInt(pats.size())));
-				if (toSend == null) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow we cannot convert the image to bytes. Maybe it doesn't exist? Please report.").queue();
-					return;
-				}
-
-				String pat = String.format(EmoteReference.TALKING + "%s you have been patted by %s", pString, author.getAsMention());
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					pat = EmoteReference.TALKING + "Are you lonely? Take a pat, cutie! <3";
-				}
-
-				channel.sendFile(toSend, "pat.gif", new MessageBuilder().append(pat).build()).queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Pat command")
-					.addField("Description:", "Pats the specified user.", false)
-					.setColor(Color.PINK)
-					.build();
-			}
-		});
-	}
-
-	private void tsundere() {
-		super.register("tsundere", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(EmoteReference.MEGA + MantaroData.getTsundereLines().get().get(new Random().nextInt(MantaroData.getTsundereLines().get().size()))).queue();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Tsundere command")
-					.setDescription("Y-You baka!")
-					.setColor(Color.pink)
 					.build();
 			}
 		});

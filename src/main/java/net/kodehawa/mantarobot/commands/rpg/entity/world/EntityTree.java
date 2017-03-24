@@ -2,8 +2,8 @@ package net.kodehawa.mantarobot.commands.rpg.entity.world;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
-import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 
 import java.util.Random;
 

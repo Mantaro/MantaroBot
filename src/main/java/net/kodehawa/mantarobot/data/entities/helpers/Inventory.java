@@ -1,21 +1,17 @@
-package net.kodehawa.mantarobot.commands.rpg.inventory;
+package net.kodehawa.mantarobot.data.entities.helpers;
 
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.item.Items;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.commands.rpg.inventory.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.commands.rpg.inventory.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.serialize;
+import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
 
 public class Inventory {
-	static class Resolver {
+	public static class Resolver {
 		public static Map<Integer, Integer> serialize(List<ItemStack> list) {
 			Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
 			collect.values().remove(0);
@@ -27,14 +23,10 @@ public class Inventory {
 		}
 	}
 
-	private EntityPlayer userData;
-
-	public Inventory(EntityPlayer userData) {
-		this.userData = userData;
-	}
+	private Map<Integer, Integer> inventory = new HashMap<>();
 
 	public List<ItemStack> asList() {
-		return unserialize(userData.inventory);
+		return unserialize(inventory);
 	}
 
 	public Map<Item, ItemStack> asMap() {
@@ -64,6 +56,6 @@ public class Inventory {
 	}
 
 	public void replaceWith(List<ItemStack> inv) {
-		userData.inventory = serialize(inv);
+		inventory = serialize(inv);
 	}
 }

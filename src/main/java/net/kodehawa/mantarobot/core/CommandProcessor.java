@@ -24,7 +24,7 @@ public final class CommandProcessor {
 	}
 
 	private static boolean dispatchCommand(Arguments arguments, GuildMessageReceivedEvent event) {
-		if (MantaroBot.getInstance().getStatus() != LoadState.POSTLOAD) return false;
+		if (MantaroBot.getInstance().getLoadStatus() != LoadState.POSTLOAD) return false;
 		if (Manager.commands.containsKey(arguments.cmdName)) {
 			Command command = Manager.commands.get(arguments.cmdName).getLeft();
 			if (!command.permissionRequired().test(arguments.event.getMember())) {
@@ -42,12 +42,13 @@ public final class CommandProcessor {
 	}
 
 	public static boolean run(GuildMessageReceivedEvent event) {
-		if (MantaroBot.getInstance().getStatus() != LoadState.POSTLOAD) return false;
-		if (MantaroData.getData().get().blacklistedUsers.contains(event.getAuthor().getId())) return false;
+		if (MantaroBot.getInstance().getLoadStatus() != LoadState.POSTLOAD) return false;
+		//TODO REIMPLEMENT
+		//if (MantaroData.getData().get().blacklistedUsers.contains(event.getAuthor().getId())) return false;
 
 		String rawCmd = event.getMessage().getRawContent();
-		String defaultPrefix = MantaroData.getData().get().defaultPrefix;
-		String prefix = MantaroData.getData().get().getPrefix(event.getGuild());
+		String defaultPrefix = MantaroData.config().get().prefix;
+		String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 
 		if (rawCmd.startsWith(defaultPrefix)) rawCmd = rawCmd.substring(defaultPrefix.length());
 		else if (rawCmd.startsWith(prefix)) rawCmd = rawCmd.substring(prefix.length());

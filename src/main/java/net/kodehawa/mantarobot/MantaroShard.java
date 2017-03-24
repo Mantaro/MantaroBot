@@ -4,6 +4,7 @@ import br.com.brjdevs.java.utils.extensions.Async;
 import br.com.brjdevs.java.utils.holding.Holder;
 import com.mashape.unirest.http.Unirest;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
+import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -12,21 +13,31 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.Data;
-import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.data.DataManager;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class MantaroShard {
+import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static net.kodehawa.mantarobot.data.MantaroData.config;
+
+public class MantaroShard implements JDA {
+	private static final Random RANDOM = new Random();
+	private static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("SPLASHES.txt");
+
+	static {
+		if (SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
+	}
+
 	private final Logger LOGGER;
 	private final int shardId;
 	private final int totalShards;
+	@Delegate
 	private JDA jda;
 
 	public MantaroShard(int shardId, int totalShards) throws RateLimitedException, LoginException, InterruptedException {
@@ -59,7 +70,7 @@ public class MantaroShard {
 
 	public void restartJDA() throws RateLimitedException, LoginException, InterruptedException {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
-			.setToken(MantaroData.getConfig().get().token)
+			.setToken(config().get().token)
 			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setEventManager(new InterfacedEventManager() {
 				@Override
@@ -79,7 +90,7 @@ public class MantaroShard {
 	}
 
 	public void updateServerCount() {
-		Config config = MantaroData.getConfig().get();
+		Config config = config().get();
 		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
 
 		String dbotsToken = config.dbotsToken;
@@ -133,15 +144,10 @@ public class MantaroShard {
 		}
 	}
 
-	public void updateStatus(){
-		Data data = MantaroData.getData().get();
-		Random r = new Random();
-		List<String> splashes = MantaroData.getSplashes().get();
-		if (splashes.removeIf(s -> s == null || s.isEmpty())) MantaroData.getSplashes().save();
-
+	public void updateStatus() {
 		Runnable changeStatus = () -> {
-			String newStatus = splashes.get(r.nextInt(splashes.size()));
-			getJDA().getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus + " | [" + getId() + "]"));
+			String newStatus = random(SPLASHES.get(), RANDOM);
+			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
 			LOGGER.debug("Changed status to: " + newStatus);
 		};
 

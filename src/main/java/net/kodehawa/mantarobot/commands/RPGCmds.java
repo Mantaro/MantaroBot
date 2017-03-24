@@ -636,7 +636,7 @@ public class RPGCmds extends Module {
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
-					.setFooter(EmoteReference.ZAP + "In	 treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
+					.setFooter(EmoteReference.ZAP + "In treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
 					.build()
 				).queue();
 			}

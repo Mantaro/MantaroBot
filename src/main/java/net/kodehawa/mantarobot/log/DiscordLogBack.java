@@ -4,13 +4,16 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
-
-import java.util.Arrays;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
+
+	private static TextChannel consoleChannel() {
+		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
+	}
 
 	public static void disable() {
 		enabled = false;
@@ -20,7 +23,6 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		enabled = true;
 	}
 
-	private MantaroShard channelShard;
 	private PatternLayout patternLayout;
 	private ILoggingEvent previousEvent;
 
@@ -31,8 +33,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		String toSend = patternLayout.doLayout(event);
 		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
 		if(toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
-		channelShard = Arrays.stream(MantaroBot.getInstance().getShards()).filter(mantaroShard -> mantaroShard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null);
-		channelShard.getJDA().getTextChannelById("266231083341840385").sendMessage(toSend).queue();
+		consoleChannel().sendMessage(toSend).queue();
 		previousEvent = event;
 	}
 
