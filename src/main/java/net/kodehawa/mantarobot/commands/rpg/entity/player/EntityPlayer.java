@@ -217,6 +217,7 @@ public class EntityPlayer extends EntityTickable {
 	 * @return pls dont overflow.
 	 */
 	public boolean addMoney(long money) {
+		if(money < 0) return false;
 		try {
 			this.money = Math.addExact(this.money, money);
 			return true;

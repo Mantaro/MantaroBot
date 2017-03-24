@@ -95,7 +95,7 @@ public class MantaroShard {
 
 					try {
 						if (dbotsToken != null) {
-							LOGGER.info("Successfully posted the botdata to bots.discord.pw: " + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
+							LOGGER.debug("Successfully posted the botdata to bots.discord.pw: " + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
 								.header("Authorization", dbotsToken)
 								.header("Content-Type", "application/json")
 								.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
@@ -103,7 +103,7 @@ public class MantaroShard {
 						}
 
 						if (carbonToken != null) {
-							LOGGER.info("Successfully posted the botdata to carbonitex.com: " +
+							LOGGER.debug("Successfully posted the botdata to carbonitex.com: " +
 								Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
 									.field("key", carbonToken)
 									.field("servercount", newC)
@@ -113,7 +113,7 @@ public class MantaroShard {
 						}
 
 						if (dbotsorgToken != null) {
-							LOGGER.info("Successfully posted the botdata to discordbots.org: " +
+							LOGGER.debug("Successfully posted the botdata to discordbots.org: " +
 								Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
 									.header("Authorization", dbotsorgToken)
 									.header("Content-Type", "application/json")
@@ -127,7 +127,7 @@ public class MantaroShard {
 
 					LOGGER.info("Updated discord lists Guild Count: " + newC + " guilds");
 				} catch (Exception e) {
-					LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
+					LOGGER.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
 				}
 			}, 3600);
 		}

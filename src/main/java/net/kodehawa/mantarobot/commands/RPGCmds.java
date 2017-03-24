@@ -746,11 +746,13 @@ public class RPGCmds extends Module {
 				}
 
 				EntityPlayer toTransfer = EntityPlayer.getPlayer(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)));
-				transferPlayer.removeMoney(toSend);
-				toTransfer.addMoney(toSend);
-				transferPlayer.save(); //this'll save both.
-
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();
+				if(toTransfer.addMoney(toSend)) {
+					transferPlayer.removeMoney(toSend);
+					transferPlayer.save(); //this'll save both.
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();
+				} else {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
+				}
 			}
 
 			@Override
