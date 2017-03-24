@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
@@ -359,7 +360,7 @@ public class RPGCmds extends Module {
 				if (!check(player, event)) return;
 				TextChannelWorld ground = TextChannelWorld.of(event);
 				List<ItemStack> loot = ground.collectItems();
-				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 300);
+				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 200);
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
@@ -545,7 +546,7 @@ public class RPGCmds extends Module {
 	}
 
 	private void mine() {
-		RateLimiter rateLimiter = new RateLimiter(4000);
+		RateLimiter rateLimiter = new RateLimiter(4500);
 		Random r = new Random();
 
 		super.register("mine", new SimpleCommand() {
@@ -570,8 +571,8 @@ public class RPGCmds extends Module {
 
 				int picks = player.getInventory().getAmount(Items.BROM_PICKAXE);
 				player.consumeStamina(10);
-				long moneyFound = Math.min(3000, (long) (r.nextInt(250) * (1.0d + picks * 0.5d)));
-				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
+				long moneyFound = Math.min(2000, (long) (r.nextInt(250) * (1.0d + picks * 0.5d)));
+				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5);
 				String toSend = "";
 
 				//Little chance, but chance.
@@ -701,7 +702,7 @@ public class RPGCmds extends Module {
 
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
-						(global ? event.getJDA().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
+						(global ? MantaroBot.getInstance().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
 							.filter(user -> user != null && !user.isBot())
 							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
 							.limit(15)

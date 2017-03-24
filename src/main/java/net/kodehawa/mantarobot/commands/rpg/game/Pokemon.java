@@ -19,9 +19,13 @@ import java.util.Random;
 public class Pokemon extends Game {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[PokemonTrivia]");
-	private int attempts = 0;
+	private int attempts = 1;
 	private String expectedAnswer;
 	private int maxAttempts = 10;
+
+	public Pokemon(){
+		super();
+	}
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
@@ -57,6 +61,7 @@ public class Pokemon extends Game {
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try {
 			player.setCurrentGame(type, event.getChannel());
+			player.setGameInstance(this);
 			TextChannelWorld.of(event.getChannel()).addGame(player, this);
 			Random rand = new Random();
 			List<String> guesses = MantaroData.getPokemonGuesses().get();
@@ -65,7 +70,7 @@ public class Pokemon extends Game {
 			expectedAnswer = data[1];
 
 			event.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", event.getJDA().getSelfUser().getAvatarUrl())
-					.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
+					.setImage(pokemonImage).setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null).build()).queue();
 			super.onStart(TextChannelWorld.of(event.getChannel()), event, player);
 			return true;
 		} catch (Exception e) {

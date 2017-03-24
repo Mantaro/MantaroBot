@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
+import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.rpg.inventory.Inventory;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
@@ -84,6 +85,7 @@ public class EntityPlayer extends EntityTickable {
 	public Map<Integer, Integer> inventory = new HashMap<>();
 	private transient Coordinates coordinates = new Coordinates(0, 0, 0, world);
 	private transient GameReference currentGame;
+	private transient Game gameInstance;
 	private int health = 250;
 	private long money = 0;
 	private transient boolean processing;
@@ -237,6 +239,10 @@ public class EntityPlayer extends EntityTickable {
 		return true;
 	}
 
+	public Game getCurrentGame(){
+		return gameInstance;
+	}
+
 	/**
 	 * Adds one reputation point.
 	 *
@@ -364,5 +370,9 @@ public class EntityPlayer extends EntityTickable {
 			currentGame = null;
 			TextChannelWorld.of(channel).removeEntity(this);
 		}
+	}
+	
+	public void setGameInstance(@Nullable Game game){
+		gameInstance = game;
 	}
 }

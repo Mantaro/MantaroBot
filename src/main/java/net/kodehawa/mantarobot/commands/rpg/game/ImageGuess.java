@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
@@ -19,17 +18,19 @@ import org.slf4j.LoggerFactory;
 import java.net.URLEncoder;
 import java.util.Random;
 
-import static net.kodehawa.mantarobot.utils.Utils.toByteArray;
-
 public class ImageGuess extends Game {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
-	private int attempts = 0;
+	private int attempts = 1;
 	private String authToken = AnimeCmds.authToken;
 	private String characterName = null;
 	private int maxAttempts = 10;
 	private String[] search = {"Mato Kuroi", "Kotori Kanbe", "Kotarou Tennouji", "Akane Senri", "Misaki Mei", "Tomoe Mami"
 		, "Shintaro Kisaragi", "Momo Kisaragi", "Takane Enomoto", "Ruuko Kominato", "Homura Akemi", "Madoka Kaname"};
+
+	public ImageGuess(){
+		super();
+	}
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
@@ -64,6 +65,7 @@ public class ImageGuess extends Game {
 	@Override
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		player.setCurrentGame(type, event.getChannel());
+		player.setGameInstance(this);
 		TextChannelWorld.of(event.getChannel()).addGame(player, this);
 		int random = new Random().nextInt(search.length);
 		try {
@@ -76,7 +78,7 @@ public class ImageGuess extends Game {
 			if (characterName.equals("Takane")) characterName = "Ene";
 
 			event.getChannel().sendMessage(new EmbedBuilder().setTitle("Guess the character", event.getJDA().getSelfUser().getAvatarUrl())
-											.setImage(imageUrl).setFooter("You have 120 seconds to answer. (Type end to end the game)", null).build()).queue();
+											.setImage(imageUrl).setFooter("You have 60 seconds to answer. (Type end to end the game)", null).build()).queue();
 			super.onStart(TextChannelWorld.of(event.getChannel()), event, player);
 			return true;
 		} catch (Exception e) {

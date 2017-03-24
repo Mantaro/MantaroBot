@@ -16,7 +16,7 @@ import java.util.Random;
 public class Trivia extends Game {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
-	private int attempts = 0;
+	private int attempts = 1;
 	private String expectedAnswer;
 	private int maxAnswers = 10;
 	private int maxAttempts = 10;
@@ -24,6 +24,10 @@ public class Trivia extends Game {
 	private List<String> trivia = MantaroData.getTrivia().get();
 	//did you just assume I answered one
 	private int triviaAnswers = 1;
+
+	public Trivia(){
+		super();
+	}
 
 	@Override
 	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
@@ -68,6 +72,7 @@ public class Trivia extends Game {
 	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
 		try {
 			player.setCurrentGame(type, event.getChannel());
+			player.setGameInstance(this);
 			TextChannelWorld.of(event.getChannel()).addGame(player, this);
 			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
 			expectedAnswer = data[1];
