@@ -66,7 +66,7 @@ public class Pokemon extends Game {
 
 			event.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", event.getJDA().getSelfUser().getAvatarUrl())
 					.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
-
+			super.onStart(TextChannelWorld.of(event.getChannel()), event, player);
 			return true;
 		} catch (Exception e) {
 			onError(LOGGER, event, player, e);

@@ -18,6 +18,7 @@ public class Config {
 	public String weatherAppId = null;
 	public String bugreportChannel = null;
 	public int crossBotPort = 0;
+	public String remoteNode = null;
 	public String crossBotHost = null;
 	public boolean crossBotServer = true;
 

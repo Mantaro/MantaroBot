@@ -30,6 +30,7 @@ public class GuildStatsManager {
 	private static final char EMPTY_BLOCK = '\u200b';
 	private static final Expirator EXPIRATOR = new Expirator();
 	private static final int MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
+	public static int MILESTONE = 0;
 
 	public static String bar(int percent, int total) {
 		int activeBlocks = (int) ((float) percent / 100f * total);

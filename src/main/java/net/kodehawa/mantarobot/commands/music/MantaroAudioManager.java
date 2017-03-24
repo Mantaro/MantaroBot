@@ -1,10 +1,12 @@
 package net.kodehawa.mantarobot.commands.music;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,7 @@ public class MantaroAudioManager {
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
+		//playerManager.useRemoteNodes(MantaroData.getConfig().get().remoteNode);
 	}
 
 	public synchronized GuildMusicManager getMusicManager(Guild guild) {
@@ -30,6 +33,10 @@ public class MantaroAudioManager {
 
 	public Map<String, GuildMusicManager> getMusicManagers() {
 		return musicManagers;
+	}
+
+	public AudioPlayerManager getPlayerManager(){
+		return playerManager;
 	}
 
 	public long getTotalQueueSize() {

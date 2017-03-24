@@ -64,9 +64,7 @@ public class MantaroShard {
 			.setEventManager(new InterfacedEventManager() {
 				@Override
 				public void handle(Event event) {
-					Async.thread("Async EventHandling", () -> {
-						super.handle(event);
-					});
+					Async.thread("Async EventHandling", () -> super.handle(event));
 				}
 			})
 			.setAutoReconnect(true)
@@ -144,7 +142,7 @@ public class MantaroShard {
 		Runnable changeStatus = () -> {
 			String newStatus = splashes.get(r.nextInt(splashes.size()));
 			getJDA().getPresence().setGame(Game.of(data.defaultPrefix + "help | " + newStatus + " | [" + getId() + "]"));
-			LOGGER.info("Changed status to: " + newStatus);
+			LOGGER.debug("Changed status to: " + newStatus);
 		};
 
 		changeStatus.run();

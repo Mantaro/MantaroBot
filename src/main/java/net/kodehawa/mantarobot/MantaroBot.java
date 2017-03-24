@@ -151,8 +151,9 @@ public class MantaroBot {
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
 			shards[i] = new MantaroShard(i, totalShards);
-			LOGGER.info("Finished loading shard #" + i + ".");
-			Thread.sleep(5_000L);
+			LOGGER.debug("Finished loading shard #" + i + ".");
+			LOGGER.info("Waiting for cooldown...");
+			Thread.sleep(5000);
 		}
 
 		Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
@@ -160,11 +161,11 @@ public class MantaroBot {
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-		LOGGER.info("Started bot instance.");
-		LOGGER.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
+		LOGGER.info("Started MantaroBot " + VERSION + " using " + totalShards + " shards.");
 		//LOGGER.info("Started RethinkDB on " + conn.hostname + " successfully.");
 		audioManager = new MantaroAudioManager();
 
+		LOGGER.info("Starting update managers.");
 		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
 		Arrays.stream(shards).forEach(MantaroShard::updateStatus);
 

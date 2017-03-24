@@ -513,7 +513,7 @@ public class ModerationCmds extends Module {
 						"~>opts autorole set <role> - Sets the new autorole which will be assigned to users on user join.\n" +
 						"~>opts autorole unbind - Clears the autorole config.\n" +
 						"~>opts resetmoney - Resets local money.\n" +
-						"~>opts localmode <true/false> - Toggles guild local mode (currency and RPG stats only for your guild).\n" +
+						"~>opts localmoney <true/false> - Toggles guild local mode (currency and RPG stats only for your guild).\n" +
 						"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
 						"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
 						"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.")
@@ -527,30 +527,70 @@ public class ModerationCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
+				if (content.isEmpty()) {
+					channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
+					return;
+				}
+
+				if(content.startsWith("bot")) {
+					channel.getHistory().retrievePast(100).queue(
+							messageHistory -> {
+								String prefix = MantaroData.getData().get().getPrefix(event.getGuild());
+								messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
+										message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
+
+								if (messageHistory.isEmpty()) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls here.").queue();
+									return;
+								}
+
+								final int size = messageHistory.size();
+
+								channel.deleteMessages(messageHistory).queue(
+										success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot messages").queue(),
+										error -> {
+											if (error instanceof PermissionException) {
+												PermissionException pe = (PermissionException) error;
+												channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
+														"(No permission provided: " + pe.getPermission() + ")").queue();
+											} else {
+												channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
+														+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+												error.printStackTrace();
+											}
+										});
+
+							},
+							error -> {
+								channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the messages" + "<"
+										+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+								error.printStackTrace();
+							}
+					);
+					return;
+				}
 				int i = Integer.parseInt(content);
 
-				if (content.isEmpty()) {
-					channel.sendMessage(EmoteReference.ERROR + "No messages to prune.").queue();
+				if (i <= 5) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
 					return;
 				}
 
-				if (i <= 3) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 4 messages.").queue();
-					return;
-				}
 				channel.getHistory().retrievePast(Math.min(i, 100)).queue(
 					messageHistory -> {
-						OffsetDateTime limit = OffsetDateTime.now().minusWeeks(2);
-						List<Message> messages = messageHistory.stream()
-							.filter(message -> message.getCreationTime().isAfter(limit))
-							.collect(Collectors.toList());
+						messageHistory = messageHistory.stream().filter(message -> !message.getCreationTime()
+								.isBefore(OffsetDateTime.now().minusWeeks(2)))
+								.collect(Collectors.toList());
 
-						if (messages.size() < 1) {
+						if (messageHistory.isEmpty()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, discord won't let me delete them.").queue();
 							return;
 						}
+
+						final int size = messageHistory.size();
+
 						channel.deleteMessages(messageHistory).queue(
-							success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + messages.size() + " messages").queue(),
+							success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages").queue(),
 							error -> {
 								if (error instanceof PermissionException) {
 									PermissionException pe = (PermissionException) error;
@@ -582,7 +622,7 @@ public class ModerationCmds extends Module {
 					.setDescription("Prunes a specific amount of messages.")
 					.addField("Usage", "~>prune <x> - Prunes messages", false)
 					.addField("Parameters", "x = number of messages to delete", false)
-					.addField("Important", "You need to provide at least 3 messages. I'd say better 10 or more.", false)
+					.addField("Important", "You need to provide at least 3 messages. I'd say better 10 or more.\nYou can use ~>prune bot to remove all bot messages and bot calls.", false)
 					.build();
 			}
 		});
