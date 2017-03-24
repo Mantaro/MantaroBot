@@ -79,16 +79,19 @@ public class UtilsCmds extends Module {
 
 				if (content.startsWith("month")) {
 					Map<String, String> closeBirthdays = new HashMap<>();
-					final int currentMonth = Integer.parseInt(String.format("%02d", Calendar.MONTH));
+					final int currentMonth = Calendar.MONTH + 1;
+					System.out.println(currentMonth);
 					event.getGuild().getMembers().forEach(member -> {
 						try {
-							Date date = format1.parse(MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
-							LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-							if (currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))) {
-								closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(event.getAuthor(), false).birthdayDate);
+							if(MantaroData.getData().get().getUser(member.getUser(), false).birthdayDate != null){
+								Date date = format1.parse(MantaroData.getData().get().getUser(member.getUser(), false).birthdayDate);
+								LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+								if (currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))) {
+									closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(member.getUser(), false).birthdayDate);
+								}
 							}
 						} catch (Exception e) {
-							LOGGER.debug("Error while retrieving close birthdays", e);
+							LOGGER.warn("Error while retrieving close birthdays", e);
 						}
 					});
 
