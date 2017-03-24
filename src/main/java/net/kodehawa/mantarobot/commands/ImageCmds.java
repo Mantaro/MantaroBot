@@ -499,11 +499,10 @@ public class ImageCmds extends Module {
 					.setDescription("This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
 						+ "but tags can be set to safe if you so desire.\n"
 						+ "~>yandere: Gets you a completely random image.\n"
-						+ "~>yandere get <page> <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
-						+ "~>yandere tags <page> <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
+						+ "~>yandere get <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
+						+ "~>yandere tags <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
 						+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
 						+ "> Parameter explanation:\n"
-						+ "page: Can be any value from 1 to the yande.re maximum page. Probably around 4000.\n"
 						+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
 						+ "tag: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
 						+ "rating: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
