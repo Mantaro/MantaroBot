@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.holding.Holder;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -15,15 +15,13 @@ import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.FunctionListener;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.data.GuildData;
+import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.*;
@@ -37,8 +35,9 @@ import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
+@Slf4j
 public class CustomCmds extends Module {
-	private static Logger LOGGER = LoggerFactory.getLogger("UserCommands");
+	private Map<String, Map<String, List<String>>> customCommands = new HashMap<>();
 	private final Command customCommand = new Command() {
 		private Random r = new Random();
 
@@ -48,10 +47,9 @@ public class CustomCmds extends Module {
 		}
 
 		private void handle(GuildMessageReceivedEvent event, String cmdName, String[] args) {
-			Map<String, GuildData> guilds = MantaroData.getData().get().guilds;
-			if (!guilds.containsKey(event.getGuild().getId()) || !guilds.get(event.getGuild().getId()).customCommands.containsKey(cmdName))
+			if (!customCommands.containsKey(event.getGuild().getId()) || !customCommands.get(event.getGuild().getId()).containsKey(cmdName))
 				return;
-			List<String> responses = guilds.get(event.getGuild().getId()).customCommands.get(cmdName);
+			List<String> responses = customCommands.get(event.getGuild().getId()).get(cmdName);
 			String response = responses.get(r.nextInt(responses.size()));
 
 			if (response.contains("$(")) {
@@ -74,7 +72,7 @@ public class CustomCmds extends Module {
 			}
 
 			if (response.startsWith("embed:")) {
-				event.getChannel().sendMessage(GsonDataManager.gson(false).fromJson('{' +response.substring(6) + '}', EmbedJSON.class).gen()).queue();
+				event.getChannel().sendMessage(GsonDataManager.gson(false).fromJson('{' + response.substring(6) + '}', EmbedJSON.class).gen()).queue();
 				return;
 			}
 
@@ -93,12 +91,12 @@ public class CustomCmds extends Module {
 
 		@Override
 		public void invoke(Arguments args) {
-			handle(args.event, args.cmdName, SPLIT_PATTERN.split(args.content));
-			try{
-				log("custom command");
-			} catch(Exception e){
-				LOGGER.error("An exception occurred while processing a custom command", e);
+			try {
+				handle(args.event, args.cmdName, SPLIT_PATTERN.split(args.content));
+			} catch (Exception e) {
+				log.error("An exception occurred while processing a custom command", e);
 			}
+			log("custom command");
 		}
 
 		@Override
@@ -106,7 +104,6 @@ public class CustomCmds extends Module {
 			return true;
 		}
 	};
-
 	private final Pair<Command, Category> cmdPair = Pair.of(customCommand, null);
 
 	public CustomCmds() {
@@ -117,18 +114,13 @@ public class CustomCmds extends Module {
 		super.register("custom", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (MantaroData.getData().get().getGuild(event.getGuild(), false).customCommandsAdminOnly && !event.getGuild().getMember(event.getAuthor()).hasPermission(Permission.ADMINISTRATOR)) {
-					event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
-					return;
-				}
-
 				if (args.length < 1) {
 					onHelp(event);
 					return;
 				}
 
 				String action = args[0];
-				Map<String, List<String>> customCommands = MantaroData.getData().get().getGuild(event.getGuild(), true).customCommands;
+				Map<String, List<String>> customCommands = CustomCmds.this.customCommands.computeIfAbsent(event.getGuild().getId(), k -> new HashMap<>());
 
 				if (action.equals("list") || action.equals("ls")) {
 					EmbedBuilder builder = new EmbedBuilder()
@@ -147,7 +139,7 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("debug")) {
-					if (event.getMember().isOwner() || MantaroData.getConfig().get().isOwner(event.getMember())) {
+					if (CommandPermission.ADMIN.test(event.getMember())) {
 						event.getChannel().sendMessage(
 							"Guild Commands Debug: " + Utils.paste(
 								GsonDataManager.GSON_PRETTY.toJson(customCommands)
@@ -156,6 +148,11 @@ public class CustomCmds extends Module {
 					} else {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
 					}
+					return;
+				}
+
+				if (MantaroData.db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
+					event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
 					return;
 				}
 
@@ -367,11 +364,14 @@ public class CustomCmds extends Module {
 
 	@Override
 	public void onPostLoad() {
-		MantaroData.getData().get().guilds.values().forEach((GuildData guildData) -> {
-			guildData.customCommands.values().removeIf(List::isEmpty);
-			guildData.customCommands.keySet().removeIf(Manager.commands::containsKey);
-			guildData.customCommands.keySet().forEach(cmd -> Manager.commands.put(cmd, cmdPair));
+		MantaroData.db().getCustomCommands().forEach(custom -> {
+			if (Manager.commands.containsKey(custom.getName())) {
+				custom.deleteAsync();
+				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
+				custom.saveAsync();
+			}
+
+			customCommands.computeIfAbsent(custom.getGuildId(), k -> new HashMap<>()).put(custom.getName(), custom.getValues());
 		});
-		MantaroData.getData().save();
 	}
 }

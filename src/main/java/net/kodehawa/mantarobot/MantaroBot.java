@@ -5,10 +5,6 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.rpg.game.listener.GameListener;
@@ -29,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.Future;
-import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
@@ -122,34 +117,6 @@ public class MantaroBot extends ShardedJDA {
 		return totalShards;
 	}
 
-	public List<User> getUsers() {
-		return Arrays.stream(shards).map(bot -> bot.getJDA().getUsers()).flatMap(List::stream).collect(Collectors.toList());
-	}
-
-	public User getUserById(String id) {
-		return Arrays.stream(shards).map(shard -> shard.getJDA().getUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	public List<Guild> getGuilds() {
-		return Arrays.stream(shards).map(bot -> bot.getJDA().getGuilds()).flatMap(List::stream).collect(Collectors.toList());
-	}
-
-	public List<TextChannel> getTextChannels() {
-		return Arrays.stream(shards).map(bot -> bot.getJDA().getTextChannels()).flatMap(List::stream).collect(Collectors.toList());
-	}
-
-	public TextChannel getTextChannelById(String id) {
-		return Arrays.stream(shards).map(bot -> bot.getJDA().getTextChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	public List<VoiceChannel> getVoiceChannels() {
-		return Arrays.stream(shards).map(bot -> bot.getJDA().getVoiceChannels()).flatMap(List::stream).collect(Collectors.toList());
-	}
-
-	public long getResponseTotal() {
-		return Arrays.stream(shards).map(bot -> bot.getJDA().getResponseTotal()).mapToLong(Long::longValue).sum();
-	}
-
 	@Override
 	public Iterator<JDA> iterator() {
 		return new ArrayIterator<>(shards);
@@ -180,13 +147,17 @@ public class MantaroBot extends ShardedJDA {
 		return 1;
 	}
 
-	public MantaroShard getShard(long guildId) {
-		return getShard((int) ((guildId >> 22) % totalShards));
-	}
-
-	public MantaroShard getShard(JDA jda) {
+	public MantaroShard getShardBy(JDA jda) {
 		if (jda.getShardInfo() == null) return shards[0];
 		return Arrays.stream(shards).filter(shard -> shard.getId() == jda.getShardInfo().getShardId()).findFirst().orElse(null);
+	}
+
+	public MantaroShard getShardForGuild(String guildId) {
+		return getShardForGuild(Long.parseLong(guildId));
+	}
+
+	public MantaroShard getShardForGuild(long guildId) {
+		return getShard((int) ((guildId >> 22) % totalShards));
 	}
 
 	public List<MantaroShard> getShardList() {
