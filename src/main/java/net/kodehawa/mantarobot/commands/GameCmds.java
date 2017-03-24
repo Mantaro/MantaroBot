@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
