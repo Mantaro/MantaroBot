@@ -42,7 +42,7 @@ public class MantaroDataPorter {
 			dbGuildData.setMusicSongDurationLimit(guildData.songDurationLimit == null ? null : guildData.songDurationLimit.longValue());
 
 			guildData.users.forEach((pid, localPlayerData) -> {
-				Player p = new Player(pid + ":" + id, localPlayerData.health, localPlayerData.money, localPlayerData.reputation, localPlayerData.stamina, "");
+				Player p = new Player(pid + ":" + id, (long) localPlayerData.health, (long) localPlayerData.money, (long) localPlayerData.reputation, (long) localPlayerData.stamina, "");
 				p.inventory().replaceWith(Resolver.unserialize(localPlayerData.inventory));
 			});
 
@@ -59,7 +59,7 @@ public class MantaroDataPorter {
 
 			user.saveAsync();
 
-			Player p = new Player(id + ":g", playerData.health, playerData.money, playerData.reputation, playerData.stamina, "");
+			Player p = new Player(id + ":g", (long) playerData.health, (long) playerData.money, (long) playerData.reputation, (long) playerData.stamina, "");
 			p.inventory().replaceWith(Resolver.unserialize(playerData.inventory));
 
 			p.saveAsync();

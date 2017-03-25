@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.custom;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -10,20 +11,20 @@ import java.util.List;
 
 public class EmbedJSON {
 	public static class EmbedField {
-		public String name, value;
 		public boolean inline;
+		public String name, value;
 	}
 
 	public String author, authorImg, authorUrl;
 	public String color;
 	public String description;
+	public List<EmbedField> fields = new ArrayList<>();
 	public String footer, footerUrl;
 	public String image;
 	public String thumbnail;
 	public String title, titleUrl;
-	public List<EmbedField> fields = new ArrayList<>();
 
-	public MessageEmbed gen() {
+	public MessageEmbed gen(GuildMessageReceivedEvent event) {
 		EmbedBuilder embed = new EmbedBuilder();
 		if (title != null) embed.setTitle(title, titleUrl);
 		if (description != null) embed.setDescription(description);
@@ -37,13 +38,16 @@ public class EmbedJSON {
 				final Field f = Color.class.getField(color);
 				c = (Color) f.get(null);
 			} catch (Exception ignored) {
-			    String colorLower = color.toLowerCase();
-                if(colorLower.matches("(0x)?[0123456789abcdef]{1,6}")) {
-                    try {
-                        c = Color.decode(colorLower.startsWith("0x") ? colorLower : "0x" + colorLower);
-                    } catch(Exception ignored2) {}
-                }
-            }
+				String colorLower = color.toLowerCase();
+				if (colorLower.equals("member")) {
+					c = event.getMember().getColor();
+				} else if (colorLower.matches("(0x)?[0123456789abcdef]{1,6}")) {
+					try {
+						c = Color.decode(colorLower.startsWith("0x") ? colorLower : "0x" + colorLower);
+					} catch (Exception ignored2) {
+					}
+				}
+			}
 			if (c != null) embed.setColor(c);
 		}
 

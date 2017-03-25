@@ -7,8 +7,7 @@ import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.custom.compiler.CompiledCustomCommand;
-import net.kodehawa.mantarobot.commands.custom.compiler.CustomCommandCompiler;
+import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -17,13 +16,18 @@ import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
+import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
@@ -31,7 +35,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 public class CustomCmds extends Module {
-	private Map<String, CompiledCustomCommand> compiledCommands = new ConcurrentHashMap<>();
+	private Map<String, List<String>> compiledCommands = new ConcurrentHashMap<>();
 	private final Command customCommand = new Command() {
 		private Random r = new Random();
 
@@ -41,9 +45,57 @@ public class CustomCmds extends Module {
 		}
 
 		private void handle(String cmdName, GuildMessageReceivedEvent event) {
-			CompiledCustomCommand consumer = compiledCommands.get(event.getGuild().getId() + ":" + cmdName);
-			if (consumer == null) return;
-			consumer.call(event);
+			List<String> values = compiledCommands.get(event.getGuild().getId() + ":" + cmdName);
+			if (values == null) return;
+
+			String response = random(values);
+
+			if (response.contains("$(")) {
+				Map<String, String> dynamicMap = new HashMap<>();
+				map("event", dynamicMap, event);
+				response = dynamicResolve(response, dynamicMap);
+			}
+
+			int c = response.indexOf(':');
+			if (c != -1) {
+				String m = response.substring(0, c);
+				String v = response.substring(c + 1);
+
+				if (m.equals("play")) {
+					try {
+						new URL(v);
+					} catch (Exception e) {
+						v = "ytsearch: " + v;
+					}
+
+					MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v);
+					return;
+				}
+
+				if (m.equals("embed")) {
+					EmbedJSON embed;
+					try {
+						embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+					} catch (Exception ignored) {
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+						return;
+					}
+
+					event.getChannel().sendMessage(embed.gen(event)).queue();
+					return;
+				}
+
+				if (m.equals("img") || m.equals("image") || m.equals("imgembed")) {
+					if (!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
+						return;
+					}
+					event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setTitle(cmdName, null).setColor(event.getMember().getColor()).build()).queue();
+					return;
+				}
+			}
+
+			event.getChannel().sendMessage(response).queue();
 		}
 
 		@Override
@@ -161,7 +213,7 @@ public class CustomCmds extends Module {
 								custom.saveAsync();
 
 								//reflect at compiled
-								compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+								compiledCommands.put(custom.getId(), custom.getValues());
 
 								//add mini-hack
 								Manager.commands.put(saveTo, cmdPair);
@@ -247,7 +299,7 @@ public class CustomCmds extends Module {
 							custom.saveAsync();
 
 							//reflect at compiled
-							compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+							compiledCommands.put(custom.getId(), custom.getValues());
 
 							event.getChannel().sendMessage(String.format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName, pair.getKey().getName(), String.join("``, ``", responses))).queue();
 
@@ -279,7 +331,7 @@ public class CustomCmds extends Module {
 					custom.saveAsync();
 
 					//reflect at compiled
-					compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+					compiledCommands.put(custom.getId(), custom.getValues());
 
 					//add mini-hack
 					Manager.commands.put(cmd, cmdPair);
@@ -333,7 +385,10 @@ public class CustomCmds extends Module {
 				custom.saveAsync();
 			}
 
-			compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+			//add mini-hack
+			Manager.commands.put(custom.getName(), cmdPair);
+
+			compiledCommands.put(custom.getId(), custom.getValues());
 		});
 	}
 }

@@ -41,7 +41,6 @@ public class RPGCmds extends Module {
 		richest();
 		inventory();
 		market();
-		market();
 		rep();
 		transfer();
 		item();
@@ -439,18 +438,17 @@ public class RPGCmds extends Module {
 						}
 					}
 
-
 					if (args[0].equals("sell")) {
 						if (player.getMoney() >= Integer.MAX_VALUE) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. " +
 								"Maybe you should spend some before getting more.").queue();
 							return;
 						}
-						try{
+						try {
 							if (args[1].equals("all")) {
 								long all = player.inventory().asList().stream()
-										.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-										.sum();
+									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+									.sum();
 
 								player.inventory().clear();
 
@@ -459,6 +457,8 @@ public class RPGCmds extends Module {
 								} else {
 									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 								}
+
+								player.saveAsync();
 								return;
 							}
 
@@ -480,13 +480,15 @@ public class RPGCmds extends Module {
 
 							if (player.addMoney(amount)) {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
-										"** and gained " + amount + " credits!").queue();
+									"** and gained " + amount + " credits!").queue();
 							} else {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold **" + toSell.getName() +
-										"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
+									"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 							}
 
-						} catch (NullPointerException e){
+							player.saveAsync();
+
+						} catch (NullPointerException e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
 						}
 						return;
@@ -500,7 +502,7 @@ public class RPGCmds extends Module {
 							return;
 						}
 
-						try{
+						try {
 							if (!itemToBuy.isBuyable()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.").queue();
 								return;
@@ -509,15 +511,17 @@ public class RPGCmds extends Module {
 							if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
 								player.inventory().process(new ItemStack(itemToBuy, itemNumber));
 								event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
-										" successfully. You now have " + player.getMoney() + " credits.").queue();
+									" successfully. You now have " + player.getMoney() + " credits.").queue();
+
+								player.saveAsync();
 							} else {
 								event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 							}
 
-						} catch (NullPointerException e){
+						} catch (NullPointerException e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax.").queue();
-							return;
 						}
+						return;
 					}
 				}
 
@@ -747,7 +751,7 @@ public class RPGCmds extends Module {
 				}
 
 				Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)));
-				if(toTransfer.addMoney(toSend)) {
+				if (toTransfer.addMoney(toSend)) {
 					transferPlayer.removeMoney(toSend);
 					transferPlayer.save(); //this'll save both.
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();

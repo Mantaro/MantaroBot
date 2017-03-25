@@ -235,7 +235,7 @@ public class MantaroListener implements EventListener {
 			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
 		} catch (ReqlError e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems that we are having some problems on our database... ").queue();
-			log.warn("<@217747278071463937> RethinkDB is on fire, and we got this", e);
+			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);
 		} catch (Exception e) {
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
 					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +

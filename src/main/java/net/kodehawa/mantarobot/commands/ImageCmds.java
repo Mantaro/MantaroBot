@@ -193,8 +193,8 @@ public class ImageCmds extends Module {
 				return builder.setAuthor("Found image", filter.get(get).getFile_url(), null)
 					.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR) + ", with a rating of: **" + nRating.inverseBidiMap().get(filter.get(get).getRating()) + "**")
 					.setImage(filter.get(get).getFile_url())
-					.addField("Width", String.valueOf(filter.get(get).getHeight()), true)
-					.addField("Height", String.valueOf(filter.get(get).getWidth()), true)
+					.addField("Height", String.valueOf(filter.get(get).getHeight()), true)
+					.addField("Width", String.valueOf(filter.get(get).getWidth()), true)
 					.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 					.setFooter("If the image doesn't load, click the title.", null);
 			}

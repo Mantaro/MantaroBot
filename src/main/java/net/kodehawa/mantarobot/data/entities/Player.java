@@ -31,32 +31,33 @@ public class Player implements ManagedObject {
 	}
 
 	public static Player of(String userId) {
-		return new Player(userId + ":g", 250, 0, 0, 100, "");
+		return new Player(userId + ":g", 250L, 0L, 0L, 100L, "");
 	}
 
 	public static Player of(String userId, String guildId) {
 		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 250, 0, 0, 100, "");
+		return new Player(userId + ":" + (local ? guildId : "g"), 250L, 0L, 0L, 100L, "");
 	}
+
 	@Getter
 	private final String id;
 	@Getter
-	private int health = 250;
+	private long health = 250;
 	private transient Inventory inventory = new Inventory();
 	@Getter
-	private int maxHealth = 250;
+	private long maxHealth = 250;
 	@Getter
-	private int maxStamina = 100;
+	private long maxStamina = 100;
 	@Getter
 	private long money = 0;
 	@Getter
 	private transient boolean processing;
 	@Getter
-	private int reputation = 0;
+	private long reputation = 0;
 	@Getter
-	private int stamina = 100;
+	private long stamina = 100;
 
-	public Player(String id, int health, long money, int reputation, int stamina, String inventory) {
+	public Player(String id, Long health, Long money, Long reputation, Long stamina, String inventory) {
 		this.id = id;
 		this.health = health;
 		this.money = money;
@@ -91,7 +92,7 @@ public class Player implements ManagedObject {
 	 * @param amount How much?
 	 * @return Did it pass through? Please? (aka, did it not overflow?)
 	 */
-	public boolean addHealth(int amount) {
+	public boolean addHealth(long amount) {
 		if (getHealth() + amount < 0 || getHealth() + amount > getMaxHealth()) return false;
 		setHealth(getHealth() + amount);
 		return true;
@@ -104,7 +105,7 @@ public class Player implements ManagedObject {
 	 * @return pls dont overflow.
 	 */
 	public boolean addMoney(long money) {
-		if(money < 0) return false;
+		if (money < 0) return false;
 		try {
 			this.money = Math.addExact(this.money, money);
 			return true;
@@ -133,7 +134,7 @@ public class Player implements ManagedObject {
 	 * @param amount How much?
 	 * @return Did it pass through? Please? (aka, did it not overflow?)
 	 */
-	public boolean addStamina(int amount) {
+	public boolean addStamina(long amount) {
 		if (getStamina() + amount < 0 || getStamina() + amount > getMaxStamina()) return false;
 		setStamina(getStamina() + amount);
 		return true;
@@ -195,7 +196,7 @@ public class Player implements ManagedObject {
 		return true;
 	}
 
-	public Player setHealth(int health) {
+	public Player setHealth(long health) {
 		this.health = health < 0 ? 0 : health;
 		return this;
 	}
@@ -220,7 +221,7 @@ public class Player implements ManagedObject {
 		return this;
 	}
 
-	public Player setStamina(int stamina) {
+	public Player setStamina(long stamina) {
 		this.stamina = stamina < 0 ? 0 : stamina;
 		return this;
 	}
