@@ -47,10 +47,6 @@ public class Item {
 		return name;
 	}
 
-	public long maxSize(){
-		return maxSize;
-	}
-
 	public long getValue() {
 		return price;
 	}
@@ -61,5 +57,9 @@ public class Item {
 
 	public boolean isSellable() {
 		return sellable;
+	}
+
+	public long maxSize() {
+		return maxSize;
 	}
 }

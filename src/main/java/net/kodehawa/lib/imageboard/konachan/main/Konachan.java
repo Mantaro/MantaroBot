@@ -53,7 +53,8 @@ public class Konachan {
 					tags = this.getTags(search, 1, 5);
 					provider.onSuccess(wallpapers, tags);
 				});
-			} catch (Exception ignored) {}
+			} catch (Exception ignored) {
+			}
 		});
 	}
 

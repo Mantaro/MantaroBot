@@ -137,9 +137,9 @@ public class MusicCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Now playing -> ``%s (%s/%s)``",
-						musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title,
-						Utils.getDurationMinutes(musicManager.getTrackScheduler().getCurrentTrack().getPosition()),
-						Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration()))).queue();
+					musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title,
+					Utils.getDurationMinutes(musicManager.getTrackScheduler().getCurrentTrack().getPosition()),
+					Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration()))).queue();
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
@@ -204,7 +204,7 @@ public class MusicCmds extends Module {
 				try {
 					new URL(content);
 				} catch (Exception e) {
-					if(content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+					if (content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
 					else content = "ytsearch: " + content;
 				}
 
@@ -218,7 +218,7 @@ public class MusicCmds extends Module {
 					.addField("Description", "Plays a song in the music voice channel.", false)
 					.addField("Usage", "~>play <song url> (Can be a YouTube song, a playlist or a search)", false)
 					.addField("Tip", "If you do ~>play <search term> it will search on youtube (default), " +
-							"but if you do ~>play soundcloud <search term> it will search on soundcloud.", false)
+						"but if you do ~>play soundcloud <search term> it will search on soundcloud.", false)
 					.build();
 			}
 
@@ -241,7 +241,8 @@ public class MusicCmds extends Module {
 				int page = 0;
 				try {
 					page = Integer.parseInt(args[0]) - 1;
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+				}
 				event.getChannel().sendMessage(embedForQueue(page, event.getGuild(), musicManager)).queue();
 
 				if (content.startsWith("clear")) {
@@ -402,7 +403,7 @@ public class MusicCmds extends Module {
 					}
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
 					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())
-							|| event.getMember().isOwner()) {
+						|| event.getMember().isOwner()) {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + (event.getMember().isOwner() ? "The guild owner has decided to skip." : "The song DJ has decided to skip!")).queue();
 						scheduler.next(true);
 						return;
@@ -449,7 +450,6 @@ public class MusicCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You are not connected to the voice channel I am currently playing!").queue();
 					return;
 				}
-
 
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 				if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())

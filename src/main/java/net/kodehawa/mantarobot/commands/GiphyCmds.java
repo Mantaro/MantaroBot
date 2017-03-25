@@ -117,7 +117,7 @@ public class GiphyCmds extends Module {
 				giphy.trending(event, (query -> {
 					int image1 = new Random().nextInt(query.getData().length - 1);
 					String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
-							.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
+						.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 					boolean trigger = (!query.getData()[image1].getRating().equals("r") || (nsfwChannel == null)) ?
 						!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
 					MessageEmbed embed = new EmbedBuilder()

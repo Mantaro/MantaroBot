@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.olddata;
 
-import net.kodehawa.dataport.Data;
 import net.kodehawa.mantarobot.commands.utils.data.BugData;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;

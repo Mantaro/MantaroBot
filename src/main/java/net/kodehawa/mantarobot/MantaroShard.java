@@ -27,8 +27,8 @@ import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class MantaroShard implements JDA {
-	private static final Random RANDOM = new Random();
 	public static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
+	private static final Random RANDOM = new Random();
 
 	static {
 		if (SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();

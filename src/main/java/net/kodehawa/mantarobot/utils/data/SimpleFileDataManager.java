@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 			Collections.addAll(data, NEWLINE_PATTERN.split(FileIOUtils.read(this.path)));
 			data.removeIf(s -> s.startsWith("//"));
 		} catch (IOException e) {
-            UnsafeUtils.throwException(e);
+			UnsafeUtils.throwException(e);
 		}
 	}
 
@@ -51,7 +50,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 		try {
 			FileIOUtils.write(path, this.data.stream().collect(Collectors.joining("\n")));
 		} catch (IOException e) {
-            UnsafeUtils.throwException(e);
+			UnsafeUtils.throwException(e);
 		}
 	}
 }

@@ -1,12 +1,10 @@
 package net.kodehawa.mantarobot.commands.music;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioConfiguration;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +33,7 @@ public class MantaroAudioManager {
 		return musicManagers;
 	}
 
-	public AudioPlayerManager getPlayerManager(){
+	public AudioPlayerManager getPlayerManager() {
 		return playerManager;
 	}
 

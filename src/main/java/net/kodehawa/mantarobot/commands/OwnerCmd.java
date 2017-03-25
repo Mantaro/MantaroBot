@@ -13,7 +13,6 @@ import net.kodehawa.lib.mantarolang.MantaroLang;
 import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -25,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import javax.swing.*;
 import java.awt.Color;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -309,7 +307,7 @@ public class OwnerCmd extends Module {
 				}
 
 				if (option.equals("varadd")) {
-					try{
+					try {
 						String v1 = values[1];
 						switch (values[0]) {
 							case "pat":
@@ -333,7 +331,7 @@ public class OwnerCmd extends Module {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
 								break;
 						}
-					} catch (Exception e){
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
@@ -367,13 +365,13 @@ public class OwnerCmd extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Owner command")
-						.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
-								"~>owner restart/forcerestart: Restarts the bot.\n" +
-								"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
-								"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
-								"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.")
-						.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
-						.build();
+					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
+						"~>owner restart/forcerestart: Restarts the bot.\n" +
+						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
+						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
+						"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.")
+					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
+					.build();
 			}
 
 			@Override

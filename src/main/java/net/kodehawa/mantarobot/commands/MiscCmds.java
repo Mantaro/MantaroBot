@@ -4,7 +4,6 @@ import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -20,9 +19,9 @@ import java.util.List;
 import java.util.Random;
 
 public class MiscCmds extends Module {
-	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
 	public static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
 	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
+	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
 
 	public MiscCmds() {
 		super(Category.MISC);

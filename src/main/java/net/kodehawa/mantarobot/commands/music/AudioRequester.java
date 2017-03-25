@@ -105,7 +105,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 		if (audioTrack.getInfo().length > MAX_SONG_LENGTH) {
 			event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 21 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
-			if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection(); //do you?
+			if (musicManager.getTrackScheduler().isStopped())
+				event.getGuild().getAudioManager().closeAudioConnection(); //do you?
 			return;
 		}
 		musicManager.getTrackScheduler().queue(new AudioTrackContext(event.getAuthor(), event.getChannel(), audioTrack.getSourceManager() instanceof YoutubeAudioSourceManager ? "https://www.youtube.com/watch?v=" + audioTrack.getIdentifier() : trackUrl, audioTrack));

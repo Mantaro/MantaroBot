@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.utils.data;
 
-import br.com.brjdevs.crossbot.currency.GetMoneyPacket;
 import br.com.brjdevs.crossbot.IdentifyPacket;
+import br.com.brjdevs.crossbot.currency.GetMoneyPacket;
 import br.com.brjdevs.crossbot.currency.SetMoneyPacket;
 import br.com.brjdevs.crossbot.currency.UpdateMoneyPacket;
 import br.com.brjdevs.network.*;
@@ -23,281 +23,283 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 public class CrossBotDataManager implements Closeable, DataManager<Consumer<Object>> {
-    private final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
-    private final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
-    private final Consumer<Object> send;
-    private final Connection connection;
-    private final AtomicBoolean closed = new AtomicBoolean(false);
-    private final Queue<Object> sendQueue;
+	public static class Builder {
+		public enum Type {
+			CLIENT, SERVER
+		}
 
-    private CrossBotDataManager(String host, int port, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
-        if(host == null) throw new NullPointerException("host");
-        if(name == null) throw new NullPointerException("name");
-        if(port == 0) throw new IllegalArgumentException("port == 0");
-        this.listeners.addAll(listenersToAdd);
-        PacketRegistry pr = new PacketRegistry();
-        registerPackets(pr);
-        Client client;
-        connection = client = new Client(new URI((secure ? "wss://" : "ws://") + host + ":" + port), pr, new SocketListenerAdapter() {
-            @Override
-            public Object onPacket(Connection connection, int i, Object o) {
-                for(SocketListener listener : listeners) {
-                    Object p = listener.onPacket(connection, i, o);
-                    if(p != null) return p;
-                }
-                return null;
-            }
+		private final List<SocketListener> listeners = new ArrayList<>();
+		private final Type type;
+		private boolean async;
+		private String host;
+		private String name;
+		private String password;
+		private int port;
+		private boolean secure;
+		private int sleepTime;
 
-            @Override
-            public void onClose(Connection connection, int id, int code, String message) {
-                for(SocketListener listener : listeners)
-                    listener.onClose(connection, id, code, message);
-            }
+		public Builder(Type type) {
+			this.type = type;
+		}
 
-            @Override
-            public void onConnect(Connection connection, int id, WebSocket socket) {
-                for(SocketListener listener : listeners)
-                    listener.onConnect(connection, id, socket);
-            }
+		public Builder addListeners(SocketListener... listeners) {
+			this.listeners.addAll(Arrays.asList(listeners));
+			return this;
+		}
 
-            @Override
-            public void onError(Connection connection, int id, Exception ex) {
-                for(SocketListener listener : listeners)
-                    listener.onError(connection, id, ex);
-            }
-        });
-        try {
-            if(!client.getPacketClient().connectBlocking()) {
-                UnsafeUtils.throwException(new ConnectException("Error connecting to server"));
-            }
-        } catch(InterruptedException e) {
-            throw new InternalError("Error connecting", e);
-        }
-        client.getPacketClient().waitForValidation();
-        client.getPacketClient().sendPacket(new IdentifyPacket(name, password));
-        sendQueue = new ConcurrentLinkedQueue<>();
-        if(async) {
-            Thread t = new Thread(()->{
-                while(true) {
-                    if(closed.get()) return;
-                    while(!sendQueue.isEmpty())
-                        client.getPacketClient().sendPacket(sendQueue.poll());
-                    try {
-                        Thread.sleep(sleepTime);
-                    } catch(InterruptedException e) {
-                        return;
-                    }
-                }
-            }, "CrossBotDataManagerClientSendThread");
-            t.setDaemon(true);
-            t.setPriority(Thread.MAX_PRIORITY);
-            t.start();
-        }
-        send = async ? sendQueue::add : (o) -> client.getPacketClient().sendPacket(o);
-    }
+		public Builder async(boolean async, int sleepTime) {
+			if (sleepTime < 0) throw new IllegalArgumentException("sleepTime < 0");
+			this.async = async;
+			this.sleepTime = sleepTime;
+			return this;
+		}
 
-    private CrossBotDataManager(int port, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
-        if(port == 0) throw new IllegalArgumentException("port == 0");
-        this.listeners.addAll(listenersToAdd);
-        PacketRegistry pr = new PacketRegistry();
-        registerPackets(pr);
-        Server server;
-        connection = server = new Server(new InetSocketAddress(port), pr, new SocketListenerAdapter() {
-            @Override
-            public Object onPacket(Connection connection, int i, Object o) {
-                if(o instanceof IdentifyPacket) {
-                    IdentifyPacket pkt = (IdentifyPacket)o;
-                    if(password != null && !password.equals(pkt.password)) {
-                        connection.getSocket(i).close(1403, "Invalid password");
-                        return null;
-                    }
-                    if(bots.values().stream().filter(pair->pair.getLeft().equals(pkt.name)).count() != 0) {
-                        connection.getSocket(i).close(1403, "Client named " + pkt.name + " already connected");
-                        return null;
-                    }
-                    bots.put(getAddress(connection.getSocket(i)), new ImmutablePair<>(pkt.name, i));
-                    return null;
-                }
-                for(SocketListener listener : listeners) {
-                    Object p = listener.onPacket(connection, i, o);
-                    if(p != null) return p;
-                }
-                return null;
-            }
+		public CrossBotDataManager build() {
+			switch (type) {
+				case CLIENT:
+					try {
+						return new CrossBotDataManager(host, port, name, password, secure, async, sleepTime, listeners);
+					} catch (URISyntaxException e) {
+						UnsafeUtils.throwException(e);
+					}
+				case SERVER:
+					return new CrossBotDataManager(port, password, async, sleepTime, listeners);
+				default:
+					throw new AssertionError();
+			}
+		}
 
-            @Override
-            public void onClose(Connection connection, int id, int code, String message) {
-                for(SocketListener listener : listeners)
-                    listener.onClose(connection, id, code, message);
-            }
+		public Builder host(String host) {
+			if (type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify host");
+			this.host = host;
+			return this;
+		}
 
-            @Override
-            public void onConnect(Connection connection, int id, WebSocket socket) {
-                for(SocketListener listener : listeners)
-                    listener.onConnect(connection, id, socket);
-            }
+		public Builder name(String name) {
+			if (type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify host");
+			this.name = name;
+			return this;
+		}
 
-            @Override
-            public void onError(Connection connection, int id, Exception ex) {
-                for(SocketListener listener : listeners)
-                    listener.onError(connection, id, ex);
-            }
+		public Builder password(String password) {
+			this.password = password;
+			return this;
+		}
 
-            private String getAddress(WebSocket socket) {
-                InetSocketAddress addr = socket.getRemoteSocketAddress();
-                if(addr == null) return socket.getLocalSocketAddress().getHostString();
-                return addr.getHostString();
-            }
-        });
-        server.start();
-        sendQueue = new ConcurrentLinkedQueue<>();
-        if(async) {
-            Thread t = new Thread(() -> {
-                while (true) {
-                    if (closed.get()) return;
-                    while (!sendQueue.isEmpty()) {
-                        Object o = sendQueue.poll();
-                        server.connections().forEach(socket -> server.sendPacket(socket, o));
-                    }
-                    try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-                }
-            }, "CrossBotDataManagerServerSendThread");
-            t.setDaemon(true);
-            t.setPriority(Thread.MAX_PRIORITY);
-            t.start();
-        }
-        send = async ? sendQueue::add : (o) -> server.connections().forEach(socket->server.sendPacket(socket, o));
-    }
+		public Builder port(int port) {
+			this.port = port;
+			return this;
+		}
 
-    @Override
-    public void close() {
-        closed.set(true);
-        if(connection instanceof Client)
-            connection.close(0);
-        else {
-            for(int i : ((Server)connection).getClients())
-                connection.close(i);
-        }
-    }
+		public Builder secure(boolean secure) {
+			if (type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify secure");
+			this.secure = secure;
+			return this;
+		}
+	}
 
-    @Override
-    public void save() {
-        if(connection instanceof Client) {
-            Client client = (Client)connection;
-            while(!sendQueue.isEmpty()) {
-                client.getPacketClient().sendPacket(sendQueue.poll());
-            }
-        } else {
-            Server server = (Server)connection;
-            while(!sendQueue.isEmpty()) {
-                Object o = sendQueue.poll();
-                server.connections().forEach(socket->server.sendPacket(socket, o));
-            }
-        }
-    }
+	private static void registerPackets(PacketRegistry pr) {
+		pr.register(IdentifyPacket.FACTORY);
+		pr.register(GetMoneyPacket.FACTORY);
+		pr.register(GetMoneyPacket.Response.FACTORY);
+		pr.register(SetMoneyPacket.FACTORY);
+		pr.register(UpdateMoneyPacket.FACTORY);
+	}
 
-    @Override
-    public Consumer<Object> get() {
-        return send;
-    }
+	private final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
+	private final AtomicBoolean closed = new AtomicBoolean(false);
+	private final Connection connection;
+	private final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
+	private final Consumer<Object> send;
+	private final Queue<Object> sendQueue;
 
-    public boolean isClosed() {
-        return closed.get();
-    }
+	private CrossBotDataManager(String host, int port, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
+		if (host == null) throw new NullPointerException("host");
+		if (name == null) throw new NullPointerException("name");
+		if (port == 0) throw new IllegalArgumentException("port == 0");
+		this.listeners.addAll(listenersToAdd);
+		PacketRegistry pr = new PacketRegistry();
+		registerPackets(pr);
+		Client client;
+		connection = client = new Client(new URI((secure ? "wss://" : "ws://") + host + ":" + port), pr, new SocketListenerAdapter() {
+			@Override
+			public void onClose(Connection connection, int id, int code, String message) {
+				for (SocketListener listener : listeners)
+					listener.onClose(connection, id, code, message);
+			}
 
-    public CrossBotDataManager registerListener(SocketListener listener) {
-        listeners.add(listener);
-        return this;
-    }
+			@Override
+			public Object onPacket(Connection connection, int i, Object o) {
+				for (SocketListener listener : listeners) {
+					Object p = listener.onPacket(connection, i, o);
+					if (p != null) return p;
+				}
+				return null;
+			}
 
-    public CrossBotDataManager unregisterListener(SocketListener listener) {
-        listeners.remove(listener);
-        return this;
-    }
+			@Override
+			public void onConnect(Connection connection, int id, WebSocket socket) {
+				for (SocketListener listener : listeners)
+					listener.onConnect(connection, id, socket);
+			}
 
-    private static void registerPackets(PacketRegistry pr) {
-        pr.register(IdentifyPacket.FACTORY);
-        pr.register(GetMoneyPacket.FACTORY);
-        pr.register(GetMoneyPacket.Response.FACTORY);
-        pr.register(SetMoneyPacket.FACTORY);
-        pr.register(UpdateMoneyPacket.FACTORY);
-    }
+			@Override
+			public void onError(Connection connection, int id, Exception ex) {
+				for (SocketListener listener : listeners)
+					listener.onError(connection, id, ex);
+			}
+		});
+		try {
+			if (!client.getPacketClient().connectBlocking()) {
+				UnsafeUtils.throwException(new ConnectException("Error connecting to server"));
+			}
+		} catch (InterruptedException e) {
+			throw new InternalError("Error connecting", e);
+		}
+		client.getPacketClient().waitForValidation();
+		client.getPacketClient().sendPacket(new IdentifyPacket(name, password));
+		sendQueue = new ConcurrentLinkedQueue<>();
+		if (async) {
+			Thread t = new Thread(() -> {
+				while (true) {
+					if (closed.get()) return;
+					while (!sendQueue.isEmpty())
+						client.getPacketClient().sendPacket(sendQueue.poll());
+					try {
+						Thread.sleep(sleepTime);
+					} catch (InterruptedException e) {
+						return;
+					}
+				}
+			}, "CrossBotDataManagerClientSendThread");
+			t.setDaemon(true);
+			t.setPriority(Thread.MAX_PRIORITY);
+			t.start();
+		}
+		send = async ? sendQueue::add : (o) -> client.getPacketClient().sendPacket(o);
+	}
 
-    public static class Builder {
-        public enum Type {
-            CLIENT, SERVER
-        }
-        private final Type type;
-        private final List<SocketListener> listeners = new ArrayList<>();
-        private String host;
-        private String password;
-        private int port;
-        private String name;
-        private boolean secure;
-        private boolean async;
-        private int sleepTime;
+	private CrossBotDataManager(int port, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
+		if (port == 0) throw new IllegalArgumentException("port == 0");
+		this.listeners.addAll(listenersToAdd);
+		PacketRegistry pr = new PacketRegistry();
+		registerPackets(pr);
+		Server server;
+		connection = server = new Server(new InetSocketAddress(port), pr, new SocketListenerAdapter() {
+			private String getAddress(WebSocket socket) {
+				InetSocketAddress addr = socket.getRemoteSocketAddress();
+				if (addr == null) return socket.getLocalSocketAddress().getHostString();
+				return addr.getHostString();
+			}
 
-        public Builder(Type type) {
-            this.type = type;
-        }
+			@Override
+			public Object onPacket(Connection connection, int i, Object o) {
+				if (o instanceof IdentifyPacket) {
+					IdentifyPacket pkt = (IdentifyPacket) o;
+					if (password != null && !password.equals(pkt.password)) {
+						connection.getSocket(i).close(1403, "Invalid password");
+						return null;
+					}
+					if (bots.values().stream().filter(pair -> pair.getLeft().equals(pkt.name)).count() != 0) {
+						connection.getSocket(i).close(1403, "Client named " + pkt.name + " already connected");
+						return null;
+					}
+					bots.put(getAddress(connection.getSocket(i)), new ImmutablePair<>(pkt.name, i));
+					return null;
+				}
+				for (SocketListener listener : listeners) {
+					Object p = listener.onPacket(connection, i, o);
+					if (p != null) return p;
+				}
+				return null;
+			}
 
-        public Builder host(String host) {
-            if(type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify host");
-            this.host = host;
-            return this;
-        }
+			@Override
+			public void onClose(Connection connection, int id, int code, String message) {
+				for (SocketListener listener : listeners)
+					listener.onClose(connection, id, code, message);
+			}
 
-        public Builder name(String name) {
-            if(type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify host");
-            this.name = name;
-            return this;
-        }
+			@Override
+			public void onConnect(Connection connection, int id, WebSocket socket) {
+				for (SocketListener listener : listeners)
+					listener.onConnect(connection, id, socket);
+			}
 
-        public Builder port(int port) {
-            this.port = port;
-            return this;
-        }
+			@Override
+			public void onError(Connection connection, int id, Exception ex) {
+				for (SocketListener listener : listeners)
+					listener.onError(connection, id, ex);
+			}
 
-        public Builder addListeners(SocketListener... listeners) {
-            this.listeners.addAll(Arrays.asList(listeners));
-            return this;
-        }
+		});
+		server.start();
+		sendQueue = new ConcurrentLinkedQueue<>();
+		if (async) {
+			Thread t = new Thread(() -> {
+				while (true) {
+					if (closed.get()) return;
+					while (!sendQueue.isEmpty()) {
+						Object o = sendQueue.poll();
+						server.connections().forEach(socket -> server.sendPacket(socket, o));
+					}
+					try {
+						Thread.sleep(sleepTime);
+					} catch (InterruptedException e) {
+						return;
+					}
+				}
+			}, "CrossBotDataManagerServerSendThread");
+			t.setDaemon(true);
+			t.setPriority(Thread.MAX_PRIORITY);
+			t.start();
+		}
+		send = async ? sendQueue::add : (o) -> server.connections().forEach(socket -> server.sendPacket(socket, o));
+	}
 
-        public Builder password(String password) {
-            this.password = password;
-            return this;
-        }
+	@Override
+	public void close() {
+		closed.set(true);
+		if (connection instanceof Client)
+			connection.close(0);
+		else {
+			for (int i : ((Server) connection).getClients())
+				connection.close(i);
+		}
+	}
 
-        public Builder secure(boolean secure) {
-            if(type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify secure");
-            this.secure = secure;
-            return this;
-        }
+	@Override
+	public Consumer<Object> get() {
+		return send;
+	}
 
-        public Builder async(boolean async, int sleepTime) {
-            if(sleepTime < 0) throw new IllegalArgumentException("sleepTime < 0");
-            this.async = async;
-            this.sleepTime = sleepTime;
-            return this;
-        }
+	@Override
+	public void save() {
+		if (connection instanceof Client) {
+			Client client = (Client) connection;
+			while (!sendQueue.isEmpty()) {
+				client.getPacketClient().sendPacket(sendQueue.poll());
+			}
+		} else {
+			Server server = (Server) connection;
+			while (!sendQueue.isEmpty()) {
+				Object o = sendQueue.poll();
+				server.connections().forEach(socket -> server.sendPacket(socket, o));
+			}
+		}
+	}
 
-        public CrossBotDataManager build() {
-            switch(type) {
-                case CLIENT:
-                    try {
-                        return new CrossBotDataManager(host, port, name, password, secure, async, sleepTime, listeners);
-                    } catch(URISyntaxException e) {
-                        UnsafeUtils.throwException(e);
-                    }
-                case SERVER:
-                    return new CrossBotDataManager(port, password, async, sleepTime, listeners);
-                default:
-                    throw new AssertionError();
-            }
-        }
-    }
+	public boolean isClosed() {
+		return closed.get();
+	}
+
+	public CrossBotDataManager registerListener(SocketListener listener) {
+		listeners.add(listener);
+		return this;
+	}
+
+	public CrossBotDataManager unregisterListener(SocketListener listener) {
+		listeners.remove(listener);
+		return this;
+	}
 }

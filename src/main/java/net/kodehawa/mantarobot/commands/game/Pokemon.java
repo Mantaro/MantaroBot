@@ -19,7 +19,7 @@ public class Pokemon extends Game {
 	private String expectedAnswer;
 	private int maxAttempts = 10;
 
-	public Pokemon(){
+	public Pokemon() {
 		super();
 	}
 

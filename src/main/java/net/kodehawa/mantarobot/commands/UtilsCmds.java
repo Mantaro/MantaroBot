@@ -65,12 +65,12 @@ public class UtilsCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 				DBUser user = MantaroData.db().getUser(event.getAuthor());
-				if(content.isEmpty()){
+				if (content.isEmpty()) {
 					onHelp(event);
 					return;
 				}
 
-				if(content.startsWith("remove")){
+				if (content.startsWith("remove")) {
 					user.getData().setBirthday(null);
 					user.save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.").queue();
@@ -82,7 +82,7 @@ public class UtilsCmds extends Module {
 					final int currentMonth = Calendar.MONTH + 1;
 					event.getGuild().getMembers().forEach(member -> {
 						try {
-							if(MantaroData.db().getUser(member.getUser()) != null){
+							if (MantaroData.db().getUser(member.getUser()) != null) {
 								Date date = format1.parse(MantaroData.db().getUser(event.getMember()).getData().getBirthday());
 								LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 								if (currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))) {
@@ -425,8 +425,8 @@ public class UtilsCmds extends Module {
 					event.getChannel().sendMessage(embed.build()).queue();
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Error while fetching results.").queue();
-					if(!(e instanceof NullPointerException))
-							LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
+					if (!(e instanceof NullPointerException))
+						LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
 

@@ -13,7 +13,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 

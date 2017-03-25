@@ -71,7 +71,7 @@ public class ImageCmds extends Module {
 							String[] wholeBeheaded = whole1.split(" ");
 							int page = Integer.parseInt(wholeBeheaded[0]);
 							e621.get(page, 60, image -> {
-								try{
+								try {
 									int number;
 									try {
 										number = Integer.parseInt(wholeBeheaded[1]);
@@ -82,14 +82,14 @@ public class ImageCmds extends Module {
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, image.get(number - 1).getFile_url())
-											.setImage(image.get(number - 1).getFile_url())
-											.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
-											.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
-											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-											.setFooter("If the image doesn't load, click the title.", null);
+										.setImage(image.get(number - 1).getFile_url())
+										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
+										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
+										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+										.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException e){
+								} catch (ArrayIndexOutOfBoundsException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
 							});
@@ -112,7 +112,7 @@ public class ImageCmds extends Module {
 								return;
 							}
 							e621.onSearch(r.nextInt(50), 60, tags, images -> {
-								try{
+								try {
 									try {
 										number1 = Integer.parseInt(expectedNumber[2]);
 									} catch (Exception e) {
@@ -123,14 +123,14 @@ public class ImageCmds extends Module {
 
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, images.get(number1 - 1).getFile_url())
-											.setImage(images.get(number1 - 1).getFile_url())
-											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
-											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
-											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-											.setFooter("If the image doesn't load, click the title.", null);
+										.setImage(images.get(number1 - 1).getFile_url())
+										.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
+										.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
+										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+										.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException e){
+								} catch (ArrayIndexOutOfBoundsException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
 							});
@@ -207,7 +207,8 @@ public class ImageCmds extends Module {
 				.addField("Tags", "``" + (tags == null ? "None" : tags) + "``", false)
 				.setFooter("If the image doesn't load, click the title.", null);
 		} catch (Exception ex) {
-			if (ex instanceof NullPointerException) return builder.setDescription(EmoteReference.ERROR + "Wrong syntax.");
+			if (ex instanceof NullPointerException)
+				return builder.setDescription(EmoteReference.ERROR + "Wrong syntax.");
 			return builder.setDescription(EmoteReference.ERROR + "There are no images here, just dust.");
 		}
 	}
@@ -318,7 +319,7 @@ public class ImageCmds extends Module {
 
 	private boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String acceptedRating) {
 		String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
-				.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
+			.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 		String rating1 = rating == null ? "s" : rating;
 		boolean trigger = !isGlobal ? ((rating1.equals("s") || (nsfwChannel == null)) ? rating1.equals("s") : nsfwChannel.equals(event.getChannel().getId())) :
 			nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
@@ -346,7 +347,7 @@ public class ImageCmds extends Module {
 							String whole1 = content.replace("get ", "");
 							String[] wholeBeheaded = whole1.split(" ");
 							Rule34.get(60, image -> {
-								try{
+								try {
 									int number;
 									try {
 										number = Integer.parseInt(wholeBeheaded[0]);
@@ -358,14 +359,14 @@ public class ImageCmds extends Module {
 									EmbedBuilder builder = new EmbedBuilder();
 									System.out.println(image.get(number - 1).getFile_url());
 									builder.setAuthor("Found image", null, "http:" + image.get(number - 1).getFile_url())
-											.setImage("http:" + image.get(number - 1).getFile_url())
-											.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
-											.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
-											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-											.setFooter("If the image doesn't load, click the title.", null);
+										.setImage("http:" + image.get(number - 1).getFile_url())
+										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
+										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
+										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+										.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException e){
+								} catch (ArrayIndexOutOfBoundsException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
 							});
@@ -376,7 +377,7 @@ public class ImageCmds extends Module {
 						}
 						break;
 					case "tags":
-						try{
+						try {
 							try {
 								boolean isOldFormat = args[1].matches("^[0-9]*$");
 								if (isOldFormat) {
@@ -389,24 +390,24 @@ public class ImageCmds extends Module {
 								String tags = expectedNumber[0];
 
 								Rule34.onSearch(60, tags, images -> {
-									try{
+									try {
 										try {
 											number1 = Integer.parseInt(expectedNumber[2]);
 										} catch (Exception e) {
 											number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
 										}
 										String TAGS = images.get(number).getTags() == null ? tags : images.get(number).getTags()
-												.replace(" ", " ,");
+											.replace(" ", " ,");
 										EmbedBuilder builder = new EmbedBuilder();
 										builder.setAuthor("Found image", null, "http:" + images.get(number1 - 1).getFile_url())
-												.setImage("http:" + images.get(number1 - 1).getFile_url())
-												.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
-												.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
-												.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-												.setFooter("If the image doesn't load, click the title.", null);
+											.setImage("http:" + images.get(number1 - 1).getFile_url())
+											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
+											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
+											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+											.setFooter("If the image doesn't load, click the title.", null);
 
 										event.getChannel().sendMessage(builder.build()).queue();
-									} catch(Exception e){
+									} catch (Exception e) {
 										e.printStackTrace();
 
 										event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
@@ -417,7 +418,7 @@ public class ImageCmds extends Module {
 								if (exception instanceof NumberFormatException)
 									event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue();
 							}
-						} catch (NullPointerException e){
+						} catch (NullPointerException e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Rule34 decided to not fetch the image. Well, you can try with another number or tag.").queue();
 						}
 						break;
@@ -457,7 +458,8 @@ public class ImageCmds extends Module {
 					tagsToEncode = args[1];
 					if (needRating) rating = nRating.get(args[2]);
 					number = Integer.parseInt(args[3]);
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+				}
 
 				try {
 					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");

@@ -32,7 +32,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
 		String toSend = patternLayout.doLayout(event);
 		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
-		if(toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
+		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
 		consoleChannel().sendMessage(toSend).queue();
 		previousEvent = event;
 	}

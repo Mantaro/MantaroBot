@@ -122,6 +122,12 @@ public class TrackScheduler extends AudioEventAdapter {
 		this.repeat = repeat;
 	}
 
+	public int getRequiredSkipVotes() {
+		int listeners = (int) getGuild().getAudioManager().getConnectedChannel().getMembers().stream()
+			.filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened()).count();
+		return (int) Math.ceil(listeners * .55);
+	}
+
 	public MantaroShard getShard() {
 		return MantaroBot.getInstance().getShard(shardId);
 	}
@@ -129,12 +135,6 @@ public class TrackScheduler extends AudioEventAdapter {
 	public List<String> getVoteSkips() {
 		return voteSkips;
 	}
-	public int getRequiredSkipVotes() {
-		int listeners = (int) getGuild().getAudioManager().getConnectedChannel().getMembers().stream()
-				.filter(m -> !m.getUser().isBot() && !m.getVoiceState().isDeafened()).count();
-		return (int) Math.ceil(listeners * .55);
-	}
-
 
 	public boolean isStopped() {
 		return getCurrentTrack() == null && getQueue().isEmpty();

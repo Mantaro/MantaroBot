@@ -40,8 +40,8 @@ public class GsonDataManager<T> implements DataManager<T> {
 
 			this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
 		} catch (IOException e) {
-            UnsafeUtils.throwException(e);
-            throw new AssertionError(); //otherwise it doesn't compile
+			UnsafeUtils.throwException(e);
+			throw new AssertionError(); //otherwise it doesn't compile
 		}
 	}
 
@@ -55,7 +55,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 		try {
 			FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
 		} catch (IOException e) {
-            UnsafeUtils.throwException(e);
+			UnsafeUtils.throwException(e);
 		}
 	}
 }

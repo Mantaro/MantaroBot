@@ -5,9 +5,6 @@ import com.mashape.unirest.http.Unirest;
 import net.kodehawa.lib.imageboard.rule34.entities.Hentai;
 import net.kodehawa.lib.imageboard.rule34.providers.HentaiProvider;
 import net.kodehawa.mantarobot.utils.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import us.monoid.web.Resty;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,7 +24,8 @@ public class Rule34 {
 				if (provider == null) throw new IllegalStateException("Provider is null");
 				List<Hentai> wallpapers = get(limit, search);
 				provider.onSuccess(wallpapers);
-			} catch (Exception ignored) {}
+			} catch (Exception ignored) {
+			}
 		});
 	}
 

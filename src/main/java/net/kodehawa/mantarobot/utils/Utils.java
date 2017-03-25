@@ -118,8 +118,8 @@ public class Utils {
 		try {
 			return URLEncoder.encode(s, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-            UnsafeUtils.throwException(e);
-            return null; //cheating compiler
+			UnsafeUtils.throwException(e);
+			return null; //cheating compiler
 		}
 	}
 
@@ -154,7 +154,7 @@ public class Utils {
 			InputStream ism = ccnn.getInputStream();
 			webObject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
-			if(e instanceof java.io.FileNotFoundException) return null;
+			if (e instanceof java.io.FileNotFoundException) return null;
 
 			LOGGER.warn("Seems like I cannot fetch data from " + url, e);
 			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();

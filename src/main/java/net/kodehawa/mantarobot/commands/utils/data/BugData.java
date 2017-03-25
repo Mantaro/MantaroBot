@@ -4,14 +4,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class BugData {
-    public static class Bug {
-        public String bug;
-        public long reporterId;
-        public long time;
-        public long messageId;
-        public boolean accepted = false;
-    }
+	public static class Bug {
+		public boolean accepted = false;
+		public String bug;
+		public long messageId;
+		public long reporterId;
+		public long time;
+	}
 
-    public ConcurrentHashMap<Long, Bug> bugs = new ConcurrentHashMap<>();
-    public AtomicLong nextId = new AtomicLong(1);
+	public ConcurrentHashMap<Long, Bug> bugs = new ConcurrentHashMap<>();
+	public AtomicLong nextId = new AtomicLong(1);
 }

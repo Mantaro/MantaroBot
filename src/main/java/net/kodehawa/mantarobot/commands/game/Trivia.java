@@ -24,7 +24,7 @@ public class Trivia extends Game {
 	//did you just assume I answered one
 	private int triviaAnswers = 1;
 
-	public Trivia(){
+	public Trivia() {
 		super();
 	}
 
