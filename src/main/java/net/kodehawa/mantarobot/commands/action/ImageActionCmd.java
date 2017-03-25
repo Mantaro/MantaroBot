@@ -7,9 +7,11 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.NoArgsCommand;
+import net.kodehawa.mantarobot.utils.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -40,7 +42,7 @@ public class ImageActionCmd extends NoArgsCommand {
 		String random = random(images);
 		try {
 			event.getChannel().sendFile(
-				new URL(random).openStream(),
+				new FileInputStream(URLCache.getFile(random)),
 				imageName,
 				new MessageBuilder()
 					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))

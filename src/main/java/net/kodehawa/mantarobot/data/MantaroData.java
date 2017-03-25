@@ -38,7 +38,10 @@ public class MantaroData {
 			} else {
 				builder = new CrossBotDataManager.Builder(CrossBotDataManager.Builder.Type.CLIENT).name("Mantaro").host(config.crossBotHost);
 			}
-			crossBot = builder.port(config.crossBotPort).build();
+			crossBot = builder
+                    .async(true, 10) //try to send everything on the queue every 10ms
+                    .port(config.crossBotPort)
+                    .build();
 		}
 
 		return crossBot;

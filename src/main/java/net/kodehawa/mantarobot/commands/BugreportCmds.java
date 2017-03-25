@@ -26,8 +26,7 @@ public class BugreportCmds extends Module
         report();
     }
 
-    private void report()
-    {
+    private void report() {
         super.register("bugreport", new SimpleCommand() {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -39,8 +38,7 @@ public class BugreportCmds extends Module
             }
 
             @Override
-            public void call(String[] args, String content, GuildMessageReceivedEvent event)
-            {
+            public void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 /*if(content.isEmpty()) {
                     event.getChannel().sendMessage("No bug specified").queue();
                     return;
@@ -76,8 +74,7 @@ public class BugreportCmds extends Module
         });
     }
 
-    private void admin()
-    {
+    private void admin() {
         super.register("bug", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
