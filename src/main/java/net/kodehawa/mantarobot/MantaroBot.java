@@ -70,8 +70,10 @@ public class MantaroBot extends ShardedJDA {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
 			shards[i] = new MantaroShard(i, totalShards);
 			LOGGER.debug("Finished loading shard #" + i + ".");
-			LOGGER.info("Waiting for cooldown...");
-			Thread.sleep(5000);
+			if (i + 1 < totalShards) {
+				LOGGER.info("Waiting for cooldown...");
+				Thread.sleep(5000);
+			}
 		}
 
 		Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()

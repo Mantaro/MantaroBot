@@ -51,7 +51,7 @@ public class Util {
 			for (PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
 				Method reader = descriptor.getReadMethod();
 
-				if (reader == null || reader.isAnnotationPresent(Transient.class) && reader.getAnnotation(Transient.class).value())
+				if (reader == null || reader.getDeclaringClass() != pojoClass || reader.isAnnotationPresent(Transient.class) && reader.getAnnotation(Transient.class).value())
 					continue;
 
 				Object value = reader.invoke(pojo);

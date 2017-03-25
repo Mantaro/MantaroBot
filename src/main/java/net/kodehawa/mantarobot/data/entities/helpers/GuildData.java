@@ -12,7 +12,7 @@ import java.util.Set;
 public class GuildData {
 	private String birthdayChannel = null;
 	private String birthdayRole = null;
-	private boolean customAdminLock = false;
+	private Boolean customAdminLock = false;
 	private String guildAutoRole = null;
 	private String guildCustomPrefix = null;
 	private String guildLogChannel = null;
@@ -20,9 +20,9 @@ public class GuildData {
 	private String musicChannel = null;
 	private Long musicQueueSizeLimit = null;
 	private Long musicSongDurationLimit = null;
-	private long quoteLastId = 0;
-	private boolean rpgDevaluation = true; //TODO HOOK THIS FIELD IN OPTS
-	private boolean rpgLocalMode = false;
+	private Long quoteLastId = 0L;
+	private Boolean rpgDevaluation = true; //TODO HOOK THIS FIELD IN OPTS
+	private Boolean rpgLocalMode = false;
 
 	public List<String> getGuildUnsafeChannels() {
 		return new ArrayList<>(guildUnsafeChannels);

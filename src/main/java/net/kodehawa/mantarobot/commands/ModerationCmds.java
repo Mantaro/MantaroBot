@@ -435,7 +435,7 @@ public class ModerationCmds extends Module {
 					try {
 						guildData.setRpgLocalMode(Boolean.parseBoolean(action));
 						dbGuild.save();
-						String toSend = EmoteReference.CORRECT + (guildData.isRpgLocalMode() ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
+						String toSend = EmoteReference.CORRECT + (guildData.getRpgLocalMode() ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
 					} catch (Exception e) {

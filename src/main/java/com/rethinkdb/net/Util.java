@@ -1,6 +1,8 @@
 package com.rethinkdb.net;
 
 import com.rethinkdb.gen.exc.ReqlDriverError;
+import com.rethinkdb.serialization.ConstructorResolver;
+import com.rethinkdb.serialization.ResolverMode;
 import com.rethinkdb.serialization.Strategy;
 import com.rethinkdb.serialization.UnserializationStrategy;
 import org.json.simple.JSONObject;
@@ -12,7 +14,10 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.ByteArrayInputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
@@ -21,12 +26,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@SuppressWarnings("unchecked")
 public class Util {
 
-	private static boolean areParametersMatching(Parameter[] parameters, Map<String, Object> values) {
-		return Arrays.stream(parameters).allMatch(parameter ->
-			values.containsKey(parameter.getName()) &&
-				values.get(parameter.getName()).getClass() == parameter.getType()
+	private static boolean areParametersMatching(Constructor<?> constructor, Map<String, Object> values) {
+		ResolverMode mode = Optional.ofNullable(constructor.getAnnotation(ConstructorResolver.class)).map(ConstructorResolver::value).orElse(ResolverMode.PARAMETER_NAMES);
+		return Arrays.stream(constructor.getParameters()).allMatch(parameter -> {
+				String key = mode.apply(parameter);
+				return key != null && values.containsKey(key) && canPojo(parameter.getType(), values.get(key));
+			}
 		);
 	}
 
@@ -34,6 +42,26 @@ public class Util {
 		// This should only be used on ByteBuffers we've created by
 		// wrapping an array
 		return new String(buf.array(), StandardCharsets.UTF_8);
+	}
+
+	private static boolean canPojo(Class<?> pojoClass, Object object) {
+		if (object == null) return true;
+
+		if (!(object instanceof Map)) return true;
+
+		Map<String, Object> map = (Map<String, Object>) object;
+
+		if (pojoClass.equals(Map.class)) return true;
+
+		if (pojoClass.isAnnotationPresent(Strategy.class) && !pojoClass.getAnnotation(Strategy.class).unserialization().equals(UnserializationStrategy.class))
+			return true;
+
+		if (!Modifier.isPublic(pojoClass.getModifiers())) return false;
+
+		Constructor[] allConstructors = pojoClass.getDeclaredConstructors();
+
+		return getPublicParameterlessConstructors(allConstructors).count() == 1 || getSuitablePublicParametrizedConstructors(allConstructors, map).length == 1;
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -64,19 +92,20 @@ public class Util {
 		return pojo;
 	}
 
-	private static Object constructViaPublicParametrizedConstructor(Constructor constructor, Map<String, Object> map)
-		throws IllegalAccessException, InstantiationException, IntrospectionException, InvocationTargetException {
+	private static Object constructViaPublicParametrizedConstructor(Constructor<?> constructor, Map<String, Object> map) throws IllegalAccessException, InstantiationException, IntrospectionException, InvocationTargetException {
+		ResolverMode mode = Optional.ofNullable(constructor.getAnnotation(ConstructorResolver.class)).map(ConstructorResolver::value).orElse(ResolverMode.PARAMETER_NAMES);
+
 		Object[] values = Arrays.stream(constructor.getParameters()).map(parameter -> {
-			Object value = map.get(parameter.getName());
+			Object value = map.get(mode.apply(parameter));
 
 			return value instanceof Map
-				? toPojo(value.getClass(), (Map<String, Object>) value)
+				? toPojo(parameter.getType(), (Map<String, Object>) value)
 				: value;
 		}).toArray();
-
 		return constructor.newInstance(values);
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	public static <T, P> T convertToPojo(Object value, Optional<Class<P>> pojoClass) {
 		return !pojoClass.isPresent() || !(value instanceof Map)
 			? (T) value
@@ -101,7 +130,7 @@ public class Util {
 	private static Constructor[] getSuitablePublicParametrizedConstructors(Constructor[] allConstructors, Map<String, Object> map) {
 		return Arrays.stream(allConstructors).filter(constructor ->
 			Modifier.isPublic(constructor.getModifiers()) &&
-				areParametersMatching(constructor.getParameters(), map)
+				areParametersMatching(constructor, map)
 		).toArray(Constructor[]::new);
 	}
 
@@ -145,6 +174,10 @@ public class Util {
 				return null;
 			}
 
+			if (pojoClass.equals(Map.class)) {
+				return (T) map;
+			}
+
 			if (pojoClass.isAnnotationPresent(Strategy.class)) {
 				Strategy strategy = pojoClass.getAnnotation(Strategy.class);
 				if (!strategy.unserialization().equals(UnserializationStrategy.class)) {
@@ -170,7 +203,7 @@ public class Util {
 
 			throw new IllegalAccessException(String.format(
 				"%s should have a public parameterless constructor " +
-					"or a public constructor with %d parameters", pojoClass, map.keySet().size()));
+					"or a public constructor with %d parameters (found: %d)", pojoClass, map.keySet().size(), constructors.length));
 		} catch (InstantiationException | IllegalAccessException | IntrospectionException | InvocationTargetException e) {
 			throw new ReqlDriverError("Can't convert %s to a POJO: %s", map, e.getMessage());
 		}

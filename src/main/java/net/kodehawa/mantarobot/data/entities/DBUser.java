@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.data.entities;
 
+import com.rethinkdb.serialization.ConstructorResolver;
+import com.rethinkdb.serialization.ResolverMode;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -8,6 +10,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 
+import java.beans.ConstructorProperties;
 import java.beans.Transient;
 
 import static com.rethinkdb.RethinkDB.r;
@@ -26,6 +29,8 @@ public class DBUser implements ManagedObject {
 	private final String id;
 	private long premiumUntil;
 
+	@ConstructorResolver(ResolverMode.CONSTRUCTOR_PROPERTIES)
+	@ConstructorProperties({"id", "premiumUntil", "data"})
 	public DBUser(String id, long premiumUntil, UserData data) {
 		this.id = id;
 		this.premiumUntil = premiumUntil;

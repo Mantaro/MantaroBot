@@ -49,3 +49,6 @@ config.json
 data.json
 quotes.json
 /logs/
+
+#RethinkDB
+/db/

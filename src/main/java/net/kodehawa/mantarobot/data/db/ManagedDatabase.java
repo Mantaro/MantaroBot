@@ -91,7 +91,7 @@ public class ManagedDatabase {
 	}
 
 	public Player getPlayer(String userId, String guildId) {
-		boolean local = getGuild(guildId).getData().isRpgLocalMode();
+		boolean local = getGuild(guildId).getData().getRpgLocalMode();
 		Player player = r.table(Player.DB_TABLE).get(userId + ':' + (local ? guildId : "g")).run(conn, Player.class);
 		return player == null ? Player.of(userId, guildId) : player;
 	}
@@ -105,7 +105,7 @@ public class ManagedDatabase {
 	}
 
 	public List<Player> getPlayers(String guildId) {
-		boolean local = getGuild(guildId).getData().isRpgLocalMode();
+		boolean local = getGuild(guildId).getData().getRpgLocalMode();
 		String pattern = ':' + (local ? guildId : "g") + '$';
 		Cursor<Player> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
 		return c.toList();

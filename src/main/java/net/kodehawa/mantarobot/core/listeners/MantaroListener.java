@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.core.listeners;
 
+import com.rethinkdb.gen.exc.ReqlError;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
@@ -25,17 +27,15 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Slf4j
 public class MantaroListener implements EventListener {
 	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500
 	private static final Map<String, Message> messageCache = Collections.synchronizedMap(new LinkedHashMap<>(2500));
-	private static Logger LOGGER = LoggerFactory.getLogger("CommandListener");
 	private static int commandTotal = 0;
 	private static int logTotal = 0;
 	private static long ticks;
@@ -133,7 +133,7 @@ public class MantaroListener implements EventListener {
 			}
 		} catch (Exception e) {
 			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)) {
-				LOGGER.warn("Unexpected exception while logging a deleted message.", e);
+				log.warn("Unexpected exception while logging a deleted message.", e);
 			}
 		}
 	}
@@ -154,14 +154,14 @@ public class MantaroListener implements EventListener {
 			}
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				LOGGER.warn("Unexpected error while logging a edit.", e);
+				log.warn("Unexpected error while logging a edit.", e);
 			}
 		}
 	}
 
 	private void logStatusChange(StatusChangeEvent event) {
 		JDA jda = event.getJDA();
-		LOGGER.info(String.format("Status Change Event on Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+		log.info(String.format("Status Change Event on Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
 
 	private void logUnban(GuildUnbanEvent event) {
@@ -224,34 +224,25 @@ public class MantaroListener implements EventListener {
 				return;
 			if (event.getAuthor().isBot()) return;
 			if (CommandProcessor.run(event)) commandTotal++;
+		} catch (IndexOutOfBoundsException e) {
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
+			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
+		} catch (PermissionException e) {
+			event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + e.getPermission()).queue();
+			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
+		} catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
+			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
+		} catch (ReqlError e) {
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems that we are having some problems on our database... ").queue();
+			log.warn("<@217747278071463937> RethinkDB is on fire, and we got this", e);
 		} catch (Exception e) {
-			if (e instanceof NumberFormatException) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
-				return;
-			}
-
-			if (e instanceof IndexOutOfBoundsException) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
-				return;
-			}
-
-			if (e instanceof PermissionException) {
-				PermissionException ex = (PermissionException) e;
-				event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + ex.getPermission()).queue();
-				return;
-			}
-
-			if (e instanceof IllegalArgumentException) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
-				return;
-			}
-
 			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
 					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
 					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about. There is probably people working on the fix already, though. (Also maybe you just got the arguments wrong))"
 				, e.getClass().getSimpleName(), e.getMessage())).queue();
 
-			LOGGER.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
+			log.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
 		}
 	}
 
@@ -292,13 +283,13 @@ public class MantaroListener implements EventListener {
 		String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		if (role != null) {
-			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> LOGGER.debug("Successfully added a new role to " + event.getMember()), error -> {
+			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
 				if (error instanceof PermissionException) {
 					MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
 					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
 						messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
 				} else {
-					LOGGER.warn("Error while applying roles", error);
+					log.warn("Error while applying roles", error);
 				}
 			});
 		}

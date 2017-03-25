@@ -35,27 +35,26 @@ public class Player implements ManagedObject {
 	}
 
 	public static Player of(String userId, String guildId) {
-		boolean local = db().getGuild(guildId).getData().isRpgLocalMode();
+		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
 		return new Player(userId + ":" + (local ? guildId : "g"), 250, 0, 0, 100, "");
 	}
-
-	@Getter
-	private transient boolean processing;
 	@Getter
 	private final String id;
 	@Getter
 	private int health = 250;
 	private transient Inventory inventory = new Inventory();
 	@Getter
+	private int maxHealth = 250;
+	@Getter
+	private int maxStamina = 100;
+	@Getter
 	private long money = 0;
+	@Getter
+	private transient boolean processing;
 	@Getter
 	private int reputation = 0;
 	@Getter
 	private int stamina = 100;
-	@Getter
-	private int maxHealth = 250;
-	@Getter
-	private int maxStamina = 100;
 
 	public Player(String id, int health, long money, int reputation, int stamina, String inventory) {
 		this.id = id;
@@ -86,48 +85,16 @@ public class Player implements ManagedObject {
 			.runNoReply(conn());
 	}
 
-	@Transient
-	public String getGuildId() {
-		return getId().split(":")[1];
-	}
-
-	public String getInventory() {
-		String s = gson(false).toJson(serialize(inventory.asList()));
-		return s.substring(1, s.length() - 1);
-	}
-
-	@Transient
-	public String getUserId() {
-		return getId().split(":")[0];
-	}
-
-	public Inventory inventory() {
-		return inventory;
-	}
-
-	@Transient
-	public boolean isGlobal() {
-		return getGuildId().equals("g");
-	}
-
-	public Player setHealth(int health) {
-		this.health = health < 0 ? 0 : health;
-		return this;
-	}
-
-	public Player setMoney(long money) {
-		this.money = money < 0 ? 0 : money;
-		return this;
-	}
-
-	public Player setReputation(int reputation) {
-		this.reputation = reputation < 0 ? 0 : reputation;
-		return this;
-	}
-
-	public Player setStamina(int stamina) {
-		this.stamina = stamina < 0 ? 0 : stamina;
-		return this;
+	/**
+	 * Adds x amount of health to the entity. Used in recovery and potion process.
+	 *
+	 * @param amount How much?
+	 * @return Did it pass through? Please? (aka, did it not overflow?)
+	 */
+	public boolean addHealth(int amount) {
+		if (getHealth() + amount < 0 || getHealth() + amount > getMaxHealth()) return false;
+		setHealth(getHealth() + amount);
+		return true;
 	}
 
 	/**
@@ -161,18 +128,6 @@ public class Player implements ManagedObject {
 	}
 
 	/**
-	 * Adds x amount of health to the entity. Used in recovery and potion process.
-	 *
-	 * @param amount How much?
-	 * @return Did it pass through? Please? (aka, did it not overflow?)
-	 */
-	public boolean addHealth(int amount) {
-		if (getHealth() + amount < 0 || getHealth() + amount > getMaxHealth()) return false;
-		setHealth(getHealth() + amount);
-		return true;
-	}
-
-	/**
 	 * Adds x amount of stamina to the entity. Used in recovery and potion process.
 	 *
 	 * @param amount How much?
@@ -183,7 +138,6 @@ public class Player implements ManagedObject {
 		setStamina(getStamina() + amount);
 		return true;
 	}
-
 
 	/**
 	 * Makes a player a little bit sicker. Normally the result of sick-inducing activities like mining.
@@ -205,15 +159,30 @@ public class Player implements ManagedObject {
 		return this.stamina - amount >= 0 && addStamina(-amount);
 	}
 
-	/**
-	 * Set the preparation for receive data.
-	 * This is done to prevent it to receive data twice and also to prevent duplication of data.
-	 *
-	 * @param processing is it receiving data?
-	 */
-	public void setProcessing(boolean processing) {
-		this.processing = processing;
+	@Transient
+	public String getGuildId() {
+		return getId().split(":")[1];
 	}
+
+	public String getInventory() {
+		String s = gson(false).toJson(serialize(inventory.asList()));
+		return s.substring(1, s.length() - 1);
+	}
+
+	@Transient
+	public String getUserId() {
+		return getId().split(":")[0];
+	}
+
+	public Inventory inventory() {
+		return inventory;
+	}
+
+	@Transient
+	public boolean isGlobal() {
+		return getGuildId().equals("g");
+	}
+
 	/**
 	 * Removes x amount of money from the player. Only goes though if money removed sums more than zero (avoids negative values).
 	 *
@@ -224,5 +193,35 @@ public class Player implements ManagedObject {
 		if (this.money - money < 0) return false;
 		this.money -= money;
 		return true;
+	}
+
+	public Player setHealth(int health) {
+		this.health = health < 0 ? 0 : health;
+		return this;
+	}
+
+	public Player setMoney(long money) {
+		this.money = money < 0 ? 0 : money;
+		return this;
+	}
+
+	/**
+	 * Set the preparation for receive data.
+	 * This is done to prevent it to receive data twice and also to prevent duplication of data.
+	 *
+	 * @param processing is it receiving data?
+	 */
+	public void setProcessing(boolean processing) {
+		this.processing = processing;
+	}
+
+	public Player setReputation(int reputation) {
+		this.reputation = reputation < 0 ? 0 : reputation;
+		return this;
+	}
+
+	public Player setStamina(int stamina) {
+		this.stamina = stamina < 0 ? 0 : stamina;
+		return this;
 	}
 }

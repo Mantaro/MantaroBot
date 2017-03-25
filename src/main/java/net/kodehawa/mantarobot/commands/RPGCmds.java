@@ -697,7 +697,7 @@ public class RPGCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
+				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().getRpgLocalMode() && !content.equals("guild");
 
 				AtomicInteger integer = new AtomicInteger(1);
 

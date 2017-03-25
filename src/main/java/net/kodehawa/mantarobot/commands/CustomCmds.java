@@ -99,7 +99,7 @@ public class CustomCmds extends Module {
 					return;
 				}
 
-				if (db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
+				if (db().getGuild(event.getGuild()).getData().getCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
 					event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
 					return;
 				}
@@ -220,7 +220,7 @@ public class CustomCmds extends Module {
 					String any = "[\\d\\D]*?";
 
 					List<Pair<Guild, CustomCommand>> filtered = MantaroData.db()
-						.getCustomCommandsByName(any + cmd + any).stream()
+						.getCustomCommandsByName(any + Pattern.quote(cmd) + any).stream()
 						.map(customCommand -> {
 							Guild guild = mapped.get(customCommand.getGuildId());
 							return guild == null ? null : Pair.of(guild, customCommand);

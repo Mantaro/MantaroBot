@@ -74,53 +74,31 @@ public class InfoCmds extends Module {
 		invite();
 	}
 
-	private void invite(){
-		super.register("invite", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
-						.addField("OAuth Invite URL", "http://polr.me/mantaro", false)
-						.addField("Support Guild Invite", "https://discordapp.com/invite/cMTmuPa", false)
-						.addField("Patreon URL", "http://patreon.com/mantaro", false)
-						.setDescription("Here are some useful links related to mantaro. If you have any questions about the bot feel free to join the support guild." +
-								"\nWe provided a patreon link in case you want to donate to keep mantaro running. Thanks you in advance for using the bot! <3")
-						.setFooter("Hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
-						.build()).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Invite command")
-						.setDescription("Gives you a bot OAuth invite link.").build();
-			}
-		});
-	}
-
 	private void about() {
 		super.register("about", new SimpleCommand() {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 
-				if(!content.isEmpty() && args[0].equals("patreon")){
+				if (!content.isEmpty() && args[0].equals("patreon")) {
 					//TODO should do with db.
 					EmbedBuilder builder = new EmbedBuilder();
 					builder.setAuthor("Patreon supporters.", null, event.getJDA().getSelfUser().getAvatarUrl())
-							.setDescription("On construction.")
-							.setColor(Color.PINK)
-							.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
+						.setDescription("On construction.")
+						.setColor(Color.PINK)
+						.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
 
-				if(!content.isEmpty() && args[0].equals("credits")){
+				if (!content.isEmpty() && args[0].equals("credits")) {
 					EmbedBuilder builder = new EmbedBuilder();
 					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
-							.setColor(Color.BLUE)
-							.setDescription("**Main developer**: Kodehawa#3457\n"
+						.setColor(Color.BLUE)
+						.setDescription("**Main developer**: Kodehawa#3457\n"
 							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289\n**Grammar corrections**: Adam#9261")
-							.addField("Special mentions",
-									"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping with bot visibility.", false)
-							.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
+						.addField("Special mentions",
+							"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping with bot visibility.", false)
+						.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
@@ -134,6 +112,14 @@ public class InfoCmds extends Module {
 				long hours = minutes / 60;
 				long days = hours / 24;
 
+				String madeBy = "Bot made by: " + MantaroData.config().get().owners.stream()
+					.map(id -> MantaroBot.getInstance().getUserById(id))
+					.filter(Objects::nonNull)
+					.map(user -> event.getGuild().getMember(user) != null ? user.getAsMention() : user.getName() + "#" + user.getDiscriminator())
+					.collect(Collectors.joining(", "));
+
+				if (madeBy.contains("<@")) madeBy += " (say hi to them!)";
+
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(Color.PINK)
 					.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
@@ -144,7 +130,7 @@ public class InfoCmds extends Module {
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
 						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
 						" [Support the bot development!](https://www.patreon.com/mantaro)\n\n" +
-						EmoteReference.POPPER + "Bot made by Kodehawa#3457 and AdrianTodt#0722"
+						EmoteReference.POPPER + madeBy
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
@@ -178,55 +164,6 @@ public class InfoCmds extends Module {
 				return CommandPermission.USER;
 			}
 
-		});
-	}
-
-	private void shard(){
-		super.register("shardinfo", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if(content.isEmpty()){
-					StringBuilder builder = new StringBuilder();
-					for(MantaroShard shard : MantaroBot.getInstance().getShardList()){
-						builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
-								.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append("\n");
-					}
-
-					event.getChannel().sendMessage(String.format("```prolog\n%s```", builder.toString())).queue();
-					return;
-				}
-
-				int choosenShard = Integer.parseInt(args[0]);
-				int finalShard = choosenShard - 1;
-				List<MantaroShard> shards = MantaroBot.getInstance().getShardList();
-				if(choosenShard - 1 > shards.size() || choosenShard < 1){
-					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no shard " + choosenShard).queue();
-					return;
-				}
-
-				EmbedBuilder b = new EmbedBuilder();
-				JDA shardJDA = shards.get(finalShard).getJDA();
-				b.setAuthor("Shard info for shard #" + choosenShard + " (" + shardJDA.getShardInfo() + ")", null, event.getJDA().getSelfUser().getAvatarUrl())
-						.setDescription("Shard " + choosenShard + "/" + shards.size())
-						.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-						.addField("Status", shardJDA.getStatus().toString(), true)
-						.addField("API Responses", String.valueOf(shardJDA.getResponseTotal()), true)
-						.addField("Guilds", String.valueOf(shardJDA.getGuilds().size()), true)
-						.addField("Users", String.valueOf(shardJDA.getUsers().size()), true)
-						.addField("Text Channels", String.valueOf(shardJDA.getTextChannels().size()), true)
-						.addField("Voice Channels", String.valueOf(shardJDA.getVoiceChannels().size()), true);
-
-				event.getChannel().sendMessage(b.build()).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Shard info")
-						.setDescription("Gets the information of a shard.")
-						.addField("Usage", "~>shardinfo <shard>", false)
-						.addField("Important", "Write the number you see in the footer of ~>about", false)
-						.build();
-			}
 		});
 	}
 
@@ -283,7 +220,7 @@ public class InfoCmds extends Module {
 					.addField("Creation Date", guild.getCreationTime().format(DateTimeFormatter.ISO_DATE_TIME).replaceAll("[^0-9.:-]", " "), true)
 					.addField("Voice/Text Channels", guild.getVoiceChannels().size() + "/" + guild.getTextChannels().size(), true)
 					.addField("Owner", guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), true)
-					.addField("Region", guild.getRegion() == null ? "Unknown." :  guild.getRegion().getName(), true)
+					.addField("Region", guild.getRegion() == null ? "Unknown." : guild.getRegion().getName(), true)
 					.addField("Roles (" + guild.getRoles().size() + ")", roles, false)
 					.setFooter("Server ID: " + String.valueOf(guild.getId()), null)
 					.build()
@@ -372,7 +309,7 @@ public class InfoCmds extends Module {
 				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 				List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
 				int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-						voiceChannel.getGuild().getSelfMember())).count();
+					voiceChannel.getGuild().getSelfMember())).count();
 
 				event.getChannel().sendMessage("```prolog\n"
 					+ "---MantaroBot Technical Information---\n\n"
@@ -407,6 +344,28 @@ public class InfoCmds extends Module {
 		});
 	}
 
+	private void invite() {
+		super.register("invite", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
+					.addField("OAuth Invite URL", "http://polr.me/mantaro", false)
+					.addField("Support Guild Invite", "https://discordapp.com/invite/cMTmuPa", false)
+					.addField("Patreon URL", "http://patreon.com/mantaro", false)
+					.setDescription("Here are some useful links related to mantaro. If you have any questions about the bot feel free to join the support guild." +
+						"\nWe provided a patreon link in case you want to donate to keep mantaro running. Thanks you in advance for using the bot! <3")
+					.setFooter("Hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
+					.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Invite command")
+					.setDescription("Gives you a bot OAuth invite link.").build();
+			}
+		});
+	}
+
 	private void ping() {
 		super.register("ping", new SimpleCommand() {
 			@Override
@@ -433,12 +392,61 @@ public class InfoCmds extends Module {
 		});
 	}
 
+	private void shard() {
+		super.register("shardinfo", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (content.isEmpty()) {
+					StringBuilder builder = new StringBuilder();
+					for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
+						builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
+							.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append("\n");
+					}
+
+					event.getChannel().sendMessage(String.format("```prolog\n%s```", builder.toString())).queue();
+					return;
+				}
+
+				int choosenShard = Integer.parseInt(args[0]);
+				int finalShard = choosenShard - 1;
+				List<MantaroShard> shards = MantaroBot.getInstance().getShardList();
+				if (choosenShard - 1 > shards.size() || choosenShard < 1) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no shard " + choosenShard).queue();
+					return;
+				}
+
+				EmbedBuilder b = new EmbedBuilder();
+				JDA shardJDA = shards.get(finalShard).getJDA();
+				b.setAuthor("Shard info for shard #" + choosenShard + " (" + shardJDA.getShardInfo() + ")", null, event.getJDA().getSelfUser().getAvatarUrl())
+					.setDescription("Shard " + choosenShard + "/" + shards.size())
+					.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+					.addField("Status", shardJDA.getStatus().toString(), true)
+					.addField("API Responses", String.valueOf(shardJDA.getResponseTotal()), true)
+					.addField("Guilds", String.valueOf(shardJDA.getGuilds().size()), true)
+					.addField("Users", String.valueOf(shardJDA.getUsers().size()), true)
+					.addField("Text Channels", String.valueOf(shardJDA.getTextChannels().size()), true)
+					.addField("Voice Channels", String.valueOf(shardJDA.getVoiceChannels().size()), true);
+
+				event.getChannel().sendMessage(b.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Shard info")
+					.setDescription("Gets the information of a shard.")
+					.addField("Usage", "~>shardinfo <shard>", false)
+					.addField("Important", "Write the number you see in the footer of ~>about", false)
+					.build();
+			}
+		});
+	}
+
 	private void stats() {
 		super.register("stats", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					GuildStatsManager.MILESTONE = (((MantaroBot.getInstance().getGuilds().size() + 99) / 100 ) * 100) + 100;
+					GuildStatsManager.MILESTONE = (((MantaroBot.getInstance().getGuilds().size() + 99) / 100) * 100) + 100;
 					List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
 					List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
@@ -475,10 +483,10 @@ public class InfoCmds extends Module {
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
 							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
-							.addField("Exclusiveness per Total Guilds",  Math.round(ex) + "% (" + exclusiveness  + ")", true)
+							.addField("Exclusiveness per Total Guilds", Math.round(ex) + "% (" + exclusiveness + ")", true)
 							.addField("Big Guilds", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
-									, event.getJDA().getSelfUser().getAvatarUrl())
+								, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()
 					).queue();
 					TextChannelWorld.of(event).dropItemWithChance(4, 5);
