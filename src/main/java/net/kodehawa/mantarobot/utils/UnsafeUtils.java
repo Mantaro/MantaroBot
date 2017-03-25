@@ -3,12 +3,11 @@ package net.kodehawa.mantarobot.utils;
 import sun.misc.Unsafe;
 import sun.reflect.CallerSensitive;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.security.ProtectionDomain;
 
 public class UnsafeUtils {
+    private static final Field modifiersField;
     private static final Method defineClass;
     private static final Unsafe unsafe;
 
@@ -30,6 +29,14 @@ public class UnsafeUtils {
             d = null;
         }
         defineClass = d;
+        Field f;
+        try {
+            f = Field.class.getDeclaredField("modifiers");
+            f.setAccessible(true);
+        } catch(NoSuchFieldException e) {
+            f = null;
+        }
+        modifiersField = f;
     }
 
     public static Unsafe getUnsafe() {
@@ -83,6 +90,36 @@ public class UnsafeUtils {
             }
         }
         return unsafe.defineClass(name, bytes, offset, length, loader, domain);
+    }
+
+    public static void updateStaticFinalField(Field field, Object value) {
+        updateStaticFinalField(field, value, false);
+    }
+
+    public static void updateStaticFinalField(Field field, Object value, boolean volatileSet) {
+        if(field == null) throw new NullPointerException("field");
+        if(!Modifier.isStatic(field.getModifiers())) throw new IllegalArgumentException("Field not static");
+        if(field.getType().isPrimitive()) throw new IllegalArgumentException("Primitive fields cannot be updated"); //inlined by the compiler (would have no effect)
+        if(field.getType() == String.class) throw new IllegalArgumentException("String fields cannot be updated"); //inlined too
+        if(unsafe == null) {
+            if(modifiersField == null) throw new UnsupportedOperationException("Neither unsafe nor reflection methods available");
+            try {
+                modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+            } catch(IllegalAccessException impossible) {
+                throw new AssertionError(impossible);
+            }
+            field.setAccessible(true);
+            try {
+                field.set(null, value);
+            } catch(IllegalAccessException impossible) {
+                throw new AssertionError(impossible);
+            }
+            return;
+        }
+        if(volatileSet)
+            unsafe.putObjectVolatile(unsafe.staticFieldBase(field), unsafe.staticFieldOffset(field), value);
+        else
+            unsafe.putObject(unsafe.staticFieldBase(field), unsafe.staticFieldOffset(field), value);
     }
 
     public static Class<?> getCallingClass() {
