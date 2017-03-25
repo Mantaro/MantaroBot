@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.holding.Holder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -8,36 +7,31 @@ import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.custom.DeathTimer;
-import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
-import net.kodehawa.mantarobot.commands.custom.TextChannelLock;
+import net.kodehawa.mantarobot.commands.custom.compiler.CompiledCustomCommand;
+import net.kodehawa.mantarobot.commands.custom.compiler.CustomCommandCompiler;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
-import net.kodehawa.mantarobot.core.listeners.FunctionListener;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.net.URL;
 import java.util.*;
-import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
+import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 public class CustomCmds extends Module {
-	private Map<String, Map<String, List<String>>> customCommands = new HashMap<>();
+	private Map<String, CompiledCustomCommand> compiledCommands = new ConcurrentHashMap<>();
 	private final Command customCommand = new Command() {
 		private Random r = new Random();
 
@@ -46,42 +40,10 @@ public class CustomCmds extends Module {
 			return null;
 		}
 
-		private void handle(GuildMessageReceivedEvent event, String cmdName, String[] args) {
-			if (!customCommands.containsKey(event.getGuild().getId()) || !customCommands.get(event.getGuild().getId()).containsKey(cmdName))
-				return;
-			List<String> responses = customCommands.get(event.getGuild().getId()).get(cmdName);
-			String response = responses.get(r.nextInt(responses.size()));
-
-			if (response.contains("$(")) {
-				Map<String, String> dynamicMap = new HashMap<>();
-				map("event", dynamicMap, event);
-				for (int i = 0; i < args.length; i++) dynamicMap.put("event.args" + i, args[i]);
-				response = dynamicResolve(response, dynamicMap);
-			}
-
-			if (response.startsWith("play:")) {
-				String toSend = response.substring(5);
-				try {
-					new URL(toSend);
-				} catch (Exception e) {
-					toSend = "ytsearch: " + toSend;
-				}
-
-				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, toSend);
-				return;
-			}
-
-			if (response.startsWith("embed:")) {
-				event.getChannel().sendMessage(GsonDataManager.gson(false).fromJson('{' + response.substring(6) + '}', EmbedJSON.class).gen()).queue();
-				return;
-			}
-
-			if (response.startsWith("imgembed:")) {
-				event.getChannel().sendMessage(new EmbedBuilder().setImage(response.substring(9)).setTitle(cmdName, null).setColor(event.getMember().getColor()).build()).queue();
-				return;
-			}
-
-			event.getChannel().sendMessage(response).queue();
+		private void handle(String cmdName, GuildMessageReceivedEvent event) {
+			CompiledCustomCommand consumer = compiledCommands.get(event.getGuild().getId() + ":" + cmdName);
+			if (consumer == null) return;
+			consumer.call(event);
 		}
 
 		@Override
@@ -92,9 +54,9 @@ public class CustomCmds extends Module {
 		@Override
 		public void invoke(Arguments args) {
 			try {
-				handle(args.event, args.cmdName, SPLIT_PATTERN.split(args.content));
+				handle(args.cmdName, args.event);
 			} catch (Exception e) {
-				log.error("An exception occurred while processing a custom command", e);
+				log.error("An exception occurred while processing a custom command:", e);
 			}
 			log("custom command");
 		}
@@ -120,54 +82,42 @@ public class CustomCmds extends Module {
 				}
 
 				String action = args[0];
-				Map<String, List<String>> customCommands = CustomCmds.this.customCommands.computeIfAbsent(event.getGuild().getId(), k -> new HashMap<>());
 
 				if (action.equals("list") || action.equals("ls")) {
+					String filter = event.getGuild().getId() + ":";
+					List<String> commands = compiledCommands.keySet().stream()
+						.filter(s -> s.startsWith(filter))
+						.map(s -> s.substring(filter.length()))
+						.collect(Collectors.toList());
+
 					EmbedBuilder builder = new EmbedBuilder()
 						.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
 						.setColor(event.getMember().getColor());
-					if (customCommands.isEmpty()) {
-						builder.setDescription("There is nothing here, just dust.");
-					} else if (args.length > 1 && args[1].equals("detailed")) {
-						customCommands.entrySet().stream().sorted(Comparator.comparing(Entry::getKey)).forEach(entry -> builder.addField(entry.getKey(), entry.getValue().stream().map(s -> " - ``" + s + "``").collect(Collectors.joining("\n")), false));
-					} else {
-						builder.setDescription(forType(customCommands.keySet()));
-					}
+					builder.setDescription(commands.isEmpty() ? "There is nothing here, just dust." : forType(commands));
 
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
 
-				if (action.equals("debug")) {
-					if (CommandPermission.ADMIN.test(event.getMember())) {
-						event.getChannel().sendMessage(
-							"Guild Commands Debug: " + Utils.paste(
-								GsonDataManager.GSON_PRETTY.toJson(customCommands)
-							)
-						).queue();
-					} else {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
-					}
-					return;
-				}
-
-				if (MantaroData.db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
+				if (db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
 					event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
 					return;
 				}
 
 				if (action.equals("clear")) {
-					if (!event.getMember().isOwner() && !MantaroData.config().get().isOwner(event.getMember())) {
+					if (CommandPermission.ADMIN.test(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
 						return;
 					}
+
+					List<CustomCommand> customCommands = db().getCustomCommands(event.getGuild());
 
 					if (customCommands.isEmpty()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "There's no Custom Commands registered in this Guild.").queue();
 					}
 					int size = customCommands.size();
-					customCommands.clear();
-					//MantaroData.getData().save();
+					customCommands.forEach(CustomCommand::deleteAsync);
+					customCommands.forEach(c -> compiledCommands.remove(c.getId()));
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!").queue();
 					return;
 				}
@@ -180,32 +130,21 @@ public class CustomCmds extends Module {
 				String cmd = args[1];
 
 				if (action.equals("make")) {
-					Runnable unlock = TextChannelLock.adquireLock(event.getChannel());
-					if (unlock == null) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "There's already an Interactive Operation happening on this channel.").queue();
-						return;
-					}
-					event.getChannel().sendMessage(EmoteReference.PENCIL + "Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.").queue();
-
-					Holder<DeathTimer> timer = new Holder<>();
 					List<String> responses = new ArrayList<>();
-
-					FunctionListener f = new FunctionListener(event.getChannel().getId(), (fl, e) -> {
+					boolean created = InteractiveOperations.create(event.getChannel(), e -> {
 						if (!e.getAuthor().equals(event.getAuthor())) return false;
 
-						String tmp = e.getMessage().getRawContent();
-						if (!tmp.startsWith("&")) return false;
-						String s = tmp.substring(1);
+						String c = e.getMessage().getRawContent();
+						if (!c.startsWith("&")) return false;
+						c = c.substring(1);
 
-						if (s.startsWith("~>stop")) {
-							timer.get().disarm().explode();
+						if (c.startsWith("~>cancel") || c.startsWith("~>stop")) {
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "Command Creation canceled.").queue();
-							unlock.run();
 							return true;
 						}
 
-						if (s.startsWith("~>save")) {
-							String arg = s.substring(6).trim();
+						if (c.startsWith("~>save")) {
+							String arg = c.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
 							if (Manager.commands.containsKey(saveTo) && !Manager.commands.get(saveTo).equals(cmdPair)) {
@@ -216,43 +155,56 @@ public class CustomCmds extends Module {
 							if (responses.isEmpty()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "No responses were added. Stopping creation without saving...").queue();
 							} else {
-								customCommands.put(saveTo, responses);
+								CustomCommand custom = CustomCommand.of(event.getGuild().getId(), saveTo, responses);
+
+								//save at DB
+								custom.saveAsync();
+
+								//reflect at compiled
+								compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+
+								//add mini-hack
 								Manager.commands.put(saveTo, cmdPair);
-								//MantaroData.getData().save();
+
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
+
+								//easter egg :D
 								TextChannelWorld.of(event).dropItemWithChance(8, 2);
 							}
-							timer.get().disarm().explode();
-							unlock.run();
 							return true;
 						}
 
-						responses.add(s);
-						e.getMessage().addReaction("\u2705").queue();
-						timer.get().reset();
+						responses.add(c);
+						e.getMessage().addReaction(EmoteReference.CORRECT.getUnicode()).queue();
 						return false;
 					});
-					timer.accept(new DeathTimer(60000, () -> {
-						event.getJDA().removeEventListener(f);
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Interactive Operation **\"Creation of Custom Command ``" + cmd + "``\"** expired due to inactivity.").queue();
-						unlock.run();
-					}));
 
-					event.getJDA().addEventListener(f);
-					return;
+					if (created) {
+						event.getChannel().sendMessage(EmoteReference.PENCIL + "Started **\"Creation of Custom Command ``" + cmd + "``\"**!\nSend ``&~>stop`` to stop creation **without saving**.\nSend ``&~>save`` to stop creation an **save the new Command**. Send any text beginning with ``&`` to be added to the Command Responses.\nThis Interactive Operation ends without saving after 60 seconds of inactivity.").queue();
+					} else {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "There's already an Interactive Operation happening on this channel.").queue();
+					}
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
-					Optional.ofNullable(customCommands.remove(cmd)) //FIXME AdrianTodt
-						.ifPresent((command) -> {
-							//MantaroData.getData().save();
-							if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
-								Manager.commands.remove(cmd);
-							}
-							event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!").queue();
-						});
-					if (cmd == null)
-						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no such Custom Command in this Guild.").queue();
+					CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+					if (custom == null) {
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+						return;
+					}
+
+					//delete at DB
+					custom.deleteAsync();
+
+					//reflect at compiled
+					compiledCommands.remove(custom.getId());
+
+					//clear commands if none
+					if (compiledCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
+						Manager.commands.remove(cmd);
+
+					event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!").queue();
+
 					return;
 				}
 
@@ -262,46 +214,47 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("import")) {
-					/*Map<String, Guild> mapped = MantaroBot.getInstance().getGuilds().stream().collect(Collectors.toMap(ISnowflake::getId, g -> g));
+					Map<String, Guild> mapped = MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).stream()
+						.collect(Collectors.toMap(ISnowflake::getId, g -> g));
 
-					List<Pair<Guild, Entry<String, List<String>>>> queried = MantaroData.getData().get().guilds.entrySet().stream()
-						.map(entry -> {
-							Guild guild = mapped.get(entry.getKey());
-							if (guild == null) return null;
-							if (guild.getMember(event.getAuthor()) == null) return null;
-							Map<String, List<String>> commands = entry.getValue().customCommands;
-							return commands.entrySet().stream().filter(e -> e.getKey().contains(cmd)).map(e -> Pair.of(guild, e));
+					String any = "[\\d\\D]*?";
+
+					List<Pair<Guild, CustomCommand>> filtered = MantaroData.db()
+						.getCustomCommandsByName(any + cmd + any).stream()
+						.map(customCommand -> {
+							Guild guild = mapped.get(customCommand.getGuildId());
+							return guild == null ? null : Pair.of(guild, customCommand);
 						})
 						.filter(Objects::nonNull)
-						.flatMap(pairStream -> pairStream)
 						.collect(Collectors.toList());
 
-					if (queried.size() == 0) {
+					if (filtered.size() == 0) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "There are no custom commands matching your search query.").queue();
 						return;
 					}
 
 					DiscordUtils.selectList(
-						event, queried,
-						pair -> "``" + pair.getValue().getKey() + "`` - Guild: ``" + pair.getKey() + "``",
+						event, filtered,
+						pair -> "``" + pair.getValue().getName() + "`` - Guild: ``" + pair.getKey() + "``",
 						s -> baseEmbed(event, "Select the Command:").setDescription(s).setFooter("(You can only select custom commands from guilds that you are a member of)", null).build(),
 						pair -> {
-							String cmdName = pair.getValue().getKey();
-							List<String> responses = pair.getValue().getValue();
+							String cmdName = pair.getValue().getName();
+							List<String> responses = pair.getValue().getValues();
 
-							if (Manager.commands.containsKey(cmdName) && !Manager.commands.get(cmdName).equals(cmdPair)) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
-								return;
-							}
+							CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmdName, responses);
 
-							Manager.commands.put(cmdName, cmdPair);
-							customCommands.put(cmdName, responses);
-							//MantaroData.getData().save();
+							//save at DB
+							custom.saveAsync();
+
+							//reflect at compiled
+							compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+
 							event.getChannel().sendMessage(String.format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName, pair.getKey().getName(), String.join("``, ``", responses))).queue();
 
+							//easter egg :D
 							TextChannelWorld.of(event).dropItemWithChance(8, 2);
 						}
-					);*/
+					);
 
 					return;
 				}
@@ -320,11 +273,20 @@ public class CustomCmds extends Module {
 						return;
 					}
 
-					Manager.commands.put(cmd, cmdPair);
-					customCommands.put(cmd, responses);
-					//MantaroData.getData().save();
-					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
+					CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, responses);
 
+					//save at DB
+					custom.saveAsync();
+
+					//reflect at compiled
+					compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
+
+					//add mini-hack
+					Manager.commands.put(cmd, cmdPair);
+
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
+
+					//easter egg :D
 					TextChannelWorld.of(event).dropItemWithChance(8, 2);
 					return;
 				}
@@ -364,14 +326,14 @@ public class CustomCmds extends Module {
 
 	@Override
 	public void onPostLoad() {
-		MantaroData.db().getCustomCommands().forEach(custom -> {
+		db().getCustomCommands().forEach(custom -> {
 			if (Manager.commands.containsKey(custom.getName())) {
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
 				custom.saveAsync();
 			}
 
-			customCommands.computeIfAbsent(custom.getGuildId(), k -> new HashMap<>()).put(custom.getName(), custom.getValues());
+			compiledCommands.put(custom.getId(), CustomCommandCompiler.compile(custom.getValues()));
 		});
 	}
 }
