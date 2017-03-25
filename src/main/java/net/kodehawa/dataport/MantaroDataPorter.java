@@ -20,9 +20,9 @@ public class MantaroDataPorter {
 		ManagedDatabase db = MantaroData.db();
 
 		System.out.println("\nLoading files...");
-		Data data = new GsonDataManager<>(Data.class, "data.json", Data::new, false).get();
-		QuotesData quotesData = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new, false).get();
-		BugData bugData = new GsonDataManager<>(BugData.class, "bugs.json", BugData::new, true).get();
+		Data data = new GsonDataManager<>(Data.class, "data.json", Data::new).get();
+		QuotesData quotesData = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new).get();
+		BugData bugData = new GsonDataManager<>(BugData.class, "bugs.json", BugData::new).get();
 
 		System.out.println("\nPorting Data.JSON...");
 		data.guilds.forEach((id, guildData) -> {

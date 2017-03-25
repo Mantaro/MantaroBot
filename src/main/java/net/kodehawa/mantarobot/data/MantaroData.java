@@ -19,7 +19,7 @@ public class MantaroData {
 	private static ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 
 	public static GsonDataManager<Config> config() {
-		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new, true);
+		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
 		return config;
 	}
 
@@ -38,15 +38,7 @@ public class MantaroData {
 			} else {
 				builder = new CrossBotDataManager.Builder(CrossBotDataManager.Builder.Type.CLIENT).name("Mantaro").host(config.crossBotHost);
 			}
-			builder
-				.port(config.crossBotPort)
-				.getMoney((userid) ->
-					db().getGlobalPlayer(String.valueOf(userid)).getMoney()
-				)
-				.setMoney((userid, money) -> {
-					db().getGlobalPlayer(String.valueOf(userid)).setMoney(money).saveAsync();
-				});
-			crossBot = builder.build();
+			crossBot = builder.port(config.crossBotPort).build();
 		}
 
 		return crossBot;
