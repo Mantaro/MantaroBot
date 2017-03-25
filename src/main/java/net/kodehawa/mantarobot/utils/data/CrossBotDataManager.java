@@ -17,20 +17,20 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
-public class CrossBotDataManager implements Closeable {
+public class CrossBotDataManager implements Closeable, DataManager<Consumer<Object>> {
     private final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
     private final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
+    private final Consumer<Object> send;
     private final Connection connection;
-    private volatile Object lastServerPacket;
-    private volatile int lastSenderId;
+    private final AtomicBoolean closed = new AtomicBoolean(false);
+    private final Queue<Object> sendQueue;
 
-    private CrossBotDataManager(String host, int port, String name, String password, List<SocketListener> listenersToAdd) throws URISyntaxException {
+    private CrossBotDataManager(String host, int port, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
         if(host == null) throw new NullPointerException("host");
         if(name == null) throw new NullPointerException("name");
         if(port == 0) throw new IllegalArgumentException("port == 0");
@@ -38,11 +38,9 @@ public class CrossBotDataManager implements Closeable {
         PacketRegistry pr = new PacketRegistry();
         registerPackets(pr);
         Client client;
-        connection = client = new Client(new URI("wss://" + host + ":" + port), pr, new SocketListenerAdapter() {
+        connection = client = new Client(new URI((secure ? "wss://" : "ws://") + host + ":" + port), pr, new SocketListenerAdapter() {
             @Override
             public Object onPacket(Connection connection, int i, Object o) {
-                lastServerPacket = o;
-                lastSenderId = i;
                 for(SocketListener listener : listeners) {
                     Object p = listener.onPacket(connection, i, o);
                     if(p != null) return p;
@@ -77,9 +75,28 @@ public class CrossBotDataManager implements Closeable {
         }
         client.getPacketClient().waitForValidation();
         client.getPacketClient().sendPacket(new IdentifyPacket(name, password));
+        sendQueue = new ConcurrentLinkedQueue<>();
+        if(async) {
+            Thread t = new Thread(()->{
+                while(true) {
+                    if(closed.get()) return;
+                    while(!sendQueue.isEmpty())
+                        client.getPacketClient().sendPacket(sendQueue.poll());
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch(InterruptedException e) {
+                        return;
+                    }
+                }
+            }, "CrossBotDataManagerClientSendThread");
+            t.setDaemon(true);
+            t.setPriority(Thread.MAX_PRIORITY);
+            t.start();
+        }
+        send = async ? sendQueue::add : (o) -> client.getPacketClient().sendPacket(o);
     }
 
-    private CrossBotDataManager(int port, String password, List<SocketListener> listenersToAdd) {
+    private CrossBotDataManager(int port, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
         if(port == 0) throw new IllegalArgumentException("port == 0");
         this.listeners.addAll(listenersToAdd);
         PacketRegistry pr = new PacketRegistry();
@@ -94,8 +111,8 @@ public class CrossBotDataManager implements Closeable {
                         connection.getSocket(i).close(1403, "Invalid password");
                         return null;
                     }
-                    if(bots.values().stream().filter((pair)->pair.getLeft().equals(pkt.name)).count() != 0) {
-                        connection.getSocket(i).close(1403, "Client named " + pkt.name + " alredy connected");
+                    if(bots.values().stream().filter(pair->pair.getLeft().equals(pkt.name)).count() != 0) {
+                        connection.getSocket(i).close(1403, "Client named " + pkt.name + " already connected");
                         return null;
                     }
                     bots.put(getAddress(connection.getSocket(i)), new ImmutablePair<>(pkt.name, i));
@@ -133,16 +150,63 @@ public class CrossBotDataManager implements Closeable {
             }
         });
         server.start();
+        sendQueue = new ConcurrentLinkedQueue<>();
+        if(async) {
+            Thread t = new Thread(() -> {
+                while (true) {
+                    if (closed.get()) return;
+                    while (!sendQueue.isEmpty()) {
+                        Object o = sendQueue.poll();
+                        server.connections().forEach(socket -> server.sendPacket(socket, o));
+                    }
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+                }
+            }, "CrossBotDataManagerServerSendThread");
+            t.setDaemon(true);
+            t.setPriority(Thread.MAX_PRIORITY);
+            t.start();
+        }
+        send = async ? sendQueue::add : (o) -> server.connections().forEach(socket->server.sendPacket(socket, o));
     }
 
     @Override
     public void close() {
+        closed.set(true);
         if(connection instanceof Client)
             connection.close(0);
         else {
             for(int i : ((Server)connection).getClients())
                 connection.close(i);
         }
+    }
+
+    @Override
+    public void save() {
+        if(connection instanceof Client) {
+            Client client = (Client)connection;
+            while(!sendQueue.isEmpty()) {
+                client.getPacketClient().sendPacket(sendQueue.poll());
+            }
+        } else {
+            Server server = (Server)connection;
+            while(!sendQueue.isEmpty()) {
+                Object o = sendQueue.poll();
+                server.connections().forEach(socket->server.sendPacket(socket, o));
+            }
+        }
+    }
+
+    @Override
+    public Consumer<Object> get() {
+        return send;
+    }
+
+    public boolean isClosed() {
+        return closed.get();
     }
 
     public CrossBotDataManager registerListener(SocketListener listener) {
@@ -173,6 +237,9 @@ public class CrossBotDataManager implements Closeable {
         private String password;
         private int port;
         private String name;
+        private boolean secure;
+        private boolean async;
+        private int sleepTime;
 
         public Builder(Type type) {
             this.type = type;
@@ -205,16 +272,29 @@ public class CrossBotDataManager implements Closeable {
             return this;
         }
 
+        public Builder secure(boolean secure) {
+            if(type == Type.SERVER) throw new UnsupportedOperationException("Only client can specify secure");
+            this.secure = secure;
+            return this;
+        }
+
+        public Builder async(boolean async, int sleepTime) {
+            if(sleepTime < 0) throw new IllegalArgumentException("sleepTime < 0");
+            this.async = async;
+            this.sleepTime = sleepTime;
+            return this;
+        }
+
         public CrossBotDataManager build() {
             switch(type) {
                 case CLIENT:
                     try {
-                        return new CrossBotDataManager(host, port, name, password, listeners);
+                        return new CrossBotDataManager(host, port, name, password, secure, async, sleepTime, listeners);
                     } catch(URISyntaxException e) {
                         UnsafeUtils.throwException(e);
                     }
                 case SERVER:
-                    return new CrossBotDataManager(port, password, listeners);
+                    return new CrossBotDataManager(port, password, async, sleepTime, listeners);
                 default:
                     throw new AssertionError();
             }

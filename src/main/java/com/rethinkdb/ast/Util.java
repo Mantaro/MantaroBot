@@ -70,6 +70,7 @@ public class Util {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static ReqlAst toReqlAst(Object val, int remainingDepth) {
 		if (remainingDepth <= 0) {
 			throw new ReqlDriverCompileError("Recursion limit reached converting to ReqlAst");
