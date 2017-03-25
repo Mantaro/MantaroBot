@@ -23,6 +23,12 @@ public class URLCache {
 
     private URLCache() {}
 
+    public static void changeCacheDir(File newDir) {
+        if(newDir == null) throw new NullPointerException("newDir");
+        if(!newDir.isDirectory()) throw new IllegalArgumentException("Not a directory: " + newDir);
+        cacheDir = newDir;
+    }
+
     public static File getFile(String url) {
         File cachedFile = cached.get(url);
         if(cachedFile != null) return cachedFile;
