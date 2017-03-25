@@ -33,10 +33,17 @@ public class EmbedJSON {
 		if (thumbnail != null) embed.setThumbnail(thumbnail);
 		if (color != null) {
 			Color c = null;
-			try{
+			try {
 				final Field f = Color.class.getField(color);
 				c = (Color) f.get(null);
-			} catch (Exception ignored){}
+			} catch (Exception ignored) {
+			    String colorLower = color.toLowerCase();
+                if(colorLower.matches("(0x)?[0123456789abcdef]{1,6}")) {
+                    try {
+                        c = Color.decode(colorLower.startsWith("0x") ? colorLower : "0x" + colorLower);
+                    } catch(Exception ignored2) {}
+                }
+            }
 			if (c != null) embed.setColor(c);
 		}
 
