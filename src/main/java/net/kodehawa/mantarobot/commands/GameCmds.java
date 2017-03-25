@@ -2,9 +2,9 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.game.ImageGuess;
-import net.kodehawa.mantarobot.commands.rpg.game.Pokemon;
-import net.kodehawa.mantarobot.commands.rpg.game.Trivia;
+import net.kodehawa.mantarobot.commands.game.ImageGuess;
+import net.kodehawa.mantarobot.commands.game.Pokemon;
+import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.Category;

@@ -8,7 +8,7 @@ import net.kodehawa.lib.imageboard.e621.main.e621;
 import net.kodehawa.lib.imageboard.konachan.main.Konachan;
 import net.kodehawa.lib.imageboard.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.imageboard.rule34.main.Rule34;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.ImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -61,7 +61,7 @@ public class ImageCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!nsfwCheck(event, true, true, null)) return;
-				TextChannelWorld.of(event).dropItemWithChance(13, 3);
+				TextChannelGround.of(event).dropItemWithChance(13, 3);
 
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
@@ -339,7 +339,7 @@ public class ImageCmds extends Module {
 				if (!nsfwCheck(event, true, true, null)) return;
 
 				String noArgs = content.split(" ")[0];
-				TextChannelWorld.of(event).dropItemWithChance(13, 3);
+				TextChannelGround.of(event).dropItemWithChance(13, 3);
 				switch (noArgs) {
 					case "get":
 						try {
@@ -463,7 +463,7 @@ public class ImageCmds extends Module {
 					tagsEncoded = URLEncoder.encode(tagsToEncode, "UTF-8");
 				} catch (UnsupportedEncodingException ignored) {
 				} //Shouldn't happen.
-				TextChannelWorld.of(event).dropItemWithChance(13, 3);
+				TextChannelGround.of(event).dropItemWithChance(13, 3);
 
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {

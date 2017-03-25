@@ -1,8 +1,8 @@
-package net.kodehawa.mantarobot.commands.rpg.game;
+package net.kodehawa.mantarobot.commands.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
-import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
+import net.kodehawa.mantarobot.commands.game.core.Game;
+import net.kodehawa.mantarobot.commands.game.core.GameReference;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -14,13 +14,13 @@ import java.util.Random;
 
 public class Trivia extends Game {
 
+	public static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
 	private int attempts = 1;
 	private String expectedAnswer;
 	private int maxAnswers = 10;
 	private int maxAttempts = 10;
 	private Random rand = new Random();
-	public static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
 	//did you just assume I answered one
 	private int triviaAnswers = 1;
 
@@ -88,12 +88,12 @@ public class Trivia extends Game {
 		return false;
 	}
 
-	public String answer(){
-		return expectedAnswer;
-	}
-
 	@Override
 	public GameReference type() {
 		return GameReference.TRIVIA;
+	}
+
+	public String answer() {
+		return expectedAnswer;
 	}
 }

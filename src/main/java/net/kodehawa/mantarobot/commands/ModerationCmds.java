@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
@@ -75,7 +75,7 @@ public class ModerationCmds extends Module {
 					guild.getController().ban(member, 7).queue(
 						success -> {
 							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue();
-							TextChannelWorld.of(event).dropItemWithChance(1, 2);
+							TextChannelGround.of(event).dropItemWithChance(1, 2);
 						},
 						error ->
 						{
@@ -158,7 +158,7 @@ public class ModerationCmds extends Module {
 					guild.getController().kick(member).queue(
 						success -> {
 							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
-							TextChannelWorld.of(event).dropItemWithChance(2, 2);
+							TextChannelGround.of(event).dropItemWithChance(2, 2);
 						},
 						error -> {
 							if (error instanceof PermissionException) {

@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -31,7 +31,7 @@ public class FunCmds extends Module {
 				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(EmoteReference.DICE + "You scored **" + diceRoll(roll, event) + "** with a total of **" + roll
 					+ "** repetitions.").queue();
-				TextChannelWorld.of(event).dropItemWithChance(6, 5);
+				TextChannelGround.of(event).dropItemWithChance(6, 5);
 			}
 
 			@Override

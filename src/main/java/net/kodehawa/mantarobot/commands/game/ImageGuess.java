@@ -1,9 +1,9 @@
-package net.kodehawa.mantarobot.commands.rpg.game;
+package net.kodehawa.mantarobot.commands.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
-import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
-import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
+import net.kodehawa.mantarobot.commands.game.core.Game;
+import net.kodehawa.mantarobot.commands.game.core.GameReference;
 import net.kodehawa.mantarobot.data.entities.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

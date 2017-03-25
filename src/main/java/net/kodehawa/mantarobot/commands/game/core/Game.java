@@ -1,7 +1,7 @@
-package net.kodehawa.mantarobot.commands.rpg.game.core;
+package net.kodehawa.mantarobot.commands.game.core;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.entities.Player;
 import org.slf4j.Logger;
 
@@ -12,11 +12,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Game {
-	private ScheduledExecutorService timer;
-	private UUID id;
 	private List<Player> guestPlayers;
+	private UUID id;
+	private ScheduledExecutorService timer;
+
 	//public static final DataManager<List<String>> hangmanWords = new SimpleFileDataManager("assets/mantaro/texts/hangman.txt");
-	public Game(){
+	public Game() {
 		timer = Executors.newSingleThreadScheduledExecutor();
 		id = new UUID(System.currentTimeMillis(), this.hashCode());
 		guestPlayers = new ArrayList<>();
@@ -28,20 +29,15 @@ public abstract class Game {
 
 	public abstract GameReference type();
 
-	public boolean check(GuildMessageReceivedEvent event) {
-		return TextChannelWorld.of(event.getChannel()).getRunningGames().isEmpty();
-	}
-
-	protected void onStart(TextChannelWorld world, GuildMessageReceivedEvent event, Player player){
+	public void addPlayer(Player player) {
 		guestPlayers.add(player);
-		/*timer.schedule(() -> {
-			if(!world.getRunningGames().isEmpty() && player.getCurrentGame() != null && player.getCurrentGame().id == id){
-				endGame(event, player, true);
-			}
-		}, 60, TimeUnit.SECONDS);*/
 	}
 
-	private void endGame(TextChannelWorld world, GuildMessageReceivedEvent event, Player player, boolean isTimeout) {
+	public boolean check(GuildMessageReceivedEvent event) {
+		return true;
+	}
+
+	private void endGame(TextChannelGround world, GuildMessageReceivedEvent event, Player player, boolean isTimeout) {
 		/*player.setCurrentGame(null, event.getChannel());
 		player.setGameInstance(this);
 		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 60 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
@@ -61,6 +57,18 @@ public abstract class Game {
 		getCurrentTimer().shutdownNow();*/
 	}
 
+	protected ScheduledExecutorService getCurrentTimer() {
+		return timer;
+	}
+
+	public List<Player> getGuestPlayers() {
+		return guestPlayers;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
 	protected void onError(Logger logger, GuildMessageReceivedEvent event, Player player, Exception e) {
 		/*TextChannelWorld world = TextChannelWorld.of(event.getChannel());
 		event.getChannel().sendMessage(EmoteReference.ERROR + "We cannot start this game due to an unknown error. My owners have been notified.").queue();
@@ -69,6 +77,15 @@ public abstract class Game {
 		endGame(world, event, player, false);
 		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear(); //You might think this is redundant, but it actually happens.
 		timer.shutdown();*/
+	}
+
+	protected void onStart(TextChannelGround world, GuildMessageReceivedEvent event, Player player) {
+		guestPlayers.add(player);
+		/*timer.schedule(() -> {
+			if(!world.getRunningGames().isEmpty() && player.getCurrentGame() != null && player.getCurrentGame().id == id){
+				endGame(event, player, true);
+			}
+		}, 60, TimeUnit.SECONDS);*/
 	}
 
 	protected void onSuccess(Player player, GuildMessageReceivedEvent event, double multiplier) {
@@ -89,21 +106,5 @@ public abstract class Game {
 		endGame(world, event, player, false);
 		player.save();
 		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear();*/
-	}
-
-	protected ScheduledExecutorService getCurrentTimer(){
-		return timer;
-	}
-
-	public UUID getId(){
-		return id;
-	}
-
-	public List<Player> getGuestPlayers(){
-		return guestPlayers;
-	}
-
-	public void addPlayer(Player player){
-		guestPlayers.add(player);
 	}
 }

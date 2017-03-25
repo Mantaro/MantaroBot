@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -221,7 +221,7 @@ public class CustomCmds extends Module {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
 
 								//easter egg :D
-								TextChannelWorld.of(event).dropItemWithChance(8, 2);
+								TextChannelGround.of(event).dropItemWithChance(8, 2);
 							}
 							return true;
 						}
@@ -304,7 +304,7 @@ public class CustomCmds extends Module {
 							event.getChannel().sendMessage(String.format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName, pair.getKey().getName(), String.join("``, ``", responses))).queue();
 
 							//easter egg :D
-							TextChannelWorld.of(event).dropItemWithChance(8, 2);
+							TextChannelGround.of(event).dropItemWithChance(8, 2);
 						}
 					);
 
@@ -339,7 +339,7 @@ public class CustomCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
 
 					//easter egg :D
-					TextChannelWorld.of(event).dropItemWithChance(8, 2);
+					TextChannelGround.of(event).dropItemWithChance(8, 2);
 					return;
 				}
 

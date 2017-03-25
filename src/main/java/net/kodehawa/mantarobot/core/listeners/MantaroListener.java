@@ -20,7 +20,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -205,8 +205,7 @@ public class MantaroListener implements EventListener {
 		//Tick worlds and entities.
 		if (r.nextInt(200) > 150) {
 			ticks++;
-			TextChannelWorld world = TextChannelWorld.of(event);
-			world.tick(event);
+			TextChannelGround world = TextChannelGround.of(event);
 		}
 
 		synchronized (messageCache) {

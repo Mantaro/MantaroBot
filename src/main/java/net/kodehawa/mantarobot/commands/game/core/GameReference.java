@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.rpg.game.core;
+package net.kodehawa.mantarobot.commands.game.core;
 
 public enum GameReference {
 

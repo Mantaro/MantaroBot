@@ -9,11 +9,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
-import net.kodehawa.mantarobot.commands.rpg.entity.world.EntityTree;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.item.Items;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
@@ -29,22 +28,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class RPGCmds extends Module {
+public class CurrencyCmds extends Module {
 
-	public RPGCmds() {
+	public CurrencyCmds() {
 		super(Category.RPG);
 
 		profile();
 		loot();
 		gamble();
-		mine();
 		richest();
 		inventory();
 		market();
 		rep();
 		transfer();
 		item();
-		chop();
 
 		/*
 		TODO NEXT:"
@@ -97,59 +94,6 @@ public class RPGCmds extends Module {
 		}
 
 		return true;
-	}
-
-	private void chop() {
-		RateLimiter rateLimiter = new RateLimiter(3500);
-
-		super.register("chop", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				TextChannelWorld world = TextChannelWorld.of(event);
-				Player player = MantaroData.db().getPlayer(event.getMember());
-
-				EntityTree tree = (EntityTree) world.getActiveEntities().stream().filter
-					(entity -> (entity instanceof EntityTree)).findFirst().orElse(null);
-
-				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You're chopping too fast, I cannot create enough wood!").queue();
-					return;
-				}
-
-				if (!check(player, event)) return;
-
-				if (!player.inventory().containsItem(Items.AXE)) {
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any axe to chop with."
-						+ (TextChannelWorld.of(event).dropItemWithChance(Items.AXE, 5) ?
-						" I think I saw an axe somewhere, though. " + EmoteReference.AXE : "")).queue();
-					return;
-				}
-
-				player.consumeStamina(10);
-
-				if (tree == null) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "There are no trees in this world").queue();
-					return;
-				}
-
-				int axes = player.inventory().getAmount(Items.AXE);
-				tree.setHealth(0);
-				//if ticks aren't enough kek
-				tree.onDeath();
-				int give = Math.min(64, (int) Math.max((axes * 0.5), 1));
-				player.inventory().process(new ItemStack(Items.WOOD, give));
-				event.getChannel().sendMessage(String.format("%sChopping in %s got you %d wood.", EmoteReference.CORRECT, event.getChannel().getAsMention(), give)).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Chop command")
-					.setDescription("Chops a tree.")
-					.addField("Usage", "~>chop", false)
-					.addField("Important", "Trees will be taken off the world and respawned later", false)
-					.build();
-			}
-		});
 	}
 
 	private void gamble() {
@@ -358,7 +302,7 @@ public class RPGCmds extends Module {
 
 				Player player = MantaroData.db().getPlayer(event.getMember());
 				if (!check(player, event)) return;
-				TextChannelWorld ground = TextChannelWorld.of(event);
+				TextChannelGround ground = TextChannelGround.of(event);
 				List<ItemStack> loot = ground.collectItems();
 				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 200);
 
@@ -418,7 +362,7 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
+				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				Player player = MantaroData.db().getPlayer(event.getMember());
 
 				if (!check(player, event)) return;
@@ -570,14 +514,14 @@ public class RPGCmds extends Module {
 				if (!check(player, event)) return;
 
 				if (!player.inventory().containsItem(Items.BROM_PICKAXE)) {
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
+					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
 					return;
 				}
 
 				int picks = player.inventory().getAmount(Items.BROM_PICKAXE);
 				player.consumeStamina(10);
 				long moneyFound = Math.min(2000, (long) (r.nextInt(250) * (1.0d + picks * 0.5d)));
-				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5);
+				boolean dropped = TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5);
 				String toSend = "";
 
 				//Little chance, but chance.

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.rpg.game.listener;
+package net.kodehawa.mantarobot.commands.game.listener;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.OptimizedListener;

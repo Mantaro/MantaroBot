@@ -1,6 +1,6 @@
 package net.kodehawa.dataport;
 
-import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
+import net.kodehawa.mantarobot.commands.game.core.GameReference;
 
 import java.util.HashMap;
 import java.util.Map;

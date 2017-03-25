@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -27,7 +27,6 @@ import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.awt.Color;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -483,7 +482,7 @@ public class UtilsCmds extends Module {
 					.addField("Download Link", "[Click Here!](" + info.link + ")", false)
 					.build()
 				).queue();
-				TextChannelWorld.of(event).dropItemWithChance(7, 5);
+				TextChannelGround.of(event).dropItemWithChance(7, 5);
 			}
 
 			@Override

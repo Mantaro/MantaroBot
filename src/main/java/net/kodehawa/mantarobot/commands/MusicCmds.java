@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -13,7 +12,7 @@ import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.Repeat;
 import net.kodehawa.mantarobot.commands.music.TrackScheduler;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -43,6 +42,32 @@ public class MusicCmds extends Module {
 		repeat();
 		move();
 		stop();
+	}
+
+	public void forceskip() {
+		super.register("forceskip", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You are not connected to the voice channel I am currently playing!").queue();
+					return;
+				}
+
+				TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin has decided to skip.").queue();
+				scheduler.next(true);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Force skip").setDescription("Well, administrators should be able to forceskip, shouldn't they?").build();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.ADMIN;
+			}
+		});
 	}
 
 	private void move() {
@@ -115,7 +140,7 @@ public class MusicCmds extends Module {
 						musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title,
 						Utils.getDurationMinutes(musicManager.getTrackScheduler().getCurrentTrack().getPosition()),
 						Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration()))).queue();
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -152,7 +177,7 @@ public class MusicCmds extends Module {
 				String toSend = EmoteReference.MEGA + (paused ? "Player paused." : "Player unpaused.");
 				musicManager.getTrackScheduler().getAudioPlayer().setPaused(paused);
 				event.getChannel().sendMessage(toSend).queue();
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -184,7 +209,7 @@ public class MusicCmds extends Module {
 				}
 
 				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content);
-				TextChannelWorld.of(event).dropItemWithChance(0, 5);
+				TextChannelGround.of(event).dropItemWithChance(0, 5);
 			}
 
 			@Override
@@ -197,32 +222,6 @@ public class MusicCmds extends Module {
 					.build();
 			}
 
-		});
-	}
-
-	public void forceskip(){
-		super.register("forceskip", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You are not connected to the voice channel I am currently playing!").queue();
-					return;
-				}
-
-				TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin has decided to skip.").queue();
-				scheduler.next(true);
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Force skip").setDescription("Well, administrators should be able to forceskip, shouldn't they?").build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.ADMIN;
-			}
 		});
 	}
 
@@ -252,7 +251,7 @@ public class MusicCmds extends Module {
 					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 					return;
 				}
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 		});
 	}
@@ -304,7 +303,7 @@ public class MusicCmds extends Module {
 					}
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed track **" + list.remove(i).getInfo().title + "** from the queue.").queue();
-					TextChannelWorld.of(event).dropItemWithChance(0, 10);
+					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				});
 			}
 
@@ -345,7 +344,7 @@ public class MusicCmds extends Module {
 						}
 						break;
 				}
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -376,7 +375,7 @@ public class MusicCmds extends Module {
 
 				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().shuffle();
 				event.getChannel().sendMessage(EmoteReference.OK + "Randomized current queue order.").queue();
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
@@ -422,7 +421,7 @@ public class MusicCmds extends Module {
 						}
 						event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More " + (requiredVotes - voteSkips.size()) + " are required to skip!").queue();
 					}
-					TextChannelWorld.of(event).dropItemWithChance(0, 10);
+					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				} catch (NullPointerException e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no track to skip").queue();
 				}
@@ -460,7 +459,7 @@ public class MusicCmds extends Module {
 				event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 				event.getGuild().getAudioManager().closeAudioConnection();
-				TextChannelWorld.of(event).dropItemWithChance(0, 10);
+				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override
