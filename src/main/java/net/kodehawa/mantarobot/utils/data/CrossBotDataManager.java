@@ -9,19 +9,17 @@ import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.java_websocket.WebSocket;
-import org.json.JSONObject;
 
 import java.io.Closeable;
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -32,10 +30,9 @@ public class CrossBotDataManager implements Closeable {
     private volatile Object lastServerPacket;
     private volatile int lastSenderId;
 
-    private CrossBotDataManager(String host, int port, String name, String password, Function<Long, Long> getmoney, BiConsumer<Long, Long> setmoney, List<SocketListener> listenersToAdd) throws URISyntaxException {
-        if(getmoney == null) throw new NullPointerException("getmoney");
-        if(setmoney == null) throw new NullPointerException("setmoney");
+    private CrossBotDataManager(String host, int port, String name, String password, List<SocketListener> listenersToAdd) throws URISyntaxException {
         if(host == null) throw new NullPointerException("host");
+        if(name == null) throw new NullPointerException("name");
         if(port == 0) throw new IllegalArgumentException("port == 0");
         this.listeners.addAll(listenersToAdd);
         PacketRegistry pr = new PacketRegistry();
@@ -46,22 +43,6 @@ public class CrossBotDataManager implements Closeable {
             public Object onPacket(Connection connection, int i, Object o) {
                 lastServerPacket = o;
                 lastSenderId = i;
-                if(o instanceof GetMoneyPacket) {
-                    long id = ((GetMoneyPacket) o).userid;
-                    try {
-                        return new GetMoneyPacket.Response(id, getmoney.apply(id));
-                    } catch(Throwable t) {
-                        return new GetMoneyPacket.Response(id, -1);
-                    }
-                } else if(o instanceof SetMoneyPacket) {
-                    SetMoneyPacket smp = (SetMoneyPacket)o;
-                    setmoney.accept(smp.userid, smp.money);
-                    return null;
-                } else if(o instanceof UpdateMoneyPacket) {
-                    UpdateMoneyPacket ump = (UpdateMoneyPacket)o;
-                    setmoney.accept(ump.userid, getmoney.apply(ump.userid) + ump.delta);
-                    return null;
-                }
                 for(SocketListener listener : listeners) {
                     Object p = listener.onPacket(connection, i, o);
                     if(p != null) return p;
@@ -98,9 +79,7 @@ public class CrossBotDataManager implements Closeable {
         client.getPacketClient().sendPacket(new IdentifyPacket(name, password));
     }
 
-    private CrossBotDataManager(int port, String password, Function<Long, Long> getmoney, BiConsumer<Long, Long> setmoney, List<SocketListener> listenersToAdd) {
-        if(getmoney == null) throw new NullPointerException("getmoney");
-        if(setmoney == null) throw new NullPointerException("setmoney");
+    private CrossBotDataManager(int port, String password, List<SocketListener> listenersToAdd) {
         if(port == 0) throw new IllegalArgumentException("port == 0");
         this.listeners.addAll(listenersToAdd);
         PacketRegistry pr = new PacketRegistry();
@@ -120,21 +99,6 @@ public class CrossBotDataManager implements Closeable {
                         return null;
                     }
                     bots.put(getAddress(connection.getSocket(i)), new ImmutablePair<>(pkt.name, i));
-                    return null;
-                }
-                if(o instanceof GetMoneyPacket) {
-                    long id = ((GetMoneyPacket) o).userid;
-                    try {
-                        return new GetMoneyPacket.Response(id, getmoney.apply(id));
-                    } catch(Throwable t) {
-                        return new GetMoneyPacket.Response(id, -1);
-                    }
-                } else if(o instanceof SetMoneyPacket) {
-                    SetMoneyPacket smp = (SetMoneyPacket)o;
-                    setmoney.accept(smp.userid, smp.money);
-                } else if(o instanceof UpdateMoneyPacket) {
-                    UpdateMoneyPacket ump = (UpdateMoneyPacket)o;
-                    setmoney.accept(ump.userid, getmoney.apply(ump.userid) + ump.delta);
                     return null;
                 }
                 for(SocketListener listener : listeners) {
@@ -171,6 +135,7 @@ public class CrossBotDataManager implements Closeable {
         server.start();
     }
 
+    @Override
     public void close() {
         if(connection instanceof Client)
             connection.close(0);
@@ -188,83 +153,6 @@ public class CrossBotDataManager implements Closeable {
     public CrossBotDataManager unregisterListener(SocketListener listener) {
         listeners.remove(listener);
         return this;
-    }
-
-    public long getMoney(long userid, String bot) {
-        if(connection instanceof Client) {
-            AbstractClient client = ((Client)connection).getPacketClient();
-            client.sendPacket(new GetMoneyPacket(userid));
-            GetMoneyPacket.Response resp;
-            do {
-                resp = client.readPacketBlocking(GetMoneyPacket.Response.class);
-            } while(resp.userid != userid);
-            return resp.money;
-        }
-        else {
-            if(bot == null)
-                throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
-            if(id == null)
-                throw new IllegalArgumentException("No bot identified as " + bot + " connected");
-            Server server = (Server)connection;
-            server.sendPacket(server.getSocket(id), new GetMoneyPacket(userid));
-            GetMoneyPacket.Response resp = null;
-            do {
-                Object l = lastServerPacket;
-                if(lastSenderId == id && l instanceof GetMoneyPacket.Response) {
-                    resp = (GetMoneyPacket.Response)l;
-                }
-            } while(resp == null);
-            return resp.money;
-        }
-    }
-
-    public void setMoney(long userid, long money, String bot) {
-        if(connection instanceof Client) {
-            AbstractClient client = ((Client)connection).getPacketClient();
-            client.sendPacket(new SetMoneyPacket(userid, money));
-        }
-        else {
-            if(bot == null)
-                throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
-            if(id == null)
-                throw new IllegalArgumentException("No bot identified as " + bot + " connected");
-            Server server = (Server)connection;
-            server.sendPacket(server.getSocket(id), new SetMoneyPacket(userid, money));
-        }
-    }
-
-    public void updateMoney(long userid, long delta, String bot) {
-        if(connection instanceof Client) {
-            AbstractClient client = ((Client)connection).getPacketClient();
-            client.sendPacket(new UpdateMoneyPacket(userid, delta));
-        }
-        else {
-            if(bot == null)
-                throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
-            if(id == null)
-                throw new IllegalArgumentException("No bot identified as " + bot + " connected");
-            Server server = (Server)connection;
-            server.sendPacket(server.getSocket(id), new UpdateMoneyPacket(userid, delta));
-        }
-    }
-
-    public void sendJSON(JSONObject object, String bot) {
-        if(connection instanceof Client) {
-            AbstractClient client = ((Client)connection).getPacketClient();
-            client.sendPacket(new JSONPacket(object.toString()));
-        }
-        else {
-            if(bot == null)
-                throw new IllegalArgumentException("No bot specified");
-            Integer id = bots.values().stream().filter((pair)->pair.getLeft().equals(bot)).findFirst().orElseThrow(InternalError::new).getRight();
-            if(id == null)
-                throw new IllegalArgumentException("No bot identified as " + bot + " connected");
-            Server server = (Server)connection;
-            server.sendPacket(server.getSocket(id), new JSONPacket(object.toString()));
-        }
     }
 
     private static void registerPackets(PacketRegistry pr) {
@@ -285,8 +173,6 @@ public class CrossBotDataManager implements Closeable {
         private String password;
         private int port;
         private String name;
-        private Function<Long, Long> getmoney;
-        private BiConsumer<Long, Long> setmoney;
 
         public Builder(Type type) {
             this.type = type;
@@ -309,16 +195,6 @@ public class CrossBotDataManager implements Closeable {
             return this;
         }
 
-        public Builder getMoney(Function<Long, Long> func) {
-            this.getmoney = func;
-            return this;
-        }
-
-        public Builder setMoney(BiConsumer<Long, Long> func) {
-            this.setmoney = func;
-            return this;
-        }
-
         public Builder addListeners(SocketListener... listeners) {
             this.listeners.addAll(Arrays.asList(listeners));
             return this;
@@ -333,12 +209,12 @@ public class CrossBotDataManager implements Closeable {
             switch(type) {
                 case CLIENT:
                     try {
-                        return new CrossBotDataManager(host, port, password, name, getmoney, setmoney, listeners);
+                        return new CrossBotDataManager(host, port, name, password, listeners);
                     } catch(URISyntaxException e) {
                         UnsafeUtils.throwException(e);
                     }
                 case SERVER:
-                    return new CrossBotDataManager(port, password, getmoney, setmoney, listeners);
+                    return new CrossBotDataManager(port, password, listeners);
                 default:
                     throw new AssertionError();
             }

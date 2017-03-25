@@ -17,7 +17,7 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 		if (bugs == null)
 			synchronized (LOCK) {
 				if (bugs == null) {
-					bugs = new GsonDataManager<>(BugData.class, "bugs.json", BugData::new, true);
+					bugs = new GsonDataManager<>(BugData.class, "bugs.json", BugData::new);
 				}
 			}
 		return bugs;

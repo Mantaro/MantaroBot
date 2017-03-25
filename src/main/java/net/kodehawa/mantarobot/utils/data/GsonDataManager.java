@@ -23,17 +23,15 @@ public class GsonDataManager<T> implements DataManager<T> {
 
 	private final Path configPath;
 	private final T data;
-	private final boolean pretty;
 
-	public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor, boolean pretty) {
+	public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
 		this.configPath = Paths.get(file);
-		this.pretty = pretty;
 		try {
 			if (!configPath.toFile().exists()) {
 				LOGGER.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
 				if (configPath.toFile().createNewFile()) {
 					LOGGER.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
-					FileIOUtils.write(configPath, gson(pretty).toJson(constructor.get()));
+					FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
 					LOGGER.info("Please, fill the file with valid properties.");
 				} else {
 					LOGGER.warn("Could not create config file at " + file);
@@ -41,7 +39,7 @@ public class GsonDataManager<T> implements DataManager<T> {
 				System.exit(0);
 			}
 
-			this.data = gson(pretty).fromJson(FileIOUtils.read(configPath), clazz);
+			this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
 		} catch (IOException e) {
             UnsafeUtils.throwException(e);
             throw new AssertionError(); //otherwise it doesn't compile
