@@ -2,12 +2,12 @@ package net.kodehawa.mantarobot.modules;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Module {
 	public static class Manager {
-		public static Map<String, Pair<Command, Category>> commands = new HashMap<>();
+		public static Map<String, Pair<Command, Category>> commands = new ConcurrentHashMap<>();
 	}
 
 	public final Category category;

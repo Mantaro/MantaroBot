@@ -53,11 +53,6 @@ public class MantaroListener implements EventListener {
 
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 	Random r = new Random();
-	private int logChannelShardId;
-
-	public MantaroListener() {
-		logChannelShardId = Arrays.stream(MantaroBot.getInstance().getShards()).filter(shard -> shard.getJDA().getTextChannelById("266231083341840385") != null).findFirst().orElse(null).getId();
-	}
 
 	@Override
 	public void onEvent(Event event) {
@@ -109,7 +104,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	public TextChannel getLogChannel() {
-		return MantaroBot.getInstance().getShard(logChannelShardId).getJDA().getTextChannelById("266231083341840385");
+		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
 	}
 
 	private void logBan(GuildBanEvent event) {

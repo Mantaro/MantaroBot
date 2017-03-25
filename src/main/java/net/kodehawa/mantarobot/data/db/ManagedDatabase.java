@@ -21,14 +21,45 @@ public class ManagedDatabase {
 		this.conn = conn;
 	}
 
+	public CustomCommand getCustomCommand(String guildId, String name) {
+		return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
+	}
+
+	public CustomCommand getCustomCommand(Guild guild, String name) {
+		return getCustomCommand(guild.getId(), name);
+	}
+
+	public CustomCommand getCustomCommand(DBGuild guild, String name) {
+		return getCustomCommand(guild.getId(), name);
+	}
+
 	public List<CustomCommand> getCustomCommands() {
 		Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
 		return c.toList();
 	}
 
+	public List<CustomCommand> getCustomCommands(String guildId) {
+		String pattern = '^' + guildId + ':';
+		Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+		return c.toList();
+	}
+
+	public List<CustomCommand> getCustomCommands(Guild guild) {
+		return getCustomCommands(guild.getId());
+	}
+
+	public List<CustomCommand> getCustomCommands(DBGuild guild) {
+		return getCustomCommands(guild.getId());
+	}
+
+	public List<CustomCommand> getCustomCommandsByName(String name) {
+		String pattern = ':' + name + '$';
+		Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+		return c.toList();
+	}
+
 	public Player getGlobalPlayer(String userId) {
-		String id = userId + ":g";
-		Player player = r.table(Player.DB_TABLE).get(id).run(conn, Player.class);
+		Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
 		return player == null ? Player.of(userId) : player;
 	}
 
@@ -38,6 +69,12 @@ public class ManagedDatabase {
 
 	public Player getGlobalPlayer(Member member) {
 		return getGlobalPlayer(member.getUser());
+	}
+
+	public List<Player> getGlobalPlayers() {
+		String pattern = ":g$";
+		Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
+		return c.toList();
 	}
 
 	public DBGuild getGuild(String guildId) {
@@ -55,8 +92,7 @@ public class ManagedDatabase {
 
 	public Player getPlayer(String userId, String guildId) {
 		boolean local = getGuild(guildId).getData().isRpgLocalMode();
-		String id = userId + ":" + (local ? guildId : "g");
-		Player player = r.table(Player.DB_TABLE).get(id).run(conn, Player.class);
+		Player player = r.table(Player.DB_TABLE).get(userId + ':' + (local ? guildId : "g")).run(conn, Player.class);
 		return player == null ? Player.of(userId, guildId) : player;
 	}
 
@@ -68,13 +104,28 @@ public class ManagedDatabase {
 		return getPlayer(member.getUser(), member.getGuild());
 	}
 
+	public List<Player> getPlayers(String guildId) {
+		boolean local = getGuild(guildId).getData().isRpgLocalMode();
+		String pattern = ':' + (local ? guildId : "g") + '$';
+		Cursor<Player> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
+		return c.toList();
+	}
+
+	public List<Player> getPlayers(Guild guild) {
+		return getPlayers(guild.getId());
+	}
+
+	public List<Player> getPlayers(DBGuild guild) {
+		return getPlayers(guild.getId());
+	}
+
 	public List<PremiumKey> getPremiumKeys() {
 		Cursor<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
 		return c.toList();
 	}
 
 	public List<Quote> getQuotes(String guildId) {
-		String pattern = "^" + guildId + ":";
+		String pattern = '^' + guildId + ':';
 		Cursor<Quote> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Quote.class);
 		return c.toList();
 	}
