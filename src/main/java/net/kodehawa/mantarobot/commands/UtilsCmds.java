@@ -6,11 +6,11 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -65,14 +65,15 @@ public class UtilsCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
-
+				DBUser user = MantaroData.db().getUser(event.getAuthor());
 				if(content.isEmpty()){
 					onHelp(event);
 					return;
 				}
 
 				if(content.startsWith("remove")){
-					EntityPlayerMP.getPlayer(event.getAuthor()).setBirthdayDate(null).save();
+					user.getData().setBirthday(null);
+					user.save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.").queue();
 					return;
 				}
@@ -80,14 +81,13 @@ public class UtilsCmds extends Module {
 				if (content.startsWith("month")) {
 					Map<String, String> closeBirthdays = new HashMap<>();
 					final int currentMonth = Calendar.MONTH + 1;
-					System.out.println(currentMonth);
 					event.getGuild().getMembers().forEach(member -> {
 						try {
-							if(MantaroData.getData().get().getUser(member.getUser(), false).birthdayDate != null){
-								Date date = format1.parse(MantaroData.getData().get().getUser(member.getUser(), false).birthdayDate);
+							if(MantaroData.db().getUser(member.getUser()) != null){
+								Date date = format1.parse(MantaroData.db().getUser(event.getMember()).getData().getBirthday());
 								LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 								if (currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))) {
-									closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData.getData().get().getUser(member.getUser(), false).birthdayDate);
+									closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData.db().getUser(member.getUser()).getData().getBirthday());
 								}
 							}
 						} catch (Exception e) {
@@ -117,7 +117,8 @@ public class UtilsCmds extends Module {
 					return;
 				}
 
-				EntityPlayerMP.getPlayer(event.getAuthor()).setBirthdayDate(format1.format(bd1)).save();
+				user.getData().setBirthday(format1.format(bd1));
+				user.save();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "Added birthday date.").queue();
 			}
 
@@ -394,7 +395,7 @@ public class UtilsCmds extends Module {
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
 					long start = System.currentTimeMillis();
-					String APP_ID = MantaroData.getConfig().get().weatherAppId;
+					String APP_ID = MantaroData.config().get().weatherAppId;
 					String json = Utils.wget(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder.encode(content, "UTF-8"), APP_ID), event);
 					WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(json, WeatherData.class);
 

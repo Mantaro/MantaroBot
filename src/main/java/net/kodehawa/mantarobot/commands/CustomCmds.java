@@ -157,7 +157,7 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("clear")) {
-					if (!event.getMember().isOwner() && !MantaroData.getConfig().get().isOwner(event.getMember())) {
+					if (!event.getMember().isOwner() && !MantaroData.config().get().isOwner(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
 						return;
 					}
@@ -167,7 +167,7 @@ public class CustomCmds extends Module {
 					}
 					int size = customCommands.size();
 					customCommands.clear();
-					MantaroData.getData().save();
+					//MantaroData.getData().save();
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!").queue();
 					return;
 				}
@@ -218,7 +218,7 @@ public class CustomCmds extends Module {
 							} else {
 								customCommands.put(saveTo, responses);
 								Manager.commands.put(saveTo, cmdPair);
-								MantaroData.getData().save();
+								//MantaroData.getData().save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
 								TextChannelWorld.of(event).dropItemWithChance(8, 2);
 							}
@@ -245,7 +245,7 @@ public class CustomCmds extends Module {
 				if (action.equals("remove") || action.equals("rm")) {
 					Optional.ofNullable(customCommands.remove(cmd)) //FIXME AdrianTodt
 						.ifPresent((command) -> {
-							MantaroData.getData().save();
+							//MantaroData.getData().save();
 							if (customCommands.values().stream().flatMap(Collection::stream).noneMatch(cmd::equals)) {
 								Manager.commands.remove(cmd);
 							}
@@ -262,7 +262,7 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("import")) {
-					Map<String, Guild> mapped = MantaroBot.getInstance().getGuilds().stream().collect(Collectors.toMap(ISnowflake::getId, g -> g));
+					/*Map<String, Guild> mapped = MantaroBot.getInstance().getGuilds().stream().collect(Collectors.toMap(ISnowflake::getId, g -> g));
 
 					List<Pair<Guild, Entry<String, List<String>>>> queried = MantaroData.getData().get().guilds.entrySet().stream()
 						.map(entry -> {
@@ -296,12 +296,12 @@ public class CustomCmds extends Module {
 
 							Manager.commands.put(cmdName, cmdPair);
 							customCommands.put(cmdName, responses);
-							MantaroData.getData().save();
+							//MantaroData.getData().save();
 							event.getChannel().sendMessage(String.format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName, pair.getKey().getName(), String.join("``, ``", responses))).queue();
 
 							TextChannelWorld.of(event).dropItemWithChance(8, 2);
 						}
-					);
+					);*/
 
 					return;
 				}
@@ -322,7 +322,7 @@ public class CustomCmds extends Module {
 
 					Manager.commands.put(cmd, cmdPair);
 					customCommands.put(cmd, responses);
-					MantaroData.getData().save();
+					//MantaroData.getData().save();
 					event.getChannel().sendMessage(String.format("Added custom command ``%s`` with responses ``%s``", cmd, responses.stream().collect(Collectors.joining("``, ")))).queue();
 
 					TextChannelWorld.of(event).dropItemWithChance(8, 2);

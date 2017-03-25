@@ -4,14 +4,12 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.entity.Entity;
 import net.kodehawa.mantarobot.commands.rpg.entity.EntityTickable;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.entity.world.EntityTree;
 import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
-import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.item.Items;
-import org.apache.commons.lang3.tuple.Pair;
+import net.kodehawa.mantarobot.data.entities.Player;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,7 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TextChannelWorld {
 	private static final Map<String, List<EntityTickable>> ACTIVE_ENTITIES = new HashMap<>();
-	private static final Map<String, Map<EntityPlayer, Game>> ACTIVE_GAMES = new HashMap<>();
+	private static final Map<String, Map<Player, Game>> ACTIVE_GAMES = new HashMap<>();
 	private static final Map<String, List<Entity>> ACTIVE_STATIC_ENTITIES = new HashMap<>(); //non-tickable
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
@@ -47,12 +45,12 @@ public class TextChannelWorld {
 
 	private final List<Entity> entities;
 	private final List<EntityTickable> entityTickables;
-	private final Map<EntityPlayer, Game> games;
+	private final Map<Player, Game> games;
 	private final AtomicInteger money;
 	private final List<ItemStack> stacks;
 
 	private TextChannelWorld(List<ItemStack> stacks, AtomicInteger money, List<EntityTickable> entityTickables,
-							 List<Entity> entities, Map<EntityPlayer, Game> games) {
+							 List<Entity> entities, Map<Player, Game> games) {
 		this.stacks = stacks;
 		this.money = money;
 		this.entityTickables = entityTickables;
@@ -69,7 +67,7 @@ public class TextChannelWorld {
 		return this;
 	}
 
-	public TextChannelWorld addGame(EntityPlayer player, Game game) {
+	public TextChannelWorld addGame(Player player, Game game) {
 		games.put(player, game);
 
 		return this;
@@ -136,7 +134,7 @@ public class TextChannelWorld {
 		return "";
 	}
 
-	public Map<EntityPlayer,Game> getRunningGames() {
+	public Map<Player,Game> getRunningGames() {
 		return games;
 	}
 
@@ -149,7 +147,7 @@ public class TextChannelWorld {
 		return this;
 	}
 
-	public TextChannelWorld removeGame(EntityPlayer player) {
+	public TextChannelWorld removeGame(Player player) {
 		games.remove(player);
 		return this;
 	}
@@ -166,10 +164,10 @@ public class TextChannelWorld {
 		}
 
 		entityTickables.forEach(entityTickable -> {
-			if (entityTickable instanceof EntityPlayer) {
-				if (((EntityPlayer) entityTickable).getGame() == null && !((EntityPlayer) entityTickable).isProcessing())
+			/*if (entityTickable instanceof Player) {
+				if (((Player) entityTickable).getGame() == null && !((Player) entityTickable).isProcessing())
 					entityTickables.remove(entityTickable);
-			}
+			}*/
 
 			if (!entityTickable.check(event)) {
 				entityTickable.tick(this, event);

@@ -38,7 +38,7 @@ public class OsuStatsCmd extends Module {
 
 	public OsuStatsCmd() {
 		super(Category.GAMES);
-		osuClient = new OsuClient(MantaroData.getConfig().get().osuApiKey);
+		osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 		osustats();
 	}
 

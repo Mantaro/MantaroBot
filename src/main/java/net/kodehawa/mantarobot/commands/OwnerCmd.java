@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.swing.*;
 import java.awt.Color;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -52,7 +53,8 @@ public class OwnerCmd extends Module {
 		super.register("blacklist", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (args[0].equals("guild")) {
+				//TODO fix blacklist
+				/*if (args[0].equals("guild")) {
 					if (args[1].equals("add")) {
 						if (event.getJDA().getGuildById(args[2]) == null) return;
 						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
@@ -78,7 +80,7 @@ public class OwnerCmd extends Module {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
 						MantaroData.getData().save();
 					}
-				}
+				}*/
 			}
 
 			@Override
@@ -311,23 +313,23 @@ public class OwnerCmd extends Module {
 						String v1 = values[1];
 						switch (values[0]) {
 							case "pat":
-								MantaroData.getPatting().get().add(v1);
-								MantaroData.getPatting().save();
+								ActionCmds.PATS.get().add(v1);
+								ActionCmds.PATS.save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
 								break;
 							case "hug":
-								MantaroData.getHugs().get().add(v1);
-								MantaroData.getHugs().save();
+								ActionCmds.HUGS.get().add(v1);
+								ActionCmds.HUGS.save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
 								break;
 							case "greeting":
-								MantaroData.getGreeting().get().add(content.replace("varadd greeting ", ""));
-								MantaroData.getGreeting().save();
+								ActionCmds.GREETINGS.get().add(content.replace("varadd greeting ", ""));
+								ActionCmds.GREETINGS.save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
 								break;
 							case "splash":
-								MantaroData.getSplashes().get().add(content.replace("varadd splash ", ""));
-								MantaroData.getSplashes().save();
+								MantaroShard.SPLASHES.get().add(content.replace("varadd splash ", ""));
+								MantaroShard.SPLASHES.save();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
 								break;
 						}
@@ -387,7 +389,8 @@ public class OwnerCmd extends Module {
 	}
 
 	private void prepareShutdown(GuildMessageReceivedEvent event) {
-		MantaroData.getData().save();
+		//MantaroData.getData().save();
+		//TODO save all data
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});

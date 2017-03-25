@@ -51,7 +51,7 @@ public final class CommandProcessor {
 		String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 
 		if (rawCmd.startsWith(defaultPrefix)) rawCmd = rawCmd.substring(defaultPrefix.length());
-		else if (rawCmd.startsWith(prefix)) rawCmd = rawCmd.substring(prefix.length());
+		else if (prefix != null && rawCmd.startsWith(prefix)) rawCmd = rawCmd.substring(prefix.length());
 		else return false;
 
 		String[] parts = splitArgs(rawCmd, 2);

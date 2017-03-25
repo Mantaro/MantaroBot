@@ -1,22 +1,12 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
-import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.data.entities.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.URLEncoder;
-import java.util.Random;
 
 public class ImageGuess extends Game {
 
@@ -32,9 +22,11 @@ public class ImageGuess extends Game {
 		super();
 	}
 
+	//TODO oh please.
+
 	@Override
-	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
+	public void call(GuildMessageReceivedEvent event, Player player) {
+		/*if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
 				player.getGame() == type()
 			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
@@ -59,12 +51,12 @@ public class ImageGuess extends Game {
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
 			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
 
-		attempts++;
+		attempts++;*/
 	}
 
 	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
-		player.setCurrentGame(type, event.getChannel());
+	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, Player player) {
+		/*player.setCurrentGame(type, event.getChannel());
 		player.setGameInstance(this);
 		TextChannelWorld.of(event.getChannel()).addGame(player, this);
 		int random = new Random().nextInt(search.length);
@@ -84,7 +76,8 @@ public class ImageGuess extends Game {
 		} catch (Exception e) {
 			onError(LOGGER, event, player, e);
 			return false;
-		}
+		}*/
+		return false;
 	}
 
 	@Override

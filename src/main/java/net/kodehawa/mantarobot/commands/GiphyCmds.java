@@ -75,7 +75,7 @@ public class GiphyCmds extends Module {
 				int image1 = Optional.ofNullable(image).isPresent() ? Integer.parseInt(image) : 0;
 				giphy.search(event, args[0], null, null, rating,
 					(query) -> {
-						String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).unsafeChannels.stream()
+						String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
 							.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 						boolean trigger = (!query.getData()[image1].getRating().equals("r") || (nsfwChannel == null)) ?
 							!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
@@ -116,7 +116,8 @@ public class GiphyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				giphy.trending(event, (query -> {
 					int image1 = new Random().nextInt(query.getData().length - 1);
-					String nsfwChannel = MantaroData.getData().get().getGuild(event.getGuild(), false).nsfwChannel;
+					String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
+							.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 					boolean trigger = (!query.getData()[image1].getRating().equals("r") || (nsfwChannel == null)) ?
 						!query.getData()[image1].getRating().equals("r") : nsfwChannel.equals(event.getChannel().getId());
 					MessageEmbed embed = new EmbedBuilder()

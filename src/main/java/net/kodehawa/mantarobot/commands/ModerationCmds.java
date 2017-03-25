@@ -6,7 +6,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.data.GuildData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -191,11 +192,12 @@ public class ModerationCmds extends Module {
 				}
 
 				String option = args[0];
-				GuildData guildData = MantaroData.getData().get().getGuild(event.getGuild(), true);
+				DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+				GuildData guildData = dbGuild.getData();
 
 				if (option.equals("resetmoney")) {
-					guildData.users.clear();
-					MantaroData.getData().save();
+					//TODO guildData.users.clear();
+					dbGuild.save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + " Local Guild Money cleared.").queue();
 					return;
 				}
@@ -217,16 +219,15 @@ public class ModerationCmds extends Module {
 						String logChannel = args[2];
 						boolean isId = args[2].matches("^[0-9]*$");
 						String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
-						guildData.logChannel = id;
-						MantaroData.getData().save();
+						guildData.setGuildLogChannel(id);
 						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
 							logChannel, id)).queue();
 						return;
 					}
 
 					if (action.equals("disable")) {
-						guildData.logChannel = null;
-						MantaroData.getData().save();
+						guildData.setGuildLogChannel(null);
+						dbGuild.save();
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging disabled on this server.").queue();
 						return;
 					}
@@ -243,15 +244,15 @@ public class ModerationCmds extends Module {
 						}
 
 						String prefix = args[2];
-						guildData.prefix = prefix;
-						MantaroData.getData().save();
+						guildData.setGuildCustomPrefix(prefix);
+						dbGuild.save();
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Guild custom prefix set to " + prefix).queue();
 						return;
 					}
 
 					if (action.equals("clear")) {
-						guildData.prefix = null;
-						MantaroData.getData().save();
+						guildData.setGuildCustomPrefix(null);
+						dbGuild.save();
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Guild custom prefix disabled	").queue();
 						return;
 					}
@@ -261,15 +262,15 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("nsfw")) {
 					if (action.equals("toggle")) {
-						if (guildData.unsafeChannels.contains(event.getChannel().getId())) {
-							guildData.unsafeChannels.remove(event.getChannel().getId());
+						if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
+							guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
-							MantaroData.getData().save();
+							dbGuild.save();
 							return;
 						}
 
-						guildData.unsafeChannels.add(event.getChannel().getId());
-						MantaroData.getData().save();
+						guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
+						dbGuild.save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
 						return;
 					}
@@ -291,9 +292,9 @@ public class ModerationCmds extends Module {
 							boolean isId = channel.matches("^[0-9]*$");
 							String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
 							String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
-							guildData.birthdayChannel = channelId;
-							guildData.birthdayRole = roleId;
-							MantaroData.getData().save();
+							guildData.setBirthdayChannel(channelId);
+							guildData.setBirthdayRole(roleId);
+							dbGuild.save();
 							event.getChannel().sendMessage(
 								String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
 									channel, channelId, role, roleId)).queue();
@@ -312,9 +313,9 @@ public class ModerationCmds extends Module {
 					}
 
 					if (action.equals("disable")) {
-						guildData.birthdayChannel = null;
-						guildData.birthdayRole = null;
-						MantaroData.getData().save();
+						guildData.setBirthdayChannel(null);
+						guildData.setBirthdayRole(null);
+						dbGuild.save();
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging disabled on this server").queue();
 						return;
 					}
@@ -332,8 +333,8 @@ public class ModerationCmds extends Module {
 						}
 
 						try {
-							guildData.songDurationLimit = Integer.parseInt(args[2]);
-							MantaroData.getData().save();
+							guildData.setMusicSongDurationLimit(Long.parseLong(args[2]));
+							dbGuild.save();
 							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
 							return;
 						} catch (NumberFormatException e) {
@@ -350,8 +351,8 @@ public class ModerationCmds extends Module {
 						try {
 							int finalSize = Integer.parseInt(args[2]);
 							int applySize = finalSize >= 300 ? 300 : finalSize;
-							guildData.queueSizeLimit = applySize;
-							MantaroData.getData().save();
+							guildData.setMusicQueueSizeLimit((long) applySize);
+							dbGuild.save();
 							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Queue limit on this server is now **%d** songs.", applySize)).queue();
 							return;
 						} catch (NumberFormatException e) {
@@ -381,16 +382,16 @@ public class ModerationCmds extends Module {
 									return;
 								} else if (voiceChannels.size() == 1) {
 									channel = voiceChannels.get(0);
-									guildData.musicChannel = channel.getId();
-									MantaroData.getData().save();
+									guildData.setMusicChannel(channel.getId());
+									dbGuild.save();
 									event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + channel.getName()).queue();
 								} else {
 									DiscordUtils.selectList(event, voiceChannels,
 										voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
 										s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
 										voiceChannel -> {
-											guildData.musicChannel = voiceChannel.getId();
-											MantaroData.getData().save();
+											guildData.setMusicChannel(voiceChannel.getId());
+											dbGuild.save();
 											event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + voiceChannel.getName()).queue();
 										}
 									);
@@ -406,9 +407,9 @@ public class ModerationCmds extends Module {
 					}
 
 					if (action.equals("clear")) {
-						guildData.songDurationLimit = null;
-						guildData.musicChannel = null;
-						MantaroData.getData().save();
+						guildData.setMusicSongDurationLimit(null);
+						guildData.setMusicChannel(null);
+						dbGuild.save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now I can play music on all channels!").queue();
 						return;
 					}
@@ -419,8 +420,8 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("admincustom")) {
 					try {
-						guildData.customCommandsAdminOnly = Boolean.parseBoolean(action);
-						MantaroData.getData().save();
+						guildData.setCustomAdminLock(Boolean.parseBoolean(action));
+						dbGuild.save();
 						String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
@@ -432,9 +433,9 @@ public class ModerationCmds extends Module {
 
 				if (option.equals("localmoney")) {
 					try {
-						guildData.localMode = Boolean.parseBoolean(action);
-						MantaroData.getData().save();
-						String toSend = EmoteReference.CORRECT + (guildData.localMode ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
+						guildData.setRpgLocalMode(Boolean.parseBoolean(action));
+						dbGuild.save();
+						String toSend = EmoteReference.CORRECT + (guildData.isRpgLocalMode() ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
 					} catch (Exception e) {
@@ -455,9 +456,9 @@ public class ModerationCmds extends Module {
 						}
 
 						if (roles.size() <= 1) {
-							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(0).getId();
+							guildData.setGuildAutoRole(roles.get(0).getId());
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
-							MantaroData.getData().save();
+							dbGuild.save();
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "Autorole now set to role: **" + roles.get(0).getName() + "** (Position: " + roles.get(0).getPosition() + ")").queue();
 							return;
 						}
@@ -471,9 +472,9 @@ public class ModerationCmds extends Module {
 						event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription(b.toString()).build()).queue();
 
 						IntConsumer roleSelector = (c) -> {
-							MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = roles.get(c - 1).getId();
+							guildData.setGuildAutoRole(roles.get(c - 1).getId());
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
-							MantaroData.getData().save();
+							dbGuild.save();
 							event.getChannel().sendMessage(EmoteReference.OK + "Autorole now set to role: **" + roles.get(c - 1).getName() + "** (Position: " + roles.get(c - 1).getPosition() + ")").queue();
 						};
 
@@ -481,7 +482,7 @@ public class ModerationCmds extends Module {
 						return;
 
 					} else if (action.equals("unbind")) {
-						MantaroData.getData().get().getGuild(event.getGuild(), true).autoRole = null;
+						guildData.setGuildAutoRole(null);
 						event.getChannel().sendMessage(EmoteReference.OK + "Autorole resetted.").queue();
 					}
 				}
@@ -535,7 +536,7 @@ public class ModerationCmds extends Module {
 				if(content.startsWith("bot")) {
 					channel.getHistory().retrievePast(100).queue(
 							messageHistory -> {
-								String prefix = MantaroData.getData().get().getPrefix(event.getGuild());
+								String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 								messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
 										message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 

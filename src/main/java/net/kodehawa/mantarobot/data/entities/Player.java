@@ -4,6 +4,7 @@ import com.google.gson.JsonParser;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 import org.apache.commons.lang3.tuple.Pair;
@@ -39,6 +40,8 @@ public class Player implements ManagedObject {
 	}
 
 	@Getter
+	private transient boolean processing;
+	@Getter
 	private final String id;
 	@Getter
 	private int health = 250;
@@ -49,6 +52,10 @@ public class Player implements ManagedObject {
 	private int reputation = 0;
 	@Getter
 	private int stamina = 100;
+	@Getter
+	private int maxHealth = 250;
+	@Getter
+	private int maxStamina = 100;
 
 	public Player(String id, int health, long money, int reputation, int stamina, String inventory) {
 		this.id = id;
@@ -121,5 +128,101 @@ public class Player implements ManagedObject {
 	public Player setStamina(int stamina) {
 		this.stamina = stamina < 0 ? 0 : stamina;
 		return this;
+	}
+
+	/**
+	 * Adds x amount of money from the player.
+	 *
+	 * @param money How much?
+	 * @return pls dont overflow.
+	 */
+	public boolean addMoney(long money) {
+		if(money < 0) return false;
+		try {
+			this.money = Math.addExact(this.money, money);
+			return true;
+		} catch (ArithmeticException ignored) {
+			this.money = 0;
+			this.inventory().process(new ItemStack(9, 1));
+			return false;
+		}
+	}
+
+	/**
+	 * Adds x amount of reputation to a player. Normally 1.
+	 *
+	 * @param rep how much?
+	 * @return are you less than 400?
+	 */
+	public boolean addReputation(long rep) {
+		if (this.reputation + rep > 4000) return false;
+		this.reputation += rep;
+		return true;
+	}
+
+	/**
+	 * Adds x amount of health to the entity. Used in recovery and potion process.
+	 *
+	 * @param amount How much?
+	 * @return Did it pass through? Please? (aka, did it not overflow?)
+	 */
+	public boolean addHealth(int amount) {
+		if (getHealth() + amount < 0 || getHealth() + amount > getMaxHealth()) return false;
+		setHealth(getHealth() + amount);
+		return true;
+	}
+
+	/**
+	 * Adds x amount of stamina to the entity. Used in recovery and potion process.
+	 *
+	 * @param amount How much?
+	 * @return Did it pass through? Please? (aka, did it not overflow?)
+	 */
+	public boolean addStamina(int amount) {
+		if (getStamina() + amount < 0 || getStamina() + amount > getMaxStamina()) return false;
+		setStamina(getStamina() + amount);
+		return true;
+	}
+
+
+	/**
+	 * Makes a player a little bit sicker. Normally the result of sick-inducing activities like mining.
+	 *
+	 * @param amount how much am I gonna consume?
+	 * @return if it's more than zero.
+	 */
+	public boolean consumeHealth(int amount) {
+		return this.health - amount >= 0 && addHealth(-amount);
+	}
+
+	/**
+	 * Makes a player tired. If stamina reaches a critical point, you cannot do much action in the RPG.
+	 *
+	 * @param amount how much am I gonna consume?
+	 * @return if it's more than zero.
+	 */
+	public boolean consumeStamina(int amount) {
+		return this.stamina - amount >= 0 && addStamina(-amount);
+	}
+
+	/**
+	 * Set the preparation for receive data.
+	 * This is done to prevent it to receive data twice and also to prevent duplication of data.
+	 *
+	 * @param processing is it receiving data?
+	 */
+	public void setProcessing(boolean processing) {
+		this.processing = processing;
+	}
+	/**
+	 * Removes x amount of money from the player. Only goes though if money removed sums more than zero (avoids negative values).
+	 *
+	 * @param money How much?
+	 * @return well if the sum negative it won't pass through, you little fucker.
+	 */
+	public boolean removeMoney(long money) {
+		if (this.money - money < 0) return false;
+		this.money -= money;
+		return true;
 	}
 }

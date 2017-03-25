@@ -10,14 +10,19 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.DataManager;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Random;
 
 public class MiscCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
+	public static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
+	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
 
 	public MiscCmds() {
 		super(Category.MISC);
@@ -101,7 +106,7 @@ public class MiscCmds extends Module {
 						channel.sendMessage(s).queue();
 						break;
 					case "noble":
-						channel.sendMessage(EmoteReference.TALKING + MantaroData.getNoble().get().get(new Random().nextInt(MantaroData.getNoble().get().size() - 1)) + " -Noble").queue();
+						channel.sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " -Noble").queue();
 						break;
 					default:
 						onHelp(event);
@@ -133,7 +138,7 @@ public class MiscCmds extends Module {
 		super.register("randomfact", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				event.getChannel().sendMessage(EmoteReference.TALKING + MantaroData.getFacts().get().get(new Random().nextInt(MantaroData.getFacts().get().size() - 1))).queue();
+				event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
 			}
 
 			@Override

@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class AnimeCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
 	public static String authToken;
-	private final String CLIENT_SECRET = MantaroData.getConfig().get().alsecret;
+	private final String CLIENT_SECRET = MantaroData.config().get().alsecret;
 
 	public AnimeCmds() {
 		super(Category.FUN);

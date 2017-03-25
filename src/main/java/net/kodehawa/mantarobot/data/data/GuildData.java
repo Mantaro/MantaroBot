@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.data.data;
 
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
+import net.kodehawa.mantarobot.data.entities.Player;
 
 import java.util.*;
 
@@ -19,5 +19,5 @@ public class GuildData {
 	public Integer queueSizeLimit = null;
 	public Integer songDurationLimit = null;
 	public Set<String> unsafeChannels = new HashSet<>();
-	public Map<String, EntityPlayer> users = new HashMap<>();
+	public Map<String, Player> users = new HashMap<>();
 }

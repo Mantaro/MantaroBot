@@ -86,7 +86,7 @@ public class VoiceLeaveTimer {
 				String id = closestEntry.getKey();
 				expiring.remove(id);
 
-				Guild guild = MantaroBot.getInstance().getShard(Long.parseLong(id)).getJDA().getGuildById(id);
+				Guild guild = MantaroBot.getInstance().getShard(Integer.parseInt(id)).getJDA().getGuildById(id);
 				if (guild == null) continue;
 				AudioManager am = guild.getAudioManager();
 				if (am.isConnected() || am.isAttemptingToConnect()) {

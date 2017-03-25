@@ -45,12 +45,11 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 		int i = 0;
 		for (AudioTrack track : playlist.getTracks()) {
-			if (MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit != null) {
-				if (i < MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit) {
+			if (MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() != null) {
+				if (i < MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()) {
 					loadSingle(track, true);
 				} else {
-					event.getChannel().sendMessage(":warning: The queue you added had more than " + MantaroData.getData().get().getGuild(
-						event.getGuild(), false).queueSizeLimit + " songs, so we added songs until this limit and ignored the rest.").queue();
+					event.getChannel().sendMessage(":warning: The queue you added had more than " + MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() + " songs, so we added songs until this limit and ignored the rest.").queue();
 					break;
 				}
 			} else {
@@ -95,8 +94,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 	}
 
 	private void loadSingle(AudioTrack audioTrack, boolean silent) {
-		int queueLimit = !Optional.ofNullable(MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit).
-			isPresent() ? MAX_QUEUE_LENGTH : MantaroData.getData().get().getGuild(event.getGuild(), false).queueSizeLimit;
+		long queueLimit = !Optional.ofNullable(MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()).
+			isPresent() ? MAX_QUEUE_LENGTH : MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit();
 		if (getMusicManager().getTrackScheduler().getQueue().size() > queueLimit) {
 			if (!silent)
 				event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue();

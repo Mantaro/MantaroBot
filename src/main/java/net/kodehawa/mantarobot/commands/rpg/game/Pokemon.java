@@ -1,24 +1,20 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.utils.data.DataManager;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
 import java.util.List;
-import java.util.Random;
 
 public class Pokemon extends Game {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[PokemonTrivia]");
+	public static final DataManager<List<String>> pokemon = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
 	private int attempts = 1;
 	private String expectedAnswer;
 	private int maxAttempts = 10;
@@ -27,9 +23,11 @@ public class Pokemon extends Game {
 		super();
 	}
 
+	//TODO oh please.
+
 	@Override
-	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
+	public void call(GuildMessageReceivedEvent event, Player player) {
+		/*if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
 				player.getGame() == type()
 				&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
@@ -54,17 +52,17 @@ public class Pokemon extends Game {
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
 			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaning").queue();
 
-		attempts++;
+		attempts++;*/
 	}
 
 	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
-		try {
+	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, Player player) {
+		/*try {
 			player.setCurrentGame(type, event.getChannel());
 			player.setGameInstance(this);
 			TextChannelWorld.of(event.getChannel()).addGame(player, this);
 			Random rand = new Random();
-			List<String> guesses = MantaroData.getPokemonGuesses().get();
+			List<String> guesses = pokemon.get();
 			String[] data = guesses.get(rand.nextInt(guesses.size())).split("`");
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
@@ -76,7 +74,8 @@ public class Pokemon extends Game {
 		} catch (Exception e) {
 			onError(LOGGER, event, player, e);
 			return false;
-		}
+		}*/
+		return false;
 	}
 
 	public String answer(){

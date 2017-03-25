@@ -2,10 +2,11 @@ package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.game.ImageGuess;
 import net.kodehawa.mantarobot.commands.rpg.game.Pokemon;
 import net.kodehawa.mantarobot.commands.rpg.game.Trivia;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
@@ -31,7 +32,7 @@ public class GameCmds extends Module {
 
 				if(args[0].equals("image")){
 					ImageGuess guess = new ImageGuess();
-					EntityPlayer player = EntityPlayer.getPlayer(event);
+					Player player = MantaroData.db().getPlayer(event.getMember());
 					if(guess.check(event)){
 						guess.onStart(event, guess.type(), player);
 					} else {
@@ -43,7 +44,7 @@ public class GameCmds extends Module {
 
 				if(args[0].equals("pokemon")){
 					Pokemon pokemon = new Pokemon();
-					EntityPlayer player = EntityPlayer.getPlayer(event);
+					Player player = MantaroData.db().getPlayer(event.getMember());
 					if(pokemon.check(event)){
 						pokemon.onStart(event, pokemon.type(), player);
 					} else {
@@ -68,7 +69,7 @@ public class GameCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Trivia trivia = new Trivia();
-				EntityPlayer player = EntityPlayer.getPlayer(event);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 				if(trivia.check(event)){
 					trivia.onStart(event, trivia.type(), player);
 				} else {

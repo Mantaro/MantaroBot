@@ -166,14 +166,4 @@ public interface Entity {
 	 */
 	default void onSpawn() {
 	}
-
-	/**
-	 * Saves the current Entity data, if needed. Only used for players.
-	 *
-	 * @return like, idk why it even returns.
-	 */
-	default String save() {
-		MantaroData.getData().save();
-		return "Saved data";
-	}
 }

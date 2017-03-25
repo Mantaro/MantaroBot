@@ -52,7 +52,7 @@ public class AudioCmdUtils {
 			return false;
 		}
 
-		VoiceChannel guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.getData().get().guilds.getOrDefault(event.getGuild().getId(), new GuildData()).musicChannel);
+		VoiceChannel guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
 		AudioManager audioManager = event.getGuild().getAudioManager();
 
 		if (guildMusicChannel != null) {
@@ -158,8 +158,8 @@ public class AudioCmdUtils {
 		} catch (NullPointerException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "We received a non-existant channel as response. If you set a voice channel and then deleted it, that might be the cause." +
 				"\n We resetted your music channel for you, try to play the music again.").queue();
-			MantaroData.getData().get().getGuild(event.getGuild(), true).musicChannel = null;
-			MantaroData.getData().save();
+			MantaroData.db().getGuild(event.getGuild()).getData().setMusicChannel(null);
+			MantaroData.db().getGuild(event.getGuild()).save();
 		}
 	}
 }

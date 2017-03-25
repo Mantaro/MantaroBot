@@ -12,7 +12,6 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 	private static final Object LOCK = new Object();
 
 	private static DataManager<BugData> bugs;
-	private static DataManager<Data> data;
 
 	public static DataManager<BugData> getBugs() {
 		if (bugs == null)
@@ -22,13 +21,5 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 				}
 			}
 		return bugs;
-	}
-
-	public static DataManager<Data> getData() {
-		if (data == null)
-			synchronized (LOCK) {
-				if (data == null) data = new GsonDataManager<>(Data.class, "data.json", Data::new, false);
-			}
-		return data;
 	}
 }

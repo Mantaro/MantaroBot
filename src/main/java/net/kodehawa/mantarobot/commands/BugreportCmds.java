@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 public class BugreportCmds extends Module
 {
+    //TODO uhhh.
+
     private static final String RATELIMIT_MESSAGE = "You are being ratelimited";
 
     private final RateLimiter limiter = new RateLimiter(1, (int)TimeUnit.MINUTES.toMillis(10)); //ratelimit for one report/10 minutes
@@ -22,7 +24,6 @@ public class BugreportCmds extends Module
     public BugreportCmds() {
         super(Category.UTILS);
         report();
-        admin();
     }
 
     private void report()
@@ -40,7 +41,7 @@ public class BugreportCmds extends Module
             @Override
             public void call(String[] args, String content, GuildMessageReceivedEvent event)
             {
-                if(content.isEmpty()) {
+                /*if(content.isEmpty()) {
                     event.getChannel().sendMessage("No bug specified").queue();
                     return;
                 }
@@ -65,7 +66,7 @@ public class BugreportCmds extends Module
                                 .build()
                         ).complete().getId()
                 );
-                MantaroData.getBugs().save();
+                MantaroData.getBugs().save();*/
             }
 
             @Override
@@ -80,7 +81,7 @@ public class BugreportCmds extends Module
         super.register("bug", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                if(args.length < 2) {
+                /*if(args.length < 2) {
                     event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
                     return;
                 }
@@ -98,12 +99,12 @@ public class BugreportCmds extends Module
                 }
                 switch(args[0]) {
                     case "accept":
-                        MantaroBot.getInstance().getTextChannelById(MantaroData.getConfig().get().bugreportChannel).pinMessageById("" + bug.messageId).queue();
+                        MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().bugreportChannel).pinMessageById("" + bug.messageId).queue();
                         break;
                     case "close":
                         bugs.remove(Long.parseLong(args[1]));
-                        MantaroBot.getInstance().getTextChannelById(MantaroData.getConfig().get().bugreportChannel).unpinMessageById("" + bug.messageId).queue((v)->
-                            MantaroBot.getInstance().getTextChannelById(MantaroData.getConfig().get().bugreportChannel).deleteMessageById("" + bug.messageId).queue((vv)->
+                        MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().bugreportChannel).unpinMessageById("" + bug.messageId).queue((v)->
+                            MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().bugreportChannel).deleteMessageById("" + bug.messageId).queue((vv)->
                                 event.getChannel().sendMessage("Closed bug #" + args[1]).queue()
                             )
                         );
@@ -111,7 +112,7 @@ public class BugreportCmds extends Module
                     default:
                         event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
                         break;
-                }
+                }*/
             }
 
             @Override

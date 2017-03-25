@@ -159,7 +159,7 @@ public class InfoCmds extends Module {
 						guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
 					.addField("Text Channels", String.valueOf(textChannels.size()), true)
 					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", MantaroListener.getCommandTotal(), MantaroBot.getInstance().getShard(event.getJDA()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
+					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", MantaroListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -319,7 +319,7 @@ public class InfoCmds extends Module {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
-					String defaultPrefix = MantaroData.getData().get().defaultPrefix, guildPrefix = MantaroData.getData().get().getGuild(event.getGuild(), false).prefix;
+					String defaultPrefix = MantaroData.config().get().prefix, guildPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 					String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
 
 					EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
@@ -387,7 +387,7 @@ public class InfoCmds extends Module {
 					+ "\n\n ------------------ \n\n"
 					+ "Guilds: " + guilds.size() + "\n"
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShard(event.getJDA()).getId() + 1) + ")" + "\n"
+					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
 					+ "Commands: " + MantaroListener.getCommandTotal() + "\n"

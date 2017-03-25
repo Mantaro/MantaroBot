@@ -9,14 +9,14 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayerMP;
 import net.kodehawa.mantarobot.commands.rpg.entity.world.EntityTree;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.commands.rpg.item.Items;
 import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
@@ -52,16 +52,17 @@ public class RPGCmds extends Module {
 		 - cross-bot transfer command
 		 */
 
-		Async.task("RPG Thread", () -> {
+		//TODO fix @AdrianTodt
+		/*Async.task("RPG Thread", () -> {
 			MantaroData.getData().get().users.values().forEach(player -> player.setMoney((long) Math.max(0, 0.999d + (player.getMoney() * 0.99562d))));
 			MantaroData.getData().get().guilds.values().stream()
 				.filter(guildData -> guildData.localMode && guildData.devaluation)
 				.flatMap(guildData -> guildData.users.values().stream())
 				.forEach(player -> player.setMoney((long) Math.floor(Math.max(0, 0.999d + (player.getMoney() * 0.99562d)))));
-		}, 3600);
+		}, 3600);*/
 	}
 
-	private boolean check(EntityPlayer player, GuildMessageReceivedEvent event) {
+	private boolean check(Player player, GuildMessageReceivedEvent event) {
 		if (player.getStamina() < 10) {
 			if (player.isProcessing()) {
 				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
@@ -69,7 +70,7 @@ public class RPGCmds extends Module {
 			}
 
 			player.setProcessing(true);
-			player.add(TextChannelWorld.of(event));
+			//player.add(TextChannelWorld.of(event));
 			event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. You need to rest for a bit. Wait a minute for it to be completely regenerated.").queue();
 			Async.task("Stamina Task (Process) [" + player + "]", s -> {
 				if (!player.addStamina(10)) {
@@ -87,7 +88,7 @@ public class RPGCmds extends Module {
 			}
 
 			player.setProcessing(true);
-			player.add(TextChannelWorld.of(event));
+			//player.add(TextChannelWorld.of(event));
 			event.getChannel().sendMessage(EmoteReference.ERROR + "You're too sick, so you were transferred to the hospital. In 15 minutes you should be okay.").queue();
 			Async.thread(900000, () -> {
 				player.addHealth(player.getMaxHealth() - 10);
@@ -106,7 +107,7 @@ public class RPGCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannelWorld world = TextChannelWorld.of(event);
-				EntityPlayer player = EntityPlayer.getPlayer(event);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 
 				EntityTree tree = (EntityTree) world.getActiveEntities().stream().filter
 					(entity -> (entity instanceof EntityTree)).findFirst().orElse(null);
@@ -118,7 +119,7 @@ public class RPGCmds extends Module {
 
 				if (!check(player, event)) return;
 
-				if (!player.getInventory().containsItem(Items.AXE)) {
+				if (!player.inventory().containsItem(Items.AXE)) {
 					event.getChannel().sendMessage(":octagonal_sign: You don't have any axe to chop with."
 						+ (TextChannelWorld.of(event).dropItemWithChance(Items.AXE, 5) ?
 						" I think I saw an axe somewhere, though. " + EmoteReference.AXE : "")).queue();
@@ -132,12 +133,12 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				int axes = player.getInventory().getAmount(Items.AXE);
+				int axes = player.inventory().getAmount(Items.AXE);
 				tree.setHealth(0);
 				//if ticks aren't enough kek
 				tree.onDeath();
 				int give = Math.min(64, (int) Math.max((axes * 0.5), 1));
-				player.getInventory().process(new ItemStack(Items.WOOD, give));
+				player.inventory().process(new ItemStack(Items.WOOD, give));
 				event.getChannel().sendMessage(String.format("%sChopping in %s got you %d wood.", EmoteReference.CORRECT, event.getChannel().getAsMention(), give)).queue();
 			}
 
@@ -167,7 +168,7 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 
 				if (player.getMoney() <= 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
@@ -231,7 +232,7 @@ public class RPGCmds extends Module {
 					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
-				MantaroData.getData().save();
+				player.save();
 			}
 
 			@Override
@@ -245,14 +246,14 @@ public class RPGCmds extends Module {
 		super.register("inventory", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				EntityPlayer user = EntityPlayer.getPlayer(event);
+				Player user = MantaroData.db().getPlayer(event.getMember());
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
-				List<ItemStack> list = user.getInventory().asList();
+				List<ItemStack> list = user.inventory().asList();
 				if (list.isEmpty()) builder.setDescription("There is only dust.");
 				else
-					user.getInventory().asList().forEach(stack -> {
+					user.inventory().asList().forEach(stack -> {
 						long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
 						long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
 						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
@@ -278,26 +279,26 @@ public class RPGCmds extends Module {
 					switch (args[1]) {
 						case "health":
 							Item healthPotion = Items.POTION_HEALTH;
-							EntityPlayer player = EntityPlayer.getPlayer(event);
-							if (!player.getInventory().containsItem(healthPotion)) {
+							Player player = MantaroData.db().getPlayer(event.getMember());
+							if (!player.inventory().containsItem(healthPotion)) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
 								return;
 							}
 
-							player.getInventory().process(new ItemStack(healthPotion, -1));
+							player.inventory().process(new ItemStack(healthPotion, -1));
 							player.addHealth(player.getMaxHealth() - player.getHealth()); //Recover all health.
 							player.save();
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your health.").queue();
 							break;
 						case "stamina":
 							Item staminaPotion = Items.POTION_STAMINA;
-							EntityPlayer player1 = EntityPlayer.getPlayer(event);
-							if (!player1.getInventory().containsItem(staminaPotion)) {
+							Player player1 = MantaroData.db().getPlayer(event.getMember());
+							if (!player1.inventory().containsItem(staminaPotion)) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
 								return;
 							}
 
-							player1.getInventory().process(new ItemStack(staminaPotion, -1));
+							player1.inventory().process(new ItemStack(staminaPotion, -1));
 							player1.addStamina(player1.getMaxStamina() - player1.getStamina()); //Recover all stamina.
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your stamina.").queue();
 							player1.save();
@@ -315,14 +316,14 @@ public class RPGCmds extends Module {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot trash a non existant item").queue();
 						return;
 					}
-					EntityPlayer player = EntityPlayer.getPlayer(event);
+					Player player = MantaroData.db().getPlayer(event.getMember());
 
-					if (!player.getInventory().containsItem(trash)) {
+					if (!player.inventory().containsItem(trash)) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot trash an item you don't have.").queue();
 						return;
 					}
 
-					player.getInventory().process(new ItemStack(trash, -1));
+					player.inventory().process(new ItemStack(trash, -1));
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Trashed " + trash.getEmoji()).queue();
 				}
 
@@ -356,7 +357,7 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 				if (!check(player, event)) return;
 				TextChannelWorld ground = TextChannelWorld.of(event);
 				List<ItemStack> loot = ground.collectItems();
@@ -364,7 +365,7 @@ public class RPGCmds extends Module {
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
-					player.getInventory().merge(loot);
+					player.inventory().merge(loot);
 					if (moneyFound != 0) {
 						if (player.addMoney(moneyFound)) {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with " + moneyFound + " credits!").queue();
@@ -391,7 +392,7 @@ public class RPGCmds extends Module {
 					}
 				}
 
-				MantaroData.getData().save();
+				player.save();
 			}
 
 			@Override
@@ -419,7 +420,7 @@ public class RPGCmds extends Module {
 				}
 
 				TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
-				EntityPlayer player = EntityPlayer.getPlayer(event);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 
 				if (!check(player, event)) return;
 
@@ -447,11 +448,11 @@ public class RPGCmds extends Module {
 						}
 						try{
 							if (args[1].equals("all")) {
-								long all = player.getInventory().asList().stream()
+								long all = player.inventory().asList().stream()
 										.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 										.sum();
 
-								player.getInventory().clear();
+								player.inventory().clear();
 
 								if (player.addMoney(all)) {
 									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();
@@ -468,14 +469,14 @@ public class RPGCmds extends Module {
 								return;
 							}
 
-							if (player.getInventory().asMap().getOrDefault(toSell, null) == null) {
+							if (player.inventory().asMap().getOrDefault(toSell, null) == null) {
 								event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
 								return;
 							}
 
 							int many = itemNumber * -1;
 							long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-							player.getInventory().process(new ItemStack(toSell, many));
+							player.inventory().process(new ItemStack(toSell, many));
 
 							if (player.addMoney(amount)) {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
@@ -506,7 +507,7 @@ public class RPGCmds extends Module {
 							}
 
 							if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
-								player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+								player.inventory().process(new ItemStack(itemToBuy, itemNumber));
 								event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
 										" successfully. You now have " + player.getMoney() + " credits.").queue();
 							} else {
@@ -560,16 +561,16 @@ public class RPGCmds extends Module {
 					return;
 				}
 
-				EntityPlayer player = EntityPlayer.getPlayer(event);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 
 				if (!check(player, event)) return;
 
-				if (!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
+				if (!player.inventory().containsItem(Items.BROM_PICKAXE)) {
 					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
 					return;
 				}
 
-				int picks = player.getInventory().getAmount(Items.BROM_PICKAXE);
+				int picks = player.inventory().getAmount(Items.BROM_PICKAXE);
 				player.consumeStamina(10);
 				long moneyFound = Math.min(2000, (long) (r.nextInt(250) * (1.0d + picks * 0.5d)));
 				boolean dropped = TextChannelWorld.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5);
@@ -577,7 +578,7 @@ public class RPGCmds extends Module {
 
 				//Little chance, but chance.
 				if (Math.random() * 100 > 90) {
-					player.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
+					player.inventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
 					toSend = "\n" + EmoteReference.SAD + "Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
 				}
 
@@ -598,7 +599,7 @@ public class RPGCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
 				}
 
-				MantaroData.getData().save();
+				player.saveAsync();
 			}
 
 			@Override
@@ -616,17 +617,17 @@ public class RPGCmds extends Module {
 		super.register("profile", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				EntityPlayer player = MantaroData.getData().get().getUser(event, false);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 				User author = event.getAuthor();
-				EntityPlayerMP user = MantaroData.getData().get().getUser(author, false);
+				UserData user = MantaroData.db().getUser(event.getMember()).getData();
 				Member member = event.getMember();
 
 				if (!event.getMessage().getMentionedUsers().isEmpty()) {
 					author = event.getMessage().getMentionedUsers().get(0);
 					member = event.getGuild().getMember(author);
 
-					user = EntityPlayerMP.getPlayer(author);
-					player = EntityPlayer.getPlayer(member);
+					user = MantaroData.db().getUser(author).getData();
+					player = MantaroData.db().getPlayer(member);
 				}
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
@@ -634,8 +635,8 @@ public class RPGCmds extends Module {
 					.addField(EmoteReference.RUNNER + "Stamina", "**" + player.getStamina() + "** " + CommandStatsManager.bar((int) (((double) player.getStamina() / (double) player.getMaxStamina()) * 100), 15), false)
 					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
-					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
-					.addField(EmoteReference.POPPER + "Birthday", user.birthdayDate != null ? user.birthdayDate.substring(0, 5) : "Not specified.", false)
+					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.inventory().asList()), false)
+					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", false)
 					.setFooter(EmoteReference.ZAP + "In treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
 					.build()
 				).queue();
@@ -672,7 +673,7 @@ public class RPGCmds extends Module {
 				}
 
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
-				EntityPlayerMP player = EntityPlayerMP.getPlayer(mentioned);
+				Player player = MantaroData.db().getPlayer(event.getMember());
 				if (player.addReputation(1)) {
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
 				} else {
@@ -696,7 +697,7 @@ public class RPGCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				boolean global = !MantaroData.getData().get().getGuild(event.getGuild(), false).localMode && !content.equals("guild");
+				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
 
 				AtomicInteger integer = new AtomicInteger(1);
 
@@ -704,9 +705,9 @@ public class RPGCmds extends Module {
 					.setDescription(
 						(global ? MantaroBot.getInstance().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
 							.filter(user -> user != null && !user.isBot())
-							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.db().getPlayer(event.getAuthor(), event.getGuild()).getMoney()))
 							.limit(15)
-							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.getData().get().getUser(event.getGuild(), user, false).getMoney()))
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.db().getPlayer(event.getAuthor(), event.getGuild()).getMoney()))
 							.collect(Collectors.joining("\n"))
 					)
 					.build()
@@ -739,13 +740,13 @@ public class RPGCmds extends Module {
 				}
 
 				int toSend = Integer.parseInt(args[1]);
-				EntityPlayer transferPlayer = EntityPlayer.getPlayer(event);
+				Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
 				if (transferPlayer.getMoney() < toSend) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money you don't have.").queue();
 					return;
 				}
 
-				EntityPlayer toTransfer = EntityPlayer.getPlayer(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)));
+				Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)));
 				if(toTransfer.addMoney(toSend)) {
 					transferPlayer.removeMoney(toSend);
 					transferPlayer.save(); //this'll save both.

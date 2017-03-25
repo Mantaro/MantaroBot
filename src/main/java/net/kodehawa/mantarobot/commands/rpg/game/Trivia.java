@@ -1,12 +1,11 @@
 package net.kodehawa.mantarobot.commands.rpg.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.entity.player.EntityPlayer;
 import net.kodehawa.mantarobot.commands.rpg.game.core.Game;
 import net.kodehawa.mantarobot.commands.rpg.game.core.GameReference;
-import net.kodehawa.mantarobot.commands.rpg.world.TextChannelWorld;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.utils.data.DataManager;
+import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +20,7 @@ public class Trivia extends Game {
 	private int maxAnswers = 10;
 	private int maxAttempts = 10;
 	private Random rand = new Random();
-	private List<String> trivia = MantaroData.getTrivia().get();
+	public static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
 	//did you just assume I answered one
 	private int triviaAnswers = 1;
 
@@ -29,9 +28,11 @@ public class Trivia extends Game {
 		super();
 	}
 
+	//TODO oh please.
+
 	@Override
-	public void call(GuildMessageReceivedEvent event, EntityPlayer player) {
-		if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
+	public void call(GuildMessageReceivedEvent event, Player player) {
+		/*if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
 				player.getGame() == type()
 			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
 			return;
@@ -65,12 +66,12 @@ public class Trivia extends Game {
 
 		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
 			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaining").queue();
-		attempts++;
+		attempts++;*/
 	}
 
 	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, EntityPlayer player) {
-		try {
+	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, Player player) {
+		/*try {
 			player.setCurrentGame(type, event.getChannel());
 			player.setGameInstance(this);
 			TextChannelWorld.of(event.getChannel()).addGame(player, this);
@@ -83,7 +84,8 @@ public class Trivia extends Game {
 		} catch (Exception e) {
 			onError(LOGGER, event, player, e);
 			return false;
-		}
+		}*/
+		return false;
 	}
 
 	public String answer(){
