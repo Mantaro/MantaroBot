@@ -24,7 +24,7 @@ How can I calm myself when someone looks at my "special" HDD collections?!
 with you.
 in a remote server far away from you.
 an instance of Game.
-an instance of EntityPlayerMP
+*not* an instance of EntityPlayerMP
 404.
 Making your life a little easier.
 Shounen surely has a lot of ripples.
@@ -34,7 +34,7 @@ Lets go and stick those protest signs somewhere less visible.
 Yamete!
 Lemme put my serious face.
 I don't wanna, but I guess I gotta.
-Running in 2GB of allocated memory!... I guess that will be enough... I hope.
+Running in 8GB of allocated memory!... I guess that will be enough... I hope.
 Cores of pure power.
 Now singing along you.
 Now rethinking your DB.
@@ -66,7 +66,7 @@ Playing music for you!
 Bluescreening your life.
 Kernel Panicking your life.
 two series worth of backlog.
-with more than 50000 users!
+with more than 100000 users!
 with bluescreens
 with greenscreens
 with min
@@ -87,7 +87,7 @@ Now with more splashes!
 Now with more ~>tsundere
 Y-You baka.
 Don't you all love me?... Oh well.
-Celebrating 1000 servers.
+Celebrating 5000 servers.
 More features than ever!
 Cookies are delicious!
 o, true.
