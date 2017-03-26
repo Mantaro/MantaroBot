@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import frederikam.jca.JCA;
+import frederikam.jca.JCABuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.kodehawa.mantarobot.commands.game.listener.GameListener;
@@ -32,6 +34,7 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 public class MantaroBot extends ShardedJDA {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	private static MantaroBot instance;
+	public static JCA CLEVERBOT;
 
 	public static MantaroBot getInstance() {
 		return instance;
@@ -61,6 +64,7 @@ public class MantaroBot extends ShardedJDA {
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
 			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
+		CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];

@@ -29,6 +29,9 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
+	maven {
+		url  "http://dl.bintray.com/frederikam/JCA"
+	}
 }
 
 dependencies {
@@ -61,6 +64,8 @@ dependencies {
 	compile fileTree(dir: 'lib', include: '*.jar')
 
 	compile "org.projectlombok:lombok:1.16.14"
+
+	compile 'frederikam:JCA:1.0'
 }
 
 task wrapper(type: Wrapper) {

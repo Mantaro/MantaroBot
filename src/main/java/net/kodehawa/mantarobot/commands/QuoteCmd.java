@@ -30,7 +30,6 @@ public class QuoteCmd extends Module {
 		quote();
 	}
 
-	@SuppressWarnings({"unused", "unchecked"})
 	private void quote() {
 		super.register("quote", new SimpleCommand() {
 			@Override
@@ -42,7 +41,6 @@ public class QuoteCmd extends Module {
 
 				String action = args[0];
 				String phrase = content.replace(action + " ", "");
-				Message receivedMessage = event.getMessage();
 				Guild guild = event.getGuild();
 				ManagedDatabase db = MantaroData.db();
 				EmbedBuilder builder = new EmbedBuilder();
@@ -60,17 +58,17 @@ public class QuoteCmd extends Module {
 				if(action.equals("addfrom")){
 					Message message = messageHistory.stream().filter(msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
 							&& !event.getMessage().getId().equals(msg.getId()) && !event.getMessage().getContent()
-							.startsWith(db.getGuild(event.getGuild()).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix() :
-									db.getGuild(event.getGuild()).getData().getGuildCustomPrefix())).findFirst().orElse(null);
+							.startsWith(db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix() :
+									db.getGuild(guild).getData().getGuildCustomPrefix())).findFirst().orElse(null);
 
 					if (message == null) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "We couldn't find any message matching the search criteria. Please try with a more specific phrase.").queue();
 						return;
 					}
 
-					TextChannel channel = event.getGuild().getTextChannelById(message.getChannel().getId());
-					Quote quote = Quote.of(event.getGuild().getMember(message.getAuthor()), channel, message);
-					db.getQuotes(event.getGuild()).add(quote);
+					TextChannel channel = guild.getTextChannelById(message.getChannel().getId());
+					Quote quote = Quote.of(guild.getMember(message.getAuthor()), channel, message);
+					db.getQuotes(guild).add(quote);
 					event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
 					quote.saveAsync();
 					return;
@@ -83,7 +81,7 @@ public class QuoteCmd extends Module {
 				}
 
 				if(action.equals("readfrom")){
-					List<Quote> quotes = db.getQuotes(event.getGuild());
+					List<Quote> quotes = db.getQuotes(guild);
 					for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
 						if (quotes.get(i2).getContent().contains(phrase)) {
 							Quote quote = quotes.get(i2);
@@ -95,11 +93,11 @@ public class QuoteCmd extends Module {
 				}
 
 				if(action.equals("removefrom")){
-					List<Quote> quotes = db.getQuotes(event.getGuild());
+					List<Quote> quotes = db.getQuotes(guild);
 					for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
 						if (quotes.get(i2).getContent().contains(phrase)) {
 							Quote quote = quotes.get(i2);
-							db.getQuotes(event.getGuild()).remove(i2);
+							db.getQuotes(guild).remove(i2);
 							quote.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent()).queue();
 							break;

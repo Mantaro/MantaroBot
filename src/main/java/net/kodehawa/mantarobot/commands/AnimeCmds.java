@@ -153,6 +153,7 @@ public class AnimeCmds extends Module {
 				.getObject().getString("access_token");
 			LOGGER.info("Updated auth token.");
 		} catch (Exception e) {
+			LOGGER.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
 			LOGGER.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
 		}
 	}

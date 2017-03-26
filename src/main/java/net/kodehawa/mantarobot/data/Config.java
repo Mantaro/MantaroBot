@@ -22,6 +22,8 @@ public class Config {
 	public String dbotsToken;
 	public String dbotsorgToken;
 	public String osuApiKey;
+	public String cleverbotUser;
+	public String cleverbotKey;
 	public List<String> owners = new ArrayList<>();
 	public String prefix = "~>";
 	public String remoteNode;
