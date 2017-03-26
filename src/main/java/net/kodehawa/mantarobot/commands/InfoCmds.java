@@ -41,7 +41,7 @@ public class InfoCmds extends Module {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
 	private static String ratePing(long ping) {
-		if (ping <= 0) return "which doesn't even make any sense at all. :upside_down:";
+		if (ping <= 0) return "which doesn't even make any sense at all. :upside_down:"; //just in case...
 		if (ping <= 10) return "which is faster than Sonic. :smiley:";
 		if (ping <= 100) return "which is great! :smiley:";
 		if (ping <= 200) return "which is nice! :slight_smile:";
@@ -295,7 +295,7 @@ public class InfoCmds extends Module {
 					.addField("Description:", jokes.get(r.nextInt(jokes.size())), false)
 					.addField(
 						"Usage:",
-						"`~>help`: Returns information about who issued the command.\n~>help [command]`: Returns information about the specific command.",
+						"`~>help`: Returns information about who issued the command.\n`~>help [command]`: Returns information about the specific command.",
 						false
 					).build();
 			}
