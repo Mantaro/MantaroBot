@@ -21,7 +21,7 @@ public class GuildData {
 	private Long musicQueueSizeLimit = null;
 	private Long musicSongDurationLimit = null;
 	private Long quoteLastId = 0L;
-	private Boolean rpgDevaluation = true; //TODO HOOK THIS FIELD IN OPTS
+	private Boolean rpgDevaluation = true;
 	private Boolean rpgLocalMode = false;
 
 	public List<String> getGuildUnsafeChannels() {

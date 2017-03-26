@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
@@ -263,19 +264,44 @@ public class ModerationCmds extends Module {
 				if (option.equals("nsfw")) {
 					if (action.equals("toggle")) {
 						if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
-							guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
+							List<String> unsafeChannels = new ArrayList<>(guildData.getGuildUnsafeChannels());
+							unsafeChannels.remove(event.getChannel().getId());
+							guildData.setGuildUnsafeChannels(unsafeChannels);
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
-							dbGuild.save();
+							dbGuild.saveAsync();
 							return;
 						}
 
-						guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
-						dbGuild.save();
+						List<String> unsafeChannels = new ArrayList<>(guildData.getGuildUnsafeChannels());
+						unsafeChannels.add(event.getChannel().getId());
+						guildData.setGuildUnsafeChannels(unsafeChannels);
+						dbGuild.saveAsync();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
 						return;
 					}
 
 					onHelp(event);
+					return;
+				}
+
+				if(option.equals("devaluation")){
+					if (args.length < 1) {
+						onHelp(event);
+						return;
+					}
+
+					if(action.equals("enable")){
+						guildData.setRpgDevaluation(true);
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Enabled currency devaluation on this server.").queue();
+						return;
+					}
+
+					if(action.equals("disable")){
+						guildData.setRpgDevaluation(true);
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Disabled currency devaluation on this server.").queue();
+						return;
+					}
+					dbGuild.saveAsync();
 					return;
 				}
 
@@ -340,6 +366,7 @@ public class ModerationCmds extends Module {
 						} catch (NumberFormatException e) {
 							event.getChannel().sendMessage(EmoteReference.WARNING + "You're trying to set a big af number, silly").queue();
 						}
+						return;
 					}
 
 					if (action.equals("queuelimit")) {

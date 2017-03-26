@@ -1,29 +1,29 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.google.gson.Gson;
+import br.com.brjdevs.java.utils.extensions.CollectionUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.db.ManagedDatabase;
+import net.kodehawa.mantarobot.data.entities.Quote;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class QuoteCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("QuoteCmd");
-
-	private static String toJson(Map<String, LinkedHashMap<String, List<String>>> map) {
-		return new Gson().toJson(map);
-	}
-
-	private final Random rand = new Random();
 
 	public QuoteCmd() {
 		super(Category.UTILS);
@@ -35,7 +35,75 @@ public class QuoteCmd extends Module {
 		super.register("quote", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				//TODO rewrite this shit. Old code https://hastebin.com/afazuhunuz.cs
+				if(content.isEmpty()){
+					onHelp(event);
+					return;
+				}
+
+				String action = args[0];
+				String phrase = content.replace(action + " ", "");
+				Message receivedMessage = event.getMessage();
+				Guild guild = event.getGuild();
+				ManagedDatabase db = MantaroData.db();
+				EmbedBuilder builder = new EmbedBuilder();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				List<Message> messageHistory;
+				try {
+					messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
+				} catch (Exception e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like discord is having some problems for now, since a request to retrieve the history was denied" +
+							"with error `" + e.getClass().getSimpleName() + "`").queue();
+					LOGGER.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
+					return;
+				}
+
+				if(action.equals("addfrom")){
+					Message message = messageHistory.stream().filter(msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
+							&& !event.getMessage().getId().equals(msg.getId())).findFirst().orElse(null);
+
+					if (message == null) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "We couldn't find any message matching the search criteria. Please try with a more specific phrase.").queue();
+						return;
+					}
+
+					TextChannel channel = event.getGuild().getTextChannelById(message.getChannel().getId());
+					Quote quote = Quote.of(event.getGuild().getMember(message.getAuthor()), channel, message);
+					db.getQuotes(event.getGuild()).add(quote);
+					event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+					quote.saveAsync();
+					return;
+				}
+
+				if(action.equals("random")){
+					Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
+					event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+					return;
+				}
+
+				if(action.equals("readfrom")){
+					List<Quote> quotes = db.getQuotes(event.getGuild());
+					for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+						if (quotes.get(i2).getContent().contains(phrase)) {
+							Quote quote = quotes.get(i2);
+							event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+							break;
+						}
+					}
+					return;
+				}
+
+				if(action.equals("removefrom")){
+					List<Quote> quotes = db.getQuotes(event.getGuild());
+					for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+						if (quotes.get(i2).getContent().contains(phrase)) {
+							Quote quote = quotes.get(i2);
+							db.getQuotes(event.getGuild()).remove(i2);
+							quote.saveAsync();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent()).queue();
+							break;
+						}
+					}
+				}
 			}
 
 			@Override
@@ -47,12 +115,10 @@ public class QuoteCmd extends Module {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Quote command")
 					.setDescription("> Usage:\n"
-						+ "~>quote add <number>: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
-						+ "~>quote random: Gets a random quote. \n"
-						+ "~>quote read <number>: Gets a quote matching the number. \n"
-						+ "~>quote addfrom <phrase>: Adds a quote based in text search criteria.\n"
+						+ "~>quote addfrom <phrase>: Adds a quote with content defined by the number. For example 1 will quote the last message.\n"
 						+ "~>quote removefrom <phrase>: Removes a quote based in text search criteria.\n"
-						+ "~>quote getfrom <phrase>: Searches for the first quote which matches your search criteria and prints it.\n"
+						+ "~>quote readfrom <phrase>: Searches for the first quote which matches your search criteria and prints it.\n"
+						+ "~>quote random: Gets a random quote. \n"
 						+ "> Parameters:\n"
 						+ "number: Message number to quote. For example 1 will quote the last message.\n"
 						+ "phrase: A part of the quote phrase.")
@@ -60,5 +126,14 @@ public class QuoteCmd extends Module {
 					.build();
 			}
 		});
+	}
+
+	private MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote){
+		builder.setAuthor(quote.getUserName() + " said: ", null, quote.getUserAvatar())
+				.setDescription("Quote made in server " + quote.getGuildName() + " in channel #" + quote.getChannelName())
+				.addField("Content", quote.getContent(), false)
+				.setThumbnail(quote.getUserAvatar())
+				.setFooter("Date: " + dateFormat.format(new Date(System.currentTimeMillis())), null);
+		return builder.build();
 	}
 }

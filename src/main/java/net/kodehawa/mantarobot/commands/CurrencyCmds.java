@@ -175,7 +175,7 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
-				player.save();
+				player.saveAsync();
 			}
 
 			@Override
@@ -230,7 +230,7 @@ public class CurrencyCmds extends Module {
 
 							player.inventory().process(new ItemStack(healthPotion, -1));
 							player.addHealth(player.getMaxHealth() - player.getHealth()); //Recover all health.
-							player.save();
+							player.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your health.").queue();
 							break;
 						case "stamina":
@@ -244,7 +244,7 @@ public class CurrencyCmds extends Module {
 							player1.inventory().process(new ItemStack(staminaPotion, -1));
 							player1.addStamina(player1.getMaxStamina() - player1.getStamina()); //Recover all stamina.
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your stamina.").queue();
-							player1.save();
+							player1.saveAsync();
 							break;
 						default:
 							onHelp(event);
@@ -335,7 +335,7 @@ public class CurrencyCmds extends Module {
 					}
 				}
 
-				player.save();
+				player.saveAsync();
 			}
 
 			@Override
@@ -697,7 +697,7 @@ public class CurrencyCmds extends Module {
 				Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(event.getMessage().getMentionedUsers().get(0)));
 				if (toTransfer.addMoney(toSend)) {
 					transferPlayer.removeMoney(toSend);
-					transferPlayer.save(); //this'll save both.
+					transferPlayer.saveAsync(); //this'll.saveAsync both.
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();
 				} else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();

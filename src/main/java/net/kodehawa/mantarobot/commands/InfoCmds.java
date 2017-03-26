@@ -41,7 +41,7 @@ public class InfoCmds extends Module {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
 	private static String ratePing(long ping) {
-		if (ping <= 0) return "which doesn't even make any sense at all. :upside_down:"; //just in case...
+		if (ping <= 1) return "which doesn't even make any sense at all. :upside_down:"; //just in case...
 		if (ping <= 10) return "which is faster than Sonic. :smiley:";
 		if (ping <= 100) return "which is great! :smiley:";
 		if (ping <= 200) return "which is nice! :slight_smile:";
@@ -112,7 +112,7 @@ public class InfoCmds extends Module {
 				long hours = minutes / 60;
 				long days = hours / 24;
 
-				String madeBy = "Bot made by: " + MantaroData.config().get().owners.stream()
+				String madeBy = "Bot made by: " + MantaroData.config().get().getOwners().stream()
 					.map(id -> MantaroBot.getInstance().getUserById(id))
 					.filter(Objects::nonNull)
 					.map(user -> event.getGuild().getMember(user) != null ? user.getAsMention() : user.getName() + "#" + user.getDiscriminator())
@@ -378,7 +378,7 @@ public class InfoCmds extends Module {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping)).queue();
+					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping) + "  `WS:" + event.getJDA().getPing() + "ms`").queue();
 					TextChannelGround.of(event).dropItemWithChance(5, 5);
 				});
 			}

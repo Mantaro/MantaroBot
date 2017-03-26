@@ -1,11 +1,13 @@
 package net.kodehawa.mantarobot.data;
 
+import lombok.Data;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class Config {
 	public String alsecret;
 	public String bugreportChannel;
