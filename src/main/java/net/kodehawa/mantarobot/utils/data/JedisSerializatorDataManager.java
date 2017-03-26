@@ -4,23 +4,22 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.pool.KryoCallback;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
-import net.kodehawa.mantarobot.data.JedisData;
+import net.kodehawa.mantarobot.data.SerializedData;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
-import java.io.Closeable;
 import java.util.function.Consumer;
 
-public class JedisSerializatorDataManager implements Closeable, DataManager<JedisData> {
+public class JedisSerializatorDataManager implements DataManager<SerializedData> {
     private final JedisPool jedisPool;
     private final KryoPool kryoPool;
-    private final JedisData data;
+    private final SerializedData data;
 
     public JedisSerializatorDataManager(String host, int port, JedisPoolConfig config, KryoFactory factory) {
         jedisPool = new JedisPool(config, host, port);
         kryoPool = new KryoPool.Builder(factory).build();
-        data = new JedisData(jedisPool, kryoPool);
+        data = new SerializedData(kryoPool, this::set, this::get);
     }
 
     public JedisSerializatorDataManager(String host, int port, JedisPoolConfig config) {
@@ -37,6 +36,7 @@ public class JedisSerializatorDataManager implements Closeable, DataManager<Jedi
 
     @Override
     public void close() {
+        save();
         jedisPool.destroy();
     }
 
@@ -46,7 +46,7 @@ public class JedisSerializatorDataManager implements Closeable, DataManager<Jedi
     }
 
     @Override
-    public JedisData get() {
+    public SerializedData get() {
         return data;
     }
 

@@ -3,20 +3,22 @@ package net.kodehawa.mantarobot.data;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.pool.KryoPool;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-public class JedisData {
-    private final JedisPool jedisPool;
+public class SerializedData {
     private final KryoPool kryoPool;
+    private final BiConsumer<String, String> set;
+    private final Function<String, String> get;
 
-    public JedisData(JedisPool jedisPool, KryoPool kryoPool) {
-        this.jedisPool = jedisPool;
+    public SerializedData(KryoPool kryoPool, BiConsumer<String, String> set, Function<String, String> get) {
         this.kryoPool = kryoPool;
+        this.set = set;
+        this.get = get;
     }
 
     public void set(String key, Object object) {
@@ -25,24 +27,17 @@ public class JedisData {
             Output out = new Output(baos);
             kryo.writeClassAndObject(out, object);
             out.close();
-            try(Jedis jedis = jedisPool.getResource()) {
-                jedis.set(key, Base64.getEncoder().encodeToString(baos.toByteArray()));
-            }
+            set.accept(key, Base64.getEncoder().encodeToString(baos.toByteArray()));
             return null;
         });
     }
 
-    public String setString(String key, String value) {
-        try(Jedis jedis = jedisPool.getResource()) {
-            return jedis.set(key, value);
-        }
+    public void setString(String key, String value) {
+        set.accept(key, value);
     }
 
     public Object get(String key) {
-        String value;
-        try(Jedis jedis = jedisPool.getResource()) {
-            value = jedis.get(key);
-        }
+        String value = get.apply(key);
         if(value == null) return null;
         return kryoPool.run((kryo)->{
             ByteArrayInputStream bais = new ByteArrayInputStream(Base64.getDecoder().decode(value));
@@ -54,8 +49,6 @@ public class JedisData {
     }
 
     public String getString(String key) {
-        try(Jedis jedis = jedisPool.getResource()) {
-            return jedis.get(key);
-        }
+        return get.apply(key);
     }
 }
