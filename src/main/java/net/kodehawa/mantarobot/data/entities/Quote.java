@@ -15,24 +15,6 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 @Getter
 public class Quote implements ManagedObject {
 	public static final String DB_TABLE = "quotes";
-
-	public static Quote of(Member member, TextChannel channel, Message message) {
-		return new Quote(
-			member.getGuild().getId() + ":",
-			member.getUser().getId(),
-			channel.getId(),
-			message.getRawContent(),
-			member.getGuild().getName(),
-			member.getEffectiveName(),
-			member.getUser().getEffectiveAvatarUrl(),
-			channel.getName()
-		);
-	}
-
-	public static Quote of(GuildMessageReceivedEvent event) {
-		return of(event.getMember(), event.getChannel(), event.getMessage());
-	}
-
 	private final String channelId;
 	private final String channelName;
 	private final String content;
@@ -51,6 +33,24 @@ public class Quote implements ManagedObject {
 		this.userName = userName;
 		this.userAvatar = userAvatar;
 		this.channelName = channelName;
+	}
+
+
+	public static Quote of(Member member, TextChannel channel, Message message) {
+		return new Quote(
+			member.getGuild().getId() + ":",
+			member.getUser().getId(),
+			channel.getId(),
+			message.getRawContent(),
+			member.getGuild().getName(),
+			member.getEffectiveName(),
+			member.getUser().getEffectiveAvatarUrl(),
+			channel.getName()
+		);
+	}
+
+	public static Quote of(GuildMessageReceivedEvent event) {
+		return of(event.getMember(), event.getChannel(), event.getMessage());
 	}
 
 	@Override
