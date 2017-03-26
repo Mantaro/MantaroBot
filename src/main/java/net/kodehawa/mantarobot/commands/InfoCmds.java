@@ -208,7 +208,7 @@ public class InfoCmds extends Module {
 					.collect(Collectors.joining(", "));
 
 				if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
-					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
+					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 256) + "...";
 
 				channel.sendMessage(new EmbedBuilder()
 					.setAuthor("Guild Information", null, guild.getIconUrl())
@@ -327,11 +327,13 @@ public class InfoCmds extends Module {
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
-					+ "Commands: " + MantaroListener.getCommandTotal() + "\n"
+					+ "Executed Commands: " + MantaroListener.getCommandTotal() + "\n"
+					+ "Total Guild Events: " + GuildStatsManager.TOTAL_EVENTS + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
+					+ "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize() + "\n"
 					+ "```").queue();
 			}
 
