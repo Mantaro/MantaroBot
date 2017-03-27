@@ -5,6 +5,7 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -146,6 +147,8 @@ public class TrackScheduler extends AudioEventAdapter {
 		} else {
 			if (currentTrack != null) previousTrack = currentTrack;
 			currentTrack = queue.poll();
+			if (getCurrentTrack() != null && getCurrentTrack().getAudioTrack().getState() != AudioTrackState.INACTIVE)
+				currentTrack = currentTrack.makeClone();
 			getAudioPlayer().startTrack(getCurrentTrack() == null ? null : getCurrentTrack().getAudioTrack(), false);
 			if (repeat == Repeat.QUEUE) queue.offer(previousTrack.makeClone());
 		}
