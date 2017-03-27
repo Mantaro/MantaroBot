@@ -5,7 +5,6 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +17,6 @@ public class MantaroAudioManager {
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
-		playerManager.useRemoteNodes(MantaroData.config().get().getRemoteNode());
 	}
 
 	public synchronized GuildMusicManager getMusicManager(Guild guild) {

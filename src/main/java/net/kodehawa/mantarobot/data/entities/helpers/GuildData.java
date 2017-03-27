@@ -23,6 +23,8 @@ public class GuildData {
 	private Long quoteLastId = 0L;
 	private Boolean rpgDevaluation = true;
 	private Boolean rpgLocalMode = false;
+	private String joinMessage = null;
+	private String leaveMessage = null;
 
 	public List<String> getGuildUnsafeChannels() {
 		return new ArrayList<>(guildUnsafeChannels);
