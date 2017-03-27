@@ -1,9 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -403,8 +401,8 @@ public class MusicCmds extends Module {
 					}
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
 					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())
-						|| event.getMember().isOwner()) {
-						event.getChannel().sendMessage(EmoteReference.CORRECT + (event.getMember().isOwner() ? "The guild owner has decided to skip." : "The song DJ has decided to skip!")).queue();
+						|| isDJ(event.getMember())) {
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "The DJ has decided to skip!").queue();
 						scheduler.next(true);
 						return;
 					}
@@ -505,5 +503,10 @@ public class MusicCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	private static boolean isDJ(Member member) {
+		Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
+		return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
 	}
 }
