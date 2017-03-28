@@ -12,6 +12,10 @@ import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.InterfacedEventManager;
+import net.kodehawa.mantarobot.commands.game.listener.GameListener;
+import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -153,5 +157,9 @@ public class MantaroShard implements JDA {
 
 		changeStatus.run();
 		Async.task("Splash Thread", changeStatus, 600);
+	}
+
+	public void readdListeners(){
+		jda.addEventListener(new MantaroListener(), new VoiceChannelListener(), InteractiveOperations.listener(), new GameListener());
 	}
 }

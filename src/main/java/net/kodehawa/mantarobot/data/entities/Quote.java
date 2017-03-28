@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 
+import java.beans.ConstructorProperties;
 import java.beans.Transient;
 
 import static com.rethinkdb.RethinkDB.r;
@@ -24,6 +25,7 @@ public class Quote implements ManagedObject {
 	private final String userId;
 	private final String userName;
 
+	@ConstructorProperties({"id", "userId", "channelId", "content", "guildName", "userName", "userAvatar", "channelName"})
 	public Quote(String id, String userId, String channelId, String content, String guildName, String userName, String userAvatar, String channelName) {
 		this.id = id;
 		this.userId = userId;
@@ -61,8 +63,8 @@ public class Quote implements ManagedObject {
 	@Override
 	public void save() {
 		r.table(DB_TABLE).insert(this)
-			.optArg("conflict", "replace")
-			.runNoReply(conn());
+				.optArg("conflict", "replace")
+				.runNoReply(conn());
 	}
 
 	@Transient

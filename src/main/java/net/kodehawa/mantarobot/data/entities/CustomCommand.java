@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.data.entities;
 import lombok.Getter;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 
+import java.beans.ConstructorProperties;
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class CustomCommand implements ManagedObject {
 	private final String id;
 	private final List<String> values;
 
+	@ConstructorProperties({"id", "values"})
 	public CustomCommand(String id, List<String> values) {
 		this.id = id;
 		this.values = new ArrayList<>(values);
@@ -37,10 +40,12 @@ public class CustomCommand implements ManagedObject {
 			.runNoReply(conn());
 	}
 
+	@Transient
 	public String getGuildId() {
 		return getId().split(":", 2)[0];
 	}
 
+	@Transient
 	public String getName() {
 		return getId().split(":", 2)[1];
 	}

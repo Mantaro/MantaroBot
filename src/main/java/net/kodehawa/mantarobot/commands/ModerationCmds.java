@@ -221,6 +221,7 @@ public class ModerationCmds extends Module {
 						boolean isId = args[2].matches("^[0-9]*$");
 						String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
 						guildData.setGuildLogChannel(id);
+						dbGuild.saveAsync();
 						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
 							logChannel, id)).queue();
 						return;
@@ -228,7 +229,7 @@ public class ModerationCmds extends Module {
 
 					if (action.equals("disable")) {
 						guildData.setGuildLogChannel(null);
-						dbGuild.save();
+						dbGuild.saveAsync();
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging disabled on this server.").queue();
 						return;
 					}

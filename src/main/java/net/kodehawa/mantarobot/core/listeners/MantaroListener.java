@@ -160,8 +160,9 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void logStatusChange(StatusChangeEvent event) {
+		String hour = df.format(new Date(System.currentTimeMillis()));
 		JDA jda = event.getJDA();
-		log.info(String.format("Status Change Event on Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+		log.info(String.format("`[%s] Shard #%d`: Changed from `%s` to `%s`", hour, jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
 
 	private void logUnban(GuildUnbanEvent event) {
@@ -227,7 +228,6 @@ public class MantaroListener implements EventListener {
 			if (CommandProcessor.run(event)) commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
-			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
 		} catch (PermissionException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + e.getPermission()).queue();
 			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
@@ -251,12 +251,12 @@ public class MantaroListener implements EventListener {
 		TextChannel tc = getLogChannel();
 		String hour = df.format(new Date(System.currentTimeMillis()));
 
-		//TODO pls
-		/*if (MantaroData.getData().get().blacklistedGuilds.contains(event.getGuild().getId())) {
+		if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
+				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
 			event.getGuild().leave().queue();
 			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			return;
-		}*/
+		}
 
 		tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 		logTotal++;
@@ -298,7 +298,7 @@ public class MantaroListener implements EventListener {
 		String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined").queue();
+			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined (User #" + event.getGuild().getMembers().size() + ")").queue();
 			logTotal++;
 		}
 	}

@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.data.entities;
 import lombok.Getter;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 
+import java.beans.ConstructorProperties;
+
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
@@ -13,6 +15,7 @@ public class PremiumKey implements ManagedObject {
 	private final long expiration;
 	private final String id;
 
+	@ConstructorProperties({"id", "duration", "expiration"})
 	public PremiumKey(String id, long duration, long expiration) {
 		this.id = id;
 		this.duration = duration;

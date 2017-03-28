@@ -80,10 +80,16 @@ public class InfoCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 
 				if (!content.isEmpty() && args[0].equals("patreon")) {
-					//TODO should do with db.
+
 					EmbedBuilder builder = new EmbedBuilder();
+
+					String donators = MantaroData.db().getMantaroData().getPatreonUsers().stream()
+							.filter(id -> MantaroBot.getInstance().getUserById(id) != null)
+							.map(id -> String.format("%s#%s", MantaroBot.getInstance().getUserById(id).getName(), MantaroBot.getInstance().getUserById(id).getDiscriminator()))
+							.collect(Collectors.joining(", "));
+
 					builder.setAuthor("Patreon supporters.", null, event.getJDA().getSelfUser().getAvatarUrl())
-						.setDescription("On construction.")
+						.setDescription(donators)
 						.setColor(Color.PINK)
 						.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
@@ -328,7 +334,7 @@ public class InfoCmds extends Module {
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
 					+ "Executed Commands: " + MantaroListener.getCommandTotal() + "\n"
-					+ "Total Guild Events: " + GuildStatsManager.TOTAL_EVENTS + "\n"
+					+ "Total Guild Events: " + GuildStatsManager.TOTAL_EVENTS.keySet().size() + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"

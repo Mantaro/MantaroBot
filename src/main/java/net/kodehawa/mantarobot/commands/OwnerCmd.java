@@ -13,6 +13,9 @@ import net.kodehawa.lib.mantarolang.MantaroLang;
 import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.db.ManagedDatabase;
+import net.kodehawa.mantarobot.data.entities.MantaroObj;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -51,34 +54,35 @@ public class OwnerCmd extends Module {
 		super.register("blacklist", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				//TODO fix blacklist
-				/*if (args[0].equals("guild")) {
+				MantaroObj obj = MantaroData.db().getMantaroData();
+				if (args[0].equals("guild")) {
 					if (args[1].equals("add")) {
-						if (event.getJDA().getGuildById(args[2]) == null) return;
-						MantaroData.getData().get().blacklistedGuilds.add(args[2]);
+						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
+						obj.getBlackListedGuilds().add(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
-						MantaroData.getData().save();
+						obj.save();
 					} else if (args[1].equals("remove")) {
-						MantaroData.getData().get().blacklistedGuilds.remove(args[2]);
+						if (!obj.getBlackListedGuilds().contains(args[2])) return;
+						obj.getBlackListedGuilds().remove(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
-						MantaroData.getData().save();
+						obj.save();
 					}
 					return;
 				}
 
 				if (args[0].equals("user")) {
 					if (args[1].equals("add")) {
-						if (event.getJDA().getUserById(args[2]) == null) return;
-						MantaroData.getData().get().blacklistedUsers.add(args[2]);
+						if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
+						obj.getBlackListedUsers().add(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						MantaroData.getData().save();
+						obj.save();
 					} else if (args[1].equals("remove")) {
-						if (event.getJDA().getUserById(args[2]) == null) return;
-						MantaroData.getData().get().blacklistedUsers.remove(args[2]);
+						if (!obj.getBlackListedUsers().contains(args[2])) return;
+						obj.getBlackListedUsers().remove(args[2]);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						MantaroData.getData().save();
+						obj.save();
 					}
-				}*/
+				}
 			}
 
 			@Override
@@ -387,8 +391,6 @@ public class OwnerCmd extends Module {
 	}
 
 	private void prepareShutdown(GuildMessageReceivedEvent event) {
-		//MantaroData.getData().save();
-		//TODO save all data
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});

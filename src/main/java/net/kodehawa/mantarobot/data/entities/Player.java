@@ -7,8 +7,10 @@ import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.data.entities.helpers.PlayerData;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.beans.ConstructorProperties;
 import java.beans.Transient;
 import java.util.stream.Collectors;
 
@@ -31,12 +33,12 @@ public class Player implements ManagedObject {
 	}
 
 	public static Player of(String userId) {
-		return new Player(userId + ":g", 0L, 250L, 0L, 0L, 100L, "");
+		return new Player(userId + ":g", 0L, 250L, 0L, 0L, 100L, "", new PlayerData());
 	}
 
 	public static Player of(String userId, String guildId) {
 		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 250L, 0L, 0L, 100L, "");
+		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 250L, 0L, 0L, 100L, "", new PlayerData());
 	}
 
 	@Getter
@@ -58,15 +60,19 @@ public class Player implements ManagedObject {
 	@Getter
 	private long level = 0;
 
+	private final PlayerData data;
+
 	private transient Inventory inventory = new Inventory();
 
-	public Player(String id, Long level, Long health, Long money, Long reputation, Long stamina, String inventory) {
+	@ConstructorProperties({"id", "level", "health", "money", "reputation", "stamina", "inventory", "data"})
+	public Player(String id, Long level, Long health, Long money, Long reputation, Long stamina, String inventory, PlayerData data) {
 		this.id = id;
 		this.health = health;
 		this.level = level;
 		this.money = money;
 		this.reputation = reputation;
 		this.stamina = stamina;
+		this.data = data;
 
 		this.inventory.replaceWith(
 			unserialize(

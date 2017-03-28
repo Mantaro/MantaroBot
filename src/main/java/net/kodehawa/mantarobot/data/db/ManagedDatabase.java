@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.data.db;
 
+import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Guild;
@@ -141,6 +142,15 @@ public class ManagedDatabase {
 	public DBUser getUser(String userId) {
 		DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
 		return user == null ? DBUser.of(userId) : user;
+	}
+
+	public MantaroObj getMantaroData(){
+		MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
+		return obj == null ? MantaroObj.create() : obj;
+	}
+
+	public RethinkDB getDB(){
+		return r;
 	}
 
 	public DBUser getUser(User user) {
