@@ -1,7 +1,5 @@
 package net.kodehawa.mantarobot.data.entities;
 
-import com.rethinkdb.serialization.ConstructorResolver;
-import com.rethinkdb.serialization.ResolverMode;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -29,7 +27,6 @@ public class DBGuild implements ManagedObject {
 	private final String id;
 	private long premiumUntil;
 
-	@ConstructorResolver(ResolverMode.CONSTRUCTOR_PROPERTIES)
 	@ConstructorProperties({"id", "premiumUntil", "data"})
 	public DBGuild(String id, long premiumUntil, GuildData data) {
 		this.id = id;

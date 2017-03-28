@@ -27,7 +27,7 @@ public class BugreportCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				/*if(args.length < 2) {
-                    event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
+					event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
                     return;
                 }
                 Map<Long, BugData.Bug> bugs = MantaroData.getBugs().get().bugs;

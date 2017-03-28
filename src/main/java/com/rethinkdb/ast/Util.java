@@ -6,19 +6,15 @@ import com.rethinkdb.gen.exc.ReqlDriverError;
 import com.rethinkdb.model.Arguments;
 import com.rethinkdb.model.MapObject;
 import com.rethinkdb.model.ReqlLambda;
-import com.rethinkdb.serialization.SerializationStrategy;
-import com.rethinkdb.serialization.Strategy;
+import net.kodehawa.mantarobot.utils.Mapifier;
 
-import java.beans.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class Util {
@@ -32,45 +28,12 @@ public class Util {
 	 */
 	private static Map<String, Object> toMap(Object pojo) {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			Class<?> pojoClass = pojo.getClass();
-
-			if (pojoClass.isAnnotationPresent(Strategy.class)) {
-				Strategy strategy = pojoClass.getAnnotation(Strategy.class);
-				if (!strategy.serialization().equals(SerializationStrategy.class)) {
-					return strategy.serialization().newInstance().serialize(pojo);
-				}
-			}
-
-			if (!Modifier.isPublic(pojoClass.getModifiers())) {
-				throw new IllegalAccessException(String.format("%s's class should be public", pojo));
-			}
-
-			BeanInfo info = Introspector.getBeanInfo(pojoClass);
-
-			for (PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
-				Method reader = descriptor.getReadMethod();
-
-				if (reader == null || reader.getDeclaringClass() != pojoClass || reader.isAnnotationPresent(Transient.class) && reader.getAnnotation(Transient.class).value())
-					continue;
-
-				Object value = reader.invoke(pojo);
-
-				if (value instanceof Integer) {
-					throw new IllegalAccessException(String.format(
-						"Make %s of %s Long instead of Integer", reader.getName(), pojo));
-				}
-
-				map.put(descriptor.getName(), value);
-			}
-
-			return map;
-		} catch (IntrospectionException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+			return Mapifier.toMap(pojo);
+		} catch (IllegalArgumentException e) {
 			throw new ReqlDriverError("Can't convert %s to a ReqlAst: %s", pojo, e.getMessage());
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private static ReqlAst toReqlAst(Object val, int remainingDepth) {
 		if (remainingDepth <= 0) {
 			throw new ReqlDriverCompileError("Recursion limit reached converting to ReqlAst");
@@ -89,15 +52,15 @@ public class Util {
 
 		if (val instanceof List) {
 			Arguments innerValues = new Arguments();
-			for (Object innerValue : (List) val) {
+			for (java.lang.Object innerValue : (List) val) {
 				innerValues.add(toReqlAst(innerValue, remainingDepth - 1));
 			}
 			return new MakeArray(innerValues, null);
 		}
 
 		if (val instanceof Map) {
-			Map<String, ReqlAst> obj = new MapObject();
-			for (Map.Entry<Object, Object> entry : (Set<Map.Entry>) ((Map) val).entrySet()) {
+			Map<String, ReqlAst> obj = new MapObject<>();
+			for (Map.Entry<Object, Object> entry : ((Map<Object, Object>) val).entrySet()) {
 				if (!(entry.getKey() instanceof String)) {
 					throw new ReqlDriverCompileError("Object keys can only be strings");
 				}
