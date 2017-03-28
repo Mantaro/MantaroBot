@@ -31,23 +31,22 @@ public class Player implements ManagedObject {
 	}
 
 	public static Player of(String userId) {
-		return new Player(userId + ":g", 250L, 0L, 0L, 100L, "");
+		return new Player(userId + ":g", 0L, 250L, 0L, 0L, 100L, "");
 	}
 
 	public static Player of(String userId, String guildId) {
 		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 250L, 0L, 0L, 100L, "");
+		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 250L, 0L, 0L, 100L, "");
 	}
 
 	@Getter
 	private final String id;
 	@Getter
 	private long health = 250;
-	private transient Inventory inventory = new Inventory();
 	@Getter
-	private long maxHealth = 250;
+	private transient long maxHealth = 250;
 	@Getter
-	private long maxStamina = 100;
+	private transient long maxStamina = 100;
 	@Getter
 	private long money = 0;
 	@Getter
@@ -56,10 +55,15 @@ public class Player implements ManagedObject {
 	private long reputation = 0;
 	@Getter
 	private long stamina = 100;
+	@Getter
+	private long level = 0;
 
-	public Player(String id, Long health, Long money, Long reputation, Long stamina, String inventory) {
+	private transient Inventory inventory = new Inventory();
+
+	public Player(String id, Long level, Long health, Long money, Long reputation, Long stamina, String inventory) {
 		this.id = id;
 		this.health = health;
+		this.level = level;
 		this.money = money;
 		this.reputation = reputation;
 		this.stamina = stamina;
@@ -203,6 +207,11 @@ public class Player implements ManagedObject {
 
 	public Player setMoney(long money) {
 		this.money = money < 0 ? 0 : money;
+		return this;
+	}
+
+	public Player setLevel(long level){
+		this.level = level;
 		return this;
 	}
 

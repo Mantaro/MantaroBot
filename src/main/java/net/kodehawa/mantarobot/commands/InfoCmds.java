@@ -41,7 +41,7 @@ public class InfoCmds extends Module {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
 	private static String ratePing(long ping) {
-		if (ping <= 0) return "which doesn't even make any sense at all. :upside_down:";
+		if (ping <= 1) return "which doesn't even make any sense at all. :upside_down:"; //just in case...
 		if (ping <= 10) return "which is faster than Sonic. :smiley:";
 		if (ping <= 100) return "which is great! :smiley:";
 		if (ping <= 200) return "which is nice! :slight_smile:";
@@ -112,7 +112,7 @@ public class InfoCmds extends Module {
 				long hours = minutes / 60;
 				long days = hours / 24;
 
-				String madeBy = "Bot made by: " + MantaroData.config().get().owners.stream()
+				String madeBy = "Bot made by: " + MantaroData.config().get().getOwners().stream()
 					.map(id -> MantaroBot.getInstance().getUserById(id))
 					.filter(Objects::nonNull)
 					.map(user -> event.getGuild().getMember(user) != null ? user.getAsMention() : user.getName() + "#" + user.getDiscriminator())
@@ -208,7 +208,7 @@ public class InfoCmds extends Module {
 					.collect(Collectors.joining(", "));
 
 				if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
-					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
+					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 256) + "...";
 
 				channel.sendMessage(new EmbedBuilder()
 					.setAuthor("Guild Information", null, guild.getIconUrl())
@@ -295,7 +295,7 @@ public class InfoCmds extends Module {
 					.addField("Description:", jokes.get(r.nextInt(jokes.size())), false)
 					.addField(
 						"Usage:",
-						"`~>help`: Returns information about who issued the command.\n~>help [command]`: Returns information about the specific command.",
+						"`~>help`: Returns information about who issued the command.\n`~>help [command]`: Returns information about the specific command.",
 						false
 					).build();
 			}
@@ -327,11 +327,13 @@ public class InfoCmds extends Module {
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
-					+ "Commands: " + MantaroListener.getCommandTotal() + "\n"
+					+ "Executed Commands: " + MantaroListener.getCommandTotal() + "\n"
+					+ "Total Guild Events: " + GuildStatsManager.TOTAL_EVENTS + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
+					+ "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize() + "\n"
 					+ "```").queue();
 			}
 
@@ -378,7 +380,7 @@ public class InfoCmds extends Module {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping)).queue();
+					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping) + "  `WS:" + event.getJDA().getPing() + "ms`").queue();
 					TextChannelGround.of(event).dropItemWithChance(5, 5);
 				});
 			}
@@ -469,8 +471,8 @@ public class InfoCmds extends Module {
 					event.getChannel().sendMessage(
 						new EmbedBuilder()
 							.setColor(Color.PINK)
-							.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", "https://puu.sh/suxQf/e7625cd3cd.png")
-							.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+							.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", event.getJDA().getSelfUser().getAvatarUrl())
+							.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
 							.setDescription("Well... I did my maths!")
 							.addField("Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.min, usersPerGuild.avg, usersPerGuild.max), true)
 							.addField("Online Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.min, onlineUsersPerGuild.avg, onlineUsersPerGuild.max), true)
@@ -482,8 +484,8 @@ public class InfoCmds extends Module {
 							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
-							.addField("MantaroCredits to USD conversion:", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
-							.addField("Exclusiveness per Total Guilds", Math.round(ex) + "% (" + exclusiveness + ")", true)
+							.addField("MantaroCredits to USD conversion", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
+							.addField("Exclusiveness per Total Guilds", Math.round(ex) + "% (" + exclusiveness + ")", false)
 							.addField("Big Guilds", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
 								, event.getJDA().getSelfUser().getAvatarUrl())

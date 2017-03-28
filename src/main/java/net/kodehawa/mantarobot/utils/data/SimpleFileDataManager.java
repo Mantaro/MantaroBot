@@ -46,6 +46,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 		return data;
 	}
 
+	@Override
 	public void save() {
 		try {
 			FileIOUtils.write(path, this.data.stream().collect(Collectors.joining("\n")));

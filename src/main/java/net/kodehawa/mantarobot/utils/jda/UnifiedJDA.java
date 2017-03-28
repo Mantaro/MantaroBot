@@ -77,6 +77,11 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Who doesn't love to install a fresh auxiliary cable.
+	 * @param port Where?
+	 * @throws UnsupportedOperationException When you think it's even possible to.
+	 */
 	@Override
 	default void installAuxiliaryCable(int port) throws UnsupportedOperationException {
 		throw new UnsupportedOperationException();

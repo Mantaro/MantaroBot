@@ -17,7 +17,6 @@ public class MantaroAudioManager {
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
-		//playerManager.useRemoteNodes(MantaroData.getConfig().get().remoteNode);
 	}
 
 	public synchronized GuildMusicManager getMusicManager(Guild guild) {

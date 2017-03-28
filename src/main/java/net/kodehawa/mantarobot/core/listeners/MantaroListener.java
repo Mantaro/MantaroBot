@@ -202,12 +202,6 @@ public class MantaroListener implements EventListener {
 
 	private void onCommand(GuildMessageReceivedEvent event) {
 
-		//Tick worlds and entities.
-		if (r.nextInt(200) > 150) {
-			ticks++;
-			TextChannelGround world = TextChannelGround.of(event);
-		}
-
 		synchronized (messageCache) {
 			if ((messageCache.size() + 1) > 2500) {
 				Iterator<String> iterator = messageCache.keySet().iterator();
@@ -216,6 +210,14 @@ public class MantaroListener implements EventListener {
 			}
 
 			messageCache.put(event.getMessage().getId(), event.getMessage());
+		}
+
+		//Cleverbot.
+		if(event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())){
+			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
+					event.getMessage().getContent().replace(event.getAuthor().getAsMention() + " ", ""))
+			).queue();
+			return;
 		}
 
 		try {

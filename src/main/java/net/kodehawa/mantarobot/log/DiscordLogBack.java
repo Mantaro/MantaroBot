@@ -41,7 +41,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	public void start() {
 		patternLayout = new PatternLayout();
 		patternLayout.setContext(getContext());
-		patternLayout.setPattern("[%d{HH:mm:ss}] [%t/%level] [%logger{0}]: %msg%n");
+		patternLayout.setPattern("`[%d{HH:mm:ss}]` [%t/%level] [%logger{0}]: %msg%n");
 		patternLayout.start();
 
 		super.start();

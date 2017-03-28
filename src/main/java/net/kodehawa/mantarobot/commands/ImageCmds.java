@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.mashape.unirest.http.Unirest;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -14,6 +16,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.utils.URLCache;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -22,6 +25,7 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +56,7 @@ public class ImageCmds extends Module {
 		kona();
 		e621();
 		rule34();
+		cat();
 
 		enterRatings();
 	}
@@ -509,6 +514,28 @@ public class ImageCmds extends Module {
 						+ "tag: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
 						+ "rating: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
 					.build();
+			}
+		});
+	}
+
+	private void cat(){
+		super.register("cat", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				try{
+					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
+					event.getChannel().sendFile(URLCache.getFile(url), "cat.jpg",
+							new MessageBuilder().append("Aww, take a cat.").build()).queue();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Cat command")
+						.setDescription("Sends a random cat image")
+						.build();
 			}
 		});
 	}

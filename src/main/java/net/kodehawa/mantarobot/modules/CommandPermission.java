@@ -9,7 +9,8 @@ import java.util.function.Predicate;
 public enum CommandPermission implements Predicate<Member> {
 	USER(member -> true, "User"),
 	BOT_OWNER(MantaroData.config().get()::isOwner, "Bot Owner"),
-	ADMIN(member -> BOT_OWNER.test(member) || member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner(), "Adminstrator");
+	ADMIN(member -> BOT_OWNER.test(member) || member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner()
+			|| member.getRoles().stream().filter(role -> role.getName().equals("Bot Commander")).findFirst().orElse(null) != null, "Adminstrator/Bot Commander");
 
 	private final Predicate<Member> memberPredicate;
 	private String verbose;

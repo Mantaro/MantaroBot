@@ -29,10 +29,13 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
+	maven {
+		url  "http://dl.bintray.com/frederikam/JCA"
+	}
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.0.0_160'
+	compile 'net.dv8tion:JDA:3.0.0_162'
 
 	compile 'com.sedmelluq:lavaplayer:1.2.34'
 	compile 'com.sedmelluq:jda-nas:1.0.3'
@@ -61,6 +64,8 @@ dependencies {
 	compile fileTree(dir: 'lib', include: '*.jar')
 
 	compile "org.projectlombok:lombok:1.16.14"
+
+	compile 'frederikam:JCA:1.0'
 }
 
 task wrapper(type: Wrapper) {
