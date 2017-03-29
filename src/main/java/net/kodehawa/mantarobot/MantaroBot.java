@@ -66,7 +66,7 @@ public class MantaroBot extends ShardedJDA {
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
 			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
-		CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
+		//CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];

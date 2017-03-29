@@ -15,8 +15,8 @@ public class ModLog {
 	public static void log(Member author, Member target, String reason, ModAction action, long caseN, String... time) {
 		DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
 		EmbedBuilder embedBuilder = new EmbedBuilder();
-		embedBuilder.addField("Responsible Moderator", author.getNickname(), true);
-		embedBuilder.addField("Member", target.getNickname(), true);
+		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
+		embedBuilder.addField("Member", target.getEffectiveName(), true);
 		embedBuilder.addField("Reason", reason, false);
 		embedBuilder.setThumbnail(target.getUser().getEffectiveAvatarUrl());
 		switch (action) {
@@ -39,7 +39,7 @@ public class ModLog {
 	public static void logUnban(Member author, String target, String reason) {
 		DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
 		EmbedBuilder embedBuilder = new EmbedBuilder();
-		embedBuilder.addField("Responsible Moderator", author.getNickname(), true);
+		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
 		embedBuilder.addField("Member ID", target, true);
 		embedBuilder.addField("Reason", reason, false);
 		embedBuilder.setAuthor("Unban", null, author.getUser().getEffectiveAvatarUrl());

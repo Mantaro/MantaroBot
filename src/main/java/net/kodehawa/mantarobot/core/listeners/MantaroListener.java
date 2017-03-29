@@ -126,7 +126,7 @@ public class MantaroListener implements EventListener {
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				Message deletedMessage = messageCache.get(event.getMessageId());
-				if (!deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
+				if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
 				}
@@ -147,7 +147,7 @@ public class MantaroListener implements EventListener {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				User author = event.getAuthor();
 				Message editedMessage = messageCache.get(event.getMessage().getId());
-				if (!editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
+				if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
 					messageCache.put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
