@@ -45,7 +45,7 @@ public class MantaroBot extends ShardedJDA {
 			instance = new MantaroBot();
 		} catch (Exception e) {
 			DiscordLogBack.disable();
-			LOGGER.error("Could not complete Main Thread Routine!", e);
+			LOGGER.error("Could not complete Main Thread routine!", e);
 			LOGGER.error("Cannot continue! Exiting program...");
 			System.exit(-1);
 		}
