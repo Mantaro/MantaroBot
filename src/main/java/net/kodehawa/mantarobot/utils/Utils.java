@@ -82,8 +82,8 @@ public class Utils {
 				.getString("key");
 			return "https://hastebin.com/" + pasteToken;
 		} catch (UnirestException e) {
-			LOGGER.warn("Hastebin is being funny, huh? Cannot send or retrieve paste.", e);
-			return "Bot threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
+			LOGGER.warn("Hastebin is being stupid, huh? Can't send or retrieve paste.", e);
+			return "Mantaro threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
 		}
 	}
 
@@ -119,7 +119,7 @@ public class Utils {
 			return URLEncoder.encode(s, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			UnsafeUtils.throwException(e);
-			return null; //cheating compiler
+			return null; //cheating compiler (wow you bad boy)
 		}
 	}
 
@@ -156,8 +156,8 @@ public class Utils {
 		} catch (Exception e) {
 			if (e instanceof java.io.FileNotFoundException) return null;
 
-			LOGGER.warn("Seems like I cannot fetch data from " + url, e);
-			event.getChannel().sendMessage("\u274C Error retrieving data from URL.").queue();
+			LOGGER.warn(getFetchDataFailureResponse(url, null), e);
+			event.getChannel().sendMessage("\u274C I got an error while retrieving data from " + url).queue();
 		}
 
 		return webObject;
@@ -176,10 +176,24 @@ public class Utils {
 		try {
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
-			LOGGER.warn("[Resty] Seems like I cannot fetch data from " + url, e);
+			LOGGER.warn(getFetchDataFailureResponse(url, "Resty"), e);
 			Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue());
 		}
 
 		return url2;
+	}
+
+    /**
+     * Get a data failure response, place in its own method due to redundancy
+     *
+     * @param url The URL from which the data fetch failed
+     * @param servicePrefix The prefix from a specific service
+     * @return The formatted response string
+     */
+	private static String getFetchDataFailureResponse(String url, String servicePrefix) {
+		StringBuilder response = new StringBuilder();
+		if (servicePrefix != null) response.append("[").append(servicePrefix).append("]");
+		else response.append("\u274C");
+		return response.append(" ").append("Hmm, seems like I can't retrieve data from ").append(url).toString();
 	}
 }

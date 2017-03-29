@@ -83,7 +83,7 @@ public class MantaroShard implements JDA {
 				}
 			})
 			.setAutoReconnect(true)
-			.setGame(Game.of("Hold your seatbelts!"));
+			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);
 		if (jda != null) {
@@ -102,7 +102,7 @@ public class MantaroShard implements JDA {
 		String dbotsorgToken = config.dbotsorgToken;
 
 		if (dbotsToken != null || carbonToken != null || dbotsorgToken != null) {
-			Async.task("List API update Thread", () -> {
+			Async.task("Botlist API update Thread", () -> {
 				int newC = jda.getGuilds().size();
 				try {
 					guildCount.accept(newC);
@@ -140,7 +140,7 @@ public class MantaroShard implements JDA {
 						LOGGER.error("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org) - Shard " + getId(), e);
 					}
 
-					LOGGER.info("Updated discord lists Guild Count: " + newC + " guilds");
+					LOGGER.info("Updated discord lists guild count: " + newC + " guilds");
 				} catch (Exception e) {
 					LOGGER.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
 				}
