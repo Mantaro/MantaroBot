@@ -16,6 +16,7 @@ public class GuildData {
 	private String guildAutoRole = null;
 	private String guildCustomPrefix = null;
 	private String guildLogChannel = null;
+	private Long cases = 0L;
 	private transient Set<String> guildUnsafeChannels = new HashSet<>();
 	private String musicChannel = null;
 	private Long musicQueueSizeLimit = null;

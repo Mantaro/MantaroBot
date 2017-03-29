@@ -5,7 +5,9 @@ import net.kodehawa.mantarobot.data.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
@@ -17,16 +19,18 @@ public class MantaroObj implements ManagedObject {
 	public List<String> blackListedGuilds = null;
 	public List<String> blackListedUsers = null;
 	public List<String> patreonUsers = null;
+	private Map<String, Long> tempBans = null;
 
-	@ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers"})
-	public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers){
+	@ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans"})
+	public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans){
 		this.blackListedGuilds = blackListedGuilds;
 		this.blackListedUsers = blackListedUsers;
 		this.patreonUsers = patreonUsers;
+		this.tempBans = tempBans;
 	}
 
 	public static MantaroObj create(){
-		return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+		return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class URLCache {
 		if (cachedFile != null) return cachedFile;
 		File file = null;
 		try {
-			file = File.createTempFile(url.replace('/', '_'), "cache", cacheDir);
+			file = File.createTempFile(url.replace('/', '_').replace(':', '_'), "cache", cacheDir);
 			try (InputStream is = Unirest.get(url).asBinary().getRawBody();
 				 FileOutputStream fos = new FileOutputStream(file)) {
 				byte[] buffer = new byte[1024];

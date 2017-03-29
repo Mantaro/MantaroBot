@@ -135,6 +135,7 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)) {
 				log.warn("Unexpected exception while logging a deleted message.", e);
 			}
+			e.printStackTrace();
 		}
 	}
 
@@ -156,6 +157,7 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a edit.", e);
 			}
+			e.printStackTrace();
 		}
 	}
 
@@ -166,12 +168,21 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void logUnban(GuildUnbanEvent event) {
-		String hour = df.format(new Date(System.currentTimeMillis()));
-		String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
-		if (logChannel != null) {
-			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
-			logTotal++;
+		try{
+			String hour = df.format(new Date(System.currentTimeMillis()));
+			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			if (logChannel != null) {
+				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+				tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
+				logTotal++;
+			}
+		}
+
+		catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a edit.", e);
+			}
+			e.printStackTrace();
 		}
 	}
 
@@ -248,58 +259,82 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onJoin(GuildJoinEvent event) {
-		TextChannel tc = getLogChannel();
-		String hour = df.format(new Date(System.currentTimeMillis()));
+		try{
+			TextChannel tc = getLogChannel();
+			String hour = df.format(new Date(System.currentTimeMillis()));
 
-		if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
-			event.getGuild().leave().queue();
-			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-			return;
+			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
+					|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
+				event.getGuild().leave().queue();
+				tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+				return;
+			}
+
+			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			logTotal++;
+
+			GuildStatsManager.log(LoggedEvent.JOIN);
 		}
-
-		tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-		logTotal++;
-
-		GuildStatsManager.log(LoggedEvent.JOIN);
+		catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a edit.", e);
+			}
+			e.printStackTrace();
+		}
 	}
 
 	private void onLeave(GuildLeaveEvent event) {
-		TextChannel tc = getLogChannel();
-		String hour = df.format(new Date(System.currentTimeMillis()));
+		try{
+			TextChannel tc = getLogChannel();
+			String hour = df.format(new Date(System.currentTimeMillis()));
 
-		if (event.getGuild().getMembers().isEmpty()) {
-			tc.sendMessage(String.format(EmoteReference.THINKING + "[%s] A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
+			if (event.getGuild().getMembers().isEmpty()) {
+				tc.sendMessage(String.format(EmoteReference.THINKING + "[%s] A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
+				logTotal++;
+				return;
+			}
+
+			tc.sendMessage(String.format(EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			logTotal++;
-			return;
+
+			GuildStatsManager.log(LoggedEvent.LEAVE);
 		}
-
-		tc.sendMessage(String.format(EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-		logTotal++;
-
-		GuildStatsManager.log(LoggedEvent.LEAVE);
+		catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a edit.", e);
+			}
+			e.printStackTrace();
+		}
 	}
 
 	private void onUserJoin(GuildMemberJoinEvent event) {
-		String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
-		String hour = df.format(new Date(System.currentTimeMillis()));
-		if (role != null) {
-			event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
-				if (error instanceof PermissionException) {
-					MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
-					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
-						messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
-				} else {
-					log.warn("Error while applying roles", error);
-				}
-			});
-		}
+		try{
+			String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
+			String hour = df.format(new Date(System.currentTimeMillis()));
+			if (role != null) {
+				event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
+					if (error instanceof PermissionException) {
+						MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
+						event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
+								messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
+					} else {
+						log.warn("Error while applying roles", error);
+					}
+				});
+			}
 
-		String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
-		if (logChannel != null) {
-			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-			tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined (User #" + event.getGuild().getMembers().size() + ")").queue();
-			logTotal++;
+			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			if (logChannel != null) {
+				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+				tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined (User #" + event.getGuild().getMembers().size() + ")").queue();
+				logTotal++;
+			}
+		}
+		catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a edit.", e);
+			}
+			e.printStackTrace();
 		}
 	}
 

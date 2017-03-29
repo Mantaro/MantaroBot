@@ -33,22 +33,16 @@ public class Player implements ManagedObject {
 	}
 
 	public static Player of(String userId) {
-		return new Player(userId + ":g", 0L, 250L, 0L, 0L, 100L, "", new PlayerData());
+		return new Player(userId + ":g", 0L, 250L, 0L, "", new PlayerData());
 	}
 
 	public static Player of(String userId, String guildId) {
 		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 250L, 0L, 0L, 100L, "", new PlayerData());
+		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 250L, 0L, "", new PlayerData());
 	}
 
 	@Getter
 	private final String id;
-	@Getter
-	private long health = 250;
-	@Getter
-	private transient long maxHealth = 250;
-	@Getter
-	private transient long maxStamina = 100;
 	@Getter
 	private long money = 0;
 	@Getter
@@ -56,22 +50,18 @@ public class Player implements ManagedObject {
 	@Getter
 	private long reputation = 0;
 	@Getter
-	private long stamina = 100;
-	@Getter
 	private long level = 0;
 
 	private final PlayerData data;
 
 	private transient Inventory inventory = new Inventory();
 
-	@ConstructorProperties({"id", "level", "health", "money", "reputation", "stamina", "inventory", "data"})
-	public Player(String id, Long level, Long health, Long money, Long reputation, Long stamina, String inventory, PlayerData data) {
+	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
+	public Player(String id, Long level, Long money, Long reputation, String inventory, PlayerData data) {
 		this.id = id;
-		this.health = health;
 		this.level = level;
 		this.money = money;
 		this.reputation = reputation;
-		this.stamina = stamina;
 		this.data = data;
 
 		this.inventory.replaceWith(
@@ -94,18 +84,6 @@ public class Player implements ManagedObject {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
 			.runNoReply(conn());
-	}
-
-	/**
-	 * Adds x amount of health to the entity. Used in recovery and potion process.
-	 *
-	 * @param amount How much?
-	 * @return Did it pass through? Please? (aka, did it not overflow?)
-	 */
-	public boolean addHealth(long amount) {
-		if (getHealth() + amount < 0 || getHealth() + amount > getMaxHealth()) return false;
-		setHealth(getHealth() + amount);
-		return true;
 	}
 
 	/**
@@ -136,38 +114,6 @@ public class Player implements ManagedObject {
 		if (this.reputation + rep > 4000) return false;
 		this.reputation += rep;
 		return true;
-	}
-
-	/**
-	 * Adds x amount of stamina to the entity. Used in recovery and potion process.
-	 *
-	 * @param amount How much?
-	 * @return Did it pass through? Please? (aka, did it not overflow?)
-	 */
-	public boolean addStamina(long amount) {
-		if (getStamina() + amount < 0 || getStamina() + amount > getMaxStamina()) return false;
-		setStamina(getStamina() + amount);
-		return true;
-	}
-
-	/**
-	 * Makes a player a little bit sicker. Normally the result of sick-inducing activities like mining.
-	 *
-	 * @param amount how much am I gonna consume?
-	 * @return if it's more than zero.
-	 */
-	public boolean consumeHealth(int amount) {
-		return this.health - amount >= 0 && addHealth(-amount);
-	}
-
-	/**
-	 * Makes a player tired. If stamina reaches a critical point, you cannot do much action in the RPG.
-	 *
-	 * @param amount how much am I gonna consume?
-	 * @return if it's more than zero.
-	 */
-	public boolean consumeStamina(int amount) {
-		return this.stamina - amount >= 0 && addStamina(-amount);
 	}
 
 	@Transient
@@ -206,11 +152,6 @@ public class Player implements ManagedObject {
 		return true;
 	}
 
-	public Player setHealth(long health) {
-		this.health = health < 0 ? 0 : health;
-		return this;
-	}
-
 	public Player setMoney(long money) {
 		this.money = money < 0 ? 0 : money;
 		return this;
@@ -233,11 +174,6 @@ public class Player implements ManagedObject {
 
 	public Player setReputation(int reputation) {
 		this.reputation = reputation < 0 ? 0 : reputation;
-		return this;
-	}
-
-	public Player setStamina(long stamina) {
-		this.stamina = stamina < 0 ? 0 : stamina;
 		return this;
 	}
 }

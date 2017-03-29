@@ -8,6 +8,7 @@ import frederikam.jca.JCABuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.kodehawa.mantarobot.commands.game.listener.GameListener;
+import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
@@ -35,6 +36,7 @@ public class MantaroBot extends ShardedJDA {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	private static MantaroBot instance;
 	public static JCA CLEVERBOT;
+	private static TempBanManager tempBanManager;
 
 	public static MantaroBot getInstance() {
 		return instance;
@@ -87,8 +89,8 @@ public class MantaroBot extends ShardedJDA {
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		LOGGER.info("Started bot instance.");
 		LOGGER.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
-		//LOGGER.info("Started RethinkDB on " + conn.hostname + " successfully.");
 		audioManager = new MantaroAudioManager();
+		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
 		LOGGER.info("Starting update managers.");
 		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
@@ -172,5 +174,9 @@ public class MantaroBot extends ShardedJDA {
 
 	public MantaroShard[] getShards() {
 		return shards;
+	}
+
+	public TempBanManager getTempBanManager(){
+		return tempBanManager;
 	}
 }

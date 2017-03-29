@@ -4,8 +4,11 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.Category;
@@ -13,38 +16,119 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.function.IntConsumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class ModerationCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
+	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
 
 	public ModerationCmds() {
 		super(Category.MODERATION);
 		ban();
 		kick();
+		tempban();
 		opts();
 		prune();
+	}
+
+	private void tempban(){
+		super.register("tempban", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				String reason = content;
+				Guild guild = event.getGuild();
+				User author = event.getAuthor();
+				TextChannel channel = event.getChannel();
+				Message receivedMessage = event.getMessage();
+
+				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
+					channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You have no Ban Members permission.").queue();
+					return;
+				}
+
+
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					event.getChannel().sendMessage(EmoteReference.ERROR  + "You need to mention an user!").queue();
+					return;
+				}
+
+				for (User user : event.getMessage().getMentionedUsers()) {
+					reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+				}
+				int index = reason.indexOf("time:");
+				if (index < 0) {
+					event.getChannel().sendMessage(EmoteReference.ERROR +
+							"You cannot temp ban an user without giving me the time!").queue();
+					return;
+				}
+				String time = reason.substring(index);
+				reason = reason.replace(time, "").trim();
+				time = time.replaceAll("time:(\\s+)?", "");
+				if (reason.isEmpty()) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without a reason.!").queue();
+					return;
+				}
+
+				if (time.isEmpty()) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without giving me the time!").queue();
+					return;
+				}
+
+				final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+				long l = parse(time);
+				String finalReason = reason;
+				String sTime = StringUtils.parseTime(l);
+				receivedMessage.getMentionedUsers().forEach(user -> {
+					user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event.getAuthor().getName() + "#"
+							+ event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+					db.getData().setCases(db.getData().getCases() + 1);
+					db.saveAsync();
+					ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
+					channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName()).queue();
+					MantaroBot.getInstance().getTempBanManager().addTempban(
+							guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
+					TextChannelGround.of(event).dropItemWithChance(1, 2);
+				});
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Tempban Command")
+						.setDescription("Temporarly bans an user")
+						.addField("Usage", "~>tempban <user> <reason> time:<time>", false)
+						.addField("Example", "~>tempban @Kodehawa example time:1d", false)
+						.addField("Extended usage", "time: can be used with the following parameters: " +
+								"d (days), s (second), m (minutes), h (hour). For example time:1d1h will give a day and an hour.", false)
+						.build();
+			}
+		});
 	}
 
 	private void ban() {
 		super.register("ban", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				//Initialize the variables I'll need.
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
+				String reason = content;
 
-				//We need to check if this is in a guild AND if the member trying to kick the person has KICK_MEMBERS permission.
 				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
 					channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You have no Ban Members permission.").queue();
 					return;
@@ -55,26 +139,47 @@ public class ModerationCmds extends Module {
 					return;
 				}
 
-				//For all mentioned members..
+				for (User user : event.getMessage().getMentionedUsers()) {
+					reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+				}
+
+				if(reason.isEmpty()){
+					reason = "Not specified";
+				}
+
+				final String finalReason = reason;
+
 				receivedMessage.getMentionedUsers().forEach(user -> {
+					if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot ban an user in a higher hierarchy than you").queue();
+						return;
+					}
+
+					if(event.getAuthor().getId().equals(user.getId())){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to ban yourself?").queue();
+						return;
+					}
+
 					Member member = guild.getMember(user);
 					if (member == null) return;
-					//If one of them is in a higher hierarchy than the bot, I cannot ban them.
 					if (!guild.getSelfMember().canInteract(member)) {
 						channel.sendMessage(EmoteReference.ERROR + "Cannot ban member " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
 						return;
 					}
 
-					//If I cannot ban, well..
 					if (!guild.getSelfMember().hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
 						channel.sendMessage(EmoteReference.ERROR + "Sorry! I don't have permission to ban members in this server!").queue();
 						return;
 					}
+					final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-					//Proceed to ban them. Again, using queue so I don't get rate limited.
-					//Also delete all messages from past 7 days.
 					guild.getController().ban(member, 7).queue(
 						success -> {
+							user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event.getAuthor().getName() + "#"
+									+ event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+							db.getData().setCases(db.getData().getCases() + 1);
+							db.saveAsync();
+							ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.BAN, db.getData().getCases());
 							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue();
 							TextChannelGround.of(event).dropItemWithChance(1, 2);
 						},
@@ -86,8 +191,6 @@ public class ModerationCmds extends Module {
 							} else {
 								channel.sendMessage(EmoteReference.ERROR + "Unknown error while banning " + member.getEffectiveName()
 									+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-
-								//I need more information in the case of an unexpected error.
 
 								LOGGER.warn("Unexpected error while banning someone.", error);
 							}
@@ -123,14 +226,13 @@ public class ModerationCmds extends Module {
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
 				Message receivedMessage = event.getMessage();
+				String reason = content;
 
-				//We need to check if the member trying to kick the person has KICK_MEMBERS permission.
 				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
 					channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick: You have no Kick Members permission.").queue();
 					return;
 				}
 
-				//If they mentioned a user this gets passed, if they didn't it just doesn't.
 				if (receivedMessage.getMentionedUsers().isEmpty()) {
 					channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be kicked!").queue();
 					return;
@@ -138,14 +240,32 @@ public class ModerationCmds extends Module {
 
 				Member selfMember = guild.getSelfMember();
 
-				//Do I have permissions to kick members, if yes continue, if no end command.
 				if (!selfMember.hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
 					channel.sendMessage(EmoteReference.ERROR2 + "Sorry! I don't have permission to kick members in this server!").queue();
 					return;
 				}
 
-				//For all mentioned users in the command.
+				for (User user : event.getMessage().getMentionedUsers()) {
+					reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+				}
+
+				if(reason.isEmpty()){
+					reason = "Not specified";
+				}
+
+				final String finalReason = reason;
+
 				receivedMessage.getMentionedUsers().forEach(user -> {
+					if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot kick an user in a higher hierarchy than you").queue();
+						return;
+					}
+
+					if(event.getAuthor().getId().equals(user.getId())){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to kick yourself?").queue();
+						return;
+					}
+
 					Member member = guild.getMember(user);
 					if (member == null) return;
 
@@ -154,10 +274,16 @@ public class ModerationCmds extends Module {
 						channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are higher or the same " + "hierachy than I am!").queue();
 						return;
 					}
+					final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
 					//Proceed to kick them. Again, using queue so I don't get rate limited.
 					guild.getController().kick(member).queue(
 						success -> {
+							user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event.getAuthor().getName() + "#"
+									+ event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+							db.getData().setCases(db.getData().getCases() + 1);
+							db.saveAsync();
+							ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.KICK, db.getData().getCases());
 							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
 							TextChannelGround.of(event).dropItemWithChance(2, 2);
 						},
@@ -166,8 +292,6 @@ public class ModerationCmds extends Module {
 								channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
 							} else {
 								channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: %s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
-
-								//Just so I get more info in the case of an unexpected error.
 								LOGGER.warn("Unexpected error while kicking someone.", error);
 							}
 						});
@@ -655,5 +779,59 @@ public class ModerationCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	public static Iterable<String> iterate(Matcher matcher) {
+		return new Iterable<String>() {
+			@Override
+			public Iterator<String> iterator() {
+				return new Iterator<String>() {
+					@Override
+					public boolean hasNext() {
+						return matcher.find();
+					}
+
+					@Override
+					public String next() {
+						return matcher.group();
+					}
+				};
+			}
+
+			@Override
+			public void forEach(Consumer<? super String> action) {
+				while (matcher.find()) {
+					action.accept(matcher.group());
+				}
+			}
+		};
+	}
+
+	private static long parse(String s) {
+		s = s.toLowerCase();
+		long[] time = {0};
+		iterate(pattern.matcher(s)).forEach(string -> {
+			String l = string.substring(0, string.length() - 1);
+			TimeUnit unit;
+			switch (string.charAt(string.length() - 1)) {
+				case 's':
+					unit = TimeUnit.SECONDS;
+					break;
+				case 'm':
+					unit = TimeUnit.MINUTES;
+					break;
+				case 'h':
+					unit = TimeUnit.HOURS;
+					break;
+				case 'd':
+					unit = TimeUnit.DAYS;
+					break;
+				default:
+					unit = TimeUnit.SECONDS;
+					break;
+			}
+			time[0] += unit.toMillis(Long.parseLong(l));
+		});
+		return time[0];
 	}
 }

@@ -11,7 +11,7 @@ public class ThreadPoolHelper {
 		return defaultPool;
 	}
 
-	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 25,
+	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 20,
 		60L, TimeUnit.SECONDS,
 		new LinkedBlockingQueue<>());
 

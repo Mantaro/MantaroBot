@@ -1,13 +1,11 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
@@ -41,7 +39,6 @@ public class CurrencyCmds extends Module {
 		market();
 		rep();
 		transfer();
-		item();
 		daily();
 		create();
 
@@ -58,43 +55,6 @@ public class CurrencyCmds extends Module {
 				.flatMap(guildData -> guildData.users.values().stream())
 				.forEach(player -> player.setMoney((long) Math.floor(Math.max(0, 0.999d + (player.getMoney() * 0.99562d)))));
 		}, 3600);*/
-	}
-
-	private boolean check(Player player, GuildMessageReceivedEvent event) {
-		if (player.getStamina() < 10) {
-			if (player.isProcessing()) {
-				event.getChannel().sendMessage(EmoteReference.WARNING + "You don't have enough stamina and haven't been regenerated yet").queue();
-				return false;
-			}
-
-			player.setProcessing(true);
-			event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough stamina to do this. You need to rest for a bit. Wait a minute for it to be completely regenerated.").queue();
-			Async.task("Stamina Task (Process) [" + player + "]", s -> {
-				if (!player.addStamina(10)) {
-					player.setProcessing(false);
-					s.shutdown();
-				}
-			}, 10);
-			return false;
-		}
-
-		if (player.getHealth() < 10) {
-			if (player.isProcessing()) {
-				event.getChannel().sendMessage(EmoteReference.WARNING + "You're still on the hospital.").queue();
-				return false;
-			}
-
-			player.setProcessing(true);
-			//player.add(TextChannelWorld.of(event));
-			event.getChannel().sendMessage(EmoteReference.ERROR + "You're too sick, so you were transferred to the hospital. In 15 minutes you should be okay.").queue();
-			Async.thread(900000, () -> {
-				player.addHealth(player.getMaxHealth() - 10);
-				player.setProcessing(false);
-			}).run();
-			return false;
-		}
-
-		return true;
 	}
 
 	private void gamble() {
@@ -118,8 +78,6 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
 					return;
 				}
-
-				if (!check(player, event)) return;
 
 				double multiplier;
 				long i;
@@ -215,76 +173,6 @@ public class CurrencyCmds extends Module {
 		});
 	}
 
-	private void item() {
-		super.register("item", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (args[0].equals("potion")) {
-					switch (args[1]) {
-						case "health":
-							Item healthPotion = Items.POTION_HEALTH;
-							Player player = MantaroData.db().getPlayer(event.getMember());
-							if (!player.inventory().containsItem(healthPotion)) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
-								return;
-							}
-
-							player.inventory().process(new ItemStack(healthPotion, -1));
-							player.addHealth(player.getMaxHealth() - player.getHealth()); //Recover all health.
-							player.saveAsync();
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your health.").queue();
-							break;
-						case "stamina":
-							Item staminaPotion = Items.POTION_STAMINA;
-							Player player1 = MantaroData.db().getPlayer(event.getMember());
-							if (!player1.inventory().containsItem(staminaPotion)) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot drink a potion you don't have.").queue();
-								return;
-							}
-
-							player1.inventory().process(new ItemStack(staminaPotion, -1));
-							player1.addStamina(player1.getMaxStamina() - player1.getStamina()); //Recover all stamina.
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "You recovered all your stamina.").queue();
-							player1.saveAsync();
-							break;
-						default:
-							onHelp(event);
-					}
-					return;
-				}
-
-				if (args[0].equals("trash")) {
-					Item trash = Items.fromAny(content.replace(args[0] + " ", "")).orElse(null);
-
-					if (trash == null) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot trash a non existant item").queue();
-						return;
-					}
-					Player player = MantaroData.db().getPlayer(event.getMember());
-
-					if (!player.inventory().containsItem(trash)) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot trash an item you don't have.").queue();
-						return;
-					}
-
-					player.inventory().process(new ItemStack(trash, -1));
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Trashed " + trash.getEmoji()).queue();
-				}
-
-				onHelp(event);
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Item command")
-					.setDescription("Does actions with items.")
-					.addField("Usage", "~>item potion <health/stamina>: uses an avaliable potion to recover your health or stamina.", false)
-					.addField("Important", "You cannot use a potion you don't have", false)
-					.build();
-			}
-		});
-	}
-
 	private void daily(){
 		RateLimiter rateLimiter = new RateLimiter(86400000); //24 hours
 		Random r = new Random();
@@ -348,8 +236,6 @@ public class CurrencyCmds extends Module {
 				}
 
 				Player player = MantaroData.db().getPlayer(event.getMember());
-				if (!check(player, event)) return;
-				player.consumeStamina(5);
 				TextChannelGround ground = TextChannelGround.of(event);
 				List<ItemStack> loot = ground.collectItems();
 				int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 100);
@@ -412,8 +298,6 @@ public class CurrencyCmds extends Module {
 
 				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				Player player = MantaroData.db().getPlayer(event.getMember());
-
-				if (!check(player, event)) return;
 
 				if (args.length > 0) {
 					int itemNumber = 1;
@@ -547,73 +431,6 @@ public class CurrencyCmds extends Module {
 		});
 	}
 
-	private void mine() {
-		RateLimiter rateLimiter = new RateLimiter(4500);
-		Random r = new Random();
-
-		super.register("mine", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String id = event.getAuthor().getId();
-
-				if (!rateLimiter.process(id)) {
-					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Cooldown a lil bit, you're mining so fast that I can't print enough money! (Once every 4 seconds)").queue();
-					return;
-				}
-
-				Player player = MantaroData.db().getPlayer(event.getMember());
-
-				if (!check(player, event)) return;
-
-				if (!player.inventory().containsItem(Items.BROM_PICKAXE)) {
-					event.getChannel().sendMessage(":octagonal_sign: You don't have any pickaxe to mine with." + (TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5) ? " I think I saw a pickaxe somewhere, though. " + EmoteReference.PICK : "")).queue();
-					return;
-				}
-
-				int picks = player.inventory().getAmount(Items.BROM_PICKAXE);
-				player.consumeStamina(10);
-				long moneyFound = Math.min(2000, (long) (r.nextInt(250) * (1.0d + picks * 0.5d)));
-				boolean dropped = TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 5);
-				String toSend = "";
-
-				//Little chance, but chance.
-				if (Math.random() * 100 > 90) {
-					player.inventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
-					toSend = "\n" + EmoteReference.SAD + "Sadly, one of your pickaxes broke while mining. You still can use your others, though.";
-				}
-
-				//Even less chance, but chance.
-				if (Math.random() * 100 > 95) {
-					player.consumeHealth(10);
-					toSend = "\n" + EmoteReference.SAD + "Sadly, you caught a sickness while mining. You lost 10 health.";
-				}
-
-				if (player.getMoney() >= Integer.MAX_VALUE) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
-					return;
-				}
-
-				if (player.addMoney(moneyFound)) {
-					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits!" + (dropped ? " :pick:" : "") + toSend).queue();
-				} else {
-					event.getChannel().sendMessage(EmoteReference.POPPER + "Mining through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you." + (dropped ? " :pick:" : "") + toSend).queue();
-				}
-
-				player.saveAsync();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Mine command")
-					.setDescription("Mines money. Just like the good ol' gold days")
-					.addField("Usage", "~>mine", false)
-					.addField("Note", "More pickaxes make you mine faster.", false)
-					.build();
-			}
-		});
-	}
-
 	private void create(){
 		super.register("createprofile", new SimpleCommand() {
 			@Override
@@ -656,8 +473,6 @@ public class CurrencyCmds extends Module {
 				}
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
-					.addField(EmoteReference.HEART + "Health", "**" + player.getHealth() + "** " + CommandStatsManager.bar((int) (((double) player.getHealth() / (double) player.getMaxHealth()) * 100), 15), false)
-					.addField(EmoteReference.RUNNER + "Stamina", "**" + player.getStamina() + "** " + CommandStatsManager.bar((int) (((double) player.getStamina() / (double) player.getMaxStamina()) * 100), 15), false)
 					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
 					.addField(EmoteReference.ZAP + "Level", String.valueOf(player.getLevel()), false)
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)

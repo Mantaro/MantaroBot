@@ -148,7 +148,7 @@ public class MantaroShard implements JDA {
 		}
 	}
 
-	public void updateStatus() {
+	void updateStatus() {
 		Runnable changeStatus = () -> {
 			String newStatus = random(SPLASHES.get(), RANDOM);
 			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
