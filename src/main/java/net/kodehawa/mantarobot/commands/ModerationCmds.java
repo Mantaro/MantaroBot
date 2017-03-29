@@ -57,7 +57,7 @@ public class ModerationCmds extends Module {
 				Message receivedMessage = event.getMessage();
 
 				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-					channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You have no Ban Members permission.").queue();
+					channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You don't have the `Ban Members` permission.").queue();
 					return;
 				}
 
@@ -73,19 +73,19 @@ public class ModerationCmds extends Module {
 				int index = reason.indexOf("time:");
 				if (index < 0) {
 					event.getChannel().sendMessage(EmoteReference.ERROR +
-							"You cannot temp ban an user without giving me the time!").queue();
+							"You cannot temp ban an user without giving me a time!").queue();
 					return;
 				}
 				String time = reason.substring(index);
 				reason = reason.replace(time, "").trim();
 				time = time.replaceAll("time:(\\s+)?", "");
 				if (reason.isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without a reason.!").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can't temp ban someone without a reason.!").queue();
 					return;
 				}
 
 				if (time.isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without giving me the time!").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without giving me a time!").queue();
 					return;
 				}
 
@@ -95,10 +95,10 @@ public class ModerationCmds extends Module {
 				String sTime = StringUtils.parseTime(l);
 				receivedMessage.getMentionedUsers().forEach(user -> {
 					user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event.getAuthor().getName() + "#"
-							+ event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+							+ event.getAuthor().getDiscriminator() + " for: " + finalReason + ".").queue();
 					db.getData().setCases(db.getData().getCases() + 1);
 					db.saveAsync();
-					channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName()).queue();
+					channel.sendMessage(EmoteReference.ZAP + "You'll be missed... or not " + event.getMember().getEffectiveName()).queue();
 					ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
 					MantaroBot.getInstance().getTempBanManager().addTempban(
 							guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
@@ -109,16 +109,18 @@ public class ModerationCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Tempban Command")
-						.setDescription("Temporarly bans an user")
+						.setDescription("Temporarily ban a user")
 						.addField("Usage", "~>tempban <user> <reason> time:<time>", false)
 						.addField("Example", "~>tempban @Kodehawa example time:1d", false)
 						.addField("Extended usage", "time: can be used with the following parameters: " +
-								"d (days), s (second), m (minutes), h (hour). For example time:1d1h will give a day and an hour.", false)
+								"d (days), s (second), m (minutes), h (hour). For example time:1d1h will ban for 25 hours.", false)
 						.build();
 			}
 		});
 	}
 
+	// TODO: 3/29/2017 pick up here with grammar 
+	
 	private void ban() {
 		super.register("ban", new SimpleCommand() {
 			@Override

@@ -101,7 +101,7 @@ public class OsuStatsCmd extends Module {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
-									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout").queue();
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
@@ -113,7 +113,7 @@ public class OsuStatsCmd extends Module {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
 								if (e instanceof TimeoutException)
-									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout.").queue();
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
@@ -137,7 +137,7 @@ public class OsuStatsCmd extends Module {
 				return helpEmbed(event, "osu! command")
 					.setDescription("Retrieves information from the osu!api.\n"
 						+ "Usage: \n"
-						+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
+						+ "~>osu best <player>: Retrieves the best scores of the user specified in the specified gamemode.\n"
 						+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
 						+ "~>osu user <player>: Retrieves information about a osu! player.\n"
 						+ "Parameter description:\n"
