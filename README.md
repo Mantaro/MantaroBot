@@ -9,7 +9,7 @@
 ### Building Mantaro on your own
 **WARNING**: Both [**@AdrianTodt**](https://github.com/adriantodt) and [**@Kodehawa**](https://github.com/Kodehawa)
 **do not** recommend compiling Mantaro, as it is **not** documented and some builds here might be extremely unstable or untested.
-If you still want to build your own Mantaro instance, you will need API keys from the following services, **but not limited to**: osu!API, AniList API, and OpenWeatherMap API keys, which are *your* responsability to obtain.
+If you still want to build your own Mantaro instance, you will need API keys from the following services, **but not limited to**: osu!API, AniList API, and OpenWeatherMap API keys, which are *your* responsibility to obtain.
 __We will **not** help you with this process__.
 
 1. Clone this repository.
