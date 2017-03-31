@@ -19,7 +19,7 @@
         </ul>
         <p><b>We will not help you with the process of obtaining said api keys.</b></p>
         <br>
-        <p><b>Steps to building</b></p>
+        <p><b>Steps for building</b></p>
         <ol>
             <li>Clone this repository.</li>
             <li>Open a Termincal in the root folder.</li>
