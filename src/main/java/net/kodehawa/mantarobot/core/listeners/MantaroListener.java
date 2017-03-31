@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.listeners;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.rethinkdb.gen.exc.ReqlError;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -12,6 +13,7 @@ import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
@@ -20,7 +22,6 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
-import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -31,6 +32,10 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
+import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
@@ -53,50 +58,54 @@ public class MantaroListener implements EventListener {
 	}
 
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
-	Random r = new Random();
 
 	@Override
 	public void onEvent(Event event) {
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-			ThreadPoolHelper.defaultPool().startThread("CmdThread", () -> onCommand(e));
-			ThreadPoolHelper.defaultPool().startThread("BirthdayThread", () -> onBirthday(e));
+			Async.thread("CmdThread", () -> onCommand(e));
+			Async.thread("BirthdayThread", () -> onBirthday(e));
 			return;
 		}
 
 		//Log intensifies
 		if (event instanceof GuildMessageUpdateEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logEdit((GuildMessageUpdateEvent) event));
+			Async.thread("LogThread", () -> logEdit((GuildMessageUpdateEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMessageDeleteEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logDelete((GuildMessageDeleteEvent) event));
+			Async.thread("LogThread", () -> logDelete((GuildMessageDeleteEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMemberJoinEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onUserJoin((GuildMemberJoinEvent) event));
+			Async.thread("LogThread", () -> onUserJoin((GuildMemberJoinEvent) event));
+			return;
+		}
+
+		if (event instanceof GuildMemberLeaveEvent) {
+			Async.thread("LogThread", () -> onUserLeave((GuildMemberLeaveEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildUnbanEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logUnban((GuildUnbanEvent) event));
+			Async.thread("LogThread", () -> logUnban((GuildUnbanEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildBanEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logBan((GuildBanEvent) event));
+			Async.thread("LogThread", () -> logBan((GuildBanEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildJoinEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onJoin((GuildJoinEvent) event));
+			Async.thread("LogThread", () -> onJoin((GuildJoinEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildLeaveEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> onLeave((GuildLeaveEvent) event));
+			Async.thread("LogThread", () -> onLeave((GuildLeaveEvent) event));
 		}
 
 		if (event instanceof StatusChangeEvent) {
@@ -267,11 +276,11 @@ public class MantaroListener implements EventListener {
 			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
 					|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
 				event.getGuild().leave().queue();
-				tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+				tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 				return;
 			}
 
-			tc.sendMessage(String.format(EmoteReference.MEGA + "[%s] I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			logTotal++;
 
 			GuildStatsManager.log(LoggedEvent.JOIN);
@@ -290,19 +299,19 @@ public class MantaroListener implements EventListener {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 
 			if (event.getGuild().getMembers().isEmpty()) {
-				tc.sendMessage(String.format(EmoteReference.THINKING + "[%s] A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
+				tc.sendMessage(String.format(EmoteReference.THINKING + "`[%s]` A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
 				logTotal++;
 				return;
 			}
 
-			tc.sendMessage(String.format(EmoteReference.SAD + "I left a guild with name: ``%s`` (%s members)", event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.SAD + "`[%s]` I left a guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			logTotal++;
 
 			GuildStatsManager.log(LoggedEvent.LEAVE);
 		}
 		catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a edit.", e);
+				log.warn("Unexpected error while logging a leave event.", e);
 			}
 			e.printStackTrace();
 		}
@@ -311,6 +320,8 @@ public class MantaroListener implements EventListener {
 	private void onUserJoin(GuildMemberJoinEvent event) {
 		try{
 			String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
+
+
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			if (role != null) {
 				event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
@@ -324,20 +335,64 @@ public class MantaroListener implements EventListener {
 				});
 			}
 
+			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
+			String joinMessage = MantaroData.db().getGuild(event.getGuild()).getData().getJoinMessage();
+
+			if(joinChannel != null && joinMessage != null){
+				if (joinMessage.contains("$(")) {
+					Map<String, String> dynamicMap = new HashMap<>();
+					map("event", dynamicMap, event);
+					joinMessage = dynamicResolve(joinMessage, dynamicMap);
+				}
+
+				event.getGuild().getTextChannelById(joinChannel).sendMessage(joinMessage);
+			}
+
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				tc.sendMessage("[" + hour + "] " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined (User #" + event.getGuild().getMembers().size() + ")").queue();
+				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined" +  " `" +  event.getGuild().getName() +"` " + "`(User #" + event.getGuild().getMembers().size() + ")`").queue();
 				logTotal++;
 			}
 		}
 		catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a edit.", e);
+				log.warn("Unexpected error while logging a join event.", e);
 			}
 			e.printStackTrace();
 		}
 	}
+
+	private void onUserLeave(GuildMemberLeaveEvent event) {
+		try {
+			String hour = df.format(new Date(System.currentTimeMillis()));
+			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
+			String leaveMessage = MantaroData.db().getGuild(event.getGuild()).getData().getLeaveMessage();
+
+			if (joinChannel != null && leaveMessage != null) {
+				if (leaveMessage.contains("$(")) {
+					Map<String, String> dynamicMap = new HashMap<>();
+					map("event", dynamicMap, event);
+					leaveMessage = dynamicResolve(leaveMessage, dynamicMap);
+				}
+
+				event.getGuild().getTextChannelById(joinChannel).sendMessage(leaveMessage);
+			}
+
+			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			if (logChannel != null) {
+				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+				logTotal++;
+			}
+		} catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a leave event.", e);
+			}
+			e.printStackTrace();
+		}
+	}
+
 
 	private void resetBirthdays(Guild guild) {
 		DBGuild data = MantaroData.db().getGuild(guild);

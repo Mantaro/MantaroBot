@@ -26,6 +26,7 @@ public class GuildData {
 	private Boolean rpgLocalMode = false;
 	private String joinMessage = null;
 	private String leaveMessage = null;
+	private String logJoinLeaveChannel = null;
 
 	public List<String> getGuildUnsafeChannels() {
 		return new ArrayList<>(guildUnsafeChannels);
