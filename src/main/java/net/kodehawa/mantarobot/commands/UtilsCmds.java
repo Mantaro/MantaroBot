@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import com.udojava.evalex.Expression;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -17,7 +16,6 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.YoutubeMp3Info;
@@ -41,7 +39,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.*;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -50,7 +47,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UtilsCmds extends Module {
     private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
     private final Resty resty = new Resty();
-    private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
 
     public UtilsCmds() {
         super(Category.UTILS);
@@ -59,7 +55,6 @@ public class UtilsCmds extends Module {
         ytmp3();
         weather();
         urban();
-        math();
         googleSearch();
         time();
     }
@@ -192,37 +187,6 @@ public class UtilsCmds extends Module {
                         .setDescription("Searches on google.")
                         .addField("Usage", "~>google <query>", false)
                         .addField("Parameters", "query: The search query to look for", false)
-                        .build();
-            }
-        });
-    }
-
-    private void math() {
-        super.register("math", new SimpleCommand() {
-            @Override
-            protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                Future<BigDecimal> task = threadpool.submit(() -> mathResult(content));
-                event.getChannel().sendMessage(EmoteReference.PENCIL + "Retrieving result...").queue(sentMessage -> {
-                    try{
-                        sentMessage.editMessage(EmoteReference.PENCIL + "The result for your operation is: " + String.valueOf(task.get(4, TimeUnit.SECONDS))).queue();
-                    } catch (Exception e) {
-                        if (e instanceof TimeoutException){
-                            task.cancel(true);
-                            sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe you're trying something too complex.").queue();
-                        }
-                        else sentMessage.editMessage(EmoteReference.ERROR + "Wrong syntax: ``" + e.getMessage() + "``").queue();
-                    }
-                });
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Math command")
-                        .setDescription("Does your math work?")
-                        .addField("Possible arguments", "You can find a list of possible arguments on: https://hastebin.com/ayafikamip" +
-                                ".vbs", true)
-                        .addField("Warning", "The floating point precision is set to 15 with upwards rounding [google it]\nEquations are " +
-                                "not supported " + EmoteReference.SAD.getDiscordNotation(), true)
                         .build();
             }
         });

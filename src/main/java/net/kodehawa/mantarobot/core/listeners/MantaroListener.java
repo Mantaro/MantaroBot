@@ -337,6 +337,8 @@ public class MantaroListener implements EventListener {
 
 			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
 			String joinMessage = MantaroData.db().getGuild(event.getGuild()).getData().getJoinMessage();
+			System.out.println(joinChannel);
+			System.out.println(joinMessage);
 
 			if(joinChannel != null && joinMessage != null){
 				if (joinMessage.contains("$(")) {
@@ -344,8 +346,8 @@ public class MantaroListener implements EventListener {
 					map("event", dynamicMap, event);
 					joinMessage = dynamicResolve(joinMessage, dynamicMap);
 				}
-
-				event.getGuild().getTextChannelById(joinChannel).sendMessage(joinMessage);
+				TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
+				tc.sendMessage(joinMessage).queue();
 			}
 
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
@@ -366,17 +368,18 @@ public class MantaroListener implements EventListener {
 	private void onUserLeave(GuildMemberLeaveEvent event) {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
+			String leaveChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
 			String leaveMessage = MantaroData.db().getGuild(event.getGuild()).getData().getLeaveMessage();
 
-			if (joinChannel != null && leaveMessage != null) {
+			if (leaveChannel != null && leaveMessage != null) {
 				if (leaveMessage.contains("$(")) {
 					Map<String, String> dynamicMap = new HashMap<>();
 					map("event", dynamicMap, event);
 					leaveMessage = dynamicResolve(leaveMessage, dynamicMap);
 				}
 
-				event.getGuild().getTextChannelById(joinChannel).sendMessage(leaveMessage);
+				TextChannel tc = event.getGuild().getTextChannelById(leaveChannel);
+				tc.sendMessage(leaveMessage).queue();
 			}
 
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();

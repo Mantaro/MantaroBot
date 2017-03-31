@@ -24,6 +24,7 @@ import java.util.List;
 import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
 
 public class MusicCmds extends Module {
+
     public MusicCmds() {
         super(Category.MUSIC);
         //Audio intensifies.
@@ -43,7 +44,7 @@ public class MusicCmds extends Module {
     }
 
     private void sendNotConnectedToMyChannel(MessageChannel channel) {
-        event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently " +
+        channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently " +
                 "playing in!").queue();
     }
 
