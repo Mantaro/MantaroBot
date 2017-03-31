@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.modules;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 
@@ -10,9 +9,9 @@ public abstract class NoArgsCommand implements Command {
 	protected abstract void call(GuildMessageReceivedEvent event);
 
 	@Override
-	public void invoke(Arguments cmd) {
-		call(cmd.event);
-		log(cmd.cmdName);
+	public void invoke(GuildMessageReceivedEvent event, String cmdName, String content) {
+		call(event);
+		log(cmdName);
 	}
 
 	@Override

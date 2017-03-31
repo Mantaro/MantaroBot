@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.modules;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -11,9 +10,9 @@ public abstract class SimpleCommand implements Command {
 	protected abstract void call(String[] args, String content, GuildMessageReceivedEvent event);
 
 	@Override
-	public void invoke(Arguments cmd) {
-		call(splitArgs(cmd.content), cmd.content, cmd.event);
-		log(cmd.cmdName);
+	public void invoke(GuildMessageReceivedEvent event, String cmdName, String content) {
+		call(splitArgs(content), content, event);
+		log(cmdName);
 	}
 
 	@Override

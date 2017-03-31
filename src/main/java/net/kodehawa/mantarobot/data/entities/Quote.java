@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -8,7 +9,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
-import java.beans.Transient;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
@@ -16,6 +16,23 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 @Getter
 public class Quote implements ManagedObject {
 	public static final String DB_TABLE = "quotes";
+
+	public static Quote of(Member member, TextChannel channel, Message message) {
+		return new Quote(
+			member.getGuild().getId() + ":",
+			member.getUser().getId(),
+			channel.getId(),
+			message.getRawContent(),
+			member.getGuild().getName(),
+			member.getEffectiveName(),
+			member.getUser().getEffectiveAvatarUrl(),
+			channel.getName()
+		);
+	}
+
+	public static Quote of(GuildMessageReceivedEvent event) {
+		return of(event.getMember(), event.getChannel(), event.getMessage());
+	}
 	private final String channelId;
 	private final String channelName;
 	private final String content;
@@ -37,24 +54,6 @@ public class Quote implements ManagedObject {
 		this.channelName = channelName;
 	}
 
-
-	public static Quote of(Member member, TextChannel channel, Message message) {
-		return new Quote(
-			member.getGuild().getId() + ":",
-			member.getUser().getId(),
-			channel.getId(),
-			message.getRawContent(),
-			member.getGuild().getName(),
-			member.getEffectiveName(),
-			member.getUser().getEffectiveAvatarUrl(),
-			channel.getName()
-		);
-	}
-
-	public static Quote of(GuildMessageReceivedEvent event) {
-		return of(event.getMember(), event.getChannel(), event.getMessage());
-	}
-
 	@Override
 	public void delete() {
 		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
@@ -67,12 +66,12 @@ public class Quote implements ManagedObject {
 				.runNoReply(conn());
 	}
 
-	@Transient
+	@JsonIgnore
 	public String getGuildId() {
 		return getId().split(":")[0];
 	}
 
-	@Transient
+	@JsonIgnore
 	public String getQuoteId() {
 		return getId().split(":")[1];
 	}

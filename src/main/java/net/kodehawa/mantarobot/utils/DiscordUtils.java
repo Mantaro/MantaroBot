@@ -1,12 +1,12 @@
 package net.kodehawa.mantarobot.utils;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.listeners.FunctionListener;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
@@ -27,8 +27,8 @@ public class DiscordUtils {
 		return Pair.of(b.toString(), list.size());
 	}
 
-	public static void selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-		FunctionListener functionListener = new FunctionListener(event.getChannel().getId(), (l, e) -> {
+	public static boolean selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
+		return InteractiveOperations.create(event.getChannel(), "Selection", 10000, OptionalInt.empty(), (e) -> {
 			if (!e.getAuthor().equals(event.getAuthor())) return false;
 
 			try {
@@ -40,37 +40,29 @@ public class DiscordUtils {
 			}
 			return false;
 		});
-
-		event.getJDA().addEventListener(functionListener);
-		Async.thread(10000, () -> {
-			if (!functionListener.isDone()) {
-				event.getJDA().removeEventListener(functionListener);
-				event.getChannel().sendMessage("\u274C Timeout: No reply in 10 seconds").queue();
-			}
-		});
 	}
 
-	public static <T> void selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+	public static <T> boolean selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
 		Pair<String, Integer> r = embedList(list, toString);
 		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
-		selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)));
+		return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)));
 	}
 
 	public static <T> T selectListSync(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed) {
 		CompletableFuture<T> future = new CompletableFuture<T>();
-		Object lock = new Object();
-		selectList(event, list, toString, toEmbed, (value) -> {
+		Object notify = new Object();
+
+		if (!selectList(event, list, toString, toEmbed, (value) -> {
 			future.complete(value);
-			synchronized (lock) {
-				lock.notify();
+			synchronized (notify) {
+				notify.notify();
 			}
-		});
+		})) throw new IllegalStateException();
 
-		synchronized (lock) {
+		synchronized (notify) {
 			try {
-				lock.wait(10000);
+				notify.wait(10000);
 			} catch (InterruptedException ignored) {
-
 			}
 		}
 

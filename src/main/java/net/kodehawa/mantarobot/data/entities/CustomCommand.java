@@ -1,10 +1,10 @@
 package net.kodehawa.mantarobot.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +40,12 @@ public class CustomCommand implements ManagedObject {
 			.runNoReply(conn());
 	}
 
-	@Transient
+	@JsonIgnore
 	public String getGuildId() {
 		return getId().split(":", 2)[0];
 	}
 
-	@Transient
+	@JsonIgnore
 	public String getName() {
 		return getId().split(":", 2)[1];
 	}

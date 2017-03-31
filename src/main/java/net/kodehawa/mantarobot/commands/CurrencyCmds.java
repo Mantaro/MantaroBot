@@ -57,6 +57,71 @@ public class CurrencyCmds extends Module {
 		}, 3600);*/
 	}
 
+	private void create() {
+		super.register("createprofile", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				Player player = MantaroData.db().getPlayer(event.getMember());
+				player.addMoney(1);
+				player.saveAsync();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Created your profile.").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Create profile")
+					.setDescription("Builds your profile.")
+					.build();
+			}
+		});
+	}
+
+	private void daily() {
+		RateLimiter rateLimiter = new RateLimiter(86400000); //24 hours
+		Random r = new Random();
+		super.register("daily", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				String id = event.getAuthor().getId();
+				long money = 300L;
+				User mentionedUser = null;
+				try {
+					mentionedUser = event.getMessage().getMentionedUsers().get(0);
+				} catch (IndexOutOfBoundsException ignored) {
+				}
+
+				Player player;
+
+				if (!rateLimiter.process(id)) {
+					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+						"Cooldown a lil bit, you can only do this once every 24 hours.").queue();
+					return;
+				}
+
+				if (mentionedUser != null) {
+					money = money + r.nextInt(50);
+					player = Player.of(mentionedUser);
+					player.addMoney(money);
+					player.saveAsync();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "You gave your **$" + money + "** daily credits to " + mentionedUser.getName()).queue();
+					return;
+				}
+
+				player = Player.of(event.getMember());
+				player.addMoney(money);
+				player.saveAsync();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "You received **$" + money + "** daily credits.").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Daily command")
+					.setDescription("Gives you $300 credits per day (or between 300 and 350 if you transfer it to another person).")
+					.build();
+			}
+		});
+	}
+
 	private void gamble() {
 		RateLimiter rateLimiter = new RateLimiter(5000);
 		Random r = new Random();
@@ -152,10 +217,10 @@ public class CurrencyCmds extends Module {
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
 
-				List<ItemStack> list = user.inventory().asList();
+				List<ItemStack> list = user.getInventory().asList();
 				if (list.isEmpty()) builder.setDescription("There is only dust.");
 				else
-					user.inventory().asList().forEach(stack -> {
+					user.getInventory().asList().forEach(stack -> {
 						long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
 						long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
 						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
@@ -169,52 +234,6 @@ public class CurrencyCmds extends Module {
 				return helpEmbed(event, "Inventory command")
 					.setDescription("Shows your current inventory.")
 					.build();
-			}
-		});
-	}
-
-	private void daily(){
-		RateLimiter rateLimiter = new RateLimiter(86400000); //24 hours
-		Random r = new Random();
-		super.register("daily", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String id = event.getAuthor().getId();
-				long money = 300L;
-				User mentionedUser = null;
-				try{
-					mentionedUser = event.getMessage().getMentionedUsers().get(0);
-				} catch (IndexOutOfBoundsException ignored){}
-
-				Player player;
-
-
-				if (!rateLimiter.process(id)) {
-					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-							"Cooldown a lil bit, you can only do this once every 24 hours.").queue();
-					return;
-				}
-
-				if(mentionedUser != null){
-					money = money + r.nextInt(50);
-					player = Player.of(mentionedUser);
-					player.addMoney(money);
-					player.saveAsync();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "You gave your **$" + money + "** daily credits to " + mentionedUser.getName()).queue();
-					return;
-				}
-
-				player = Player.of(event.getMember());
-				player.addMoney(money);
-				player.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "You received **$" + money + "** daily credits.").queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Daily command")
-						.setDescription("Gives you $300 credits per day (or between 300 and 350 if you transfer it to another person).")
-						.build();
 			}
 		});
 	}
@@ -242,7 +261,7 @@ public class CurrencyCmds extends Module {
 
 				if (!loot.isEmpty()) {
 					String s = ItemStack.toString(ItemStack.reduce(loot));
-					player.inventory().merge(loot);
+					player.getInventory().merge(loot);
 					if (moneyFound != 0) {
 						if (player.addMoney(moneyFound)) {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + s + ", along with " + moneyFound + " credits!").queue();
@@ -322,11 +341,11 @@ public class CurrencyCmds extends Module {
 						}
 						try {
 							if (args[1].equals("all")) {
-								long all = player.inventory().asList().stream()
+								long all = player.getInventory().asList().stream()
 									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 									.sum();
 
-								player.inventory().clear();
+								player.getInventory().clear();
 
 								if (player.addMoney(all)) {
 									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();
@@ -345,19 +364,19 @@ public class CurrencyCmds extends Module {
 								return;
 							}
 
-							if (player.inventory().asMap().getOrDefault(toSell, null) == null) {
+							if (player.getInventory().asMap().getOrDefault(toSell, null) == null) {
 								event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
 								return;
 							}
 
-							if(player.inventory().getAmount(toSell) < itemNumber){
+							if (player.getInventory().getAmount(toSell) < itemNumber) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.").queue();
 								return;
 							}
 
 							int many = itemNumber * -1;
 							long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-							player.inventory().process(new ItemStack(toSell, many));
+							player.getInventory().process(new ItemStack(toSell, many));
 
 							if (player.addMoney(amount)) {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell.getName() +
@@ -390,7 +409,7 @@ public class CurrencyCmds extends Module {
 							}
 
 							if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
-								player.inventory().process(new ItemStack(itemToBuy, itemNumber));
+								player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
 								event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
 									" successfully. You now have " + player.getMoney() + " credits.").queue();
 
@@ -431,25 +450,6 @@ public class CurrencyCmds extends Module {
 		});
 	}
 
-	private void create(){
-		super.register("createprofile", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				Player player = MantaroData.db().getPlayer(event.getMember());
-				player.addMoney(1);
-				player.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "Created your profile.").queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Create profile")
-						.setDescription("Builds your profile.")
-						.build();
-			}
-		});
-	}
-
 	private void profile() {
 		super.register("profile", new SimpleCommand() {
 			@Override
@@ -476,7 +476,7 @@ public class CurrencyCmds extends Module {
 					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
 					.addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() + ")", false)
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
-					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.inventory().asList()), false)
+					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", false)
 					.build()
 				).queue();
@@ -538,7 +538,7 @@ public class CurrencyCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().getRpgLocalMode() && !content.equals("guild");
+				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
 				AtomicInteger integer = new AtomicInteger(1);
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(

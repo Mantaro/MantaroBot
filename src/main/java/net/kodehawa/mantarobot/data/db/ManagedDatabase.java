@@ -59,6 +59,10 @@ public class ManagedDatabase {
 		return c.toList();
 	}
 
+	public RethinkDB getDB() {
+		return r;
+	}
+
 	public Player getGlobalPlayer(String userId) {
 		Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
 		return player == null ? Player.of(userId) : player;
@@ -91,8 +95,13 @@ public class ManagedDatabase {
 		return getGuild(member.getGuild());
 	}
 
+	public MantaroObj getMantaroData() {
+		MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
+		return obj == null ? MantaroObj.create() : obj;
+	}
+
 	public Player getPlayer(String userId, String guildId) {
-		boolean local = getGuild(guildId).getData().getRpgLocalMode();
+		boolean local = getGuild(guildId).getData().isRpgLocalMode();
 		Player player = r.table(Player.DB_TABLE).get(userId + ':' + (local ? guildId : "g")).run(conn, Player.class);
 		return player == null ? Player.of(userId, guildId) : player;
 	}
@@ -106,7 +115,7 @@ public class ManagedDatabase {
 	}
 
 	public List<Player> getPlayers(String guildId) {
-		boolean local = getGuild(guildId).getData().getRpgLocalMode();
+		boolean local = getGuild(guildId).getData().isRpgLocalMode();
 		String pattern = ':' + (local ? guildId : "g") + '$';
 		Cursor<Player> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
 		return c.toList();
@@ -142,15 +151,6 @@ public class ManagedDatabase {
 	public DBUser getUser(String userId) {
 		DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
 		return user == null ? DBUser.of(userId) : user;
-	}
-
-	public MantaroObj getMantaroData(){
-		MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
-		return obj == null ? MantaroObj.create() : obj;
-	}
-
-	public RethinkDB getDB(){
-		return r;
 	}
 
 	public DBUser getUser(User user) {

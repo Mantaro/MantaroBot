@@ -7,10 +7,7 @@ import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
-import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver;
-import net.kodehawa.mantarobot.data.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 //TODO COMPLETE DATA PORTER
@@ -36,16 +33,11 @@ public class MantaroDataPorter {
 			dbGuildData.setGuildCustomPrefix(guildData.prefix);
 			dbGuildData.setRpgDevaluation(guildData.devaluation);
 			dbGuildData.setRpgLocalMode(guildData.localMode);
-			dbGuildData.rawgetGuildUnsafeChannels().addAll(guildData.unsafeChannels);
+			dbGuildData.setGuildUnsafeChannels(guildData.unsafeChannels);
 			dbGuildData.setMusicChannel(guildData.musicChannel);
 			dbGuildData.setGuildLogChannel(guildData.logChannel);
 			dbGuildData.setMusicQueueSizeLimit(guildData.queueSizeLimit == null ? null : guildData.queueSizeLimit.longValue());
 			dbGuildData.setMusicSongDurationLimit(guildData.songDurationLimit == null ? null : guildData.songDurationLimit.longValue());
-
-			guildData.users.forEach((pid, localPlayerData) -> {
-				Player p = new Player(pid + ":" + id, 0L, 0L, (long) localPlayerData.reputation, "", new PlayerData());
-				p.inventory().replaceWith(Resolver.unserialize(localPlayerData.inventory));
-			});
 
 			guildData.customCommands.forEach((name, answers) -> {
 				CustomCommand.of(id, name, answers).saveAsync();
@@ -59,11 +51,6 @@ public class MantaroDataPorter {
 			user.getData().setBirthday(playerData.birthdayDate);
 
 			user.saveAsync();
-
-			Player p = new Player(id + ":g", 0L, 0L, (long) playerData.reputation, "", new PlayerData());
-			p.inventory().replaceWith(Resolver.unserialize(playerData.inventory));
-
-			p.saveAsync();
 		});
 	}
 }
