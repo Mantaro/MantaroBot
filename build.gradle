@@ -55,7 +55,6 @@ dependencies {
 	//compile 'br.com.brjdevs:network:1.0.0'
 	compile 'com.google.guava:guava:19.0'
 	compile 'com.google.code.gson:gson:2.8.0'
-	compile group: 'redis.clients', name: 'jedis', version: '2.9.0'
 
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0.pr1'
 
