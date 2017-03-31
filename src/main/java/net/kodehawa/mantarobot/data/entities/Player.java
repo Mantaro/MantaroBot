@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.data.entities;
 
 import com.google.gson.JsonParser;
 import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
@@ -45,9 +46,7 @@ public class Player implements ManagedObject {
 	private final String id;
 	@Getter
 	private long money = 0;
-	@Getter
-	private transient boolean processing;
-	@Getter
+	@Getter @Setter
 	private long reputation = 0;
 	@Getter
 	private long level = 0;
@@ -113,6 +112,7 @@ public class Player implements ManagedObject {
 	public boolean addReputation(long rep) {
 		if (this.reputation + rep > 4000) return false;
 		this.reputation += rep;
+		this.setReputation(reputation);
 		return true;
 	}
 
@@ -159,21 +159,6 @@ public class Player implements ManagedObject {
 
 	public Player setLevel(long level){
 		this.level = level;
-		return this;
-	}
-
-	/**
-	 * Set the preparation for receive data.
-	 * This is done to prevent it to receive data twice and also to prevent duplication of data.
-	 *
-	 * @param processing is it receiving data?
-	 */
-	public void setProcessing(boolean processing) {
-		this.processing = processing;
-	}
-
-	public Player setReputation(int reputation) {
-		this.reputation = reputation < 0 ? 0 : reputation;
 		return this;
 	}
 }

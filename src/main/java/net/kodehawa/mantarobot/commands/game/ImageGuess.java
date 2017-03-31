@@ -15,6 +15,7 @@ public class ImageGuess extends Game {
 	private String authToken = AnimeCmds.authToken;
 	private String characterName = null;
 	private int maxAttempts = 10;
+	//TODO move to a file
 	private String[] search = {"Mato Kuroi", "Kotori Kanbe", "Kotarou Tennouji", "Akane Senri", "Misaki Mei", "Tomoe Mami"
 		, "Shintaro Kisaragi", "Momo Kisaragi", "Takane Enomoto", "Ruuko Kominato", "Homura Akemi", "Madoka Kaname"};
 

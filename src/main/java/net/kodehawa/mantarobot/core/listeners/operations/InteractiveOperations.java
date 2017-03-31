@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.core.listeners.operations;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
-import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
+import net.kodehawa.mantarobot.core.listeners.external.OptimizedListener;
 
 import java.util.Map;
 import java.util.Objects;

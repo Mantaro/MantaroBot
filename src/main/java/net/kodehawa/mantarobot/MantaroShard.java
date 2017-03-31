@@ -15,6 +15,7 @@ import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.commands.game.listener.GameListener;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -160,6 +161,6 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners(){
-		jda.addEventListener(new MantaroListener(), new VoiceChannelListener(), InteractiveOperations.listener(), new GameListener());
+		jda.addEventListener(new MantaroListener(), new CommandListener(), new VoiceChannelListener(), InteractiveOperations.listener(), new GameListener());
 	}
 }

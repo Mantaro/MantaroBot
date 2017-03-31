@@ -478,7 +478,6 @@ public class CurrencyCmds extends Module {
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.inventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", false)
-					.setFooter(EmoteReference.ZAP + "In treatment/regeneration: " + player.isProcessing(), author.getEffectiveAvatarUrl())
 					.build()
 				).queue();
 			}

@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
 import net.kodehawa.mantarobot.commands.rpg.CurrencyManager;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -31,7 +32,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
@@ -151,7 +151,7 @@ public class InfoCmds extends Module {
 						guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
 					.addField("Text Channels", String.valueOf(textChannels.size()), true)
 					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", MantaroListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
+					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -332,11 +332,9 @@ public class InfoCmds extends Module {
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
-					+ "Ticks: " + MantaroListener.getTotalTicks() + "\n"
-					+ "Executed Commands: " + MantaroListener.getCommandTotal() + "\n"
+					+ "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
 					+ "Total Guild Events: " + GuildStatsManager.TOTAL_EVENTS.keySet().size() + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
-					+ "TPS: " + ((double) (MantaroListener.getTotalTicks() / MILLISECONDS.toSeconds(ManagementFactory.getRuntimeMXBean().getUptime())) + "\n")
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
 					+ "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize() + "\n"

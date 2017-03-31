@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.core.listeners;
+package net.kodehawa.mantarobot.core.listeners.external;
 
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.hooks.EventListener;

@@ -22,7 +22,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
@@ -33,28 +33,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
-	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500
-	private static final Map<String, Message> messageCache = Collections.synchronizedMap(new LinkedHashMap<>(2500));
-	private static int commandTotal = 0;
 	private static int logTotal = 0;
-	private static long ticks;
-
-	public static String getCommandTotal() {
-		return String.valueOf(commandTotal);
-	}
 
 	public static String getLogTotal() {
 		return String.valueOf(logTotal);
-	}
-
-	public static long getTotalTicks() {
-		return ticks;
 	}
 
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -63,7 +50,6 @@ public class MantaroListener implements EventListener {
 	public void onEvent(Event event) {
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-			Async.thread("CmdThread", () -> onCommand(e));
 			Async.thread("BirthdayThread", () -> onBirthday(e));
 			return;
 		}
@@ -134,7 +120,7 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				Message deletedMessage = messageCache.get(event.getMessageId());
+				Message deletedMessage = CommandListener.getMessageCache().get(event.getMessageId());
 				if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					logTotal++;
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
@@ -155,10 +141,10 @@ public class MantaroListener implements EventListener {
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				User author = event.getAuthor();
-				Message editedMessage = messageCache.get(event.getMessage().getId());
+				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId());
 				if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
-					messageCache.put(event.getMessage().getId(), event.getMessage());
+					CommandListener.getMessageCache().put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
 				}
 			}
@@ -219,52 +205,6 @@ public class MantaroListener implements EventListener {
 			}
 		} catch (Exception e) {
 			resetBirthdays(event.getGuild());
-		}
-	}
-
-	private void onCommand(GuildMessageReceivedEvent event) {
-
-		synchronized (messageCache) {
-			if ((messageCache.size() + 1) > 2500) {
-				Iterator<String> iterator = messageCache.keySet().iterator();
-				iterator.next();
-				iterator.remove();
-			}
-
-			messageCache.put(event.getMessage().getId(), event.getMessage());
-		}
-
-		//Cleverbot.
-		if(event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())){
-			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
-					event.getMessage().getRawContent().replaceFirst("<!?@.+?>" + " ", ""))
-			).queue();
-			return;
-		}
-
-		try {
-			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE))
-				return;
-			if (event.getAuthor().isBot()) return;
-			if (CommandProcessor.run(event)) commandTotal++;
-		} catch (IndexOutOfBoundsException e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
-		} catch (PermissionException e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + e.getPermission()).queue();
-			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
-		} catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
-			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
-		} catch (ReqlError e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems that we are having some problems on our database... ").queue();
-			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);
-		} catch (Exception e) {
-			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
-					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
-					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about. There is probably people working on the fix already, though. (Also maybe you just got the arguments wrong))"
-				, e.getClass().getSimpleName(), e.getMessage())).queue();
-
-			log.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
 		}
 	}
 
@@ -337,8 +277,6 @@ public class MantaroListener implements EventListener {
 
 			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
 			String joinMessage = MantaroData.db().getGuild(event.getGuild()).getData().getJoinMessage();
-			System.out.println(joinChannel);
-			System.out.println(joinMessage);
 
 			if(joinChannel != null && joinMessage != null){
 				if (joinMessage.contains("$(")) {

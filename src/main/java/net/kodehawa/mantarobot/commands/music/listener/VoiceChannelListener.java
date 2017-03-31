@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
+import net.kodehawa.mantarobot.core.listeners.external.OptimizedListener;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEvent> {

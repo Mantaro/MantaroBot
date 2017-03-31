@@ -13,6 +13,7 @@ import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -83,7 +84,8 @@ public class MantaroBot extends ShardedJDA {
 		}
 
 		Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
-			.addEventListener(new MantaroListener(), new VoiceChannelListener(), InteractiveOperations.listener(), new GameListener()));
+			.addEventListener(new MantaroListener(), new CommandListener(), new VoiceChannelListener(),
+					InteractiveOperations.listener(), new GameListener()));
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");

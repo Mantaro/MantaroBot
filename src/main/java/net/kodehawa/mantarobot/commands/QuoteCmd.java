@@ -60,11 +60,12 @@ public class QuoteCmd extends Module {
                 }
 
                 if (action.equals("addfrom")) {
-                    Message message = messageHistory.stream().filter(msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
-                            && !event.getMessage().getId().equals(msg.getId()) && !event.getMessage().getContent()
-                            .startsWith(db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get()
-                                    .getPrefix() :
-                                    db.getGuild(guild).getData().getGuildCustomPrefix())).findFirst().orElse(null);
+                    Message message = messageHistory.stream().filter(
+                            msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
+                            && !msg.getContent().startsWith(
+                                    db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
+                                            : db.getGuild(guild).getData().getGuildCustomPrefix())
+                            ).findFirst().orElse(null);
 
                     if (message == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "We couldn't find any message matching the specified search" +

@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.game.listener;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
+import net.kodehawa.mantarobot.core.listeners.external.OptimizedListener;
 
 /**
  * @deprecated use {@link net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations} now
