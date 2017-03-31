@@ -513,7 +513,7 @@ public class CurrencyCmds extends Module {
 				}
 
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
-				Player player = MantaroData.db().getPlayer(event.getMember());
+				Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
 				if (player.addReputation(1)) {
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
 				} else {

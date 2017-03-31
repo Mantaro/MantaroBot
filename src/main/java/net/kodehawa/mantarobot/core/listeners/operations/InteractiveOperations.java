@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
-import net.kodehawa.mantarobot.core.listeners.OptimizedListener;
+import net.kodehawa.mantarobot.core.listeners.external.OptimizedListener;
 import net.kodehawa.mantarobot.utils.Expirator;
 import net.kodehawa.mantarobot.utils.Expirator.Expirable;
 
@@ -34,7 +34,7 @@ public class InteractiveOperations {
 		public void event(GuildMessageReceivedEvent event) {
 			String id = event.getChannel().getId();
 
-			OPERATIONS.keySet().remove(null);
+			//OPERATIONS.keySet().remove(null);
 			OPERATIONS.values().remove(null);
 
 			RunningOperation operation = OPERATIONS.get(id);
