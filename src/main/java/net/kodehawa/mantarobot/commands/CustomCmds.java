@@ -9,7 +9,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
-import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
@@ -104,9 +103,9 @@ public class CustomCmds extends Module {
 		}
 
 		@Override
-		public void invoke(Arguments args) {
+		public void invoke(GuildMessageReceivedEvent event, String cmdName, String content) {
 			try {
-				handle(args.cmdName, args.event);
+				handle(cmdName, event);
 			} catch (Exception e) {
 				log.error("An exception occurred while processing a custom command:", e);
 			}
@@ -151,7 +150,7 @@ public class CustomCmds extends Module {
 					return;
 				}
 
-				if (db().getGuild(event.getGuild()).getData().getCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
+				if (db().getGuild(event.getGuild()).getData().isCustomAdminLock() && !CommandPermission.ADMIN.test(event.getMember())) {
 					event.getChannel().sendMessage("This guild only accepts custom commands from administrators.").queue();
 					return;
 				}
@@ -183,7 +182,7 @@ public class CustomCmds extends Module {
 
 				if (action.equals("make")) {
 					List<String> responses = new ArrayList<>();
-					boolean created = InteractiveOperations.create(event.getChannel(), e -> {
+					boolean created = InteractiveOperations.create(event.getChannel(), "Custom Command Creation", 60000, OptionalInt.of(5000), e -> {
 						if (!e.getAuthor().equals(event.getAuthor())) return false;
 
 						String c = e.getMessage().getRawContent();

@@ -26,24 +26,31 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
+	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
+	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
 	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500
 	private static final Map<String, Message> messageCache = Collections.synchronizedMap(new LinkedHashMap<>(2500));
 	private static int commandTotal = 0;
 	private static int logTotal = 0;
 	private static long ticks;
+
+	public static void clearCustomProcessor(String channelId) {
+		CUSTOM_PROCESSORS.remove(channelId);
+	}
 
 	public static String getCommandTotal() {
 		return String.valueOf(commandTotal);
@@ -55,6 +62,10 @@ public class MantaroListener implements EventListener {
 
 	public static long getTotalTicks() {
 		return ticks;
+	}
+
+	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
+		CUSTOM_PROCESSORS.put(channelId, processor);
 	}
 
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -235,9 +246,9 @@ public class MantaroListener implements EventListener {
 		}
 
 		//Cleverbot.
-		if(event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())){
+		if (event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())) {
 			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
-					event.getMessage().getRawContent().replaceFirst("<!?@.+?>" + " ", ""))
+				event.getMessage().getRawContent().replaceFirst("<!?@.+?>" + " ", ""))
 			).queue();
 			return;
 		}
@@ -246,7 +257,8 @@ public class MantaroListener implements EventListener {
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE))
 				return;
 			if (event.getAuthor().isBot()) return;
-			if (CommandProcessor.run(event)) commandTotal++;
+			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), DEFAULT_PROCESSOR).run(event))
+				commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
 		} catch (PermissionException e) {
@@ -259,12 +271,14 @@ public class MantaroListener implements EventListener {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems that we are having some problems on our database... ").queue();
 			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);
 		} catch (Exception e) {
-			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
-					+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
-					"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about. There is probably people working on the fix already, though. (Also maybe you just got the arguments wrong))"
-				, e.getClass().getSimpleName(), e.getMessage())).queue();
+			String id = Snow64.toSnow64(Long.parseLong(event.getMessage().getId()));
 
-			log.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
+			event.getChannel().sendMessage(
+				EmoteReference.ERROR + "Seems that we got an unexpected error. (Error ID: ``" + id + "``)\n" +
+					"If you want, **contact ``Kodehawa#3457`` on DiscordBots** (popular bot guild), or join our **support guild** (Link on ``~>about``). Don't forget the Error ID!"
+			).queue();
+
+			log.warn("Unchecked Exception on Command ``" + event.getMessage().getRawContent() + "`` (Error ID: ``" + id + "``)", e);
 		}
 	}
 

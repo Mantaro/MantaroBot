@@ -18,7 +18,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
@@ -113,17 +112,13 @@ public class OptsCmd extends Module {
 				if (option.equals("nsfw")) {
 					if (action.equals("toggle")) {
 						if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
-							List<String> unsafeChannels = new ArrayList<>(guildData.getGuildUnsafeChannels());
-							unsafeChannels.remove(event.getChannel().getId());
-							guildData.setGuildUnsafeChannels(unsafeChannels);
+							guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
 							event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
 							dbGuild.saveAsync();
 							return;
 						}
 
-						List<String> unsafeChannels = new ArrayList<>(guildData.getGuildUnsafeChannels());
-						unsafeChannels.add(event.getChannel().getId());
-						guildData.setGuildUnsafeChannels(unsafeChannels);
+						guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
 						dbGuild.saveAsync();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
 						return;
@@ -311,7 +306,7 @@ public class OptsCmd extends Module {
 					try {
 						guildData.setRpgLocalMode(Boolean.parseBoolean(action));
 						dbGuild.save();
-						String toSend = EmoteReference.CORRECT + (guildData.getRpgLocalMode() ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
+						String toSend = EmoteReference.CORRECT + (guildData.isRpgLocalMode() ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
 					} catch (Exception e) {

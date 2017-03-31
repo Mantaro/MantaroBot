@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.data.entities;
 
-import com.google.gson.JsonParser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
@@ -8,18 +9,16 @@ import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.data.entities.helpers.PlayerData;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.beans.ConstructorProperties;
-import java.beans.Transient;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
-import static net.kodehawa.mantarobot.utils.data.GsonDataManager.gson;
 
 public class Player implements ManagedObject {
 	public static final String DB_TABLE = "players";
@@ -33,45 +32,36 @@ public class Player implements ManagedObject {
 	}
 
 	public static Player of(String userId) {
-		return new Player(userId + ":g", 0L, 250L, 0L, "", new PlayerData());
+		return new Player(userId + ":g", 0L, 250L, 0L, new HashMap<>(), new PlayerData());
 	}
 
 	public static Player of(String userId, String guildId) {
-		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 0L, 0L, "", new PlayerData());
+		boolean local = db().getGuild(guildId).getData().isRpgLocalMode();
+		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 0L, 0L, new HashMap<>(), new PlayerData());
 	}
 
 	@Getter
+	private final PlayerData data;
+	@Getter
 	private final String id;
+	private transient Inventory inventory = new Inventory();
+	@Getter
+	private long level = 0;
 	@Getter
 	private long money = 0;
 	@Getter
 	private transient boolean processing;
 	@Getter
 	private long reputation = 0;
-	@Getter
-	private long level = 0;
-	@Getter
-	private final PlayerData data;
-
-	private transient Inventory inventory = new Inventory();
 
 	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-	public Player(String id, Long level, Long money, Long reputation, String inventory, PlayerData data) {
+	public Player(String id, long level, long money, long reputation, Map<Integer, Integer> inventory, PlayerData data) {
 		this.id = id;
 		this.level = level;
 		this.money = money;
 		this.reputation = reputation;
 		this.data = data;
-
-		this.inventory.replaceWith(
-			unserialize(
-				new JsonParser().parse('{' + inventory + '}')
-					.getAsJsonObject().entrySet().stream()
-					.map(entry -> Pair.of(Integer.parseInt(entry.getKey()), entry.getValue().getAsInt()))
-					.collect(Collectors.toMap(Pair::getKey, Pair::getValue))
-			)
-		);
+		this.inventory.replaceWith(unserialize(inventory));
 	}
 
 	@Override
@@ -99,7 +89,7 @@ public class Player implements ManagedObject {
 			return true;
 		} catch (ArithmeticException ignored) {
 			this.money = 0;
-			this.inventory().process(new ItemStack(9, 1));
+			this.getInventory().process(new ItemStack(9, 1));
 			return false;
 		}
 	}
@@ -116,28 +106,29 @@ public class Player implements ManagedObject {
 		return true;
 	}
 
-	@Transient
+	@JsonIgnore
 	public String getGuildId() {
 		return getId().split(":")[1];
 	}
 
-	public String getInventory() {
-		String s = gson(false).toJson(serialize(inventory.asList()));
-		return s.substring(1, s.length() - 1);
+	@JsonIgnore
+	public Inventory getInventory() {
+		return inventory;
 	}
 
-	@Transient
+	@JsonIgnore
 	public String getUserId() {
 		return getId().split(":")[0];
 	}
 
-	public Inventory inventory() {
-		return inventory;
-	}
-
-	@Transient
+	@JsonIgnore
 	public boolean isGlobal() {
 		return getGuildId().equals("g");
+	}
+
+	@JsonProperty("inventory")
+	public Map<Integer, Integer> rawInventory() {
+		return serialize(inventory.asList());
 	}
 
 	/**
@@ -152,13 +143,13 @@ public class Player implements ManagedObject {
 		return true;
 	}
 
-	public Player setMoney(long money) {
-		this.money = money < 0 ? 0 : money;
+	public Player setLevel(long level) {
+		this.level = level;
 		return this;
 	}
 
-	public Player setLevel(long level){
-		this.level = level;
+	public Player setMoney(long money) {
+		this.money = money < 0 ? 0 : money;
 		return this;
 	}
 

@@ -2,12 +2,11 @@ package net.kodehawa.mantarobot.modules;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.CommandProcessor.Arguments;
 
 public interface Command {
 	MessageEmbed help(GuildMessageReceivedEvent event);
 
-	void invoke(Arguments cmd);
+	void invoke(GuildMessageReceivedEvent event, String cmdName, String content);
 
 	boolean isHiddenFromHelp();
 

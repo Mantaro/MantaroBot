@@ -2,7 +2,7 @@ package net.kodehawa.dataport;
 
 import java.util.*;
 
-public class GuildData {
+public class OldGuildData {
 	public String autoRole = null;
 	public String birthdayChannel = null;
 	public String birthdayRole = null;

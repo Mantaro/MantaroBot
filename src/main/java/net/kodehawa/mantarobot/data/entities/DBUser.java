@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,7 +10,6 @@ import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 
 import java.beans.ConstructorProperties;
-import java.beans.Transient;
 
 import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
@@ -46,7 +46,7 @@ public class DBUser implements ManagedObject {
 			.runNoReply(conn());
 	}
 
-	@Transient
+	@JsonIgnore
 	public long getPremiumLeft() {
 		return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
 	}
@@ -64,7 +64,7 @@ public class DBUser implements ManagedObject {
 		return this;
 	}
 
-	@Transient
+	@JsonIgnore
 	public boolean isPremium() {
 		return currentTimeMillis() < premiumUntil;
 	}

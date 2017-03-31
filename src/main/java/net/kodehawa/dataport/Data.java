@@ -9,6 +9,6 @@ public class Data {
 	public List<String> blacklistedGuilds = new CopyOnWriteArrayList<>();
 	public List<String> blacklistedUsers = new CopyOnWriteArrayList<>();
 	public String defaultPrefix = "~>";
-	public Map<String, GuildData> guilds = new ConcurrentHashMap<>();
+	public Map<String, OldGuildData> guilds = new ConcurrentHashMap<>();
 	public Map<String, OldGlobalPlayerData> users = new ConcurrentHashMap<>();
 }
