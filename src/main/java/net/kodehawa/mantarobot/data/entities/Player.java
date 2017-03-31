@@ -38,7 +38,7 @@ public class Player implements ManagedObject {
 
 	public static Player of(String userId, String guildId) {
 		boolean local = db().getGuild(guildId).getData().getRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 250L, 0L, "", new PlayerData());
+		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 0L, 0L, "", new PlayerData());
 	}
 
 	@Getter
@@ -51,7 +51,7 @@ public class Player implements ManagedObject {
 	private long reputation = 0;
 	@Getter
 	private long level = 0;
-
+	@Getter
 	private final PlayerData data;
 
 	private transient Inventory inventory = new Inventory();

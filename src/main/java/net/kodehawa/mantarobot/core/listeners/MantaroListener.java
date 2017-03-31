@@ -164,6 +164,7 @@ public class MantaroListener implements EventListener {
 	private void logStatusChange(StatusChangeEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
 		JDA jda = event.getJDA();
+		if(jda.getShardInfo() == null) return;
 		log.info(String.format("`[%s] Shard #%d`: Changed from `%s` to `%s`", hour, jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
 
@@ -227,7 +228,7 @@ public class MantaroListener implements EventListener {
 		//Cleverbot.
 		if(event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())){
 			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
-					event.getMessage().getContent().replace(event.getAuthor().getAsMention() + " ", ""))
+					event.getMessage().getRawContent().replaceFirst("<!?@.+?>" + " ", ""))
 			).queue();
 			return;
 		}

@@ -25,13 +25,11 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 public class OsuStatsCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
+	private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
 	private Map<String, Object> map = new HashMap<>();
 	private String mods1 = "";
 	private OsuClient osuClient = null;
@@ -96,24 +94,28 @@ public class OsuStatsCmd extends Module {
 				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
-							Future<String> task = ThreadPoolHelper.defaultPool().getThreadPool().submit(() -> best(content));
+							Future<String> task = threadpool.submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException)
+								if (e instanceof TimeoutException){
+									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+								}
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
 					case "recent":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
-							Future<String> task = ThreadPoolHelper.defaultPool().getThreadPool().submit(() -> recent(content));
+							Future<String> task = threadpool.submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException)
+								if (e instanceof TimeoutException){
+									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+								}
 								else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.udojava.evalex.Expression;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -16,6 +17,7 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.YoutubeMp3Info;
@@ -39,6 +41,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.*;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -47,6 +50,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UtilsCmds extends Module {
     private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
     private final Resty resty = new Resty();
+    private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
 
     public UtilsCmds() {
         super(Category.UTILS);
@@ -197,19 +201,18 @@ public class UtilsCmds extends Module {
         super.register("math", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                try {
-                    BigDecimal expressionResult = new Expression(content)
-                            .setPrecision(15)
-                            .setRoundingMode(RoundingMode.UP)
-                            .eval();
-
-                    event.getChannel().sendMessage(EmoteReference.PENCIL + "The result for your math operation is: " + expressionResult)
-                            .queue();
-                }
-                catch (RuntimeException e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong syntax: ``" + e.getMessage() + "``").queue();
-                }
-
+                Future<BigDecimal> task = threadpool.submit(() -> mathResult(content));
+                event.getChannel().sendMessage(EmoteReference.PENCIL + "Retrieving result...").queue(sentMessage -> {
+                    try{
+                        sentMessage.editMessage(EmoteReference.PENCIL + "The result for your operation is: " + String.valueOf(task.get(4, TimeUnit.SECONDS))).queue();
+                    } catch (Exception e) {
+                        if (e instanceof TimeoutException){
+                            task.cancel(true);
+                            sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe you're trying something too complex.").queue();
+                        }
+                        else sentMessage.editMessage(EmoteReference.ERROR + "Wrong syntax: ``" + e.getMessage() + "``").queue();
+                    }
+                });
             }
 
             @Override
@@ -534,5 +537,12 @@ public class UtilsCmds extends Module {
                         .build();
             }
         });
+    }
+
+    private BigDecimal mathResult(String content){
+        return new Expression(content)
+                .setPrecision(15)
+                .setRoundingMode(RoundingMode.UP)
+                .eval();
     }
 }

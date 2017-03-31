@@ -474,7 +474,7 @@ public class CurrencyCmds extends Module {
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
-					.addField(EmoteReference.ZAP + "Level", String.valueOf(player.getLevel()), false)
+					.addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() + ")", false)
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), false)
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.inventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", false)
@@ -545,9 +545,9 @@ public class CurrencyCmds extends Module {
 					.setDescription(
 						(global ? MantaroBot.getInstance().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
 							.filter(user -> user != null && !user.isBot())
-							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.db().getPlayer(event.getAuthor(), event.getGuild()).getMoney()))
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.db().getPlayer(user, user.getMutualGuilds().get(0)).getMoney()))
 							.limit(15)
-							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.db().getPlayer(event.getAuthor(), event.getGuild()).getMoney()))
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.db().getPlayer(user, user.getMutualGuilds().get(0)).getMoney()))
 							.collect(Collectors.joining("\n"))
 					)
 					.build()

@@ -99,7 +99,7 @@ public class ModerationCmds extends Module {
 					db.getData().setCases(db.getData().getCases() + 1);
 					db.saveAsync();
 					channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName()).queue();
-					ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
+					ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
 					MantaroBot.getInstance().getTempBanManager().addTempban(
 							guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
 					TextChannelGround.of(event).dropItemWithChance(1, 2);
@@ -180,7 +180,7 @@ public class ModerationCmds extends Module {
 							db.getData().setCases(db.getData().getCases() + 1);
 							db.saveAsync();
 							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue();
-							ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.BAN, db.getData().getCases());
+							ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
 							TextChannelGround.of(event).dropItemWithChance(1, 2);
 						},
 						error ->
@@ -284,7 +284,7 @@ public class ModerationCmds extends Module {
 							db.getData().setCases(db.getData().getCases() + 1);
 							db.saveAsync();
 							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName()).queue(); //Quite funny, I think.
-							ModLog.log(event.getMember(), event.getGuild().getMember(user), finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+							ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
 							TextChannelGround.of(event).dropItemWithChance(2, 2);
 						},
 						error -> {
