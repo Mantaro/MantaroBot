@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class CommandListener implements EventListener {
@@ -26,6 +27,12 @@ public class CommandListener implements EventListener {
 	private static final Map<String, Message> messageCache = Collections.synchronizedMap(new LinkedHashMap<>(2500));
 	private static int commandTotal = 0;
 	private Random random = new Random();
+	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
+	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
+
+	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
+		CUSTOM_PROCESSORS.put(channelId, processor);
+	}
 
 
 	@Override
@@ -46,7 +53,6 @@ public class CommandListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-
 		synchronized (messageCache) {
 			if ((messageCache.size() + 1) > 2500) {
 				Iterator<String> iterator = messageCache.keySet().iterator();
@@ -58,7 +64,7 @@ public class CommandListener implements EventListener {
 		}
 
 		//Cleverbot.
-		if(event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())){
+		if (event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())) {
 			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
 					event.getMessage().getRawContent().replaceFirst("<!?@.+?>" + " ", ""))
 			).queue();
@@ -69,7 +75,8 @@ public class CommandListener implements EventListener {
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE))
 				return;
 			if (event.getAuthor().isBot()) return;
-			if (CommandProcessor.run(event)) commandTotal++;
+			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), DEFAULT_PROCESSOR).run(event))
+				commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
 		} catch (PermissionException e) {
@@ -94,5 +101,7 @@ public class CommandListener implements EventListener {
 	public static String getCommandTotal() {
 		return String.valueOf(commandTotal);
 	}
-
+	public static void clearCustomProcessor(String channelId) {
+		CUSTOM_PROCESSORS.remove(channelId);
+	}
 }
