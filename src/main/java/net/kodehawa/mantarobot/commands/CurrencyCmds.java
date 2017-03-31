@@ -62,6 +62,11 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Player player = MantaroData.db().getPlayer(event.getMember());
+				if(player.getMoney() != 0){
+					event.getChannel().sendMessage(EmoteReference.STOP + "You already have a profile").queue();
+					return;
+				}
+
 				player.addMoney(1);
 				player.saveAsync();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "Created your profile.").queue();
