@@ -70,5 +70,15 @@ public class ShardMonitorEvent extends Event {
                 alive.add(this);
             }
         }
+
+        @Override
+        public int hashCode() {
+            return shardId;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof ShardListeners && ((ShardListeners)other).shardId == shardId;
+        }
     }
 }

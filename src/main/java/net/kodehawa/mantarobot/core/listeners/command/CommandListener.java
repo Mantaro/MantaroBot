@@ -43,7 +43,7 @@ public class CommandListener implements EventListener {
 		CUSTOM_PROCESSORS.put(channelId, processor);
 	}
 	private final int shardId;
-	private Random random = new Random();
+	private final Random random = new Random();
 
 	public CommandListener(int shardId) {
 	    this.shardId = shardId;

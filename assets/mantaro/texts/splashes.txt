@@ -34,7 +34,7 @@ Lets go and stick those protest signs somewhere less visible.
 Yamete!
 Lemme put my serious face.
 I don't wanna, but I guess I gotta.
-Running in 8GB of allocated memory!... I guess that will be enough... I hope.
+Running in %ramgb%GB of allocated memory!... I guess that will be enough... I hope.
 Cores of pure power.
 Now singing along you.
 Now rethinking your DB.
@@ -57,7 +57,7 @@ Now with more RPG.
 Let's hope I finish my assignment on time.
 Helping you help yourself.
 Helping you.
-With over 1000000 users!... not really, but who cannot dream?
+With over 10000000 users!... not really, but who cannot dream?
 Have they released Neko models so people could play with them?
 Bill Nye the science guy! *plays chinese theme*
 Did your pp grow bigger?
@@ -66,7 +66,7 @@ Playing music for you!
 Bluescreening your life.
 Kernel Panicking your life.
 two series worth of backlog.
-with more than 100000 users!
+with more than %prettyusercount% users!
 with bluescreens
 with greenscreens
 with min
@@ -87,7 +87,8 @@ Now with more splashes!
 Now with more ~>tsundere
 Y-You baka.
 Don't you all love me?... Oh well.
-Celebrating 5000 servers.
+Celebrating %prettyguildcount% servers.
+With %shardcount% shards.
 More features than ever!
 Cookies are delicious!
 o, true.

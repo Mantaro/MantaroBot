@@ -169,6 +169,7 @@ public class MantaroShard implements JDA {
                 shards = MantaroBot.getInstance().getShardAmount();
             }
 			String newStatus = random(SPLASHES.get(), RANDOM)
+                    .replace("%ramgb%", String.valueOf(((long)(Runtime.getRuntime().maxMemory()*1.2D))>>30L))
                     .replace("%usercount%", users.toString())
                     .replace("%guildcount%", guilds.toString())
                     .replace("%shardcount%", String.valueOf(shards))
