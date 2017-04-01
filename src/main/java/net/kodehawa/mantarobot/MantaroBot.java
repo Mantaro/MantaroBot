@@ -70,7 +70,7 @@ public class MantaroBot extends ShardedJDA {
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
 			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
-		//CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
+		CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];
@@ -133,9 +133,6 @@ public class MantaroBot extends ShardedJDA {
 		status = POSTLOAD;
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
 		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands in " + totalShards + " shards.");
-
-        RethinkDB r = RethinkDB.r;
-        //r.db("mantaro").tableCreate("players").run(MantaroData.conn());
 
 		modules.forEach(Module::onPostLoad);
 	}
