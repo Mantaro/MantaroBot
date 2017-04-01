@@ -1,110 +1,11 @@
 package net.kodehawa.mantarobot.commands.game.core;
 
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
-import net.kodehawa.mantarobot.data.entities.Player;
-import org.slf4j.Logger;
+import net.dv8tion.jda.core.entities.Member;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 public abstract class Game {
-	private List<Player> guestPlayers;
-	private UUID id;
-	private ScheduledExecutorService timer;
 
-	//public static final DataManager<List<String>> hangmanWords = new SimpleFileDataManager("assets/mantaro/texts/hangman.txt");
-	public Game() {
-		timer = Executors.newSingleThreadScheduledExecutor();
-		id = new UUID(System.currentTimeMillis(), this.hashCode());
-		guestPlayers = new ArrayList<>();
-	}
+	public abstract boolean onStart(Lobby lobby, List<Member> player);
 
-	public abstract void call(GuildMessageReceivedEvent event, Player player);
-
-	public abstract boolean onStart(GuildMessageReceivedEvent event, GameReference type, Player player);
-
-	public abstract GameReference type();
-
-	public void addPlayer(Player player) {
-		guestPlayers.add(player);
-	}
-
-	public boolean check(GuildMessageReceivedEvent event) {
-		return true;
-	}
-
-	private void endGame(TextChannelGround world, GuildMessageReceivedEvent event, Player player, boolean isTimeout) {
-		/*player.setCurrentGame(null, event.getChannel());
-		player.setGameInstance(this);
-		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 60 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
-		event.getChannel().sendMessage(toSend).queue();
-		world.getRunningGames().clear();
-		getGuestPlayers().clear();
-		getCurrentTimer().shutdownNow();*/
-	}
-
-	protected void endGame(GuildMessageReceivedEvent event, Player player, boolean isTimeout) {
-		/*player.setCurrentGame(null, event.getChannel());
-		player.setGameInstance(null);
-		String toSend = isTimeout ? EmoteReference.THINKING + "No correct reply on 60 seconds, ending game." : EmoteReference.CORRECT + "Game has correctly ended.";
-		event.getChannel().sendMessage(toSend).queue();
-		TextChannelWorld.of(event.getChannel()).getRunningGames().clear();
-		getGuestPlayers().clear();
-		getCurrentTimer().shutdownNow();*/
-	}
-
-	protected ScheduledExecutorService getCurrentTimer() {
-		return timer;
-	}
-
-	public List<Player> getGuestPlayers() {
-		return guestPlayers;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	protected void onError(Logger logger, GuildMessageReceivedEvent event, Player player, Exception e) {
-		/*TextChannelWorld world = TextChannelWorld.of(event.getChannel());
-		event.getChannel().sendMessage(EmoteReference.ERROR + "We cannot start this game due to an unknown error. My owners have been notified.").queue();
-		if (e == null) logger.error("Error while setting up/handling a game");
-		else logger.error("Error while setting up/handling a game", e);
-		endGame(world, event, player, false);
-		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear(); //You might think this is redundant, but it actually happens.
-		timer.shutdown();*/
-	}
-
-	protected void onStart(TextChannelGround world, GuildMessageReceivedEvent event, Player player) {
-		guestPlayers.add(player);
-		/*timer.schedule(() -> {
-			if(!world.getRunningGames().isEmpty() && player.getCurrentGame() != null && player.getCurrentGame().id == id){
-				endGame(event, player, true);
-			}
-		}, 60, TimeUnit.SECONDS);*/
-	}
-
-	protected void onSuccess(Player player, GuildMessageReceivedEvent event, double multiplier) {
-		/*TextChannelWorld world = TextChannelWorld.of(event.getChannel());
-		/long moneyAward = Math.min((long) ((player.getMoney() * multiplier) + new Random().nextInt(350)), 1000);
-		event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
-		player.addMoney(moneyAward);
-		endGame(world, event, player, false);
-		player.save();
-		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear();*/
-	}
-
-	protected void onSuccess(Player player, GuildMessageReceivedEvent event) {
-		/*TextChannelWorld world = TextChannelWorld.of(event.getChannel());
-		long moneyAward = Math.min((long) ((player.getMoney() * 0.1) + new Random().nextInt(350)), 1000);
-		event.getChannel().sendMessage(EmoteReference.OK + "That's the correct answer, you won " + moneyAward + " credits for this.").queue();
-		player.addMoney(moneyAward);
-		endGame(world, event, player, false);
-		player.save();
-		if(!world.getRunningGames().isEmpty()) world.getRunningGames().clear();*/
-	}
 }

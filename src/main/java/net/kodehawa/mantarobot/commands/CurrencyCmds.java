@@ -40,45 +40,11 @@ public class CurrencyCmds extends Module {
 		rep();
 		transfer();
 		daily();
-		create();
 
 		/*
 		TODO NEXT:"
 		 - cross-bot transfer command
 		 */
-
-		//TODO fix @AdrianTodt
-		/*Async.task("CURRENCY Thread", () -> {
-			MantaroData.getData().get().users.values().forEach(player -> player.setMoney((long) Math.max(0, 0.999d + (player.getMoney() * 0.99562d))));
-			MantaroData.getData().get().guilds.values().stream()
-				.filter(guildData -> guildData.localMode && guildData.devaluation)
-				.flatMap(guildData -> guildData.users.values().stream())
-				.forEach(player -> player.setMoney((long) Math.floor(Math.max(0, 0.999d + (player.getMoney() * 0.99562d)))));
-		}, 3600);*/
-	}
-
-	private void create() {
-		super.register("createprofile", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				Player player = MantaroData.db().getPlayer(event.getMember());
-				if(player.getMoney() != 0){
-					event.getChannel().sendMessage(EmoteReference.STOP + "You already have a profile").queue();
-					return;
-				}
-
-				player.addMoney(1);
-				player.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "Created your profile.").queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Create profile")
-					.setDescription("Builds your profile.")
-					.build();
-			}
-		});
 	}
 
 	private void daily() {
@@ -128,7 +94,7 @@ public class CurrencyCmds extends Module {
 	}
 
 	private void gamble() {
-		RateLimiter rateLimiter = new RateLimiter(5000);
+		RateLimiter rateLimiter = new RateLimiter(3500);
 		Random r = new Random();
 
 		super.register("gamble", new SimpleCommand() {
@@ -209,7 +175,10 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Gamble command")
+						.setDescription("Gambles your money")
+						.addField("Usage", "~>gamble <all/half/quarter> or ~>gamble <amount>", false)
+						.build();
 			}
 		});
 	}

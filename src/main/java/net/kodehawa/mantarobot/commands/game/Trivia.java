@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.commands.game;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
-import net.kodehawa.mantarobot.commands.game.core.GameReference;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -30,7 +29,7 @@ public class Trivia extends Game {
 
 	//TODO oh please.
 
-	@Override
+	//@Override
 	public void call(GuildMessageReceivedEvent event, Player player) {
 		/*if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
 				player.getGame() == type()
@@ -69,8 +68,8 @@ public class Trivia extends Game {
 		attempts++;*/
 	}
 
-	@Override
-	public boolean onStart(GuildMessageReceivedEvent event, GameReference type, Player player) {
+	//@Override
+	public boolean onStart(GuildMessageReceivedEvent event, /*GameReference type,*/ Player player) {
 		/*try {
 			player.setCurrentGame(type, event.getChannel());
 			player.setGameInstance(this);
@@ -88,10 +87,10 @@ public class Trivia extends Game {
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public GameReference type() {
 		return GameReference.TRIVIA;
-	}
+	}*/
 
 	public String answer() {
 		return expectedAnswer;
