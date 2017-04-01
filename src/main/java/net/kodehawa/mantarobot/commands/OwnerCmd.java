@@ -200,6 +200,49 @@ public class OwnerCmd extends Module {
 
 				String option = args[0];
 
+				if (option.equals("cw")){
+				   if(args.length < 2) {
+				       onHelp(event);
+				       return;
+                   }
+
+                   String sub = args[1].substring(0, args[1].indexOf(' '));
+				   if(sub.equals("info")) {
+				       event.getChannel().sendMessage(new EmbedBuilder()
+                            .setAuthor("Connection Watcher info", null, null)
+                            .setDescription(MantaroData.connectionWatcher().get().toString())
+                            .setColor(event.getGuild().getSelfMember().getColor())
+                            .setFooter("Asked by: " + event.getAuthor().getName(), null)
+                       .build()).queue();
+                   } else if(sub.equals("eval")) {
+				       String[] parts = event.getMessage().getRawContent().split(" ");
+				       if(parts.length < 4) {
+				           onHelp(event);
+				           return;
+                       }
+				       Object[] returns;
+				       boolean errored = false;
+				       try {
+                           returns = MantaroData.connectionWatcher().eval(String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
+                       } catch(RuntimeException e) {
+				           errored = true;
+				           returns = new Object[]{e.getMessage()};
+                       }
+                       String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
+                       event.getChannel().sendMessage(new EmbedBuilder()
+                               .setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
+                               .setColor(errored ? Color.RED : Color.GREEN)
+                               .setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
+                               .setFooter("Asked by: " + event.getAuthor().getName(), null)
+                               .build()
+                       ).queue();
+                   } else {
+                       onHelp(event);
+                   }
+
+                   return;
+                }
+
 				if (option.equals("shutdown") || option.equals("restart")) {
 					if (args.length == 2) {
 						try {
@@ -389,7 +432,8 @@ public class OwnerCmd extends Module {
 						"~>owner restart/forcerestart: Restarts the bot.\n" +
 						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
 						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
-						"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.")
+						"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.\n" +
+                        "~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.")
 					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
 					.build();
 			}

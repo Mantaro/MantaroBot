@@ -33,6 +33,7 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 public class MantaroBot extends ShardedJDA {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	public static JCA CLEVERBOT;
+	public static int cwport;
 	private static MantaroBot instance;
 	private static TempBanManager tempBanManager;
 
@@ -41,6 +42,18 @@ public class MantaroBot extends ShardedJDA {
 	}
 
 	public static void main(String[] args) {
+	    if(args.length > 0) {
+	        try {
+	            cwport = Integer.parseInt(args[0]);
+            } catch(NumberFormatException e) {
+	            LOGGER.info("Invalid connection watcher port specified in arguments, using value in config");
+	            cwport = MantaroData.config().get().connectionWatcherPort;
+            }
+        } else {
+	        LOGGER.info("No connection watcher port specified, using value in config");
+            cwport = MantaroData.config().get().connectionWatcherPort;
+        }
+        LOGGER.info("Using port " + cwport + " to communicate with connection watcher");
 		try {
 			instance = new MantaroBot();
 		} catch (Exception e) {

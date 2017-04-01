@@ -1,7 +1,5 @@
 package net.kodehawa.dataport;
 
-import net.kodehawa.mantarobot.commands.game.core.GameReference;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -13,6 +11,5 @@ public class OldPlayerData {
 	public int reputation = 0;
 	public int stamina = 100;
 	public UUID uniqueId;
-	private transient GameReference currentGame;
 	private transient boolean processing;
 }
