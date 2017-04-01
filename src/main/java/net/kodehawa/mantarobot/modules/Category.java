@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.modules;
 public enum Category {
 	MUSIC("Audio"),
 	ACTION("Action"),
-	RPG("RPG"),
+	CURRENCY("Currency"),
 	GAMES("Game"),
 	IMAGE("Image"),
 	FUN("Fun"),

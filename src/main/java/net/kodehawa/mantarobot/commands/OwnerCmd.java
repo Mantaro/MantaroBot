@@ -2,19 +2,20 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.extensions.Async;
 import bsh.Interpreter;
+import com.rethinkdb.gen.exc.ReqlError;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.lib.mantarolang.CompiledFunction;
 import net.kodehawa.lib.mantarolang.MantaroLang;
 import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -198,7 +199,6 @@ public class OwnerCmd extends Module {
 				}
 
 				String option = args[0];
-				String action = args[1];
 
 				if (option.equals("shutdown") || option.equals("restart")) {
 					if (args.length == 2) {
@@ -255,8 +255,24 @@ public class OwnerCmd extends Module {
 				String value = args[1];
 
 				if (option.equals("notifymusic")) {
-					notifyMusic(args[1]);
+					notifyMusic(value);
+					event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
 					return;
+				}
+
+				if (option.equals("error")) {
+					switch (value) {
+						case "bounds":
+							throw new IndexOutOfBoundsException("PLEASE IGNORE ME");
+						case "rethonk":
+							throw new ReqlError("PLEASE IGNORE ME");
+						case "args":
+							throw new IllegalArgumentException("PLEASE IGNORE ME");
+						case "perms":
+							throw new PermissionException("PLEASE IGNORE ME");
+						case "generic":
+							throw new RuntimeException("PLEASE IGNORE ME");
+					}
 				}
 
 				String[] values = SPLIT_PATTERN.split(value, 2);

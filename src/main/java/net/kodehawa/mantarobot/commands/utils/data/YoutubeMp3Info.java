@@ -1,8 +1,7 @@
-package net.kodehawa.mantarobot.utils.commands;
+package net.kodehawa.mantarobot.commands.utils.data;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.slf4j.Logger;
@@ -31,14 +30,13 @@ public class YoutubeMp3Info {
 		.add(Pattern.compile("^" + PROTOCOL_REGEX + "(?:www\\.|)youtu.be/" + VIDEO_ID_REGEX + SUFFIX_REGEX + "$").asPredicate())
 		.build();
 
-	public static YoutubeMp3Info forLink(String youtubeLink, GuildMessageReceivedEvent event) {
+	public static YoutubeMp3Info forLink(String youtubeLink) {
 		String finalLink;
 
 		if (validTrackPatterns.stream().noneMatch(p -> p.test(youtubeLink))) {
 			UnaryOperator<String> op = partialPatterns.entrySet().stream().filter(entry -> entry.getKey().test(youtubeLink)).map(Entry::getValue).findFirst().orElse(null);
 
 			if (op == null) {
-				event.getChannel().sendMessage(":heavy_multiplication_x: Link seems to be invalid.").queue();
 				return null;
 			}
 
@@ -49,17 +47,13 @@ public class YoutubeMp3Info {
 
 		String link = "https://www.youtubeinmp3.com/fetch/?format=JSON&video=" + finalLink;
 
-		String s = Utils.wgetResty(link, event);
+		String s = Utils.wgetResty(link, null);
 
-		if (s == null) {
-			LOGGER.warn("YTMP3 returned null link: " + link);
-			return null;
-		}
+		if (s == null) return null;
 
 		try {
 			return GsonDataManager.GSON_PRETTY.fromJson(s, YoutubeMp3Info.class);
 		} catch (Exception e) {
-			LOGGER.warn("``" + e.getClass().getSimpleName() + "`` thrown while deserializing JSON.", e);
 		}
 		return null;
 	}

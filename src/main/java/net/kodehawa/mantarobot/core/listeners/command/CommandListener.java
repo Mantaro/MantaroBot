@@ -15,6 +15,7 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -23,22 +24,30 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class CommandListener implements EventListener {
 
+	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
+	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
 	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500
 	@Getter
 	private static final Map<String, Message> messageCache = Collections.synchronizedMap(new LinkedHashMap<>(2500));
 	private static int commandTotal = 0;
-	private Random random = new Random();
-	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
-	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
-	private final int shardId;
 
-	public CommandListener(int shardId) {
-	    this.shardId = shardId;
-    }
+	public static void clearCustomProcessor(String channelId) {
+		CUSTOM_PROCESSORS.remove(channelId);
+	}
+
+	public static String getCommandTotal() {
+		return String.valueOf(commandTotal);
+	}
 
 	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
 		CUSTOM_PROCESSORS.put(channelId, processor);
 	}
+	private final int shardId;
+	private Random random = new Random();
+
+	public CommandListener(int shardId) {
+	    this.shardId = shardId;
+    }
 
 	@Override
 	public void onEvent(Event event) {
@@ -50,10 +59,10 @@ public class CommandListener implements EventListener {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("CmdThread", () -> onCommand(e));
 
-			if(random.nextInt(500) > 450){
+			if (random.nextInt(500) > 450) {
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
 				player.getData().incrementExperience();
-				if(player.getData().getExperience() > Math.pow(player.getLevel(), 17)){
+				if (player.getData().getExperience() > Math.pow(player.getLevel(), 17)) {
 					player.setLevel(player.getLevel() + 1);
 				}
 				player.saveAsync();
@@ -74,8 +83,9 @@ public class CommandListener implements EventListener {
 
 		//Cleverbot.
 		if (event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())) {
+			if (MantaroBot.CLEVERBOT == null) return;
 			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
-					event.getMessage().getRawContent().replaceFirst("<!?@.+?> ", ""))
+				event.getMessage().getRawContent().replaceFirst("<!?@.+?> ", ""))
 			).queue();
 			return;
 		}
@@ -88,6 +98,7 @@ public class CommandListener implements EventListener {
 				commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
+			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
 		} catch (PermissionException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + e.getPermission()).queue();
 			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
@@ -98,19 +109,14 @@ public class CommandListener implements EventListener {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems that we are having some problems on our database... ").queue();
 			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);
 		} catch (Exception e) {
-			event.getChannel().sendMessage(String.format("We caught a unfetched error while processing the command: ``%s`` with description: ``%s``\n"
-							+ "**You might  want to contact Kodehawa#3457 with a description of how it happened or join the support guild** " +
-							"(you can find it on bots.discord.pw [search for Mantaro] or on ~>about. There is probably people working on the fix already, though. (Also maybe you just got the arguments wrong))"
-					, e.getClass().getSimpleName(), e.getMessage())).queue();
+			String id = Snow64.toSnow64(Long.parseLong(event.getMessage().getId()));
 
-			log.warn(String.format("Cannot process command: %s. All we know is what's here and that the error is a ``%s``", event.getMessage().getRawContent(), e.getClass().getSimpleName()), e);
+			event.getChannel().sendMessage(
+				EmoteReference.ERROR + "Seems that we got an unexpected error. (Error ID: ``" + id + "``)\n" +
+					"If you want, **contact ``Kodehawa#3457`` on DiscordBots** (popular bot guild), or join our **support guild** (Link on ``~>about``). Don't forget the Error ID!"
+			).queue();
+
+			log.warn("Unexpected Exception on Command ``" + event.getMessage().getRawContent() + "`` (Error ID: ``" + id + "``)", e);
 		}
-	}
-
-	public static String getCommandTotal() {
-		return String.valueOf(commandTotal);
-	}
-	public static void clearCustomProcessor(String channelId) {
-		CUSTOM_PROCESSORS.remove(channelId);
 	}
 }

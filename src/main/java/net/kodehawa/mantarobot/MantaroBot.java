@@ -1,28 +1,23 @@
 package net.kodehawa.mantarobot;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import com.rethinkdb.RethinkDB;
 import frederikam.jca.JCA;
 import frederikam.jca.JCABuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
-import net.kodehawa.mantarobot.commands.game.listener.GameListener;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.core.listeners.MantaroListener;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
@@ -37,8 +32,8 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot extends ShardedJDA {
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
-	private static MantaroBot instance;
 	public static JCA CLEVERBOT;
+	private static MantaroBot instance;
 	private static TempBanManager tempBanManager;
 
 	public static MantaroBot getInstance() {
@@ -56,11 +51,11 @@ public class MantaroBot extends ShardedJDA {
 		}
 	}
 
+	public MantaroEventManager manager;
 	private MantaroAudioManager audioManager;
 	private MantaroShard[] shards;
 	private LoadState status = PRELOAD;
 	private int totalShards;
-	public MantaroEventManager manager;
 
 	private MantaroBot() throws Exception {
 		SimpleLogToSLF4JAdapter.install();
@@ -68,9 +63,8 @@ public class MantaroBot extends ShardedJDA {
 
 		Config config = MantaroData.config().get();
 
-		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
-			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
-		CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
+		Future<Set<Class<? extends Module>>> classesAsync = Async.future(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
+		Async.thread("CleverBot Builder", () -> CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking());
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];
@@ -104,7 +98,7 @@ public class MantaroBot extends ShardedJDA {
 
 		/*Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
 			.addEventListener(new MantaroListener(), new CommandListener(), new VoiceChannelListener(),
-					InteractiveOperations.listener(), new GameListener()));*/
+				InteractiveOperations.listener(), new GameListener()));*/
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
@@ -197,7 +191,7 @@ public class MantaroBot extends ShardedJDA {
 		return shards;
 	}
 
-	public TempBanManager getTempBanManager(){
+	public TempBanManager getTempBanManager() {
 		return tempBanManager;
 	}
 }

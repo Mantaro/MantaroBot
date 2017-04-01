@@ -14,6 +14,11 @@ public class ThreadPoolHelper {
 	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(0, 20,
 		60L, TimeUnit.SECONDS,
 		new LinkedBlockingQueue<>());
+	/*
+		private final ThreadPoolExecutor executor = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+		60L, TimeUnit.SECONDS,
+		new SynchronousQueue<Runnable>());
+	 */
 
 	public ThreadPoolExecutor getThreadPool() {
 		return executor;

@@ -9,6 +9,7 @@ import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
+import net.kodehawa.mantarobot.commands.utils.data.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.modules.Category;
@@ -18,7 +19,6 @@ import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.YoutubeMp3Info;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -38,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.List;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -191,6 +190,13 @@ public class UtilsCmds extends Module {
             }
         });
     }
+
+	private BigDecimal mathResult(String content) {
+		return new Expression(content)
+			.setPrecision(15)
+			.setRoundingMode(RoundingMode.UP)
+			.eval();
+	}
 
     private void time() {
         super.register("time", new SimpleCommand() {
@@ -453,9 +459,13 @@ public class UtilsCmds extends Module {
         super.register("ytmp3", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                YoutubeMp3Info info = YoutubeMp3Info.forLink(content, event);
+				YoutubeMp3Info info = YoutubeMp3Info.forLink(content);
 
-                if (info == null) return; //I think we already logged this in the YoutubeMp3Info class
+				if (info == null) {
+					event.getChannel().sendMessage(":heavy_multiplication_x: Link seems to be invalid.").queue();
+					return;
+				}
+
                 if (info.error != null) {
                     event.getChannel().sendMessage(":heavy_multiplication_x: We received an error while fetching that link``" + info.error
                             + "``").queue();
@@ -501,12 +511,5 @@ public class UtilsCmds extends Module {
                         .build();
             }
         });
-    }
-
-    private BigDecimal mathResult(String content){
-        return new Expression(content)
-                .setPrecision(15)
-                .setRoundingMode(RoundingMode.UP)
-                .eval();
     }
 }

@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 public class CurrencyCmds extends Module {
 
 	public CurrencyCmds() {
-		super(Category.RPG);
+		super(Category.CURRENCY);
 
 		profile();
 		loot();
@@ -48,7 +48,7 @@ public class CurrencyCmds extends Module {
 		 */
 
 		//TODO fix @AdrianTodt
-		/*Async.task("RPG Thread", () -> {
+		/*Async.task("CURRENCY Thread", () -> {
 			MantaroData.getData().get().users.values().forEach(player -> player.setMoney((long) Math.max(0, 0.999d + (player.getMoney() * 0.99562d))));
 			MantaroData.getData().get().guilds.values().stream()
 				.filter(guildData -> guildData.localMode && guildData.devaluation)
