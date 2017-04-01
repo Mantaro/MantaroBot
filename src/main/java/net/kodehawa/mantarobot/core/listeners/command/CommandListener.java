@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -29,14 +30,22 @@ public class CommandListener implements EventListener {
 	private Random random = new Random();
 	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
 	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
+	private final int shardId;
+
+	public CommandListener(int shardId) {
+	    this.shardId = shardId;
+    }
 
 	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
 		CUSTOM_PROCESSORS.put(channelId, processor);
 	}
 
-
 	@Override
 	public void onEvent(Event event) {
+	    if(event instanceof ShardMonitorEvent) {
+	        ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
+	        return;
+        }
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("CmdThread", () -> onCommand(e));
@@ -66,7 +75,7 @@ public class CommandListener implements EventListener {
 		//Cleverbot.
 		if (event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())) {
 			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
-					event.getMessage().getRawContent().replaceFirst("<!?@.+?>" + " ", ""))
+					event.getMessage().getRawContent().replaceFirst("<!?@.+?> ", ""))
 			).queue();
 			return;
 		}

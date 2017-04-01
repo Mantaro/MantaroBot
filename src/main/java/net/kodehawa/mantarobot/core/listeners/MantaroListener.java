@@ -1,10 +1,8 @@
 package net.kodehawa.mantarobot.core.listeners;
 
 import br.com.brjdevs.java.utils.extensions.Async;
-import com.rethinkdb.gen.exc.ReqlError;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.StatusChangeEvent;
@@ -22,6 +20,7 @@ import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
+import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -46,8 +45,19 @@ public class MantaroListener implements EventListener {
 
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
+	private final int shardId;
+
+	public MantaroListener(int shardId) {
+	    this.shardId = shardId;
+    }
+
 	@Override
 	public void onEvent(Event event) {
+	    if(event instanceof ShardMonitorEvent) {
+            ((ShardMonitorEvent)event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
+            return;
+        }
+
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("BirthdayThread", () -> onBirthday(e));

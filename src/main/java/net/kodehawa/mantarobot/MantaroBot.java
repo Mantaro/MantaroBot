@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.rethinkdb.RethinkDB;
 import frederikam.jca.JCA;
 import frederikam.jca.JCABuilder;
 import net.dv8tion.jda.core.JDA;
@@ -12,6 +13,7 @@ import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -58,6 +60,7 @@ public class MantaroBot extends ShardedJDA {
 	private MantaroShard[] shards;
 	private LoadState status = PRELOAD;
 	private int totalShards;
+	public MantaroEventManager manager;
 
 	private MantaroBot() throws Exception {
 		SimpleLogToSLF4JAdapter.install();
@@ -67,15 +70,31 @@ public class MantaroBot extends ShardedJDA {
 
 		Future<Set<Class<? extends Module>>> classesAsync = ThreadPoolHelper.defaultPool().getThreadPool()
 			.submit(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
-		CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
+		//CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking();
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];
 		status = LOADING;
 
+		manager = new MantaroEventManager(totalShards);
+		manager.register(InteractiveOperations.listener());
+		new Thread(()->{
+		    LOGGER.info("ShardWatcherThread started");
+		    int timeout = MantaroData.config().get().shardWatcherTimeout;
+		    int wait = MantaroData.config().get().shardWatcherWait;
+		    while(true) {
+		        try {
+		            Thread.sleep(wait);
+                    manager.checkShards(timeout);
+                } catch(InterruptedException e) {
+		            LOGGER.error("ShardWatcher interrupted, stopping...");
+		            return;
+                }
+            }
+        }, "ShardWatcherThread").start();
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
-			shards[i] = new MantaroShard(i, totalShards);
+			shards[i] = new MantaroShard(i, totalShards, manager);
 			LOGGER.debug("Finished loading shard #" + i + ".");
 			if (i + 1 < totalShards) {
 				LOGGER.info("Waiting for cooldown...");
@@ -83,9 +102,9 @@ public class MantaroBot extends ShardedJDA {
 			}
 		}
 
-		Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
+		/*Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
 			.addEventListener(new MantaroListener(), new CommandListener(), new VoiceChannelListener(),
-					InteractiveOperations.listener(), new GameListener()));
+					InteractiveOperations.listener(), new GameListener()));*/
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
@@ -114,6 +133,9 @@ public class MantaroBot extends ShardedJDA {
 		status = POSTLOAD;
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
 		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands in " + totalShards + " shards.");
+
+        RethinkDB r = RethinkDB.r;
+        //r.db("mantaro").tableCreate("players").run(MantaroData.conn());
 
 		modules.forEach(Module::onPostLoad);
 	}

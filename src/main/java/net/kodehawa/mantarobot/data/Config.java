@@ -29,6 +29,8 @@ public class Config {
 	public String remoteNode;
 	public String token;
 	public String weatherAppId;
+	public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
+	public int shardWatcherWait = 600000; //run once every 600 seconds (10 minutes)
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

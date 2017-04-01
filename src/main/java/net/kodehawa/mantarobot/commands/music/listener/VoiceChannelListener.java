@@ -4,28 +4,38 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.voice.GenericGuildVoiceEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
+import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.core.listeners.external.OptimizedListener;
+import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-public class VoiceChannelListener extends OptimizedListener<GenericGuildVoiceEvent> {
+public class VoiceChannelListener implements EventListener {
 	private static VoiceLeaveTimer timer;
 
 	static {
 		timer = new VoiceLeaveTimer();
 	}
 
-	public VoiceChannelListener() {
-		super(GenericGuildVoiceEvent.class);
+	private final int shardId;
+
+	public VoiceChannelListener(int shardId) {
+		this.shardId = shardId;
 	}
 
 	@Override
-	public void event(GenericGuildVoiceEvent event) {
+	public void onEvent(Event e) {
+	    if(e instanceof ShardMonitorEvent) {
+	        ((ShardMonitorEvent) e).alive(shardId, ShardMonitorEvent.VOICE_CHANNEL_LISTENER);
+	        return;
+        }
+        if(!(e instanceof GenericGuildVoiceEvent)) return;
+	    GenericGuildVoiceEvent event = (GenericGuildVoiceEvent)e;
 		if (event instanceof GuildVoiceMoveEvent) {
 			VoiceChannel joined = ((GuildVoiceMoveEvent) event).getChannelJoined();
 			VoiceChannel left = ((GuildVoiceMoveEvent) event).getChannelLeft();

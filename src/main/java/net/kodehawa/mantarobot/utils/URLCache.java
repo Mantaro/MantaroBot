@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.utils;
 
+import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.Unirest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class URLCache {
 	}
 
 	public static File getFile(String url) {
-		File cachedFile = cached.get(url);
+		File cachedFile = cached.get(Preconditions.checkNotNull(url, "url"));
 		if (cachedFile != null) return cachedFile;
 		File file = null;
 		try {

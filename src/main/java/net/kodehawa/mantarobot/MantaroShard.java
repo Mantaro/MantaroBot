@@ -9,14 +9,12 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.hooks.InterfacedEventManager;
 import net.kodehawa.mantarobot.commands.game.listener.GameListener;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -25,8 +23,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
@@ -42,14 +43,26 @@ public class MantaroShard implements JDA {
 	private final Logger LOGGER;
 	private final int shardId;
 	private final int totalShards;
+	public final MantaroEventManager manager;
+	private final MantaroListener mantaroListener;
+	private final CommandListener commandListener;
+	private final VoiceChannelListener voiceChannelListener;
+	private final GameListener gameListener;
+
 	@Delegate
 	private JDA jda;
 
-	public MantaroShard(int shardId, int totalShards) throws RateLimitedException, LoginException, InterruptedException {
+	public MantaroShard(int shardId, int totalShards, MantaroEventManager manager) throws RateLimitedException, LoginException, InterruptedException {
 		this.shardId = shardId;
 		this.totalShards = totalShards;
+		this.manager = manager;
+		mantaroListener = new MantaroListener(shardId);
+		commandListener = new CommandListener(shardId);
+		voiceChannelListener = new VoiceChannelListener(shardId);
+		gameListener = new GameListener();
 		LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		restartJDA();
+		readdListeners();
 	}
 
 	@Override
@@ -77,12 +90,7 @@ public class MantaroShard implements JDA {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(config().get().token)
 			.setAudioSendFactory(new NativeAudioSendFactory())
-			.setEventManager(new InterfacedEventManager() {
-				@Override
-				public void handle(Event event) {
-					Async.thread("Async EventHandling", () -> super.handle(event));
-				}
-			})
+			.setEventManager(manager)
 			.setAutoReconnect(true)
 			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
@@ -151,7 +159,21 @@ public class MantaroShard implements JDA {
 
 	void updateStatus() {
 		Runnable changeStatus = () -> {
-			String newStatus = random(SPLASHES.get(), RANDOM);
+            AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
+            int shards = 0;
+            if(MantaroBot.getInstance() != null) {
+                Arrays.stream(MantaroBot.getInstance().getShards()).map(MantaroShard::getJDA).forEach(jda -> {
+                    users.addAndGet(jda.getUsers().size());
+                    guilds.addAndGet(jda.getGuilds().size());
+                });
+                shards = MantaroBot.getInstance().getShardAmount();
+            }
+			String newStatus = random(SPLASHES.get(), RANDOM)
+                    .replace("%usercount%", users.toString())
+                    .replace("%guildcount%", guilds.toString())
+                    .replace("%shardcount%", String.valueOf(shards))
+                    .replace("%prettyusercount%", users.toString())//TODO AdrianTodt make a math function to pretty print this
+                    .replace("%prettyguildcount%", guilds.toString()); //TODO and this
 			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
 			LOGGER.debug("Changed status to: " + newStatus);
 		};
@@ -161,6 +183,7 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners(){
-		jda.addEventListener(new MantaroListener(), new CommandListener(), new VoiceChannelListener(), InteractiveOperations.listener(), new GameListener());
+	    jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, gameListener);
+		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, gameListener);
 	}
 }
