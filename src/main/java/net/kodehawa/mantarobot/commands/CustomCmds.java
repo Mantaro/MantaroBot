@@ -198,6 +198,11 @@ public class CustomCmds extends Module {
 							String arg = c.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
+							if (!cmd.matches("[a-zA-Z0-9]+")) {
+								//TODO ERROR
+								return false;
+							}
+
 							if (Manager.commands.containsKey(saveTo) && !Manager.commands.get(saveTo).equals(cmdPair)) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 								return false;
@@ -238,6 +243,11 @@ public class CustomCmds extends Module {
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
+					if (!cmd.matches("[a-zA-Z0-9]+")) {
+						//TODO ERROR
+						return;
+					}
+
 					CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
 					if (custom == null) {
 						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
@@ -270,8 +280,13 @@ public class CustomCmds extends Module {
 
 					String any = "[\\d\\D]*?";
 
+					if (!cmd.matches("[a-zA-Z0-9\\*]+")) {
+						//TODO ERROR
+						return;
+					}
+
 					List<Pair<Guild, CustomCommand>> filtered = MantaroData.db()
-						.getCustomCommandsByName(any + Pattern.quote(cmd) + any).stream()
+						.getCustomCommandsByName(("*" + cmd + "*").replace("*", any)).stream()
 						.map(customCommand -> {
 							Guild guild = mapped.get(customCommand.getGuildId());
 							return guild == null ? null : Pair.of(guild, customCommand);
@@ -318,6 +333,11 @@ public class CustomCmds extends Module {
 				String value = args[2];
 
 				if (action.equals("add")) {
+					if (!cmd.matches("[a-zA-Z0-9]+")) {
+						//TODO ERROR
+						return;
+					}
+					
 					List<String> responses = Arrays.asList(addPattern.split(value));
 					if (Manager.commands.containsKey(cmd) && !Manager.commands.get(cmd).equals(cmdPair)) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
