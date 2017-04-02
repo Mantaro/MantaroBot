@@ -271,7 +271,6 @@ public class MantaroListener implements EventListener {
 		try{
 			String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
 
-
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			if (role != null) {
 				event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
@@ -309,7 +308,6 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a join event.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
@@ -340,7 +338,6 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a leave event.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
