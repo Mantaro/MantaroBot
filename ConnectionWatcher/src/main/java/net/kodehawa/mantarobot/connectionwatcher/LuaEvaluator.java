@@ -86,7 +86,7 @@ public class LuaEvaluator {
         }
     }
 
-    private static class LuaFunction extends AbstractFunctionAnyArg {
+    public static class LuaFunction extends AbstractFunctionAnyArg {
         private final Function<Object[], Object> function;
 
         private LuaFunction(Function<Object[], Object> function) {

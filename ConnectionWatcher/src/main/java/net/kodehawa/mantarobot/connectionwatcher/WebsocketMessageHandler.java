@@ -36,7 +36,7 @@ public class WebsocketMessageHandler extends SocketListenerAdapter {
                             Object k = key.getClass().getName().equals("net.sandius.rembulan.StringByteString") ? key.toString() : key;
                             if(v instanceof LuaFunction) {
                                 map.put(k, "function: 0x" + Integer.toHexString(System.identityHashCode(v)));
-                            } if(v instanceof Table) {
+                            } else if(v instanceof Table) {
                                 map.put(k, "table: 0x" + Integer.toHexString(System.identityHashCode(v)));
                             } else {
                                 map.put(k, v);
