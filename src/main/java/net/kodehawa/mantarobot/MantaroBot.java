@@ -109,9 +109,6 @@ public class MantaroBot extends ShardedJDA {
 			}
 		}
 
-		/*Arrays.stream(shards).forEach(mantaroShard -> mantaroShard.getJDA()
-			.addEventListener(new MantaroListener(), new CommandListener(), new VoiceChannelListener(),
-				InteractiveOperations.listener(), new GameListener()));*/
 		DiscordLogBack.enable();
 		status = LOADED;
 		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
@@ -139,9 +136,9 @@ public class MantaroBot extends ShardedJDA {
 
 		status = POSTLOAD;
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
-		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands in " + totalShards + " shards.");
-
 		modules.forEach(Module::onPostLoad);
+
+		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands in " + totalShards + " shards.");
 	}
 
 	public MantaroShard getShard(int id) {
