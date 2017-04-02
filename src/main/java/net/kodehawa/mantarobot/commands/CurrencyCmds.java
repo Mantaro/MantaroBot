@@ -71,16 +71,16 @@ public class CurrencyCmds extends Module {
 
 				if (mentionedUser != null) {
 					money = money + r.nextInt(50);
-					player = Player.of(mentionedUser);
+					player = MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser));
 					player.addMoney(money);
-					player.saveAsync();
+					player.save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "You gave your **$" + money + "** daily credits to " + mentionedUser.getName()).queue();
 					return;
 				}
 
-				player = Player.of(event.getMember());
+				player = MantaroData.db().getPlayer(event.getMember());
 				player.addMoney(money);
-				player.saveAsync();
+				player.save();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "You received **$" + money + "** daily credits.").queue();
 			}
 
@@ -170,7 +170,7 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 				}
 
-				player.saveAsync();
+				player.save();
 			}
 
 			@Override
@@ -262,7 +262,7 @@ public class CurrencyCmds extends Module {
 					}
 				}
 
-				player.saveAsync();
+				player.save();
 			}
 
 			@Override
@@ -327,7 +327,7 @@ public class CurrencyCmds extends Module {
 									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 								}
 
-								player.saveAsync();
+								player.save();
 								return;
 							}
 
@@ -360,7 +360,7 @@ public class CurrencyCmds extends Module {
 									"** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 							}
 
-							player.saveAsync();
+							player.save();
 							return;
 						} catch (NullPointerException e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
@@ -387,7 +387,7 @@ public class CurrencyCmds extends Module {
 								event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
 									" successfully. You now have " + player.getMoney() + " credits.").queue();
 
-								player.saveAsync();
+								player.save();
 							} else {
 								event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 							}
@@ -488,12 +488,9 @@ public class CurrencyCmds extends Module {
 
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
 				Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
-				if (player.addReputation(1)) {
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
-				} else {
-					event.getChannel().sendMessage(EmoteReference.CONFUSED + "You have more than 4000 reputation, congrats, you're popular.").queue();
-				}
-				player.saveAsync();
+				player.addReputation(1L);
+				player.save();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
 			}
 
 			@Override
@@ -551,8 +548,14 @@ public class CurrencyCmds extends Module {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
 					return;
 				}
+				int toSend;
+				try{
+					toSend = Math.abs(Integer.parseInt(args[1]));
+				} catch (Exception e){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the amount.").queue();
+					return;
+				}
 
-				int toSend = Math.abs(Integer.parseInt(args[1]));
 				Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
 				if (transferPlayer.getMoney() < toSend) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money you don't have.").queue();
@@ -567,7 +570,8 @@ public class CurrencyCmds extends Module {
 				Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
 				if (toTransfer.addMoney(toSend)) {
 					transferPlayer.removeMoney(toSend);
-					transferPlayer.saveAsync(); //this'll.saveAsync both.
+					transferPlayer.save();
+					toTransfer.save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();
 				} else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();

@@ -301,7 +301,7 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just joined" +  " `" +  event.getGuild().getName() +"` " + "`(User #" + event.getGuild().getMembers().size() + ")`").queue();
+				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "` just joined" +  " `" +  event.getGuild().getName() +"` " + "`(User #" + event.getGuild().getMembers().size() + ")`").queue();
 				logTotal++;
 			}
 		}
@@ -333,7 +333,7 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 " + event.getMember().getEffectiveName() + " just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
 				logTotal++;
 			}
 		} catch (Exception e) {

@@ -6,6 +6,8 @@ import java.util.List;
 
 public abstract class Game {
 
-	public abstract boolean onStart(Lobby lobby, List<Member> player);
+	public abstract boolean onStart(GameLobby lobby, List<Member> player);
+
+	public abstract void call(GameLobby lobby, List<Member> players);
 
 }

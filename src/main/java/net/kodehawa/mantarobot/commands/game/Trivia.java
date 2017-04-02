@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.commands.game;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
-import net.kodehawa.mantarobot.commands.game.core.Lobby;
+import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -98,8 +98,13 @@ public class Trivia extends Game {
 		return expectedAnswer;
 	}
 
-    @Override
-    public boolean onStart(Lobby lobby, List<Member> player) {
-        return false;
-    }
+	@Override
+	public boolean onStart(GameLobby lobby, List<Member> player) {
+		return false;
+	}
+
+	@Override
+	public void call(GameLobby lobby, List<Member> players) {
+
+	}
 }

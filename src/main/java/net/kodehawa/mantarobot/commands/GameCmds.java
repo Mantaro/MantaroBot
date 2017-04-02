@@ -16,8 +16,8 @@ public class GameCmds extends Module {
 
 	public GameCmds() {
 		super(Category.GAMES);
-		guess();
-		trivia();
+		//guess();
+		//trivia();
 	}
 
 	private void guess() {

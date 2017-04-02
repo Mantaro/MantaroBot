@@ -1,14 +1,18 @@
 package net.kodehawa.mantarobot.commands.game;
 
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
-import net.kodehawa.mantarobot.commands.game.core.Lobby;
+import net.kodehawa.mantarobot.commands.game.core.Game;
+import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.entities.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ImageGuess/* extends Game*/ {
+import java.util.List;
+
+public class ImageGuess extends Game {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
 	private int attempts = 1;
@@ -25,8 +29,8 @@ public class ImageGuess/* extends Game*/ {
 
 	//TODO oh please.
 
-	/*@Override*/
-	public void call(GuildMessageReceivedEvent event, Player player) {
+	@Override
+	public void call(GameLobby lobby, List<Member> players) {
 		/*if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
 				player.getGame() == type()
 			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
@@ -55,8 +59,8 @@ public class ImageGuess/* extends Game*/ {
 		attempts++;*/
 	}
 
-	//@Override
-	public boolean onStart(Lobby lobby, Player player) {
+	@Override
+	public boolean onStart(GameLobby lobby, List<Member> players) {
 		/*player.setCurrentGame(type, event.getChannel());
 		player.setGameInstance(this);
 		TextChannelWorld.of(event.getChannel()).addGame(player, this);

@@ -488,7 +488,7 @@ public class InfoCmds extends Module {
 							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
-							.addField("MantaroCredits to USD conversion", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
+							//.addField("MantaroCredits to USD conversion", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
 							.addField("Exclusiveness per Total Guilds", Math.round(ex) + "% (" + exclusiveness + ")", false)
 							.addField("Big Guilds", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())

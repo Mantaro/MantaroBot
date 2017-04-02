@@ -15,7 +15,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CommandProcessor {
 	protected Command getCommand(String name) {
-		return Optional.of(Manager.commands.get(name)).map(Pair::getLeft).orElse(null);
+		return Optional.ofNullable(Manager.commands.get(name)).map(Pair::getLeft).orElse(null);
 	}
 
 	public boolean run(GuildMessageReceivedEvent event) {

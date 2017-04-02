@@ -1,31 +1,32 @@
 package net.kodehawa.mantarobot.commands.game.core;
 
-import groovy.util.logging.Slf4j;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.interaction.Lobby;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@Slf4j
 public class GameLobby extends Lobby {
 
 	@Getter
 	List<Member> players;
 	@Getter
 	LinkedList<Game> gamesToPlay;
+	@Getter
+	GuildMessageReceivedEvent event;
 
-	public GameLobby(TextChannel channel, List<Member> players, LinkedList<Game> games){
-		super(channel);
+	public GameLobby(GuildMessageReceivedEvent event, List<Member> players, LinkedList<Game> games){
+		super(event.getChannel());
+		this.event = event;
 		this.players = players;
 		this.gamesToPlay = games;
 	}
 
-	public Game startFirstGame(){
+	public void startFirstGame(){
 		if(gamesToPlay.getFirst().onStart(this, players)){
-			return gamesToPlay.getFirst();
+			gamesToPlay.getFirst().call(this, players);
 		}
-		return null;
 	}
 }

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.game.core;
+package net.kodehawa.mantarobot.commands.interaction;
 
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.TextChannel;

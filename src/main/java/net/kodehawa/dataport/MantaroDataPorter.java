@@ -1,7 +1,5 @@
 package net.kodehawa.dataport;
 
-import net.kodehawa.mantarobot.commands.utils.data.BugData;
-import net.kodehawa.mantarobot.commands.utils.data.QuotesData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
@@ -10,7 +8,6 @@ import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
-//TODO COMPLETE DATA PORTER
 public class MantaroDataPorter {
 	public static void main(String[] args) throws Exception {
 		System.out.println("MantaroDataPorter by AdrianTodt");
@@ -19,8 +16,6 @@ public class MantaroDataPorter {
 
 		System.out.println("\nLoading files...");
 		Data data = new GsonDataManager<>(Data.class, "data.json", Data::new).get();
-		QuotesData quotesData = new GsonDataManager<>(QuotesData.class, "quotes.json", QuotesData::new).get();
-		BugData bugData = new GsonDataManager<>(BugData.class, "bugs.json", BugData::new).get();
 
 		System.out.println("\nPorting Data.JSON...");
 		data.guilds.forEach((id, guildData) -> {

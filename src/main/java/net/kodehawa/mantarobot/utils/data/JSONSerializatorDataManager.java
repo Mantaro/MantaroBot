@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class JSONSerializatorDataManager implements DataManager<SerializedData> {
+public class    JSONSerializatorDataManager implements DataManager<SerializedData> {
     private static final Logger LOGGER = LoggerFactory.getLogger("JSONSerializatorDataManager");
 
     private final Path path;

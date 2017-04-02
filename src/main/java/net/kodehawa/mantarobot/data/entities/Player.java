@@ -47,18 +47,18 @@ public class Player implements ManagedObject {
 	private final String id;
 	private transient Inventory inventory = new Inventory();
 	@Getter
-	private long level = 0;
+	private Long level = null;
 	@Getter
-	private long money = 0;
+	private Long money = null;
 	@Getter @Setter
-	private long reputation = 0;
+	private Long reputation = null;
 
 	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-	public Player(String id, long level, long money, long reputation, Map<Integer, Integer> inventory, PlayerData data) {
+	public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
 		this.id = id;
-		this.level = level;
-		this.money = money;
-		this.reputation = reputation;
+		this.level = level == null ? 0 : level;
+		this.money = money == null ? 0 : money;
+		this.reputation = reputation == null ? 0 : reputation;
 		this.data = data;
 		this.inventory.replaceWith(unserialize(inventory));
 	}
@@ -87,7 +87,7 @@ public class Player implements ManagedObject {
 			this.money = Math.addExact(this.money, money);
 			return true;
 		} catch (ArithmeticException ignored) {
-			this.money = 0;
+			this.money = 0L;
 			this.getInventory().process(new ItemStack(9, 1));
 			return false;
 		}
@@ -97,13 +97,10 @@ public class Player implements ManagedObject {
 	 * Adds x amount of reputation to a player. Normally 1.
 	 *
 	 * @param rep how much?
-	 * @return are you less than 400?
 	 */
-	public boolean addReputation(long rep) {
-		if (this.reputation + rep > 4000) return false;
+	public void addReputation(long rep) {
 		this.reputation += rep;
 		this.setReputation(reputation);
-		return true;
 	}
 
 	@JsonIgnore
