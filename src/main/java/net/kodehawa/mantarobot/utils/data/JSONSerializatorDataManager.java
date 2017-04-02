@@ -8,17 +8,13 @@ import net.kodehawa.mantarobot.data.SerializedData;
 import net.kodehawa.mantarobot.utils.FileIOUtils;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class    JSONSerializatorDataManager implements DataManager<SerializedData> {
-    private static final Logger LOGGER = LoggerFactory.getLogger("JSONSerializatorDataManager");
-
+public class JSONSerializatorDataManager implements DataManager<SerializedData> {
     private final Path path;
     private final KryoPool kryoPool;
     private final SerializedData data;

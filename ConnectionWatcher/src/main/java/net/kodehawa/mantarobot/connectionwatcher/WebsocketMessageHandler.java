@@ -22,7 +22,7 @@ public class WebsocketMessageHandler extends SocketListenerAdapter {
             String s = json.optString("command");
             if(s == null) return null;
             try {
-                Object[] o = RemoteLuaCommand.eval(s);
+                Object[] o = LuaEvaluator.eval(s);
                 if(o == null) return new JSONPacket(new JSONObject().put("error", "Unknown error").toString(4));
                 JSONArray returns = new JSONArray();
                 for(Object obj : o) {
@@ -36,6 +36,8 @@ public class WebsocketMessageHandler extends SocketListenerAdapter {
                             Object k = key.getClass().getName().equals("net.sandius.rembulan.StringByteString") ? key.toString() : key;
                             if(v instanceof LuaFunction) {
                                 map.put(k, "function: 0x" + Integer.toHexString(System.identityHashCode(v)));
+                            } if(v instanceof Table) {
+                                map.put(k, "table: 0x" + Integer.toHexString(System.identityHashCode(v)));
                             } else {
                                 map.put(k, v);
                             }
@@ -51,7 +53,7 @@ public class WebsocketMessageHandler extends SocketListenerAdapter {
             } catch(LoaderException e) {
                 String err = e.getLuaStyleErrorMessage();
                 return new JSONPacket(new JSONObject().put("error", err).toString(4));
-            } catch(RemoteLuaCommand.RunningException e) {
+            } catch(LuaEvaluator.RunningException e) {
                 String err = e.getTraceback();
                 return new JSONPacket(new JSONObject().put("error", err).toString(4));
             }
