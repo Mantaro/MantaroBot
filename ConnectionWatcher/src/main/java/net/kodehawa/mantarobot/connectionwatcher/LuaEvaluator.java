@@ -20,7 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 
-public class RemoteLuaCommand {
+public class LuaEvaluator {
     private static final StateContext state = StateContexts.newDefaultInstance();
     private static final Table lib;
 
@@ -55,7 +55,7 @@ public class RemoteLuaCommand {
     }
 
     public static Object[] eval(String code) throws LoaderException, RunningException {
-        CompilerChunkLoader loader = CompilerChunkLoader.of(new ClassLoader(RemoteLuaCommand.class.getClassLoader()){}, "lua_code");
+        CompilerChunkLoader loader = CompilerChunkLoader.of(new ClassLoader(LuaEvaluator.class.getClassLoader()){}, "lua_code");
         try {
             return DirectCallExecutor.newExecutor().call(state, loader
                     .loadTextChunk(new Variable(lib), "main", code));
@@ -68,6 +68,7 @@ public class RemoteLuaCommand {
             ps.close();
             throw new RunningException(new String(baos.toByteArray(), Charset.defaultCharset()));
         } catch(Exception e) {
+            ConnectionWatcher.LOGGER.error("Error evaluating", e);
             return null;
         }
     }

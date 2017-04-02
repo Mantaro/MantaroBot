@@ -190,6 +190,25 @@ public class OwnerCmd extends Module {
 			return r;
 		});
 
+		evals.put("cw", (event, code) -> {
+            Object[] returns;
+            boolean errored = false;
+            try {
+                returns = MantaroData.connectionWatcher().eval(code);
+            } catch(RuntimeException e) {
+                errored = true;
+                returns = new Object[]{e.getMessage()};
+            }
+            String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
+            if(errored) return new Error(result == null ? "Internal error" : result) {
+                @Override
+                public String toString() {
+                    return getMessage();
+                }
+            };
+            return result;
+        });
+
 		super.register("owner", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -409,7 +428,7 @@ public class OwnerCmd extends Module {
 					}
 
 					Object result = evaluator.eval(event, v);
-					boolean errored = result instanceof Exception;
+					boolean errored = result instanceof Throwable;
 
 					event.getChannel().sendMessage(new EmbedBuilder()
 						.setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
@@ -454,6 +473,10 @@ public class OwnerCmd extends Module {
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
+
+		try {
+		    MantaroData.connectionWatcher().close();
+        } catch(Exception e) {}
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
