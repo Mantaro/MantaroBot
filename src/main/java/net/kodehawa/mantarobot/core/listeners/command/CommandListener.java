@@ -59,10 +59,10 @@ public class CommandListener implements EventListener {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("CmdThread", () -> onCommand(e));
 
-			if (random.nextInt(500) > 450) {
+			if(random.nextInt(150) > 100){
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
-				player.getData().incrementExperience();
-				if (player.getData().getExperience() > Math.pow(player.getLevel(), 17)) {
+				player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
+				if (player.getData().getExperience() > Math.pow(player.getLevel(), 6)) {
 					player.setLevel(player.getLevel() + 1);
 				}
 				player.saveAsync();
