@@ -504,42 +504,35 @@ public class MusicCmds extends Module {
         super.register("volume", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                if(!MantaroData.db().getGuild(event.getGuild()).isPremium()){
+                if(MantaroData.db().getUser(event.getMember()).isPremium() ||
+                        MantaroData.db().getGuild(event.getMember()).isPremium()){
+                    if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+                        sendNotConnectedToMyChannel(event.getChannel());
+                        return;
+                    }
+
+                    AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
+
+                    if (args[0].equals("check")) {
+                        event.getChannel().sendMessage(EmoteReference.ZAP + "The current volume for this session is: " + player.getVolume()).queue();
+                        return;
+                    }
+
+                    int volume;
+                    try {
+                        volume = Math.max(0, Math.min(100, Integer.parseInt(args[0])));
+                    }
+                    catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number.").queue();
+                        return;
+                    }
+                    player.setVolume(volume);
+                    event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume)).queue();
+                } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
                             " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.")
                             .queue();
-                    return;
                 }
-
-                if (!MantaroData.db().getUser(event.getMember()).isPremium()){
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
-                            " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.")
-                            .queue();
-                    return;
-                }
-
-                if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
-                    sendNotConnectedToMyChannel(event.getChannel());
-                    return;
-                }
-
-                AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
-
-                if (args[0].equals("check")) {
-                    event.getChannel().sendMessage(EmoteReference.ZAP + "The current volume for this session is: " + player.getVolume()).queue();
-                    return;
-                }
-
-                int volume;
-                try {
-                    volume = Math.max(0, Math.min(100, Integer.parseInt(args[0])));
-                }
-                catch (Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number.").queue();
-                    return;
-                }
-                player.setVolume(volume);
-                event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume)).queue();
             }
 
             @Override
