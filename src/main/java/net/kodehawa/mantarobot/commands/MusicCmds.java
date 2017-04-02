@@ -530,7 +530,7 @@ public class MusicCmds extends Module {
                     event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume)).queue();
                 } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
-                            " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.")
+                            " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it.")
                             .queue();
                 }
             }
