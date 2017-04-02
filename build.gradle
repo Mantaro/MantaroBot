@@ -38,6 +38,7 @@ repositories {
 }
 
 dependencies {
+
 	compile 'net.dv8tion:JDA:3.0.0_165'
 
 	compile 'com.sedmelluq:lavaplayer:1.2.34'
@@ -68,6 +69,8 @@ dependencies {
 	compile "org.projectlombok:lombok:1.16.14"
 
 	compile 'frederikam:JCA:1.0'
+
+    compile 'mysql:mysql-connector-java:6.0.4'
 }
 
 task wrapper(type: Wrapper) {
