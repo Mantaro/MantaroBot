@@ -52,13 +52,15 @@ public class AudioRequester implements AudioLoadResultHandler {
 					event.getChannel().sendMessage(":warning: The queue you added had more than " + MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() + " songs, so we added songs until this limit and ignored the rest.").queue();
 					break;
 				}
-			} else {
+			} else if(!MantaroData.db().getGuild(event.getGuild()).isPremium() && MantaroData.db().getUser(event.getMember()).isPremium()) {
 				if (i < MAX_QUEUE_LENGTH) {
 					loadSingle(track, true);
 				} else {
 					event.getChannel().sendMessage(":warning: The queue you added had more than 300 songs, so we added songs until this limit and ignored the rest.").queue();
 					break;
 				}
+			} else if (MantaroData.db().getGuild(event.getGuild()).isPremium() || MantaroData.db().getUser(event.getMember()).isPremium()) {
+				loadSingle(track, true);
 			}
 			i++;
 		}
@@ -96,19 +98,22 @@ public class AudioRequester implements AudioLoadResultHandler {
 	private void loadSingle(AudioTrack audioTrack, boolean silent) {
 		long queueLimit = !Optional.ofNullable(MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()).
 			isPresent() ? MAX_QUEUE_LENGTH : MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit();
-		if (getMusicManager().getTrackScheduler().getQueue().size() > queueLimit) {
+		if (getMusicManager().getTrackScheduler().getQueue().size() > queueLimit && !MantaroData.db().getUser(event.getMember()).isPremium()
+				&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
 			if (!silent)
 				event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue();
 			if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
 			return;
 		}
 
-		if (audioTrack.getInfo().length > MAX_SONG_LENGTH) {
+		if (audioTrack.getInfo().length > MAX_SONG_LENGTH && !MantaroData.db().getUser(event.getMember()).isPremium()
+				&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
 			event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 21 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
 			if (musicManager.getTrackScheduler().isStopped())
 				event.getGuild().getAudioManager().closeAudioConnection(); //do you?
 			return;
 		}
+
 		musicManager.getTrackScheduler().queue(new AudioTrackContext(event.getAuthor(), event.getChannel(), audioTrack.getSourceManager() instanceof YoutubeAudioSourceManager ? "https://www.youtube.com/watch?v=" + audioTrack.getIdentifier() : trackUrl, audioTrack));
 		if (!silent) {
 			event.getChannel().sendMessage(

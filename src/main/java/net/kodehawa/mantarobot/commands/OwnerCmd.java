@@ -8,6 +8,7 @@ import groovy.lang.GroovyShell;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.lib.mantarolang.CompiledFunction;
@@ -16,6 +17,8 @@ import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
@@ -32,6 +35,7 @@ import java.awt.Color;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.function.IntSupplier;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
@@ -243,6 +247,45 @@ public class OwnerCmd extends Module {
                    return;
                 }
 
+                if(option.equals("premium")){
+					String sub = args[1].substring(0, args[1].indexOf(' '));
+					if(sub.equals("add")){
+						try{
+							String[] values = SPLIT_PATTERN.split(args[1], 3);
+							DBUser db = MantaroData.db().getUser(values[1]);
+							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
+							db.saveAsync();
+							event.getChannel().sendMessage(EmoteReference.CORRECT +
+									"The premium feature for user " + db.getId() + " now is until " +
+									new Date(db.getPremiumUntil())).queue();
+							return;
+						} catch (IndexOutOfBoundsException e){
+							event.getChannel().sendMessage(
+									EmoteReference.ERROR + "You need to specify id and number of days").queue();
+							e.printStackTrace();
+							return;
+						}
+					}
+
+					if(sub.equals("guild")){
+						try{
+							String[] values = SPLIT_PATTERN.split(args[1], 3);
+							DBGuild db = MantaroData.db().getGuild(values[1]);
+							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
+							db.saveAsync();
+							event.getChannel().sendMessage(EmoteReference.CORRECT +
+									"The premium feature for guild " + db.getId() + " now is until " +
+									new Date(db.getPremiumUntil())).queue();
+							return;
+						} catch (IndexOutOfBoundsException e){
+							event.getChannel().sendMessage(
+									EmoteReference.ERROR + "You need to specify id and number of days").queue();
+							e.printStackTrace();
+							return;
+						}
+					}
+				}
+
 				if (option.equals("shutdown") || option.equals("restart")) {
 					if (args.length == 2) {
 						try {
@@ -433,7 +476,8 @@ public class OwnerCmd extends Module {
 						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
 						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
 						"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.\n" +
-                        "~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.")
+                        "~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
+						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
 					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
 					.build();
 			}

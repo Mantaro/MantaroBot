@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.Repeat;
 import net.kodehawa.mantarobot.commands.music.TrackScheduler;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
@@ -37,7 +38,7 @@ public class MusicCmds extends Module {
         shuffle();
         skip();
         forceskip();
-        //volume();
+        volume();
         repeat();
         move();
         stop();
@@ -503,6 +504,20 @@ public class MusicCmds extends Module {
         super.register("volume", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+                if(!MantaroData.db().getGuild(event.getGuild()).isPremium()){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
+                            " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.")
+                            .queue();
+                    return;
+                }
+
+                if (!MantaroData.db().getUser(event.getMember()).isPremium()){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
+                            " donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.")
+                            .queue();
+                    return;
+                }
+
                 if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
                     sendNotConnectedToMyChannel(event.getChannel());
                     return;

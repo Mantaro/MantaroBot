@@ -214,7 +214,11 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			resetBirthdays(event.getGuild());
+			if(e instanceof PermissionException){
+				resetBirthdays(event.getGuild());
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Error while applying birthday role, so the role assigner will be resetted.").queue();
+			}
+			//else ignore
 		}
 	}
 
@@ -239,7 +243,6 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a edit.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
@@ -263,7 +266,6 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a leave event.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
