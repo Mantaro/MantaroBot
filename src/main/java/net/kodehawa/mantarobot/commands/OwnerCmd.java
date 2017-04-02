@@ -494,7 +494,7 @@ public class OwnerCmd extends Module {
 						"~>owner restart/forcerestart: Restarts the bot.\n" +
 						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
 						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
-						"~>owner eval <bsh/js/groovy/m> <line of code>: Evals a specified code snippet.\n" +
+						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
                         "~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
 						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
 					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
