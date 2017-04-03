@@ -236,7 +236,7 @@ public class OwnerCmd extends Module {
 				       return;
                    }
 
-                   String sub = args[1].substring(0, args[1].indexOf(' '));
+                   String sub = args[1].split("\\s+")[0];
 				   if(sub.equals("info")) {
 				       event.getChannel().sendMessage(new EmbedBuilder()
                             .setAuthor("Connection Watcher info", null, null)
