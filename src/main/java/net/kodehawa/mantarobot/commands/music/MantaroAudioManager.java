@@ -5,7 +5,10 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.utils.sql.SQLAction;
+import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +20,22 @@ public class MantaroAudioManager {
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
+
+		try {
+			SQLDatabase.getInstance().run((conn) -> {
+				try {
+					conn.prepareStatement("CREATE TABLE IF NOT EXISTS PLAYED_SONGS (" +
+							"id varchar(15)," +
+							"times_played int," +
+							"PRIMARY KEY(id)" +
+							");").executeUpdate();
+				} catch (SQLException e) {
+					SQLAction.LOGGER.error(null, e);
+				}
+			}).queue();
+		} catch (SQLException e) {
+			SQLAction.LOGGER.error(null, e);
+		}
 	}
 
 	public synchronized GuildMusicManager getMusicManager(Guild guild) {
