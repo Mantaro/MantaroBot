@@ -44,8 +44,7 @@ public class MantaroDataPorter {
 		data.users.forEach((id, playerData) -> {
 			DBUser user = DBUser.of(id);
 			user.getData().setBirthday(playerData.birthdayDate);
-
-			user.saveAsync();
+			user.save();
 		});
 	}
 }

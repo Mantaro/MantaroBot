@@ -8,6 +8,7 @@ import frederikam.jca.JCA;
 import frederikam.jca.JCABuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
+import net.kodehawa.dataport.MantaroDataPorter;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.LoadState;
@@ -44,8 +45,8 @@ public class MantaroBot extends ShardedJDA {
 	public static void main(String[] args) {
 	    if(args.length > 0) {
 	        try {
-	            cwport = Integer.parseInt(args[0]);
-            } catch(NumberFormatException e) {
+				cwport = Integer.parseInt(args[0]);
+            } catch(Exception e) {
 	            LOGGER.info("Invalid connection watcher port specified in arguments, using value in config");
 	            cwport = MantaroData.config().get().connectionWatcherPort;
             }
@@ -67,7 +68,7 @@ public class MantaroBot extends ShardedJDA {
 	public MantaroEventManager manager;
 	private MantaroAudioManager audioManager;
 	private MantaroShard[] shards;
-	private LoadState status = PRELOAD;
+	private static LoadState status = PRELOAD;
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
@@ -75,7 +76,6 @@ public class MantaroBot extends ShardedJDA {
 		LOGGER.info("MantaroBot starting...");
 
 		Config config = MantaroData.config().get();
-
 		Future<Set<Class<? extends Module>>> classesAsync = Async.future(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
 		Async.thread("CleverBot Builder", () -> CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking());
 
@@ -163,7 +163,7 @@ public class MantaroBot extends ShardedJDA {
 		return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
 	}
 
-	public LoadState getLoadStatus() {
+	public static LoadState getLoadStatus() {
 		return status;
 	}
 

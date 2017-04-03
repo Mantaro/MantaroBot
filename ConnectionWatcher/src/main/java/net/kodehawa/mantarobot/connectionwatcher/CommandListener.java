@@ -43,12 +43,12 @@ public class CommandListener implements EventListener {
         if(event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent)event;
             if(e.getAuthor().isBot() || e.getAuthor().isFake()) return;
-            if(!owners.contains(e.getAuthor().getId())) {
-                e.getChannel().sendMessage("You don't have permission to do this").queue();
-                return;
-            }
             String message = e.getMessage().getRawContent();
             if(message.startsWith(prefix)) {
+                if(!owners.contains(e.getAuthor().getId())) {
+                    e.getChannel().sendMessage("You don't have permission to do this").queue();
+                    return;
+                }
                 String[] args = message.substring(prefix.length()).split("\\s+");
                 String command = args[0];
                 if(args.length > 1) args = Arrays.copyOfRange(args, 1, args.length);

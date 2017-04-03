@@ -25,6 +25,7 @@ with you.
 in a remote server far away from you.
 an instance of Game.
 *not* an instance of EntityPlayerMP
+an instance of Player
 404.
 Making your life a little easier.
 Shounen surely has a lot of ripples.
@@ -42,7 +43,6 @@ Making a life out of being a bot it's pretty hard.
 I'm also a CPU. No, really!
 with a bunch of zeros and ones... basically with myself.
 This is a hot server. It is like a normal server but with me.
-Putain!
 If you don't get 800pp you don't really deserve a cookie for name.
 Tatoe will make you dance to the pp.
 With more shitposting than /r/osugame!

@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.utils.sql;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ public class SQLDatabase {
         dataSource = new MysqlDataSource();
         dataSource.setDatabaseName("mantarologs");
         dataSource.setUser("root");
-        //TODO dataSource.setPassword();
+        dataSource.setPassword(MantaroData.config().get().getSqlPassword());
         dataSource.setServerName("localhost");
         dataSource.setURL(dataSource.getURL() + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&useSSL=false");
     }

@@ -153,7 +153,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	private List<User> distinct(List<User> list) {
 		Map<String, List<User>> map = new HashMap<>();
-		list.forEach(user -> map.computeIfAbsent(user.getId() != null ? user.getId() : null, k -> new ArrayList<>()).add(user));
+		list.forEach(user -> map.computeIfAbsent(user != null ? user.getId() : null, k -> new ArrayList<>()).add(user));
 
 		return map.values().stream()
 			.map(users -> users.size() == 0 ? null : users.size() == 1 ? users.get(0) : new ShardedUser(users, this))
