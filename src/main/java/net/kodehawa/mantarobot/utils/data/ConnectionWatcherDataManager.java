@@ -42,6 +42,7 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
                                     Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
                                     Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+                                    ConnectionWatcherDataManager.this.close();
                                     System.exit(0);
                                     break;
                             }
