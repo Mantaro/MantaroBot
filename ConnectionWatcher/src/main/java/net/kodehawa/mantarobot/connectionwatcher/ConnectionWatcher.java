@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.connectionwatcher;
 
+import br.com.brjdevs.network.JSONPacket;
 import br.com.brjdevs.network.PacketRegistry;
 import br.com.brjdevs.network.Server;
 import net.dv8tion.jda.core.AccountType;
@@ -15,7 +16,10 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 public class ConnectionWatcher {
@@ -50,6 +54,15 @@ public class ConnectionWatcher {
         }
     }
 
+    private void broadcast(JSONObject object) {
+        if(!hasConnections()) return;
+        Arrays.stream(server.getClients()).forEach(id->server.sendPacket(server.getSocket(id), new JSONPacket(object.toString())));
+    }
+
+    private boolean hasConnections() {
+        return server != null && server.getClients().length > 0;
+    }
+
     public int getReboots() {
         return reboots;
     }
@@ -69,8 +82,21 @@ public class ConnectionWatcher {
     public void stopMantaro(boolean hardKill) {
         if(hardKill)
             mantaroProcess.destroyForcibly();
-        else
-            mantaroProcess.destroy();
+        else {
+            if(!hasConnections())
+                mantaroProcess.destroy();
+            else {
+                broadcast(new JSONObject().put("action", "shutdown"));
+                try {
+                    if(!mantaroProcess.waitFor(10, TimeUnit.SECONDS))
+                        throw new TimeoutException();
+                    LOGGER.info("Mantaro exited with exit code " + mantaroProcess.exitValue());
+                } catch(InterruptedException|TimeoutException e) {
+                    LOGGER.error("Mantaro not stopped in 10 seconds, forcibly killing");
+                    mantaroProcess.destroyForcibly();
+                }
+            }
+        }
         mantaroProcess = null;
     }
 

@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WebsocketMessageHandler extends SocketListenerAdapter {
+    public static final int CLOSE_CODE_OK = 1600;
+
     @Override
     public Object onPacket(Connection connection, int id, Object packet) {
         if(packet instanceof JSONPacket) {
@@ -64,5 +66,12 @@ public class WebsocketMessageHandler extends SocketListenerAdapter {
     @Override
     public void onConnect(Connection connection, int id, WebSocket socket) {
         if(socket.getLocalSocketAddress() == null) socket.close(1500, "Not localhost");
+    }
+
+    @Override
+    public void onClose(Connection connection, int id, int code, String message) {
+        if(code != CLOSE_CODE_OK) {
+            ConnectionWatcher.LOGGER.error("Connection closed with unexpected code " + code + ": " + message);
+        }
     }
 }

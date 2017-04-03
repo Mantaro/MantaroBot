@@ -1,17 +1,28 @@
 package net.kodehawa.mantarobot.utils.data;
 
 import br.com.brjdevs.network.*;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.KryoUtils;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
+import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+
 public class ConnectionWatcherDataManager implements DataManager<ConnectionWatcherData> {
+    public static final int CLOSE_CODE_OK = 1600;
+    private static final Logger LOGGER = LoggerFactory.getLogger("ConnectionWatcherDataManager");
+
     private final Client client;
 
     public ConnectionWatcherDataManager(int port) {
@@ -19,7 +30,31 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
             client = new Client(new URI("wss://localhost:" + port), new PacketRegistry(), new SocketListenerAdapter() {
                 @Override
                 public Object onPacket(Connection connection, int id, Object packet) {
+                    if(packet instanceof JSONPacket) {
+                        JSONObject json = ((JSONPacket) packet).getJSON();
+                        if(json.has("action")) {
+                            switch(json.getString("action")) {
+                                case "shutdown":
+                                    MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+                                        if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
+                                    });
+
+                                    Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
+
+                                    Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+                                    System.exit(0);
+                                    break;
+                            }
+                        }
+                    }
                     return null;
+                }
+
+                @Override
+                public void onClose(Connection connection, int id, int code, String message) {
+                    if(code != CLOSE_CODE_OK) {
+                        LOGGER.error("Connection closed with unexpected code " + code + ": " + message);
+                    }
                 }
             });
             client.getPacketClient().connectBlocking();
@@ -32,7 +67,7 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 
     public void reboot(boolean hardReboot) {
         client.getPacketClient().sendPacket(new JSONPacket("{\"command\":\"cw.reboot(" + hardReboot + ")\""));
-        client.close(0);
+        client.getPacketClient().getConnection().close(CLOSE_CODE_OK);
     }
 
     public Object[] eval(String code) {
@@ -59,7 +94,7 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 
     @Override
     public void close() {
-        client.close(0);
+        client.getPacketClient().getConnection().close(CLOSE_CODE_OK);
     }
 
     @Override
