@@ -119,7 +119,7 @@ public class InfoCmds extends Module {
 				long days = hours / 24;
 
 				String madeBy = "Bot made by: " + MantaroData.config().get().getOwners().stream()
-					.map(id -> MantaroBot.getInstance().getUserById(id))
+					.map(id -> MantaroBot.getInstance().getShardBy(event.getJDA()).getUserById(id))
 					.filter(Objects::nonNull)
 					.map(user -> event.getGuild().getMember(user) != null ? user.getAsMention() : user.getName() + "#" + user.getDiscriminator())
 					.collect(Collectors.joining(", "));

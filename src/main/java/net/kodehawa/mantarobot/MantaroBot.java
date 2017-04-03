@@ -65,7 +65,7 @@ public class MantaroBot extends ShardedJDA {
 		}
 	}
 
-	public MantaroEventManager manager;
+	private List<MantaroEventManager> manager = new ArrayList<>();
 	private MantaroAudioManager audioManager;
 	private MantaroShard[] shards;
 	private static LoadState status = PRELOAD;
@@ -83,31 +83,32 @@ public class MantaroBot extends ShardedJDA {
 		shards = new MantaroShard[totalShards];
 		status = LOADING;
 
-		manager = new MantaroEventManager(totalShards);
-		manager.register(InteractiveOperations.listener());
-		new Thread(()->{
-		    LOGGER.info("ShardWatcherThread started");
-		    int timeout = MantaroData.config().get().shardWatcherTimeout;
-		    int wait = MantaroData.config().get().shardWatcherWait;
-		    while(true) {
-		        try {
-		            Thread.sleep(wait);
-                    manager.checkShards(timeout);
-                } catch(InterruptedException e) {
-		            LOGGER.error("ShardWatcher interrupted, stopping...");
-		            return;
-                }
-            }
-        }, "ShardWatcherThread").start();
+
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
-			shards[i] = new MantaroShard(i, totalShards, manager);
+			manager.add(new MantaroEventManager(i));
+			MantaroEventManager mng = manager.get(i);
+			shards[i] = new MantaroShard(i, totalShards, mng);
 			LOGGER.debug("Finished loading shard #" + i + ".");
 			if (i + 1 < totalShards) {
 				LOGGER.info("Waiting for cooldown...");
 				Thread.sleep(5000);
 			}
 		}
+		new Thread(()->{
+			LOGGER.info("ShardWatcherThread started");
+			final int timeout = MantaroData.config().get().shardWatcherTimeout;
+			final int wait = MantaroData.config().get().shardWatcherWait;
+			while(true) {
+				try {
+					Thread.sleep(wait);
+					manager.forEach(mng -> mng.checkShards(timeout));
+				} catch(InterruptedException e) {
+					LOGGER.error("ShardWatcher interrupted, stopping...");
+					return;
+				}
+			}
+		}, "ShardWatcherThread").start();
 
 		DiscordLogBack.enable();
 		status = LOADED;

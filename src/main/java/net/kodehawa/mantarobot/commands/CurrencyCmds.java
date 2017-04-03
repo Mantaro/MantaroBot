@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.rethinkdb.gen.ast.Javascript;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -510,14 +511,18 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
+				String json = MantaroData.db().getDB().db("mantaro").table("players")
+						.distinct().orderBy(MantaroData.db().getDB().desc("money"))
+						.limit(15).toJsonString().run(MantaroData.conn());
+				System.out.println(json);
 				AtomicInteger integer = new AtomicInteger(1);
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
 						(global ? MantaroBot.getInstance().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
 							.filter(user -> user != null && !user.isBot())
-							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.db().getPlayer(user, user.getMutualGuilds().get(0)).getMoney()))
+							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.db().getPlayer(user, event.getGuild()).getMoney()))
 							.limit(15)
-							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.db().getPlayer(user, user.getMutualGuilds().get(0)).getMoney()))
+							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.db().getPlayer(user, event.getGuild()).getMoney()))
 							.collect(Collectors.joining("\n"))
 					)
 					.build()

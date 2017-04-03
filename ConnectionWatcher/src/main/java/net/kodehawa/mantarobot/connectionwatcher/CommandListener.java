@@ -46,7 +46,6 @@ public class CommandListener implements EventListener {
             String message = e.getMessage().getRawContent();
             if(message.startsWith(prefix)) {
                 if(!owners.contains(e.getAuthor().getId())) {
-                    e.getChannel().sendMessage("You don't have permission to do this").queue();
                     return;
                 }
                 String[] args = message.substring(prefix.length()).split("\\s+");

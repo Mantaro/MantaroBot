@@ -10,10 +10,12 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -26,7 +28,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
@@ -46,6 +47,7 @@ public class MantaroShard implements JDA {
 	private final MantaroListener mantaroListener;
 	private final CommandListener commandListener;
 	private final VoiceChannelListener voiceChannelListener;
+	private final EventListener interactiveOperation;
 
 	@Delegate
 	private JDA jda;
@@ -57,6 +59,7 @@ public class MantaroShard implements JDA {
 		mantaroListener = new MantaroListener(shardId);
 		commandListener = new CommandListener(shardId);
 		voiceChannelListener = new VoiceChannelListener(shardId);
+		interactiveOperation = InteractiveOperations.listener();
 		LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		restartJDA();
 		readdListeners();
@@ -181,7 +184,11 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners(){
-	    jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener);
-		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener);
+	    jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, interactiveOperation);
+		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, interactiveOperation);
+	}
+
+	public MantaroEventManager getEventManager(){
+		return manager;
 	}
 }
