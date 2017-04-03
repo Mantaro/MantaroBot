@@ -7,13 +7,43 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module.Manager;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.sql.SQLAction;
+import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CommandProcessor {
+
+	public CommandProcessor() {
+		try {
+			SQLDatabase.getInstance().run((conn) -> {
+				try {
+					conn.prepareStatement("CREATE TABLE IF NOT EXISTS CMDLOG (" +
+							"id int NOT NULL AUTO_INCREMENT," +
+							"cmd varchar(15)," +
+							"args varchar(2000)," +
+							"userid varchar(20)," +
+							"channelid varchar(20)," +
+							"guildid varchar(20)," +
+							"date bigint," +
+							"successful int," +
+							"PRIMARY KEY (id)" +
+							");").executeUpdate();
+					conn.prepareStatement("ALTER TABLE CMDLOG AUTO_INCREMENT=1").executeUpdate();
+				} catch (SQLException e) {
+					SQLAction.LOGGER.error(null, e);
+				}
+			}).queue();
+		} catch (SQLException e) {
+			SQLAction.LOGGER.error(null, e);
+		}
+
+	}
 	protected Command getCommand(String name) {
 		return Optional.ofNullable(Manager.commands.get(name)).map(Pair::getLeft).orElse(null);
 	}
@@ -48,8 +78,44 @@ public class CommandProcessor {
 			return false;
 		}
 
-		command.invoke(event, cmdName, content);
-
+		try {
+			command.invoke(event, cmdName, content);
+			log(cmdName, content, event, 1);
+		} catch (Exception e) {
+			log(cmdName, content, event, 0);
+			throw e;
+		}
 		return true;
+	}
+
+	public void log(String cmd, String args, GuildMessageReceivedEvent event, int successful) {
+		try {
+			SQLDatabase.getInstance().run((conn) -> {
+				try {
+					PreparedStatement statement = conn.prepareStatement("INSERT INTO CMDLOG " +
+							"(cmd, args, userid, channelid, guildid, date, successful) VALUES(" +
+							"?," +
+							"?," +
+							"?," +
+							"?," +
+							"?," +
+							"?," +
+							"?" +
+							");");
+					statement.setString(1, cmd);
+					statement.setString(2, args);
+					statement.setString(3, event.getAuthor().getId());
+					statement.setString(4, event.getChannel().getId());
+					statement.setString(5, event.getGuild().getId());
+					statement.setLong(6, System.currentTimeMillis());
+					statement.setInt(7, successful);
+					statement.execute();
+				} catch (SQLException e) {
+					SQLAction.LOGGER.error(null, e);
+				}
+			}).queue();
+		} catch (SQLException e) {
+			SQLAction.LOGGER.error(null, e);
+		}
 	}
 }

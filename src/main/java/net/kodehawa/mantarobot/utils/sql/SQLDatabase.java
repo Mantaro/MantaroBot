@@ -16,7 +16,7 @@ public class SQLDatabase {
 
     public SQLDatabase() {
         dataSource = new MysqlDataSource();
-        dataSource.setDatabaseName("botlogs");
+        dataSource.setDatabaseName("mantarologs");
         dataSource.setUser("root");
         //TODO dataSource.setPassword();
         dataSource.setServerName("localhost");
