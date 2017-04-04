@@ -29,9 +29,9 @@ public class MantaroEventManager extends InterfacedEventManager {
         for(Object o : super.getRegisteredListeners())
             super.unregister(o);
     }
-
+    
     public void checkShards(int timeout) {
-        LOGGER.info("Checking shards...");
+        LOGGER.debug("Checking shards...");
         ShardMonitorEvent event = new ShardMonitorEvent(totalShards);
         handle(event);
         try {

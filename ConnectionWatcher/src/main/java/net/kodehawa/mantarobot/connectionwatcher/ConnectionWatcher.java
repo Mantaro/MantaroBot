@@ -6,6 +6,7 @@ import br.com.brjdevs.network.Server;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +42,7 @@ public class ConnectionWatcher {
                 .setToken(token)
                 .addListener(new CommandListener(prefix, owners))
                 .setAudioEnabled(false)
+                .setGame(Game.of("Awoooo"))
                 .buildAsync();
         this.jvmargs = jvmargs;
         this.owners = owners;

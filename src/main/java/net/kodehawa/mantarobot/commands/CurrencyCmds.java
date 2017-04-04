@@ -516,11 +516,8 @@ public class CurrencyCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				//TODO pls this takes 10 minutes
 				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
-				/*MantaroData.db().getDB().db("mantaro").table("players")
-						.distinct().orderBy(MantaroData.db().getDB().desc("money"))
-						.limit(15).map("").run(MantaroData.conn());
-				System.out.println(json);*/
 				AtomicInteger integer = new AtomicInteger(1);
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
@@ -550,15 +547,16 @@ public class CurrencyCmds extends Module {
 		super.register("transfer", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
+					return;
+				}
+
 				if (event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
 					event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot transfer money to yourself.").queue();
 					return;
 				}
 
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
-					return;
-				}
 				int toSend;
 				try{
 					toSend = Math.abs(Integer.parseInt(args[1]));

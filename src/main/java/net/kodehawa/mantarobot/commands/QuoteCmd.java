@@ -65,6 +65,7 @@ public class QuoteCmd extends Module {
                             && !msg.getContent().startsWith(
                                     db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
                                             : db.getGuild(guild).getData().getGuildCustomPrefix())
+                            && !msg.getContent().startsWith(MantaroData.config().get().getPrefix())
                             ).findFirst().orElse(null);
 
                     if (message == null) {
