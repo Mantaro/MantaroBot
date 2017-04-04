@@ -393,7 +393,7 @@ public class CurrencyCmds extends Module {
 								event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 							}
 							return;
-						} catch (NullPointerException e) {
+						} catch (Exception e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax.").queue();
 						}
 						return;
