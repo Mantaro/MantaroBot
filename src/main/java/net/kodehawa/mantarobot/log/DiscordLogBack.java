@@ -7,6 +7,7 @@ import ch.qos.logback.core.AppenderBase;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 
 public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
@@ -33,6 +34,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		String toSend = patternLayout.doLayout(event);
 		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
 		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
+		if(toSend.length() > 1920) toSend = Utils.paste("Received a message but it was too long, Hastebin:" + toSend);
 		consoleChannel().sendMessage(toSend).queue();
 		previousEvent = event;
 	}
