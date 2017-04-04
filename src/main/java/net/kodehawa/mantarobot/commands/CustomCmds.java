@@ -199,7 +199,7 @@ public class CustomCmds extends Module {
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
 							if (!cmd.matches("[a-zA-Z0-9]+")) {
-								//TODO ERROR
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 								return false;
 							}
 
@@ -244,7 +244,7 @@ public class CustomCmds extends Module {
 
 				if (action.equals("remove") || action.equals("rm")) {
 					if (!cmd.matches("[a-zA-Z0-9]+")) {
-						//TODO ERROR
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
 
@@ -281,7 +281,7 @@ public class CustomCmds extends Module {
 					String any = "[\\d\\D]*?";
 
 					if (!cmd.matches("[a-zA-Z0-9\\*]+")) {
-						//TODO ERROR
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
 
@@ -334,7 +334,7 @@ public class CustomCmds extends Module {
 
 				if (action.equals("add")) {
 					if (!cmd.matches("[a-zA-Z0-9]+")) {
-						//TODO ERROR
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
 					

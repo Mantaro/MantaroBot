@@ -35,7 +35,7 @@ public class CurrencyCmds extends Module {
 		profile();
 		loot();
 		gamble();
-		richest();
+		//richest(); TODO enable when fixed
 		inventory();
 		market();
 		rep();
@@ -472,6 +472,12 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
+				if(event.getMessage().getMentionedUsers().isEmpty()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.").queue();
+					return;
+				}
+
 				if (event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
 					event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself.").queue();
 					return;
@@ -511,10 +517,10 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
-				String json = MantaroData.db().getDB().db("mantaro").table("players")
+				/*MantaroData.db().getDB().db("mantaro").table("players")
 						.distinct().orderBy(MantaroData.db().getDB().desc("money"))
-						.limit(15).toJsonString().run(MantaroData.conn());
-				System.out.println(json);
+						.limit(15).map("").run(MantaroData.conn());
+				System.out.println(json);*/
 				AtomicInteger integer = new AtomicInteger(1);
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
