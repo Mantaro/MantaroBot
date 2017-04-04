@@ -363,7 +363,7 @@ public class CurrencyCmds extends Module {
 
 							player.save();
 							return;
-						} catch (NullPointerException e) {
+						} catch (Exception e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
 						}
 						return;
