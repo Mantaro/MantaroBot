@@ -333,7 +333,7 @@ public class InfoCmds extends Module {
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
-					+ "Total Guild Events: " + GuildStatsManager.TOTAL_EVENTS.keySet().size() + "\n"
+					+ "Total Guild Events: " + GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS) + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
@@ -488,7 +488,6 @@ public class InfoCmds extends Module {
 							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
-							//.addField("MantaroCredits to USD conversion", String.format("1 MantaroCredit worth %.2f USD", CurrencyManager.creditsWorth()), true)
 							.addField("Exclusiveness per Total Guilds", Math.round(ex) + "% (" + exclusiveness + ")", false)
 							.addField("Big Guilds", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())

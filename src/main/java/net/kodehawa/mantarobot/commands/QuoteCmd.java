@@ -82,34 +82,46 @@ public class QuoteCmd extends Module {
                 }
 
                 if (action.equals("random")) {
-                    Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
-                    event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+                    try{
+                        Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
+                        event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+                    } catch (Exception e){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes here.").queue();
+                    }
                     return;
                 }
 
                 if (action.equals("readfrom")) {
-                    List<Quote> quotes = db.getQuotes(guild);
-                    for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
-                        if (quotes.get(i2).getContent().contains(phrase)) {
-                            Quote quote = quotes.get(i2);
-                            event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
-                            break;
+                    try{
+                        List<Quote> quotes = db.getQuotes(guild);
+                        for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+                            if (quotes.get(i2).getContent().contains(phrase)) {
+                                Quote quote = quotes.get(i2);
+                                event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+                                break;
+                            }
                         }
+                    } catch (Exception e){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes here (no quotes match the criteria).").queue();
                     }
                     return;
                 }
 
                 if (action.equals("removefrom")) {
-                    List<Quote> quotes = db.getQuotes(guild);
-                    for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
-                        if (quotes.get(i2).getContent().contains(phrase)) {
-                            Quote quote = quotes.get(i2);
-                            db.getQuotes(guild).remove(i2);
-                            quote.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent())
-                                    .queue();
-                            break;
+                    try{
+                        List<Quote> quotes = db.getQuotes(guild);
+                        for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+                            if (quotes.get(i2).getContent().contains(phrase)) {
+                                Quote quote = quotes.get(i2);
+                                db.getQuotes(guild).remove(i2);
+                                quote.saveAsync();
+                                event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent())
+                                        .queue();
+                                break;
+                            }
                         }
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No quotes match the criteria.").queue();
                     }
                 }
             }

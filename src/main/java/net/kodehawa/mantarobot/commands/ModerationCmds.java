@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -309,6 +310,11 @@ public class ModerationCmds extends Module {
 				TextChannel channel = event.getChannel();
 				if (content.isEmpty()) {
 					channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
+					return;
+				}
+
+				if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have permission: Manage Messages").queue();
 					return;
 				}
 
