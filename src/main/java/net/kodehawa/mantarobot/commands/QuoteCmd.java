@@ -51,7 +51,7 @@ public class QuoteCmd extends Module {
                     messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
                 }
                 catch (Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "It seems like discord is having some problems for now, since a" +
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "It seems like discord is on fire, as my" +
                             " " +
                             "request to retrieve message history was denied" +
                             "with the error `" + e.getClass().getSimpleName() + "`").queue();
@@ -69,7 +69,7 @@ public class QuoteCmd extends Module {
                             ).findFirst().orElse(null);
 
                     if (message == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "We couldn't find any message matching the specified search" +
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a message matching the specified search" +
                                 " criteria. Please try again with a more specific query.").queue();
                         return;
                     }
@@ -87,7 +87,7 @@ public class QuoteCmd extends Module {
                         Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
                         event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
                     } catch (Exception e){
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes here.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "This server has no set quotes!").queue();
                     }
                     return;
                 }
@@ -103,7 +103,7 @@ public class QuoteCmd extends Module {
                             }
                         }
                     } catch (Exception e){
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "There are no quotes here (no quotes match the criteria).").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find any quotes! (no quotes match the criteria).").queue();
                     }
                     return;
                 }
@@ -136,14 +136,14 @@ public class QuoteCmd extends Module {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Quote command")
                         .setDescription("> Usage:\n"
-                                + "~>quote addfrom <phrase>: Adds a quote with the content defined by the specified number. For example 1 will quote " +
+                                + "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
                                 "the last message.\n"
-                                + "~>quote removefrom <phrase>: Removes a quote based on the text query.\n"
-                                + "~>quote readfrom <phrase>: Searches for the first quote which matches your search criteria and prints " +
+                                + "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
+                                + "~>quote readfrom <phrase>: Searche for the first quote which matches your search criteria and prints " +
                                 "it.\n"
-                                + "~>quote random: Gets a random quote. \n"
+                                + "~>quote random: Get a random quote. \n"
                                 + "> Parameters:\n"
-                                + "number: Message number to quote. For example 1 will quote the last message.\n"
+                                + "number: Message number to quote. For example, 1 will quote the last message.\n"
                                 + "phrase: A part of the quote phrase.")
                         .setColor(Color.DARK_GRAY)
                         .build();

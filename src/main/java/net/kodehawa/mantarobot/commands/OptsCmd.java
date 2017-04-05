@@ -46,7 +46,7 @@ public class OptsCmd extends Module {
 				if (option.equals("resetmoney")) {
 					//TODO guildData.users.clear();
 					dbGuild.save();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + " Local Guild Money cleared.").queue();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + " This server's local money was cleared.").queue();
 					return;
 				}
 
@@ -69,7 +69,7 @@ public class OptsCmd extends Module {
 						String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
 						guildData.setGuildLogChannel(id);
 						dbGuild.saveAsync();
-						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging enabled on this server with parameters -> ``Channel #%s (%s)``",
+						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with parameters -> ``Channel #%s (%s)``",
 								logChannel, id)).queue();
 						return;
 					}
@@ -77,7 +77,7 @@ public class OptsCmd extends Module {
 					if (action.equals("disable")) {
 						guildData.setGuildLogChannel(null);
 						dbGuild.saveAsync();
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging disabled on this server.").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging has been disabled.").queue();
 						return;
 					}
 
@@ -95,14 +95,14 @@ public class OptsCmd extends Module {
 						String prefix = args[2];
 						guildData.setGuildCustomPrefix(prefix);
 						dbGuild.save();
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Guild custom prefix set to " + prefix).queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been set to " + prefix).queue();
 						return;
 					}
 
 					if (action.equals("clear")) {
 						guildData.setGuildCustomPrefix(null);
 						dbGuild.save();
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Guild custom prefix disabled	").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been disabled").queue();
 						return;
 					}
 					onHelp(event);
@@ -171,12 +171,12 @@ public class OptsCmd extends Module {
 							return;
 						} catch (Exception e) {
 							if (e instanceof IndexOutOfBoundsException) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Nothing found on channel or role.\n " +
+								event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel or role!\n " +
 										"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
 										.queue();
 								return;
 							}
-							event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong command arguments.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You supplied invalid arguments for this command " + EmoteReference.SAD).queue();
 							onHelp(event);
 							return;
 						}
@@ -186,7 +186,7 @@ public class OptsCmd extends Module {
 						guildData.setBirthdayChannel(null);
 						guildData.setBirthdayRole(null);
 						dbGuild.save();
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging disabled on this server").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging has been disabled on this server").queue();
 						return;
 					}
 
@@ -198,17 +198,17 @@ public class OptsCmd extends Module {
 					if (action.equals("limit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
 						if (!isNumber) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number!").queue();
 							return;
 						}
 
 						try {
 							guildData.setMusicSongDurationLimit(Long.parseLong(args[2]));
 							dbGuild.save();
-							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Song duration limit (on ms) on this server is now: %sms.", args[2])).queue();
+							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Song duration limit (in milliseconds) on this server is now: %sms.", args[2])).queue();
 							return;
 						} catch (NumberFormatException e) {
-							event.getChannel().sendMessage(EmoteReference.WARNING + "You're trying to set a big af number, silly").queue();
+							event.getChannel().sendMessage(EmoteReference.WARNING + "You're trying to set a huge number, silly! How cute :-)").queue();
 						}
 						return;
 					}
@@ -216,7 +216,7 @@ public class OptsCmd extends Module {
 					if (action.equals("queuelimit")) {
 						boolean isNumber = args[2].matches("^[0-9]*$");
 						if (!isNumber) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number!").queue();
 							return;
 						}
 						try {
@@ -224,10 +224,10 @@ public class OptsCmd extends Module {
 							int applySize = finalSize >= 300 ? 300 : finalSize;
 							guildData.setMusicQueueSizeLimit((long) applySize);
 							dbGuild.save();
-							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Queue limit on this server is now **%d** songs.", applySize)).queue();
+							event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "The queue limit on this server is now **%d** songs.", applySize)).queue();
 							return;
 						} catch (NumberFormatException e) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set a big af number (which won't be applied anyway), silly").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set too high of a number (which won't be applied anyway), silly").queue();
 						}
 						return;
 					}
@@ -249,7 +249,7 @@ public class OptsCmd extends Module {
 										.collect(Collectors.toList());
 
 								if (voiceChannels.size() == 0) {
-									event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found any Voice Channel with that Name or Id").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found a voice channel matching that name or id").queue();
 									return;
 								} else if (voiceChannels.size() == 1) {
 									channel = voiceChannels.get(0);
@@ -269,7 +269,7 @@ public class OptsCmd extends Module {
 								}
 							} catch (Exception e) {
 								LOGGER.warn("Error while setting voice channel", e);
-								event.getChannel().sendMessage("There has been an error while trying to set the voice channel, maybe try again? " +
+								event.getChannel().sendMessage("I couldn't set the voice channel " + EmoteReference.SAD + " - try again in a few minutes " +
 										"-> " + e.getClass().getSimpleName()).queue();
 							}
 						}
@@ -281,7 +281,7 @@ public class OptsCmd extends Module {
 						guildData.setMusicSongDurationLimit(null);
 						guildData.setMusicChannel(null);
 						dbGuild.save();
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now I can play music on all channels!").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
 						return;
 					}
 
@@ -293,11 +293,11 @@ public class OptsCmd extends Module {
 					try {
 						guildData.setCustomAdminLock(Boolean.parseBoolean(action));
 						dbGuild.save();
-						String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> Now user command creation is admin only.``" : "``Permission -> Now user command creation can be done by users.``");
+						String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> User command creation is now admin only.``" : "``Permission -> User command creation can be done by anyone.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
 					} catch (Exception e) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a boolean value.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
 						return;
 					}
 				}
@@ -306,11 +306,11 @@ public class OptsCmd extends Module {
 					try {
 						guildData.setRpgLocalMode(Boolean.parseBoolean(action));
 						dbGuild.save();
-						String toSend = EmoteReference.CORRECT + (guildData.isRpgLocalMode() ? "``Money -> Now money on this guild is localized.``" : "``Permission -> Now money on this guild is shared with global.``");
+						String toSend = EmoteReference.CORRECT + (guildData.isRpgLocalMode() ? "``Money -> Money for this server is now localized.``" : "``Permission -> Money on this guild will be shared with the global database.``");
 						event.getChannel().sendMessage(toSend).queue();
 						return;
 					} catch (Exception e) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a boolean value.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a boolean value, silly!").queue();
 						return;
 					}
 				}
@@ -322,7 +322,7 @@ public class OptsCmd extends Module {
 						StringBuilder b = new StringBuilder();
 
 						if (roles.isEmpty()) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "We didn't find any roles with that name").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a role with that name").queue();
 							return;
 						}
 
@@ -330,7 +330,7 @@ public class OptsCmd extends Module {
 							guildData.setGuildAutoRole(roles.get(0).getId());
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
 							dbGuild.save();
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Autorole now set to role: **" + roles.get(0).getName() + "** (Position: " + roles.get(0).getPosition() + ")").queue();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "The server autorole is now set to: **" + roles.get(0).getName() + "** (Position: " + roles.get(0).getPosition() + ")").queue();
 							return;
 						}
 
@@ -346,7 +346,7 @@ public class OptsCmd extends Module {
 							guildData.setGuildAutoRole(roles.get(c - 1).getId());
 							event.getMessage().addReaction("\ud83d\udc4c").queue();
 							dbGuild.save();
-							event.getChannel().sendMessage(EmoteReference.OK + "Autorole now set to role: **" + roles.get(c - 1).getName() + "** (Position: " + roles.get(c - 1).getPosition() + ")").queue();
+							event.getChannel().sendMessage(EmoteReference.OK + "The server autorole is now set to role: **" + roles.get(c - 1).getName() + "** (Position: " + roles.get(c - 1).getPosition() + ")").queue();
 						};
 
 						DiscordUtils.selectInt(event, roles.size() + 1, roleSelector);
@@ -354,7 +354,7 @@ public class OptsCmd extends Module {
 
 					} else if (action.equals("unbind")) {
 						guildData.setGuildAutoRole(null);
-						event.getChannel().sendMessage(EmoteReference.OK + "Autorole resetted.").queue();
+						event.getChannel().sendMessage(EmoteReference.OK + "The autorole for this server has been removed.").queue();
 						return;
 					}
 				}
@@ -367,13 +367,13 @@ public class OptsCmd extends Module {
 								.collect(Collectors.toList());
 
 						if(textChannels.isEmpty()){
-							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no channels matching your search query.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
 						}
 
 						if (textChannels.size() <= 1) {
 							guildData.setLogJoinLeaveChannel(textChannels.get(0).getId());
 							dbGuild.save();
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Log Join/Leave Channel set to: **" + textChannels.get(0).getAsMention()).queue();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "The logging Join/Leave channel is set to: **" + textChannels.get(0).getAsMention()).queue();
 							return;
 						}
 
@@ -383,7 +383,7 @@ public class OptsCmd extends Module {
 								textChannel -> {
 									guildData.setLogJoinLeaveChannel(textChannel.getId());
 									dbGuild.save();
-									event.getChannel().sendMessage(EmoteReference.OK + "Log Join/Leave Channel set to: " + textChannel.getAsMention()).queue();
+									event.getChannel().sendMessage(EmoteReference.OK + "The logging Join/Leave channel is set to: " + textChannel.getAsMention()).queue();
 								}
 						);
 						return;
@@ -417,29 +417,28 @@ public class OptsCmd extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Bot options")
-						.addField("Description", "This command allows you to set different customizable options for your guild instance of the bot.\n" +
-								"All values set here are local, that means, they only take effect on your server and not on other " +
-								"servers the bot might be on.", false)
+						.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
+								"All values set are local rather than global, meaning that they will only effect this server.", false)
 						.setDescription("Usage\n" +
-								"~>opts logs enable <channel> - Enables logs to the specified channel (use the name).\n" +
-								"~>opts logs disable - Disables server-wide logs.\n" +
-								"~>opts prefix set <prefix> - Sets a custom prefix for your server.\n" +
-								"~>opts prefix clear - Resets your server custom prefix.\n" +
-								"~>opts nsfw toggle - Toggles NSFW usage for this channel to allow usage with explicit images in yandere and other commands.\n" +
-								"~>opts birthday enable <channel> <role> - Enables birthday monitoring in your server. Arguments such as channel and role don't accept spaces.\n" +
-								"~>opts birthday disable - Disables birthday monitoring.\n" +
-								"~>opts music limit <ms> - Changes the music lenght limit.\n" +
-								"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 regardless).\n" +
-								"~>opts autorole set <role> - Sets the new autorole which will be assigned to users on user join.\n" +
-								"~>opts autorole unbind - Clears the autorole config.\n" +
-								"~>opts resetmoney - Resets local money.\n" +
-							"~>opts localmoney <true/false> - Toggles guild local mode (currency stats only for your guild).\n" +
-								"~>opts music channel <channel> - If set, mantaro will connect only to the specified channel. It might be the name or the ID.\n" +
-								"~>opts music clear - If set, mantaro will connect to any music channel the user who called the bot is on if nobody did it already.\n" +
-								"~>opts admincustom <true/false> - If set to true, custom commands will only be avaliable for admin creation, otherwise everyone can do it. It defaults to false.\n" +
-								"~>opts usermessage channel <channel name> - Sets a channel to send join/leave messages.\n" +
-								"~>opts usermessage joinmessage <message> - Sets the join message.\n" +
-								"~>opts usermessage leavemessage <message> - Sets the leave message.")
+								"~>opts logs enable <channel> - Send logs to the specified channel (use its name).\n" +
+								"~>opts logs disable - Disable server-wide logs.\n" +
+								"~>opts prefix set <prefix> - Set a custom prefix for your server.\n" +
+								"~>opts prefix clear - Remove your server's custom prefix.\n" +
+								"~>opts nsfw toggle - Toggle NSFW usage for this channel to allow usage with explicit images in yandere and other commands.\n" +
+								"~>opts birthday enable <channel> <role> - Enable birthday alerts in your server. Arguments such as channel and role don't accept spaces.\n" +
+								"~>opts birthday disable - Disable birthday alerts.\n" +
+								"~>opts music limit <ms> - Changes the music length limit.\n" +
+								"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 for non-donors).\n" +
+								"~>opts autorole set <role> - Set an autorole that will be assigned to users when they join.\n" +
+								"~>opts autorole unbind - Clear the autorole config.\n" +
+								"~>opts resetmoney - Reset local money.\n" +
+							"~>opts localmoney <true/false> - Toggle server local mode (currency stats only for this server).\n" +
+								"~>opts music channel <channel> - If set, I will connect only to the specified channel. You can specify a channel name or ID.\n" +
+								"~>opts music clear - If set, I will connect to any voice channel when called.\n" +
+								"~>opts admincustom <true/false> - If set to true, custom command creation will be available solely for administrators; Otherwise, everyone can create them. Setting defaults to false.\n" +
+								"~>opts usermessage channel <channel name> - Set a channel to send join/leave messages.\n" +
+								"~>opts usermessage joinmessage <message> - Set the join message.\n" +
+								"~>opts usermessage leavemessage <message> - Set the leave message.")
 						.build();
 			}
 		});

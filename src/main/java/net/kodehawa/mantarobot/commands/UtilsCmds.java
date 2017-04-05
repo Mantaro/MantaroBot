@@ -134,7 +134,7 @@ public class UtilsCmds extends Module {
                                 "enabled this functionality\n"
                                 + "**Parameter explanation:**\n"
                                 + "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
-                        .addField("Tip", "To see whose birthdays are this month do ~>birthday month\nTo remove your birthday date do " +
+                        .addField("Tip", "To see whose birthdays are this month, type ~>birthday month\nTo remove your birthday date do " +
                                 "~>birthday " +
                                 "remove", false)
                         .setColor(Color.DARK_GRAY)
@@ -185,7 +185,7 @@ public class UtilsCmds extends Module {
                 return helpEmbed(event, "Google search")
                         .setDescription("Searches on google.")
                         .addField("Usage", "~>google <query>", false)
-                        .addField("Parameters", "query: The search query to look for", false)
+                        .addField("Parameters", "query: the search query", false)
                         .build();
             }
         });
@@ -275,7 +275,7 @@ public class UtilsCmds extends Module {
                             }
                         }
                         catch (IOException e) {
-                            event.getChannel().sendMessage("Error while fetching results. Google doesn't like us " + EmoteReference.SAD
+                            event.getChannel().sendMessage("I got an error while translating, Google doesn't like me " + EmoteReference.SAD
                                     .getDiscordNotation())
                                     .queue();
                         }
@@ -294,8 +294,8 @@ public class UtilsCmds extends Module {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Translation command")
-                        .setDescription("Translates any given sentence.\n"
-                                + "**Usage example:**\n"
+                        .setDescription("Translates the given sentence.\n"
+                                + "**Usage:**\n"
                                 + "~>translate <sourcelang> <outputlang> <sentence>.\n"
                                 + "**Parameter explanation**\n"
                                 + "sourcelang: The language the sentence is written in. Use codes (english = en)\n"
@@ -352,7 +352,7 @@ public class UtilsCmds extends Module {
                                     .addField("Thumbs up", data.list.get(defn).thumbs_up, true)
                                     .addField("Thumbs down", data.list.get(defn).thumbs_down, true)
                                     .addField("Example", data.list.get(defn).example, false)
-                                    .setFooter("Information by Urban Dictionary", null);
+                                    .setFooter("Information provided by Urban Dictionary", null);
                             event.getChannel().sendMessage(embed.build()).queue();
                             break;
                         default:
@@ -373,12 +373,12 @@ public class UtilsCmds extends Module {
                         .setColor(Color.CYAN)
                         .setDescription("Retrieves definitions from **Urban Dictionary**.\n"
                                 + "Usage: \n"
-                                + "~>urban <term>-><number>: Gets a definition based on parameters.\n"
+                                + "~>urban <term>-><number>: Retrieve a definition based on the given parameters.\n"
                                 + "Parameter description:\n"
-                                + "term: The term you want to look up the urban definition for.\n"
+                                + "term: The term you want to look up\n"
                                 + "number: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it" +
                                 ".\n"
-                                + "For example putting 2 will fetch the second result on Urban Dictionary")
+                                + "e.g. putting 2 will fetch the second result on Urban Dictionary")
                         .build();
             }
         });
@@ -446,10 +446,10 @@ public class UtilsCmds extends Module {
                 return helpEmbed(event, "Weather command")
                         .setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
                                 + "> Usage:\n"
-                                + "~>weather <city>,<countrycode>: Retrieves the forecast information for such location.\n"
+                                + "~>weather <city>,<countrycode>: Retrieves the forecast information for the given location.\n"
                                 + "> Parameters:\n"
-                                + "city: Your city name, for example New York\n"
-                                + "countrycode: (OPTIONAL) The code for your country, for example US (USA) or MX (Mexico).")
+                                + "city: Your city name, e.g. New York\n"
+                                + "countrycode: (OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).")
                         .build();
             }
         });
@@ -462,19 +462,19 @@ public class UtilsCmds extends Module {
 				YoutubeMp3Info info = YoutubeMp3Info.forLink(content);
 
 				if (info == null) {
-					event.getChannel().sendMessage(":heavy_multiplication_x: Link seems to be invalid.").queue();
+					event.getChannel().sendMessage(":heavy_multiplication_x: Your link seems to be invalid.").queue();
 					return;
 				}
 
                 if (info.error != null) {
-                    event.getChannel().sendMessage(":heavy_multiplication_x: We received an error while fetching that link``" + info.error
+                    event.getChannel().sendMessage(":heavy_multiplication_x: I got an error while fetching that link``" + info.error
                             + "``").queue();
                     return;
                 }
 
                 EmbedBuilder builder = new EmbedBuilder()
                         .setAuthor(info.title, info.link, event.getAuthor().getEffectiveAvatarUrl())
-                        .setFooter("Powered by youtubeinmp3.com API", null);
+                        .setFooter("Powered by the youtubeinmp3.com API", null);
 
                 try {
                     int length = Integer.parseInt(info.length);
