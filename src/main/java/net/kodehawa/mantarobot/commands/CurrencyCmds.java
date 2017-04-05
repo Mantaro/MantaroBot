@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.rethinkdb.gen.ast.Javascript;
+import com.rethinkdb.gen.ast.Time;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -23,6 +24,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,7 +51,7 @@ public class CurrencyCmds extends Module {
 	}
 
 	private void daily() {
-		RateLimiter rateLimiter = new RateLimiter(86400000); //24 hours
+		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 		Random r = new Random();
 		super.register("daily", new SimpleCommand() {
 			@Override
@@ -70,7 +72,7 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				if (mentionedUser != null) {
+				if (mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
 					money = money + r.nextInt(50);
 					player = MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser));
 					player.addMoney(money);
@@ -95,7 +97,7 @@ public class CurrencyCmds extends Module {
 	}
 
 	private void gamble() {
-		RateLimiter rateLimiter = new RateLimiter(3500);
+		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 		Random r = new Random();
 
 		super.register("gamble", new SimpleCommand() {
@@ -214,7 +216,7 @@ public class CurrencyCmds extends Module {
 	}
 
 	private void loot() {
-		RateLimiter rateLimiter = new RateLimiter(1200000);
+		RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
 		Random r = new Random();
 
 		super.register("loot", new SimpleCommand() {
@@ -225,7 +227,7 @@ public class CurrencyCmds extends Module {
 
 				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Cooldown a lil bit, you can only do this once every 20 minutes.").queue();
+						"Cooldown a lil bit, you can only do this once every 5 minutes.").queue();
 					return;
 				}
 
@@ -280,7 +282,7 @@ public class CurrencyCmds extends Module {
 
 	private void market() {
 		super.register("market", new SimpleCommand() {
-			RateLimiter rateLimiter = new RateLimiter(4500);
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -468,7 +470,7 @@ public class CurrencyCmds extends Module {
 
 	private void rep() {
 		super.register("rep", new SimpleCommand() {
-			RateLimiter rateLimiter = new RateLimiter(86400000);
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {

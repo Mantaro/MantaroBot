@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.function.IntConsumer;
 
@@ -78,20 +79,22 @@ public class UtilsCmds extends Module {
 
                 if (content.startsWith("month")) {
                     Map<String, String> closeBirthdays = new HashMap<>();
-                    final int currentMonth = Calendar.MONTH + 1;
+                    final int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+
                     event.getGuild().getMembers().forEach(member -> {
                         try {
-                            if (MantaroData.db().getUser(member.getUser()) != null) {
-                                Date date = format1.parse(MantaroData.db().getUser(event.getMember()).getData().getBirthday());
-                                LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                                if (currentMonth == Integer.parseInt(String.format("%02d", localDate.getMonth().getValue()))) {
+                            if (MantaroData.db().getUser(member.getUser()) != null &&
+                                    MantaroData.db().getUser(event.getMember()).getData().getBirthday() != null) {
+                                Date date = format1.parse(MantaroData.db().getUser(member).getData().getBirthday());
+                                int month = date.toInstant().atOffset(ZoneOffset.UTC).getMonthValue();
+                                if (currentMonth == month) {
                                     closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData
                                             .db().getUser(member.getUser()).getData().getBirthday());
                                 }
                             }
                         }
                         catch (Exception e) {
-                            LOGGER.warn("Error while retrieving close birthdays", e);
+                            if(!(e instanceof NullPointerException)) LOGGER.warn("Error while retrieving close birthdays", e);
                         }
                     });
 
@@ -102,9 +105,11 @@ public class UtilsCmds extends Module {
                     }
 
                     StringBuilder builder = new StringBuilder();
-
-                    closeBirthdays.forEach((name, birthday) -> builder.append(name).append(": ").append(birthday.substring(0, 5)).append
-                            ("\n"));
+                    closeBirthdays.forEach((name, birthday) -> {
+                        if(name != null && birthday != null){
+                            builder.append(name).append(": ").append(birthday.substring(0, 5)).append("\n");
+                        }
+                    });
 
                     event.getChannel().sendMessage("```md\n" + "--Birthdays this month--\n\n" + builder.toString() + "```").queue();
 
@@ -113,8 +118,15 @@ public class UtilsCmds extends Module {
 
                 Date bd1;
                 try {
+                    String[] parts = args[0].split("-");
+                    if(Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid date.").queue();
+                        return;
+                    }
+
                     bd1 = format1.parse(args[0]);
                 }
+
                 catch (Exception e) {
                     Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage("\u274C" + args[0] + " is either not a " +
                             "valid date or not parseable. Please try with the correct formatting!").queue()));

@@ -362,7 +362,6 @@ public class ImageCmds extends Module {
 
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
-									System.out.println(image.get(number - 1).getFile_url());
 									builder.setAuthor("Found image", null, "http:" + image.get(number - 1).getFile_url())
 										.setImage("http:" + image.get(number - 1).getFile_url())
 										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)

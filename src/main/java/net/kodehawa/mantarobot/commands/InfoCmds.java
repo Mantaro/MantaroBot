@@ -14,7 +14,6 @@ import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
-import net.kodehawa.mantarobot.commands.rpg.CurrencyManager;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;

@@ -505,7 +505,8 @@ public class MusicCmds extends Module {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 if(MantaroData.db().getUser(event.getMember()).isPremium() ||
-                        MantaroData.db().getGuild(event.getMember()).isPremium()){
+                        MantaroData.db().getGuild(event.getMember()).isPremium() ||
+                        MantaroData.config().get().getOwners().contains(event.getAuthor().getId())){
                     if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
                         sendNotConnectedToMyChannel(event.getChannel());
                         return;

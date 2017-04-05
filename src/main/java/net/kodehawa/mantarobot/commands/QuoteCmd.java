@@ -41,7 +41,9 @@ public class QuoteCmd extends Module {
                 }
 
                 String action = args[0];
+                System.out.println(action);
                 String phrase = content.replace(action + " ", "");
+                System.out.println(phrase);
                 Guild guild = event.getGuild();
                 ManagedDatabase db = MantaroData.db();
                 EmbedBuilder builder = new EmbedBuilder();
@@ -95,7 +97,8 @@ public class QuoteCmd extends Module {
                 if (action.equals("readfrom")) {
                     try{
                         List<Quote> quotes = db.getQuotes(guild);
-                        for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+                        System.out.println(quotes.size() + " " + phrase);
+                        for (int i2 = 0; i2 < quotes.size(); i2++) {
                             if (quotes.get(i2).getContent().contains(phrase)) {
                                 Quote quote = quotes.get(i2);
                                 event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
@@ -111,7 +114,7 @@ public class QuoteCmd extends Module {
                 if (action.equals("removefrom")) {
                     try{
                         List<Quote> quotes = db.getQuotes(guild);
-                        for (int i2 = 0; i2 < quotes.size() - 1; i2++) {
+                        for (int i2 = 0; i2 < quotes.size(); i2++) {
                             if (quotes.get(i2).getContent().contains(phrase)) {
                                 Quote quote = quotes.get(i2);
                                 db.getQuotes(guild).remove(i2);

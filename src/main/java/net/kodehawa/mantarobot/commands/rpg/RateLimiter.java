@@ -6,6 +6,7 @@ import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Made by @AdrianTodt
@@ -17,6 +18,10 @@ public class RateLimiter {
 
 	public RateLimiter(int timeout) {
 		this.timeout = timeout;
+	}
+
+	public RateLimiter(TimeUnit unit, int timeout){
+		this.timeout = (int) unit.toMillis(timeout);
 	}
 
 	public boolean process(String userId) {
