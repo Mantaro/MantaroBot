@@ -1,7 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.rethinkdb.gen.ast.Javascript;
-import com.rethinkdb.gen.ast.Time;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -105,7 +103,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String id = event.getAuthor().getId();
 
-				if (!rateLimiter.process(id)) {
+				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you're gambling so fast that I can't print enough money!").queue();
 					return;
@@ -225,7 +223,7 @@ public class CurrencyCmds extends Module {
 
 				String id = event.getAuthor().getId();
 
-				if (!rateLimiter.process(id)) {
+				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you can only do this once every 5 minutes.").queue();
 					return;
@@ -286,7 +284,7 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				if (!rateLimiter.process(event.getAuthor().getId())) {
+				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you're calling me so fast that I can't get enough items!").queue();
 					return;
