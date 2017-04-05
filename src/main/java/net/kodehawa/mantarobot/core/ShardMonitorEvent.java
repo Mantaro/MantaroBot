@@ -14,9 +14,10 @@ public class ShardMonitorEvent extends Event {
     private Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
     private Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
 
-    public ShardMonitorEvent(int shard) {
+    public ShardMonitorEvent(int shards) {
         super(null, 0);
-        dead.add(new ShardListeners(shard));
+        for(int i = 0; i < shards; i++)
+            dead.add(new ShardListeners(i));
     }
 
     public void alive(int shard, int listener) {

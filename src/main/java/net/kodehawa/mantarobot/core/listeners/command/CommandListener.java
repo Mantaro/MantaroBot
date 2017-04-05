@@ -100,22 +100,22 @@ public class CommandListener implements EventListener {
 			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), DEFAULT_PROCESSOR).run(event))
 				commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Query returned no results or incorrect type arguments. Check command help.").queue();
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or incorrect type arguments. Check the command help.").queue();
 			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
 		} catch (PermissionException e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "The bot has no permission to execute this action. I need the permission: " + e.getPermission()).queue();
+			event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permission to do this! I need the permission: " + e.getPermission()).queue();
 			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
 		} catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
 			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
 		} catch (ReqlError e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems that we are having some problems on our database... ").queue();
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry! I'm having some problems with my database... ").queue();
 			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);
 		} catch (Exception e) {
 			String id = Snow64.toSnow64(Long.parseLong(event.getMessage().getId()));
 
 			event.getChannel().sendMessage(
-				EmoteReference.ERROR + "Seems that we got an unexpected error. (Error ID: ``" + id + "``)\n" +
+				EmoteReference.ERROR + "I ran into an unexpected error. (Error ID: ``" + id + "``)\n" +
 					"If you want, **contact ``Kodehawa#3457`` on DiscordBots** (popular bot guild), or join our **support guild** (Link on ``~>about``). Don't forget the Error ID!"
 			).queue();
 

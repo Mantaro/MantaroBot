@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
@@ -31,6 +31,8 @@ import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot extends ShardedJDA {
+    public static final boolean DEBUG = System.getProperty("mantaro.debug", null) != null;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	public static JCA CLEVERBOT;
 	public static int cwport;
@@ -54,6 +56,15 @@ public class MantaroBot extends ShardedJDA {
             cwport = MantaroData.config().get().connectionWatcherPort;
         }
         LOGGER.info("Using port " + cwport + " to communicate with connection watcher");
+	    if(cwport > 0) {
+	        new Thread(()->{
+	            try {
+                    MantaroData.connectionWatcher();
+                } catch(Exception e) {
+                    LOGGER.error("Error connecting to Connection Watcher", e);
+                }
+            });
+        }
 		try {
 			instance = new MantaroBot();
 		} catch (Exception e) {
@@ -64,7 +75,7 @@ public class MantaroBot extends ShardedJDA {
 		}
 	}
 
-	private List<MantaroEventManager> manager = new ArrayList<>();
+	private List<MantaroEventManager> managers = new ArrayList<>();
 	private MantaroAudioManager audioManager;
 	private MantaroShard[] shards;
 	private static LoadState status = PRELOAD;
@@ -85,9 +96,9 @@ public class MantaroBot extends ShardedJDA {
 
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
-			manager.add(new MantaroEventManager(i));
-			MantaroEventManager mng = manager.get(i);
-			shards[i] = new MantaroShard(i, totalShards, mng);
+			MantaroEventManager manager = new MantaroEventManager();
+			managers.add(manager);
+			shards[i] = new MantaroShard(i, totalShards, manager);
 			LOGGER.debug("Finished loading shard #" + i + ".");
 			if (i + 1 < totalShards) {
 				LOGGER.info("Waiting for cooldown...");
@@ -96,12 +107,18 @@ public class MantaroBot extends ShardedJDA {
 		}
 		new Thread(()->{
 			LOGGER.info("ShardWatcherThread started");
-			final int timeout = MantaroData.config().get().shardWatcherTimeout;
 			final int wait = MantaroData.config().get().shardWatcherWait;
 			while(true) {
 				try {
 					Thread.sleep(wait);
-					manager.forEach(mng -> mng.checkShards(timeout));
+					MantaroEventManager.LOGGER.info("Checking shards...");
+                    ShardMonitorEvent sme = new ShardMonitorEvent(totalShards);
+                    managers.forEach(manager->manager.handleSync(sme));
+                    int[] dead = sme.getDeadShards();
+                    if(dead.length != 0) {
+                        MantaroEventManager.LOGGER.error("Dead shards found: " + Arrays.toString(dead));
+                        Arrays.stream(dead).forEach(id->getShard(id).readdListeners());
+                    }
 				} catch(InterruptedException e) {
 					LOGGER.error("ShardWatcher interrupted, stopping...");
 					return;
@@ -168,6 +185,7 @@ public class MantaroBot extends ShardedJDA {
 	}
 
 	private int getRecommendedShards(Config config) {
+	    if(DEBUG) return 2;
 		try {
 			HttpResponse<JsonNode> shards = Unirest.get("https://discordapp.com/api/gateway/bot")
 				.header("Authorization", "Bot " + config.token)

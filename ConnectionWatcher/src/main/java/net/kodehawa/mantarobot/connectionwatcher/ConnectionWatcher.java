@@ -123,7 +123,9 @@ public class ConnectionWatcher {
             obj.put("port", -1);
             obj.put("prefix", "~");
             obj.put("log", "id");
+            obj.put("jar", "path/to/mantaro.jar");
             obj.put("jvmargs", new JSONArray().put("-Xmx8G").put("-Xms128M").put("-Xmn256M"));
+            obj.put("programargs", new JSONArray().put("%port%"));
             obj.put("owners", new JSONArray());
             FileOutputStream fos = new FileOutputStream(config);
             ByteArrayInputStream bais = new ByteArrayInputStream(obj.toString(4).getBytes(Charset.defaultCharset()));
@@ -151,9 +153,17 @@ public class ConnectionWatcher {
         int port = obj.getInt("port");
         String consoleChannelId = obj.getString("log");
         String prefix = obj.getString("prefix");
+        String jarpath = obj.getString("jar");
+        if(!new File(jarpath).exists()) {
+            LOGGER.error("File " + jarpath + " does not exist");
+            System.exit(-1);
+        }
         List<String> jvmargs = new ArrayList<>();
         jvmargs.add("java");
         obj.getJSONArray("jvmargs").forEach(a->jvmargs.add(String.valueOf(a)));
+        jvmargs.add("-jar");
+        jvmargs.add(jarpath);
+        obj.getJSONArray("programargs").forEach(a->jvmargs.add(String.valueOf(a)));
         List<String> owners = new ArrayList<>();
         obj.getJSONArray("owners").forEach(a->owners.add(String.valueOf(a)));
         instance = new ConnectionWatcher(token, port, consoleChannelId, prefix, jvmargs.stream().map(s->s.replace("%port%", String.valueOf(port))).collect(Collectors.toList()), owners);

@@ -10,7 +10,6 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
@@ -47,7 +46,6 @@ public class MantaroShard implements JDA {
 	private final MantaroListener mantaroListener;
 	private final CommandListener commandListener;
 	private final VoiceChannelListener voiceChannelListener;
-	private final EventListener interactiveOperation;
 
 	@Delegate
 	private JDA jda;
@@ -59,7 +57,6 @@ public class MantaroShard implements JDA {
 		mantaroListener = new MantaroListener(shardId);
 		commandListener = new CommandListener(shardId);
 		voiceChannelListener = new VoiceChannelListener(shardId);
-		interactiveOperation = InteractiveOperations.listener();
 		LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		restartJDA();
 		readdListeners();
@@ -179,8 +176,8 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners(){
-	    jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, interactiveOperation);
-		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, interactiveOperation);
+	    jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
 	}
 
 	public MantaroEventManager getEventManager(){

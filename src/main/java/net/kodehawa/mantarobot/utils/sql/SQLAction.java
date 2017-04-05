@@ -10,7 +10,11 @@ import java.util.concurrent.Executors;
 
 public class SQLAction {
     public static final Logger LOGGER = LoggerFactory.getLogger("SQLAction");
-    private static final ExecutorService SQL_SERVICE = Executors.newCachedThreadPool(r -> new Thread(r, "SQL Thread "));
+    private static final ExecutorService SQL_SERVICE = Executors.newCachedThreadPool(r ->{
+        Thread t = new Thread(r, "SQL Thread ");
+        t.setDaemon(true);
+        return t;
+    });
     private Connection conn;
     private SQLTask task;
 
