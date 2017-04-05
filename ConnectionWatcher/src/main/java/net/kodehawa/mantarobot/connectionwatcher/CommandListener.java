@@ -49,10 +49,23 @@ public class CommandListener implements EventListener {
                     return;
                 }
                 String[] args = message.substring(prefix.length()).split("\\s+");
-                String command = args[0];
+                String command = args[0].toLowerCase();
                 if(args.length > 1) args = Arrays.copyOfRange(args, 1, args.length);
                 else args = new String[0];
                 switch(command) {
+                    case "help":
+                        e.getChannel().sendMessage(new EmbedBuilder()
+                            .setDescription((
+                                    "**%p%help** - Shows this\n" +
+                                    "**%p%shutdown [hardkill]** - Kills mantaro\n" +
+                                    "**%p%reboot [hardkill]** - Reboots mantaro\n" +
+                                    "**%p%start [hardkill]** - Starts mantaro\n" +
+                                    "**%p%eval <code>** - Evaluates lua code"
+                            ).replace("%p%", prefix))
+                            .setColor(Color.PINK)
+                            .setTitle("Mantaro Watcher help", null)
+                        .build()).queue();
+                        break;
                     case "shutdown":
                         ConnectionWatcher.getInstance().stopMantaro(command.contains("hardkill"));
                         e.getChannel().sendMessage("Successfully stopped mantaro").queue();

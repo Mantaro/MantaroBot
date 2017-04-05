@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class URLCache {
 	private static final Logger LOGGER = LoggerFactory.getLogger("URLCache");
 	private static final Map<String, File> cached = new ConcurrentHashMap<>();
-	private static File cacheDir = new File(URLCache.class.getProtectionDomain().getCodeSource().getLocation().getPath(), "urlcache_files");
+	private static File cacheDir = new File("urlcache_files");
 
 	static {
 		if (cacheDir.isFile())
