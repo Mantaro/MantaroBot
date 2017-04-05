@@ -139,7 +139,7 @@ public class QuoteCmd extends Module {
                                 + "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
                                 "the last message.\n"
                                 + "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
-                                + "~>quote readfrom <phrase>: Searche for the first quote which matches your search criteria and prints " +
+                                + "~>quote readfrom <phrase>: Search for the first quote which matches your search criteria and prints " +
                                 "it.\n"
                                 + "~>quote random: Get a random quote. \n"
                                 + "> Parameters:\n"
