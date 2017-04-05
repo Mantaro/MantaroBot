@@ -52,8 +52,9 @@ public class Crawler {
 					String path = tempUrl.getFile().substring(0, tempUrl.getFile().indexOf('&'));
 					String base = tempUrl.getProtocol() + "://" + tempUrl.getHost() + path;
 					//link.text() = title, base = url.
-					if (!base.contains("webcache.googleusercontent.com") || !link.text().isEmpty())
-						results.add(new SearchResult(base, link.text()));
+					if (!base.contains("webcache.googleusercontent.com"))
+						if(!link.text().isEmpty())
+							results.add(new SearchResult(base, link.text()));
 				}
 			}
 		} catch (IOException e) {

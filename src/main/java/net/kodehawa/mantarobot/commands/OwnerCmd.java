@@ -493,14 +493,16 @@ public class OwnerCmd extends Module {
 
 				if (option.equals("query")) {
 					try {
+						String[] values1 = SPLIT_PATTERN.split(content);
+						String expression = content.replace(values1[0] + " ", "");
 						SQLDatabase.getInstance().run((conn) -> {
 							try {
 								ResultSet set;
 								try {
-									set = conn.prepareStatement(v).executeQuery();
+									set = conn.prepareStatement(expression).executeQuery();
 								} catch (SQLException e) {
 									try {
-										conn.prepareStatement(v).execute();
+										conn.prepareStatement(expression).executeUpdate();
 										event.getChannel().sendMessage(" Query was successfully executed!").queue();
 									} catch (SQLException e1) {
 										event.getChannel().sendMessage("Failed to execute query! " + Utils.paste(getStackTrace(e1))).queue();
