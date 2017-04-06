@@ -60,9 +60,7 @@ public class GameLobby extends Lobby {
 			gamesToPlay.removeFirst();
 			if(game.onStart(this)){
 				game.call(this, players);
-				return true;
 			} else {
-				System.out.println("I'm getting triggered here pls");
 				gamesToPlay.clear();
 				LOBBYS.remove(getChannel());
 				return false;
@@ -72,6 +70,8 @@ public class GameLobby extends Lobby {
 			LOBBYS.remove(getChannel());
 			return false;
 		}
+
+		return false;
 	}
 
 	@Override

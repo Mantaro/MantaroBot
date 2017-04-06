@@ -63,6 +63,7 @@ public class GameCmds extends Module {
 
 						StringBuilder builder = new StringBuilder();
 						event.getMessage().getMentionedUsers().forEach(user -> {
+							if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
 							map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
 							builder.append(user.getName()).append(" ");
 						});
@@ -124,6 +125,7 @@ public class GameCmds extends Module {
 			if (!event.getMessage().getMentionedUsers().isEmpty()) {
 				StringBuilder builder = new StringBuilder();
 				event.getMessage().getMentionedUsers().forEach(user -> {
+					if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
 					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
 					builder.append(user.getName()).append(" ");
 				});
