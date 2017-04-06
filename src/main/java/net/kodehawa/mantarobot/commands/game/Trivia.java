@@ -54,8 +54,12 @@ public class Trivia extends Game {
 				return false;
 			}
 
-			if (e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())
-					|| e.getMessage().getContent().startsWith(MantaroData.config().get().getPrefix())) {
+			if (e.getMessage().getContent().startsWith(MantaroData.config().get().getPrefix())) {
+				return false;
+			}
+
+			if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
+					e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())){
 				return false;
 			}
 

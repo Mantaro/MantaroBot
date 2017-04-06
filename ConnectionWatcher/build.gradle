@@ -9,10 +9,13 @@ plugins {
     //Adds an Executable Manifest
     id 'application'
     //Creates FatJars
+    id 'com.github.johnrengelman.shadow' version '1.2.4'
+    //Checks for RestActions
+    id 'com.sedmelluq.jdaction' version '1.0.1'
 }
 
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'com.sedmelluq.jdaction'
+//apply plugin: 'com.github.johnrengelman.shadow'
+//apply plugin: 'com.sedmelluq.jdaction'
 
 //Define the Main Class
 mainClassName = "net.kodehawa.mantarobot.connectionwatcher.ConnectionWatcher"
