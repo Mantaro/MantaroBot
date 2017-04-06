@@ -89,8 +89,8 @@ public class GameCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "~>guess character: Starts a instance of Guess the character (anime).\n"
-						+ "~>guess pokemon: Starts a instance of who's that pokemon?", false)
+					.addField("Games", "~>game character: Starts a instance of Guess the character (anime).\n"
+						+ "~>game pokemon: Starts a instance of who's that pokemon?", false)
 					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
 					.build();
 			}
