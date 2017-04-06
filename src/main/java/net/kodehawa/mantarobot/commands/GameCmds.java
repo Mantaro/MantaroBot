@@ -52,6 +52,7 @@ public class GameCmds extends Module {
 
 				if(args[0].equals("lobby")){
 					try{
+						//TODO fix... well this used to work and I somewhat broke it but it's 1am so cba lol
 						LinkedList<Game> list = new LinkedList<>();
 						HashMap<Member, Player> map = new HashMap<>();
 						String games = args[1];
@@ -67,7 +68,7 @@ public class GameCmds extends Module {
 						});
 
 						GameLobby lobby = new GameLobby(event, map, list);
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " + builder.toString() + " successfully.").queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " + builder.toString() + "successfully.").queue();
 						lobby.startFirstGame();
 						return;
 					} catch (Exception e){

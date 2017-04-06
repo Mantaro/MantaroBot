@@ -34,7 +34,7 @@ public class Pokemon extends Game {
 			String[] data = CollectionUtils.random(GUESSES.get()).split("`");
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
-			//System.out.println(expectedAnswer);
+			System.out.println(expectedAnswer);
 			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", null)
 					.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
 			return true;

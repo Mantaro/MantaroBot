@@ -10,13 +10,9 @@ import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.data.entities.Player;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class GameLobby extends Lobby {
 
@@ -31,7 +27,6 @@ public class GameLobby extends Lobby {
 	@Getter
 	private static Map<String, Game> textRepresentation = new HashMap<>();
 
-	private ScheduledExecutorService executorService;
 	public static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
 
 	static {
@@ -43,7 +38,6 @@ public class GameLobby extends Lobby {
 
 	public GameLobby(GuildMessageReceivedEvent event, HashMap<Member, Player> players, LinkedList<Game> games){
 		super(event.getChannel());
-		executorService = Executors.newSingleThreadScheduledExecutor();
 		this.guild = event.getGuild();
 		this.event = event;
 		this.players = players;
@@ -54,7 +48,6 @@ public class GameLobby extends Lobby {
 	public void startFirstGame(){
 		if(gamesToPlay.getFirst().onStart(this)){
 			gamesToPlay.getFirst().call(this, players);
-			executorService.schedule(this::timeout, 2, TimeUnit.MINUTES);
 		} else {
 			LOBBYS.remove(getChannel());
 			gamesToPlay.clear();
@@ -66,33 +59,19 @@ public class GameLobby extends Lobby {
 			Game game = gamesToPlay.get(1);
 			gamesToPlay.removeFirst();
 			if(game.onStart(this)){
-				executorService.shutdownNow();
 				game.call(this, players);
-				executorService.schedule(this::timeout, 2, TimeUnit.MINUTES);
+				return true;
 			} else {
+				System.out.println("I'm getting triggered here pls");
 				gamesToPlay.clear();
-				executorService.shutdownNow();
 				LOBBYS.remove(getChannel());
 				return false;
 			}
-		} catch (Exception e){
-			if(e instanceof RejectedExecutionException){
-				//GAMBIARRA INTENSIFIES
-				return false;
-			}
+		} catch (IndexOutOfBoundsException e){
+			e.printStackTrace();
 			LOBBYS.remove(getChannel());
-			executorService.shutdownNow();
 			return false;
 		}
-
-		executorService.shutdownNow();
-		return false;
-	}
-
-	private void timeout(){
-		gamesToPlay.clear();
-		getChannel().sendMessage(EmoteReference.ERROR + "Timed out: Two minutes passed since last reply.").queue();
-		LOBBYS.remove(getChannel());
 	}
 
 	@Override

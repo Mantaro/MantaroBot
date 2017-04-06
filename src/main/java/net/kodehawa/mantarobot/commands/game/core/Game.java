@@ -33,17 +33,13 @@ public abstract class Game {
 		if(players.keySet().contains(e.getMember())) {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
 				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game.").queue();
-				if (lobby.startNextGame()) {
-					lobby.getChannel().sendMessage("Starting next game...").queue();
-				}
+				lobby.startNextGame();
 				return true;
 			}
 
 			if (attempts >= maxAttempts) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Answer was: " + expectedAnswer).queue();
-				if (lobby.startNextGame()) {
-					lobby.getChannel().sendMessage("Starting next game...").queue();
-				}
+				lobby.startNextGame();
 				return true;
 			}
 			if (e.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
@@ -51,10 +47,9 @@ public abstract class Game {
 				player.addMoney(150);
 				player.save();
 				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $150 credits by answering correctly!").queue();
-				if (lobby.startNextGame()) {
-					lobby.getChannel().sendMessage("Starting next game...").queue();
-				}
+				lobby.startNextGame();
 				return true;
+
 			}
 
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.").queue();

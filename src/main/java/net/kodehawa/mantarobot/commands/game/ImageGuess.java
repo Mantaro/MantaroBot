@@ -29,7 +29,7 @@ public class ImageGuess extends Game {
 	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
 	private String authToken = AnimeCmds.authToken;
-	private String characterName = null;
+	private String characterName;
 	@Getter
 	private int maxAttempts = 10;
 
