@@ -332,7 +332,16 @@ public class OwnerCmd extends Module {
 					//Here in Darkness, everything is okay.
 					//Listen to the waves, and let them fade away.
 
-					System.exit(option.equals("restart") ? 15 : 0);
+					if(option.equals("restart")) {
+					    try {
+					        MantaroData.connectionWatcher().reboot(false);
+                        } catch(Exception e) {
+					        LOGGER.error("Error restarting via manager, manual reboot required", e);
+					        System.exit(-1);
+                        }
+                    } else {
+					    System.exit(0);
+                    }
 					return;
 				}
 
@@ -355,7 +364,16 @@ public class OwnerCmd extends Module {
 					//Here in Darkness, everything is okay.
 					//Listen to the waves, and let them fade away.
 
-					System.exit(option.equals("forcerestart") ? 15 : 0);
+                    if(option.equals("forcerestart")) {
+                        try {
+                            MantaroData.connectionWatcher().reboot(false);
+                        } catch(Exception e) {
+                            LOGGER.error("Error restarting via manager, manual reboot required", e);
+                            System.exit(-1);
+                        }
+                    } else {
+                        System.exit(0);
+                    }
 					return;
 				}
 
@@ -406,7 +424,16 @@ public class OwnerCmd extends Module {
 							} catch (Exception e) {
 								LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 							}
-							System.exit(restart ? 15 : 0);
+                            if(restart) {
+                                try {
+                                    MantaroData.connectionWatcher().reboot(false);
+                                } catch(Exception e) {
+                                    LOGGER.error("Error restarting via manager, manual reboot required", e);
+                                    System.exit(-1);
+                                }
+                            } else {
+                                System.exit(0);
+                            }
 						});
 
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...").queue();
@@ -428,7 +455,16 @@ public class OwnerCmd extends Module {
 								LOGGER.warn("Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(), e);
 							}
 
-							System.exit(restart ? 15 : 0);
+                            if(restart) {
+                                try {
+                                    MantaroData.connectionWatcher().reboot(false);
+                                } catch(Exception e) {
+                                    LOGGER.error("Error restarting via manager, manual reboot required", e);
+                                    System.exit(-1);
+                                }
+                            } else {
+                                System.exit(0);
+                            }
 							s.shutdown();
 						}, 2);
 						return;
