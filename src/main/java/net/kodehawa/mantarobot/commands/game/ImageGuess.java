@@ -1,10 +1,9 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import br.com.brjdevs.java.utils.extensions.CollectionUtils;
+import lombok.Getter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
@@ -29,9 +28,9 @@ public class ImageGuess extends Game {
 
 	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
-	private int attempts = 1;
 	private String authToken = AnimeCmds.authToken;
 	private String characterName = null;
+	@Getter
 	private int maxAttempts = 10;
 
 	public ImageGuess() {
@@ -61,7 +60,7 @@ public class ImageGuess extends Game {
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
-			callDefault(e, lobby, players, characterName, attempts, maxAttempts)
+			callDefault(e, lobby, players, characterName, getAttempts(), maxAttempts)
 		);
 	}
 }

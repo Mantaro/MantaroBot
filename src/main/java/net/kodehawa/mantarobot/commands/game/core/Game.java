@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.commands.game.core;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -10,12 +12,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public abstract class Game {
+	@Setter
+	@Getter
+	private int attempts = 1;
 
 	public abstract boolean onStart(GameLobby lobby);
 
 	public abstract void call(GameLobby lobby, HashMap<Member, Player> players);
 
-	public boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, String expectedAnswer, int attempts, int maxAttempts){
+	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, String expectedAnswer, int attempts, int maxAttempts){
 		if(!e.getChannel().getId().equals(lobby.getChannel().getId())){
 			return false;
 		}
@@ -53,7 +58,7 @@ public abstract class Game {
 			}
 
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.").queue();
-			attempts++;
+			setAttempts(getAttempts() + 1);
 			return false;
 		}
 

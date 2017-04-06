@@ -22,7 +22,6 @@ public class Pokemon extends Game {
 
 	private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[PokemonTrivia]");
-	private int attempts = 1;
 	private String expectedAnswer;
 	private int maxAttempts = 10;
 
@@ -37,7 +36,7 @@ public class Pokemon extends Game {
 			expectedAnswer = data[1];
 			//System.out.println(expectedAnswer);
 			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", null)
-					.setImage(pokemonImage).setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null).build()).queue();
+					.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
 			return true;
 		} catch (Exception e){
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
@@ -49,7 +48,7 @@ public class Pokemon extends Game {
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
-			callDefault(e, lobby, players, expectedAnswer, attempts, maxAttempts)
+			callDefault(e, lobby, players, expectedAnswer, getAttempts(), maxAttempts)
 		);
 	}
 }
