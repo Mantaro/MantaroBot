@@ -525,7 +525,7 @@ public class OwnerCmd extends Module {
 									table.add(row);
 								}
 								String output = makeAsciiTable(header, table, null);
-								event.getChannel().sendMessage(output).queue();
+								event.getChannel().sendMessage(Utils.paste(output)).queue();
 							} catch (SQLException e) {
 								event.getChannel().sendMessage(" Failed to build ascii table! " + Utils.paste(getStackTrace(e))).queue();
 							}

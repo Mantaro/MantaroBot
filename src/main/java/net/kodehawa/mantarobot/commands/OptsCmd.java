@@ -360,6 +360,19 @@ public class OptsCmd extends Module {
 				}
 
 				if(option.equals("usermessage")){
+					if(action.equals("resetchannel")){
+						guildData.setLogJoinLeaveChannel(null);
+						dbGuild.save();
+						return;
+					}
+
+					if(action.equals("resetdata")){
+						guildData.setLeaveMessage(null);
+						guildData.setJoinMessage(null);
+						dbGuild.save();
+						return;
+					}
+
 					if(action.equals("channel")){
 						String channelName = splitArgs(content)[2];
 						List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
@@ -432,13 +445,15 @@ public class OptsCmd extends Module {
 								"~>opts autorole set <role> - Set an autorole that will be assigned to users when they join.\n" +
 								"~>opts autorole unbind - Clear the autorole config.\n" +
 								"~>opts resetmoney - Reset local money.\n" +
-							"~>opts localmoney <true/false> - Toggle server local mode (currency stats only for this server).\n" +
+								"~>opts localmoney <true/false> - Toggle server local mode (currency stats only for this server).\n" +
 								"~>opts music channel <channel> - If set, I will connect only to the specified channel. You can specify a channel name or ID.\n" +
 								"~>opts music clear - If set, I will connect to any voice channel when called.\n" +
 								"~>opts admincustom <true/false> - If set to true, custom command creation will be available solely for administrators; Otherwise, everyone can create them. Setting defaults to false.\n" +
 								"~>opts usermessage channel <channel name> - Set a channel to send join/leave messages.\n" +
 								"~>opts usermessage joinmessage <message> - Set the join message.\n" +
-								"~>opts usermessage leavemessage <message> - Set the leave message.")
+								"~>opts usermessage leavemessage <message> - Set the leave message.\n" +
+								"~>opts usermessage resetchannel - Resets the channel to use for join/leave messsages.\n" +
+								"~>opts usermessage resetdata - Resets the join/leave message.")
 						.build();
 			}
 		});

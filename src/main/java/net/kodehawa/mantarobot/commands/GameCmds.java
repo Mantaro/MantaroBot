@@ -1,10 +1,13 @@
 package net.kodehawa.mantarobot.commands;
 
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.ImageGuess;
 import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
+import net.kodehawa.mantarobot.commands.game.core.Game;
+import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.Category;
@@ -12,53 +15,43 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+
 public class GameCmds extends Module {
 
 	public GameCmds() {
 		super(Category.GAMES);
-		//guess();
-		//trivia();
+		guess();
+		trivia();
 	}
 
 	private void guess() {
 		super.register("guess", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-
 				if (content.isEmpty()) {
 					onHelp(event);
 					return;
 				}
 
-				if (args[0].equals("image")) {
-					ImageGuess guess = new ImageGuess();
-					Player player = MantaroData.db().getPlayer(event.getMember());
-					//TODO fix
-					/*if (guess.check(event)) {
-						guess.onStart(event, guess.type(), player);
-					} else {
-						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing a game on this channel. Try later or in another one.").queue();
-					}*/
-
+				if (args[0].equals("character")) {
+					startGame(new ImageGuess(), event);
 					return;
 				}
 
 				if (args[0].equals("pokemon")) {
-					Pokemon pokemon = new Pokemon();
-					Player player = MantaroData.db().getPlayer(event.getMember());
-					//TODO fix
-                    /*if (pokemon.check(event)) {
-						pokemon.onStart(event, pokemon.type(), player);
-					} else {
-						event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the a game on this channel. Try later or in another one.").queue();
-					}*/
+					startGame(new Pokemon(), event);
+					return;
 				}
+
+				onHelp(event);
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "~>guess image: Starts a instance of Guess the image, with anime characters.\n"
+					.addField("Games", "~>guess character: Starts a instance of Guess the character (anime).\n"
 						+ "~>guess pokemon: Starts a instance of who's that pokemon?", false)
 					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
 					.build();
@@ -70,14 +63,7 @@ public class GameCmds extends Module {
 		super.register("trivia", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				Trivia trivia = new Trivia();
-				Player player = MantaroData.db().getPlayer(event.getMember());
-				//TODO fix
-				/*if (trivia.check(event)) {
-					trivia.onStart(event, trivia.type(), player);
-				} else {
-					event.getChannel().sendMessage(EmoteReference.SAD + "There is someone else playing the same game on this channel. Try later or in another one.").queue();
-				}*/
+				startGame(new Trivia(), event);
 			}
 
 			@Override
@@ -88,5 +74,30 @@ public class GameCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	private void startGame(Game game, GuildMessageReceivedEvent event) {
+		if (!GameLobby.LOBBYS.keySet().contains(event.getChannel())) {
+
+			LinkedList<Game> list = new LinkedList<>();
+			list.add(game);
+
+			HashMap<Member, Player> map = new HashMap<>();
+			map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
+			if (!event.getMessage().getMentionedUsers().isEmpty()) {
+				StringBuilder builder = new StringBuilder();
+				event.getMessage().getMentionedUsers().forEach(user -> {
+					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
+					builder.append(user.getName()).append(" ");
+				});
+
+				event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
+			}
+
+			GameLobby lobby = new GameLobby(event, map, list);
+			lobby.startFirstGame();
+		} else {
+			event.getChannel().sendMessage(EmoteReference.ERROR + "There is a lobby already.").queue();
+		}
 	}
 }

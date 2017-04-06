@@ -1,110 +1,97 @@
 package net.kodehawa.mantarobot.commands.game;
 
+import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Trivia extends Game {
 
-	public static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
+	private static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
 	private int attempts = 1;
 	private String expectedAnswer;
 	private int maxAnswers = 10;
 	private int maxAttempts = 10;
-	private Random rand = new Random();
-	//did you just assume I answered one
 	private int triviaAnswers = 1;
 
 	public Trivia() {
 		super();
 	}
 
-	//TODO oh please.
 
-	//@Override
-	public void call(GuildMessageReceivedEvent event, Player player) {
-		/*if (event.getAuthor().isFake() || !(EntityPlayer.getPlayer(event.getAuthor().getId()).getId() == player.getId() &&
-				player.getGame() == type()
-			&& !event.getMessage().getContent().startsWith(MantaroData.getData().get().getPrefix(event.getGuild())))) {
-			return;
+	@Override
+	public boolean onStart(GameLobby lobby) {
+		try{
+			String[] s = CollectionUtils.random(TRIVIA.get()).split(":");
+			expectedAnswer = s[1];
+			lobby.getChannel().sendMessage(EmoteReference.MEGA + s[0]).queue();
+			return true;
+		} catch (Exception e){
+			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while starting trivia.").queue();
+			LOGGER.warn("Error while starting a trivia game", e);
+			return false;
 		}
+	}
 
-		if (event.getMessage().getContent().equalsIgnoreCase("end")) {
-			endGame(event, player, false);
-			return;
-		}
-
-		if (attempts > maxAttempts) {
-			event.getChannel().sendMessage(EmoteReference.SAD + "You used all of your attempts, game is ending.").queue();
-			endGame(event, player, false);
-			return;
-		}
-
-		if (event.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
-			if (triviaAnswers >= maxAnswers) {
-				onSuccess(player, event, 0.6);
-				return;
+	@Override
+	public void call(GameLobby lobby, HashMap<Member, Player> players) {
+		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) -> {
+			if(!e.getChannel().getId().equals(lobby.getChannel().getId())){
+				return false;
 			}
 
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "That was it! Now you have to reply " + (maxAnswers - triviaAnswers) + " questions more to get the big prize! Type end to give up.").queue();
-			triviaAnswers++;
-			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
-			expectedAnswer = data[1];
-			event.getChannel().sendMessage(EmoteReference.THINKING + data[0]).queue();
-			attempts = 0;
-			return;
-		}
+			if (e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())
+					|| e.getMessage().getContent().startsWith(MantaroData.config().get().getPrefix())) {
+				return false;
+			}
 
-		event.getChannel().sendMessage(EmoteReference.SAD + "That wasn't it! "
-			+ EmoteReference.STOPWATCH + "You have " + (maxAttempts - attempts) + " attempts remaining").queue();
-		attempts++;*/
-	}
+			if(players.keySet().contains(e.getMember())) {
+				if (e.getMessage().getContent().equalsIgnoreCase("end")) {
+					lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game.").queue();
+					if (lobby.startNextGame()) {
+						lobby.getChannel().sendMessage("Starting next game...").queue();
+					}
+					return true;
+				}
 
-	//@Override
-	public boolean onStart(GuildMessageReceivedEvent event, /*GameReference type,*/ Player player) {
-		/*try {
-			player.setCurrentGame(type, event.getChannel());
-			player.setGameInstance(this);
-			TextChannelWorld.of(event.getChannel()).addGame(player, this);
-			String[] data = trivia.get(rand.nextInt(trivia.size())).split(":");
-			expectedAnswer = data[1];
+				if (attempts >= maxAttempts) {
+					lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Answer was: " + expectedAnswer).queue();
+					if (lobby.startNextGame()) {
+						lobby.getChannel().sendMessage("Starting next game...").queue();
+					}
+					return true;
+				}
+				if (e.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
+					Player player = players.get(e.getMember());
+					player.addMoney(150);
+					player.save();
+					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $150 credits by answering correctly!").queue();
+					if (lobby.startNextGame()) {
+						lobby.getChannel().sendMessage("Starting next game...").queue();
+					}
+					return true;
+				}
 
-			event.getChannel().sendMessage(EmoteReference.THINKING + data[0] + " (Type end to end the game)").queue();
-			super.onStart(TextChannelWorld.of(event.getChannel()), event, player);
-			return true;
-		} catch (Exception e) {
-			onError(LOGGER, event, player, e);
+				lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.").queue();
+				attempts++;
+				return false;
+			}
+
 			return false;
-		}*/
-		return false;
-	}
-
-	/*@Override
-	public GameReference type() {
-		return GameReference.TRIVIA;
-	}*/
-
-	public String answer() {
-		return expectedAnswer;
-	}
-
-	@Override
-	public boolean onStart(GameLobby lobby, List<Member> player) {
-		return false;
-	}
-
-	@Override
-	public void call(GameLobby lobby, List<Member> players) {
-
+		});
 	}
 }
