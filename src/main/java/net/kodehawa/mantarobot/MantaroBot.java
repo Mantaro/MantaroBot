@@ -118,6 +118,8 @@ public class MantaroBot extends ShardedJDA {
                     if(dead.length != 0) {
                         MantaroEventManager.LOGGER.error("Dead shards found: " + Arrays.toString(dead));
                         Arrays.stream(dead).forEach(id->getShard(id).readdListeners());
+                    } else {
+                        MantaroEventManager.LOGGER.info("No dead shards found");
                     }
 				} catch(InterruptedException e) {
 					LOGGER.error("ShardWatcher interrupted, stopping...");

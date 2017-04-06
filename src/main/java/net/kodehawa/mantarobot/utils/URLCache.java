@@ -13,7 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class URLCache {
 	private static final Logger LOGGER = LoggerFactory.getLogger("URLCache");
-	private static final Map<String, File> cached = new ConcurrentHashMap<>();
+	private static final FileCache cache = new FileCache(20);
+	private static final Map<String, File> saved = new ConcurrentHashMap<>();
 	private static File cacheDir = new File("urlcache_files");
 
 	static {
@@ -29,7 +30,7 @@ public class URLCache {
 	}
 
 	public static File getFile(String url) {
-		File cachedFile = cached.get(Preconditions.checkNotNull(url, "url"));
+		File cachedFile = saved.get(Preconditions.checkNotNull(url, "url"));
 		if (cachedFile != null) return cachedFile;
 		File file = null;
 		try {
@@ -40,7 +41,7 @@ public class URLCache {
 				int read;
 				while ((read = is.read(buffer)) != -1)
 					fos.write(buffer, 0, read);
-				cached.put(url, file);
+				saved.put(url, file);
 				return file;
 			}
 		} catch (Exception e) {
@@ -49,6 +50,10 @@ public class URLCache {
 			throw new InternalError();
 		}
 	}
+
+	public static InputStream getInput(String url) {
+	    return cache.input(getFile(url));
+    }
 
 	private URLCache() {
 	}

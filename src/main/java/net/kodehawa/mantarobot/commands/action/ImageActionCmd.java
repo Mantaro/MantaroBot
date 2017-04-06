@@ -41,13 +41,13 @@ public class ImageActionCmd extends NoArgsCommand {
 		String random = random(images);
 		try {
 			event.getChannel().sendFile(
-				new FileInputStream(URLCache.getFile(random)),
+				URLCache.getInput(random),
 				imageName,
 				new MessageBuilder()
 					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))
 					.build()
 			).queue();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I'd like to know what happened, but I couldn't send the image.").queue();
 			log.error("Error while performing Action Command ``" + name + "``. The image ``" + random + "`` throwed an Exception.", e);
 		}

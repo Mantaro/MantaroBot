@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.ConnectException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Base64;
@@ -58,11 +59,12 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
                     }
                 }
             });
-            client.getPacketClient().connectBlocking();
+            if(!client.getPacketClient().connectBlocking())
+                UnsafeUtils.throwException(new ConnectException("Connection failed"));
             client.getPacketClient().waitForValidation();
         } catch(Exception e) {
             UnsafeUtils.throwException(e);
-            throw new InternalError();
+            throw new AssertionError("UnsafeUtils.throwExceptions didn't throw");
         }
     }
 
