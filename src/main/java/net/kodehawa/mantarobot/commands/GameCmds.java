@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import groovy.util.logging.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -14,11 +15,15 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class GameCmds extends Module {
+	private static final Logger LOGGER = LoggerFactory.getLogger("GameCmds");
 
 	public GameCmds() {
 		super(Category.GAMES);
@@ -27,7 +32,7 @@ public class GameCmds extends Module {
 	}
 
 	private void guess() {
-		super.register("guess", new SimpleCommand() {
+		super.register("game", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
@@ -42,6 +47,37 @@ public class GameCmds extends Module {
 
 				if (args[0].equals("pokemon")) {
 					startGame(new Pokemon(), event);
+					return;
+				}
+
+				if(args[0].equals("lobby")){
+					try{
+						LinkedList<Game> list = new LinkedList<>();
+						HashMap<Member, Player> map = new HashMap<>();
+						String games = args[1];
+						String[] toPlay = games.split(",");
+						for (String s : Arrays.asList(toPlay)) {
+							if(GameLobby.getTextRepresentation().get(s) != null) list.add(GameLobby.getTextRepresentation().get(s));
+						}
+
+						StringBuilder builder = new StringBuilder();
+						event.getMessage().getMentionedUsers().forEach(user -> {
+							map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
+							builder.append(user.getName()).append(" ");
+						});
+
+						GameLobby lobby = new GameLobby(event, map, list);
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " + builder.toString() + " successfully.").queue();
+						lobby.startFirstGame();
+						return;
+					} catch (Exception e){
+						if((e instanceof IndexOutOfBoundsException)){
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments.").queue();
+						} else {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up the lobby.").queue();
+							LOGGER.warn("Error while setting up a lobby", e);
+						}
+					}
 					return;
 				}
 

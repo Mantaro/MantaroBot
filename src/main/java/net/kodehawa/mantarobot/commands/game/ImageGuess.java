@@ -45,7 +45,7 @@ public class ImageGuess extends Game {
 					authToken);
 			String json = Utils.wget(url, null);
 			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
-			//System.out.println(characterName);
+			System.out.println(characterName);
 			String imageUrl = character[0].getImage_url_med();
 			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Guess the character", null)
 					.setImage(imageUrl).setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null).build()).queue();

@@ -5,12 +5,16 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.game.ImageGuess;
+import net.kodehawa.mantarobot.commands.game.Pokemon;
+import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -24,10 +28,18 @@ public class GameLobby extends Lobby {
 	GuildMessageReceivedEvent event;
 	@Getter
 	Guild guild;
+	@Getter
+	private static Map<String, Game> textRepresentation = new HashMap<>();
 
 	private ScheduledExecutorService executorService;
-
 	public static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
+
+	static {
+		textRepresentation.clear();
+		textRepresentation.put("trivia", new Trivia());
+		textRepresentation.put("pokemon", new Pokemon());
+		textRepresentation.put("character", new ImageGuess());
+	}
 
 	public GameLobby(GuildMessageReceivedEvent event, HashMap<Member, Player> players, LinkedList<Game> games){
 		super(event.getChannel());
@@ -63,7 +75,11 @@ public class GameLobby extends Lobby {
 				LOBBYS.remove(getChannel());
 				return false;
 			}
-		} catch (IndexOutOfBoundsException e){
+		} catch (Exception e){
+			if(e instanceof RejectedExecutionException){
+				//GAMBIARRA INTENSIFIES
+				return false;
+			}
 			LOBBYS.remove(getChannel());
 			executorService.shutdownNow();
 			return false;
