@@ -476,23 +476,38 @@ public class MusicCmds extends Module {
 
             @Override
             public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+                try {
+                    if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals
+                            (event.getGuild().getAudioManager().getConnectedChannel())) {
+                        sendNotConnectedToMyChannel(event.getChannel());
+                        return;
+                    }
 
-                if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
-                    sendNotConnectedToMyChannel(event.getChannel());
-                    return;
+                    TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
+                            .getTrackScheduler();
+                    if (isDJ(event.getMember())) {
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "The server DJ has decided to stop!").queue();
+                        stop(event);
+                        return;
+                    }
+                    List<String> stopVotes = scheduler.getVoteStop();
+                    int requiredVotes = scheduler.getRequiredSkipVotes();
+                    if (stopVotes.contains(event.getAuthor().getId())) {
+                        stopVotes.remove(event.getAuthor().getId());
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " + (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
+                    } else {
+                        stopVotes.add(event.getAuthor().getId());
+                        if (stopVotes.size() >= requiredVotes) {
+                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Reached the required amount of votes, stopping player...").queue();
+                            stop(event);
+                            return;
+                        }
+                        event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More " + (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
+                    }
+                } catch (NullPointerException e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "There is player to stop!").queue();
                 }
-
-                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-                if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
-                    musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
-                int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-                MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
-                event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
-                MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
-                event.getGuild().getAudioManager().closeAudioConnection();
-                TextChannelGround.of(event).dropItemWithChance(0, 10);
             }
-
             @Override
             public CommandPermission permissionRequired() {
                 return CommandPermission.USER;
@@ -541,7 +556,7 @@ public class MusicCmds extends Module {
                 return baseEmbed(event, "Volume command")
                         .addField("Usage", "~>volume <number>", false)
                         .addField("Parameters", "number: An integer between 1 and 100", false)
-                        .addField("Notice", "To check the current volume, do ~>volume check", false)
+                        .addField("Notice", "This is a donator-only feature\nTo check the current volume, do ~>volume check", false)
                         .build();
             }
         });
@@ -550,5 +565,16 @@ public class MusicCmds extends Module {
     private static boolean isDJ(Member member) {
         Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
         return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
+    }
+
+    private void stop(GuildMessageReceivedEvent event){
+        GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+        if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
+            musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
+        int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
+        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+        event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
+        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+        event.getGuild().getAudioManager().closeAudioConnection();
     }
 }

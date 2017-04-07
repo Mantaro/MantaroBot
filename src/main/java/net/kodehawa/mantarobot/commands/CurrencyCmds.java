@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.gson.Gson;
+import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -19,9 +21,7 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -35,7 +35,7 @@ public class CurrencyCmds extends Module {
 		profile();
 		loot();
 		gamble();
-		//richest(); TODO enable when fixed
+		richest();
 		inventory();
 		market();
 		rep();
@@ -516,8 +516,10 @@ public class CurrencyCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				//TODO pls this takes 10 minutes
-				boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
+				ArrayList<HashMap> list = MantaroData.db().getDB().db("mantaro").table("players").distinct().orderBy(MantaroData.db().getDB().desc("money"))
+						.limit(15).run(MantaroData.conn());;
+				list.forEach((entry) -> System.out.println(entry.entrySet()));
+				/*boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
 				AtomicInteger integer = new AtomicInteger(1);
 				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
 					.setDescription(
@@ -529,7 +531,7 @@ public class CurrencyCmds extends Module {
 							.collect(Collectors.joining("\n"))
 					)
 					.build()
-				).queue();
+				).queue();*/
 			}
 
 			@Override

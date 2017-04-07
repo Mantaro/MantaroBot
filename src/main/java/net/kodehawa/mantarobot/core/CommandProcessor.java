@@ -73,6 +73,10 @@ public class CommandProcessor {
 			return false;
 		}
 
+		if(MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)){
+			return false;
+		}
+
 		if (!command.permissionRequired().test(event.getMember())) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();
 			return false;

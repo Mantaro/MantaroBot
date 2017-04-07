@@ -22,16 +22,12 @@ public class Trivia extends Game {
 
 	private static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[Trivia]");
-	private int attempts = 1;
 	private String expectedAnswer;
-	private int maxAnswers = 10;
 	private int maxAttempts = 10;
-	private int triviaAnswers = 1;
 
 	public Trivia() {
 		super();
 	}
-
 
 	@Override
 	public boolean onStart(GameLobby lobby) {
@@ -49,53 +45,8 @@ public class Trivia extends Game {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) -> {
-			if(!e.getChannel().getId().equals(lobby.getChannel().getId())){
-				return false;
-			}
-
-			if (e.getMessage().getContent().startsWith(MantaroData.config().get().getPrefix())) {
-				return false;
-			}
-
-			if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
-					e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())){
-				return false;
-			}
-
-			if(players.keySet().contains(e.getMember())) {
-				if (e.getMessage().getContent().equalsIgnoreCase("end")) {
-					lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game.").queue();
-					if (lobby.startNextGame()) {
-						lobby.getChannel().sendMessage("Starting next game...").queue();
-					}
-					return true;
-				}
-
-				if (attempts >= maxAttempts) {
-					lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Answer was: " + expectedAnswer).queue();
-					if (lobby.startNextGame()) {
-						lobby.getChannel().sendMessage("Starting next game...").queue();
-					}
-					return true;
-				}
-				if (e.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
-					Player player = players.get(e.getMember());
-					player.addMoney(150);
-					player.save();
-					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $150 credits by answering correctly!").queue();
-					if (lobby.startNextGame()) {
-						lobby.getChannel().sendMessage("Starting next game...").queue();
-					}
-					return true;
-				}
-
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.").queue();
-				attempts++;
-				return false;
-			}
-
-			return false;
-		});
+		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
+				callDefault(e, lobby, players, expectedAnswer, getAttempts(), maxAttempts)
+		);
 	}
 }

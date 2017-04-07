@@ -25,10 +25,12 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
@@ -212,8 +214,8 @@ public class InfoCmds extends Module {
 					.map(Role::getName)
 					.collect(Collectors.joining(", "));
 
-				if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
-					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 256) + "...";
+				if (roles.length() > 1024)
+					roles = roles.substring(0, 1024 - 4) + "...";
 
 				channel.sendMessage(new EmbedBuilder()
 					.setAuthor("Guild Information", null, guild.getIconUrl())
@@ -405,7 +407,12 @@ public class InfoCmds extends Module {
 					StringBuilder builder = new StringBuilder();
 					for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
 						builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
-							.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append("\n");
+							.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append(" | L: ")
+								.append(String.format("%02d:%02d",
+										TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT),
+										TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT) -
+										TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(shard.getEventManager().LAST_EVENT - System.currentTimeMillis()))
+								)).append("\n");
 					}
 
 					event.getChannel().sendMessage(String.format("```prolog\n%s```", builder.toString())).queue();

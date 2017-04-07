@@ -115,28 +115,24 @@ public class GameCmds extends Module {
 	}
 
 	private void startGame(Game game, GuildMessageReceivedEvent event) {
-		if (!GameLobby.LOBBYS.keySet().contains(event.getChannel())) {
+		//TODO remember to add lobby recognition AFTER we add custom actions on timeout.
+		LinkedList<Game> list = new LinkedList<>();
+		list.add(game);
 
-			LinkedList<Game> list = new LinkedList<>();
-			list.add(game);
-
-			HashMap<Member, Player> map = new HashMap<>();
-			map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
-			if (!event.getMessage().getMentionedUsers().isEmpty()) {
-				StringBuilder builder = new StringBuilder();
-				event.getMessage().getMentionedUsers().forEach(user -> {
-					if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
+		HashMap<Member, Player> map = new HashMap<>();
+		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
+		if (!event.getMessage().getMentionedUsers().isEmpty()) {
+			StringBuilder builder = new StringBuilder();
+			event.getMessage().getMentionedUsers().forEach(user -> {
+				if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
 					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
-					builder.append(user.getName()).append(" ");
-				});
+				builder.append(user.getName()).append(" ");
+			});
 
-				event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
-			}
-
-			GameLobby lobby = new GameLobby(event, map, list);
-			lobby.startFirstGame();
-		} else {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "There is a lobby already.").queue();
+			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
 		}
+
+		GameLobby lobby = new GameLobby(event, map, list);
+		lobby.startFirstGame();
 	}
 }

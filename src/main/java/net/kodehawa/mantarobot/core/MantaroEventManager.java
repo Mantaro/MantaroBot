@@ -13,9 +13,15 @@ import java.util.Arrays;
 
 public class MantaroEventManager extends InterfacedEventManager {
     public static final Logger LOGGER = LoggerFactory.getLogger("ShardWatcher");
+    public long LAST_EVENT;
+
+    public MantaroEventManager(){
+        LAST_EVENT = System.currentTimeMillis();
+    }
 
     @Override
     public void handle(Event event) {
+        LAST_EVENT = System.currentTimeMillis();
         Async.thread("Async EventHandling", () -> super.handle(event));
     }
 
@@ -25,6 +31,7 @@ public class MantaroEventManager extends InterfacedEventManager {
     }
     
     public void handleSync(Event event) {
+        LAST_EVENT = System.currentTimeMillis();
         super.handle(event);
     }
 }

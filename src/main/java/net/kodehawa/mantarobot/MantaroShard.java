@@ -58,7 +58,7 @@ public class MantaroShard implements JDA {
 		commandListener = new CommandListener(shardId);
 		voiceChannelListener = new VoiceChannelListener(shardId);
 		LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
-		restartJDA();
+		restartJDA(false);
 		readdListeners();
 	}
 
@@ -83,7 +83,7 @@ public class MantaroShard implements JDA {
 		jda.getRegisteredListeners().forEach(listener -> jda.removeEventListener(listener));
 	}
 
-	public void restartJDA() throws RateLimitedException, LoginException, InterruptedException {
+	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(config().get().token)
 			.setAudioSendFactory(new NativeAudioSendFactory())
@@ -94,9 +94,10 @@ public class MantaroShard implements JDA {
 			jdaBuilder.useSharding(shardId, totalShards);
 		if (jda != null) {
 			LOGGER.info("Attempting to drop shard #" + shardId);
-			prepareShutdown();
+			if(!force) prepareShutdown();
 			jda.shutdown(false);
 			LOGGER.info("Dropped shard #" + shardId);
+			readdListeners();
 		}
 		jda = jdaBuilder.buildBlocking();
 	}

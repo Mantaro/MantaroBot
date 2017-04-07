@@ -12,7 +12,6 @@ import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.data.entities.Player;
 
 import java.util.*;
-import java.util.concurrent.*;
 
 public class GameLobby extends Lobby {
 
@@ -66,8 +65,6 @@ public class GameLobby extends Lobby {
 				return false;
 			}
 		} catch (IndexOutOfBoundsException e){
-			e.printStackTrace();
-			LOBBYS.remove(getChannel());
 			return false;
 		}
 
@@ -76,6 +73,6 @@ public class GameLobby extends Lobby {
 
 	@Override
 	public String toString(){
-		return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event, gamesToPlay, players.size(), getChannel());
+		return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(), gamesToPlay, players.size(), getChannel());
 	}
 }

@@ -41,7 +41,7 @@ public abstract class Game {
 				return true;
 			}
 
-			if (attempts >= maxAttempts) {
+			if (attempts > maxAttempts) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Answer was: " + expectedAnswer).queue();
 				lobby.startNextGame();
 				return true;

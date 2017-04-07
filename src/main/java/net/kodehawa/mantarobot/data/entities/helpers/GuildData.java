@@ -24,4 +24,6 @@ public class GuildData {
 	private Long quoteLastId = 0L;
 	private boolean rpgDevaluation = true;
 	private boolean rpgLocalMode = false;
+	private Set<String> disabledCommands = new HashSet<>();
+	private Set<String> disabledChannels = new HashSet<>();
 }

@@ -51,7 +51,7 @@ public class MiscCmds extends Module {
 						.getString("answer");
 				} catch (Exception exception) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. My owners have been notified.").queue();
-					LOGGER.warn("Error while processing answer <@155867458203287552>", exception);
+					LOGGER.warn("Error while processing answer", exception);
 					return;
 				}
 

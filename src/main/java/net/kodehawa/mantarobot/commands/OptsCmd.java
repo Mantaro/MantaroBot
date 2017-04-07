@@ -6,13 +6,11 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -25,12 +23,12 @@ import java.util.stream.Collectors;
 public class OptsCmd extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Options");
 
-	public OptsCmd(){
+	public OptsCmd() {
 		super(Category.MODERATION);
 		opts();
 	}
 
-	private void opts(){
+	private void opts() {
 		super.register("opts", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
@@ -128,19 +126,19 @@ public class OptsCmd extends Module {
 					return;
 				}
 
-				if(option.equals("devaluation")){
+				if (option.equals("devaluation")) {
 					if (args.length < 1) {
 						onHelp(event);
 						return;
 					}
 
-					if(action.equals("enable")){
+					if (action.equals("enable")) {
 						guildData.setRpgDevaluation(true);
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Enabled currency devaluation on this server.").queue();
 						return;
 					}
 
-					if(action.equals("disable")){
+					if (action.equals("disable")) {
 						guildData.setRpgDevaluation(true);
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Disabled currency devaluation on this server.").queue();
 						return;
@@ -334,22 +332,18 @@ public class OptsCmd extends Module {
 							return;
 						}
 
-						for (int i = 0; i < 5 && i < roles.size(); i++) {
-							Role role = roles.get(i);
-							if (role != null)
-								b.append('[').append(i + 1).append("] ").append(role.getName()).append(" | Position: ").append(role.getPosition()).append("\n");
-						}
-
 						event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription(b.toString()).build()).queue();
 
-						IntConsumer roleSelector = (c) -> {
-							guildData.setGuildAutoRole(roles.get(c - 1).getId());
-							event.getMessage().addReaction("\ud83d\udc4c").queue();
-							dbGuild.save();
-							event.getChannel().sendMessage(EmoteReference.OK + "The server autorole is now set to role: **" + roles.get(c - 1).getName() + "** (Position: " + roles.get(c - 1).getPosition() + ")").queue();
-						};
+						DiscordUtils.selectList(event, roles,
+								role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
+								s -> baseEmbed(event, "Select the Role:").setDescription(s).build(),
+								role -> {
+									guildData.setGuildAutoRole(role.getId());
+									dbGuild.save();
+									event.getChannel().sendMessage(EmoteReference.OK + "The server autorole is now set to role: **" + role.getName() + "** (Position: " + role.getPosition() + ")").queue();
+								}
+						);
 
-						DiscordUtils.selectInt(event, roles.size() + 1, roleSelector);
 						return;
 
 					} else if (action.equals("unbind")) {
@@ -359,27 +353,27 @@ public class OptsCmd extends Module {
 					}
 				}
 
-				if(option.equals("usermessage")){
-					if(action.equals("resetchannel")){
+				if (option.equals("usermessage")) {
+					if (action.equals("resetchannel")) {
 						guildData.setLogJoinLeaveChannel(null);
 						dbGuild.save();
 						return;
 					}
 
-					if(action.equals("resetdata")){
+					if (action.equals("resetdata")) {
 						guildData.setLeaveMessage(null);
 						guildData.setJoinMessage(null);
 						dbGuild.save();
 						return;
 					}
 
-					if(action.equals("channel")){
+					if (action.equals("channel")) {
 						String channelName = splitArgs(content)[2];
 						List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
 								.filter(textChannel -> textChannel.getName().contains(channelName))
 								.collect(Collectors.toList());
 
-						if(textChannels.isEmpty()){
+						if (textChannels.isEmpty()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
 						}
 
@@ -402,7 +396,7 @@ public class OptsCmd extends Module {
 						return;
 					}
 
-					if(action.equals("joinmessage")){
+					if (action.equals("joinmessage")) {
 						String joinMessage = content.replace(args[0] + " " + args[1] + " ", "");
 						guildData.setJoinMessage(joinMessage);
 						dbGuild.save();
@@ -410,7 +404,7 @@ public class OptsCmd extends Module {
 						return;
 					}
 
-					if(action.equals("leavemessage")){
+					if (action.equals("leavemessage")) {
 						String leaveMessage = content.replace(args[0] + " " + args[1] + " ", "");
 						guildData.setLeaveMessage(leaveMessage);
 						dbGuild.save();
@@ -419,6 +413,77 @@ public class OptsCmd extends Module {
 					}
 				}
 
+				if (option.equals("server")) {
+					if (action.equals("channel")) {
+						String channelName = splitArgs(content)[3];
+						List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+								.filter(textChannel -> textChannel.getName().contains(channelName))
+								.collect(Collectors.toList());
+						String op = splitArgs(content)[2];
+
+						if (op.equals("disallow")) {
+							if((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()){
+								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot wouldn't be able to talk otherwise.").queue();
+								return;
+							}
+
+							DiscordUtils.selectList(event, textChannels,
+									textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+									s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+									textChannel -> {
+										guildData.getDisabledChannels().add(textChannel.getId());
+										dbGuild.save();
+										event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will not longer listen to commands").queue();
+									}
+							);
+							return;
+						}
+
+						if (op.equals("allow")) {
+							DiscordUtils.selectList(event, textChannels,
+									textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+									s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+									textChannel -> {
+										guildData.getDisabledChannels().remove(textChannel.getId());
+										dbGuild.save();
+										event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will now listen to commands").queue();
+									}
+							);
+							return;
+						}
+					}
+
+					if (action.equals("command")) {
+						String commandName = splitArgs(content)[3];
+						Command command = Manager.commands.get(commandName).getLeft();
+
+						if (command == null) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
+							return;
+						}
+
+						if (commandName.equals("opts") || commandName.equals("help")) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable the options or the help command.").queue();
+							return;
+						}
+
+						String op = args[2];
+						if (op.equals("disallow")) {
+							guildData.getDisabledCommands().add(commandName);
+							event.getChannel().sendMessage(EmoteReference.MEGA + "Disabled " + commandName + " on this server.").queue();
+							dbGuild.save();
+							return;
+						}
+
+						if (op.equals("allow")) {
+							guildData.getDisabledCommands().remove(commandName);
+							event.getChannel().sendMessage(EmoteReference.MEGA + "Enabled " + commandName + " on this server.").queue();
+							dbGuild.save();
+							return;
+						}
+						return;
+					}
+				}
 				onHelp(event);
 			}
 
@@ -454,9 +519,13 @@ public class OptsCmd extends Module {
 								"~>opts usermessage leavemessage <message> - Set the leave message.\n" +
 								"~>opts usermessage resetchannel - Resets the channel to use for join/leave messsages.\n" +
 								"~>opts usermessage resetdata - Resets the join/leave message.")
+						.addField("Command settings",
+								"~>opts server channel disallow <channel name> - Makes a channel deaf to commands\n" +
+								"~>opts server channel allow <channel name> - Makes a channel able to hear commands again.\n" +
+								"~>opts server command disable <command name> - Disables the specified command. (Doing enable with the same syntax will enable it again)\n"
+								, false)
 						.build();
 			}
 		});
 	}
-
 }

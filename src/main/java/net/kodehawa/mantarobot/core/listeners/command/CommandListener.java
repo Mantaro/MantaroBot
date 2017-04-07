@@ -55,6 +55,7 @@ public class CommandListener implements EventListener {
 	        ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
 	        return;
         }
+
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("CmdThread", () -> onCommand(e));
@@ -82,6 +83,10 @@ public class CommandListener implements EventListener {
 			}
 
 			messageCache.put(event.getMessage().getId(), event.getMessage());
+		}
+
+		if(MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())){
+			return;
 		}
 
 		//Cleverbot.

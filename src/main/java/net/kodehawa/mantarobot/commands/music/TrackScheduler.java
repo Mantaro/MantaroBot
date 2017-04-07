@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
+import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -29,10 +30,13 @@ public class TrackScheduler extends AudioEventAdapter {
 	private Repeat repeat;
 	private int shardId;
 	private List<String> voteSkips;
+	@Getter
+	private List<String> voteStop;
 
 	TrackScheduler(AudioPlayer audioPlayer, String guildId, int shardId) {
 		this.queue = new LinkedBlockingQueue<>();
 		this.voteSkips = new ArrayList<>();
+		this.voteStop = new ArrayList<>();
 		this.previousTrack = null;
 		this.currentTrack = null;
 		this.lastAnnounce = null;

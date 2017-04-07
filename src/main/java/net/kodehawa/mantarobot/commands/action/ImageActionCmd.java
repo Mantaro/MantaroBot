@@ -10,9 +10,7 @@ import net.kodehawa.mantarobot.modules.NoArgsCommand;
 import net.kodehawa.mantarobot.utils.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,7 +42,7 @@ public class ImageActionCmd extends NoArgsCommand {
 				URLCache.getInput(random),
 				imageName,
 				new MessageBuilder()
-					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))
+					.append(String.format(format, mentions(event)))
 					.build()
 			).queue();
 		} catch (Exception e) {
