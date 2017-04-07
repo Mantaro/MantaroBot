@@ -517,21 +517,15 @@ public class CurrencyCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				ArrayList<HashMap> list = MantaroData.db().getDB().db("mantaro").table("players").distinct().orderBy(MantaroData.db().getDB().desc("money"))
-						.limit(15).run(MantaroData.conn());;
-				list.forEach((entry) -> System.out.println(entry.entrySet()));
-				/*boolean global = !MantaroData.db().getGuild(event.getGuild()).getData().isRpgLocalMode() && !content.equals("guild");
-				AtomicInteger integer = new AtomicInteger(1);
-				event.getChannel().sendMessage(baseEmbed(event, global ? "Global richest Users" : event.getGuild().getName() + "'s richest Members", global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl())
-					.setDescription(
-						(global ? MantaroBot.getInstance().getUsers().stream() : event.getGuild().getMembers().stream().map(Member::getUser))
-							.filter(user -> user != null && !user.isBot())
-							.sorted(Comparator.comparingLong(user -> Long.MAX_VALUE - MantaroData.db().getPlayer(user, event.getGuild()).getMoney()))
-							.limit(15)
-							.map(user -> String.format("%d. **`%s#%s`** - **%d** Credits", integer.getAndIncrement(), user.getName(), user.getDiscriminator(), MantaroData.db().getPlayer(user, event.getGuild()).getMoney()))
-							.collect(Collectors.joining("\n"))
-					)
-					.build()
-				).queue();*/
+						.limit(15).run(MantaroData.conn());
+				StringBuilder b = new StringBuilder();
+				list.forEach((entry) -> {
+					if(MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]) != null)
+						b.append("**").append(MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]).getName()).append("#").append(MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]).getDiscriminator())
+								.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
+				});
+				event.getChannel().sendMessage(baseEmbed(event, "Global richest Users", event.getAuthor().getAvatarUrl())
+						.setDescription(b.toString()).build()).queue();
 			}
 
 			@Override
