@@ -38,10 +38,9 @@ repositories {
 }
 
 dependencies {
+	compile 'net.dv8tion:JDA:3.0.0_169'
 
-	compile 'net.dv8tion:JDA:3.0.0_165'
-
-	compile 'com.sedmelluq:lavaplayer:1.2.34'
+	compile 'com.sedmelluq:lavaplayer:1.2.35'
 	compile 'com.sedmelluq:jda-nas:1.0.3'
 
 	compile 'org.reflections:reflections:0.9.10'
@@ -71,6 +70,8 @@ dependencies {
 	compile 'frederikam:JCA:1.0'
 
     compile 'mysql:mysql-connector-java:6.0.4'
+
+    compile 'net.sf.trove4j:trove4j:3.0.3'
 }
 
 task wrapper(type: Wrapper) {

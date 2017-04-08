@@ -1,15 +1,19 @@
 package net.kodehawa.mantarobot.utils.crossbot;
 
 import br.com.brjdevs.crossbot.IdentifyPacket;
+import br.com.brjdevs.crossbot.WrappedJSONPacket;
 import br.com.brjdevs.crossbot.currency.GetMoneyPacket;
 import br.com.brjdevs.crossbot.currency.SetMoneyPacket;
 import br.com.brjdevs.crossbot.currency.UpdateMoneyPacket;
 import br.com.brjdevs.network.*;
+import gnu.trove.map.hash.TLongObjectHashMap;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import net.kodehawa.mantarobot.utils.data.DataManager;
+import net.kodehawa.mantarobot.utils.data.FunctionalPacketHandler;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.java_websocket.WebSocket;
+import org.json.JSONObject;
 
 import java.io.Closeable;
 import java.net.ConnectException;
@@ -17,11 +21,11 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class CrossBotDataManager implements Closeable, DataManager<Consumer<Object>> {
 	public static class Builder {
@@ -38,6 +42,7 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 		private int port;
 		private boolean secure;
 		private int sleepTime;
+		private int poolSize = 10;
 
 		public Builder(Type type) {
 			this.type = type;
@@ -59,12 +64,12 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 			switch (type) {
 				case CLIENT:
 					try {
-						return new CrossBotDataManager(host, port, name, password, secure, async, sleepTime, listeners);
+						return new CrossBotDataManager(host, port, poolSize, name, password, secure, async, sleepTime, listeners);
 					} catch (URISyntaxException e) {
 						UnsafeUtils.throwException(e);
 					}
 				case SERVER:
-					return new CrossBotDataManager(port, password, async, sleepTime, listeners);
+					return new CrossBotDataManager(port, poolSize, password, async, sleepTime, listeners);
 				default:
 					throw new AssertionError();
 			}
@@ -87,6 +92,11 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 			return this;
 		}
 
+		public Builder poolSize(int poolSize) {
+		    this.poolSize = poolSize;
+		    return this;
+        }
+
 		public Builder port(int port) {
 			this.port = port;
 			return this;
@@ -99,22 +109,18 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 		}
 	}
 
-	private static void registerPackets(PacketRegistry pr) {
-		pr.register(IdentifyPacket.FACTORY);
-		pr.register(GetMoneyPacket.FACTORY);
-		pr.register(GetMoneyPacket.Response.FACTORY);
-		pr.register(SetMoneyPacket.FACTORY);
-		pr.register(UpdateMoneyPacket.FACTORY);
-	}
-
 	protected final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
 	protected final AtomicBoolean closed = new AtomicBoolean(false);
 	protected final Connection connection;
 	protected final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
 	protected final Consumer<Object> send;
 	protected final Queue<Object> sendQueue;
+    protected final AtomicLong nextRequestId = new AtomicLong(1);
+    protected final ExecutorService actionsExecutor;
+    protected Function<JSONObject, JSONObject> jsonHandler = obj->new JSONObject().put("error", "unsupported");
+    protected TLongObjectHashMap<Object> map = new TLongObjectHashMap<>(23, 15F, 0);
 
-	protected CrossBotDataManager(String host, int port, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
+	protected CrossBotDataManager(String host, int port, int poolSize, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
 		if (host == null) throw new NullPointerException("host");
 		if (name == null) throw new NullPointerException("name");
 		if (port == 0) throw new IllegalArgumentException("port == 0");
@@ -178,9 +184,11 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 			t.start();
 		}
 		send = async ? sendQueue::add : (o) -> client.getPacketClient().sendPacket(o);
+        actionsExecutor = poolSize < 1 ? Executors.newCachedThreadPool() : Executors.newFixedThreadPool(poolSize);
+        init();
 	}
 
-	protected CrossBotDataManager(int port, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
+	protected CrossBotDataManager(int port, int poolSize, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
 		if (port == 0) throw new IllegalArgumentException("port == 0");
 		this.listeners.addAll(listenersToAdd);
 		PacketRegistry pr = new PacketRegistry();
@@ -256,6 +264,8 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 			t.start();
 		}
 		send = async ? sendQueue::add : (o) -> server.connections().forEach(socket -> server.sendPacket(socket, o));
+        actionsExecutor = poolSize < 1 ? Executors.newCachedThreadPool() : Executors.newFixedThreadPool(poolSize);
+        init();
 	}
 
 	@Override
@@ -290,6 +300,27 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 		}
 	}
 
+    public CrossBotAction<JSONObject> sendJson(JSONObject obj, long responseTimeout) {
+        return CrossBotAction.of(actionsExecutor, ()->{
+            long timeout = responseTimeout;
+            long id = nextRequestId.getAndIncrement();
+            send.accept(new WrappedJSONPacket(obj.toString(), id, false));
+            while(!map.containsKey(id)) {
+                try {
+                    if(timeout-- <= 0) UnsafeUtils.throwException(new TimeoutException("No response received in " + responseTimeout + " ms"));
+                    Thread.sleep(1);
+                } catch(InterruptedException e) {
+                    UnsafeUtils.throwException(e);
+                }
+            }
+            return (JSONObject)map.remove(id);
+        });
+    }
+
+    public CrossBotAction<JSONObject> sendJson(JSONObject obj) {
+        return sendJson(obj, 3000);
+    }
+
 	public boolean isClosed() {
 		return closed.get();
 	}
@@ -303,4 +334,37 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 		listeners.remove(listener);
 		return this;
 	}
+
+    public CrossBotDataManager jsonHandler(Function<JSONObject, JSONObject> jsonHandler) {
+        this.jsonHandler = jsonHandler;
+        return this;
+    }
+
+    private void init() {
+        registerListener((FunctionalPacketHandler)(o)->{
+            if(o instanceof WrappedJSONPacket) {
+                long id = ((WrappedJSONPacket) o).requestId;
+                if(((WrappedJSONPacket) o).isResponse) {
+                    map.put(id, ((WrappedJSONPacket) o).getJSON());
+                    return null;
+                }
+                if(jsonHandler == null) return new WrappedJSONPacket("{}", id, true);
+                try {
+                    return new WrappedJSONPacket(jsonHandler.apply(((WrappedJSONPacket) o).getJSON()).toString(), id, true);
+                } catch(Throwable t) {
+                    return new WrappedJSONPacket("{}", id, true);
+                }
+            }
+            return null;
+        });
+    }
+
+    protected void registerPackets(PacketRegistry pr) {
+        pr.register(IdentifyPacket.FACTORY);
+        pr.register(GetMoneyPacket.FACTORY);
+        pr.register(GetMoneyPacket.Response.FACTORY);
+        pr.register(SetMoneyPacket.FACTORY);
+        pr.register(UpdateMoneyPacket.FACTORY);
+        pr.register(WrappedJSONPacket.FACTORY);
+    }
 }
