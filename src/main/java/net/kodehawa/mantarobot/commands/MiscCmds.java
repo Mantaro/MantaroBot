@@ -98,7 +98,7 @@ public class MiscCmds extends Module {
 					case "reverse":
 						String stringToReverse = content.replace("reverse ", "");
 						String reversed = new StringBuilder(stringToReverse).reverse().toString();
-						channel.sendMessage(reversed).queue();
+						channel.sendMessage(reversed.replace("@everyone", "").replace("@here", "")).queue();
 						break;
 					case "rndcolor":
 						String s = String.format(EmoteReference.TALKING + "Your random color is %s", randomColor());
