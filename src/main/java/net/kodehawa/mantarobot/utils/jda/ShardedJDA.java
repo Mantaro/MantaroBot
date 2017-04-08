@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.utils.jda;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.*;
 import java.util.function.UnaryOperator;
@@ -151,7 +152,12 @@ public abstract class ShardedJDA implements UnifiedJDA {
 		return stream().map(JDA::getStatus).toArray(Status[]::new);
 	}
 
-	private List<User> distinct(List<User> list) {
+    @Override
+    public int getMaxReconnectDelay() {
+        return MantaroData.config().get().maxJdaReconnectDelay;
+    }
+
+    private List<User> distinct(List<User> list) {
 		Map<String, List<User>> map = new HashMap<>();
 		list.forEach(user -> map.computeIfAbsent(user != null ? user.getId() : null, k -> new ArrayList<>()).add(user));
 

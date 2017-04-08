@@ -8,8 +8,8 @@ public class UpdateMoneyPacket extends AbstractMoneyPacket {
 
 	public final long delta;
 
-	public UpdateMoneyPacket(long userid, long delta) {
-		super(userid);
+	public UpdateMoneyPacket(long userid, long delta, long requestId) {
+		super(userid, requestId);
 		this.delta = delta;
 	}
 }

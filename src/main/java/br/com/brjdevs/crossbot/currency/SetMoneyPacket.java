@@ -8,8 +8,8 @@ public class SetMoneyPacket extends AbstractMoneyPacket {
 
 	public final long money;
 
-	public SetMoneyPacket(long userid, long money) {
-		super(userid);
+	public SetMoneyPacket(long userid, long money, long requestId) {
+		super(userid, requestId);
 		this.money = money;
 	}
 }

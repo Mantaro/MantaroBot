@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils.data;
+package net.kodehawa.mantarobot.utils.crossbot;
 
 import br.com.brjdevs.crossbot.IdentifyPacket;
 import br.com.brjdevs.crossbot.currency.GetMoneyPacket;
@@ -6,6 +6,7 @@ import br.com.brjdevs.crossbot.currency.SetMoneyPacket;
 import br.com.brjdevs.crossbot.currency.UpdateMoneyPacket;
 import br.com.brjdevs.network.*;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
+import net.kodehawa.mantarobot.utils.data.DataManager;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.java_websocket.WebSocket;
@@ -106,14 +107,14 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 		pr.register(UpdateMoneyPacket.FACTORY);
 	}
 
-	private final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
-	private final AtomicBoolean closed = new AtomicBoolean(false);
-	private final Connection connection;
-	private final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
-	private final Consumer<Object> send;
-	private final Queue<Object> sendQueue;
+	protected final Map<String, Pair<String, Integer>> bots = new ConcurrentHashMap<>();
+	protected final AtomicBoolean closed = new AtomicBoolean(false);
+	protected final Connection connection;
+	protected final List<SocketListener> listeners = new CopyOnWriteArrayList<>();
+	protected final Consumer<Object> send;
+	protected final Queue<Object> sendQueue;
 
-	private CrossBotDataManager(String host, int port, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
+	protected CrossBotDataManager(String host, int port, String name, String password, boolean secure, boolean async, int sleepTime, List<SocketListener> listenersToAdd) throws URISyntaxException {
 		if (host == null) throw new NullPointerException("host");
 		if (name == null) throw new NullPointerException("name");
 		if (port == 0) throw new IllegalArgumentException("port == 0");
@@ -179,7 +180,7 @@ public class CrossBotDataManager implements Closeable, DataManager<Consumer<Obje
 		send = async ? sendQueue::add : (o) -> client.getPacketClient().sendPacket(o);
 	}
 
-	private CrossBotDataManager(int port, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
+	protected CrossBotDataManager(int port, String password, boolean async, int sleepTime, List<SocketListener> listenersToAdd) {
 		if (port == 0) throw new IllegalArgumentException("port == 0");
 		this.listeners.addAll(listenersToAdd);
 		PacketRegistry pr = new PacketRegistry();
