@@ -20,7 +20,7 @@ public class RateLimiter {
 		this.timeout = timeout;
 	}
 
-	public RateLimiter(TimeUnit unit, int timeout){
+	public RateLimiter(TimeUnit unit, int timeout) {
 		this.timeout = (int) unit.toMillis(timeout);
 	}
 

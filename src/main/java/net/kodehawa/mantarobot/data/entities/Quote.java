@@ -33,6 +33,7 @@ public class Quote implements ManagedObject {
 	public static Quote of(GuildMessageReceivedEvent event) {
 		return of(event.getMember(), event.getChannel(), event.getMessage());
 	}
+
 	private final String channelId;
 	private final String channelName;
 	private final String content;
@@ -62,8 +63,8 @@ public class Quote implements ManagedObject {
 	@Override
 	public void save() {
 		r.table(DB_TABLE).insert(this)
-				.optArg("conflict", "replace")
-				.runNoReply(conn());
+			.optArg("conflict", "replace")
+			.runNoReply(conn());
 	}
 
 	@JsonIgnore

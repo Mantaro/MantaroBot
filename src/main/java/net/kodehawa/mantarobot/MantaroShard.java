@@ -39,12 +39,12 @@ public class MantaroShard implements JDA {
 		if (SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
 	}
 
+	public final MantaroEventManager manager;
 	private final Logger LOGGER;
+	private final CommandListener commandListener;
+	private final MantaroListener mantaroListener;
 	private final int shardId;
 	private final int totalShards;
-	public final MantaroEventManager manager;
-	private final MantaroListener mantaroListener;
-	private final CommandListener commandListener;
 	private final VoiceChannelListener voiceChannelListener;
 
 	@Delegate
@@ -67,6 +67,10 @@ public class MantaroShard implements JDA {
 		return "Shard [" + getId() + "/" + totalShards + " ]";
 	}
 
+	public MantaroEventManager getEventManager() {
+		return manager;
+	}
+
 	public int getId() {
 		return shardId;
 	}
@@ -83,6 +87,11 @@ public class MantaroShard implements JDA {
 		jda.getRegisteredListeners().forEach(listener -> jda.removeEventListener(listener));
 	}
 
+	public void readdListeners() {
+		jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
+	}
+
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(config().get().token)
@@ -94,7 +103,7 @@ public class MantaroShard implements JDA {
 			jdaBuilder.useSharding(shardId, totalShards);
 		if (jda != null) {
 			LOGGER.info("Attempting to drop shard #" + shardId);
-			if(!force) prepareShutdown();
+			if (!force) prepareShutdown();
 			jda.shutdown(false);
 			LOGGER.info("Dropped shard #" + shardId);
 			readdListeners();
@@ -119,29 +128,29 @@ public class MantaroShard implements JDA {
 
 					if (dbotsToken != null) {
 						LOGGER.debug("Successfully posted the botdata to bots.discord.pw: " + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
-								.header("Authorization", dbotsToken)
-								.header("Content-Type", "application/json")
-								.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
-								.asString().getBody());
+							.header("Authorization", dbotsToken)
+							.header("Content-Type", "application/json")
+							.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
+							.asString().getBody());
 					}
 
 					if (carbonToken != null) {
 						LOGGER.debug("Successfully posted the botdata to carbonitex.com: " +
-								Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
-										.field("key", carbonToken)
-										.field("servercount", newC)
-										.field("shardid", getId())
-										.field("shardcount", totalShards)
-										.asString().getBody());
+							Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
+								.field("key", carbonToken)
+								.field("servercount", newC)
+								.field("shardid", getId())
+								.field("shardcount", totalShards)
+								.asString().getBody());
 					}
 
 					if (dbotsorgToken != null) {
 						LOGGER.debug("Successfully posted the botdata to discordbots.org: " +
-								Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
-										.header("Authorization", dbotsorgToken)
-										.header("Content-Type", "application/json")
-										.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
-										.asString().getBody());
+							Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
+								.header("Authorization", dbotsorgToken)
+								.header("Content-Type", "application/json")
+								.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
+								.asString().getBody());
 					}
 				} catch (Exception e) {
 					LOGGER.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
@@ -152,36 +161,27 @@ public class MantaroShard implements JDA {
 
 	void updateStatus() {
 		Runnable changeStatus = () -> {
-            AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
-            int shards = 0;
-            if(MantaroBot.getInstance() != null) {
-                Arrays.stream(MantaroBot.getInstance().getShards()).map(MantaroShard::getJDA).forEach(jda -> {
-                    users.addAndGet(jda.getUsers().size());
-                    guilds.addAndGet(jda.getGuilds().size());
-                });
-                shards = MantaroBot.getInstance().getShardAmount();
-            }
+			AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
+			int shards = 0;
+			if (MantaroBot.getInstance() != null) {
+				Arrays.stream(MantaroBot.getInstance().getShards()).map(MantaroShard::getJDA).forEach(jda -> {
+					users.addAndGet(jda.getUsers().size());
+					guilds.addAndGet(jda.getGuilds().size());
+				});
+				shards = MantaroBot.getInstance().getShardAmount();
+			}
 			String newStatus = random(SPLASHES.get(), RANDOM)
-                    .replace("%ramgb%", String.valueOf(((long)(Runtime.getRuntime().maxMemory()*1.2D))>>30L))
-                    .replace("%usercount%", users.toString())
-                    .replace("%guildcount%", guilds.toString())
-                    .replace("%shardcount%", String.valueOf(shards))
-                    .replace("%prettyusercount%", users.toString())//TODO AdrianTodt make a math function to pretty print this
-                    .replace("%prettyguildcount%", guilds.toString()); //TODO and this
+				.replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
+				.replace("%usercount%", users.toString())
+				.replace("%guildcount%", guilds.toString())
+				.replace("%shardcount%", String.valueOf(shards))
+				.replace("%prettyusercount%", users.toString())//TODO AdrianTodt make a math function to pretty print this
+				.replace("%prettyguildcount%", guilds.toString()); //TODO and this
 			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
 			LOGGER.debug("Changed status to: " + newStatus);
 		};
 
 		changeStatus.run();
 		Async.task("Splash Thread", changeStatus, 600);
-	}
-
-	public void readdListeners(){
-	    jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
-	}
-
-	public MantaroEventManager getEventManager(){
-		return manager;
 	}
 }

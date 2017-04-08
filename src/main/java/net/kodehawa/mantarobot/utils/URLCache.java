@@ -52,8 +52,8 @@ public class URLCache {
 	}
 
 	public static InputStream getInput(String url) {
-	    return cache.input(getFile(url));
-    }
+		return cache.input(getFile(url));
+	}
 
 	private URLCache() {
 	}

@@ -25,11 +25,10 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -85,9 +84,9 @@ public class InfoCmds extends Module {
 					EmbedBuilder builder = new EmbedBuilder();
 
 					String donators = MantaroData.db().getMantaroData().getPatreonUsers().stream()
-							.filter(id -> MantaroBot.getInstance().getUserById(id) != null)
-							.map(id -> String.format("%s#%s", MantaroBot.getInstance().getUserById(id).getName(), MantaroBot.getInstance().getUserById(id).getDiscriminator()))
-							.collect(Collectors.joining(", "));
+						.filter(id -> MantaroBot.getInstance().getUserById(id) != null)
+						.map(id -> String.format("%s#%s", MantaroBot.getInstance().getUserById(id).getName(), MantaroBot.getInstance().getUserById(id).getDiscriminator()))
+						.collect(Collectors.joining(", "));
 
 					builder.setAuthor("Patreon supporters.", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setDescription(donators)
@@ -408,11 +407,11 @@ public class InfoCmds extends Module {
 					for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
 						builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
 							.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append(" | L: ")
-								.append(String.format("%02d:%02d",
-										TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT),
-										TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT) -
-										TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(shard.getEventManager().LAST_EVENT - System.currentTimeMillis()))
-								)).append("\n");
+							.append(String.format("%02d:%02d",
+								TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT),
+								TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT) -
+									TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(shard.getEventManager().LAST_EVENT - System.currentTimeMillis()))
+							)).append("\n");
 					}
 
 					event.getChannel().sendMessage(String.format("```prolog\n%s```", builder.toString())).queue();

@@ -26,9 +26,11 @@ import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
@@ -57,6 +59,30 @@ public class ImageCmds extends Module {
 		cat();
 
 		enterRatings();
+	}
+
+	private void cat() {
+		super.register("cat", new SimpleCommand() {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				try {
+					String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
+						"Am I cute yet?", "%mention%, I think you should have a cat."};
+					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
+					event.getChannel().sendFile(URLCache.getFile(url), "cat.jpg",
+						new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Cat command")
+					.setDescription("Sends a random cat image")
+					.build();
+			}
+		});
 	}
 
 	private void e621() {
@@ -511,30 +537,6 @@ public class ImageCmds extends Module {
 						+ "tag: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
 						+ "rating: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
 					.build();
-			}
-		});
-	}
-
-	private void cat(){
-		super.register("cat", new SimpleCommand() {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				try{
-					String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
-							"Am I cute yet?", "%mention%, I think you should have a cat."};
-					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
-					event.getChannel().sendFile(URLCache.getFile(url), "cat.jpg",
-							new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
-				} catch (Exception e){
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Cat command")
-						.setDescription("Sends a random cat image")
-						.build();
 			}
 		});
 	}

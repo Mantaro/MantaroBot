@@ -25,10 +25,10 @@ public class MantaroAudioManager {
 			SQLDatabase.getInstance().run((conn) -> {
 				try {
 					conn.prepareStatement("CREATE TABLE IF NOT EXISTS PLAYED_SONGS (" +
-							"id varchar(15)," +
-							"times_played int," +
-							"PRIMARY KEY(id)" +
-							");").executeUpdate();
+						"id varchar(15)," +
+						"times_played int," +
+						"PRIMARY KEY(id)" +
+						");").executeUpdate();
 				} catch (SQLException e) {
 					SQLAction.LOGGER.error(null, e);
 				}

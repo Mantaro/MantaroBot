@@ -16,9 +16,9 @@ import static com.rethinkdb.RethinkDB.r;
 public class MantaroData {
 	private static GsonDataManager<Config> config;
 	private static Connection conn;
+	private static ConnectionWatcherDataManager connectionWatcher;
 	private static CrossBotDataManager crossBot;
 	private static ManagedDatabase db;
-	private static ConnectionWatcherDataManager connectionWatcher;
 	private static ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 
 	public static GsonDataManager<Config> config() {
@@ -30,6 +30,13 @@ public class MantaroData {
 		Config c = config().get();
 		if (conn == null) conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).connect();
 		return conn;
+	}
+
+	public static ConnectionWatcherDataManager connectionWatcher() {
+		if (connectionWatcher == null) {
+			connectionWatcher = new ConnectionWatcherDataManager(MantaroBot.cwport);
+		}
+		return connectionWatcher;
 	}
 
 	public static CrossBotDataManager crossBot() {
@@ -49,13 +56,6 @@ public class MantaroData {
 
 		return crossBot;
 	}
-
-	public static ConnectionWatcherDataManager connectionWatcher() {
-	    if(connectionWatcher == null) {
-	        connectionWatcher = new ConnectionWatcherDataManager(MantaroBot.cwport);
-        }
-        return connectionWatcher;
-    }
 
 	public static ManagedDatabase db() {
 		if (db == null) db = new ManagedDatabase(conn());

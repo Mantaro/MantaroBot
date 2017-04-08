@@ -337,7 +337,7 @@ public class CustomCmds extends Module {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
-					
+
 					List<String> responses = Arrays.asList(addPattern.split(value));
 					if (Manager.commands.containsKey(cmd) && !Manager.commands.get(cmd).equals(cmdPair)) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();

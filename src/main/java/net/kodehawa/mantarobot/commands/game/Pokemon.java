@@ -29,26 +29,26 @@ public class Pokemon extends Game {
 		super();
 	}
 
-	public boolean onStart(GameLobby lobby) {
-		try{
-			String[] data = CollectionUtils.random(GUESSES.get()).split("`");
-			String pokemonImage = data[0];
-			expectedAnswer = data[1];
-			System.out.println(expectedAnswer);
-			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", null)
-					.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
-			return true;
-		} catch (Exception e){
-			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
-			LOGGER.warn("Exception while setting up a game", e);
-			return false;
-		}
-	}
-
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
 			callDefault(e, lobby, players, expectedAnswer, getAttempts(), maxAttempts)
 		);
+	}
+
+	public boolean onStart(GameLobby lobby) {
+		try {
+			String[] data = CollectionUtils.random(GUESSES.get()).split("`");
+			String pokemonImage = data[0];
+			expectedAnswer = data[1];
+			System.out.println(expectedAnswer);
+			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", null)
+				.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
+			return true;
+		} catch (Exception e) {
+			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
+			LOGGER.warn("Exception while setting up a game", e);
+			return false;
+		}
 	}
 }

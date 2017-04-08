@@ -14,7 +14,6 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 import org.slf4j.Logger;
@@ -98,11 +97,10 @@ public class OsuStatsCmd extends Module {
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException){
+								if (e instanceof TimeoutException) {
 									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								}
-								else LOGGER.warn("Exception thrown while fetching data", e);
+								} else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
@@ -112,11 +110,10 @@ public class OsuStatsCmd extends Module {
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
-								if (e instanceof TimeoutException){
+								if (e instanceof TimeoutException) {
 									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								}
-								else LOGGER.warn("Exception thrown while fetching data", e);
+								} else LOGGER.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;

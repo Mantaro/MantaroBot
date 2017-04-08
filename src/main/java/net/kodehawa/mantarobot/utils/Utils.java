@@ -53,6 +53,20 @@ public class Utils {
 		);
 	}
 
+	/**
+	 * Get a data failure response, place in its own method due to redundancy
+	 *
+	 * @param url           The URL from which the data fetch failed
+	 * @param servicePrefix The prefix from a specific service
+	 * @return The formatted response string
+	 */
+	private static String getFetchDataFailureResponse(String url, String servicePrefix) {
+		StringBuilder response = new StringBuilder();
+		if (servicePrefix != null) response.append("[").append(servicePrefix).append("]");
+		else response.append("\u274C");
+		return response.append(" ").append("Hmm, seems like I can't retrieve data from ").append(url).toString();
+	}
+
 	public static Iterable<String> iterate(Pattern pattern, String string) {
 		return () -> {
 			Matcher matcher = pattern.matcher(string);
@@ -181,19 +195,5 @@ public class Utils {
 		}
 
 		return url2;
-	}
-
-    /**
-     * Get a data failure response, place in its own method due to redundancy
-     *
-     * @param url The URL from which the data fetch failed
-     * @param servicePrefix The prefix from a specific service
-     * @return The formatted response string
-     */
-	private static String getFetchDataFailureResponse(String url, String servicePrefix) {
-		StringBuilder response = new StringBuilder();
-		if (servicePrefix != null) response.append("[").append(servicePrefix).append("]");
-		else response.append("\u274C");
-		return response.append(" ").append("Hmm, seems like I can't retrieve data from ").append(url).toString();
 	}
 }

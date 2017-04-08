@@ -42,28 +42,28 @@ public class CommandListener implements EventListener {
 	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
 		CUSTOM_PROCESSORS.put(channelId, processor);
 	}
-	private final int shardId;
 	private final Random random = new Random();
+	private final int shardId;
 
 	public CommandListener(int shardId) {
-	    this.shardId = shardId;
-    }
+		this.shardId = shardId;
+	}
 
 	@Override
 	public void onEvent(Event event) {
-	    if(event instanceof ShardMonitorEvent) {
-	        ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
-	        return;
-        }
+		if (event instanceof ShardMonitorEvent) {
+			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
+			return;
+		}
 
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("CmdThread", () -> onCommand(e));
 
-			if(random.nextInt(150) > 100){
-				if(((GuildMessageReceivedEvent) event).getMember() == null) return;
+			if (random.nextInt(150) > 100) {
+				if (((GuildMessageReceivedEvent) event).getMember() == null) return;
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
-				if(player != null){
+				if (player != null) {
 					player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
 					if (player.getData().getExperience() > Math.pow(player.getLevel(), 6)) {
 						player.setLevel(player.getLevel() + 1);
@@ -85,7 +85,7 @@ public class CommandListener implements EventListener {
 			messageCache.put(event.getMessage().getId(), event.getMessage());
 		}
 
-		if(MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())){
+		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())) {
 			return;
 		}
 

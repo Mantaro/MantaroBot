@@ -166,7 +166,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 		return list.stream().collect(Collectors.toMap(ISnowflake::getId, UnaryOperator.identity()));
 	}
 
-	public String prettyPrintUser(String id){
+	public String prettyPrintUser(String id) {
 		return getUserById(id).getName() + "#" + getUserById(id).getDiscriminator();
 	}
 }

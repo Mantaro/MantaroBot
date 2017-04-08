@@ -53,7 +53,7 @@ public class Crawler {
 					String base = tempUrl.getProtocol() + "://" + tempUrl.getHost() + path;
 					//link.text() = title, base = url.
 					if (!base.contains("webcache.googleusercontent.com"))
-						if(!link.text().isEmpty())
+						if (!link.text().isEmpty())
 							results.add(new SearchResult(base, link.text()));
 				}
 			}

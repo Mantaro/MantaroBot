@@ -11,6 +11,8 @@ public class GuildData {
 	private String birthdayRole = null;
 	private Long cases = 0L;
 	private boolean customAdminLock = false;
+	private Set<String> disabledChannels = new HashSet<>();
+	private Set<String> disabledCommands = new HashSet<>();
 	private String guildAutoRole = null;
 	private String guildCustomPrefix = null;
 	private String guildLogChannel = null;
@@ -24,6 +26,4 @@ public class GuildData {
 	private Long quoteLastId = 0L;
 	private boolean rpgDevaluation = true;
 	private boolean rpgLocalMode = false;
-	private Set<String> disabledCommands = new HashSet<>();
-	private Set<String> disabledChannels = new HashSet<>();
 }

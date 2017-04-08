@@ -31,40 +31,45 @@ import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 public class MantaroBot extends ShardedJDA {
-    public static final boolean DEBUG = System.getProperty("mantaro.debug", null) != null;
+	public static final boolean DEBUG = System.getProperty("mantaro.debug", null) != null;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	public static JCA CLEVERBOT;
 	public static int cwport;
 	private static MantaroBot instance;
+	private static LoadState status = PRELOAD;
 	private static TempBanManager tempBanManager;
 
 	public static MantaroBot getInstance() {
 		return instance;
 	}
 
+	public static LoadState getLoadStatus() {
+		return status;
+	}
+
 	public static void main(String[] args) {
-	    if(args.length > 0) {
-	        try {
+		if (args.length > 0) {
+			try {
 				cwport = Integer.parseInt(args[0]);
-            } catch(Exception e) {
-	            LOGGER.info("Invalid connection watcher port specified in arguments, using value in config");
-	            cwport = MantaroData.config().get().connectionWatcherPort;
-            }
-        } else {
-	        LOGGER.info("No connection watcher port specified, using value in config");
-            cwport = MantaroData.config().get().connectionWatcherPort;
-        }
-        LOGGER.info("Using port " + cwport + " to communicate with connection watcher");
-	    if(cwport > 0) {
-	        new Thread(()->{
-	            try {
-                    MantaroData.connectionWatcher();
-                } catch(Exception e) {
-                    LOGGER.error("Error connecting to Connection Watcher", e);
-                }
-            });
-        }
+			} catch (Exception e) {
+				LOGGER.info("Invalid connection watcher port specified in arguments, using value in config");
+				cwport = MantaroData.config().get().connectionWatcherPort;
+			}
+		} else {
+			LOGGER.info("No connection watcher port specified, using value in config");
+			cwport = MantaroData.config().get().connectionWatcherPort;
+		}
+		LOGGER.info("Using port " + cwport + " to communicate with connection watcher");
+		if (cwport > 0) {
+			new Thread(() -> {
+				try {
+					MantaroData.connectionWatcher();
+				} catch (Exception e) {
+					LOGGER.error("Error connecting to Connection Watcher", e);
+				}
+			});
+		}
 		try {
 			instance = new MantaroBot();
 		} catch (Exception e) {
@@ -75,10 +80,9 @@ public class MantaroBot extends ShardedJDA {
 		}
 	}
 
-	private List<MantaroEventManager> managers = new ArrayList<>();
 	private MantaroAudioManager audioManager;
+	private List<MantaroEventManager> managers = new ArrayList<>();
 	private MantaroShard[] shards;
-	private static LoadState status = PRELOAD;
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
@@ -93,7 +97,6 @@ public class MantaroBot extends ShardedJDA {
 		shards = new MantaroShard[totalShards];
 		status = LOADING;
 
-
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
 			MantaroEventManager manager = new MantaroEventManager();
@@ -105,23 +108,23 @@ public class MantaroBot extends ShardedJDA {
 				Thread.sleep(5000);
 			}
 		}
-		new Thread(()->{
+		new Thread(() -> {
 			LOGGER.info("ShardWatcherThread started");
 			final int wait = MantaroData.config().get().shardWatcherWait;
-			while(true) {
+			while (true) {
 				try {
 					Thread.sleep(wait);
 					MantaroEventManager.LOGGER.info("Checking shards...");
-                    ShardMonitorEvent sme = new ShardMonitorEvent(totalShards);
-                    managers.forEach(manager->manager.handleSync(sme));
-                    int[] dead = sme.getDeadShards();
-                    if(dead.length != 0) {
-                        MantaroEventManager.LOGGER.error("Dead shards found: " + Arrays.toString(dead));
-                        Arrays.stream(dead).forEach(id->getShard(id).readdListeners());
-                    } else {
-                        MantaroEventManager.LOGGER.info("No dead shards found");
-                    }
-				} catch(InterruptedException e) {
+					ShardMonitorEvent sme = new ShardMonitorEvent(totalShards);
+					managers.forEach(manager -> manager.handleSync(sme));
+					int[] dead = sme.getDeadShards();
+					if (dead.length != 0) {
+						MantaroEventManager.LOGGER.error("Dead shards found: " + Arrays.toString(dead));
+						Arrays.stream(dead).forEach(id -> getShard(id).readdListeners());
+					} else {
+						MantaroEventManager.LOGGER.info("No dead shards found");
+					}
+				} catch (InterruptedException e) {
 					LOGGER.error("ShardWatcher interrupted, stopping...");
 					return;
 				}
@@ -182,12 +185,8 @@ public class MantaroBot extends ShardedJDA {
 		return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
 	}
 
-	public static LoadState getLoadStatus() {
-		return status;
-	}
-
 	private int getRecommendedShards(Config config) {
-	    if(DEBUG) return 2;
+		if (DEBUG) return 2;
 		try {
 			HttpResponse<JsonNode> shards = Unirest.get("https://discordapp.com/api/gateway/bot")
 				.header("Authorization", "Bot " + config.token)

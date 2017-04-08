@@ -21,7 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.net.URLEncoder;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;

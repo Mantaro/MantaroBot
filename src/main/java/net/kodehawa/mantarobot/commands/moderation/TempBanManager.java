@@ -43,7 +43,7 @@ public class TempBanManager {
 	}
 
 	private void threadcode() {
-		try{
+		try {
 			//noinspection InfiniteLoopStatement
 			while (true) {
 				if (UNBANS.isEmpty()) {
@@ -74,11 +74,11 @@ public class TempBanManager {
 					UNBANS.remove(unbanFirstEntry.getKey());
 					MantaroBot.getInstance().getGuildById(params[0]).getController().unban(params[1]).queue();
 					UNBANS.remove(unbanFirstEntry.getKey());
-					if(MantaroBot.getInstance().getGuildById(params[0]) == null) return;
+					if (MantaroBot.getInstance().getGuildById(params[0]) == null) return;
 					ModLog.logUnban(MantaroBot.getInstance().getGuildById(params[0]).getSelfMember(), params[1], "The temporary ban ended.");
 				} else unbansUpdated = false; //and the loop will restart and resolve it
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

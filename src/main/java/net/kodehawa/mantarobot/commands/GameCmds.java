@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import groovy.util.logging.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -50,21 +49,22 @@ public class GameCmds extends Module {
 					return;
 				}
 
-				if(args[0].equals("lobby")){
-					try{
+				if (args[0].equals("lobby")) {
+					try {
 						//TODO fix... well this used to work and I somewhat broke it but it's 1am so cba lol
 						LinkedList<Game> list = new LinkedList<>();
 						HashMap<Member, Player> map = new HashMap<>();
 						String games = args[1];
 						String[] toPlay = games.split(",");
 						for (String s : Arrays.asList(toPlay)) {
-							if(GameLobby.getTextRepresentation().get(s) != null) list.add(GameLobby.getTextRepresentation().get(s));
+							if (GameLobby.getTextRepresentation().get(s) != null)
+								list.add(GameLobby.getTextRepresentation().get(s));
 						}
 
 						StringBuilder builder = new StringBuilder();
 						event.getMessage().getMentionedUsers().forEach(user -> {
-							if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
-							map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
+							if (!user.getId().equals(event.getJDA().getSelfUser().getId()))
+								map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
 							builder.append(user.getName()).append(" ");
 						});
 
@@ -72,8 +72,8 @@ public class GameCmds extends Module {
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " + builder.toString() + "successfully.").queue();
 						lobby.startFirstGame();
 						return;
-					} catch (Exception e){
-						if((e instanceof IndexOutOfBoundsException)){
+					} catch (Exception e) {
+						if ((e instanceof IndexOutOfBoundsException)) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments.").queue();
 						} else {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up the lobby.").queue();
@@ -97,6 +97,28 @@ public class GameCmds extends Module {
 		});
 	}
 
+	private void startGame(Game game, GuildMessageReceivedEvent event) {
+		//TODO remember to add lobby recognition AFTER we add custom actions on timeout.
+		LinkedList<Game> list = new LinkedList<>();
+		list.add(game);
+
+		HashMap<Member, Player> map = new HashMap<>();
+		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
+		if (!event.getMessage().getMentionedUsers().isEmpty()) {
+			StringBuilder builder = new StringBuilder();
+			event.getMessage().getMentionedUsers().forEach(user -> {
+				if (!user.getId().equals(event.getJDA().getSelfUser().getId()))
+					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
+				builder.append(user.getName()).append(" ");
+			});
+
+			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
+		}
+
+		GameLobby lobby = new GameLobby(event, map, list);
+		lobby.startFirstGame();
+	}
+
 	private void trivia() {
 		super.register("trivia", new SimpleCommand() {
 			@Override
@@ -112,27 +134,5 @@ public class GameCmds extends Module {
 					.build();
 			}
 		});
-	}
-
-	private void startGame(Game game, GuildMessageReceivedEvent event) {
-		//TODO remember to add lobby recognition AFTER we add custom actions on timeout.
-		LinkedList<Game> list = new LinkedList<>();
-		list.add(game);
-
-		HashMap<Member, Player> map = new HashMap<>();
-		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
-		if (!event.getMessage().getMentionedUsers().isEmpty()) {
-			StringBuilder builder = new StringBuilder();
-			event.getMessage().getMentionedUsers().forEach(user -> {
-				if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
-					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
-				builder.append(user.getName()).append(" ");
-			});
-
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
-		}
-
-		GameLobby lobby = new GameLobby(event, map, list);
-		lobby.startFirstGame();
 	}
 }

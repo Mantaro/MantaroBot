@@ -10,12 +10,12 @@ public class PlayerData {
 	private String marriedWith = null;
 
 	@Transient
-	public void incrementExperience(){
+	public void incrementExperience() {
 		experience = experience++;
 	}
 
 	@Transient
-	public boolean isMarried(){
+	public boolean isMarried() {
 		return marriedWith != null;
 	}
 }

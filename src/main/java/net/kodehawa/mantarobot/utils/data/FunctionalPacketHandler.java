@@ -6,19 +6,22 @@ import org.java_websocket.WebSocket;
 
 @FunctionalInterface
 public interface FunctionalPacketHandler extends SocketListener {
-    Object onPacket(Object packet);
+	Object onPacket(Object packet);
 
-    @Override
-    default Object onPacket(Connection conn, int id, Object packet) {
-        return onPacket(packet);
-    }
+	@Override
+	default void onClose(Connection connection, int i, int i1, String s) {
+	}
 
-    @Override
-    default void onClose(Connection connection, int i, int i1, String s) {}
+	@Override
+	default void onConnect(Connection connection, int i, WebSocket webSocket) {
+	}
 
-    @Override
-    default void onConnect(Connection connection, int i, WebSocket webSocket) {}
+	@Override
+	default void onError(Connection connection, int i, Exception e) {
+	}
 
-    @Override
-    default void onError(Connection connection, int i, Exception e) {}
+	@Override
+	default Object onPacket(Connection conn, int id, Object packet) {
+		return onPacket(packet);
+	}
 }

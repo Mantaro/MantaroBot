@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
 
 public class ImageGuess extends Game {
 
-	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
+	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
 	private String authToken = AnimeCmds.authToken;
 	private String characterName;
 	@Getter
@@ -38,29 +38,29 @@ public class ImageGuess extends Game {
 	}
 
 	@Override
+	public void call(GameLobby lobby, HashMap<Member, Player> players) {
+		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
+			callDefault(e, lobby, players, characterName, getAttempts(), maxAttempts)
+		);
+	}
+
+	@Override
 	public boolean onStart(GameLobby lobby) {
-		try{
+		try {
 			characterName = CollectionUtils.random(NAMES.get());
 			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),
-					authToken);
+				authToken);
 			String json = Utils.wget(url, null);
 			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
 			System.out.println(characterName);
 			String imageUrl = character[0].getImage_url_med();
 			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Guess the character", null)
-					.setImage(imageUrl).setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null).build()).queue();
+				.setImage(imageUrl).setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null).build()).queue();
 			return true;
-		} catch (Exception e){
+		} catch (Exception e) {
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
 			LOGGER.warn("Exception while setting up a game", e);
 			return false;
 		}
-	}
-
-	@Override
-	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
-			callDefault(e, lobby, players, characterName, getAttempts(), maxAttempts)
-		);
 	}
 }

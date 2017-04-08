@@ -8,7 +8,7 @@ public class Lobby {
 	@Getter
 	private TextChannel channel;
 
-	public Lobby(TextChannel channel){
+	public Lobby(TextChannel channel) {
 		this.channel = channel;
 	}
 }

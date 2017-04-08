@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
@@ -17,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
 public class OptsCmd extends Module {
@@ -68,7 +66,7 @@ public class OptsCmd extends Module {
 						guildData.setGuildLogChannel(id);
 						dbGuild.saveAsync();
 						event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with parameters -> ``Channel #%s (%s)``",
-								logChannel, id)).queue();
+							logChannel, id)).queue();
 						return;
 					}
 
@@ -164,14 +162,14 @@ public class OptsCmd extends Module {
 							guildData.setBirthdayRole(roleId);
 							dbGuild.save();
 							event.getChannel().sendMessage(
-									String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-											channel, channelId, role, roleId)).queue();
+								String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> Channel: ``#%s (%s)`` and role: ``%s (%s)``",
+									channel, channelId, role, roleId)).queue();
 							return;
 						} catch (Exception e) {
 							if (e instanceof IndexOutOfBoundsException) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel or role!\n " +
-										"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
-										.queue();
+									"**Remember, you don't have to mention neither the role or the channel, rather just type its name, order is <channel> <role>, without the leading \"<>\".**")
+									.queue();
 								return;
 							}
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You supplied invalid arguments for this command " + EmoteReference.SAD).queue();
@@ -243,8 +241,8 @@ public class OptsCmd extends Module {
 						if (channel == null) {
 							try {
 								List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
-										.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
-										.collect(Collectors.toList());
+									.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
+									.collect(Collectors.toList());
 
 								if (voiceChannels.size() == 0) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found a voice channel matching that name or id").queue();
@@ -256,19 +254,19 @@ public class OptsCmd extends Module {
 									event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + channel.getName()).queue();
 								} else {
 									DiscordUtils.selectList(event, voiceChannels,
-											voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-											s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-											voiceChannel -> {
-												guildData.setMusicChannel(voiceChannel.getId());
-												dbGuild.save();
-												event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + voiceChannel.getName()).queue();
-											}
+										voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+										s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+										voiceChannel -> {
+											guildData.setMusicChannel(voiceChannel.getId());
+											dbGuild.save();
+											event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + voiceChannel.getName()).queue();
+										}
 									);
 								}
 							} catch (Exception e) {
 								LOGGER.warn("Error while setting voice channel", e);
 								event.getChannel().sendMessage("I couldn't set the voice channel " + EmoteReference.SAD + " - try again in a few minutes " +
-										"-> " + e.getClass().getSimpleName()).queue();
+									"-> " + e.getClass().getSimpleName()).queue();
 							}
 						}
 
@@ -335,13 +333,13 @@ public class OptsCmd extends Module {
 						event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription(b.toString()).build()).queue();
 
 						DiscordUtils.selectList(event, roles,
-								role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
-								s -> baseEmbed(event, "Select the Role:").setDescription(s).build(),
-								role -> {
-									guildData.setGuildAutoRole(role.getId());
-									dbGuild.save();
-									event.getChannel().sendMessage(EmoteReference.OK + "The server autorole is now set to role: **" + role.getName() + "** (Position: " + role.getPosition() + ")").queue();
-								}
+							role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
+							s -> baseEmbed(event, "Select the Role:").setDescription(s).build(),
+							role -> {
+								guildData.setGuildAutoRole(role.getId());
+								dbGuild.save();
+								event.getChannel().sendMessage(EmoteReference.OK + "The server autorole is now set to role: **" + role.getName() + "** (Position: " + role.getPosition() + ")").queue();
+							}
 						);
 
 						return;
@@ -370,8 +368,8 @@ public class OptsCmd extends Module {
 					if (action.equals("channel")) {
 						String channelName = splitArgs(content)[2];
 						List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-								.filter(textChannel -> textChannel.getName().contains(channelName))
-								.collect(Collectors.toList());
+							.filter(textChannel -> textChannel.getName().contains(channelName))
+							.collect(Collectors.toList());
 
 						if (textChannels.isEmpty()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
@@ -385,13 +383,13 @@ public class OptsCmd extends Module {
 						}
 
 						DiscordUtils.selectList(event, textChannels,
-								textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-								s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-								textChannel -> {
-									guildData.setLogJoinLeaveChannel(textChannel.getId());
-									dbGuild.save();
-									event.getChannel().sendMessage(EmoteReference.OK + "The logging Join/Leave channel is set to: " + textChannel.getAsMention()).queue();
-								}
+							textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+							s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+							textChannel -> {
+								guildData.setLogJoinLeaveChannel(textChannel.getId());
+								dbGuild.save();
+								event.getChannel().sendMessage(EmoteReference.OK + "The logging Join/Leave channel is set to: " + textChannel.getAsMention()).queue();
+							}
 						);
 						return;
 					}
@@ -417,37 +415,37 @@ public class OptsCmd extends Module {
 					if (action.equals("channel")) {
 						String channelName = splitArgs(content)[3];
 						List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-								.filter(textChannel -> textChannel.getName().contains(channelName))
-								.collect(Collectors.toList());
+							.filter(textChannel -> textChannel.getName().contains(channelName))
+							.collect(Collectors.toList());
 						String op = splitArgs(content)[2];
 
 						if (op.equals("disallow")) {
-							if((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()){
+							if ((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot wouldn't be able to talk otherwise.").queue();
 								return;
 							}
 
 							DiscordUtils.selectList(event, textChannels,
-									textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-									s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-									textChannel -> {
-										guildData.getDisabledChannels().add(textChannel.getId());
-										dbGuild.save();
-										event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will not longer listen to commands").queue();
-									}
+								textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+								s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+								textChannel -> {
+									guildData.getDisabledChannels().add(textChannel.getId());
+									dbGuild.save();
+									event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will not longer listen to commands").queue();
+								}
 							);
 							return;
 						}
 
 						if (op.equals("allow")) {
 							DiscordUtils.selectList(event, textChannels,
-									textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-									s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-									textChannel -> {
-										guildData.getDisabledChannels().remove(textChannel.getId());
-										dbGuild.save();
-										event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will now listen to commands").queue();
-									}
+								textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+								s -> baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+								textChannel -> {
+									guildData.getDisabledChannels().remove(textChannel.getId());
+									dbGuild.save();
+									event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will now listen to commands").queue();
+								}
 							);
 							return;
 						}
@@ -495,36 +493,36 @@ public class OptsCmd extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Bot options")
-						.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
-								"All values set are local rather than global, meaning that they will only effect this server.", false)
-						.setDescription("Usage\n" +
-								"~>opts logs enable <channel> - Send logs to the specified channel (use its name).\n" +
-								"~>opts logs disable - Disable server-wide logs.\n" +
-								"~>opts prefix set <prefix> - Set a custom prefix for your server.\n" +
-								"~>opts prefix clear - Remove your server's custom prefix.\n" +
-								"~>opts nsfw toggle - Toggle NSFW usage for this channel to allow usage with explicit images in yandere and other commands.\n" +
-								"~>opts birthday enable <channel> <role> - Enable birthday alerts in your server. Arguments such as channel and role don't accept spaces.\n" +
-								"~>opts birthday disable - Disable birthday alerts.\n" +
-								"~>opts music limit <ms> - Changes the music length limit.\n" +
-								"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 for non-donors).\n" +
-								"~>opts autorole set <role> - Set an autorole that will be assigned to users when they join.\n" +
-								"~>opts autorole unbind - Clear the autorole config.\n" +
-								"~>opts resetmoney - Reset local money.\n" +
-								"~>opts localmoney <true/false> - Toggle server local mode (currency stats only for this server).\n" +
-								"~>opts music channel <channel> - If set, I will connect only to the specified channel. You can specify a channel name or ID.\n" +
-								"~>opts music clear - If set, I will connect to any voice channel when called.\n" +
-								"~>opts admincustom <true/false> - If set to true, custom command creation will be available solely for administrators; Otherwise, everyone can create them. Setting defaults to false.\n" +
-								"~>opts usermessage channel <channel name> - Set a channel to send join/leave messages.\n" +
-								"~>opts usermessage joinmessage <message> - Set the join message.\n" +
-								"~>opts usermessage leavemessage <message> - Set the leave message.\n" +
-								"~>opts usermessage resetchannel - Resets the channel to use for join/leave messsages.\n" +
-								"~>opts usermessage resetdata - Resets the join/leave message.")
-						.addField("Command settings",
-								"~>opts server channel disallow <channel name> - Makes a channel deaf to commands\n" +
-								"~>opts server channel allow <channel name> - Makes a channel able to hear commands again.\n" +
-								"~>opts server command disable <command name> - Disables the specified command. (Doing enable with the same syntax will enable it again)\n"
-								, false)
-						.build();
+					.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
+						"All values set are local rather than global, meaning that they will only effect this server.", false)
+					.setDescription("Usage\n" +
+						"~>opts logs enable <channel> - Send logs to the specified channel (use its name).\n" +
+						"~>opts logs disable - Disable server-wide logs.\n" +
+						"~>opts prefix set <prefix> - Set a custom prefix for your server.\n" +
+						"~>opts prefix clear - Remove your server's custom prefix.\n" +
+						"~>opts nsfw toggle - Toggle NSFW usage for this channel to allow usage with explicit images in yandere and other commands.\n" +
+						"~>opts birthday enable <channel> <role> - Enable birthday alerts in your server. Arguments such as channel and role don't accept spaces.\n" +
+						"~>opts birthday disable - Disable birthday alerts.\n" +
+						"~>opts music limit <ms> - Changes the music length limit.\n" +
+						"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 for non-donors).\n" +
+						"~>opts autorole set <role> - Set an autorole that will be assigned to users when they join.\n" +
+						"~>opts autorole unbind - Clear the autorole config.\n" +
+						"~>opts resetmoney - Reset local money.\n" +
+						"~>opts localmoney <true/false> - Toggle server local mode (currency stats only for this server).\n" +
+						"~>opts music channel <channel> - If set, I will connect only to the specified channel. You can specify a channel name or ID.\n" +
+						"~>opts music clear - If set, I will connect to any voice channel when called.\n" +
+						"~>opts admincustom <true/false> - If set to true, custom command creation will be available solely for administrators; Otherwise, everyone can create them. Setting defaults to false.\n" +
+						"~>opts usermessage channel <channel name> - Set a channel to send join/leave messages.\n" +
+						"~>opts usermessage joinmessage <message> - Set the join message.\n" +
+						"~>opts usermessage leavemessage <message> - Set the leave message.\n" +
+						"~>opts usermessage resetchannel - Resets the channel to use for join/leave messsages.\n" +
+						"~>opts usermessage resetdata - Resets the join/leave message.")
+					.addField("Command settings",
+						"~>opts server channel disallow <channel name> - Makes a channel deaf to commands\n" +
+							"~>opts server channel allow <channel name> - Makes a channel able to hear commands again.\n" +
+							"~>opts server command disable <command name> - Disables the specified command. (Doing enable with the same syntax will enable it again)\n"
+						, false)
+					.build();
 			}
 		});
 	}

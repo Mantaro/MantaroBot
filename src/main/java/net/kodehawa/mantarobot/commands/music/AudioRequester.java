@@ -98,8 +98,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 			isPresent() ? MAX_QUEUE_LENGTH : MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit();
 
 		if (getMusicManager().getTrackScheduler().getQueue().size() > queueLimit
-				&& !MantaroData.db().getUser(event.getMember()).isPremium()
-				&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
+			&& !MantaroData.db().getUser(event.getMember()).isPremium()
+			&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
 			if (!silent)
 				event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue();
 			if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
@@ -107,7 +107,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 		}
 
 		if (audioTrack.getInfo().length > MAX_SONG_LENGTH && !MantaroData.db().getUser(event.getMember()).isPremium()
-				&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
+			&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
 			event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 21 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
 			if (musicManager.getTrackScheduler().isStopped())
 				event.getGuild().getAudioManager().closeAudioConnection(); //do you?

@@ -8,7 +8,6 @@ import groovy.lang.GroovyShell;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.lib.mantarolang.CompiledFunction;
@@ -54,6 +53,71 @@ public class OwnerCmd extends Module {
 	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
+
+	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
+		boolean first = true;
+		StringBuilder ret = new StringBuilder();
+		for (int size : sizes) {
+			if (first) {
+				first = false;
+				ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
+			} else {
+				ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
+			}
+		}
+		return ret.append(right).append("\n").toString();
+	}
+
+	public static String getStackTrace(Throwable e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		return sw.toString();
+	}
+
+	public static String makeAsciiTable(List<String> headers, List<List<String>> table, List<String> footer) {
+		StringBuilder sb = new StringBuilder();
+		int padding = 1;
+		int[] widths = new int[headers.size()];
+		for (int i = 0; i < widths.length; i++) {
+			widths[i] = 0;
+		}
+		for (int i = 0; i < headers.size(); i++) {
+			if (headers.get(i).length() > widths[i]) {
+				widths[i] = headers.get(i).length();
+				if (footer != null) {
+					widths[i] = Math.max(widths[i], footer.get(i).length());
+				}
+			}
+		}
+		for (List<String> row : table) {
+			for (int i = 0; i < row.size(); i++) {
+				String cell = row.get(i);
+				if (cell.length() > widths[i]) {
+					widths[i] = cell.length();
+				}
+			}
+		}
+		sb.append("```").append("\n");
+		String formatLine = "|";
+		for (int width : widths) {
+			formatLine += " %-" + width + "s |";
+		}
+		formatLine += "\n";
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		sb.append(String.format(formatLine, headers.toArray()));
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		for (List<String> row : table) {
+			sb.append(String.format(formatLine, row.toArray()));
+		}
+		if (footer != null) {
+			sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+			sb.append(String.format(formatLine, footer.toArray()));
+		}
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		sb.append("```");
+		return sb.toString();
+	}
 	private final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
 
 	public OwnerCmd() {
@@ -202,23 +266,23 @@ public class OwnerCmd extends Module {
 		});
 
 		evals.put("cw", (event, code) -> {
-            Object[] returns;
-            boolean errored = false;
-            try {
-                returns = MantaroData.connectionWatcher().eval(code);
-            } catch(RuntimeException e) {
-                errored = true;
-                returns = new Object[]{e.getMessage()};
-            }
-            String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
-            if(errored) return new Error(result == null ? "Internal error" : result) {
-                @Override
-                public String toString() {
-                    return getMessage();
-                }
-            };
-            return result;
-        });
+			Object[] returns;
+			boolean errored = false;
+			try {
+				returns = MantaroData.connectionWatcher().eval(code);
+			} catch (RuntimeException e) {
+				errored = true;
+				returns = new Object[]{e.getMessage()};
+			}
+			String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
+			if (errored) return new Error(result == null ? "Internal error" : result) {
+				@Override
+				public String toString() {
+					return getMessage();
+				}
+			};
+			return result;
+		});
 
 		super.register("owner", new SimpleCommand() {
 			@Override
@@ -230,82 +294,82 @@ public class OwnerCmd extends Module {
 
 				String option = args[0];
 
-				if (option.equals("cw")){
-				   if(args.length < 2) {
-				       onHelp(event);
-				       return;
-                   }
+				if (option.equals("cw")) {
+					if (args.length < 2) {
+						onHelp(event);
+						return;
+					}
 
-                   String sub = args[1].split("\\s+")[0];
-				   if(sub.equals("info")) {
-				       event.getChannel().sendMessage(new EmbedBuilder()
-                            .setAuthor("Connection Watcher info", null, null)
-                            .setDescription(MantaroData.connectionWatcher().get().toString())
-                            .setColor(event.getGuild().getSelfMember().getColor())
-                            .setFooter("Asked by: " + event.getAuthor().getName(), null)
-                       .build()).queue();
-                   } else if(sub.equals("eval")) {
-				       String[] parts = event.getMessage().getRawContent().split(" ");
-				       if(parts.length < 4) {
-				           onHelp(event);
-				           return;
-                       }
-				       Object[] returns;
-				       boolean errored = false;
-				       try {
-                           returns = MantaroData.connectionWatcher().eval(String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
-                       } catch(RuntimeException e) {
-				           errored = true;
-				           returns = new Object[]{e.getMessage()};
-                       }
-                       String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
-                       event.getChannel().sendMessage(new EmbedBuilder()
-                               .setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
-                               .setColor(errored ? Color.RED : Color.GREEN)
-                               .setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
-                               .setFooter("Asked by: " + event.getAuthor().getName(), null)
-                               .build()
-                       ).queue();
-                   } else {
-                       onHelp(event);
-                   }
+					String sub = args[1].split("\\s+")[0];
+					if (sub.equals("info")) {
+						event.getChannel().sendMessage(new EmbedBuilder()
+							.setAuthor("Connection Watcher info", null, null)
+							.setDescription(MantaroData.connectionWatcher().get().toString())
+							.setColor(event.getGuild().getSelfMember().getColor())
+							.setFooter("Asked by: " + event.getAuthor().getName(), null)
+							.build()).queue();
+					} else if (sub.equals("eval")) {
+						String[] parts = event.getMessage().getRawContent().split(" ");
+						if (parts.length < 4) {
+							onHelp(event);
+							return;
+						}
+						Object[] returns;
+						boolean errored = false;
+						try {
+							returns = MantaroData.connectionWatcher().eval(String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
+						} catch (RuntimeException e) {
+							errored = true;
+							returns = new Object[]{e.getMessage()};
+						}
+						String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
+						event.getChannel().sendMessage(new EmbedBuilder()
+							.setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
+							.setColor(errored ? Color.RED : Color.GREEN)
+							.setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
+							.setFooter("Asked by: " + event.getAuthor().getName(), null)
+							.build()
+						).queue();
+					} else {
+						onHelp(event);
+					}
 
-                   return;
-                }
+					return;
+				}
 
-                if(option.equals("premium")){
+				if (option.equals("premium")) {
 					String sub = args[1].substring(0, args[1].indexOf(' '));
-					if(sub.equals("add")){
-						try{
+					if (sub.equals("add")) {
+						try {
 							String[] values = SPLIT_PATTERN.split(args[1], 3);
 							DBUser db = MantaroData.db().getUser(values[1]);
 							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
 							db.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT +
-									"The premium feature for user " + db.getId() + " now is until " +
-									new Date(db.getPremiumUntil())).queue();
+								"The premium feature for user " + db.getId() + " now is until " +
+								new Date(db.getPremiumUntil())).queue();
 							return;
-						} catch (IndexOutOfBoundsException e){
+						} catch (IndexOutOfBoundsException e) {
 							event.getChannel().sendMessage(
-									EmoteReference.ERROR + "You need to specify id and number of days").queue();
+								EmoteReference.ERROR + "You need to specify id and number of days").queue();
 							e.printStackTrace();
 							return;
 						}
 					}
 
-					if(sub.equals("guild")){
-						try{
+					if (sub.equals("guild")) {
+						try {
 							String[] values = SPLIT_PATTERN.split(args[1], 3);
 							DBGuild db = MantaroData.db().getGuild(values[1]);
 							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
 							db.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT +
-									"The premium feature for guild " + db.getId() + " now is until " +
-									new Date(db.getPremiumUntil())).queue();
+								"The premium feature for guild " + db.getId() + " now is until " +
+								new Date(db.getPremiumUntil())).queue();
 							return;
-						} catch (IndexOutOfBoundsException e){
+						} catch (IndexOutOfBoundsException e) {
 							event.getChannel().sendMessage(
-									EmoteReference.ERROR + "You need to specify id and number of days").queue();
+								EmoteReference.ERROR + "You need to specify id and number of days").queue();
 							e.printStackTrace();
 							return;
 						}
@@ -332,16 +396,16 @@ public class OwnerCmd extends Module {
 					//Here in Darkness, everything is okay.
 					//Listen to the waves, and let them fade away.
 
-					if(option.equals("restart")) {
-					    try {
-					        MantaroData.connectionWatcher().reboot(false);
-                        } catch(Exception e) {
-					        LOGGER.error("Error restarting via manager, manual reboot required", e);
-					        System.exit(-1);
-                        }
-                    } else {
-					    System.exit(0);
-                    }
+					if (option.equals("restart")) {
+						try {
+							MantaroData.connectionWatcher().reboot(false);
+						} catch (Exception e) {
+							LOGGER.error("Error restarting via manager, manual reboot required", e);
+							System.exit(-1);
+						}
+					} else {
+						System.exit(0);
+					}
 					return;
 				}
 
@@ -364,16 +428,16 @@ public class OwnerCmd extends Module {
 					//Here in Darkness, everything is okay.
 					//Listen to the waves, and let them fade away.
 
-                    if(option.equals("forcerestart")) {
-                        try {
-                            MantaroData.connectionWatcher().reboot(false);
-                        } catch(Exception e) {
-                            LOGGER.error("Error restarting via manager, manual reboot required", e);
-                            System.exit(-1);
-                        }
-                    } else {
-                        System.exit(0);
-                    }
+					if (option.equals("forcerestart")) {
+						try {
+							MantaroData.connectionWatcher().reboot(false);
+						} catch (Exception e) {
+							LOGGER.error("Error restarting via manager, manual reboot required", e);
+							System.exit(-1);
+						}
+					} else {
+						System.exit(0);
+					}
 					return;
 				}
 
@@ -424,16 +488,16 @@ public class OwnerCmd extends Module {
 							} catch (Exception e) {
 								LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 							}
-                            if(restart) {
-                                try {
-                                    MantaroData.connectionWatcher().reboot(false);
-                                } catch(Exception e) {
-                                    LOGGER.error("Error restarting via manager, manual reboot required", e);
-                                    System.exit(-1);
-                                }
-                            } else {
-                                System.exit(0);
-                            }
+							if (restart) {
+								try {
+									MantaroData.connectionWatcher().reboot(false);
+								} catch (Exception e) {
+									LOGGER.error("Error restarting via manager, manual reboot required", e);
+									System.exit(-1);
+								}
+							} else {
+								System.exit(0);
+							}
 						});
 
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...").queue();
@@ -455,16 +519,16 @@ public class OwnerCmd extends Module {
 								LOGGER.warn("Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(), e);
 							}
 
-                            if(restart) {
-                                try {
-                                    MantaroData.connectionWatcher().reboot(false);
-                                } catch(Exception e) {
-                                    LOGGER.error("Error restarting via manager, manual reboot required", e);
-                                    System.exit(-1);
-                                }
-                            } else {
-                                System.exit(0);
-                            }
+							if (restart) {
+								try {
+									MantaroData.connectionWatcher().reboot(false);
+								} catch (Exception e) {
+									LOGGER.error("Error restarting via manager, manual reboot required", e);
+									System.exit(-1);
+								}
+							} else {
+								System.exit(0);
+							}
 							s.shutdown();
 						}, 2);
 						return;
@@ -583,7 +647,7 @@ public class OwnerCmd extends Module {
 						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
 						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
 						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
-                        "~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
+						"~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
 						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
 					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
 					.build();
@@ -607,78 +671,14 @@ public class OwnerCmd extends Module {
 		});
 
 		try {
-		    MantaroData.connectionWatcher().close();
-        } catch(Exception e) {}
+			MantaroData.connectionWatcher().close();
+		} catch (Exception e) {
+		}
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
-	}
-
-	public static String makeAsciiTable(List<String> headers, List<List<String>> table, List<String> footer) {
-		StringBuilder sb = new StringBuilder();
-		int padding = 1;
-		int[] widths = new int[headers.size()];
-		for (int i = 0; i < widths.length; i++) {
-			widths[i] = 0;
-		}
-		for (int i = 0; i < headers.size(); i++) {
-			if (headers.get(i).length() > widths[i]) {
-				widths[i] = headers.get(i).length();
-				if (footer != null) {
-					widths[i] = Math.max(widths[i], footer.get(i).length());
-				}
-			}
-		}
-		for (List<String> row : table) {
-			for (int i = 0; i < row.size(); i++) {
-				String cell = row.get(i);
-				if (cell.length() > widths[i]) {
-					widths[i] = cell.length();
-				}
-			}
-		}
-		sb.append("```").append("\n");
-		String formatLine = "|";
-		for (int width : widths) {
-			formatLine += " %-" + width + "s |";
-		}
-		formatLine += "\n";
-		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-		sb.append(String.format(formatLine, headers.toArray()));
-		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-		for (List<String> row : table) {
-			sb.append(String.format(formatLine, row.toArray()));
-		}
-		if (footer != null) {
-			sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-			sb.append(String.format(formatLine, footer.toArray()));
-		}
-		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-		sb.append("```");
-		return sb.toString();
-	}
-
-	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
-		boolean first = true;
-		StringBuilder ret = new StringBuilder();
-		for (int size : sizes) {
-			if (first) {
-				first = false;
-				ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-			} else {
-				ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-			}
-		}
-		return ret.append(right).append("\n").toString();
-	}
-
-	public static String getStackTrace(Throwable e){
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		return sw.toString();
 	}
 }

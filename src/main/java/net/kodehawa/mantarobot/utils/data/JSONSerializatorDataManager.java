@@ -15,66 +15,66 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class JSONSerializatorDataManager implements DataManager<SerializedData> {
-    private final Path path;
-    private final KryoPool kryoPool;
-    private final SerializedData data;
-    private final JSONObject json;
+	private final SerializedData data;
+	private final JSONObject json;
+	private final KryoPool kryoPool;
+	private final Path path;
 
-    public JSONSerializatorDataManager(String file, KryoFactory factory) {
-        this.path = Paths.get(file);
-        File fl = path.toFile();
-        if(!fl.exists()) {
-            try {
-                if(!fl.createNewFile()) {
-                    UnsafeUtils.throwException(new IOException("Error creating file"));
-                }
-            } catch(IOException e) {
-                UnsafeUtils.throwException(e);
-            }
-            json = new JSONObject();
-        } else {
-            JSONObject j;
-            try {
-                String contents = FileIOUtils.read(path);
-                j = new JSONObject(contents);
-            } catch(IOException e) {
-                UnsafeUtils.throwException(e);
-                j = null; //not really called
-            }
-            json = j;
-        }
-        kryoPool = new KryoPool.Builder(factory).build();
-        data = new SerializedData(kryoPool, this::set, this::get);
-    }
+	public JSONSerializatorDataManager(String file, KryoFactory factory) {
+		this.path = Paths.get(file);
+		File fl = path.toFile();
+		if (!fl.exists()) {
+			try {
+				if (!fl.createNewFile()) {
+					UnsafeUtils.throwException(new IOException("Error creating file"));
+				}
+			} catch (IOException e) {
+				UnsafeUtils.throwException(e);
+			}
+			json = new JSONObject();
+		} else {
+			JSONObject j;
+			try {
+				String contents = FileIOUtils.read(path);
+				j = new JSONObject(contents);
+			} catch (IOException e) {
+				UnsafeUtils.throwException(e);
+				j = null; //not really called
+			}
+			json = j;
+		}
+		kryoPool = new KryoPool.Builder(factory).build();
+		data = new SerializedData(kryoPool, this::set, this::get);
+	}
 
-    public JSONSerializatorDataManager(String path) {
-        this(path, Kryo::new);
-    }
+	public JSONSerializatorDataManager(String path) {
+		this(path, Kryo::new);
+	}
 
-    @Override
-    public void save() {
-        try {
-            FileIOUtils.write(path, json.toString(4));
-        } catch(IOException e) {
-            UnsafeUtils.throwException(e);
-        }
-    }
+	@Override
+	public SerializedData get() {
+		return data;
+	}
 
-    @Override
-    public SerializedData get() {
-        return data;
-    }
+	@Override
+	public void save() {
+		try {
+			FileIOUtils.write(path, json.toString(4));
+		} catch (IOException e) {
+			UnsafeUtils.throwException(e);
+		}
+	}
 
-    public void set(String key, String value) {
-        if(value == null) json.remove(key);
-        else json.put(key, value);
-    }
+	public String get(String key) {
+		return json.optString(key, null);
+	}
 
-    public String get(String key) {
-        return json.optString(key, null);
-    }
+	public <T> T run(KryoCallback<T> callback) {
+		return kryoPool.run(callback);
+	}
 
-    public <T> T run(KryoCallback<T> callback) {
-        return kryoPool.run(callback);
-    }
+	public void set(String key, String value) {
+		if (value == null) json.remove(key);
+		else json.put(key, value);
+	}
 }

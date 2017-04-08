@@ -112,6 +112,22 @@ public class StringUtils {
 		return options;
 	}
 
+	public static String parseTime(long duration) {
+		final long
+			years = duration / 31104000000L,
+			months = duration / 2592000000L % 12,
+			days = duration / 86400000L % 30,
+			hours = duration / 3600000L % 24,
+			minutes = duration / 60000L % 60,
+			seconds = duration / 1000L % 60;
+		String uptime = (years == 0 ? "" : years + " Years, ") + (months == 0 ? "" : months + " Months, ")
+			+ (days == 0 ? "" : days + " Days, ") + (hours == 0 ? "" : hours + " Hours, ")
+			+ (minutes == 0 ? "" : minutes + " Minutes, ") + (seconds == 0 ? "" : seconds + " Seconds, ");
+
+		uptime = replaceLast(uptime, ", ", "");
+		return replaceLast(uptime, ",", " and");
+	}
+
 	public static String removeLines(String str, int startline, int numlines) {
 		try (BufferedReader br = new BufferedReader(new StringReader(str))) {
 			//String buffer to store contents of the file
@@ -137,6 +153,10 @@ public class StringUtils {
 		}
 	}
 
+	public static String replaceLast(String text, String regex, String replacement) {
+		return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
+	}
+
 	/**
 	 * Enchanced {@link String#split(String, int)} with SPLIT_PATTERN as the Pattern used.
 	 *
@@ -148,25 +168,5 @@ public class StringUtils {
 		String[] raw = SPLIT_PATTERN.split(args, expectedArgs);
 		if (expectedArgs < 1) return raw;
 		return normalizeArray(raw, expectedArgs);
-	}
-
-	public static String parseTime(long duration) {
-		final long
-				years = duration / 31104000000L,
-				months = duration / 2592000000L % 12,
-				days = duration / 86400000L % 30,
-				hours = duration / 3600000L % 24,
-				minutes = duration / 60000L % 60,
-				seconds = duration / 1000L % 60;
-		String uptime = (years == 0 ? "" : years + " Years, ") + (months == 0 ? "" : months + " Months, ")
-				+ (days == 0 ? "" : days + " Days, ") + (hours == 0 ? "" : hours + " Hours, ")
-				+ (minutes == 0 ? "" : minutes + " Minutes, ") + (seconds == 0 ? "" : seconds + " Seconds, ");
-
-		uptime = replaceLast(uptime, ", ", "");
-		return replaceLast(uptime, ",", " and");
-	}
-
-	public static String replaceLast(String text, String regex, String replacement) {
-		return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
 	}
 }

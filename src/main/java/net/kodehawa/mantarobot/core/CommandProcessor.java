@@ -24,16 +24,16 @@ public class CommandProcessor {
 			SQLDatabase.getInstance().run((conn) -> {
 				try {
 					conn.prepareStatement("CREATE TABLE IF NOT EXISTS CMDLOG (" +
-							"id int NOT NULL AUTO_INCREMENT," +
-							"cmd varchar(15)," +
-							"args varchar(2000)," +
-							"userid varchar(20)," +
-							"channelid varchar(20)," +
-							"guildid varchar(20)," +
-							"date bigint," +
-							"successful int," +
-							"PRIMARY KEY (id)" +
-							");").executeUpdate();
+						"id int NOT NULL AUTO_INCREMENT," +
+						"cmd varchar(15)," +
+						"args varchar(2000)," +
+						"userid varchar(20)," +
+						"channelid varchar(20)," +
+						"guildid varchar(20)," +
+						"date bigint," +
+						"successful int," +
+						"PRIMARY KEY (id)" +
+						");").executeUpdate();
 					conn.prepareStatement("ALTER TABLE CMDLOG AUTO_INCREMENT=1").executeUpdate();
 				} catch (SQLException e) {
 					SQLAction.LOGGER.error(null, e);
@@ -44,8 +44,40 @@ public class CommandProcessor {
 		}
 
 	}
+
 	protected Command getCommand(String name) {
 		return Optional.ofNullable(Manager.commands.get(name)).map(Pair::getLeft).orElse(null);
+	}
+
+	public void log(String cmd, String args, GuildMessageReceivedEvent event, int successful) {
+		try {
+			SQLDatabase.getInstance().run((conn) -> {
+				try {
+					PreparedStatement statement = conn.prepareStatement("INSERT INTO CMDLOG " +
+						"(cmd, args, userid, channelid, guildid, date, successful) VALUES(" +
+						"?," +
+						"?," +
+						"?," +
+						"?," +
+						"?," +
+						"?," +
+						"?" +
+						");");
+					statement.setString(1, cmd);
+					statement.setString(2, args);
+					statement.setString(3, event.getAuthor().getId());
+					statement.setString(4, event.getChannel().getId());
+					statement.setString(5, event.getGuild().getId());
+					statement.setLong(6, System.currentTimeMillis());
+					statement.setInt(7, successful);
+					statement.execute();
+				} catch (SQLException e) {
+					SQLAction.LOGGER.error(null, e);
+				}
+			}).queue();
+		} catch (SQLException e) {
+			SQLAction.LOGGER.error(null, e);
+		}
 	}
 
 	public boolean run(GuildMessageReceivedEvent event) {
@@ -73,7 +105,7 @@ public class CommandProcessor {
 			return false;
 		}
 
-		if(MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)){
+		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)) {
 			return false;
 		}
 
@@ -90,36 +122,5 @@ public class CommandProcessor {
 			throw e;
 		}
 		return true;
-	}
-
-	public void log(String cmd, String args, GuildMessageReceivedEvent event, int successful) {
-		try {
-			SQLDatabase.getInstance().run((conn) -> {
-				try {
-					PreparedStatement statement = conn.prepareStatement("INSERT INTO CMDLOG " +
-							"(cmd, args, userid, channelid, guildid, date, successful) VALUES(" +
-							"?," +
-							"?," +
-							"?," +
-							"?," +
-							"?," +
-							"?," +
-							"?" +
-							");");
-					statement.setString(1, cmd);
-					statement.setString(2, args);
-					statement.setString(3, event.getAuthor().getId());
-					statement.setString(4, event.getChannel().getId());
-					statement.setString(5, event.getGuild().getId());
-					statement.setLong(6, System.currentTimeMillis());
-					statement.setInt(7, successful);
-					statement.execute();
-				} catch (SQLException e) {
-					SQLAction.LOGGER.error(null, e);
-				}
-			}).queue();
-		} catch (SQLException e) {
-			SQLAction.LOGGER.error(null, e);
-		}
 	}
 }

@@ -30,12 +30,12 @@ public class VoiceChannelListener implements EventListener {
 
 	@Override
 	public void onEvent(Event e) {
-	    if(e instanceof ShardMonitorEvent) {
-	        ((ShardMonitorEvent) e).alive(shardId, ShardMonitorEvent.VOICE_CHANNEL_LISTENER);
-	        return;
-        }
-        if(!(e instanceof GenericGuildVoiceEvent)) return;
-	    GenericGuildVoiceEvent event = (GenericGuildVoiceEvent)e;
+		if (e instanceof ShardMonitorEvent) {
+			((ShardMonitorEvent) e).alive(shardId, ShardMonitorEvent.VOICE_CHANNEL_LISTENER);
+			return;
+		}
+		if (!(e instanceof GenericGuildVoiceEvent)) return;
+		GenericGuildVoiceEvent event = (GenericGuildVoiceEvent) e;
 		if (event instanceof GuildVoiceMoveEvent) {
 			VoiceChannel joined = ((GuildVoiceMoveEvent) event).getChannelJoined();
 			VoiceChannel left = ((GuildVoiceMoveEvent) event).getChannelLeft();

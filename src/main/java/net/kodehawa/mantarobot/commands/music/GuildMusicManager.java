@@ -28,10 +28,10 @@ public class GuildMusicManager {
 					SQLDatabase.getInstance().run((conn) -> {
 						try {
 							PreparedStatement statement = conn.prepareStatement("INSERT INTO PLAYED_SONGS " +
-									"VALUES(" +
-									"?, " +
-									"1" +
-									") ON DUPLICATE KEY UPDATE times_played = times_played + 1;");
+								"VALUES(" +
+								"?, " +
+								"1" +
+								") ON DUPLICATE KEY UPDATE times_played = times_played + 1;");
 							statement.setString(1, track.getInfo().identifier);
 							statement.executeUpdate();
 						} catch (SQLException e) {

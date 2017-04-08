@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.modules.NoArgsCommand;
 import net.kodehawa.mantarobot.utils.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 

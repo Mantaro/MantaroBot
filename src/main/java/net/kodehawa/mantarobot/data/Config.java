@@ -12,6 +12,9 @@ public class Config {
 	public String alsecret;
 	public String bugreportChannel;
 	public String carbonToken;
+	public String cleverbotKey;
+	public String cleverbotUser;
+	public int connectionWatcherPort = 26000;
 	public String consoleChannel = "266231083341840385";
 	public String crossBotHost;
 	public int crossBotPort;
@@ -22,17 +25,14 @@ public class Config {
 	public String dbotsToken;
 	public String dbotsorgToken;
 	public String osuApiKey;
-	public String cleverbotUser;
-	public String cleverbotKey;
 	public List<String> owners = new ArrayList<>();
 	public String prefix = "~>";
 	public String remoteNode;
-	public String token;
-	public String weatherAppId;
-	public String sqlPassword;
 	public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
 	public int shardWatcherWait = 600000; //run once every 600 seconds (10 minutes)
-    public int connectionWatcherPort = 26000;
+	public String sqlPassword;
+	public String token;
+	public String weatherAppId;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

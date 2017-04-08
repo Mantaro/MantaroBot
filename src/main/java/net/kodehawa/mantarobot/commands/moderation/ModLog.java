@@ -32,7 +32,7 @@ public class ModLog {
 				embedBuilder.setAuthor("Kick | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
 		}
-		if(guildDB.getData().getGuildLogChannel() != null){
+		if (guildDB.getData().getGuildLogChannel() != null) {
 			MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
 		}
 	}
@@ -44,7 +44,7 @@ public class ModLog {
 		embedBuilder.addField("Member ID", target, true);
 		embedBuilder.addField("Reason", reason, false);
 		embedBuilder.setAuthor("Unban", null, author.getUser().getEffectiveAvatarUrl());
-		if(guildDB.getData().getGuildLogChannel() != null){
+		if (guildDB.getData().getGuildLogChannel() != null) {
 			MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
 		}
 	}

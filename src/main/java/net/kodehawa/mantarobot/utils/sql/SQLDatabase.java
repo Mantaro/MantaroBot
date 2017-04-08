@@ -7,32 +7,32 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SQLDatabase {
-    private static final SQLDatabase sql;
+	private static final SQLDatabase sql;
 
-    static {
-        sql = new SQLDatabase();
-    }
+	static {
+		sql = new SQLDatabase();
+	}
 
-    private MysqlDataSource dataSource;
+	public static SQLDatabase getInstance() {
+		return sql;
+	}
 
-    public SQLDatabase() {
-        dataSource = new MysqlDataSource();
-        dataSource.setDatabaseName("mantarologs");
-        dataSource.setUser("root");
-        dataSource.setPassword(MantaroData.config().get().getSqlPassword());
-        dataSource.setServerName("localhost");
-        dataSource.setURL(dataSource.getURL() + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&useSSL=false");
-    }
+	private MysqlDataSource dataSource;
 
-    public static SQLDatabase getInstance() {
-        return sql;
-    }
+	public SQLDatabase() {
+		dataSource = new MysqlDataSource();
+		dataSource.setDatabaseName("mantarologs");
+		dataSource.setUser("root");
+		dataSource.setPassword(MantaroData.config().get().getSqlPassword());
+		dataSource.setServerName("localhost");
+		dataSource.setURL(dataSource.getURL() + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&autoReconnect=true&useSSL=false");
+	}
 
-    public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
-    }
+	public Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
+	}
 
-    public SQLAction run(SQLTask task) throws SQLException {
-        return new SQLAction(getConnection(), task);
-    }
+	public SQLAction run(SQLTask task) throws SQLException {
+		return new SQLAction(getConnection(), task);
+	}
 }

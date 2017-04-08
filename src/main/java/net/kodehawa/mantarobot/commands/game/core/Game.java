@@ -9,19 +9,18 @@ import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
-import java.util.List;
 
 public abstract class Game {
 	@Setter
 	@Getter
 	private int attempts = 1;
 
-	public abstract boolean onStart(GameLobby lobby);
-
 	public abstract void call(GameLobby lobby, HashMap<Member, Player> players);
 
-	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, String expectedAnswer, int attempts, int maxAttempts){
-		if(!e.getChannel().getId().equals(lobby.getChannel().getId())){
+	public abstract boolean onStart(GameLobby lobby);
+
+	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, String expectedAnswer, int attempts, int maxAttempts) {
+		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return false;
 		}
 
@@ -29,12 +28,12 @@ public abstract class Game {
 			return false;
 		}
 
-		if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
-				e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())){
+		if (MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
+			e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
 			return false;
 		}
 
-		if(players.keySet().contains(e.getMember())) {
+		if (players.keySet().contains(e.getMember())) {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
 				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Answer was: " + expectedAnswer).queue();
 				lobby.startNextGame();

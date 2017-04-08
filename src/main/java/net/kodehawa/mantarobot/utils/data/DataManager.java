@@ -9,6 +9,6 @@ public interface DataManager<T> extends Supplier<T>, Closeable {
 
 	@Override
 	default void close() throws IOException {
-	    save();
-    }
+		save();
+	}
 }
