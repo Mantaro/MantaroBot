@@ -340,6 +340,11 @@ public class UtilsCmds extends Module {
                     UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
                     long end = System.currentTimeMillis() - start;
+                    //This shouldn't happen, but it fucking happened.
+                    if(beheadedSplit.length < 1){
+                        return;
+                    }
+
                     switch (beheadedSplit.length) {
                         case 1:
                             embed.setAuthor("Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
@@ -359,12 +364,12 @@ public class UtilsCmds extends Module {
                             embed.setAuthor("Urban Dictionary definition for " + beheadedSplit[0], data.list.get(defn).permalink, null)
                                     .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                                     .setDescription("Definition " + defns)
-                                    .setColor(Color.PINK)
+                                    .setColor(Color.GREEN)
                                     .addField("Definition", data.list.get(defn).definition, false)
-                                    .addField("Thumbs up", data.list.get(defn).thumbs_up, true)
-                                    .addField("Thumbs down", data.list.get(defn).thumbs_down, true)
                                     .addField("Example", data.list.get(defn).example, false)
-                                    .setFooter("Information provided by Urban Dictionary", null);
+                                    .addField(":thumbsup:", data.list.get(defn).thumbs_up, true)
+                                    .addField(":thumbsdown:", data.list.get(defn).thumbs_down, true)
+                                    .setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);
                             event.getChannel().sendMessage(embed.build()).queue();
                             break;
                         default:

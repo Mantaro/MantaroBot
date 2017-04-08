@@ -5,5 +5,4 @@ import lombok.Data;
 @Data
 public class UserData {
 	private String birthday;
-	private String marriedWith;
 }

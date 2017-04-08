@@ -538,7 +538,7 @@ public class OwnerCmd extends Module {
 									set = conn.prepareStatement(expression).executeQuery();
 								} catch (SQLException e) {
 									try {
-										conn.prepareStatement(expression).executeUpdate();
+										conn.prepareStatement(expression).execute();
 										event.getChannel().sendMessage(" Query was successfully executed!").queue();
 									} catch (SQLException e1) {
 										event.getChannel().sendMessage("Failed to execute query! " + Utils.paste(getStackTrace(e1))).queue();

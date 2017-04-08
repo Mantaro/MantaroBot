@@ -26,7 +26,7 @@ public class GameLobby extends Lobby {
 	@Getter
 	private static Map<String, Game> textRepresentation = new HashMap<>();
 
-	public static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
+	private static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
 
 	static {
 		textRepresentation.clear();
@@ -41,7 +41,6 @@ public class GameLobby extends Lobby {
 		this.event = event;
 		this.players = players;
 		this.gamesToPlay = games;
-		LOBBYS.put(event.getChannel(), this);
 	}
 
 	public void startFirstGame(){
@@ -53,7 +52,7 @@ public class GameLobby extends Lobby {
 		}
 	}
 
-	public boolean startNextGame(){
+	boolean startNextGame(){
 		try{
 			Game game = gamesToPlay.get(1);
 			gamesToPlay.removeFirst();

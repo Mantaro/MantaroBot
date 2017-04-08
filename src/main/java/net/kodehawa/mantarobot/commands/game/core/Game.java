@@ -36,7 +36,7 @@ public abstract class Game {
 
 		if(players.keySet().contains(e.getMember())) {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
-				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game.").queue();
+				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Answer was: " + expectedAnswer).queue();
 				lobby.startNextGame();
 				return true;
 			}
@@ -46,6 +46,7 @@ public abstract class Game {
 				lobby.startNextGame();
 				return true;
 			}
+
 			if (e.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
 				Player player = players.get(e.getMember());
 				player.addMoney(150);
