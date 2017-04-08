@@ -640,6 +640,12 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
+				if(MantaroData.db().getPlayer(event.getGuild().getMember(member)).getData().isMarried()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You are married already.").queue();
+					return;
+				}
+
+
 				event.getChannel().sendMessage(EmoteReference.MEGA + user.getName() + ", respond with **yes** or **no** to the marriage proposal from " + event.getAuthor().getName() + ".").queue();
 
 				InteractiveOperations.create(event.getChannel(), "Marriage Proposal", (int) TimeUnit.SECONDS.toMillis(120), OptionalInt.empty(), (e) ->{
