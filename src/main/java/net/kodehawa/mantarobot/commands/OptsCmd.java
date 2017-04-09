@@ -537,7 +537,7 @@ public class OptsCmd extends Module {
                             Role role = roleList.get(0);
                             guildData.getAutoroles().put(args[2], role.getId());
                             dbGuild.save();
-                            event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + roleName + "**, which gives the role " +
+                            event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + args[2] + "**, which gives the role " +
                                     "**" +
                                     role.getName() + "**").queue();
                             return;
@@ -557,7 +557,7 @@ public class OptsCmd extends Module {
                         }
                     }
                     else if (action.equals("remove")) {
-                        if (autoroles.containsKey(option)) {
+                        if (autoroles.containsKey(args[2])) {
                             autoroles.remove(args[2]);
                             dbGuild.save();
                             event.getChannel().sendMessage(EmoteReference.OK + "Removed autorole " + option).queue();
