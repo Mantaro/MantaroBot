@@ -38,11 +38,16 @@ public class ImageActionCmd extends NoArgsCommand {
 	protected void call(GuildMessageReceivedEvent event) {
 		String random = random(images);
 		try {
+			if(mentions(event).isEmpty()){
+				event.getChannel().sendMessage(	EmoteReference.ERROR + "You need to mention a user").queue();
+				return;
+			}
+
 			event.getChannel().sendFile(
 				URLCache.getInput(random),
 				imageName,
 				new MessageBuilder()
-					.append(mentions(event).isEmpty() ? EmoteReference.ERROR + "You need to mention one user" : String.format(format, mentions(event), event.getAuthor().getAsMention()))
+					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))
 					.build()
 			).queue();
 		} catch (Exception e) {

@@ -39,6 +39,7 @@ public class FunCmds extends Module {
                         return;
                     }
                 }
+
                 final int[] heads = {0};
                 final int[] tails = { 0 };
                 doTimes(times, () -> {
