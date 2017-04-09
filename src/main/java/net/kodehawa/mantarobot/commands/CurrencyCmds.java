@@ -432,7 +432,10 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args[0].equals("divorce")) {
 					Player user = MantaroData.db().getPlayer(event.getMember());
-					Player marriedWith = MantaroData.db().getPlayer(event.getGuild().getMember(MantaroBot.getInstance().getUserById(user.getData().getMarriedWith())));
+					MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
+							shard.getJDA().getUserById(user.getData().getMarriedWith()) != null).findFirst().orElse(null);
+					User user1 = shard1 == null ? null : shard1.getUserById(user.getData().getMarriedWith());
+					Player marriedWith = MantaroData.db().getPlayer(event.getGuild().getMember(user1));
 					marriedWith.getData().setMarriedWith(null);
 					user.getData().setMarriedWith(null);
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
