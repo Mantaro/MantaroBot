@@ -545,9 +545,11 @@ public class OptsCmd extends Module {
                         }
                         else {
                             DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                                    role.getId(), role.getPosition()), s -> baseEmbed(event, "Select the Role:").setDescription(s).build(), role -> {
+                                    role.getId(), role.getPosition()), s -> baseEmbed(event, "Select the Role:").setDescription(s).build
+                                    (), role -> {
                                 guildData.getAutoroles().put(option, role.getId());
-                                event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + option + "**, which gives the role " +
+                                event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + option + "**, which gives the " +
+                                        "role " +
                                         "**" +
                                         role.getName() + "**").queue();
                             });
@@ -558,9 +560,11 @@ public class OptsCmd extends Module {
                         if (autoroles.containsKey(option)) {
                             autoroles.remove(option);
                             event.getChannel().sendMessage(EmoteReference.OK + "Removed autorole " + option).queue();
+                            return;
                         }
                         else {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find an autorole with that name").queue();
+                            return;
                         }
                     }
                 }
@@ -606,7 +610,8 @@ public class OptsCmd extends Module {
                         .addField("Command settings",
                                 "~>opts server channel disallow <channel name> - Makes a channel deaf to commands\n" +
                                         "~>opts server channel allow <channel name> - Makes a channel able to hear commands again.\n" +
-                                        "~>opts server command disable <command name> - Disables the specified command. (Doing enable with the same syntax will enable it again)\n"
+                                        "~>opts server command disable <command name> - Disables the specified command. (Doing enable " +
+                                        "with the same syntax will enable it again)\n"
                                 , false)
                         .build();
             }
