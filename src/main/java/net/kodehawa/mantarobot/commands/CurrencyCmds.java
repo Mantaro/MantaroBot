@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class CurrencyCmds extends Module {
@@ -598,9 +599,10 @@ public class CurrencyCmds extends Module {
 				ArrayList<HashMap> list = MantaroData.db().getDB().db("mantaro").table("players").distinct().orderBy(MantaroData.db().getDB().desc("money"))
 					.limit(15).run(MantaroData.conn());
 				StringBuilder b = new StringBuilder();
+				AtomicInteger integer = new AtomicInteger(0);
 				list.forEach((entry) -> {
 					if (MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]) != null)
-						b.append("**").append(MantaroBot.getInstance().prettyPrintUser(entry.get("id").toString().split(":")[0]))
+						b.append(integer.incrementAndGet()).append("- ").append("**").append(MantaroBot.getInstance().prettyPrintUser(entry.get("id").toString().split(":")[0]))
 							.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
 				});
 				event.getChannel().sendMessage(baseEmbed(event, "Global richest Users", event.getAuthor().getAvatarUrl())
