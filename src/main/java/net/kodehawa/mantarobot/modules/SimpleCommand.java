@@ -3,6 +3,9 @@ package net.kodehawa.mantarobot.modules;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
@@ -55,6 +58,12 @@ public abstract class SimpleCommand implements Command {
 			toReplace.append(arrayed[i]).append(" ");
 		}
 		return content.replace(toReplace.toString(), "");
+	}
+
+	protected void doTimes(int times, Runnable runnable) {
+		for (int i = 0; i < times; i++) {
+			runnable.run();
+		}
 	}
 
 }
