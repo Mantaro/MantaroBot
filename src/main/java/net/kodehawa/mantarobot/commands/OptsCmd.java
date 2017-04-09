@@ -613,6 +613,10 @@ public class OptsCmd extends Module {
                                         "~>opts server command disable <command name> - Disables the specified command. (Doing enable " +
                                         "with the same syntax will enable it again)\n"
                                 , false)
+                        .addField("Roles",
+                                "~>opts autorole add <autorole name> <role to give name> - Adds an autorole for the specified role. Invoke " +
+                                        "by typing ~>iam <autorole name>\n" +
+                                        "~>opts autorole remove <autorole name> - Remove the autorole with the specified name", false)
                         .build();
             }
         });
