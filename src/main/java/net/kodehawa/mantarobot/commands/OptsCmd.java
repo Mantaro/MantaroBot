@@ -558,7 +558,7 @@ public class OptsCmd extends Module {
                     }
                     else if (action.equals("remove")) {
                         if (autoroles.containsKey(option)) {
-                            autoroles.remove(option);
+                            autoroles.remove(args[2]);
                             dbGuild.save();
                             event.getChannel().sendMessage(EmoteReference.OK + "Removed autorole " + option).queue();
                             return;
