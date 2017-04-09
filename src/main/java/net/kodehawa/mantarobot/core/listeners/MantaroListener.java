@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.core.listeners;
 
 import br.com.brjdevs.java.utils.extensions.Async;
+import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
@@ -140,7 +141,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException)) {
+			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException) && !(e instanceof CacheLoader.InvalidCacheLoadException)) {
 				log.warn("Unexpected exception while logging a deleted message.", e);
 			}
 			e.printStackTrace();
@@ -162,7 +163,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) && !(e instanceof CacheLoader.InvalidCacheLoadException)) {
 				log.warn("Unexpected error while logging a edit.", e);
 			}
 			e.printStackTrace();

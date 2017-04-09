@@ -601,9 +601,11 @@ public class CurrencyCmds extends Module {
 				StringBuilder b = new StringBuilder();
 				AtomicInteger integer = new AtomicInteger(0);
 				list.forEach((entry) -> {
-					if (MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]) != null)
-						b.append(integer.incrementAndGet()).append("- ").append("**").append(MantaroBot.getInstance().prettyPrintUser(entry.get("id").toString().split(":")[0]))
-							.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
+					try{
+						if (MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]) != null)
+							b.append(integer.incrementAndGet()).append("- ").append("**").append(MantaroBot.getInstance().prettyPrintUser(entry.get("id").toString().split(":")[0]))
+									.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
+					} catch (NullPointerException ignored){}
 				});
 				event.getChannel().sendMessage(baseEmbed(event, "Global richest Users", event.getAuthor().getAvatarUrl())
 					.setDescription(b.toString()).build()).queue();
