@@ -432,9 +432,7 @@ public class CurrencyCmds extends Module {
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args[0].equals("divorce")) {
 					Player user = MantaroData.db().getPlayer(event.getMember());
-					MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
-							shard.getJDA().getUserById(user.getData().getMarriedWith()) != null).findFirst().orElse(null);
-					User user1 = shard1 == null ? null : shard1.getUserById(user.getData().getMarriedWith());
+					User user1 = getUserById(user.getData().getMarriedWith());
 					Player marriedWith = MantaroData.db().getPlayer(event.getGuild().getMember(user1));
 					marriedWith.getData().setMarriedWith(null);
 					user.getData().setMarriedWith(null);
@@ -527,11 +525,10 @@ public class CurrencyCmds extends Module {
 					}
 
 					user = MantaroData.db().getUser(author).getData();
+					player = MantaroData.db().getPlayer(member);
 				}
 
-				MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
-						shard.getJDA().getUserById(player.getData().getMarriedWith()) != null).findFirst().orElse(null);
-				User user1 = shard1 == null ? null : shard1.getUserById(player.getData().getMarriedWith());
+				User user1 = getUserById(player.getData().getMarriedWith());
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.setThumbnail(author.getEffectiveAvatarUrl())
@@ -608,11 +605,8 @@ public class CurrencyCmds extends Module {
 					.limit(15).run(MantaroData.conn());
 				StringBuilder b = new StringBuilder();
 				AtomicInteger integer = new AtomicInteger(0);
-				System.out.println(list);
 				list.forEach((entry) -> {
-					MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
-							shard.getJDA().getUserById(entry.get("id").toString().split(":")[0]) != null).findFirst().orElse(null);
-					User user = shard1 == null ? null : shard1.getJDA().getUserById(entry.get("id").toString().split(":")[0]);
+					User user = getUserById(entry.get("id").toString().split(":")[0]);
 					if (user != null) {
 						b.append(integer.incrementAndGet()).append("- ").append("**").append(user.getName()).append("#").append(user.getDiscriminator())
 								.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
@@ -688,5 +682,11 @@ public class CurrencyCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	private User getUserById(String id){
+		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
+				shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
+		return shard1 == null ? null : shard1.getUserById(id);
 	}
 }
