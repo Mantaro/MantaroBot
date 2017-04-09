@@ -1,10 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -525,9 +522,10 @@ public class OptsCmd extends Module {
                     HashMap<String, String> autoroles = guildData.getAutoroles();
                     if (action.equals("add")) {
                         if (args.length < 4) {
-                            onHelp(event);
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect syntax. Check command help").queue();
                             return;
                         }
+
                         String roleName = contentFrom(content, 3);
 
                         List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
@@ -537,8 +535,9 @@ public class OptsCmd extends Module {
                         }
                         else if (roleList.size() == 1) {
                             Role role = roleList.get(0);
-                            guildData.getAutoroles().put(action, role.getId());
-                            event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + option + "**, which gives the role " +
+                            guildData.getAutoroles().put(args[2], role.getId());
+                            dbGuild.save();
+                            event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + roleName + "**, which gives the role " +
                                     "**" +
                                     role.getName() + "**").queue();
                             return;
@@ -548,6 +547,7 @@ public class OptsCmd extends Module {
                                     role.getId(), role.getPosition()), s -> baseEmbed(event, "Select the Role:").setDescription(s).build
                                     (), role -> {
                                 guildData.getAutoroles().put(option, role.getId());
+                                dbGuild.save();
                                 event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + option + "**, which gives the " +
                                         "role " +
                                         "**" +
@@ -559,6 +559,7 @@ public class OptsCmd extends Module {
                     else if (action.equals("remove")) {
                         if (autoroles.containsKey(option)) {
                             autoroles.remove(option);
+                            dbGuild.save();
                             event.getChannel().sendMessage(EmoteReference.OK + "Removed autorole " + option).queue();
                             return;
                         }

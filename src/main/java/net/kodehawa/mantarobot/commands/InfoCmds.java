@@ -80,7 +80,6 @@ public class InfoCmds extends Module {
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 
 				if (!content.isEmpty() && args[0].equals("patreon")) {
-
 					EmbedBuilder builder = new EmbedBuilder();
 					Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
 					String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
@@ -136,7 +135,7 @@ public class InfoCmds extends Module {
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
 						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
 						" [Support Mantaro development!](https://www.patreon.com/mantaro)\n\n" +
-						EmoteReference.POPPER + madeBy
+						EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(

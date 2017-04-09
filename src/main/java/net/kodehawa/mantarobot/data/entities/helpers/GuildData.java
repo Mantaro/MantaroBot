@@ -28,5 +28,5 @@ public class GuildData {
 	private Long quoteLastId = 0L;
 	private boolean rpgDevaluation = true;
 	private boolean rpgLocalMode = false;
-	private HashMap<String, String> autoroles;
+	private HashMap<String, String> autoroles = new HashMap<>();
 }
