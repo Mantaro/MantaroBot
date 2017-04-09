@@ -55,7 +55,7 @@ public class MiscCmds extends Module {
                     if (autoroles.size() > 0) {
                         autoroles.forEach((name, roleId) -> {
                             Role role = event.getGuild().getRoleById(roleId);
-                            if (role != null) embed.appendDescription("\n" + name + ": " + role.getName());
+                            if (role != null) embed.appendDescription("\nAutorole name: " + name + " | Gives role **" + role.getName() + "**");
                         });
                     }
                     else embed.setDescription("There aren't any autoroles setup in this server!");
