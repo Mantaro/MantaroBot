@@ -31,10 +31,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
@@ -134,7 +131,7 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				Message deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), ()->null);
+				Message deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
 				if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
 					logTotal++;
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *deleted* a message in #%s\n```diff\n-%s```", hour, deletedMessage.getAuthor().getName(), deletedMessage.getAuthor().getDiscriminator(), event.getChannel().getName(), deletedMessage.getContent().replace("```", ""))).queue();
@@ -155,10 +152,10 @@ public class MantaroListener implements EventListener {
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				User author = event.getAuthor();
-				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), ()->null);
+				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 				if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s *modified* a message in #%s.\n```diff\n-%s\n+%s```", hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
-					CommandListener.getMessageCache().put(event.getMessage().getId(), event.getMessage());
+					CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(event.getMessage()));
 					logTotal++;
 				}
 			}
