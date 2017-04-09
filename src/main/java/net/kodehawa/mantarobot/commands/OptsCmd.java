@@ -537,7 +537,7 @@ public class OptsCmd extends Module {
                         }
                         else if (roleList.size() == 1) {
                             Role role = roleList.get(0);
-                            guildData.getAutoroles().put(option, role.getId());
+                            guildData.getAutoroles().put(action, role.getId());
                             event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + option + "**, which gives the role " +
                                     "**" +
                                     role.getName() + "**").queue();

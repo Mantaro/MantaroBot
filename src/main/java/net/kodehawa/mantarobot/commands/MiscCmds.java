@@ -41,7 +41,7 @@ public class MiscCmds extends Module {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
-                if (args.length == 0) {
+                if (args.length == 0 || content.length() == 0) {
                     event.getChannel().sendMessage(helpEmbed(event, "Iam (autoroles)")
                             .setDescription("Get an autorole that your server administrators have set up!\n"
                                     + "~>iam <name>. Get the role with the specified name.\n"
