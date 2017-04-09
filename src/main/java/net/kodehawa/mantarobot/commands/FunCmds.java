@@ -28,6 +28,10 @@ public class FunCmds extends Module {
                 else {
                     try {
                         times = Integer.parseInt(args[0]);
+                        if (times > 1000) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Whoah there! The limit is 1,000 coinflips").queue();
+                            return;
+                        }
                     }
                     catch (NumberFormatException nfe) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify an Integer for the amount of " +
@@ -42,7 +46,7 @@ public class FunCmds extends Module {
                     else tails[0]++;
                 });
                 String flips = times == 1 ? "time" : "times";
-                event.getChannel().sendMessage(EmoteReference.PENNY + " Your result from **" + times + " " + flips + " yielded " +
+                event.getChannel().sendMessage(EmoteReference.PENNY + " Your result from **" + times + "** " + flips + " yielded " +
                         "**" + heads[0] + "** heads and **" + tails[0] + "** tails").queue();
             }
 
