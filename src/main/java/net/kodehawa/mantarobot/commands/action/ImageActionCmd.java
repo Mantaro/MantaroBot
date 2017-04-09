@@ -42,7 +42,7 @@ public class ImageActionCmd extends NoArgsCommand {
 				URLCache.getInput(random),
 				imageName,
 				new MessageBuilder()
-					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))
+					.append(mentions(event).isEmpty() ? EmoteReference.ERROR + "You need to mention one user" : String.format(format, mentions(event), event.getAuthor().getAsMention()))
 					.build()
 			).queue();
 		} catch (Exception e) {
@@ -67,5 +67,4 @@ public class ImageActionCmd extends NoArgsCommand {
 	private String mentions(GuildMessageReceivedEvent event) {
 		return event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" ")).trim();
 	}
-
 }
