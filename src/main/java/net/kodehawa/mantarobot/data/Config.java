@@ -11,6 +11,7 @@ import java.util.List;
 public class Config {
 	public String alsecret;
 	public String bugreportChannel;
+	public boolean cacheGames = false;
 	public String carbonToken;
 	public String cleverbotKey;
 	public String cleverbotUser;

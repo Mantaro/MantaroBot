@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
-public class Pokemon extends Game {
+public class Pokemon extends ImageGame {
 
 	private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[PokemonTrivia]");
@@ -26,7 +27,7 @@ public class Pokemon extends Game {
 	private int maxAttempts = 10;
 
 	public Pokemon() {
-		super();
+		super(10);
 	}
 
 	@Override
@@ -42,8 +43,10 @@ public class Pokemon extends Game {
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
 			System.out.println(expectedAnswer);
-			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Who's that pokemon?", null)
-				.setImage(pokemonImage).setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null).build()).queue();
+			sendEmbedImage(lobby.getChannel(), pokemonImage, eb->eb
+                .setTitle("Who's that pokemon?", null)
+                .setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null)
+            ).queue();
 			return true;
 		} catch (Exception e) {
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();

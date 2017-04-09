@@ -18,6 +18,8 @@ import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 
 @Slf4j
 public class ImageActionCmd extends NoArgsCommand {
+    public static final URLCache CACHE = new URLCache(20);
+
 	private final Color color;
 	private final String desc;
 	private final String format;
@@ -44,7 +46,7 @@ public class ImageActionCmd extends NoArgsCommand {
 			}
 
 			event.getChannel().sendFile(
-				URLCache.getInput(random),
+				CACHE.getInput(random),
 				imageName,
 				new MessageBuilder()
 					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))

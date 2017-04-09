@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.entities.Player;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
-public class ImageGuess extends Game {
+public class ImageGuess extends ImageGame {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("Game[ImageGuess]");
 	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
@@ -34,7 +35,7 @@ public class ImageGuess extends Game {
 	private int maxAttempts = 10;
 
 	public ImageGuess() {
-		super();
+		super(10);
 	}
 
 	@Override
@@ -54,8 +55,10 @@ public class ImageGuess extends Game {
 			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
 			System.out.println(characterName);
 			String imageUrl = character[0].getImage_url_med();
-			lobby.getChannel().sendMessage(new EmbedBuilder().setTitle("Guess the character", null)
-				.setImage(imageUrl).setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null).build()).queue();
+			sendEmbedImage(lobby.getChannel(), imageUrl, eb->eb
+                .setTitle("Guess the character", null)
+                .setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null)
+            ).queue();
 			return true;
 		} catch (Exception e) {
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();

@@ -34,6 +34,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
+    public static final URLCache CACHE = new URLCache(20);
 
 	Random r = new Random();
 	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
@@ -69,7 +70,7 @@ public class ImageCmds extends Module {
 					String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
 						"Am I cute yet?", "%mention%, I think you should have a cat."};
 					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
-					event.getChannel().sendFile(URLCache.getFile(url), "cat.jpg",
+					event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
 						new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
 				} catch (Exception e) {
 					e.printStackTrace();
