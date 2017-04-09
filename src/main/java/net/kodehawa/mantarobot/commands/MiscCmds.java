@@ -81,7 +81,7 @@ public class MiscCmds extends Module {
                             });
                         }
                         catch (PermissionException pex) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't take from you **" + role.getName() + ". Make " +
                                     "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
                                     .queue();
                         }
@@ -96,6 +96,70 @@ public class MiscCmds extends Module {
                         .setDescription("Get an autorole that your server administrators have set up!\n"
                                 + "~>iam <name>. Get the role with the specified name.\n"
                                 + "~>iam list. List all the available autoroles in this server")
+                        .build();
+            }
+        });
+    }
+
+    private void iamnot() {
+        super.register("iamnot", new SimpleCommand() {
+            @Override
+            protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+                HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+                if (args.length == 0 || content.length() == 0) {
+                    event.getChannel().sendMessage(helpEmbed(event, "Iam (autoroles)")
+                            .setDescription("Get an autorole that your server administrators have set up!\n"
+                                    + "~>iamnot <name>. Get the role with the specified name.\n"
+                                    + "~>iamnot list. List all the available autoroles in this server")
+                            .build()).queue();
+                    return;
+                }
+                if (content.equals("list")) {
+                    EmbedBuilder embed = baseEmbed(event, "Autorole list");
+                    if (autoroles.size() > 0) {
+                        autoroles.forEach((name, roleId) -> {
+                            Role role = event.getGuild().getRoleById(roleId);
+                            if (role != null) embed.appendDescription("\nAutorole name: " + name + " | Gives role **" + role.getName() + "**");
+                        });
+                    }
+                    else embed.setDescription("There aren't any autoroles setup in this server!");
+                    event.getChannel().sendMessage(embed.build()).queue();
+                    return;
+                }
+                String autoroleName = args[0];
+                if (autoroles.containsKey(autoroleName)) {
+                    Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
+                    if (role == null) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
+                                "to has been deleted").queue();
+                    }
+                    else {
+                        if (event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have this role, silly!").queue();
+                            return;
+                        }
+                        try {
+                            event.getGuild().getController().removeRolesFromMember(event.getMember(), role).queue(aVoid -> {
+                                event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've " +
+                                        "lost the **" + role.getName() + "** role").queue();
+                            });
+                        }
+                        catch (PermissionException pex) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +
+                                    "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
+                                    .queue();
+                        }
+                    }
+                }
+                else event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with this name!").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Iamnot (autoroles)")
+                        .setDescription("Remove an autorole that your server administrators have set up!\n"
+                                + "~>iamnot <name>. Remove the role with the specified name.\n"
+                                + "~>iamnot list. List all the available autoroles in this server")
                         .build();
             }
         });
