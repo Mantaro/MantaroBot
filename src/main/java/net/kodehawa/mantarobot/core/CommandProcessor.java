@@ -45,7 +45,7 @@ public class CommandProcessor {
 
 	}
 
-	protected Command getCommand(String name) {
+	private Command getCommand(String name) {
 		return Optional.ofNullable(Manager.commands.get(name)).map(Pair::getLeft).orElse(null);
 	}
 
