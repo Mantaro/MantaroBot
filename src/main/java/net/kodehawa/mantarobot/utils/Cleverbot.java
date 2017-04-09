@@ -38,6 +38,14 @@ public class Cleverbot {
 					"Awoo" + IntStream.range(0, random(10)).mapToObj(i -> "o").collect(Collectors.joining()) + "!"
 				).queue()
 			)
+            .with(
+                //The lewdness is strong with this one
+                Pattern.compile("(s+?e+?x+?)|(p+?o+?r+?n+?)|(h+?e+?n+?t+?a+?i+?)|(e+?c+?h+?i+?)|(xxx)", Pattern.CASE_INSENSITIVE).asPredicate(),
+                event -> event.getChannel().sendFile(
+                    ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png",
+                    new MessageBuilder().append("Y-You lewdie!").build()
+                ).queue()
+            )
 			.with(
 				Pattern.compile("(hi+?)|(hey(a*?|y+?))|(hello+?)[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage(
