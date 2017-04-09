@@ -108,7 +108,7 @@ public class MiscCmds extends Module {
                             .getString("answer");
                 }
                 catch (Exception exception) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. My owners have been notified.")
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners have been notified and will resolve this soon.")
                             .queue();
                     LOGGER.warn("Error while processing answer", exception);
                     return;
@@ -120,8 +120,8 @@ public class MiscCmds extends Module {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "8ball")
-                        .setDescription("Retrieves an answer from 8Ball. Requires a sentence.\n"
-                                + "~>8ball <question>. Retrieves an answer from 8ball based on the question provided.")
+                        .setDescription("Retrieves an answer from the magic 8Ball.\n"
+                                + "~>8ball <question>. Retrieves an answer from 8ball based on the question or sentence provided.")
                         .build();
             }
 
@@ -186,11 +186,11 @@ public class MiscCmds extends Module {
      */
     private String randomColor() {
         String[] letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
-        String color = "#";
+        StringBuilder color = new StringBuilder("#");
         for (int i = 0; i < 6; i++) {
-            color += letters[(int) Math.floor(Math.random() * 16)];
+            color.append(letters[(int) Math.floor(Math.random() * 16)]);
         }
-        return color;
+        return color.toString();
     }
 
     private void randomFact() {

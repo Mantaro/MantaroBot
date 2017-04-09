@@ -8,6 +8,7 @@ import frederikam.jca.JCA;
 import frederikam.jca.JCABuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
+import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.LoadState;
@@ -222,5 +223,9 @@ public class MantaroBot extends ShardedJDA {
 
 	public TempBanManager getTempBanManager() {
 		return tempBanManager;
+	}
+
+	public Guild getGuildById(String guildId) {
+		return getShardForGuild(guildId).getGuildById(guildId);
 	}
 }

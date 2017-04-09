@@ -41,21 +41,21 @@ public class InfoCmds extends Module {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
 	private static String ratePing(long ping) {
-		if (ping <= 1) return "which doesn't even make any sense at all. :upside_down:"; //just in case...
-		if (ping <= 10) return "which is faster than Sonic. :smiley:";
-		if (ping <= 100) return "which is great! :smiley:";
-		if (ping <= 200) return "which is nice! :slight_smile:";
-		if (ping <= 300) return "which is decent. :neutral_face:";
-		if (ping <= 400) return "which is average... :confused:";
-		if (ping <= 500) return "which is slightly slow. :slight_frown:";
-		if (ping <= 600) return "which is kinda slow.. :frowning2:";
-		if (ping <= 700) return "which is slow.. :worried:";
-		if (ping <= 800) return "which is too slow. :disappointed:";
-		if (ping <= 800) return "which is awful. :weary:";
-		if (ping <= 900) return "which is bad. :sob: (helpme)";
-		if (ping <= 1600) return "which is (probably) because Discord is lagging. :angry:";
-		if (ping <= 10000) return "which makes less sense than 0 ping. :thinking:";
-		return "which is slow af. :dizzy_face:";
+		if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
+		if (ping <= 10) return "faster than Sonic! :smiley:";
+		if (ping <= 100) return "great! :smiley:";
+		if (ping <= 200) return "nice! :slight_smile:";
+		if (ping <= 300) return "decent. :neutral_face:";
+		if (ping <= 400) return "average... :confused:";
+		if (ping <= 500) return "slightly slow. :slight_frown:";
+		if (ping <= 600) return "kinda slow.. :frowning2:";
+		if (ping <= 700) return "slow.. :worried:";
+		if (ping <= 800) return "too slow. :disappointed:";
+		if (ping <= 800) return "awful. :weary:";
+		if (ping <= 900) return "bad. :sob: (helpme)";
+		if (ping <= 1600) return "#BlameDiscord. :angry:";
+		if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
+		return "slow af. :dizzy_face:";
 	}
 
 	public InfoCmds() {
@@ -82,16 +82,15 @@ public class InfoCmds extends Module {
 				if (!content.isEmpty() && args[0].equals("patreon")) {
 
 					EmbedBuilder builder = new EmbedBuilder();
-
-					String donators = MantaroData.db().getMantaroData().getPatreonUsers().stream()
-						.filter(id -> MantaroBot.getInstance().getUserById(id) != null)
-						.map(id -> String.format("%s#%s", MantaroBot.getInstance().getUserById(id).getName(), MantaroBot.getInstance().getUserById(id).getDiscriminator()))
-						.collect(Collectors.joining(", "));
-
-					builder.setAuthor("Patreon supporters.", null, event.getJDA().getSelfUser().getAvatarUrl())
+					Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
+					String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
+							role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(member ->
+							String.format("%s#%s", member.getUser().getName(), member.getUser().getDiscriminator()))
+							.collect(Collectors.joining(", "));
+					builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setDescription(donators)
 						.setColor(Color.PINK)
-						.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
+						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
@@ -101,10 +100,10 @@ public class InfoCmds extends Module {
 					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setColor(Color.BLUE)
 						.setDescription("**Main developer**: Kodehawa#3457\n"
-							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289\n**Grammar corrections**: Adam#9261")
+							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289\n**Grammar corrections and development**: Adam#9261")
 						.addField("Special mentions",
-							"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping with bot visibility.", false)
-						.setFooter("Thanks you for all of your help towards making mantaro better.", event.getJDA().getSelfUser().getAvatarUrl());
+							"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping us with increasing the bot's visibility.", false)
+						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
@@ -136,7 +135,7 @@ public class InfoCmds extends Module {
 						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
 						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
 						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
-						" [Support the bot development!](https://www.patreon.com/mantaro)\n\n" +
+						" [Support Mantaro development!](https://www.patreon.com/mantaro)\n\n" +
 						EmoteReference.POPPER + madeBy
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
@@ -146,7 +145,7 @@ public class InfoCmds extends Module {
 					), false)
 					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShards().length), true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
-					.addField("Guilds", String.valueOf(guilds.size()), true)
+					.addField("Servers", String.valueOf(guilds.size()), true)
 					.addField("Users (Online/Unique)", guilds.stream().flatMap
 						(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
 						guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
@@ -160,8 +159,8 @@ public class InfoCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "About Command")
-					.addField("Description:", "Sends a message of what the bot is.", false)
-					.addField("Information", "~>about credits sends a message telling who helped on the bot's development, ~>about patreon sends a message with the patreon supporters", false)
+					.addField("Description:", "Read info about Mantaro!", false)
+					.addField("Information", "~>about credits lists everyone who has helped on the bot's development, ~>about patreon lists our patreon supporters", false)
 					.setColor(Color.PINK)
 					.build();
 			}
@@ -188,10 +187,10 @@ public class InfoCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Avatar")
-					.setDescription("Gets your user avatar")
+					.setDescription("Get user avatar URLs")
 					.addField("Usage",
-						"~>avatar - Gets your avatar url" +
-							"\n ~>avatar <mention> - Gets a user's avatar url.", false)
+						"~>avatar - Get your avatar url" +
+							"\n ~>avatar <mention> - Get a user's avatar url.", false)
 					.build();
 			}
 		});
@@ -218,9 +217,9 @@ public class InfoCmds extends Module {
 					roles = roles.substring(0, 1024 - 4) + "...";
 
 				channel.sendMessage(new EmbedBuilder()
-					.setAuthor("Guild Information", null, guild.getIconUrl())
+					.setAuthor("Server Information", null, guild.getIconUrl())
 					.setColor(guild.getOwner().getColor() == null ? Color.ORANGE : guild.getOwner().getColor())
-					.setDescription("Guild information for server " + guild.getName())
+					.setDescription("Server information for " + guild.getName())
 					.setThumbnail(guild.getIconUrl())
 					.addField("Users (Online/Unique)", (int) guild.getMembers().stream().filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() + "/" + guild.getMembers().size(), true)
 					.addField("Main Channel", guild.getPublicChannel().getAsMention(), true)
@@ -236,8 +235,8 @@ public class InfoCmds extends Module {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "GuildInfo Command")
-					.addField("Description:", "Sends the current Guild information.", false)
+				return helpEmbed(event, "Server Info Command")
+					.addField("Description:", "See your server's current stats.", false)
 					.setColor(event.getGuild().getOwner().getColor() == null ? Color.ORANGE : event.getGuild().getOwner().getColor())
 					.build();
 			}
@@ -269,7 +268,7 @@ public class InfoCmds extends Module {
 					EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
-						.setFooter(String.format("To check the command usage do %shelp <command> // -> Commands: " +
+						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
 								Manager.commands.entrySet().stream().filter(
 									(command) -> !command.getValue().getKey().isHiddenFromHelp()).count()
 							, prefix), null);
@@ -288,9 +287,9 @@ public class InfoCmds extends Module {
 						final MessageEmbed help = command.getKey().help(event);
 						Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
 						if (help == null)
-							event.getChannel().sendMessage(EmoteReference.ERROR + "No extended help set for this command.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
 					} else {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "This command doesn't exist.").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "A command with this name doesn't exist").queue();
 					}
 				}
 			}
@@ -302,7 +301,7 @@ public class InfoCmds extends Module {
 					.addField("Description:", jokes.get(r.nextInt(jokes.size())), false)
 					.addField(
 						"Usage:",
-						"`~>help`: Returns information about who issued the command.\n`~>help [command]`: Returns information about the specific command.",
+						"`~>help`: Return information about who issued the command.\n`~>help <command>`: Return information about the command specified.",
 						false
 					).build();
 			}
@@ -356,12 +355,12 @@ public class InfoCmds extends Module {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
-					.addField("OAuth Invite URL", "http://polr.me/mantaro", false)
-					.addField("Support Guild Invite", "https://discordapp.com/invite/cMTmuPa", false)
+					.addField("Invite URL", "http://polr.me/mantaro", false)
+					.addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
 					.addField("Patreon URL", "http://patreon.com/mantaro", false)
-					.setDescription("Here are some useful links related to mantaro. If you have any questions about the bot feel free to join the support guild." +
-						"\nWe provided a patreon link in case you want to donate to keep mantaro running. Thanks you in advance for using the bot! <3")
-					.setFooter("Hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
+					.setDescription("Here are some useful links! If you have any questions about the bot, feel free to join the support guild and tag @Steven#6340." +
+						"\nWe provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks!]. Thanks you in advance for using the bot! <3 from the developers")
+					.setFooter("We hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
 					.build()).queue();
 			}
 
@@ -385,7 +384,7 @@ public class InfoCmds extends Module {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					event.getChannel().sendMessage(EmoteReference.MEGA + "The ping is " + ping + " ms, " + ratePing(ping) + "  `WS:" + event.getJDA().getPing() + "ms`").queue();
+					event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
 					TextChannelGround.of(event).dropItemWithChance(5, 5);
 				});
 			}
@@ -483,19 +482,19 @@ public class InfoCmds extends Module {
 							.setColor(Color.PINK)
 							.setAuthor("Mantaro Statistics", "https://github.com/Kodehawa/MantaroBot/", event.getJDA().getSelfUser().getAvatarUrl())
 							.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
-							.setDescription("Well... I did my maths!")
+							.setDescription("Well... I did my math!")
 							.addField("Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", usersPerGuild.min, usersPerGuild.avg, usersPerGuild.max), true)
-							.addField("Online Users per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.min, onlineUsersPerGuild.avg, onlineUsersPerGuild.max), true)
-							.addField("Online Users per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.min, onlineUsersPerUserPerGuild.avg, onlineUsersPerUserPerGuild.max), true)
-							.addField("Text Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.min, textChannelsPerGuild.avg, textChannelsPerGuild.max), true)
-							.addField("Voice Channels per Guild", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.min, voiceChannelsPerGuild.avg, voiceChannelsPerGuild.max), true)
-							.addField("Music Listeners per Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.min, listeningUsersPerUsersPerGuilds.avg, listeningUsersPerUsersPerGuilds.max), true)
-							.addField("Music Listeners per Online Users per Guild", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.min, listeningUsersPerOnlineUsersPerGuilds.avg, listeningUsersPerOnlineUsersPerGuilds.max), true)
-							.addField("Music Connections per Guilds", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
+							.addField("Online Users per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", onlineUsersPerGuild.min, onlineUsersPerGuild.avg, onlineUsersPerGuild.max), true)
+							.addField("Online Users per Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", onlineUsersPerUserPerGuild.min, onlineUsersPerUserPerGuild.avg, onlineUsersPerUserPerGuild.max), true)
+							.addField("Text Channels per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", textChannelsPerGuild.min, textChannelsPerGuild.avg, textChannelsPerGuild.max), true)
+							.addField("Voice Channels per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.min, voiceChannelsPerGuild.avg, voiceChannelsPerGuild.max), true)
+							.addField("Music Listeners per Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.min, listeningUsersPerUsersPerGuilds.avg, listeningUsersPerUsersPerGuilds.max), true)
+							.addField("Music Listeners per Online Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.min, listeningUsersPerOnlineUsersPerGuilds.avg, listeningUsersPerOnlineUsersPerGuilds.max), true)
+							.addField("Music Connections per Server", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
-							.addField("Exclusiveness per Total Guilds", Math.round(ex) + "% (" + exclusiveness + ")", false)
-							.addField("Big Guilds", String.valueOf(bG), true)
+							.addField("Exclusiveness in Total Servers", Math.round(ex) + "% (" + exclusiveness + ")", false)
+							.addField("Big Servers", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
 								, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()
@@ -613,7 +612,7 @@ public class InfoCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Statistics command")
-					.setDescription("Returns bot, usage or vps statistics")
+					.setDescription("See the bot, usage or vps statistics")
 					.addField("Usage", "~>stats <usage/vps/cmds/guilds>", true)
 					.build();
 			}
@@ -633,7 +632,7 @@ public class InfoCmds extends Module {
 				Member member = event.getGuild().getMember(user);
 				if (member == null) {
 					String name = user == null ? "Unknown User" : user.getName();
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry but I couldn't get the Info for the user " + name + ". Please make sure you and the user are in the same guild.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry but I couldn't get " + name + "'s info. Please make sure you and that person are in the same server!").queue();
 					return;
 				}
 
@@ -662,8 +661,8 @@ public class InfoCmds extends Module {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "UserInfo Command")
-					.addField("Description:", "Sends the information about a specific user.", false)
-					.addField("Usage:", "`~>userinfo [@userMention]`: Returns information about the specific user.\n`~>userinfo`: Returns information about who issued the command.", false)
+					.addField("Description:", "See information about specific users.", false)
+					.addField("Usage:", "`~>userinfo @User`: Get information about the specific user.\n`~>userinfo`: Get information about yourself!", false)
 					.build();
 			}
 
