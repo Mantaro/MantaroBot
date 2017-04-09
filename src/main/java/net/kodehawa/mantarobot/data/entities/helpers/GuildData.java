@@ -2,6 +2,8 @@ package net.kodehawa.mantarobot.data.entities.helpers;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,4 +28,5 @@ public class GuildData {
 	private Long quoteLastId = 0L;
 	private boolean rpgDevaluation = true;
 	private boolean rpgLocalMode = false;
+	private HashMap<String, String> autoroles;
 }

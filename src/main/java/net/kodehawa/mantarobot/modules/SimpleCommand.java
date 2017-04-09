@@ -47,4 +47,14 @@ public abstract class SimpleCommand implements Command {
 	protected String[] splitArgs(String content) {
 		return SPLIT_PATTERN.split(content);
 	}
+
+	protected String contentFrom(String content, int argsToSkip) {
+		String[] arrayed = content.split(" ");
+		StringBuilder toReplace = new StringBuilder();
+		for (int i = 0; i < argsToSkip; i++) {
+			toReplace.append(arrayed[i]).append(" ");
+		}
+		return content.replace(toReplace.toString(), "");
+	}
+
 }
