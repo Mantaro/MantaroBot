@@ -77,6 +77,8 @@ public class CommandListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
+        messageCache.put(event.getMessage().getId(), event.getMessage());
+
 		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())) {
 			return;
 		}
