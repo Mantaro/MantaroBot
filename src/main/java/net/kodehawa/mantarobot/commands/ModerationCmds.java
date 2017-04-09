@@ -125,7 +125,7 @@ public class ModerationCmds extends Module {
                 receivedMessage.getMentionedUsers().forEach(user -> {
                     if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot ban an user who's higher than you in the " +
-                                "servr hierarchy! Nice try " + EmoteReference.SMILE).queue();
+                                "server hierarchy! Nice try " + EmoteReference.SMILE).queue();
                         return;
                     }
 

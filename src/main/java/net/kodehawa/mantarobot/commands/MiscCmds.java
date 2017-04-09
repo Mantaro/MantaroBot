@@ -65,15 +65,15 @@ public class MiscCmds extends Module {
                 String autoroleName = args[0];
                 if (autoroles.containsKey(autoroleName)) {
                     Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
-                    if (event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
-                        return;
-                    }
                     if (role == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
                                 "to has been deleted").queue();
                     }
                     else {
+                        if (event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
+                            return;
+                        }
                         try {
                             event.getGuild().getController().addRolesToMember(event.getMember(), role).queue(aVoid -> {
                                 event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've been " +
