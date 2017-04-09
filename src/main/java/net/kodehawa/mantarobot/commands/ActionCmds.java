@@ -13,22 +13,21 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ActionCmds extends Module {
-    static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
-    static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
-    static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
-    static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
-    static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
-    static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
+    public static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
+    public static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
+    public static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
+    public static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
+    public static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
+    public static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
     public ActionCmds() {
         super(Category.ACTION);
@@ -113,14 +112,14 @@ public class ActionCmds extends Module {
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 TextChannel channel = event.getChannel();
                 if (event.getMessage().getMentionedUsers().isEmpty()) {
-                    channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
+                    channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
                 }
                 else {
                     String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
 							.joining(" "));
                     String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(),
 							bString);
-                    channel.sendFile(Utils.toByteArray("http://imgur.com/ZR8Plmd.png"), "suck.png",
+                    channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
                             new MessageBuilder().append(bs).build()).queue();
                 }
             }
@@ -145,7 +144,7 @@ public class ActionCmds extends Module {
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
 						(" "));
-                event.getChannel().sendFile(Utils.toByteArray("http://imgur.com/LJfZYau.png"), "lewd.png"
+                event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png"
                         , new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
             }
 
@@ -172,11 +171,11 @@ public class ActionCmds extends Module {
                 Message receivedMessage = event.getMessage();
                 if (!receivedMessage.getMentionedUsers().isEmpty()) {
                     String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-                    channel.sendFile(Utils.toByteArray("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+                    channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
                             new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
                 }
                 else {
-                    channel.sendFile(Utils.toByteArray("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+                    channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
                             new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
                 }
             }

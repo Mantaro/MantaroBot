@@ -12,15 +12,17 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.utils.Cleverbot;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -85,10 +87,7 @@ public class CommandListener implements EventListener {
 
 		//Cleverbot.
 		if (event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())) {
-			if (MantaroBot.CLEVERBOT == null) return;
-			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(
-				event.getMessage().getRawContent().replaceFirst("<!?@.+?> ", ""))
-			).queue();
+			Cleverbot.handle(event);
 			return;
 		}
 

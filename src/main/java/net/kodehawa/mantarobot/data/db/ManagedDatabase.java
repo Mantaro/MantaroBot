@@ -1,11 +1,11 @@
 package net.kodehawa.mantarobot.data.db;
 
-import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.entities.*;
 
 import java.util.List;
@@ -59,10 +59,6 @@ public class ManagedDatabase {
 		return c.toList();
 	}
 
-	public RethinkDB getDB() {
-		return r;
-	}
-
 	public Player getGlobalPlayer(String userId) {
 		Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
 		return player == null ? Player.of(userId) : player;
@@ -95,6 +91,10 @@ public class ManagedDatabase {
 		return getGuild(member.getGuild());
 	}
 
+	public DBGuild getGuild(GuildMessageReceivedEvent event) {
+		return getGuild(event.getGuild());
+	}
+
 	public MantaroObj getMantaroData() {
 		MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
 		return obj == null ? MantaroObj.create() : obj;
@@ -117,7 +117,7 @@ public class ManagedDatabase {
 	public List<Player> getPlayers(String guildId) {
 		boolean local = getGuild(guildId).getData().isRpgLocalMode();
 		String pattern = ':' + (local ? guildId : "g") + '$';
-		Cursor<Player> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
+		Cursor<Player> c = r.table(Player.DB_TABLE).filter(player -> player.g("id").match(pattern)).run(conn, Player.class);
 		return c.toList();
 	}
 

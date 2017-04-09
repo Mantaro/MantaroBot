@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -21,11 +21,15 @@ import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.rethinkdb.RethinkDB.r;
 
 public class CurrencyCmds extends Module {
 
@@ -183,6 +187,12 @@ public class CurrencyCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	private User getUserById(String id) {
+		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
+			shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
+		return shard1 == null ? null : shard1.getUserById(id);
 	}
 
 	private void inventory() {
@@ -601,19 +611,29 @@ public class CurrencyCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				ArrayList<HashMap> list = MantaroData.db().getDB().db("mantaro").table("players").distinct().orderBy(MantaroData.db().getDB().desc("money"))
-					.limit(15).run(MantaroData.conn());
-				StringBuilder b = new StringBuilder();
-				AtomicInteger integer = new AtomicInteger(0);
-				list.forEach((entry) -> {
-					User user = getUserById(entry.get("id").toString().split(":")[0]);
-					if (user != null) {
-						b.append(integer.incrementAndGet()).append("- ").append("**").append(user.getName()).append("#").append(user.getDiscriminator())
-								.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
-					}
-				});
-				event.getChannel().sendMessage(baseEmbed(event, "Global richest Users", event.getAuthor().getAvatarUrl())
-					.setDescription(b.toString()).build()).queue();
+				boolean local = content.equals("guild") || MantaroData.db().getGuild(event).getData().isRpgLocalMode();
+				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
+
+				Cursor<Map> c = r.table("players")
+					.filter(player -> player.g("id").match(pattern))
+					.map(player -> player.pluck("id", "money"))
+					.orderBy(r.desc("money"))
+					.limit(15)
+					.run(MantaroData.conn());
+
+				AtomicInteger i = new AtomicInteger();
+
+				event.getChannel().sendMessage(
+					baseEmbed(event,
+						(local ? event.getGuild().getName() + "'s" : "Global") + " richest Users",
+						local ? event.getGuild().getIconUrl() : event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+					).setDescription(c.toList().stream()
+						.map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
+						.filter(p -> Objects.nonNull(p.getKey()))
+						.map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p.getKey().getId(), p.getValue()))
+						.collect(Collectors.joining("\n"))
+					).build()
+				).queue();
 			}
 
 			@Override
@@ -682,11 +702,5 @@ public class CurrencyCmds extends Module {
 					.build();
 			}
 		});
-	}
-
-	private User getUserById(String id){
-		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
-				shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
-		return shard1 == null ? null : shard1.getUserById(id);
 	}
 }
