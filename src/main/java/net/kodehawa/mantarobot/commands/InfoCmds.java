@@ -121,6 +121,7 @@ public class InfoCmds extends Module {
 				String madeBy = "Bot made by: " + MantaroData.config().get().getOwners().stream()
 					.map(id -> MantaroBot.getInstance().getShardBy(event.getJDA()).getUserById(id))
 					.filter(Objects::nonNull)
+					.filter(user -> user.getId().equals("155867458203287552") || user.getId().equals("217747278071463937")) //maximum gambiarra for maximum results
 					.map(user -> event.getGuild().getMember(user) != null ? user.getAsMention() : user.getName() + "#" + user.getDiscriminator())
 					.collect(Collectors.joining(", "));
 
@@ -333,7 +334,7 @@ public class InfoCmds extends Module {
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
-					+ "Total Guild Events: " + GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS) + "\n"
+					+ "Total Guild Events: \n" + GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS).replace("`", "") + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
