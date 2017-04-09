@@ -41,6 +41,14 @@ public class MiscCmds extends Module {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+                if (args.length == 0) {
+                    event.getChannel().sendMessage(helpEmbed(event, "Iam (autoroles)")
+                            .setDescription("Get an autorole that your server administrators have set up!\n"
+                                    + "~>iam <name>. Get the role with the specified name.\n"
+                                    + "~>iam list. List all the available autoroles in this server")
+                            .build()).queue();
+                    return;
+                }
                 if (content.equals("list")) {
                     EmbedBuilder embed = baseEmbed(event, "Autorole list");
                     if (autoroles.size() > 0) {
@@ -69,7 +77,8 @@ public class MiscCmds extends Module {
                         }
                         catch (PermissionException pex) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +
-                                    "sure that I have permission to add roles and that my role is above **" + role.getName() + "**").queue();
+                                    "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
+                                    .queue();
                         }
                     }
                 }
@@ -108,7 +117,8 @@ public class MiscCmds extends Module {
                             .getString("answer");
                 }
                 catch (Exception exception) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners have been notified and will resolve this soon.")
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners " +
+                            "have been notified and will resolve this soon.")
                             .queue();
                     LOGGER.warn("Error while processing answer", exception);
                     return;
@@ -139,7 +149,7 @@ public class MiscCmds extends Module {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Misc Commands")
                         .setDescription("Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot " +
-								"hardware information\n"
+                                "hardware information\n"
                                 + "Usage:\n"
                                 + "~>misc reverse <sentence>: Reverses any given sentence.\n"
                                 + "~>misc noble: Random Lost Pause quote.\n"
@@ -165,7 +175,8 @@ public class MiscCmds extends Module {
                         channel.sendMessage(s).queue();
                         break;
                     case "noble":
-                        channel.sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " -Noble").queue();
+                        channel.sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
+                                "-Noble").queue();
                         break;
                     default:
                         onHelp(event);
@@ -197,7 +208,8 @@ public class MiscCmds extends Module {
         super.register("randomfact", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
+                event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1)))
+                        .queue();
             }
 
             @Override
