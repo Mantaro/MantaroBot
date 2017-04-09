@@ -1,11 +1,13 @@
 package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.rpg.item.Item;
@@ -522,8 +524,11 @@ public class CurrencyCmds extends Module {
 					}
 
 					user = MantaroData.db().getUser(author).getData();
-					player = MantaroData.db().getPlayer(member);
 				}
+
+				MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
+						shard.getJDA().getUserById(player.getData().getMarriedWith()) != null).findFirst().orElse(null);
+				User user1 = shard1 == null ? null : shard1.getUserById(player.getData().getMarriedWith());
 
 				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.setThumbnail(author.getEffectiveAvatarUrl())
@@ -532,7 +537,7 @@ public class CurrencyCmds extends Module {
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
-					.addField(EmoteReference.HEART + "Married with", player.getData().getMarriedWith() == null ? "Nobody." : MantaroBot.getInstance().prettyPrintUser(player.getData().getMarriedWith()), true)
+					.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator(), true)
 					.build()
 				).queue();
 			}
@@ -600,12 +605,15 @@ public class CurrencyCmds extends Module {
 					.limit(15).run(MantaroData.conn());
 				StringBuilder b = new StringBuilder();
 				AtomicInteger integer = new AtomicInteger(0);
+				System.out.println(list);
 				list.forEach((entry) -> {
-					try{
-						if (MantaroBot.getInstance().getUserById(entry.get("id").toString().split(":")[0]) != null)
-							b.append(integer.incrementAndGet()).append("- ").append("**").append(MantaroBot.getInstance().prettyPrintUser(entry.get("id").toString().split(":")[0]))
-									.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
-					} catch (NullPointerException ignored){}
+					MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
+							shard.getJDA().getUserById(entry.get("id").toString().split(":")[0]) != null).findFirst().orElse(null);
+					User user = shard1 == null ? null : shard1.getJDA().getUserById(entry.get("id").toString().split(":")[0]);
+					if (user != null) {
+						b.append(integer.incrementAndGet()).append("- ").append("**").append(user.getName()).append("#").append(user.getDiscriminator())
+								.append("**").append(" - ").append("Credits: $").append(entry.get("money")).append("\n");
+					}
 				});
 				event.getChannel().sendMessage(baseEmbed(event, "Global richest Users", event.getAuthor().getAvatarUrl())
 					.setDescription(b.toString()).build()).queue();
