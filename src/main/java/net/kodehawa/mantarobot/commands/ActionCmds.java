@@ -36,8 +36,7 @@ public class ActionCmds extends Module {
         //pat();
         super.register("pat", new ImageActionCmd(
                 "Pat", "Pats the specified user.", Color.PINK,
-                "pat.gif", PATS.get().get(0).contains("@") ? EmoteReference.TALKING + "%s you have been patted by %s" : EmoteReference
-                .ERROR + "You need to mention someone!", PATS.get()));
+                "pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", PATS.get()));
 
         //hug();
         super.register("hug", new ImageActionCmd(
