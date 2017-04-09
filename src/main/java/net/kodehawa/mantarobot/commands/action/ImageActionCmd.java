@@ -42,7 +42,7 @@ public class ImageActionCmd extends NoArgsCommand {
 				URLCache.getInput(random),
 				imageName,
 				new MessageBuilder()
-					.append(String.format(format, mentions(event)))
+					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()))
 					.build()
 			).queue();
 		} catch (Exception e) {
