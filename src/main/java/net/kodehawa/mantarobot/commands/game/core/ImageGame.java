@@ -19,13 +19,12 @@ public abstract class ImageGame extends Game {
 
     protected RestAction<Message> sendEmbedImage(MessageChannel channel, String url, Consumer<EmbedBuilder> embedConfigurator) {
         EmbedBuilder eb = new EmbedBuilder();
+        embedConfigurator.accept(eb);
         if(MantaroData.config().get().cacheGames) {
             eb.setImage("attachment://image.png");
-            embedConfigurator.accept(eb);
             return channel.sendFile(cache.getInput(url), "image.png", new MessageBuilder().setEmbed(eb.build()).build());
         }
         eb.setImage(url);
-        embedConfigurator.accept(eb);
         return channel.sendMessage(eb.build());
     }
 }

@@ -44,6 +44,10 @@ public class CommandListener implements EventListener {
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent)event;
             if(e.getAuthor().isBot() || e.getAuthor().isFake()) return;
             String message = e.getMessage().getRawContent();
+            if(message.matches("^<@!?"+ event.getJDA().getSelfUser().getId() + ">")) {
+                e.getChannel().sendMessage(":eyes:").queue();
+                return;
+            }
             if(message.startsWith(prefix)) {
                 if(!owners.contains(e.getAuthor().getId())) {
                     return;

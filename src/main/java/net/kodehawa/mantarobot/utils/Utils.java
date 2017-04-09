@@ -163,9 +163,9 @@ public class Utils {
 		String webObject = null;
 		try {
 			URL ur1 = new URL(url);
-			HttpURLConnection ccnn = (HttpURLConnection) ur1.openConnection();
-			ccnn.setRequestProperty("User-Agent", "Mantaro");
-			InputStream ism = ccnn.getInputStream();
+			HttpURLConnection conn = (HttpURLConnection) ur1.openConnection();
+			conn.setRequestProperty("User-Agent", "Mantaro");
+			InputStream ism = conn.getInputStream();
 			webObject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
 		} catch (Exception e) {
 			if (e instanceof java.io.FileNotFoundException) return null;
