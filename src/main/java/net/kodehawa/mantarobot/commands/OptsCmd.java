@@ -517,7 +517,7 @@ public class OptsCmd extends Module {
                     }
                 }
 
-                if (option.equals("autorole")) {
+                if (option.equals("autoroles")) {
                     if (args.length < 3) {
                         onHelp(event);
                         return;
@@ -614,9 +614,9 @@ public class OptsCmd extends Module {
                                         "with the same syntax will enable it again)\n"
                                 , false)
                         .addField("Roles",
-                                "~>opts autorole add <autorole name> <role to give name> - Adds an autorole for the specified role. Invoke " +
+                                "~>opts autoroles add <autorole name> <role to give name> - Adds an autorole for the specified role. Invoke " +
                                         "by typing ~>iam <autorole name>\n" +
-                                        "~>opts autorole remove <autorole name> - Remove the autorole with the specified name", false)
+                                        "~>opts autoroles remove <autorole name> - Remove the autorole with the specified name", false)
                         .build();
             }
         });
