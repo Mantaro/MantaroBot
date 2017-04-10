@@ -275,6 +275,7 @@ public class MantaroListener implements EventListener {
 				event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
 					if (error instanceof PermissionException) {
 						MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
+						MantaroData.db().getGuild(event.getGuild()).save();
 						event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
 							messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
 					} else {

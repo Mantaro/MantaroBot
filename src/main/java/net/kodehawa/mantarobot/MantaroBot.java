@@ -109,6 +109,7 @@ public class MantaroBot extends ShardedJDA {
 				Thread.sleep(5000);
 			}
 		}
+
 		new Thread(() -> {
 			LOGGER.info("ShardWatcherThread started");
 			final int wait = MantaroData.config().get().shardWatcherWait;
@@ -120,7 +121,7 @@ public class MantaroBot extends ShardedJDA {
 					managers.forEach(manager -> manager.handleSync(sme));
 					int[] dead = sme.getDeadShards();
 					if (dead.length != 0) {
-						MantaroEventManager.LOGGER.error("Dead shards found: " + Arrays.toString(dead));
+						MantaroEventManager.LOGGER.error("Dead shards found: {}", Arrays.toString(dead));
 						Arrays.stream(dead).forEach(id -> getShard(id).readdListeners());
 					} else {
 						MantaroEventManager.LOGGER.info("No dead shards found");

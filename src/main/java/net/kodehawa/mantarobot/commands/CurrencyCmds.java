@@ -614,7 +614,7 @@ public class CurrencyCmds extends Module {
 				boolean local = content.equals("guild") || MantaroData.db().getGuild(event).getData().isRpgLocalMode();
 				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
 
-				Cursor<Map> c = r.table("players")
+				List<Map> c = r.table("players")
 					.filter(player -> player.g("id").match(pattern))
 					.map(player -> player.pluck("id", "money"))
 					.orderBy(r.desc("money"))
@@ -627,10 +627,10 @@ public class CurrencyCmds extends Module {
 					baseEmbed(event,
 						(local ? event.getGuild().getName() + "'s" : "Global") + " richest Users",
 						local ? event.getGuild().getIconUrl() : event.getJDA().getSelfUser().getEffectiveAvatarUrl()
-					).setDescription(c.toList().stream()
-						.map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
+					).setDescription(c.stream()
+						.map(map -> Pair.of(getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
 						.filter(p -> Objects.nonNull(p.getKey()))
-						.map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p.getKey().getId(), p.getValue()))
+						.map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p.getKey().getDiscriminator(), p.getValue()))
 						.collect(Collectors.joining("\n"))
 					).build()
 				).queue();
