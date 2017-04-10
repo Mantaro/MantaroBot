@@ -24,6 +24,7 @@ public class OptsCmd extends Module {
         opts();
     }
 
+    //TODO make this less cringy lol
     private void opts() {
         super.register("opts", new SimpleCommand() {
             @Override

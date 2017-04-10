@@ -566,6 +566,10 @@ public class CurrencyCmds extends Module {
 
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!rateLimiter.process(event.getMember())) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
+					return;
+				}
 
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.").queue();
@@ -577,10 +581,6 @@ public class CurrencyCmds extends Module {
 					return;
 				}
 
-				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
-					return;
-				}
 
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.THINKING + "You need to mention one user.").queue();
@@ -608,8 +608,15 @@ public class CurrencyCmds extends Module {
 
 	private void richest() {
 		super.register("richest", new SimpleCommand() {
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+
+				if (!rateLimiter.process(event.getMember())) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Slow down a little bit.").queue();
+					return;
+				}
+
 				boolean local = MantaroData.db().getGuild(event).getData().isRpgLocalMode();
 				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
 				boolean global = !local && !content.equals("guild") && !content.equals("local");

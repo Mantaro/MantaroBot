@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
+import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -373,6 +374,8 @@ public class InfoCmds extends Module {
 
 	private void ping() {
 		super.register("ping", new SimpleCommand() {
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 20);
+
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
@@ -380,6 +383,11 @@ public class InfoCmds extends Module {
 
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				if (!rateLimiter.process(event.getMember())) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Uh-oh. Slowdown buddy.").queue();
+					return;
+				}
+
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
