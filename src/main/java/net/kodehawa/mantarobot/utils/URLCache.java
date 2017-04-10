@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class URLCache {
     public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
+    public static final URLCache MISC_CACHE = new URLCache(40);
 	private static final Logger LOGGER = LoggerFactory.getLogger("URLCache");
 	private static final Map<String, File> saved = new ConcurrentHashMap<>();
     private final FileCache cache;
