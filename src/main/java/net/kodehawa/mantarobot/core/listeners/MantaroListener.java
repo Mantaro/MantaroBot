@@ -141,7 +141,6 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException) && !(e instanceof CacheLoader.InvalidCacheLoadException)) {
 				log.warn("Unexpected exception while logging a deleted message.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
@@ -163,15 +162,13 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) && !(e instanceof CacheLoader.InvalidCacheLoadException)) {
 				log.warn("Unexpected error while logging a edit.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
 	private void logStatusChange(StatusChangeEvent event) {
-		String hour = df.format(new Date(System.currentTimeMillis()));
 		JDA jda = event.getJDA();
 		if (jda.getShardInfo() == null) return;
-		log.info(String.format("`[%s] Shard #%d`: Changed from `%s` to `%s`", hour, jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+		log.info(String.format("Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
 
 	private void logUnban(GuildUnbanEvent event) {
@@ -187,7 +184,6 @@ public class MantaroListener implements EventListener {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a edit.", e);
 			}
-			e.printStackTrace();
 		}
 	}
 
