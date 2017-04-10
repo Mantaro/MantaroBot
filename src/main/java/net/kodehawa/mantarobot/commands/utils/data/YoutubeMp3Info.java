@@ -4,8 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +13,6 @@ import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
 public class YoutubeMp3Info {
-	private static final Logger LOGGER = LoggerFactory.getLogger("YoutubeInMP3");
-
 	private static final String PROTOCOL_REGEX = "(?:http://|https://|)";
 	private static final String SUFFIX_REGEX = "(?:\\?.*|&.*|)";
 	private static final String VIDEO_ID_REGEX = "([a-zA-Z0-9_-]{11})";

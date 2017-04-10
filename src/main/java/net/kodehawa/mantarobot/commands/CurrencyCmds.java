@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -611,8 +610,9 @@ public class CurrencyCmds extends Module {
 		super.register("richest", new SimpleCommand() {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				boolean local = content.equals("guild") || MantaroData.db().getGuild(event).getData().isRpgLocalMode();
+				boolean local = MantaroData.db().getGuild(event).getData().isRpgLocalMode();
 				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
+				boolean global = !local && !content.equals("guild") && !content.equals("local");
 
 				List<Map> c = r.table("players")
 					.filter(player -> player.g("id").match(pattern))
@@ -625,11 +625,12 @@ public class CurrencyCmds extends Module {
 
 				event.getChannel().sendMessage(
 					baseEmbed(event,
-						(local ? event.getGuild().getName() + "'s" : "Global") + " richest Users",
-						local ? event.getGuild().getIconUrl() : event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+						(global ? "Global" : event.getGuild().getName() + "'s") + " richest Users",
+						global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl()
 					).setDescription(c.stream()
 						.map(map -> Pair.of(getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
 						.filter(p -> Objects.nonNull(p.getKey()))
+						.filter(p -> global || event.getGuild().isMember(p.getKey()))
 						.map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p.getKey().getDiscriminator(), p.getValue()))
 						.collect(Collectors.joining("\n"))
 					).build()
