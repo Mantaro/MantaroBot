@@ -40,7 +40,7 @@ repositories {
 dependencies {
 	compile 'net.dv8tion:JDA:3.0.0_169'
 
-	compile 'com.sedmelluq:lavaplayer:1.2.35'
+	compile 'com.sedmelluq:lavaplayer:1.2.36'
 	compile 'com.sedmelluq:jda-nas:1.0.3'
 
 	compile 'org.reflections:reflections:0.9.10'

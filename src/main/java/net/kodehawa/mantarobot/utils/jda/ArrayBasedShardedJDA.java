@@ -5,7 +5,7 @@ import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import java.util.Iterator;
 
-public class ArrayBasedShardedJDA extends ShardedJDA {
+public abstract class ArrayBasedShardedJDA extends ShardedJDA {
 	private final JDA[] shards;
 
 	public ArrayBasedShardedJDA(JDA... shards) {

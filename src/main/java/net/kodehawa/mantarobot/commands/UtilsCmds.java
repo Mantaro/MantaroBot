@@ -334,6 +334,11 @@ public class UtilsCmds extends Module {
 						return;
 					}
 
+					if(data.list.isEmpty()){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
+						return;
+					}
+
 					switch (beheadedSplit.length) {
 						case 1:
 							embed.setAuthor("Urban Dictionary definition for " + content, data.list.get(0).permalink, null)

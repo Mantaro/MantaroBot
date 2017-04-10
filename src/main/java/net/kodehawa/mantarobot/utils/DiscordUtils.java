@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.CompletableFuture;
@@ -46,6 +47,12 @@ public class DiscordUtils {
 		Pair<String, Integer> r = embedList(list, toString);
 		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 		return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)));
+	}
+
+	public static <T> boolean selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+		Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
+		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
+		return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]));
 	}
 
 	public static <T> T selectListSync(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed) {
