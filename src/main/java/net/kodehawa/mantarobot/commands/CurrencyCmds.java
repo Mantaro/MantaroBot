@@ -209,8 +209,6 @@ public class CurrencyCmds extends Module {
 						long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
 						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
 					});
-
-				event.getChannel().sendMessage(builder.build()).queue();
 			}
 
 			@Override
@@ -394,10 +392,10 @@ public class CurrencyCmds extends Module {
 
 							if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
 								player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+								player.save();
 								event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
 									" successfully. You now have " + player.getMoney() + " credits.").queue();
 
-								player.save();
 							} else {
 								event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
 							}

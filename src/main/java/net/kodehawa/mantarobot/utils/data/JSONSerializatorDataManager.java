@@ -5,7 +5,6 @@ import com.esotericsoftware.kryo.pool.KryoCallback;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
 import net.kodehawa.mantarobot.data.SerializedData;
-import net.kodehawa.mantarobot.utils.FileIOUtils;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.json.JSONObject;
 

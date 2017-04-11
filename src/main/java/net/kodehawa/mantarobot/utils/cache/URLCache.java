@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.Unirest;

@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.utils.data;
 
-import net.kodehawa.mantarobot.utils.FileIOUtils;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

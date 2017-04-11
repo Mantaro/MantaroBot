@@ -36,11 +36,11 @@ public class Items {
 		BROM_PICKAXE =
 			new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much. Gives you a stackable boost when doing ~>mine.", 500, true, true),
 		POTION_HEALTH =
-			new Item(EmoteReference.POTION1.getUnicode(), "Health potion", "Recovers your full health.", 600, false, true),
+			new Item(EmoteReference.POTION1.getUnicode(), "Milk", "Good boy.", 600, false, true),
 		POTION_STAMINA =
-			new Item(EmoteReference.POTION2.getUnicode(), "Stamina potion", "Recovers your full stamina.", 650, false, true),
+			new Item(EmoteReference.POTION2.getUnicode(), "Alcohol", "Hmm. I wonder what's this good for.", 650, false, true),
 		LEWD_MAGAZINE =
-			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd magazine", "Too many lewd commands.", 250, true, false),
+			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd magazine", "Too many lewd commands.", 250, true, true),
 	};
 
 	static {

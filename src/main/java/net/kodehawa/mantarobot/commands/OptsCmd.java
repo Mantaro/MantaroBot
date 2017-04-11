@@ -196,26 +196,6 @@ public class OptsCmd extends Module {
                 }
 
                 if (option.equals("music")) {
-                    if (action.equals("limit")) {
-                        boolean isNumber = args[2].matches("^[0-9]*$");
-                        if (!isNumber) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number!").queue();
-                            return;
-                        }
-
-                        try {
-                            guildData.setMusicSongDurationLimit(Long.parseLong(args[2]));
-                            dbGuild.save();
-                            event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Song duration limit (in milliseconds) on " +
-                                    "this server is now: %sms.", args[2])).queue();
-                            return;
-                        }
-                        catch (NumberFormatException e) {
-                            event.getChannel().sendMessage(EmoteReference.WARNING + "You're trying to set a huge number, silly! How cute " +
-                                    ":-)").queue();
-                        }
-                        return;
-                    }
 
                     if (action.equals("queuelimit")) {
                         boolean isNumber = args[2].matches("^[0-9]*$");
@@ -404,7 +384,7 @@ public class OptsCmd extends Module {
                         if (textChannels.size() <= 1) {
                             guildData.setLogJoinLeaveChannel(textChannels.get(0).getId());
                             dbGuild.save();
-                            event.getChannel().sendMessage(EmoteReference.CORRECT + "The logging Join/Leave channel is set to: **" +
+                            event.getChannel().sendMessage(EmoteReference.CORRECT + "The logging Join/Leave channel is set to: " +
                                     textChannels.get(0).getAsMention()).queue();
                             return;
                         }
@@ -593,7 +573,6 @@ public class OptsCmd extends Module {
                                 "~>opts birthday enable <channel> <role> - Enable birthday alerts in your server. Arguments such as " +
                                 "channel and role don't accept spaces.\n" +
                                 "~>opts birthday disable - Disable birthday alerts.\n" +
-                                "~>opts music limit <ms> - Changes the music length limit.\n" +
                                 "~>opts music queuelimit <number> - Changes the queue song limit (max is 300 for non-donors).\n" +
                                 "~>opts autorole set <role> - Set an autorole that will be assigned to users when they join.\n" +
                                 "~>opts autorole unbind - Clear the autorole config.\n" +

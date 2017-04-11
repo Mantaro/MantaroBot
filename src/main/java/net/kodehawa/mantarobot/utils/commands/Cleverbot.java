@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.commands;
 
 import com.rethinkdb.model.MapObject;
 import lombok.extern.slf4j.Slf4j;

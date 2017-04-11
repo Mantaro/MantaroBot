@@ -1,8 +1,9 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import net.kodehawa.mantarobot.utils.UnsafeUtils;
 
 import java.io.*;
 import java.util.concurrent.ExecutionException;

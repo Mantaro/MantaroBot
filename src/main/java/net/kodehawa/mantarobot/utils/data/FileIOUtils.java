@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils;
+package net.kodehawa.mantarobot.utils.data;
 
 import java.io.IOException;
 import java.nio.charset.Charset;

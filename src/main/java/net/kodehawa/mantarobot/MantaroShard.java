@@ -162,21 +162,19 @@ public class MantaroShard implements JDA {
 	void updateStatus() {
 		Runnable changeStatus = () -> {
 			AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
-			int shards = 0;
 			if (MantaroBot.getInstance() != null) {
 				Arrays.stream(MantaroBot.getInstance().getShards()).map(MantaroShard::getJDA).forEach(jda -> {
 					users.addAndGet(jda.getUsers().size());
 					guilds.addAndGet(jda.getGuilds().size());
 				});
-				shards = MantaroBot.getInstance().getShardAmount();
 			}
 			String newStatus = random(SPLASHES.get(), RANDOM)
 				.replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
 				.replace("%usercount%", users.toString())
 				.replace("%guildcount%", guilds.toString())
-				.replace("%shardcount%", String.valueOf(shards))
-				.replace("%prettyusercount%", users.toString())//TODO AdrianTodt make a math function to pretty print this
-				.replace("%prettyguildcount%", guilds.toString()); //TODO and this
+				.replace("%shardcount%", String.valueOf(getTotalShards()))
+				.replace("%prettyusercount%", String.valueOf((((users.get() + 99) / 100) * 100) + 100))
+				.replace("%prettyguildcount%", String.valueOf((((guilds.get() + 99) / 100) * 100) + 100));
 			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
 			LOGGER.debug("Changed status to: " + newStatus);
 		};

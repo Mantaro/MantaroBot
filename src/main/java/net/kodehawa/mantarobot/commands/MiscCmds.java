@@ -26,8 +26,8 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class MiscCmds extends Module {
-    public static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
-    public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
+    private static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
+    private static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
 
     public MiscCmds() {
@@ -36,6 +36,7 @@ public class MiscCmds extends Module {
         eightBall();
         randomFact();
         iam();
+        iamnot();
     }
 
     private void iam() {

@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.URLCache;
+import net.kodehawa.mantarobot.utils.cache.URLCache;
 
 import java.util.function.Consumer;
 

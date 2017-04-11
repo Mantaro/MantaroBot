@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.utils.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.kodehawa.mantarobot.utils.FileIOUtils;
 import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
