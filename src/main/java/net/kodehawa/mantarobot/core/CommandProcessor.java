@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.core;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module.Manager;
@@ -11,15 +10,18 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLAction;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CommandProcessor {
+	private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");
 
 	public CommandProcessor() {
 		try {
@@ -86,11 +88,9 @@ public class CommandProcessor {
 		if (MantaroBot.getLoadStatus() != LoadState.POSTLOAD) return false;
 
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
-
 		String rawCmd = event.getMessage().getRawContent();
 		String prefix = MantaroData.config().get().prefix;
 		String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-
 		if (rawCmd.startsWith(prefix)) rawCmd = rawCmd.substring(prefix.length());
 		else if (customPrefix != null && rawCmd.startsWith(customPrefix))
 			rawCmd = rawCmd.substring(customPrefix.length());
@@ -118,6 +118,7 @@ public class CommandProcessor {
 
 		try {
 			command.invoke(event, cmdName, content);
+			LOGGER.trace("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
 			log(cmdName, content, event, 1);
 		} catch (Exception e) {
 			log(cmdName, content, event, 0);
