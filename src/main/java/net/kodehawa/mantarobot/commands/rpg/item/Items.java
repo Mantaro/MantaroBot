@@ -24,7 +24,7 @@ public class Items {
 		MY_MATHS =
 			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 50, true, false),
 		PING_RACKET =
-			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 500, true, false),
+			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 50, true, false),
 		LOADED_DICE =
 			new Item("\uD83C\uDFB2", "Loaded dice", "Stolen from `~>dice` command", 100, true, false),
 		FORGOTTEN_MUSIC =

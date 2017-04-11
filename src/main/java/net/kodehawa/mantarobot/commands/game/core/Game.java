@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
+import net.kodehawa.mantarobot.commands.rpg.item.Items;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -50,6 +52,7 @@ public abstract class Game {
 				Player player = players.get(e.getMember());
 				player.addMoney(150);
 				player.save();
+				TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
 				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $150 credits by answering correctly!").queue();
 				lobby.startNextGame();
 				return true;
