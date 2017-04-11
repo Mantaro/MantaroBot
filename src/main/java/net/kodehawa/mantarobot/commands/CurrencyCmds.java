@@ -201,7 +201,6 @@ public class CurrencyCmds extends Module {
 				Player user = MantaroData.db().getPlayer(event.getMember());
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
-
 				List<ItemStack> list = user.getInventory().asList();
 				if (list.isEmpty()) builder.setDescription("There is only dust.");
 				else
