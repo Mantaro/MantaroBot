@@ -209,6 +209,7 @@ public class CurrencyCmds extends Module {
 						long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
 						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
 					});
+
 			}
 
 			@Override
@@ -445,7 +446,7 @@ public class CurrencyCmds extends Module {
 					}
 
 					User user1 = getUserById(user.getData().getMarriedWith());
-					Player marriedWith = MantaroData.db().getPlayer(event.getGuild().getMember(user1));
+					Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
 					marriedWith.getData().setMarriedWith(null);
 					user.getData().setMarriedWith(null);
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
