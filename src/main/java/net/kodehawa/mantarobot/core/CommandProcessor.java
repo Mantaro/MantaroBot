@@ -103,7 +103,9 @@ public class CommandProcessor {
 		if (command == null) return false;
 
 		if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
-			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.").queue();
+			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.\n" +
+					"http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
+					"Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
 			return false;
 		}
 

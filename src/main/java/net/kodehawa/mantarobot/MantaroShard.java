@@ -94,11 +94,13 @@ public class MantaroShard implements JDA {
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
-			.setToken(config().get().token)
-			.setAudioSendFactory(new NativeAudioSendFactory())
-			.setEventManager(manager)
-			.setAutoReconnect(true)
-			.setGame(Game.of("Hold on to your seatbelts!"));
+				.setToken(config().get().token)
+				.setAudioSendFactory(new NativeAudioSendFactory())
+				.setEventManager(manager)
+				.setAutoReconnect(true)
+				.setWebSocketTimeout(10000)
+				.setCorePoolSize(15)
+				.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);
 		if (jda != null) {
