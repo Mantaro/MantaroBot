@@ -165,6 +165,8 @@ public class CurrencyCmds extends Module {
 						return;
 					}
 
+					if(gains > 200000) gains = 200000;
+
 					if (player.addMoney(gains)) {
 						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
 					} else {
