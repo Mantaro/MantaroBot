@@ -98,7 +98,7 @@ public class MantaroShard implements JDA {
 				.setAudioSendFactory(new NativeAudioSendFactory())
 				.setEventManager(manager)
 				.setAutoReconnect(true)
-				.setWebSocketTimeout(10000)
+				.setWebSocketTimeout(20000)
 				.setCorePoolSize(15)
 				.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
