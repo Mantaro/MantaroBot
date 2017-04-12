@@ -138,8 +138,8 @@ public class CurrencyCmds extends Module {
 							break;
 						case "quarter":
 							i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
-							multiplier = 1d + (r.nextInt(1400) / 1000d);
-							luck = 35 + (int) (multiplier * 15) + r.nextInt(20);
+							multiplier = 1d + (r.nextInt(1100) / 1000d);
+							luck = 25 + (int) (multiplier * 10) + r.nextInt(18);
 							break;
 						default:
 							i = Integer.parseInt(content);
