@@ -37,6 +37,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -45,6 +47,14 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UtilsCmds extends Module {
 	private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
 	private final Resty resty = new Resty();
+	private static final String[] DANGEROUS_KEYWORDS = {"while", "for", "repeat", "function", "goto", "\"", "'", "return"};
+	private static final ExecutorService runner = Executors.newFixedThreadPool(5, (runnable)->{
+		Thread t = new Thread(runnable);
+		t.setDaemon(true);
+		t.setName("MathThread");
+		t.setPriority(Thread.MIN_PRIORITY);
+		return t;
+	});
 
 	public UtilsCmds() {
 		super(Category.UTILS);
@@ -197,6 +207,10 @@ public class UtilsCmds extends Module {
 					.build();
 			}
 		});
+	}
+
+	private void math(){
+
 	}
 
 	private BigDecimal mathResult(String content) {
