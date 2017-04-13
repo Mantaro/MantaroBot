@@ -54,6 +54,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see http://www.gnu.org/licenses/
             </code>
         </pre>
-        <a href="https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE)">The full licence can be found here.</a>
+        <a href="https://github.com/Kodehawa/MantaroBot/blob/master/LICENSE">The full licence can be found here.</a>
     </body>
 </html>

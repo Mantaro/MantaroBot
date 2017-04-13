@@ -8,15 +8,54 @@ import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class FunCmds extends Module {
-
+    private final ArrayList<String> asses = new ArrayList<>();
     public FunCmds() {
         super(Category.FUN);
         coinflip();
         dice();
+        ass();
+    }
+
+    private void ass() {
+        super.register("ass", new SimpleCommand() {
+            @Override
+            protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+                if (asses.size() == 0) {
+                    try {
+                        Document assList = Jsoup.parse(new URL("http://thechive.com/2017/04/11/im-in-the-business-of-booty-scoops-and-business-is-a-boomin-33" +
+                                "-photos/"), 10000);
+                        Elements links = assList.getElementsByTag("<img>");
+                        links.forEach(img -> {
+                            String url = img.attr("src");
+                            if (url.contains(".jpeg")) asses.add(url);
+                        });
+                    }
+                    catch (java.io.IOException e) {
+                        event.getChannel().sendMessage("Fuck, something broke").queue();
+                        e.printStackTrace();
+                    }
+                }
+                event.getChannel().sendMessage(asses.get(new SecureRandom().nextInt(asses.size()))).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "See some hot asses")
+                        .setDescription("wew lad")
+                        .build();
+            }
+        });
     }
 
     private void coinflip() {
