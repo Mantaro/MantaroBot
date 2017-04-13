@@ -93,6 +93,13 @@ public class MantaroShard implements JDA {
 	}
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
+		if (jda != null) {
+			LOGGER.info("Attempting to drop shard #" + shardId);
+			if (!force) prepareShutdown();
+			jda.shutdown(false);
+			LOGGER.info("Dropped shard #" + shardId);
+		}
+
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 				.setToken(config().get().token)
 				.setAudioSendFactory(new NativeAudioSendFactory())
@@ -102,18 +109,12 @@ public class MantaroShard implements JDA {
 				.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);
-		if (jda != null) {
-			LOGGER.info("Attempting to drop shard #" + shardId);
-			if (!force) prepareShutdown();
-			jda.shutdown(false);
-			LOGGER.info("Dropped shard #" + shardId);
-			readdListeners();
-		}
 
+		readdListeners();
 		jda = jdaBuilder.buildBlocking();
 	}
 
-	public void updateServerCount() {
+	private void updateServerCount() {
 		Config config = config().get();
 		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
 
