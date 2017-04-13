@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -23,6 +24,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import org.json.JSONObject;
 
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
@@ -35,6 +37,9 @@ import java.util.stream.Collectors;
 
 public class ImageCmds extends Module {
     public static final URLCache CACHE = new URLCache(20);
+
+    private static final String BASEURL = "http://catgirls.brussell98.tk/api/random";
+    private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random";
 
 	Random r = new Random();
 	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
@@ -58,9 +63,43 @@ public class ImageCmds extends Module {
 		e621();
 		rule34();
 		cat();
+		catgirls();
 
 		enterRatings();
 	}
+
+	private void catgirls() {
+	    super.register("catgirl", new SimpleCommand() {
+            @Override
+            protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+                boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
+                if(nsfw && !nsfwCheck(event, true, true, null)) return;
+
+                try {
+                    JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
+                            .asJson()
+                            .getBody()
+                            .getObject();
+                    if(!obj.has("url")) {
+                        event.getChannel().sendMessage("Unable to find image").queue();
+                    } else {
+                        event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
+                    }
+                } catch(UnirestException e) {
+                    e.printStackTrace();
+                    event.getChannel().sendMessage("Unable to get image").queue();
+                }
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Catgirl command")
+                        .setDescription("Sends catgirl images")
+                        .addField("Usage", "`~>catgirl`\n´~>catgirl nsfw´", false)
+                        .build();
+            }
+        });
+    }
 
 	private void cat() {
 		super.register("cat", new SimpleCommand() {
