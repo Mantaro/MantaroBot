@@ -342,6 +342,12 @@ public class OwnerCmd extends Module {
 					if (sub.equals("add")) {
 						try {
 							String[] values = SPLIT_PATTERN.split(args[1], 3);
+							try{
+								Long.parseLong(values[1]);
+							} catch (Exception e){
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
+								return;
+							}
 							DBUser db = MantaroData.db().getUser(values[1]);
 							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
 							db.saveAsync();
