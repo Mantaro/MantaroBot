@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class MiscCmds extends Module {
     private static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
-    private static final Logger LOGGER = LoggerFactory.getLogger("Audio");
+    private static final Logger LOGGER = LoggerFactory.getLogger("MiscCmds");
 
     public MiscCmds() {
         super(Category.MISC);
