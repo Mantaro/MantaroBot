@@ -24,7 +24,6 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CommandProcessor {
 	private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");
-	private final RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 3);
 	public CommandProcessor() {
 		try {
 			SQLDatabase.getInstance().run((conn) -> {
@@ -97,11 +96,6 @@ public class CommandProcessor {
 		else if (customPrefix != null && rawCmd.startsWith(customPrefix))
 			rawCmd = rawCmd.substring(customPrefix.length());
 		else return false;
-
-		if (!rl.process(event.getMember())) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Uh-oh. Slowdown buddy.").queue();
-			return false;
-		}
 
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];

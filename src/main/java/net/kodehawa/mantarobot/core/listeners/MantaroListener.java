@@ -168,7 +168,7 @@ public class MantaroListener implements EventListener {
 	private void logStatusChange(StatusChangeEvent event) {
 		JDA jda = event.getJDA();
 		if (jda.getShardInfo() == null) return;
-		log.info(String.format("Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+		log.info(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
 
 	private void logUnban(GuildUnbanEvent event) {
