@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FunCmds extends Module {
-
+    private final ArrayList<String> asses = new ArrayList<>();
     public FunCmds() {
         super(Category.FUN);
         coinflip();
@@ -31,21 +31,22 @@ public class FunCmds extends Module {
         super.register("ass", new SimpleCommand() {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                try {
-                    Document assList = Jsoup.parse(new URL("http://thechive.com/2017/04/11/im-in-the-business-of-booty-scoops-and-business-is-a-boomin-33" +
+                if (asses.size() == 0) {
+                    try {
+                        Document assList = Jsoup.parse(new URL("http://thechive.com/2017/04/11/im-in-the-business-of-booty-scoops-and-business-is-a-boomin-33" +
                                 "-photos/"), 10000);
-                    Elements links = assList.getElementsByTag("<img>");
-                    ArrayList<String> asses = new ArrayList();
-                    links.forEach(img -> {
-                        String url = img.attr("src");
-                        if (url.contains(".jpeg")) asses.add(url);
-                    });
-                    event.getChannel().sendMessage(asses.get(new SecureRandom().nextInt(asses.size()))).queue();
+                        Elements links = assList.getElementsByTag("<img>");
+                        links.forEach(img -> {
+                            String url = img.attr("src");
+                            if (url.contains(".jpeg")) asses.add(url);
+                        });
+                    }
+                    catch (java.io.IOException e) {
+                        event.getChannel().sendMessage("Fuck, something broke").queue();
+                        e.printStackTrace();
+                    }
                 }
-                catch (java.io.IOException e) {
-                    event.getChannel().sendMessage("Fuck, something broke").queue();
-                    e.printStackTrace();
-                }
+                event.getChannel().sendMessage(asses.get(new SecureRandom().nextInt(asses.size()))).queue();
             }
 
             @Override
