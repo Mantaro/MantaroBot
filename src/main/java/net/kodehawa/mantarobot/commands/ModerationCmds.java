@@ -479,7 +479,7 @@ public class ModerationCmds extends Module {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Tempban Command")
-                        .setDescription("Temporarly bans an user")
+                        .setDescription("Temporarily bans an user")
                         .addField("Usage", "~>tempban <user> <reason> time:<time>", false)
                         .addField("Example", "~>tempban @Kodehawa example time:1d", false)
                         .addField("Extended usage", "time: can be used with the following parameters: " +
