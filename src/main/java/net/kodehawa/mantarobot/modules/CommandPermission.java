@@ -1,32 +1,35 @@
 package net.kodehawa.mantarobot.modules;
 
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.kodehawa.mantarobot.data.MantaroData;
 
-import java.util.function.Predicate;
+public enum CommandPermission {
+    USER() {
+        @Override
+        public boolean test(Member member) {
+            return true;
+        }
+    },
+    ADMIN() {
+        @Override
+        public boolean test(Member member) {
+            return member.isOwner() || member.hasPermission(Permission.ADMINISTRATOR) || member.hasPermission(Permission.MANAGE_SERVER) || OWNER.test(member);
+        }
+    },
+    OWNER() {
+        @Override
+        public boolean test(Member member) {
+            return MantaroData.config().get().isOwner(member);
+        }
+    };
 
-public enum CommandPermission implements Predicate<Member> {
-	USER(member -> true, "User"),
-	BOT_OWNER(MantaroData.config().get()::isOwner, "Bot Owner"),
-	ADMIN(member -> BOT_OWNER.test(member) || member.getPermissions().contains(Permission.ADMINISTRATOR) || member.isOwner()
-		|| member.getRoles().stream().filter(role -> role.getName().equals("Bot Commander")).findFirst().orElse(null) != null, "Administrator/Bot Commander");
+    public abstract boolean test(Member member);
 
-	private final Predicate<Member> memberPredicate;
-	private String verbose;
-
-	CommandPermission(Predicate<Member> memberPredicate, String s) {
-		this.memberPredicate = memberPredicate;
-		verbose = s;
-	}
-
-	@Override
-	public boolean test(Member member) {
-		return memberPredicate.test(member);
-	}
-
-	@Override
-	public String toString() {
-		return verbose;
-	}
+    @Override
+    public String toString() {
+        String name = name().toLowerCase();
+        return Character.toUpperCase(name.charAt(0)) + name.substring(1);
+    }
 }

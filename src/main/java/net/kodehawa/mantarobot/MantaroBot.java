@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
@@ -18,13 +19,17 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.HasPostLoad;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.Future;
 
@@ -91,7 +96,7 @@ public class MantaroBot extends ShardedJDA {
 		LOGGER.info("MantaroBot starting...");
 
 		Config config = MantaroData.config().get();
-		Future<Set<Class<? extends Module>>> classesAsync = Async.future(() -> new Reflections("net.kodehawa.mantarobot.commands").getSubTypesOf(Module.class));
+		Future<Set<Class<?>>> classesAsync = Async.future(() -> new Reflections("net.kodehawa.mantarobot.commands").getTypesAnnotatedWith(RegisterCommand.Class.class));
 		Async.thread("CleverBot Builder", () -> CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking());
 
 		totalShards = getRecommendedShards(config);
@@ -100,7 +105,7 @@ public class MantaroBot extends ShardedJDA {
 
 		for (int i = 0; i < totalShards; i++) {
 			LOGGER.info("Starting shard #" + i + " of " + totalShards);
-			MantaroEventManager manager = new MantaroEventManager();
+			MantaroEventManager manager = new MantaroEventManager(i);
 			managers.add(manager);
 			shards[i] = new MantaroShard(i, totalShards, manager);
 			LOGGER.debug("Finished loading shard #" + i + ".");
@@ -147,10 +152,25 @@ public class MantaroBot extends ShardedJDA {
 
 		MantaroData.config().save();
 
-		Set<Module> modules = new HashSet<>();
-		for (Class<? extends Module> c : classesAsync.get()) {
+		Set<HasPostLoad> modules = new HashSet<>();
+		for (Class<?> c : classesAsync.get()) {
 			try {
-				modules.add(c.newInstance());
+			    Object instance = null;
+				if(HasPostLoad.class.isAssignableFrom(c)) {
+				    instance = c.newInstance();
+				    modules.add((HasPostLoad)instance);
+                }
+                for(Method m : c.getMethods()) {
+				    if(m.getAnnotation(RegisterCommand.class) == null) continue;
+				    if(!Modifier.isStatic(m.getModifiers()) && instance == null) {
+				        instance = c.newInstance();
+                    }
+                    Class<?>[] params = m.getParameterTypes();
+				    if(params.length != 1 || params[0] != CommandRegistry.class) {
+				        throw new IllegalArgumentException("Invalid method: " + m);
+                    }
+                    m.invoke(instance, CommandProcessor.REGISTRY);
+                }
 			} catch (InstantiationException e) {
 				LOGGER.error("Cannot initialize a command", e);
 			} catch (IllegalAccessException e) {
@@ -160,9 +180,9 @@ public class MantaroBot extends ShardedJDA {
 
 		status = POSTLOAD;
 		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
-		modules.forEach(Module::onPostLoad);
+		modules.forEach(HasPostLoad::onPostLoad);
 
-		LOGGER.info("Loaded " + Module.Manager.commands.size() + " commands in " + totalShards + " shards.");
+		LOGGER.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + totalShards + " shards.");
 	}
 
 	public MantaroShard getShard(int id) {

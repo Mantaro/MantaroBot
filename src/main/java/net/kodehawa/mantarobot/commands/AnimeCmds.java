@@ -9,10 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.utils.data.AnimeData;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -23,29 +20,22 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URLEncoder;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
 
-public class AnimeCmds extends Module {
+@RegisterCommand.Class
+public class AnimeCmds implements HasPostLoad {
 	private static final Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
 	public static String authToken;
 	private final String CLIENT_SECRET = MantaroData.config().get().alsecret;
 
-	public AnimeCmds() {
-		super(Category.FUN);
-		anime();
-		character();
-	}
-
 	@Override
 	public void onPostLoad() {
-		super.onPostLoad();
 		Async.task("AniList Login Task", this::authenticate, 1900);
 	}
 
-	private void anime() {
-		super.register("anime", new SimpleCommand() {
+	@RegisterCommand
+	public static void anime(CommandRegistry cr) {
+		cr.register("anime", new SimpleCommandCompat(Category.FUN, "Gets information of an anime based on parameters.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
@@ -96,7 +86,7 @@ public class AnimeCmds extends Module {
 		});
 	}
 
-	private void animeData(GuildMessageReceivedEvent event, AnimeData type) {
+	private static void animeData(GuildMessageReceivedEvent event, AnimeData type) {
 		String ANIME_TITLE = type.getTitle_english();
 		String RELEASE_DATE = StringUtils.substringBefore(type.getStart_date(), "T");
 		String END_DATE = StringUtils.substringBefore(type.getEnd_date(), "T");
@@ -147,8 +137,9 @@ public class AnimeCmds extends Module {
 		}
 	}
 
-	private void character() {
-		super.register("character", new SimpleCommand() {
+	@RegisterCommand
+	public static void character(CommandRegistry cr) {
+		cr.register("character", new SimpleCommandCompat(Category.FUN, "Gets information of a character based on parameters.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
@@ -194,7 +185,7 @@ public class AnimeCmds extends Module {
 		});
 	}
 
-	private void characterData(GuildMessageReceivedEvent event, CharacterData character) {
+	private static void characterData(GuildMessageReceivedEvent event, CharacterData character) {
 		String JAP_NAME = character.getName_japanese() == null ? "" : "\n(" + character.getName_japanese() + ")";
 		String CHAR_NAME = character.getName_first() + " " + character.getName_last() + JAP_NAME;
 		String ALIASES = character.getName_alt() == null ? "No aliases" : "Also known as: " + character.getName_alt();

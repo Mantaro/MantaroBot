@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core.listeners;
 
+import br.com.brjdevs.highhacks.eventbus.Listener;
 import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,7 @@ public class MantaroListener implements EventListener {
 		this.shardId = shardId;
 	}
 
+	@Listener
 	@Override
 	public void onEvent(Event event) {
 		if (event instanceof ShardMonitorEvent) {

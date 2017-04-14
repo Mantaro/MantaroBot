@@ -1,26 +1,28 @@
 package net.kodehawa.mantarobot.modules;
 
 public enum Category {
-	MUSIC("Audio"),
-	ACTION("Action"),
-	CURRENCY("Currency"),
-	GAMES("Game"),
-	IMAGE("Image"),
-	FUN("Fun"),
-	MODERATION("Moderation"),
-	OWNER("Owner"),
-	INFO("Info"),
-	UTILS("Utility"),
-	MISC("Misc");
+    MUSIC(CommandPermission.USER, "Audio"),
+    ACTION(CommandPermission.USER, "Action"),
+    CURRENCY(CommandPermission.USER, "Currency"),
+    GAMES(CommandPermission.USER, "Game"),
+    IMAGE(CommandPermission.USER, "Image"),
+    FUN(CommandPermission.USER, "Fun"),
+    MODERATION(CommandPermission.ADMIN, "Moderation"),
+    OWNER(CommandPermission.OWNER, "Owner"),
+    INFO(CommandPermission.USER, "Info"),
+    UTILS(CommandPermission.USER, "Utility"),
+    MISC(CommandPermission.USER, "Misc");
 
-	private final String s;
+    private final String s;
+    public final CommandPermission permission;
 
-	Category(String s) {
-		this.s = s;
-	}
+    Category(CommandPermission p, String s) {
+        this.permission = p;
+        this.s = s;
+    }
 
-	@Override
-	public String toString() {
-		return s;
-	}
+    @Override
+    public String toString() {
+        return s;
+    }
 }

@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.NoArgsCommand;
 
@@ -31,15 +32,25 @@ public class TextActionCmd extends NoArgsCommand {
 	}
 
 	@Override
-	public CommandPermission permissionRequired() {
+	public CommandPermission permission() {
 		return CommandPermission.USER;
 	}
 
-	@Override
+    @Override
+    public String description() {
+        return desc;
+    }
+
+    @Override
 	public MessageEmbed help(GuildMessageReceivedEvent event) {
 		return helpEmbed(event, name)
 			.setDescription(desc)
 			.setColor(color)
 			.build();
 	}
+
+    @Override
+    public Category category() {
+        return Category.ACTION;
+    }
 }

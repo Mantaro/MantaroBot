@@ -3,8 +3,10 @@ package net.kodehawa.mantarobot.commands.action;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandPermission;
 import net.kodehawa.mantarobot.modules.NoArgsCommand;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
@@ -59,11 +61,21 @@ public class ImageActionCmd extends NoArgsCommand {
 	}
 
 	@Override
-	public CommandPermission permissionRequired() {
+	public CommandPermission permission() {
 		return CommandPermission.USER;
 	}
 
-	@Override
+    @Override
+    public String description() {
+        return desc;
+    }
+
+    @Override
+    public Category category() {
+        return Category.IMAGE;
+    }
+
+    @Override
 	public MessageEmbed help(GuildMessageReceivedEvent event) {
 		return helpEmbed(event, name)
 			.setDescription(desc)

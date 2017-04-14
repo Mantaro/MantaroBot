@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
+import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
@@ -33,9 +34,10 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
-public class CustomCmds extends Module {
-	private Map<String, List<String>> compiledCommands = new ConcurrentHashMap<>();
-	private final Command customCommand = new Command() {
+@RegisterCommand.Class
+public class CustomCmds implements HasPostLoad {
+	private static Map<String, List<String>> compiledCommands = new ConcurrentHashMap<>();
+	private static final Command customCommand = new SimpleCommandCompat(null, "") {
 		private Random r = new Random();
 
 		@Override
@@ -103,7 +105,7 @@ public class CustomCmds extends Module {
 		}
 
 		@Override
-		public void invoke(GuildMessageReceivedEvent event, String cmdName, String content) {
+		public void call(GuildMessageReceivedEvent event, String cmdName, String[] ignored) {
 			try {
 				handle(cmdName, event);
 			} catch (Exception e) {
@@ -112,19 +114,22 @@ public class CustomCmds extends Module {
 			log("custom command");
 		}
 
-		@Override
+        @Override
+        protected void call(String[] args, String name, GuildMessageReceivedEvent event) {
+
+        }
+
+        @Override
 		public boolean isHiddenFromHelp() {
 			return true;
 		}
 	};
-	private final Pair<Command, Category> cmdPair = Pair.of(customCommand, null);
 
-	public CustomCmds() {
-		super(Category.UTILS);
-
+	@RegisterCommand
+	public static void custom(CommandRegistry cr) {
 		Pattern addPattern = Pattern.compile(";");
 
-		super.register("custom", new SimpleCommand() {
+		cr.register("custom", new SimpleCommandCompat(Category.UTILS, "") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args.length < 1) {
@@ -203,7 +208,7 @@ public class CustomCmds extends Module {
 								return false;
 							}
 
-							if (Manager.commands.containsKey(saveTo) && !Manager.commands.get(saveTo).equals(cmdPair)) {
+							if (CommandProcessor.REGISTRY.commands().containsKey(saveTo) && !CommandProcessor.REGISTRY.commands().get(saveTo).equals(customCommand)) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 								return false;
 							}
@@ -220,7 +225,7 @@ public class CustomCmds extends Module {
 								compiledCommands.put(custom.getId(), custom.getValues());
 
 								//add mini-hack
-								Manager.commands.put(saveTo, cmdPair);
+								CommandProcessor.REGISTRY.register(saveTo, customCommand);
 
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + saveTo + "``!").queue();
 
@@ -262,7 +267,7 @@ public class CustomCmds extends Module {
 
 					//clear commands if none
 					if (compiledCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-						Manager.commands.remove(cmd);
+						CommandProcessor.REGISTRY.commands().remove(cmd);
 
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!").queue();
 
@@ -339,7 +344,7 @@ public class CustomCmds extends Module {
 					}
 
 					List<String> responses = Arrays.asList(addPattern.split(value));
-					if (Manager.commands.containsKey(cmd) && !Manager.commands.get(cmd).equals(cmdPair)) {
+					if (CommandProcessor.REGISTRY.commands().containsKey(cmd) && !CommandProcessor.REGISTRY.commands().get(cmd).equals(customCommand)) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 						return;
 					}
@@ -353,7 +358,7 @@ public class CustomCmds extends Module {
 					compiledCommands.put(custom.getId(), custom.getValues());
 
 					//add mini-hack
-					Manager.commands.put(cmd, cmdPair);
+                    CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
 
@@ -371,7 +376,7 @@ public class CustomCmds extends Module {
 			}
 
 			@Override
-			protected String[] splitArgs(String content) {
+			public String[] splitArgs(String content) {
 				return SPLIT_PATTERN.split(content, 3);
 			}
 
@@ -398,14 +403,14 @@ public class CustomCmds extends Module {
 	@Override
 	public void onPostLoad() {
 		db().getCustomCommands().forEach(custom -> {
-			if (Manager.commands.containsKey(custom.getName())) {
+			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
 				custom.saveAsync();
 			}
 
 			//add mini-hack
-			Manager.commands.put(custom.getName(), cmdPair);
+            CommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
 
 			compiledCommands.put(custom.getId(), custom.getValues());
 		});

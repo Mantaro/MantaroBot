@@ -2,7 +2,9 @@ package net.kodehawa.mantarobot.commands.moderation;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +12,7 @@ import java.util.function.Consumer;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
-public class CategorizedCommand extends SimpleCommand {
+public class CategorizedCommand extends SimpleCommandCompat {
 	public static class Builder {
 		public static class CategoryBuilder {
 			private final Map<String, Callable> options = new HashMap<>();
@@ -42,6 +44,7 @@ public class CategorizedCommand extends SimpleCommand {
 	private final Map<String, Map<String, Callable>> categories;
 
 	public CategorizedCommand(Map<String, Map<String, Callable>> categories) {
+	    super(Category.MODERATION, "categorized command"); //idk what this class is so /shrug
 		this.categories = categories;
 	}
 
@@ -51,7 +54,7 @@ public class CategorizedCommand extends SimpleCommand {
 	}
 
 	@Override
-	protected String[] splitArgs(String content) {
+	public String[] splitArgs(String content) {
 		return SPLIT_PATTERN.split(content, 3);
 	}
 

@@ -4,11 +4,14 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 public interface Command {
-	MessageEmbed help(GuildMessageReceivedEvent event);
+    void run(GuildMessageReceivedEvent event, String commandName, String content);
+    CommandPermission permission();
 
-	void invoke(GuildMessageReceivedEvent event, String cmdName, String content);
+    String description();
 
-	boolean isHiddenFromHelp();
+    MessageEmbed help(GuildMessageReceivedEvent event);
 
-	CommandPermission permissionRequired();
+    Category category();
+
+    boolean isHiddenFromHelp();
 }

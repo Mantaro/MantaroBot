@@ -9,9 +9,9 @@ public abstract class NoArgsCommand implements Command {
 	protected abstract void call(GuildMessageReceivedEvent event);
 
 	@Override
-	public void invoke(GuildMessageReceivedEvent event, String cmdName, String content) {
+	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
 		call(event);
-		log(cmdName);
+		log(commandName);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public abstract class NoArgsCommand implements Command {
 	}
 
 	@Override
-	public CommandPermission permissionRequired() {
+	public CommandPermission permission() {
 		return CommandPermission.USER;
 	}
 
@@ -36,8 +36,14 @@ public abstract class NoArgsCommand implements Command {
 	}
 
 	protected EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
-		return baseEmbed(event, name).addField("Permission required", permissionRequired().toString(), true);
+		return baseEmbed(event, name).addField("Permission required", permission().toString(), true);
 	}
+
+    protected void doTimes(int times, Runnable runnable) {
+        for (int i = 0; i < times; i++) {
+            runnable.run();
+        }
+    }
 
 	protected void onHelp(GuildMessageReceivedEvent event) {
 		event.getChannel().sendMessage(help(event)).queue();

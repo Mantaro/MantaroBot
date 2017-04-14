@@ -114,7 +114,7 @@ public class MantaroShard implements JDA {
 		jda = jdaBuilder.buildBlocking();
 	}
 
-	private void updateServerCount() {
+	public void updateServerCount() {
 		Config config = config().get();
 		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
 

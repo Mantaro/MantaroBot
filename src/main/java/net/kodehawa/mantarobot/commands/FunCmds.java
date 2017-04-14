@@ -3,30 +3,17 @@ package net.kodehawa.mantarobot.commands;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import net.kodehawa.mantarobot.modules.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.security.SecureRandom;
-import java.util.ArrayList;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+
 import java.util.Random;
 
-public class FunCmds extends Module {
-    public FunCmds() {
-        super(Category.FUN);
-        coinflip();
-        dice();
-    }
-
-    private void coinflip() {
-        super.register("coinflip", new SimpleCommand() {
+@RegisterCommand.Class
+public class FunCmds {
+    @RegisterCommand
+    public static void coinflip(CommandRegistry cr) {
+        cr.register("coinflip", new SimpleCommandCompat(Category.FUN, "Flips a coin") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 int times;
@@ -60,14 +47,15 @@ public class FunCmds extends Module {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Coinflip command")
-                        .setDescription("Rolls a 6-sided dice with a defined number of repetitions")
+                        .setDescription("Flips a coin with a defined number of repetitions")
                         .build();
             }
         });
     }
 
-    private void dice() {
-        super.register("roll", new SimpleCommand() {
+    @RegisterCommand
+    public static void dice(CommandRegistry cr) {
+        cr.register("roll", new SimpleCommandCompat(Category.FUN, "Roll a 6-sided dice") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 int roll;
@@ -97,7 +85,7 @@ public class FunCmds extends Module {
         });
     }
 
-    private synchronized int diceRoll(int repetitions) {
+    private static int diceRoll(int repetitions) { //why the fuck was this shit synchronized?
         int num = 0;
         int roll;
         for (int i = 0; i < repetitions; i++) {

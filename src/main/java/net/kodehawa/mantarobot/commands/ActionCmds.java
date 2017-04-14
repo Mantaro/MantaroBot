@@ -9,10 +9,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -21,7 +18,8 @@ import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ActionCmds extends Module {
+@RegisterCommand.Class
+public class ActionCmds {
     public static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
     public static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
     public static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
@@ -29,85 +27,75 @@ public class ActionCmds extends Module {
     public static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
     public static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
-    public ActionCmds() {
-        super(Category.ACTION);
+    @RegisterCommand
+    public static void register(CommandRegistry cr) {
 
         //pat();
-        super.register("pat", new ImageActionCmd(
+        cr.register("pat", new ImageActionCmd(
                 "Pat", "Pats the specified user.", Color.PINK,
                 "pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", PATS.get()));
 
         //hug();
-        super.register("hug", new ImageActionCmd(
+        cr.register("hug", new ImageActionCmd(
                 "Hug", "Hugs the specified user.", Color.PINK,
                 "hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", HUGS.get()
         ));
 
         //kiss();
-        super.register("kiss", new ImageActionCmd(
+        cr.register("kiss", new ImageActionCmd(
                 "Kiss", "Kisses the specified user.", Color.PINK,
                 "kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", KISSES.get()
         ));
 
         //greet();
-        super.register("greet", new TextActionCmd(
+        cr.register("greet", new TextActionCmd(
                 "Greet", "Sends a random greeting", Color.DARK_GRAY,
                 EmoteReference.TALKING + "%s", GREETINGS.get()
         ));
 
         //tsundere();
-        super.register("tsundere", new TextActionCmd(
+        cr.register("tsundere", new TextActionCmd(
                 "Tsundere Command", "Y-You baka!", Color.PINK,
                 EmoteReference.MEGA + "%s", TSUNDERE.get()
         ));
-
-        action();
-        meow();
-        bloodsuck();
-        lewd();
     }
 
-    private void action() {
-        super.register("action", new SimpleCommand() {
-            @Override
-            protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                String noArgs = content.split(" ")[0];
-                TextChannel channel = event.getChannel();
-                switch (noArgs) {
-                    case "facedesk":
-                        channel.sendMessage("http://puu.sh/rK6E7/0b745e5544.gif").queue();
-                        break;
-                    case "nom":
-                        channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
-                        break;
-                    case "bleach":
-                        channel.sendMessage(CollectionUtils.random(BLEACH.get())).queue();
-                        break;
-                    default:
-                        onHelp(event);
-                }
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Action commands")
-                        .addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
-                                "~>action facedesk: Facedesks.\n" +
-                                "~>action nom: nom nom.", false)
-                        .setColor(Color.PINK)
-                        .build();
-            }
-
-            @Override
-            public CommandPermission permissionRequired() {
-                return CommandPermission.USER;
-            }
-
-        });
+    @RegisterCommand
+    public static void action(CommandRegistry cr) {
+        cr.register("action", SimpleCommand.builder(Category.ACTION)
+                .permission(CommandPermission.USER)
+                .code((thiz, event, content, args)->{
+                    String noArgs = content.split(" ")[0];
+                    TextChannel channel = event.getChannel();
+                    switch (noArgs) {
+                        case "facedesk":
+                            channel.sendMessage("http://puu.sh/rK6E7/0b745e5544.gif").queue();
+                            break;
+                        case "nom":
+                            channel.sendMessage("http://puu.sh/rK7t2/330182c282.gif").queue();
+                            break;
+                        case "bleach":
+                            channel.sendMessage(CollectionUtils.random(BLEACH.get())).queue();
+                            break;
+                        default:
+                            thiz.onHelp(event);
+                    }
+                })
+                .help((thiz, event)->
+                    thiz.helpEmbed(event, "Action commands")
+                            .addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
+                                    "~>action facedesk: Facedesks.\n" +
+                                    "~>action nom: nom nom.", false)
+                            .setColor(Color.PINK)
+                            .build()
+                )
+                .description("Random image of someone drinking bleach.")
+                .build());
     }
 
-    private void bloodsuck() {
-        super.register("bloodsuck", new SimpleCommand() {
+    @RegisterCommand
+    public static void bloodsuck(CommandRegistry cr) {
+        cr.register("bloodsuck", new SimpleCommandCompat(Category.ACTION, "Sucks the blood of the mentioned user(s)") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 TextChannel channel = event.getChannel();
@@ -138,8 +126,9 @@ public class ActionCmds extends Module {
         });
     }
 
-    private void lewd() {
-        super.register("lewd", new SimpleCommand() {
+    @RegisterCommand
+    public static void lewd(CommandRegistry cr) {
+        cr.register("lewd", new SimpleCommandCompat(Category.ACTION, "Y-You lewdie") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
@@ -163,8 +152,9 @@ public class ActionCmds extends Module {
         });
     }
 
-    private void meow() {
-        super.register("mew", new SimpleCommand() {
+    @RegisterCommand
+    public static void meow(CommandRegistry cr) {
+        cr.register("mew", new SimpleCommandCompat(Category.ACTION, "Meows at a user or just meows.") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 TextChannel channel = event.getChannel();

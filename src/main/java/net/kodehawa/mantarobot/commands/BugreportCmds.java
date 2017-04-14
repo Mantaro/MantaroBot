@@ -3,27 +3,20 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.RateLimiter;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 
 import java.util.concurrent.TimeUnit;
 
-public class BugreportCmds extends Module {
+//@RegisterCommand.Class
+public class BugreportCmds {
 	//TODO uhhh.
 
 	private static final String RATELIMIT_MESSAGE = "You are being ratelimited";
 
 	private final RateLimiter limiter = new RateLimiter(1, (int) TimeUnit.MINUTES.toMillis(10)); //ratelimit for one report/10 minutes
 
-	public BugreportCmds() {
-		super(Category.UTILS);
-		report();
-	}
-
-	private void admin() {
-		super.register("bug", new SimpleCommand() {
+	public static void admin(CommandRegistry cr) {
+		cr.register("bug", new SimpleCommandCompat(Category.UTILS, "Accepts or declines a bug") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				/*if(args.length < 2) {
@@ -70,13 +63,19 @@ public class BugreportCmds extends Module {
 
 			@Override
 			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
+				return CommandPermission.OWNER;
 			}
-		});
+
+            @Override
+            public boolean isHiddenFromHelp() {
+                return true;
+            }
+        });
 	}
 
-	private void report() {
-		super.register("bugreport", new SimpleCommand() {
+	@RegisterCommand
+	public static void report(CommandRegistry cr) {
+		cr.register("bugreport", new SimpleCommandCompat(Category.UTILS, "Reports a bug") {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				/*if(content.isEmpty()) {

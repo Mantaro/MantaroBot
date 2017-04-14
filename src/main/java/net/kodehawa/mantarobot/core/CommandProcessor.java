@@ -3,26 +3,23 @@ package net.kodehawa.mantarobot.core;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Command;
-import net.kodehawa.mantarobot.modules.Module.Manager;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLAction;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CommandProcessor {
+    public static final CommandRegistry REGISTRY = new CommandRegistry();
+
 	private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");
 	public CommandProcessor() {
 		try {
@@ -48,10 +45,6 @@ public class CommandProcessor {
 			SQLAction.LOGGER.error(null, e);
 		}
 
-	}
-
-	private Command getCommand(String name) {
-		return Optional.ofNullable(Manager.commands.get(name)).map(Pair::getLeft).orElse(null);
 	}
 
 	public void log(String cmd, String args, GuildMessageReceivedEvent event, int successful) {
@@ -99,9 +92,10 @@ public class CommandProcessor {
 
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];
-		Command command = getCommand(cmdName);
 
-		if (command == null) return false;
+        if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)) {
+            return false;
+        }
 
 		if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.\n" +
@@ -110,17 +104,8 @@ public class CommandProcessor {
 			return false;
 		}
 
-		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)) {
-			return false;
-		}
-
-		if (!command.permissionRequired().test(event.getMember())) {
-			event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();
-			return false;
-		}
-
 		try {
-			command.invoke(event, cmdName, content);
+			REGISTRY.process(event, cmdName, content);
 			LOGGER.trace("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
 			log(cmdName, content, event, 1);
 		} catch (Exception e) {

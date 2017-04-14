@@ -10,9 +10,7 @@ import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,17 +19,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class GameCmds extends Module {
+@RegisterCommand.Class
+public class GameCmds {
 	private static final Logger LOGGER = LoggerFactory.getLogger("GameCmds");
 
-	public GameCmds() {
-		super(Category.GAMES);
-		guess();
-		trivia();
-	}
-
-	private void guess() {
-		super.register("game", new SimpleCommand() {
+	@RegisterCommand
+	public static void guess(CommandRegistry cr) {
+		cr.register("game", new SimpleCommandCompat(Category.GAMES, "Starts a instance of who's that pokemon?") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
@@ -97,7 +91,7 @@ public class GameCmds extends Module {
 		});
 	}
 
-	private void startGame(Game game, GuildMessageReceivedEvent event) {
+	private static void startGame(Game game, GuildMessageReceivedEvent event) {
 		//TODO remember to add lobby recognition AFTER we add custom actions on timeout.
 		LinkedList<Game> list = new LinkedList<>();
 		list.add(game);
@@ -119,8 +113,9 @@ public class GameCmds extends Module {
 		lobby.startFirstGame();
 	}
 
-	private void trivia() {
-		super.register("trivia", new SimpleCommand() {
+	@RegisterCommand
+	public static void trivia(CommandRegistry cr) {
+		cr.register("trivia", new SimpleCommandCompat(Category.GAMES, "Starts an instance of trivia") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				startGame(new Trivia(), event);

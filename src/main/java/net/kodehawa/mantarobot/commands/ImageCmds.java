@@ -15,9 +15,7 @@ import net.kodehawa.lib.imageboard.rule34.main.Rule34;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.ImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -35,41 +33,36 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class ImageCmds extends Module {
+@RegisterCommand.Class
+public class ImageCmds {
     public static final URLCache CACHE = new URLCache(20);
 
     private static final String BASEURL = "http://catgirls.brussell98.tk/api/random";
     private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random";
 
-	Random r = new Random();
-	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
-	private e621 e621 = new e621();
-	private Konachan konachan = new Konachan(true);
-	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
-	private boolean needRating = false;
-	private int number = 0;
-	private int number1;
-	private int page = 0;
-	private String rating = "";
-	private boolean smallRequest = false;
-	private String tagsEncoded = "";
-	private String tagsToEncode = "no";
+	private static Random r = new Random();
+	private static String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
+	private static e621 e621 = new e621();
+	private static Konachan konachan = new Konachan(true);
+	private static BidiMap<String, String> nRating = new DualHashBidiMap<>();
+	private static boolean needRating = false;
+	private static int number = 0;
+	private static int number1;
+	private static int page = 0;
+	private static String rating = "";
+	private static boolean smallRequest = false;
+	private static String tagsEncoded = "";
+	private static String tagsToEncode = "no";
 
 	public ImageCmds() {
-		super(Category.IMAGE);
+        nRating.put("safe", "s");
+        nRating.put("questionable", "q");
+        nRating.put("explicit", "e");
+    }
 
-		yandere();
-		kona();
-		e621();
-		rule34();
-		cat();
-		catgirls();
-
-		enterRatings();
-	}
-
-	private void catgirls() {
-	    super.register("catgirl", new SimpleCommand() {
+    @RegisterCommand
+	public static void catgirls(CommandRegistry cr) {
+	    cr.register("catgirl", new SimpleCommandCompat(Category.IMAGE, "Sends catgirl images") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
@@ -101,8 +94,9 @@ public class ImageCmds extends Module {
         });
     }
 
-	private void cat() {
-		super.register("cat", new SimpleCommand() {
+    @RegisterCommand
+	public static void cat(CommandRegistry cr) {
+		cr.register("cat", new SimpleCommandCompat(Category.IMAGE, "Sends a random cat image") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
@@ -125,8 +119,9 @@ public class ImageCmds extends Module {
 		});
 	}
 
-	private void e621() {
-		super.register("e621", new SimpleCommand() {
+	@RegisterCommand
+	public static void e621(CommandRegistry cr) {
+		cr.register("e621", new SimpleCommandCompat(Category.IMAGE, "Retrieves images from the **e621** (furry) image board") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!nsfwCheck(event, true, true, null)) return;
@@ -229,13 +224,7 @@ public class ImageCmds extends Module {
 		});
 	}
 
-	private void enterRatings() {
-		nRating.put("safe", "s");
-		nRating.put("questionable", "q");
-		nRating.put("explicit", "e");
-	}
-
-	private EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
+	private static EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
 		EmbedBuilder builder = new EmbedBuilder();
 		if (!nsfwCheck(event, false, false, "s"))
 			return builder.setDescription("Cannot send a lewd image in a non-nsfw channel.");
@@ -282,8 +271,9 @@ public class ImageCmds extends Module {
 		}
 	}
 
-	private void kona() {
-		super.register("konachan", new SimpleCommand() {
+	@RegisterCommand
+	public static void kona(CommandRegistry cr) {
+		cr.register("konachan", new SimpleCommandCompat(Category.IMAGE, "Retrieves images from the **Konachan** image board") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				TextChannel channel = event.getChannel();
@@ -386,7 +376,7 @@ public class ImageCmds extends Module {
 		});
 	}
 
-	private boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String acceptedRating) {
+	private static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String acceptedRating) {
 		String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
 			.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 		String rating1 = rating == null ? "s" : rating;
@@ -402,8 +392,9 @@ public class ImageCmds extends Module {
 		return true;
 	}
 
-	private void rule34() {
-		super.register("rule34", new SimpleCommand() {
+	@RegisterCommand
+	public static void rule34(CommandRegistry cr) {
+		cr.register("rule34", new SimpleCommandCompat(Category.IMAGE, "Retrieves images from the **rule34** (hentai) image board") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!nsfwCheck(event, true, true, null)) return;
@@ -511,8 +502,9 @@ public class ImageCmds extends Module {
 		});
 	}
 
-	private void yandere() {
-		super.register("yandere", new SimpleCommand() {
+	@RegisterCommand
+	public static void yandere(CommandRegistry cr) {
+		cr.register("yandere", new SimpleCommandCompat(Category.IMAGE, "Retrieves images from the **yande.re** image board") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				rating = "s";
