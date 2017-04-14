@@ -105,7 +105,6 @@ public class CommandProcessor {
 			return false;
 		}
 
-		System.out.println(String.format("cmdName: %s, content: %s", cmdName, content));
 		try {
 			REGISTRY.process(event, cmdName, content);
 			LOGGER.trace("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));

@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 
+import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -54,6 +55,21 @@ public class MantaroBot extends ShardedJDA {
 	}
 
 	public static void main(String[] args) {
+	    if(System.getProperty("mantaro.verbose", null) != null) {
+	        System.setOut(new PrintStream(System.out) {
+                @Override
+                public void println(String s) {
+                    super.println("[" + Thread.currentThread().getStackTrace()[2] + "]: " + s);
+                }
+            });
+	        System.setErr(new PrintStream(System.err) {
+                @Override
+                public void println(String s) {
+                    super.println("[" + Thread.currentThread().getStackTrace()[2] + "]: " + s);
+                }
+            });
+        }
+
 		if (args.length > 0) {
 			try {
 				cwport = Integer.parseInt(args[0]);

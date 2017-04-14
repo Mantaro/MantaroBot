@@ -72,8 +72,6 @@ public class InfoCmds implements HasPostLoad {
 		cr.register("about", new SimpleCommandCompat(Category.INFO, "Shows information about the bot.") {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				System.out.println(args.length);
-				System.out.println(content);
 				if (!content.isEmpty() && args[0].equals("patreon")) {
 					EmbedBuilder builder = new EmbedBuilder();
 					Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
