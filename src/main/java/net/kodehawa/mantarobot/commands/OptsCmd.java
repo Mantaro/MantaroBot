@@ -1,8 +1,12 @@
-package net.kodehawa.mantarobot.commands;
+/*package net.kodehawa.mantarobot.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.Role;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
@@ -16,17 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class OptsCmd extends Module {
+@RegisterCommand.Class
+public class OptsCmd {
     private static final Logger LOGGER = LoggerFactory.getLogger("Options");
-
-    public OptsCmd() {
-        super(Category.MODERATION);
-        opts();
-    }
-
     //TODO make this less cringy lol
-    private void opts() {
-        super.register("opts", new SimpleCommand() {
+    @RegisterCommand
+    private void opts(CommandRegistry cr) {
+        cr.register("opts", new SimpleCommandCompat(Category.MODERATION, "") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 if (args.length < 1) {
@@ -464,7 +464,7 @@ public class OptsCmd extends Module {
 
                     if (action.equals("command")) {
                         String commandName = splitArgs(content)[3];
-                        Command command = Manager.commands.get(commandName).getLeft();
+                        Command command = CommandProcessor.REGISTRY.commands().get(commandName);
 
                         if (command == null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
@@ -602,4 +602,5 @@ public class OptsCmd extends Module {
             }
         });
     }
-}
+}*/
+//TODO replacement after finishing port

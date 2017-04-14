@@ -59,7 +59,6 @@ public class MantaroShard implements JDA {
 		voiceChannelListener = new VoiceChannelListener(shardId);
 		LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		restartJDA(false);
-		readdListeners();
 	}
 
 	@Override
@@ -110,8 +109,8 @@ public class MantaroShard implements JDA {
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);
 
-		readdListeners();
 		jda = jdaBuilder.buildBlocking();
+		readdListeners();
 	}
 
 	public void updateServerCount() {

@@ -5,14 +5,10 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.impl.MessageEmbedImpl;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -25,31 +21,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class MiscCmds extends Module {
+@RegisterCommand.Class
+public class MiscCmds {
     private static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private static final Logger LOGGER = LoggerFactory.getLogger("MiscCmds");
 
-    public MiscCmds() {
-        super(Category.MISC);
-        misc();
-        eightBall();
-        randomFact();
-        iam();
-        iamnot();
-    }
-
-    private void iam() {
-        super.register("iam", new SimpleCommand() {
+    @RegisterCommand
+    public static void iam(CommandRegistry cr) {
+        cr.register("iam", new SimpleCommandCompat(Category.MISC, "Get an autorole that your server administrators have set up!") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
                 if (args.length == 0 || content.length() == 0) {
-                    event.getChannel().sendMessage(helpEmbed(event, "Iam (autoroles)")
-                            .setDescription("Get an autorole that your server administrators have set up!\n"
-                                    + "~>iam <name>. Get the role with the specified name.\n"
-                                    + "~>iam list. List all the available autoroles in this server")
-                            .build()).queue();
+                    onHelp(event);
                     return;
                 }
                 if (content.equals("list")) {
@@ -104,8 +89,9 @@ public class MiscCmds extends Module {
         });
     }
 
-    private void iamnot() {
-        super.register("iamnot", new SimpleCommand() {
+    @RegisterCommand
+    public static void iamnot(CommandRegistry cr) {
+        cr.register("iamnot", new SimpleCommandCompat(Category.MISC, "Removes a role marked as such.") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
@@ -168,8 +154,9 @@ public class MiscCmds extends Module {
         });
     }
 
-    private void eightBall() {
-        super.register("8ball", new SimpleCommand() {
+    @RegisterCommand
+    public static void eightBall(CommandRegistry cr) {
+        cr.register("8ball", new SimpleCommandCompat(Category.MISC, "Retrieves an answer from the almighty 8ball") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 if (content.isEmpty()) {
@@ -215,13 +202,13 @@ public class MiscCmds extends Module {
         });
     }
 
-    private void misc() {
-        super.register("misc", new SimpleCommand() {
+    @RegisterCommand
+    public static void misc(CommandRegistry cr) {
+        cr.register("misc", new SimpleCommandCompat(Category.MISC, "Misc funny/useful command.") {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Misc Commands")
-                        .setDescription("Miscellaneous funny/useful commands. Ranges from funny commands and random colors to bot " +
-                                "hardware information\n"
+                        .setDescription("Miscellaneous funny/useful commands.\n"
                                 + "Usage:\n"
                                 + "~>misc reverse <sentence>: Reverses any given sentence.\n"
                                 + "~>misc noble: Random Lost Pause quote.\n"
@@ -267,7 +254,7 @@ public class MiscCmds extends Module {
     /**
      * @return a random hex color.
      */
-    private String randomColor() {
+    private static String randomColor() {
         String[] letters = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
         StringBuilder color = new StringBuilder("#");
         for (int i = 0; i < 6; i++) {
@@ -276,8 +263,9 @@ public class MiscCmds extends Module {
         return color.toString();
     }
 
-    private void randomFact() {
-        super.register("randomfact", new SimpleCommand() {
+    @RegisterCommand
+    public static void randomFact(CommandRegistry cr) {
+        cr.register("randomfact", new SimpleCommandCompat(Category.MISC, "Knowledge is key, specially when it comes from the internet.") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1)))

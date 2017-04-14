@@ -10,10 +10,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +20,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class QuoteCmd extends Module {
+@RegisterCommand.Class
+public class QuoteCmd {
     private static final Logger LOGGER = LoggerFactory.getLogger("QuoteCmd");
 
-    public QuoteCmd() {
-        super(Category.UTILS);
-        quote();
-    }
-
-    private void quote() {
-        super.register("quote", new SimpleCommand() {
+    @RegisterCommand
+    public static void quote(CommandRegistry cr) {
+        cr.register("quote", new SimpleCommandCompat(Category.UTILS, "Quote command.") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 if (content.isEmpty()) {
@@ -151,7 +145,7 @@ public class QuoteCmd extends Module {
         });
     }
 
-    private MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote) {
+    private static MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote) {
         builder.setAuthor(quote.getUserName() + " said: ", null, quote.getUserAvatar())
                 .setDescription("Quote made in server " + quote.getGuildName() + " in channel #" + quote.getChannelName())
                 .addField("Content", quote.getContent(), false)

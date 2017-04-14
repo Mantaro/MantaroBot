@@ -12,10 +12,7 @@ import net.kodehawa.mantarobot.commands.music.Repeat;
 import net.kodehawa.mantarobot.commands.music.TrackScheduler;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -24,14 +21,15 @@ import java.util.List;
 
 import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
 
-public class MusicCmds extends Module {
+@RegisterCommand.Class
+public class MusicCmds{
 
 	private static boolean isDJ(Member member) {
 		Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
 		return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
 	}
 
-	public MusicCmds() {
+	/*public MusicCmds() {
 		super(Category.MUSIC);
 		//Audio intensifies.
 
@@ -47,10 +45,11 @@ public class MusicCmds extends Module {
 		repeat();
 		move();
 		stop();
-	}
+	}*/
 
-	public void forceskip() {
-		super.register("forceskip", new SimpleCommand() {
+	@RegisterCommand
+	public static void forceskip(CommandRegistry cr) {
+		cr.register("forceskip", new SimpleCommandCompat(Category.MUSIC, "Forces the skip of a song.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
@@ -77,8 +76,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void move() {
-		super.register("move", new SimpleCommand() {
+	@RegisterCommand
+	public static void move(CommandRegistry cr) {
+		cr.register("move", new SimpleCommandCompat(Category.MUSIC, "Moves the bot to your VC.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				Guild guild = event.getGuild();
@@ -134,8 +134,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void np() {
-		super.register("np", new SimpleCommand() {
+	@RegisterCommand
+	public static void np(CommandRegistry cr) {
+		cr.register("np", new SimpleCommandCompat(Category.MUSIC, "Now playing.") {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -166,8 +167,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void pause() {
-		super.register("pause", new SimpleCommand() {
+	@RegisterCommand
+	public static void pause(CommandRegistry cr) {
+		cr.register("pause", new SimpleCommandCompat(Category.MUSIC, "Pauses the music.") {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Pause Command")
@@ -198,8 +200,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void play() {
-		super.register("play", new SimpleCommand() {
+	@RegisterCommand
+	public static void play(CommandRegistry cr) {
+		cr.register("play", new SimpleCommandCompat(Category.MUSIC, "Plays a song~") {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
@@ -236,8 +239,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	public void queue() {
-		super.register("queue", new SimpleCommand() {
+	@RegisterCommand
+	public static void queue(CommandRegistry cr) {
+		cr.register("queue", new SimpleCommandCompat(Category.MUSIC, "Lists the current song queue.") {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Queue Command")
@@ -269,8 +273,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void removetrack() {
-		super.register("removetrack", new SimpleCommand() {
+	@RegisterCommand
+	public static void removetrack(CommandRegistry cr) {
+		cr.register("removetrack", new SimpleCommandCompat(Category.MUSIC, "Removes a track from the queue.") {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Remove Track Command")
@@ -331,8 +336,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void repeat() {
-		super.register("repeat", new SimpleCommand() {
+	@RegisterCommand
+	public static void repeat(CommandRegistry cr) {
+		cr.register("repeat", new SimpleCommandCompat(Category.MUSIC, "Repeats a song or a queue.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
@@ -377,13 +383,14 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void sendNotConnectedToMyChannel(MessageChannel channel) {
+	private static void sendNotConnectedToMyChannel(MessageChannel channel) {
 		channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently " +
 			"playing in!").queue();
 	}
 
-	private void shuffle() {
-		super.register("shuffle", new SimpleCommand() {
+	@RegisterCommand
+	public static void shuffle(CommandRegistry cr) {
+		cr.register("shuffle", new SimpleCommandCompat(Category.MUSIC, "Shuffles your playlist.") {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Shuffle Command")
@@ -410,8 +417,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void skip() {
-		super.register("skip", new SimpleCommand() {
+	@RegisterCommand
+	public static void skip(CommandRegistry cr) {
+		cr.register("skip", new SimpleCommandCompat(Category.MUSIC, "Skips a song.") {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Skip Command")
@@ -461,8 +469,9 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void stop() {
-		super.register("stop", new SimpleCommand() {
+	@RegisterCommand
+	public static void stop(CommandRegistry cr) {
+		cr.register("stop", new SimpleCommandCompat(Category.MUSIC, "Stops the player.") {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Stop Command")
@@ -511,7 +520,7 @@ public class MusicCmds extends Module {
 		});
 	}
 
-	private void stop(GuildMessageReceivedEvent event) {
+	private static void stop(GuildMessageReceivedEvent event) {
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 		if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused())
 			musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
@@ -522,8 +531,9 @@ public class MusicCmds extends Module {
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 
-	private void volume() {
-		super.register("volume", new SimpleCommand() {
+	@RegisterCommand
+	public static void volume(CommandRegistry cr) {
+		cr.register("volume", new SimpleCommandCompat(Category.MUSIC, "Changes the song volume.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (MantaroData.db().getUser(event.getMember()).isPremium() ||

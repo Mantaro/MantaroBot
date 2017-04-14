@@ -12,10 +12,7 @@ import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.data.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -26,7 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -37,38 +34,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.List;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class UtilsCmds extends Module {
+@RegisterCommand.Class
+public class UtilsCmds{
 	private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
-	private final Resty resty = new Resty();
-	private static final String[] DANGEROUS_KEYWORDS = {"while", "for", "repeat", "function", "goto", "\"", "'", "return"};
-	private static final ExecutorService runner = Executors.newFixedThreadPool(5, (runnable)->{
-		Thread t = new Thread(runnable);
-		t.setDaemon(true);
-		t.setName("MathThread");
-		t.setPriority(Thread.MIN_PRIORITY);
-		return t;
-	});
+	private static final Resty resty = new Resty();
 
-	public UtilsCmds() {
-		super(Category.UTILS);
-		translate();
-		birthday();
-		ytmp3();
-		weather();
-		urban();
-		googleSearch();
-		time();
-	}
 
-	private void birthday() {
-		super.register("birthday", new SimpleCommand() {
+	@RegisterCommand
+	public static void birthday(CommandRegistry cr) {
+		cr.register("birthday", new SimpleCommandCompat(Category.UTILS, "Sets your birthday.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -167,7 +147,7 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private String dateGMT(String timezone) throws ParseException, NullPointerException {
+	private static String dateGMT(String timezone) throws ParseException, NullPointerException {
 		SimpleDateFormat dateGMT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		dateGMT.setTimeZone(TimeZone.getTimeZone(timezone));
 		SimpleDateFormat dateLocal = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -175,8 +155,9 @@ public class UtilsCmds extends Module {
 		return DateFormat.getInstance().format(date1);
 	}
 
-	private void googleSearch() {
-		super.register("google", new SimpleCommand() {
+	@RegisterCommand
+	public static void googleSearch(CommandRegistry cr) {
+		cr.register("google", new SimpleCommandCompat(Category.UTILS, "Searches in google.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				StringBuilder b = new StringBuilder();
@@ -209,19 +190,16 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private void math(){
-
-	}
-
-	private BigDecimal mathResult(String content) {
+	private static BigDecimal mathResult(String content) {
 		return new Expression(content)
 			.setPrecision(15)
 			.setRoundingMode(RoundingMode.UP)
 			.eval();
 	}
 
-	private void time() {
-		super.register("time", new SimpleCommand() {
+	@RegisterCommand
+	public static void time(CommandRegistry cr) {
+		cr.register("time", new SimpleCommandCompat(Category.UTILS, "Tells you the time based in GMT timezones.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				try {
@@ -253,8 +231,9 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private void translate() {
-		super.register("translate", new SimpleCommand() {
+	@RegisterCommand
+	public static void translate(CommandRegistry cr) {
+		cr.register("translate", new SimpleCommandCompat(Category.UTILS, "Translates a given sentence.") {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
@@ -324,8 +303,9 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private void urban() {
-		super.register("urban", new SimpleCommand() {
+	@RegisterCommand
+	public static void urban(CommandRegistry cr) {
+		cr.register("urban", new SimpleCommandCompat(Category.UTILS, "Searches on UD.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				//First split is definition, second one is number. I would use space but we need the ability to fetch with spaces too.
@@ -409,8 +389,9 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private void weather() {
-		super.register("weather", new SimpleCommand() {
+	@RegisterCommand
+	public static void weather(CommandRegistry cr) {
+		cr.register("weather", new SimpleCommandCompat(Category.UTILS, "Tells you the weather forecast in your area.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
@@ -479,8 +460,9 @@ public class UtilsCmds extends Module {
 		});
 	}
 
-	private void ytmp3() {
-		super.register("ytmp3", new SimpleCommand() {
+	@RegisterCommand
+	public static void ytmp3(CommandRegistry cr) {
+		cr.register("ytmp3", new SimpleCommandCompat(Category.UTILS, "Youtube to MP3.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				YoutubeMp3Info info = YoutubeMp3Info.forLink(content);

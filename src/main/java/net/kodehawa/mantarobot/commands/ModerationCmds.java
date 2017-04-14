@@ -9,10 +9,7 @@ import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -26,7 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class ModerationCmds extends Module {
+@RegisterCommand.Class
+public class ModerationCmds {
     private static final Logger LOGGER = LoggerFactory.getLogger("Moderation");
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
 
@@ -84,16 +82,17 @@ public class ModerationCmds extends Module {
         return time[0];
     }
 
-    public ModerationCmds() {
+    /*public ModerationCmds() {
         super(Category.MODERATION);
         ban();
         kick();
         tempban();
         prune();
-    }
+    }*/
 
-    private void ban() {
-        super.register("ban", new SimpleCommand() {
+    @RegisterCommand
+    public static void ban(CommandRegistry cr) {
+        cr.register("ban", new SimpleCommandCompat(Category.MODERATION, "Ban hammer.") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 Guild guild = event.getGuild();
@@ -192,8 +191,9 @@ public class ModerationCmds extends Module {
         });
     }
 
-    private void kick() {
-        super.register("kick", new SimpleCommand() {
+    @RegisterCommand
+    public static void kick(CommandRegistry cr) {
+        cr.register("kick", new SimpleCommandCompat(Category.MODERATION, "Kicks an user.") {
             @Override
             public CommandPermission permissionRequired() {
                 return CommandPermission.USER;
@@ -295,12 +295,9 @@ public class ModerationCmds extends Module {
         });
     }
 
-    private void opts() {
-
-    }
-
-    private void prune() {
-        super.register("prune", new SimpleCommand() {
+    @RegisterCommand
+    public static void prune(CommandRegistry cr) {
+        cr.register("prune", new SimpleCommandCompat(Category.MODERATION, "Prunes last x messages. (Limit is 100)") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 TextChannel channel = event.getChannel();
@@ -417,8 +414,9 @@ public class ModerationCmds extends Module {
         });
     }
 
-    private void tempban() {
-        super.register("tempban", new SimpleCommand() {
+    @RegisterCommand
+    public static void tempban(CommandRegistry cr) {
+        cr.register("tempban", new SimpleCommandCompat(Category.MODERATION, "Temporarly bans a user.") {
             @Override
             protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
                 String reason = content;

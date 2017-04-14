@@ -10,36 +10,32 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
-public class OsuStatsCmd extends Module {
+@RegisterCommand.Class
+public class OsuStatsCmd {
 	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
 	private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
-	private Map<String, Object> map = new HashMap<>();
-	private String mods1 = "";
-	private OsuClient osuClient = null;
+	private static Map<String, Object> map = new HashMap<>();
+	private static String mods1 = "";
+	private static OsuClient osuClient = null;
 
-	public OsuStatsCmd() {
-		super(Category.GAMES);
+	static {
 		osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
-		osustats();
 	}
 
-	private String best(String content) {
+	private static String best(String content) {
 		String finalResponse;
 		try {
 			long start = System.currentTimeMillis();
@@ -84,8 +80,9 @@ public class OsuStatsCmd extends Module {
 		return finalResponse;
 	}
 
-	private void osustats() {
-		super.register("osustats", new SimpleCommand() {
+	@RegisterCommand
+	public static void osustats(CommandRegistry cr) {
+		cr.register("osustats", new SimpleCommandCompat(Category.GAMES, "Shows your osu! stats.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				String noArgs = content.split(" ")[0];
@@ -146,7 +143,7 @@ public class OsuStatsCmd extends Module {
 		});
 	}
 
-	private String recent(String content) {
+	private static String recent(String content) {
 		String finalMessage;
 		try {
 			long start = System.currentTimeMillis();
@@ -189,7 +186,7 @@ public class OsuStatsCmd extends Module {
 		return finalMessage;
 	}
 
-	private MessageEmbed user(String content) {
+	private static MessageEmbed user(String content) {
 		MessageEmbed finalMessage;
 		try {
 			long start = System.currentTimeMillis();

@@ -64,7 +64,7 @@ public class ActionCmds {
     public static void action(CommandRegistry cr) {
         cr.register("action", SimpleCommand.builder(Category.ACTION)
                 .permission(CommandPermission.USER)
-                .code((thiz, event, content, args)->{
+                .code((thiz, event, content, args)-> {
                     String noArgs = content.split(" ")[0];
                     TextChannel channel = event.getChannel();
                     switch (noArgs) {

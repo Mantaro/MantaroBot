@@ -11,6 +11,7 @@ import java.util.Random;
 
 @RegisterCommand.Class
 public class FunCmds {
+
     @RegisterCommand
     public static void coinflip(CommandRegistry cr) {
         cr.register("coinflip", new SimpleCommandCompat(Category.FUN, "Flips a coin") {

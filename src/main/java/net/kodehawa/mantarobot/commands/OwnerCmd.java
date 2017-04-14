@@ -19,10 +19,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
+import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
@@ -32,13 +29,14 @@ import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.awt.Color;
+import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +45,8 @@ import java.util.function.IntSupplier;
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
-public class OwnerCmd extends Module {
+@RegisterCommand.Class
+public class OwnerCmd {
 	private interface Evaluator {
 		Object eval(GuildMessageReceivedEvent event, String code);
 	}
@@ -118,16 +117,11 @@ public class OwnerCmd extends Module {
 		sb.append("```");
 		return sb.toString();
 	}
-	private final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
+	private static final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
 
-	public OwnerCmd() {
-		super(Category.OWNER);
-		blacklist();
-		owner();
-	}
-
-	private void blacklist() {
-		super.register("blacklist", new SimpleCommand() {
+	@RegisterCommand
+	public static void blacklist(CommandRegistry cr) {
+		cr.register("blacklist", new SimpleCommandCompat(Category.OWNER, "Blacklists an user.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				MantaroObj obj = MantaroData.db().getMantaroData();
@@ -170,12 +164,12 @@ public class OwnerCmd extends Module {
 
 			@Override
 			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
+				return CommandPermission.OWNER;
 			}
 		});
 	}
 
-	public CompletableFuture<Void> notifyMusic(String content) {
+	private static CompletableFuture<Void> notifyMusic(String content) {
 		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
 			.stream()
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
@@ -186,7 +180,8 @@ public class OwnerCmd extends Module {
 			.toArray(CompletableFuture[]::new));
 	}
 
-	private void owner() {
+	@RegisterCommand
+	public static void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {
 			ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
@@ -284,7 +279,7 @@ public class OwnerCmd extends Module {
 			return result;
 		});
 
-		super.register("owner", new SimpleCommand() {
+		cr.register("owner", new SimpleCommandCompat(Category.OWNER, "") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args.length < 1) {
@@ -661,25 +656,24 @@ public class OwnerCmd extends Module {
 
 			@Override
 			public CommandPermission permissionRequired() {
-				return CommandPermission.BOT_OWNER;
+				return CommandPermission.OWNER;
 			}
 
 			@Override
-			protected String[] splitArgs(String content) {
+			public String[] splitArgs(String content) {
 				return SPLIT_PATTERN.split(content, 2);
 			}
 		});
 	}
 
-	private void prepareShutdown(GuildMessageReceivedEvent event) {
+	private static void prepareShutdown(GuildMessageReceivedEvent event) {
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
 
 		try {
 			MantaroData.connectionWatcher().close();
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 

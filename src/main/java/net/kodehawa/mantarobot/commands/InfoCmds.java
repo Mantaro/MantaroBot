@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedDoubleValues;
 import net.kodehawa.mantarobot.commands.info.StatsHelper.CalculatedIntValues;
 import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
+import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -26,10 +27,11 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -38,7 +40,8 @@ import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 
-public class InfoCmds extends Module {
+@RegisterCommand.Class
+public class InfoCmds {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
 	private static String ratePing(long ping) {
@@ -59,7 +62,7 @@ public class InfoCmds extends Module {
 		return "slow af. :dizzy_face:";
 	}
 
-	public InfoCmds() {
+	/*public InfoCmds() {
 		super(Category.INFO);
 		start();
 
@@ -73,13 +76,15 @@ public class InfoCmds extends Module {
 		stats();
 		shard();
 		invite();
-	}
+	}*/
 
-	private void about() {
-		super.register("about", new SimpleCommand() {
+	@RegisterCommand
+	public static void about(CommandRegistry cr) {
+		cr.register("about", new SimpleCommandCompat(Category.INFO, "Shows information about the bot.") {
 			@Override
 			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
-
+				System.out.println(args.length);
+				System.out.println(content);
 				if (!content.isEmpty() && args[0].equals("patreon")) {
 					EmbedBuilder builder = new EmbedBuilder();
 					Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
@@ -172,9 +177,9 @@ public class InfoCmds extends Module {
 
 		});
 	}
-
-	private void avatar() {
-		super.register("avatar", new SimpleCommand() {
+	@RegisterCommand
+	public static void avatar(CommandRegistry cr) {
+		cr.register("avatar", new SimpleCommandCompat(Category.INFO, "Shows your avatar or the avatar of an user.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (!event.getMessage().getMentionedUsers().isEmpty()) {
@@ -196,8 +201,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void guildinfo() {
-		super.register("serverinfo", new SimpleCommand() {
+	@RegisterCommand
+	public static void guildinfo(CommandRegistry cr) {
+		cr.register("serverinfo", new SimpleCommandCompat(Category.INFO, "Shows server information.") {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
@@ -243,7 +249,8 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void help() {
+	@RegisterCommand
+	public static void help(CommandRegistry cr) {
 		Random r = new Random();
 		List<String> jokes = Collections.unmodifiableList(Arrays.asList(
 			"Yo damn I heard you like help, because you just issued the help command to get the help about the help command.",
@@ -252,8 +259,8 @@ public class InfoCmds extends Module {
 			"Help Inception.",
 			"A help helping helping helping help."
 		));
-		super.register("help", new SimpleCommand() {
 
+		cr.register("help", new SimpleCommandCompat(Category.INFO, "Shows help, don't ya think?") {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
@@ -269,22 +276,22 @@ public class InfoCmds extends Module {
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
-								Manager.commands.entrySet().stream().filter(
-									(command) -> !command.getValue().getKey().isHiddenFromHelp()).count()
-							, prefix), null);
+										CommandProcessor.REGISTRY.commands().entrySet().stream().filter(
+											(command) -> !command.getValue().isHiddenFromHelp()).count()
+												, prefix), null);
 
 					Arrays.stream(Category.values())
 						.filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
-						.filter(c -> c != Category.OWNER || CommandPermission.BOT_OWNER.test(event.getMember()))
+						.filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
 						.forEach(c -> embed.addField(c + " Commands:", forType(c), false));
 
 					event.getChannel().sendMessage(embed.build()).queue();
 
 				} else {
-					Pair<Command, Category> command = Manager.commands.get(content);
+					Command command = CommandProcessor.REGISTRY.commands().get(content);
 
-					if (command != null && command.getValue() != null) {
-						final MessageEmbed help = command.getKey().help(event);
+					if (command != null && command != null) {
+						final MessageEmbed help = command.help(event);
 						Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
 						if (help == null)
 							event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
@@ -308,8 +315,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void info() {
-		super.register("info", new SimpleCommand() {
+	@RegisterCommand
+	public static void info(CommandRegistry cr) {
+		cr.register("info", new SimpleCommandCompat(Category.INFO, "Shows technical info about the bot.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
@@ -319,7 +327,7 @@ public class InfoCmds extends Module {
 
 				event.getChannel().sendMessage("```prolog\n"
 					+ "---MantaroBot Technical Information---\n\n"
-					+ "Commands: " + Manager.commands.entrySet().stream().filter((command) -> !command.getValue().getKey().isHiddenFromHelp()).count() + "\n"
+					+ "Commands: " + CommandProcessor.REGISTRY.commands().entrySet().stream().filter((command) -> !command.getValue().isHiddenFromHelp()).count() + "\n"
 					+ "Bot Version: " + MantaroInfo.VERSION + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
 					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
@@ -350,8 +358,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void invite() {
-		super.register("invite", new SimpleCommand() {
+	@RegisterCommand
+	public static void invite(CommandRegistry cr) {
+		cr.register("invite", new SimpleCommandCompat(Category.INFO, "Shows the invite link for the bot.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
@@ -372,8 +381,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void ping() {
-		super.register("ping", new SimpleCommand() {
+	@RegisterCommand
+	public static void ping(CommandRegistry cr) {
+		cr.register("ping", new SimpleCommandCompat(Category.INFO, "Pong.") {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 20);
 
 			@Override
@@ -405,8 +415,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void shard() {
-		super.register("shardinfo", new SimpleCommand() {
+	@RegisterCommand
+	public static void shard(CommandRegistry cr) {
+		cr.register("shardinfo", new SimpleCommandCompat(Category.INFO, "Shows shard information.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
@@ -459,8 +470,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void stats() {
-		super.register("stats", new SimpleCommand() {
+	@RegisterCommand
+	public static void stats(CommandRegistry cr) {
+		cr.register("stats", new SimpleCommandCompat(Category.INFO, "Shows bot statistics.") {
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (content.isEmpty()) {
@@ -499,7 +511,7 @@ public class InfoCmds extends Module {
 							.addField("Music Listeners per Online Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.min, listeningUsersPerOnlineUsersPerGuilds.avg, listeningUsersPerOnlineUsersPerGuilds.max), true)
 							.addField("Music Connections per Server", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
-							.addField("Total commands (including custom)", String.valueOf(Manager.commands.size()), true)
+							.addField("Total commands (including custom)", String.valueOf(CommandProcessor.REGISTRY.commands().size()), true)
 							.addField("Exclusiveness in Total Servers", Math.round(ex) + "% (" + exclusiveness + ")", false)
 							.addField("Big Servers", String.valueOf(bG), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
@@ -626,8 +638,9 @@ public class InfoCmds extends Module {
 		});
 	}
 
-	private void userinfo() {
-		super.register("userinfo", new SimpleCommand() {
+	@RegisterCommand
+	public static void userinfo(CommandRegistry cr) {
+		cr.register("userinfo", new SimpleCommandCompat(Category.INFO, "Shows info about the user.") {
 			@Override
 			public CommandPermission permissionRequired() {
 				return CommandPermission.USER;
