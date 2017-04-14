@@ -15,7 +15,8 @@ import java.util.OptionalInt;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class InteractiveOperations {
-	@Getter @RequiredArgsConstructor
+	@Getter
+	@RequiredArgsConstructor
 	private static class RunningOperation implements Expirable {
 		private final OptionalInt increasingTimeout;
 		private final InteractiveOperation operation;
@@ -23,6 +24,10 @@ public class InteractiveOperations {
 
 		@Override
 		public void onExpire() {
+			try {
+				operation.onExpire();
+			} catch (Throwable ignored) {
+			}
 			OPERATIONS.values().remove(this);
 		}
 	}
@@ -34,7 +39,7 @@ public class InteractiveOperations {
 		public void event(GuildMessageReceivedEvent event) {
 			String id = event.getChannel().getId();
 
-			//OPERATIONS.keySet().remove(null);
+			OPERATIONS.keySet().remove(null);
 			OPERATIONS.values().remove(null);
 
 			RunningOperation operation = OPERATIONS.get(id);
@@ -67,6 +72,14 @@ public class InteractiveOperations {
 	public static boolean create(TextChannel channel, String operationName, int startingTimeout, OptionalInt increasingTimeout, InteractiveOperation operation) {
 		Objects.requireNonNull(channel, "channel");
 		return create(channel.getId(), operationName, startingTimeout, increasingTimeout, operation);
+	}
+
+	public static RunningOperation getCurrentOperation(String channelId) {
+		return OPERATIONS.get(channelId);
+	}
+
+	public static RunningOperation getCurrentOperation(TextChannel channel) {
+		return getCurrentOperation(channel.getId());
 	}
 
 	public static EventListener listener() {

@@ -5,22 +5,21 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.util.Optional;
 import java.util.function.IntConsumer;
 
+@Slf4j
 public class AudioRequester implements AudioLoadResultHandler {
 	public static final int MAX_QUEUE_LENGTH = 300;
 	public static final long MAX_SONG_LENGTH = 1260000;
-	private static final Logger LOGGER = LoggerFactory.getLogger("AudioRequester");
 	private GuildMessageReceivedEvent event;
 	private GuildMusicManager musicManager;
 	private String trackUrl;
@@ -83,7 +82,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 		if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
 			event.getChannel().sendMessage("\u274C Error while fetching music: " + exception.getMessage()).queue();
 		} else {
-			LOGGER.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
+			log.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
 		}
 		if (musicManager.getTrackScheduler().isStopped())
 			event.getGuild().getAudioManager().closeAudioConnection();

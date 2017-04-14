@@ -5,6 +5,7 @@ import bsh.Interpreter;
 import com.rethinkdb.gen.exc.ReqlError;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -24,19 +25,16 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.awt.*;
+import java.awt.Color;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -45,13 +43,14 @@ import java.util.function.IntSupplier;
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
+@Slf4j
 @RegisterCommand.Class
 public class OwnerCmd {
 	private interface Evaluator {
 		Object eval(GuildMessageReceivedEvent event, String code);
 	}
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("Owner");
+	private static final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
 
 	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
 		boolean first = true;
@@ -65,6 +64,56 @@ public class OwnerCmd {
 			}
 		}
 		return ret.append(right).append("\n").toString();
+	}
+
+	@RegisterCommand
+	public static void blacklist(CommandRegistry cr) {
+		cr.register("blacklist", new SimpleCommandCompat(Category.OWNER, "Blacklists an user.") {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				MantaroObj obj = MantaroData.db().getMantaroData();
+				if (args[0].equals("guild")) {
+					if (args[1].equals("add")) {
+						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
+						obj.getBlackListedGuilds().add(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+						obj.save();
+					} else if (args[1].equals("remove")) {
+						if (!obj.getBlackListedGuilds().contains(args[2])) return;
+						obj.getBlackListedGuilds().remove(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
+						obj.save();
+					}
+					return;
+				}
+
+				if (args[0].equals("user")) {
+					if (args[1].equals("add")) {
+						if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
+						obj.getBlackListedUsers().add(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						obj.save();
+					} else if (args[1].equals("remove")) {
+						if (!obj.getBlackListedUsers().contains(args[2])) return;
+						obj.getBlackListedUsers().remove(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						obj.save();
+					}
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Blacklist command")
+					.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+					.build();
+			}
+
+			@Override
+			public CommandPermission permissionRequired() {
+				return CommandPermission.OWNER;
+			}
+		});
 	}
 
 	public static String getStackTrace(Throwable e) {
@@ -116,57 +165,6 @@ public class OwnerCmd {
 		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
 		sb.append("```");
 		return sb.toString();
-	}
-	private static final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
-
-	@RegisterCommand
-	public static void blacklist(CommandRegistry cr) {
-		cr.register("blacklist", new SimpleCommandCompat(Category.OWNER, "Blacklists an user.") {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MantaroObj obj = MantaroData.db().getMantaroData();
-				if (args[0].equals("guild")) {
-					if (args[1].equals("add")) {
-						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
-						obj.getBlackListedGuilds().add(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
-						obj.save();
-					} else if (args[1].equals("remove")) {
-						if (!obj.getBlackListedGuilds().contains(args[2])) return;
-						obj.getBlackListedGuilds().remove(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
-						obj.save();
-					}
-					return;
-				}
-
-				if (args[0].equals("user")) {
-					if (args[1].equals("add")) {
-						if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
-						obj.getBlackListedUsers().add(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						obj.save();
-					} else if (args[1].equals("remove")) {
-						if (!obj.getBlackListedUsers().contains(args[2])) return;
-						obj.getBlackListedUsers().remove(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						obj.save();
-					}
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Blacklist command")
-					.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
-					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.OWNER;
-			}
-		});
 	}
 
 	private static CompletableFuture<Void> notifyMusic(String content) {
@@ -281,6 +279,11 @@ public class OwnerCmd {
 
 		cr.register("owner", new SimpleCommandCompat(Category.OWNER, "") {
 			@Override
+			public String[] splitArgs(String content) {
+				return SPLIT_PATTERN.split(content, 2);
+			}
+
+			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args.length < 1) {
 					onHelp(event);
@@ -337,9 +340,9 @@ public class OwnerCmd {
 					if (sub.equals("add")) {
 						try {
 							String[] values = SPLIT_PATTERN.split(args[1], 3);
-							try{
+							try {
 								Long.parseLong(values[1]);
-							} catch (Exception e){
+							} catch (Exception e) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
 								return;
 							}
@@ -388,7 +391,7 @@ public class OwnerCmd {
 					try {
 						prepareShutdown(event);
 					} catch (Exception e) {
-						LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown." + e.toString(), e);
+						log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown." + e.toString(), e);
 						return;
 					}
 
@@ -401,7 +404,7 @@ public class OwnerCmd {
 						try {
 							MantaroData.connectionWatcher().reboot(false);
 						} catch (Exception e) {
-							LOGGER.error("Error restarting via manager, manual reboot required", e);
+							log.error("Error restarting via manager, manual reboot required", e);
 							System.exit(-1);
 						}
 					} else {
@@ -421,7 +424,7 @@ public class OwnerCmd {
 					try {
 						prepareShutdown(event);
 					} catch (Exception e) {
-						LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+						log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 					}
 
 					//If we manage to get here, there's nothing else except us.
@@ -433,7 +436,7 @@ public class OwnerCmd {
 						try {
 							MantaroData.connectionWatcher().reboot(false);
 						} catch (Exception e) {
-							LOGGER.error("Error restarting via manager, manual reboot required", e);
+							log.error("Error restarting via manager, manual reboot required", e);
 							System.exit(-1);
 						}
 					} else {
@@ -487,13 +490,13 @@ public class OwnerCmd {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
-								LOGGER.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+								log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
 							}
 							if (restart) {
 								try {
 									MantaroData.connectionWatcher().reboot(false);
 								} catch (Exception e) {
-									LOGGER.error("Error restarting via manager, manual reboot required", e);
+									log.error("Error restarting via manager, manual reboot required", e);
 									System.exit(-1);
 								}
 							} else {
@@ -517,14 +520,14 @@ public class OwnerCmd {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
-								LOGGER.warn("Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(), e);
+								log.warn("Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(), e);
 							}
 
 							if (restart) {
 								try {
 									MantaroData.connectionWatcher().reboot(false);
 								} catch (Exception e) {
-									LOGGER.error("Error restarting via manager, manual reboot required", e);
+									log.error("Error restarting via manager, manual reboot required", e);
 									System.exit(-1);
 								}
 							} else {
@@ -659,10 +662,6 @@ public class OwnerCmd {
 				return CommandPermission.OWNER;
 			}
 
-			@Override
-			public String[] splitArgs(String content) {
-				return SPLIT_PATTERN.split(content, 2);
-			}
 		});
 	}
 
@@ -673,7 +672,8 @@ public class OwnerCmd {
 
 		try {
 			MantaroData.connectionWatcher().close();
-		} catch (Exception e) {}
+		} catch (Exception e) {
+		}
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 

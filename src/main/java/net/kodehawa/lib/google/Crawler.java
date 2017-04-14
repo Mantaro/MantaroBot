@@ -1,5 +1,6 @@
 package net.kodehawa.lib.google;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class Crawler {
 
 	public static class SearchResult {

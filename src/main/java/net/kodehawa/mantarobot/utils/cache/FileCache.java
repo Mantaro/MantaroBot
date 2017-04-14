@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.utils.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import net.kodehawa.mantarobot.utils.UnsafeUtils;
+import lombok.SneakyThrows;
 
 import java.io.*;
 import java.util.concurrent.ExecutionException;
@@ -16,22 +16,17 @@ public class FileCache {
 			.maximumSize(maxSize)
 			.concurrencyLevel(concurrencyLevel)
 			.build(new CacheLoader<File, byte[]>() {
+				@SneakyThrows
 				@Override
 				public byte[] load(File key) throws Exception {
 					if (!key.isFile()) throw new IllegalArgumentException(key + ": not a file");
-					try {
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						FileInputStream fis = new FileInputStream(key);
-						byte[] buffer = new byte[1024];
-						int read;
-						while ((read = fis.read(buffer)) != -1)
-							baos.write(buffer, 0, read);
-						fis.close();
-						return baos.toByteArray();
-					} catch (IOException e) {
-						UnsafeUtils.throwException(e);
-						throw new AssertionError("UnsafeUtils.throwException did not throw");
-					}
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					FileInputStream fis = new FileInputStream(key);
+					byte[] buffer = new byte[1024];
+					int read;
+					while ((read = fis.read(buffer)) != -1) baos.write(buffer, 0, read);
+					fis.close();
+					return baos.toByteArray();
 				}
 			});
 	}

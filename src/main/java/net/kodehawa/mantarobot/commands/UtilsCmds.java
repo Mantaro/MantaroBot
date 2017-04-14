@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.udojava.evalex.Expression;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -19,11 +20,9 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -34,17 +33,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.List;
 import java.util.function.IntConsumer;
 
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+@Slf4j
 @RegisterCommand.Class
-public class UtilsCmds{
-	private static final Logger LOGGER = LoggerFactory.getLogger("UtilsCmds");
+public class UtilsCmds {
 	private static final Resty resty = new Resty();
-
 
 	@RegisterCommand
 	public static void birthday(CommandRegistry cr) {
@@ -82,7 +79,7 @@ public class UtilsCmds{
 							}
 						} catch (Exception e) {
 							if (!(e instanceof NullPointerException))
-								LOGGER.warn("Error while retrieving close birthdays", e);
+								log.warn("Error while retrieving close birthdays", e);
 						}
 					});
 
@@ -328,7 +325,7 @@ public class UtilsCmds{
 						return;
 					}
 
-					if(data.list.isEmpty()){
+					if (data.list.isEmpty()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
 						return;
 					}
@@ -437,7 +434,7 @@ public class UtilsCmds{
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Error while fetching results.").queue();
 					if (!(e instanceof NullPointerException))
-						LOGGER.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
+						log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
 

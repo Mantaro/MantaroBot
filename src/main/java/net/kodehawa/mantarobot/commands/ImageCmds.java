@@ -15,9 +15,12 @@ import net.kodehawa.lib.imageboard.rule34.main.Rule34;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.ImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.*;
-import net.kodehawa.mantarobot.utils.cache.URLCache;
+import net.kodehawa.mantarobot.modules.Category;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.collections4.BidiMap;
@@ -35,12 +38,10 @@ import java.util.stream.Collectors;
 
 @RegisterCommand.Class
 public class ImageCmds {
-    public static final URLCache CACHE = new URLCache(20);
+	public static final URLCache CACHE = new URLCache(20);
 
-    private static final String BASEURL = "http://catgirls.brussell98.tk/api/random";
-    private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random";
-
-	private static Random r = new Random();
+	private static final String BASEURL = "http://catgirls.brussell98.tk/api/random";
+	private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random";
 	private static String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
 	private static e621 e621 = new e621();
 	private static Konachan konachan = new Konachan(true);
@@ -49,52 +50,13 @@ public class ImageCmds {
 	private static int number = 0;
 	private static int number1;
 	private static int page = 0;
+	private static Random r = new Random();
 	private static String rating = "";
 	private static boolean smallRequest = false;
 	private static String tagsEncoded = "";
 	private static String tagsToEncode = "no";
 
-	public ImageCmds() {
-        nRating.put("safe", "s");
-        nRating.put("questionable", "q");
-        nRating.put("explicit", "e");
-    }
-
-    @RegisterCommand
-	public static void catgirls(CommandRegistry cr) {
-	    cr.register("catgirl", new SimpleCommandCompat(Category.IMAGE, "Sends catgirl images") {
-            @Override
-            protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-                boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
-                if(nsfw && !nsfwCheck(event, true, true, null)) return;
-
-                try {
-                    JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
-                            .asJson()
-                            .getBody()
-                            .getObject();
-                    if(!obj.has("url")) {
-                        event.getChannel().sendMessage("Unable to find image").queue();
-                    } else {
-                        event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
-                    }
-                } catch(UnirestException e) {
-                    e.printStackTrace();
-                    event.getChannel().sendMessage("Unable to get image").queue();
-                }
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Catgirl command")
-                        .setDescription("Sends catgirl images")
-                        .addField("Usage", "`~>catgirl`\n´~>catgirl nsfw´", false)
-                        .build();
-            }
-        });
-    }
-
-    @RegisterCommand
+	@RegisterCommand
 	public static void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommandCompat(Category.IMAGE, "Sends a random cat image") {
 			@Override
@@ -114,6 +76,40 @@ public class ImageCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Cat command")
 					.setDescription("Sends a random cat image")
+					.build();
+			}
+		});
+	}
+
+	@RegisterCommand
+	public static void catgirls(CommandRegistry cr) {
+		cr.register("catgirl", new SimpleCommandCompat(Category.IMAGE, "Sends catgirl images") {
+			@Override
+			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+				boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
+				if (nsfw && !nsfwCheck(event, true, true, null)) return;
+
+				try {
+					JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
+						.asJson()
+						.getBody()
+						.getObject();
+					if (!obj.has("url")) {
+						event.getChannel().sendMessage("Unable to find image").queue();
+					} else {
+						event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
+					}
+				} catch (UnirestException e) {
+					e.printStackTrace();
+					event.getChannel().sendMessage("Unable to get image").queue();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Catgirl command")
+					.setDescription("Sends catgirl images")
+					.addField("Usage", "`~>catgirl`\n´~>catgirl nsfw´", false)
 					.build();
 			}
 		});
@@ -571,5 +567,11 @@ public class ImageCmds {
 					.build();
 			}
 		});
+	}
+
+	public ImageCmds() {
+		nRating.put("safe", "s");
+		nRating.put("questionable", "q");
+		nRating.put("explicit", "e");
 	}
 }

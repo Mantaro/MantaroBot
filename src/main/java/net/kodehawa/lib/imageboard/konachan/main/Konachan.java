@@ -1,13 +1,12 @@
 package net.kodehawa.lib.imageboard.konachan.main;
 
 import br.com.brjdevs.java.utils.extensions.Async;
+import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.lib.imageboard.konachan.main.entities.Tag;
 import net.kodehawa.lib.imageboard.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.imageboard.konachan.providers.WallpaperProvider;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.util.Arrays;
@@ -16,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Konachan {
-	private static final Logger LOGGER = LoggerFactory.getLogger("Konachan");
 	private final Resty resty = new Resty().identifyAsMozilla();
 	private HashMap<String, Object> queryParams;
 	private boolean safeForWork = false;

@@ -4,6 +4,7 @@ import com.osu.api.ciyfhx.Mod;
 import com.osu.api.ciyfhx.OsuClient;
 import com.osu.api.ciyfhx.User;
 import com.osu.api.ciyfhx.UserScore;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -13,19 +14,17 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
 
+@Slf4j
 @RegisterCommand.Class
 public class OsuStatsCmd {
-	private static final Logger LOGGER = LoggerFactory.getLogger("osu!");
 	private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
 	private static Map<String, Object> map = new HashMap<>();
 	private static String mods1 = "";
@@ -73,7 +72,7 @@ public class OsuStatsCmd {
 			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
 			else {
 				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
-				LOGGER.warn("Error retrieving results from osu!API", e);
+				log.warn("Error retrieving results from osu!API", e);
 			}
 		}
 
@@ -97,7 +96,7 @@ public class OsuStatsCmd {
 								if (e instanceof TimeoutException) {
 									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else LOGGER.warn("Exception thrown while fetching data", e);
+								} else log.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
@@ -110,7 +109,7 @@ public class OsuStatsCmd {
 								if (e instanceof TimeoutException) {
 									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else LOGGER.warn("Exception thrown while fetching data", e);
+								} else log.warn("Exception thrown while fetching data", e);
 							}
 						});
 						break;
@@ -180,7 +179,7 @@ public class OsuStatsCmd {
 			if (e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
 			else {
 				finalMessage = EmoteReference.ERROR + "Error while looking for results.";
-				LOGGER.warn("Error retrieving results from osu!API", e);
+				log.warn("Error retrieving results from osu!API", e);
 			}
 		}
 		return finalMessage;

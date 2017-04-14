@@ -3,8 +3,8 @@ package net.kodehawa.mantarobot.data;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
-import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.crossbot.CrossBotDataManager;
+import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.util.concurrent.Callable;

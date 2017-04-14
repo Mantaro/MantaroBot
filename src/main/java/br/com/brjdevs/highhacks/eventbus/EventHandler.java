@@ -5,10 +5,10 @@ package br.com.brjdevs.highhacks.eventbus;
  */
 @FunctionalInterface
 public interface EventHandler {
-    /**
-     * Handles an event
-     *
-     * @param event The event posted
-     */
-    void handle(Object event);
+	/**
+	 * Handles an event
+	 *
+	 * @param event The event posted
+	 */
+	void handle(Object event);
 }

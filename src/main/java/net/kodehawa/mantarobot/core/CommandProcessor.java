@@ -18,9 +18,10 @@ import java.util.Date;
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public class CommandProcessor {
-    public static final CommandRegistry REGISTRY = new CommandRegistry();
+	public static final CommandRegistry REGISTRY = new CommandRegistry();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");
+
 	public CommandProcessor() {
 		try {
 			SQLDatabase.getInstance().run((conn) -> {
@@ -38,11 +39,11 @@ public class CommandProcessor {
 						");").executeUpdate();
 					conn.prepareStatement("ALTER TABLE CMDLOG AUTO_INCREMENT=1").executeUpdate();
 				} catch (SQLException e) {
-					SQLAction.LOGGER.error(null, e);
+					SQLAction.getLog().error(null, e);
 				}
 			}).queue();
 		} catch (SQLException e) {
-			SQLAction.LOGGER.error(null, e);
+			SQLAction.getLog().error(null, e);
 		}
 
 	}
@@ -70,11 +71,11 @@ public class CommandProcessor {
 					statement.setInt(7, successful);
 					statement.execute();
 				} catch (SQLException e) {
-					SQLAction.LOGGER.error(null, e);
+					SQLAction.getLog().error(null, e);
 				}
 			}).queue();
 		} catch (SQLException e) {
-			SQLAction.LOGGER.error(null, e);
+			SQLAction.getLog().error(null, e);
 		}
 	}
 
@@ -93,14 +94,14 @@ public class CommandProcessor {
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];
 
-        if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)) {
-            return false;
-        }
+		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)) {
+			return false;
+		}
 
 		if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.\n" +
-					"http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
-					"Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
+				"http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
+				"Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
 			return false;
 		}
 

@@ -36,21 +36,21 @@ public class TextActionCmd extends NoArgsCommand {
 		return CommandPermission.USER;
 	}
 
-    @Override
-    public String description() {
-        return desc;
-    }
+	@Override
+	public Category category() {
+		return Category.ACTION;
+	}
 
-    @Override
+	@Override
+	public String description() {
+		return desc;
+	}
+
+	@Override
 	public MessageEmbed help(GuildMessageReceivedEvent event) {
 		return helpEmbed(event, name)
 			.setDescription(desc)
 			.setColor(color)
 			.build();
 	}
-
-    @Override
-    public Category category() {
-        return Category.ACTION;
-    }
 }

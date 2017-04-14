@@ -2,8 +2,7 @@ package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.Unirest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,25 +10,25 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class URLCache {
-    public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
-    public static final URLCache MISC_CACHE = new URLCache(40);
-	private static final Logger LOGGER = LoggerFactory.getLogger("URLCache");
+	public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
+	public static final URLCache MISC_CACHE = new URLCache(40);
 	private static final Map<String, File> saved = new ConcurrentHashMap<>();
-    private final FileCache cache;
+	private final FileCache cache;
 	private File cacheDir;
 
 	public URLCache(File cacheDir, int cacheSize) {
-	    this.cacheDir = cacheDir;
-	    cache = new FileCache(cacheSize);
+		this.cacheDir = cacheDir;
+		cache = new FileCache(cacheSize);
 		if (cacheDir.isFile())
 			cacheDir.delete();
 		cacheDir.mkdirs();
 	}
 
 	public URLCache(int cacheSize) {
-	    this(DEFAULT_CACHE_DIR, cacheSize);
-    }
+		this(DEFAULT_CACHE_DIR, cacheSize);
+	}
 
 	public void changeCacheDir(File newDir) {
 		if (newDir == null) throw new NullPointerException("newDir");
@@ -54,7 +53,7 @@ public class URLCache {
 			}
 		} catch (Exception e) {
 			if (file != null) file.delete();
-			LOGGER.error("Error caching", e);
+			log.error("Error caching", e);
 			throw new InternalError();
 		}
 	}

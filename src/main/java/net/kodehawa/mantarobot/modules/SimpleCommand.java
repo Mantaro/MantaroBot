@@ -14,171 +14,174 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public interface SimpleCommand extends Command {
-    @Override
-    default void run(GuildMessageReceivedEvent event, String commandName, String content) {
-        call(event, commandName, splitArgs(content));
-    }
+	class Builder {
+		private final Category category;
+		private QuadConsumer<SimpleCommand, GuildMessageReceivedEvent, String, String[]> code;
+		private String description;
+		private BiFunction<SimpleCommand, GuildMessageReceivedEvent, MessageEmbed> help;
+		private boolean hidden = false;
+		private CommandPermission permission;
+		private Function<String, String[]> splitter;
 
-    void call(GuildMessageReceivedEvent event, String commandName, String[] args);
+		public Builder(Category category) {
+			this.category = category;
+		}
 
-    default String[] splitArgs(String content) {
-        return StringUtils.advancedSplitArgs(content, 0);
-    }
+		public Command build() {
+			Preconditions.checkNotNull(code, "code");
+			Preconditions.checkNotNull(permission, "permission");
+			Preconditions.checkNotNull(description, "description");
+			if (help == null)
+				help = (t, e) -> new EmbedBuilder().setDescription("No help available for this command").build();
+			return new SimpleCommand() {
+				@Override
+				public void call(GuildMessageReceivedEvent event, String cmdname, String[] args) {
+					code.accept(this, event, cmdname, args);
+				}
 
-    default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
-        return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
-    }
+				@Override
+				public String[] splitArgs(String content) {
+					if (splitter == null)
+						return SimpleCommand.super.splitArgs(content);
+					return splitter.apply(content);
+				}
 
-    default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {
-        return new EmbedBuilder()
-                .setAuthor(name, null, image)
-                .setColor(event.getMember().getColor())
-                .setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
-    }
+				@Override
+				public Category category() {
+					return category;
+				}
 
-    default EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
-        return baseEmbed(event, name).addField("Permission required", permission().toString(), true);
-    }
+				@Override
+				public String description() {
+					return description;
+				}
 
-    default void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(help(event)).queue();
-    }
+				@Override
+				public MessageEmbed help(GuildMessageReceivedEvent event) {
+					return help.apply(this, event);
+				}
 
-    default void doTimes(int times, Runnable runnable) {
-        for (int i = 0; i < times; i++) {
-            runnable.run();
-        }
-    }
+				@Override
+				public boolean isHiddenFromHelp() {
+					return hidden;
+				}
 
-    static Builder builder(Category category) {
-        return new Builder(category);
-    }
+				@Override
+				public CommandPermission permission() {
+					return permission;
+				}
+			};
+		}
 
-    class Builder {
-        private final Category category;
+		public Builder code(QuadConsumer<SimpleCommand, GuildMessageReceivedEvent, String, String[]> code) {
+			this.code = Preconditions.checkNotNull(code, "code");
+			return this;
+		}
 
-        private Function<String, String[]> splitter;
-        private QuadConsumer<SimpleCommand, GuildMessageReceivedEvent, String, String[]> code;
-        private BiFunction<SimpleCommand, GuildMessageReceivedEvent, MessageEmbed> help;
-        private String description;
-        private CommandPermission permission;
-        private boolean hidden = false;
+		public Builder code(TriConsumer<GuildMessageReceivedEvent, String, String[]> code) {
+			Preconditions.checkNotNull(code, "code");
+			this.code = (thiz, event, name, args) -> code.accept(event, name, args);
+			return this;
+		}
 
-        public Builder(Category category) {
-            this.category = category;
-        }
+		public Builder code(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+			Preconditions.checkNotNull(code, "code");
+			this.code = (thiz, event, name, args) -> code.accept(event, args);
+			return this;
+		}
 
-        public Builder code(QuadConsumer<SimpleCommand, GuildMessageReceivedEvent, String, String[]> code) {
-            this.code = Preconditions.checkNotNull(code, "code");
-            return this;
-        }
+		public Builder code(Consumer<GuildMessageReceivedEvent> code) {
+			Preconditions.checkNotNull(code, "code");
+			this.code = (thiz, event, name, args) -> code.accept(event);
+			return this;
+		}
 
-        public Builder code(TriConsumer<GuildMessageReceivedEvent, String, String[]> code) {
-            Preconditions.checkNotNull(code, "code");
-            this.code = (thiz, event, name, args) -> code.accept(event, name, args);
-            return this;
-        }
+		public Builder description(String description) {
+			this.description = Preconditions.checkNotNull(description, "description");
+			return this;
+		}
 
-        public Builder code(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
-            Preconditions.checkNotNull(code, "code");
-            this.code = (thiz, event, name, args) -> code.accept(event, args);
-            return this;
-        }
+		public Builder help(BiFunction<SimpleCommand, GuildMessageReceivedEvent, MessageEmbed> help) {
+			this.help = Preconditions.checkNotNull(help, "help");
+			return this;
+		}
 
-        public Builder code(Consumer<GuildMessageReceivedEvent> code) {
-            Preconditions.checkNotNull(code, "code");
-            this.code = (thiz, event, name, args) -> code.accept(event);
-            return this;
-        }
+		public Builder help(Function<GuildMessageReceivedEvent, MessageEmbed> help) {
+			Preconditions.checkNotNull(help, "help");
+			this.help = (thiz, event) -> help.apply(event);
+			return this;
+		}
 
-        public Builder description(String description) {
-            this.description = Preconditions.checkNotNull(description, "description");
-            return this;
-        }
+		public Builder hidden(boolean hidden) {
+			this.hidden = hidden;
+			return this;
+		}
 
-        public Builder help(BiFunction<SimpleCommand, GuildMessageReceivedEvent, MessageEmbed> help) {
-            this.help = Preconditions.checkNotNull(help, "help");
-            return this;
-        }
+		public Builder permission(CommandPermission permission) {
+			this.permission = Preconditions.checkNotNull(permission);
+			return this;
+		}
 
-        public Builder help(Function<GuildMessageReceivedEvent, MessageEmbed> help) {
-            Preconditions.checkNotNull(help, "help");
-            this.help = (thiz, event) -> help.apply(event);
-            return this;
-        }
+		public Builder splitter(Function<String, String[]> splitter) {
+			this.splitter = splitter;
+			return this;
+		}
+	}
 
-        public Builder permission(CommandPermission permission) {
-            this.permission = Preconditions.checkNotNull(permission);
-            return this;
-        }
+	static Builder builder(Category category) {
+		return new Builder(category);
+	}
 
-        public Builder splitter(Function<String, String[]> splitter) {
-            this.splitter = splitter;
-            return this;
-        }
+	@Override
+	default void run(GuildMessageReceivedEvent event, String commandName, String content) {
+		call(event, commandName, splitArgs(content));
+	}
 
-        public Builder hidden(boolean hidden) {
-            this.hidden = hidden;
-            return this;
-        }
+	static MessageEmbed helpEmbed(String name, CommandPermission permission, String description, String usage) {
+		String cmdname = Character.toUpperCase(name.charAt(0)) + name.substring(1) + " Command";
+		String p = permission.name().toLowerCase();
+		String perm = Character.toUpperCase(p.charAt(0)) + p.substring(1);
+		return new EmbedBuilder()
+			.setTitle(cmdname, null)
+			.setDescription("\u200B")
+			.addField("Permission required", perm, false)
+			.addField("Description", description, false)
+			.addField("Usage", usage, false)
+			.build();
+	}
 
-        public Command build() {
-            Preconditions.checkNotNull(code, "code");
-            Preconditions.checkNotNull(permission, "permission");
-            Preconditions.checkNotNull(description, "description");
-            if(help == null)
-                help = (t,e)->new EmbedBuilder().setDescription("No help available for this command").build();
-            return new SimpleCommand() {
-                @Override
-                public void call(GuildMessageReceivedEvent event, String cmdname, String[] args) {
-                    code.accept(this, event, cmdname, args);
-                }
+	void call(GuildMessageReceivedEvent event, String commandName, String[] args);
 
-                @Override
-                public CommandPermission permission() {
-                    return permission;
-                }
+	default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
+		return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
+	}
 
-                @Override
-                public String description() {
-                    return description;
-                }
+	default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name, String image) {
+		return new EmbedBuilder()
+			.setAuthor(name, null, image)
+			.setColor(event.getMember().getColor())
+			.setFooter("Requested by " + event.getMember().getEffectiveName(), event.getAuthor().getEffectiveAvatarUrl());
+	}
 
-                @Override
-                public MessageEmbed help(GuildMessageReceivedEvent event) {
-                    return help.apply(this, event);
-                }
+	default void doTimes(int times, Runnable runnable) {
+		for (int i = 0; i < times; i++) {
+			runnable.run();
+		}
+	}
 
-                @Override
-                public boolean isHiddenFromHelp() {
-                    return hidden;
-                }
+	default EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
+		return baseEmbed(event, name).addField("Permission required", permission().toString(), true);
+	}
 
-                @Override
-                public Category category() {
-                    return category;
-                }
+	default void onHelp(GuildMessageReceivedEvent event) {
+		event.getChannel().sendMessage(help(event)).queue();
+	}
 
-                @Override
-                public String[] splitArgs(String content) {
-                    if(splitter == null)
-                        return SimpleCommand.super.splitArgs(content);
-                    return splitter.apply(content);
-                }
-            };
-        }
-    }
+	default String[] splitArgs(String content) {
+		return StringUtils.advancedSplitArgs(content, 0);
+	}
 
-    static MessageEmbed helpEmbed(String name, CommandPermission permission, String description, String usage) {
-        String cmdname = Character.toUpperCase(name.charAt(0)) + name.substring(1) + " Command";
-        String p = permission.name().toLowerCase();
-        String perm = Character.toUpperCase(p.charAt(0)) + p.substring(1);
-        return new EmbedBuilder()
-                .setTitle(cmdname, null)
-                .setDescription("\u200B")
-                .addField("Permission required", perm, false)
-                .addField("Description", description, false)
-                .addField("Usage", usage, false)
-                .build();
-    }
+
+
+
 }

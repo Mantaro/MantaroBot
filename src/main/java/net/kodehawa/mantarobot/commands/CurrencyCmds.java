@@ -16,7 +16,10 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.Category;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -30,12 +33,12 @@ import static com.rethinkdb.RethinkDB.r;
 
 @RegisterCommand.Class
 public class CurrencyCmds {
-    /*
-	TODO NEXT:"
+	/*
+	TODO NEXT:
 	 - cross-bot transfer command
 	*/
 
-    @RegisterCommand
+	@RegisterCommand
 	public static void daily(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 		Random r = new Random();
@@ -150,7 +153,7 @@ public class CurrencyCmds {
 						return;
 					}
 
-					if(gains > 500000) gains = 500000; //Why would you have THIS much?
+					if (gains > 500000) gains = 500000; //Why would you have THIS much?
 
 					if (player.addMoney(gains)) {
 						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
@@ -431,7 +434,7 @@ public class CurrencyCmds {
 				if (args[0].equals("divorce")) {
 					Player user = MantaroData.db().getPlayer(event.getMember());
 
-					if(user.getData().getMarriedWith() == null){
+					if (user.getData().getMarriedWith() == null) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't married with anyone, why don't you get started?").queue();
 						return;
 					}
@@ -578,7 +581,6 @@ public class CurrencyCmds {
 					return;
 				}
 
-
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.THINKING + "You need to mention one user.").queue();
 					return;
@@ -607,6 +609,7 @@ public class CurrencyCmds {
 	public static void richest(CommandRegistry cr) {
 		cr.register("richest", new SimpleCommandCompat(Category.CURRENCY, "Returns the richest users") {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
+
 			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 

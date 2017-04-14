@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.gson.JsonSyntaxException;
 import com.mashape.unirest.http.Unirest;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -15,23 +16,15 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.awt.Color;
 import java.net.URLEncoder;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RegisterCommand.Class
 public class AnimeCmds implements HasPostLoad {
-	private static final Logger LOGGER = LoggerFactory.getLogger("AnimeCmds");
 	public static String authToken;
-	private final String CLIENT_SECRET = MantaroData.config().get().alsecret;
-
-	@Override
-	public void onPostLoad() {
-		Async.task("AniList Login Task", this::authenticate, 1900);
-	}
 
 	@RegisterCommand
 	public static void anime(CommandRegistry cr) {
@@ -49,9 +42,9 @@ public class AnimeCmds implements HasPostLoad {
 					}
 
 					DiscordUtils.selectList(event, type, anime -> String.format("%s (%s)",
-							anime.getTitle_english(), anime.getTitle_japanese()),
-							s -> baseEmbed(event, "Anime selection. Type a number to continue.").setDescription(s).build(),
-							anime -> animeData(event, anime));
+						anime.getTitle_english(), anime.getTitle_japanese()),
+						s -> baseEmbed(event, "Anime selection. Type a number to continue.").setDescription(s).build(),
+						anime -> animeData(event, anime));
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "No results or the API query was unsuccessful").queue();
@@ -116,27 +109,6 @@ public class AnimeCmds implements HasPostLoad {
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
 
-	/**
-	 * returns the new AniList access token.
-	 */
-	public void authenticate() {
-		String aniList = "https://anilist.co/api/auth/access_token";
-		String CLIENT_ID = "kodehawa-o43eq";
-		try {
-			authToken = Unirest.post(aniList)
-				.header("User-Agent", "Mantaro")
-				.header("Content-Type", "application/x-www-form-urlencoded")
-				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET)
-				.asJson()
-				.getBody()
-				.getObject().getString("access_token");
-			LOGGER.info("Updated auth token.");
-		} catch (Exception e) {
-			LOGGER.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
-			LOGGER.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
-		}
-	}
-
 	@RegisterCommand
 	public static void character(CommandRegistry cr) {
 		cr.register("character", new SimpleCommandCompat(Category.FUN, "Gets information of a character based on parameters.") {
@@ -153,15 +125,15 @@ public class AnimeCmds implements HasPostLoad {
 					}
 
 					DiscordUtils.selectList(event, character, character1 -> String.format("%s %s",
-							character1.name_last, character1.name_first),
-							s -> baseEmbed(event, "Character selection. Type a number to continue.").setDescription(s).build(),
-							character1 -> characterData(event, character1));
+						character1.name_last, character1.name_first),
+						s -> baseEmbed(event, "Character selection. Type a number to continue.").setDescription(s).build(),
+						character1 -> characterData(event, character1));
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "No results or the API query was unsuccessful").queue();
 						return;
 					}
-					LOGGER.warn("Problem processing data.", e);
+					log.warn("Problem processing data.", e);
 					event.getChannel().sendMessage(EmoteReference.ERROR + "**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
 			}
@@ -201,5 +173,33 @@ public class AnimeCmds implements HasPostLoad {
 			.setFooter("Information provided by AniList", null);
 
 		event.getChannel().sendMessage(embed.build()).queue();
+	}
+
+	private final String CLIENT_SECRET = MantaroData.config().get().alsecret;
+
+	@Override
+	public void onPostLoad() {
+		Async.task("AniList Login Task", this::authenticate, 1900);
+	}
+
+	/**
+	 * returns the new AniList access token.
+	 */
+	public void authenticate() {
+		String aniList = "https://anilist.co/api/auth/access_token";
+		String CLIENT_ID = "kodehawa-o43eq";
+		try {
+			authToken = Unirest.post(aniList)
+				.header("User-Agent", "Mantaro")
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET)
+				.asJson()
+				.getBody()
+				.getObject().getString("access_token");
+			log.info("Updated auth token.");
+		} catch (Exception e) {
+			log.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
+			log.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
+		}
 	}
 }

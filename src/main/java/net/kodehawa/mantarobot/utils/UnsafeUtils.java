@@ -100,10 +100,12 @@ public class UnsafeUtils {
 		unsafe.ensureClassInitialized(klass);
 	}
 
-	public static void throwException(Throwable t) {
-		if (unsafe == null) throw new RuntimeException(t);
-		unsafe.throwException(t);
-	}
+	//FUCK YOU NATAN WE NEVER NEEDED THIS SHIT.
+	//USE @lombok.SneakyThrows YOU KAPPA.
+//	public static void throwException(Throwable t) {
+//		if (unsafe == null) throw new RuntimeException(t);
+//		unsafe.throwException(t);
+//	}
 
 	public static void updateStaticFinalField(Field field, Object value) {
 		updateStaticFinalField(field, value, false);

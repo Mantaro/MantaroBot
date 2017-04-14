@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.commands.moderation;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.SimpleCommand;
 import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
 
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class CategorizedCommand extends SimpleCommandCompat {
 	private final Map<String, Map<String, Callable>> categories;
 
 	public CategorizedCommand(Map<String, Map<String, Callable>> categories) {
-	    super(Category.MODERATION, "categorized command"); //idk what this class is so /shrug
+		super(Category.MODERATION, "categorized command"); //idk what this class is so /shrug
 		this.categories = categories;
 	}
 
@@ -54,13 +53,13 @@ public class CategorizedCommand extends SimpleCommandCompat {
 	}
 
 	@Override
-	public String[] splitArgs(String content) {
-		return SPLIT_PATTERN.split(content, 3);
+	public MessageEmbed help(GuildMessageReceivedEvent event) {
+		return null; //TODO
 	}
 
 	@Override
-	public MessageEmbed help(GuildMessageReceivedEvent event) {
-		return null; //TODO
+	public String[] splitArgs(String content) {
+		return SPLIT_PATTERN.split(content, 3);
 	}
 
 	private boolean handle(String[] args, String content, GuildMessageReceivedEvent event) {

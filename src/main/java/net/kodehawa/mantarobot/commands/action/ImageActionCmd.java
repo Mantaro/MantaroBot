@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.commands.action;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.Category;
@@ -20,7 +19,7 @@ import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 
 @Slf4j
 public class ImageActionCmd extends NoArgsCommand {
-    public static final URLCache CACHE = new URLCache(20);
+	public static final URLCache CACHE = new URLCache(20);
 
 	private final Color color;
 	private final String desc;
@@ -42,8 +41,8 @@ public class ImageActionCmd extends NoArgsCommand {
 	protected void call(GuildMessageReceivedEvent event) {
 		String random = random(images);
 		try {
-			if(mentions(event).isEmpty()){
-				event.getChannel().sendMessage(	EmoteReference.ERROR + "You need to mention a user").queue();
+			if (mentions(event).isEmpty()) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
 				return;
 			}
 
@@ -65,17 +64,17 @@ public class ImageActionCmd extends NoArgsCommand {
 		return CommandPermission.USER;
 	}
 
-    @Override
-    public String description() {
-        return desc;
-    }
+	@Override
+	public Category category() {
+		return Category.IMAGE;
+	}
 
-    @Override
-    public Category category() {
-        return Category.IMAGE;
-    }
+	@Override
+	public String description() {
+		return desc;
+	}
 
-    @Override
+	@Override
 	public MessageEmbed help(GuildMessageReceivedEvent event) {
 		return helpEmbed(event, name)
 			.setDescription(desc)

@@ -50,7 +50,8 @@ public class Player implements ManagedObject {
 	private Long level = null;
 	@Getter
 	private Long money = null;
-	@Getter @Setter
+	@Getter
+	@Setter
 	private Long reputation = null;
 
 	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})

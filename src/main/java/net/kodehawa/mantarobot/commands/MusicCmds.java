@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import gnu.trove.set.hash.TIntHashSet;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -17,35 +18,16 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
+import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @RegisterCommand.Class
-public class MusicCmds{
-
-	private static boolean isDJ(Member member) {
-		Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
-		return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
-	}
-
-	/*public MusicCmds() {
-		super(Category.MUSIC);
-		//Audio intensifies.
-
-		np();
-		pause();
-		play();
-		queue();
-		removetrack();
-		shuffle();
-		skip();
-		forceskip();
-		volume();
-		repeat();
-		move();
-		stop();
-	}*/
+public class MusicCmds {
 
 	@RegisterCommand
 	public static void forceskip(CommandRegistry cr) {
@@ -74,6 +56,29 @@ public class MusicCmds{
 				return CommandPermission.ADMIN;
 			}
 		});
+	}
+
+	/*public MusicCmds() {
+		super(Category.MUSIC);
+		//Audio intensifies.
+
+		np();
+		pause();
+		play();
+		queue();
+		removetrack();
+		shuffle();
+		skip();
+		forceskip();
+		volume();
+		repeat();
+		move();
+		stop();
+	}*/
+
+	private static boolean isDJ(Member member) {
+		Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
+		return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
 	}
 
 	@RegisterCommand
@@ -281,6 +286,7 @@ public class MusicCmds{
 				return baseEmbed(event, "Remove Track Command")
 					.addField("Description", "Remove the specified track from the queue.", false)
 					.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
+					//TODO Update this
 					.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
 						"first: remove the first track\n"
 						+ "next: remove the next track\n"
@@ -298,33 +304,70 @@ public class MusicCmds{
 				}
 
 				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueueAsList(list -> {
-					int i;
-					try {
-						switch (content) {
-							case "first":
-							case "next":
-								i = 0;
-								break;
-							case "last":
-								i = list.size() - 1;
-								break;
-							default:
-								i = Integer.parseInt(content) - 1;
-								break;
+					TIntHashSet selected = new TIntHashSet();
+
+					String last = Integer.toString(list.size() - 1);
+
+					for (String param : args) {
+
+						String arg = replaceEach(param,
+							new String[]{"first", "next", "last", "all"},
+							new String[]{"0", "0", last, "0-" + last}
+						);
+
+						if (arg.contains("-") || arg.contains("~")) {
+							String[] range = content.split("[-~]");
+
+							if (range.length != 2) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "``" + param + "`` is not a valid range!").queue();
+								return;
+							}
+
+							try {
+								int iStart = Integer.parseInt(range[0]) - 1, iEnd = Integer.parseInt(range[1]) - 1;
+
+								if (iStart < 0 || iStart >= list.size()) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" + iStart + "``!").queue();
+									return;
+								}
+
+								if (iEnd < 0 || iEnd >= list.size()) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" + iEnd + "``!").queue();
+									return;
+								}
+
+								selected.addAll(IntStream.rangeClosed(iStart, iEnd).toArray());
+							} catch (NumberFormatException ex) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "``" + param + "`` is not a valid number!").queue();
+								return;
+							}
+						} else {
+							try {
+								int i = Integer.parseInt(content) - 1;
+
+								if (i < 0 || i >= list.size()) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" + i + "``!").queue();
+									return;
+								}
+
+								selected.add(i);
+							} catch (NumberFormatException ex) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "``" + arg + "`` is not a valid number or range!").queue();
+								return;
+							}
 						}
-					} catch (NumberFormatException ex) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
-						return;
 					}
 
-					if (i >= list.size()) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track corresponding to your query!")
-							.queue();
-						return;
-					}
+					event.getChannel().sendMessage(
+						EmoteReference.CORRECT +
+							"Removed track(s) **" + (
+							Arrays.stream(selected.toArray())
+								.mapToObj(list::remove)
+								.map(track -> track.getInfo().title)
+								.collect(Collectors.joining("**, **"))
+						) + "** from the queue."
+					).queue();
 
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed track **" + list.remove(i).getInfo().title + "** " +
-						"from the queue.").queue();
 					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				});
 			}

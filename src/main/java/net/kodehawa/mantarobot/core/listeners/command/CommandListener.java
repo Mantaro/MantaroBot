@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -17,8 +18,8 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
-import net.kodehawa.mantarobot.utils.commands.Cleverbot;
 import net.kodehawa.mantarobot.utils.Snow64;
+import net.kodehawa.mantarobot.utils.commands.Cleverbot;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Map;
@@ -47,6 +48,7 @@ public class CommandListener implements EventListener {
 	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
 		CUSTOM_PROCESSORS.put(channelId, processor);
 	}
+
 	private final Random random = new Random();
 	private final int shardId;
 
@@ -82,14 +84,15 @@ public class CommandListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-        messageCache.put(event.getMessage().getId(), Optional.of(event.getMessage()));
+		messageCache.put(event.getMessage().getId(), Optional.of(event.getMessage()));
 
 		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())) {
 			return;
 		}
 
 		//Cleverbot.
-		if (event.getMessage().getRawContent().startsWith(event.getJDA().getSelfUser().getAsMention())) {
+		SelfUser self = event.getJDA().getSelfUser();
+		if (event.getMessage().getRawContent().startsWith("<@" + self.getId() + '>') || event.getMessage().getRawContent().startsWith("<@!" + self.getId() + '>')) {
 			Cleverbot.handle(event);
 			return;
 		}

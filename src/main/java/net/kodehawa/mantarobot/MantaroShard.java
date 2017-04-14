@@ -39,14 +39,25 @@ public class MantaroShard implements JDA {
 		if (SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
 	}
 
+	public static String pretty(int number) {
+		String ugly = Integer.toString(number);
+
+		char[] almostPretty = new char[ugly.length()];
+
+		Arrays.fill(almostPretty, '0');
+
+		if ((almostPretty[0] = ugly.charAt(0)) == '-') almostPretty[1] = ugly.charAt(1);
+
+		return new String(almostPretty);
+	}
+
 	public final MantaroEventManager manager;
-	private final Logger LOGGER;
 	private final CommandListener commandListener;
+	private final Logger log;
 	private final MantaroListener mantaroListener;
 	private final int shardId;
 	private final int totalShards;
 	private final VoiceChannelListener voiceChannelListener;
-
 	@Delegate
 	private JDA jda;
 
@@ -57,7 +68,7 @@ public class MantaroShard implements JDA {
 		mantaroListener = new MantaroListener(shardId);
 		commandListener = new CommandListener(shardId);
 		voiceChannelListener = new VoiceChannelListener(shardId);
-		LOGGER = LoggerFactory.getLogger("MantaroShard-" + shardId);
+		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		restartJDA(false);
 	}
 
@@ -93,19 +104,19 @@ public class MantaroShard implements JDA {
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
 		if (jda != null) {
-			LOGGER.info("Attempting to drop shard #" + shardId);
+			log.info("Attempting to drop shard #" + shardId);
 			if (!force) prepareShutdown();
 			jda.shutdown(false);
-			LOGGER.info("Dropped shard #" + shardId);
+			log.info("Dropped shard #" + shardId);
 		}
 
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
-				.setToken(config().get().token)
-				.setAudioSendFactory(new NativeAudioSendFactory())
-				.setEventManager(manager)
-				.setAutoReconnect(true)
-				.setCorePoolSize(15)
-				.setGame(Game.of("Hold on to your seatbelts!"));
+			.setToken(config().get().token)
+			.setAudioSendFactory(new NativeAudioSendFactory())
+			.setEventManager(manager)
+			.setAutoReconnect(true)
+			.setCorePoolSize(15)
+			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);
 
@@ -129,7 +140,7 @@ public class MantaroShard implements JDA {
 					//Unirest.post intensifies
 
 					if (dbotsToken != null) {
-						LOGGER.debug("Successfully posted the botdata to bots.discord.pw: " + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
+						log.debug("Successfully posted the botdata to bots.discord.pw: " + Unirest.post("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
 							.header("Authorization", dbotsToken)
 							.header("Content-Type", "application/json")
 							.body(new JSONObject().put("server_count", newC).put("shard_id", getId()).put("shard_count", totalShards).toString())
@@ -137,7 +148,7 @@ public class MantaroShard implements JDA {
 					}
 
 					if (carbonToken != null) {
-						LOGGER.debug("Successfully posted the botdata to carbonitex.com: " +
+						log.debug("Successfully posted the botdata to carbonitex.com: " +
 							Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
 								.field("key", carbonToken)
 								.field("servercount", newC)
@@ -147,7 +158,7 @@ public class MantaroShard implements JDA {
 					}
 
 					if (dbotsorgToken != null) {
-						LOGGER.debug("Successfully posted the botdata to discordbots.org: " +
+						log.debug("Successfully posted the botdata to discordbots.org: " +
 							Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
 								.header("Authorization", dbotsorgToken)
 								.header("Content-Type", "application/json")
@@ -155,7 +166,7 @@ public class MantaroShard implements JDA {
 								.asString().getBody());
 					}
 				} catch (Exception e) {
-					LOGGER.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
+					log.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
 				}
 			}, 3600);
 		}
@@ -175,10 +186,11 @@ public class MantaroShard implements JDA {
 				.replace("%usercount%", users.toString())
 				.replace("%guildcount%", guilds.toString())
 				.replace("%shardcount%", String.valueOf(getTotalShards()))
-				.replace("%prettyusercount%", String.valueOf((((users.get() + 99) / 100) * 100) + 100))
-				.replace("%prettyguildcount%", String.valueOf((((guilds.get() + 99) / 100) * 100) + 100));
+				.replace("%prettyusercount%", pretty(users.get()))
+				.replace("%prettyguildcount%", pretty(guilds.get()));
+
 			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
-			LOGGER.debug("Changed status to: " + newStatus);
+			log.debug("Changed status to: " + newStatus);
 		};
 
 		changeStatus.run();

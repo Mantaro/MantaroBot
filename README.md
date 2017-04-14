@@ -13,7 +13,7 @@
         <h2>Building Mantaro on your own</h2>
         <p><b>WARNING</b>: <a href="https://github.com/adriantodt"><b>@AdrianTodt</b></a> and <a href="https://github.com/Kodehawa"><b>@Kodehawa</b></a> do not</b> recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and untested.<br>If you still want to build your own instance of Mantaro, you will need multiple api keys including <b>(but not limited to)</b></p> 
         <ul>
-            <li>osu!API</li>
+            <li>osu! API</li>
             <li>AniList API</li>
             <li>OpenWeatherMap API.</li>
         </ul>
@@ -22,7 +22,8 @@
         <p><b>Steps for building</b></p>
         <ol>
             <li>Clone this repository.</li>
-            <li>Open a Termincal in the root folder.</li>
+            <li>If you are going to edit code, make sure your IDE supports <a href="http://projectlombok.org">Lombok</a>!</li>
+            <li>Open a Terminal in the root folder.</li>
             <li>Run <code>gradlew build</code></li>
             <li>Grab the <code>-all.jar</code> jar from <code>build/libs</code></li>
             <li>Run it and prepare yourself to start filling in configs.</li>

@@ -11,16 +11,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -30,8 +29,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class Utils {
-	private static final Logger LOGGER = LoggerFactory.getLogger("Utils");
 	public static ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
 	/**
@@ -96,7 +95,7 @@ public class Utils {
 				.getString("key");
 			return "https://hastebin.com/" + pasteToken;
 		} catch (UnirestException e) {
-			LOGGER.warn("Hastebin is being stupid, huh? Can't send or retrieve paste.", e);
+			log.warn("Hastebin is being stupid, huh? Can't send or retrieve paste.", e);
 			return "Mantaro threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
 		}
 	}
@@ -116,7 +115,7 @@ public class Utils {
 		try (InputStream stream = new URL(imageUrl).openStream()) {
 			return IOUtils.toByteArray(stream);
 		} catch (Exception e) {
-			LOGGER.error("Cannot process file to byte[]", e);
+			log.error("Cannot process file to byte[]", e);
 			return null;
 		}
 	}
@@ -128,13 +127,9 @@ public class Utils {
 		return gson.toJson(jsonElement);
 	}
 
+	@SneakyThrows
 	private static String urlEncodeUTF8(String s) {
-		try {
-			return URLEncoder.encode(s, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			UnsafeUtils.throwException(e);
-			return null; //cheating compiler (wow you bad boy)
-		}
+		return URLEncoder.encode(s, "UTF-8");
 	}
 
 	public static String urlEncodeUTF8(Map<?, ?> map) {
@@ -170,7 +165,7 @@ public class Utils {
 		} catch (Exception e) {
 			if (e instanceof java.io.FileNotFoundException) return null;
 
-			LOGGER.warn(getFetchDataFailureResponse(url, null), e);
+			log.warn(getFetchDataFailureResponse(url, null), e);
 			event.getChannel().sendMessage("\u274C I got an error while retrieving data from " + url).queue();
 		}
 
@@ -190,7 +185,7 @@ public class Utils {
 		try {
 			url2 = resty.text(url).toString();
 		} catch (IOException e) {
-			LOGGER.warn(getFetchDataFailureResponse(url, "Resty"), e);
+			log.warn(getFetchDataFailureResponse(url, "Resty"), e);
 			Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue());
 		}
 

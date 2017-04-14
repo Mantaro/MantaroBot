@@ -6,6 +6,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import frederikam.jca.JCA;
 import frederikam.jca.JCABuilder;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
@@ -25,8 +26,6 @@ import net.kodehawa.mantarobot.modules.RegisterCommand;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -36,10 +35,10 @@ import java.util.concurrent.Future;
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
+@Slf4j
 public class MantaroBot extends ShardedJDA {
 	public static final boolean DEBUG = System.getProperty("mantaro.debug", null) != null;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger("MantaroBot");
 	public static JCA CLEVERBOT;
 	public static int cwport;
 	private static MantaroBot instance;
@@ -59,20 +58,20 @@ public class MantaroBot extends ShardedJDA {
 			try {
 				cwport = Integer.parseInt(args[0]);
 			} catch (Exception e) {
-				LOGGER.info("Invalid connection watcher port specified in arguments, using value in config");
+				log.info("Invalid connection watcher port specified in arguments, using value in config");
 				cwport = MantaroData.config().get().connectionWatcherPort;
 			}
 		} else {
-			LOGGER.info("No connection watcher port specified, using value in config");
+			log.info("No connection watcher port specified, using value in config");
 			cwport = MantaroData.config().get().connectionWatcherPort;
 		}
-		LOGGER.info("Using port " + cwport + " to communicate with connection watcher");
+		log.info("Using port " + cwport + " to communicate with connection watcher");
 		if (cwport > 0) {
 			new Thread(() -> {
 				try {
 					MantaroData.connectionWatcher();
 				} catch (Exception e) {
-					LOGGER.error("Error connecting to Connection Watcher", e);
+					log.error("Error connecting to Connection Watcher", e);
 				}
 			});
 		}
@@ -80,8 +79,8 @@ public class MantaroBot extends ShardedJDA {
 			instance = new MantaroBot();
 		} catch (Exception e) {
 			DiscordLogBack.disable();
-			LOGGER.error("Could not complete Main Thread routine!", e);
-			LOGGER.error("Cannot continue! Exiting program...");
+			log.error("Could not complete Main Thread routine!", e);
+			log.error("Cannot continue! Exiting program...");
 			System.exit(-1);
 		}
 	}
@@ -93,7 +92,7 @@ public class MantaroBot extends ShardedJDA {
 
 	private MantaroBot() throws Exception {
 		SimpleLogToSLF4JAdapter.install();
-		LOGGER.info("MantaroBot starting...");
+		log.info("MantaroBot starting...");
 
 		Config config = MantaroData.config().get();
 		Future<Set<Class<?>>> classesAsync = Async.future(() -> new Reflections("net.kodehawa.mantarobot.commands").getTypesAnnotatedWith(RegisterCommand.Class.class));
@@ -104,35 +103,35 @@ public class MantaroBot extends ShardedJDA {
 		status = LOADING;
 
 		for (int i = 0; i < totalShards; i++) {
-			LOGGER.info("Starting shard #" + i + " of " + totalShards);
+			log.info("Starting shard #" + i + " of " + totalShards);
 			MantaroEventManager manager = new MantaroEventManager(i);
 			managers.add(manager);
 			shards[i] = new MantaroShard(i, totalShards, manager);
-			LOGGER.debug("Finished loading shard #" + i + ".");
+			log.debug("Finished loading shard #" + i + ".");
 			if (i + 1 < totalShards) {
-				LOGGER.info("Waiting for cooldown...");
+				log.info("Waiting for cooldown...");
 				Thread.sleep(5000);
 			}
 		}
 
 		new Thread(() -> {
-			LOGGER.info("ShardWatcherThread started");
+			log.info("ShardWatcherThread started");
 			final int wait = MantaroData.config().get().shardWatcherWait;
 			while (true) {
 				try {
 					Thread.sleep(wait);
-					MantaroEventManager.LOGGER.info("Checking shards...");
+					MantaroEventManager.getLog().info("Checking shards...");
 					ShardMonitorEvent sme = new ShardMonitorEvent(totalShards);
 					managers.forEach(manager -> manager.handleSync(sme));
 					int[] dead = sme.getDeadShards();
 					if (dead.length != 0) {
-						MantaroEventManager.LOGGER.error("Dead shards found: {}", Arrays.toString(dead));
+						MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
 						Arrays.stream(dead).forEach(id -> getShard(id).readdListeners());
 					} else {
-						MantaroEventManager.LOGGER.info("No dead shards found");
+						MantaroEventManager.getLog().info("No dead shards found");
 					}
 				} catch (InterruptedException e) {
-					LOGGER.error("ShardWatcher interrupted, stopping...");
+					log.error("ShardWatcher interrupted, stopping...");
 					return;
 				}
 			}
@@ -140,13 +139,13 @@ public class MantaroBot extends ShardedJDA {
 
 		DiscordLogBack.enable();
 		status = LOADED;
-		LOGGER.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-		LOGGER.info("Started bot instance.");
-		LOGGER.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
+		log.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
+		log.info("Started bot instance.");
+		log.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
-		LOGGER.info("Starting update managers.");
+		log.info("Starting update managers.");
 		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
 		Arrays.stream(shards).forEach(MantaroShard::updateStatus);
 
@@ -155,34 +154,38 @@ public class MantaroBot extends ShardedJDA {
 		Set<HasPostLoad> modules = new HashSet<>();
 		for (Class<?> c : classesAsync.get()) {
 			try {
-			    Object instance = null;
-				if(HasPostLoad.class.isAssignableFrom(c)) {
-				    instance = c.newInstance();
-				    modules.add((HasPostLoad)instance);
-                }
-                for(Method m : c.getMethods()) {
-				    if(m.getAnnotation(RegisterCommand.class) == null) continue;
-				    if(!Modifier.isStatic(m.getModifiers()) && instance == null) {
-				        instance = c.newInstance();
-                    }
-                    Class<?>[] params = m.getParameterTypes();
-				    if(params.length != 1 || params[0] != CommandRegistry.class) {
-				        throw new IllegalArgumentException("Invalid method: " + m);
-                    }
-                    m.invoke(instance, CommandProcessor.REGISTRY);
-                }
+				Object instance = null;
+				if (HasPostLoad.class.isAssignableFrom(c)) {
+					instance = c.newInstance();
+					modules.add((HasPostLoad) instance);
+				}
+				for (Method m : c.getMethods()) {
+					if (m.getAnnotation(RegisterCommand.class) == null) continue;
+					if (!Modifier.isStatic(m.getModifiers()) && instance == null) {
+						instance = c.newInstance();
+					}
+					Class<?>[] params = m.getParameterTypes();
+					if (params.length != 1 || params[0] != CommandRegistry.class) {
+						throw new IllegalArgumentException("Invalid method: " + m);
+					}
+					m.invoke(instance, CommandProcessor.REGISTRY);
+				}
 			} catch (InstantiationException e) {
-				LOGGER.error("Cannot initialize a command", e);
+				log.error("Cannot initialize a command", e);
 			} catch (IllegalAccessException e) {
-				LOGGER.error("Cannot access a command class!", e);
+				log.error("Cannot access a command class!", e);
 			}
 		}
 
 		status = POSTLOAD;
-		LOGGER.info("Finished loading basic components. Status is now set to POSTLOAD");
+		log.info("Finished loading basic components. Status is now set to POSTLOAD");
 		modules.forEach(HasPostLoad::onPostLoad);
 
-		LOGGER.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + totalShards + " shards.");
+		log.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + totalShards + " shards.");
+	}
+
+	public Guild getGuildById(String guildId) {
+		return getShardForGuild(guildId).getGuildById(guildId);
 	}
 
 	public MantaroShard getShard(int id) {
@@ -244,9 +247,5 @@ public class MantaroBot extends ShardedJDA {
 
 	public TempBanManager getTempBanManager() {
 		return tempBanManager;
-	}
-
-	public Guild getGuildById(String guildId) {
-		return getShardForGuild(guildId).getGuildById(guildId);
 	}
 }

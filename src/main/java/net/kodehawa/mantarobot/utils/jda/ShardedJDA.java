@@ -152,12 +152,12 @@ public abstract class ShardedJDA implements UnifiedJDA {
 		return stream().map(JDA::getStatus).toArray(Status[]::new);
 	}
 
-    @Override
-    public int getMaxReconnectDelay() {
-        return MantaroData.config().get().maxJdaReconnectDelay;
-    }
+	@Override
+	public int getMaxReconnectDelay() {
+		return MantaroData.config().get().maxJdaReconnectDelay;
+	}
 
-    private List<User> distinct(List<User> list) {
+	private List<User> distinct(List<User> list) {
 		Map<String, List<User>> map = new HashMap<>();
 		list.forEach(user -> map.computeIfAbsent(user != null ? user.getId() : null, k -> new ArrayList<>()).add(user));
 

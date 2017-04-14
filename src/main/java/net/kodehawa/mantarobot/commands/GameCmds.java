@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -10,19 +11,19 @@ import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.Category;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+@Slf4j
 @RegisterCommand.Class
 public class GameCmds {
-	private static final Logger LOGGER = LoggerFactory.getLogger("GameCmds");
-
 	@RegisterCommand
 	public static void guess(CommandRegistry cr) {
 		cr.register("game", new SimpleCommandCompat(Category.GAMES, "Starts a instance of who's that pokemon?") {
@@ -71,7 +72,7 @@ public class GameCmds {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments.").queue();
 						} else {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up the lobby.").queue();
-							LOGGER.warn("Error while setting up a lobby", e);
+							log.warn("Error while setting up a lobby", e);
 						}
 					}
 					return;
@@ -93,6 +94,7 @@ public class GameCmds {
 
 	private static void startGame(Game game, GuildMessageReceivedEvent event) {
 		//TODO remember to add lobby recognition AFTER we add custom actions on timeout.
+		//TODO The Timeout is done (Override the (default) onExpire on InteractiveOperation), do the above ^^
 		LinkedList<Game> list = new LinkedList<>();
 		list.add(game);
 

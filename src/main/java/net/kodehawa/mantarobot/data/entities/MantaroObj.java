@@ -19,6 +19,7 @@ public class MantaroObj implements ManagedObject {
 	public static MantaroObj create() {
 		return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
 	}
+
 	public final String id = "mantaro";
 	public List<String> blackListedGuilds = null;
 	public List<String> blackListedUsers = null;

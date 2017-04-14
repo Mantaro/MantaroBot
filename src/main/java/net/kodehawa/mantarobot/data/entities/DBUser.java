@@ -15,7 +15,9 @@ import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
-@Getter @ToString @EqualsAndHashCode
+@Getter
+@ToString
+@EqualsAndHashCode
 public class DBUser implements ManagedObject {
 	public static final String DB_TABLE = "users";
 

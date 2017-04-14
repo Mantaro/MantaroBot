@@ -36,9 +36,14 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Slf4j
 @RegisterCommand.Class
 public class CustomCmds implements HasPostLoad {
-	private static Map<String, List<String>> compiledCommands = new ConcurrentHashMap<>();
+	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
 	private static final Command customCommand = new SimpleCommandCompat(null, "") {
 		private Random r = new Random();
+
+		@Override
+		protected void call(String[] args, String name, GuildMessageReceivedEvent event) {
+
+		}
 
 		@Override
 		public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -46,7 +51,7 @@ public class CustomCmds implements HasPostLoad {
 		}
 
 		private void handle(String cmdName, GuildMessageReceivedEvent event) {
-			List<String> values = compiledCommands.get(event.getGuild().getId() + ":" + cmdName);
+			List<String> values = customCommands.get(event.getGuild().getId() + ":" + cmdName);
 			if (values == null) return;
 
 			String response = random(values);
@@ -114,12 +119,7 @@ public class CustomCmds implements HasPostLoad {
 			log("custom command");
 		}
 
-        @Override
-        protected void call(String[] args, String name, GuildMessageReceivedEvent event) {
-
-        }
-
-        @Override
+		@Override
 		public boolean isHiddenFromHelp() {
 			return true;
 		}
@@ -131,6 +131,11 @@ public class CustomCmds implements HasPostLoad {
 
 		cr.register("custom", new SimpleCommandCompat(Category.UTILS, "") {
 			@Override
+			public String[] splitArgs(String content) {
+				return SPLIT_PATTERN.split(content, 3);
+			}
+
+			@Override
 			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
 				if (args.length < 1) {
 					onHelp(event);
@@ -141,7 +146,7 @@ public class CustomCmds implements HasPostLoad {
 
 				if (action.equals("list") || action.equals("ls")) {
 					String filter = event.getGuild().getId() + ":";
-					List<String> commands = compiledCommands.keySet().stream()
+					List<String> commands = customCommands.keySet().stream()
 						.filter(s -> s.startsWith(filter))
 						.map(s -> s.substring(filter.length()))
 						.collect(Collectors.toList());
@@ -173,7 +178,7 @@ public class CustomCmds implements HasPostLoad {
 					}
 					int size = customCommands.size();
 					customCommands.forEach(CustomCommand::deleteAsync);
-					customCommands.forEach(c -> compiledCommands.remove(c.getId()));
+					customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!").queue();
 					return;
 				}
@@ -221,8 +226,8 @@ public class CustomCmds implements HasPostLoad {
 								//save at DB
 								custom.saveAsync();
 
-								//reflect at compiled
-								compiledCommands.put(custom.getId(), custom.getValues());
+								//reflect at local
+								customCommands.put(custom.getId(), custom.getValues());
 
 								//add mini-hack
 								CommandProcessor.REGISTRY.register(saveTo, customCommand);
@@ -262,11 +267,11 @@ public class CustomCmds implements HasPostLoad {
 					//delete at DB
 					custom.deleteAsync();
 
-					//reflect at compiled
-					compiledCommands.remove(custom.getId());
+					//reflect at local
+					customCommands.remove(custom.getId());
 
 					//clear commands if none
-					if (compiledCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
+					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
 						CommandProcessor.REGISTRY.commands().remove(cmd);
 
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!").queue();
@@ -275,7 +280,24 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("raw")) {
-					//TODO @AdrianTodt
+					if (!cmd.matches("[a-zA-Z0-9]+")) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
+						return;
+					}
+
+					CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+					if (custom == null) {
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+						return;
+					}
+
+					Pair<String, Integer> pair = DiscordUtils.embedList(custom.getValues(), Object::toString);
+
+					event.getChannel().sendMessage(baseEmbed(event, "Command ``" + cmd + "``:")
+						.setDescription(pair.getLeft())
+						.setFooter("(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null)
+						.build()
+					).queue();
 					return;
 				}
 
@@ -285,7 +307,7 @@ public class CustomCmds implements HasPostLoad {
 
 					String any = "[\\d\\D]*?";
 
-					if (!cmd.matches("[a-zA-Z0-9\\*]+")) {
+					if (!cmd.matches("[a-zA-Z0-9*]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -317,8 +339,8 @@ public class CustomCmds implements HasPostLoad {
 							//save at DB
 							custom.saveAsync();
 
-							//reflect at compiled
-							compiledCommands.put(custom.getId(), custom.getValues());
+							//reflect at local
+							customCommands.put(custom.getId(), custom.getValues());
 
 							event.getChannel().sendMessage(String.format("Imported custom command ``%s`` from guild `%s` with responses ``%s``", cmdName, pair.getKey().getName(), String.join("``, ``", responses))).queue();
 
@@ -337,6 +359,46 @@ public class CustomCmds implements HasPostLoad {
 
 				String value = args[2];
 
+				if (action.equals("rename")) {
+					if (!cmd.matches("[a-zA-Z0-9]+") || !value.matches("[a-zA-Z0-9]+")) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
+						return;
+					}
+
+					if (Manager.commands.containsKey(value) && !Manager.commands.get(value).equals(cmdPair)) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
+						return;
+					}
+
+					CustomCommand oldCustom = db().getCustomCommand(event.getGuild(), cmd);
+					if (oldCustom == null) {
+						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+						return;
+					}
+
+					CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), cmd, oldCustom.getValues());
+
+					//change at DB
+					oldCustom.deleteAsync();
+					newCustom.saveAsync();
+
+					//reflect at local
+					customCommands.remove(oldCustom.getId());
+					customCommands.put(newCustom.getId(), newCustom.getValues());
+
+					//add mini-hack
+					Manager.commands.put(cmd, cmdPair);
+
+					//clear commands if none
+					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
+						Manager.commands.remove(cmd);
+
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Renamed command ``" + cmd + "`` to ``" + value + "``!").queue();
+
+					//easter egg :D
+					TextChannelGround.of(event).dropItemWithChance(8, 2);
+				}
+
 				if (action.equals("add")) {
 					if (!cmd.matches("[a-zA-Z0-9]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
@@ -354,11 +416,11 @@ public class CustomCmds implements HasPostLoad {
 					//save at DB
 					custom.saveAsync();
 
-					//reflect at compiled
-					compiledCommands.put(custom.getId(), custom.getValues());
+					//reflect at local
+					customCommands.put(custom.getId(), custom.getValues());
 
 					//add mini-hack
-                    CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
+					CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
 
@@ -375,10 +437,7 @@ public class CustomCmds implements HasPostLoad {
 				return CommandPermission.USER;
 			}
 
-			@Override
-			public String[] splitArgs(String content) {
-				return SPLIT_PATTERN.split(content, 3);
-			}
+
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -403,16 +462,16 @@ public class CustomCmds implements HasPostLoad {
 	@Override
 	public void onPostLoad() {
 		db().getCustomCommands().forEach(custom -> {
-			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName())) {
+			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !Manager.commands.get(custom.getName()).equals(cmdPair)) {
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
 				custom.saveAsync();
 			}
 
 			//add mini-hack
-            CommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
+			CommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
 
-			compiledCommands.put(custom.getId(), custom.getValues());
+			customCommands.put(custom.getId(), custom.getValues());
 		});
 	}
 }

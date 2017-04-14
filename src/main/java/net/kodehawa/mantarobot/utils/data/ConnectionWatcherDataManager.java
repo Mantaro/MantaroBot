@@ -1,15 +1,14 @@
 package net.kodehawa.mantarobot.utils.data;
 
 import br.com.brjdevs.network.*;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
 import net.kodehawa.mantarobot.utils.KryoUtils;
-import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.ConnectException;
 import java.net.URI;
@@ -17,53 +16,50 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
+@Slf4j
 public class ConnectionWatcherDataManager implements DataManager<ConnectionWatcherData> {
 	public static final int CLOSE_CODE_OK = 1600;
-	private static final Logger LOGGER = LoggerFactory.getLogger("ConnectionWatcherDataManager");
 
 	private final Client client;
 
+	@SneakyThrows
 	public ConnectionWatcherDataManager(int port) {
-		try {
-			client = new Client(new URI("wss://localhost:" + port), new PacketRegistry(), new SocketListenerAdapter() {
-				@Override
-				public void onClose(Connection connection, int id, int code, String message) {
-					if (code != CLOSE_CODE_OK) {
-						LOGGER.error("Connection closed with unexpected code " + code + ": " + message);
-					}
+		client = new Client(new URI("wss://localhost:" + port), new PacketRegistry(), new SocketListenerAdapter() {
+			@Override
+			public void onClose(Connection connection, int id, int code, String message) {
+				if (code != CLOSE_CODE_OK) {
+					log.error("Connection closed with unexpected code " + code + ": " + message);
 				}
+			}
 
-				@Override
-				public Object onPacket(Connection connection, int id, Object packet) {
-					if (packet instanceof JSONPacket) {
-						JSONObject json = ((JSONPacket) packet).getJSON();
-						if (json.has("action")) {
-							switch (json.getString("action")) {
-								case "shutdown":
-									MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
-										if (musicManager.getTrackScheduler() != null)
-											musicManager.getTrackScheduler().stop();
-									});
+			@Override
+			public Object onPacket(Connection connection, int id, Object packet) {
+				if (packet instanceof JSONPacket) {
+					JSONObject json = ((JSONPacket) packet).getJSON();
+					if (json.has("action")) {
+						switch (json.getString("action")) {
+							case "shutdown":
+								MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+									if (musicManager.getTrackScheduler() != null)
+										musicManager.getTrackScheduler().stop();
+								});
 
-									Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
+								Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
-									Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
-									ConnectionWatcherDataManager.this.close();
-									System.exit(0);
-									break;
-							}
+								Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+								ConnectionWatcherDataManager.this.close();
+								System.exit(0);
+								break;
 						}
 					}
-					return null;
 				}
-			});
-			if (!client.getPacketClient().connectBlocking())
-				UnsafeUtils.throwException(new ConnectException("Connection failed"));
-			client.getPacketClient().waitForValidation();
-		} catch (Exception e) {
-			UnsafeUtils.throwException(e);
-			throw new AssertionError("UnsafeUtils.throwExceptions didn't throw");
-		}
+				return null;
+			}
+		});
+
+		if (!client.getPacketClient().connectBlocking()) throw new ConnectException("Connection failed");
+
+		client.getPacketClient().waitForValidation();
 	}
 
 	@Override

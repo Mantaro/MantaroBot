@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
@@ -23,15 +24,11 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.*;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -40,43 +37,9 @@ import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 
+@Slf4j
 @RegisterCommand.Class
 public class InfoCmds {
-	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
-
-	private static String ratePing(long ping) {
-		if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
-		if (ping <= 10) return "faster than Sonic! :smiley:";
-		if (ping <= 100) return "great! :smiley:";
-		if (ping <= 200) return "nice! :slight_smile:";
-		if (ping <= 300) return "decent. :neutral_face:";
-		if (ping <= 400) return "average... :confused:";
-		if (ping <= 500) return "slightly slow. :slight_frown:";
-		if (ping <= 600) return "kinda slow.. :frowning2:";
-		if (ping <= 700) return "slow.. :worried:";
-		if (ping <= 800) return "too slow. :disappointed:";
-		if (ping <= 800) return "awful. :weary:";
-		if (ping <= 900) return "bad. :sob: (helpme)";
-		if (ping <= 1600) return "#BlameDiscord. :angry:";
-		if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
-		return "slow af. :dizzy_face:";
-	}
-
-	/*public InfoCmds() {
-		super(Category.INFO);
-		start();
-
-		avatar();
-		about();
-		guildinfo();
-		help();
-		ping();
-		userinfo();
-		info();
-		stats();
-		shard();
-		invite();
-	}*/
 
 	@RegisterCommand
 	public static void about(CommandRegistry cr) {
@@ -89,15 +52,24 @@ public class InfoCmds {
 					EmbedBuilder builder = new EmbedBuilder();
 					Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
 					String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
-							role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(member ->
-							String.format("%s#%s", member.getUser().getName(), member.getUser().getDiscriminator()))
-							.collect(Collectors.joining(", "));
+						role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(member ->
+						String.format("%s#%s", member.getUser().getName(), member.getUser().getDiscriminator()))
+						.collect(Collectors.joining(", "));
 					builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setDescription(donators)
 						.setColor(Color.PINK)
 						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
+
+					/* @AdrianTodt when he saw this:
+						Oh.. oh my.. wait, did they really...?
+						Oh ye they did...
+						*facepalm*
+						*concern*
+						Boi.
+						I can't even say anything. I'd 100% do that too.
+					  */
 				}
 
 				if (!content.isEmpty() && args[0].equals("credits")) {
@@ -177,6 +149,23 @@ public class InfoCmds {
 
 		});
 	}
+
+	/*public InfoCmds() {
+		super(Category.INFO);
+		start();
+
+		avatar();
+		about();
+		guildinfo();
+		help();
+		ping();
+		userinfo();
+		info();
+		stats();
+		shard();
+		invite();
+	}*/
+
 	@RegisterCommand
 	public static void avatar(CommandRegistry cr) {
 		cr.register("avatar", new SimpleCommandCompat(Category.INFO, "Shows your avatar or the avatar of an user.") {
@@ -276,9 +265,9 @@ public class InfoCmds {
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
-										CommandProcessor.REGISTRY.commands().entrySet().stream().filter(
-											(command) -> !command.getValue().isHiddenFromHelp()).count()
-												, prefix), null);
+								CommandProcessor.REGISTRY.commands().entrySet().stream().filter(
+									(command) -> !command.getValue().isHiddenFromHelp()).count()
+							, prefix), null);
 
 					Arrays.stream(Category.values())
 						.filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
@@ -413,6 +402,24 @@ public class InfoCmds {
 					.build();
 			}
 		});
+	}
+
+	private static String ratePing(long ping) {
+		if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
+		if (ping <= 10) return "faster than Sonic! :smiley:";
+		if (ping <= 100) return "great! :smiley:";
+		if (ping <= 200) return "nice! :slight_smile:";
+		if (ping <= 300) return "decent. :neutral_face:";
+		if (ping <= 400) return "average... :confused:";
+		if (ping <= 500) return "slightly slow. :slight_frown:";
+		if (ping <= 600) return "kinda slow.. :frowning2:";
+		if (ping <= 700) return "slow.. :worried:";
+		if (ping <= 800) return "too slow. :disappointed:";
+		if (ping <= 800) return "awful. :weary:";
+		if (ping <= 900) return "bad. :sob: (helpme)";
+		if (ping <= 1600) return "#BlameDiscord. :angry:";
+		if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
+		return "slow af. :dizzy_face:";
 	}
 
 	@RegisterCommand

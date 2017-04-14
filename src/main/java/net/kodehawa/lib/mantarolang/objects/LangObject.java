@@ -5,10 +5,9 @@ import net.kodehawa.lib.mantarolang.LangRuntimeException;
 import java.util.List;
 
 public interface LangObject {
-	@SuppressWarnings("unchecked")
 	static <T extends LangObject> T cast(LangObject object, Class<T> c) {
 		if (!c.isInstance(object)) throw new LangRuntimeException("Can't cast " + object + " to " + c);
-		return ((T) object);
+		return c.cast(object);
 	}
 
 	static LangObject get(List<LangObject> list, int index) {

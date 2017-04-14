@@ -1,20 +1,25 @@
 package net.kodehawa.mantarobot.utils.sql;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@Slf4j
 public class SQLAction {
-	public static final Logger LOGGER = LoggerFactory.getLogger("SQLAction");
 	private static final ExecutorService SQL_SERVICE = Executors.newCachedThreadPool(r -> {
 		Thread t = new Thread(r, "SQL Thread ");
 		t.setDaemon(true);
 		return t;
 	});
+
+	public static Logger getLog() {
+		return log;
+	}
+
 	private Connection conn;
 	private SQLTask task;
 
@@ -34,7 +39,7 @@ public class SQLAction {
 			try {
 				complete();
 			} catch (Exception e) {
-				LOGGER.error("Error", e);
+				log.error("Error", e);
 			}
 		});
 	}

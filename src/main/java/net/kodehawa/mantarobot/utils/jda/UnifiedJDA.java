@@ -58,6 +58,11 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 	}
 
 	@Override
+	default int getMaxReconnectDelay() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	default HttpHost getGlobalProxy() {
 		throw new UnsupportedOperationException();
 	}
@@ -103,12 +108,7 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 		throw new UnsupportedOperationException();
 	}
 
-    @Override
-    default int getMaxReconnectDelay() {
-	    throw new UnsupportedOperationException();
-    }
-
-    default Stream<JDA> stream() {
+	default Stream<JDA> stream() {
 		return StreamSupport.stream(spliterator(), false).sorted(Comparator.comparingInt(jda -> jda.getShardInfo().getShardId()));
 	}
 }

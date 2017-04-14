@@ -30,11 +30,11 @@ public class MantaroAudioManager {
 						"PRIMARY KEY(id)" +
 						");").executeUpdate();
 				} catch (SQLException e) {
-					SQLAction.LOGGER.error(null, e);
+					SQLAction.getLog().error(null, e);
 				}
 			}).queue();
 		} catch (SQLException e) {
-			SQLAction.LOGGER.error(null, e);
+			SQLAction.getLog().error(null, e);
 		}
 	}
 

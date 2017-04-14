@@ -14,7 +14,8 @@ import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
 	/*
-	TODO BUG HANDLING
+	TODO BUG HANDLING.
+	How About just removing it?
 	 */
 	private final Connection conn;
 
@@ -32,6 +33,10 @@ public class ManagedDatabase {
 
 	public CustomCommand getCustomCommand(DBGuild guild, String name) {
 		return getCustomCommand(guild.getId(), name);
+	}
+
+	public CustomCommand getCustomCommand(GuildMessageReceivedEvent event, String cmd) {
+		return getCustomCommand(event.getGuild(), cmd);
 	}
 
 	public List<CustomCommand> getCustomCommands() {

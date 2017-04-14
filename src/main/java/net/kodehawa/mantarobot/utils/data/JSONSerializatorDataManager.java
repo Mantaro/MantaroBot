@@ -4,8 +4,8 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.pool.KryoCallback;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
+import lombok.SneakyThrows;
 import net.kodehawa.mantarobot.data.SerializedData;
-import net.kodehawa.mantarobot.utils.UnsafeUtils;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -19,29 +19,17 @@ public class JSONSerializatorDataManager implements DataManager<SerializedData> 
 	private final KryoPool kryoPool;
 	private final Path path;
 
+	@SneakyThrows
 	public JSONSerializatorDataManager(String file, KryoFactory factory) {
 		this.path = Paths.get(file);
 		File fl = path.toFile();
 		if (!fl.exists()) {
-			try {
-				if (!fl.createNewFile()) {
-					UnsafeUtils.throwException(new IOException("Error creating file"));
-				}
-			} catch (IOException e) {
-				UnsafeUtils.throwException(e);
-			}
+			if (!fl.createNewFile()) throw new IOException("Error creating file");
 			json = new JSONObject();
 		} else {
-			JSONObject j;
-			try {
-				String contents = FileIOUtils.read(path);
-				j = new JSONObject(contents);
-			} catch (IOException e) {
-				UnsafeUtils.throwException(e);
-				j = null; //not really called
-			}
-			json = j;
+			json = new JSONObject(FileIOUtils.read(path));
 		}
+
 		kryoPool = new KryoPool.Builder(factory).build();
 		data = new SerializedData(kryoPool, this::set, this::get);
 	}
@@ -56,12 +44,9 @@ public class JSONSerializatorDataManager implements DataManager<SerializedData> 
 	}
 
 	@Override
+	@SneakyThrows
 	public void save() {
-		try {
-			FileIOUtils.write(path, json.toString(4));
-		} catch (IOException e) {
-			UnsafeUtils.throwException(e);
-		}
+		FileIOUtils.write(path, json.toString(4));
 	}
 
 	public String get(String key) {

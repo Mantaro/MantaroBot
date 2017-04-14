@@ -10,10 +10,9 @@ import java.util.concurrent.TimeUnit;
 //@RegisterCommand.Class
 public class BugreportCmds {
 	//TODO uhhh.
+	//How about removing it and using smth called GITHUB?
 
 	private static final String RATELIMIT_MESSAGE = "You are being ratelimited";
-
-	private final RateLimiter limiter = new RateLimiter(1, (int) TimeUnit.MINUTES.toMillis(10)); //ratelimit for one report/10 minutes
 
 	public static void admin(CommandRegistry cr) {
 		cr.register("bug", new SimpleCommandCompat(Category.UTILS, "Accepts or declines a bug") {
@@ -66,11 +65,11 @@ public class BugreportCmds {
 				return CommandPermission.OWNER;
 			}
 
-            @Override
-            public boolean isHiddenFromHelp() {
-                return true;
-            }
-        });
+			@Override
+			public boolean isHiddenFromHelp() {
+				return true;
+			}
+		});
 	}
 
 	@RegisterCommand
@@ -121,4 +120,6 @@ public class BugreportCmds {
 			}
 		});
 	}
+
+	private final RateLimiter limiter = new RateLimiter(1, (int) TimeUnit.MINUTES.toMillis(10)); //ratelimit for one report/10 minutes
 }

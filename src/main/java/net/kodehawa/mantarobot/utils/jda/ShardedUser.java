@@ -96,7 +96,31 @@ public class ShardedUser implements User {
 	}
 
 	@Override
+	public int hashCode() {
+		return this.getId().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof User)) {
+			return false;
+		} else {
+			User oUser = (User) o;
+			return this == oUser || this.getId().equals(oUser.getId());
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "U:" + this.getName() + '(' + this.getId() + ')';
+	}
+
+	@Override
 	public boolean isFake() {
 		return random(users).isFake();
+	}
+
+	public int getShardsIn() {
+		return users.size();
 	}
 }

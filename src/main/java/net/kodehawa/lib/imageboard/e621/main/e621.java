@@ -1,12 +1,11 @@
 package net.kodehawa.lib.imageboard.e621.main;
 
 import br.com.brjdevs.java.utils.extensions.Async;
+import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.lib.imageboard.e621.main.entities.Furry;
 import net.kodehawa.lib.imageboard.e621.providers.FurryProvider;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import us.monoid.web.Resty;
 
 import java.util.Arrays;
@@ -18,8 +17,8 @@ import java.util.Optional;
  * Totally not a (stripped down) copy of {@link net.kodehawa.lib.imageboard.konachan.main.Konachan}
  * I mean, it works, that's what's important here.
  */
+@Slf4j
 public class e621 {
-	private static final Logger LOGGER = LoggerFactory.getLogger("e621");
 	private final Resty resty = new Resty().identifyAsMozilla();
 	private HashMap<String, Object> queryParams = new HashMap<>();
 
