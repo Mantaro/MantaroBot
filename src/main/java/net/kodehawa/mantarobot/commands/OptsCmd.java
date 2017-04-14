@@ -591,7 +591,7 @@ public class OptsCmd extends Module {
                         .addField("Command settings",
                                 "~>opts server channel disallow <channel name> - Makes a channel deaf to commands\n" +
                                         "~>opts server channel allow <channel name> - Makes a channel able to hear commands again.\n" +
-                                        "~>opts server command disable <command name> - Disables the specified command. (Doing enable " +
+                                        "~>opts server command disallow <command name> - Disables the specified command. (Doing allow " +
                                         "with the same syntax will enable it again)\n"
                                 , false)
                         .addField("Roles",
