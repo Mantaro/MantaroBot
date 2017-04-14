@@ -110,7 +110,7 @@ public class CustomCmds implements HasPostLoad {
 		}
 
 		@Override
-		public void call(GuildMessageReceivedEvent event, String cmdName, String[] ignored) {
+		public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
 			try {
 				handle(cmdName, event);
 			} catch (Exception e) {
@@ -365,7 +365,7 @@ public class CustomCmds implements HasPostLoad {
 						return;
 					}
 
-					if (Manager.commands.containsKey(value) && !Manager.commands.get(value).equals(cmdPair)) {
+					if (CommandProcessor.REGISTRY.commands().containsKey(value) && !CommandProcessor.REGISTRY.commands().get(value).equals(customCommand)) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 						return;
 					}
@@ -387,11 +387,11 @@ public class CustomCmds implements HasPostLoad {
 					customCommands.put(newCustom.getId(), newCustom.getValues());
 
 					//add mini-hack
-					Manager.commands.put(cmd, cmdPair);
+                    CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
 
 					//clear commands if none
 					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-						Manager.commands.remove(cmd);
+                        CommandProcessor.REGISTRY.commands().remove(cmd);
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Renamed command ``" + cmd + "`` to ``" + value + "``!").queue();
 
@@ -462,7 +462,7 @@ public class CustomCmds implements HasPostLoad {
 	@Override
 	public void onPostLoad() {
 		db().getCustomCommands().forEach(custom -> {
-			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !Manager.commands.get(custom.getName()).equals(cmdPair)) {
+			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !CommandProcessor.REGISTRY.commands().get(custom.getName()).equals(customCommand)) {
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
 				custom.saveAsync();

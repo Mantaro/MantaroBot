@@ -41,7 +41,7 @@ import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 
 @RegisterCommand.Class
-public class InfoCmds {
+public class InfoCmds implements HasPostLoad {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
 	private static String ratePing(long ping) {
@@ -59,26 +59,15 @@ public class InfoCmds {
 		if (ping <= 900) return "bad. :sob: (helpme)";
 		if (ping <= 1600) return "#BlameDiscord. :angry:";
 		if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
-		return "slow af. :dizzy_face:";
+		return "slow af. :dizzy_face: ";
 	}
 
-	/*public InfoCmds() {
-		super(Category.INFO);
-		start();
+    @Override
+    public void onPostLoad() {
+        start();
+    }
 
-		avatar();
-		about();
-		guildinfo();
-		help();
-		ping();
-		userinfo();
-		info();
-		stats();
-		shard();
-		invite();
-	}*/
-
-	@RegisterCommand
+    @RegisterCommand
 	public static void about(CommandRegistry cr) {
 		cr.register("about", new SimpleCommandCompat(Category.INFO, "Shows information about the bot.") {
 			@Override
