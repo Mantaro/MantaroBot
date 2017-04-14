@@ -132,11 +132,6 @@ public interface SimpleCommand extends Command {
 		return new Builder(category);
 	}
 
-	@Override
-	default void run(GuildMessageReceivedEvent event, String commandName, String content) {
-		call(event, commandName, splitArgs(content));
-	}
-
 	static MessageEmbed helpEmbed(String name, CommandPermission permission, String description, String usage) {
 		String cmdname = Character.toUpperCase(name.charAt(0)) + name.substring(1) + " Command";
 		String p = permission.name().toLowerCase();
@@ -150,7 +145,12 @@ public interface SimpleCommand extends Command {
 			.build();
 	}
 
-	void call(GuildMessageReceivedEvent event, String commandName, String[] args);
+	@Override
+	default void run(GuildMessageReceivedEvent event, String commandName, String content) {
+		call(event, content, splitArgs(content));
+	}
+
+	void call(GuildMessageReceivedEvent event, String content, String[] args);
 
 	default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
 		return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
@@ -180,8 +180,5 @@ public interface SimpleCommand extends Command {
 	default String[] splitArgs(String content) {
 		return StringUtils.advancedSplitArgs(content, 0);
 	}
-
-
-
 
 }

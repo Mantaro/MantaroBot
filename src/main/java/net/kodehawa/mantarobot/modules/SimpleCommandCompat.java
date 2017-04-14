@@ -11,11 +11,11 @@ public abstract class SimpleCommandCompat implements SimpleCommand {
 		this.description = description;
 	}
 
-	protected abstract void call(String[] args, String name, GuildMessageReceivedEvent event);
+	protected abstract void call(String[] args, String content, GuildMessageReceivedEvent event);
 
 	@Override
-	public void call(GuildMessageReceivedEvent event, String commandName, String[] args) {
-		call(args, commandName, event);
+	public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+		call(args, content, event);
 	}
 
 	@Override
