@@ -59,13 +59,23 @@ public class MantaroBot extends ShardedJDA {
 	        System.setOut(new PrintStream(System.out) {
                 @Override
                 public void println(String s) {
-                    super.println("[" + Thread.currentThread().getStackTrace()[2] + "]: " + s);
+                    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+                    String current = stackTrace[2].toString();
+                    int i = 3;
+                    while((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
+                        current = stackTrace[i++].toString();
+                    super.println("[" + current + "]: " + s);
                 }
             });
 	        System.setErr(new PrintStream(System.err) {
                 @Override
                 public void println(String s) {
-                    super.println("[" + Thread.currentThread().getStackTrace()[2] + "]: " + s);
+                    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+                    String current = stackTrace[2].toString();
+                    int i = 3;
+                    while((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
+                        current = stackTrace[i++].toString();
+                    super.println("[" + current + "]: " + s);
                 }
             });
         }
