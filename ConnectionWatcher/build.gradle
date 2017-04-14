@@ -14,7 +14,6 @@ plugins {
     id 'com.sedmelluq.jdaction' version '1.0.1'
 }
 
-//NATAN YOU DON'T KNOW HOW TO EVEN GRADLE?
 //apply plugin: 'com.github.johnrengelman.shadow'
 //apply plugin: 'com.sedmelluq.jdaction'
 
