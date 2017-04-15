@@ -31,6 +31,10 @@ public class Cleverbot {
 				Pattern.compile("help\\s*?(meh?)?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage("Oh, hi! Type ``" + config().get().prefix + "help`` to get started!").queue()
 			)
+            .with(
+                Pattern.compile("^shard$", Pattern.CASE_INSENSITIVE).asPredicate(),
+                event -> event.getChannel().sendMessage("I'm currently on shard " + (event.getJDA().getShardInfo() == null ? "0" : String.valueOf(event.getJDA().getShardInfo().getShardId()))).queue()
+            )
 			.with(
 				Pattern.compile("awo+?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage(
