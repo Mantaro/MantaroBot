@@ -69,7 +69,7 @@ dependencies {
 
 	compile fileTree(dir: 'lib', include: '*.jar')
 
-	compile "org.projectlombok:lombok:1.16.14"
+	compile "org.projectlombok:lombok:1.16.16"
 
 	compile 'frederikam:JCA:1.0'
 
