@@ -51,6 +51,16 @@ public class CustomCmds implements HasPostLoad {
 			return null;
 		}
 
+		@Override
+		public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
+			try {
+				handle(cmdName, event);
+			} catch (Exception e) {
+				log.error("An exception occurred while processing a custom command:", e);
+			}
+			log("custom command");
+		}
+
 		private void handle(String cmdName, GuildMessageReceivedEvent event) {
 			List<String> values = customCommands.get(event.getGuild().getId() + ":" + cmdName);
 			if (values == null) return;
@@ -110,15 +120,7 @@ public class CustomCmds implements HasPostLoad {
 			return CommandPermission.USER;
 		}
 
-		@Override
-		public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
-			try {
-				handle(cmdName, event);
-			} catch (Exception e) {
-				log.error("An exception occurred while processing a custom command:", e);
-			}
-			log("custom command");
-		}
+
 
 		@Override
 		public boolean isHiddenFromHelp() {
@@ -209,7 +211,7 @@ public class CustomCmds implements HasPostLoad {
 							String arg = c.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
-							if (!cmd.matches("[a-zA-Z0-9]+")) {
+							if (!cmd.matches("[a-zA-Z0-9_]+")) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 								return false;
 							}
@@ -254,7 +256,7 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
-					if (!cmd.matches("[a-zA-Z0-9]+")) {
+					if (!cmd.matches("[a-zA-Z0-9_]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -281,7 +283,7 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("raw")) {
-					if (!cmd.matches("[a-zA-Z0-9]+")) {
+					if (!cmd.matches("[a-zA-Z0-9_]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -308,7 +310,7 @@ public class CustomCmds implements HasPostLoad {
 
 					String any = "[\\d\\D]*?";
 
-					if (!cmd.matches("[a-zA-Z0-9*]+")) {
+					if (!cmd.matches("[a-zA-Z0-9_*]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -361,7 +363,7 @@ public class CustomCmds implements HasPostLoad {
 				String value = args[2];
 
 				if (action.equals("rename")) {
-					if (!cmd.matches("[a-zA-Z0-9]+") || !value.matches("[a-zA-Z0-9]+")) {
+					if (!cmd.matches("[a-zA-Z0-9_]+") || !value.matches("[a-zA-Z0-9_]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -401,7 +403,7 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("add")) {
-					if (!cmd.matches("[a-zA-Z0-9]+")) {
+					if (!cmd.matches("[a-zA-Z0-9_]+")) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
