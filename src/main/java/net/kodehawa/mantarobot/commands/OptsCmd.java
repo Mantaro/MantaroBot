@@ -647,7 +647,6 @@ public class OptsCmd {
     public static void register(CommandRegistry registry) {
         registry.register("opts", optsCmd = SimpleCommand.builder(Category.MODERATION)
                 .permission(CommandPermission.ADMIN)
-                .description("Changes local options")
                 .help((thiz, event)->thiz.helpEmbed(event, "Bot options")
                         .addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
                                 "All values set are local rather than global, meaning that they will only effect this server.", false)
