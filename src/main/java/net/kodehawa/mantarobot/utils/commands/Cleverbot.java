@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import com.rethinkdb.model.MapObject;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.JDA.ShardInfo;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -9,6 +10,7 @@ import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -28,13 +30,13 @@ public class Cleverbot {
 				event -> event.getChannel().sendMessage("Oh, hi! I'm Mantaro! Type ``" + config().get().prefix + "help`` to get started!").queue()
 			)
 			.with(
+				s -> s.trim().equalsIgnoreCase("shard"),
+				event -> event.getChannel().sendMessage("I'm currently on shard " + Optional.ofNullable(event.getJDA().getShardInfo()).map(ShardInfo::getShardId).orElse(0)).queue()
+			)
+			.with(
 				Pattern.compile("h+?e+?l+?p+?\\s*?(m+?e+?h*?)?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage("Oh, hi! Type ``" + config().get().prefix + "help`` to get started!").queue()
 			)
-			.with(
-				Pattern.compile("^shard$", Pattern.CASE_INSENSITIVE).asPredicate(),
-                event -> event.getChannel().sendMessage("I'm currently on shard " + (event.getJDA().getShardInfo() == null ? "0" : String.valueOf(event.getJDA().getShardInfo().getShardId()))).queue()
-            )
 			.with(
 				Pattern.compile("awo+?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage(
