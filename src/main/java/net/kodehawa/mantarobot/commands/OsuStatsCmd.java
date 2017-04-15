@@ -81,65 +81,56 @@ public class OsuStatsCmd {
 
 	@RegisterCommand
 	public static void osustats(CommandRegistry cr) {
-		cr.register("osustats", new SimpleCommandCompat(Category.GAMES, "Shows your osu! stats.") {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String noArgs = content.split(" ")[0];
-				TextChannelGround.of(event).dropItemWithChance(4, 5);
-				switch (noArgs) {
-					case "best":
-						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
-							Future<String> task = threadpool.submit(() -> best(content));
-							try {
-								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-							} catch (Exception e) {
-								if (e instanceof TimeoutException) {
-									task.cancel(true);
-									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else log.warn("Exception thrown while fetching data", e);
-							}
-						});
-						break;
-					case "recent":
-						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
-							Future<String> task = threadpool.submit(() -> recent(content));
-							try {
-								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-							} catch (Exception e) {
-								if (e instanceof TimeoutException) {
-									task.cancel(true);
-									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else log.warn("Exception thrown while fetching data", e);
-							}
-						});
-						break;
-					case "user":
-						event.getChannel().sendMessage(user(content)).queue();
-						break;
-					default:
-						onHelp(event);
-						break;
-				}
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "osu! command")
-					.setDescription("Retrieves information from the osu!api.\n"
-						+ "Usage: \n"
-						+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
-						+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
-						+ "~>osu user <player>: Retrieves information about a osu! player.\n"
-						+ "Parameter description:\n"
-						+ "player: The osu! player to look info for.")
-					.build();
-			}
-		});
+		cr.register("osustats", SimpleCommand.builder(Category.GAMES)
+				.permission(CommandPermission.USER)
+				.code((thiz, event, content, args) -> {
+					String noArgs = content.split(" ")[0];
+					TextChannelGround.of(event).dropItemWithChance(4, 5);
+					switch (noArgs) {
+						case "best":
+							event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
+								Future<String> task = threadpool.submit(() -> best(content));
+								try {
+									sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
+								} catch (Exception e) {
+									if (e instanceof TimeoutException) {
+										task.cancel(true);
+										sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+									} else log.warn("Exception thrown while fetching data", e);
+								}
+							});
+							break;
+						case "recent":
+							event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
+								Future<String> task = threadpool.submit(() -> recent(content));
+								try {
+									sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
+								} catch (Exception e) {
+									if (e instanceof TimeoutException) {
+										task.cancel(true);
+										sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+									} else log.warn("Exception thrown while fetching data", e);
+								}
+							});
+							break;
+						case "user":
+							event.getChannel().sendMessage(user(content)).queue();
+							break;
+						default:
+							thiz.onHelp(event);
+							break;
+					}
+				})
+				.help((thiz, event) -> thiz.helpEmbed(event, "osu! command")
+						.setDescription("Retrieves information from the osu!api.\n"
+								+ "Usage: \n"
+								+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
+								+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
+								+ "~>osu user <player>: Retrieves information about a osu! player.\n"
+								+ "Parameter description:\n"
+								+ "player: The osu! player to look info for.")
+						.build())
+				.build());
 	}
 
 	private static String recent(String content) {

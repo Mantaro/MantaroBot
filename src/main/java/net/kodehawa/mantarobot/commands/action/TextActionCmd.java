@@ -41,7 +41,7 @@ public class TextActionCmd extends NoArgsCommand {
 		return Category.ACTION;
 	}
 
-	@Override
+	//TODO remove
 	public String description() {
 		return desc;
 	}

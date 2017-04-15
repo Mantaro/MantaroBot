@@ -57,7 +57,6 @@ public class ActionCmds {
 					.setColor(Color.PINK)
 					.build()
 			)
-			.description("Random image of someone drinking bleach.")
 			.build());
 	}
 

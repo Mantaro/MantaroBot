@@ -69,7 +69,7 @@ public class ImageActionCmd extends NoArgsCommand {
 		return Category.IMAGE;
 	}
 
-	@Override
+	//TODO remove
 	public String description() {
 		return desc;
 	}

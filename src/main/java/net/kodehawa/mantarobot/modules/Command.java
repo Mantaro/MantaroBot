@@ -6,8 +6,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public interface Command {
 	Category category();
 
-	String description();
-
 	MessageEmbed help(GuildMessageReceivedEvent event);
 
 	boolean isHiddenFromHelp();

@@ -17,7 +17,6 @@ public interface SimpleCommand extends Command {
 	class Builder {
 		private final Category category;
 		private QuadConsumer<SimpleCommand, GuildMessageReceivedEvent, String, String[]> code;
-		private String description;
 		private BiFunction<SimpleCommand, GuildMessageReceivedEvent, MessageEmbed> help;
 		private boolean hidden = false;
 		private CommandPermission permission;
@@ -30,7 +29,6 @@ public interface SimpleCommand extends Command {
 		public Command build() {
 			Preconditions.checkNotNull(code, "code");
 			Preconditions.checkNotNull(permission, "permission");
-			Preconditions.checkNotNull(description, "description");
 			if (help == null)
 				help = (t, e) -> new EmbedBuilder().setDescription("No help available for this command").build();
 			return new SimpleCommand() {
@@ -49,11 +47,6 @@ public interface SimpleCommand extends Command {
 				@Override
 				public Category category() {
 					return category;
-				}
-
-				@Override
-				public String description() {
-					return description;
 				}
 
 				@Override
@@ -93,11 +86,6 @@ public interface SimpleCommand extends Command {
 		public Builder code(Consumer<GuildMessageReceivedEvent> code) {
 			Preconditions.checkNotNull(code, "code");
 			this.code = (thiz, event, name, args) -> code.accept(event);
-			return this;
-		}
-
-		public Builder description(String description) {
-			this.description = Preconditions.checkNotNull(description, "description");
 			return this;
 		}
 

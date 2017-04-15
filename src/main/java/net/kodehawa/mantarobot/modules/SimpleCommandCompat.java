@@ -23,7 +23,7 @@ public abstract class SimpleCommandCompat implements SimpleCommand {
 		return category;
 	}
 
-	@Override
+	//TODO remove
 	public String description() {
 		return description;
 	}

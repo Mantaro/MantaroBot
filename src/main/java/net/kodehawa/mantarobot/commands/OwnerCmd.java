@@ -68,52 +68,43 @@ public class OwnerCmd {
 
 	@RegisterCommand
 	public static void blacklist(CommandRegistry cr) {
-		cr.register("blacklist", new SimpleCommandCompat(Category.OWNER, "Blacklists an user.") {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				MantaroObj obj = MantaroData.db().getMantaroData();
-				if (args[0].equals("guild")) {
-					if (args[1].equals("add")) {
-						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
-						obj.getBlackListedGuilds().add(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
-						obj.save();
-					} else if (args[1].equals("remove")) {
-						if (!obj.getBlackListedGuilds().contains(args[2])) return;
-						obj.getBlackListedGuilds().remove(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
-						obj.save();
+		cr.register("blacklist", SimpleCommand.builder(Category.OWNER)
+				.permission(CommandPermission.OWNER)
+				.code((thiz, event, content, args) -> {
+					MantaroObj obj = MantaroData.db().getMantaroData();
+					if (args[0].equals("guild")) {
+						if (args[1].equals("add")) {
+							if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
+							obj.getBlackListedGuilds().add(args[2]);
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+							obj.save();
+						} else if (args[1].equals("remove")) {
+							if (!obj.getBlackListedGuilds().contains(args[2])) return;
+							obj.getBlackListedGuilds().remove(args[2]);
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
+							obj.save();
+						}
+						return;
 					}
-					return;
-				}
 
-				if (args[0].equals("user")) {
-					if (args[1].equals("add")) {
-						if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
-						obj.getBlackListedUsers().add(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						obj.save();
-					} else if (args[1].equals("remove")) {
-						if (!obj.getBlackListedUsers().contains(args[2])) return;
-						obj.getBlackListedUsers().remove(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-						obj.save();
+					if (args[0].equals("user")) {
+						if (args[1].equals("add")) {
+							if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
+							obj.getBlackListedUsers().add(args[2]);
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+							obj.save();
+						} else if (args[1].equals("remove")) {
+							if (!obj.getBlackListedUsers().contains(args[2])) return;
+							obj.getBlackListedUsers().remove(args[2]);
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+							obj.save();
+						}
 					}
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Blacklist command")
-					.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
-					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.OWNER;
-			}
-		});
+				})
+				.help((thiz, event) -> thiz.helpEmbed(event, "Blacklist command")
+						.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+						.build())
+				.build());
 	}
 
 	public static String getStackTrace(Throwable e) {
@@ -277,6 +268,7 @@ public class OwnerCmd {
 			return result;
 		});
 
+		//This command will keep being SimpleCommandCompat.
 		cr.register("owner", new SimpleCommandCompat(Category.OWNER, "") {
 			@Override
 			public String[] splitArgs(String content) {
