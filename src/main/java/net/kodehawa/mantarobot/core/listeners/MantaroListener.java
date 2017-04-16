@@ -5,6 +5,7 @@ import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.Event;
@@ -331,6 +332,7 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+				if(!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ)) return;
 				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just joined" + " `" + event.getGuild().getName() + "` " + "`(User #" + event.getGuild().getMembers().size() + ")`").queue();
 				logTotal++;
 			}

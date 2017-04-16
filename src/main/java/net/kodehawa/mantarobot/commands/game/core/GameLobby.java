@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class GameLobby extends Lobby {
 
-	private static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
+	public static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
 	@Getter
 	private static Map<String, Game> textRepresentation = new HashMap<>();
 
@@ -51,6 +51,7 @@ public class GameLobby extends Lobby {
 	}
 
 	public void startFirstGame() {
+		LOBBYS.put(event.getChannel(), this);
 		if (gamesToPlay.getFirst().onStart(this)) {
 			gamesToPlay.getFirst().call(this, players);
 		} else {
@@ -60,18 +61,17 @@ public class GameLobby extends Lobby {
 	}
 
 	boolean startNextGame() {
-		try {
-			Game game = gamesToPlay.get(1);
-			gamesToPlay.removeFirst();
-			if (game.onStart(this)) {
-				game.call(this, players);
+		gamesToPlay.removeFirst();
+		try{
+			if (gamesToPlay.getFirst().onStart(this)) {
+				gamesToPlay.getFirst().call(this, players);
 			} else {
 				gamesToPlay.clear();
 				LOBBYS.remove(getChannel());
 				return false;
 			}
-		} catch (IndexOutOfBoundsException e) {
-			return false;
+		} catch (Exception e){
+			LOBBYS.remove(getChannel());
 		}
 
 		return false;

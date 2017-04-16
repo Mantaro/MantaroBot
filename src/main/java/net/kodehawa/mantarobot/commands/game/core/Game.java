@@ -39,12 +39,13 @@ public abstract class Game {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
 				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Answer was: " + expectedAnswer).queue();
 				lobby.startNextGame();
+				GameLobby.LOBBYS.remove(lobby.getChannel());
 				return true;
 			}
 
 			if (attempts > maxAttempts) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Answer was: " + expectedAnswer).queue();
-				lobby.startNextGame();
+				lobby.startNextGame(); //This should take care of removing the lobby, actually.
 				return true;
 			}
 
@@ -56,7 +57,6 @@ public abstract class Game {
 				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $150 credits by answering correctly!").queue();
 				lobby.startNextGame();
 				return true;
-
 			}
 
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.").queue();

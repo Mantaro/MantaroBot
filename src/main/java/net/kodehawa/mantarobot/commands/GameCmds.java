@@ -62,7 +62,8 @@ public class GameCmds {
 							});
 
 							GameLobby lobby = new GameLobby(event, map, list);
-							event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " + builder.toString() + "successfully.").queue();
+							event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " +
+									builder.toString() + "successfully.").queue();
 							lobby.startFirstGame();
 							return;
 						} catch (Exception e) {
@@ -87,8 +88,12 @@ public class GameCmds {
 	}
 
 	private static void startGame(Game game, GuildMessageReceivedEvent event) {
-		//TODO remember to add lobby recognition AFTER we add custom actions on timeout.
 		//TODO The Timeout is done (Override the (default) onExpire on InteractiveOperation), do the above ^^
+		if(GameLobby.LOBBYS.containsKey(event.getChannel())){
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game when there is a game currently running.").queue();
+			return;
+		}
+
 		LinkedList<Game> list = new LinkedList<>();
 		list.add(game);
 
@@ -106,6 +111,7 @@ public class GameCmds {
 		}
 
 		GameLobby lobby = new GameLobby(event, map, list);
+
 		lobby.startFirstGame();
 	}
 
@@ -113,7 +119,7 @@ public class GameCmds {
 	public static void trivia(CommandRegistry cr) {
 		cr.register("name", SimpleCommand.builder(Category.GAMES)
 				.permission(CommandPermission.USER)
-				.code((thiz, event, content, args) -> startGame(new Trivia(), event))
+				.code(event -> startGame(new Trivia(), event))
 				.help((thiz, event) -> thiz.helpEmbed(event, "Trivia command.")
 						.setDescription("Starts an instance of trivia.")
 						.build())

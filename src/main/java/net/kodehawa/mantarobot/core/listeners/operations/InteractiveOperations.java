@@ -39,16 +39,13 @@ public class InteractiveOperations {
 		public void event(GuildMessageReceivedEvent event) {
 			String id = event.getChannel().getId();
 
-			//Adrian pls
-			//OPERATIONS.keySet().remove(null);
-
-
             OPERATIONS.values().remove(null);
 
 			RunningOperation operation = OPERATIONS.get(id);
 
 			if (operation != null) {
 				if (operation.getOperation().run(event)) {
+					EXPIRATOR.unletExpire(getCurrentOperation(event.getChannel()));
 					OPERATIONS.remove(id);
 				} else {
 					operation.getIncreasingTimeout().ifPresent(value -> EXPIRATOR.updateExpire(System.currentTimeMillis() + value, operation));
@@ -68,7 +65,6 @@ public class InteractiveOperations {
 
 		OPERATIONS.put(channelId, op);
 		EXPIRATOR.letExpire(System.currentTimeMillis() + startingTimeout, op);
-
 		return true;
 	}
 

@@ -3,8 +3,10 @@ package net.kodehawa.mantarobot.commands.game;
 import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -28,8 +30,18 @@ public class Trivia extends Game {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), (e) ->
-			callDefault(e, lobby, players, expectedAnswer, getAttempts(), maxAttempts)
+		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
+					@Override
+					public boolean run(GuildMessageReceivedEvent event) {
+						return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts);
+					}
+
+					@Override
+					public void onExpire(){
+						lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + expectedAnswer).queue();
+						GameLobby.LOBBYS.remove(lobby.getChannel());
+					}
+				}
 		);
 	}
 
