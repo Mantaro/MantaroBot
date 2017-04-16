@@ -593,8 +593,9 @@ public class OptsCmd {
             }
             else {
                 DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-                        role.getId(), role.getPosition()), s -> ((SimpleCommand)optsCmd).baseEmbed(event, "Select the Role:").setDescription(s).build
-                        (), role -> {
+                        role.getId(), role.getPosition()), s -> ((SimpleCommand)optsCmd).baseEmbed(event, "Select the Role:")
+                        .setDescription(s).build(),
+                        role -> {
                     guildData.getAutoroles().put(args[0], role.getId());
                     dbGuild.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + args[0] + "**, which gives the " +

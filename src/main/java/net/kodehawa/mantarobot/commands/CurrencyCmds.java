@@ -199,6 +199,7 @@ public class CurrencyCmds {
 						builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String.format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem().getDesc()), false);
 					});
 
+				event.getChannel().sendMessage(builder.build()).queue();
 			}
 
 			@Override

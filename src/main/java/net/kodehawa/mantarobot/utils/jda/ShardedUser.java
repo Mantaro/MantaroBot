@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.requests.RestAction;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,16 @@ public class ShardedUser implements User {
 	@Override
 	public String getId() {
 		return random(users).getId();
+	}
+
+	@Override
+	public long getIdLong() {
+		return random(users).getIdLong();
+	}
+
+	@Override
+	public OffsetDateTime getCreationTime() {
+		return random(users).getCreationTime();
 	}
 
 	@Override
