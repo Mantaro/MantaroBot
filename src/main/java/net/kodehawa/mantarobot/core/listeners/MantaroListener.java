@@ -6,7 +6,9 @@ import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.events.StatusChangeEvent;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
@@ -110,6 +112,15 @@ public class MantaroListener implements EventListener {
 		if (event instanceof StatusChangeEvent) {
 			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logStatusChange((StatusChangeEvent) event));
 		}
+
+		//debug
+		if(event instanceof DisconnectEvent){
+			onDisconnect((DisconnectEvent) event);
+		}
+
+		if(event instanceof ExceptionEvent){
+			onException((ExceptionEvent) event);
+		}
 	}
 
 	public TextChannel getLogChannel() {
@@ -145,6 +156,28 @@ public class MantaroListener implements EventListener {
 			}
 		}
 	}
+
+	//region minn
+	public void onDisconnect(DisconnectEvent event)
+	{
+		if (event.isClosedByServer())
+		{
+			System.out.printf("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
+					event.getServiceCloseFrame().getCloseCode(), event.getCloseCode());
+		}
+		else
+		{
+			System.out.printf("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
+					event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason());
+		}
+	}
+
+	public void onException(ExceptionEvent event)
+	{
+		if (!event.isLogged())
+			event.getCause().printStackTrace();
+	}
+	//endregion
 
 	private void logEdit(GuildMessageUpdateEvent event) {
 		try {
