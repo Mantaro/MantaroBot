@@ -62,93 +62,61 @@ public class ActionCmds {
 
 	@RegisterCommand
 	public static void bloodsuck(CommandRegistry cr) {
-		cr.register("bloodsuck", new SimpleCommandCompat(Category.ACTION, "Sucks the blood of the mentioned user(s)") {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				TextChannel channel = event.getChannel();
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
-				} else {
-					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
-						.joining(" "));
-					String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(),
-						bString);
-					channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
-						new MessageBuilder().append(bs).build()).queue();
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Bloodsuck")
+		cr.register("bloodsuck", SimpleCommand.builder(Category.ACTION)
+				.permission(CommandPermission.USER)
+				.code((thiz, event, content, args) -> {
+					if (event.getMessage().getMentionedUsers().isEmpty()) {
+						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
+					} else {
+						String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
+								.joining(" "));
+						String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(),
+								bString);
+						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
+								new MessageBuilder().append(bs).build()).queue();
+					}
+				})
+				.help((thiz, event) -> thiz.helpEmbed(event, "Bloodsuck")
 					.setDescription("Sucks the blood of the mentioned user(s)")
-					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-		});
+					.build())
+				.build());
 	}
 
 	@RegisterCommand
 	public static void lewd(CommandRegistry cr) {
-		cr.register("lewd", new SimpleCommandCompat(Category.ACTION, "Y-You lewdie") {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
-					(" "));
-				event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png"
-					, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Lewd")
-					.setDescription("Y-You lewdie")
-					.build();
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-		});
+		cr.register("lewd", SimpleCommand.builder(Category.ACTION)
+				.permission(CommandPermission.USER)
+				.code((thiz, event, content, args) -> {
+					String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
+							(" "));
+					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png"
+							, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
+				})
+				.help((thiz, event) -> thiz.helpEmbed(event, "Lewd")
+						.setDescription("Y-You lewdie.").build())
+				.build());
 	}
 
 	@RegisterCommand
 	public static void meow(CommandRegistry cr) {
-		cr.register("mew", new SimpleCommandCompat(Category.ACTION, "Meows at a user or just meows.") {
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
-				TextChannel channel = event.getChannel();
-				Message receivedMessage = event.getMessage();
-				if (!receivedMessage.getMentionedUsers().isEmpty()) {
-					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-					channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
-				} else {
-					channel.sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-						new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
-				}
-			}
-
-			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Meow command")
-					.setDescription("Meows at a user or just meows.")
-					.setColor(Color.cyan)
-					.build();
-			}
-		});
+		cr.register("mew", SimpleCommand.builder(Category.ACTION)
+				.permission(CommandPermission.USER)
+				.code((thiz, event, content, args) -> {
+					Message receivedMessage = event.getMessage();
+					if (!receivedMessage.getMentionedUsers().isEmpty()) {
+						String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+								new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
+					} else {
+						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+								new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
+					}
+				})
+				.help((thiz, event) -> thiz.helpEmbed(event, "Meow command")
+						.setDescription("Meows at a user or just meows.")
+						.setColor(Color.cyan)
+						.build())
+				.build());
 	}
 
 	@RegisterCommand
