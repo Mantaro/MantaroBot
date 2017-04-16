@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.utils.commands;
 
 import com.rethinkdb.model.MapObject;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.JDA.ShardInfo;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -9,6 +10,7 @@ import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -21,20 +23,20 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 @Slf4j
 public class Cleverbot {
-	private static final Map<Predicate<String>, Consumer<GuildMessageReceivedEvent>> OVERRIDES =
+	public static final Map<Predicate<String>, Consumer<GuildMessageReceivedEvent>> OVERRIDES =
 		new MapObject<Predicate<String>, Consumer<GuildMessageReceivedEvent>>()
 			.with(
 				s -> s.trim().isEmpty(),
 				event -> event.getChannel().sendMessage("Oh, hi! I'm Mantaro! Type ``" + config().get().prefix + "help`` to get started!").queue()
 			)
 			.with(
-				Pattern.compile("help\\s*?(meh?)?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
+				s -> s.trim().equalsIgnoreCase("shard"),
+				event -> event.getChannel().sendMessage("I'm currently on shard " + Optional.ofNullable(event.getJDA().getShardInfo()).map(ShardInfo::getShardId).orElse(0)).queue()
+			)
+			.with(
+				Pattern.compile("h+?e+?l+?p+?\\s*?(m+?e+?h*?)?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage("Oh, hi! Type ``" + config().get().prefix + "help`` to get started!").queue()
 			)
-            .with(
-                Pattern.compile("^shard$", Pattern.CASE_INSENSITIVE).asPredicate(),
-                event -> event.getChannel().sendMessage("I'm currently on shard " + (event.getJDA().getShardInfo() == null ? "0" : String.valueOf(event.getJDA().getShardInfo().getShardId()))).queue()
-            )
 			.with(
 				Pattern.compile("awo+?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage(
@@ -43,7 +45,7 @@ public class Cleverbot {
 			)
 			.with(
 				//The lewdness is strong with this one
-				Pattern.compile("(s+?e+?x+?)|(p+?o+?r+?n+?)|(h+?e+?n+?t+?a+?i+?)|(e+?c+?h+?i+?)|(xxx)", Pattern.CASE_INSENSITIVE).asPredicate(),
+				Pattern.compile("(s+?e+?x+?)|(p+?o+?r+?n+?)|(h+?e+?n+?t+?a+?i+?)|(e+?c+?h+?i+?)|(f+?u+?rr+?y+?)|(xxx)", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendFile(
 					ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png",
 					new MessageBuilder().append("Y-You lewdie!").build()
@@ -56,14 +58,6 @@ public class Cleverbot {
 				).queue()
 			)
 			.with(
-				//The lewdness is strong with this one
-				Pattern.compile("(s+?e+?x+?)|(p+?o+?r+?n+?)|(h+?e+?n+?t+?a+?i+?)|(e+?c+?h+?i+?)|(xxx)", Pattern.CASE_INSENSITIVE).asPredicate(),
-				event -> event.getChannel().sendFile(
-					ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png",
-					new MessageBuilder().append("Y-You lewdie!").build()
-				).queue()
-			)
-			.with(
 				//The lewdness is also strong with this one
 				Pattern.compile("l((e+?w+?)|(oo+?))d", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage("I-I was Lood?").queue()
@@ -71,8 +65,7 @@ public class Cleverbot {
 			.with(
 				Pattern.compile("ha+?n+?s+?[.!?~]*?", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendMessage("*grabs ze flamethrower*").queue()
-			)
-			.immutable();
+			);
 
 	public static void handle(GuildMessageReceivedEvent event) {
 		String input = splitArgs(event.getMessage().getStrippedContent(), 2)[1];
