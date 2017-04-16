@@ -88,7 +88,6 @@ public class GameCmds {
 	}
 
 	private static void startGame(Game game, GuildMessageReceivedEvent event) {
-		//TODO The Timeout is done (Override the (default) onExpire on InteractiveOperation), do the above ^^
 		if(GameLobby.LOBBYS.containsKey(event.getChannel())){
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game when there is a game currently running.").queue();
 			return;
