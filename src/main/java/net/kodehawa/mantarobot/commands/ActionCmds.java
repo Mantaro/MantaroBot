@@ -4,12 +4,14 @@ import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.Commands;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -29,7 +31,7 @@ public class ActionCmds {
 
 	@RegisterCommand
 	public static void action(CommandRegistry cr) {
-		cr.register("action", SimpleCommand.builder(Category.ACTION)
+		cr.register("action", Commands.newSimple(Category.ACTION)
 			.permission(CommandPermission.USER)
 			.code((thiz, event, content, args) -> {
 				String noArgs = content.split(" ")[0];
@@ -62,61 +64,61 @@ public class ActionCmds {
 
 	@RegisterCommand
 	public static void bloodsuck(CommandRegistry cr) {
-		cr.register("bloodsuck", SimpleCommand.builder(Category.ACTION)
-				.permission(CommandPermission.USER)
-				.code((thiz, event, content, args) -> {
-					if (event.getMessage().getMentionedUsers().isEmpty()) {
-						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
-					} else {
-						String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
-								.joining(" "));
-						String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(),
-								bString);
-						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
-								new MessageBuilder().append(bs).build()).queue();
-					}
-				})
-				.help((thiz, event) -> thiz.helpEmbed(event, "Bloodsuck")
-					.setDescription("Sucks the blood of the mentioned user(s)")
-					.build())
-				.build());
+		cr.register("bloodsuck", Commands.newSimple(Category.ACTION)
+			.permission(CommandPermission.USER)
+			.code((thiz, event, content, args) -> {
+				if (event.getMessage().getMentionedUsers().isEmpty()) {
+					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
+				} else {
+					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
+						.joining(" "));
+					String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(),
+						bString);
+					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
+						new MessageBuilder().append(bs).build()).queue();
+				}
+			})
+			.help((thiz, event) -> thiz.helpEmbed(event, "Bloodsuck")
+				.setDescription("Sucks the blood of the mentioned user(s)")
+				.build())
+			.build());
 	}
 
 	@RegisterCommand
 	public static void lewd(CommandRegistry cr) {
-		cr.register("lewd", SimpleCommand.builder(Category.ACTION)
-				.permission(CommandPermission.USER)
-				.code((thiz, event, content, args) -> {
-					String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
-							(" "));
-					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png"
-							, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
-				})
-				.help((thiz, event) -> thiz.helpEmbed(event, "Lewd")
-						.setDescription("Y-You lewdie.").build())
-				.build());
+		cr.register("lewd", Commands.newSimple(Category.ACTION)
+			.permission(CommandPermission.USER)
+			.code((thiz, event, content, args) -> {
+				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
+					(" "));
+				event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png"
+					, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
+			})
+			.help((thiz, event) -> thiz.helpEmbed(event, "Lewd")
+				.setDescription("Y-You lewdie.").build())
+			.build());
 	}
 
 	@RegisterCommand
 	public static void meow(CommandRegistry cr) {
-		cr.register("mew", SimpleCommand.builder(Category.ACTION)
-				.permission(CommandPermission.USER)
-				.code((thiz, event, content, args) -> {
-					Message receivedMessage = event.getMessage();
-					if (!receivedMessage.getMentionedUsers().isEmpty()) {
-						String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
-						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-								new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
-					} else {
-						event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-								new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
-					}
-				})
-				.help((thiz, event) -> thiz.helpEmbed(event, "Meow command")
-						.setDescription("Meows at a user or just meows.")
-						.setColor(Color.cyan)
-						.build())
-				.build());
+		cr.register("mew", Commands.newSimple(Category.ACTION)
+			.permission(CommandPermission.USER)
+			.code((thiz, event, content, args) -> {
+				Message receivedMessage = event.getMessage();
+				if (!receivedMessage.getMentionedUsers().isEmpty()) {
+					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
+				} else {
+					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
+						new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
+				}
+			})
+			.help((thiz, event) -> thiz.helpEmbed(event, "Meow command")
+				.setDescription("Meows at a user or just meows.")
+				.setColor(Color.cyan)
+				.build())
+			.build());
 	}
 
 	@RegisterCommand

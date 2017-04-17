@@ -17,6 +17,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public List<String> getCloudflareRays() {
+		return stream().map(JDA::getCloudflareRays).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
 	public void setEventManager(IEventManager manager) {
 		forEach(jda -> jda.setEventManager(manager));
 	}
@@ -40,6 +45,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	public User getUserById(String id) {
 		List<User> users = distinct(stream().map(jda -> jda.getUserById(id)).filter(Objects::nonNull).collect(Collectors.toList()));
 		return users.size() == 0 ? null : users.get(0);
+	}
+
+	@Override
+	public User getUserById(long id) {
+		return stream().map(jda -> jda.getUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	@Override
@@ -68,8 +78,33 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public Guild getGuildById(long id) {
+		return stream().map(jda -> jda.getGuildById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
 	public List<Guild> getGuildsByName(String name, boolean ignoreCase) {
 		return stream().flatMap(jda -> jda.getGuildsByName(name, ignoreCase).stream()).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<Role> getRoles() {
+		return stream().map(JDA::getRoles).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
+	public Role getRoleById(String id) {
+		return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
+	public Role getRoleById(long id) {
+		return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
+	public List<Role> getRolesByName(String name, boolean ignoreCase) {
+		return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	@Override
@@ -79,6 +114,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	@Override
 	public TextChannel getTextChannelById(String id) {
+		return stream().map(jda -> jda.getTextChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
+	public TextChannel getTextChannelById(long id) {
 		return stream().map(jda -> jda.getTextChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
@@ -98,6 +138,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public VoiceChannel getVoiceChannelById(long id) {
+		return stream().map(jda -> jda.getVoiceChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
 	public List<VoiceChannel> getVoiceChannelByName(String name, boolean ignoreCase) {
 		return stream().flatMap(jda -> jda.getVoiceChannelByName(name, ignoreCase).stream()).collect(Collectors.toList());
 	}
@@ -113,12 +158,22 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public PrivateChannel getPrivateChannelById(long id) {
+		return stream().map(jda -> jda.getPrivateChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
 	public List<Emote> getEmotes() {
 		return stream().map(JDA::getEmotes).flatMap(Collection::stream).distinct().collect(Collectors.toList());
 	}
 
 	@Override
 	public Emote getEmoteById(String id) {
+		return stream().map(jda -> jda.getEmoteById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
+	public Emote getEmoteById(long id) {
 		return stream().map(jda -> jda.getEmoteById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
@@ -170,60 +225,5 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	private <T extends ISnowflake> Map<String, T> map(List<T> list) {
 		return list.stream().collect(Collectors.toMap(ISnowflake::getId, UnaryOperator.identity()));
-	}
-
-	@Override
-	public List<String> getCloudflareRays() {
-		return stream().map(JDA::getCloudflareRays).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public Guild getGuildById(long id) {
-		return stream().map(jda -> jda.getGuildById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public User getUserById(long id) {
-		return stream().map(jda -> jda.getUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public List<Role> getRoles() {
-		return stream().map(JDA::getRoles).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public Role getRoleById(String id) {
-		return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public Role getRoleById(long id) {
-		return stream().map(jda -> jda.getRoleById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public List<Role> getRolesByName(String name, boolean ignoreCase) {
-		return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public TextChannel getTextChannelById(long id) {
-		return stream().map(jda -> jda.getTextChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public VoiceChannel getVoiceChannelById(long id) {
-		return stream().map(jda -> jda.getVoiceChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public PrivateChannel getPrivateChannelById(long id) {
-		return stream().map(jda -> jda.getPrivateChannelById(id)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public Emote getEmoteById(long id) {
-		return stream().map(jda -> jda.getEmoteById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 }

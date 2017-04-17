@@ -10,7 +10,12 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.utils.data.AnimeData;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.HasPostLoad;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -28,9 +33,9 @@ public class AnimeCmds implements HasPostLoad {
 
 	@RegisterCommand
 	public static void anime(CommandRegistry cr) {
-		cr.register("anime", new SimpleCommandCompat(Category.FUN, "Gets information of an anime based on parameters.") {
+		cr.register("anime", new SimpleCommandCompat(Category.FUN) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
 					String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(connection, event);
@@ -72,7 +77,7 @@ public class AnimeCmds implements HasPostLoad {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
+			public CommandPermission permission() {
 				return CommandPermission.USER;
 			}
 
@@ -111,9 +116,9 @@ public class AnimeCmds implements HasPostLoad {
 
 	@RegisterCommand
 	public static void character(CommandRegistry cr) {
-		cr.register("character", new SimpleCommandCompat(Category.FUN, "Gets information of a character based on parameters.") {
+		cr.register("character", new SimpleCommandCompat(Category.FUN) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
 					String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
 					String json = Utils.wget(url, event);
@@ -139,7 +144,7 @@ public class AnimeCmds implements HasPostLoad {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
+			public CommandPermission permission() {
 				return CommandPermission.USER;
 			}
 

@@ -39,7 +39,7 @@ public class InteractiveOperations {
 		public void event(GuildMessageReceivedEvent event) {
 			String id = event.getChannel().getId();
 
-            OPERATIONS.values().remove(null);
+			OPERATIONS.values().remove(null);
 
 			RunningOperation operation = OPERATIONS.get(id);
 

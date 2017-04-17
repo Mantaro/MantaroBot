@@ -16,10 +16,10 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
-import net.kodehawa.mantarobot.modules.Category;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -42,9 +42,9 @@ public class CurrencyCmds {
 	public static void daily(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 		Random r = new Random();
-		cr.register("daily", new SimpleCommandCompat(Category.CURRENCY, "Gives you $300 credits per day") {
+		cr.register("daily", new SimpleCommandCompat(Category.CURRENCY) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String id = event.getAuthor().getId();
 				long money = 300L;
 				User mentionedUser = null;
@@ -90,9 +90,9 @@ public class CurrencyCmds {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 		Random r = new Random();
 
-		cr.register("gamble", new SimpleCommandCompat(Category.CURRENCY, "Gambles your money") {
+		cr.register("gamble", new SimpleCommandCompat(Category.CURRENCY) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String id = event.getAuthor().getId();
 
 				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(id)) {
@@ -184,9 +184,9 @@ public class CurrencyCmds {
 
 	@RegisterCommand
 	public static void inventory(CommandRegistry cr) {
-		cr.register("inventory", new SimpleCommandCompat(Category.CURRENCY, "Shows your current inventory") {
+		cr.register("inventory", new SimpleCommandCompat(Category.CURRENCY) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Player user = MantaroData.db().getPlayer(event.getMember());
 
 				EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor().getEffectiveAvatarUrl());
@@ -216,9 +216,9 @@ public class CurrencyCmds {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
 		Random r = new Random();
 
-		cr.register("loot", new SimpleCommandCompat(Category.CURRENCY, "Loots the current chat for items") {
+		cr.register("loot", new SimpleCommandCompat(Category.CURRENCY) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
 				String id = event.getAuthor().getId();
 
@@ -279,11 +279,11 @@ public class CurrencyCmds {
 
 	@RegisterCommand
 	public static void market(CommandRegistry cr) {
-		cr.register("market", new SimpleCommandCompat(Category.CURRENCY, "List current items for buying and selling") {
+		cr.register("market", new SimpleCommandCompat(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you're calling me so fast that I can't get enough items!").queue();
@@ -427,9 +427,9 @@ public class CurrencyCmds {
 
 	@RegisterCommand
 	public static void marry(CommandRegistry cr) {
-		cr.register("marry", new SimpleCommandCompat(Category.FUN, "Basically marries you with a user") {
+		cr.register("marry", new SimpleCommandCompat(Category.FUN) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args[0].equals("divorce")) {
 					Player user = MantaroData.db().getPlayer(event.getMember());
 
@@ -514,9 +514,9 @@ public class CurrencyCmds {
 
 	@RegisterCommand
 	public static void profile(CommandRegistry cr) {
-		cr.register("profile", new SimpleCommandCompat(Category.CURRENCY, "Retrieves your current user profile") {
+		cr.register("profile", new SimpleCommandCompat(Category.CURRENCY) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Player player = MantaroData.db().getPlayer(event.getMember());
 				User author = event.getAuthor();
 				UserData user = MantaroData.db().getUser(event.getMember()).getData();
@@ -560,11 +560,11 @@ public class CurrencyCmds {
 
 	@RegisterCommand
 	public static void rep(CommandRegistry cr) {
-		cr.register("rep", new SimpleCommandCompat(Category.CURRENCY, "Reps an user") {
+		cr.register("rep", new SimpleCommandCompat(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!rateLimiter.process(event.getMember())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
 					return;
@@ -606,11 +606,11 @@ public class CurrencyCmds {
 
 	@RegisterCommand
 	public static void richest(CommandRegistry cr) {
-		cr.register("richest", new SimpleCommandCompat(Category.CURRENCY, "Returns the richest users") {
+		cr.register("richest", new SimpleCommandCompat(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
 
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
 				if (!rateLimiter.process(event.getMember())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Slow down a little bit.").queue();
@@ -657,9 +657,9 @@ public class CurrencyCmds {
 	@RegisterCommand
 	public static void transfer(CommandRegistry cr) {
 		//for now, local transfer.
-		cr.register("transfer", new SimpleCommandCompat(Category.CURRENCY, "Transfers money from you to another player") {
+		cr.register("transfer", new SimpleCommandCompat(Category.CURRENCY) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
 					return;

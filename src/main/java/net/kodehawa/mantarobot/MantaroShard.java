@@ -58,23 +58,25 @@ public class MantaroShard implements JDA {
 	private final int shardId;
 	private final int totalShards;
 	private final VoiceChannelListener voiceChannelListener;
-	@Delegate
+	@Delegate //I love Lombok so much
 	private JDA jda;
 
 	public MantaroShard(int shardId, int totalShards, MantaroEventManager manager) throws RateLimitedException, LoginException, InterruptedException {
 		this.shardId = shardId;
 		this.totalShards = totalShards;
 		this.manager = manager;
+
+		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		mantaroListener = new MantaroListener(shardId);
 		commandListener = new CommandListener(shardId);
 		voiceChannelListener = new VoiceChannelListener(shardId);
-		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
+
 		restartJDA(false);
 	}
 
 	@Override
 	public String toString() {
-		return "Shard [" + getId() + "/" + totalShards + " ]";
+		return "MantaroShard [" + getId() + "/" + totalShards + " ]";
 	}
 
 	public MantaroEventManager getEventManager() {
@@ -94,7 +96,7 @@ public class MantaroShard implements JDA {
 	}
 
 	public void prepareShutdown() {
-		jda.getRegisteredListeners().forEach(listener -> jda.removeEventListener(listener));
+		jda.removeEventListener(jda.getRegisteredListeners().toArray());
 	}
 
 	public void readdListeners() {

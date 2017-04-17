@@ -7,11 +7,14 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.Commands;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
@@ -33,112 +36,112 @@ public class QuoteCmd {
 
 	@RegisterCommand
 	public static void quote(CommandRegistry cr) {
-		cr.register("quote", SimpleCommand.builder(Category.MISC)
-				.permission(CommandPermission.USER)
-				.code((thiz, event, content, args) -> {
-					if (content.isEmpty()) {
-						thiz.onHelp(event);
+		cr.register("quote", Commands.newSimple(Category.MISC)
+			.permission(CommandPermission.USER)
+			.code((thiz, event, content, args) -> {
+				if (content.isEmpty()) {
+					thiz.onHelp(event);
+					return;
+				}
+
+				String action = args[0];
+				String phrase = content.replace(action + " ", "");
+				Guild guild = event.getGuild();
+				ManagedDatabase db = MantaroData.db();
+				EmbedBuilder builder = new EmbedBuilder();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				List<Message> messageHistory;
+				try {
+					messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
+				} catch (Exception e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "It seems like discord is on fire, as my" +
+						" " +
+						"request to retrieve message history was denied" +
+						"with the error `" + e.getClass().getSimpleName() + "`").queue();
+					log.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
+					return;
+				}
+
+				if (action.equals("addfrom")) {
+					Message message = messageHistory.stream().filter(
+						msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
+							&& !msg.getContent().startsWith(
+							db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
+								: db.getGuild(guild).getData().getGuildCustomPrefix())
+							&& !msg.getContent().startsWith(MantaroData.config().get().getPrefix())
+					).findFirst().orElse(null);
+
+					if (message == null) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a message matching the specified search" +
+							" criteria. Please try again with a more specific query.").queue();
 						return;
 					}
 
-					String action = args[0];
-					String phrase = content.replace(action + " ", "");
-					Guild guild = event.getGuild();
-					ManagedDatabase db = MantaroData.db();
-					EmbedBuilder builder = new EmbedBuilder();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-					List<Message> messageHistory;
+					TextChannel channel = guild.getTextChannelById(message.getChannel().getId());
+					Quote quote = Quote.of(guild.getMember(message.getAuthor()), channel, message);
+					db.getQuotes(guild).add(quote);
+					event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+					quote.saveAsync();
+					return;
+				}
+
+				if (action.equals("random")) {
 					try {
-						messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
-					} catch (Exception e) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "It seems like discord is on fire, as my" +
-								" " +
-								"request to retrieve message history was denied" +
-								"with the error `" + e.getClass().getSimpleName() + "`").queue();
-						log.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
-						return;
-					}
-
-					if (action.equals("addfrom")) {
-						Message message = messageHistory.stream().filter(
-								msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
-										&& !msg.getContent().startsWith(
-										db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
-												: db.getGuild(guild).getData().getGuildCustomPrefix())
-										&& !msg.getContent().startsWith(MantaroData.config().get().getPrefix())
-						).findFirst().orElse(null);
-
-						if (message == null) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a message matching the specified search" +
-									" criteria. Please try again with a more specific query.").queue();
-							return;
-						}
-
-						TextChannel channel = guild.getTextChannelById(message.getChannel().getId());
-						Quote quote = Quote.of(guild.getMember(message.getAuthor()), channel, message);
-						db.getQuotes(guild).add(quote);
+						Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
 						event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
-						quote.saveAsync();
-						return;
+					} catch (Exception e) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "This server has no set quotes!").queue();
 					}
+					return;
+				}
 
-					if (action.equals("random")) {
-						try {
-							Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
-							event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
-						} catch (Exception e) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "This server has no set quotes!").queue();
-						}
-						return;
-					}
-
-					if (action.equals("readfrom")) {
-						try {
-							List<Quote> quotes = db.getQuotes(guild);
-							for (int i2 = 0; i2 < quotes.size(); i2++) {
-								if (quotes.get(i2).getContent().contains(phrase)) {
-									Quote quote = quotes.get(i2);
-									event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
-									break;
-								}
+				if (action.equals("readfrom")) {
+					try {
+						List<Quote> quotes = db.getQuotes(guild);
+						for (int i2 = 0; i2 < quotes.size(); i2++) {
+							if (quotes.get(i2).getContent().contains(phrase)) {
+								Quote quote = quotes.get(i2);
+								event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+								break;
 							}
-						} catch (Exception e) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find any quotes! (no quotes match the criteria).").queue();
 						}
-						return;
+					} catch (Exception e) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find any quotes! (no quotes match the criteria).").queue();
 					}
+					return;
+				}
 
-					if (action.equals("removefrom")) {
-						try {
-							List<Quote> quotes = db.getQuotes(guild);
-							for (int i2 = 0; i2 < quotes.size(); i2++) {
-								if (quotes.get(i2).getContent().contains(phrase)) {
-									Quote quote = quotes.get(i2);
-									db.getQuotes(guild).remove(i2);
-									quote.saveAsync();
-									event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent())
-											.queue();
-									break;
-								}
+				if (action.equals("removefrom")) {
+					try {
+						List<Quote> quotes = db.getQuotes(guild);
+						for (int i2 = 0; i2 < quotes.size(); i2++) {
+							if (quotes.get(i2).getContent().contains(phrase)) {
+								Quote quote = quotes.get(i2);
+								db.getQuotes(guild).remove(i2);
+								quote.saveAsync();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent())
+									.queue();
+								break;
 							}
-						} catch (Exception e) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "No quotes match the criteria.").queue();
 						}
+					} catch (Exception e) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "No quotes match the criteria.").queue();
 					}
-				})
-				.help((thiz, event) -> thiz.helpEmbed(event, "Quote command")
-						.setDescription("> Usage:\n"
-								+ "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
-								"the last message.\n"
-								+ "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
-								+ "~>quote readfrom <phrase>: Search for the first quote which matches your search criteria and prints " +
-								"it.\n"
-								+ "~>quote random: Get a random quote. \n"
-								+ "> Parameters:\n"
-								+ "number: Message number to quote. For example, 1 will quote the last message.\n"
-								+ "phrase: A part of the quote phrase.")
-						.setColor(Color.DARK_GRAY)
-						.build())
-				.build());
+				}
+			})
+			.help((thiz, event) -> thiz.helpEmbed(event, "Quote command")
+				.setDescription("> Usage:\n"
+					+ "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
+					"the last message.\n"
+					+ "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
+					+ "~>quote readfrom <phrase>: Search for the first quote which matches your search criteria and prints " +
+					"it.\n"
+					+ "~>quote random: Get a random quote. \n"
+					+ "> Parameters:\n"
+					+ "number: Message number to quote. For example, 1 will quote the last message.\n"
+					+ "phrase: A part of the quote phrase.")
+				.setColor(Color.DARK_GRAY)
+				.build())
+			.build());
 	}
 }

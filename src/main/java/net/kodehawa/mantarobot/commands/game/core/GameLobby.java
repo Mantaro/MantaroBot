@@ -62,7 +62,7 @@ public class GameLobby extends Lobby {
 
 	boolean startNextGame() {
 		gamesToPlay.removeFirst();
-		try{
+		try {
 			if (gamesToPlay.getFirst().onStart(this)) {
 				gamesToPlay.getFirst().call(this, players);
 			} else {
@@ -70,7 +70,7 @@ public class GameLobby extends Lobby {
 				LOBBYS.remove(getChannel());
 				return false;
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			LOBBYS.remove(getChannel());
 		}
 

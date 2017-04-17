@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules;
+package net.kodehawa.mantarobot.modules.commands;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -9,7 +9,7 @@ public abstract class NoArgsCommand implements Command {
 	protected abstract void call(GuildMessageReceivedEvent event);
 
 	@Override
-	public boolean isHiddenFromHelp() {
+	public boolean hidden() {
 		return false;
 	}
 

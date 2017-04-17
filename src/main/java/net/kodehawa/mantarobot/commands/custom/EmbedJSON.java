@@ -5,7 +5,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.Color;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +34,7 @@ public class EmbedJSON {
 		if (color != null) {
 			Color c = null;
 			try {
-				final Field f = Color.class.getField(color);
-				c = (Color) f.get(null);
+				c = (Color) Color.class.getField(color).get(null);
 			} catch (Exception ignored) {
 				String colorLower = color.toLowerCase();
 				if (colorLower.equals("member")) {

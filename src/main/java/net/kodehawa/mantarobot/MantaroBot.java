@@ -9,7 +9,7 @@ import frederikam.jca.JCABuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 
+import javax.annotation.Nonnull;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -55,30 +56,30 @@ public class MantaroBot extends ShardedJDA {
 	}
 
 	public static void main(String[] args) {
-	    if(System.getProperty("mantaro.verbose", null) != null) {
-	        System.setOut(new PrintStream(System.out) {
-                @Override
-                public void println(String s) {
-                    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-                    String current = stackTrace[2].toString();
-                    int i = 3;
-                    while((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
-                        current = stackTrace[i++].toString();
-                    super.println("[" + current + "]: " + s);
-                }
-            });
-	        System.setErr(new PrintStream(System.err) {
-                @Override
-                public void println(String s) {
-                    StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-                    String current = stackTrace[2].toString();
-                    int i = 3;
-                    while((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
-                        current = stackTrace[i++].toString();
-                    super.println("[" + current + "]: " + s);
-                }
-            });
-        }
+		if (System.getProperty("mantaro.verbose", null) != null) {
+			System.setOut(new PrintStream(System.out) {
+				@Override
+				public void println(String s) {
+					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+					String current = stackTrace[2].toString();
+					int i = 3;
+					while ((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
+						current = stackTrace[i++].toString();
+					super.println("[" + current + "]: " + s);
+				}
+			});
+			System.setErr(new PrintStream(System.err) {
+				@Override
+				public void println(String s) {
+					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+					String current = stackTrace[2].toString();
+					int i = 3;
+					while ((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
+						current = stackTrace[i++].toString();
+					super.println("[" + current + "]: " + s);
+				}
+			});
+		}
 
 		if (args.length > 0) {
 			try {
@@ -223,6 +224,7 @@ public class MantaroBot extends ShardedJDA {
 		return totalShards;
 	}
 
+	@Nonnull
 	@Override
 	public Iterator<JDA> iterator() {
 		return new ArrayIterator<>(shards);

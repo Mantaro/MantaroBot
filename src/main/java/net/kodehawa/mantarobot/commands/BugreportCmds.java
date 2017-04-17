@@ -3,7 +3,11 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.RateLimiter;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,9 +19,9 @@ public class BugreportCmds {
 	private static final String RATELIMIT_MESSAGE = "You are being ratelimited";
 
 	public static void admin(CommandRegistry cr) {
-		cr.register("bug", new SimpleCommandCompat(Category.UTILS, "Accepts or declines a bug") {
+		cr.register("bug", new SimpleCommandCompat(Category.UTILS) {
 			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				/*if(args.length < 2) {
 					event.getChannel().sendMessage("Usage: bug accept/close <number>").queue();
                     return;
@@ -61,22 +65,22 @@ public class BugreportCmds {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.OWNER;
+			public boolean hidden() {
+				return true;
 			}
 
 			@Override
-			public boolean isHiddenFromHelp() {
-				return true;
+			public CommandPermission permission() {
+				return CommandPermission.OWNER;
 			}
 		});
 	}
 
 	@RegisterCommand
 	public static void report(CommandRegistry cr) {
-		cr.register("bugreport", new SimpleCommandCompat(Category.UTILS, "Reports a bug") {
+		cr.register("bugreport", new SimpleCommandCompat(Category.UTILS) {
 			@Override
-			public void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				/*if(content.isEmpty()) {
 					event.getChannel().sendMessage("No bug specified").queue();
                     return;
@@ -115,7 +119,7 @@ public class BugreportCmds {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
+			public CommandPermission permission() {
 				return CommandPermission.USER;
 			}
 		});

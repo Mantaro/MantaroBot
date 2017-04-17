@@ -3,9 +3,10 @@ package net.kodehawa.mantarobot.utils.jda;
 import net.dv8tion.jda.core.JDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 
-public abstract class ArrayBasedShardedJDA extends ShardedJDA {
+public class ArrayBasedShardedJDA extends ShardedJDA {
 	private final JDA[] shards;
 
 	public ArrayBasedShardedJDA(JDA... shards) {
@@ -22,6 +23,7 @@ public abstract class ArrayBasedShardedJDA extends ShardedJDA {
 		return shards.length;
 	}
 
+	@Nonnull
 	@Override
 	public Iterator<JDA> iterator() {
 		return new ArrayIterator<>(shards);

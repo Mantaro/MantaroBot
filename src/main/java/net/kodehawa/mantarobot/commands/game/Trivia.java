@@ -31,17 +31,17 @@ public class Trivia extends Game {
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
-					@Override
-					public boolean run(GuildMessageReceivedEvent event) {
-						return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts);
-					}
-
-					@Override
-					public void onExpire(){
-						lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + expectedAnswer).queue();
-						GameLobby.LOBBYS.remove(lobby.getChannel());
-					}
+				@Override
+				public boolean run(GuildMessageReceivedEvent event) {
+					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts);
 				}
+
+				@Override
+				public void onExpire() {
+					lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + expectedAnswer).queue();
+					GameLobby.LOBBYS.remove(lobby.getChannel());
+				}
+			}
 		);
 	}
 

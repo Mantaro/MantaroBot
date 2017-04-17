@@ -115,11 +115,11 @@ public class MantaroListener implements EventListener {
 		}
 
 		//debug
-		if(event instanceof DisconnectEvent){
+		if (event instanceof DisconnectEvent) {
 			onDisconnect((DisconnectEvent) event);
 		}
 
-		if(event instanceof ExceptionEvent){
+		if (event instanceof ExceptionEvent) {
 			onException((ExceptionEvent) event);
 		}
 	}
@@ -158,28 +158,6 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	//region minn
-	public void onDisconnect(DisconnectEvent event)
-	{
-		if (event.isClosedByServer())
-		{
-			System.out.printf("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
-					event.getServiceCloseFrame().getCloseCode(), event.getCloseCode());
-		}
-		else
-		{
-			System.out.printf("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
-					event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason());
-		}
-	}
-
-	public void onException(ExceptionEvent event)
-	{
-		if (!event.isLogged())
-			event.getCause().printStackTrace();
-	}
-	//endregion
-
 	private void logEdit(GuildMessageUpdateEvent event) {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
@@ -206,6 +184,7 @@ public class MantaroListener implements EventListener {
 		if (jda.getShardInfo() == null) return;
 		log.info(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
 	}
+	//endregion
 
 	private void logUnban(GuildUnbanEvent event) {
 		try {
@@ -251,6 +230,22 @@ public class MantaroListener implements EventListener {
 			}
 			//else ignore
 		}
+	}
+
+	//region minn
+	public void onDisconnect(DisconnectEvent event) {
+		if (event.isClosedByServer()) {
+			System.out.printf("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
+				event.getServiceCloseFrame().getCloseCode(), event.getCloseCode());
+		} else {
+			System.out.printf("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
+				event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason());
+		}
+	}
+
+	public void onException(ExceptionEvent event) {
+		if (!event.isLogged())
+			event.getCause().printStackTrace();
 	}
 
 	private void onJoin(GuildJoinEvent event) {
@@ -332,7 +327,7 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				if(!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ)) return;
+				if (!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ)) return;
 				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just joined" + " `" + event.getGuild().getName() + "` " + "`(User #" + event.getGuild().getMembers().size() + ")`").queue();
 				logTotal++;
 			}
