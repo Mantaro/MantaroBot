@@ -3,14 +3,11 @@ package net.kodehawa.mantarobot.modules;
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandRegistry {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommandRegistry.class);
 
 	private final Map<String, Command> commands;
 
@@ -33,14 +30,9 @@ public class CommandRegistry {
 			event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();
 			return false;
 		}
-		try {
-			cmd.run(event, cmdname, content);
-			return true;
-		} catch (Throwable t) {
-			LOGGER.error("Error running command " + cmdname, t);
-			event.getChannel().sendMessage("There was an unexpected " + t.getClass().getSimpleName() + " running the command").queue();
-			return false;
-		}
+
+		cmd.run(event, cmdname, content);
+		return true;
 	}
 
 	public void register(String s, Command c) {

@@ -268,12 +268,14 @@ public class MusicCmds {
 									int iStart = Integer.parseInt(range[0]) - 1, iEnd = Integer.parseInt(range[1]) - 1;
 
 									if (iStart < 0 || iStart >= list.size()) {
-										event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" + iStart + "``!").queue();
+										event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" +
+												iStart + "``!").queue();
 										return;
 									}
 
 									if (iEnd < 0 || iEnd >= list.size()) {
-										event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" + iEnd + "``!").queue();
+										event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" +
+												iEnd + "``!").queue();
 										return;
 									}
 
@@ -287,7 +289,8 @@ public class MusicCmds {
 									int i = Integer.parseInt(content) - 1;
 
 									if (i < 0 || i >= list.size()) {
-										event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" + i + "``!").queue();
+										event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``"
+												+ i + "``!").queue();
 										return;
 									}
 
@@ -415,7 +418,8 @@ public class MusicCmds {
 						int requiredVotes = scheduler.getRequiredSkipVotes();
 						if (voteSkips.contains(event.getAuthor().getId())) {
 							voteSkips.remove(event.getAuthor().getId());
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " + (requiredVotes - voteSkips.size()) + " are required to skip!").queue();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " +
+									(requiredVotes - voteSkips.size()) + " are required to skip!").queue();
 						} else {
 							voteSkips.add(event.getAuthor().getId());
 							if (voteSkips.size() >= requiredVotes) {
@@ -423,7 +427,8 @@ public class MusicCmds {
 								scheduler.next(true);
 								return;
 							}
-							event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More " + (requiredVotes - voteSkips.size()) + " are required to skip!").queue();
+							event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More " +
+									(requiredVotes - voteSkips.size()) + " are required to skip!").queue();
 						}
 						TextChannelGround.of(event).dropItemWithChance(0, 10);
 					} catch (NullPointerException e) {
@@ -459,7 +464,8 @@ public class MusicCmds {
 						int requiredVotes = scheduler.getRequiredSkipVotes();
 						if (stopVotes.contains(event.getAuthor().getId())) {
 							stopVotes.remove(event.getAuthor().getId());
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " + (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
+							event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " +
+									(requiredVotes - stopVotes.size()) + " are required to stop!").queue();
 						} else {
 							stopVotes.add(event.getAuthor().getId());
 							if (stopVotes.size() >= requiredVotes) {
@@ -467,10 +473,11 @@ public class MusicCmds {
 								stop(event);
 								return;
 							}
-							event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More " + (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
+							event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More "
+									+ (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
 						}
 					} catch (NullPointerException e) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "There is player to stop!").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "There is no player to stop!").queue();
 					}
 				})
 				.help((thiz, event) -> thiz.helpEmbed(event, "Stop Command")
@@ -484,7 +491,9 @@ public class MusicCmds {
 			musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
 		int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
 		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
-		event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
+		if(TEMP_QUEUE_LENGTH > 0){ //else we just don't show this, why shall we?
+			event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
+		}
 		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
@@ -497,7 +506,8 @@ public class MusicCmds {
 					if (MantaroData.db().getUser(event.getMember()).isPremium() ||
 							MantaroData.db().getGuild(event.getMember()).isPremium() ||
 							MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
-						if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+						if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().
+								equals(event.getGuild().getAudioManager().getConnectedChannel())) {
 							sendNotConnectedToMyChannel(event.getChannel());
 							return;
 						}
@@ -520,7 +530,8 @@ public class MusicCmds {
 						event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume)).queue();
 					} else {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
-								" donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\nPremium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it.")
+								" donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\n" +
+								"Premium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it.")
 								.queue();
 					}
 				})
