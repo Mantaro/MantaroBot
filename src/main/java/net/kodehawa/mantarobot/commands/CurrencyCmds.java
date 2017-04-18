@@ -431,7 +431,7 @@ public class CurrencyCmds {
 		cr.register("marry", new SimpleCommandCompat(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (args[0].equals("divorce")) {
+				if (args.length > 0 && args[0].equals("divorce")) {
 					try{
 						Player user = MantaroData.db().getPlayer(event.getMember());
 
