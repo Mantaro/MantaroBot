@@ -83,7 +83,7 @@ public class Cleverbot {
 			event.getChannel().sendMessage(MantaroBot.CLEVERBOT.getResponse(input)).queue();
 		} catch (Exception e) {
 			if (!(e instanceof UnsupportedOperationException)) {
-				log.error("Seems that something on Cleverbot API broke...", e);
+				//log.error("Seems that something on Cleverbot API broke...", e);
 			}
 			event.getChannel().sendMessage(EmoteReference.CRYING + "I-I don't know what to say! P-please forgive me. (Cleverbot API isn't enabled or it broke)").queue();
 		}
