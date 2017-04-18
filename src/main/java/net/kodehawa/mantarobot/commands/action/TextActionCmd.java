@@ -2,9 +2,9 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.CommandPermission;
-import net.kodehawa.mantarobot.modules.NoArgsCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.NoArgsCommand;
 
 import java.awt.Color;
 import java.util.List;
@@ -39,11 +39,6 @@ public class TextActionCmd extends NoArgsCommand {
 	@Override
 	public Category category() {
 		return Category.ACTION;
-	}
-
-	//TODO remove
-	public String description() {
-		return desc;
 	}
 
 	@Override

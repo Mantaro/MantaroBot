@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.kodehawa.mantarobot.core.CommandProcessor;
-import net.kodehawa.mantarobot.modules.Category;
+import net.kodehawa.mantarobot.modules.commands.Category;
 
 import java.util.Collection;
 import java.util.Map.Entry;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class HelpUtils {
 	public static String forType(Category category) {
 		return forType(CommandProcessor.REGISTRY.commands().entrySet().stream()
-			.filter(entry -> entry.getValue().category() == category && !entry.getValue().isHiddenFromHelp())
+			.filter(entry -> entry.getValue().category() == category && !entry.getValue().hidden())
 			.map(Entry::getKey));
 	}
 

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules;
+package net.kodehawa.mantarobot.modules.commands;
 
 public enum Category {
 	MUSIC(CommandPermission.USER, "Audio"),

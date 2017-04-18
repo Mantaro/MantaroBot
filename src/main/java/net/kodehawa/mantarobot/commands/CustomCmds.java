@@ -13,7 +13,13 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.HasPostLoad;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.Command;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -38,27 +44,17 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 //This will keep being SCC.
 public class CustomCmds implements HasPostLoad {
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
-	private static final Command customCommand = new SimpleCommandCompat(null, "") {
+	private static final Command customCommand = new Command() {
 		private Random r = new Random();
 
 		@Override
-		protected void call(String[] args, String name, GuildMessageReceivedEvent event) {
-
+		public Category category() {
+			return null;
 		}
 
 		@Override
 		public MessageEmbed help(GuildMessageReceivedEvent event) {
 			return null;
-		}
-
-		@Override
-		public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
-			try {
-				handle(cmdName, event);
-			} catch (Exception e) {
-				log.error("An exception occurred while processing a custom command:", e);
-			}
-			log("custom command");
 		}
 
 		private void handle(String cmdName, GuildMessageReceivedEvent event) {
@@ -110,21 +106,39 @@ public class CustomCmds implements HasPostLoad {
 					event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setTitle(cmdName, null).setColor(event.getMember().getColor()).build()).queue();
 					return;
 				}
+
+				if (m.equals("iam")) {
+					MiscCmds.iamFunction(v, event);
+					return;
+				}
+
+				if (m.equals("iamnot")) {
+					MiscCmds.iamnotFunction(v, event);
+					return;
+				}
 			}
 
 			event.getChannel().sendMessage(response).queue();
 		}
 
 		@Override
-		public CommandPermission permissionRequired() {
-			return CommandPermission.USER;
+		public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
+			try {
+				handle(cmdName, event);
+			} catch (Exception e) {
+				log.error("An exception occurred while processing a custom command:", e);
+			}
+			log("custom command");
 		}
 
-
+		@Override
+		public boolean hidden() {
+			return true;
+		}
 
 		@Override
-		public boolean isHiddenFromHelp() {
-			return true;
+		public CommandPermission permission() {
+			return CommandPermission.USER;
 		}
 	};
 
@@ -132,14 +146,9 @@ public class CustomCmds implements HasPostLoad {
 	public static void custom(CommandRegistry cr) {
 		Pattern addPattern = Pattern.compile(";");
 
-		cr.register("custom", new SimpleCommandCompat(Category.UTILS, "") {
+		cr.register("custom", new SimpleCommandCompat(Category.UTILS) {
 			@Override
-			public String[] splitArgs(String content) {
-				return SPLIT_PATTERN.split(content, 3);
-			}
-
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 1) {
 					onHelp(event);
 					return;
@@ -436,11 +445,14 @@ public class CustomCmds implements HasPostLoad {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
-				return CommandPermission.USER;
+			public String[] splitArgs(String content) {
+				return SPLIT_PATTERN.split(content, 3);
 			}
 
-
+			@Override
+			public CommandPermission permission() {
+				return CommandPermission.USER;
+			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {

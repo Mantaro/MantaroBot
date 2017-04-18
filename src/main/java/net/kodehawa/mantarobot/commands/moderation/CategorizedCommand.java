@@ -2,8 +2,8 @@ package net.kodehawa.mantarobot.commands.moderation;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.Category;
-import net.kodehawa.mantarobot.modules.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,23 +43,23 @@ public class CategorizedCommand extends SimpleCommandCompat {
 	private final Map<String, Map<String, Callable>> categories;
 
 	public CategorizedCommand(Map<String, Map<String, Callable>> categories) {
-		super(Category.MODERATION, "categorized command"); //idk what this class is so /shrug
+		super(Category.MODERATION); //idk what this class is so /shrug
 		this.categories = categories;
 	}
 
 	@Override
-	protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+	public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 		if (!handle(args, content, event)) onHelp(event);
-	}
-
-	@Override
-	public MessageEmbed help(GuildMessageReceivedEvent event) {
-		return null; //TODO
 	}
 
 	@Override
 	public String[] splitArgs(String content) {
 		return SPLIT_PATTERN.split(content, 3);
+	}
+
+	@Override
+	public MessageEmbed help(GuildMessageReceivedEvent event) {
+		return null; //TODO
 	}
 
 	private boolean handle(String[] args, String content, GuildMessageReceivedEvent event) {

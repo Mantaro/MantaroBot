@@ -20,7 +20,12 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
-import net.kodehawa.mantarobot.modules.*;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.Commands;
+import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
@@ -68,43 +73,43 @@ public class OwnerCmd {
 
 	@RegisterCommand
 	public static void blacklist(CommandRegistry cr) {
-		cr.register("blacklist", SimpleCommand.builder(Category.OWNER)
-				.permission(CommandPermission.OWNER)
-				.code((thiz, event, content, args) -> {
-					MantaroObj obj = MantaroData.db().getMantaroData();
-					if (args[0].equals("guild")) {
-						if (args[1].equals("add")) {
-							if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
-							obj.getBlackListedGuilds().add(args[2]);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
-							obj.save();
-						} else if (args[1].equals("remove")) {
-							if (!obj.getBlackListedGuilds().contains(args[2])) return;
-							obj.getBlackListedGuilds().remove(args[2]);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
-							obj.save();
-						}
-						return;
+		cr.register("blacklist", Commands.newSimple(Category.OWNER)
+			.permission(CommandPermission.OWNER)
+			.code((thiz, event, content, args) -> {
+				MantaroObj obj = MantaroData.db().getMantaroData();
+				if (args[0].equals("guild")) {
+					if (args[1].equals("add")) {
+						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
+						obj.getBlackListedGuilds().add(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+						obj.save();
+					} else if (args[1].equals("remove")) {
+						if (!obj.getBlackListedGuilds().contains(args[2])) return;
+						obj.getBlackListedGuilds().remove(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
+						obj.save();
 					}
+					return;
+				}
 
-					if (args[0].equals("user")) {
-						if (args[1].equals("add")) {
-							if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
-							obj.getBlackListedUsers().add(args[2]);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-							obj.save();
-						} else if (args[1].equals("remove")) {
-							if (!obj.getBlackListedUsers().contains(args[2])) return;
-							obj.getBlackListedUsers().remove(args[2]);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
-							obj.save();
-						}
+				if (args[0].equals("user")) {
+					if (args[1].equals("add")) {
+						if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
+						obj.getBlackListedUsers().add(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						obj.save();
+					} else if (args[1].equals("remove")) {
+						if (!obj.getBlackListedUsers().contains(args[2])) return;
+						obj.getBlackListedUsers().remove(args[2]);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						obj.save();
 					}
-				})
-				.help((thiz, event) -> thiz.helpEmbed(event, "Blacklist command")
-						.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
-						.build())
-				.build());
+				}
+			})
+			.help((thiz, event) -> thiz.helpEmbed(event, "Blacklist command")
+				.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+				.build())
+			.build());
 	}
 
 	public static String getStackTrace(Throwable e) {
@@ -269,14 +274,9 @@ public class OwnerCmd {
 		});
 
 		//This command will keep being SimpleCommandCompat.
-		cr.register("owner", new SimpleCommandCompat(Category.OWNER, "") {
+		cr.register("owner", new SimpleCommandCompat(Category.OWNER) {
 			@Override
-			public String[] splitArgs(String content) {
-				return SPLIT_PATTERN.split(content, 2);
-			}
-
-			@Override
-			protected void call(String[] args, String content, GuildMessageReceivedEvent event) {
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 1) {
 					onHelp(event);
 					return;
@@ -636,6 +636,11 @@ public class OwnerCmd {
 			}
 
 			@Override
+			public String[] splitArgs(String content) {
+				return SPLIT_PATTERN.split(content, 2);
+			}
+
+			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Owner command")
 					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
@@ -650,7 +655,7 @@ public class OwnerCmd {
 			}
 
 			@Override
-			public CommandPermission permissionRequired() {
+			public CommandPermission permission() {
 				return CommandPermission.OWNER;
 			}
 
