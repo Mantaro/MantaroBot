@@ -409,6 +409,7 @@ public class CustomCmds implements HasPostLoad {
 
 					//easter egg :D
 					TextChannelGround.of(event).dropItemWithChance(8, 2);
+					return;
 				}
 
 				if (action.equals("add")) {

@@ -177,6 +177,7 @@ public class CurrencyCmds {
 	}
 
 	private static User getUserById(String id) {
+		if(id == null) return null;
 		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
 			shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
 		return shard1 == null ? null : shard1.getUserById(id);
@@ -431,20 +432,27 @@ public class CurrencyCmds {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args[0].equals("divorce")) {
-					Player user = MantaroData.db().getPlayer(event.getMember());
+					try{
+						Player user = MantaroData.db().getPlayer(event.getMember());
 
-					if (user.getData().getMarriedWith() == null) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't married with anyone, why don't you get started?").queue();
-						return;
+						if (user.getData().getMarriedWith() == null) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't married with anyone, why don't you get started?").queue();
+							return;
+						}
+
+						User user1 = getUserById(user.getData().getMarriedWith());
+						Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
+						marriedWith.getData().setMarriedWith(null);
+						user.getData().setMarriedWith(null);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
+						marriedWith.save();
+						user.save();
+					} catch (NullPointerException e){
+						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedWith(null);
+						MantaroData.db().getPlayer(event.getMember()).save();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 					}
 
-					User user1 = getUserById(user.getData().getMarriedWith());
-					Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
-					marriedWith.getData().setMarriedWith(null);
-					user.getData().setMarriedWith(null);
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
-					marriedWith.save();
-					user.save();
 					return;
 				}
 

@@ -51,7 +51,11 @@ public class AudioCmdUtils {
 			return false;
 		}
 
-		VoiceChannel guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
+		VoiceChannel guildMusicChannel = null;
+		if(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel() != null){
+			guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
+		}
+
 		AudioManager audioManager = event.getGuild().getAudioManager();
 
 		if (guildMusicChannel != null) {

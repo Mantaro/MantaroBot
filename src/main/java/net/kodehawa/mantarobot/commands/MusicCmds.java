@@ -351,26 +351,28 @@ public class MusicCmds {
 				}
 
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-				switch (args[0].toLowerCase()) {
-					case "queue":
-						if (musicManager.getTrackScheduler().getRepeat() == Repeat.QUEUE) {
-							musicManager.getTrackScheduler().setRepeat(null);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the current queue.").queue();
-						} else {
-							musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current queue.").queue();
-						}
-						break;
-					default:
-						if (musicManager.getTrackScheduler().getRepeat() == Repeat.SONG) {
-							musicManager.getTrackScheduler().setRepeat(null);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the normal queue.").queue();
-						} else {
-							musicManager.getTrackScheduler().setRepeat(Repeat.SONG);
-							event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current song.").queue();
-						}
-						break;
+				try{
+					switch (args[0].toLowerCase()) {
+						case "queue":
+							if (musicManager.getTrackScheduler().getRepeat() == Repeat.QUEUE) {
+								musicManager.getTrackScheduler().setRepeat(null);
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the current queue.").queue();
+							} else {
+								musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current queue.").queue();
+							}
+							break;
+					}
+				} catch (Exception e){
+					if (musicManager.getTrackScheduler().getRepeat() == Repeat.SONG) {
+						musicManager.getTrackScheduler().setRepeat(null);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the normal queue.").queue();
+					} else {
+						musicManager.getTrackScheduler().setRepeat(Repeat.SONG);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current song.").queue();
+					}
 				}
+
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			})
 			.help((thiz, event) -> thiz.helpEmbed(event, "Repeat command")
