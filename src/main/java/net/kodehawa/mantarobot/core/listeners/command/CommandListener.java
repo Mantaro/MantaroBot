@@ -73,7 +73,7 @@ public class CommandListener implements EventListener {
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
 				if (player != null) {
 
-					//Note to myself: zero tends to infinity.
+					//Note to myself: zero tends to infinity (or just NaN in this case).
 					//kill me
 					if(player.getLevel() == 0) player.setLevel(1);
 
@@ -120,7 +120,7 @@ public class CommandListener implements EventListener {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry! I'm having some problems with my database... ").queue();
 			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);
 		} catch (Exception e) {
-			String id = Snow64.toSnow64(Long.parseLong(event.getMessage().getId()));
+			String id = Snow64.toSnow64(event.getMessage().getIdLong());
 
 			event.getChannel().sendMessage(
 				EmoteReference.ERROR + "I ran into an unexpected error. (Error ID: ``" + id + "``)\n" +

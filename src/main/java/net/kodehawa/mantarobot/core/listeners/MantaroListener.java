@@ -328,7 +328,7 @@ public class MantaroListener implements EventListener {
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				if (!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ)) return;
-				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just joined" + " `" + event.getGuild().getName() + "` " + "`(User #" + event.getGuild().getMembers().size() + ")`").queue();
+				tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s | #%d)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(), MantaroBot.getInstance().getGuilds().size())).queue();
 				logTotal++;
 			}
 		} catch (Exception e) {

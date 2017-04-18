@@ -801,7 +801,7 @@ What Dutch master painted 64 self-portraits?:Rembrandt
 Which author's father was imprisoned for debt?:Charles Dickens:Dickens
 Women's magazine launched by New York in the 70's?:Ms
 Who wrote 'The Rose Tattoo'?:Tennessee Williams
-Where was El Grecho born?:Crete 
+Where was El Grecho born?:Crete
 A movement of the 1960s and 1970s that emphasized the artistic idea over the art object. It attempted to free art from the confines of the gallery and the pedestal?:Conceptual art
 A late-nineteenth-century French school of painting. It focused on transitory visual impressions, often painted directly from nature, with an emphasis on the changing effects of light and color?:Impressionism
 Which English writer divided his novels into 3 categories, 'Novels Of Character & Environment', 'Romances & Fantasies', and 'Novels Of Ingenuity'?:Thomas Hardy:Hardy
