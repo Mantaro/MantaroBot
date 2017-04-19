@@ -66,7 +66,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
 	@Override
 	public Category category() {
-		return Category.IMAGE;
+		return Category.ACTION;
 	}
 
 	@Override
