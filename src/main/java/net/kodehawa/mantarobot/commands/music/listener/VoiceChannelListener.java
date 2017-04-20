@@ -67,9 +67,9 @@ public class VoiceChannelListener implements EventListener {
 	private boolean isAlone(VoiceChannel voiceChannel) {
 		for (Member member : voiceChannel.getMembers()) {
 			if (!member.getUser().isBot() && !member.getVoiceState().isDeafened())
-				return true;
+				return false;
 		}
-		return false;
+		return true;
 	}
 
 	private void onJoin(VoiceChannel vc, Member member) {
