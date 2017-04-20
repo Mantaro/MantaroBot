@@ -110,7 +110,7 @@ public class ImageCmds implements HasPostLoad {
 
 	@RegisterCommand
 	public static void e621(CommandRegistry cr) {
-		cr.register("name", Commands.newSimple(Category.IMAGE)
+		cr.register("e621", Commands.newSimple(Category.IMAGE)
 			.permission(CommandPermission.USER)
 			.code((thiz, event, content, args) -> {
 				if (!nsfwCheck(event, true, true, null)) return;
