@@ -57,7 +57,7 @@ public class CurrencyCmds {
 
 				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Cooldown a lil bit, you can only do this once every 24 hours.").queue();
+						"Halt! You can only do this once every 24 hours.").queue();
 					return;
 				}
 
@@ -66,14 +66,14 @@ public class CurrencyCmds {
 					player = MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser));
 					player.addMoney(money);
 					player.save();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "You gave your **$" + money + "** daily credits to " + mentionedUser.getName()).queue();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "I gave your **$" + money + "** daily credits to " + mentionedUser.getName()).queue();
 					return;
 				}
 
 				player = MantaroData.db().getPlayer(event.getMember());
 				player.addMoney(money);
 				player.save();
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "You received **$" + money + "** daily credits.").queue();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.").queue();
 			}
 
 			@Override

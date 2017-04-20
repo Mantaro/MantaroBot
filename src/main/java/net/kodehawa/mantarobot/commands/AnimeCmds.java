@@ -48,7 +48,7 @@ public class AnimeCmds implements HasPostLoad {
 
 					DiscordUtils.selectList(event, type, anime -> String.format("%s (%s)",
 						anime.getTitle_english(), anime.getTitle_japanese()),
-						s -> baseEmbed(event, "Anime selection. Type a number to continue.").setDescription(s).build(),
+						s -> baseEmbed(event, "Type the number of the anime you want to select.").setDescription(s).build(),
 						anime -> animeData(event, anime));
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
@@ -67,11 +67,11 @@ public class AnimeCmds implements HasPostLoad {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Anime command")
-					.setDescription("Retrieves anime info from **AniList** (For anime characters use ~>character).\n"
+					.setDescription("Get anime info from **AniList** (For anime characters use ~>character).\n"
 						+ "Usage: \n"
-						+ "~>anime <animename>: Gets information of an anime based on parameters.\n"
+						+ "~>anime <animename>: Retrieve information of an anime based on the name.\n"
 						+ "Parameter description:\n"
-						+ "animename: The name of the anime you are looking for. Make sure to write it similar to the original english name.\n")
+						+ "animename: The name of the anime you are looking for. Keep queries similar to their english names!\n")
 					.setColor(Color.PINK)
 					.build();
 			}
@@ -131,15 +131,15 @@ public class AnimeCmds implements HasPostLoad {
 
 					DiscordUtils.selectList(event, character, character1 -> String.format("%s %s",
 						character1.name_last, character1.name_first),
-						s -> baseEmbed(event, "Character selection. Type a number to continue.").setDescription(s).build(),
+						s -> baseEmbed(event, "Type the number of the character you want to select.").setDescription(s).build(),
 						character1 -> characterData(event, character1));
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "No results or the API query was unsuccessful").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "No results!").queue();
 						return;
 					}
 					log.warn("Problem processing data.", e);
-					event.getChannel().sendMessage(EmoteReference.ERROR + "**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "**We have a problem!**\n\n > I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command. \nError: ``" + e.getMessage() + "``").queue();
 				}
 			}
 

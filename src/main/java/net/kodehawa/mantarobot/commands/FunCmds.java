@@ -76,7 +76,7 @@ public class FunCmds {
 		);
 	}
 
-	private static int diceRoll(int repetitions) { //why the fuck was this shit synchronized?
+	private static int diceRoll(int repetitions) { //why the fuck was this shit synchronized? blame kodehawa
 		int num = 0;
 		int roll;
 		for (int i = 0; i < repetitions; i++) {

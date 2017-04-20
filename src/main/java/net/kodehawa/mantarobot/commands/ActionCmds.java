@@ -53,8 +53,8 @@ public class ActionCmds {
 
 			.help((thiz, event) ->
 				thiz.helpEmbed(event, "Action commands")
-					.addField("Description:", "~>action bleach: Random image of someone drinking bleach.\n" +
-						"~>action facedesk: Facedesks.\n" +
+					.addField("Description:", "~>action bleach: Random bleach picture.\n" +
+						"~>action facedesk: When you really mess up.\n" +
 						"~>action nom: nom nom.", false)
 					.setColor(Color.PINK)
 					.build()
@@ -72,14 +72,14 @@ public class ActionCmds {
 				} else {
 					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
 						.joining(" "));
-					String bs = String.format(EmoteReference.TALKING + "%s sucks the blood of %s", event.getAuthor().getAsMention(),
+					String bs = String.format(EmoteReference.TALKING + "%s has sucked the blood of %s", event.getAuthor().getAsMention(),
 						bString);
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
 						new MessageBuilder().append(bs).build()).queue();
 				}
 			})
 			.help((thiz, event) -> thiz.helpEmbed(event, "Bloodsuck")
-				.setDescription("Sucks the blood of the mentioned user(s)")
+				.setDescription("Suck the blood of the mentioned members")
 				.build())
 			.build());
 	}
@@ -95,7 +95,7 @@ public class ActionCmds {
 					, new MessageBuilder().append(lood).append(" Y-You lewdie!").build()).queue();
 			})
 			.help((thiz, event) -> thiz.helpEmbed(event, "Lewd")
-				.setDescription("Y-You lewdie.").build())
+				.setDescription("lewd").build())
 			.build());
 	}
 
@@ -108,14 +108,14 @@ public class ActionCmds {
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
 					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*meows at %s.*", mew)).build()).queue();
+						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*is meowing at %s.*", mew)).build()).queue();
 				} else {
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-						new MessageBuilder().append(":speech_balloon: Meeeeow.").build()).queue();
+						new MessageBuilder().append(":speech_balloon: Meow.").build()).queue();
 				}
 			})
 			.help((thiz, event) -> thiz.helpEmbed(event, "Meow command")
-				.setDescription("Meows at a user or just meows.")
+				.setDescription("Meow either to a person or the sky.")
 				.setColor(Color.cyan)
 				.build())
 			.build());

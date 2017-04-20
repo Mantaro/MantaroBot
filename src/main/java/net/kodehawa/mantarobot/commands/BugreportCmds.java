@@ -16,8 +16,6 @@ public class BugreportCmds {
 	//TODO uhhh.
 	//How about removing it and using smth called GITHUB?
 
-	private static final String RATELIMIT_MESSAGE = "You are being ratelimited";
-
 	public static void admin(CommandRegistry cr) {
 		cr.register("bug", new SimpleCommandCompat(Category.UTILS) {
 			@Override
@@ -59,8 +57,8 @@ public class BugreportCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Bug commands")
-					.addField("Description:", "~>bug accept <number>: accepts a bug\n" +
-							"~>bug decline <number>: declines a bug\n",
+					.addField("Description:", "~>bug accept <number>: accept a bug\n" +
+							"~>bug decline <number>: decline a bug\n",
 						false).build();
 			}
 

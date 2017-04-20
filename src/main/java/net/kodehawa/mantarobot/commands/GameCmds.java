@@ -65,15 +65,15 @@ public class GameCmds {
 						});
 
 						GameLobby lobby = new GameLobby(event, map, list);
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games: " + games + " and users: " +
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games " + games + " and members " +
 							builder.toString() + "successfully.").queue();
 						lobby.startFirstGame();
 						return;
 					} catch (Exception e) {
 						if ((e instanceof IndexOutOfBoundsException)) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect arguments.").queue();
 						} else {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up the lobby.").queue();
+							event.getChannel().sendMessage(EmoteReference.ERROR + "I encountered an error while setting up the lobby.").queue();
 							log.warn("Error while setting up a lobby", e);
 						}
 					}
