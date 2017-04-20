@@ -198,7 +198,9 @@ public class OptsCmd {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 
-			VoiceChannel channel = event.getGuild().getVoiceChannelById(channelName);
+			VoiceChannel channel = null;
+
+			try{ channel = event.getGuild().getVoiceChannelById(channelName); } catch (Exception ignored){}
 
 			if (channel == null) {
 				try {
@@ -574,6 +576,7 @@ public class OptsCmd {
 				onHelp(event);
 				return;
 			}
+
 			String roleName = args[1];
 
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -586,7 +589,7 @@ public class OptsCmd {
 				Role role = roleList.get(0);
 				guildData.getAutoroles().put(args[0], role.getId());
 				dbGuild.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + args[2] + "**, which gives the role " +
+				event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + args[0] + "**, which gives the role " +
 					"**" +
 					role.getName() + "**").queue();
 			} else {
@@ -617,7 +620,7 @@ public class OptsCmd {
 			if (autoroles.containsKey(args[0])) {
 				autoroles.remove(args[0]);
 				dbGuild.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.OK + "Removed autorole " + args[2]).queue();
+				event.getChannel().sendMessage(EmoteReference.OK + "Removed autorole " + args[0]).queue();
 			} else {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find an autorole with that name").queue();
 			}
