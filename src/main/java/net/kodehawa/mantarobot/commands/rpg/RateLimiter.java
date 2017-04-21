@@ -27,7 +27,8 @@ public class RateLimiter {
 	public boolean process(String userId) {
 		if (usersRateLimited.contains(userId)) return false;
 		usersRateLimited.add(userId);
-		EXPIRATOR.letExpire(System.currentTimeMillis() + timeout, () -> usersRateLimited.remove(userId));
+		Expirator.Expirable ex = () -> usersRateLimited.remove(userId);
+		EXPIRATOR.letExpire(System.currentTimeMillis() + timeout, ex);
 		return true;
 	}
 

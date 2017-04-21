@@ -233,20 +233,19 @@ public class MantaroListener implements EventListener {
 	}
 
 	//region minn
-	public void onDisconnect(DisconnectEvent event) {
+	private void onDisconnect(DisconnectEvent event) {
 		if (event.isClosedByServer()) {
-			System.out.printf("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
-				event.getServiceCloseFrame().getCloseCode(), event.getCloseCode());
+			log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
+				event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()));
 		} else {
-			System.out.printf("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
-				event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason());
+			log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
+				event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason()));
 		}
 	}
 
-	public void onException(ExceptionEvent event) {
-		if (!event.isLogged())
-			event.getCause().printStackTrace();
-	}
+	private void onException(ExceptionEvent event) {
+		if (!event.isLogged()) event.getCause().printStackTrace();
+	} //endregion
 
 	private void onJoin(GuildJoinEvent event) {
 		try {
@@ -260,7 +259,10 @@ public class MantaroListener implements EventListener {
 				return;
 			}
 
-			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members) [ID: `%s`, Owner:%s (%s)]",
+					hour, event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(),
+					event.getGuild().getOwner().getEffectiveName() + "#" + event.getGuild().getOwner().getUser().getDiscriminator(),
+					event.getGuild().getOwner().getUser().getId())).queue();
 			logTotal++;
 
 			GuildStatsManager.log(LoggedEvent.JOIN);

@@ -148,8 +148,8 @@ public class CurrencyCmds {
 					long gains = (long) (i * multiplier);
 					gains = Math.round(gains * 0.55);
 
-					if (player.getMoney() >= Integer.MAX_VALUE) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
+					if (player.getMoney() >= Integer.MAX_VALUE && gains > 1000000) {
+						gains = gains / 5;
 						return;
 					}
 
@@ -589,11 +589,9 @@ public class CurrencyCmds {
 				}
 
 				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 1 hour.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
 					return;
 				}
-
-
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
 				Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
 				player.addReputation(1L);

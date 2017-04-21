@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class TrackScheduler extends AudioEventAdapter {
@@ -59,7 +60,9 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
 		if (getCurrentTrack() != null && getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
 			if (!exception.severity.equals(FriendlyException.Severity.FAULT))
-				getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage()).queue();
+				getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage()).queue(
+						message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
+				);
 		}
 	}
 
@@ -72,18 +75,14 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private void announce() {
 		try {
-			if (getPreviousTrack() != null && getPreviousTrack().getRequestedChannel() != null && getPreviousTrack().getRequestedChannel().canTalk())
-				getPreviousTrack().getRequestedChannel().getMessageById(lastAnnounce).complete().delete().queue();
-		} catch (Exception ignored) {
-		}
-		try {
 			if (getCurrentTrack() != null && getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk())
 				getCurrentTrack().getRequestedChannel()
 					.sendMessage("\uD83D\uDCE3 Now playing in " + getAudioManager().getConnectedChannel().getName()
 						+ ": " + getCurrentTrack().getInfo().title + " (" + AudioUtils.getLength(getCurrentTrack().getInfo().length) + ")"
-						+ (getCurrentTrack().getDJ() != null ? " requested by " + getCurrentTrack().getDJ().getName() : "")).queue(this::setLastAnnounce);
-		} catch (Exception ignored) {
-		}
+						+ (getCurrentTrack().getDJ() != null ? " requested by " + getCurrentTrack().getDJ().getName() : "")).queue(
+							message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
+				);
+		} catch (Exception ignored) {}
 	}
 
 	public AudioManager getAudioManager() {
@@ -175,9 +174,10 @@ public class TrackScheduler extends AudioEventAdapter {
 		try {
 			previousTrack = getPreviousTrack();
 			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
-				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue();
-		} catch (Exception ignored) {
-		} //fuck
+				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue(
+						message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
+				);
+		} catch (Exception ignored) {} //fuck
 	}
 
 	public void queue(AudioTrackContext audioTrackContext) {
