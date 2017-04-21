@@ -432,8 +432,8 @@ public class MusicCmds {
 					int requiredVotes = scheduler.getRequiredSkipVotes();
 					if (voteSkips.contains(event.getAuthor().getId())) {
 						voteSkips.remove(event.getAuthor().getId());
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " +
-							(requiredVotes - voteSkips.size()) + " are required to skip!").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! " +
+							(requiredVotes - voteSkips.size()) + " more are required to skip!").queue();
 					} else {
 						voteSkips.add(event.getAuthor().getId());
 						if (voteSkips.size() >= requiredVotes) {

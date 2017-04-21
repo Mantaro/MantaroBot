@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 
 import java.awt.Color;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.IntConsumer;
 
 @Slf4j
@@ -100,7 +101,9 @@ public class AudioRequester implements AudioLoadResultHandler {
 			&& !MantaroData.db().getUser(event.getMember()).isPremium()
 			&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
 			if (!silent)
-				event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue();
+				event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue(
+						message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
+				);
 			if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
 			return;
 		}
