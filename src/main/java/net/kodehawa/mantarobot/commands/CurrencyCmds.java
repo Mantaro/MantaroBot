@@ -149,7 +149,7 @@ public class CurrencyCmds {
 					gains = Math.round(gains * 0.55);
 
 					if (player.getMoney() >= Integer.MAX_VALUE) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
+						gains = gains / 5;
 						return;
 					}
 
