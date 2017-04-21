@@ -569,15 +569,10 @@ public class CurrencyCmds {
 	@RegisterCommand
 	public static void rep(CommandRegistry cr) {
 		cr.register("rep", new SimpleCommandCompat(Category.CURRENCY) {
-			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
 
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
-					return;
-				}
-
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.").queue();
 					return;
@@ -592,6 +587,12 @@ public class CurrencyCmds {
 					event.getChannel().sendMessage(EmoteReference.THINKING + "You need to mention one user.").queue();
 					return;
 				}
+
+				if (!rateLimiter.process(event.getMember())) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 1 hour.").queue();
+					return;
+				}
+
 
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
 				Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
