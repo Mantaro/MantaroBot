@@ -148,7 +148,7 @@ public class CurrencyCmds {
 					long gains = (long) (i * multiplier);
 					gains = Math.round(gains * 0.55);
 
-					if (player.getMoney() >= Integer.MAX_VALUE) {
+					if (player.getMoney() >= Integer.MAX_VALUE && gains > 1000000) {
 						gains = gains / 5;
 						return;
 					}
