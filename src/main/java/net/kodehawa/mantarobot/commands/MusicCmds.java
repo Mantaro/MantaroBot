@@ -149,7 +149,6 @@ public class MusicCmds {
 					.addField("Description", "See what track is playing now.", false).build();
 			}
 
-
 		});
 	}
 
@@ -351,7 +350,7 @@ public class MusicCmds {
 				}
 
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-				try{
+				try {
 					switch (args[0].toLowerCase()) {
 						case "queue":
 							if (musicManager.getTrackScheduler().getRepeat() == Repeat.QUEUE) {
@@ -363,7 +362,7 @@ public class MusicCmds {
 							}
 							break;
 					}
-				} catch (Exception e){
+				} catch (Exception e) {
 					if (musicManager.getTrackScheduler().getRepeat() == Repeat.SONG) {
 						musicManager.getTrackScheduler().setRepeat(null);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the normal queue.").queue();

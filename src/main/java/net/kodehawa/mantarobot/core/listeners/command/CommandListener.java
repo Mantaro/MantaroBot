@@ -75,7 +75,7 @@ public class CommandListener implements EventListener {
 
 					//Note to myself: zero tends to infinity (or just NaN in this case).
 					//kill me
-					if(player.getLevel() == 0) player.setLevel(1);
+					if (player.getLevel() == 0) player.setLevel(1);
 
 					player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
 					if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {

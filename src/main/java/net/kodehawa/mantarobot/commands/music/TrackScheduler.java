@@ -61,7 +61,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		if (getCurrentTrack() != null && getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk()) {
 			if (!exception.severity.equals(FriendlyException.Severity.FAULT))
 				getCurrentTrack().getRequestedChannel().sendMessage("Something happened while attempting to play " + track.getInfo().title + ": " + exception.getMessage()).queue(
-						message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
+					message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
 				);
 		}
 	}
@@ -80,9 +80,10 @@ public class TrackScheduler extends AudioEventAdapter {
 					.sendMessage("\uD83D\uDCE3 Now playing in " + getAudioManager().getConnectedChannel().getName()
 						+ ": " + getCurrentTrack().getInfo().title + " (" + AudioUtils.getLength(getCurrentTrack().getInfo().length) + ")"
 						+ (getCurrentTrack().getDJ() != null ? " requested by " + getCurrentTrack().getDJ().getName() : "")).queue(
-							message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
+					message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
 				);
-		} catch (Exception ignored) {}
+		} catch (Exception ignored) {
+		}
 	}
 
 	public AudioManager getAudioManager() {
@@ -175,9 +176,10 @@ public class TrackScheduler extends AudioEventAdapter {
 			previousTrack = getPreviousTrack();
 			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
 				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue(
-						message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
+					message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
 				);
-		} catch (Exception ignored) {} //fuck
+		} catch (Exception ignored) {
+		} //fuck
 	}
 
 	public void queue(AudioTrackContext audioTrackContext) {

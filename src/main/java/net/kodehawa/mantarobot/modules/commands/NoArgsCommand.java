@@ -9,6 +9,12 @@ public abstract class NoArgsCommand implements Command {
 	protected abstract void call(GuildMessageReceivedEvent event);
 
 	@Override
+	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
+		call(event);
+		log(commandName);
+	}
+
+	@Override
 	public boolean hidden() {
 		return false;
 	}
@@ -16,12 +22,6 @@ public abstract class NoArgsCommand implements Command {
 	@Override
 	public CommandPermission permission() {
 		return CommandPermission.USER;
-	}
-
-	@Override
-	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
-		call(event);
-		log(commandName);
 	}
 
 	protected EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
