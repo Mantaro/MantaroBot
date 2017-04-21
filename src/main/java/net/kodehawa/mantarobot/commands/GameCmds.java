@@ -119,7 +119,7 @@ public class GameCmds {
 
 	@RegisterCommand
 	public static void trivia(CommandRegistry cr) {
-		cr.register("name", Commands.newSimple(Category.GAMES)
+		cr.register("trivia", Commands.newSimple(Category.GAMES)
 			.permission(CommandPermission.USER)
 			.code(event -> startGame(new Trivia(), event))
 			.help((thiz, event) -> thiz.helpEmbed(event, "Trivia command.")

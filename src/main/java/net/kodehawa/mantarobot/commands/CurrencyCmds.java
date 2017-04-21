@@ -573,11 +573,6 @@ public class CurrencyCmds {
 
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
-					return;
-				}
-
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.").queue();
 					return;
@@ -593,6 +588,10 @@ public class CurrencyCmds {
 					return;
 				}
 
+				if (!rateLimiter.process(event.getMember())) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
+					return;
+				}
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
 				Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
 				player.addReputation(1L);

@@ -260,7 +260,9 @@ public class MantaroListener implements EventListener {
 				return;
 			}
 
-			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
+			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members) [ID: `%s`, Owner:%s]",
+					hour, event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(),
+					event.getGuild().getOwner().getEffectiveName() + "#" + event.getGuild().getOwner().getUser().getDiscriminator())).queue();
 			logTotal++;
 
 			GuildStatsManager.log(LoggedEvent.JOIN);
