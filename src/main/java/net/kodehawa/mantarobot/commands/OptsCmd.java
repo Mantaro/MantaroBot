@@ -639,44 +639,10 @@ public class OptsCmd {
 	public static void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = Commands.newSimple(Category.MODERATION)
 			.permission(CommandPermission.ADMIN)
-			.help((thiz, event) -> thiz.helpEmbed(event, "Bot options")
+			.help((thiz, event) -> thiz.helpEmbed(event, "Options and Configurations Command")
 				.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
 					"All values set are local rather than global, meaning that they will only effect this server.", false)
-				.setDescription("Usage\n" +
-					"~>opts logs enable <channel> - Send logs to the specified channel (use its name).\n" +
-					"~>opts logs disable - Disable server-wide logs.\n" +
-					"~>opts prefix set <prefix> - Set a custom prefix for your server.\n" +
-					"~>opts prefix clear - Remove your server's custom prefix.\n" +
-					"~>opts nsfw toggle - Toggle NSFW usage for this channel to allow usage with explicit images in yandere " +
-					"and other commands.\n" +
-					"~>opts birthday enable <channel> <role> - Enable birthday alerts in your server. Arguments such as " +
-					"channel and role don't accept spaces.\n" +
-					"~>opts birthday disable - Disable birthday alerts.\n" +
-					"~>opts music queuelimit <number> - Changes the queue song limit (max is 300 for non-donors).\n" +
-					"~>opts autorole set <role> - Set an autorole that will be assigned to users when they join.\n" +
-					"~>opts autorole unbind - Clear the autorole config.\n" +
-					"~>opts resetmoney - Reset local money.\n" +
-					"~>opts localmoney <true/false> - Toggle server local mode (currency stats only for this server).\n" +
-					"~>opts music channel <channel> - If set, I will connect only to the specified channel. You can specify a" +
-					" channel name or ID.\n" +
-					"~>opts music clear - If set, I will connect to any voice channel when called.\n" +
-					"~>opts admincustom <true/false> - If set to true, custom command creation will be available solely for " +
-					"administrators; Otherwise, everyone can create them. Setting defaults to false.\n" +
-					"~>opts usermessage channel <channel name> - Set a channel to send join/leave messages.\n" +
-					"~>opts usermessage joinmessage <message> - Set the join message.\n" +
-					"~>opts usermessage leavemessage <message> - Set the leave message.\n" +
-					"~>opts usermessage resetchannel - Resets the channel to use for join/leave messsages.\n" +
-					"~>opts usermessage resetdata - Resets the join/leave message.")
-				.addField("Command settings",
-					"~>opts server channel disallow <channel name> - Makes a channel deaf to commands\n" +
-						"~>opts server channel allow <channel name> - Makes a channel able to hear commands again.\n" +
-						"~>opts server command disallow <command name> - Disables the specified command. (Doing allow " +
-						"with the same syntax will enable it again)\n"
-					, false)
-				.addField("Roles",
-					"~>opts autoroles add <autorole name> <role to give name> - Adds an autorole for the specified role. Invoke " +
-						"by typing ~>iam <autorole name>\n" +
-						"~>opts autoroles remove <autorole name> - Remove the autorole with the specified name", false)
+				.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
 				.build())
 			.code((thiz, event, content, args) -> {
 				if (args.length < 2) {
