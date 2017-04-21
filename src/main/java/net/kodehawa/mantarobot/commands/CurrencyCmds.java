@@ -177,7 +177,7 @@ public class CurrencyCmds {
 	}
 
 	private static User getUserById(String id) {
-		if(id == null) return null;
+		if (id == null) return null;
 		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
 			shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
 		return shard1 == null ? null : shard1.getUserById(id);
@@ -432,7 +432,7 @@ public class CurrencyCmds {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length > 0 && args[0].equals("divorce")) {
-					try{
+					try {
 						Player user = MantaroData.db().getPlayer(event.getMember());
 
 						if (user.getData().getMarriedWith() == null) {
@@ -447,7 +447,7 @@ public class CurrencyCmds {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 						marriedWith.save();
 						user.save();
-					} catch (NullPointerException e){
+					} catch (NullPointerException e) {
 						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedWith(null);
 						MantaroData.db().getPlayer(event.getMember()).save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();

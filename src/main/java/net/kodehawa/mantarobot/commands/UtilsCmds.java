@@ -2,7 +2,9 @@ package net.kodehawa.mantarobot.commands;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
@@ -15,7 +17,9 @@ import net.kodehawa.mantarobot.modules.Commands;
 import net.kodehawa.mantarobot.modules.RegisterCommand;
 import net.kodehawa.mantarobot.modules.commands.Category;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -34,6 +38,7 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.function.IntConsumer;
 
+import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -131,6 +136,29 @@ public class UtilsCmds {
 				.setColor(Color.DARK_GRAY)
 				.build())
 			.build());
+	}
+
+	@RegisterCommand
+	public static void choose(CommandRegistry registry) {
+		registry.register("choose", new SimpleCommandCompat(Category.UTILS) {
+			@Override
+			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				event.getChannel().sendMessage("I choose ``" + random(args) + "``").queue();
+			}
+
+			@Override
+			public String[] splitArgs(String content) {
+				return StringUtils.advancedSplitArgs(content, -1);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Choose Command")
+					.setDescription("Choose between 1 or more things\n" +
+						"It accepts all parameters it gives (Also in quotes) and chooses a random one.")
+					.build();
+			}
+		});
 	}
 
 	private static String dateGMT(String timezone) throws ParseException, NullPointerException {
