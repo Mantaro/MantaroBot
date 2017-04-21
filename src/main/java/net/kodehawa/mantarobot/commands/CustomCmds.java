@@ -144,7 +144,10 @@ public class CustomCmds implements HasPostLoad {
 
 	@RegisterCommand
 	public static void custom(CommandRegistry cr) {
-		Pattern addPattern = Pattern.compile(";");
+		String any = "[\\d\\D]*?";
+		Pattern addPattern = Pattern.compile(";", Pattern.LITERAL),
+			namePattern = Pattern.compile("[a-zA-Z0-9_]+"),
+			nameWildcardPattern = Pattern.compile("[a-zA-Z0-9_*]+");
 
 		cr.register("custom", new SimpleCommandCompat(Category.UTILS) {
 			@Override
@@ -203,6 +206,11 @@ public class CustomCmds implements HasPostLoad {
 				String cmd = args[1];
 
 				if (action.equals("make")) {
+					if (!namePattern.matcher(cmd).matches()) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
+						return;
+					}
+
 					List<String> responses = new ArrayList<>();
 					boolean created = InteractiveOperations.create(event.getChannel(), "Custom Command Creation", 60000, OptionalInt.of(5000), e -> {
 						if (!e.getAuthor().equals(event.getAuthor())) return false;
@@ -220,7 +228,7 @@ public class CustomCmds implements HasPostLoad {
 							String arg = c.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
-							if (!cmd.matches("[a-zA-Z0-9_]+")) {
+							if (!namePattern.matcher(cmd).matches()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 								return false;
 							}
@@ -265,7 +273,7 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
-					if (!cmd.matches("[a-zA-Z0-9_]+")) {
+					if (!namePattern.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -292,7 +300,7 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("raw")) {
-					if (!cmd.matches("[a-zA-Z0-9_]+")) {
+					if (!namePattern.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -314,15 +322,13 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("import")) {
-					Map<String, Guild> mapped = MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).stream()
-						.collect(Collectors.toMap(ISnowflake::getId, g -> g));
-
-					String any = "[\\d\\D]*?";
-
-					if (!cmd.matches("[a-zA-Z0-9_*]+")) {
+					if (!nameWildcardPattern.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
+
+					Map<String, Guild> mapped = MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).stream()
+						.collect(Collectors.toMap(ISnowflake::getId, g -> g));
 
 					List<Pair<Guild, CustomCommand>> filtered = MantaroData.db()
 						.getCustomCommandsByName(("*" + cmd + "*").replace("*", any)).stream()
@@ -372,7 +378,7 @@ public class CustomCmds implements HasPostLoad {
 				String value = args[2];
 
 				if (action.equals("rename")) {
-					if (!cmd.matches("[a-zA-Z0-9_]+") || !value.matches("[a-zA-Z0-9_]+")) {
+					if (!namePattern.matcher(cmd).matches() || !namePattern.matcher(value).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -383,6 +389,7 @@ public class CustomCmds implements HasPostLoad {
 					}
 
 					CustomCommand oldCustom = db().getCustomCommand(event.getGuild(), cmd);
+
 					if (oldCustom == null) {
 						event.getChannel().sendMessage(EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
 						return;
@@ -399,11 +406,11 @@ public class CustomCmds implements HasPostLoad {
 					customCommands.put(newCustom.getId(), newCustom.getValues());
 
 					//add mini-hack
-                    CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
+					CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
 
 					//clear commands if none
 					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-                        CommandProcessor.REGISTRY.commands().remove(cmd);
+						CommandProcessor.REGISTRY.commands().remove(cmd);
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Renamed command ``" + cmd + "`` to ``" + value + "``!").queue();
 
@@ -413,7 +420,7 @@ public class CustomCmds implements HasPostLoad {
 				}
 
 				if (action.equals("add")) {
-					if (!cmd.matches("[a-zA-Z0-9_]+")) {
+					if (!namePattern.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
