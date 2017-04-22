@@ -629,10 +629,10 @@ public class CurrencyCmds {
 				boolean global = !local && !content.equals("guild") && !content.equals("local");
 
 				List<Map> c = r.table("players")
+					.orderBy().optArg("index", "money")
+					.limit(15)
 					.filter(player -> player.g("id").match(pattern))
 					.map(player -> player.pluck("id", "money"))
-					.orderBy(r.desc("money"))
-					.limit(15)
 					.run(MantaroData.conn());
 
 				AtomicInteger i = new AtomicInteger();

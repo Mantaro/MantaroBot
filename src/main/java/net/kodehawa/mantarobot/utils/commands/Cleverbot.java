@@ -45,7 +45,7 @@ public class Cleverbot {
 			)
 			.with(
 				//The lewdness is strong with this one
-				Pattern.compile("(s+?e+?x+?)|(p+?o+?r+?n+?)|(h+?e+?n+?t+?a+?i+?)|(e+?c+?h+?i+?)|(f+?u+?rr+?y+?)|(xxx)", Pattern.CASE_INSENSITIVE).asPredicate(),
+				Pattern.compile("(s+?e+?x+?)|(p+?o+?r+?n+?)|(h+?e+?n+?t+?a+?i+?)|(e+?c+?h+?i+?)|(f+?u+?rr+?y+?)|(n+?u+?d+?e+?)|(xxx)", Pattern.CASE_INSENSITIVE).asPredicate(),
 				event -> event.getChannel().sendFile(
 					ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png",
 					new MessageBuilder().append("Y-You lewdie!").build()

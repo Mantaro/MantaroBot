@@ -2,10 +2,14 @@ package net.kodehawa.mantarobot.utils;
 
 import br.com.brjdevs.java.utils.extensions.Async;
 import net.kodehawa.mantarobot.utils.Expirator.Expirable;
+import org.apache.commons.collections4.BidiMap;
+import org.apache.commons.collections4.bidimap.DualConcurrentHashBidiMap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Objects;
 
 public class Expirator<T extends Expirable> {
 	public interface Expirable {
@@ -16,7 +20,7 @@ public class Expirator<T extends Expirable> {
 		void onExpire();
 	}
 
-	private final Map<Long, List<Expirable>> EXPIRATIONS = new ConcurrentHashMap<>();
+	private final BidiMap<Long, List<Expirable>> EXPIRATIONS = new DualConcurrentHashBidiMap<>();
 	private boolean updated = false;
 
 	public Expirator() {
@@ -71,6 +75,11 @@ public class Expirator<T extends Expirable> {
 				runnables.forEach(expirable -> Async.thread("Expiration Executable", expirable::onExpire));
 			} else updated = false; //and the loop will restart and resolve it
 		}
+	}
+
+	public Long timeToExpire(Expirable expirable) {
+		Long key = EXPIRATIONS.getKey(expirable);
+		return key == null ? null : key - System.currentTimeMillis();
 	}
 
 	public void unletExpire(Expirable expirable) {
