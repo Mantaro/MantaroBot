@@ -10,10 +10,11 @@ import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -26,15 +27,15 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "Moderation")
-@RegisterCommand.Class
+@Module
 public class ModerationCmds {
 	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
 
-	@RegisterCommand
+	@Event
 	public static void ban(CommandRegistry cr) {
 		cr.register("ban", Commands.newSimple(Category.MODERATION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
@@ -146,11 +147,11 @@ public class ModerationCmds {
 		};
 	}
 
-	@RegisterCommand
+	@Event
 	public static void kick(CommandRegistry cr) {
 		cr.register("kick", Commands.newSimple(Category.MODERATION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
@@ -268,11 +269,11 @@ public class ModerationCmds {
 		return time[0];
 	}
 
-	@RegisterCommand
+	@Event
 	public static void prune(CommandRegistry cr) {
 		cr.register("name", Commands.newSimple(Category.MODERATION)
 			.permission(CommandPermission.ADMIN)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				TextChannel channel = event.getChannel();
 				if (content.isEmpty()) {
 					channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
@@ -376,11 +377,11 @@ public class ModerationCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void tempban(CommandRegistry cr) {
 		cr.register("tempban", Commands.newSimple(Category.MODERATION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				String reason = content;
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();

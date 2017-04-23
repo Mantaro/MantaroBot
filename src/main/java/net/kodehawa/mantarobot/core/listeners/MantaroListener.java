@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.listeners;
 
-import br.com.brjdevs.highhacks.eventbus.Listener;
 import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,6 @@ import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
-import net.kodehawa.mantarobot.utils.ThreadPoolHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.DateFormat;
@@ -56,7 +54,6 @@ public class MantaroListener implements EventListener {
 		this.shardId = shardId;
 	}
 
-	@Listener
 	@Override
 	public void onEvent(Event event) {
 		if (event instanceof ShardMonitorEvent) {
@@ -111,7 +108,7 @@ public class MantaroListener implements EventListener {
 		}
 
 		if (event instanceof StatusChangeEvent) {
-			ThreadPoolHelper.defaultPool().startThread("LogThread", () -> logStatusChange((StatusChangeEvent) event));
+			Async.thread("LogThread", () -> logStatusChange((StatusChangeEvent) event));
 		}
 
 		//debug

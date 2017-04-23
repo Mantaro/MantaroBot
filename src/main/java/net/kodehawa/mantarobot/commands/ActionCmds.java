@@ -8,10 +8,11 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -20,7 +21,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RegisterCommand.Class
+@Module
 public class ActionCmds {
 	public static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
 	public static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
@@ -29,11 +30,11 @@ public class ActionCmds {
 	public static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
 	public static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
-	@RegisterCommand
+	@Event
 	public static void action(CommandRegistry cr) {
 		cr.register("action", Commands.newSimple(Category.ACTION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				String noArgs = content.split(" ")[0];
 				TextChannel channel = event.getChannel();
 				switch (noArgs) {
@@ -62,11 +63,11 @@ public class ActionCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void bloodsuck(CommandRegistry cr) {
 		cr.register("bloodsuck", Commands.newSimple(Category.ACTION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
 				} else {
@@ -84,11 +85,11 @@ public class ActionCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void lewd(CommandRegistry cr) {
 		cr.register("lewd", Commands.newSimple(Category.ACTION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				String lood = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining
 					(" "));
 				event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/LJfZYau.png"), "lewd.png"
@@ -99,11 +100,11 @@ public class ActionCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void meow(CommandRegistry cr) {
 		cr.register("mew", Commands.newSimple(Category.ACTION)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				Message receivedMessage = event.getMessage();
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
 					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
@@ -121,7 +122,7 @@ public class ActionCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void register(CommandRegistry cr) {
 
 		//pat();

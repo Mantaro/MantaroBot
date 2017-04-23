@@ -14,12 +14,13 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.HasPostLoad;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
-import net.kodehawa.mantarobot.modules.commands.Command;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.commands.base.Command;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -40,9 +41,9 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
-@RegisterCommand.Class
+@Module
 //This will keep being SCC.
-public class CustomCmds implements HasPostLoad {
+public class CustomCmds {
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
 	private static final Command customCommand = new Command() {
 		private Random r = new Random();
@@ -132,24 +133,19 @@ public class CustomCmds implements HasPostLoad {
 		}
 
 		@Override
-		public boolean hidden() {
-			return true;
-		}
-
-		@Override
 		public CommandPermission permission() {
 			return CommandPermission.USER;
 		}
 	};
 
-	@RegisterCommand
+	@Event
 	public static void custom(CommandRegistry cr) {
 		String any = "[\\d\\D]*?";
 		Pattern addPattern = Pattern.compile(";", Pattern.LITERAL),
 			namePattern = Pattern.compile("[a-zA-Z0-9_]+"),
 			nameWildcardPattern = Pattern.compile("[a-zA-Z0-9_*]+");
 
-		cr.register("custom", new SimpleCommandCompat(Category.UTILS) {
+		cr.register("custom", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 1) {
@@ -453,13 +449,13 @@ public class CustomCmds implements HasPostLoad {
 			}
 
 			@Override
-			public String[] splitArgs(String content) {
-				return SPLIT_PATTERN.split(content, 3);
+			public CommandPermission permission() {
+				return CommandPermission.USER;
 			}
 
 			@Override
-			public CommandPermission permission() {
-				return CommandPermission.USER;
+			public String[] splitArgs(String content) {
+				return SPLIT_PATTERN.split(content, 3);
 			}
 
 			@Override
@@ -482,8 +478,8 @@ public class CustomCmds implements HasPostLoad {
 		});
 	}
 
-	@Override
-	public void onPostLoad() {
+	@Event
+	public static void onPostLoad(PostLoadEvent e) {
 		db().getCustomCommands().forEach(custom -> {
 			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !CommandProcessor.REGISTRY.commands().get(custom.getName()).equals(customCommand)) {
 				custom.deleteAsync();

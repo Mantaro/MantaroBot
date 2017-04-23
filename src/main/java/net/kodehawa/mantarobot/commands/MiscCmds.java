@@ -9,10 +9,11 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -27,18 +28,18 @@ import java.util.stream.IntStream;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 
-@RegisterCommand.Class
+@Module
 @Slf4j
 public class MiscCmds {
 	public static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
 	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
 	private static final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
-	@RegisterCommand
+	@Event
 	public static void eightBall(CommandRegistry cr) {
 		cr.register("8ball", Commands.newSimple(Category.MISC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.isEmpty()) {
 					thiz.onHelp(event);
 					return;
@@ -71,11 +72,11 @@ public class MiscCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void iam(CommandRegistry cr) {
 		cr.register("iam", Commands.newSimple(Category.MISC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 				if (args.length == 0 || content.length() == 0) {
 					thiz.onHelp(event);
@@ -132,11 +133,11 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void iamnot(CommandRegistry cr) {
 		cr.register("iamnot", Commands.newSimple(Category.MISC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 				if (args.length == 0 || content.length() == 0) {
 					thiz.onHelp(event);
@@ -194,11 +195,11 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void misc(CommandRegistry cr) {
 		cr.register("misc", Commands.newSimple(Category.MISC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				TextChannel channel = event.getChannel();
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
@@ -240,11 +241,11 @@ public class MiscCmds {
 		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void randomFact(CommandRegistry cr) {
 		cr.register("randomfact", Commands.newSimple(Category.MISC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
 			})
 			.help((thiz, event) -> thiz.helpEmbed(event, "Random Fact")

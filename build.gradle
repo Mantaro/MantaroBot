@@ -20,7 +20,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 3, minor: 0, revision: 4)
+def ver = new Version(major: 4, minor: 0, revision: 0)
 version ver.toString()
 
 //We are going to use Java 8
@@ -29,12 +29,12 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
-	maven {
-		url "http://dl.bintray.com/frederikam/JCA"
-	}
-	maven {
-		url "http://dl.bintray.com/brjdevs/maven"
-	}
+//	maven {
+//		url "http://dl.bintray.com/frederikam/JCA"
+//	}
+//	maven {
+//		url "http://dl.bintray.com/brjdevs/maven"
+//	}
 }
 
 dependencies {
@@ -46,7 +46,7 @@ dependencies {
 	compile 'org.reflections:reflections:0.9.10'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
 
-	compile 'com.udojava:EvalEx:1.0'
+//	compile 'com.udojava:EvalEx:1.0'
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
 	compile 'org.codehaus.groovy:groovy-all:2.4.9'
 
@@ -69,15 +69,15 @@ dependencies {
 
 	compile fileTree(dir: 'lib', include: '*.jar')
 
-	compile "org.projectlombok:lombok:1.16.16"
+	compileOnly "org.projectlombok:lombok:1.16.16"
 
-	compile 'frederikam:JCA:1.0'
+//	compile 'frederikam:JCA:1.0'
 
 	compile 'mysql:mysql-connector-java:6.0.4'
 
 	compile 'net.sf.trove4j:trove4j:3.0.3'
 
-	compile 'net.bytebuddy:byte-buddy:1.6.9'
+//	compile 'net.bytebuddy:byte-buddy:1.6.9'
 }
 
 task wrapper(type: Wrapper) {

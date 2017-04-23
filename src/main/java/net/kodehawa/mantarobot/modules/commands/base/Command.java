@@ -1,13 +1,17 @@
-package net.kodehawa.mantarobot.modules.commands;
+package net.kodehawa.mantarobot.modules.commands.base;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 
+/**
+ * Interface used for handling commands within the bot.
+ */
 public interface Command {
 	/**
 	 * The Command's {@link Category}
 	 *
-	 * @return a Nullable {@link Category}
+	 * @return a Nullable {@link Category}. Null means that the command should be hidden from Help.
 	 */
 	Category category();
 
@@ -19,6 +23,8 @@ public interface Command {
 	 */
 	MessageEmbed help(GuildMessageReceivedEvent event);
 
+	CommandPermission permission();
+
 	/**
 	 * Invokes the command to be executed.
 	 *
@@ -27,22 +33,4 @@ public interface Command {
 	 * @param content     the arguments of the command
 	 */
 	void run(GuildMessageReceivedEvent event, String commandName, String content);
-
-	/**
-	 * Hides the command from the help command
-	 *
-	 * @return true if the command shouldn't be visible at the help command, false otherwise.
-	 */
-	default boolean hidden() {
-		return false;
-	}
-
-	/**
-	 * Minimal Permission to be checked pre-invocation.
-	 *
-	 * @return a {@link CommandPermission} instance.
-	 */
-	default CommandPermission permission() {
-		return CommandPermission.USER;
-	}
 }

@@ -19,12 +19,13 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.HasPostLoad;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
-import net.kodehawa.mantarobot.modules.commands.Command;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.commands.base.Command;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -42,15 +43,15 @@ import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 
-@RegisterCommand.Class
-public class InfoCmds implements HasPostLoad {
+@Module
+public class InfoCmds {
 	public static Logger LOGGER = LoggerFactory.getLogger("InfoCmds");
 
-	@RegisterCommand
+	@Event
 	public static void about(CommandRegistry cr) {
 		cr.register("about", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!content.isEmpty() && args[0].equals("patreon")) {
 					EmbedBuilder builder = new EmbedBuilder();
 					Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
@@ -134,11 +135,11 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void avatar(CommandRegistry cr) {
 		cr.register("avatar", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
 					return;
@@ -154,11 +155,11 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void guildinfo(CommandRegistry cr) {
 		cr.register("serverinfo", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				Guild guild = event.getGuild();
 				TextChannel channel = event.getChannel();
 
@@ -193,7 +194,7 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void help(CommandRegistry cr) {
 		Random r = new Random();
 		List<String> jokes = Collections.unmodifiableList(Arrays.asList(
@@ -206,7 +207,7 @@ public class InfoCmds implements HasPostLoad {
 
 		cr.register("help", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.isEmpty()) {
 					String defaultPrefix = MantaroData.config().get().prefix, guildPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 					String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
@@ -215,8 +216,7 @@ public class InfoCmds implements HasPostLoad {
 						.setColor(Color.PINK)
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
-								CommandProcessor.REGISTRY.commands().entrySet().stream().filter(
-									(command) -> !command.getValue().hidden()).count()
+								CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
 							, prefix), null);
 
 					Arrays.stream(Category.values())
@@ -250,11 +250,11 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void info(CommandRegistry cr) {
 		cr.register("info", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 				List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
 				int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
@@ -262,7 +262,7 @@ public class InfoCmds implements HasPostLoad {
 
 				event.getChannel().sendMessage("```prolog\n"
 					+ "---MantaroBot Technical Information---\n\n"
-					+ "Commands: " + CommandProcessor.REGISTRY.commands().entrySet().stream().filter((command) -> !command.getValue().hidden()).count() + "\n"
+					+ "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
 					+ "Bot Version: " + MantaroInfo.VERSION + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
 					+ "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
@@ -289,11 +289,11 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void invite(CommandRegistry cr) {
 		cr.register("invite", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
 					.addField("Invite URL", "http://polr.me/mantaro", false)
 					.addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
@@ -308,13 +308,18 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
+	public static void onPostLoad(PostLoadEvent e) {
+		start();
+	}
+
+	@Event
 	public static void ping(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
 		cr.register("ping", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!rateLimiter.process(event.getMember())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Uh-oh. Slowdown buddy.").queue();
 					return;
@@ -351,11 +356,11 @@ public class InfoCmds implements HasPostLoad {
 		return "slow af. :dizzy_face: ";
 	}
 
-	@RegisterCommand
+	@Event
 	public static void shard(CommandRegistry cr) {
 		cr.register("shardinfo", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				StringBuilder builder = new StringBuilder();
 				for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
 					builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
@@ -381,11 +386,11 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void stats(CommandRegistry cr) {
 		cr.register("stats", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.isEmpty()) {
 					GuildStatsManager.MILESTONE = (((MantaroBot.getInstance().getGuilds().size() + 99) / 100) * 100) + 100;
 					List<Guild> guilds = MantaroBot.getInstance().getGuilds();
@@ -545,11 +550,11 @@ public class InfoCmds implements HasPostLoad {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void userinfo(CommandRegistry cr) {
 		cr.register("userinfo", Commands.newSimple(Category.INFO)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				User user = event.getMessage().getMentionedUsers().size() > 0 ? event.getMessage().getMentionedUsers().get(0) : event.getAuthor();
 				Member member = event.getGuild().getMember(user);
 				if (member == null) {
@@ -584,10 +589,5 @@ public class InfoCmds implements HasPostLoad {
 				.addField("Usage:", "`~>userinfo @User`: Get information about the specific user.\n`~>userinfo`: Get information about yourself!", false)
 				.build())
 			.build());
-	}
-
-	@Override
-	public void onPostLoad() {
-		start();
 	}
 }

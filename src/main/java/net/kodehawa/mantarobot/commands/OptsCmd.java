@@ -11,12 +11,13 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
-import net.kodehawa.mantarobot.modules.commands.Command;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-@RegisterCommand.Class
+@Module
 public class OptsCmd {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Options");
 	private static final Map<String, BiConsumer<GuildMessageReceivedEvent, String[]>> options = new HashMap<>();
@@ -635,7 +636,7 @@ public class OptsCmd {
 		event.getChannel().sendMessage(optsCmd.help(event)).queue();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = Commands.newSimple(Category.MODERATION)
 			.permission(CommandPermission.ADMIN)
@@ -644,7 +645,7 @@ public class OptsCmd {
 					"All values set are local rather than global, meaning that they will only effect this server.", false)
 				.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
 				.build())
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (args.length < 2) {
 					event.getChannel().sendMessage(thiz.help(event)).queue();
 					return;

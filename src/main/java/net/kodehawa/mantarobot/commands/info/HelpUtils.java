@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.kodehawa.mantarobot.core.CommandProcessor;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 
 import java.util.Collection;
 import java.util.Map.Entry;

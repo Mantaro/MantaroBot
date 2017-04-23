@@ -17,9 +17,10 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -31,18 +32,18 @@ import java.util.stream.Stream;
 
 import static com.rethinkdb.RethinkDB.r;
 
-@RegisterCommand.Class
+@Module
 public class CurrencyCmds {
 	/*
 	TODO NEXT:
 	 - cross-bot transfer command
 	*/
 
-	@RegisterCommand
+	@Event
 	public static void daily(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 		Random r = new Random();
-		cr.register("daily", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("daily", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String id = event.getAuthor().getId();
@@ -85,12 +86,12 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void gamble(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 		Random r = new Random();
 
-		cr.register("gamble", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String id = event.getAuthor().getId();
@@ -183,9 +184,9 @@ public class CurrencyCmds {
 		return shard1 == null ? null : shard1.getUserById(id);
 	}
 
-	@RegisterCommand
+	@Event
 	public static void inventory(CommandRegistry cr) {
-		cr.register("inventory", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Player user = MantaroData.db().getPlayer(event.getMember());
@@ -212,12 +213,12 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void loot(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
 		Random r = new Random();
 
-		cr.register("loot", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("loot", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
@@ -278,9 +279,9 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void market(CommandRegistry cr) {
-		cr.register("market", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("market", new SimpleCommand(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
 			@Override
@@ -426,9 +427,9 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void marry(CommandRegistry cr) {
-		cr.register("marry", new SimpleCommandCompat(Category.FUN) {
+		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length > 0 && args[0].equals("divorce")) {
@@ -520,9 +521,9 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void profile(CommandRegistry cr) {
-		cr.register("profile", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("profile", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Player player = MantaroData.db().getPlayer(event.getMember());
@@ -566,9 +567,9 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void rep(CommandRegistry cr) {
-		cr.register("rep", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("rep", new SimpleCommand(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
 
 			@Override
@@ -611,9 +612,9 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void richest(CommandRegistry cr) {
-		cr.register("richest", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("richest", new SimpleCommand(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
 
 			@Override
@@ -661,10 +662,10 @@ public class CurrencyCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void transfer(CommandRegistry cr) {
 		//for now, local transfer.
-		cr.register("transfer", new SimpleCommandCompat(Category.CURRENCY) {
+		cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {

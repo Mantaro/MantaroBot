@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.data;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
-import net.kodehawa.mantarobot.utils.crossbot.CrossBotDataManager;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
@@ -17,7 +16,6 @@ public class MantaroData {
 	private static GsonDataManager<Config> config;
 	private static Connection conn;
 	private static ConnectionWatcherDataManager connectionWatcher;
-	private static CrossBotDataManager crossBot;
 	private static ManagedDatabase db;
 	private static ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 
@@ -37,24 +35,6 @@ public class MantaroData {
 			connectionWatcher = new ConnectionWatcherDataManager(MantaroBot.cwport);
 		}
 		return connectionWatcher;
-	}
-
-	public static CrossBotDataManager crossBot() {
-		if (crossBot == null) {
-			Config config = config().get();
-			CrossBotDataManager.Builder builder;
-			if (config.crossBotServer) {
-				builder = new CrossBotDataManager.Builder(CrossBotDataManager.Builder.Type.SERVER);
-			} else {
-				builder = new CrossBotDataManager.Builder(CrossBotDataManager.Builder.Type.CLIENT).name("Mantaro").host(config.crossBotHost);
-			}
-			crossBot = builder
-				.async(true, 10) //try to send everything on the queue every 10ms
-				.port(config.crossBotPort)
-				.build();
-		}
-
-		return crossBot;
 	}
 
 	public static ManagedDatabase db() {

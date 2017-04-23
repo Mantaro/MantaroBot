@@ -4,10 +4,10 @@ import br.com.brjdevs.java.utils.RateLimiter;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,7 +17,7 @@ public class BugreportCmds {
 	//How about removing it and using smth called GITHUB?
 
 	public static void admin(CommandRegistry cr) {
-		cr.register("bug", new SimpleCommandCompat(Category.UTILS) {
+		cr.register("bug", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				/*if(args.length < 2) {
@@ -74,9 +74,9 @@ public class BugreportCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void report(CommandRegistry cr) {
-		cr.register("bugreport", new SimpleCommandCompat(Category.UTILS) {
+		cr.register("bugreport", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				/*if(content.isEmpty()) {

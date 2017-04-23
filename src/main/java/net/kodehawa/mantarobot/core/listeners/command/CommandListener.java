@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
-import br.com.brjdevs.highhacks.eventbus.Listener;
 import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -9,7 +8,6 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -19,7 +17,6 @@ import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.Snow64;
-import net.kodehawa.mantarobot.utils.commands.Cleverbot;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Map;
@@ -56,7 +53,6 @@ public class CommandListener implements EventListener {
 		this.shardId = shardId;
 	}
 
-	@Listener
 	@Override
 	public void onEvent(Event event) {
 		if (event instanceof ShardMonitorEvent) {
@@ -91,13 +87,6 @@ public class CommandListener implements EventListener {
 		messageCache.put(event.getMessage().getId(), Optional.of(event.getMessage()));
 
 		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())) {
-			return;
-		}
-
-		//Cleverbot.
-		SelfUser self = event.getJDA().getSelfUser();
-		if (event.getMessage().getRawContent().startsWith("<@" + self.getId() + '>') || event.getMessage().getRawContent().startsWith("<@!" + self.getId() + '>')) {
-			Cleverbot.handle(event);
 			return;
 		}
 

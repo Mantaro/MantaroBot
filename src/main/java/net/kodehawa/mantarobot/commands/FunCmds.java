@@ -2,22 +2,23 @@ package net.kodehawa.mantarobot.commands;
 
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Random;
 
-@RegisterCommand.Class
+@Module
 public class FunCmds {
 
-	@RegisterCommand
+	@Event
 	public static void coinflip(CommandRegistry cr) {
 		cr.register("coinflip", Commands.newSimple(Category.FUN)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				int times;
 				if (args.length == 0 || content.length() == 0) times = 1;
 				else {
@@ -51,11 +52,11 @@ public class FunCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void dice(CommandRegistry cr) {
 		cr.register("roll", Commands.newSimple(Category.FUN)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				int roll;
 				try {
 					roll = Integer.parseInt(args[0]);

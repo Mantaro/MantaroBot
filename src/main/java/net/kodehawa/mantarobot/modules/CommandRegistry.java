@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.modules;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.Command;
+import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;

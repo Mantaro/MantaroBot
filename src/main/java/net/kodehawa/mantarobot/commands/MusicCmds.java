@@ -14,11 +14,12 @@ import net.kodehawa.mantarobot.commands.music.TrackScheduler;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -31,14 +32,14 @@ import java.util.stream.IntStream;
 import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
-@RegisterCommand.Class
+@Module
 public class MusicCmds {
 
-	@RegisterCommand
+	@Event
 	public static void forceskip(CommandRegistry cr) {
 		cr.register("forceskip", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.ADMIN)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
 					.getGuild().getAudioManager().getConnectedChannel())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm in!").queue();
@@ -60,9 +61,20 @@ public class MusicCmds {
 		return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
 	}
 
-	@RegisterCommand
+	@Event
 	public static void move(CommandRegistry cr) {
-		cr.register("move", new SimpleCommandCompat(Category.MUSIC) {
+		cr.register("move", new SimpleCommand(Category.MUSIC) {
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Voice Channel move command")
+					.setDescription("Move me from one VC to another")
+					.addField("Usage", "~>move <vc>", false)
+					.addField("Parameters", "vc: voice channel to move the bot to (exact name, case-insensitive).", false)
+					.addField("Special cases", "If you don't specify a channel name, I will try to move to the channel you're in, " +
+						"as long as it's not the same one I'm in currently!", false)
+					.build();
+			}
+
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Guild guild = event.getGuild();
@@ -105,22 +117,13 @@ public class MusicCmds {
 				}
 			}
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Voice Channel move command")
-					.setDescription("Move me from one VC to another")
-					.addField("Usage", "~>move <vc>", false)
-					.addField("Parameters", "vc: voice channel to move the bot to (exact name, case-insensitive).", false)
-					.addField("Special cases", "If you don't specify a channel name, I will try to move to the channel you're in, " +
-						"as long as it's not the same one I'm in currently!", false)
-					.build();
-			}
+
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void np(CommandRegistry cr) {
-		cr.register("np", new SimpleCommandCompat(Category.MUSIC) {
+		cr.register("np", new SimpleCommand(Category.MUSIC) {
 			@Override
 			public CommandPermission permission() {
 				return CommandPermission.USER;
@@ -152,9 +155,9 @@ public class MusicCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void pause(CommandRegistry cr) {
-		cr.register("pause", new SimpleCommandCompat(Category.MUSIC) {
+		cr.register("pause", new SimpleCommand(Category.MUSIC) {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Pause Command")
@@ -185,11 +188,11 @@ public class MusicCmds {
 		});
 	}
 
-	@RegisterCommand
+	@Event
 	public static void play(CommandRegistry cr) {
 		cr.register("play", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.trim().isEmpty()) {
 					thiz.onHelp(event);
 					return;
@@ -214,11 +217,11 @@ public class MusicCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void queue(CommandRegistry cr) {
 		cr.register("queue", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 				int page = 0;
 				try {
@@ -243,11 +246,11 @@ public class MusicCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void removetrack(CommandRegistry cr) {
 		cr.register("removetrack", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
 					.getGuild().getAudioManager().getConnectedChannel())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You are not connected to the voice channel I am currently " +
@@ -338,11 +341,11 @@ public class MusicCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void repeat(CommandRegistry cr) {
 		cr.register("repeat", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
 					.getGuild().getAudioManager().getConnectedChannel())) {
 					sendNotConnectedToMyChannel(event.getChannel());
@@ -388,11 +391,11 @@ public class MusicCmds {
 			"playing in!").queue();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void shuffle(CommandRegistry cr) {
 		cr.register("shuffle", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
 					.getGuild().getAudioManager().getConnectedChannel())) {
 					sendNotConnectedToMyChannel(event.getChannel());
@@ -408,11 +411,11 @@ public class MusicCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void skip(CommandRegistry cr) {
 		cr.register("skip", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				try {
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals
 						(event.getGuild().getAudioManager().getConnectedChannel())) {
@@ -454,11 +457,11 @@ public class MusicCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void stop(CommandRegistry cr) {
 		cr.register("stop", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				try {
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals
 						(event.getGuild().getAudioManager().getConnectedChannel())) {
@@ -511,11 +514,11 @@ public class MusicCmds {
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void volume(CommandRegistry cr) {
 		cr.register("volume", Commands.newSimple(Category.MUSIC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (MantaroData.db().getUser(event.getMember()).isPremium() ||
 					MantaroData.db().getGuild(event.getMember()).isPremium() ||
 					MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {

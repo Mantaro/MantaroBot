@@ -4,8 +4,6 @@ import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
-import frederikam.jca.JCA;
-import frederikam.jca.JCABuilder;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
@@ -20,17 +18,17 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.HasPostLoad;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.events.EventDispatcher;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 
 import javax.annotation.Nonnull;
-import java.io.PrintStream;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.Future;
 
@@ -41,7 +39,6 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 public class MantaroBot extends ShardedJDA {
 	public static final boolean DEBUG = System.getProperty("mantaro.debug", null) != null;
 
-	public static JCA CLEVERBOT;
 	public static int cwport;
 	private static MantaroBot instance;
 	private static LoadState status = PRELOAD;
@@ -57,28 +54,8 @@ public class MantaroBot extends ShardedJDA {
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose", null) != null) {
-			System.setOut(new PrintStream(System.out) {
-				@Override
-				public void println(String s) {
-					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-					String current = stackTrace[2].toString();
-					int i = 3;
-					while ((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
-						current = stackTrace[i++].toString();
-					super.println("[" + current + "]: " + s);
-				}
-			});
-			System.setErr(new PrintStream(System.err) {
-				@Override
-				public void println(String s) {
-					StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-					String current = stackTrace[2].toString();
-					int i = 3;
-					while ((current.startsWith("sun.") || current.startsWith("java.")) && i < stackTrace.length)
-						current = stackTrace[i++].toString();
-					super.println("[" + current + "]: " + s);
-				}
-			});
+			System.setOut(new CompactPrintStream(System.out));
+			System.setErr(new CompactPrintStream(System.err));
 		}
 
 		if (args.length > 0) {
@@ -122,8 +99,10 @@ public class MantaroBot extends ShardedJDA {
 		log.info("MantaroBot starting...");
 
 		Config config = MantaroData.config().get();
-		Future<Set<Class<?>>> classesAsync = Async.future(() -> new Reflections("net.kodehawa.mantarobot.commands").getTypesAnnotatedWith(RegisterCommand.Class.class));
-		Async.thread("CleverBot Builder", () -> CLEVERBOT = new JCABuilder().setUser(config.getCleverbotUser()).setKey(config.getCleverbotKey()).buildBlocking());
+
+		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
+			new Reflections("net.kodehawa.mantarobot.commands").getTypesAnnotatedWith(Module.class)
+		);
 
 		totalShards = getRecommendedShards(config);
 		shards = new MantaroShard[totalShards];
@@ -131,7 +110,7 @@ public class MantaroBot extends ShardedJDA {
 
 		for (int i = 0; i < totalShards; i++) {
 			log.info("Starting shard #" + i + " of " + totalShards);
-			MantaroEventManager manager = new MantaroEventManager(i);
+			MantaroEventManager manager = new MantaroEventManager();
 			managers.add(manager);
 			shards[i] = new MantaroShard(i, totalShards, manager);
 			log.debug("Finished loading shard #" + i + ".");
@@ -149,7 +128,7 @@ public class MantaroBot extends ShardedJDA {
 					Thread.sleep(wait);
 					MantaroEventManager.getLog().info("Checking shards...");
 					ShardMonitorEvent sme = new ShardMonitorEvent(totalShards);
-					managers.forEach(manager -> manager.handleSync(sme));
+					managers.forEach(manager -> manager.handle(sme));
 					int[] dead = sme.getDeadShards();
 					if (dead.length != 0) {
 						MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
@@ -169,6 +148,7 @@ public class MantaroBot extends ShardedJDA {
 		log.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		log.info("Started bot instance.");
 		log.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
+
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
@@ -178,37 +158,19 @@ public class MantaroBot extends ShardedJDA {
 
 		MantaroData.config().save();
 
-		Set<HasPostLoad> modules = new HashSet<>();
-		for (Class<?> c : classesAsync.get()) {
-			try {
-				Object instance = null;
-				if (HasPostLoad.class.isAssignableFrom(c)) {
-					instance = c.newInstance();
-					modules.add((HasPostLoad) instance);
-				}
-				for (Method m : c.getMethods()) {
-					if (m.getAnnotation(RegisterCommand.class) == null) continue;
-					if (!Modifier.isStatic(m.getModifiers()) && instance == null) {
-						instance = c.newInstance();
-					}
-					Class<?>[] params = m.getParameterTypes();
-					if (params.length != 1 || params[0] != CommandRegistry.class) {
-						throw new IllegalArgumentException("Invalid method: " + m);
-					}
-					m.invoke(instance, CommandProcessor.REGISTRY);
-				}
-			} catch (InstantiationException e) {
-				log.error("Cannot initialize a command", e);
-			} catch (IllegalAccessException e) {
-				log.error("Cannot access a command class!", e);
-			}
-		}
+		Set<Method> events = new Reflections(classes.get()).getMethodsAnnotatedWith(Event.class);
+
+		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
 		status = POSTLOAD;
 		log.info("Finished loading basic components. Status is now set to POSTLOAD");
-		modules.forEach(HasPostLoad::onPostLoad);
+
+		EventDispatcher.dispatch(events, new PostLoadEvent());
 
 		log.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + totalShards + " shards.");
+
+		//Free Instances
+		EventDispatcher.instances.clear();
 	}
 
 	public Guild getGuildById(String guildId) {

@@ -21,11 +21,12 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
@@ -49,7 +50,7 @@ import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
-@RegisterCommand.Class
+@Module
 public class OwnerCmd {
 	private interface Evaluator {
 		Object eval(GuildMessageReceivedEvent event, String code);
@@ -71,11 +72,11 @@ public class OwnerCmd {
 		return ret.append(right).append("\n").toString();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void blacklist(CommandRegistry cr) {
 		cr.register("blacklist", Commands.newSimple(Category.OWNER)
 			.permission(CommandPermission.OWNER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				MantaroObj obj = MantaroData.db().getMantaroData();
 				if (args[0].equals("guild")) {
 					if (args[1].equals("add")) {
@@ -174,7 +175,7 @@ public class OwnerCmd {
 			.toArray(CompletableFuture[]::new));
 	}
 
-	@RegisterCommand
+	@Event
 	public static void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {
@@ -274,7 +275,26 @@ public class OwnerCmd {
 		});
 
 		//This command will keep being SimpleCommandCompat.
-		cr.register("owner", new SimpleCommandCompat(Category.OWNER) {
+		cr.register("owner", new SimpleCommand(Category.OWNER) {
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Owner command")
+					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
+						"~>owner restart/forcerestart: Restarts the bot.\n" +
+						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
+						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
+						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
+						"~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
+						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
+					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
+					.build();
+			}
+
+			@Override
+			public CommandPermission permission() {
+				return CommandPermission.OWNER;
+			}
+
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 1) {
@@ -638,25 +658,6 @@ public class OwnerCmd {
 			@Override
 			public String[] splitArgs(String content) {
 				return SPLIT_PATTERN.split(content, 2);
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Owner command")
-					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
-						"~>owner restart/forcerestart: Restarts the bot.\n" +
-						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
-						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
-						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
-						"~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
-						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
-					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
-					.build();
-			}
-
-			@Override
-			public CommandPermission permission() {
-				return CommandPermission.OWNER;
 			}
 
 		});

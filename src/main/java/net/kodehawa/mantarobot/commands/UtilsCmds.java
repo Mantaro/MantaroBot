@@ -13,11 +13,12 @@ import net.kodehawa.mantarobot.commands.utils.data.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -43,15 +44,15 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Slf4j
-@RegisterCommand.Class
+@Module
 public class UtilsCmds {
 	private static final Resty resty = new Resty();
 
-	@RegisterCommand
+	@Event
 	public static void birthday(CommandRegistry cr) {
 		cr.register("birthday", Commands.newSimple(Category.UTILS)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 				DBUser user = MantaroData.db().getUser(event.getAuthor());
 				if (content.isEmpty()) {
@@ -138,9 +139,9 @@ public class UtilsCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void choose(CommandRegistry registry) {
-		registry.register("choose", new SimpleCommandCompat(Category.UTILS) {
+		registry.register("choose", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				event.getChannel().sendMessage("I choose ``" + random(args) + "``").queue();
@@ -169,11 +170,11 @@ public class UtilsCmds {
 		return DateFormat.getInstance().format(date1);
 	}
 
-	@RegisterCommand
+	@Event
 	public static void googleSearch(CommandRegistry cr) {
 		cr.register("google", Commands.newSimple(Category.UTILS)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				StringBuilder b = new StringBuilder();
 				EmbedBuilder builder = new EmbedBuilder();
 				List<Crawler.SearchResult> result = Crawler.get(content);
@@ -200,11 +201,11 @@ public class UtilsCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void time(CommandRegistry cr) {
 		cr.register("time", Commands.newSimple(Category.UTILS)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				try {
 					if (content.startsWith("GMT")) {
 						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(content) + " in the " + content + " " +
@@ -224,11 +225,11 @@ public class UtilsCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void translate(CommandRegistry cr) {
 		cr.register("translate", Commands.newSimple(Category.UTILS)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				try {
 					TextChannel channel = event.getChannel();
 
@@ -286,11 +287,11 @@ public class UtilsCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void urban(CommandRegistry cr) {
 		cr.register("urban", Commands.newSimple(Category.UTILS)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				String beheadedSplit[] = content.split("->");
 				EmbedBuilder embed = new EmbedBuilder();
 
@@ -362,11 +363,11 @@ public class UtilsCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void weather(CommandRegistry cr) {
 		cr.register("weather", Commands.newSimple(Category.FUN)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.isEmpty()) {
 					thiz.onHelp(event);
 					return;
@@ -424,11 +425,11 @@ public class UtilsCmds {
 			.build());
 	}
 
-	@RegisterCommand
+	@Event
 	public static void ytmp3(CommandRegistry cr) {
 		cr.register("ytmp3", Commands.newSimple(Category.FUN)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				YoutubeMp3Info info = YoutubeMp3Info.forLink(content);
 
 				if (info == null) {

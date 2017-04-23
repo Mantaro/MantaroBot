@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.music.listener;
 
-import br.com.brjdevs.highhacks.eventbus.Listener;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -29,7 +28,6 @@ public class VoiceChannelListener implements EventListener {
 		this.shardId = shardId;
 	}
 
-	@Listener
 	@Override
 	public void onEvent(Event e) {
 		if (e instanceof ShardMonitorEvent) {

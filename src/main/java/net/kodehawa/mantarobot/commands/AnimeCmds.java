@@ -11,11 +11,12 @@ import net.kodehawa.mantarobot.commands.utils.data.AnimeData;
 import net.kodehawa.mantarobot.commands.utils.data.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.HasPostLoad;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommandCompat;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -27,13 +28,25 @@ import java.net.URLEncoder;
 import java.util.stream.Collectors;
 
 @Slf4j
-@RegisterCommand.Class
-public class AnimeCmds implements HasPostLoad {
+@Module
+public class AnimeCmds {
 	public static String authToken;
 
-	@RegisterCommand
+	@Event
 	public static void anime(CommandRegistry cr) {
-		cr.register("anime", new SimpleCommandCompat(Category.FUN) {
+		cr.register("anime", new SimpleCommand(Category.FUN) {
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Anime command")
+					.setDescription("Get anime info from **AniList** (For anime characters use ~>character).\n"
+						+ "Usage: \n"
+						+ "~>anime <animename>: Retrieve information of an anime based on the name.\n"
+						+ "Parameter description:\n"
+						+ "animename: The name of the anime you are looking for. Keep queries similar to their english names!\n")
+					.setColor(Color.PINK)
+					.build();
+			}
+
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
@@ -62,18 +75,6 @@ public class AnimeCmds implements HasPostLoad {
 					}
 					event.getChannel().sendMessage(EmoteReference.ERROR + "**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
 				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Anime command")
-					.setDescription("Get anime info from **AniList** (For anime characters use ~>character).\n"
-						+ "Usage: \n"
-						+ "~>anime <animename>: Retrieve information of an anime based on the name.\n"
-						+ "Parameter description:\n"
-						+ "animename: The name of the anime you are looking for. Keep queries similar to their english names!\n")
-					.setColor(Color.PINK)
-					.build();
 			}
 
 			@Override
@@ -114,9 +115,30 @@ public class AnimeCmds implements HasPostLoad {
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
 
-	@RegisterCommand
+	/**
+	 * returns the new AniList access token.
+	 */
+	public static void authenticate() {
+		String aniList = "https://anilist.co/api/auth/access_token";
+		String CLIENT_ID = "kodehawa-o43eq";
+		try {
+			authToken = Unirest.post(aniList)
+				.header("User-Agent", "Mantaro")
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret)
+				.asJson()
+				.getBody()
+				.getObject().getString("access_token");
+			log.info("Updated auth token.");
+		} catch (Exception e) {
+			log.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
+			log.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
+		}
+	}
+
+	@Event
 	public static void character(CommandRegistry cr) {
-		cr.register("character", new SimpleCommandCompat(Category.FUN) {
+		cr.register("character", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
@@ -180,31 +202,8 @@ public class AnimeCmds implements HasPostLoad {
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
 
-	private final String CLIENT_SECRET = MantaroData.config().get().alsecret;
-
-	@Override
-	public void onPostLoad() {
-		Async.task("AniList Login Task", this::authenticate, 1900);
-	}
-
-	/**
-	 * returns the new AniList access token.
-	 */
-	public void authenticate() {
-		String aniList = "https://anilist.co/api/auth/access_token";
-		String CLIENT_ID = "kodehawa-o43eq";
-		try {
-			authToken = Unirest.post(aniList)
-				.header("User-Agent", "Mantaro")
-				.header("Content-Type", "application/x-www-form-urlencoded")
-				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + CLIENT_SECRET)
-				.asJson()
-				.getBody()
-				.getObject().getString("access_token");
-			log.info("Updated auth token.");
-		} catch (Exception e) {
-			log.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
-			log.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
-		}
+	@Event
+	public static void onPostLoad(PostLoadEvent e) {
+		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900);
 	}
 }

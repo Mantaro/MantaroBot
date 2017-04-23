@@ -11,10 +11,11 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
@@ -23,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-@RegisterCommand.Class
+@Module
 public class QuoteCmd {
 	private static MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote) {
 		builder.setAuthor(quote.getUserName() + " said: ", null, quote.getUserAvatar())
@@ -34,11 +35,11 @@ public class QuoteCmd {
 		return builder.build();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void quote(CommandRegistry cr) {
 		cr.register("quote", Commands.newSimple(Category.MISC)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.isEmpty()) {
 					thiz.onHelp(event);
 					return;

@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.Category;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.NoArgsCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -38,6 +38,24 @@ public class ImageActionCmd extends NoArgsCommand {
 	}
 
 	@Override
+	public Category category() {
+		return Category.ACTION;
+	}
+
+	@Override
+	public MessageEmbed help(GuildMessageReceivedEvent event) {
+		return helpEmbed(event, name)
+			.setDescription(desc)
+			.setColor(color)
+			.build();
+	}
+
+	@Override
+	public CommandPermission permission() {
+		return CommandPermission.USER;
+	}
+
+	@Override
 	protected void call(GuildMessageReceivedEvent event) {
 		String random = random(images);
 		try {
@@ -57,24 +75,6 @@ public class ImageActionCmd extends NoArgsCommand {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I'd like to know what happened, but I couldn't send the image.").queue();
 			log.error("Error while performing Action Command ``" + name + "``. The image ``" + random + "`` throwed an Exception.", e);
 		}
-	}
-
-	@Override
-	public CommandPermission permission() {
-		return CommandPermission.USER;
-	}
-
-	@Override
-	public Category category() {
-		return Category.ACTION;
-	}
-
-	@Override
-	public MessageEmbed help(GuildMessageReceivedEvent event) {
-		return helpEmbed(event, name)
-			.setDescription(desc)
-			.setColor(color)
-			.build();
 	}
 
 	private String mentions(GuildMessageReceivedEvent event) {

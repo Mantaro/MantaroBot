@@ -11,10 +11,11 @@ import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 @Slf4j
-@RegisterCommand.Class
+@Module
 public class OsuStatsCmd {
 	private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
 	private static Map<String, Object> map = new HashMap<>();
@@ -82,11 +83,11 @@ public class OsuStatsCmd {
 		return finalResponse;
 	}
 
-	@RegisterCommand
+	@Event
 	public static void osustats(CommandRegistry cr) {
 		cr.register("osustats", Commands.newSimple(Category.GAMES)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				String noArgs = content.split(" ")[0];
 				TextChannelGround.of(event).dropItemWithChance(4, 5);
 				switch (noArgs) {

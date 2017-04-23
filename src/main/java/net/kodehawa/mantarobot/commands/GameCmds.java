@@ -11,10 +11,11 @@ import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Commands;
-import net.kodehawa.mantarobot.modules.RegisterCommand;
-import net.kodehawa.mantarobot.modules.commands.Category;
+import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Arrays;
@@ -22,14 +23,14 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 @Slf4j
-@RegisterCommand.Class
+@Module
 public class GameCmds {
 
-	@RegisterCommand
+	@Event
 	public static void guess(CommandRegistry cr) {
 		cr.register("game", Commands.newSimple(Category.GAMES)
 			.permission(CommandPermission.USER)
-			.code((thiz, event, content, args) -> {
+			.onCall((thiz, event, content, args) -> {
 				if (content.isEmpty()) {
 					thiz.onHelp(event);
 					return;
@@ -117,11 +118,11 @@ public class GameCmds {
 		lobby.startFirstGame();
 	}
 
-	@RegisterCommand
+	@Event
 	public static void trivia(CommandRegistry cr) {
 		cr.register("trivia", Commands.newSimple(Category.GAMES)
 			.permission(CommandPermission.USER)
-			.code(event -> startGame(new Trivia(), event))
+			.onCall(event -> startGame(new Trivia(), event))
 			.help((thiz, event) -> thiz.helpEmbed(event, "Trivia command.")
 				.setDescription("Starts an instance of trivia.")
 				.build())
