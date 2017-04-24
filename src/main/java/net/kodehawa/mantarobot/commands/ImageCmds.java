@@ -12,7 +12,7 @@ import net.kodehawa.lib.imageboard.e621.main.e621;
 import net.kodehawa.lib.imageboard.konachan.main.Konachan;
 import net.kodehawa.lib.imageboard.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.imageboard.rule34.main.Rule34;
-import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.data.ImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;

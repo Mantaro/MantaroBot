@@ -8,11 +8,8 @@ import java.beans.Transient;
 public class PlayerData {
 	public long experience = 0;
 	private String marriedWith = null;
-
-	@Transient
-	public void incrementExperience() {
-		experience = experience++;
-	}
+	private Long marriedSince = null;
+	private String description = null;
 
 	@Transient
 	public boolean isMarried() {

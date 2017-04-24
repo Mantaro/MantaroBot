@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.data.entities.helpers;
 
-import net.kodehawa.mantarobot.commands.rpg.item.Item;
-import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
-import net.kodehawa.mantarobot.commands.rpg.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 
 import java.util.*;
 import java.util.stream.Collectors;

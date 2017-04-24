@@ -7,11 +7,11 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
-import net.kodehawa.mantarobot.commands.rpg.RateLimiter;
-import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
-import net.kodehawa.mantarobot.commands.rpg.item.Item;
-import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
-import net.kodehawa.mantarobot.commands.rpg.item.Items;
+import net.kodehawa.mantarobot.commands.currency.RateLimiter;
+import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.rethinkdb.RethinkDB.r;
+import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class CurrencyCmds {
@@ -438,12 +440,15 @@ public class CurrencyCmds {
 						User user1 = getUserById(user.getData().getMarriedWith());
 						Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
 						marriedWith.getData().setMarriedWith(null);
+						marriedWith.getData().setMarriedSince(0L);
 						user.getData().setMarriedWith(null);
+						user.getData().setMarriedSince(0L);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 						marriedWith.save();
 						user.save();
 					} catch (NullPointerException e) {
 						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedWith(null);
+						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedSince(0L);
 						MantaroData.db().getPlayer(event.getMember()).save();
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 					}
@@ -522,6 +527,40 @@ public class CurrencyCmds {
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Player player = MantaroData.db().getPlayer(event.getMember());
 				User author = event.getAuthor();
+
+				if(args.length > 0 && args[0].equals("description")){
+					if(args.length == 1){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide an argument! (set or remove)\n" +
+								"for example, ~>profile description set Hi there!").queue();
+						return;
+					}
+
+					if(args[1].equals("set")){
+						int MAX_LENGTH = 300;
+						if(MantaroData.db().getUser(author).isPremium()) MAX_LENGTH = 500;
+						String content1 = SPLIT_PATTERN.split(content, 3)[2];
+
+						if(content1.length() > MAX_LENGTH){
+							event.getChannel().sendMessage(EmoteReference.ERROR +
+									"The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`").queue();
+							return;
+						}
+
+						player.getData().setDescription(content1);
+						event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
+								"Check your shiny new profile with `~>profile`").queue();
+						player.saveAsync();
+						return;
+					}
+
+					if(args[1].equals("reset")){
+						player.getData().setDescription(null);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset description.").queue();
+						player.saveAsync();
+						return;
+					}
+				}
+
 				UserData user = MantaroData.db().getUser(event.getMember()).getData();
 				Member member = event.getMember();
 
@@ -539,17 +578,32 @@ public class CurrencyCmds {
 				}
 
 				User user1 = getUserById(player.getData().getMarriedWith());
+				String marriedSince = null;
+				String anniversary = null;
 
-				event.getChannel().sendMessage(baseEmbed(event, member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+				if(player.getData().getMarriedSince() != null && player.getData().getMarriedSince() > 0){
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+					final Date date = new Date(player.getData().getMarriedSince());
+					marriedSince = sdf.format(date);
+
+					Calendar cal = new GregorianCalendar();
+					cal.setTime(new Date());
+					cal.add(Calendar.YEAR, 1);
+					//TODO implement
+					anniversary = sdf.format(cal.getTime());
+				}
+
+				event.getChannel().sendMessage(baseEmbed(event, (user1 == null && !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.setThumbnail(author.getEffectiveAvatarUrl())
-					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
-					.addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() + ")", true)
-					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
-					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
-					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
-					.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator(), true)
-					.build()
-				).queue();
+						.setDescription(player.getData().getDescription() == null ? "No description set" : player.getData().getDescription())
+						.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
+						.addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() + ")", true)
+						.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
+						.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+						.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
+						.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator() + (marriedSince == null ? "" : " (Since: " + marriedSince + ")"), true)
+						.build()
+						).queue();
 			}
 
 			@Override

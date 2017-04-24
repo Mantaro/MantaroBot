@@ -1,10 +1,10 @@
-package net.kodehawa.mantarobot.commands.rpg;
+package net.kodehawa.mantarobot.commands.currency;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.rpg.item.Item;
-import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
-import net.kodehawa.mantarobot.commands.rpg.item.Items;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

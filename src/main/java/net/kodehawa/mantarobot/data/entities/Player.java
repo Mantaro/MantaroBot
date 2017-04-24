@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.commands.rpg.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.data.entities.helpers.PlayerData;
