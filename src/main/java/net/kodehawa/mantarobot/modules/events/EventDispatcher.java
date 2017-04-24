@@ -14,7 +14,7 @@ public class EventDispatcher {
 	public static Map<Class<?>, Object> instances = new HashMap<>();
 
 	public static void dispatch(Set<Method> methods, Object event) {
-		methods.stream().filter(method -> method.getParameterCount() == 1 && event.getClass().isInstance(method.getParameterTypes()[0]))
+		methods.stream().filter(method -> method.getParameterCount() == 1 && method.getParameterTypes()[0].isAssignableFrom(event.getClass()))
 			.forEach(method -> {
 				try {
 					Object instance = null;

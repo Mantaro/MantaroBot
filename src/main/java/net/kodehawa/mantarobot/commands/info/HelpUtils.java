@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class HelpUtils {
 	public static String forType(Category category) {
 		return forType(CommandProcessor.REGISTRY.commands().entrySet().stream()
-			.filter(entry -> entry.getValue().category() == category && !entry.getValue().hidden())
+			.filter(entry -> entry.getValue().category() == category)
 			.map(Entry::getKey));
 	}
 

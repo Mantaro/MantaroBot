@@ -25,6 +25,11 @@ public class AliasCommand implements Command {
 	}
 
 	@Override
+	public CommandPermission permission() {
+		return command.permission();
+	}
+
+	@Override
 	public void run(GuildMessageReceivedEvent event, String ignored, String content) {
 		command.run(event, commandName, content);
 	}

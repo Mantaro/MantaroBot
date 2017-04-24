@@ -19,6 +19,7 @@ public class TextActionCmd extends NoArgsCommand {
 	private final List<String> strings;
 
 	public TextActionCmd(String name, String desc, Color color, String format, List<String> strings) {
+		super(Category.ACTION);
 		this.name = name;
 		this.desc = desc;
 		this.color = color;
@@ -27,8 +28,8 @@ public class TextActionCmd extends NoArgsCommand {
 	}
 
 	@Override
-	public Category category() {
-		return Category.ACTION;
+	protected void call(GuildMessageReceivedEvent event, String content) {
+		event.getChannel().sendMessage(String.format(format, random(strings))).queue();
 	}
 
 	@Override
@@ -42,10 +43,5 @@ public class TextActionCmd extends NoArgsCommand {
 	@Override
 	public CommandPermission permission() {
 		return CommandPermission.USER;
-	}
-
-	@Override
-	protected void call(GuildMessageReceivedEvent event) {
-		event.getChannel().sendMessage(String.format(format, random(strings))).queue();
 	}
 }

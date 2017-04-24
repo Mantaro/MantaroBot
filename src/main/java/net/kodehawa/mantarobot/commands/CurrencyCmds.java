@@ -34,11 +34,6 @@ import static com.rethinkdb.RethinkDB.r;
 
 @Module
 public class CurrencyCmds {
-	/*
-	TODO NEXT:
-	 - cross-bot transfer command
-	*/
-
 	@Event
 	public static void daily(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);

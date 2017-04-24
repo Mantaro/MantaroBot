@@ -29,6 +29,7 @@ public class ImageActionCmd extends NoArgsCommand {
 	private final String name;
 
 	public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images) {
+		super(Category.ACTION);
 		this.name = name;
 		this.desc = desc;
 		this.color = color;
@@ -38,25 +39,7 @@ public class ImageActionCmd extends NoArgsCommand {
 	}
 
 	@Override
-	public Category category() {
-		return Category.ACTION;
-	}
-
-	@Override
-	public MessageEmbed help(GuildMessageReceivedEvent event) {
-		return helpEmbed(event, name)
-			.setDescription(desc)
-			.setColor(color)
-			.build();
-	}
-
-	@Override
-	public CommandPermission permission() {
-		return CommandPermission.USER;
-	}
-
-	@Override
-	protected void call(GuildMessageReceivedEvent event) {
+	protected void call(GuildMessageReceivedEvent event, String content) {
 		String random = random(images);
 		try {
 			if (mentions(event).isEmpty()) {
@@ -75,6 +58,19 @@ public class ImageActionCmd extends NoArgsCommand {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I'd like to know what happened, but I couldn't send the image.").queue();
 			log.error("Error while performing Action Command ``" + name + "``. The image ``" + random + "`` throwed an Exception.", e);
 		}
+	}
+
+	@Override
+	public MessageEmbed help(GuildMessageReceivedEvent event) {
+		return helpEmbed(event, name)
+			.setDescription(desc)
+			.setColor(color)
+			.build();
+	}
+
+	@Override
+	public CommandPermission permission() {
+		return CommandPermission.USER;
 	}
 
 	private String mentions(GuildMessageReceivedEvent event) {

@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.modules;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -38,5 +39,10 @@ public class CommandRegistry {
 
 	public void register(String s, Command c) {
 		commands.putIfAbsent(s, c);
+	}
+
+	public void registerAlias(String c, String o) {
+		Preconditions.checkArgument(commands.containsKey(o), "Command don't exists");
+		register(c, new AliasCommand(o, commands.get(o)));
 	}
 }
