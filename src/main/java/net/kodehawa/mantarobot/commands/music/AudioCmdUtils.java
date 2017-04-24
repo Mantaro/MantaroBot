@@ -22,71 +22,9 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
-	private static List<List<String>> chunks(List<String> bigList, int n) {
-		List<List<String>> chunks = new ArrayList<>();
-
-		for (int i = 0; i < bigList.size(); i += n) {
-			List<String> chunk = bigList.subList(i, Math.min(bigList.size(), i + n));
-			chunks.add(chunk);
-		}
-
-		return chunks;
-	}
-
 	public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager) {
 		audioManager.closeAudioConnection();
 		event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
-	}
-
-	static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
-		VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
-
-		if (userChannel == null) {
-			event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
-			return false;
-		}
-
-		if (!event.getGuild().getMember(event.getJDA().getSelfUser()).hasPermission(userChannel, Permission.VOICE_CONNECT)) {
-			event.getChannel().sendMessage(":heavy_multiplication_x: I cannot connect to this channel due to the lack of permission.").queue();
-			return false;
-		}
-
-		VoiceChannel guildMusicChannel = null;
-		if (MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel() != null) {
-			guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
-		}
-
-		AudioManager audioManager = event.getGuild().getAudioManager();
-
-		if (guildMusicChannel != null) {
-			if (!userChannel.equals(guildMusicChannel)) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
-				return false;
-			}
-
-			if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-				audioManager.openAudioConnection(userChannel);
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
-			}
-
-			return true;
-		}
-
-		if (audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
-			event.getChannel().sendMessage(String.format(EmoteReference.WARNING + "I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
-			return false;
-		}
-
-		if (audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
-			event.getChannel().sendMessage(String.format(EmoteReference.ERROR + "I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
-			return false;
-		}
-
-		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-			openAudioConnection(event, audioManager, userChannel);
-		}
-
-		return true;
 	}
 
 	public static MessageEmbed embedForQueue(int page, Guild guild, GuildMusicManager musicManager) {
@@ -145,10 +83,6 @@ public class AudioCmdUtils {
 		);
 	}
 
-	static String getDurationMinutes(AudioTrack track) {
-		return getDurationMinutes(track.getInfo().length);
-	}
-
 	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
 		if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
@@ -164,5 +98,71 @@ public class AudioCmdUtils {
 			MantaroData.db().getGuild(event.getGuild()).getData().setMusicChannel(null);
 			MantaroData.db().getGuild(event.getGuild()).save();
 		}
+	}
+
+	static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
+		VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
+
+		if (userChannel == null) {
+			event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
+			return false;
+		}
+
+		if (!event.getGuild().getMember(event.getJDA().getSelfUser()).hasPermission(userChannel, Permission.VOICE_CONNECT)) {
+			event.getChannel().sendMessage(":heavy_multiplication_x: I cannot connect to this channel due to the lack of permission.").queue();
+			return false;
+		}
+
+		VoiceChannel guildMusicChannel = null;
+		if (MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel() != null) {
+			guildMusicChannel = event.getGuild().getVoiceChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getMusicChannel());
+		}
+
+		AudioManager audioManager = event.getGuild().getAudioManager();
+
+		if (guildMusicChannel != null) {
+			if (!userChannel.equals(guildMusicChannel)) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
+				return false;
+			}
+
+			if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
+				audioManager.openAudioConnection(userChannel);
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
+			}
+
+			return true;
+		}
+
+		if (audioManager.isConnected() && !audioManager.getConnectedChannel().equals(userChannel)) {
+			event.getChannel().sendMessage(String.format(EmoteReference.WARNING + "I'm already connected on channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getConnectedChannel().getName())).queue();
+			return false;
+		}
+
+		if (audioManager.isAttemptingToConnect() && !audioManager.getQueuedAudioConnection().equals(userChannel)) {
+			event.getChannel().sendMessage(String.format(EmoteReference.ERROR + "I'm already trying to connect to channel **%s**! (Use the `move` command to move me to another channel)", audioManager.getQueuedAudioConnection().getName())).queue();
+			return false;
+		}
+
+		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
+			openAudioConnection(event, audioManager, userChannel);
+		}
+
+		return true;
+	}
+
+	static String getDurationMinutes(AudioTrack track) {
+		return getDurationMinutes(track.getInfo().length);
+	}
+
+	private static List<List<String>> chunks(List<String> bigList, int n) {
+		List<List<String>> chunks = new ArrayList<>();
+
+		for (int i = 0; i < bigList.size(); i += n) {
+			List<String> chunk = bigList.subList(i, Math.min(bigList.size(), i + n));
+			chunks.add(chunk);
+		}
+
+		return chunks;
 	}
 }

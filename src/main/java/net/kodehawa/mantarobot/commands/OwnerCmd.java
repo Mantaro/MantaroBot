@@ -27,14 +27,13 @@ import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.awt.*;
+import java.awt.Color;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -51,20 +50,6 @@ public class OwnerCmd {
 	}
 
 	private static final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
-
-	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
-		boolean first = true;
-		StringBuilder ret = new StringBuilder();
-		for (int size : sizes) {
-			if (first) {
-				first = false;
-				ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-			} else {
-				ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-			}
-		}
-		return ret.append(right).append("\n").toString();
-	}
 
 	@Event
 	public static void blacklist(CommandRegistry cr) {
@@ -105,74 +90,12 @@ public class OwnerCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Blacklist command")
-						.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
-						.setFooter("Examples", "~>blacklist user add/remove 293884638101897216\n" +
-								"~>blacklist guild add/remove 305408763915927552")
-						.build();
+					.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+					.setFooter("Examples", "~>blacklist user add/remove 293884638101897216\n" +
+						"~>blacklist guild add/remove 305408763915927552")
+					.build();
 			}
 		});
-	}
-
-	private static String getStackTrace(Throwable e) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		return sw.toString();
-	}
-
-	private static String makeAsciiTable(List<String> headers, List<List<String>> table, List<String> footer) {
-		StringBuilder sb = new StringBuilder();
-		int padding = 1;
-		int[] widths = new int[headers.size()];
-		for (int i = 0; i < widths.length; i++) {
-			widths[i] = 0;
-		}
-		for (int i = 0; i < headers.size(); i++) {
-			if (headers.get(i).length() > widths[i]) {
-				widths[i] = headers.get(i).length();
-				if (footer != null) {
-					widths[i] = Math.max(widths[i], footer.get(i).length());
-				}
-			}
-		}
-		for (List<String> row : table) {
-			for (int i = 0; i < row.size(); i++) {
-				String cell = row.get(i);
-				if (cell.length() > widths[i]) {
-					widths[i] = cell.length();
-				}
-			}
-		}
-		sb.append("```").append("\n");
-		String formatLine = "|";
-		for (int width : widths) {
-			formatLine += " %-" + width + "s |";
-		}
-		formatLine += "\n";
-		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-		sb.append(String.format(formatLine, headers.toArray()));
-		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-		for (List<String> row : table) {
-			sb.append(String.format(formatLine, row.toArray()));
-		}
-		if (footer != null) {
-			sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-			sb.append(String.format(formatLine, footer.toArray()));
-		}
-		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
-		sb.append("```");
-		return sb.toString();
-	}
-
-	private static CompletableFuture<Void> notifyMusic(String content) {
-		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
-			.stream()
-			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
-			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null)
-			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk())
-			.map(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(content).submit())
-			.map(future -> (CompletableFuture<Message>) future)
-			.toArray(CompletableFuture[]::new));
 	}
 
 	@Event
@@ -238,6 +161,11 @@ public class OwnerCmd {
 
 		cr.register("owner", new SimpleCommand(Category.OWNER) {
 			@Override
+			public CommandPermission permission() {
+				return CommandPermission.OWNER;
+			}
+
+			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Owner command")
 					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
@@ -249,11 +177,6 @@ public class OwnerCmd {
 						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
 					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
 					.build();
-			}
-
-			@Override
-			public CommandPermission permission() {
-				return CommandPermission.OWNER;
 			}
 
 			@Override
@@ -622,6 +545,82 @@ public class OwnerCmd {
 			}
 
 		});
+	}
+
+	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
+		boolean first = true;
+		StringBuilder ret = new StringBuilder();
+		for (int size : sizes) {
+			if (first) {
+				first = false;
+				ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
+			} else {
+				ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
+			}
+		}
+		return ret.append(right).append("\n").toString();
+	}
+
+	private static String getStackTrace(Throwable e) {
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		e.printStackTrace(pw);
+		return sw.toString();
+	}
+
+	private static String makeAsciiTable(List<String> headers, List<List<String>> table, List<String> footer) {
+		StringBuilder sb = new StringBuilder();
+		int padding = 1;
+		int[] widths = new int[headers.size()];
+		for (int i = 0; i < widths.length; i++) {
+			widths[i] = 0;
+		}
+		for (int i = 0; i < headers.size(); i++) {
+			if (headers.get(i).length() > widths[i]) {
+				widths[i] = headers.get(i).length();
+				if (footer != null) {
+					widths[i] = Math.max(widths[i], footer.get(i).length());
+				}
+			}
+		}
+		for (List<String> row : table) {
+			for (int i = 0; i < row.size(); i++) {
+				String cell = row.get(i);
+				if (cell.length() > widths[i]) {
+					widths[i] = cell.length();
+				}
+			}
+		}
+		sb.append("```").append("\n");
+		String formatLine = "|";
+		for (int width : widths) {
+			formatLine += " %-" + width + "s |";
+		}
+		formatLine += "\n";
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		sb.append(String.format(formatLine, headers.toArray()));
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		for (List<String> row : table) {
+			sb.append(String.format(formatLine, row.toArray()));
+		}
+		if (footer != null) {
+			sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+			sb.append(String.format(formatLine, footer.toArray()));
+		}
+		sb.append(appendSeparatorLine("+", "+", "+", padding, widths));
+		sb.append("```");
+		return sb.toString();
+	}
+
+	private static CompletableFuture<Void> notifyMusic(String content) {
+		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
+			.stream()
+			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
+			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null)
+			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk())
+			.map(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(content).submit())
+			.map(future -> (CompletableFuture<Message>) future)
+			.toArray(CompletableFuture[]::new));
 	}
 
 	private static void prepareShutdown(GuildMessageReceivedEvent event) {

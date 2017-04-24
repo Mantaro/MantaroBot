@@ -1,10 +1,10 @@
-package net.kodehawa.lib.imageboard.konachan.main;
+package net.kodehawa.lib.imageboards.konachan;
 
 import br.com.brjdevs.java.utils.extensions.Async;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.lib.imageboard.konachan.main.entities.Tag;
-import net.kodehawa.lib.imageboard.konachan.main.entities.Wallpaper;
-import net.kodehawa.lib.imageboard.konachan.providers.WallpaperProvider;
+import net.kodehawa.lib.imageboards.konachan.main.entities.Tag;
+import net.kodehawa.lib.imageboards.konachan.main.entities.Wallpaper;
+import net.kodehawa.lib.imageboards.konachan.providers.WallpaperProvider;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import us.monoid.web.Resty;

@@ -31,7 +31,7 @@ public class FunCmds {
 						}
 					} catch (NumberFormatException nfe) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify an Integer for the amount of " +
-								"repetitions").queue();
+							"repetitions").queue();
 						return;
 					}
 				}
@@ -44,14 +44,14 @@ public class FunCmds {
 				});
 				String flips = times == 1 ? "time" : "times";
 				event.getChannel().sendMessage(EmoteReference.PENNY + " Your result from **" + times + "** " + flips + " yielded " +
-						"**" + heads[0] + "** heads and **" + tails[0] + "** tails").queue();
+					"**" + heads[0] + "** heads and **" + tails[0] + "** tails").queue();
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Coinflip command")
-						.setDescription("Flips a coin with a defined number of repetitions")
-						.build();
+					.setDescription("Flips a coin with a defined number of repetitions")
+					.build();
 			}
 		});
 	}
@@ -69,15 +69,15 @@ public class FunCmds {
 				}
 				if (roll >= 100) roll = 100;
 				event.getChannel().sendMessage(EmoteReference.DICE + "You got **" + diceRoll(roll) + "** with a total of **" + roll
-						+ "** repetitions.").queue();
+					+ "** repetitions.").queue();
 				TextChannelGround.of(event).dropItemWithChance(6, 5);
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Dice command")
-						.setDescription("Roll a 6-sided dice a specified number of times")
-						.build();
+					.setDescription("Roll a 6-sided dice a specified number of times")
+					.build();
 			}
 		});
 	}

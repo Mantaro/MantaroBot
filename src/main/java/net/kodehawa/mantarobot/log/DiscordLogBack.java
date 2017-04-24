@@ -12,16 +12,16 @@ import net.kodehawa.mantarobot.utils.Utils;
 public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
 
-	private static TextChannel consoleChannel() {
-		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
-	}
-
 	public static void disable() {
 		enabled = false;
 	}
 
 	public static void enable() {
 		enabled = true;
+	}
+
+	private static TextChannel consoleChannel() {
+		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
 	}
 
 	private PatternLayout patternLayout;

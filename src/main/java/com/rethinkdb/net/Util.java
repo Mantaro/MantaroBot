@@ -52,6 +52,10 @@ public class Util {
 		return (JSONObject) JSONValue.parse(codepointReader);
 	}
 
+	public static byte[] toUTF8(String s) {
+		return s.getBytes(StandardCharsets.UTF_8);
+	}
+
 	private static <T> T toPojo(Class<T> pojoClass, Map<String, Object> map) {
 		try {
 			if (map == null) {
@@ -62,9 +66,5 @@ public class Util {
 		} catch (IllegalArgumentException e) {
 			throw new ReqlDriverError("Can't convert %s to a POJO: %s", map, e.getMessage());
 		}
-	}
-
-	public static byte[] toUTF8(String s) {
-		return s.getBytes(StandardCharsets.UTF_8);
 	}
 }

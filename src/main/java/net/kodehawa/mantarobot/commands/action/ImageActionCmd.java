@@ -5,7 +5,6 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
@@ -66,11 +65,6 @@ public class ImageActionCmd extends NoArgsCommand {
 			.setDescription(desc)
 			.setColor(color)
 			.build();
-	}
-
-	@Override
-	public CommandPermission permission() {
-		return CommandPermission.USER;
 	}
 
 	private String mentions(GuildMessageReceivedEvent event) {

@@ -8,8 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
@@ -36,51 +36,6 @@ public class OsuStatsCmd {
 
 	static {
 		osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
-	}
-
-	private static String best(String content) {
-		String finalResponse;
-		try {
-			long start = System.currentTimeMillis();
-			String beheaded1 = content.replace("best ", "");
-			String[] args = beheaded1.split(" ");
-			map.put("m", 0);
-
-			User hey = osuClient.getUser(args[0], map);
-			List<UserScore> userBest = osuClient.getUserBest(hey, map);
-			StringBuilder sb = new StringBuilder();
-			List<String> best = new CopyOnWriteArrayList<>();
-
-			int n1 = 0;
-			DecimalFormat df = new DecimalFormat("####0.0");
-			for (UserScore userScore : userBest) {
-				if (n1 > 9)
-					break;
-				if (userScore.getEnabledMods().size() > 0) {
-					List<Mod> mods = userScore.getEnabledMods();
-					StringBuilder sb1 = new StringBuilder();
-					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
-					mods1 = " Mods: " + sb1.toString();
-				}
-
-				best.add(
-					String.format("# %s -> %s\n | ###### |  [%spp] -> Rank: %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", userScore.getBeatMap().getTitle().replace("'", ""), mods1,
-						df.format(userScore.getPP()), userScore.getRank(), df.format(userScore.getBeatMap().getDifficultyRating()), userScore.getBeatMap().getCreator(), userScore.getDate(), userScore.getMaxCombo()));
-				sb.append(best.get(n1));
-				n1++;
-			}
-
-			long end = System.currentTimeMillis() - start;
-			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
-		} catch (Exception e) {
-			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
-			else {
-				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
-				log.warn("Error retrieving results from osu!API", e);
-			}
-		}
-
-		return finalResponse;
 	}
 
 	@Event
@@ -129,16 +84,61 @@ public class OsuStatsCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "osu! command")
-						.setDescription("Retrieves information from the osu!api.\n"
-								+ "Usage: \n"
-								+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
-								+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
-								+ "~>osu user <player>: Retrieves information about a osu! player.\n"
-								+ "Parameter description:\n"
-								+ "player: The osu! player to look info for.")
-						.build();
+					.setDescription("Retrieves information from the osu!api.\n"
+						+ "Usage: \n"
+						+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
+						+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
+						+ "~>osu user <player>: Retrieves information about a osu! player.\n"
+						+ "Parameter description:\n"
+						+ "player: The osu! player to look info for.")
+					.build();
 			}
 		});
+	}
+
+	private static String best(String content) {
+		String finalResponse;
+		try {
+			long start = System.currentTimeMillis();
+			String beheaded1 = content.replace("best ", "");
+			String[] args = beheaded1.split(" ");
+			map.put("m", 0);
+
+			User hey = osuClient.getUser(args[0], map);
+			List<UserScore> userBest = osuClient.getUserBest(hey, map);
+			StringBuilder sb = new StringBuilder();
+			List<String> best = new CopyOnWriteArrayList<>();
+
+			int n1 = 0;
+			DecimalFormat df = new DecimalFormat("####0.0");
+			for (UserScore userScore : userBest) {
+				if (n1 > 9)
+					break;
+				if (userScore.getEnabledMods().size() > 0) {
+					List<Mod> mods = userScore.getEnabledMods();
+					StringBuilder sb1 = new StringBuilder();
+					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
+					mods1 = " Mods: " + sb1.toString();
+				}
+
+				best.add(
+					String.format("# %s -> %s\n | ###### |  [%spp] -> Rank: %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", userScore.getBeatMap().getTitle().replace("'", ""), mods1,
+						df.format(userScore.getPP()), userScore.getRank(), df.format(userScore.getBeatMap().getDifficultyRating()), userScore.getBeatMap().getCreator(), userScore.getDate(), userScore.getMaxCombo()));
+				sb.append(best.get(n1));
+				n1++;
+			}
+
+			long end = System.currentTimeMillis() - start;
+			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
+		} catch (Exception e) {
+			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
+			else {
+				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
+				log.warn("Error retrieving results from osu!API", e);
+			}
+		}
+
+		return finalResponse;
 	}
 
 	private static String recent(String content) {

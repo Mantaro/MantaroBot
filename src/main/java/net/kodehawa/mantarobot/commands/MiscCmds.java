@@ -50,15 +50,15 @@ public class MiscCmds {
 				try {
 					textEncoded = URLEncoder.encode(content, "UTF-8");
 					answer = Unirest.get(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded))
-							.asJson()
-							.getBody()
-							.getObject()
-							.getJSONObject("magic")
-							.getString("answer");
+						.asJson()
+						.getBody()
+						.getObject()
+						.getJSONObject("magic")
+						.getString("answer");
 				} catch (Exception exception) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners " +
-							"have been notified and will resolve this soon.")
-							.queue();
+						"have been notified and will resolve this soon.")
+						.queue();
 					log.warn("Error while processing answer", exception);
 					return;
 				}
@@ -69,9 +69,9 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "8ball")
-						.setDescription("Retrieves an answer from the magic 8Ball.\n"
-								+ "~>8ball <question>. Retrieves an answer from 8ball based on the question or sentence provided.")
-						.build();
+					.setDescription("Retrieves an answer from the magic 8Ball.\n"
+						+ "~>8ball <question>. Retrieves an answer from 8ball based on the question or sentence provided.")
+					.build();
 			}
 		});
 	}
@@ -105,10 +105,10 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Iam (autoroles)")
-						.setDescription("Get an autorole that your server administrators have set up!\n"
-								+ "~>iam <name>. Get the role with the specified name.\n"
-								+ "~>iam list. List all the available autoroles in this server")
-						.build();
+					.setDescription("Get an autorole that your server administrators have set up!\n"
+						+ "~>iam <name>. Get the role with the specified name.\n"
+						+ "~>iam list. List all the available autoroles in this server")
+					.build();
 			}
 		});
 	}
@@ -171,10 +171,10 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Iamnot (autoroles)")
-						.setDescription("Remove an autorole that your server administrators have set up!\n"
-								+ "~>iamnot <name>. Remove the role with the specified name.\n"
-								+ "~>iamnot list. List all the available autoroles in this server")
-						.build();
+					.setDescription("Remove an autorole that your server administrators have set up!\n"
+						+ "~>iamnot <name>. Remove the role with the specified name.\n"
+						+ "~>iamnot list. List all the available autoroles in this server")
+					.build();
 			}
 		});
 	}
@@ -226,7 +226,7 @@ public class MiscCmds {
 						break;
 					case "noble":
 						channel.sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
-								"-Noble").queue();
+							"-Noble").queue();
 						break;
 					default:
 						onHelp(event);
@@ -237,24 +237,17 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Misc Commands")
-						.setDescription("Miscellaneous funny/useful commands.\n"
-								+ "Usage:\n"
-								+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
-								+ "~>misc noble: Random Lost Pause quote.\n"
-								+ "~>misc rndcolor: Gives you a random hex color.\n"
-								+ "Parameter explanation:\n"
-								+ "sentence: A sentence to reverse."
-								+ "@user: A user to mention.")
-						.build();
+					.setDescription("Miscellaneous funny/useful commands.\n"
+						+ "Usage:\n"
+						+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
+						+ "~>misc noble: Random Lost Pause quote.\n"
+						+ "~>misc rndcolor: Gives you a random hex color.\n"
+						+ "Parameter explanation:\n"
+						+ "sentence: A sentence to reverse."
+						+ "@user: A user to mention.")
+					.build();
 			}
 		});
-	}
-
-	/**
-	 * @return a random hex color.
-	 */
-	private static String randomColor() {
-		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
 
 	@Event
@@ -268,9 +261,16 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Random Fact")
-						.setDescription("Sends a random fact.")
-						.build();
+					.setDescription("Sends a random fact.")
+					.build();
 			}
 		});
+	}
+
+	/**
+	 * @return a random hex color.
+	 */
+	private static String randomColor() {
+		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
 }

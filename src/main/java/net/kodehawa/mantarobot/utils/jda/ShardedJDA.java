@@ -69,6 +69,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public RestAction<User> retrieveUserById(long id) {
+		return stream().map(jda -> jda.retrieveUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
 	public List<Guild> getGuilds() {
 		return stream().map(JDA::getGuilds).flatMap(Collection::stream).distinct().collect(Collectors.toList());
 	}
@@ -106,11 +111,6 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	@Override
 	public List<Role> getRolesByName(String name, boolean ignoreCase) {
 		return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).filter(Objects::nonNull).findFirst().orElse(null);
-	}
-
-	@Override
-	public RestAction<User> retrieveUserById(long id) {
-		return stream().map(jda -> jda.retrieveUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	@Override

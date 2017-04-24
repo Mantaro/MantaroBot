@@ -7,8 +7,8 @@ import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -18,6 +18,7 @@ import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
@@ -44,12 +45,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Module
 public class CustomCmds {
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
-	private static final Command customCommand = new Command() {
-
-		@Override
-		public Category category() {
-			return null;
-		}
+	private static final Command customCommand = new AbstractCommand(null) {
 
 		@Override
 		public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -128,11 +124,6 @@ public class CustomCmds {
 				log.error("An exception occurred while processing a custom command:", e);
 			}
 			log("custom command");
-		}
-
-		@Override
-		public CommandPermission permission() {
-			return CommandPermission.USER;
 		}
 	};
 
@@ -444,11 +435,6 @@ public class CustomCmds {
 				}
 
 				onHelp(event);
-			}
-
-			@Override
-			public CommandPermission permission() {
-				return CommandPermission.USER;
 			}
 
 			@Override

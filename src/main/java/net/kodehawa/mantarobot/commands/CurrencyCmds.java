@@ -173,13 +173,6 @@ public class CurrencyCmds {
 		});
 	}
 
-	private static User getUserById(String id) {
-		if (id == null) return null;
-		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
-			shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
-		return shard1 == null ? null : shard1.getUserById(id);
-	}
-
 	@Event
 	public static void inventory(CommandRegistry cr) {
 		cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
@@ -528,32 +521,32 @@ public class CurrencyCmds {
 				Player player = MantaroData.db().getPlayer(event.getMember());
 				User author = event.getAuthor();
 
-				if(args.length > 0 && args[0].equals("description")){
-					if(args.length == 1){
+				if (args.length > 0 && args[0].equals("description")) {
+					if (args.length == 1) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide an argument! (set or remove)\n" +
-								"for example, ~>profile description set Hi there!").queue();
+							"for example, ~>profile description set Hi there!").queue();
 						return;
 					}
 
-					if(args[1].equals("set")){
+					if (args[1].equals("set")) {
 						int MAX_LENGTH = 300;
-						if(MantaroData.db().getUser(author).isPremium()) MAX_LENGTH = 500;
+						if (MantaroData.db().getUser(author).isPremium()) MAX_LENGTH = 500;
 						String content1 = SPLIT_PATTERN.split(content, 3)[2];
 
-						if(content1.length() > MAX_LENGTH){
+						if (content1.length() > MAX_LENGTH) {
 							event.getChannel().sendMessage(EmoteReference.ERROR +
-									"The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`").queue();
+								"The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`").queue();
 							return;
 						}
 
 						player.getData().setDescription(content1);
 						event.getChannel().sendMessage(EmoteReference.POPPER + "Set description to: **" + content1 + "**\n" +
-								"Check your shiny new profile with `~>profile`").queue();
+							"Check your shiny new profile with `~>profile`").queue();
 						player.saveAsync();
 						return;
 					}
 
-					if(args[1].equals("reset")){
+					if (args[1].equals("reset")) {
 						player.getData().setDescription(null);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset description.").queue();
 						player.saveAsync();
@@ -581,8 +574,8 @@ public class CurrencyCmds {
 				String marriedSince = null;
 				String anniversary = null;
 
-				if(player.getData().getMarriedSince() != null && player.getData().getMarriedSince() > 0){
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy",Locale.getDefault());
+				if (player.getData().getMarriedSince() != null && player.getData().getMarriedSince() > 0) {
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 					final Date date = new Date(player.getData().getMarriedSince());
 					marriedSince = sdf.format(date);
 
@@ -595,15 +588,15 @@ public class CurrencyCmds {
 
 				event.getChannel().sendMessage(baseEmbed(event, (user1 == null && !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.setThumbnail(author.getEffectiveAvatarUrl())
-						.setDescription(player.getData().getDescription() == null ? "No description set" : player.getData().getDescription())
-						.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
-						.addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() + ")", true)
-						.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
-						.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
-						.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
-						.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator() + (marriedSince == null ? "" : " (Since: " + marriedSince + ")"), true)
-						.build()
-						).queue();
+					.setDescription(player.getData().getDescription() == null ? "No description set" : player.getData().getDescription())
+					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
+					.addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() + ")", true)
+					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
+					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
+					.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator() + (marriedSince == null ? "" : " (Since: " + marriedSince + ")"), true)
+					.build()
+				).queue();
 			}
 
 			@Override
@@ -766,5 +759,12 @@ public class CurrencyCmds {
 					.build();
 			}
 		});
+	}
+
+	private static User getUserById(String id) {
+		if (id == null) return null;
+		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
+			shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
+		return shard1 == null ? null : shard1.getUserById(id);
 	}
 }

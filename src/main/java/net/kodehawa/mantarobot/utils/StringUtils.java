@@ -11,12 +11,6 @@ import java.util.regex.Pattern;
 public class StringUtils {
 	public static final Pattern SPLIT_PATTERN = Pattern.compile("\\s+");
 
-	//Short for:
-	//advancedSplitArgsUnbox
-	private static String advSplArgUnb(String s) {
-		return s.replace("\\n", "\n").replace("\\r", "\r").replace("\\t", "\t").replace("\\\"", "\"").replace("\\\\", "\\");
-	}
-
 	public static String[] advancedSplitArgs(String args, int expectedArgs) {
 		List<String> result = new ArrayList<>();
 		boolean inAString = false;
@@ -168,5 +162,11 @@ public class StringUtils {
 		String[] raw = SPLIT_PATTERN.split(args, expectedArgs);
 		if (expectedArgs < 1) return raw;
 		return normalizeArray(raw, expectedArgs);
+	}
+
+	//Short for:
+	//advancedSplitArgsUnbox
+	private static String advSplArgUnb(String s) {
+		return s.replace("\\n", "\n").replace("\\r", "\r").replace("\\t", "\t").replace("\\\"", "\"").replace("\\\\", "\\");
 	}
 }

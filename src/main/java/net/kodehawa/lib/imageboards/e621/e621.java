@@ -1,26 +1,27 @@
-package net.kodehawa.lib.imageboard.e621.main;
+package net.kodehawa.lib.imageboards.e621;
 
 import br.com.brjdevs.java.utils.extensions.Async;
+import com.rethinkdb.model.MapObject;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.lib.imageboard.e621.main.entities.Furry;
-import net.kodehawa.lib.imageboard.e621.providers.FurryProvider;
+import net.kodehawa.lib.imageboards.e621.main.entities.Furry;
+import net.kodehawa.lib.imageboards.e621.providers.FurryProvider;
+import net.kodehawa.lib.imageboards.konachan.Konachan;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import us.monoid.web.Resty;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
- * Totally not a (stripped down) copy of {@link net.kodehawa.lib.imageboard.konachan.main.Konachan}
+ * Totally not a (stripped down) copy of {@link Konachan}
  * I mean, it works, that's what's important here.
  */
 @Slf4j
 public class e621 {
 	private final Resty resty = new Resty().identifyAsMozilla();
-	private HashMap<String, Object> queryParams = new HashMap<>();
 
 	public void get(int page, int limit, FurryProvider provider) {
 		this.get(page, limit, null, provider);
@@ -37,12 +38,12 @@ public class e621 {
 	}
 
 	private List<Furry> get(int page, int limit, String search) {
-		this.queryParams.put("limit", limit);
-		this.queryParams.put("page", page);
+		Map<String, Object> queryParams = new MapObject<String, Object>()
+			.with("limit", limit).with("page", page);
 		Furry[] wallpapers;
-		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", search.toLowerCase().trim()));
+		Optional.ofNullable(search).ifPresent((element) -> queryParams.put("tags", search.toLowerCase().trim()));
 		try {
-			String response = this.resty.text("https://e621.net/post/index.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
+			String response = this.resty.text("https://e621.net/post/index.json" + "?" + Utils.urlEncodeUTF8(queryParams)).toString();
 			wallpapers = GsonDataManager.GSON_PRETTY.fromJson(response, Furry[].class);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -12,17 +12,16 @@ public abstract class SimpleCommand extends AbstractCommand {
 		super(category);
 	}
 
+	public SimpleCommand(Category category, CommandPermission permission) {
+		super(category, permission);
+	}
+
 	protected abstract void call(GuildMessageReceivedEvent event, String content, String[] args);
 
 	@Override
 	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
 		call(event, content, splitArgs(content));
 		log(commandName);
-	}
-
-	@Override
-	public CommandPermission permission() {
-		return CommandPermission.USER;
 	}
 
 	protected String[] splitArgs(String content) {

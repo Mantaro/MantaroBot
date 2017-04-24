@@ -17,6 +17,11 @@ public abstract class TreeCommand extends AbstractCommand {
 		this.subCommands = subCommands;
 	}
 
+	public TreeCommand(Category category, CommandPermission permission, Map<String, Command> subCommands) {
+		super(category, permission);
+		this.subCommands = subCommands;
+	}
+
 	/**
 	 * Handling for when the Sub-Command isn't found.
 	 *
