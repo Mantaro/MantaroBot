@@ -34,6 +34,7 @@ public class VoiceChannelListener implements EventListener {
 			((ShardMonitorEvent) e).alive(shardId, ShardMonitorEvent.VOICE_CHANNEL_LISTENER);
 			return;
 		}
+
 		if (!(e instanceof GenericGuildVoiceEvent)) return;
 		GenericGuildVoiceEvent event = (GenericGuildVoiceEvent) e;
 		if (event instanceof GuildVoiceMoveEvent) {
@@ -92,7 +93,7 @@ public class VoiceChannelListener implements EventListener {
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(true);
 		TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 		if (channel != null && channel.canTalk())
-			channel.sendMessage(EmoteReference.THINKING + "I was left alone in the Voice Channel so I paused the player. If nobody join this channel within 2 minutes I'll stop the player.").queue();
-		timer.addMusicPlayer(guild.getId(), 120000 + System.currentTimeMillis());
+			channel.sendMessage(EmoteReference.THINKING + "I was left alone in the Voice Channel so I paused the player. If nobody join this channel within 1 minute I'll stop the player and clear the queue.").queue();
+		timer.addMusicPlayer(guild.getId(), 60000 + System.currentTimeMillis());
 	}
 }

@@ -71,7 +71,7 @@ public class InfoCmds {
 					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
 							.setColor(Color.BLUE)
 							.setDescription("**Main developer**: Kodehawa#3457\n"
-									+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340\n" + "**Cross bot integration**: Natan#1289\n**Grammar corrections and development**: Adam#9261")
+									+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340 (Retired :<)\n" + "**Cross bot integration**: Natan#1289 (Retired :<)\n**Grammar corrections and development**: Adam#9261")
 							.addField("Special mentions",
 									"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping us with increasing the bot's visibility.", false)
 							.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
