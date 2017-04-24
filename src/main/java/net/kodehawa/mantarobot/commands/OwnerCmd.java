@@ -3,8 +3,6 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.extensions.Async;
 import bsh.Interpreter;
 import com.rethinkdb.gen.exc.ReqlError;
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -214,20 +212,6 @@ public class OwnerCmd {
 					"import *;",
 					code
 				));
-			} catch (Exception e) {
-				return e;
-			}
-		});
-
-		evals.put("groovy", (event, code) -> {
-			Binding b = new Binding();
-			b.setVariable("jda", event.getJDA());
-			b.setVariable("event", event);
-			b.setVariable("guild", event.getGuild());
-			b.setVariable("channel", event.getChannel());
-			GroovyShell sh = new GroovyShell(b);
-			try {
-				return sh.evaluate(code);
 			} catch (Exception e) {
 				return e;
 			}

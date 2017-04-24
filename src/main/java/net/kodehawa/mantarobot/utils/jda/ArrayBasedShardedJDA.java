@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot.utils.jda;
 
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.requests.RestAction;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;

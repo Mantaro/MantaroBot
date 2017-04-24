@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.utils.jda;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
+import net.dv8tion.jda.core.requests.RestAction;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.*;
@@ -105,6 +106,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	@Override
 	public List<Role> getRolesByName(String name, boolean ignoreCase) {
 		return stream().map(jda -> jda.getRolesByName(name, ignoreCase)).filter(Objects::nonNull).findFirst().orElse(null);
+	}
+
+	@Override
+	public RestAction<User> retrieveUserById(long id) {
+		return stream().map(jda -> jda.retrieveUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	@Override
