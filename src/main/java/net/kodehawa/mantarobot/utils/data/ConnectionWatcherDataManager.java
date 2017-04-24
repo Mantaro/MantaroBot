@@ -82,8 +82,7 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 	}
 
 	@Override
-	public void save() {
-	}
+	public void save() {}
 
 	@Override
 	public void close() {

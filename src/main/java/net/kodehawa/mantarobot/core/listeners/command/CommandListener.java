@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class CommandListener implements EventListener {
-
 	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
 	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
 	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500

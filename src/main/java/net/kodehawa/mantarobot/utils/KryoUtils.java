@@ -61,6 +61,5 @@ public class KryoUtils {
 		return checkNotNull(clazz, "clazz").cast(unserialize(POOL, data));
 	}
 
-	private KryoUtils() {
-	}
+	private KryoUtils() {}
 }

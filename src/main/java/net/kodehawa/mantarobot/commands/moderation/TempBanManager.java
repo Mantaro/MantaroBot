@@ -52,8 +52,7 @@ public class TempBanManager {
 							wait();
 							unbansUpdated = false;
 						}
-					} catch (InterruptedException ignored) {
-					}
+					} catch (InterruptedException ignored) {}
 				}
 
 				//noinspection OptionalGetWithoutIsPresent
@@ -66,8 +65,7 @@ public class TempBanManager {
 							wait(timeout);
 						}
 					}
-				} catch (InterruptedException ignored) {
-				}
+				} catch (InterruptedException ignored) {}
 
 				if (!unbansUpdated) {
 					String[] params = unbanFirstEntry.getKey().split(":");

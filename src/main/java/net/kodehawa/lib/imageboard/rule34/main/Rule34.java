@@ -24,8 +24,7 @@ public class Rule34 {
 				if (provider == null) throw new IllegalStateException("Provider is null");
 				List<Hentai> wallpapers = get(limit, search);
 				provider.onSuccess(wallpapers);
-			} catch (Exception ignored) {
-			}
+			} catch (Exception ignored) {}
 		});
 	}
 

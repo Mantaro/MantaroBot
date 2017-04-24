@@ -49,8 +49,7 @@ public class YoutubeMp3Info {
 
 		try {
 			return GsonDataManager.GSON_PRETTY.fromJson(s, YoutubeMp3Info.class);
-		} catch (Exception e) {
-		}
+		} catch (Exception e) {}
 		return null;
 	}
 

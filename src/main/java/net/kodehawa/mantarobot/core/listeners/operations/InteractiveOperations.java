@@ -26,8 +26,7 @@ public class InteractiveOperations {
 		public void onExpire() {
 			try {
 				operation.onExpire();
-			} catch (Throwable ignored) {
-			}
+			} catch (Throwable ignored) {}
 			OPERATIONS.values().remove(this);
 		}
 	}

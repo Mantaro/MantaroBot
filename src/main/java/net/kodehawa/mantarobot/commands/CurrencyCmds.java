@@ -46,8 +46,7 @@ public class CurrencyCmds {
 				User mentionedUser = null;
 				try {
 					mentionedUser = event.getMessage().getMentionedUsers().get(0);
-				} catch (IndexOutOfBoundsException ignored) {
-				}
+				} catch (IndexOutOfBoundsException ignored) {}
 
 				Player player;
 

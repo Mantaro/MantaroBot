@@ -52,8 +52,7 @@ public class Items {
 		try {
 			Item item = fromId(Integer.parseInt(any));
 			if (item != null) return Optional.of(item);
-		} catch (NumberFormatException ignored) {
-		}
+		} catch (NumberFormatException ignored) {}
 
 		Optional<Item> itemOptional;
 

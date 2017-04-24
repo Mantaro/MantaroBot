@@ -203,8 +203,7 @@ public class OptsCmd {
 
 			try {
 				channel = event.getGuild().getVoiceChannelById(channelName);
-			} catch (Exception ignored) {
-			}
+			} catch (Exception ignored) {}
 
 			if (channel == null) {
 				try {

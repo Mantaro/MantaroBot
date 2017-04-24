@@ -48,7 +48,7 @@ dependencies {
 
 //	compile 'com.udojava:EvalEx:1.0'
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
-	compile 'org.codehaus.groovy:groovy-all:2.4.9'
+//	compile 'org.codehaus.groovy:groovy-all:2.4.9'
 
 	//compile 'net.sandius.rembulan:rembulan-compiler:0.1-SNAPSHOT'
 	//compile 'net.sandius.rembulan:rembulan-runtime:0.1-SNAPSHOT'

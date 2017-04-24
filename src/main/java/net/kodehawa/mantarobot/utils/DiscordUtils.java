@@ -37,8 +37,7 @@ public class DiscordUtils {
 				if (choose < 1 || choose >= max) return false;
 				valueConsumer.accept(choose);
 				return true;
-			} catch (Exception ignored) {
-			}
+			} catch (Exception ignored) {}
 			return false;
 		});
 	}
@@ -69,8 +68,7 @@ public class DiscordUtils {
 		synchronized (notify) {
 			try {
 				notify.wait(10000);
-			} catch (InterruptedException ignored) {
-			}
+			} catch (InterruptedException ignored) {}
 		}
 
 		if (!future.isDone()) future.complete(null);

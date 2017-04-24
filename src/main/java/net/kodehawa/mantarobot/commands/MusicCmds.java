@@ -65,17 +65,6 @@ public class MusicCmds {
 	public static void move(CommandRegistry cr) {
 		cr.register("move", new SimpleCommand(Category.MUSIC) {
 			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Voice Channel move command")
-					.setDescription("Move me from one VC to another")
-					.addField("Usage", "~>move <vc>", false)
-					.addField("Parameters", "vc: voice channel to move the bot to (exact name, case-insensitive).", false)
-					.addField("Special cases", "If you don't specify a channel name, I will try to move to the channel you're in, " +
-						"as long as it's not the same one I'm in currently!", false)
-					.build();
-			}
-
-			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Guild guild = event.getGuild();
 				if (content.isEmpty()) {
@@ -115,6 +104,17 @@ public class MusicCmds {
 				} catch (IndexOutOfBoundsException e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Voice channel not found or you didn't specify one!").queue();
 				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return baseEmbed(event, "Voice Channel move command")
+					.setDescription("Move me from one VC to another")
+					.addField("Usage", "~>move <vc>", false)
+					.addField("Parameters", "vc: voice channel to move the bot to (exact name, case-insensitive).", false)
+					.addField("Special cases", "If you don't specify a channel name, I will try to move to the channel you're in, " +
+						"as long as it's not the same one I'm in currently!", false)
+					.build();
 			}
 
 
@@ -226,8 +226,7 @@ public class MusicCmds {
 				int page = 0;
 				try {
 					page = Integer.parseInt(args[0]) - 1;
-				} catch (Exception ignored) {
-				}
+				} catch (Exception ignored) {}
 				event.getChannel().sendMessage(embedForQueue(page, event.getGuild(), musicManager)).queue();
 
 				if (content.startsWith("clear")) {

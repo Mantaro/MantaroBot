@@ -131,6 +131,5 @@ public class Util {
 		}
 	}
 
-	private Util() {
-	}
+	private Util() {}
 }

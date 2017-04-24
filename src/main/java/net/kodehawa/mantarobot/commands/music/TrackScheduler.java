@@ -82,8 +82,7 @@ public class TrackScheduler extends AudioEventAdapter {
 						+ (getCurrentTrack().getDJ() != null ? " requested by " + getCurrentTrack().getDJ().getName() : "")).queue(
 					message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
 				);
-		} catch (Exception ignored) {
-		}
+		} catch (Exception ignored) {}
 	}
 
 	public AudioManager getAudioManager() {
@@ -178,8 +177,7 @@ public class TrackScheduler extends AudioEventAdapter {
 				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue(
 					message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
 				);
-		} catch (Exception ignored) {
-		} //fuck
+		} catch (Exception ignored) {} //fuck
 	}
 
 	public void queue(AudioTrackContext audioTrackContext) {

@@ -65,8 +65,7 @@ public class VoiceLeaveTimer {
 						wait();
 						updated = false;
 					}
-				} catch (InterruptedException ignored) {
-				}
+				} catch (InterruptedException ignored) {}
 			}
 
 			//noinspection OptionalGetWithoutIsPresent
@@ -79,8 +78,7 @@ public class VoiceLeaveTimer {
 						wait(timeout);
 					}
 				}
-			} catch (InterruptedException ignored) {
-			}
+			} catch (InterruptedException ignored) {}
 
 			if (!updated) {
 				String id = closestEntry.getKey();

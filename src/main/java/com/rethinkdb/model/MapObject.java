@@ -5,8 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapObject<K, V> extends LinkedHashMap<K, V> {
-	public MapObject() {
-	}
+	public MapObject() {}
 
 	public MapObject(Map<? extends K, ? extends V> m) {
 		super(m);
