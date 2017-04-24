@@ -27,6 +27,8 @@ import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
@@ -101,8 +103,14 @@ public class MantaroBot extends ShardedJDA {
 
 		Config config = MantaroData.config().get();
 
+		//Let's see if we find a class.
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
-			new Reflections("net.kodehawa.mantarobot.commands", new MethodAnnotationsScanner()).getTypesAnnotatedWith(Module.class)
+				new Reflections(
+						"net.kodehawa.mantarobot.commands",
+						new MethodAnnotationsScanner(),
+						new TypeAnnotationsScanner(),
+						new SubTypesScanner())
+						.getTypesAnnotatedWith(Module.class)
 		);
 
 		totalShards = getRecommendedShards(config);
@@ -159,7 +167,10 @@ public class MantaroBot extends ShardedJDA {
 
 		MantaroData.config().save();
 
-		Set<Method> events = new Reflections(classes.get()).getMethodsAnnotatedWith(Event.class);
+		Set<Method> events = new Reflections(
+				classes.get(),
+				new MethodAnnotationsScanner())
+				.getMethodsAnnotatedWith(Event.class);
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
