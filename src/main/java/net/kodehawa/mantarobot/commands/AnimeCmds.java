@@ -23,7 +23,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.Color;
+import java.awt.*;
 import java.net.URLEncoder;
 import java.util.stream.Collectors;
 

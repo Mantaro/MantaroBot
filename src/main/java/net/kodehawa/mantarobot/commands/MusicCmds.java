@@ -17,7 +17,6 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.Commands;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -37,11 +36,11 @@ public class MusicCmds {
 
 	@Event
 	public static void forceskip(CommandRegistry cr) {
-		cr.register("forceskip", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.ADMIN)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("forceskip", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
-					.getGuild().getAudioManager().getConnectedChannel())) {
+						.getGuild().getAudioManager().getConnectedChannel())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm in!").queue();
 					return;
 				}
@@ -49,11 +48,15 @@ public class MusicCmds {
 				TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin decided to skip the current song.").queue();
 				scheduler.next(true);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Force skip")
-				.setDescription("Well, administrators should be able to forceskip, shouldn't they?")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Force skip")
+						.setDescription("Well, administrators should be able to forceskip, shouldn't they?")
+						.build();
+			}
+		});
 	}
 
 	private static boolean isDJ(Member member) {
@@ -190,11 +193,11 @@ public class MusicCmds {
 
 	@Event
 	public static void play(CommandRegistry cr) {
-		cr.register("play", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("play", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.trim().isEmpty()) {
-					thiz.onHelp(event);
+					onHelp(event);
 					return;
 				}
 
@@ -207,21 +210,25 @@ public class MusicCmds {
 
 				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content);
 				TextChannelGround.of(event).dropItemWithChance(0, 5);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Play Command")
-				.addField("Description", "Play songs!", false)
-				.addField("Usage", "~>play <song url> (playlists and song names are also acceptable)", false)
-				.addField("Tip", "If you do ~>play <search term> I'll search youtube (default), " +
-					"but if you do ~>play soundcloud <search term> It will search soundcloud (not for usage w/links).", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Play Command")
+						.addField("Description", "Play songs!", false)
+						.addField("Usage", "~>play <song url> (playlists and song names are also acceptable)", false)
+						.addField("Tip", "If you do ~>play <search term> I'll search youtube (default), " +
+								"but if you do ~>play soundcloud <search term> It will search soundcloud (not for usage w/links).", false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void queue(CommandRegistry cr) {
-		cr.register("queue", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("queue", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 				int page = 0;
 				try {
@@ -233,27 +240,32 @@ public class MusicCmds {
 					int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
 					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue" +
-						".").queue();
+							".").queue();
 					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
 					return;
 				}
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
-			})
-			.help((thiz, event) -> thiz.baseEmbed(event, "Queue Command")
-				.addField("Description", "Either returns the current queue playing on the server or clears it.", false)
-				.addField("Usage:", "~>queue\n~>queue clear", false).build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Queue Command")
+						.addField("Description", "Either returns the current queue playing on the server or clears it.", false)
+						.addField("Usage:", "~>queue\n~>queue clear", false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void removetrack(CommandRegistry cr) {
-		cr.register("removetrack", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("removetrack", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
-					.getGuild().getAudioManager().getConnectedChannel())) {
+						.getGuild().getAudioManager().getConnectedChannel())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You are not connected to the voice channel I am currently " +
-						"playing!").queue();
+							"playing!").queue();
 					return;
 				}
 
@@ -265,8 +277,8 @@ public class MusicCmds {
 					for (String param : args) {
 
 						String arg = replaceEach(param,
-							new String[]{"first", "next", "last", "all"},
-							new String[]{"0", "0", last, "0-" + last}
+								new String[]{"first", "next", "last", "all"},
+								new String[]{"0", "0", last, "0-" + last}
 						);
 
 						if (arg.contains("-") || arg.contains("~")) {
@@ -282,13 +294,13 @@ public class MusicCmds {
 
 								if (iStart < 0 || iStart >= list.size()) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" +
-										iStart + "``!").queue();
+											iStart + "``!").queue();
 									return;
 								}
 
 								if (iEnd < 0 || iEnd >= list.size()) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``" +
-										iEnd + "``!").queue();
+											iEnd + "``!").queue();
 									return;
 								}
 
@@ -303,7 +315,7 @@ public class MusicCmds {
 
 								if (i < 0 || i >= list.size()) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a queued track at the position ``"
-										+ i + "``!").queue();
+											+ i + "``!").queue();
 									return;
 								}
 
@@ -316,37 +328,41 @@ public class MusicCmds {
 					}
 
 					event.getChannel().sendMessage(
-						EmoteReference.CORRECT +
-							"Removed track(s) **" + (
-							Arrays.stream(selected.toArray())
-								.mapToObj(list::remove)
-								.map(track -> track.getInfo().title)
-								.collect(Collectors.joining("**, **"))
-						) + "** from the queue."
+							EmoteReference.CORRECT +
+									"Removed track(s) **" + (
+									Arrays.stream(selected.toArray())
+											.mapToObj(list::remove)
+											.map(track -> track.getInfo().title)
+											.collect(Collectors.joining("**, **"))
+							) + "** from the queue."
 					).queue();
 
 					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				});
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Remove Track Command")
-				.addField("Description", "Remove the specified track from the queue.", false)
-				.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
-				//TODO Update this
-				.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
-					"first: remove the first track\n"
-					+ "next: remove the next track\n"
-					+ "last: remove the last track", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Remove Track Command")
+						.addField("Description", "Remove the specified track from the queue.", false)
+						.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
+						//TODO Update this
+						.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
+								"first: remove the first track\n"
+								+ "next: remove the next track\n"
+								+ "last: remove the last track", false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void repeat(CommandRegistry cr) {
-		cr.register("repeat", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("repeat", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
-					.getGuild().getAudioManager().getConnectedChannel())) {
+						.getGuild().getAudioManager().getConnectedChannel())) {
 					sendNotConnectedToMyChannel(event.getChannel());
 					return;
 				}
@@ -375,14 +391,18 @@ public class MusicCmds {
 				}
 
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Repeat command")
-				.setDescription("Repeats a song.")
-				.addField("Usage", "~>repeat (if the song isn't repeating, start repeating, or vice versa)", false)
-				.addField("Warning", "Might not work correctly if I leave the voice channel after you have disabled repeat. To fix, just " +
-					"add a song to the queue", true)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Repeat command")
+						.setDescription("Repeats a song.")
+						.addField("Usage", "~>repeat (if the song isn't repeating, start repeating, or vice versa)", false)
+						.addField("Warning", "Might not work correctly if I leave the voice channel after you have disabled repeat. To fix, just " +
+								"add a song to the queue", true)
+						.build();
+			}
+		});
 	}
 
 	private static void sendNotConnectedToMyChannel(MessageChannel channel) {
@@ -392,11 +412,11 @@ public class MusicCmds {
 
 	@Event
 	public static void shuffle(CommandRegistry cr) {
-		cr.register("shuffle", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("shuffle", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event
-					.getGuild().getAudioManager().getConnectedChannel())) {
+						.getGuild().getAudioManager().getConnectedChannel())) {
 					sendNotConnectedToMyChannel(event.getChannel());
 					return;
 				}
@@ -404,27 +424,32 @@ public class MusicCmds {
 				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().shuffle();
 				event.getChannel().sendMessage(EmoteReference.OK + "Randomized the order of the current queue.").queue();
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Shuffle Command")
-				.addField("Description", "Shuffle the current queue!", false).build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Shuffle Command")
+						.addField("Description", "Shuffle the current queue!", false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void skip(CommandRegistry cr) {
-		cr.register("skip", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("skip", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals
-						(event.getGuild().getAudioManager().getConnectedChannel())) {
+							(event.getGuild().getAudioManager().getConnectedChannel())) {
 						sendNotConnectedToMyChannel(event.getChannel());
 						return;
 					}
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
-						.getTrackScheduler();
+							.getTrackScheduler();
 					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(event.getAuthor())
-						|| isDJ(event.getMember())) {
+							|| isDJ(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "The DJ has decided to skip!").queue();
 						scheduler.next(true);
 						return;
@@ -434,7 +459,7 @@ public class MusicCmds {
 					if (voteSkips.contains(event.getAuthor().getId())) {
 						voteSkips.remove(event.getAuthor().getId());
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! " +
-							(requiredVotes - voteSkips.size()) + " more are required to skip!").queue();
+								(requiredVotes - voteSkips.size()) + " more are required to skip!").queue();
 					} else {
 						voteSkips.add(event.getAuthor().getId());
 						if (voteSkips.size() >= requiredVotes) {
@@ -443,33 +468,38 @@ public class MusicCmds {
 							return;
 						}
 						event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More " +
-							(requiredVotes - voteSkips.size()) + " are required to skip!").queue();
+								(requiredVotes - voteSkips.size()) + " are required to skip!").queue();
 					}
 					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				} catch (NullPointerException e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no track to skip").queue();
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Skip Command")
-				.addField("Description", "Stops the current track and continues to the next, if one exists.",
-					false).build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Skip Command")
+						.addField("Description", "Stops the current track and continues to the next, if one exists.",
+								false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void stop(CommandRegistry cr) {
-		cr.register("stop", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("stop", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals
-						(event.getGuild().getAudioManager().getConnectedChannel())) {
+							(event.getGuild().getAudioManager().getConnectedChannel())) {
 						sendNotConnectedToMyChannel(event.getChannel());
 						return;
 					}
 
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
-						.getTrackScheduler();
+							.getTrackScheduler();
 					if (isDJ(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "The server DJ has decided to stop!").queue();
 						stop(event);
@@ -480,7 +510,7 @@ public class MusicCmds {
 					if (stopVotes.contains(event.getAuthor().getId())) {
 						stopVotes.remove(event.getAuthor().getId());
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Your vote has been removed! More " +
-							(requiredVotes - stopVotes.size()) + " are required to stop!").queue();
+								(requiredVotes - stopVotes.size()) + " are required to stop!").queue();
 					} else {
 						stopVotes.add(event.getAuthor().getId());
 						if (stopVotes.size() >= requiredVotes) {
@@ -489,15 +519,20 @@ public class MusicCmds {
 							return;
 						}
 						event.getChannel().sendMessage(EmoteReference.OK + "Your vote has been submitted! More "
-							+ (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
+								+ (requiredVotes - stopVotes.size()) + " are required to stop!").queue();
 					}
 				} catch (NullPointerException e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no player to stop!").queue();
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Stop Command")
-				.addField("Description", "Clears the queue and leaves the voice channel.", false).build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Stop Command")
+						.addField("Description", "Clears the queue and leaves the voice channel.", false)
+						.build();
+			}
+		});
 	}
 
 	private static void stop(GuildMessageReceivedEvent event) {
@@ -515,14 +550,14 @@ public class MusicCmds {
 
 	@Event
 	public static void volume(CommandRegistry cr) {
-		cr.register("volume", Commands.newSimple(Category.MUSIC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("volume", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (MantaroData.db().getUser(event.getMember()).isPremium() ||
-					MantaroData.db().getGuild(event.getMember()).isPremium() ||
-					MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
+						MantaroData.db().getGuild(event.getMember()).isPremium() ||
+						MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().
-						equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+							equals(event.getGuild().getAudioManager().getConnectedChannel())) {
 						sendNotConnectedToMyChannel(event.getChannel());
 						return;
 					}
@@ -545,17 +580,21 @@ public class MusicCmds {
 					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume)).queue();
 				} else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "This is a premium-only feature. In order to get" +
-						" donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\n" +
-						"Premium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it.")
-						.queue();
+							" donator benefits like this one you can pledge on patreon (https://www.patreon.com/mantaro). Thanks for understanding.\n" +
+							"Premium features can be either bound to an user or a server, please, if you donate, join the support guild and ask for it.")
+							.queue();
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Volume command")
-				.addField("Usage", "~>volume <number>", false)
-				.addField("Parameters", "number: An integer between 1 and 100", false)
-				.addField("Notice", "This is a donator-only feature\nTo check the current volume, do ~>volume check", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Volume command")
+						.addField("Usage", "~>volume <number>", false)
+						.addField("Parameters", "number: An integer between 1 and 100", false)
+						.addField("Notice", "This is a donator-only feature\nTo check the current volume, do ~>volume check", false)
+						.build();
+			}
+		});
 	}
 
 }

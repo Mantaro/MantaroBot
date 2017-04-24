@@ -14,7 +14,6 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.Commands;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.StringUtils;
@@ -35,9 +34,9 @@ public class ModerationCmds {
 
 	@Event
 	public static void ban(CommandRegistry cr) {
-		cr.register("ban", Commands.newSimple(Category.MODERATION)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("ban", new SimpleCommand(Category.MODERATION) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Guild guild = event.getGuild();
 				User author = event.getAuthor();
 				TextChannel channel = event.getChannel();
@@ -67,7 +66,7 @@ public class ModerationCmds {
 				receivedMessage.getMentionedUsers().forEach(user -> {
 					if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot ban an user who's higher than you in the " +
-							"server hierarchy! Nice try " + EmoteReference.SMILE).queue();
+								"server hierarchy! Nice try " + EmoteReference.SMILE).queue();
 						return;
 					}
 
@@ -80,7 +79,7 @@ public class ModerationCmds {
 					if (member == null) return;
 					if (!guild.getSelfMember().canInteract(member)) {
 						channel.sendMessage(EmoteReference.ERROR + "I can't ban " + member.getEffectiveName() + "; they're higher in the " +
-							"server hierarchy than me!").queue();
+								"server hierarchy than me!").queue();
 						return;
 					}
 
@@ -91,36 +90,40 @@ public class ModerationCmds {
 					final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
 					guild.getController().ban(member, 7).queue(
-						success -> {
-							user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
-								.getAuthor().getName() + "#"
-								+ event.getAuthor().getDiscriminator() + ". Reason: " + finalReason + ".").queue();
-							db.getData().setCases(db.getData().getCases() + 1);
-							db.saveAsync();
-							channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + member.getEffectiveName() + "... or not!")
-								.queue();
-							ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
-							TextChannelGround.of(event).dropItemWithChance(1, 2);
-						},
-						error ->
-						{
-							if (error instanceof PermissionException) {
-								channel.sendMessage(EmoteReference.ERROR + "Error banning " + member.getEffectiveName()
-									+ ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
-									.queue();
-							} else {
-								channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + member.getEffectiveName()
-									+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+							success -> {
+								user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
+										.getAuthor().getName() + "#"
+										+ event.getAuthor().getDiscriminator() + ". Reason: " + finalReason + ".").queue();
+								db.getData().setCases(db.getData().getCases() + 1);
+								db.saveAsync();
+								channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + member.getEffectiveName() + "... or not!")
+										.queue();
+								ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
+								TextChannelGround.of(event).dropItemWithChance(1, 2);
+							},
+							error ->
+							{
+								if (error instanceof PermissionException) {
+									channel.sendMessage(EmoteReference.ERROR + "Error banning " + member.getEffectiveName()
+											+ ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
+											.queue();
+								} else {
+									channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + member.getEffectiveName()
+											+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
-								log.warn("Encountered an unexpected error while trying to ban someone.", error);
-							}
-						});
+									log.warn("Encountered an unexpected error while trying to ban someone.", error);
+								}
+							});
 				});
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Ban")
-				.setDescription("Bans the mentioned users.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Ban")
+						.setDescription("Bans the mentioned users. (You **need** Ban Members)")
+						.build();
+			}
+		});
 	}
 
 	private static Iterable<String> iterate(Matcher matcher) {
@@ -240,7 +243,7 @@ public class ModerationCmds {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Kick").setDescription("Kicks the mentioned users.").build();
+				return helpEmbed(event, "Kick").setDescription("Kicks the mentioned users. (You **need** Kick Members)").build();
 			}
 		});
 	}

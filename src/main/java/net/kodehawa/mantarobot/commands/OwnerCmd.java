@@ -11,9 +11,6 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.kodehawa.lib.mantarolang.CompiledFunction;
-import net.kodehawa.lib.mantarolang.MantaroLang;
-import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -24,23 +21,22 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.Commands;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.awt.Color;
+import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -235,30 +231,6 @@ public class OwnerCmd {
 			} catch (Exception e) {
 				return e;
 			}
-		});
-
-		evals.put("m", (event, code) -> {
-			OptionalLong compileTime = OptionalLong.empty();
-			OptionalLong executeTime = OptionalLong.empty();
-			Object r;
-			try {
-				CompiledFunction<Pair<Long, List<LangObject>>> compiledFunction = new MantaroLang().compile(code);
-				compileTime = OptionalLong.of(compiledFunction.timeTook());
-
-				Pair<Long, List<LangObject>> run = compiledFunction.run();
-				executeTime = OptionalLong.of(run.getKey());
-
-				List<LangObject> returnList = run.getRight();
-
-				r = returnList.isEmpty() ? null : returnList.size() == 1 ? returnList.get(0) : returnList;
-			} catch (Exception e) {
-				r = e;
-			}
-
-			OptionalLong runningTime = executeTime;
-			compileTime.ifPresent(l -> event.getChannel().sendMessage("**MantaroLang Debug**\n**Compile Time**: " + l + " ms" + (runningTime.isPresent() ? "\n**Executing Time**: " + runningTime.orElse(0) + " ms" : "")).queue());
-
-			return r;
 		});
 
 		evals.put("cw", (event, code) -> {

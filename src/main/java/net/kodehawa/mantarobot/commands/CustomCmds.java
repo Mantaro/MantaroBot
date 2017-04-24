@@ -45,7 +45,6 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 public class CustomCmds {
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
 	private static final Command customCommand = new Command() {
-		private Random r = new Random();
 
 		@Override
 		public Category category() {
