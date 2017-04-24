@@ -5,6 +5,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboard.e621.main.e621;
@@ -19,6 +20,7 @@ import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -62,36 +64,41 @@ public class ImageCmds {
 
 	@Event
 	public static void cat(CommandRegistry cr) {
-		cr.register("cat", Commands.newSimple(Category.IMAGE)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("cat", new SimpleCommand(Category.IMAGE) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
 					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
 					event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
-						new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
+							new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Cat command")
-				.setDescription("Sends a random cat image")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Cat command")
+						.setDescription("Sends a random cat image")
+						.build();
+			}
+		});
 	}
 
 	@Event
+	//O look, something that natan did that's not completely nuked.
 	public static void catgirls(CommandRegistry cr) {
-		cr.register("catgirl", Commands.newSimple(Category.IMAGE)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
 				if (nsfw && !nsfwCheck(event, true, true, null)) return;
 
 				try {
 					JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
-						.asJson()
-						.getBody()
-						.getObject();
+							.asJson()
+							.getBody()
+							.getObject();
 					if (!obj.has("url")) {
 						event.getChannel().sendMessage("Unable to find image").queue();
 					} else {
@@ -101,19 +108,23 @@ public class ImageCmds {
 					e.printStackTrace();
 					event.getChannel().sendMessage("Unable to get image").queue();
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Catgirl command")
-				.setDescription("Sends catgirl images")
-				.addField("Usage", "`~>catgirl`\n´~>catgirl nsfw´", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Catgirl command")
+						.setDescription("Sends catgirl images")
+						.addField("Usage", "`~>catgirl`\n´~>catgirl nsfw´", false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void e621(CommandRegistry cr) {
-		cr.register("e621", Commands.newSimple(Category.IMAGE)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("e621", new SimpleCommand(Category.IMAGE) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!nsfwCheck(event, true, true, null)) return;
 				TextChannelGround.of(event).dropItemWithChance(13, 3);
 
@@ -136,11 +147,11 @@ public class ImageCmds {
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, image.get(number - 1).getFile_url())
-										.setImage(image.get(number - 1).getFile_url())
-										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
-										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
-										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-										.setFooter("If the image doesn't load, click the title.", null);
+											.setImage(image.get(number - 1).getFile_url())
+											.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
+											.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
+											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (ArrayIndexOutOfBoundsException e) {
@@ -177,11 +188,11 @@ public class ImageCmds {
 
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, images.get(number1 - 1).getFile_url())
-										.setImage(images.get(number1 - 1).getFile_url())
-										.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
-										.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
-										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-										.setFooter("If the image doesn't load, click the title.", null);
+											.setImage(images.get(number1 - 1).getFile_url())
+											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
+											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
+											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (ArrayIndexOutOfBoundsException e) {
@@ -194,20 +205,24 @@ public class ImageCmds {
 						}
 						break;
 					default:
-						thiz.onHelp(event);
+						onHelp(event);
 						break;
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "e621 commmand")
-				.setColor(Color.PINK)
-				.setDescription("Retrieves images from the **e621** (furry) image board.")
-				.addField("Usage", "~>e621 get <page> <imagenumber>: Gets an image based in parameters.\n"
-					+ "~>e621 tags <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
-				.addField("Parameters", "page: Can be any value from 1 to the e621 maximum page. Probably around 4000.\n"
-					+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-					+ "tag: Any valid image tag. For example animal_ears or original.", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "e621 commmand")
+						.setColor(Color.PINK)
+						.setDescription("Retrieves images from the **e621** (furry) image board.")
+						.addField("Usage", "~>e621 get <page> <imagenumber>: Gets an image based in parameters.\n"
+								+ "~>e621 tags <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
+						.addField("Parameters", "page: Can be any value from 1 to the e621 maximum page. Probably around 4000.\n"
+								+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+								+ "tag: Any valid image tag. For example animal_ears or original.", false)
+						.build();
+			}
+		});
 	}
 
 	private static EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
@@ -259,9 +274,9 @@ public class ImageCmds {
 
 	@Event
 	public static void kona(CommandRegistry cr) {
-		cr.register("konachan", Commands.newSimple(Category.IMAGE)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("konachan", new SimpleCommand(Category.IMAGE) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				TextChannel channel = event.getChannel();
 
 				String noArgs = content.split(" ")[0];
@@ -284,12 +299,12 @@ public class ImageCmds {
 
 							EmbedBuilder builder = new EmbedBuilder();
 							builder.setAuthor("Found image", null, "https:" + wallpapers.get(number - 1).getJpeg_url())
-								.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-								.setImage("https:" + wallpapers.get(number - 1).getJpeg_url())
-								.addField("Width", String.valueOf(wallpapers.get(number - 1).getWidth()), true)
-								.addField("Height", String.valueOf(wallpapers.get(number - 1).getHeight()), true)
-								.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-								.setFooter("If the image doesn't load, click the title.", null);
+									.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+									.setImage("https:" + wallpapers.get(number - 1).getJpeg_url())
+									.addField("Width", String.valueOf(wallpapers.get(number - 1).getWidth()), true)
+									.addField("Height", String.valueOf(wallpapers.get(number - 1).getHeight()), true)
+									.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+									.setFooter("If the image doesn't load, click the title.", null);
 
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception exception) {
@@ -322,12 +337,12 @@ public class ImageCmds {
 
 								EmbedBuilder builder = new EmbedBuilder();
 								builder.setAuthor("Found image", null, "https:" + wallpapers1.get(number1 - 1).getJpeg_url())
-									.setDescription("Image uploaded by: " + (wallpapers1.get(number1 - 1).getAuthor() == null ? "not found" : wallpapers1.get(number1 - 1).getAuthor()))
-									.setImage("https:" + wallpapers1.get(number1 - 1).getJpeg_url())
-									.addField("Width", String.valueOf(wallpapers1.get(number1 - 1).getWidth()), true)
-									.addField("Height", String.valueOf(wallpapers1.get(number1 - 1).getHeight()), true)
-									.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
-									.setFooter("If the image doesn't load, click the title.", null);
+										.setDescription("Image uploaded by: " + (wallpapers1.get(number1 - 1).getAuthor() == null ? "not found" : wallpapers1.get(number1 - 1).getAuthor()))
+										.setImage("https:" + wallpapers1.get(number1 - 1).getJpeg_url())
+										.addField("Width", String.valueOf(wallpapers1.get(number1 - 1).getWidth()), true)
+										.addField("Height", String.valueOf(wallpapers1.get(number1 - 1).getHeight()), true)
+										.addField("Tags", "``" + (TAGS1 == null ? "None" : TAGS1) + "``", false)
+										.setFooter("If the image doesn't load, click the title.", null);
 
 								channel.sendMessage(builder.build()).queue();
 							});
@@ -342,20 +357,24 @@ public class ImageCmds {
 						}
 						break;
 					default:
-						thiz.onHelp(event);
+						onHelp(event);
 						break;
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Konachan commmand")
-				.setColor(Color.PINK)
-				.setDescription("Retrieves images from the **Konachan** image board.")
-				.addField("Usage", "~>konachan get <page> <imagenumber>: Gets an image based in parameters.\n"
-					+ "~>konachan tags <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
-				.addField("Parameters", "page: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
-					+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-					+ "tag: Any valid image tag. For example animal_ears or original.", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Konachan commmand")
+						.setColor(Color.PINK)
+						.setDescription("Retrieves images from the **Konachan** image board.")
+						.addField("Usage", "~>konachan get <page> <imagenumber>: Gets an image based in parameters.\n"
+								+ "~>konachan tags <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
+						.addField("Parameters", "page: Can be any value from 1 to the Konachan maximum page. Probably around 4000.\n"
+								+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+								+ "tag: Any valid image tag. For example animal_ears or original.", false)
+						.build();
+			}
+		});
 	}
 
 	private static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String acceptedRating) {
@@ -383,9 +402,9 @@ public class ImageCmds {
 
 	@Event
 	public static void rule34(CommandRegistry cr) {
-		cr.register("rule34", Commands.newSimple(Category.IMAGE)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!nsfwCheck(event, true, true, null)) return;
 
 				String noArgs = content.split(" ")[0];
@@ -407,11 +426,11 @@ public class ImageCmds {
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, "http:" + image.get(number - 1).getFile_url())
-										.setImage("http:" + image.get(number - 1).getFile_url())
-										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
-										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
-										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-										.setFooter("If the image doesn't load, click the title.", null);
+											.setImage("http:" + image.get(number - 1).getFile_url())
+											.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
+											.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
+											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (ArrayIndexOutOfBoundsException e) {
@@ -445,14 +464,14 @@ public class ImageCmds {
 											number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
 										}
 										String TAGS = images.get(number).getTags() == null ? tags : images.get(number).getTags()
-											.replace(" ", " ,");
+												.replace(" ", " ,");
 										EmbedBuilder builder = new EmbedBuilder();
 										builder.setAuthor("Found image", null, "http:" + images.get(number1 - 1).getFile_url())
-											.setImage("http:" + images.get(number1 - 1).getFile_url())
-											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
-											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
-											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-											.setFooter("If the image doesn't load, click the title.", null);
+												.setImage("http:" + images.get(number1 - 1).getFile_url())
+												.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
+												.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
+												.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
+												.setFooter("If the image doesn't load, click the title.", null);
 
 										event.getChannel().sendMessage(builder.build()).queue();
 									} catch (Exception e) {
@@ -471,27 +490,31 @@ public class ImageCmds {
 						}
 						break;
 					default:
-						thiz.onHelp(event);
+						onHelp(event);
 						break;
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "rule34.xxx commmand")
-				.setColor(Color.PINK)
-				.setDescription("Retrieves images from the **rule34** (hentai) image board.")
-				.addField("Usage", "~>rule34 get <imagenumber>: Gets an image based in parameters.\n"
-					+ "~>rule34 tags <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
-				.addField("Parameters", "page: Can be any value from 1 to the rule34 maximum page. Probably around 4000.\n"
-					+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-					+ "tag: Any valid image tag. For example animal_ears or original.", false)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "rule34.xxx commmand")
+						.setColor(Color.PINK)
+						.setDescription("Retrieves images from the **rule34** (hentai) image board.")
+						.addField("Usage", "~>rule34 get <imagenumber>: Gets an image based in parameters.\n"
+								+ "~>rule34 tags <tag> <imagenumber>: Gets an image based in the specified tag and parameters.\n", false)
+						.addField("Parameters", "page: Can be any value from 1 to the rule34 maximum page. Probably around 4000.\n"
+								+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+								+ "tag: Any valid image tag. For example animal_ears or original.", false)
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void yandere(CommandRegistry cr) {
-		cr.register("yandere", Commands.newSimple(Category.IMAGE)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("yandere", new SimpleCommand(Category.IMAGE) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				rating = "s";
 				needRating = args.length >= 3;
 				smallRequest = args.length <= 1;
@@ -532,23 +555,27 @@ public class ImageCmds {
 						channel.sendMessage(getImage(argCount, "random", url2, rating, args, event).build()).queue();
 						break;
 					default:
-						thiz.onHelp(event);
+						onHelp(event);
 						break;
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Yande.re command")
-				.setColor(Color.DARK_GRAY)
-				.setDescription("This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
-					+ "but tags can be set to safe if you so desire.\n"
-					+ "~>yandere: Gets you a completely random image.\n"
-					+ "~>yandere get <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
-					+ "~>yandere tags <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
-					+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
-					+ "> Parameter explanation:\n"
-					+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
-					+ "tag: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
-					+ "rating: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Yande.re command")
+						.setColor(Color.DARK_GRAY)
+						.setDescription("This command fetches images from the image board **yande.re**. Normally used to store *NSFW* images, "
+								+ "but tags can be set to safe if you so desire.\n"
+								+ "~>yandere: Gets you a completely random image.\n"
+								+ "~>yandere get <imagenumber> <rating>: Gets you an image with the specified parameters.\n"
+								+ "~>yandere tags <tag> <rating> <imagenumber>: Gets you an image with the respective tag and specified parameters.\n"
+								+ "This command can be only used in NSFW channels! (Unless rating has been specified as safe)\n"
+								+ "> Parameter explanation:\n"
+								+ "imagenumber: (OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.\n"
+								+ "tag: Any valid image tag. For example animal_ears or yuri. (only one tag, spaces are separated by underscores)\n"
+								+ "rating: (OPTIONAL) Can be either safe, questionable or explicit, depends on the type of image you want to get.")
+						.build();
+			}
+		});
 	}
 }

@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -637,16 +638,11 @@ public class OptsCmd {
 
 	@Event
 	public static void register(CommandRegistry registry) {
-		registry.register("opts", optsCmd = Commands.newSimple(Category.MODERATION)
-			.permission(CommandPermission.ADMIN)
-			.help((thiz, event) -> thiz.helpEmbed(event, "Options and Configurations Command")
-				.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
-					"All values set are local rather than global, meaning that they will only effect this server.", false)
-				.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
-				.build())
-			.onCall((thiz, event, content, args) -> {
+		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 2) {
-					event.getChannel().sendMessage(thiz.help(event)).queue();
+					event.getChannel().sendMessage(help(event)).queue();
 					return;
 				}
 				String name = "";
@@ -663,17 +659,26 @@ public class OptsCmd {
 						return;
 					}
 				}
-				event.getChannel().sendMessage(thiz.help(event)).queue();
-			})
-			.build());
+				event.getChannel().sendMessage(help(event)).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Options and Configurations Command")
+						.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
+								"All values set are local rather than global, meaning that they will only effect this server.", false)
+						.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
+						.build();
+			}
+		});
 	}
 
-	public static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
+	private static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
 		Preconditions.checkNotNull(code, "code");
 		registerOption(name, (event, ignored) -> code.accept(event));
 	}
 
-	public static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+	private static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
 		Preconditions.checkNotNull(name, "name");
 		Preconditions.checkArgument(!name.isEmpty(), "Name is empty");
 		Preconditions.checkNotNull(code, "code");

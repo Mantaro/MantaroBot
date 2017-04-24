@@ -658,7 +658,6 @@ public class CurrencyCmds {
 
 	@Event
 	public static void transfer(CommandRegistry cr) {
-		//for now, local transfer.
 		cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {

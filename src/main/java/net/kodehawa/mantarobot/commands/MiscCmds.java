@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -13,6 +14,7 @@ import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -37,11 +39,11 @@ public class MiscCmds {
 
 	@Event
 	public static void eightBall(CommandRegistry cr) {
-		cr.register("8ball", Commands.newSimple(Category.MISC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("8ball", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
-					thiz.onHelp(event);
+					onHelp(event);
 					return;
 				}
 
@@ -50,40 +52,44 @@ public class MiscCmds {
 				try {
 					textEncoded = URLEncoder.encode(content, "UTF-8");
 					answer = Unirest.get(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded))
-						.asJson()
-						.getBody()
-						.getObject()
-						.getJSONObject("magic")
-						.getString("answer");
+							.asJson()
+							.getBody()
+							.getObject()
+							.getJSONObject("magic")
+							.getString("answer");
 				} catch (Exception exception) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners " +
-						"have been notified and will resolve this soon.")
-						.queue();
+							"have been notified and will resolve this soon.")
+							.queue();
 					log.warn("Error while processing answer", exception);
 					return;
 				}
 
 				event.getChannel().sendMessage("\uD83D\uDCAC " + answer + ".").queue();
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "8ball")
-				.setDescription("Retrieves an answer from the magic 8Ball.\n"
-					+ "~>8ball <question>. Retrieves an answer from 8ball based on the question or sentence provided.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "8ball")
+						.setDescription("Retrieves an answer from the magic 8Ball.\n"
+								+ "~>8ball <question>. Retrieves an answer from 8ball based on the question or sentence provided.")
+						.build();
+			}
+		});
 	}
 
 	@Event
 	public static void iam(CommandRegistry cr) {
-		cr.register("iam", Commands.newSimple(Category.MISC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("iam", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 				if (args.length == 0 || content.length() == 0) {
-					thiz.onHelp(event);
+					onHelp(event);
 					return;
 				}
 				if (content.equals("list")) {
-					EmbedBuilder embed = thiz.baseEmbed(event, "Autorole list");
+					EmbedBuilder embed = baseEmbed(event, "Autorole list");
 					if (autoroles.size() > 0) {
 						autoroles.forEach((name, roleId) -> {
 							Role role = event.getGuild().getRoleById(roleId);
@@ -96,13 +102,17 @@ public class MiscCmds {
 				}
 
 				iamFunction(args[0], event);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Iam (autoroles)")
-				.setDescription("Get an autorole that your server administrators have set up!\n"
-					+ "~>iam <name>. Get the role with the specified name.\n"
-					+ "~>iam list. List all the available autoroles in this server")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Iam (autoroles)")
+						.setDescription("Get an autorole that your server administrators have set up!\n"
+								+ "~>iam <name>. Get the role with the specified name.\n"
+								+ "~>iam list. List all the available autoroles in this server")
+						.build();
+			}
+		});
 	}
 
 	public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
@@ -135,17 +145,17 @@ public class MiscCmds {
 
 	@Event
 	public static void iamnot(CommandRegistry cr) {
-		cr.register("iamnot", Commands.newSimple(Category.MISC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("iamnot", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 				if (args.length == 0 || content.length() == 0) {
-					thiz.onHelp(event);
+					onHelp(event);
 					return;
 				}
 
 				if (content.equals("list")) {
-					EmbedBuilder embed = thiz.baseEmbed(event, "Autorole list");
+					EmbedBuilder embed = baseEmbed(event, "Autorole list");
 					if (autoroles.size() > 0) {
 						autoroles.forEach((name, roleId) -> {
 							Role role = event.getGuild().getRoleById(roleId);
@@ -158,13 +168,17 @@ public class MiscCmds {
 				}
 
 				iamnotFunction(args[0], event);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Iamnot (autoroles)")
-				.setDescription("Remove an autorole that your server administrators have set up!\n"
-					+ "~>iamnot <name>. Remove the role with the specified name.\n"
-					+ "~>iamnot list. List all the available autoroles in this server")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Iamnot (autoroles)")
+						.setDescription("Remove an autorole that your server administrators have set up!\n"
+								+ "~>iamnot <name>. Remove the role with the specified name.\n"
+								+ "~>iamnot list. List all the available autoroles in this server")
+						.build();
+			}
+		});
 	}
 
 	public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
@@ -197,9 +211,9 @@ public class MiscCmds {
 
 	@Event
 	public static void misc(CommandRegistry cr) {
-		cr.register("misc", Commands.newSimple(Category.MISC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("misc", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				TextChannel channel = event.getChannel();
 				String noArgs = content.split(" ")[0];
 				switch (noArgs) {
@@ -214,24 +228,28 @@ public class MiscCmds {
 						break;
 					case "noble":
 						channel.sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
-							"-Noble").queue();
+								"-Noble").queue();
 						break;
 					default:
-						thiz.onHelp(event);
+						onHelp(event);
 						break;
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Misc Commands")
-				.setDescription("Miscellaneous funny/useful commands.\n"
-					+ "Usage:\n"
-					+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
-					+ "~>misc noble: Random Lost Pause quote.\n"
-					+ "~>misc rndcolor: Gives you a random hex color.\n"
-					+ "Parameter explanation:\n"
-					+ "sentence: A sentence to reverse."
-					+ "@user: A user to mention.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Misc Commands")
+						.setDescription("Miscellaneous funny/useful commands.\n"
+								+ "Usage:\n"
+								+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
+								+ "~>misc noble: Random Lost Pause quote.\n"
+								+ "~>misc rndcolor: Gives you a random hex color.\n"
+								+ "Parameter explanation:\n"
+								+ "sentence: A sentence to reverse."
+								+ "@user: A user to mention.")
+						.build();
+			}
+		});
 	}
 
 	/**
@@ -243,14 +261,18 @@ public class MiscCmds {
 
 	@Event
 	public static void randomFact(CommandRegistry cr) {
-		cr.register("randomfact", Commands.newSimple(Category.MISC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("randomfact", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Random Fact")
-				.setDescription("Sends a random fact.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Random Fact")
+						.setDescription("Sends a random fact.")
+						.build();
+			}
+		});
 	}
 }

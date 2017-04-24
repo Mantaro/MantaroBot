@@ -7,14 +7,14 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -37,11 +37,11 @@ public class QuoteCmd {
 
 	@Event
 	public static void quote(CommandRegistry cr) {
-		cr.register("quote", Commands.newSimple(Category.MISC)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("quote", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
-					thiz.onHelp(event);
+					onHelp(event);
 					return;
 				}
 
@@ -56,25 +56,25 @@ public class QuoteCmd {
 					messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
 				} catch (Exception e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "It seems like discord is on fire, as my" +
-						" " +
-						"request to retrieve message history was denied" +
-						"with the error `" + e.getClass().getSimpleName() + "`").queue();
+							" " +
+							"request to retrieve message history was denied" +
+							"with the error `" + e.getClass().getSimpleName() + "`").queue();
 					log.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
 					return;
 				}
 
 				if (action.equals("addfrom")) {
 					Message message = messageHistory.stream().filter(
-						msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
-							&& !msg.getContent().startsWith(
-							db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
-								: db.getGuild(guild).getData().getGuildCustomPrefix())
-							&& !msg.getContent().startsWith(MantaroData.config().get().getPrefix())
+							msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
+									&& !msg.getContent().startsWith(
+									db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
+											: db.getGuild(guild).getData().getGuildCustomPrefix())
+									&& !msg.getContent().startsWith(MantaroData.config().get().getPrefix())
 					).findFirst().orElse(null);
 
 					if (message == null) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a message matching the specified search" +
-							" criteria. Please try again with a more specific query.").queue();
+								" criteria. Please try again with a more specific query.").queue();
 						return;
 					}
 
@@ -121,7 +121,7 @@ public class QuoteCmd {
 								db.getQuotes(guild).remove(i2);
 								quote.saveAsync();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent())
-									.queue();
+										.queue();
 								break;
 							}
 						}
@@ -129,20 +129,24 @@ public class QuoteCmd {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "No quotes match the criteria.").queue();
 					}
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Quote command")
-				.setDescription("> Usage:\n"
-					+ "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
-					"the last message.\n"
-					+ "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
-					+ "~>quote readfrom <phrase>: Search for the first quote which matches your search criteria and prints " +
-					"it.\n"
-					+ "~>quote random: Get a random quote. \n"
-					+ "> Parameters:\n"
-					+ "number: Message number to quote. For example, 1 will quote the last message.\n"
-					+ "phrase: A part of the quote phrase.")
-				.setColor(Color.DARK_GRAY)
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Quote command")
+						.setDescription("> Usage:\n"
+								+ "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
+								"the last message.\n"
+								+ "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
+								+ "~>quote readfrom <phrase>: Search for the first quote which matches your search criteria and prints " +
+								"it.\n"
+								+ "~>quote random: Get a random quote. \n"
+								+ "> Parameters:\n"
+								+ "number: Message number to quote. For example, 1 will quote the last message.\n"
+								+ "phrase: A part of the quote phrase.")
+						.setColor(Color.DARK_GRAY)
+						.build();
+			}
+		});
 	}
 }

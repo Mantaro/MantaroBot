@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.ImageGuess;
 import net.kodehawa.mantarobot.commands.game.Pokemon;
@@ -15,6 +16,7 @@ import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -28,11 +30,11 @@ public class GameCmds {
 
 	@Event
 	public static void guess(CommandRegistry cr) {
-		cr.register("game", Commands.newSimple(Category.GAMES)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("game", new SimpleCommand(Category.GAMES) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
-					thiz.onHelp(event);
+					onHelp(event);
 					return;
 				}
 
@@ -67,7 +69,7 @@ public class GameCmds {
 
 						GameLobby lobby = new GameLobby(event, map, list);
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games " + games + " and members " +
-							builder.toString() + "successfully.").queue();
+								builder.toString() + "successfully.").queue();
 						lobby.startFirstGame();
 						return;
 					} catch (Exception e) {
@@ -81,14 +83,18 @@ public class GameCmds {
 					return;
 				}
 
-				thiz.onHelp(event);
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Guessing games.")
-				.addField("Games", "~>game character: Starts a instance of Guess the character (anime).\n"
-					+ "~>game pokemon: Starts a instance of who's that pokemon?", false)
-				.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
-				.build())
-			.build());
+				onHelp(event);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Guessing games.")
+						.addField("Games", "~>game character: Starts a instance of Guess the character (anime).\n"
+								+ "~>game pokemon: Starts a instance of who's that pokemon?", false)
+						.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
+						.build();
+			}
+		});
 	}
 
 	private static void startGame(Game game, GuildMessageReceivedEvent event) {
@@ -120,12 +126,18 @@ public class GameCmds {
 
 	@Event
 	public static void trivia(CommandRegistry cr) {
-		cr.register("trivia", Commands.newSimple(Category.GAMES)
-			.permission(CommandPermission.USER)
-			.onCall(event -> startGame(new Trivia(), event))
-			.help((thiz, event) -> thiz.helpEmbed(event, "Trivia command.")
-				.setDescription("Starts an instance of trivia.")
-				.build())
-			.build());
+		cr.register("trivia", new SimpleCommand(Category.GAMES) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				startGame(new Trivia(), event);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Trivia command.")
+						.setDescription("Starts an instance of trivia.")
+						.build();
+			}
+		});
 	}
 }

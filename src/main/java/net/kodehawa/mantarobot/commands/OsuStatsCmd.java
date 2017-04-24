@@ -7,6 +7,7 @@ import com.osu.api.ciyfhx.UserScore;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.commands.rpg.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -15,6 +16,7 @@ import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.Commands;
+import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
@@ -85,9 +87,9 @@ public class OsuStatsCmd {
 
 	@Event
 	public static void osustats(CommandRegistry cr) {
-		cr.register("osustats", Commands.newSimple(Category.GAMES)
-			.permission(CommandPermission.USER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("osustats", new SimpleCommand(Category.GAMES) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String noArgs = content.split(" ")[0];
 				TextChannelGround.of(event).dropItemWithChance(4, 5);
 				switch (noArgs) {
@@ -121,20 +123,24 @@ public class OsuStatsCmd {
 						event.getChannel().sendMessage(user(content)).queue();
 						break;
 					default:
-						thiz.onHelp(event);
+						onHelp(event);
 						break;
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "osu! command")
-				.setDescription("Retrieves information from the osu!api.\n"
-					+ "Usage: \n"
-					+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
-					+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
-					+ "~>osu user <player>: Retrieves information about a osu! player.\n"
-					+ "Parameter description:\n"
-					+ "player: The osu! player to look info for.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "osu! command")
+						.setDescription("Retrieves information from the osu!api.\n"
+								+ "Usage: \n"
+								+ "~>osu best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
+								+ "~>osu recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
+								+ "~>osu user <player>: Retrieves information about a osu! player.\n"
+								+ "Parameter description:\n"
+								+ "player: The osu! player to look info for.")
+						.build();
+			}
+		});
 	}
 
 	private static String recent(String content) {

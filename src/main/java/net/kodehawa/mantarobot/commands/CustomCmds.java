@@ -42,7 +42,6 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
-//This will keep being SCC.
 public class CustomCmds {
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
 	private static final Command customCommand = new Command() {

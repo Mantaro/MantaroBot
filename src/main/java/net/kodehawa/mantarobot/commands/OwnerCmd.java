@@ -3,12 +3,17 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.extensions.Async;
 import bsh.Interpreter;
 import com.rethinkdb.gen.exc.ReqlError;
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.kodehawa.lib.mantarolang.CompiledFunction;
+import net.kodehawa.lib.mantarolang.MantaroLang;
+import net.kodehawa.lib.mantarolang.objects.LangObject;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -25,6 +30,7 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -68,9 +74,9 @@ public class OwnerCmd {
 
 	@Event
 	public static void blacklist(CommandRegistry cr) {
-		cr.register("blacklist", Commands.newSimple(Category.OWNER)
-			.permission(CommandPermission.OWNER)
-			.onCall((thiz, event, content, args) -> {
+		cr.register("blacklist", new SimpleCommand(Category.OWNER) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				MantaroObj obj = MantaroData.db().getMantaroData();
 				if (args[0].equals("guild")) {
 					if (args[1].equals("add")) {
@@ -100,21 +106,27 @@ public class OwnerCmd {
 						obj.save();
 					}
 				}
-			})
-			.help((thiz, event) -> thiz.helpEmbed(event, "Blacklist command")
-				.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
-				.build())
-			.build());
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Blacklist command")
+						.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+						.setFooter("Examples", "~>blacklist user add/remove 293884638101897216\n" +
+								"~>blacklist guild add/remove 305408763915927552")
+						.build();
+			}
+		});
 	}
 
-	public static String getStackTrace(Throwable e) {
+	private static String getStackTrace(Throwable e) {
 		StringWriter sw = new StringWriter();
 		PrintWriter pw = new PrintWriter(sw);
 		e.printStackTrace(pw);
 		return sw.toString();
 	}
 
-	public static String makeAsciiTable(List<String> headers, List<List<String>> table, List<String> footer) {
+	private static String makeAsciiTable(List<String> headers, List<List<String>> table, List<String> footer) {
 		StringBuilder sb = new StringBuilder();
 		int padding = 1;
 		int[] widths = new int[headers.size()];
@@ -211,7 +223,7 @@ public class OwnerCmd {
 			}
 		});
 
-/*		evals.put("groovy", (event, code) -> {*//*
+		evals.put("groovy", (event, code) -> {
 			Binding b = new Binding();
 			b.setVariable("jda", event.getJDA());
 			b.setVariable("event", event);
@@ -223,7 +235,31 @@ public class OwnerCmd {
 			} catch (Exception e) {
 				return e;
 			}
-		});*/
+		});
+
+		evals.put("m", (event, code) -> {
+			OptionalLong compileTime = OptionalLong.empty();
+			OptionalLong executeTime = OptionalLong.empty();
+			Object r;
+			try {
+				CompiledFunction<Pair<Long, List<LangObject>>> compiledFunction = new MantaroLang().compile(code);
+				compileTime = OptionalLong.of(compiledFunction.timeTook());
+
+				Pair<Long, List<LangObject>> run = compiledFunction.run();
+				executeTime = OptionalLong.of(run.getKey());
+
+				List<LangObject> returnList = run.getRight();
+
+				r = returnList.isEmpty() ? null : returnList.size() == 1 ? returnList.get(0) : returnList;
+			} catch (Exception e) {
+				r = e;
+			}
+
+			OptionalLong runningTime = executeTime;
+			compileTime.ifPresent(l -> event.getChannel().sendMessage("**MantaroLang Debug**\n**Compile Time**: " + l + " ms" + (runningTime.isPresent() ? "\n**Executing Time**: " + runningTime.orElse(0) + " ms" : "")).queue());
+
+			return r;
+		});
 
 		evals.put("cw", (event, code) -> {
 			Object[] returns;
@@ -244,8 +280,26 @@ public class OwnerCmd {
 			return result;
 		});
 
-		//This command will keep being SimpleCommandCompat.
 		cr.register("owner", new SimpleCommand(Category.OWNER) {
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Owner command")
+					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
+						"~>owner restart/forcerestart: Restarts the bot.\n" +
+						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
+						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
+						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
+						"~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
+						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
+					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
+					.build();
+			}
+
+			@Override
+			public CommandPermission permission() {
+				return CommandPermission.OWNER;
+			}
+
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 1) {
@@ -347,7 +401,8 @@ public class OwnerCmd {
 					if (args.length == 2) {
 						try {
 							notifyMusic(args[1]).get();
-						} catch (InterruptedException | ExecutionException ignored) {}
+						} catch (InterruptedException | ExecutionException ignored) {
+						}
 					}
 
 					try {
@@ -379,7 +434,8 @@ public class OwnerCmd {
 					if (args.length == 2) {
 						try {
 							notifyMusic(args[1]).get();
-						} catch (InterruptedException | ExecutionException ignored) {}
+						} catch (InterruptedException | ExecutionException ignored) {
+						}
 					}
 
 					try {
@@ -605,27 +661,8 @@ public class OwnerCmd {
 			}
 
 			@Override
-			public CommandPermission permission() {
-				return CommandPermission.OWNER;
-			}
-
-			@Override
 			public String[] splitArgs(String content) {
 				return SPLIT_PATTERN.split(content, 2);
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Owner command")
-					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
-						"~>owner restart/forcerestart: Restarts the bot.\n" +
-						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
-						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
-						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
-						"~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
-						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
-					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
-					.build();
 			}
 
 		});
@@ -638,7 +675,7 @@ public class OwnerCmd {
 
 		try {
 			MantaroData.connectionWatcher().close();
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
 
