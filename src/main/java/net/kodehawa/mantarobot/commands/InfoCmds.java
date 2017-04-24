@@ -394,7 +394,11 @@ public class InfoCmds {
 									TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT),
 									TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT) -
 											TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(shard.getEventManager().LAST_EVENT - System.currentTimeMillis()))
-							));
+							))
+							.append(" | MC: ")
+							.append(shard.getJDA().getVoiceChannels().stream().filter
+											(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()))
+											.count());
 
 					if (shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
 						builder.append(" <- CURRENT");
