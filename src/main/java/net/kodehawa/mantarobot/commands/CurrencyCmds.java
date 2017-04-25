@@ -443,18 +443,21 @@ public class CurrencyCmds {
 							return;
 						}
 
-						User user1 = getUserById(user.getData().getMarriedWith());
+						User user1 = user.getData().getMarriedWith() == null
+								? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
 						Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
 
 						if(args[0].equals("anniversarystart")){
-							if(user.getData().getMarriedSince() != null && marriedWith == null){
+							if(user.getData().getMarriedSince() == null && user1 != null) {
 								user.getData().setMarriedSince(System.currentTimeMillis());
 								marriedWith.getData().setMarriedSince(System.currentTimeMillis());
+								user.saveAsync();
+								marriedWith.saveAsync();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Set anniversary date.").queue();
-							} else {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Either you're already married and your date is set or you're single :(").queue();
+								return;
 							}
 
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Either you're already married and your date is set or you're single :(").queue();
 							return;
 						}
 
