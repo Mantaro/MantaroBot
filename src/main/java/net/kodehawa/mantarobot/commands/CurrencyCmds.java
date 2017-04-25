@@ -314,19 +314,17 @@ public class CurrencyCmds {
 						}
 						try {
 							if (args[1].equals("all")) {
+								long all = player.getInventory().asList().stream()
+										.filter(item -> item.getItem().isSellable())
+										.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+										.sum();
+
 								if(args.length > 1 && args[2].equals("calculate")){
-									long all = player.getInventory().asList().stream()
-											.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-											.sum();
 									event.getChannel().sendMessage(EmoteReference.THINKING + "You'll get **" + all + "** credits if you sell all of your items").queue();
 									return;
 								}
 
-								long all = player.getInventory().asList().stream()
-									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-									.sum();
-
-								player.getInventory().clear();
+								player.getInventory().clearOnlySellables();
 
 								if (player.addMoney(all)) {
 									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits!").queue();

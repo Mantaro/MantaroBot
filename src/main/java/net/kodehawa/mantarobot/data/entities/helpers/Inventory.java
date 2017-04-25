@@ -37,6 +37,10 @@ public class Inventory {
 		replaceWith(new ArrayList<>());
 	}
 
+	public void clearOnlySellables(){
+		replaceWith(asList().stream().filter(item -> !item.getItem().isSellable()).collect(Collectors.toList()));
+	}
+
 	public boolean containsItem(Item item) {
 		return asMap().containsKey(item);
 	}
