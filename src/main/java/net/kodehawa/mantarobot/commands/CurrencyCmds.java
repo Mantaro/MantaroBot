@@ -611,7 +611,7 @@ public class CurrencyCmds {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "I don't see any anniversary here :(. Maybe you were married before this change was implemented, in that case do ~>marry anniversarystart").queue();
 						return;
 					}
-					event.getChannel().sendMessage(String.format("%sYour anniversary with **%s** is on %s", EmoteReference.POPPER, user1.getName(), anniversary)).queue();
+					event.getChannel().sendMessage(String.format("%sYour anniversary with **%s** is on %s. You married on **%s**", EmoteReference.POPPER, user1.getName(), anniversary, marriedSince)).queue();
 					return;
 				}
 
