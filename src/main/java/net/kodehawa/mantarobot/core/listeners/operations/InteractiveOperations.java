@@ -58,9 +58,9 @@ public class InteractiveOperations {
 		Objects.requireNonNull(increasingTimeout, "increasingTimeout");
 		Objects.requireNonNull(operation, "operation");
 
-		RunningOperation op = new RunningOperation(increasingTimeout, operation, operationName);
-
 		if (OPERATIONS.containsKey(channelId)) return false;
+
+		RunningOperation op = new RunningOperation(increasingTimeout, operation, operationName);
 
 		OPERATIONS.put(channelId, op);
 		EXPIRATOR.letExpire(System.currentTimeMillis() + startingTimeout, op);
