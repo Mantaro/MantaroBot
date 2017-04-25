@@ -8,12 +8,13 @@ public class Item {
 	private final String emoji, name, desc;
 	protected long price, maxSize;
 	private boolean sellable, buyable;
+	private boolean hidden;
 
 	public Item(String emoji, String name, String desc, long value) {
-		this(emoji, name, desc, value, false, true, true, 100);
+		this(emoji, name, desc, value, false, true, true, false, 100);
 	}
 
-	public Item(String emoji, String name, String desc, long value, boolean staticPrice, boolean sellable, boolean buyable, long maxSize) {
+	public Item(String emoji, String name, String desc, long value, boolean staticPrice, boolean sellable, boolean buyable, boolean hidden, long maxSize) {
 		this.emoji = emoji;
 		this.name = name;
 		this.desc = desc;
@@ -23,10 +24,15 @@ public class Item {
 		this.sellable = sellable;
 		this.buyable = buyable;
 		this.maxSize = maxSize;
+		this.hidden = hidden;
 	}
 
 	public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
-		this(emoji, name, desc, value, false, sellable, buyable, 100);
+		this(emoji, name, desc, value, false, sellable, buyable, false, 100);
+	}
+
+	public Item(String emoji, String name, String desc, long value, boolean buyable) {
+		this(emoji, name, desc, value, false, true, buyable, false, 100);
 	}
 
 	public void changePrices(Random r) {

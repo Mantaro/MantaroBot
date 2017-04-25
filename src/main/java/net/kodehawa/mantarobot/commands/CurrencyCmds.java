@@ -447,7 +447,7 @@ public class CurrencyCmds {
 						Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
 
 						if(args[0].equals("anniversarystart")){
-							if(user.getData().getMarriedSince() != null && marriedWith != null){
+							if(user.getData().getMarriedSince() != null && marriedWith == null){
 								user.getData().setMarriedSince(System.currentTimeMillis());
 								marriedWith.getData().setMarriedSince(System.currentTimeMillis());
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Set anniversary date.").queue();
