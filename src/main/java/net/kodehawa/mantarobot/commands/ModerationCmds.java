@@ -286,7 +286,7 @@ public class ModerationCmds {
 				}
 				int i = Integer.parseInt(content);
 
-				if (i <= 5) {
+				if (i < 5) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
 					return;
 				}
