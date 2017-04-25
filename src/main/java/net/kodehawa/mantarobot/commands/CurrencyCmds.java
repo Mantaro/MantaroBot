@@ -229,12 +229,12 @@ public class CurrencyCmds {
 					player.getInventory().merge(loot);
 					if (moneyFound != 0) {
 						if (player.addMoney(moneyFound)) {
-							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + s + ", along with " + moneyFound + " credits!").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with $" + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + s + ", along with " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with $" + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s).queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found $" + s).queue();
 					}
 				} else {
 					if (moneyFound != 0) {
@@ -307,6 +307,14 @@ public class CurrencyCmds {
 						}
 						try {
 							if (args[1].equals("all")) {
+								if(args.length > 1 && args[2].equals("calculate")){
+									long all = player.getInventory().asList().stream()
+											.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+											.sum();
+									event.getChannel().sendMessage(EmoteReference.THINKING + "You'll get **" + all + "** credits if you sell all of your items").queue();
+									return;
+								}
+
 								long all = player.getInventory().asList().stream()
 									.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 									.sum();

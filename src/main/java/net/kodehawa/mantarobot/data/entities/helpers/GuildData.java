@@ -19,6 +19,7 @@ public class GuildData {
 	private String guildCustomPrefix = null;
 	private String guildLogChannel = null;
 	private Set<String> guildUnsafeChannels = new HashSet<>();
+	private Set<Long> logExcludedChannels = new HashSet<>();
 	private String joinMessage = null;
 	private String leaveMessage = null;
 	private String logJoinLeaveChannel = null;

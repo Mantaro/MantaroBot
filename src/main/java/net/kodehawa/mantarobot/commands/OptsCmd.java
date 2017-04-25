@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -29,6 +30,8 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class OptsCmd {
@@ -627,7 +630,40 @@ public class OptsCmd {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find an autorole with that name").queue();
 			}
 		});//endregion
+
+		//region logs
+		//TODO: Add help for this!
+		registerOption("logs:exclude", (event, args) -> {
+			if (args.length == 0) {
+				onHelp(event);
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			String channel = SPLIT_PATTERN.split(String.join(" ", args), 3)[2];
+			List<TextChannel> channels = MantaroBot.getInstance().getTextChannelsByName(channel, true);
+			if (channels.size() == 0) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
+			} else if (channels.size() == 1) {
+				TextChannel ch = channels.get(0);
+				guildData.getLogExcludedChannels().add(ch.getIdLong());
+				dbGuild.saveAsync();
+				event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
+			} else {
+				DiscordUtils.selectList(event, channels, ch -> String.format("%s (ID: %s)", ch.getName(), ch.getId()),
+						s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:")
+								.setDescription(s).build(),
+						ch -> {
+							guildData.getLogExcludedChannels().add(ch.getIdLong());
+							dbGuild.saveAsync();
+							event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
+						});
+			}
+		});//endregion
+
 		//endregion
+
 	}
 
 	@Event

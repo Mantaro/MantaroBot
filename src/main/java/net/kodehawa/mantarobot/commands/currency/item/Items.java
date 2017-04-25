@@ -26,7 +26,7 @@ public class Items {
 		PING_RACKET =
 			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 50, true, false),
 		LOADED_DICE =
-			new Item("\uD83C\uDFB2", "Loaded dice", "Stolen from `~>dice` command", 100, true, false),
+			new Item("\uD83C\uDFB2", "Loaded Dice", "Stolen from `~>dice` command", 100, true, false),
 		FORGOTTEN_MUSIC =
 			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 50, true, false),
 		CC_PENCIL =
@@ -40,9 +40,9 @@ public class Items {
 		POTION_STAMINA =
 			new Item(EmoteReference.POTION2.getUnicode(), "Alcohol", "Hmm. I wonder what's this good for.", 650, false, true),
 		LEWD_MAGAZINE =
-			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd magazine", "Too many lewd commands.", 250, true, true),
+			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd Magazine", "Too many lewd commands.", 250, true, true),
 		RING =
-			new Item(EmoteReference.RING.getUnicode(), "Marriage ring", "What basically makes your marriage official", 1000, true, true)
+			new Item(EmoteReference.RING.getUnicode(), "Marriage Ring", "What basically makes your marriage official", 1000, true, true)
 	};
 
 	static {
