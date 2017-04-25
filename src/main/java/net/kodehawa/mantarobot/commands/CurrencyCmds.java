@@ -429,7 +429,7 @@ public class CurrencyCmds {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (args.length > 0 && args[0].equals("divorce")) {
+				if (args.length > 0 && args[0].equals("divorce") || args[0].equals("anniversarystart")) {
 					try {
 						Player user = MantaroData.db().getPlayer(event.getMember());
 
@@ -440,6 +440,19 @@ public class CurrencyCmds {
 
 						User user1 = getUserById(user.getData().getMarriedWith());
 						Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
+
+						if(args[0].equals("anniversarystart")){
+							if(user.getData().getMarriedSince() != null && marriedWith != null){
+								user.getData().setMarriedSince(System.currentTimeMillis());
+								marriedWith.getData().setMarriedSince(System.currentTimeMillis());
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Set anniversary date.").queue();
+							} else {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Either you're already married and your date is set or you're single :(").queue();
+							}
+
+							return;
+						}
+
 						marriedWith.getData().setMarriedWith(null);
 						marriedWith.getData().setMarriedSince(0L);
 						user.getData().setMarriedWith(null);
@@ -590,8 +603,16 @@ public class CurrencyCmds {
 					Calendar cal = new GregorianCalendar();
 					cal.setTime(new Date());
 					cal.add(Calendar.YEAR, 1);
-					//TODO implement
 					anniversary = sdf.format(cal.getTime());
+				}
+
+				if(args.length > 0 && args[0].equals("anniversary")){
+					if(anniversary == null){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "I don't see any anniversary here :(. Maybe you were married before this change was implemented, in that case do ~>marry anniversarystart").queue();
+						return;
+					}
+					event.getChannel().sendMessage(String.format("%sYour anniversary with **%s** is on %s", EmoteReference.POPPER, user1.getName(), anniversary)).queue();
+					return;
 				}
 
 				event.getChannel().sendMessage(baseEmbed(event, (user1 == null && !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())

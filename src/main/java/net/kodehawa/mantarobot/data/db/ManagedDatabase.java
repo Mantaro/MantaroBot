@@ -14,8 +14,7 @@ import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
 	/*
-	TODO BUG HANDLING.
-	How About just removing it?
+	TODO How About just removing it?
 	 */
 	private final Connection conn;
 
