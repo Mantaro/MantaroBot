@@ -61,8 +61,15 @@ public class CurrencyCmds {
 				if (mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
 					money = money + r.nextInt(50);
 					player = MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser));
+
+					if(mentionedUser.getId().equals(player.getData().getMarriedWith()) && player.getData().getMarriedSince() != null &&
+							Long.parseLong(player.getData().anniversary()) - player.getData().getMarriedSince() > TimeUnit.DAYS.toMillis(1)) {
+						money = money + r.nextInt(120);
+					}
+
 					player.addMoney(money);
 					player.save();
+
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "I gave your **$" + money + "** daily credits to " + mentionedUser.getName()).queue();
 					return;
 				}
@@ -592,19 +599,8 @@ public class CurrencyCmds {
 				}
 
 				User user1 = getUserById(player.getData().getMarriedWith());
-				String marriedSince = null;
-				String anniversary = null;
-
-				if (player.getData().getMarriedSince() != null && player.getData().getMarriedSince() > 0) {
-					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-					final Date date = new Date(player.getData().getMarriedSince());
-					marriedSince = sdf.format(date);
-
-					Calendar cal = new GregorianCalendar();
-					cal.setTime(new Date());
-					cal.add(Calendar.YEAR, 1);
-					anniversary = sdf.format(cal.getTime());
-				}
+				String marriedSince = player.getData().marryDate();
+				String anniversary = player.getData().anniversary();
 
 				if(args.length > 0 && args[0].equals("anniversary")){
 					if(anniversary == null){
