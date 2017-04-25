@@ -64,6 +64,66 @@ public class OptsCmd {
 			event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with " +
 					"parameters -> ``Channel #%s (%s)``",
 				logChannel, id)).queue();
+		});
+
+		//TODO: Add help for this!
+		registerOption("logs:exclude", (event, args) -> {
+			if (args.length == 0) {
+				onHelp(event);
+				return;
+			}
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			if(args[0].equals("clearchannels")){
+				guildData.getLogExcludedChannels().clear();
+				dbGuild.saveAsync();
+				event.getChannel().sendMessage(EmoteReference.OK + "Cleared log exceptions!").queue();
+				return;
+			}
+
+			if(args[0].equals("remove")){
+				String channel = args[1];
+				List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
+				if (channels.size() == 0) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel with that name!").queue();
+				} else if (channels.size() == 1) {
+					TextChannel ch = channels.get(0);
+					guildData.getLogExcludedChannels().remove(ch.getId());
+					dbGuild.saveAsync();
+					event.getChannel().sendMessage(EmoteReference.OK + "Removed logs exception on channel: " + ch.getAsMention()).queue();
+				} else {
+					DiscordUtils.selectList(event, channels, ch -> String.format("%s (ID: %s)", ch.getName(), ch.getId()),
+							s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:")
+									.setDescription(s).build(),
+							ch -> {
+								guildData.getLogExcludedChannels().remove(ch.getId());
+								dbGuild.saveAsync();
+								event.getChannel().sendMessage(EmoteReference.OK + "Removed logs exception on channel: " + ch.getAsMention()).queue();
+							});
+				}
+				return;
+			}
+
+			String channel = args[0];
+			List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
+			if (channels.size() == 0) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel with that name!").queue();
+			} else if (channels.size() == 1) {
+				TextChannel ch = channels.get(0);
+				guildData.getLogExcludedChannels().add(ch.getId());
+				dbGuild.saveAsync();
+				event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
+			} else {
+				DiscordUtils.selectList(event, channels, ch -> String.format("%s (ID: %s)", ch.getName(), ch.getId()),
+						s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:")
+								.setDescription(s).build(),
+						ch -> {
+							guildData.getLogExcludedChannels().add(ch.getId());
+							dbGuild.saveAsync();
+							event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
+						});
+			}
 		});//endregion
 
 		//region disable
@@ -630,38 +690,6 @@ public class OptsCmd {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find an autorole with that name").queue();
 			}
 		});//endregion
-
-		//region logs
-		//TODO: Add help for this!
-		registerOption("logs:exclude", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			String channel = SPLIT_PATTERN.split(String.join(" ", args), 3)[2];
-			List<TextChannel> channels = MantaroBot.getInstance().getTextChannelsByName(channel, true);
-			if (channels.size() == 0) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
-			} else if (channels.size() == 1) {
-				TextChannel ch = channels.get(0);
-				guildData.getLogExcludedChannels().add(ch.getIdLong());
-				dbGuild.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
-			} else {
-				DiscordUtils.selectList(event, channels, ch -> String.format("%s (ID: %s)", ch.getName(), ch.getId()),
-						s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:")
-								.setDescription(s).build(),
-						ch -> {
-							guildData.getLogExcludedChannels().add(ch.getIdLong());
-							dbGuild.saveAsync();
-							event.getChannel().sendMessage(EmoteReference.OK + "Added logs exception on channel: " + ch.getAsMention()).queue();
-						});
-			}
-		});//endregion
-
 		//endregion
 	}
 

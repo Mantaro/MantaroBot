@@ -113,7 +113,7 @@ public class MantaroBot extends ShardedJDA {
 				.getTypesAnnotatedWith(Module.class)
 		);
 
-		totalShards = getRecommendedShards(config);
+		totalShards = 2/*getRecommendedShards(config)*/;
 		shards = new MantaroShard[totalShards];
 		status = LOADING;
 
