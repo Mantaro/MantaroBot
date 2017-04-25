@@ -83,6 +83,10 @@ public class OptsCmd {
 			}
 
 			if(args[0].equals("remove")){
+				if(args.length < 2){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect argument lenght.").queue();
+					return;
+				}
 				String channel = args[1];
 				List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
 				if (channels.size() == 0) {
