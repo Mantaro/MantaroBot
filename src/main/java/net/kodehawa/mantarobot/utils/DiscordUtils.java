@@ -29,7 +29,7 @@ public class DiscordUtils {
 	}
 
 	public static boolean selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-		return InteractiveOperations.create(event.getChannel(), "Selection", 10000, OptionalInt.empty(), (e) -> {
+		return InteractiveOperations.create(event.getChannel(), "Selection", 20000, OptionalInt.empty(), (e) -> {
 			if (!e.getAuthor().equals(event.getAuthor())) return false;
 
 			try {

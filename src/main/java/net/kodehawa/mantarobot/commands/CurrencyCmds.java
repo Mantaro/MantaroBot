@@ -620,7 +620,7 @@ public class CurrencyCmds {
 					.addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
-					.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator() + (marriedSince == null ? "" : " (Since: " + marriedSince + ")"), true)
+					.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator(), true)
 					.build()
 				).queue();
 			}
