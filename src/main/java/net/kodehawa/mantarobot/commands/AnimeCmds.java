@@ -13,7 +13,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
@@ -23,7 +22,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.StringUtils;
 
-import java.awt.*;
+import java.awt.Color;
 import java.net.URLEncoder;
 import java.util.stream.Collectors;
 
@@ -35,18 +34,6 @@ public class AnimeCmds {
 	@Event
 	public static void anime(CommandRegistry cr) {
 		cr.register("anime", new SimpleCommand(Category.FUN) {
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Anime command")
-					.setDescription("Get anime info from **AniList** (For anime characters use ~>character).\n"
-						+ "Usage: \n"
-						+ "~>anime <animename>: Retrieve information of an anime based on the name.\n"
-						+ "Parameter description:\n"
-						+ "animename: The name of the anime you are looking for. Keep queries similar to their english names!\n")
-					.setColor(Color.PINK)
-					.build();
-			}
-
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
@@ -78,41 +65,17 @@ public class AnimeCmds {
 			}
 
 			@Override
-			public CommandPermission permission() {
-				return CommandPermission.USER;
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Anime command")
+					.setDescription("Get anime info from **AniList** (For anime characters use ~>character).\n"
+						+ "Usage: \n"
+						+ "~>anime <animename>: Retrieve information of an anime based on the name.\n"
+						+ "Parameter description:\n"
+						+ "animename: The name of the anime you are looking for. Keep queries similar to their english names!\n")
+					.setColor(Color.PINK)
+					.build();
 			}
-
 		});
-	}
-
-	private static void animeData(GuildMessageReceivedEvent event, AnimeData type) {
-		String ANIME_TITLE = type.getTitle_english();
-		String RELEASE_DATE = StringUtils.substringBefore(type.getStart_date(), "T");
-		String END_DATE = StringUtils.substringBefore(type.getEnd_date(), "T");
-		String ANIME_DESCRIPTION = type.getDescription().replaceAll("<br>", "\n");
-		String AVERAGE_SCORE = type.getAverage_score();
-		String IMAGE_URL = type.getImage_url_lge();
-		String TYPE = Utils.capitalize(type.getSeries_type());
-		String EPISODES = type.getTotal_episodes().toString();
-		String DURATION = type.getDuration().toString();
-		String GENRES = type.getGenres().stream().collect(Collectors.joining(", "));
-
-		//Start building the embedded message.
-		EmbedBuilder embed = new EmbedBuilder();
-		embed.setColor(Color.LIGHT_GRAY)
-			.setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
-				+ type.getId(), type.getImage_url_sml())
-			.setFooter("Information provided by AniList", null)
-			.setThumbnail(IMAGE_URL)
-			.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
-			.addField("Release date: ", RELEASE_DATE, true)
-			.addField("End date: ", END_DATE, true)
-			.addField("Average score: ", AVERAGE_SCORE + "/100", true)
-			.addField("Type", TYPE, true)
-			.addField("Episodes", EPISODES, true)
-			.addField("Episode Duration", DURATION + " minutes.", true)
-			.addField("Genres", GENRES, false);
-		event.getChannel().sendMessage(embed.build()).queue();
 	}
 
 	/**
@@ -166,11 +129,6 @@ public class AnimeCmds {
 			}
 
 			@Override
-			public CommandPermission permission() {
-				return CommandPermission.USER;
-			}
-
-			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Character command")
 					.setDescription("Retrieves character info from **AniList**.\n"
@@ -182,6 +140,41 @@ public class AnimeCmds {
 					.build();
 			}
 		});
+	}
+
+	@Event
+	public static void onPostLoad(PostLoadEvent e) {
+		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900);
+	}
+
+	private static void animeData(GuildMessageReceivedEvent event, AnimeData type) {
+		String ANIME_TITLE = type.getTitle_english();
+		String RELEASE_DATE = StringUtils.substringBefore(type.getStart_date(), "T");
+		String END_DATE = StringUtils.substringBefore(type.getEnd_date(), "T");
+		String ANIME_DESCRIPTION = type.getDescription().replaceAll("<br>", "\n");
+		String AVERAGE_SCORE = type.getAverage_score();
+		String IMAGE_URL = type.getImage_url_lge();
+		String TYPE = Utils.capitalize(type.getSeries_type());
+		String EPISODES = type.getTotal_episodes().toString();
+		String DURATION = type.getDuration().toString();
+		String GENRES = type.getGenres().stream().collect(Collectors.joining(", "));
+
+		//Start building the embedded message.
+		EmbedBuilder embed = new EmbedBuilder();
+		embed.setColor(Color.LIGHT_GRAY)
+			.setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
+				+ type.getId(), type.getImage_url_sml())
+			.setFooter("Information provided by AniList", null)
+			.setThumbnail(IMAGE_URL)
+			.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
+			.addField("Release date: ", RELEASE_DATE, true)
+			.addField("End date: ", END_DATE, true)
+			.addField("Average score: ", AVERAGE_SCORE + "/100", true)
+			.addField("Type", TYPE, true)
+			.addField("Episodes", EPISODES, true)
+			.addField("Episode Duration", DURATION + " minutes.", true)
+			.addField("Genres", GENRES, false);
+		event.getChannel().sendMessage(embed.build()).queue();
 	}
 
 	private static void characterData(GuildMessageReceivedEvent event, CharacterData character) {
@@ -200,10 +193,5 @@ public class AnimeCmds {
 			.setFooter("Information provided by AniList", null);
 
 		event.getChannel().sendMessage(embed.build()).queue();
-	}
-
-	@Event
-	public static void onPostLoad(PostLoadEvent e) {
-		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900);
 	}
 }

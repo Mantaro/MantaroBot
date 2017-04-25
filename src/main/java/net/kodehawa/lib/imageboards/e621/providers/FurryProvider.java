@@ -1,12 +1,10 @@
-package net.kodehawa.lib.imageboard.e621.providers;
+package net.kodehawa.lib.imageboards.e621.providers;
 
-import net.kodehawa.lib.imageboard.e621.main.entities.Furry;
+import net.kodehawa.lib.imageboards.e621.main.entities.Furry;
 
 import java.util.List;
 
 @FunctionalInterface
 public interface FurryProvider {
-
 	void onSuccess(List<Furry> results);
-
 }

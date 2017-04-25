@@ -67,7 +67,7 @@ public class GameCmds {
 
 						GameLobby lobby = new GameLobby(event, map, list);
 						event.getChannel().sendMessage(EmoteReference.MEGA + "Created lobby with games " + games + " and members " +
-								builder.toString() + "successfully.").queue();
+							builder.toString() + "successfully.").queue();
 						lobby.startFirstGame();
 						return;
 					} catch (Exception e) {
@@ -87,10 +87,27 @@ public class GameCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-						.addField("Games", "~>game character: Starts a instance of Guess the character (anime).\n"
-								+ "~>game pokemon: Starts a instance of who's that pokemon?", false)
-						.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
-						.build();
+					.addField("Games", "~>game character: Starts a instance of Guess the character (anime).\n"
+						+ "~>game pokemon: Starts a instance of who's that pokemon?", false)
+					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
+					.build();
+			}
+		});
+	}
+
+	@Event
+	public static void trivia(CommandRegistry cr) {
+		cr.register("trivia", new SimpleCommand(Category.GAMES) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				startGame(new Trivia(), event);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Trivia command.")
+					.setDescription("Starts an instance of trivia.")
+					.build();
 			}
 		});
 	}
@@ -120,22 +137,5 @@ public class GameCmds {
 		GameLobby lobby = new GameLobby(event, map, list);
 
 		lobby.startFirstGame();
-	}
-
-	@Event
-	public static void trivia(CommandRegistry cr) {
-		cr.register("trivia", new SimpleCommand(Category.GAMES) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				startGame(new Trivia(), event);
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Trivia command.")
-						.setDescription("Starts an instance of trivia.")
-						.build();
-			}
-		});
 	}
 }

@@ -11,6 +11,10 @@ public abstract class NoArgsCommand extends AbstractCommand {
 		super(category);
 	}
 
+	public NoArgsCommand(Category category, CommandPermission permission) {
+		super(category, permission);
+	}
+
 	protected abstract void call(GuildMessageReceivedEvent event, String content);
 
 	@Override

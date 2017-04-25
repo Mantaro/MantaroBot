@@ -1,9 +1,9 @@
-package net.kodehawa.lib.imageboard.rule34.main;
+package net.kodehawa.lib.imageboards.rule34;
 
 import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.Unirest;
-import net.kodehawa.lib.imageboard.rule34.entities.Hentai;
-import net.kodehawa.lib.imageboard.rule34.providers.HentaiProvider;
+import net.kodehawa.lib.imageboards.rule34.entities.Hentai;
+import net.kodehawa.lib.imageboards.rule34.providers.HentaiProvider;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.Arrays;
@@ -16,6 +16,10 @@ public class Rule34 {
 
 	public static void get(int limit, HentaiProvider provider) {
 		get(limit, null, provider);
+	}
+
+	public static void onSearch(int limit, String search, HentaiProvider provider) {
+		get(limit, search, provider);
 	}
 
 	private static void get(final int limit, final String search, final HentaiProvider provider) {
@@ -46,9 +50,5 @@ public class Rule34 {
 			queryParams.clear();
 		}
 		return Arrays.asList(wallpapers);
-	}
-
-	public static void onSearch(int limit, String search, HentaiProvider provider) {
-		get(limit, search, provider);
 	}
 }

@@ -1,6 +1,6 @@
-package net.kodehawa.lib.imageboard.rule34.providers;
+package net.kodehawa.lib.imageboards.rule34.providers;
 
-import net.kodehawa.lib.imageboard.rule34.entities.Hentai;
+import net.kodehawa.lib.imageboards.rule34.entities.Hentai;
 
 import java.util.List;
 

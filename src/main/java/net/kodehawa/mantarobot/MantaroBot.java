@@ -105,12 +105,12 @@ public class MantaroBot extends ShardedJDA {
 
 		//Let's see if we find a class.
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
-				new Reflections(
-						"net.kodehawa.mantarobot.commands",
-						new MethodAnnotationsScanner(),
-						new TypeAnnotationsScanner(),
-						new SubTypesScanner())
-						.getTypesAnnotatedWith(Module.class)
+			new Reflections(
+				"net.kodehawa.mantarobot.commands",
+				new MethodAnnotationsScanner(),
+				new TypeAnnotationsScanner(),
+				new SubTypesScanner())
+				.getTypesAnnotatedWith(Module.class)
 		);
 
 		totalShards = getRecommendedShards(config);
@@ -168,9 +168,9 @@ public class MantaroBot extends ShardedJDA {
 		MantaroData.config().save();
 
 		Set<Method> events = new Reflections(
-				classes.get(),
-				new MethodAnnotationsScanner())
-				.getMethodsAnnotatedWith(Event.class);
+			classes.get(),
+			new MethodAnnotationsScanner())
+			.getMethodsAnnotatedWith(Event.class);
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 

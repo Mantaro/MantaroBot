@@ -1,17 +1,16 @@
-package net.kodehawa.lib.imageboard.e621.main.entities;
+package net.kodehawa.lib.imageboards.rule34.entities;
 
-public class Furry {
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
-	public String description = null;
+@JacksonXmlRootElement(localName = "posts")
+public class Hentai {
+
+	@JacksonXmlProperty(isAttribute = true)
 	public String file_url = null;
 	public Integer height = null;
-	//Nice tags m9. Mantaro's lewdness just increased by 1000% by just creating this POJO to deserialize e621 XML.
 	public String tags = null;
 	public Integer width = null;
-
-	public String getDescription() {
-		return description;
-	}
 
 	public String getFile_url() {
 		return file_url;

@@ -19,6 +19,25 @@ import java.util.Map;
 
 public class Util {
 	/**
+	 * Coerces objects from their native type to ReqlAst
+	 *
+	 * @param val val
+	 * @return ReqlAst
+	 */
+	public static ReqlAst toReqlAst(Object val) {
+		return toReqlAst(val, 100);
+	}
+
+	public static ReqlExpr toReqlExpr(Object val) {
+		ReqlAst converted = toReqlAst(val);
+		if (converted instanceof ReqlExpr) {
+			return (ReqlExpr) converted;
+		} else {
+			throw new ReqlDriverError("Cannot convert %s to ReqlExpr", val);
+		}
+	}
+
+	/**
 	 * Converts a POJO to a map of its public properties collected using bean introspection.<br>
 	 * The POJO's class must be public, or a ReqlDriverError would be thrown.<br>
 	 * Numeric properties should be Long instead of Integer
@@ -110,25 +129,6 @@ public class Util {
 
 		// val is a non-null POJO, let's introspect its public properties
 		return toReqlAst(toMap(val));
-	}
-
-	/**
-	 * Coerces objects from their native type to ReqlAst
-	 *
-	 * @param val val
-	 * @return ReqlAst
-	 */
-	public static ReqlAst toReqlAst(Object val) {
-		return toReqlAst(val, 100);
-	}
-
-	public static ReqlExpr toReqlExpr(Object val) {
-		ReqlAst converted = toReqlAst(val);
-		if (converted instanceof ReqlExpr) {
-			return (ReqlExpr) converted;
-		} else {
-			throw new ReqlDriverError("Cannot convert %s to ReqlExpr", val);
-		}
 	}
 
 	private Util() {}

@@ -630,10 +630,6 @@ public class OptsCmd {
 		//endregion
 	}
 
-	private static void onHelp(GuildMessageReceivedEvent event) {
-		event.getChannel().sendMessage(optsCmd.help(event)).queue();
-	}
-
 	@Event
 	public static void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION) {
@@ -663,12 +659,16 @@ public class OptsCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Options and Configurations Command")
-						.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
-								"All values set are local rather than global, meaning that they will only effect this server.", false)
-						.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
-						.build();
+					.addField("Description", "This command allows you to change Mantaro settings for this server.\n" +
+						"All values set are local rather than global, meaning that they will only effect this server.", false)
+					.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
+					.build();
 			}
 		});
+	}
+
+	private static void onHelp(GuildMessageReceivedEvent event) {
+		event.getChannel().sendMessage(optsCmd.help(event)).queue();
 	}
 
 	private static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
