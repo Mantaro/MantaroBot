@@ -53,29 +53,27 @@ public class Expirator<T extends Expirable> {
 			}
 
 			//noinspection OptionalGetWithoutIsPresent
-			try {
-				Entry<Long, List<Expirable>> firstEntry = EXPIRATIONS.entrySet().stream()
-						.sorted(Comparator.comparingLong(Entry::getKey))
-						.findFirst()
-						.orElse(null);
+			Entry<Long, List<Expirable>> firstEntry = EXPIRATIONS.entrySet().stream()
+					.sorted(Comparator.comparingLong(Entry::getKey))
+					.findFirst()
+					.orElse(null);
 
-				long timeout = firstEntry.getKey() - System.currentTimeMillis();
-				if (timeout > 0) {
-					synchronized (this) {
-						try {
-							wait(timeout);
-						} catch (InterruptedException ignored) {
-						}
+			long timeout = firstEntry.getKey() - System.currentTimeMillis();
+			if (timeout > 0) {
+				synchronized (this) {
+					try {
+						wait(timeout);
+					} catch (InterruptedException ignored) {
 					}
 				}
+			}
 
-				if (!updated) {
-					EXPIRATIONS.remove(firstEntry.getKey());
-					List<Expirable> runnables = firstEntry.getValue();
-					runnables.remove(null);
-					runnables.forEach(expirable -> Async.thread("Expiration Executable", expirable::onExpire));
-				} else updated = false; //and the loop will restart and resolve it
-			} catch (Exception ignored) {}
+			if (!updated) {
+				EXPIRATIONS.remove(firstEntry.getKey());
+				List<Expirable> runnables = firstEntry.getValue();
+				runnables.remove(null);
+				runnables.forEach(expirable -> Async.thread("Expiration Executable", expirable::onExpire));
+			} else updated = false; //and the loop will restart and resolve it
 		}
 	}
 

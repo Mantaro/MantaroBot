@@ -241,7 +241,7 @@ public class CurrencyCmds {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along with $" + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found $" + s).queue();
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s).queue();
 					}
 				} else {
 					if (moneyFound != 0) {
@@ -251,9 +251,9 @@ public class CurrencyCmds {
 						}
 
 						if (player.addMoney(moneyFound)) {
-							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits!").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound + " credits!").queue();
 						} else {
-							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
 						}
 					} else {
 						event.getChannel().sendMessage(EmoteReference.SAD + "Digging through messages, you found nothing but dust").queue();
@@ -612,7 +612,7 @@ public class CurrencyCmds {
 					return;
 				}
 
-				event.getChannel().sendMessage(baseEmbed(event, (user1 == null && !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+				event.getChannel().sendMessage(baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" : EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
 					.setThumbnail(author.getEffectiveAvatarUrl())
 					.setDescription(player.getData().getDescription() == null ? "No description set" : player.getData().getDescription())
 					.addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
@@ -697,7 +697,7 @@ public class CurrencyCmds {
 				boolean global = !local && !content.equals("guild") && !content.equals("local");
 
 				List<Map> c = r.table("players")
-					.orderBy().optArg("index", "money")
+					.orderBy().optArg("index", r.desc("money"))
 					.limit(15)
 					.filter(player -> player.g("id").match(pattern))
 					.map(player -> player.pluck("id", "money"))
