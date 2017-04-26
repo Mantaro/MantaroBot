@@ -60,7 +60,6 @@ public class ImageGuess extends ImageGame {
 				authToken);
 			String json = Utils.wget(url, null);
 			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
-			System.out.println(characterName);
 			String imageUrl = character[0].getImage_url_med();
 			sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
 				.setTitle("Guess the character", null)

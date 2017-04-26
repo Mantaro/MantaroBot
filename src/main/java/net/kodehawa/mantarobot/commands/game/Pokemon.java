@@ -49,7 +49,6 @@ public class Pokemon extends ImageGame {
 			String[] data = CollectionUtils.random(GUESSES.get()).split("`");
 			String pokemonImage = data[0];
 			expectedAnswer = data[1];
-			System.out.println(expectedAnswer);
 			sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb
 				.setTitle("Who's that pokemon?", null)
 				.setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null)

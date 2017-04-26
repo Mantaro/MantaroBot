@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -332,7 +333,7 @@ public class CurrencyCmds {
 									event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained " + all + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
 								}
 
-								player.save();
+								player.saveAsync();
 								return;
 							}
 
@@ -693,15 +694,15 @@ public class CurrencyCmds {
 				}
 
 				boolean local = MantaroData.db().getGuild(event).getData().isRpgLocalMode();
-				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
 				boolean global = !local && !content.equals("guild") && !content.equals("local");
 
 				List<Map> c = r.table("players")
-					.orderBy().optArg("index", r.desc("money"))
-					.limit(15)
-					.filter(player -> player.g("id").match(pattern))
-					.map(player -> player.pluck("id", "money"))
-					.run(MantaroData.conn());
+						.orderBy()
+						.optArg("index", "money")
+						.orderBy(r.desc("money"))
+						.limit(15)
+						.map(player -> player.pluck("id", "money"))
+						.run(MantaroData.conn());
 
 				AtomicInteger i = new AtomicInteger();
 
