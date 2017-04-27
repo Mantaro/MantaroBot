@@ -121,7 +121,7 @@ public class OsuStatsCmd {
 						event.getChannel().sendMessage(user(content)).queue();
 						break;
 					default:
-						onHelp(event);
+						onError(event);
 						break;
 				}
 			}

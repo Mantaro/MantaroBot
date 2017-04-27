@@ -54,7 +54,7 @@ public class UtilsCmds {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
 				DBUser user = MantaroData.db().getUser(event.getAuthor());
 				if (content.isEmpty()) {
-					onHelp(event);
+					onError(event);
 					return;
 				}
 
@@ -376,7 +376,7 @@ public class UtilsCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
-					onHelp(event);
+					onError(event);
 					return;
 				}
 

@@ -41,7 +41,7 @@ public class MiscCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
-					onHelp(event);
+					onError(event);
 					return;
 				}
 
@@ -83,7 +83,7 @@ public class MiscCmds {
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 				if (args.length == 0 || content.length() == 0) {
-					onHelp(event);
+					onError(event);
 					return;
 				}
 				if (content.equals("list")) {
@@ -229,7 +229,7 @@ public class MiscCmds {
 							"-Noble").queue();
 						break;
 					default:
-						onHelp(event);
+						onError(event);
 						break;
 				}
 			}

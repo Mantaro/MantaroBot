@@ -32,7 +32,7 @@ public class GameCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
-					onHelp(event);
+					onError(event);
 					return;
 				}
 

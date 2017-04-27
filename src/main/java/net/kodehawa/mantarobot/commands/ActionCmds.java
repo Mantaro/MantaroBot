@@ -49,7 +49,7 @@ public class ActionCmds {
 						channel.sendMessage(CollectionUtils.random(BLEACH.get())).queue();
 						break;
 					default:
-						onHelp(event);
+						onError(event);
 				}
 			}
 

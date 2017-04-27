@@ -570,7 +570,8 @@ public class ImageCmds {
 
 		if (!trigger) {
 			if (sendMessage)
-				event.getChannel().sendMessage(new EmbedBuilder().setDescription("Not on a NSFW channel. Cannot send lewd images.").build()).queue();
+				event.getChannel().sendMessage(new EmbedBuilder().setDescription("Not on a NSFW channel. Cannot send lewd images.\n" +
+						"Reminder: You can set this channel as NSFW by doing ~>opts nsfw channel if you are an administrator on this server.").build()).queue();
 			return false;
 		}
 

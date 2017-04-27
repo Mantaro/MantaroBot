@@ -151,7 +151,7 @@ public class MusicCmds {
 		cr.register("pause", new SimpleCommand(Category.MUSIC) {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return baseEmbed(event, "Pause Command")
+				return helpEmbed(event, "Pause Command")
 					.addField("Description", "Pause or unpause the current track.", false)
 					.addField("Usage:", "~>pause (if paused, I will unpause, vice versa)", false).build();
 			}
