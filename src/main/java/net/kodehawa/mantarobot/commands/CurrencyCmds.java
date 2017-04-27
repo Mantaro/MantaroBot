@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -694,16 +695,24 @@ public class CurrencyCmds {
 				}
 
 				boolean local = MantaroData.db().getGuild(event).getData().isRpgLocalMode();
+				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
 				boolean global = !local && !content.equals("guild") && !content.equals("local");
 
-				List<Map> c = r.table("players")
-						.orderBy("index", "money")
-						.orderBy(r.desc("money"))
+				AtomicInteger i = new AtomicInteger();
+
+				long ata = System.currentTimeMillis();
+				Cursor<Map> c1 = r.table("players")
+						.optArg("read_mode", "outdated")
+						.orderBy()
+						.optArg("index", r.desc("money"))
 						.limit(15)
+						.filter(player -> player.g("id").match(pattern))
 						.map(player -> player.pluck("id", "money"))
 						.run(MantaroData.conn());
+				long ata2 = System.currentTimeMillis();
+				System.out.println(ata2-ata + "ms");
 
-				AtomicInteger i = new AtomicInteger();
+				List<Map> c = c1.toList();
 
 				event.getChannel().sendMessage(
 					baseEmbed(event,
