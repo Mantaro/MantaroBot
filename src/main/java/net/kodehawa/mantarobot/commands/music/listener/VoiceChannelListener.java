@@ -32,10 +32,10 @@ public class VoiceChannelListener implements EventListener {
 	public void onEvent(Event e) {
 		if (e instanceof ShardMonitorEvent) {
 			((ShardMonitorEvent) e).alive(shardId, ShardMonitorEvent.VOICE_CHANNEL_LISTENER);
-			return;
+			//return;
 		}
 
-		if (!(e instanceof GenericGuildVoiceEvent)) return;
+		/*if (!(e instanceof GenericGuildVoiceEvent)) return;
 		GenericGuildVoiceEvent event = (GenericGuildVoiceEvent) e;
 		if (event instanceof GuildVoiceMoveEvent) {
 			VoiceChannel joined = ((GuildVoiceMoveEvent) event).getChannelJoined();
@@ -60,7 +60,7 @@ public class VoiceChannelListener implements EventListener {
 		} else if (event instanceof GuildVoiceLeaveEvent) {
 			if (((GuildVoiceLeaveEvent) event).getChannelLeft() == event.getGuild().getAudioManager().getConnectedChannel())
 				onLeave(((GuildVoiceLeaveEvent) event).getChannelLeft());
-		}
+		}*/
 	}
 
 	private boolean isAlone(VoiceChannel voiceChannel) {
