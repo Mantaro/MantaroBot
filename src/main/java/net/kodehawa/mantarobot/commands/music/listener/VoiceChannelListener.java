@@ -5,10 +5,6 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.guild.voice.GenericGuildVoiceEvent;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceJoinEvent;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
-import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -47,7 +43,6 @@ public class VoiceChannelListener implements EventListener {
 				else
 					onJoin(joined, event.getMember());
 			} else {
-				if (isAlone(left) && left == event.getGuild().getAudioManager().getConnectedChannel())
 					onLeave(left);
 				else if (!isAlone(joined) && joined == event.getGuild().getAudioManager().getConnectedChannel())
 					onJoin(joined, event.getMember());

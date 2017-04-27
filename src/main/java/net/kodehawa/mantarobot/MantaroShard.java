@@ -57,6 +57,7 @@ public class MantaroShard implements JDA {
 	private final MantaroListener mantaroListener;
 	private final int shardId;
 	private final int totalShards;
+	private final VoiceChannelListener voiceChannelListener;
 	@Delegate //I love Lombok so much
 	private JDA jda;
 
@@ -68,6 +69,7 @@ public class MantaroShard implements JDA {
 		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		mantaroListener = new MantaroListener(shardId);
 		commandListener = new CommandListener(shardId);
+		voiceChannelListener = new VoiceChannelListener(shardId);
 
 		restartJDA(false);
 	}
@@ -98,8 +100,8 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners() {
-		jda.removeEventListener(mantaroListener, commandListener, InteractiveOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, InteractiveOperations.listener());
+		jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
 	}
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
