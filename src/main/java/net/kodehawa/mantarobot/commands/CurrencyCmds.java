@@ -320,7 +320,7 @@ public class CurrencyCmds {
 										.mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
 										.sum();
 
-								if(args.length > 1 && args[2].equals("calculate")){
+								if(args.length > 2 && args[2].equals("calculate")){
 									event.getChannel().sendMessage(EmoteReference.THINKING + "You'll get **" + all + "** credits if you sell all of your items").queue();
 									return;
 								}
@@ -370,6 +370,7 @@ public class CurrencyCmds {
 							return;
 						} catch (Exception e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
+							e.printStackTrace();
 						}
 						return;
 					}

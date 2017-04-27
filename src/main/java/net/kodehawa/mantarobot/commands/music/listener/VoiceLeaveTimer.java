@@ -90,9 +90,6 @@ public class VoiceLeaveTimer {
 				if (am.isConnected() || am.isAttemptingToConnect()) {
 					GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
 					am.closeAudioConnection();
-					if (musicManager.getTrackScheduler().isStopped()) {
-						continue;
-					}
 					TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
 					if (channel != null && channel.canTalk()) {
 						channel.sendMessage(EmoteReference.STOPWATCH + "Nobody joined the VoiceChannel after 2 minutes, stopping the player...").queue();
