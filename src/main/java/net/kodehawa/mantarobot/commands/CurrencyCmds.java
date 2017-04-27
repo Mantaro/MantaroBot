@@ -700,7 +700,6 @@ public class CurrencyCmds {
 
 				AtomicInteger i = new AtomicInteger();
 
-				long ata = System.currentTimeMillis();
 				Cursor<Map> c1 = r.table("players")
 						.optArg("read_mode", "outdated")
 						.orderBy()
@@ -709,8 +708,6 @@ public class CurrencyCmds {
 						.filter(player -> player.g("id").match(pattern))
 						.map(player -> player.pluck("id", "money"))
 						.run(MantaroData.conn());
-				long ata2 = System.currentTimeMillis();
-				System.out.println(ata2-ata + "ms");
 
 				List<Map> c = c1.toList();
 
