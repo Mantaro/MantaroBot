@@ -155,7 +155,6 @@ public class CurrencyCmds {
 
 					if (player.getMoney() >= Integer.MAX_VALUE && gains > 1000000) {
 						gains = gains / 5;
-						return;
 					}
 
 					if (player.addMoney(gains)) {

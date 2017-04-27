@@ -42,7 +42,7 @@ public class ShardMonitorEvent extends Event {
 				default:
 					throw new IllegalArgumentException("Unknown listener id " + listener);
 			}
-			if (mantaroListener && commandListener && voiceChannelListener) {
+			if (mantaroListener && commandListener) {
 				log.debug("Shard " + shardId + " is alive");
 				dead.remove(this);
 				alive.add(this);
