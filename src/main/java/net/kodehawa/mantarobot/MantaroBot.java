@@ -122,7 +122,7 @@ public class MantaroBot extends ShardedJDA {
 			MantaroEventManager manager = new MantaroEventManager();
 			managers.add(manager);
 			shards[i] = new MantaroShard(i, totalShards, manager);
-			log.debug("Finished loading shar	d #" + i + ".");
+			log.debug("Finished loading shard #" + i + ".");
 			if (i + 1 < totalShards) {
 				log.info("Waiting for cooldown...");
 				Thread.sleep(5000);
