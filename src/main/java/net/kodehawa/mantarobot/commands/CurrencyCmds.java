@@ -689,7 +689,7 @@ public class CurrencyCmds {
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
 				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Dang! Don't you think you're going a bit too fast?.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Dang! Don't you think you're going a bit too fast?").queue();
 					return;
 				}
 
@@ -699,7 +699,6 @@ public class CurrencyCmds {
 
 				AtomicInteger i = new AtomicInteger();
 
-
 				Cursor<Map> c1 = r.table("players")
 						.orderBy()
 						.optArg("index", r.desc("money"))
@@ -707,7 +706,6 @@ public class CurrencyCmds {
 						.map(player -> player.pluck("id", "money"))
 						.limit(15)
 						.run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
-
 				List<Map> c = c1.toList();
 
 				event.getChannel().sendMessage(
