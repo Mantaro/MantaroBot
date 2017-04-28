@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -684,13 +683,13 @@ public class CurrencyCmds {
 	@Event
 	public static void richest(CommandRegistry cr) {
 		cr.register("richest", new SimpleCommand(Category.CURRENCY) {
-			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
 				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Slow down a little bit.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Dang! Don't you think you're going a bit too fast?.").queue();
 					return;
 				}
 
@@ -700,14 +699,14 @@ public class CurrencyCmds {
 
 				AtomicInteger i = new AtomicInteger();
 
+
 				Cursor<Map> c1 = r.table("players")
-						.optArg("read_mode", "outdated")
 						.orderBy()
 						.optArg("index", r.desc("money"))
-						.limit(15)
 						.filter(player -> player.g("id").match(pattern))
 						.map(player -> player.pluck("id", "money"))
-						.run(MantaroData.conn());
+						.limit(15)
+						.run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
 
 				List<Map> c = c1.toList();
 
