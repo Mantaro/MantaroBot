@@ -94,20 +94,21 @@ public class CommandListener implements EventListener {
 		}
 
 		try {
-			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE))
+			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) &&
+					!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
 				return;
 			if (event.getAuthor().isBot()) return;
 			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), DEFAULT_PROCESSOR).run(event))
 				commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or incorrect type arguments. Check the command help.").queue();
-			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
+			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
 		} catch (PermissionException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permission to do this! I need the permission: " + e.getPermission()).queue();
-			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
+			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
 		} catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments. Check command help.").queue();
-			log.warn("Exception catched and alternate message sent. We should look into this, anyway.", e);
+			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
 		} catch (ReqlError e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry! I'm having some problems with my database... ").queue();
 			log.warn("<@217747278071463937> RethinkDB is on fire. Go fix it.", e);

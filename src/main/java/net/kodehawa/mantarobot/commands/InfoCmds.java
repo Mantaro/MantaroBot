@@ -334,13 +334,13 @@ public class InfoCmds {
 
 	@Event
 	public static void ping(CommandRegistry cr) {
-		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
 		cr.register("ping", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Uh-oh. Slowdown buddy.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Yikes! Seems like you're going too fast.").queue();
 					return;
 				}
 
