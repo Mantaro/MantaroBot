@@ -69,49 +69,49 @@ public class MantaroListener implements EventListener {
 
 		//Log intensifies
 		if (event instanceof GuildMessageUpdateEvent) {
-			Async.thread("LogThread", () -> logEdit((GuildMessageUpdateEvent) event));
+			Async.thread("LogThread(Edit)", () -> logEdit((GuildMessageUpdateEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMessageDeleteEvent) {
-			Async.thread("LogThread", () -> logDelete((GuildMessageDeleteEvent) event));
+			Async.thread("LogThread(Delete)", () -> logDelete((GuildMessageDeleteEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMemberJoinEvent) {
-			Async.thread("LogThread", () -> onUserJoin((GuildMemberJoinEvent) event));
+			Async.thread("LogThread(Join)", () -> onUserJoin((GuildMemberJoinEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMemberLeaveEvent) {
-			Async.thread("LogThread", () -> onUserLeave((GuildMemberLeaveEvent) event));
+			Async.thread("LogThread(Leave)", () -> onUserLeave((GuildMemberLeaveEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildUnbanEvent) {
-			Async.thread("LogThread", () -> logUnban((GuildUnbanEvent) event));
+			Async.thread("LogThread(Unban)", () -> logUnban((GuildUnbanEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildBanEvent) {
-			Async.thread("LogThread", () -> logBan((GuildBanEvent) event));
+			Async.thread("LogThread(Ban)", () -> logBan((GuildBanEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildJoinEvent) {
-			Async.thread("LogThread", () -> onJoin((GuildJoinEvent) event));
+			Async.thread("LogThread(GuildJoin)", () -> onJoin((GuildJoinEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildLeaveEvent) {
-			Async.thread("LogThread", () -> onLeave((GuildLeaveEvent) event));
-		}
-
-		if (event instanceof StatusChangeEvent) {
-			Async.thread("LogThread", () -> logStatusChange((StatusChangeEvent) event));
+			Async.thread("LogThread(GuildLeave)", () -> onLeave((GuildLeaveEvent) event));
 		}
 
 		//debug
+		if (event instanceof StatusChangeEvent) {
+			logStatusChange((StatusChangeEvent) event);
+		}
+
 		if (event instanceof DisconnectEvent) {
 			onDisconnect((DisconnectEvent) event);
 		}

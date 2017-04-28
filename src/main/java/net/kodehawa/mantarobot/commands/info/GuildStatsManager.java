@@ -65,9 +65,9 @@ public class GuildStatsManager {
 		DAY_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
 		HOUR_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
 		MINUTE_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
-		EXPIRATOR.letExpire(millis + MINUTE, () -> MINUTE_EVENTS.get(loggedEvent).decrementAndGet());
-		EXPIRATOR.letExpire(millis + HOUR, () -> HOUR_EVENTS.get(loggedEvent).decrementAndGet());
-		EXPIRATOR.letExpire(millis + DAY, () -> DAY_EVENTS.get(loggedEvent).decrementAndGet());
+		EXPIRATOR.put(millis + MINUTE, () -> MINUTE_EVENTS.get(loggedEvent).decrementAndGet());
+		EXPIRATOR.put(millis + HOUR, () -> HOUR_EVENTS.get(loggedEvent).decrementAndGet());
+		EXPIRATOR.put(millis + DAY, () -> DAY_EVENTS.get(loggedEvent).decrementAndGet());
 	}
 
 	public static String resume(Map<LoggedEvent, AtomicInteger> commands) {

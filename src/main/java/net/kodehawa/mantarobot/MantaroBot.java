@@ -4,6 +4,7 @@ import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
@@ -40,20 +41,13 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {
-	public static final boolean DEBUG = System.getProperty("mantaro.debug", null) != null;
-
 	public static int cwport;
+	@Getter
 	private static MantaroBot instance;
-	private static LoadState status = PRELOAD;
+	@Getter
+	private static LoadState loadState = PRELOAD;
+	@Getter
 	private static TempBanManager tempBanManager;
-
-	public static MantaroBot getInstance() {
-		return instance;
-	}
-
-	public static LoadState getLoadStatus() {
-		return status;
-	}
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose", null) != null) {
@@ -72,7 +66,9 @@ public class MantaroBot extends ShardedJDA {
 			log.info("No connection watcher port specified, using value in config");
 			cwport = MantaroData.config().get().connectionWatcherPort;
 		}
+
 		log.info("Using port " + cwport + " to communicate with connection watcher");
+
 		if (cwport > 0) {
 			new Thread(() -> {
 				try {
@@ -82,8 +78,9 @@ public class MantaroBot extends ShardedJDA {
 				}
 			});
 		}
+
 		try {
-			instance = new MantaroBot();
+			new MantaroBot();
 		} catch (Exception e) {
 			DiscordLogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);
@@ -92,12 +89,29 @@ public class MantaroBot extends ShardedJDA {
 		}
 	}
 
+	private static int getRecommendedShards(String token) {
+		try {
+			HttpResponse<JsonNode> shards = Unirest.get("https://discordapp.com/api/gateway/bot")
+				.header("Authorization", "Bot " + token)
+				.header("Content-Type", "application/json")
+				.asJson();
+			return shards.getBody().getObject().getInt("shards");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 1;
+	}
+
+	@Getter
 	private MantaroAudioManager audioManager;
 	private List<MantaroEventManager> managers = new ArrayList<>();
+	@Getter
 	private MantaroShard[] shards;
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
+		instance = this;
+
 		SimpleLogToSLF4JAdapter.install();
 		log.info("MantaroBot starting...");
 
@@ -113,9 +127,9 @@ public class MantaroBot extends ShardedJDA {
 				.getTypesAnnotatedWith(Module.class)
 		);
 
-		totalShards = getRecommendedShards(config);
+		totalShards = getRecommendedShards(config.token);
 		shards = new MantaroShard[totalShards];
-		status = LOADING;
+		loadState = LOADING;
 
 		for (int i = 0; i < totalShards; i++) {
 			log.info("Starting shard #" + i + " of " + totalShards);
@@ -153,7 +167,7 @@ public class MantaroBot extends ShardedJDA {
 		}, "ShardWatcherThread").start();
 
 		DiscordLogBack.enable();
-		status = LOADED;
+		loadState = LOADED;
 		log.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		log.info("Started bot instance.");
 		log.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
@@ -174,7 +188,7 @@ public class MantaroBot extends ShardedJDA {
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
-		status = POSTLOAD;
+		loadState = POSTLOAD;
 		log.info("Finished loading basic components. Status is now set to POSTLOAD");
 
 		EventDispatcher.dispatch(events, new PostLoadEvent());
@@ -204,26 +218,8 @@ public class MantaroBot extends ShardedJDA {
 		return new ArrayIterator<>(shards);
 	}
 
-	public MantaroAudioManager getAudioManager() {
-		return audioManager;
-	}
-
 	public int getId(JDA jda) {
 		return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
-	}
-
-	private int getRecommendedShards(Config config) {
-		if (DEBUG) return 2;
-		try {
-			HttpResponse<JsonNode> shards = Unirest.get("https://discordapp.com/api/gateway/bot")
-				.header("Authorization", "Bot " + config.token)
-				.header("Content-Type", "application/json")
-				.asJson();
-			return shards.getBody().getObject().getInt("shards");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 1;
 	}
 
 	public MantaroShard getShardBy(JDA jda) {
@@ -241,13 +237,5 @@ public class MantaroBot extends ShardedJDA {
 
 	public List<MantaroShard> getShardList() {
 		return Arrays.asList(shards);
-	}
-
-	public MantaroShard[] getShards() {
-		return shards;
-	}
-
-	public TempBanManager getTempBanManager() {
-		return tempBanManager;
 	}
 }

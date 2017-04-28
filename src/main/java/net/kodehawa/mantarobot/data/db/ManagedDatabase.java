@@ -13,9 +13,6 @@ import java.util.List;
 import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
-	/*
-	TODO How About just removing it?
-	 */
 	private final Connection conn;
 
 	public ManagedDatabase(Connection conn) {

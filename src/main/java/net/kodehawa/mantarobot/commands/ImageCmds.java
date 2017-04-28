@@ -13,7 +13,7 @@ import net.kodehawa.lib.imageboards.konachan.Konachan;
 import net.kodehawa.lib.imageboards.konachan.main.entities.Wallpaper;
 import net.kodehawa.lib.imageboards.rule34.Rule34;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.utils.data.ImageData;
+import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
@@ -521,8 +521,8 @@ public class ImageCmds {
 
 		String json = Utils.wget(url, event);
 		try {
-			ImageData[] imageData = GsonDataManager.GSON_PRETTY.fromJson(json, ImageData[].class);
-			List<ImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
+			YandereImageData[] imageData = GsonDataManager.GSON_PRETTY.fromJson(json, YandereImageData[].class);
+			List<YandereImageData> filter = new ArrayList<>(Arrays.asList(imageData)).stream().filter(data -> rating.equals(data.rating)).collect(Collectors.toList());
 			int get;
 			try {
 				get = requestType.equals("tags") ? argsCount >= 4 ? number : r.nextInt(filter.size()) : argsCount <= 2 ? Integer.parseInt(messageArray[2]) : r.nextInt(filter.size());

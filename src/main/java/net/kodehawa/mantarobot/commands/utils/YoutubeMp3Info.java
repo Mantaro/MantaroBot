@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.utils.data;
+package net.kodehawa.mantarobot.commands.utils;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;

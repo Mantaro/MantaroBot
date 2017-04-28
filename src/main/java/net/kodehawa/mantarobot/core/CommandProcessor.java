@@ -80,7 +80,7 @@ public class CommandProcessor {
 	}
 
 	public boolean run(GuildMessageReceivedEvent event) {
-		if (MantaroBot.getLoadStatus() != LoadState.POSTLOAD) return false;
+		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
 
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
 		String rawCmd = event.getMessage().getRawContent();

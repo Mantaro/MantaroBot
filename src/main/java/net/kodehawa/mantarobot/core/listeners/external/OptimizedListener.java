@@ -4,17 +4,16 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.hooks.EventListener;
 
 public abstract class OptimizedListener<T extends Event> implements EventListener {
-	private transient final Class<T> tClass;
+	private transient final Class<T> c;
 
-	public OptimizedListener(Class<T> tClass) {
-		this.tClass = tClass;
+	public OptimizedListener(Class<T> eventClass) {
+		this.c = eventClass;
 	}
 
 	public abstract void event(T event);
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public final void onEvent(Event event) {
-		if (tClass.isInstance(event)) event((T) event);
+		if (c.isInstance(event)) event(c.cast(event));
 	}
 }

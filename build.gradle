@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.0.0_185'
+	compile 'net.dv8tion:JDA:3.0.0_187'
 
 	compile 'com.sedmelluq:lavaplayer:1.2.36'
 	compile 'com.sedmelluq:jda-nas:1.0.3'
@@ -47,7 +47,7 @@ dependencies {
 	compile 'us.monoid.web:resty:0.3.2'
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
 
-	compile 'br.com.brjdevs:utils:1.0.0_4'
+	compile 'br.com.brjdevs:utils:1.0.0_13'
 	compile 'br.com.brjdevs:network:1.0.0_2'
 
 	compile 'com.google.guava:guava:19.0'
@@ -116,7 +116,7 @@ class Version {
 	String major, minor, revision
 
 	static String getBuild() {
-		return new Date().format('ddMMyyyy')
+		System.getenv("BUILD_NUMBER") ?: System.getProperty("BUILD_NUMBER") ?: "DEV-" + new Date().format('ddMMyyyy')
 	}
 
 	String toString() {

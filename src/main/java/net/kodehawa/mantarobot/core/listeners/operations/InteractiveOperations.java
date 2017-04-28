@@ -44,10 +44,10 @@ public class InteractiveOperations {
 
 			if (operation != null) {
 				if (operation.getOperation().run(event)) {
-					EXPIRATOR.unletExpire(getCurrentOperation(event.getChannel()));
+					EXPIRATOR.remove(getCurrentOperation(event.getChannel()));
 					OPERATIONS.remove(id);
 				} else {
-					operation.getIncreasingTimeout().ifPresent(value -> EXPIRATOR.updateExpire(System.currentTimeMillis() + value, operation));
+					operation.getIncreasingTimeout().ifPresent(value -> EXPIRATOR.putRelative(value, operation));
 				}
 			}
 		}
@@ -63,7 +63,7 @@ public class InteractiveOperations {
 		RunningOperation op = new RunningOperation(increasingTimeout, operation, operationName);
 
 		OPERATIONS.put(channelId, op);
-		EXPIRATOR.letExpire(System.currentTimeMillis() + startingTimeout, op);
+		EXPIRATOR.put(System.currentTimeMillis() + startingTimeout, op);
 		return true;
 	}
 

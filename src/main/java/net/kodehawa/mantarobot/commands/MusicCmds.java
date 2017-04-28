@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -34,7 +35,7 @@ import static org.apache.commons.lang3.StringUtils.replaceEach;
 public class MusicCmds {
 	@Event
 	public static void forceskip(CommandRegistry cr) {
-		cr.register("forceskip", new SimpleCommand(Category.MUSIC) {
+		cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals(event

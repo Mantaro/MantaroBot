@@ -28,7 +28,7 @@ public class RateLimiter {
 		if (usersRateLimited.contains(userId)) return false;
 		usersRateLimited.add(userId);
 		Expirator.Expirable ex = () -> usersRateLimited.remove(userId);
-		EXPIRATOR.letExpire(System.currentTimeMillis() + timeout, ex);
+		EXPIRATOR.put(System.currentTimeMillis() + timeout, ex);
 		return true;
 	}
 

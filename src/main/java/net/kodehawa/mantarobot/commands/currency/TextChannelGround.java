@@ -12,7 +12,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TextChannelGround {
 	private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
 	private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
-	private static TextChannel channel;
 	private static Random r = new Random(System.currentTimeMillis());
 
 	public static TextChannelGround of(String id) {
@@ -23,12 +22,10 @@ public class TextChannelGround {
 	}
 
 	public static TextChannelGround of(TextChannel ch) {
-		channel = ch;
 		return of(ch.getId());
 	}
 
 	public static TextChannelGround of(GuildMessageReceivedEvent event) {
-		channel = event.getChannel();
 		return of(event.getChannel());
 	}
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.ToIntFunction;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
@@ -15,20 +14,8 @@ public class ItemStack {
 		return list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(ItemStack::getItem, UnaryOperator.identity(), ItemStack::join));
 	}
 
-	public static Map<Item, ItemStack> mapped(ItemStack... stacks) {
-		return mapped(Arrays.asList(stacks));
-	}
-
 	public static List<ItemStack> reduce(List<ItemStack> list) {
 		return new ArrayList<>(mapped(list).values());
-	}
-
-	public static List<ItemStack> reduce(ItemStack... stacks) {
-		return reduce(Arrays.asList(stacks));
-	}
-
-	public static List<ItemStack> stackfy(List<Item> items) {
-		return stackfy(items, item -> 1);
 	}
 
 	public static String toString(List<ItemStack> list) {
@@ -38,10 +25,6 @@ public class ItemStack {
 
 	public static String toString(ItemStack... stacks) {
 		return toString(Arrays.asList(stacks));
-	}
-
-	private static List<ItemStack> stackfy(List<Item> items, ToIntFunction<Item> amountFunction) {
-		return items.stream().map(item -> new ItemStack(item, amountFunction.applyAsInt(item))).filter(stack -> stack.getAmount() != 0).collect(Collectors.toList());
 	}
 
 	private final int amount;

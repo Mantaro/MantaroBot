@@ -54,9 +54,9 @@ public class CommandStatsManager {
 		DAY_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
 		HOUR_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
 		MINUTE_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-		EXPIRATOR.letExpire(millis + MINUTE, () -> MINUTE_CMDS.get(cmd).decrementAndGet());
-		EXPIRATOR.letExpire(millis + HOUR, () -> HOUR_CMDS.get(cmd).decrementAndGet());
-		EXPIRATOR.letExpire(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
+		EXPIRATOR.put(millis + MINUTE, () -> MINUTE_CMDS.get(cmd).decrementAndGet());
+		EXPIRATOR.put(millis + HOUR, () -> HOUR_CMDS.get(cmd).decrementAndGet());
+		EXPIRATOR.put(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
 	}
 
 	public static String resume(Map<String, AtomicInteger> commands) {

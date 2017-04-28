@@ -42,7 +42,8 @@ public class CommandListener implements EventListener {
 	}
 
 	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
-		CUSTOM_PROCESSORS.put(channelId, processor);
+		if (processor == null) CUSTOM_PROCESSORS.remove(channelId);
+		else CUSTOM_PROCESSORS.put(channelId, processor);
 	}
 
 	private final Random random = new Random();
@@ -60,22 +61,27 @@ public class CommandListener implements EventListener {
 		}
 
 		if (event instanceof GuildMessageReceivedEvent) {
-			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-			Async.thread("CmdThread", () -> onCommand(e));
+			GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
+			messageCache.put(msg.getMessage().getId(), Optional.of(msg.getMessage()));
 
-			if (random.nextInt(150) > 100) {
+			if (msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
+
+			Async.thread("Cmd:" + msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator() + ":" + msg.getMessage().getRawContent(), () -> onCommand(msg));
+
+			if (random.nextInt(15) > 10) {
 				if (((GuildMessageReceivedEvent) event).getMember() == null) return;
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
 				if (player != null) {
-
 					//Note to myself: zero tends to infinity (or just NaN in this case).
 					//kill me
 					if (player.getLevel() == 0) player.setLevel(1);
 
 					player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
+
 					if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {
 						player.setLevel(player.getLevel() + 1);
 					}
+
 					player.saveAsync();
 				}
 			}
@@ -83,8 +89,6 @@ public class CommandListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-		messageCache.put(event.getMessage().getId(), Optional.of(event.getMessage()));
-
 		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())) {
 			return;
 		}

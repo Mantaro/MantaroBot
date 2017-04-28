@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.strings.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -7,9 +8,9 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.utils.data.UrbanData;
-import net.kodehawa.mantarobot.commands.utils.data.WeatherData;
-import net.kodehawa.mantarobot.commands.utils.data.YoutubeMp3Info;
+import net.kodehawa.mantarobot.commands.utils.UrbanData;
+import net.kodehawa.mantarobot.commands.utils.WeatherData;
+import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
@@ -18,7 +19,6 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
-import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -26,16 +26,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.List;
 import java.util.function.IntConsumer;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
@@ -48,8 +46,8 @@ public class UtilsCmds {
 	private static final Resty resty = new Resty();
 
 	@Event
-	public static void birthday(CommandRegistry cr) {
-		cr.register("birthday", new SimpleCommand(Category.UTILS) {
+	public static void birthday(CommandRegistry registry) {
+		registry.register("birthday", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -147,12 +145,17 @@ public class UtilsCmds {
 		registry.register("choose", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (args.length < 1) {
+					onHelp(event);
+					return;
+				}
+
 				event.getChannel().sendMessage("I choose ``" + random(args) + "``").queue();
 			}
 
 			@Override
 			public String[] splitArgs(String content) {
-				return StringUtils.advancedSplitArgs(content, -1);
+				return StringUtils.efficientSplitArgs(content, -1);
 			}
 
 			@Override
@@ -166,8 +169,8 @@ public class UtilsCmds {
 	}
 
 	@Event
-	public static void googleSearch(CommandRegistry cr) {
-		cr.register("google", new SimpleCommand(Category.UTILS) {
+	public static void google(CommandRegistry registry) {
+		registry.register("google", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				StringBuilder b = new StringBuilder();
@@ -201,8 +204,8 @@ public class UtilsCmds {
 	}
 
 	@Event
-	public static void time(CommandRegistry cr) {
-		cr.register("time", new SimpleCommand(Category.UTILS) {
+	public static void time(CommandRegistry registry) {
+		registry.register("time", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
@@ -228,8 +231,8 @@ public class UtilsCmds {
 	}
 
 	@Event
-	public static void translate(CommandRegistry cr) {
-		cr.register("translate", new SimpleCommand(Category.UTILS) {
+	public static void translate(CommandRegistry registry) {
+		registry.register("translate", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
@@ -293,8 +296,8 @@ public class UtilsCmds {
 	}
 
 	@Event
-	public static void urban(CommandRegistry cr) {
-		cr.register("urban", new SimpleCommand(Category.UTILS) {
+	public static void urban(CommandRegistry registry) {
+		registry.register("urban", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String beheadedSplit[] = content.split("->");
@@ -372,8 +375,8 @@ public class UtilsCmds {
 	}
 
 	@Event
-	public static void weather(CommandRegistry cr) {
-		cr.register("weather", new SimpleCommand(Category.UTILS) {
+	public static void weather(CommandRegistry registry) {
+		registry.register("weather", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.isEmpty()) {
@@ -438,8 +441,8 @@ public class UtilsCmds {
 	}
 
 	@Event
-	public static void ytmp3(CommandRegistry cr) {
-		cr.register("ytmp3", new SimpleCommand(Category.UTILS) {
+	public static void ytmp3(CommandRegistry registry) {
+		registry.register("ytmp3", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				YoutubeMp3Info info = YoutubeMp3Info.forLink(content);
@@ -489,11 +492,10 @@ public class UtilsCmds {
 		});
 	}
 
-	private static String dateGMT(String timezone) throws ParseException, NullPointerException {
-		SimpleDateFormat dateGMT = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-		dateGMT.setTimeZone(TimeZone.getTimeZone(timezone));
-		SimpleDateFormat dateLocal = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-		Date date1 = dateLocal.parse(dateGMT.format(new Date()));
-		return DateFormat.getInstance().format(date1);
+	private static String dateGMT(String tz) {
+		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		format.setTimeZone(TimeZone.getTimeZone(tz));
+
+		return format.format(new Date());
 	}
 }

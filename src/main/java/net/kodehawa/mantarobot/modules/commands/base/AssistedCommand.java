@@ -27,18 +27,7 @@ public interface AssistedCommand extends Command {
 	}
 
 	default EmbedBuilder helpEmbed(GuildMessageReceivedEvent event, String name) {
-		return baseEmbed(event, name);
-	}
-
-	default void onHelp(GuildMessageReceivedEvent event) {
-		MessageEmbed helpEmbed = help(event);
-
-		if (helpEmbed == null) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
-			return;
-		}
-
-		event.getChannel().sendMessage(help(event)).queue();
+		return baseEmbed(event, name).addField("Permission required", permission().toString(), true);
 	}
 
 	default void onError(GuildMessageReceivedEvent event){
@@ -56,5 +45,16 @@ public interface AssistedCommand extends Command {
 		event.getChannel().sendMessage(help(event)).queue(
 				message -> message.delete().queueAfter(70, TimeUnit.SECONDS)
 		);
+	}
+
+	default void onHelp(GuildMessageReceivedEvent event) {
+		MessageEmbed helpEmbed = help(event);
+
+		if (helpEmbed == null) {
+			event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
+			return;
+		}
+
+		event.getChannel().sendMessage(help(event)).queue();
 	}
 }
