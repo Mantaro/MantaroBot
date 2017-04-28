@@ -26,7 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -35,6 +35,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.List;
 import java.util.function.IntConsumer;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;

@@ -29,12 +29,6 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
-//	maven {
-//		url "http://dl.bintray.com/frederikam/JCA"
-//	}
-//	maven {
-//		url "http://dl.bintray.com/brjdevs/maven"
-//	}
 }
 
 dependencies {
@@ -46,13 +40,9 @@ dependencies {
 	compile 'org.reflections:reflections:0.9.10'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
 
-//	compile 'com.udojava:EvalEx:1.0'
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
-//	compile 'org.codehaus.groovy:groovy-all:2.4.9'
 
-	//compile 'net.sandius.rembulan:rembulan-compiler:0.1-SNAPSHOT'
-	//compile 'net.sandius.rembulan:rembulan-runtime:0.1-SNAPSHOT'
-	//compile 'net.sandius.rembulan:rembulan-stdlib:0.1-SNAPSHOT'
+	compile 'com.vdurmont:emoji-java:3.2.0'
 
 	compile 'us.monoid.web:resty:0.3.2'
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
@@ -71,13 +61,9 @@ dependencies {
 
 	compileOnly "org.projectlombok:lombok:1.16.16"
 
-//	compile 'frederikam:JCA:1.0'
-
 	compile 'mysql:mysql-connector-java:6.0.4'
 
 	compile 'net.sf.trove4j:trove4j:3.0.3'
-
-//	compile 'net.bytebuddy:byte-buddy:1.6.9'
 }
 
 task wrapper(type: Wrapper) {

@@ -288,8 +288,11 @@ public class CurrencyCmds {
 					return;
 				}
 
-				TextChannelGround.of(event).dropItemWithChance(Items.BROM_PICKAXE, 10);
 				Player player = MantaroData.db().getPlayer(event.getMember());
+
+				//debug code
+				Stream.of(Items.ALL).forEach(item -> TextChannelGround.of(event).dropItem(item));
+
 
 				if (args.length > 0) {
 					int itemNumber = 1;
@@ -408,9 +411,11 @@ public class CurrencyCmds {
 				EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
 
 				Stream.of(Items.ALL).forEach(item -> {
-					String buyValue = item.isBuyable() ? EmoteReference.BUY + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
-					String sellValue = item.isSellable() ? EmoteReference.SELL + String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
-					embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
+					if(!item.isHidden()){
+						String buyValue = item.isBuyable() ? EmoteReference.BUY + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
+						String sellValue = item.isSellable() ? EmoteReference.SELL + String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
+						embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
+					}
 				});
 
 				event.getChannel().sendMessage(embed.build()).queue();

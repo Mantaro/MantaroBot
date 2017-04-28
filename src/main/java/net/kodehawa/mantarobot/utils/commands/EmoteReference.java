@@ -12,7 +12,9 @@ public enum EmoteReference {
 	PENCIL(":pencil:", "\uD83D\uDCDD"), SMILE(":smile:", "\uD83D\uDE04"), PICK(":pick:", "\u26cf"), HEART(":heart:", "\u2764"), RUNNER(":runner:", "\uD83C\uDFC3"),
 	POTION1(":milk:", "\uD83E\uDD5B"), POTION2(":champagne:", "\uD83C\uDF7E"), CREDITCARD(":credit_card:", "\uD83D\uDCB3"), POUCH(":pouch:", "\uD83D\uDC5D"),
 	REP(":military_medal:", "\uD83C\uDF96"), MAGAZINE(":newspaper:", "\uD83D\uDCF0"), AXE(":hammer_pick:", "\u2692"), DOLLAR(":dollar:", "\uD83D\uDCB5"),
-	WOOD(":bamboo:", "\uD83C\uDF8D"), EYES(":eyes:", "\uD83D\uDC40"), PENNY(":cd:", "\uD83D\uDCBF"), RING(":ring:", "\uD83D\uDC8D");
+	WOOD(":bamboo:", "\uD83C\uDF8D"), EYES(":eyes:", "\uD83D\uDC40"), PENNY(":cd:", "\uD83D\uDCBF"), RING(":ring:", "\uD83D\uDC8D"),
+	WIND(":wind_blowing_face:", "\uD83C\uDF2C"), BOOSTER(":runner:", "\uD83C\uDFC3"), JOY(":joy:", "\uD83D\uDE02"), CROSSED_SWORD(":crossed_sword:", "\u2694"),
+	MAG(":mag_right:", "\uD83D\uDD0E"), KEY(":key:", "\uD83D\uDD11"), DOG(":dog:", "\uD83D\uDC36"), DOOR(":door:", "\uD83D\uDEAA");
 
 	String discordNotation;
 	String unicode;

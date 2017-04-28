@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
+import lombok.Getter;
+
 import java.util.Random;
 
 public class Item {
@@ -8,6 +10,7 @@ public class Item {
 	private final String emoji, name, desc;
 	protected long price, maxSize;
 	private boolean sellable, buyable;
+	@Getter
 	private boolean hidden;
 
 	public Item(String emoji, String name, String desc, long value) {
@@ -35,7 +38,22 @@ public class Item {
 		this(emoji, name, desc, value, false, true, buyable, false, 100);
 	}
 
-	public void changePrices(Random r) {
+	public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden) {
+		this(emoji, name, desc, value, false, sellable, buyable, hidden, 100);
+	}
+
+	/**
+	 * Constructor specifically meant for special items. Assuming it will be hidden, with a market price of 0 and neither buyables or sellables
+	 * So market price really doesn't matter. The hidden attribute means it won't appear on market.
+	 * @param emoji The emoji it should it display on market.
+	 * @param name Display name.
+	 * @param desc A short description, normally used in inventory.
+	 */
+	public Item(String emoji, String name, String desc) {
+		this(emoji, name, desc, 0, false, false, false, true, 100);
+	}
+
+	void changePrices(Random r) {
 		if (staticPrice) return;
 		long min = (long) (value * 0.9), max = (long) (value * 1.1), dif = max - min;
 		price = min + r.nextInt((int) dif);

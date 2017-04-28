@@ -38,7 +38,9 @@ public class Inventory {
 	}
 
 	public void clearOnlySellables(){
-		replaceWith(asList().stream().filter(item -> !item.getItem().isSellable()).collect(Collectors.toList()));
+		List<ItemStack> ns = asList().stream().filter(item -> !item.getItem().isSellable()).collect(Collectors.toList());
+		replaceWith(new ArrayList<>());
+		merge(ns);
 	}
 
 	public boolean containsItem(Item item) {
