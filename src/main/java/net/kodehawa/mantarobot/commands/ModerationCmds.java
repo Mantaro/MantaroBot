@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 @Module
 public class ModerationCmds {
 	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
+	public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 
 	@Event
 	public static void ban(CommandRegistry cr) {
