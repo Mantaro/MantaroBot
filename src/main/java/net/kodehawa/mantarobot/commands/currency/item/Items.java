@@ -21,17 +21,17 @@ public class Items {
 		KICK_BOOT =
 			new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 90,  false),
 		FLOPPY_DISK =
-			new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 80, false, false),
+			new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 80, false),
 		MY_MATHS =
-			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 50, false, false),
+			new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 50, false),
 		PING_RACKET =
 			new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 50, false),
 		LOADED_DICE =
 			new Item("\uD83C\uDFB2", "Loaded Dice", "Stolen from `~>dice` command", 100, false),
 		FORGOTTEN_MUSIC =
-			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 50, false, false),
+			new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 50, false),
 		CC_PENCIL =
-			new Item("\u270f", "Pencil", "We have plenty of those!", 50, false, false),
+			new Item("\u270f", "Pencil", "We have plenty of those!", 50, false),
 		OVERFLOWED_BAG =
 			new Item("\uD83D\uDCB0", "Moneybag", "What else?.", 1000, true),
 		BROM_PICKAXE =

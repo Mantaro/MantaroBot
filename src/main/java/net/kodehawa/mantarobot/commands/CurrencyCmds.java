@@ -290,10 +290,6 @@ public class CurrencyCmds {
 
 				Player player = MantaroData.db().getPlayer(event.getMember());
 
-				//debug code
-				Stream.of(Items.ALL).forEach(item -> TextChannelGround.of(event).dropItem(item));
-
-
 				if (args.length > 0) {
 					int itemNumber = 1;
 					String itemName = content.replace(args[0] + " ", "");
@@ -635,6 +631,8 @@ public class CurrencyCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Profile command.")
 					.setDescription("Retrieves your current user profile.")
+					.addField("Usage", "To retrieve your profile, `~>profile~\n" +
+							"To change your description do `~>profile description set <description>", false)
 					.build();
 			}
 		});
