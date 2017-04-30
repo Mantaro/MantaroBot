@@ -47,6 +47,14 @@ public class Inventory {
 		return asMap().containsKey(item);
 	}
 
+	public ItemStack getStackOf(Item item) {
+		if(containsItem(item)){
+			return asMap().get(item);
+		} else {
+			return null;
+		}
+	}
+
 	public int getAmount(Item item) {
 		return asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount();
 	}

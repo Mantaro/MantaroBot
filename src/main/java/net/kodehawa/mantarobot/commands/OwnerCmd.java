@@ -12,6 +12,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
@@ -103,6 +104,8 @@ public class OwnerCmd {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {
 			ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
+			script.put("mantaro", MantaroBot.getInstance());
+			script.put("db", MantaroData.db());
 			script.put("jda", event.getJDA());
 			script.put("event", event);
 			script.put("guild", event.getGuild());
@@ -126,6 +129,8 @@ public class OwnerCmd {
 		evals.put("bsh", (event, code) -> {
 			Interpreter interpreter = new Interpreter();
 			try {
+				interpreter.set("mantaro", MantaroBot.getInstance());
+				interpreter.set("db", MantaroData.db());
 				interpreter.set("jda", event.getJDA());
 				interpreter.set("event", event);
 				interpreter.set("guild", event.getGuild());
@@ -352,21 +357,6 @@ public class OwnerCmd {
 					notifyMusic(value);
 					event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
 					return;
-				}
-
-				if (option.equals("error")) {
-					switch (value) {
-						case "bounds":
-							throw new IndexOutOfBoundsException("PLEASE IGNORE ME");
-						case "rethonk":
-							throw new ReqlError("PLEASE IGNORE ME");
-						case "args":
-							throw new IllegalArgumentException("PLEASE IGNORE ME");
-						case "perms":
-							throw new PermissionException("PLEASE IGNORE ME");
-						case "generic":
-							throw new RuntimeException("PLEASE IGNORE ME");
-					}
 				}
 
 				String[] values = SPLIT_PATTERN.split(value, 2);

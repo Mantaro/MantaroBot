@@ -85,13 +85,6 @@ public class AudioCmdUtils {
 	}
 
 	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
-		//TODO remove this after it's fixed.
-		if(event.getGuild().getRegion() == Region.SINGAPORE){
-			event.getChannel().sendMessage(EmoteReference.ERROR + "This server is in the Singapore region, which is currently suffering a trace error from OVH end." +
-					" Try switching the server region and try again.").queue();
-			return;
-		}
-
 		if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
 			return;

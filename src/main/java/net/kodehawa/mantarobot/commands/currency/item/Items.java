@@ -50,17 +50,17 @@ public class Items {
 		LOADED_DICE_2 =
 			new Item("\uD83C\uDFB2", "Loaded Dice", "Stolen from `~>dice` command. Gives you a 50% more chance at getting a perfect score on dice."),
 		B4NZY_BYPASS =
-			new Item(EmoteReference.MEGA.getUnicode(), "Bypasser", "Bypasses ratelimits in commands with a ratio of 50%. Non-stackable."),
+			new Item(EmoteReference.MEGA.getUnicode(), "Bypasser", "Bypasses (some) ratelimits in commands with a ratio of 50%. Non-stackable."),
 		BOOSTER =
 			new Item(EmoteReference.RUNNER.getUnicode(), "Booster", "Gives you 5% more money in ~>loot and ~>daily per item. Stackable up to 10."),
 		BERSERK =
-			new Item(EmoteReference.CROSSED_SWORD.getUnicode(), "Berserk", "Gives you a 3% boost in gamble. Stackable up to 5."),
+			new Item(EmoteReference.CROSSED_SWORD.getUnicode(), "Berserk", "Gives you a 2% boost in gamble profits. Stackable up to 5."),
 		COMPANION =
 			new Item(EmoteReference.DOG.getUnicode(), "Companion", "Aw. Gives you a 10% boost in ~>daily. Not stackable."),
 		RING_2 =
 			new Item("\uD83D\uDC5A", "Special Ring.", "Gives you a extra boost on ~>daily when giving it to your loved one. Yes, I know the picture doesn't match."),
 		ENHANCER =
-			new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of finding money when doing ~>loot")
+			new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of getting a win on ~>gamble. Non-stackable.")
 	};
 
 	static {

@@ -90,7 +90,7 @@ public class ImageCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
-				if (nsfw && !nsfwCheck(event, true, true, null)) return;
+				if (nsfw && !nsfwCheck(event, true, true)) return;
 
 				try {
 					JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
@@ -123,7 +123,7 @@ public class ImageCmds {
 		cr.register("e621", new SimpleCommand(Category.IMAGE) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (!nsfwCheck(event, true, true, null)) return;
+				if (!nsfwCheck(event, true, true)) return;
 				TextChannelGround.of(event).dropItemWithChance(13, 3);
 
 				String noArgs = content.split(" ")[0];
@@ -340,7 +340,7 @@ public class ImageCmds {
 		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (!nsfwCheck(event, true, true, null)) return;
+				if (!nsfwCheck(event, true, true)) return;
 
 				String noArgs = content.split(" ")[0];
 				TextChannelGround.of(event).dropItemWithChance(13, 3);
@@ -516,7 +516,7 @@ public class ImageCmds {
 
 	private static EmbedBuilder getImage(int argsCount, String requestType, String url, String rating, String[] messageArray, GuildMessageReceivedEvent event) {
 		EmbedBuilder builder = new EmbedBuilder();
-		if (!nsfwCheck(event, false, false, "s"))
+		if (!nsfwCheck(event, false, false))
 			return builder.setDescription("Cannot send a lewd image in a non-nsfw channel.");
 
 		String json = Utils.wget(url, event);
@@ -561,7 +561,7 @@ public class ImageCmds {
 		}
 	}
 
-	private static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String acceptedRating) {
+	private static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage) {
 		String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
 			.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 		String rating1 = rating == null ? "s" : rating;
@@ -571,7 +571,7 @@ public class ImageCmds {
 		if (!trigger) {
 			if (sendMessage)
 				event.getChannel().sendMessage(new EmbedBuilder().setDescription("Not on a NSFW channel. Cannot send lewd images.\n" +
-						"Reminder: You can set this channel as NSFW by doing ~>opts nsfw channel if you are an administrator on this server.").build()).queue();
+						"**Reminder:** You can set this channel as NSFW by doing `~>opts nsfw toggle` if you are an administrator on this server.").build()).queue();
 			return false;
 		}
 

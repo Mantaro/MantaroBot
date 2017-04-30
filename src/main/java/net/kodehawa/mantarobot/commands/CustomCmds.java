@@ -446,6 +446,7 @@ public class CustomCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "CustomCommand Manager")
 					.addField("Description:", "Manages the Custom Commands of the Guild.", false)
+					.addField("Guide", "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands", false)
 					.addField(
 						"Usage:",
 						"`~>custom`: Shows this help\n" +

@@ -5,6 +5,7 @@ import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.Event;
@@ -35,6 +36,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static net.dv8tion.jda.core.audio.hooks.ConnectionStatus.CONNECTING_AWAITING_ENDPOINT;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 

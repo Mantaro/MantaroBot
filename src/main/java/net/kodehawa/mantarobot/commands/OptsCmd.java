@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -695,6 +696,11 @@ public class OptsCmd {
 			}
 		});//endregion
 		//endregion
+
+		registerOption("lobby:reset", (event, args) -> {
+			GameLobby.LOBBYS.remove(event.getChannel());
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
+		});
 	}
 
 	@Event
@@ -713,10 +719,13 @@ public class OptsCmd {
 					name += s;
 					BiConsumer<GuildMessageReceivedEvent, String[]> option = options.get(name);
 					if (option != null) {
-						String[] a;
-						if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
-						else a = new String[0];
-						option.accept(event, a);
+						try{
+							String[] a;
+							if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
+							else a = new String[0];
+							option.accept(event, a);
+						} catch (IndexOutOfBoundsException ignored){}
+
 						return;
 					}
 				}
