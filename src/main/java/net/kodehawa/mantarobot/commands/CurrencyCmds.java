@@ -14,6 +14,8 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
@@ -37,6 +39,9 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class CurrencyCmds {
+
+	private static Random random = new Random();
+
 	@Event
 	public static void daily(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
@@ -113,16 +118,11 @@ public class CurrencyCmds {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				String id = event.getAuthor().getId();
-				int luck1 = 0;
 				Player player = MantaroData.db().getPlayer(event.getMember());
 
-				if(player.getInventory().containsItem(Items.B4NZY_BYPASS)){
-					luck1 = new Random().nextInt(1);
-				}
-
-				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(id) && luck1 == 0) {
+				if (rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Cooldown a lil bit, you're gambling so fast that I can't print enough money!").queue();
+						"Halt! You're gambling so fast that I can't print enough money!").queue();
 					return;
 				}
 
@@ -169,30 +169,43 @@ public class CurrencyCmds {
 
 				if(player.getInventory().containsItem(Items.ENHANCER)) luck = luck + 5;
 
-				if (luck > r.nextInt(100)) {
-					long gains = (long) (i * multiplier);
-					gains = Math.round(gains * 0.55);
+				User user = event.getAuthor();
+				long gains = (long) (i * multiplier);
+				gains = Math.round(gains * 0.55);
 
-					if (player.getMoney() >= Integer.MAX_VALUE && gains > 1000000) {
-						gains = gains / 5;
-					}
+				final int finalLuck = luck;
+				final long finalGains = gains;
 
-					if(player.getInventory().containsItem(Items.BERSERK)){
-						int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
-						gains = (long) (gains + (gains + Math.floor(amount * 0.2)));
-					}
+				if (i >= Integer.MAX_VALUE) {
+					event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i  + "**" + " " +
+							"coins. Are you sure? Type **yes** to continue and **no** otherwise.").queue();
+					InteractiveOperations.create(event.getChannel(), "Gambling",
+							(int) TimeUnit.SECONDS.toMillis(30), OptionalInt.empty(), new InteractiveOperation() {
+						@Override
+						public boolean run(GuildMessageReceivedEvent e) {
+							if(e.getAuthor().getId().equals(user.getId())){
+								if(e.getMessage().getContent().equalsIgnoreCase("yes")){
+									proceedGamble(event, player, finalLuck, random, i, finalGains);
+									return true;
+								}
+								else if(e.getMessage().getContent().equalsIgnoreCase("no")){
+									e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
+									return true;
+								}
+							}
 
-					if (player.addMoney(gains)) {
-						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
-					} else {
-						event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
-					}
-				} else {
-					player.setMoney(Math.max(0, player.getMoney() - i));
-					event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
+							return false;
+						}
+
+						@Override
+						public void onExpire() {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Time to complete the operation has ran out.").queue();
+						}
+					});
+
 				}
 
-				player.save();
+				proceedGamble(event, player, luck, random, i, gains);
 			}
 
 			@Override
@@ -203,6 +216,26 @@ public class CurrencyCmds {
 					.build();
 			}
 		});
+	}
+
+	private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains){
+		if (luck > r.nextInt(100)) {
+			if(player.getInventory().containsItem(Items.BERSERK)){
+				int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
+				gains = (long) (gains + (gains + Math.floor(amount * 0.2)));
+			}
+
+			if (player.addMoney(gains)) {
+				event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
+			} else {
+				event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+			}
+		} else {
+			player.setMoney(Math.max(0, player.getMoney() - i));
+			event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
+		}
+
+		player.save();
 	}
 
 	@Event
@@ -245,13 +278,8 @@ public class CurrencyCmds {
 
 				String id = event.getAuthor().getId();
 				Player player = MantaroData.db().getPlayer(event.getMember());
-				int luck = 0;
 
-				if(player.getInventory().containsItem(Items.B4NZY_BYPASS)){
-					luck = new Random().nextInt(1);
-				}
-
-				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(id) && luck == 0) {
+				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Cooldown a lil bit, you can only do this once every 5 minutes.").queue();
 					return;
@@ -264,6 +292,10 @@ public class CurrencyCmds {
 				if(player.getInventory().getAmount(Items.BOOSTER) > 0) {
 					int total = Math.min(10, player.getInventory().getAmount(Items.BOOSTER));
 					moneyFound = (int) Math.round(moneyFound + (moneyFound * (0.5 * total)));
+				}
+
+				if(MantaroData.db().getUser(event.getMember()).isPremium()){
+					moneyFound = moneyFound + random.nextInt(moneyFound);
 				}
 
 				if (!loot.isEmpty()) {
@@ -317,9 +349,9 @@ public class CurrencyCmds {
 
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (!MantaroData.db().getUser(event.getMember()).isPremium() && !rateLimiter.process(event.getAuthor().getId())) {
+				if (rateLimiter.process(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Cooldown a lil bit, you're calling me so fast that I can't get enough items!").queue();
+						"Wait! You're calling me so fast that I can't get enough items!").queue();
 					return;
 				}
 
@@ -476,7 +508,8 @@ public class CurrencyCmds {
 
 				if (args.length > 0 && args[0].equals("description")) {
 					if (args.length == 1) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide an argument! (set or remove)\n" +
+						event.getChannel().sendMessage(EmoteReference.ERROR +
+								"You need to provide an argument! (set or remove)\n" +
 							"for example, ~>profile description set Hi there!").queue();
 						return;
 					}
@@ -555,7 +588,7 @@ public class CurrencyCmds {
 					.setDescription("Retrieves your current user profile.")
 					.addField("Usage", "To retrieve your profile, `~>profile~\n" +
 							"To change your description do `~>profile description set <description>\n" +
-							"To clear it, just do ~>profile description clearf", false)
+							"To clear it, just do ~>profile description clear", false)
 					.build();
 			}
 		});
@@ -570,6 +603,11 @@ public class CurrencyCmds {
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.").queue();
+					return;
+				}
+
+				if(event.getMessage().getMentionedUsers().get(0).isBot()){
+					event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot.").queue();
 					return;
 				}
 
