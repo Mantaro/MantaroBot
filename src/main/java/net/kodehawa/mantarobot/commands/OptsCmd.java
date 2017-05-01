@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Event;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
@@ -67,7 +68,6 @@ public class OptsCmd {
 				logChannel, id)).queue();
 		});
 
-		//TODO: Add help for this!
 		registerOption("logs:exclude", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
@@ -705,7 +705,7 @@ public class OptsCmd {
 
 	@Event
 	public static void register(CommandRegistry registry) {
-		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION) {
+		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length < 2) {

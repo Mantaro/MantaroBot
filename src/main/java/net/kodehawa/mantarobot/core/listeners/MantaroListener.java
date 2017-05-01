@@ -315,16 +315,15 @@ public class MantaroListener implements EventListener {
 
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			if (role != null) {
-				event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s -> log.debug("Successfully added a new role to " + event.getMember()), error -> {
-					if (error instanceof PermissionException) {
-						MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
-						MantaroData.db().getGuild(event.getGuild()).save();
-						event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
+				try{
+					event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
+							log.debug("Successfully added a new role to " + event.getMember()));
+				} catch (PermissionException e){
+					MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
+					MantaroData.db().getGuild(event.getGuild()).save();
+					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
 							messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
-					} else {
-						log.warn("Error while applying roles", error);
-					}
-				});
+				}
 			}
 
 			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();

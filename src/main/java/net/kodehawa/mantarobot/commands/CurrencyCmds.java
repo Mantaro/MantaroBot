@@ -554,7 +554,8 @@ public class CurrencyCmds {
 				return helpEmbed(event, "Profile command.")
 					.setDescription("Retrieves your current user profile.")
 					.addField("Usage", "To retrieve your profile, `~>profile~\n" +
-							"To change your description do `~>profile description set <description>", false)
+							"To change your description do `~>profile description set <description>\n" +
+							"To clear it, just do ~>profile description clearf", false)
 					.build();
 			}
 		});
@@ -713,6 +714,10 @@ public class CurrencyCmds {
 					.build();
 			}
 		});
+	}
+
+	public static void lootcrate(CommandRegistry registry){
+
 	}
 
 	private static User getUserById(String id) {
