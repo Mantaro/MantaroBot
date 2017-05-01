@@ -120,7 +120,7 @@ public class CurrencyCmds {
 				String id = event.getAuthor().getId();
 				Player player = MantaroData.db().getPlayer(event.getMember());
 
-				if (rateLimiter.process(id)) {
+				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Halt! You're gambling so fast that I can't print enough money!").queue();
 					return;
@@ -177,8 +177,8 @@ public class CurrencyCmds {
 				final long finalGains = gains;
 
 				if (i >= Integer.MAX_VALUE) {
-					event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i  + "**" + " " +
-							"coins. Are you sure? Type **yes** to continue and **no** otherwise.").queue();
+					event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i  + "** " +
+							"coins (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
 					InteractiveOperations.create(event.getChannel(), "Gambling",
 							(int) TimeUnit.SECONDS.toMillis(30), OptionalInt.empty(), new InteractiveOperation() {
 						@Override
@@ -349,7 +349,7 @@ public class CurrencyCmds {
 
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (rateLimiter.process(event.getAuthor().getId())) {
+				if (!rateLimiter.process(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
 						"Wait! You're calling me so fast that I can't get enough items!").queue();
 					return;
