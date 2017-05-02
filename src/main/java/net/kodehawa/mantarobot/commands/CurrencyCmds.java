@@ -139,7 +139,7 @@ public class CurrencyCmds {
 						case "all":
 						case "everything":
 							i = player.getMoney();
-							multiplier = 1.5d + (r.nextInt(1500) / 1000d);
+							multiplier = 1.3d + (r.nextInt(1500) / 1000d);
 							luck = 30 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
@@ -155,7 +155,7 @@ public class CurrencyCmds {
 						default:
 							i = Integer.parseInt(content);
 							if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
-							multiplier = 1.2d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
+							multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
 							luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
 							break;
 					}
@@ -167,7 +167,9 @@ public class CurrencyCmds {
 					return;
 				}
 
-				if(player.getInventory().containsItem(Items.ENHANCER)) luck = luck + 5;
+				if(player.getInventory().containsItem(Items.ENHANCER)) {
+					luck = luck + 5;
+				}
 
 				User user = event.getAuthor();
 				long gains = (long) (i * multiplier);
@@ -295,7 +297,7 @@ public class CurrencyCmds {
 					moneyFound = (int) Math.round(moneyFound + (moneyFound * (0.5 * total)));
 				}
 
-				if(MantaroData.db().getUser(event.getMember()).isPremium()){
+				if(MantaroData.db().getUser(event.getMember()).isPremium() && moneyFound > 0){
 					moneyFound = moneyFound + random.nextInt(moneyFound);
 				}
 
@@ -712,7 +714,7 @@ public class CurrencyCmds {
 					return;
 				}
 
-				int toSend;
+				long toSend;
 				try {
 					toSend = Math.abs(Integer.parseInt(args[1]));
 				} catch (Exception e) {
@@ -740,7 +742,7 @@ public class CurrencyCmds {
 
 					if(user.getId().equals("224662505157427200")){
 						user.openPrivateChannel().queue(channel ->
-								channel.sendMessage(EmoteReference.CORRECT + " " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + " transferred **" + toSend + "** to you successfully."
+								channel.sendMessage(event.getAuthor().getId() + " transferred **" + toSend + "** to you successfully."
 						).queue());
 					}
 
