@@ -203,6 +203,7 @@ public class CurrencyCmds {
 						}
 					});
 
+					return;
 				}
 
 				proceedGamble(event, player, luck, random, i, gains);

@@ -54,7 +54,7 @@ public class OwnerCmd {
 
 	@Event
 	public static void blacklist(CommandRegistry cr) {
-		cr.register("blacklist", new SimpleCommand(Category.OWNER) {
+		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				MantaroObj obj = MantaroData.db().getMantaroData();
