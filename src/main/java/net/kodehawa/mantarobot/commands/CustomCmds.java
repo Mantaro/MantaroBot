@@ -453,7 +453,7 @@ public class CustomCmds {
 							"`~>custom <list|ls> [detailed]`: List all commands. If detailed is supplied, it prints the responses of each command.\n" +
 							"`~>custom debug`: Gives a Hastebin of the Raw Custom Commands Data. **(OWNER-ONLY)**\n" +
 							"`~>custom clear`: Remove all Custom Commands from this Guild. **(OWNER-ONLY)**\n" +
-							"`~>custom add <name> <responses>`: Add a new Command with the response provided. (A list of modifiers can be found on [here](https://hastebin.com/xolijewitu.http)\n" +
+							"`~>custom add <name> <responses>`: Add a new Command with the response provided. (A list of modifiers can be found on [here](https://hastebin.com/xolijewitu.http))\n" +
 							"`~>custom make <name>`: Starts a Interactive Operation to create a command with the specified name.\n" +
 							"`~>custom <remove|rm> <name>`: Removes a command with an specific name.\n" +
 							"`~>custom import <search>`: Imports a command from another guild you're in.",
