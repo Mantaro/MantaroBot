@@ -738,7 +738,7 @@ public class CurrencyCmds {
 					toTransfer.save();
 
 					if(user.getId().equals("224662505157427200")){
-						event.getGuild().getMember(user).getUser().openPrivateChannel().queue(channel ->
+						user.openPrivateChannel().queue(channel ->
 								channel.sendMessage(EmoteReference.CORRECT + " " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + " transferred **" + toSend + "** to you successfully."
 						).queue());
 					}
