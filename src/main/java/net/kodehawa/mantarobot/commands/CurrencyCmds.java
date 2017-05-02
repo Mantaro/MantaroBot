@@ -376,11 +376,6 @@ public class CurrencyCmds {
 					}
 
 					if (args[0].equals("sell")) {
-						if (player.getMoney() >= Integer.MAX_VALUE) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. " +
-								"Maybe you should spend some before getting more.").queue();
-							return;
-						}
 						try {
 							if (args[1].equals("all")) {
 								long all = player.getInventory().asList().stream()
@@ -716,7 +711,7 @@ public class CurrencyCmds {
 
 				long toSend;
 				try {
-					toSend = Math.abs(Integer.parseInt(args[1]));
+					toSend = Math.abs(Long.parseLong(args[1]));
 				} catch (Exception e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the amount.").queue();
 					return;

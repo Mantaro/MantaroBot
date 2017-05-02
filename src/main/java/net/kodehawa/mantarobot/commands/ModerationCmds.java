@@ -285,7 +285,13 @@ public class ModerationCmds {
 					);
 					return;
 				}
-				int i = Integer.parseInt(content);
+				int i;
+				try{
+					 i = Integer.parseInt(content);
+				} catch (Exception e){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Please specify a valid number.").queue();
+					return;
+				}
 
 				if (i < 5) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();

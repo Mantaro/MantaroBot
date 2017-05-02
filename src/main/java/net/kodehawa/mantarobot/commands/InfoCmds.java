@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDAInfo;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -384,8 +385,9 @@ public class InfoCmds {
 
 					builder.append("\n");
 				}
-
-				event.getChannel().sendMessage(String.format("```prolog\n%s```", builder.toString())).queue();
+				MessageBuilder messageBuilder = new MessageBuilder();
+				Queue<Message> m = messageBuilder.append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+				m.forEach(message -> event.getChannel().sendMessage(String.format("```prolog\n%s```", message.getRawContent())).queue());
 			}
 
 			@Override
