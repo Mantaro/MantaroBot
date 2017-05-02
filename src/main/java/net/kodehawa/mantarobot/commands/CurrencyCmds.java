@@ -726,16 +726,13 @@ public class CurrencyCmds {
 				}
 
 				User user = event.getMessage().getMentionedUsers().get(0);
-				if (user.isBot()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money to a bot.").queue();
-					return;
-				}
 				Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
 				if (toTransfer.addMoney(toSend)) {
 					transferPlayer.removeMoney(toSend);
 					transferPlayer.save();
 					toTransfer.save();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage().getMentionedUsers().get(0).getName() + "* successfully.").queue();
+					event.getGuild().getMember(user).getPrivateChannel().sendMessage(EmoteReference.CORRECT + " " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator + " transferred **" + toSend + "** to you successfully.").queue();
 				} else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
 				}
