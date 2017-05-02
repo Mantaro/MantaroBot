@@ -740,7 +740,7 @@ public class CurrencyCmds {
 
 					if(user.getId().equals("224662505157427200")){
 						user.openPrivateChannel().queue(channel ->
-								channel.sendMessage(EmoteReference.CORRECT + " " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + " transferred **" + toSend + "** to you successfully."
+								channel.sendMessage(event.getAuthor().getId() + " transferred " + toSend + " credits"
 						).queue());
 					}
 
