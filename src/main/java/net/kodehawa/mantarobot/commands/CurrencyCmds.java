@@ -153,7 +153,7 @@ public class CurrencyCmds {
 							luck = 25 + (int) (multiplier * 10) + r.nextInt(18);
 							break;
 						default:
-							i = Integer.parseInt(content);
+							i = Long.parseLong(content);
 							if (i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
 							multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
 							luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
@@ -238,7 +238,7 @@ public class CurrencyCmds {
 			event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
 		}
 
-		player.save();
+		player.saveAsync();
 	}
 
 	@Event

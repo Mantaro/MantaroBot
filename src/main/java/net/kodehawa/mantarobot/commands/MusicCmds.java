@@ -221,11 +221,23 @@ public class MusicCmds {
 				event.getChannel().sendMessage(embedForQueue(page, event.getGuild(), musicManager)).queue();
 
 				if (content.startsWith("clear")) {
-					int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue" +
-						".").queue();
-					MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState().getChannel().equals
+							(event.getGuild().getAudioManager().getConnectedChannel())) {
+						sendNotConnectedToMyChannel(event.getChannel());
+						return;
+					}
+
+					if (isDJ(event.getMember())) {
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "The server DJ has decided to clear the queue!").queue();
+						int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
+						MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue" +
+								".").queue();
+						MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+						return;
+					}
+
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Either you're not connected to the VC or you're not the DJ.").queue();
 					return;
 				}
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
