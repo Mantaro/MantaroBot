@@ -1,102 +1,40 @@
 package net.kodehawa.mantarobot.commands.music.listener;
 
+import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.GuildVoiceState;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.managers.AudioManager;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-public class VoiceLeaveTimer {
-	private final Map<String, Long> expiring;
-	private boolean updated = false;
-
-	public VoiceLeaveTimer() {
-		this(new ConcurrentHashMap<>());
-	}
-
-	public VoiceLeaveTimer(Map<String, Long> timingOut) {
-		this.expiring = Collections.synchronizedMap(timingOut);
-
-		Thread thread = new Thread(this::threadcode, "VoiceLeaveTimer");
-		thread.setDaemon(true);
-		thread.start();
-	}
-
-	public void addMusicPlayer(String id, long millis) {
-		expiring.put(id, millis);
-		updated = true;
-		synchronized (this) {
-			notify();
-		}
-	}
-
-	public Long get(String key) {
-		return expiring.get(key);
-	}
-
-	public boolean isExpiring(String key) {
-		return expiring.containsKey(key);
-	}
-
-	public boolean removeMusicPlayer(String id) {
-		if (expiring.containsKey(id)) {
-			expiring.remove(id);
-			updated = true;
-			synchronized (this) {
-				notify();
-			}
-			return true;
-		}
-		return false;
-	}
-
-	private void threadcode() {
-		//noinspection InfiniteLoopStatement
-		while (true) {
-			if (expiring.isEmpty()) {
-				try {
-					synchronized (this) {
-						wait();
-						updated = false;
-					}
-				} catch (InterruptedException ignored) {}
-			}
-
-			//noinspection OptionalGetWithoutIsPresent
-			Map.Entry<String, Long> closestEntry = expiring.entrySet().stream().sorted(Comparator.comparingLong(Map.Entry::getValue)).findFirst().get();
-
-			try {
-				long timeout = closestEntry.getValue() - System.currentTimeMillis();
-				if (timeout > 0) {
-					synchronized (this) {
-						wait(timeout);
-					}
-				}
-			} catch (InterruptedException ignored) {}
-
-			if (!updated) {
-				String id = closestEntry.getKey();
-				expiring.remove(id);
-
-				Guild guild = MantaroBot.getInstance().getShard(Integer.parseInt(id)).getJDA().getGuildById(id);
-				if (guild == null) continue;
-				AudioManager am = guild.getAudioManager();
-				if (am.isConnected() || am.isAttemptingToConnect()) {
-					GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
-					am.closeAudioConnection();
-					TextChannel channel = musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel();
-					if (channel != null && channel.canTalk()) {
-						channel.sendMessage(EmoteReference.STOPWATCH + "Nobody joined the VoiceChannel after 2 minutes, stopping the player...").queue();
-					}
-					musicManager.getTrackScheduler().stop();
-				}
-			} else updated = false; //and the loop will restart and resolve it
-		}
-	}
+public class VoiceLeaveTimer implements Runnable {
+    @Override
+    public void run() {
+        MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((guildId, manager) -> {
+            try {
+                Guild guild = MantaroBot.getInstance().getGuildById(guildId);
+                GuildVoiceState voiceState = guild.getSelfMember().getVoiceState();
+                if (voiceState.inVoiceChannel()) {
+                    TextChannel channel = guild.getPublicChannel();
+                    if (channel != null) {
+                        if (channel.canTalk()) {
+                            VoiceChannel voiceChannel = voiceState.getChannel();
+                            AudioPlayer player = manager.getAudioPlayer();
+                            if (voiceState.isGuildMuted()) {
+                                channel.sendMessage("Pausing player now because you muted me!").queue();
+                                player.setPaused(true);
+                            }
+                            if (voiceChannel.getMembers().size() == 1) {
+                                channel.sendMessage("I decided to leave **" + voiceChannel.getName() + "** because I was all " +
+                                        "alone!").queue();
+                                guild.getAudioManager().closeAudioConnection();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ignored) {
+            }
+        });
+    }
 }

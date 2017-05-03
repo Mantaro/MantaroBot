@@ -30,447 +30,575 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "Moderation")
 @Module
 public class ModerationCmds {
-	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
-	public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
+    private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
+    public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
+            "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 
-	@Event
-	public static void ban(CommandRegistry cr) {
-		cr.register("ban", new SimpleCommand(Category.MODERATION) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				Guild guild = event.getGuild();
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				Message receivedMessage = event.getMessage();
-				String reason = content;
+    @Event
+    public static void softban(CommandRegistry cr) {
+        cr.register("softban", new SimpleCommand(Category.MODERATION) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                Guild guild = event.getGuild();
+                User author = event.getAuthor();
+                TextChannel channel = event.getChannel();
+                Message receivedMessage = event.getMessage();
+                String reason = content;
 
-				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-					channel.sendMessage(EmoteReference.ERROR + "You can't ban: You need the `Ban Users` permission.").queue();
-					return;
-				}
+                if (!guild.getMember(author).hasPermission(Permission.BAN_MEMBERS)) {
+                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban: You don't have the Ban Members permission.").queue();
+                    return;
+                }
 
-				if (receivedMessage.getMentionedUsers().isEmpty()) {
-					channel.sendMessage(EmoteReference.ERROR + "You need to mention at least one user!").queue();
-					return;
-				}
+                if (receivedMessage.getMentionedUsers().isEmpty()) {
+                    channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be softbanned!").queue();
+                    return;
+                }
 
-				for (User user : event.getMessage().getMentionedUsers()) {
-					reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
-				}
+                Member selfMember = guild.getSelfMember();
 
-				if (reason.isEmpty()) {
-					reason = "Not specified";
-				}
+                if (!selfMember.hasPermission(Permission.BAN_MEMBERS)) {
+                    channel.sendMessage(EmoteReference.ERROR2 + "Sorry! I don't have permission to ban members in this server!").queue();
+                    return;
+                }
 
-				final String finalReason = reason;
+                for (User user : event.getMessage().getMentionedUsers()) {
+                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                }
 
-				receivedMessage.getMentionedUsers().forEach(user -> {
-					if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot ban an user who's higher than you in the " +
-							"server hierarchy! Nice try " + EmoteReference.SMILE).queue();
-						return;
-					}
+                if (reason.isEmpty()) {
+                    reason = "Not specified";
+                }
 
-					if (event.getAuthor().getId().equals(user.getId())) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Why're trying to ban yourself, silly?").queue();
-						return;
-					}
+                final String finalReason = reason;
 
-					Member member = guild.getMember(user);
-					if (member == null) return;
-					if (!guild.getSelfMember().canInteract(member)) {
-						channel.sendMessage(EmoteReference.ERROR + "I can't ban " + member.getEffectiveName() + "; they're higher in the " +
-							"server hierarchy than me!").queue();
-						return;
-					}
+                receivedMessage.getMentionedUsers().forEach(user -> {
+                    if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot softban an user in a higher hierarchy than you")
+                                .queue();
+                        return;
+                    }
 
-					if (!guild.getSelfMember().hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-						channel.sendMessage(EmoteReference.ERROR + "Sorry! I don't have permission to ban members in this server!").queue();
-						return;
-					}
-					final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                    if (event.getAuthor().getId().equals(user.getId())) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to softban yourself?").queue();
+                        return;
+                    }
 
-					guild.getController().ban(member, 7).queue(
-						success -> {
-							user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
-								.getAuthor().getName() + "#"
-								+ event.getAuthor().getDiscriminator() + ". Reason: " + finalReason + ".").queue();
-							db.getData().setCases(db.getData().getCases() + 1);
-							db.saveAsync();
-							channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + member.getEffectiveName() + "... or not!")
-								.queue();
-							ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
-							TextChannelGround.of(event).dropItemWithChance(1, 2);
-						},
-						error ->
-						{
-							if (error instanceof PermissionException) {
-								channel.sendMessage(EmoteReference.ERROR + "Error banning " + member.getEffectiveName()
-									+ ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
-									.queue();
-							} else {
-								channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + member.getEffectiveName()
-									+ ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                    Member member = guild.getMember(user);
+                    if (member == null) return;
 
-								log.warn("Encountered an unexpected error while trying to ban someone.", error);
-							}
-						});
-				});
-			}
+                    //If one of them is in a higher hierarchy than the bot, cannot kick.
+                    if (!selfMember.canInteract(member)) {
+                        channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban member: " + member.getEffectiveName() + ", they are " +
+                                "higher or the same " + "hierachy than I am!").queue();
+                        return;
+                    }
+                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Ban")
-					.setDescription("Bans the mentioned users. (You **need** Ban Members)")
-					.build();
-			}
-		});
-	}
+                    //Proceed to kick them. Again, using queue so I don't get rate limited.
+                    guild.getController().ban(member, 7).queue(
+                            success -> {
+                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **softbanned** by " + event
+                                        .getAuthor().getName() + "#"
+                                        + event.getAuthor().getDiscriminator() + " for reason " + finalReason + ".").queue();
+                                db.getData().setCases(db.getData().getCases() + 1);
+                                db.saveAsync();
+                                channel.sendMessage(EmoteReference.ZAP + "You'll be missed... haha just kidding " + member.getEffectiveName())
+                                        .queue(); //Quite funny, I think.
+                                guild.getController().unban(member.getUser()).queue(aVoid -> {}, error -> {
+                                    if (error instanceof PermissionException) {
+                                        channel.sendMessage(String.format(EmoteReference.ERROR + "Error unbanning [%s]: (No permission " +
+                                                "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
+                                                .queue();
+                                    }
+                                    else {
+                                        channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while unbanning [%s]: <%s>: " +
+                                                "%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
+                                                .queue();
+                                        log.warn("Unexpected error while unbanning someone.", error);
+                                    }
+                                });
 
-	@Event
-	public static void kick(CommandRegistry cr) {
-		cr.register("kick", new SimpleCommand(Category.MODERATION) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				Guild guild = event.getGuild();
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				Message receivedMessage = event.getMessage();
-				String reason = content;
 
-				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
-					channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick: You have no Kick Members permission.").queue();
-					return;
-				}
+                                ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+                                TextChannelGround.of(event).dropItemWithChance(2, 2);
+                            },
+                            error -> {
+                                if (error instanceof PermissionException) {
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning [%s]: (No permission " +
+                                            "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
+                                            .queue();
+                                }
+                                else {
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning [%s]: <%s>: " +
+                                            "%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
+                                            .queue();
+                                    log.warn("Unexpected error while softbanning someone.", error);
+                                }
+                            });
+                });
+            }
 
-				if (receivedMessage.getMentionedUsers().isEmpty()) {
-					channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be kicked!").queue();
-					return;
-				}
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Softban")
+                        .setDescription("Softban the mentioned user and clears their messages from the past week. (You **need** Ban " +
+                                "Members)").build();
+            }
 
-				Member selfMember = guild.getSelfMember();
+        });
+    }
 
-				if (!selfMember.hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
-					channel.sendMessage(EmoteReference.ERROR2 + "Sorry! I don't have permission to kick members in this server!").queue();
-					return;
-				}
+    @Event
+    public static void ban(CommandRegistry cr) {
+        cr.register("ban", new SimpleCommand(Category.MODERATION) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                Guild guild = event.getGuild();
+                User author = event.getAuthor();
+                TextChannel channel = event.getChannel();
+                Message receivedMessage = event.getMessage();
+                String reason = content;
 
-				for (User user : event.getMessage().getMentionedUsers()) {
-					reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
-				}
+                if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
+                    channel.sendMessage(EmoteReference.ERROR + "You can't ban: You need the `Ban Users` permission.").queue();
+                    return;
+                }
 
-				if (reason.isEmpty()) {
-					reason = "Not specified";
-				}
+                if (receivedMessage.getMentionedUsers().isEmpty()) {
+                    channel.sendMessage(EmoteReference.ERROR + "You need to mention at least one user!").queue();
+                    return;
+                }
 
-				final String finalReason = reason;
+                for (User user : event.getMessage().getMentionedUsers()) {
+                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                }
 
-				receivedMessage.getMentionedUsers().forEach(user -> {
-					if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot kick an user in a higher hierarchy than you")
-							.queue();
-						return;
-					}
+                if (reason.isEmpty()) {
+                    reason = "Not specified";
+                }
 
-					if (event.getAuthor().getId().equals(user.getId())) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to kick yourself?").queue();
-						return;
-					}
+                final String finalReason = reason;
 
-					Member member = guild.getMember(user);
-					if (member == null) return;
+                receivedMessage.getMentionedUsers().forEach(user -> {
+                    if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot ban an user who's higher than you in the " +
+                                "server hierarchy! Nice try " + EmoteReference.SMILE).queue();
+                        return;
+                    }
 
-					//If one of them is in a higher hierarchy than the bot, cannot kick.
-					if (!selfMember.canInteract(member)) {
-						channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are " +
-							"higher or the same " + "hierachy than I am!").queue();
-						return;
-					}
-					final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                    if (event.getAuthor().getId().equals(user.getId())) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why're trying to ban yourself, silly?").queue();
+                        return;
+                    }
 
-					//Proceed to kick them. Again, using queue so I don't get rate limited.
-					guild.getController().kick(member).queue(
-						success -> {
-							user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
-								.getAuthor().getName() + "#"
-								+ event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
-							db.getData().setCases(db.getData().getCases() + 1);
-							db.saveAsync();
-							channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName())
-								.queue(); //Quite funny, I think.
-							ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
-							TextChannelGround.of(event).dropItemWithChance(2, 2);
-						},
-						error -> {
-							if (error instanceof PermissionException) {
-								channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission " +
-									"provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
-									.queue();
-							} else {
-								channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: " +
-									"%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
-									.queue();
-								log.warn("Unexpected error while kicking someone.", error);
-							}
-						});
-				});
-			}
+                    Member member = guild.getMember(user);
+                    if (member == null) return;
+                    if (!guild.getSelfMember().canInteract(member)) {
+                        channel.sendMessage(EmoteReference.ERROR + "I can't ban " + member.getEffectiveName() + "; they're higher in the " +
+                                "server hierarchy than me!").queue();
+                        return;
+                    }
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Kick").setDescription("Kicks the mentioned users. (You **need** Kick Members)").build();
-			}
-		});
-	}
+                    if (!guild.getSelfMember().hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
+                        channel.sendMessage(EmoteReference.ERROR + "Sorry! I don't have permission to ban members in this server!").queue();
+                        return;
+                    }
+                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-	@Event
-	public static void prune(CommandRegistry cr) {
-		cr.register("prune", new SimpleCommand(Category.MODERATION) {
-			@Override
-			public CommandPermission permission() {
-				return CommandPermission.ADMIN;
-			}
+                    guild.getController().ban(member, 7).queue(
+                            success -> {
+                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
+                                        .getAuthor().getName() + "#"
+                                        + event.getAuthor().getDiscriminator() + ". Reason: " + finalReason + ".").queue();
+                                db.getData().setCases(db.getData().getCases() + 1);
+                                db.saveAsync();
+                                channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + member.getEffectiveName() + "... or not!")
+                                        .queue();
+                                ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
+                                TextChannelGround.of(event).dropItemWithChance(1, 2);
+                            },
+                            error ->
+                            {
+                                if (error instanceof PermissionException) {
+                                    channel.sendMessage(EmoteReference.ERROR + "Error banning " + member.getEffectiveName()
+                                            + ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
+                                            .queue();
+                                }
+                                else {
+                                    channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + member
+                                            .getEffectiveName()
+                                            + ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
 
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				TextChannel channel = event.getChannel();
-				if (content.isEmpty()) {
-					channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
-					return;
-				}
+                                    log.warn("Encountered an unexpected error while trying to ban someone.", error);
+                                }
+                            });
+                });
+            }
 
-				if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have permission: " +
-						"Manage Messages").queue();
-					return;
-				}
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Ban")
+                        .setDescription("Bans the mentioned users. (You **need** Ban Members)")
+                        .build();
+            }
+        });
+    }
 
-				if (content.startsWith("bot")) {
-					channel.getHistory().retrievePast(100).queue(
-						messageHistory -> {
-							String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-							messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
-								message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
+    @Event
+    public static void kick(CommandRegistry cr) {
+        cr.register("kick", new SimpleCommand(Category.MODERATION) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                Guild guild = event.getGuild();
+                User author = event.getAuthor();
+                TextChannel channel = event.getChannel();
+                Message receivedMessage = event.getMessage();
+                String reason = content;
 
-							if (messageHistory.isEmpty()) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls " +
-									"here.").queue();
-								return;
-							}
+                if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
+                    channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick: You have no Kick Members permission.").queue();
+                    return;
+                }
 
-							final int size = messageHistory.size();
+                if (receivedMessage.getMentionedUsers().isEmpty()) {
+                    channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be kicked!").queue();
+                    return;
+                }
 
-							channel.deleteMessages(messageHistory).queue(
-								success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot " +
-									"messages").queue(),
-								error -> {
-									if (error instanceof PermissionException) {
-										PermissionException pe = (PermissionException) error;
-										channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
-											"(No permission provided: " + pe.getPermission() + ")").queue();
-									} else {
-										channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
-											+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-										error.printStackTrace();
-									}
-								});
+                Member selfMember = guild.getSelfMember();
 
-						},
-						error -> {
-							channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the " +
-								"messages" + "<"
-								+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-							error.printStackTrace();
-						}
-					);
-					return;
-				}
-				int i;
-				try{
-					 i = Integer.parseInt(content);
-				} catch (Exception e){
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Please specify a valid number.").queue();
-					return;
-				}
+                if (!selfMember.hasPermission(net.dv8tion.jda.core.Permission.KICK_MEMBERS)) {
+                    channel.sendMessage(EmoteReference.ERROR2 + "Sorry! I don't have permission to kick members in this server!").queue();
+                    return;
+                }
 
-				if (i < 5) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
-					return;
-				}
+                for (User user : event.getMessage().getMentionedUsers()) {
+                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                }
 
-				channel.getHistory().retrievePast(Math.min(i, 100)).queue(
-					messageHistory -> {
-						messageHistory = messageHistory.stream().filter(message -> !message.getCreationTime()
-							.isBefore(OffsetDateTime.now().minusWeeks(2)))
-							.collect(Collectors.toList());
+                if (reason.isEmpty()) {
+                    reason = "Not specified";
+                }
 
-						if (messageHistory.isEmpty()) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, " +
-								"discord won't let me delete them.").queue();
-							return;
-						}
+                final String finalReason = reason;
 
-						final int size = messageHistory.size();
+                receivedMessage.getMentionedUsers().forEach(user -> {
+                    if (!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot kick an user in a higher hierarchy than you")
+                                .queue();
+                        return;
+                    }
 
-						channel.deleteMessages(messageHistory).queue(
-							success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages").queue(),
-							error -> {
-								if (error instanceof PermissionException) {
-									PermissionException pe = (PermissionException) error;
-									channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
-										"(No permission provided: " + pe.getPermission() + ")").queue();
-								} else {
-									channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
-										+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-									error.printStackTrace();
-								}
-							});
-					},
-					error -> {
-						channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the messages" + "<"
-							+ error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-						error.printStackTrace();
-					}
-				);
-			}
+                    if (event.getAuthor().getId().equals(user.getId())) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to kick yourself?").queue();
+                        return;
+                    }
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Prune command")
-					.setDescription("Prunes a specific amount of messages.")
-					.addField("Usage", "~>prune <x> - Prunes messages", false)
-					.addField("Parameters", "x = number of messages to delete", false)
-					.addField("Important", "You need to provide at least 3 messages. I'd say better 10 or more.\nYou can use ~>prune bot to remove all bot messages and bot calls.", false)
-					.build();
-			}
+                    Member member = guild.getMember(user);
+                    if (member == null) return;
 
-		});
-	}
+                    //If one of them is in a higher hierarchy than the bot, cannot kick.
+                    if (!selfMember.canInteract(member)) {
+                        channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are " +
+                                "higher or the same " + "hierachy than I am!").queue();
+                        return;
+                    }
+                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-	@Event
-	public static void tempban(CommandRegistry cr) {
-		cr.register("tempban", new SimpleCommand(Category.MODERATION) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				String reason = content;
-				Guild guild = event.getGuild();
-				User author = event.getAuthor();
-				TextChannel channel = event.getChannel();
-				Message receivedMessage = event.getMessage();
+                    //Proceed to kick them. Again, using queue so I don't get rate limited.
+                    guild.getController().kick(member).queue(
+                            success -> {
+                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
+                                        .getAuthor().getName() + "#"
+                                        + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+                                db.getData().setCases(db.getData().getCases() + 1);
+                                db.saveAsync();
+                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName())
+                                        .queue(); //Quite funny, I think.
+                                ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
+                                TextChannelGround.of(event).dropItemWithChance(2, 2);
+                            },
+                            error -> {
+                                if (error instanceof PermissionException) {
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission " +
+                                            "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
+                                            .queue();
+                                }
+                                else {
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: " +
+                                            "%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
+                                            .queue();
+                                    log.warn("Unexpected error while kicking someone.", error);
+                                }
+                            });
+                });
+            }
 
-				if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
-					channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You have no Ban Members permission.").queue();
-					return;
-				}
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Kick").setDescription("Kicks the mentioned users. (You **need** Kick Members)").build();
+            }
+        });
+    }
 
-				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention an user!").queue();
-					return;
-				}
+    @Event
+    public static void prune(CommandRegistry cr) {
+        cr.register("prune", new SimpleCommand(Category.MODERATION) {
+            @Override
+            public CommandPermission permission() {
+                return CommandPermission.ADMIN;
+            }
 
-				for (User user : event.getMessage().getMentionedUsers()) {
-					reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
-				}
-				int index = reason.indexOf("time:");
-				if (index < 0) {
-					event.getChannel().sendMessage(EmoteReference.ERROR +
-						"You cannot temp ban an user without giving me the time!").queue();
-					return;
-				}
-				String time = reason.substring(index);
-				reason = reason.replace(time, "").trim();
-				time = time.replaceAll("time:(\\s+)?", "");
-				if (reason.isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without a reason.!").queue();
-					return;
-				}
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+                if (content.isEmpty()) {
+                    channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
+                    return;
+                }
 
-				if (time.isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without giving me the time!").queue();
-					return;
-				}
+                if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have permission: " +
+                            "Manage Messages").queue();
+                    return;
+                }
 
-				final DBGuild db = MantaroData.db().getGuild(event.getGuild());
-				long l = parse(time);
-				String finalReason = reason;
-				String sTime = StringUtils.parseTime(l);
-				receivedMessage.getMentionedUsers().forEach(user -> {
-					user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event.getAuthor().getName() + "#"
-						+ event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
-					db.getData().setCases(db.getData().getCases() + 1);
-					db.saveAsync();
-					channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName()).queue();
-					ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
-					MantaroBot.getInstance().getTempBanManager().addTempban(
-						guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
-					TextChannelGround.of(event).dropItemWithChance(1, 2);
-				});
-			}
+                if (content.startsWith("bot")) {
+                    channel.getHistory().retrievePast(100).queue(
+                            messageHistory -> {
+                                String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
+                                messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
+                                        message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Tempban Command")
-					.setDescription("Temporarily bans an user")
-					.addField("Usage", "~>tempban <user> <reason> time:<time>", false)
-					.addField("Example", "~>tempban @Kodehawa example time:1d", false)
-					.addField("Extended usage", "time: can be used with the following parameters: " +
-						"d (days), s (second), m (minutes), h (hour). For example time:1d1h will give a day and an hour.", false)
-					.build();
-			}
-		});
-	}
+                                if (messageHistory.isEmpty()) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls " +
+                                            "here.").queue();
+                                    return;
+                                }
 
-	private static Iterable<String> iterate(Matcher matcher) {
-		return new Iterable<String>() {
-			@Override
-			public Iterator<String> iterator() {
-				return new Iterator<String>() {
-					@Override
-					public boolean hasNext() {
-						return matcher.find();
-					}
+                                final int size = messageHistory.size();
 
-					@Override
-					public String next() {
-						return matcher.group();
-					}
-				};
-			}
+                                channel.deleteMessages(messageHistory).queue(
+                                        success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot " +
+                                                "messages").queue(),
+                                        error -> {
+                                            if (error instanceof PermissionException) {
+                                                PermissionException pe = (PermissionException) error;
+                                                channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
+                                                        "(No permission provided: " + pe.getPermission() + ")").queue();
+                                            }
+                                            else {
+                                                channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
+                                                        + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                                                error.printStackTrace();
+                                            }
+                                        });
 
-			@Override
-			public void forEach(Consumer<? super String> action) {
-				while (matcher.find()) {
-					action.accept(matcher.group());
-				}
-			}
-		};
-	}
+                            },
+                            error -> {
+                                channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the " +
+                                        "messages" + "<"
+                                        + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                                error.printStackTrace();
+                            }
+                    );
+                    return;
+                }
+                int i;
+                try {
+                    i = Integer.parseInt(content);
+                }
+                catch (Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Please specify a valid number.").queue();
+                    return;
+                }
 
-	private static long parse(String s) {
-		s = s.toLowerCase();
-		long[] time = {0};
-		iterate(pattern.matcher(s)).forEach(string -> {
-			String l = string.substring(0, string.length() - 1);
-			TimeUnit unit;
-			switch (string.charAt(string.length() - 1)) {
-				case 's':
-					unit = TimeUnit.SECONDS;
-					break;
-				case 'm':
-					unit = TimeUnit.MINUTES;
-					break;
-				case 'h':
-					unit = TimeUnit.HOURS;
-					break;
-				case 'd':
-					unit = TimeUnit.DAYS;
-					break;
-				default:
-					unit = TimeUnit.SECONDS;
-					break;
-			}
-			time[0] += unit.toMillis(Long.parseLong(l));
-		});
-		return time[0];
-	}
+                if (i < 5) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
+                    return;
+                }
+
+                channel.getHistory().retrievePast(Math.min(i, 100)).queue(
+                        messageHistory -> {
+                            messageHistory = messageHistory.stream().filter(message -> !message.getCreationTime()
+                                    .isBefore(OffsetDateTime.now().minusWeeks(2)))
+                                    .collect(Collectors.toList());
+
+                            if (messageHistory.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, " +
+                                        "discord won't let me delete them.").queue();
+                                return;
+                            }
+
+                            final int size = messageHistory.size();
+
+                            channel.deleteMessages(messageHistory).queue(
+                                    success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages")
+                                            .queue(),
+                                    error -> {
+                                        if (error instanceof PermissionException) {
+                                            PermissionException pe = (PermissionException) error;
+                                            channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
+                                                    "(No permission provided: " + pe.getPermission() + ")").queue();
+                                        }
+                                        else {
+                                            channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
+                                                    + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                                            error.printStackTrace();
+                                        }
+                                    });
+                        },
+                        error -> {
+                            channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the messages"
+                                    + "<"
+                                    + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                            error.printStackTrace();
+                        }
+                );
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Prune command")
+                        .setDescription("Prunes a specific amount of messages.")
+                        .addField("Usage", "~>prune <x> - Prunes messages", false)
+                        .addField("Parameters", "x = number of messages to delete", false)
+                        .addField("Important", "You need to provide at least 3 messages. I'd say better 10 or more.\nYou can use ~>prune " +
+                                "bot to remove all bot messages and bot calls.", false)
+                        .build();
+            }
+
+        });
+    }
+
+    @Event
+    public static void tempban(CommandRegistry cr) {
+        cr.register("tempban", new SimpleCommand(Category.MODERATION) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                String reason = content;
+                Guild guild = event.getGuild();
+                User author = event.getAuthor();
+                TextChannel channel = event.getChannel();
+                Message receivedMessage = event.getMessage();
+
+                if (!guild.getMember(author).hasPermission(net.dv8tion.jda.core.Permission.BAN_MEMBERS)) {
+                    channel.sendMessage(EmoteReference.ERROR + "Cannot ban: You have no Ban Members permission.").queue();
+                    return;
+                }
+
+                if (event.getMessage().getMentionedUsers().isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention an user!").queue();
+                    return;
+                }
+
+                for (User user : event.getMessage().getMentionedUsers()) {
+                    reason = reason.replaceAll("(\\s+)?<@!?" + user.getId() + ">(\\s+)?", "");
+                }
+                int index = reason.indexOf("time:");
+                if (index < 0) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR +
+                            "You cannot temp ban an user without giving me the time!").queue();
+                    return;
+                }
+                String time = reason.substring(index);
+                reason = reason.replace(time, "").trim();
+                time = time.replaceAll("time:(\\s+)?", "");
+                if (reason.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without a reason.!").queue();
+                    return;
+                }
+
+                if (time.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot temp ban someone without giving me the time!")
+                            .queue();
+                    return;
+                }
+
+                final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                long l = parse(time);
+                String finalReason = reason;
+                String sTime = StringUtils.parseTime(l);
+                receivedMessage.getMentionedUsers().forEach(user -> {
+                    user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event
+                            .getAuthor().getName() + "#"
+                            + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+                    db.getData().setCases(db.getData().getCases() + 1);
+                    db.saveAsync();
+                    channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName())
+                            .queue();
+                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
+                    MantaroBot.getInstance().getTempBanManager().addTempban(
+                            guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
+                    TextChannelGround.of(event).dropItemWithChance(1, 2);
+                });
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Tempban Command")
+                        .setDescription("Temporarily bans an user")
+                        .addField("Usage", "~>tempban <user> <reason> time:<time>", false)
+                        .addField("Example", "~>tempban @Kodehawa example time:1d", false)
+                        .addField("Extended usage", "time: can be used with the following parameters: " +
+                                "d (days), s (second), m (minutes), h (hour). For example time:1d1h will give a day and an hour.", false)
+                        .build();
+            }
+        });
+    }
+
+    private static Iterable<String> iterate(Matcher matcher) {
+        return new Iterable<String>() {
+            @Override
+            public Iterator<String> iterator() {
+                return new Iterator<String>() {
+                    @Override
+                    public boolean hasNext() {
+                        return matcher.find();
+                    }
+
+                    @Override
+                    public String next() {
+                        return matcher.group();
+                    }
+                };
+            }
+
+            @Override
+            public void forEach(Consumer<? super String> action) {
+                while (matcher.find()) {
+                    action.accept(matcher.group());
+                }
+            }
+        };
+    }
+
+    private static long parse(String s) {
+        s = s.toLowerCase();
+        long[] time = {0};
+        iterate(pattern.matcher(s)).forEach(string -> {
+            String l = string.substring(0, string.length() - 1);
+            TimeUnit unit;
+            switch (string.charAt(string.length() - 1)) {
+                case 's':
+                    unit = TimeUnit.SECONDS;
+                    break;
+                case 'm':
+                    unit = TimeUnit.MINUTES;
+                    break;
+                case 'h':
+                    unit = TimeUnit.HOURS;
+                    break;
+                case 'd':
+                    unit = TimeUnit.DAYS;
+                    break;
+                default:
+                    unit = TimeUnit.SECONDS;
+                    break;
+            }
+            time[0] += unit.toMillis(Long.parseLong(l));
+        });
+        return time[0];
+    }
 }

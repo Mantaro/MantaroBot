@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.data;
 
+import com.google.gson.annotations.Since;
 import com.rethinkdb.net.Connection;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
@@ -13,6 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import static com.rethinkdb.RethinkDB.r;
 
 public class MantaroData {
+	@Since()
 	private static GsonDataManager<Config> config;
 	private static Connection conn;
 	private static ConnectionWatcherDataManager connectionWatcher;

@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.music.listener.VoiceLeaveTimer;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -34,7 +35,10 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
@@ -48,7 +52,6 @@ public class MantaroBot extends ShardedJDA {
 	private static LoadState loadState = PRELOAD;
 	@Getter
 	private static TempBanManager tempBanManager;
-
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose", null) != null) {
 			System.setOut(new CompactPrintStream(System.out));
@@ -108,7 +111,8 @@ public class MantaroBot extends ShardedJDA {
 	@Getter
 	private MantaroShard[] shards;
 	private int totalShards;
-
+	@Getter
+	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	private MantaroBot() throws Exception {
 		instance = this;
 
@@ -197,6 +201,8 @@ public class MantaroBot extends ShardedJDA {
 
 		//Free Instances
 		EventDispatcher.instances.clear();
+
+		executorService.scheduleWithFixedDelay(new VoiceLeaveTimer(), 1, 3, TimeUnit.MINUTES);
 	}
 
 	public Guild getGuildById(String guildId) {
