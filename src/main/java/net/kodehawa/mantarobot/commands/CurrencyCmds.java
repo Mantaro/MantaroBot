@@ -139,17 +139,17 @@ public class CurrencyCmds {
 						case "all":
 						case "everything":
 							i = player.getMoney();
-							multiplier = 1.3d + (r.nextInt(1500) / 1000d);
+							multiplier = 1.4d + (r.nextInt(1500) / 1000d);
 							luck = 30 + (int) (multiplier * 10) + r.nextInt(20);
 							break;
 						case "half":
 							i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
-							multiplier = 1d + (r.nextInt(1500) / 1000d);
+							multiplier = 1.2d + (r.nextInt(1500) / 1000d);
 							luck = 20 + (int) (multiplier * 15) + r.nextInt(20);
 							break;
 						case "quarter":
 							i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
-							multiplier = 1d + (r.nextInt(1100) / 1000d);
+							multiplier = 1.1d + (r.nextInt(1100) / 1000d);
 							luck = 25 + (int) (multiplier * 10) + r.nextInt(18);
 							break;
 						default:

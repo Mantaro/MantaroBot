@@ -21,7 +21,7 @@ import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
 
-public class Player implements ManagedObject {
+public class  Player implements ManagedObject {
 	public static final String DB_TABLE = "players";
 
 	public static Player of(User user) {
