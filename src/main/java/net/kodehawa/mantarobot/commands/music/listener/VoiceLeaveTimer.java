@@ -1,11 +1,9 @@
 package net.kodehawa.mantarobot.commands.music.listener;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.GuildVoiceState;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceLeaveTimer implements Runnable {
     @Override
@@ -21,12 +19,13 @@ public class VoiceLeaveTimer implements Runnable {
                             VoiceChannel voiceChannel = voiceState.getChannel();
                             AudioPlayer player = manager.getAudioPlayer();
                             if (voiceState.isGuildMuted()) {
-                                channel.sendMessage("Pausing player now because you muted me!").queue();
+                                channel.sendMessage(EmoteReference.SAD + "Pausing player because I got muted :(").queue();
                                 player.setPaused(true);
                             }
+
                             if (voiceChannel.getMembers().size() == 1) {
-                                channel.sendMessage("I decided to leave **" + voiceChannel.getName() + "** because I was all " +
-                                        "alone!").queue();
+                                channel.sendMessage(EmoteReference.THINKING + "I decided to leave **" + voiceChannel.getName() + "** because I was left all " +
+                                        "alone :<").queue();
                                 guild.getAudioManager().closeAudioConnection();
                             }
                         }

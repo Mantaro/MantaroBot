@@ -12,7 +12,6 @@ public class ShardMonitorEvent extends Event {
 		private final int shardId;
 		private boolean commandListener = false;
 		private boolean mantaroListener = false;
-		private boolean voiceChannelListener = false;
 
 		private ShardListeners(int shardId) {
 			this.shardId = shardId;
@@ -36,9 +35,6 @@ public class ShardMonitorEvent extends Event {
 				case COMMAND_LISTENER:
 					commandListener = true;
 					break;
-				case VOICE_CHANNEL_LISTENER:
-					voiceChannelListener = true;
-					break;
 				default:
 					throw new IllegalArgumentException("Unknown listener id " + listener);
 			}
@@ -52,8 +48,7 @@ public class ShardMonitorEvent extends Event {
 
 	public static final int
 		MANTARO_LISTENER = 0,
-		COMMAND_LISTENER = 1,
-		VOICE_CHANNEL_LISTENER = 2;
+		COMMAND_LISTENER = 1;
 	private Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
 	private Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
 

@@ -3,14 +3,12 @@ package net.kodehawa.mantarobot;
 import br.com.brjdevs.java.utils.extensions.Async;
 import br.com.brjdevs.java.utils.holding.Holder;
 import com.mashape.unirest.http.Unirest;
-import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -57,7 +55,6 @@ public class MantaroShard implements JDA {
 	private final MantaroListener mantaroListener;
 	private final int shardId;
 	private final int totalShards;
-	private final VoiceChannelListener voiceChannelListener;
 	@Delegate //I love Lombok so much
 	private JDA jda;
 
@@ -69,7 +66,6 @@ public class MantaroShard implements JDA {
 		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		mantaroListener = new MantaroListener(shardId);
 		commandListener = new CommandListener(shardId);
-		voiceChannelListener = new VoiceChannelListener(shardId);
 
 		restartJDA(false);
 	}
@@ -100,8 +96,8 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners() {
-		jda.removeEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, voiceChannelListener, InteractiveOperations.listener());
+		jda.removeEventListener(mantaroListener, commandListener, InteractiveOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, InteractiveOperations.listener());
 	}
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
@@ -114,7 +110,6 @@ public class MantaroShard implements JDA {
 
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(config().get().token)
-			//.setAudioSendFactory(new NativeAudioSendFactory())
 			.setEventManager(manager)
 			.setAutoReconnect(true)
 			.setCorePoolSize(5)
