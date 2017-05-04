@@ -46,7 +46,7 @@ public class Items {
 			new Item(EmoteReference.RING.getUnicode(), "Marriage Ring", "What basically makes your marriage official", 1000 , true),
 		//SPECIAL ITEMS AND MISC NEEDED FOR THEM START HERE:
 		LOOT_CRATE_KEY =
-			new Item(EmoteReference.KEY.getUnicode(), "Create Key", "Used to open loot boxes.", 10000 , true),
+			new Item(EmoteReference.KEY.getUnicode(), "Crate Key", "Used to open loot boxes.", 10000 , true),
 		LOADED_DICE_2 =
 			new Item("\uD83C\uDFB2", "Loaded Dice", "Stolen from `~>dice` command. Gives you a 50% more chance at getting a perfect score on dice."),
 		B4NZY_BYPASS =

@@ -540,6 +540,11 @@ public class MusicCmds {
 						return;
 					}
 
+					if(args.length == 0){
+						onError(event);
+						return;
+					}
+
 					AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
 
 					if (args[0].equals("check")) {

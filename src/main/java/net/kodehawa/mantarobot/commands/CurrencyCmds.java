@@ -111,7 +111,7 @@ public class CurrencyCmds {
 
 	@Event
 	public static void gamble(CommandRegistry cr) {
-		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
 		Random r = new Random();
 
 		cr.register("gamble", new SimpleCommand(Category.CURRENCY) {

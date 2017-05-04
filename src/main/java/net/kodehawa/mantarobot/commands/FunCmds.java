@@ -104,7 +104,12 @@ public class FunCmds {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (args.length > 0 && args[0].equals("divorce") || args[0].equals("anniversarystart")) {
+				if(args.length == 0){
+					onError(event);
+					return;
+				}
+
+				if (args[0].equals("divorce") || args[0].equals("anniversarystart")) {
 					try {
 						Player user = MantaroData.db().getPlayer(event.getMember());
 
