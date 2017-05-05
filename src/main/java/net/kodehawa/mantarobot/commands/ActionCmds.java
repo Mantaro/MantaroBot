@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 public class ActionCmds {
 	private static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
 	static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
+	static final DataManager<List<String>> POKES = new SimpleFileDataManager("assets/mantaro/texts/pokes.txt");
+	static final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
 	static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
 	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
 	static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
@@ -154,6 +156,18 @@ public class ActionCmds {
 		cr.register("kiss", new ImageActionCmd(
 			"Kiss", "Kisses the specified user.", Color.PINK,
 			"kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", KISSES.get()
+		));
+
+		//poke();
+		cr.register("poke", new ImageActionCmd(
+				"Poke", "Pokes the specified user.", Color.PINK,
+				"poke.gif", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", POKES.get()
+		));
+
+		//slap();
+		cr.register("slap", new ImageActionCmd(
+				"Slap", "Slaps the specified user ;).", Color.PINK,
+				"slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", SLAPS.get()
 		));
 
 		//greet();

@@ -447,6 +447,12 @@ public class CurrencyCmds {
 								return;
 							}
 
+							if(player.getInventory().getAmount(itemToBuy) + itemNumber < 0){
+								//assume overflow
+								event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy more of that object!").queue();
+								return;
+							}
+
 							if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
 								player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
 								player.save();

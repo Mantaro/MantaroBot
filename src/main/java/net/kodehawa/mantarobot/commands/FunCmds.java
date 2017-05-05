@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
@@ -143,6 +144,8 @@ public class FunCmds {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 						marriedWith.save();
 						user.save();
+
+						TextChannelGround.of(event).dropItem(Items.LOVE_LETTER);
 					} catch (NullPointerException e) {
 						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedWith(null);
 						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedSince(0L);

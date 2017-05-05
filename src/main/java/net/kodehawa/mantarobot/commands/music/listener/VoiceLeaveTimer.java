@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.music.listener;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.core.entities.*;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceLeaveTimer implements Runnable {
@@ -18,6 +19,11 @@ public class VoiceLeaveTimer implements Runnable {
                         if (channel.canTalk()) {
                             VoiceChannel voiceChannel = voiceState.getChannel();
                             AudioPlayer player = manager.getAudioPlayer();
+                            GuildMusicManager mm = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
+                            if(mm.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null){
+                                channel = mm.getTrackScheduler().getCurrentTrack().getRequestedChannel();
+                            }
+
                             if (voiceState.isGuildMuted()) {
                                 channel.sendMessage(EmoteReference.SAD + "Pausing player because I got muted :(").queue();
                                 player.setPaused(true);

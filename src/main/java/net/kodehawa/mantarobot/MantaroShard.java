@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot;
 import br.com.brjdevs.java.utils.extensions.Async;
 import br.com.brjdevs.java.utils.holding.Holder;
 import com.mashape.unirest.http.Unirest;
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -111,6 +112,7 @@ public class MantaroShard implements JDA {
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(config().get().token)
 			.setEventManager(manager)
+			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
 			.setCorePoolSize(5)
 			.setGame(Game.of("Hold on to your seatbelts!"));
