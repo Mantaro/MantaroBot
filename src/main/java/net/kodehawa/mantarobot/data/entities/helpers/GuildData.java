@@ -15,6 +15,7 @@ public class GuildData {
 	private boolean customAdminLock = false;
 	private Set<String> disabledChannels = new HashSet<>();
 	private Set<String> disabledCommands = new HashSet<>();
+	private String mutedRole = null;
 	private String guildAutoRole = null;
 	private String guildCustomPrefix = null;
 	private String guildLogChannel = null;

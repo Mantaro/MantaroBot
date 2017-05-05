@@ -315,11 +315,6 @@ public class CurrencyCmds {
 					}
 				} else {
 					if (moneyFound != 0) {
-						if (player.getMoney() >= Integer.MAX_VALUE) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You have too many credits. Maybe you should spend some before getting more.").queue();
-							return;
-						}
-
 						if (player.addMoney(moneyFound)) {
 							event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound + " credits!").queue();
 						} else {
@@ -330,7 +325,7 @@ public class CurrencyCmds {
 					}
 				}
 
-				player.save();
+				player.saveAsync();
 			}
 
 			@Override
@@ -626,7 +621,7 @@ public class CurrencyCmds {
 				User mentioned = event.getMessage().getMentionedUsers().get(0);
 				Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
 				player.addReputation(1L);
-				player.save();
+				player.saveAsync();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
 			}
 
@@ -761,7 +756,17 @@ public class CurrencyCmds {
 	}
 
 	public static void lootcrate(CommandRegistry registry){
+		registry.register("crateopen", new SimpleCommand(Category.CURRENCY) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
 	}
 
 	private static User getUserById(String id) {

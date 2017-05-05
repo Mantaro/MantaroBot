@@ -14,7 +14,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import static com.rethinkdb.RethinkDB.r;
 
 public class MantaroData {
-	@Since()
 	private static GsonDataManager<Config> config;
 	private static Connection conn;
 	private static ConnectionWatcherDataManager connectionWatcher;

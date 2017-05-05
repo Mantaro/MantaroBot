@@ -49,7 +49,7 @@ public class MantaroBot extends ShardedJDA {
 	@Getter
 	private static MantaroBot instance;
 	@Getter
-	private static LoadState loadState = PRELOAD;
+	public static LoadState loadState = PRELOAD;
 	@Getter
 	private static TempBanManager tempBanManager;
 	public static void main(String[] args) {

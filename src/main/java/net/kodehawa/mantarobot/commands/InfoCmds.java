@@ -59,6 +59,10 @@ public class InfoCmds {
 					builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setDescription(donators)
 						.setColor(Color.PINK)
+						//<3
+						.addField("Special Mentions",
+								"**MrLar#8117** $90 pledge. <3\n" +
+								"**Quartermaster#1262* $40 pledge. <3",false)
 						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;

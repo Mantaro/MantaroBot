@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
@@ -46,6 +47,11 @@ public class QuoteCmd {
 				try {
 					messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
 				} catch (Exception e) {
+					if(e instanceof PermissionException){
+						event.getChannel().sendMessage(EmoteReference.CRYING + "I don't have permission to do this :<").queue();
+						return;
+					}
+
 					event.getChannel().sendMessage(EmoteReference.ERROR + "It seems like discord is on fire, as my" +
 						" " +
 						"request to retrieve message history was denied" +

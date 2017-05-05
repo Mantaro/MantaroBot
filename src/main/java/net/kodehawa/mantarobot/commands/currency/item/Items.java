@@ -11,13 +11,13 @@ import java.util.stream.Stream;
 public class Items {
 	public static final Item HEADPHONES, BAN_HAMMER, KICK_BOOT, FLOPPY_DISK, MY_MATHS, PING_RACKET,
 			LOADED_DICE, FORGOTTEN_MUSIC, CC_PENCIL, OVERFLOWED_BAG, BROM_PICKAXE, POTION_HEALTH, POTION_STAMINA, LEWD_MAGAZINE, RING, LOOT_CRATE_KEY,
-			BOOSTER, B4NZY_BYPASS, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2;
+			BOOSTER, B4NZY_BYPASS, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER;
 
 	public static final Item[] ALL = {
 		HEADPHONES =
 			new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth something, tho.", 50, true, false),
 		BAN_HAMMER =
-			new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 350, false, false),
+			new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 350, false),
 		KICK_BOOT =
 			new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 90,  false),
 		FLOPPY_DISK =
@@ -44,7 +44,9 @@ public class Items {
 			new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd Magazine", "Too many lewd commands.", 250, true),
 		RING =
 			new Item(EmoteReference.RING.getUnicode(), "Marriage Ring", "What basically makes your marriage official", 1000 , true),
-		//SPECIAL ITEMS AND MISC NEEDED FOR THEM START HERE:
+		LOVE_LETTER =
+			new Item(EmoteReference.LOVE_LETTER.getUnicode(), "Love Letter", "A letter from your beloved one.", 10000, false),
+			//SPECIAL ITEMS AND MISC NEEDED FOR THEM START HERE:
 		LOOT_CRATE_KEY =
 			new Item(EmoteReference.KEY.getUnicode(), "Crate Key", "Used to open loot boxes.", 10000 , true),
 		LOADED_DICE_2 =
