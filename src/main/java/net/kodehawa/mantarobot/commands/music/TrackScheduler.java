@@ -77,9 +77,9 @@ public class TrackScheduler extends AudioEventAdapter {
 		try {
 			if (getCurrentTrack() != null && getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk())
 				getCurrentTrack().getRequestedChannel()
-					.sendMessage("\uD83D\uDCE3 Now playing in " + getAudioManager().getConnectedChannel().getName()
-						+ ": " + getCurrentTrack().getInfo().title + " (" + AudioUtils.getLength(getCurrentTrack().getInfo().length) + ")"
-						+ (getCurrentTrack().getDJ() != null ? " requested by " + getCurrentTrack().getDJ().getName() : "")).queue(
+					.sendMessage("\uD83D\uDCE3 Now playing in **" + getAudioManager().getConnectedChannel().getName()
+						+ "**: " + getCurrentTrack().getInfo().title + " (" + AudioUtils.getLength(getCurrentTrack().getInfo().length) + ")"
+						+ (getCurrentTrack().getDJ() != null ? " requested by **" + getCurrentTrack().getDJ().getName() + "**" : "")).queue(
 					message -> message.delete().queueAfter(90, TimeUnit.SECONDS)
 				);
 		} catch (Exception ignored) {}

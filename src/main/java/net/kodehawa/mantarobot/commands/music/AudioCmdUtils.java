@@ -38,8 +38,8 @@ public class AudioCmdUtils {
 			int pages = list.size() % 2 == 0 ? lines.size() / 2 : (lines.size() / 2) + 1;
 			if (lines.size() <= 60) pages = lines.size() % 4 == 0 ? lines.size() / 4 : (lines.size() / 3) + 1;
 			else if (lines.size() <= 100) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 5) + 1;
-			else if (lines.size() <= 200) pages = lines.size() % 9 == 0 ? lines.size() / 9 : (lines.size() / 9) + 1;
-			else if (lines.size() <= 300) pages = lines.size() % 13 == 0 ? lines.size() / 13 : (lines.size() / 13) + 1;
+			else if (lines.size() <= 200) pages = lines.size() % 9 == 0 ? lines.size() / 10 : (lines.size() / 10) + 1;
+			else if (lines.size() <= 300) pages = lines.size() % 15 == 0 ? lines.size() / 15 : (lines.size() / 15) + 1;
 
 			list = chunks(lines, pages);
 

@@ -38,8 +38,7 @@ public class VoiceLeaveTimer implements Runnable {
                     }
                 }
             }
-            catch (Exception ignored) {
-            }
+            catch (Exception ignored) {}
         });
     }
 }
