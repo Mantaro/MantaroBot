@@ -243,7 +243,7 @@ public class ModerationCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Ban")
                         .setDescription("**Bans the mentioned users. (You need Ban Members)**")
-                        .addField("Usage", "`~>ban <@user> - **Bans the specified users**", false)
+                        .addField("Usage", "`~>ban <@user>` - **Bans the specified users**", false)
                         .build();
             }
         });

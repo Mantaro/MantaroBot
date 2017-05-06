@@ -202,9 +202,9 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Google search")
-					.setDescription("Searches on google.")
-					.addField("Usage", "~>google <query>", false)
-					.addField("Parameters", "query: the search query", false)
+					.setDescription("**Searches on google.**")
+					.addField("Usage", "`~>google <query>` - **Makes a search**", false)
+					.addField("Parameters", "`query` - **The search query**", false)
 					.build();
 			}
 		});
@@ -228,10 +228,9 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Time")
-					.setDescription("Get the time in a specific timezone.\n"
-						+ "~>time [timezone]. Retrieves the time in the specified timezone [**Don't write a country**!].\n"
-						+ "**Parameter specification**\n"
-						+ "[timezone] A **valid** timezone [no countries!] between GMT-12 and GMT+14")
+					.setDescription("**Get the time in a specific timezone**.\n")
+						.addField("Usage","`~>time <timezone>` - **Retrieves the time in the specified timezone [Don't write a country!]**.", false)
+						.addField("Parameters", "`timezone` - **A valid timezone [no countries!] between GMT-12 and GMT+14**", false)
 					.build();
 			}
 		});
@@ -289,13 +288,11 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Translation command")
-					.setDescription("Translates the given sentence.\n"
-						+ "**Usage:**\n"
-						+ "~>translate <sourcelang> <outputlang> <sentence>.\n"
-						+ "**Parameter explanation**\n"
-						+ "sourcelang: The language the sentence is written in. Use codes (english = en)\n"
-						+ "outputlang: The language you want to translate to (french = fr, for example)\n"
-						+ "sentence: The sentence to translate.")
+					.setDescription("**Translates the given sentence**.")
+					.addField("Usage", "`~>translate <sourcelang> <outputlang> <sentence>` - **Translates the specified sentence.**.", false)
+					.addField("Parameters", "`sourcelang` - **The language the sentence is written in. Use codes (english = en)**\n"
+							+ "`outputlang` - **The language you want to translate to (french = fr, for example)**\n"
+							+ "`sentence` - **The sentence to translate.**", false)
 					.setColor(Color.BLUE)
 					.build();
 			}
@@ -368,14 +365,11 @@ public class UtilsCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Urban dictionary")
 					.setColor(Color.CYAN)
-					.setDescription("Retrieves definitions from **Urban Dictionary**.\n"
-						+ "Usage: \n"
-						+ "~>urban <term>-><number>: Retrieve a definition based on the given parameters.\n"
-						+ "Parameter description:\n"
-						+ "term: The term you want to look up\n"
-						+ "number: **OPTIONAL** Parameter defined with the modifier '->' after the term. You don't need to use it" +
-						".\n"
-						+ "e.g. putting 2 will fetch the second result on Urban Dictionary")
+					.setDescription("Retrieves definitions from **Urban Dictionary**.")
+						.addField("Usage", "`~>urban <term>-><number>` - **Retrieve a definition based on the given parameters.**", false)
+						.addField("Parameters", "term - **The term you want to look up**\n"
+								+ "number - **(OPTIONAL) Parameter defined with the modifier '->' after the term. You don't need to use it.**\n"
+								+ "e.g. putting 2 will fetch the second result on Urban Dictionary", false)
 					.build();
 			}
 		});
@@ -436,12 +430,10 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Weather command")
-					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**\n"
-						+ "> Usage:\n"
-						+ "~>weather <city>,<countrycode>: Retrieves the forecast information for the given location.\n"
-						+ "> Parameters:\n"
-						+ "city: Your city name, e.g. New York\n"
-						+ "countrycode: (OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).")
+					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**")
+						.addField("Usage", "`~>weather <city>,<countrycode>` - **Retrieves the forecast information for the given location.**", false)
+						.addField("Parameters", "`city` - **Your city name, e.g. New York**\n"
+								+ "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**", false)
 					.build();
 			}
 		});
@@ -491,9 +483,9 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Youtube MP3 command")
-					.setDescription("Youtube video to MP3 converter")
-					.addField("Usage", "~>ytmp3 <youtube link>", true)
-					.addField("Parameters", "youtube link: The link of the video to convert to MP3", true)
+					.setDescription("**Youtube video to MP3 converter**")
+					.addField("Usage", "`~>ytmp3 <youtube link>`", true)
+					.addField("Parameters", "`youtube link` - **The link of the video to convert to MP3**", true)
 					.build();
 			}
 		});

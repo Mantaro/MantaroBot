@@ -20,7 +20,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 0, revision: 0)
+def ver = new Version(major: 4, minor: 1, revision: 0)
 version ver.toString()
 
 //We are going to use Java 8
@@ -29,10 +29,11 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.0.0_187'
+	compile 'com.github.DV8FromTheWorld:JDA:bug~audio-lock-fix-SNAPSHOT'
 
 	compile 'com.sedmelluq:lavaplayer:1.2.36'
 	compile 'com.sedmelluq:jda-nas:1.0.5'
@@ -49,7 +50,7 @@ dependencies {
 
 	compile 'br.com.brjdevs:utils:1.0.0_13'
 	compile 'br.com.brjdevs:network:1.0.0_2'
-
+;
 	compile 'com.google.guava:guava:19.0'
 	compile 'com.google.code.gson:gson:2.8.0'
 
