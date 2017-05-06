@@ -14,7 +14,6 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -221,26 +220,6 @@ public class CurrencyCmds {
 		});
 	}
 
-	private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains){
-		if (luck > r.nextInt(100)) {
-			if(player.getInventory().containsItem(Items.BERSERK)){
-				int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
-				gains = (long) (gains + (gains + Math.floor(amount * 0.2)));
-			}
-
-			if (player.addMoney(gains)) {
-				event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
-			} else {
-				event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
-			}
-		} else {
-			player.setMoney(Math.max(0, player.getMoney() - i));
-			event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
-		}
-
-		player.saveAsync();
-	}
-
 	@Event
 	public static void inventory(CommandRegistry cr) {
 		cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
@@ -336,6 +315,20 @@ public class CurrencyCmds {
 						"for which you have a `random chance` of getting one or more.")
 					.addField("Usage", "~>loot", false)
 					.build();
+			}
+		});
+	}
+
+	public static void lootcrate(CommandRegistry registry) {
+		registry.register("crateopen", new SimpleCommand(Category.CURRENCY) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
 			}
 		});
 	}
@@ -656,9 +649,7 @@ public class CurrencyCmds {
 					return;
 				}
 
-				boolean local = MantaroData.db().getGuild(event).getData().isRpgLocalMode();
-				String pattern = ':' + (local ? event.getGuild().getId() : "g") + '$';
-				boolean global = !local && !content.equals("guild") && !content.equals("local");
+				String pattern = ":g$";
 
 				AtomicInteger i = new AtomicInteger();
 
@@ -673,12 +664,11 @@ public class CurrencyCmds {
 
 				event.getChannel().sendMessage(
 					baseEmbed(event,
-						(global ? "Global" : event.getGuild().getName() + "'s") + " richest Users",
-						global ? event.getJDA().getSelfUser().getEffectiveAvatarUrl() : event.getGuild().getIconUrl()
+						"Global richest Users",
+						event.getJDA().getSelfUser().getEffectiveAvatarUrl()
 					).setDescription(c.stream()
 						.map(map -> Pair.of(getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
 						.filter(p -> Objects.nonNull(p.getKey()))
-						.filter(p -> global || event.getGuild().isMember(p.getKey()))
 						.map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p.getKey().getDiscriminator(), p.getValue()))
 						.collect(Collectors.joining("\n"))
 					).build()
@@ -761,24 +751,30 @@ public class CurrencyCmds {
 		});
 	}
 
-	public static void lootcrate(CommandRegistry registry){
-		registry.register("crateopen", new SimpleCommand(Category.CURRENCY) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
-			}
-		});
-	}
-
 	private static User getUserById(String id) {
 		if (id == null) return null;
 		MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
 			shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
 		return shard1 == null ? null : shard1.getUserById(id);
+	}
+
+	private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
+		if (luck > r.nextInt(100)) {
+			if (player.getInventory().containsItem(Items.BERSERK)) {
+				int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
+				gains = (long) (gains + (gains + Math.floor(amount * 0.2)));
+			}
+
+			if (player.addMoney(gains)) {
+				event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
+			} else {
+				event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+			}
+		} else {
+			player.setMoney(Math.max(0, player.getMoney() - i));
+			event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! \uD83D\uDE26").queue();
+		}
+
+		player.saveAsync();
 	}
 }

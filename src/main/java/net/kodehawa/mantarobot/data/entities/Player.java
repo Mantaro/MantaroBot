@@ -17,7 +17,6 @@ import java.util.Map;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
-import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
 
@@ -29,16 +28,11 @@ public class  Player implements ManagedObject {
 	}
 
 	public static Player of(Member member) {
-		return of(member.getUser().getId(), member.getGuild().getId());
+		return of(member.getUser());
 	}
 
 	public static Player of(String userId) {
-		return new Player(userId + ":g", 0L, 250L, 0L, new HashMap<>(), new PlayerData());
-	}
-
-	public static Player of(String userId, String guildId) {
-		boolean local = db().getGuild(guildId).getData().isRpgLocalMode();
-		return new Player(userId + ":" + (local ? guildId : "g"), 0L, 0L, 0L, new HashMap<>(), new PlayerData());
+		return new Player(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new PlayerData());
 	}
 
 	@Getter

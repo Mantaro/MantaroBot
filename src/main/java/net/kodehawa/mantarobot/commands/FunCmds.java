@@ -92,16 +92,6 @@ public class FunCmds {
 		});
 	}
 
-	private static int diceRoll(int repetitions) {
-		int num = 0;
-		int roll;
-		for (int i = 0; i < repetitions; i++) {
-			roll = new Random().nextInt(6) + 1;
-			num = num + roll;
-		}
-		return num;
-	}
-
 	@Event
 	public static void marry(CommandRegistry cr) {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
@@ -123,7 +113,7 @@ public class FunCmds {
 
 						User user1 = user.getData().getMarriedWith() == null
 								? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
-						Player marriedWith = MantaroData.db().getGlobalPlayer(user1);
+						Player marriedWith = MantaroData.db().getPlayer(user1);
 
 						if(args[0].equals("anniversarystart")){
 							if(user.getData().getMarriedSince() == null && user1 != null) {
@@ -186,9 +176,7 @@ public class FunCmds {
 					return;
 				}
 
-				event.getChannel().sendMessage(EmoteReference.MEGA + user.getName() + ", respond with **yes** or **no** to the marriage proposal from " + event.getAuthor().getName() + ".").queue();
-
-				InteractiveOperations.create(event.getChannel(), "Marriage Proposal", (int) TimeUnit.SECONDS.toMillis(120), OptionalInt.empty(), (e) -> {
+				if (InteractiveOperations.create(event.getChannel(), "Marriage Proposal", (int) TimeUnit.SECONDS.toMillis(120), OptionalInt.empty(), (e) -> {
 					if (!e.getAuthor().getId().equals(user.getId())) return false;
 
 					if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
@@ -208,7 +196,11 @@ public class FunCmds {
 					}
 
 					return false;
-				});
+				})) {
+					TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
+					event.getChannel().sendMessage(EmoteReference.MEGA + user.getName() + ", respond with **yes** or **no** to the marriage proposal from " + event.getAuthor().getName() + ".").queue();
+
+				}
 			}
 
 			@Override
@@ -220,5 +212,15 @@ public class FunCmds {
 						.build();
 			}
 		});
+	}
+
+	private static int diceRoll(int repetitions) {
+		int num = 0;
+		int roll;
+		for (int i = 0; i < repetitions; i++) {
+			roll = new Random().nextInt(6) + 1;
+			num = num + roll;
+		}
+		return num;
 	}
 }

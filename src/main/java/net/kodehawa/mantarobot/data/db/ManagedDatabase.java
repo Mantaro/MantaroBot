@@ -14,6 +14,7 @@ import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
 	private final Connection conn;
+	private Guild guild;
 
 	public ManagedDatabase(Connection conn) {
 		this.conn = conn;
@@ -60,25 +61,6 @@ public class ManagedDatabase {
 		return c.toList();
 	}
 
-	public Player getGlobalPlayer(String userId) {
-		Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
-		return player == null ? Player.of(userId) : player;
-	}
-
-	public Player getGlobalPlayer(User user) {
-		return getGlobalPlayer(user.getId());
-	}
-
-	public Player getGlobalPlayer(Member member) {
-		return getGlobalPlayer(member.getUser());
-	}
-
-	public List<Player> getGlobalPlayers() {
-		String pattern = ":g$";
-		Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
-		return c.toList();
-	}
-
 	public DBGuild getGuild(String guildId) {
 		DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class);
 		return guild == null ? DBGuild.of(guildId) : guild;
@@ -101,33 +83,23 @@ public class ManagedDatabase {
 		return obj == null ? MantaroObj.create() : obj;
 	}
 
-	public Player getPlayer(String userId, String guildId) {
-		boolean local = getGuild(guildId).getData().isRpgLocalMode();
-		Player player = r.table(Player.DB_TABLE).get(userId + ':' + (local ? guildId : "g")).run(conn, Player.class);
-		return player == null ? Player.of(userId, guildId) : player;
+	public Player getPlayer(String userId) {
+		Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
+		return player == null ? Player.of(userId) : player;
 	}
 
-	public Player getPlayer(User user, Guild guild) {
-		return getPlayer(user.getId(), guild.getId());
+	public Player getPlayer(User user) {
+		return getPlayer(user.getId());
 	}
 
 	public Player getPlayer(Member member) {
-		return getPlayer(member.getUser(), member.getGuild());
+		return getPlayer(member.getUser());
 	}
 
-	public List<Player> getPlayers(String guildId) {
-		boolean local = getGuild(guildId).getData().isRpgLocalMode();
-		String pattern = ':' + (local ? guildId : "g") + '$';
-		Cursor<Player> c = r.table(Player.DB_TABLE).filter(player -> player.g("id").match(pattern)).run(conn, Player.class);
+	public List<Player> getPlayers() {
+		String pattern = ":g$";
+		Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
 		return c.toList();
-	}
-
-	public List<Player> getPlayers(Guild guild) {
-		return getPlayers(guild.getId());
-	}
-
-	public List<Player> getPlayers(DBGuild guild) {
-		return getPlayers(guild.getId());
 	}
 
 	public List<PremiumKey> getPremiumKeys() {

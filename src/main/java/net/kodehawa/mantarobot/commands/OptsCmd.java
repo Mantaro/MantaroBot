@@ -7,7 +7,6 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -32,8 +31,6 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class OptsCmd {
@@ -182,26 +179,6 @@ public class OptsCmd {
 			dbGuild.saveAsync();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
 		});//endregion
-
-		//region devaluation
-		//region enable
-		registerOption("devaluation:enable", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			guildData.setRpgDevaluation(true);
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Enabled currency devaluation on this server.").queue();
-			dbGuild.saveAsync();
-		});//endregion
-
-		//region disable
-		registerOption("devaluation:disable", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			guildData.setRpgDevaluation(true);
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Disabled currency devaluation on this server.").queue();
-			dbGuild.saveAsync();
-		});//endregion
-		// endregion
 
 		//region birthday
 		//region enable
@@ -369,27 +346,6 @@ public class OptsCmd {
 				event.getChannel().sendMessage(toSend).queue();
 			} catch (Exception e) {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
-			}
-		});//endregion
-
-		//region localmoney
-		registerOption("localmoney", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			String action = args[0];
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			try {
-				guildData.setRpgLocalMode(Boolean.parseBoolean(action));
-				dbGuild.save();
-				String toSend = EmoteReference.CORRECT + (guildData.isRpgLocalMode() ? "``Money -> Money for this server is now " +
-					"localized.``" : "``Permission -> Money on this guild will be shared with the global database.``");
-				event.getChannel().sendMessage(toSend).queue();
-			} catch (Exception e) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Not a boolean value, silly!").queue();
 			}
 		});//endregion
 
