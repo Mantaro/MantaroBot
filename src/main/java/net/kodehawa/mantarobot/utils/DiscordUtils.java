@@ -20,13 +20,14 @@ public class DiscordUtils {
 		for (int i = 0; i < list.size(); i++) {
 			String s = toString.apply(list.get(i));
 			if (b.length() + s.length() + 5 > MessageEmbed.TEXT_MAX_LENGTH) return Pair.of(b.toString(), i);
-			b.append('[').append(i + 1).append("] ");
+			b.append("**").append(i + 1).append(".** ");
 			b.append(s);
 			b.append("\n");
 		}
 
 		return Pair.of(b.toString(), list.size());
 	}
+
 
 	public static boolean selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
 		return InteractiveOperations.create(event.getChannel(), "Selection", 20000, OptionalInt.empty(), (e) -> {

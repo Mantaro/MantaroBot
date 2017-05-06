@@ -21,14 +21,20 @@ class AudioUtils {
 				TimeUnit.MILLISECONDS.toSeconds(aDuration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(aDuration))
 			);
 
-			sb.append("[").append(n)
-				.append("] ")
-				.append(audioTrack.getInfo().title)
-				.append(" **(")
+			String title = audioTrack.getInfo().title;
+			if(title.length() > 30) title = title.substring(0, 30) + "...";
+			//.append intensifies
+			sb.append("**")
+				.append(n)
+				.append(".** [")
+				.append(title)
+				.append("](")
+				.append(audioTrack.getInfo().uri)
+				.append(") (")
 				.append(duration)
-				.append(")**").append(audioTrack.getDJ() != null ? " **(DJ: " + audioTrack.getDJ().getName() + ")**" : "")
-				.append("\n"
-				);
+				.append(")")
+				.append(audioTrack.getDJ() != null ? "  **[" + audioTrack.getDJ().getName() + "]**" : "")
+				.append("\n");
 			n++;
 		}
 		return sb.toString();

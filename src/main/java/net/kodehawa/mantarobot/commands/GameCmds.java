@@ -87,8 +87,8 @@ public class GameCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "~>game character: Starts a instance of Guess the character (anime).\n"
-						+ "~>game pokemon: Starts a instance of who's that pokemon?", false)
+					.addField("Games", "`~>game character` - **Starts a instance of Guess the character (anime)**.\n"
+						+ "`~>game pokemon` - **Starts a instance of who's that pokemon?**", false)
 					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
 					.build();
 			}
@@ -106,7 +106,8 @@ public class GameCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Trivia command.")
-					.setDescription("Starts an instance of trivia.")
+					.setDescription("**Starts an instance of trivia.**")
+					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
 					.build();
 			}
 		});

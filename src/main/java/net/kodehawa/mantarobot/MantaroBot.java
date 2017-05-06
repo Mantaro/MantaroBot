@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.commands.music.listener.VoiceLeaveTimer;
+import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -202,7 +202,7 @@ public class MantaroBot extends ShardedJDA {
 		//Free Instances
 		EventDispatcher.instances.clear();
 
-		executorService.scheduleWithFixedDelay(new VoiceLeaveTimer(), 1, 3, TimeUnit.MINUTES);
+		executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
 	}
 
 	public Guild getGuildById(String guildId) {

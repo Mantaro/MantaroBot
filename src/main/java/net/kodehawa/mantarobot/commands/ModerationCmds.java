@@ -142,8 +142,11 @@ public class ModerationCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Softban")
-                        .setDescription("Softban the mentioned user and clears their messages from the past week. (You **need** Ban " +
-                                "Members)").build();
+                        .setDescription("**Softban the mentioned user and clears their messages from the past week. (You need Ban " +
+                                "Members)**")
+                        .addField("Summarizing", "A softban is a ban & instant unban, normally used to clear " +
+                                "the user's messages but **without banning the person permanently**.", false)
+                        .build();
             }
 
         });
@@ -239,7 +242,8 @@ public class ModerationCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Ban")
-                        .setDescription("Bans the mentioned users. (You **need** Ban Members)")
+                        .setDescription("**Bans the mentioned users. (You need Ban Members)**")
+                        .addField("Usage", "`~>ban <@user> - **Bans the specified users**", false)
                         .build();
             }
         });
@@ -337,7 +341,10 @@ public class ModerationCmds {
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Kick").setDescription("Kicks the mentioned users. (You **need** Kick Members)").build();
+                return helpEmbed(event, "Kick")
+                        .setDescription("**Kicks the mentioned users. (You need Kick Members)**")
+                        .addField("Usage", "`~>kick <@user> - **Kicks the mentioned users**", false)
+                        .build();
             }
         });
     }
@@ -461,11 +468,11 @@ public class ModerationCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Prune command")
-                        .setDescription("Prunes a specific amount of messages.")
-                        .addField("Usage", "~>prune <x> - Prunes messages", false)
-                        .addField("Parameters", "x = number of messages to delete", false)
-                        .addField("Important", "You need to provide at least 3 messages. I'd say better 10 or more.\nYou can use ~>prune " +
-                                "bot to remove all bot messages and bot calls.", false)
+                        .setDescription("**Prunes a specific amount of messages.**")
+                        .addField("Usage", "`~>prune <x>` - **Prunes messages**", false)
+                        .addField("Parameters", "x = **number of messages to delete**", false)
+                        .addField("Important", "You need to provide *at least* 5 messages. I'd say better 10 or more.\n" +
+                                "You can use `~>prune bot` to remove all bot messages and bot calls.", false)
                         .build();
             }
 
@@ -538,11 +545,11 @@ public class ModerationCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Tempban Command")
-                        .setDescription("Temporarily bans an user")
-                        .addField("Usage", "~>tempban <user> <reason> time:<time>", false)
-                        .addField("Example", "~>tempban @Kodehawa example time:1d", false)
-                        .addField("Extended usage", "time: can be used with the following parameters: " +
-                                "d (days), s (second), m (minutes), h (hour). For example time:1d1h will give a day and an hour.", false)
+                        .setDescription("**Temporarily bans an user**")
+                        .addField("Usage", "`~>tempban <user> <reason> time:<time>`", false)
+                        .addField("Example", "`~>tempban @Kodehawa example time:1d`", false)
+                        .addField("Extended usage", "`time` - can be used with the following parameters: " +
+                                "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
                         .build();
             }
         });

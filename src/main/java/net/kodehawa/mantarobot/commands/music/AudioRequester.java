@@ -127,13 +127,23 @@ public class AudioRequester implements AudioLoadResultHandler {
 	}
 
 	private void onSearchResult(AudioPlaylist playlist) {
-		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.", null).setFooter("This timeouts in 10 seconds.", null);
+		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.", null)
+				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+				.setFooter("This timeouts in 10 seconds.", null);
 		java.util.List<AudioTrack> tracks = playlist.getTracks();
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {
 			AudioTrack at = tracks.get(i);
-			b.append('[').append(i + 1).append("] ").append(at.getInfo().title).append(" **(")
-				.append(Utils.getDurationMinutes(at.getInfo().length)).append(")**").append("\n");
+			b.append(i + 1)
+					.append(".** [")
+					.append(at.getInfo().title)
+					.append("](")
+					.append(at.getInfo().uri)
+					.append(")**" +
+							" (")
+					.append(Utils.getDurationMinutes(at.getInfo().length))
+					.append(")")
+					.append("\n");
 		}
 
 		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();

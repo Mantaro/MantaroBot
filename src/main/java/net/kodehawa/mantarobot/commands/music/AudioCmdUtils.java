@@ -33,13 +33,13 @@ public class AudioCmdUtils {
 		List<String> lines = Arrays.asList(NEWLINE_PATTERN.split(toSend));
 		List<List<String>> list = new ArrayList<>();
 
-		if (lines.size() >= 20) {
+		if (lines.size() >= 15) {
 
 			int pages = list.size() % 2 == 0 ? lines.size() / 2 : (lines.size() / 2) + 1;
-			if (lines.size() <= 60) pages = lines.size() % 4 == 0 ? lines.size() / 4 : (lines.size() / 3) + 1;
-			else if (lines.size() <= 100) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 5) + 1;
-			else if (lines.size() <= 200) pages = lines.size() % 9 == 0 ? lines.size() / 10 : (lines.size() / 10) + 1;
-			else if (lines.size() <= 300) pages = lines.size() % 15 == 0 ? lines.size() / 15 : (lines.size() / 15) + 1;
+			if (lines.size() <= 60) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 3) + 1;
+			else if (lines.size() <= 100) pages = lines.size() % 7 == 0 ? lines.size() / 7 : (lines.size() / 6) + 1;
+			else if (lines.size() <= 200) pages = lines.size() % 13 == 0 ? lines.size() / 13 : (lines.size() / 12) + 1;
+			else if (lines.size() <= 300) pages = lines.size() % 18 == 0 ? lines.size() / 18 : (lines.size() / 17) + 1;
 
 			list = chunks(lines, pages);
 
@@ -56,18 +56,21 @@ public class AudioCmdUtils {
 			.setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
 			.setColor(Color.CYAN);
 
-		String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ? "``"
-			+ musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
-			+ " (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")``" :
-			"Nothing or title/duration not found";
-
+		String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
+				"[**" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+						+ "**](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
+						") (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+						"Nothing or title/duration not found";
+		VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
 		if (!toSend.isEmpty()) {
 			builder.setDescription(toSend)
 				.addField("Currently playing", nowPlaying, false)
-				.addField("Total queue time", getDurationMinutes(length), true)
-				.addField("Total queue size", String.valueOf(musicManager.getTrackScheduler().getQueue().size()), true)
-				.addField("Repeat/Pause", (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
-					+ "/" + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()), true)
+				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+				.addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
+				.addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
+				.addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
+					+ " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
+				.addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
 				.setFooter("Total pages: " + list.size() + " -> Do ~>queue <page> to go to next page. Currently in page " + (page + 1), guild.getIconUrl());
 		} else {
 			builder.setDescription("Nothing here, just dust.");
@@ -105,7 +108,7 @@ public class AudioCmdUtils {
 		VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
 
 		if (userChannel == null) {
-			event.getChannel().sendMessage("\u274C Please join a voice channel!").queue();
+			event.getChannel().sendMessage("\u274C **Please join a voice channel!**").queue();
 			return false;
 		}
 

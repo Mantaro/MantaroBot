@@ -58,7 +58,8 @@ public class FunCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Coinflip command")
-					.setDescription("Flips a coin with a defined number of repetitions")
+					.setDescription("**Flips a coin with a defined number of repetitions**")
+					.addField("Usage", "`~>coinflip <number of times>` - **Flips a coin x number of times**", false)
 					.build();
 			}
 		});
@@ -84,8 +85,9 @@ public class FunCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Dice command")
-					.setDescription("Roll a 6-sided dice a specified number of times")
-					.build();
+						.setDescription("**Roll a 6-sided dice a specified number of times**")
+						.addField("Usage", "`~>roll <number of times>` - **Rolls a dice x number of times**", false)
+						.build();
 			}
 		});
 	}
@@ -212,9 +214,9 @@ public class FunCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Marriage command")
-						.setDescription("Basically marries you with a user.")
-						.addField("Usage", "~>marry <@mention>", false)
-						.addField("Divorcing", "Well, if you don't want to be married anymore you can just do ~>marry divorce", false)
+						.setDescription("**Basically marries you with a user.**")
+						.addField("Usage", "`~>marry <@mention>` - **Propose to someone**", false)
+						.addField("Divorcing", "Well, if you don't want to be married anymore you can just do `~>marry divorce`", false)
 						.build();
 			}
 		});

@@ -129,13 +129,12 @@ public class OsuStatsCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "osu! command")
-						.setDescription("Retrieves information from the osu!api.\n"
-								+ "Usage: \n"
-								+ "~>osustats best <player>: Retrieves best scores of the user specified in the specified gamemode.\n"
-								+ "~>osustats recent <player>: Retrieves recent scores of the user specified in the specified gamemode.\n"
-								+ "~>osustats user <player>: Retrieves information about a osu! player.\n"
-								+ "Parameter description:\n"
-								+ "player: The osu! player to look info for.")
+						.setDescription("**Retrieves information from the osu!API**.")
+						.addField("Usage", "`~>osustats best <player>` - **Retrieves best scores of the user specified in the specified gamemode**.\n"
+								+ "`~>osustats recent <player>` - **Retrieves recent scores of the user specified in the specified gamemode.**\n"
+								+ "`~>osustats user <player>` - **Retrieves information about a osu! player**.\n"
+								, false)
+						.addField("Parameters", "`player` - **The osu! player to look info for.**", false)
 						.build();
 			}
 		});

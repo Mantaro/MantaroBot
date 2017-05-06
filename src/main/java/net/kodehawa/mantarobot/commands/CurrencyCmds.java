@@ -103,7 +103,7 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Daily command")
-					.setDescription("Gives you $300 credits per day (or between 300 and 350 if you transfer it to another person).")
+					.setDescription("**Gives you $300 credits per day (or between 300 and 350 if you transfer it to another person)**.")
 					.build();
 			}
 		});
@@ -264,7 +264,7 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Inventory command")
-					.setDescription("Shows your current inventory.")
+					.setDescription("**Shows your current inventory.**")
 					.build();
 			}
 		});
@@ -331,9 +331,9 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Loot command")
-					.setDescription("Loots the current chat for items, for usage in Mantaro's currency system.\n"
+					.setDescription("**Loots the current chat for items, for usage in Mantaro's currency system.**\n"
 						+ "Currently, there are ``" + Items.ALL.length + "`` items avaliable in chance," +
-						"for which you have a random chance of getting one or more.")
+						"for which you have a `random chance` of getting one or more.")
 					.addField("Usage", "~>loot", false)
 					.build();
 			}
@@ -486,12 +486,12 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Mantaro's market")
-					.setDescription("List current items for buying and selling.")
+					.setDescription("**List current items for buying and selling.**")
 					.addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will substract the value from your money and give you the item.\n" +
-						"To sell do ~>market sell all to sell all your items or ~>market sell <item emoji> to sell the specified item. " +
-						"You'll get the sell value of the item on coins to spend.", false)
+						"To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the specified item. " +
+						"**You'll get the sell value of the item on coins to spend.**", false)
 					.addField("To know", "If you don't have enough money you cannot buy the items.", false)
-					.addField("Information", "To buy and sell multiple items you need to do ~>market <buy/sell> <amount> <item>", false)
+					.addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`", false)
 					.build();
 			}
 		});
@@ -584,10 +584,10 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Profile command.")
-					.setDescription("Retrieves your current user profile.")
+					.setDescription("**Retrieves your current user profile.**")
 					.addField("Usage", "To retrieve your profile, `~>profile~\n" +
 							"To change your description do `~>profile description set <description>\n" +
-							"To clear it, just do ~>profile description clear", false)
+							"To clear it, just do `~>profile description clear`", false)
 					.build();
 			}
 		});
@@ -634,9 +634,9 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Reputation command")
-					.setDescription("Reps an user.")
-					.addField("Usage", "~>rep <@user>", false)
-					.addField("Parameters", "@user: user to mention", false)
+					.setDescription("**Reps an user**")
+					.addField("Usage", "`~>rep <@user>` - **Gives reputation to x user**", false)
+					.addField("Parameters", "`@user` - user to mention", false)
 					.addField("Important", "Only usable every 24 hours.", false)
 					.build();
 			}
@@ -688,8 +688,8 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Money list")
-					.setDescription("Returns the global richest users, or the guild ones if you want.")
-					.addField("Usage", "~>richest <global/guild>", false)
+					.setDescription("**Returns the global richest users.**")
+					.addField("Usage", "`~>richest` - **Returns the magical list.** ", false)
 					.build();
 			}
 		});
@@ -751,10 +751,10 @@ public class CurrencyCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Transfer command")
-					.setDescription("Transfers money from you to another player.")
-					.addField("Usage", "~>transfer <@user> <money>", false)
-					.addField("Parameters", "@user: user to send money to\n" +
-						"money: money to transfer.", false)
+					.setDescription("**Transfers money from you to another player.**")
+					.addField("Usage", "`~>transfer <@user> <money>` - **Tranfers money to player x**", false)
+					.addField("Parameters", "`@user` - user to send money to\n" +
+						"`money` - money to transfer.", false)
 					.addField("Important", "You cannot send more money than what you already have", false)
 					.build();
 			}

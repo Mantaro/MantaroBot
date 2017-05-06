@@ -131,16 +131,15 @@ public class QuoteCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Quote command")
-					.setDescription("> Usage:\n"
-						+ "~>quote addfrom <phrase>: Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
-						"the last message.\n"
-						+ "~>quote removefrom <phrase>: Remove a quote based on your text query.\n"
-						+ "~>quote readfrom <phrase>: Search for the first quote which matches your search criteria and prints " +
-						"it.\n"
-						+ "~>quote random: Get a random quote. \n"
-						+ "> Parameters:\n"
-						+ "number: Message number to quote. For example, 1 will quote the last message.\n"
-						+ "phrase: A part of the quote phrase.")
+					.setDescription("**Quotes a message by search term.**")
+					.addField("Usage",
+						"`~>quote addfrom <phrase>`- **Add a quote with the content defined by the specified number. For example, providing 1 will quote " +
+						"the last message.**\n"
+						+ "`~>quote removefrom <phrase>` - **Remove a quote based on your text query.**\n"
+						+ "`~>quote readfrom <phrase>` - **Search for the first quote which matches your search criteria and prints " +
+						"it.**\n"
+						+ "`~>quote random` - **Get a random quote.** \n", false)
+					.addField("Parameters", "`phrase` - A part of the quote phrase.", false)
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}

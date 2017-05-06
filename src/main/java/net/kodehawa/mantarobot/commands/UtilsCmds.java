@@ -126,7 +126,7 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Birthday")
-					.setDescription("Sets your birthday date.\n")
+					.setDescription("**Sets your birthday date.**\n")
 					.addField("Usage", "~>birthday <date>. Set your birthday date using this. Only useful if the server has " +
 						"enabled this functionality\n"
 						+ "**Parameter explanation:**\n"
@@ -161,8 +161,8 @@ public class UtilsCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Choose Command")
-					.setDescription("Choose between 1 or more things\n" +
-						"It accepts all parameters it gives (Also in quotes) and chooses a random one.")
+					.setDescription("**Choose between 1 or more things\n" +
+						"It accepts all parameters it gives (Also in quotes) and chooses a random one.**")
 					.build();
 			}
 		});
@@ -178,18 +178,25 @@ public class UtilsCmds {
 				List<Crawler.SearchResult> result = Crawler.get(content);
 				for (int i = 0; i < 5 && i < result.size(); i++) {
 					Crawler.SearchResult data = result.get(i);
-					if (data != null)
-						b.append('[').append(i + 1).append("] ").append(data.getTitle()).append("\n");
+					if (data != null){
+						String title = data.getTitle();
+						if(title.length() > 40) title = title.substring(0, 40) + "...";
+						b.append(i + 1)
+								.append(". **[")
+								.append(title)
+								.append("](")
+								.append(data.getUrl())
+								.append(")**\n");
+					}
 				}
 
-				event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
-
-				IntConsumer selector = (c) -> {
-					event.getChannel().sendMessage(EmoteReference.OK + "Result for " + content + ": " + result.get(c - 1).getUrl()).queue();
-
-					event.getMessage().addReaction(EmoteReference.OK.getUnicode()).queue();
-				};
-				DiscordUtils.selectInt(event, result.size() + 1, selector);
+				event.getChannel().sendMessage(
+						builder.
+								setDescription(b.toString())
+								.setThumbnail("https://cdn.pixabay.com/photo/2015/12/08/17/38/magnifying-glass-1083373_960_720.png")
+								.setFooter("Click on the blue text to go to the URL.", null)
+								.build())
+						.queue();
 			}
 
 			@Override

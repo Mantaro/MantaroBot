@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.music.listener;
+package net.kodehawa.mantarobot.services;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import net.dv8tion.jda.core.entities.*;
@@ -6,7 +6,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-public class VoiceLeaveTimer implements Runnable {
+public class VoiceLeave implements Runnable {
     @Override
     public void run() {
         MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((guildId, manager) -> {

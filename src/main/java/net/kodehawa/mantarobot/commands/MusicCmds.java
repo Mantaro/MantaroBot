@@ -246,8 +246,10 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Queue Command")
-					.addField("Description", "Either returns the current queue playing on the server or clears it.", false)
-					.addField("Usage:", "~>queue\n~>queue clear", false)
+					.setDescription("**Either returns the current queue playing on the server or clears it.**")
+					.addField("Usage:", "`~>queue` - **Shows the queue**\n" +
+							"`~>queue clear` - **Clears the queue**",
+							false)
 					.build();
 			}
 		});
@@ -340,13 +342,13 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Remove Track Command")
-					.addField("Description", "Remove the specified track from the queue.", false)
-					.addField("Usage:", "~>removetrack <tracknumber/first/next/last> (as specified on the ~>queue command)", false)
+					.setDescription("**Remove the specified track from the queue.**")
+					.addField("Usage:", "`~>removetrack <tracknumber/first/next/last>` (as specified on the ~>queue command)", false)
 					//TODO Update this
-					.addField("Parameters:", "tracknumber: the number of the track to remove\n" +
-						"first: remove the first track\n"
-						+ "next: remove the next track\n"
-						+ "last: remove the last track", false)
+					.addField("Parameters:", "`tracknumber`: the number of the track to remove\n" +
+						"`first`: remove the first track\n"
+						+ "`next`: remove the next track\n"
+						+ "`last`: remove the last track", false)
 					.build();
 			}
 		});
@@ -392,10 +394,11 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Repeat command")
-					.setDescription("Repeats a song.")
-					.addField("Usage", "~>repeat (if the song isn't repeating, start repeating, or vice versa)", false)
-					.addField("Warning", "Might not work correctly if I leave the voice channel after you have disabled repeat. To fix, just " +
-						"add a song to the queue", true)
+					.setDescription("**Repeats a song.**")
+					.addField("Usage", "`~>repeat` - **Toggles repeat**\n" +
+							"`~>repeat queue` - **Repeats the entire queue**.", false)
+					.addField("Warning", "Might not work correctly if I leave the voice channel after you have disabled repeat. *To fix, just " +
+						"add a song to the queue*", true)
 					.build();
 			}
 		});
@@ -420,7 +423,7 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Shuffle Command")
-					.addField("Description", "Shuffle the current queue!", false)
+					.addField("Description", "**Shuffle the current queue!**", false)
 					.build();
 			}
 		});
@@ -470,8 +473,7 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Skip Command")
-					.addField("Description", "Stops the current track and continues to the next, if one exists.",
-						false)
+					.setDescription("**Stops the current track and continues to the next, if one exists.**")
 					.build();
 			}
 		});
@@ -520,7 +522,7 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Stop Command")
-					.addField("Description", "Clears the queue and leaves the voice channel.", false)
+					.setDescription("**Clears the queue and leaves the voice channel.**")
 					.build();
 			}
 		});
@@ -572,9 +574,10 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Volume command")
-					.addField("Usage", "~>volume <number>", false)
-					.addField("Parameters", "number: An integer between 1 and 100", false)
-					.addField("Notice", "This is a donator-only feature\nTo check the current volume, do ~>volume check", false)
+					.addField("Usage", "`~>volume <number>` - **Sets the volume**", false)
+					.addField("Parameters", "`number` - **An integer between 1 and 100**", false)
+					.addField("Notice", "**This is a *donator-only* feature!**" +
+							"\nTo check the current volume, do `~>volume check`", false)
 					.build();
 			}
 		});

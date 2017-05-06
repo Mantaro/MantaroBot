@@ -69,8 +69,10 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "8ball")
-					.setDescription("Retrieves an answer from the magic 8Ball.\n"
-						+ "~>8ball <question>. Retrieves an answer from 8ball based on the question or sentence provided.")
+					.setDescription("**Retrieves an answer from the almighty 8ball.**")
+						.addField("Usage",
+								"`~>8ball <question>` - **Retrieves an answer from 8ball based on the question or sentence provided.**",
+								false)
 					.build();
 			}
 		});
@@ -105,9 +107,9 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Iam (autoroles)")
-					.setDescription("Get an autorole that your server administrators have set up!\n"
-						+ "~>iam <name>. Get the role with the specified name.\n"
-						+ "~>iam list. List all the available autoroles in this server")
+					.setDescription("**Get an autorole that your server administrators have set up!**")
+					.addField("Usage", "`~>iam <name>` - **Get the role with the specified name**.\n"
+							+ "`~>iam list` - **List all the available autoroles in this server**", false)
 					.build();
 			}
 		});
@@ -171,9 +173,9 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Iamnot (autoroles)")
-					.setDescription("Remove an autorole that your server administrators have set up!\n"
-						+ "~>iamnot <name>. Remove the role with the specified name.\n"
-						+ "~>iamnot list. List all the available autoroles in this server")
+					.setDescription("**Remove an autorole that your server administrators have set up!**")
+					.addField("Usage", "~>iamnot <name>. Remove the role with the specified name.\n"
+							+ "~>iamnot list. List all the available autoroles in this server", false)
 					.build();
 			}
 		});
@@ -237,14 +239,15 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Misc Commands")
-					.setDescription("Miscellaneous funny/useful commands.\n"
-						+ "Usage:\n"
-						+ "~>misc reverse <sentence>: Reverses any given sentence.\n"
-						+ "~>misc noble: Random Lost Pause quote.\n"
-						+ "~>misc rndcolor: Gives you a random hex color.\n"
-						+ "Parameter explanation:\n"
-						+ "sentence: A sentence to reverse."
-						+ "@user: A user to mention.")
+					.setDescription("**Miscellaneous funny/useful commands.**")
+						.addField("Usage",
+								"`~>misc reverse <sentence>` - **Reverses any given sentence.**\n"
+								+ "`~>misc noble` - **Random Lost Pause quote.**\n"
+								+ "`~>misc rndcolor` - **Gives you a random hex color.**\n"
+								, false)
+						.addField("Parameter Explanation",
+								"`sentence` - **A sentence to reverse.**\n"
+								+ "`@user` - **A user to mention.**", false)
 					.build();
 			}
 		});
@@ -261,7 +264,7 @@ public class MiscCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Random Fact")
-					.setDescription("Sends a random fact.")
+					.setDescription("**Sends a random fact.**")
 					.build();
 			}
 		});

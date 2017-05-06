@@ -46,9 +46,13 @@ public class AnimeCmds {
 						return;
 					}
 
-					DiscordUtils.selectList(event, type, anime -> String.format("%s (%s)",
-						anime.getTitle_english(), anime.getTitle_japanese()),
-						s -> baseEmbed(event, "Type the number of the anime you want to select.").setDescription(s).build(),
+					DiscordUtils.selectList(event, type, anime -> String.format("**[%s (%s)](%s)**",
+						anime.getTitle_english(), anime.getTitle_japanese(), "http://anilist.co/anime/" + anime.getId()),
+						s -> baseEmbed(event, "Type the number of the anime you want to select.")
+								.setDescription(s)
+								.setThumbnail("https://anilist.co/img/logo_al.png")
+								.setFooter("Information provided by Anilist.", event.getAuthor().getAvatarUrl())
+								.build(),
 						anime -> animeData(event, anime));
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
@@ -67,11 +71,10 @@ public class AnimeCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Anime command")
-					.setDescription("Get anime info from **AniList** (For anime characters use ~>character).\n"
-						+ "Usage: \n"
-						+ "~>anime <animename>: Retrieve information of an anime based on the name.\n"
-						+ "Parameter description:\n"
-						+ "animename: The name of the anime you are looking for. Keep queries similar to their english names!\n")
+					.setDescription("**Get anime info from AniList (For anime characters use ~>character).**")
+						.addField("Usage", "`~>anime <animename>` - **Retrieve information of an anime based on the name.**", false)
+						.addField("Parameters",
+								"`animename` - **The name of the anime you are looking for. Keep queries similar to their english names!**", false)
 					.setColor(Color.PINK)
 					.build();
 			}
@@ -114,9 +117,14 @@ public class AnimeCmds {
 						return;
 					}
 
-					DiscordUtils.selectList(event, character, character1 -> String.format("%s %s",
-						character1.name_last, character1.name_first),
-						s -> baseEmbed(event, "Type the number of the character you want to select.").setDescription(s).build(),
+					DiscordUtils.selectList(event, character, character1 -> String.format("**[%s %s](%s)**",
+						character1.name_last == null ? "" : character1.name_last , character1.name_first,
+							"http://anilist.co/character/" + character1.getId()),
+						s -> baseEmbed(event, "Type the number of the character you want to select.")
+								.setDescription(s)
+								.setThumbnail("https://anilist.co/img/logo_al.png")
+								.setFooter("Information provided by Anilist.", event.getAuthor().getAvatarUrl())
+								.build(),
 						character1 -> characterData(event, character1));
 				} catch (Exception e) {
 					if (e instanceof JsonSyntaxException) {
@@ -131,13 +139,12 @@ public class AnimeCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Character command")
-					.setDescription("Retrieves character info from **AniList**.\n"
-						+ "Usage: \n"
-						+ "~>character <charname>: Gets information of a character based on parameters.\n"
-						+ "Parameter description:\n"
-						+ "character: The name of the character you are looking info of. Make sure to write the exact character name or close to it.\n")
-					.setColor(Color.DARK_GRAY)
-					.build();
+						.setDescription("**Get character info from AniList (For anime use `~>anime`).**")
+						.addField("Usage", "`~>character <name>` - **Retrieve information of a charactrer based on the name.**", false)
+						.addField("Parameters",
+								"`name` - **The name of the character you are looking for. Keep queries similar to their romanji names!**", false)
+						.setColor(Color.PINK)
+						.build();
 			}
 		});
 	}
@@ -167,13 +174,13 @@ public class AnimeCmds {
 			.setFooter("Information provided by AniList", null)
 			.setThumbnail(IMAGE_URL)
 			.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
-			.addField("Release date: ", RELEASE_DATE, true)
-			.addField("End date: ", END_DATE, true)
-			.addField("Average score: ", AVERAGE_SCORE + "/100", true)
-			.addField("Type", TYPE, true)
-			.addField("Episodes", EPISODES, true)
-			.addField("Episode Duration", DURATION + " minutes.", true)
-			.addField("Genres", GENRES, false);
+			.addField("Release date: ", "`" + RELEASE_DATE + "`", true)
+			.addField("End date: ", "`" + END_DATE + "`", true)
+			.addField("Average score: ", "`" + AVERAGE_SCORE + "/100" + "`", true)
+			.addField("Type",  "`" + TYPE + "`", true)
+			.addField("Episodes",  "`" + EPISODES + "`", true)
+			.addField("Episode Duration", "`" + DURATION + " minutes." + "`", true)
+			.addField("Genres", "`" + GENRES + "`", false);
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
 

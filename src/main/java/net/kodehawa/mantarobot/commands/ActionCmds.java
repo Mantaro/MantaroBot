@@ -58,9 +58,9 @@ public class ActionCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Action commands")
-					.addField("Description:", "~>action bleach: Random bleach picture.\n" +
-						"~>action facedesk: When you really mess up.\n" +
-						"~>action nom: nom nom.", false)
+					.addField("Usage", "`~>action bleach` - **Random bleach picture**.\n" +
+						"`~>action facedesk` - **When you really mess up.**\n" +
+						"`~>action nom` - **nom nom**.", false)
 					.setColor(Color.PINK)
 					.build();
 			}
@@ -87,7 +87,7 @@ public class ActionCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Bloodsuck")
-					.setDescription("Suck the blood of the mentioned members")
+					.setDescription("**Sucks the blood of the mentioned members**")
 					.build();
 			}
 		});
@@ -106,7 +106,7 @@ public class ActionCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Lewd")
-					.setDescription("lewd").build();
+					.setDescription("**L-lewd**").build();
 			}
 		});
 	}
@@ -130,7 +130,7 @@ public class ActionCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Meow command")
-					.setDescription("Meow either to a person or the sky.")
+					.setDescription("**Meow either to a person or the sky**.")
 					.setColor(Color.cyan)
 					.build();
 			}

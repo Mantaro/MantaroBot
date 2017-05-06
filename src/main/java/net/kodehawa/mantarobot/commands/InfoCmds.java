@@ -131,9 +131,10 @@ public class InfoCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "About Command")
-					.addField("Description:", "Read info about Mantaro!", false)
-					.addField("Information", "~>about credits lists everyone who has helped on the bot's development, " +
-						"~>about patreon lists our patreon supporters", false)
+					.setDescription("**Read info about Mantaro!**")
+					.addField("Information",
+							"`~>about credits` - **Lists everyone who has helped on the bot's development**, " +
+						"`~>about patreon` - **Lists our patreon supporters**", false)
 					.setColor(Color.PINK)
 					.build();
 			}
@@ -155,10 +156,10 @@ public class InfoCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Avatar")
-					.setDescription("Get user avatar URLs")
+					.setDescription("**Get a user's avatar URL**")
 					.addField("Usage",
-						"~>avatar - Get your avatar url" +
-							"\n ~>avatar <mention> - Get a user's avatar url.", false)
+						"`~>avatar` - **Get your avatar url**" +
+							"\n `~>avatar <mention>` - **Get a user's avatar url.**", false)
 					.build();
 			}
 		});
@@ -200,7 +201,7 @@ public class InfoCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Server Info Command")
-					.addField("Description:", "See your server's current stats.", false)
+					.setDescription("**See your server's current stats.**")
 					.setColor(event.getGuild().getOwner().getColor() == null ? Color.ORANGE : event.getGuild().getOwner().getColor())
 					.build();
 			}
@@ -257,10 +258,11 @@ public class InfoCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Help Command")
 					.setColor(Color.PINK)
-					.addField("Description:", jokes.get(r.nextInt(jokes.size())), false)
+					.setDescription("**" + jokes.get(r.nextInt(jokes.size())) + "**")
 					.addField(
-						"Usage:",
-						"`~>help`: Return information about who issued the command.\n`~>help <command>`: Return information about the command specified.",
+						"Usage",
+						"`~>help` - **Return information about who issued the command**.\n" +
+						"`~>help <command>` - **Return information about the command specified**.",
 						false
 					).build();
 			}
@@ -304,7 +306,7 @@ public class InfoCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Info")
-					.setDescription("Gets the bot technical information")
+					.setDescription("**Gets the bot technical information**")
 					.build();
 			}
 		});
@@ -319,15 +321,16 @@ public class InfoCmds {
 					.addField("Invite URL", "http://polr.me/mantaro", false)
 					.addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
 					.addField("Patreon URL", "http://patreon.com/mantaro", false)
-					.setDescription("Here are some useful links! If you have any questions about the bot, feel free to join the support guild and tag @Steven#6340." +
-						"\nWe provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks!]. Thanks you in advance for using the bot! <3 from the developers")
+					.setDescription("Here are some useful links! If you have any questions about the bot, feel free to join the support guild andask!." +
+						"\nWe provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks!]. " +
+						"Thanks you in advance for using the bot! **<3 from the developers**")
 					.setFooter("We hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
 					.build()).queue();
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Invite command").setDescription("Gives you a bot OAuth invite link.").build();
+				return helpEmbed(event, "Invite command").setDescription("**Gives you a bot OAuth invite link.**").build();
 			}
 		});
 	}
@@ -359,7 +362,9 @@ public class InfoCmds {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Ping Command").addField("Description:", "Plays Ping-Pong with Discord and prints out the result.", false).build();
+				return helpEmbed(event, "Ping Command")
+						.setDescription("**Plays Ping-Pong with Discord and prints out the result.**")
+						.build();
 			}
 		});
 	}
@@ -397,7 +402,7 @@ public class InfoCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Shard info")
-					.setDescription("Returns information about shards")
+					.setDescription("**Returns information about shards**")
 					.build();
 			}
 		});
@@ -565,8 +570,8 @@ public class InfoCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Statistics command")
-					.setDescription("See the bot, usage or vps statistics")
-					.addField("Usage", "~>stats <usage/vps/cmds/guilds>", true)
+					.setDescription("**See the bot, usage or vps statistics**")
+					.addField("Usage", "`~>stats <usage/vps/cmds/guilds>` - **Returns statistical information**", true)
 					.build();
 			}
 		});
@@ -609,9 +614,11 @@ public class InfoCmds {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "UserInfo Command")
-					.addField("Description:", "See information about specific users.", false)
-					.addField("Usage:", "`~>userinfo @User`: Get information about the specific user.\n`~>userinfo`: Get information about yourself!", false)
+				return helpEmbed(event, "User Info Command")
+					.setDescription("**See information about specific users.**")
+					.addField("Usage:",
+							"`~>userinfo @user` - **Get information about the specific user.**" +
+									"\n`~>userinfo` - **Get information about yourself!**", false)
 					.build();
 			}
 		});
