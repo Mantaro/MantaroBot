@@ -2,11 +2,13 @@ package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import gnu.trove.set.hash.TIntHashSet;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -25,6 +27,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -61,9 +64,18 @@ public class MusicCmds {
 	@Event
 	public static void move(CommandRegistry cr) {
 		cr.register("move", new SimpleCommand(Category.MUSIC) {
+			RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 20);
+
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Guild guild = event.getGuild();
+
+				if (!rl.process(event.getAuthor().getId())) {
+					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+							"S-Stop please, I'm getting dizzy! `(Only usable every 20 seconds)`").queue();
+					return;
+				}
+
 				if (content.isEmpty()) {
 					AudioManager am = guild.getAudioManager();
 
@@ -130,11 +142,18 @@ public class MusicCmds {
 					return;
 				}
 
-				event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Now playing -> ``%s (%s/%s)``",
-					musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title,
-					Utils.getDurationMinutes(musicManager.getTrackScheduler().getCurrentTrack().getPosition()),
-					Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration())))
-					.queue();
+				EmbedBuilder npEmbed = new EmbedBuilder();
+				long now = musicManager.getTrackScheduler().getCurrentTrack().getPosition();
+				long total = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getDuration();
+				npEmbed.setAuthor("Now Playing", null, event.getGuild().getIconUrl())
+						.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+						.setDescription("\n\u23ef " + AudioCmdUtils.getProgressBar(now, total) + "\n\n" +
+								"**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title + "]"
+										+ "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri + ")** "
+										+ String.format("`(%s/%s)`", Utils.getDurationMinutes(now),  Utils.getDurationMinutes(total)))
+						.setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
+
+				event.getChannel().sendMessage(npEmbed.build()).queue();
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 

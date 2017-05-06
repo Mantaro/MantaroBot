@@ -52,7 +52,7 @@ public class Utils {
 	}
 
 	public static String getDurationMinutes(long length) {
-		return String.format("%d:%02d minutes",
+		return String.format("%d:%02d",
 			TimeUnit.MILLISECONDS.toMinutes(length),
 			TimeUnit.MILLISECONDS.toSeconds(length) -
 				TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))

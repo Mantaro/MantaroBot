@@ -23,6 +23,12 @@ import java.util.stream.Collectors;
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
 public class AudioCmdUtils {
+
+	private final static String BLOCK_INACTIVE = "\u25AC";
+	private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
+	private static final int TOTAL_BLOCKS = 10;
+
+
 	public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager) {
 		audioManager.closeAudioConnection();
 		event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
@@ -36,10 +42,10 @@ public class AudioCmdUtils {
 		if (lines.size() >= 15) {
 
 			int pages = list.size() % 2 == 0 ? lines.size() / 2 : (lines.size() / 2) + 1;
-			if (lines.size() <= 60) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 3) + 1;
-			else if (lines.size() <= 100) pages = lines.size() % 7 == 0 ? lines.size() / 7 : (lines.size() / 6) + 1;
-			else if (lines.size() <= 200) pages = lines.size() % 13 == 0 ? lines.size() / 13 : (lines.size() / 12) + 1;
-			else if (lines.size() <= 300) pages = lines.size() % 18 == 0 ? lines.size() / 18 : (lines.size() / 17) + 1;
+			if (lines.size() <= 60) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 4) + 1; //5 or 4 pages
+			else if (lines.size() <= 100) pages = lines.size() % 8 == 0 ? lines.size() / 8 : (lines.size() / 7) + 1; //8 or 7 pages
+			else if (lines.size() <= 200) pages = lines.size() % 16 == 0 ? lines.size() / 16 : (lines.size() / 15) + 1; //16 or 15 pages
+			else if (lines.size() <= 300) pages = lines.size() % 24 == 0 ? lines.size() / 24 : (lines.size() / 23) + 1; //24 or 23 pages
 
 			list = chunks(lines, pages);
 
@@ -57,9 +63,9 @@ public class AudioCmdUtils {
 			.setColor(Color.CYAN);
 
 		String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
-				"[**" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
-						+ "**](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
-						") (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+				"**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+						+ "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
+						")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
 						"Nothing or title/duration not found";
 		VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
 		if (!toSend.isEmpty()) {
@@ -73,7 +79,8 @@ public class AudioCmdUtils {
 				.addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
 				.setFooter("Total pages: " + list.size() + " -> Do ~>queue <page> to go to next page. Currently in page " + (page + 1), guild.getIconUrl());
 		} else {
-			builder.setDescription("Nothing here, just dust.");
+			builder.setDescription("Nothing here, just dust. Why don't you queue some songs?")
+					.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png");
 		}
 
 		return builder.build();
@@ -168,5 +175,12 @@ public class AudioCmdUtils {
 		}
 
 		return chunks;
+	}
+
+	public static String getProgressBar(long percent, long duration) {
+		int activeBlocks = (int) ((float) percent / duration * TOTAL_BLOCKS);
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < TOTAL_BLOCKS; i++) builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
+		return builder.append(BLOCK_INACTIVE).toString();
 	}
 }

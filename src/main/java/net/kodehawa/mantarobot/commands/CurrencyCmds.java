@@ -110,7 +110,7 @@ public class CurrencyCmds {
 
 	@Event
 	public static void gamble(CommandRegistry cr) {
-		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
+		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
 		Random r = new Random();
 
 		cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
@@ -121,7 +121,7 @@ public class CurrencyCmds {
 
 				if (!rateLimiter.process(id)) {
 					event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-						"Halt! You're gambling so fast that I can't print enough money!").queue();
+							"Halt! You're gambling so fast that I can't print enough money!").queue();
 					return;
 				}
 
@@ -589,7 +589,7 @@ public class CurrencyCmds {
 	@Event
 	public static void rep(CommandRegistry cr) {
 		cr.register("rep", new SimpleCommand(Category.CURRENCY) {
-			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
+			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
 
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -614,7 +614,7 @@ public class CurrencyCmds {
 				}
 
 				if (!rateLimiter.process(event.getMember())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 24 hours.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 12 hours.").queue();
 					return;
 				}
 				User mentioned = event.getMessage().getMentionedUsers().get(0);

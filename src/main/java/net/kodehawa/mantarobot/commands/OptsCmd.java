@@ -506,7 +506,7 @@ public class OptsCmd {
 			GuildData guildData = dbGuild.getData();
 			if ((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()) {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot " +
-					"wouldn't be able to talk otherwise.").queue();
+					"wouldn't be able to talk otherwise :<").queue();
 				return;
 			}
 			List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()

@@ -28,4 +28,6 @@ public class GuildData {
 	private Long musicSongDurationLimit = null;
 	private String mutedRole = null;
 	private Long quoteLastId = 0L;
+	private boolean rpgLocalMode = false;
+	private boolean rpgDevaluation = true;
 }

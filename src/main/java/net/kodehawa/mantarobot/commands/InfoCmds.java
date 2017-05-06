@@ -61,8 +61,8 @@ public class InfoCmds {
 						.setColor(Color.PINK)
 						//<3
 						.addField("Special Mentions",
-								"**MrLar#8117** $90 pledge. <3\n" +
-								"**Quartermaster#1262* $40 pledge. <3",false)
+								"**MrLar#8117** $90 pledge. <3 + $200 donation. <3\n" +
+								"**Quartermaster#1262** $40 pledge",false)
 						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
@@ -101,13 +101,13 @@ public class InfoCmds {
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(Color.PINK)
 					.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
-					.setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
+					.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
 					.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
 						"Some of my features include:\n" +
-						"\u2713 Moderation made easy (``Mass kick/ban, prune commands, logs and more!``)\n" +
-						"\u2713 Funny and useful commands see `~>help anime` or `~>help hug` for examples.\n" +
-						"\u2713 [Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
-						" [Support Mantaro development!](https://www.patreon.com/mantaro)\n\n" +
+						"\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
+						"\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
+						"\u2713 **[Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
+						" [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
 						EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!"
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
@@ -321,8 +321,9 @@ public class InfoCmds {
 					.addField("Invite URL", "http://polr.me/mantaro", false)
 					.addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
 					.addField("Patreon URL", "http://patreon.com/mantaro", false)
-					.setDescription("Here are some useful links! If you have any questions about the bot, feel free to join the support guild andask!." +
-						"\nWe provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks!]. " +
+					.setDescription("Here are some useful links! " +
+							"**If you have any questions about the bot, feel free to join the support guild and ask**!." +
+						"\nWe provided a patreon link in case you would like to help Mantaro keep running by donating [and getting perks by doing so!]. " +
 						"Thanks you in advance for using the bot! **<3 from the developers**")
 					.setFooter("We hope you have fun with the bot.", event.getJDA().getSelfUser().getAvatarUrl())
 					.build()).queue();

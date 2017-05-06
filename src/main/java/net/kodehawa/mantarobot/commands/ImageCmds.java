@@ -153,7 +153,7 @@ public class ImageCmds {
 										.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException e) {
+								} catch (IndexOutOfBoundsException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
 							});

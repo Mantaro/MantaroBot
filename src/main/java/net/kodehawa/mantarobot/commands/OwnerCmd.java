@@ -91,7 +91,7 @@ public class OwnerCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Blacklist command")
-					.setDescription("Blacklists a user (user argument) or a guild (guild argument) by id.")
+					.setDescription("**Blacklists a user (user argument) or a guild (guild argument) by id.**")
 					.setFooter("Examples", "~>blacklist user add/remove 293884638101897216\n" +
 						"~>blacklist guild add/remove 305408763915927552")
 					.build();
@@ -173,14 +173,14 @@ public class OwnerCmd {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Owner command")
-					.setDescription("~>owner shutdown/forceshutdown: Shutdowns the bot\n" +
-						"~>owner restart/forcerestart: Restarts the bot.\n" +
-						"~>owner scheduleshutdown time <time>: Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
-						"~>owner varadd <pat/hug/greeting/splash>: Adds a link or phrase to the specified list.\n" +
-						"~>owner eval <bsh/js/groovy/m/cw> <line of code>: Evals a specified code snippet.\n" +
-						"~>owner cw <info/eval>: Shows info or evals specified code in the Connection Watcher.\n" +
-						"~>owner premium add <id> <days>: Adds premium to the specified user for x days.")
-					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh " + EmoteReference.EYES, false)
+					.setDescription("`~>owner shutdown/forceshutdown`: Shutdowns the bot\n" +
+						"`~>owner restart/forcerestart`: Restarts the bot.\n" +
+						"`~>owner scheduleshutdown time <time>` - Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
+						"`~>owner varadd <pat/hug/greeting/splash>` - Adds a link or phrase to the specified list.\n" +
+						"`~>owner eval <bsh/js/cw> <line of code>` - Evals a specified code snippet.\n" +
+						"`~>owner cw <info/eval>` - Shows info or evals specified code in the Connection Watcher.\n" +
+						"`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
+					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh \uD83D\uDC40" + EmoteReference.EYES, false)
 					.build();
 			}
 

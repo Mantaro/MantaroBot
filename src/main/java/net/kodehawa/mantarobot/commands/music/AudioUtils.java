@@ -26,14 +26,14 @@ class AudioUtils {
 			//.append intensifies
 			sb.append("**")
 				.append(n)
-				.append(".** [")
+				.append(". [")
 				.append(title)
 				.append("](")
 				.append(audioTrack.getInfo().uri)
-				.append(") (")
+				.append(")** (")
 				.append(duration)
 				.append(")")
-				.append(audioTrack.getDJ() != null ? "  **[" + audioTrack.getDJ().getName() + "]**" : "")
+				.append(audioTrack.getDJ() != null ? " **[" + audioTrack.getDJ().getName() + "]**" : "")
 				.append("\n");
 			n++;
 		}

@@ -25,7 +25,6 @@ public class TrackScheduler extends AudioEventAdapter {
 	private AudioPlayer audioPlayer;
 	private AudioTrackContext currentTrack;
 	private String guildId;
-	private String lastAnnounce;
 	private AudioTrackContext previousTrack;
 	private BlockingQueue<AudioTrackContext> queue;
 	private Repeat repeat;
@@ -40,7 +39,6 @@ public class TrackScheduler extends AudioEventAdapter {
 		this.voteStop = new ArrayList<>();
 		this.previousTrack = null;
 		this.currentTrack = null;
-		this.lastAnnounce = null;
 		this.repeat = null;
 		this.audioPlayer = audioPlayer;
 		this.guildId = guildId;
@@ -174,7 +172,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		try {
 			previousTrack = getPreviousTrack();
 			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
-				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue.").queue(
+				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue! Hope you enjoyed it.").queue(
 					message -> message.delete().queueAfter(20, TimeUnit.SECONDS)
 				);
 		} catch (Exception ignored) {} //fuck
@@ -183,10 +181,6 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void queue(AudioTrackContext audioTrackContext) {
 		getQueue().offer(audioTrackContext);
 		if (getAudioPlayer().getPlayingTrack() == null) next(true);
-	}
-
-	private void setLastAnnounce(Message m) {
-		this.lastAnnounce = m == null ? null : m.getId();
 	}
 
 	public void shuffle() {
