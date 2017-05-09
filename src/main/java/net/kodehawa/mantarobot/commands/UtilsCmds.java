@@ -1,6 +1,10 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.strings.StringUtils;
+import com.google.gson.Gson;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -8,6 +12,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.info.DictionaryData;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
@@ -485,6 +490,56 @@ public class UtilsCmds {
 					.addField("Usage", "`~>ytmp3 <youtube link>`", true)
 					.addField("Parameters", "`youtube link` - **The link of the video to convert to MP3**", true)
 					.build();
+			}
+		});
+	}
+
+	@Command
+	public static void dictionary(CommandRegistry registry){
+		registry.register("dictionary", new SimpleCommand(Category.UTILS) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if(args.length == 0){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a word.").queue();
+					return;
+				}
+
+				String word = content;
+				DictionaryData dictionaryData;
+				DictionaryData.Results result;
+				try{
+					dictionaryData = GsonDataManager.GSON_PRETTY.fromJson(Unirest.get("http://api.pearson.com/v2/dictionaries/entries?headword=" + word)
+							.asJson().getBody().toString(), DictionaryData.class);
+					result = dictionaryData.getResults().get(0);
+				} catch (Exception e){
+					if(e instanceof UnirestException){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving data.").queue();
+						return;
+					} else if(e instanceof IndexOutOfBoundsException) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Search returned no results.").queue();
+						return;
+					}
+
+					e.printStackTrace();
+
+					return;
+				}
+
+				EmbedBuilder eb = new EmbedBuilder();
+				eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
+						.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
+						.addField("Definition", result.senses.get(0).getDefinition().get(0), false)
+						.addField("Pronunciation", String.format("IPA: `%s` (%s)",
+								result.getPronunciations().get(0).getIpa(), result.getPronunciations().get(0).getLang()), false)
+						.setDescription(String.format("**Part of speech:** `%s`\n" +
+								"**Headword:** `%s`", result.getPart_of_speech(), result.getHeadword()));
+
+				event.getChannel().sendMessage(eb.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
 			}
 		});
 	}
