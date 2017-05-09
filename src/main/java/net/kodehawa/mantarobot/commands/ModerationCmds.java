@@ -10,6 +10,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
@@ -550,6 +551,60 @@ public class ModerationCmds {
                         .addField("Example", "`~>tempban @Kodehawa example time:1d`", false)
                         .addField("Extended usage", "`time` - can be used with the following parameters: " +
                                 "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
+                        .build();
+            }
+        });
+    }
+
+    @Command
+    public static void mute(CommandRegistry registry){
+        registry.register("mute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                GuildData guildData = dbGuild.getData();
+                if(guildData.getMutedRole() == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "The mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`").queue();
+                    return;
+                }
+
+                Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
+
+                if(event.getMessage().getMentionedUsers().isEmpty()){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mentione at least one user to mute.").queue();
+                    return;
+                }
+
+                if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permissions to administrate roles on this server!").queue();
+                    return;
+                }
+
+                event.getMessage().getMentionedUsers().forEach(user -> {
+                    Member m = event.getGuild().getMember(user);
+                    if(!event.getGuild().getSelfMember().canInteract(m)){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign or remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!").queue();
+                        return;
+                    }
+
+                    if(m.getRoles().contains(mutedRole)){
+                        event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
+                        return;
+                    }
+
+                    event.getGuild().getController().addRolesToMember(m, mutedRole).queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Added mute role to **" + m.getEffectiveName() + "**").queue();
+                });
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Mute")
+                        .setDescription("**Mutes or unmutes the specified users**")
+                        .addField("Usage", "`~>mute <users>` - Mutes or unmutes the specified users.", false)
+                        .addField("Parameters", "`users` - The users to mute. Needs to be mentions.", false)
+                        .addField("Considerations", "This command will mute if the user doesn't have the mute role and it will unmute the user if he or she has the role.", false)
                         .build();
             }
         });

@@ -301,6 +301,7 @@ public class MantaroListener implements EventListener {
 			tc.sendMessage(String.format(EmoteReference.SAD + "`[%s]` I left a guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
 			logTotal++;
 
+			MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
 			GuildStatsManager.log(LoggedEvent.LEAVE);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {

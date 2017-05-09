@@ -1,10 +1,8 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.strings.StringUtils;
-import com.google.gson.Gson;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -12,14 +10,13 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.DictionaryData;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -30,14 +27,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.List;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -219,13 +218,11 @@ public class UtilsCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
-					if (content.startsWith("GMT")) {
-						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(content) + " in the " + content + " " +
+					event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(content) + " in the " + content + " " +
 							"timezone").queue();
-					} else {
-						event.getChannel().sendMessage(EmoteReference.ERROR2 + "You didn't specify a valid timezone").queue();
-					}
-				} catch (Exception ignored) {}
+				} catch (Exception e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
+				}
 			}
 
 			@Override
@@ -504,48 +501,81 @@ public class UtilsCmds {
 					return;
 				}
 
+
 				String word = content;
-				DictionaryData dictionaryData;
-				DictionaryData.Results result;
+
+				JSONObject main;
+				String definition, part_of_speech, headword, example;
+
 				try{
-					dictionaryData = GsonDataManager.GSON_PRETTY.fromJson(Unirest.get("http://api.pearson.com/v2/dictionaries/entries?headword=" + word)
-							.asJson().getBody().toString(), DictionaryData.class);
-					result = dictionaryData.getResults().get(0);
-				} catch (Exception e){
-					if(e instanceof UnirestException){
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving data.").queue();
-						return;
-					} else if(e instanceof IndexOutOfBoundsException) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "Search returned no results.").queue();
-						return;
+					main = Unirest.get("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word).asJson().getBody().getObject();
+					JSONArray results = main.getJSONArray("results");
+					JSONObject result = results.getJSONObject(0);
+					JSONArray senses = result.getJSONArray("senses");
+
+					headword = result.getString("headword");
+
+					if(result.has("part_of_speech")) part_of_speech = result.getString("part_of_speech");
+					else part_of_speech = "Not found.";
+
+					if(senses.getJSONObject(0).get("definition") instanceof JSONArray)
+						definition = senses.getJSONObject(0).getJSONArray("definition").getString(0);
+					else
+						definition = senses.getJSONObject(0).getString("definition");
+
+					try{
+						if(senses.getJSONObject(0).getJSONArray("translations").getJSONObject(0).get("example") instanceof JSONArray){
+							example = senses.getJSONObject(0)
+									.getJSONArray("translations")
+									.getJSONObject(0)
+									.getJSONArray("example")
+									.getJSONObject(0)
+									.getString("text");
+						} else {
+							example = senses.getJSONObject(0)
+									.getJSONArray("translations")
+									.getJSONObject(0)
+									.getJSONObject("example")
+									.getString("text");
+						}
+					} catch (Exception e){
+						example = "Not found";
 					}
 
-					e.printStackTrace();
 
+				} catch (Exception e){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
 					return;
 				}
 
 				EmbedBuilder eb = new EmbedBuilder();
 				eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
 						.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
-						.addField("Definition", result.senses.get(0).getDefinition().get(0), false)
-						.addField("Pronunciation", String.format("IPA: `%s` (%s)",
-								result.getPronunciations().get(0).getIpa(), result.getPronunciations().get(0).getLang()), false)
-						.setDescription(String.format("**Part of speech:** `%s`\n" +
-								"**Headword:** `%s`", result.getPart_of_speech(), result.getHeadword()));
+						.addField("Definition", "**" +  definition + "**", false)
+ 						.addField("Example", "**" +  example + "**", false)
+						.setDescription(String.format("**Part of speech:** `%s`\n" + "**Headword:** `%s`\n", part_of_speech, headword));
 
 				event.getChannel().sendMessage(eb.build()).queue();
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Dictionary command")
+						.setDescription("**Looks up a word in the dictionary.**")
+						.addField("Usage", "`~>dictionary <word>` - Searches a word in the dictionary.", false)
+						.addField("Parameters", "`word` - The word to look for", false)
+						.build();
 			}
 		});
 	}
 
 	private static String dateGMT(String tz) {
 		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+
+		if(!tz.contains("GMT")){
+			tz = ZoneId.of(tz).getId();
+		}
+
 		format.setTimeZone(TimeZone.getTimeZone(tz));
 
 		return format.format(new Date());

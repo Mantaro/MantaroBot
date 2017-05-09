@@ -27,6 +27,7 @@ public class ActionCmds {
 	private static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
 	static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
 	static final DataManager<List<String>> POKES = new SimpleFileDataManager("assets/mantaro/texts/pokes.txt");
+	static final DataManager<List<String>> BITES = new SimpleFileDataManager("assets/mantaro/texts/bites.txt");
 	static final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
 	static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
 	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
@@ -168,6 +169,12 @@ public class ActionCmds {
 		cr.register("slap", new ImageActionCmd(
 				"Slap", "Slaps the specified user ;).", Color.PINK,
 				"slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", SLAPS.get()
+		));
+
+		//bite();
+		cr.register("bite", new ImageActionCmd(
+				"Bite", "Bites the specified user.", Color.PINK,
+				"bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", BITES.get()
 		));
 
 		//greet();

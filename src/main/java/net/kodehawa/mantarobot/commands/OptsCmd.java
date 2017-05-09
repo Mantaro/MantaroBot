@@ -630,7 +630,47 @@ public class OptsCmd {
 							role.getName() + "**").queue();
 					});
 			}
-		});//endregion
+		});
+
+		registerOption("muterole:set", (event, args) -> {
+			if (args.length < 1) {
+				onHelp(event);
+				return;
+			}
+
+			String roleName = String.join(" ", args);
+			System.out.println(roleName);
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
+			if (roleList.size() == 0) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
+			} else if (roleList.size() == 1) {
+				Role role = roleList.get(0);
+				guildData.setMutedRole(role.getId());
+				dbGuild.saveAsync();
+				event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
+			} else {
+				DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
+						role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Mute Role:")
+								.setDescription(s).build(),
+						role -> {
+							guildData.setMutedRole(role.getId());
+							dbGuild.saveAsync();
+							event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
+						});
+			}
+		});
+
+		registerOption("muterole:unbind", (event, args) -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			guildData.setMutedRole(null);
+			dbGuild.saveAsync();
+			event.getChannel().sendMessage(EmoteReference.OK + "Correctly resetted mute role.").queue();
+		});
+		//endregion
 
 		//region remove
 		registerOption("autoroles:remove", (event, args) -> {

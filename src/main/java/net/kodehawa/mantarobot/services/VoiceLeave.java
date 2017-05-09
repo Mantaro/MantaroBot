@@ -12,7 +12,12 @@ public class VoiceLeave implements Runnable {
         MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((guildId, manager) -> {
             try {
                 Guild guild = MantaroBot.getInstance().getGuildById(guildId);
+                if(guild == null) return;
+
                 GuildVoiceState voiceState = guild.getSelfMember().getVoiceState();
+
+                if(voiceState == null) return;
+
                 if (voiceState.inVoiceChannel()) {
                     TextChannel channel = guild.getPublicChannel();
                     if (channel != null) {
@@ -20,6 +25,9 @@ public class VoiceLeave implements Runnable {
                             VoiceChannel voiceChannel = voiceState.getChannel();
                             AudioPlayer player = manager.getAudioPlayer();
                             GuildMusicManager mm = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
+
+                            if(player == null || mm == null || voiceChannel == null) return;
+
                             if(mm.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null){
                                 channel = mm.getTrackScheduler().getCurrentTrack().getRequestedChannel();
                             }
