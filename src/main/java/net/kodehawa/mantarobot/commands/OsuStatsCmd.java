@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -83,7 +83,7 @@ public class OsuStatsCmd {
 		return finalResponse;
 	}
 
-	@Event
+	@Command
 	public static void osustats(CommandRegistry cr) {
 		cr.register("osustats", new SimpleCommand(Category.GAMES) {
 			@Override

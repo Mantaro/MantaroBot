@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @Module
 public class FunCmds {
 
-	@Event
+	@Command
 	public static void coinflip(CommandRegistry cr) {
 		cr.register("coinflip", new SimpleCommand(Category.FUN) {
 			@Override
@@ -65,7 +65,7 @@ public class FunCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void dice(CommandRegistry cr) {
 		cr.register("roll", new SimpleCommand(Category.FUN) {
 			@Override
@@ -92,7 +92,7 @@ public class FunCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void marry(CommandRegistry cr) {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override

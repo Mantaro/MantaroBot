@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -35,7 +35,7 @@ public class MiscCmds {
 	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
 	private static final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
-	@Event
+	@Command
 	public static void eightBall(CommandRegistry cr) {
 		cr.register("8ball", new SimpleCommand(Category.MISC) {
 			@Override
@@ -78,7 +78,7 @@ public class MiscCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void iam(CommandRegistry cr) {
 		cr.register("iam", new SimpleCommand(Category.MISC) {
 			@Override
@@ -143,7 +143,7 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@Event
+	@Command
 	public static void iamnot(CommandRegistry cr) {
 		cr.register("iamnot", new SimpleCommand(Category.MISC) {
 			@Override
@@ -209,7 +209,7 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@Event
+	@Command
 	public static void misc(CommandRegistry cr) {
 		cr.register("misc", new SimpleCommand(Category.MISC) {
 			@Override
@@ -253,7 +253,7 @@ public class MiscCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void randomFact(CommandRegistry cr) {
 		cr.register("randomfact", new SimpleCommand(Category.MISC) {
 			@Override

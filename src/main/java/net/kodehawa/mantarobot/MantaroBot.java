@@ -20,7 +20,7 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.DiscordLogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
@@ -188,7 +188,7 @@ public class MantaroBot extends ShardedJDA {
 		Set<Method> events = new Reflections(
 			classes.get(),
 			new MethodAnnotationsScanner())
-			.getMethodsAnnotatedWith(Event.class);
+			.getMethodsAnnotatedWith(Command.class);
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 

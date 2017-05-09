@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -43,7 +43,7 @@ public class ImageCmds {
 
 	public static final URLCache CACHE = new URLCache(20);
 	private static final String BASEURL = "http://catgirls.brussell98.tk/api/random";
-	private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random";
+	private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actualluy returns more questionable images than explicit tho
 	private static final String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
 		"Am I cute yet?", "%mention%, I think you should have a cat."};
 	private static String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
@@ -60,7 +60,7 @@ public class ImageCmds {
 	private static String tagsEncoded = "";
 	private static String tagsToEncode = "no";
 
-	@Event
+	@Command
 	public static void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -83,8 +83,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Event
-	//O look, something that natan did that's not completely nuked.
+	@Command
 	public static void catgirls(CommandRegistry cr) {
 		cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -119,7 +118,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void e621(CommandRegistry cr) {
 		cr.register("e621", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -154,7 +153,7 @@ public class ImageCmds {
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (IndexOutOfBoundsException e) {
-									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 								}
 							});
 
@@ -196,7 +195,7 @@ public class ImageCmds {
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 								}
 							});
 						} catch (Exception exception) {
@@ -227,7 +226,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void kona(CommandRegistry cr) {
 		cr.register("konachan", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -303,7 +302,7 @@ public class ImageCmds {
 							});
 						} catch (Exception exception) {
 							if (exception instanceof IndexOutOfBoundsException) {
-								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 								return;
 							}
 
@@ -334,14 +333,14 @@ public class ImageCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void onPostLoad(PostLoadEvent e) {
 		nRating.put("safe", "s");
 		nRating.put("questionable", "q");
 		nRating.put("explicit", "e");
 	}
 
-	@Event
+	@Command
 	public static void rule34(CommandRegistry cr) {
 		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -375,7 +374,7 @@ public class ImageCmds {
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (ArrayIndexOutOfBoundsException e) {
-									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 								}
 							});
 
@@ -417,8 +416,7 @@ public class ImageCmds {
 										event.getChannel().sendMessage(builder.build()).queue();
 									} catch (Exception e) {
 										e.printStackTrace();
-
-										event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 									}
 
 								});
@@ -451,7 +449,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void yandere(CommandRegistry cr) {
 		cr.register("yandere", new SimpleCommand(Category.IMAGE) {
 			@Override

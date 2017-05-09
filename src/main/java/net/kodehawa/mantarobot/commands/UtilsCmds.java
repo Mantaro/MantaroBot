@@ -14,11 +14,10 @@ import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -34,7 +33,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.function.IntConsumer;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -45,7 +43,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UtilsCmds {
 	private static final Resty resty = new Resty();
 
-	@Event
+	@Command
 	public static void birthday(CommandRegistry registry) {
 		registry.register("birthday", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -140,7 +138,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void choose(CommandRegistry registry) {
 		registry.register("choose", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -168,7 +166,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void google(CommandRegistry registry) {
 		registry.register("google", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -210,7 +208,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void time(CommandRegistry registry) {
 		registry.register("time", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -236,7 +234,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void translate(CommandRegistry registry) {
 		registry.register("translate", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -299,7 +297,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void urban(CommandRegistry registry) {
 		registry.register("urban", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -375,7 +373,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void weather(CommandRegistry registry) {
 		registry.register("weather", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -439,7 +437,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void ytmp3(CommandRegistry registry) {
 		registry.register("ytmp3", new SimpleCommand(Category.UTILS) {
 			@Override

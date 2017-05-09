@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.commands;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -21,7 +20,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -42,7 +41,7 @@ public class CurrencyCmds {
 
 	private static Random random = new Random();
 
-	@Event
+	@Command
 	public static void daily(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
 		Random r = new Random();
@@ -109,7 +108,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void gamble(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
 		Random r = new Random();
@@ -221,7 +220,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void inventory(CommandRegistry cr) {
 		cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
 			@Override
@@ -250,7 +249,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void loot(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
 		Random r = new Random();
@@ -334,7 +333,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void market(CommandRegistry cr) {
 		cr.register("market", new SimpleCommand(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
@@ -491,7 +490,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void profile(CommandRegistry cr) {
 		cr.register("profile", new SimpleCommand(Category.CURRENCY) {
 			@Override
@@ -587,7 +586,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void rep(CommandRegistry cr) {
 		cr.register("rep", new SimpleCommand(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
@@ -637,7 +636,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void richest(CommandRegistry cr) {
 		cr.register("richest", new SimpleCommand(Category.CURRENCY) {
 			RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
@@ -686,7 +685,7 @@ public class CurrencyCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void transfer(CommandRegistry cr) {
 		cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
 			@Override

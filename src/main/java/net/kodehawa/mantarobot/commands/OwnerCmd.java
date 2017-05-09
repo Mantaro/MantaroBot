@@ -2,22 +2,19 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.extensions.Async;
 import bsh.Interpreter;
-import com.rethinkdb.gen.exc.ReqlError;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.MantaroObj;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -52,7 +49,7 @@ public class OwnerCmd {
 
 	private static final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
 
-	@Event
+	@Command
 	public static void blacklist(CommandRegistry cr) {
 		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
@@ -99,7 +96,7 @@ public class OwnerCmd {
 		});
 	}
 
-	@Event
+	@Command
 	public static void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {

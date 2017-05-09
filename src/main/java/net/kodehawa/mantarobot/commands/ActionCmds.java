@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -33,7 +33,7 @@ public class ActionCmds {
 	static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
-	@Event
+	@Command
 	public static void action(CommandRegistry registry) {
 		registry.register("action", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -67,7 +67,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void bloodsuck(CommandRegistry registry) {
 		registry.register("bloodsuck", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -93,7 +93,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void lewd(CommandRegistry registry) {
 		registry.register("lewd", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -111,7 +111,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void meow(CommandRegistry registry) {
 		registry.register("meow", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -138,7 +138,7 @@ public class ActionCmds {
 		registry.registerAlias("mew", "meow");
 	}
 
-	@Event
+	@Command
 	public static void register(CommandRegistry cr) {
 
 		//pat();

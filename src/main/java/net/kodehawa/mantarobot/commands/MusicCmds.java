@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.commands.music.Repeat;
 import net.kodehawa.mantarobot.commands.music.TrackScheduler;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -36,7 +36,7 @@ import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
 public class MusicCmds {
-	@Event
+	@Command
 	public static void forceskip(CommandRegistry cr) {
 		cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
 			@Override
@@ -61,7 +61,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void move(CommandRegistry cr) {
 		cr.register("move", new SimpleCommand(Category.MUSIC) {
 			RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 20);
@@ -129,7 +129,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void np(CommandRegistry cr) {
 		cr.register("np", new SimpleCommand(Category.MUSIC) {
 
@@ -166,7 +166,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void pause(CommandRegistry cr) {
 		cr.register("pause", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -194,7 +194,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void play(CommandRegistry cr) {
 		cr.register("play", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -227,7 +227,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void queue(CommandRegistry cr) {
 		cr.register("queue", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -274,7 +274,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void removetrack(CommandRegistry cr) {
 		cr.register("removetrack", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -373,7 +373,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void repeat(CommandRegistry cr) {
 		cr.register("repeat", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -423,7 +423,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void shuffle(CommandRegistry cr) {
 		cr.register("shuffle", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -448,7 +448,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void skip(CommandRegistry cr) {
 		cr.register("skip", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -498,7 +498,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void stop(CommandRegistry cr) {
 		cr.register("stop", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -547,7 +547,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void volume(CommandRegistry cr) {
 		cr.register("volume", new SimpleCommand(Category.MUSIC) {
 			@Override

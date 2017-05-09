@@ -13,12 +13,11 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
 public class OptsCmd {
 	private static final Logger LOGGER = LoggerFactory.getLogger("Options");
 	private static final Map<String, BiConsumer<GuildMessageReceivedEvent, String[]>> options = new HashMap<>();
-	private static Command optsCmd;
+	private static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
 
 	static {
 		//region resetmoney
@@ -659,7 +658,7 @@ public class OptsCmd {
 		});
 	}
 
-	@Event
+	@Command
 	public static void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
 			@Override

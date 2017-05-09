@@ -13,7 +13,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -27,7 +27,7 @@ import java.util.List;
 @Slf4j
 @Module
 public class QuoteCmd {
-	@Event
+	@Command
 	public static void quote(CommandRegistry cr) {
 		cr.register("quote", new SimpleCommand(Category.MISC) {
 			@Override

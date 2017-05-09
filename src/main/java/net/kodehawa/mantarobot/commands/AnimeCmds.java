@@ -11,7 +11,7 @@ import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class AnimeCmds {
 	public static String authToken;
 
-	@Event
+	@Command
 	public static void anime(CommandRegistry cr) {
 		cr.register("anime", new SimpleCommand(Category.FUN) {
 			@Override
@@ -102,7 +102,7 @@ public class AnimeCmds {
 		}
 	}
 
-	@Event
+	@Command
 	public static void character(CommandRegistry cr) {
 		cr.register("character", new SimpleCommand(Category.FUN) {
 			@Override
@@ -149,7 +149,7 @@ public class AnimeCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void onPostLoad(PostLoadEvent e) {
 		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900);
 	}

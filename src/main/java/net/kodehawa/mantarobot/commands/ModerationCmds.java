@@ -11,7 +11,7 @@ import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -34,7 +34,7 @@ public class ModerationCmds {
     public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
             "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 
-    @Event
+    @Command
     public static void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -152,7 +152,7 @@ public class ModerationCmds {
         });
     }
 
-    @Event
+    @Command
     public static void ban(CommandRegistry cr) {
         cr.register("ban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -249,7 +249,7 @@ public class ModerationCmds {
         });
     }
 
-    @Event
+    @Command
     public static void kick(CommandRegistry cr) {
         cr.register("kick", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -349,7 +349,7 @@ public class ModerationCmds {
         });
     }
 
-    @Event
+    @Command
     public static void prune(CommandRegistry cr) {
         cr.register("prune", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -479,7 +479,7 @@ public class ModerationCmds {
         });
     }
 
-    @Event
+    @Command
     public static void tempban(CommandRegistry cr) {
         cr.register("tempban", new SimpleCommand(Category.MODERATION) {
             @Override

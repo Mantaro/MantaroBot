@@ -19,12 +19,11 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -44,7 +43,7 @@ import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 @Module
 public class InfoCmds {
 
-	@Event
+	@Command
 	public static void about(CommandRegistry cr) {
 		cr.register("about", new SimpleCommand(Category.INFO) {
 			@Override
@@ -141,7 +140,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void avatar(CommandRegistry cr) {
 		cr.register("avatar", new SimpleCommand(Category.INFO) {
 			@Override
@@ -165,7 +164,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void guildinfo(CommandRegistry cr) {
 		cr.register("serverinfo", new SimpleCommand(Category.INFO) {
 			@Override
@@ -208,7 +207,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void help(CommandRegistry cr) {
 		Random r = new Random();
 		List<String> jokes = Collections.unmodifiableList(Arrays.asList(
@@ -241,7 +240,7 @@ public class InfoCmds {
 					event.getChannel().sendMessage(embed.build()).queue();
 
 				} else {
-					Command command = CommandProcessor.REGISTRY.commands().get(content);
+					net.kodehawa.mantarobot.modules.commands.base.Command command = CommandProcessor.REGISTRY.commands().get(content);
 
 					if (command != null) {
 						final MessageEmbed help = command.help(event);
@@ -269,7 +268,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void info(CommandRegistry cr) {
 		cr.register("info", new SimpleCommand(Category.INFO) {
 			@Override
@@ -312,7 +311,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void invite(CommandRegistry cr) {
 		cr.register("invite", new SimpleCommand(Category.INFO) {
 			@Override
@@ -336,12 +335,12 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void onPostLoad(PostLoadEvent e) {
 		start();
 	}
 
-	@Event
+	@Command
 	public static void ping(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
@@ -370,7 +369,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void shard(CommandRegistry cr) {
 		cr.register("shardinfo", new SimpleCommand(Category.INFO) {
 			@Override
@@ -409,7 +408,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void stats(CommandRegistry cr) {
 		cr.register("stats", new SimpleCommand(Category.INFO) {
 			@Override
@@ -578,7 +577,7 @@ public class InfoCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void userinfo(CommandRegistry cr) {
 		cr.register("userinfo", new SimpleCommand(Category.INFO) {
 			@Override

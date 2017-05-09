@@ -14,13 +14,12 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Event;
+import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -45,7 +44,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Module
 public class CustomCmds {
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
-	private static final Command customCommand = new AbstractCommand(null) {
+	private static final net.kodehawa.mantarobot.modules.commands.base.Command customCommand = new AbstractCommand(null) {
 
 		@Override
 		public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -127,7 +126,7 @@ public class CustomCmds {
 		}
 	};
 
-	@Event
+	@Command
 	public static void custom(CommandRegistry cr) {
 		String any = "[\\d\\D]*?";
 		Pattern addPattern = Pattern.compile(";", Pattern.LITERAL),
@@ -463,7 +462,7 @@ public class CustomCmds {
 		});
 	}
 
-	@Event
+	@Command
 	public static void onPostLoad(PostLoadEvent e) {
 		db().getCustomCommands().forEach(custom -> {
 			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !CommandProcessor.REGISTRY.commands().get(custom.getName()).equals(customCommand)) {
