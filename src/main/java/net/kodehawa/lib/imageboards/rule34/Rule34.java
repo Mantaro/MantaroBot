@@ -35,7 +35,11 @@ public class Rule34 {
 	private static List<Hentai> get(int limit, String search) {
 		queryParams.put("limit", limit);
 		Hentai[] wallpapers;
-		Optional.ofNullable(search).ifPresent((element) -> queryParams.put("tags", search.toLowerCase().trim()));
+		Optional.ofNullable(search).ifPresent((element) ->{
+			queryParams.put("tags", search.toLowerCase().trim());
+			queryParams.remove("page");
+		});
+
 		try {
 			String response = Unirest.get("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams))
 				.header("User-Agent", "Mantaro")

@@ -175,6 +175,7 @@ public class ImageCmds {
 								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>e621 tags <tag>").queue();
 								return;
 							}
+
 							e621.onSearch(r.nextInt(50), 60, tags, images -> {
 								try {
 									try {
@@ -194,7 +195,7 @@ public class ImageCmds {
 										.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException e) {
+								} catch (IndexOutOfBoundsException | IllegalArgumentException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
 							});

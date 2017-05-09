@@ -41,7 +41,10 @@ public class e621 {
 		Map<String, Object> queryParams = new MapObject<String, Object>()
 			.with("limit", limit).with("page", page);
 		Furry[] wallpapers;
-		Optional.ofNullable(search).ifPresent((element) -> queryParams.put("tags", search.toLowerCase().trim()));
+		Optional.ofNullable(search).ifPresent((element) ->{
+			queryParams.put("tags", search.toLowerCase().trim());
+			queryParams.remove("page");
+		});
 		try {
 			String response = this.resty.text("https://e621.net/post/index.json" + "?" + Utils.urlEncodeUTF8(queryParams)).toString();
 			wallpapers = GsonDataManager.GSON_PRETTY.fromJson(response, Furry[].class);

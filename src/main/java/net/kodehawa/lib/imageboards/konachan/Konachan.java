@@ -59,7 +59,11 @@ public class Konachan {
 	private List<Wallpaper> get(int page, int limit, String search) {
 		this.queryParams.put("limit", limit);
 		this.queryParams.put("page", page);
-		Optional.ofNullable(search).ifPresent((element) -> this.queryParams.put("tags", search.toLowerCase().trim()));
+		Optional.ofNullable(search).ifPresent((element) ->{
+			queryParams.put("tags", search.toLowerCase().trim());
+			queryParams.remove("page");
+		});
+
 		String response;
 		try {
 			response = this.resty.text("http://konachan.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
