@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -705,6 +706,11 @@ public class CurrencyCmds {
 					toSend = Math.abs(Long.parseLong(args[1]));
 				} catch (Exception e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the amount.").queue();
+					return;
+				}
+
+				if(toSend == 0){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer no money :P").queue();
 					return;
 				}
 

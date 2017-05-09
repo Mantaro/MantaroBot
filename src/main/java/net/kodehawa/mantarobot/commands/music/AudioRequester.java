@@ -5,10 +5,12 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 
@@ -49,7 +51,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 				if (i < MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()) {
 					loadSingle(track, true);
 				} else {
-					event.getChannel().sendMessage(":warning: The queue you added had more than " + MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() + " songs, so we added songs until this limit and ignored the rest.").queue();
+					event.getChannel().sendMessage(String.format(":warning: The queue you added had more than %d songs, so we added songs until this limit and ignored the rest.", MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit())).queue();
 					break;
 				}
 			} else {
@@ -73,7 +75,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 	@Override
 	public void noMatches() {
-		event.getChannel().sendMessage("Nothing found by " + (trackUrl.startsWith("ytsearch:") ? trackUrl.substring(9) : trackUrl) + ".").queue();
+		event.getChannel().sendMessage(String.format("Nothing found by %s.", trackUrl.startsWith("ytsearch:") ? trackUrl.substring(9) : trackUrl)).queue();
 		if (musicManager.getTrackScheduler().isStopped())
 			event.getGuild().getAudioManager().closeAudioConnection();
 	}
@@ -94,14 +96,19 @@ public class AudioRequester implements AudioLoadResultHandler {
 	}
 
 	private void loadSingle(AudioTrack audioTrack, boolean silent) {
-		long queueLimit = !Optional.ofNullable(MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()).
-			isPresent() ? MAX_QUEUE_LENGTH : MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit();
+		AudioTrackInfo trackInfo = audioTrack.getInfo();
+		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+		String title = trackInfo.title;
+		long length = trackInfo.length;
+
+		long queueLimit = !Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).
+			isPresent() ? MAX_QUEUE_LENGTH : dbGuild.getData().getMusicQueueSizeLimit();
 
 		if (getMusicManager().getTrackScheduler().getQueue().size() > queueLimit
 			&& !MantaroData.db().getUser(event.getMember()).isPremium()
-			&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
+			&& !dbGuild.isPremium()) {
 			if (!silent)
-				event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Surpassed queue song limit!").queue(
+				event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Surpassed queue song limit!", title)).queue(
 					message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
 				);
 			if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
@@ -109,8 +116,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 		}
 
 		if (audioTrack.getInfo().length > MAX_SONG_LENGTH && !MantaroData.db().getUser(event.getMember()).isPremium()
-			&& !MantaroData.db().getGuild(event.getGuild()).isPremium()) {
-			event.getChannel().sendMessage(":warning: Could not queue " + audioTrack.getInfo().title + ": Track is longer than 21 minutes! (" + AudioUtils.getLength(audioTrack.getInfo().length) + ")").queue();
+			&& !dbGuild.isPremium()) {
+			event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 21 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
 			if (musicManager.getTrackScheduler().isStopped())
 				event.getGuild().getAudioManager().closeAudioConnection(); //do you?
 			return;
@@ -120,8 +127,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 		if (!silent) {
 			event.getChannel().sendMessage(
-				"\uD83D\uDCE3 Added to queue -> **" + audioTrack.getInfo().title + "**"
-					+ " **!(" + AudioUtils.getLength(audioTrack.getInfo().length) + ")**"
+					String.format("\uD83D\uDCE3 Added to queue -> **%s** **!(%s)**", title, AudioUtils.getLength(length))
 			).queue();
 		}
 	}

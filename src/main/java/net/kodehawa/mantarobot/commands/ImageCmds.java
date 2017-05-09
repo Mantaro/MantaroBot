@@ -380,7 +380,7 @@ public class ImageCmds {
 
 						} catch (Exception exception) {
 							if (exception instanceof NumberFormatException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue();
 						}
 						break;
 					case "tags":

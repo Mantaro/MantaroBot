@@ -61,7 +61,7 @@ public class InfoCmds {
 						.setColor(Color.PINK)
 						//<3
 						.addField("Special Mentions",
-								"**MrLar#8117** $90 pledge. <3 + $200 donation. <3\n" +
+								"**MrLar#8117** $101 pledge. <3 + $200 donation. <3\n" +
 								"**Quartermaster#1262** $40 pledge",false)
 						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();

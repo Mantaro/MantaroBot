@@ -33,7 +33,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.DV8FromTheWorld:JDA:bug~audio-lock-fix-SNAPSHOT'
+	compile 'net.dv8tion:JDA:3.0.0_191'
 
 	compile 'com.sedmelluq:lavaplayer:1.2.36'
 	compile 'com.sedmelluq:jda-nas:1.0.5'

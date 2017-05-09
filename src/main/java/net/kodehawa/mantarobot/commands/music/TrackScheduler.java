@@ -5,10 +5,12 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
@@ -73,13 +75,19 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private void announce() {
 		try {
-			if (getCurrentTrack() != null && getCurrentTrack().getRequestedChannel() != null && getCurrentTrack().getRequestedChannel().canTalk())
+			TextChannel req = getCurrentTrack().getRequestedChannel();
+			AudioTrackInfo trackInfo = getCurrentTrack().getInfo();
+			String title = trackInfo.title;
+			long trackLength = trackInfo.length;
+
+			if (getCurrentTrack() != null && req != null && req.canTalk()){
 				getCurrentTrack().getRequestedChannel()
-					.sendMessage("\uD83D\uDCE3 Now playing in **" + getAudioManager().getConnectedChannel().getName()
-						+ "**: " + getCurrentTrack().getInfo().title + " (" + AudioUtils.getLength(getCurrentTrack().getInfo().length) + ")"
-						+ (getCurrentTrack().getDJ() != null ? " requested by **" + getCurrentTrack().getDJ().getName() + "**" : "")).queue(
-					message -> message.delete().queueAfter(90, TimeUnit.SECONDS)
+						.sendMessage(String.format("\uD83D\uDCE3 Now playing in **%s**: %s (%s)%s",
+								req.getName(), title, AudioUtils.getLength(trackLength), getCurrentTrack().getDJ() != null ?
+										" requested by **" + getCurrentTrack().getDJ().getName() + "**" : "")).queue(
+						message -> message.delete().queueAfter(90, TimeUnit.SECONDS)
 				);
+			}
 		} catch (Exception ignored) {}
 	}
 
