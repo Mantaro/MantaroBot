@@ -134,8 +134,8 @@ public class FunCmds {
 						user.getData().setMarriedWith(null);
 						user.getData().setMarriedSince(0L);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
-						marriedWith.save();
-						user.save();
+						marriedWith.saveAsync();
+						user.saveAsync();
 
 						TextChannelGround.of(event).dropItem(Items.LOVE_LETTER);
 					} catch (NullPointerException e) {

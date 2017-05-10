@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
@@ -107,16 +108,18 @@ public class UtilsCmds {
 
 				Date bd1;
 				try {
-					String[] parts = args[0].split("-");
+					String bd;
+					bd = content.replace("/", "-");
+					String[] parts = bd.split("-");
 					if (Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid date.").queue();
 						return;
 					}
 
-					bd1 = format1.parse(args[0]);
+					bd1 = format1.parse(bd);
 				} catch (Exception e) {
 					Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage("\u274C" + args[0] + " is either not a " +
-						"valid date or not parseable. Please try with the correct formatting!").queue()));
+						"valid date or not parseable. Please try with the correct formatting. Remember to include the year (though you can put any year)").queue()));
 					return;
 				}
 
@@ -164,7 +167,7 @@ public class UtilsCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return baseEmbed(event, "Choose Command")
 					.setDescription("**Choose between 1 or more things\n" +
-						"It accepts all parameters it gives (Also in quotes) and chooses a random one.**")
+						"It accepts all parameters it gives (Also in quotes to account for spaces if used) and chooses a random one.**")
 					.build();
 			}
 		});
@@ -218,8 +221,16 @@ public class UtilsCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
+					DBUser user = MantaroData.db().getUser(event.getMember());
+					if(user.getData().getTimezone() != null && args.length == 0){
+						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(user.getData().getTimezone()) +
+								" in the " + user.getData().getTimezone() + " " +
+								"timezone").queue();
+						return;
+					}
 					event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(content) + " in the " + content + " " +
 							"timezone").queue();
+
 				} catch (Exception e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
 				}
@@ -569,7 +580,7 @@ public class UtilsCmds {
 		});
 	}
 
-	private static String dateGMT(String tz) {
+	static String dateGMT(String tz) {
 		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
 		if(!tz.contains("GMT")){

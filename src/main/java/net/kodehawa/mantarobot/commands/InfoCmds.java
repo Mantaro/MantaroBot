@@ -355,7 +355,10 @@ public class InfoCmds {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
+					//This is what happens when you donate $100.
+					if(event.getAuthor().getId().equals("132584525296435200")){
+						event.getChannel().sendMessage(EmoteReference.MEGA + "Hubby, my ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms` :heart:").queue();
+					} else event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
 					TextChannelGround.of(event).dropItemWithChance(5, 5);
 				});
 			}

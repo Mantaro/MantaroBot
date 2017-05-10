@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -17,6 +18,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
@@ -496,7 +498,28 @@ public class CurrencyCmds {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Player player = MantaroData.db().getPlayer(event.getMember());
+				DBUser u1 = MantaroData.db().getUser(event.getMember());
 				User author = event.getAuthor();
+
+				if(args.length > 0 && args[0].equals("timezone")){
+
+					if(args.length < 2){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
+						return;
+					}
+
+					try {
+						UtilsCmds.dateGMT(args[1]);
+					} catch (Exception e){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
+						return;
+					}
+
+					u1.getData().setTimezone(args[1]);
+					u1.saveAsync();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved timezone, your profile timezone is now: **" + args[1] + "**") .queue();
+					return;
+				}
 
 				if (args.length > 0 && args[0].equals("description")) {
 					if (args.length == 1) {
