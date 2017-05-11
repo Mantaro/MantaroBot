@@ -5,6 +5,7 @@
         <h1>MantaroBot</h1>
         <p><b>Anime, Music, Moderation, weather information, osu! and everything you might want in a customizable and stable bot</b></p>
     </header>
+            <center><a href='http://web.server.brjdevs.com.br:8081/job/Mantaro'><img                         src='http://web.server.brjdevs.com.br:8081/job/Mantaro/badge/icon'></a></center>
     <body>
         <hr>
         <h2>Using the Official Mantaro Bot</h2>
