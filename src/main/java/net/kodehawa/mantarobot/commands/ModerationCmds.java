@@ -9,6 +9,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
@@ -537,7 +538,7 @@ public class ModerationCmds {
                     channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName())
                             .queue();
                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
-                    MantaroBot.getInstance().getTempBanManager().addTempban(
+                    MantaroBot.getTempBanManager().addTempban(
                             guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
                     TextChannelGround.of(event).dropItemWithChance(1, 2);
                 });
@@ -561,14 +562,21 @@ public class ModerationCmds {
         registry.register("mute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                ManagedDatabase db = MantaroData.db();
+                DBGuild dbGuild = db.getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
+                String reason = "Not specified";
+
                 if(guildData.getMutedRole() == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "The mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`").queue();
                     return;
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
+
+                if(args.length > 1){
+                    reason = StringUtils.splitArgs(content, 2)[1];
+                }
 
                 if(event.getMessage().getMentionedUsers().isEmpty()){
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mentione at least one user to mute.").queue();
@@ -580,6 +588,8 @@ public class ModerationCmds {
                     return;
                 }
 
+                final String finalReason = reason;
+
                 event.getMessage().getMentionedUsers().forEach(user -> {
                     Member m = event.getGuild().getMember(user);
                     if(!event.getGuild().getSelfMember().canInteract(m)){
@@ -590,11 +600,13 @@ public class ModerationCmds {
                     if(m.getRoles().contains(mutedRole)){
                         event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
+                        ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
                         return;
                     }
 
                     event.getGuild().getController().addRolesToMember(m, mutedRole).queue();
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Added mute role to **" + m.getEffectiveName() + "**").queue();
+                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, db.getGuild(event.getGuild()).getData().getCases());
                 });
             }
 

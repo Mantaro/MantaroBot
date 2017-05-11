@@ -603,7 +603,8 @@ public class CurrencyCmds {
 					.setDescription("**Retrieves your current user profile.**")
 					.addField("Usage", "To retrieve your profile, `~>profile~\n" +
 							"To change your description do `~>profile description set <description>\n" +
-							"To clear it, just do `~>profile description clear`", false)
+							"To clear it, just do `~>profile description clear`\n" +
+							"To set your timezone do `~>profile timezone <timezone>`", false)
 					.build();
 			}
 		});

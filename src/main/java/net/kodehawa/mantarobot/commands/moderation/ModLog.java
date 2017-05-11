@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 public class ModLog {
 
 	public enum ModAction {
-		TEMP_BAN, BAN, KICK
+		TEMP_BAN, BAN, KICK, MUTE, UNMUTE
 	}
 
 	public static void log(Member author, User target, String reason, ModAction action, long caseN, String... time) {
@@ -30,6 +30,12 @@ public class ModLog {
 				break;
 			case KICK:
 				embedBuilder.setAuthor("Kick | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
+				break;
+			case MUTE:
+				embedBuilder.setAuthor("Mute | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
+				break;
+			case UNMUTE:
+				embedBuilder.setAuthor("Un-mute | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
 		}
 		if (guildDB.getData().getGuildLogChannel() != null) {
