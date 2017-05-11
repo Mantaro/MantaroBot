@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
@@ -159,7 +160,9 @@ public class ImageCmds {
 
 						} catch (Exception exception) {
 							if (exception instanceof NumberFormatException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue(
+										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+								);
 						}
 						break;
 
@@ -200,7 +203,9 @@ public class ImageCmds {
 							});
 						} catch (Exception exception) {
 							if (exception instanceof NumberFormatException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue(
+										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+								);
 						}
 						break;
 					default:
@@ -263,7 +268,9 @@ public class ImageCmds {
 							channel.sendMessage(builder.build()).queue();
 						} catch (Exception exception) {
 							if (exception instanceof NumberFormatException)
-								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue();
+								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
+										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+								);
 							if (exception instanceof IndexOutOfBoundsException)
 								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
@@ -307,7 +314,9 @@ public class ImageCmds {
 							}
 
 							if (exception instanceof NumberFormatException)
-								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue();
+								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
+										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+								);
 						}
 						break;
 					default:
@@ -380,7 +389,9 @@ public class ImageCmds {
 
 						} catch (Exception exception) {
 							if (exception instanceof NumberFormatException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue(
+										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+								);
 						}
 						break;
 					case "tags":
@@ -422,7 +433,9 @@ public class ImageCmds {
 								});
 							} catch (Exception exception) {
 								if (exception instanceof NumberFormatException)
-									event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue(
+											message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+									);
 							}
 						} catch (NullPointerException e) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Rule34 decided to not fetch the image. Well, you can try with another number or tag.").queue();
