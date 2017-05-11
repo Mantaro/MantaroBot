@@ -579,7 +579,7 @@ public class ModerationCmds {
                 }
 
                 if(event.getMessage().getMentionedUsers().isEmpty()){
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mentione at least one user to mute.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user to mute.").queue();
                     return;
                 }
 
