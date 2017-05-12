@@ -86,7 +86,7 @@ public class AnimeCmds {
 	 */
 	public static void authenticate() {
 		String aniList = "https://anilist.co/api/auth/access_token";
-		String CLIENT_ID = "kodehawa-o43eq";
+		String CLIENT_ID = MantaroData.config().get().getAlClient();
 		try {
 			authToken = Unirest.post(aniList)
 				.header("User-Agent", "Mantaro")

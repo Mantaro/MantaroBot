@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Config {
 	public String alsecret;
+	public String alClient;
 	public String bugreportChannel;
 	public boolean cacheGames = false;
 	public String carbonToken;

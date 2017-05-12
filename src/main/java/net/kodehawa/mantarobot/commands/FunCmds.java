@@ -102,49 +102,35 @@ public class FunCmds {
 					return;
 				}
 
-				if (args[0].equals("divorce") || args[0].equals("anniversarystart")) {
-					try {
-						Player user = MantaroData.db().getPlayer(event.getMember());
+				if (args[0].equals("divorce")) {
+					Player user = MantaroData.db().getPlayer(event.getMember());
 
-						if (user.getData().getMarriedWith() == null) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't married with anyone, why don't you get started?").queue();
-							return;
-						}
-
-						User user1 = user.getData().getMarriedWith() == null
-								? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
-						Player marriedWith = MantaroData.db().getPlayer(user1);
-
-						if(args[0].equals("anniversarystart")){
-							if(user.getData().getMarriedSince() == null && user1 != null) {
-								user.getData().setMarriedSince(System.currentTimeMillis());
-								marriedWith.getData().setMarriedSince(System.currentTimeMillis());
-								user.saveAsync();
-								marriedWith.saveAsync();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Set anniversary date.").queue();
-								return;
-							}
-
-							event.getChannel().sendMessage(EmoteReference.ERROR + "Either you're already married and your date is set or you're single :(").queue();
-							return;
-						}
-
-						marriedWith.getData().setMarriedWith(null);
-						marriedWith.getData().setMarriedSince(0L);
-						user.getData().setMarriedWith(null);
-						user.getData().setMarriedSince(0L);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
-						marriedWith.saveAsync();
-						user.saveAsync();
-
-						TextChannelGround.of(event).dropItem(Items.LOVE_LETTER);
-					} catch (NullPointerException e) {
-						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedWith(null);
-						MantaroData.db().getPlayer(event.getMember()).getData().setMarriedSince(0L);
-						MantaroData.db().getPlayer(event.getMember()).save();
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
+					if (user.getData().getMarriedWith() == null) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You aren't married with anyone, why don't you get started?").queue();
+						return;
 					}
 
+					User user1 = user.getData().getMarriedWith() == null
+							? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
+
+					if(user1 == null){
+						user.getData().setMarriedWith(null);
+						user.getData().setMarriedSince(0L);
+						user.save();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
+						return;
+					}
+
+					Player marriedWith = MantaroData.db().getPlayer(user1);
+
+					marriedWith.getData().setMarriedWith(null);
+					marriedWith.save();
+					marriedWith.getData().setMarriedSince(0L);
+
+					user.getData().setMarriedWith(null);
+					user.getData().setMarriedSince(0L);
+					user.save();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 					return;
 				}
 
