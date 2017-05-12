@@ -750,6 +750,10 @@ public class CurrencyCmds {
 				}
 
 				Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
+				if (toTransfer.getMoney() + toSend < 0) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
+					return;
+				}
 				if (toTransfer.addMoney(toSend)) {
 					transferPlayer.removeMoney(toSend);
 					transferPlayer.save();
