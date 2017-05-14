@@ -40,6 +40,13 @@ public class VoiceLeave implements Runnable {
                             if (voiceChannel.getMembers().size() == 1) {
                                 channel.sendMessage(EmoteReference.THINKING + "I decided to leave **" + voiceChannel.getName() + "** because I was left all " +
                                         "alone :<").queue();
+
+                                if (mm.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null) {
+                                    mm.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
+                                    mm.getTrackScheduler().getQueue().clear();
+                                    mm.getTrackScheduler().next(true);
+                                }
+
                                 guild.getAudioManager().closeAudioConnection();
                             }
                         }

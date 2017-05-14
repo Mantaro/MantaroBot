@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.rethinkdb.RethinkDB;
+import com.rethinkdb.net.Cursor;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDAInfo;
@@ -27,9 +29,12 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.awt.Color;
 import java.lang.management.ManagementFactory;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -278,8 +283,28 @@ public class InfoCmds {
 				int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
 					voiceChannel.getGuild().getSelfMember())).count();
 
+				Cursor<HashMap> o =
+						RethinkDB.r.db("rethinkdb")
+								.table("server_status")
+								.run(MantaroData.conn());
+
+				String cacheSizeMB;
+				String rethonkVersion;
+				String hostName;
+				String timeConnected;
+
+				HashMap save = o.next();
+
+				HashMap process = (HashMap) save.get("process");
+				HashMap network = (HashMap) save.get("network");
+				rethonkVersion = process.get("version").toString();
+				cacheSizeMB = process.get("cache_size_mb").toString();
+				timeConnected = process.get("time_started").toString();
+
+				hostName = network.get("hostname").toString();
+
 				event.getChannel().sendMessage("```prolog\n"
-					+ "---MantaroBot Technical Information---\n\n"
+						+ " --------- Technical Information --------- \n\n"
 					+ "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
 					+ "Bot Version: " + MantaroInfo.VERSION + "\n"
 					+ "JDA Version: " + JDAInfo.VERSION + "\n"
@@ -288,7 +313,7 @@ public class InfoCmds {
 					+ "CPU Usage: " + getVpsCPUUsage() + "%" + "\n"
 					+ "CPU Cores: " + getAvailableProcessors() + "\n"
 					+ "Shard Info: " + event.getJDA().getShardInfo()
-					+ "\n\n ------------------ \n\n"
+					+ "\n\n --------- Mantaro Information --------- \n\n"
 					+ "Guilds: " + guilds.size() + "\n"
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
@@ -299,6 +324,13 @@ public class InfoCmds {
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
 					+ "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize() + "\n"
+					+ "\n\n --------- RethinkDB Information --------- \n\n"
+					+ "RethinkDB Version: " + rethonkVersion + "\n"
+						+ "Time Connected: " + DurationFormatUtils.formatDuration(
+						Duration.between(Instant.parse(timeConnected), Instant.now()).toMillis(),
+						"HH:mm:ss", true) + "\n"
+					+ "Cache Size: " + String.format("%.02f", Float.parseFloat(cacheSizeMB)) + "MB" + "\n"
+					+ "Hostname: " + hostName
 					+ "```").queue();
 			}
 
@@ -381,11 +413,8 @@ public class InfoCmds {
 				for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
 					builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
 						.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append(" | L: ")
-						.append(String.format("%02d:%02d",
-							TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT),
-							TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT) -
-								TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(shard.getEventManager().LAST_EVENT - System.currentTimeMillis()))
-						))
+						.append(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT)
+						.append(" ms.")
 						.append(" | MC: ")
 						.append(shard.getJDA().getVoiceChannels().stream().filter
 							(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()))

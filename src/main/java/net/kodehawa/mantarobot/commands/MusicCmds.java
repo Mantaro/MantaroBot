@@ -517,6 +517,7 @@ public class MusicCmds {
 						stop(event);
 						return;
 					}
+
 					List<String> stopVotes = scheduler.getVoteStop();
 					int requiredVotes = scheduler.getRequiredSkipVotes();
 					if (stopVotes.contains(event.getAuthor().getId())) {
