@@ -460,12 +460,12 @@ public class InfoCmds {
 					IntSummaryStatistics textChannelsPerGuild = calculateInt(guilds, value -> value.getTextChannels().size());
 					IntSummaryStatistics voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
 
-					int c = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
+					int musicConnections = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
 						voiceChannel.getGuild().getSelfMember())).count();
 					long exclusiveness = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
-					double cG = (double) c / (double) guilds.size() * 100;
-					double ex = (double) exclusiveness / (double) guilds.size() * 100;
-					long bG = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count();
+					double musicConnectionsPerServer = (double) musicConnections / (double) guilds.size() * 100;
+					double exclusivenessPercent = (double) exclusiveness / (double) guilds.size() * 100;
+					long bigGuilds = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count();
 
 					event.getChannel().sendMessage(
 						new EmbedBuilder()
@@ -480,11 +480,11 @@ public class InfoCmds {
 							.addField("Voice Channels per Server", String.format(Locale.ENGLISH, "Min: %d\nAvg: %.1f\nMax: %d", voiceChannelsPerGuild.getMin(), voiceChannelsPerGuild.getAverage(), voiceChannelsPerGuild.getMax()), true)
 							.addField("Music Listeners per Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerUsersPerGuilds.getMin(), listeningUsersPerUsersPerGuilds.getAverage(), listeningUsersPerUsersPerGuilds.getMax()), true)
 							.addField("Music Listeners per Online Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.getMin(), listeningUsersPerOnlineUsersPerGuilds.getAverage(), listeningUsersPerOnlineUsersPerGuilds.getMax()), true)
-							.addField("Music Connections per Server", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", cG, c), true)
+							.addField("Music Connections per Server", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", musicConnectionsPerServer, musicConnections), true)
 							.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
 							.addField("Total commands (including custom)", String.valueOf(CommandProcessor.REGISTRY.commands().size()), true)
-							.addField("Exclusiveness in Total Servers", Math.round(ex) + "% (" + exclusiveness + ")", false)
-							.addField("Big Servers", String.valueOf(bG), true)
+							.addField("Exclusiveness in Total Servers", Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
+							.addField("Big Servers", String.valueOf(bigGuilds), true)
 							.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
 								, event.getJDA().getSelfUser().getAvatarUrl())
 							.build()
