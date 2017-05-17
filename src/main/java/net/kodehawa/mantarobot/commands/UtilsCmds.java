@@ -221,6 +221,8 @@ public class UtilsCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
+					content = content.replace("UTC", "GMT");
+
 					DBUser user = MantaroData.db().getUser(event.getMember());
 					if(user.getData().getTimezone() != null && args.length == 0){
 						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(user.getData().getTimezone()) +

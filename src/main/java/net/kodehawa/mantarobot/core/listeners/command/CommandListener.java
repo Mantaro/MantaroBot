@@ -89,10 +89,6 @@ public class CommandListener implements EventListener {
 	}
 
 	private void onCommand(GuildMessageReceivedEvent event) {
-		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId())) {
-			return;
-		}
-
 		try {
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) &&
 					!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))

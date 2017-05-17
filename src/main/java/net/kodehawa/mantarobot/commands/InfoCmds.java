@@ -20,6 +20,8 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
@@ -229,10 +231,12 @@ public class InfoCmds {
 				if (content.isEmpty()) {
 					String defaultPrefix = MantaroData.config().get().prefix, guildPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 					String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
+					DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+					GuildData guildData = dbGuild.getData();
 
 					EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
 						.setColor(Color.PINK)
-						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix))
+						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix)  + (guildData.getDisabledCommands().isEmpty() ? "" : "\n" + "Only showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
 								CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
 							, prefix), null);
@@ -240,7 +244,7 @@ public class InfoCmds {
 					Arrays.stream(Category.values())
 						.filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
 						.filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
-						.forEach(c -> embed.addField(c + " Commands:", forType(c), false));
+						.forEach(c -> embed.addField(c + " Commands:", forType(guildData, c), false));
 
 					event.getChannel().sendMessage(embed.build()).queue();
 

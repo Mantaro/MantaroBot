@@ -23,18 +23,22 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import static net.dv8tion.jda.core.audio.hooks.ConnectionStatus.CONNECTING_AWAITING_ENDPOINT;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
@@ -51,6 +55,9 @@ public class MantaroListener implements EventListener {
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 
 	private final int shardId;
+	public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
+			"([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
+	private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
 	public MantaroListener(int shardId) {
 		this.shardId = shardId;
@@ -58,6 +65,7 @@ public class MantaroListener implements EventListener {
 
 	@Override
 	public void onEvent(Event event) {
+
 		if (event instanceof ShardMonitorEvent) {
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
 			return;
@@ -65,7 +73,7 @@ public class MantaroListener implements EventListener {
 
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-			Async.thread("BirthdayThread", () -> onBirthday(e));
+			Async.thread("BirthdayThread", () -> onMessage(e));
 			return;
 		}
 
@@ -137,6 +145,7 @@ public class MantaroListener implements EventListener {
 			logTotal++;
 		}
 	}
+
 
 	private void logDelete(GuildMessageDeleteEvent event) {
 		try {
@@ -217,7 +226,57 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	private void onBirthday(GuildMessageReceivedEvent event) {
+	private void onMessage(GuildMessageReceivedEvent event) {
+
+		//Moderation features
+		GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+
+		if(guildData.isLinkProtection()){
+			if(DISCORD_INVITE.matcher(event.getMessage().getContent()).find()
+					&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)){
+				Member bot = event.getGuild().getSelfMember();
+
+				if(bot.hasPermission(Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)){
+					User author = event.getAuthor();
+
+					//Ignore myself.
+					if(event.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())){
+						return;
+					}
+
+					//Ignore log channel.
+					if(guildData.getGuildLogChannel() != null && event.getChannel().getId().equals(guildData.getGuildLogChannel())){
+						return;
+					}
+
+					//Yes, I know the check previously done is redundant, but in case someone decides to change the law of nature, it should do	.
+
+					event.getMessage().delete().queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "**You cannot advertise here.** Deleted invite link sent by **" + author.getName() + "#" + author.getDiscriminator() + "**.").queue();
+				} else {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove the invite link because I don't have permission to delete messages!").queue();
+				}
+			}
+		}
+
+		if(guildData.isSlowMode()){
+			if (!slowModeLimiter.process(event.getAuthor().getId())) {
+				Member bot = event.getGuild().getSelfMember();
+				if(bot.hasPermission(Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
+					&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)){
+					event.getMessage().delete().queue();
+				}else {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
+					DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+					guildData.setSlowMode(false);
+					dbGuild.save();
+					event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions.**").queue();
+				}
+			}
+		}
+
+
+		//Birthday role checker.
 		try {
 			Role birthdayRole = event.getGuild().getRoleById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayRole());
 			UserData user = MantaroData.db().getUser(event.getMember()).getData();
@@ -241,7 +300,7 @@ public class MantaroListener implements EventListener {
 		} catch (Exception e) {
 			if (e instanceof PermissionException) {
 				resetBirthdays(event.getGuild());
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Error while applying birthday role, so the role assigner will be resetted.").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Error while applying birthday role, so the role assigner will be resetted. **Remember that the bot MUST have permissions to apply roles to that person, always**").queue();
 			}
 			//else ignore
 		}

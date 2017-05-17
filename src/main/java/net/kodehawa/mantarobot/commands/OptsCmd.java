@@ -2,10 +2,8 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandProcessor;
@@ -23,13 +21,13 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static java.util.Map.*;
 
 @Module
 public class OptsCmd {
@@ -592,6 +590,85 @@ public class OptsCmd {
 		});
 		//endregion
 		//endregion
+
+		registerOption("server:command:specific:disallow", (event, args) -> {
+			if (args.length == 0) {
+				onHelp(event);
+				return;
+			}
+
+			if(args.length < 2){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disalllow!").queue();
+				return;
+			}
+
+			String channelName = args[0];
+			String commandName = args[1];
+
+			if (CommandProcessor.REGISTRY.commands().get(commandName) == null) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
+				return;
+			}
+
+			if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
+				return;
+			}
+
+			if (commandName.equals("opts") || commandName.equals("help")) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable the options or the help command.")
+						.queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			String id = event.getGuild().getTextChannelsByName(channelName, true).get(0).getId();
+			guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
+
+			guildData.getChannelSpecificDisabledCommands().get(id).add(commandName);
+
+			event.getChannel().sendMessage(EmoteReference.MEGA + "Disabled " + commandName + " on channel #" + channelName + ".").queue();
+			dbGuild.saveAsync();
+
+		});
+
+		registerOption("server:command:specific:allow", ((event, args) -> {
+			if (args.length == 0) {
+				onHelp(event);
+				return;
+			}
+
+			if(args.length < 2){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disalllow!").queue();
+				return;
+			}
+
+			String channelName = args[0];
+			String commandName = args[1];
+
+			if (CommandProcessor.REGISTRY.commands().get(commandName) == null) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
+				return;
+			}
+
+			if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			String id = event.getGuild().getTextChannelsByName(channelName, true).get(0).getId();
+
+			guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
+
+			guildData.getChannelSpecificDisabledCommands().get(id).remove(commandName);
+
+			event.getChannel().sendMessage(EmoteReference.MEGA + "Enabled " + commandName + " on channel #" + channelName + ".").queue();
+			dbGuild.saveAsync();
+		}));
 		//endregion
 
 		//region autoroles
@@ -692,10 +769,71 @@ public class OptsCmd {
 		});//endregion
 		//endregion
 
-		registerOption("lobby:reset", (event, args) -> {
+		registerOption("lobby:reset", event -> {
 			GameLobby.LOBBYS.remove(event.getChannel());
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
 		});
+
+		//region moderation
+		registerOption("linkprotection:toggle", event -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			boolean toggler = guildData.isLinkProtection();
+
+			guildData.setLinkProtection(!toggler);
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set link protection to " + "**" + !toggler + "**").queue();
+			dbGuild.save();
+		});
+
+		registerOption("slowmode:toggle", event -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			boolean toggler = guildData.isSlowMode();
+
+			guildData.setSlowMode(!toggler);
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set slowmode chat to " + "**" + !toggler + "**").queue();
+			dbGuild.save();
+		});
+		//endregion
+
+		registerOption("check:data", event -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			//Map as follows: name, value
+			Map<String, Object> fieldMap = mapObjects(guildData);
+
+			if(fieldMap == null){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot retrieve values. Weird thing...").queue();
+				return;
+			}
+
+			StringBuilder show = new StringBuilder();
+			show.append("Options set for server **")
+					.append(event.getGuild().getName())
+					.append("**\n\n");
+
+			for(Entry e : fieldMap.entrySet()){
+
+				show.append("Option `")
+						.append(e.getKey())
+						.append("`");
+
+				if(e.getValue() == null){
+					show.append(" **is not set to anything.")
+							.append("**\n");
+				} else {
+					show.append(" is set to: **")
+							.append(e.getValue())
+							.append("**\n");
+				}
+
+			}
+
+			Queue<Message> toSend = new MessageBuilder().append(show.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+
+			toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
+		});
+
 	}
 
 	@Command
@@ -752,5 +890,37 @@ public class OptsCmd {
 		Preconditions.checkArgument(!name.isEmpty(), "Name is empty");
 		Preconditions.checkNotNull(code, "code");
 		options.putIfAbsent(name, code);
+	}
+
+	/**
+	 *
+	 * Retrieves a map of objects in a class and its respective values.
+	 * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
+	 *
+	 * Modified it a bit. (Original: https://narendrakadali.wordpress.com/2011/08/27/41/)
+	 *
+	 * @since Aug 27, 2011 5:27:19 AM
+	 * @author Narendra
+	 */
+	private static HashMap<String, Object> mapObjects(Object valueObj)
+	{
+		try{
+			Class c1 = valueObj.getClass();
+			HashMap<String, Object> fieldMap = new HashMap();
+			Field[] valueObjFields = c1.getDeclaredFields();
+
+			for (int i = 0; i < valueObjFields.length; i++)
+			{
+				String fieldName = valueObjFields[i].getName();
+				valueObjFields[i].setAccessible(true);
+				Object newObj = valueObjFields[i].get(valueObj);
+
+				fieldMap.put(fieldName, newObj);
+			}
+
+			return fieldMap;
+		} catch (IllegalAccessException e){
+			return null;
+		}
 	}
 }

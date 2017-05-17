@@ -28,6 +28,8 @@ import java.util.concurrent.*;
 
 @Slf4j
 @Module
+
+//TODO rewrite
 public class OsuStatsCmd {
 	private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
 	private static Map<String, Object> map = new HashMap<>();

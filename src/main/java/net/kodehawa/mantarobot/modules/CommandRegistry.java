@@ -2,7 +2,9 @@ package net.kodehawa.mantarobot.modules;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -27,6 +29,12 @@ public class CommandRegistry {
 
 	public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
 		Command cmd = commands.get(cmdname);
+
+		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
+			return false;
+		}
+
+
 		if (cmd == null) return false;
 		if (!cmd.permission().test(event.getMember())) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();

@@ -346,12 +346,7 @@ public class MusicCmds {
 
 					event.getChannel().sendMessage(
 						EmoteReference.CORRECT +
-							"Removed track(s) **" + (
-							Arrays.stream(selected.toArray())
-								.mapToObj(list::remove)
-								.map(track -> track.getInfo().title)
-								.collect(Collectors.joining("**, **"))
-						) + "** from the queue."
+							"Removed **" + selected.size() + "** track(s) from the queue."
 					).queue();
 
 					TextChannelGround.of(event).dropItemWithChance(0, 10);

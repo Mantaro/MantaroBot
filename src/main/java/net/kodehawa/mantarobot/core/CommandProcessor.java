@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLAction;
@@ -93,8 +94,15 @@ public class CommandProcessor {
 
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];
+		GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
 
-		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledCommands().contains(cmdName)) {
+
+		if (data.getDisabledCommands().contains(cmdName)) {
+			return false;
+		}
+
+		if(data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) != null &&
+				data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).contains(cmdName)){
 			return false;
 		}
 

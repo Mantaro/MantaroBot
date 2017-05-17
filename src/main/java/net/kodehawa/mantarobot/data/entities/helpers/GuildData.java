@@ -4,11 +4,13 @@ import lombok.Data;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 public class GuildData {
 	private HashMap<String, String> autoroles = new HashMap<>();
+	private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
 	private String birthdayChannel = null;
 	private String birthdayRole = null;
 	private Long cases = 0L;
@@ -30,4 +32,6 @@ public class GuildData {
 	private Long quoteLastId = 0L;
 	private boolean rpgLocalMode = false;
 	private boolean rpgDevaluation = true;
+	private boolean linkProtection = false;
+	private boolean slowMode = false;
 }

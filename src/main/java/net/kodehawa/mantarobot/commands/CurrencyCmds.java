@@ -593,6 +593,7 @@ public class CurrencyCmds {
 					.addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
 					.addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) : "Not specified.", true)
 					.addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" + user1.getDiscriminator(), true)
+					.setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone() + " | Requested by " + event.getAuthor().getName()), event.getAuthor().getAvatarUrl())
 					.build()
 				).queue();
 			}
