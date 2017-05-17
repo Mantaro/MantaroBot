@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import gnu.trove.set.hash.TIntHashSet;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -600,7 +601,8 @@ public class MusicCmds {
 
 	private static boolean isDJ(Member member) {
 		Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
-		return member.isOwner() || (djRole != null && member.getRoles().contains(djRole));
+		return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(Permission.ADMINISTRATOR)
+				|| (djRole != null && member.getRoles().contains(djRole));
 	}
 
 	private static void sendNotConnectedToMyChannel(MessageChannel channel) {

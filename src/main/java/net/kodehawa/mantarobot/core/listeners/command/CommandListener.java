@@ -28,9 +28,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CommandListener implements EventListener {
 	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
 	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
-	//Message cache of 2500 messages. If it reaches 2500 it will delete the first one stored, and continue being 2500
+	//Message cache of 10000 messages. If it reaches 10000 it will delete the first one stored, and continue being 10000
 	@Getter
-	private static final Cache<String, Optional<Message>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(2500).build();
+	private static final Cache<String, Optional<Message>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(10000).build();
 	private static int commandTotal = 0;
 
 	public static void clearCustomProcessor(String channelId) {
