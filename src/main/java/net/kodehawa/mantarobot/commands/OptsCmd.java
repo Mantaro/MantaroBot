@@ -843,7 +843,7 @@ public class OptsCmd {
 			GuildData guildData = dbGuild.getData();
 
 			List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-			String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getId()).collect(Collectors.joining(","));
+			String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
 
 			guildData.getDisabledUsers().addAll(toBlackList);
 			dbGuild.save();
@@ -863,7 +863,7 @@ public class OptsCmd {
 			GuildData guildData = dbGuild.getData();
 
 			List<String> toUnBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-			String unBlackListed = mentioned.stream().map(user -> user.getName() + "#" + user.getId()).collect(Collectors.joining(","));
+			String unBlackListed = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
 
 			guildData.getDisabledUsers().removeAll(toUnBlackList);
 			dbGuild.save();

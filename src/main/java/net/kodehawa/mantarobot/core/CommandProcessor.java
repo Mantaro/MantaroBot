@@ -106,6 +106,10 @@ public class CommandProcessor {
 			return false;
 		}
 
+		if(data.getDisabledUsers().contains(event.getAuthor().getId())){
+			return false;
+		}
+
 		if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.\n" +
 				"http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +

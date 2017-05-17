@@ -2,10 +2,7 @@ package net.kodehawa.mantarobot.data.entities.helpers;
 
 import lombok.Data;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class GuildData {
@@ -34,7 +31,7 @@ public class GuildData {
 	private boolean rpgDevaluation = true;
 	private boolean linkProtection = false;
 	private boolean slowMode = false;
-	private List<String> disabledUsers = null;
+	private List<String> disabledUsers = new ArrayList<>();
 	private boolean noMentionsAction = false;
 	private boolean musicAnnounce = true;
 	private int timeDisplay = 0; //0 = 24h, 1 = 12h

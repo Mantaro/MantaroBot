@@ -58,7 +58,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
 			if(guildData.isNoMentionsAction()){
 				toSend = new MessageBuilder()
-						.append(String.format(format, noMentions(event), event.getAuthor().getName()));
+						.append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"));
 			}
 
 			event.getChannel().sendFile(
@@ -85,6 +85,6 @@ public class ImageActionCmd extends NoArgsCommand {
 	}
 
 	private String noMentions(GuildMessageReceivedEvent event){
-		return event.getMessage().getMentionedUsers().stream().map(User::getName).collect(Collectors.joining(" ")).trim();
+		return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(" ")).trim();
 	}
 }
