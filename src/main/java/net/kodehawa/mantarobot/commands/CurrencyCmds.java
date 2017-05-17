@@ -511,7 +511,7 @@ public class CurrencyCmds {
 					}
 
 					try {
-						UtilsCmds.dateGMT(args[1]);
+						UtilsCmds.dateGMT(event.getGuild(), args[1]);
 					} catch (Exception e){
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
 						return;
