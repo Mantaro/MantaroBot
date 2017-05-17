@@ -10,8 +10,8 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -27,7 +27,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import static java.util.Map.*;
+import static java.util.Map.Entry;
 
 @Module
 public class OptsCmd {
@@ -36,11 +36,6 @@ public class OptsCmd {
 	private static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
 
 	static {
-		//region resetmoney
-		registerOption("resetmoney", (event) -> {
-			MantaroData.db().getGuild(event.getGuild()).save();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + " This server's local money was cleared.").queue();
-		});//endregion
 
 		//region logs
 		//region enable
