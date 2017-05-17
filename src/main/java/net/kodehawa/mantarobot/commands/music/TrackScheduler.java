@@ -14,6 +14,9 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,18 +78,23 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	private void announce() {
 		try {
-			TextChannel req = getCurrentTrack().getRequestedChannel();
-			AudioTrackInfo trackInfo = getCurrentTrack().getInfo();
-			String title = trackInfo.title;
-			long trackLength = trackInfo.length;
+			DBGuild dbGuild = MantaroData.db().getGuild(guildId);
+			GuildData guildData = dbGuild.getData();
 
-			if (getCurrentTrack() != null && req != null && req.canTalk()){
-				getCurrentTrack().getRequestedChannel()
-						.sendMessage(String.format("\uD83D\uDCE3 Now playing in **%s**: %s (%s)%s",
-								req.getName(), title, AudioUtils.getLength(trackLength), getCurrentTrack().getDJ() != null ?
-										" requested by **" + getCurrentTrack().getDJ().getName() + "**" : "")).queue(
-						message -> message.delete().queueAfter(90, TimeUnit.SECONDS)
-				);
+			if(guildData.isMusicAnnounce()){
+				TextChannel req = getCurrentTrack().getRequestedChannel();
+				AudioTrackInfo trackInfo = getCurrentTrack().getInfo();
+				String title = trackInfo.title;
+				long trackLength = trackInfo.length;
+
+				if (getCurrentTrack() != null && req != null && req.canTalk()){
+					getCurrentTrack().getRequestedChannel()
+							.sendMessage(String.format("\uD83D\uDCE3 Now playing in **%s**: %s (%s)%s",
+									req.getName(), title, AudioUtils.getLength(trackLength), getCurrentTrack().getDJ() != null ?
+											" requested by **" + getCurrentTrack().getDJ().getName() + "**" : "")).queue(
+							message -> message.delete().queueAfter(90, TimeUnit.SECONDS)
+					);
+				}
 			}
 		} catch (Exception ignored) {}
 	}

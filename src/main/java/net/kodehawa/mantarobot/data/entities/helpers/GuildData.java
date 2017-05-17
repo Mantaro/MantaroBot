@@ -34,12 +34,12 @@ public class GuildData {
 	private boolean rpgDevaluation = true;
 	private boolean linkProtection = false;
 	private boolean slowMode = false;
-
-	//TODO implement
 	private List<String> disabledUsers = null;
 	private boolean noMentionsAction = false;
 	private boolean musicAnnounce = true;
+	private int timeDisplay = 0; //0 = 24h, 1 = 12h
+
+	//TODO implement
 	private HashMap<String, List<String>> channelSpecificDisabledCategories = new HashMap<>();
 	private Set<String> disabledCategories = new HashSet<>();
-	private int timeDisplay = 0; //0 = 24h, 1 = 12h
 }

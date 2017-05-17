@@ -5,6 +5,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -15,7 +16,9 @@ import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
@@ -225,12 +228,12 @@ public class UtilsCmds {
 
 					DBUser user = MantaroData.db().getUser(event.getMember());
 					if(user.getData().getTimezone() != null && args.length == 0){
-						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(user.getData().getTimezone()) +
+						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), user.getData().getTimezone()) +
 								" in the " + user.getData().getTimezone() + " " +
 								"timezone").queue();
 						return;
 					}
-					event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(content) + " in the " + content + " " +
+					event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), content) + " in the " + content + " " +
 							"timezone").queue();
 
 				} catch (Exception e) {
@@ -582,8 +585,15 @@ public class UtilsCmds {
 		});
 	}
 
-	static String dateGMT(String tz) {
+	static String dateGMT(Guild guild, String tz) {
 		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+
+		DBGuild dbGuild = MantaroData.db().getGuild(guild.getId());
+		GuildData guildData = dbGuild.getData();
+
+		if(guildData.getTimeDisplay() == 1){
+			format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
+		}
 
 		if(!tz.contains("GMT")){
 			tz = ZoneId.of(tz).getId();
