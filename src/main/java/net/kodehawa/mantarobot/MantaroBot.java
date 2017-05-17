@@ -43,6 +43,44 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
+/**
+ * <pre>Main class for MantaroBot.</pre>
+ *
+ * <pre>This class could be considered a wrapper and a main initializer if you would like.</pre>
+ *
+ * This class contains all the methods and variables necessary for the main component of the bot.
+ * Mantaro is modular, which means you technically could add more modules to /commands without the necessity to even touch this class. This also means you can remove modules
+ * without major problems.
+ *
+ * <pre>This class and most classes check for a status of {@link LoadState#POSTLOAD} to start doing any JDA-related work, to avoid stacktraces and unwanted results.</pre>
+ *
+ * A instance of this class contains most of the necessary wrappers to make a command and JDA lookups. (see ShardedJDA and UnifiedJDA). All shards come to an unifying point
+ * in this class, meaning that doing {@link MantaroBot#getUserById(String)} is completely valid and so it will look for all users in all shards, without duplicates (distinct).
+ *
+ * After JDA startup, the internal {@link EventDispatcher} will attempt to dispatch {@link PostLoadEvent} to all the Module classes which contain a onPostLoad method, with a
+ * {@link Command} annotation on it.
+ *
+ * Mantaro's version is determined, for now, on the data set in build.gradle and the date of build.
+ *
+ * This bot contains some mechanisms to prevent clones, such as some triggers to avoid bot start on incorrect settings, or just no timeout on database connection.
+ * If you know about coding, I'm sure you could setup a instance of this bot without any problems and play around with it, but I would appreciate if you could keep all exact
+ * or close clones of Mantaro outside of bot listing sites, since it will just get deleted from there (as in for clones of any other bot).
+ * Thanks.
+ *
+ * <pr>This bot is copyrighted work of Kodehawa, licensed under GPLv3, which summarized legal notice can be found down there.</pr>
+ *
+ * <pr>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.</pr>
+ *
+ * @see ShardedJDA
+ * @see net.kodehawa.mantarobot.utils.jda.UnifiedJDA
+ * @see Module
+ * @since 16/08/2016
+ * @author Kodehawa, AdrianTodt
+ */
 @Slf4j
 public class MantaroBot extends ShardedJDA {
 	public static int cwport;

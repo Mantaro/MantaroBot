@@ -13,9 +13,10 @@ Check ~>loot
 Check ~>profile
 Check ~>8ball <question>
 Check ~>gamble
-Check ~>grandom
 Check ~>tsundere
 Check ~>greet
+Check ~>pat
+Check ~>poke
 Cookiezi would eat this... or would I eat a cookie?
 I want food!
 Coca-Cola is bad for your health but you still drank it at least once.
@@ -30,7 +31,7 @@ an instance of Player
 Making your life a little easier.
 Shounen surely has a lot of ripples.
 Cast no dirt into the well, that gives you water!
-Maximum explosion for maximum justice!
+Maximum explosion   for maximum justice!
 Lets go and stick those protest signs somewhere less visible.
 Yamete!
 Lemme put my serious face.
@@ -99,3 +100,4 @@ what could this be?
 Want support? Join our support guild. Link is in ~>about.
 Isn't it colorful out there?
 Feels good to be at home with you <3
+Someone messed up the shards, there is only one... or is it?

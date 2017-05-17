@@ -469,13 +469,15 @@ public class CurrencyCmds {
 
 				Stream.of(Items.ALL).forEach(item -> {
 					if(!item.isHidden()){
-						String buyValue = item.isBuyable() ? EmoteReference.BUY + String.valueOf(Math.floor(item.getValue() * 1.1)) + "c " : "";
-						String sellValue = item.isSellable() ? EmoteReference.SELL + String.valueOf(Math.floor(item.getValue() * 0.9)) + "c" : "";
+						String buyValue = item.isBuyable() ? EmoteReference.BUY + "$" + String.valueOf((int) Math.floor(item.getValue() * 1.1)) + " " : "";
+						String sellValue = item.isSellable() ? EmoteReference.SELL + "$" + String.valueOf((int) Math.floor(item.getValue() * 0.9)) : "";
 						embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
 					}
 				});
 
-				event.getChannel().sendMessage(embed.build()).queue();
+				event.getChannel().sendMessage(
+						embed.setThumbnail("https://i.imgur.com/OA7QCaM.png")
+						.build()).queue();
 			}
 
 			@Override
