@@ -942,6 +942,35 @@ public class OptsCmd {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
 		});
 
+		/*registerOption("server:category:disallow", (event, args) -> {
+			if (args.length == 0) {
+				onHelp(event);
+				return;
+			}
+
+			if(args.length < 1){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the category to disallow!").queue();
+				return;
+			}
+
+			String categoryName = args[1];
+
+		});
+
+
+		registerOption("server:category:enable", (event, args) -> {
+			if (args.length == 0) {
+				onHelp(event);
+				return;
+			}
+
+			if(args.length < 1){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the category to disallow!").queue();
+				return;
+			}
+
+			String categoryName = args[1];
+		});*/
 	}
 
 	@Command
