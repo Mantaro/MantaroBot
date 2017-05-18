@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.custom;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.Color;
@@ -18,17 +19,55 @@ public class EmbedJSON {
 	public String color;
 	public String description;
 	public List<EmbedField> fields = new ArrayList<>();
-	public String footer, footerUrl;
+	public String footer, footerImg;
 	public String image;
 	public String thumbnail;
 	public String title, titleUrl;
 
 	public MessageEmbed gen(GuildMessageReceivedEvent event) {
+		EmbedBuilder embedBuilder = new EmbedBuilder();
+		if (title != null) embedBuilder.setTitle(title, titleUrl);
+		if (description != null) embedBuilder.setDescription(description);
+		if (author != null) embedBuilder.setAuthor(author, authorUrl, authorImg);
+		if (footer != null) embedBuilder.setFooter(footer, footerImg);
+		if (image != null) embedBuilder.setImage(image);
+		if (thumbnail != null) embedBuilder.setThumbnail(thumbnail);
+		if (color != null) {
+			Color col = null;
+			try {
+				col = (Color) Color.class.getField(color).get(null);
+			} catch (Exception ignored) {
+				String colorLower = color.toLowerCase();
+				if (colorLower.equals("member")) {
+					col = event.getMember().getColor();
+				} else if (colorLower.matches("#?(0x)?[0123456789abcdef]{1,6}")) {
+					try {
+						col = Color.decode(colorLower.startsWith("0x") ? colorLower : "0x" + colorLower);
+					} catch (Exception ignored2) {}
+				}
+			}
+			if (col != null) embedBuilder.setColor(col);
+		}
+
+		fields.forEach(f -> {
+			if (f == null) {
+				embedBuilder.addBlankField(false);
+			} else if (f.value == null) {
+				embedBuilder.addBlankField(f.inline);
+			} else {
+				embedBuilder.addField(f.name == null ? "" : f.name, f.value, f.inline);
+			}
+		});
+
+		return embedBuilder.build();
+	}
+
+	public MessageEmbed gen(GenericGuildMemberEvent event) {
 		EmbedBuilder embed = new EmbedBuilder();
 		if (title != null) embed.setTitle(title, titleUrl);
 		if (description != null) embed.setDescription(description);
 		if (author != null) embed.setAuthor(author, authorUrl, authorImg);
-		if (footer != null) embed.setFooter(footer, footerUrl);
+		if (footer != null) embed.setFooter(footer, footerImg);
 		if (image != null) embed.setImage(image);
 		if (thumbnail != null) embed.setThumbnail(thumbnail);
 		if (color != null) {
@@ -60,4 +99,5 @@ public class EmbedJSON {
 
 		return embed.build();
 	}
+
 }

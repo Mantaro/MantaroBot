@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
+import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
@@ -33,6 +34,7 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -386,25 +388,45 @@ public class MantaroListener implements EventListener {
 				}
 			}
 
-			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
-			String joinMessage = MantaroData.db().getGuild(event.getGuild()).getData().getJoinMessage();
-
-			if (joinChannel != null && joinMessage != null) {
-				if (joinMessage.contains("$(")) {
-					Map<String, String> dynamicMap = new HashMap<>();
-					map("event", dynamicMap, event);
-					joinMessage = dynamicResolve(joinMessage, dynamicMap);
-				}
-				TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
-				tc.sendMessage(joinMessage).queue();
-			}
-
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				if (!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ)) return;
 				tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId())).queue();
 				logTotal++;
+			}
+
+			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
+			String joinMessage = MantaroData.db().getGuild(event.getGuild()).getData().getJoinMessage();
+
+			if (joinChannel != null && joinMessage != null) {
+				TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
+				if (joinMessage.contains("$(")) {
+					Map<String, String> dynamicMap = new HashMap<>();
+					map("event", dynamicMap, event);
+					joinMessage = dynamicResolve(joinMessage, dynamicMap);
+				}
+
+				int c = joinMessage.indexOf(':');
+				if (c != -1) {
+					String m = joinMessage.substring(0, c);
+					String v = joinMessage.substring(c + 1);
+
+					if (m.equals("embed")) {
+						EmbedJSON embed;
+						try {
+							embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+						} catch (Exception ignored) {
+							tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+							return;
+						}
+
+						tc.sendMessage(embed.gen(event)).queue();
+						return;
+					}
+				}
+
+				tc.sendMessage(joinMessage).queue();
 			}
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
@@ -416,19 +438,6 @@ public class MantaroListener implements EventListener {
 	private void onUserLeave(GuildMemberLeaveEvent event) {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			String leaveChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
-			String leaveMessage = MantaroData.db().getGuild(event.getGuild()).getData().getLeaveMessage();
-
-			if (leaveChannel != null && leaveMessage != null) {
-				if (leaveMessage.contains("$(")) {
-					Map<String, String> dynamicMap = new HashMap<>();
-					map("event", dynamicMap, event);
-					leaveMessage = dynamicResolve(leaveMessage, dynamicMap);
-				}
-
-				TextChannel tc = event.getGuild().getTextChannelById(leaveChannel);
-				tc.sendMessage(leaveMessage).queue();
-			}
 
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
@@ -436,6 +445,40 @@ public class MantaroListener implements EventListener {
 				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
 				logTotal++;
 			}
+
+			String leaveChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
+			String leaveMessage = MantaroData.db().getGuild(event.getGuild()).getData().getLeaveMessage();
+
+
+			if (leaveChannel != null && leaveMessage != null) {
+				TextChannel tc = event.getGuild().getTextChannelById(leaveChannel);
+				if (leaveMessage.contains("$(")) {
+					Map<String, String> dynamicMap = new HashMap<>();
+					map("event", dynamicMap, event);
+					leaveMessage = dynamicResolve(leaveMessage, dynamicMap);
+				}
+
+				int c = leaveMessage.indexOf(':');
+				if (c != -1) {
+					String m = leaveMessage.substring(0, c);
+					String v = leaveMessage.substring(c + 1);
+
+					if (m.equals("embed")) {
+						EmbedJSON embed;
+						try {
+							embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+						} catch (Exception ignored) {
+							tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+							return;
+						}
+
+						tc.sendMessage(embed.gen(event)).queue();
+						return;
+					}
+				}
+				tc.sendMessage(leaveMessage).queue();
+			}
+
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
 				log.warn("Unexpected error while logging a leave event.", e);

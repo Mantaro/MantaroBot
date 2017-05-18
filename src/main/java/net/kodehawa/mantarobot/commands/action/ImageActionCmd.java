@@ -31,8 +31,9 @@ public class ImageActionCmd extends NoArgsCommand {
 	private final String imageName;
 	private final List<String> images;
 	private final String name;
+	private final String lonelyLine;
 
-	public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images) {
+	public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine) {
 		super(Category.ACTION);
 		this.name = name;
 		this.desc = desc;
@@ -40,6 +41,7 @@ public class ImageActionCmd extends NoArgsCommand {
 		this.imageName = imageName;
 		this.format = format;
 		this.images = images;
+		this.lonelyLine = lonelyLine;
 	}
 
 	@Override
@@ -61,6 +63,10 @@ public class ImageActionCmd extends NoArgsCommand {
 						.append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"));
 			}
 
+			if(isLonely(event)){
+				toSend = new MessageBuilder().append("**" + lonelyLine + "**");
+			}
+
 			event.getChannel().sendFile(
 				CACHE.getInput(random),
 				imageName,
@@ -68,7 +74,7 @@ public class ImageActionCmd extends NoArgsCommand {
 			).queue();
 		} catch (Exception e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I'd like to know what happened, but I couldn't send the image.").queue();
-			log.error("Error while performing Action Command ``" + name + "``. The image ``" + random + "`` throwed an Exception.", e);
+			log.error("Error while performing Action Command ``" + name + "``. The image ``" + random + "`` threw an Exception.", e);
 		}
 	}
 
@@ -86,5 +92,9 @@ public class ImageActionCmd extends NoArgsCommand {
 
 	private String noMentions(GuildMessageReceivedEvent event){
 		return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(" ")).trim();
+	}
+
+	private boolean isLonely(GuildMessageReceivedEvent event){
+		return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getId().equals(event.getAuthor().getId()));
 	}
 }

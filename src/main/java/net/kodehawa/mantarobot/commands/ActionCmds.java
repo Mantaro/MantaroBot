@@ -145,36 +145,37 @@ public class ActionCmds {
 		//pat();
 		cr.register("pat", new ImageActionCmd(
 			"Pat", "Pats the specified user.", Color.PINK,
-			"pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", PATS.get()));
+			"pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", PATS.get(), "Aww, I see you are lonely, take a pat <3"
+		));
 
 		//hug();
 		cr.register("hug", new ImageActionCmd(
 			"Hug", "Hugs the specified user.", Color.PINK,
-			"hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", HUGS.get()
+			"hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", HUGS.get(), "Aww, I see you are lonely, take a hug <3"
 		));
 
 		//kiss();
 		cr.register("kiss", new ImageActionCmd(
 			"Kiss", "Kisses the specified user.", Color.PINK,
-			"kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", KISSES.get()
+			"kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", KISSES.get(), "Aww, I see you are lonely, *kisses*"
 		));
 
 		//poke();
 		cr.register("poke", new ImageActionCmd(
 				"Poke", "Pokes the specified user.", Color.PINK,
-				"poke.gif", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", POKES.get()
+				"poke.gif", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", POKES.get(), "Aww, I see you are lonely, *pokes you*"
 		));
 
 		//slap();
 		cr.register("slap", new ImageActionCmd(
 				"Slap", "Slaps the specified user ;).", Color.PINK,
-				"slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", SLAPS.get()
+				"slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", SLAPS.get(), "Hmm, why do you want this? Uh, I guess... *slaps you*"
 		));
 
 		//bite();
 		cr.register("bite", new ImageActionCmd(
 				"Bite", "Bites the specified user.", Color.PINK,
-				"bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", BITES.get()
+				"bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", BITES.get(), "*bites you*"
 		));
 
 		//greet();

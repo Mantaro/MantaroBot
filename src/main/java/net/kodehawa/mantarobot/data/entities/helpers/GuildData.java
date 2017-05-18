@@ -37,6 +37,7 @@ public class GuildData {
 	private int timeDisplay = 0; //0 = 24h, 1 = 12h
 
 	//TODO implement
+	private int maxFairQueue = 4;
 	private HashMap<String, List<String>> channelSpecificDisabledCategories = new HashMap<>();
 	private Set<String> disabledCategories = new HashSet<>();
 }

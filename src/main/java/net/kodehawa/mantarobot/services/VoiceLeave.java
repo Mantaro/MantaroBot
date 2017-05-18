@@ -45,9 +45,9 @@ public class VoiceLeave implements Runnable {
                                     mm.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
                                     mm.getTrackScheduler().getQueue().clear();
                                     mm.getTrackScheduler().next(true);
+                                } else {
+                                    guild.getAudioManager().closeAudioConnection();
                                 }
-
-                                guild.getAudioManager().closeAudioConnection();
                             }
                         }
                     }

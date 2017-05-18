@@ -919,6 +919,29 @@ public class OptsCmd {
 			}
 		});
 
+		registerOption("fairqueue:max", (event, args) -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();
+				return;
+			}
+
+			String much = args[0];
+			final int fq;
+			try{
+				fq = Integer.parseInt(much);
+			} catch (Exception e){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number").queue();
+				return;
+			}
+
+			guildData.setMaxFairQueue(fq);
+			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
+		});
+
 	}
 
 	@Command
@@ -965,12 +988,12 @@ public class OptsCmd {
 		event.getChannel().sendMessage(optsCmd.help(event)).queue();
 	}
 
-	private static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
+	public static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
 		Preconditions.checkNotNull(code, "code");
 		registerOption(name, (event, ignored) -> code.accept(event));
 	}
 
-	private static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+	public static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
 		Preconditions.checkNotNull(name, "name");
 		Preconditions.checkArgument(!name.isEmpty(), "Name is empty");
 		Preconditions.checkNotNull(code, "code");

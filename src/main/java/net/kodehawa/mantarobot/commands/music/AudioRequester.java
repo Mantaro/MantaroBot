@@ -11,8 +11,10 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
 import java.util.Optional;
@@ -98,11 +100,15 @@ public class AudioRequester implements AudioLoadResultHandler {
 	private void loadSingle(AudioTrack audioTrack, boolean silent) {
 		AudioTrackInfo trackInfo = audioTrack.getInfo();
 		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+		GuildData guildData = dbGuild.getData();
+
 		String title = trackInfo.title;
 		long length = trackInfo.length;
 
 		long queueLimit = !Optional.ofNullable(dbGuild.getData().getMusicQueueSizeLimit()).
 			isPresent() ? MAX_QUEUE_LENGTH : dbGuild.getData().getMusicQueueSizeLimit();
+
+		int fqSize = guildData.getMaxFairQueue();
 
 		if (getMusicManager().getTrackScheduler().getQueue().size() > queueLimit
 			&& !MantaroData.db().getUser(event.getMember()).isPremium()
@@ -120,6 +126,12 @@ public class AudioRequester implements AudioLoadResultHandler {
 			event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 21 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
 			if (musicManager.getTrackScheduler().isStopped())
 				event.getGuild().getAudioManager().closeAudioConnection(); //do you?
+			return;
+		}
+
+		//Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
+		if(musicManager.getTrackScheduler().getQueue().stream().filter(track -> track.getInfo().uri.equals(audioTrack.getInfo().uri)).count() > fqSize){
+			event.getChannel().sendMessage(EmoteReference.ERROR + String.format("**Surpassed fair queue level of %d (Too many songs which are exactly equal)**", fqSize + 1)).queue();
 			return;
 		}
 
