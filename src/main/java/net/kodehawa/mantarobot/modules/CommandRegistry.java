@@ -34,6 +34,10 @@ public class CommandRegistry {
 			return false;
 		}
 
+		if(MantaroData.config().get().isPremiumBot() && cmd.category() == Category.CURRENCY){
+			return false;
+		}
+
 
 		if (cmd == null) return false;
 		if (!cmd.permission().test(event.getMember())) {

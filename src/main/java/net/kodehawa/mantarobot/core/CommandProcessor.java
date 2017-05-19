@@ -3,7 +3,9 @@ package net.kodehawa.mantarobot.core;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -83,6 +85,17 @@ public class CommandProcessor {
 	public boolean run(GuildMessageReceivedEvent event) {
 		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
 
+		Config conf = MantaroData.config().get();
+		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+		GuildData data = dbg.getData();
+
+		//If we are in the patreon bot, deny all requests from unknown guilds.
+		if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()){
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
+					"**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
+			return false;
+		}
+
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
 		String rawCmd = event.getMessage().getRawContent();
 		String prefix = MantaroData.config().get().prefix;
@@ -94,7 +107,6 @@ public class CommandProcessor {
 
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];
-		GuildData data = MantaroData.db().getGuild(event.getGuild()).getData();
 
 
 		if (data.getDisabledCommands().contains(cmdName)) {

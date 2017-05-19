@@ -67,8 +67,8 @@ public class InfoCmds {
 						.setColor(Color.PINK)
 						//<3
 						.addField("Special Mentions",
-								"**MrLar#8117** $101 pledge. <3 + $200 donation. <3\n" +
-								"**Quartermaster#1262** $40 pledge",false)
+								"**MrLar#8117** $101 pledge. <3 + $275 donation. <3\n" +
+								"**Quartermaster#1262** $40 pledge <3",false)
 						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
@@ -242,6 +242,7 @@ public class InfoCmds {
 							, prefix), null);
 
 					Arrays.stream(Category.values())
+						.filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
 						.filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
 						.filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
 						.forEach(c -> embed.addField(c + " Commands:", forType(guildData, c), false));
@@ -418,7 +419,7 @@ public class InfoCmds {
 					builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
 						.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append(" | L: ")
 						.append(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT)
-						.append(" ms.")
+						.append(" ms")
 						.append(" | MC: ")
 						.append(shard.getJDA().getVoiceChannels().stream().filter
 							(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()))

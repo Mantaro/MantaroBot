@@ -36,6 +36,7 @@ public class Config {
 	public String sqlPassword;
 	public String token;
 	public String weatherAppId;
+	public boolean isPremiumBot = false;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());
