@@ -499,6 +499,7 @@ public class CurrencyCmds {
 		cr.register("profile", new SimpleCommand(Category.CURRENCY) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
 				Player player = MantaroData.db().getPlayer(event.getMember());
 				DBUser u1 = MantaroData.db().getUser(event.getMember());
 				User author = event.getAuthor();

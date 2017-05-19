@@ -2,7 +2,9 @@ package net.kodehawa.mantarobot.modules;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
@@ -29,6 +31,10 @@ public class CommandRegistry {
 
 	public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
 		Command cmd = commands.get(cmdname);
+		Config conf = MantaroData.config().get();
+		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+
+		if (cmd == null) return false;
 
 		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
 			return false;
@@ -38,8 +44,13 @@ public class CommandRegistry {
 			return false;
 		}
 
+		//If we are in the patreon bot, deny all requests from unknown guilds.
+		if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()){
+			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
+					"**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
+			return false;
+		}
 
-		if (cmd == null) return false;
 		if (!cmd.permission().test(event.getMember())) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();
 			return false;

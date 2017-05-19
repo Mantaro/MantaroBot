@@ -85,16 +85,9 @@ public class CommandProcessor {
 	public boolean run(GuildMessageReceivedEvent event) {
 		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
 
-		Config conf = MantaroData.config().get();
 		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
 		GuildData data = dbg.getData();
 
-		//If we are in the patreon bot, deny all requests from unknown guilds.
-		if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()){
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
-					"**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
-			return false;
-		}
 
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
 		String rawCmd = event.getMessage().getRawContent();
