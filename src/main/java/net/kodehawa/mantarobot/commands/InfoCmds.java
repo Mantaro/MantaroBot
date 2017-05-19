@@ -114,7 +114,7 @@ public class InfoCmds {
 						"\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
 						"\u2713 **[Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
 						" [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
-						EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!"
+						EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
 					)
 					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
 					.addField("Uptime", String.format(
