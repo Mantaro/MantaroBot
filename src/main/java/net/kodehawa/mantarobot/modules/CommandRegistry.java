@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
@@ -31,10 +32,25 @@ public class CommandRegistry {
 
 	public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
 		Command cmd = commands.get(cmdname);
+
 		Config conf = MantaroData.config().get();
 		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+		GuildData data = dbg.getData();
 
 		if (cmd == null) return false;
+
+		if (data.getDisabledCommands().contains(cmdname)) {
+			return false;
+		}
+
+		if(data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) != null &&
+				data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).contains(cmdname)){
+			return false;
+		}
+
+		if(data.getDisabledUsers().contains(event.getAuthor().getId())){
+			return false;
+		}
 
 		if (MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
 			return false;

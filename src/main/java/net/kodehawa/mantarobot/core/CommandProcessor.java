@@ -86,8 +86,6 @@ public class CommandProcessor {
 		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
 
 		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-		GuildData data = dbg.getData();
-
 
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
 		String rawCmd = event.getMessage().getRawContent();
@@ -100,20 +98,6 @@ public class CommandProcessor {
 
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];
-
-
-		if (data.getDisabledCommands().contains(cmdName)) {
-			return false;
-		}
-
-		if(data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) != null &&
-				data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).contains(cmdName)){
-			return false;
-		}
-
-		if(data.getDisabledUsers().contains(event.getAuthor().getId())){
-			return false;
-		}
 
 		if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
 			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.\n" +
