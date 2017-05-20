@@ -3,9 +3,7 @@ package net.kodehawa.mantarobot.commands.action;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -30,8 +28,8 @@ public class ImageActionCmd extends NoArgsCommand {
 	private final String format;
 	private final String imageName;
 	private final List<String> images;
-	private final String name;
 	private final String lonelyLine;
+	private final String name;
 
 	public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine) {
 		super(Category.ACTION);
@@ -64,7 +62,7 @@ public class ImageActionCmd extends NoArgsCommand {
 			}
 
 			if(isLonely(event)){
-				toSend = new MessageBuilder().append("**" + lonelyLine + "**");
+				toSend = new MessageBuilder().append("**").append(lonelyLine).append("**");
 			}
 
 			event.getChannel().sendFile(
@@ -86,15 +84,16 @@ public class ImageActionCmd extends NoArgsCommand {
 			.build();
 	}
 
+	private boolean isLonely(GuildMessageReceivedEvent event) {
+		return event.getMessage().getMentionedUsers().stream().anyMatch(
+			user -> user.getId().equals(event.getAuthor().getId()));
+	}
+
 	private String mentions(GuildMessageReceivedEvent event) {
 		return event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" ")).trim();
 	}
 
 	private String noMentions(GuildMessageReceivedEvent event){
 		return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(" ")).trim();
-	}
-
-	private boolean isLonely(GuildMessageReceivedEvent event){
-		return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getId().equals(event.getAuthor().getId()));
 	}
 }

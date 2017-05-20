@@ -13,8 +13,8 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -43,6 +43,10 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Slf4j
 @Module
 public class CustomCmds {
+	private static final Pattern RESPONSES_PATTERN = Pattern.compile(";", Pattern.LITERAL),
+		NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
+		INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
+		NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
 	private static final net.kodehawa.mantarobot.modules.commands.base.Command customCommand = new AbstractCommand(null) {
 
@@ -129,9 +133,7 @@ public class CustomCmds {
 	@Command
 	public static void custom(CommandRegistry cr) {
 		String any = "[\\d\\D]*?";
-		Pattern addPattern = Pattern.compile(";", Pattern.LITERAL),
-			namePattern = Pattern.compile("[a-zA-Z0-9_]+"),
-			nameWildcardPattern = Pattern.compile("[a-zA-Z0-9_*]+");
+
 
 		cr.register("custom", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -190,7 +192,7 @@ public class CustomCmds {
 				String cmd = args[1];
 
 				if (action.equals("make")) {
-					if (!namePattern.matcher(cmd).matches()) {
+					if (!NAME_PATTERN.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -212,7 +214,7 @@ public class CustomCmds {
 							String arg = c.substring(6).trim();
 							String saveTo = !arg.isEmpty() ? arg : cmd;
 
-							if (!namePattern.matcher(cmd).matches()) {
+							if (!NAME_PATTERN.matcher(cmd).matches()) {
 								event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 								return false;
 							}
@@ -257,7 +259,7 @@ public class CustomCmds {
 				}
 
 				if (action.equals("remove") || action.equals("rm")) {
-					if (!namePattern.matcher(cmd).matches()) {
+					if (!NAME_PATTERN.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -284,7 +286,7 @@ public class CustomCmds {
 				}
 
 				if (action.equals("raw")) {
-					if (!namePattern.matcher(cmd).matches()) {
+					if (!NAME_PATTERN.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -306,7 +308,7 @@ public class CustomCmds {
 				}
 
 				if (action.equals("import")) {
-					if (!nameWildcardPattern.matcher(cmd).matches()) {
+					if (!NAME_WILDCARD_PATTERN.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -362,7 +364,7 @@ public class CustomCmds {
 				String value = args[2];
 
 				if (action.equals("rename")) {
-					if (!namePattern.matcher(cmd).matches() || !namePattern.matcher(value).matches()) {
+					if (!NAME_PATTERN.matcher(cmd).matches() || !NAME_PATTERN.matcher(value).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
@@ -379,7 +381,7 @@ public class CustomCmds {
 						return;
 					}
 
-					CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), cmd, oldCustom.getValues());
+					CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), value, oldCustom.getValues());
 
 					//change at DB
 					oldCustom.deleteAsync();
@@ -404,12 +406,12 @@ public class CustomCmds {
 				}
 
 				if (action.equals("add")) {
-					if (!namePattern.matcher(cmd).matches()) {
+					if (!NAME_PATTERN.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
 						return;
 					}
 
-					List<String> responses = Arrays.asList(addPattern.split(value));
+					List<String> responses = Arrays.asList(RESPONSES_PATTERN.split(value));
 					if (CommandProcessor.REGISTRY.commands().containsKey(cmd) && !CommandProcessor.REGISTRY.commands().get(cmd).equals(customCommand)) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "A command already exists with this name!").queue();
 						return;
@@ -465,6 +467,15 @@ public class CustomCmds {
 	@Command
 	public static void onPostLoad(PostLoadEvent e) {
 		db().getCustomCommands().forEach(custom -> {
+			if (!NAME_PATTERN.matcher(custom.getName()).matches()) {
+				String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
+				log.warn("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
+
+				custom.deleteAsync();
+				custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
+				custom.saveAsync();
+			}
+
 			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !CommandProcessor.REGISTRY.commands().get(custom.getName()).equals(customCommand)) {
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());

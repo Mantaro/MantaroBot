@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.beans.Introspector;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
@@ -64,45 +66,103 @@ public class Controller {
 		}
 	}
 
+	@RequestMapping("/stats/shards")
+	public Object shardinfo() {
+		return MantaroBot.getInstance().getShardList().stream()
+			.map(
+				s -> new MapObject<>()
+					.with("id", s.getShardInfo().getShardId())
+					.with("status", s.getStatus())
+					.with("users", s.getUsers().size())
+					.with("guilds", s.getGuilds().size())
+					.with("ping", s.getPing())
+					.with("lastEvent", System.currentTimeMillis() - s.getEventManager().LAST_EVENT)
+					.with("musicChannels", s.getVoiceChannels().stream().filter(
+						c -> c.getMembers().contains(c.getGuild().getSelfMember())
+					).count())
+			)
+			.collect(Collectors.toList());
+	}
+
 	@RequestMapping("/stats")
 	public Object stats() {
-		Map<Object, Object> map = new MapObject<>();
 
 		List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-
 		List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
 		List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(
 			vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
+		long musicConnections, exclusiveness;
 
-		map.put("usersPerGuild", calculateInt(guilds, value -> value.getMembers().size()));
-		IntSummaryStatistics onlineUsersPerGuild = calculateInt(
-			guilds, value -> (int) value.getMembers().stream().filter(member -> !member.getOnlineStatus().equals(
-				OnlineStatus.OFFLINE)).count());
-		DoubleSummaryStatistics onlineUsersPerUserPerGuild = calculateDouble(
-			guilds, value -> (double) value.getMembers().stream().filter(
-				member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() / (double) value.getMembers()
-				.size() * 100);
-		DoubleSummaryStatistics listeningUsersPerUsersPerGuilds = calculateDouble(
-			musicChannels,
-			value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100
-		);
-		DoubleSummaryStatistics listeningUsersPerOnlineUsersPerGuilds = calculateDouble(
-			musicChannels,
-			value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream().filter(
-				member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100
-		);
-		IntSummaryStatistics textChannelsPerGuild = calculateInt(guilds, value -> value.getTextChannels().size());
-		IntSummaryStatistics voiceChannelsPerGuild = calculateInt(guilds, value -> value.getVoiceChannels().size());
-
-		int musicConnections = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-			voiceChannel.getGuild().getSelfMember())).count();
-		long exclusiveness = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().stream().filter(
-			member -> member.getUser().isBot()).count() == 1).count();
-		double musicConnectionsPerServer = (double) musicConnections / (double) guilds.size() * 100;
-		double exclusivenessPercent = (double) exclusiveness / (double) guilds.size() * 100;
-		long bigGuilds = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count();
-
-		return map;
+		return new MapObject<>()
+			.with(
+				"usersPerGuild",
+				calculateInt(guilds, value -> value.getMembers().size())
+			)
+			.with(
+				"onlineUsersPerGuild",
+				calculateInt(
+					guilds,
+					value -> (int) value.getMembers().stream()
+						.filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()
+				)
+			)
+			.with(
+				"onlineUsersPerUserPerGuild",
+				calculateDouble(
+					guilds,
+					value -> (double) value.getMembers()
+						.stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE))
+						.count() / (double) value.getMembers().size() * 100
+				)
+			)
+			.with(
+				"listeningUsersPerUsersPerGuilds",
+				calculateDouble(
+					musicChannels,
+					value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100
+				)
+			)
+			.with(
+				"listeningUsersPerOnlineUsersPerGuilds",
+				calculateDouble(
+					musicChannels,
+					value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream()
+						.filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100
+				)
+			)
+			.with(
+				"textChannelsPerGuild",
+				calculateInt(guilds, value -> value.getTextChannels().size())
+			)
+			.with(
+				"voiceChannelsPerGuild",
+				calculateInt(guilds, value -> value.getVoiceChannels().size())
+			)
+			.with(
+				"musicConnections",
+				musicConnections = voiceChannels.stream()
+					.filter(channel -> channel.getMembers().contains(channel.getGuild().getSelfMember()))
+					.count()
+			)
+			.with(
+				"exclusiveness",
+				exclusiveness = MantaroBot.getInstance().getGuilds().stream()
+					.filter(
+						g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1
+					).count()
+			)
+			.with(
+				"musicConnectionsPerServer",
+				(double) musicConnections / (double) guilds.size() * 100
+			)
+			.with(
+				"exclusivenessPercent",
+				(double) exclusiveness / (double) guilds.size() * 100
+			)
+			.with(
+				"bigGuilds",
+				MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count()
+			);
 	}
 
 	@RequestMapping("/stats/resources")

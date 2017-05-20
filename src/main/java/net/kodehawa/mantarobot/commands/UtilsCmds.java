@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.strings.StringUtils;
 import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -10,7 +9,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
@@ -31,7 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -40,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
-import java.util.List;
 
 import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -66,7 +63,8 @@ public class UtilsCmds {
 				if (content.startsWith("remove")) {
 					user.getData().setBirthday(null);
 					user.save();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.").queue();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.")
+						.queue();
 					return;
 				}
 
@@ -81,8 +79,11 @@ public class UtilsCmds {
 								Date date = format1.parse(MantaroData.db().getUser(member).getData().getBirthday());
 								int month = date.toInstant().atOffset(ZoneOffset.UTC).getMonthValue();
 								if (currentMonth == month) {
-									closeBirthdays.put(member.getEffectiveName() + "#" + member.getUser().getDiscriminator(), MantaroData
-										.db().getUser(member.getUser()).getData().getBirthday());
+									closeBirthdays.put(
+										member.getEffectiveName() + "#" + member.getUser().getDiscriminator(),
+										MantaroData
+											.db().getUser(member.getUser()).getData().getBirthday()
+									);
 								}
 							}
 						} catch (Exception e) {
@@ -92,7 +93,8 @@ public class UtilsCmds {
 					});
 
 					if (closeBirthdays.isEmpty()) {
-						event.getChannel().sendMessage("No one has a birthday this month! " + EmoteReference.SAD.getDiscordNotation())
+						event.getChannel().sendMessage(
+							"No one has a birthday this month! " + EmoteReference.SAD.getDiscordNotation())
 							.queue();
 						return;
 					}
@@ -104,7 +106,9 @@ public class UtilsCmds {
 						}
 					});
 
-					event.getChannel().sendMessage("```md\n" + "--Birthdays this month--\n\n" + builder.toString() + "```").queue();
+					event.getChannel().sendMessage(
+						"```md\n" + "--Birthdays this month--\n\n" + builder.toString() + "```"
+					).queue();
 
 					return;
 				}
@@ -114,15 +118,18 @@ public class UtilsCmds {
 					String bd;
 					bd = content.replace("/", "-");
 					String[] parts = bd.split("-");
-					if (Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(parts[2]) > 3000) {
+					if (Integer.parseInt(parts[0]) > 31 || Integer.parseInt(parts[1]) > 12 || Integer.parseInt(
+						parts[2]) > 3000) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid date.").queue();
 						return;
 					}
 
 					bd1 = format1.parse(bd);
 				} catch (Exception e) {
-					Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage("\u274C" + args[0] + " is either not a " +
-						"valid date or not parseable. Please try with the correct formatting. Remember to include the year (though you can put any year)").queue()));
+					Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage(
+						"\u274C" + args[0] + " is either not a " +
+							"valid date or not parseable. Please try with the correct formatting. Remember to include the year (though you can put any year)")
+						.queue()));
 					return;
 				}
 
@@ -135,13 +142,19 @@ public class UtilsCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Birthday")
 					.setDescription("**Sets your birthday date.**\n")
-					.addField("Usage", "~>birthday <date>. Set your birthday date using this. Only useful if the server has " +
-						"enabled this functionality\n"
-						+ "**Parameter explanation:**\n"
-						+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false)
-					.addField("Tip", "To see whose birthdays are this month, type ~>birthday month\nTo remove your birthday date do " +
-						"~>birthday " +
-						"remove", false)
+					.addField(
+						"Usage",
+						"~>birthday <date>. Set your birthday date using this. Only useful if the server has " +
+							"enabled this functionality\n"
+							+ "**Parameter explanation:**\n"
+							+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false
+					)
+					.addField(
+						"Tip",
+						"To see whose birthdays are this month, type ~>birthday month\nTo remove your birthday date do " +
+							"~>birthday " +
+							"remove", false
+					)
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}
@@ -177,6 +190,86 @@ public class UtilsCmds {
 	}
 
 	@Command
+	public static void dictionary(CommandRegistry registry) {
+		registry.register("dictionary", new SimpleCommand(Category.UTILS) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (args.length == 0) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a word.").queue();
+					return;
+				}
+
+				String word = content;
+
+				JSONObject main;
+				String definition, part_of_speech, headword, example;
+
+				try {
+					main = Unirest.get("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word).asJson()
+						.getBody().getObject();
+					JSONArray results = main.getJSONArray("results");
+					JSONObject result = results.getJSONObject(0);
+					JSONArray senses = result.getJSONArray("senses");
+
+					headword = result.getString("headword");
+
+					if (result.has("part_of_speech")) part_of_speech = result.getString("part_of_speech");
+					else part_of_speech = "Not found.";
+
+					if (senses.getJSONObject(0).get("definition") instanceof JSONArray)
+						definition = senses.getJSONObject(0).getJSONArray("definition").getString(0);
+					else
+						definition = senses.getJSONObject(0).getString("definition");
+
+					try {
+						if (senses.getJSONObject(0).getJSONArray("translations").getJSONObject(0).get(
+							"example") instanceof JSONArray) {
+							example = senses.getJSONObject(0)
+								.getJSONArray("translations")
+								.getJSONObject(0)
+								.getJSONArray("example")
+								.getJSONObject(0)
+								.getString("text");
+						} else {
+							example = senses.getJSONObject(0)
+								.getJSONArray("translations")
+								.getJSONObject(0)
+								.getJSONObject("example")
+								.getString("text");
+						}
+					} catch (Exception e) {
+						example = "Not found";
+					}
+
+				} catch (Exception e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
+					return;
+				}
+
+				EmbedBuilder eb = new EmbedBuilder();
+				eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
+					.setThumbnail(
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
+					.addField("Definition", "**" + definition + "**", false)
+					.addField("Example", "**" + example + "**", false)
+					.setDescription(
+						String.format("**Part of speech:** `%s`\n" + "**Headword:** `%s`\n", part_of_speech, headword));
+
+				event.getChannel().sendMessage(eb.build()).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Dictionary command")
+					.setDescription("**Looks up a word in the dictionary.**")
+					.addField("Usage", "`~>dictionary <word>` - Searches a word in the dictionary.", false)
+					.addField("Parameters", "`word` - The word to look for", false)
+					.build();
+			}
+		});
+	}
+
+	@Command
 	public static void google(CommandRegistry registry) {
 		registry.register("google", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -186,25 +279,26 @@ public class UtilsCmds {
 				List<Crawler.SearchResult> result = Crawler.get(content);
 				for (int i = 0; i < 5 && i < result.size(); i++) {
 					Crawler.SearchResult data = result.get(i);
-					if (data != null){
+					if (data != null) {
 						String title = data.getTitle();
-						if(title.length() > 40) title = title.substring(0, 40) + "...";
+						if (title.length() > 40) title = title.substring(0, 40) + "...";
 						b.append(i + 1)
-								.append(". **[")
-								.append(title)
-								.append("](")
-								.append(data.getUrl())
-								.append(")**\n");
+							.append(". **[")
+							.append(title)
+							.append("](")
+							.append(data.getUrl())
+							.append(")**\n");
 					}
 				}
 
 				event.getChannel().sendMessage(
-						builder.
-								setDescription(b.toString())
-								.setThumbnail("https://cdn.pixabay.com/photo/2015/12/08/17/38/magnifying-glass-1083373_960_720.png")
-								.setFooter("Click on the blue text to go to the URL.", null)
-								.build())
-						.queue();
+					builder.
+						setDescription(b.toString())
+						.setThumbnail(
+							"https://cdn.pixabay.com/photo/2015/12/08/17/38/magnifying-glass-1083373_960_720.png")
+						.setFooter("Click on the blue text to go to the URL.", null)
+						.build())
+					.queue();
 			}
 
 			@Override
@@ -227,17 +321,21 @@ public class UtilsCmds {
 					content = content.replace("UTC", "GMT");
 
 					DBUser user = MantaroData.db().getUser(event.getMember());
-					if(user.getData().getTimezone() != null && args.length == 0){
-						event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), user.getData().getTimezone()) +
+					if (user.getData().getTimezone() != null && args.length == 0) {
+						event.getChannel().sendMessage(
+							EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), user.getData().getTimezone()) +
 								" in the " + user.getData().getTimezone() + " " +
 								"timezone").queue();
 						return;
 					}
-					event.getChannel().sendMessage(EmoteReference.MEGA + "It's " + dateGMT(event.getGuild(), content) + " in the " + content + " " +
+					event.getChannel().sendMessage(
+						EmoteReference.MEGA + "It's " + dateGMT(
+							event.getGuild(), content) + " in the " + content + " " +
 							"timezone").queue();
 
 				} catch (Exception e) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
+					event.getChannel().sendMessage(
+						EmoteReference.ERROR + "Error while retrieving timezone or it's not valid").queue();
 				}
 			}
 
@@ -245,8 +343,15 @@ public class UtilsCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Time")
 					.setDescription("**Get the time in a specific timezone**.\n")
-						.addField("Usage","`~>time <timezone>` - **Retrieves the time in the specified timezone [Don't write a country!]**.", false)
-						.addField("Parameters", "`timezone` - **A valid timezone [no countries!] between GMT-12 and GMT+14**", false)
+					.addField(
+						"Usage",
+						"`~>time <timezone>` - **Retrieves the time in the specified timezone [Don't write a country!]**.",
+						false
+					)
+					.addField(
+						"Parameters", "`timezone` - **A valid timezone [no countries!] between GMT-12 and GMT+14**",
+						false
+					)
 					.build();
 			}
 		});
@@ -273,8 +378,10 @@ public class UtilsCmds {
 
 						String translatorUrl = String.format("https://translate.google.com/translate_a/" +
 								"single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
-								"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang, targetLang,
-							textEncoded);
+								"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang,
+							targetLang,
+							textEncoded
+						);
 
 						try {
 							resty.identifyAsMozilla();
@@ -283,20 +390,23 @@ public class UtilsCmds {
 
 							for (int i = 0; i < data.length(); i++) {
 								JSONObject entry = data.getJSONObject(i);
-								channel.sendMessage(":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString
-									("trans")).queue();
+								channel.sendMessage(
+									":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString
+										("trans")).queue();
 							}
 						} catch (IOException e) {
-							event.getChannel().sendMessage("I got an error while translating, Google doesn't like me " + EmoteReference.SAD
-								.getDiscordNotation())
+							event.getChannel().sendMessage(
+								"I got an error while translating, Google doesn't like me " + EmoteReference.SAD
+									.getDiscordNotation())
 								.queue();
 						}
 					} else {
 						onHelp(event);
 					}
 				} catch (Exception e) {
-					event.getChannel().sendMessage("Error while fetching results. Google doesn't like us " + EmoteReference.SAD
-						.getDiscordNotation())
+					event.getChannel().sendMessage(
+						"Error while fetching results. Google doesn't like us " + EmoteReference.SAD
+							.getDiscordNotation())
 						.queue();
 				}
 			}
@@ -305,10 +415,17 @@ public class UtilsCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Translation command")
 					.setDescription("**Translates the given sentence**.")
-					.addField("Usage", "`~>translate <sourcelang> <outputlang> <sentence>` - **Translates the specified sentence.**.", false)
-					.addField("Parameters", "`sourcelang` - **The language the sentence is written in. Use codes (english = en)**\n"
+					.addField(
+						"Usage",
+						"`~>translate <sourcelang> <outputlang> <sentence>` - **Translates the specified sentence.**.",
+						false
+					)
+					.addField(
+						"Parameters",
+						"`sourcelang` - **The language the sentence is written in. Use codes (english = en)**\n"
 							+ "`outputlang` - **The language you want to translate to (french = fr, for example)**\n"
-							+ "`sentence` - **The sentence to translate.**", false)
+							+ "`sentence` - **The sentence to translate.**", false
+					)
 					.setColor(Color.BLUE)
 					.build();
 			}
@@ -327,7 +444,8 @@ public class UtilsCmds {
 					long start = System.currentTimeMillis();
 					String url = null;
 					try {
-						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(beheadedSplit[0], "UTF-8");
+						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(
+							beheadedSplit[0], "UTF-8");
 					} catch (UnsupportedEncodingException ignored) {}
 					String json = Utils.wgetResty(url, event);
 					UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
@@ -345,7 +463,8 @@ public class UtilsCmds {
 
 					switch (beheadedSplit.length) {
 						case 1:
-							embed.setAuthor("Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
+							embed.setAuthor(
+								"Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
 								.setDescription("Main definition.")
 								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
 								.setColor(Color.GREEN)
@@ -359,7 +478,10 @@ public class UtilsCmds {
 						case 2:
 							int defn = Integer.parseInt(beheadedSplit[1]) - 1;
 							String defns = String.valueOf(defn + 1);
-							embed.setAuthor("Urban Dictionary definition for " + beheadedSplit[0], data.list.get(defn).permalink, null)
+							embed.setAuthor(
+								"Urban Dictionary definition for " + beheadedSplit[0], data.list.get(defn).permalink,
+								null
+							)
 								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
 								.setDescription("Definition " + defns)
 								.setColor(Color.GREEN)
@@ -382,10 +504,13 @@ public class UtilsCmds {
 				return helpEmbed(event, "Urban dictionary")
 					.setColor(Color.CYAN)
 					.setDescription("Retrieves definitions from **Urban Dictionary**.")
-						.addField("Usage", "`~>urban <term>-><number>` - **Retrieve a definition based on the given parameters.**", false)
-						.addField("Parameters", "term - **The term you want to look up**\n"
-								+ "number - **(OPTIONAL) Parameter defined with the modifier '->' after the term. You don't need to use it.**\n"
-								+ "e.g. putting 2 will fetch the second result on Urban Dictionary", false)
+					.addField(
+						"Usage",
+						"`~>urban <term>-><number>` - **Retrieve a definition based on the given parameters.**", false
+					)
+					.addField("Parameters", "term - **The term you want to look up**\n"
+						+ "number - **(OPTIONAL) Parameter defined with the modifier '->' after the term. You don't need to use it.**\n"
+						+ "e.g. putting 2 will fetch the second result on Urban Dictionary", false)
 					.build();
 			}
 		});
@@ -404,10 +529,16 @@ public class UtilsCmds {
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
 					long start = System.currentTimeMillis();
-					String APP_ID = MantaroData.config().get().weatherAppId;
-					String json = Utils.wget(String.format("http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", URLEncoder
-						.encode(content, "UTF-8"), APP_ID), event);
-					WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(json, WeatherData.class);
+					WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(
+						Utils.wget(
+							String.format(
+								"http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s",
+								URLEncoder.encode(content, "UTF-8"),
+								MantaroData.config().get().weatherAppId
+							), event
+						),
+						WeatherData.class
+					);
 
 					String countryCode = data.sys.country;
 					String status = data.getWeather().get(0).main;
@@ -424,7 +555,8 @@ public class UtilsCmds {
 					long end = System.currentTimeMillis() - start;
 
 					embed.setColor(Color.CYAN)
-						.setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
+						.setTitle(
+							":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
 						.setDescription(status + " (" + clness + "% cloudiness)")
 						.addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " +
 							finalTemperatureFarnheit.intValue() + "°F", true)
@@ -439,17 +571,26 @@ public class UtilsCmds {
 				} catch (Exception e) {
 					event.getChannel().sendMessage("Error while fetching results.").queue();
 					if (!(e instanceof NullPointerException))
-						log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
+						log.warn(
+							"Exception caught while trying to fetch weather data, maybe the API changed something?", e);
 				}
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Weather command")
-					.setDescription("This command retrieves information from OpenWeatherMap. Used to check **forecast information.**")
-						.addField("Usage", "`~>weather <city>,<countrycode>` - **Retrieves the forecast information for the given location.**", false)
-						.addField("Parameters", "`city` - **Your city name, e.g. New York**\n"
-								+ "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**", false)
+					.setDescription(
+						"This command retrieves information from OpenWeatherMap. Used to check **forecast information.**")
+					.addField(
+						"Usage",
+						"`~>weather <city>,<countrycode>` - **Retrieves the forecast information for the given location.**",
+						false
+					)
+					.addField(
+						"Parameters", "`city` - **Your city name, e.g. New York**\n"
+							+ "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**",
+						false
+					)
 					.build();
 			}
 		});
@@ -468,8 +609,9 @@ public class UtilsCmds {
 				}
 
 				if (info.error != null) {
-					event.getChannel().sendMessage(":heavy_multiplication_x: I got an error while fetching that link``" + info.error
-						+ "``").queue();
+					event.getChannel().sendMessage(
+						":heavy_multiplication_x: I got an error while fetching that link``" + info.error
+							+ "``").queue();
 					return;
 				}
 
@@ -479,7 +621,8 @@ public class UtilsCmds {
 
 				try {
 					int length = Integer.parseInt(info.length);
-					builder.addField("Length",
+					builder.addField(
+						"Length",
 						String.format(
 							"%02d minutes, %02d seconds",
 							SECONDS.toMinutes(length),
@@ -507,84 +650,6 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
-	public static void dictionary(CommandRegistry registry){
-		registry.register("dictionary", new SimpleCommand(Category.UTILS) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if(args.length == 0){
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a word.").queue();
-					return;
-				}
-
-
-				String word = content;
-
-				JSONObject main;
-				String definition, part_of_speech, headword, example;
-
-				try{
-					main = Unirest.get("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word).asJson().getBody().getObject();
-					JSONArray results = main.getJSONArray("results");
-					JSONObject result = results.getJSONObject(0);
-					JSONArray senses = result.getJSONArray("senses");
-
-					headword = result.getString("headword");
-
-					if(result.has("part_of_speech")) part_of_speech = result.getString("part_of_speech");
-					else part_of_speech = "Not found.";
-
-					if(senses.getJSONObject(0).get("definition") instanceof JSONArray)
-						definition = senses.getJSONObject(0).getJSONArray("definition").getString(0);
-					else
-						definition = senses.getJSONObject(0).getString("definition");
-
-					try{
-						if(senses.getJSONObject(0).getJSONArray("translations").getJSONObject(0).get("example") instanceof JSONArray){
-							example = senses.getJSONObject(0)
-									.getJSONArray("translations")
-									.getJSONObject(0)
-									.getJSONArray("example")
-									.getJSONObject(0)
-									.getString("text");
-						} else {
-							example = senses.getJSONObject(0)
-									.getJSONArray("translations")
-									.getJSONObject(0)
-									.getJSONObject("example")
-									.getString("text");
-						}
-					} catch (Exception e){
-						example = "Not found";
-					}
-
-
-				} catch (Exception e){
-					event.getChannel().sendMessage(EmoteReference.ERROR + "No results.").queue();
-					return;
-				}
-
-				EmbedBuilder eb = new EmbedBuilder();
-				eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
-						.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
-						.addField("Definition", "**" +  definition + "**", false)
- 						.addField("Example", "**" +  example + "**", false)
-						.setDescription(String.format("**Part of speech:** `%s`\n" + "**Headword:** `%s`\n", part_of_speech, headword));
-
-				event.getChannel().sendMessage(eb.build()).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Dictionary command")
-						.setDescription("**Looks up a word in the dictionary.**")
-						.addField("Usage", "`~>dictionary <word>` - Searches a word in the dictionary.", false)
-						.addField("Parameters", "`word` - The word to look for", false)
-						.build();
-			}
-		});
-	}
-
 	static String dateGMT(Guild guild, String tz) {
 		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
@@ -595,7 +660,7 @@ public class UtilsCmds {
 			format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
 		}
 
-		if(!tz.contains("GMT")){
+		if (!tz.contains("GMT")) {
 			tz = ZoneId.of(tz).getId();
 		}
 

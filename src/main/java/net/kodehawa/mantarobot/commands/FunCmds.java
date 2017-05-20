@@ -26,6 +26,8 @@ import java.util.concurrent.TimeUnit;
 @Module
 public class FunCmds {
 
+	private static Random r = new Random();
+
 	@Command
 	public static void coinflip(CommandRegistry cr) {
 		cr.register("coinflip", new SimpleCommand(Category.FUN) {
@@ -238,7 +240,9 @@ public class FunCmds {
 		});
 	}
 
-	private static int diceRoll(int size, int amount) {
-		return new Random().ints(size, 1, amount + 1).sum();
+	private static long diceRoll(int size, int amount) {
+		long sum = 0;
+		for (int i = 0; i < amount; i++) sum += r.nextInt(size) + 1;
+		return sum;
 	}
 }
