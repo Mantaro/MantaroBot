@@ -396,9 +396,6 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) ||
-						!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE))
-					return;
 				tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId())).queue();
 				logTotal++;
 			}
@@ -408,10 +405,6 @@ public class MantaroListener implements EventListener {
 
 			if (joinChannel != null && joinMessage != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
-
-				if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) ||
-						!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE))
-					return;
 
 				if (joinMessage.contains("$(")) {
 					Map<String, String> dynamicMap = new HashMap<>();
@@ -440,11 +433,7 @@ public class MantaroListener implements EventListener {
 
 				tc.sendMessage(joinMessage).queue();
 			}
-		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a join event.", e);
-			}
-		}
+		} catch (Exception e) {}
 	}
 
 	private void onUserLeave(GuildMemberLeaveEvent event) {
@@ -459,15 +448,8 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				if(event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) || event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE)){
-					tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
-					logTotal++;
-				} else {
-					event.getGuild().getPublicChannel().sendMessage(EmoteReference.ERROR + "I tried logging a leave event but I don't have permissions to write in the specified channel... Disabling for now.").queue();
-					data.setGuildLogChannel(null);
-					dbg.save();
-					return;
-				}
+				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+				logTotal++;
 			}
 
 			String leaveChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
@@ -476,13 +458,6 @@ public class MantaroListener implements EventListener {
 
 			if (leaveChannel != null && leaveMessage != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(leaveChannel);
-
-				if(!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE)){
-					event.getGuild().getPublicChannel().sendMessage(EmoteReference.ERROR + "I tried saying the leave message but I don't have permissions to write in the specified channel... Disabling for now.").queue();
-					data.setLogJoinLeaveChannel(null);
-					dbg.save();
-					return;
-				}
 
 				if (leaveMessage.contains("$(")) {
 					Map<String, String> dynamicMap = new HashMap<>();
@@ -511,11 +486,7 @@ public class MantaroListener implements EventListener {
 				tc.sendMessage(leaveMessage).queue();
 			}
 
-		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a leave event.", e);
-			}
-		}
+		} catch (Exception e) {}
 	}
 
 	private void resetBirthdays(Guild guild) {
