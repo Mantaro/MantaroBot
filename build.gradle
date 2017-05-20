@@ -49,7 +49,7 @@ dependencies {
 	compile 'br.com.brjdevs:utils:1.0.0_13'
 	compile 'br.com.brjdevs:network:1.0.0_2'
 	compile 'br.com.brjdevs:trove-utils:1.0.0_1'
-;
+
 	compile 'com.google.guava:guava:19.0'
 	compile 'com.google.code.gson:gson:2.8.0'
 

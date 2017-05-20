@@ -183,6 +183,9 @@ public class MantaroListener implements EventListener {
 
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+				if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) ||
+						!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE))
+					return;
 				User author = event.getAuthor();
 				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 
@@ -393,7 +396,9 @@ public class MantaroListener implements EventListener {
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				if (!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE)) return;
+				if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) ||
+						!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE))
+					return;
 				tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId())).queue();
 				logTotal++;
 			}
@@ -404,7 +409,9 @@ public class MantaroListener implements EventListener {
 			if (joinChannel != null && joinMessage != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
 
-				if (!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE)) return;
+				if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) ||
+						!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE))
+					return;
 
 				if (joinMessage.contains("$(")) {
 					Map<String, String> dynamicMap = new HashMap<>();

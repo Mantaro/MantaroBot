@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.web;
 
-import br.com.brjdevs.utils.trove.RateLimiter;
+//import br.com.brjdevs.utils.trove.RateLimiter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 
 @Service
 public class RateLimitInterceptor extends HandlerInterceptorAdapter {
-	private static final RateLimiter rateLimiter = new RateLimiter(10, 60000);
+	//private static final RateLimiter rateLimiter = new RateLimiter(10, 60000);
 
 	private static <T> boolean anyMatch(Enumeration<T> e, Predicate<T> p) {
 		while (e.hasMoreElements()) if (p.test(e.nextElement())) return true;
@@ -28,7 +28,7 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if (!rateLimiter.process(request.getRemoteAddr())) {
+		/*if (!rateLimiter.process(request.getRemoteAddr())) {
 			response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
 			try (PrintWriter out = response.getWriter()) {
 				boolean html = anyMatch(request.getHeaders("Accept"), v -> v.contains("text/html"));
@@ -39,7 +39,7 @@ public class RateLimitInterceptor extends HandlerInterceptorAdapter {
 				if (html) out.println("</h1></body></html>");
 			}
 			return false;
-		}
+		}*/
 
 		return true;
 	}
