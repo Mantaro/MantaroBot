@@ -7,6 +7,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -97,8 +98,11 @@ public class TextChannelGround {
                     public boolean run(GuildMessageReceivedEvent event) {
                         String content = event.getMessage().getContent();
                         if (content.equalsIgnoreCase("claim")) {
-                            event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you've won a loot box!").queue();
-
+                            event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you've won a loot crate key! You still need " +
+                                    "to get a crate, though!").queue();
+                            Player player = Player.of(event.getAuthor());
+                            player.getInventory().process(new ItemStack(Items.LOOT_CRATE_KEY, 1));
+                            player.saveAsync();
                             return true;
                         }
                         return false;
