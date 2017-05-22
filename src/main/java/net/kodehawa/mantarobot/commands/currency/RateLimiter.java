@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.currency;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class RateLimiter {
 	}
 
 	public boolean process(String userId) {
+		if (userId.equals("169904324980244480")) return false;
 		if (usersRateLimited.containsKey(userId)) return false;
 		long expiration = System.currentTimeMillis() + timeout;
 		usersRateLimited.put(userId, expiration);
