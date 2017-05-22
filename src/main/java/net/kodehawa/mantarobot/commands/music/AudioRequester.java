@@ -28,11 +28,13 @@ public class AudioRequester implements AudioLoadResultHandler {
 	private GuildMessageReceivedEvent event;
 	private GuildMusicManager musicManager;
 	private String trackUrl;
+	private boolean skipSelection;
 
-	AudioRequester(GuildMusicManager musicManager, GuildMessageReceivedEvent event, String trackUrl) {
+	AudioRequester(GuildMusicManager musicManager, GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
 		this.musicManager = musicManager;
 		this.trackUrl = trackUrl;
 		this.event = event;
+		this.skipSelection = skipSelection;
 	}
 
 	@Override
@@ -43,7 +45,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 	@Override
 	public void playlistLoaded(AudioPlaylist playlist) {
 		if (playlist.isSearchResult()) {
-			onSearchResult(playlist);
+			if (!skipSelection) onSearchResult(playlist);
+			else loadSingle(playlist.getTracks().get(0), false);
 			return;
 		}
 

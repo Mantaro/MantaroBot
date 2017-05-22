@@ -186,6 +186,7 @@ public class MusicCmds {
 		});
 	}
 
+
 	@Command
 	public static void pause(CommandRegistry cr) {
 		cr.register("pause", new SimpleCommand(Category.MUSIC) {
@@ -233,7 +234,7 @@ public class MusicCmds {
 					else content = "ytsearch: " + content;
 				}
 
-				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content);
+				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false);
 				TextChannelGround.of(event).dropItemWithChance(0, 5);
 			}
 
@@ -251,6 +252,65 @@ public class MusicCmds {
 			}
 		});
 	}
+
+	@Command
+	public static void playfirst(CommandRegistry cr) {
+		cr.register("playfirst", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (content.trim().isEmpty()) {
+					onHelp(event);
+					return;
+				}
+				try {
+					new URL(content);
+				} catch (Exception e) {
+					if (content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+					else content = "ytsearch: " + content;
+				}
+
+				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, true);
+				TextChannelGround.of(event).dropItemWithChance(0, 5);
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "PlayFirst Command")
+						.addField("Description", "Play the first song I find in your search", false)
+						.addField("Usage", "~>playfirst <song url> (playlists and song names are also acceptable)", false)
+						.addField(
+								"Tip", "If you do ~>playfirst <search term> I'll search youtube (default), " +
+										"but if you do ~>playfirst soundcloud <search term> It will search soundcloud (not for usage w/links).",
+								false
+						)
+						.build();
+			}
+		});
+	}
+
+	@Command
+	public static void skipahead(CommandRegistry cr) {
+		cr.register("skipahead", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (args.length == 0) {
+					onHelp(event);
+					return;
+				}
+				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Skip Ahead Command")
+						.addField("Description", "Fast forward the current song a specified amount of seconds", false)
+						.addField("Usage", "~>skipahead <seconds>", false)
+						.build();
+			}
+		});
+	}
+
 
 	@Command
 	public static void queue(CommandRegistry cr) {
