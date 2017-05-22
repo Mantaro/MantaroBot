@@ -28,7 +28,7 @@ public class RateLimiter {
 	}
 
 	public boolean process(String userId) {
-		if (userId.equals("169904324980244480")) return false;
+		if (userId.equals("169904324980244480")) return true;
 		if (usersRateLimited.containsKey(userId)) return false;
 		long expiration = System.currentTimeMillis() + timeout;
 		usersRateLimited.put(userId, expiration);
