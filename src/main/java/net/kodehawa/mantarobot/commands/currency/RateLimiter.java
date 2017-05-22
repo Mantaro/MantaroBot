@@ -1,10 +1,12 @@
 package net.kodehawa.mantarobot.commands.currency;
 
+import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.utils.Expirator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RateLimiter {
 	private static final Expirator EXPIRATOR = new Expirator();
 	private final int timeout;
-	private final List<String> usersRateLimited = new ArrayList<>();
+	@Getter private final HashMap<String, Long> usersRateLimited = new HashMap<>();
 
 	public RateLimiter(int timeout) {
 		this.timeout = timeout;
@@ -25,10 +27,11 @@ public class RateLimiter {
 	}
 
 	public boolean process(String userId) {
-		if (usersRateLimited.contains(userId)) return false;
-		usersRateLimited.add(userId);
+		if (usersRateLimited.containsKey(userId)) return false;
+		long expiration = System.currentTimeMillis() + timeout;
+		usersRateLimited.put(userId, expiration);
 		Expirator.Expirable ex = () -> usersRateLimited.remove(userId);
-		EXPIRATOR.put(System.currentTimeMillis() + timeout, ex);
+		EXPIRATOR.put(expiration, ex);
 		return true;
 	}
 

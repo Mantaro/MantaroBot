@@ -5,6 +5,7 @@ import com.google.common.primitives.Longs;
 import gnu.trove.TCollections;
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
+import lombok.Getter;
 import net.kodehawa.mantarobot.utils.Expirator.Expirable;
 
 import java.util.*;
@@ -19,7 +20,7 @@ public class Expirator<T extends Expirable> {
 		void onExpire();
 	}
 
-	private final Set<Expirable> expirables = Collections.newSetFromMap(new ConcurrentHashMap<>());
+	@Getter private final Set<Expirable> expirables = Collections.newSetFromMap(new ConcurrentHashMap<>());
 	private final TLongObjectMap<Set<Expirable>> expirations = TCollections.synchronizedMap(new TLongObjectHashMap<>());
 	private boolean updated = false;
 

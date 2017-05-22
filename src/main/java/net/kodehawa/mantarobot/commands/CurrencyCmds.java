@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -63,7 +64,9 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You can only do this once every 24 hours.").queue();
+                            "Halt! You can only do this once every 24 hours. You'll next be able to use this command at " +
+                            Date.from(Instant.ofEpochMilli(rateLimiter.getUsersRateLimited().get(event.getAuthor().getId())))
+                                    .toLocaleString()).queue();
                     return;
                 }
 
@@ -92,7 +95,6 @@ public class CurrencyCmds {
                 }
 
                 player = MantaroData.db().getPlayer(event.getMember());
-
                 if (player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
 
                 if (player.getInventory().getAmount(Items.BOOSTER) > 0) {
@@ -276,7 +278,8 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 5 minutes.").queue();
+                            "Cooldown a lil bit, you can only do this once every 5 minutes. You'll be able to use this command in " +
+                            ((int) (rateLimiter.getUsersRateLimited().get(id) / 1000 / 60)) + " minutes").queue();
                     return;
                 }
 
@@ -831,7 +834,8 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Transfer Items command")
                         .setDescription("**Transfers items from you to another player.**")
-                        .addField("Usage", "`~>transfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**", false)
+                        .addField("Usage", "`~>transfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
+                                false)
                         .addField("Parameters", "`@user` - user to send the item to\n" +
                                 "`item emoji` - write out the emoji of the item you want to send\n" +
                                 "`amount` - optional, send a specific amount of an item to someone.", false)
