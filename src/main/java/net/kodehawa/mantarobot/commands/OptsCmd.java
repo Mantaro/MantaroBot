@@ -942,6 +942,10 @@ public class OptsCmd {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
 		});
 
+		registerOption("commands:blockroles", (event, args) -> {
+
+		});
+
 		/*registerOption("server:category:disallow", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);

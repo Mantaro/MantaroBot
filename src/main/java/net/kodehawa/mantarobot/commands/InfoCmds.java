@@ -69,7 +69,7 @@ public class InfoCmds {
 						.addField("Special Mentions",
 								"**MrLar#8117** $101 pledge. <3 + $275 donation. <3\n" +
 								"**Quartermaster#1262** $40 pledge <3",false)
-						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
+						.setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
@@ -79,10 +79,10 @@ public class InfoCmds {
 					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setColor(Color.BLUE)
 						.setDescription("**Main developer**: Kodehawa#3457\n"
-							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340 (Retired :<)\n" + "**Cross bot integration**: Natan#1289 (Retired :<)\n**Grammar corrections and development**: Adam#9261")
+							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340 (Retired :<)\n" + "**Cross bot integration**: Natan#1289 (Retired :<)\n**Cool dev guy**: Adam#9261")
 						.addField("Special mentions",
-							"Thanks to DiscordBots, Carbonitex and DiscordBots.org for helping us with increasing the bot's visibility.", false)
-						.setFooter("Much thanks to them for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
+							"Thanks to bots.discord.pw, Carbonitex and DiscordBots.org for helping us with increasing the bot's visibility.", false)
+						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}

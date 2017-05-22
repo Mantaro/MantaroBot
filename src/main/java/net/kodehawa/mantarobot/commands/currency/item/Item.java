@@ -13,6 +13,11 @@ public class Item {
 	@Getter
 	private boolean hidden;
 
+	@Override
+	public String toString() {
+		return name;
+	}
+
 	public Item(String emoji, String name, String desc, long value) {
 		this(emoji, name, desc, value, false, true, true, false, 100);
 	}

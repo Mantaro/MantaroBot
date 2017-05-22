@@ -35,6 +35,7 @@ public class GuildData {
 	private boolean noMentionsAction = false;
 	private boolean musicAnnounce = true;
 	private int timeDisplay = 0; //0 = 24h, 1 = 12h
+	private ArrayList<String> rolesBlockedFromCommands = new ArrayList<>();
 
 	//TODO implement
 	private int maxFairQueue = 4;
