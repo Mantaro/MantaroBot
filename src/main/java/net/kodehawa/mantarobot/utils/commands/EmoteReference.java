@@ -52,7 +52,7 @@ public enum EmoteReference {
 	DOOR(":door:", "\uD83D\uDEAA"),
 	LOVE_LETTER(":love_letter:", "\uD83D\uDC8C"),
 	NECKLACE(":prayer_beads:", "\uD83D\uDCFF"),
-	DIAMOND(":large_blue_diamond:", "\uD83D\uDD37"),
+	DIAMOND(":gem:", "\uD83D\uDC8E"),
 	TUXEDO(":man_in_tuxedo:", "\uD83E\uDD35"),
 	DRESS(":dress:", "\uD83D\uDC57"),
 	COOKIE(":cookie:", "\uD83C\uDF6A"),
