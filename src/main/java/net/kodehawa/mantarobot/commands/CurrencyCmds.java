@@ -33,7 +33,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -276,7 +275,6 @@ public class CurrencyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
-
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                             "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again " +
@@ -296,7 +294,7 @@ public class CurrencyCmds {
                 if (r.nextInt(15) == 0) {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a loot crate!").queue();
                     player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
-                    player.saveAsync();
+                    player.save();
                 }
                 else if (r.nextInt(200) == 69) {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a special loot box and its key! I'll " +
@@ -349,8 +347,7 @@ public class CurrencyCmds {
                         event.getChannel().sendMessage(EmoteReference.SAD + "Digging through messages, you found nothing but dust").queue();
                     }
                 }
-
-                player.saveAsync();
+                player.save();
             }
 
             @Override
@@ -971,7 +968,7 @@ public class CurrencyCmds {
             if (o1.getValue() == o2.getValue()) return 0;
             return -1;
         });
-        for (int i = 0; i < amtItems; i++) toAdd.add(selectWeighted(items));
+        for (int i = 0; i < amtItems; i++) toAdd.add(selectByReverseWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
@@ -980,7 +977,7 @@ public class CurrencyCmds {
         event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won all these items! " + toAdd.toString()).queue();
     }
 
-    private static Item selectWeighted(List<Item> items) {
+    private static Item selectByReverseWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
         for (int i = 0; i < items.size(); i++) {
