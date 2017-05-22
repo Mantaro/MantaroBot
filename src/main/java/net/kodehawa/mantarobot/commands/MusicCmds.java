@@ -297,7 +297,6 @@ public class MusicCmds {
 					onHelp(event);
 					return;
 				}
-				MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
 
 			}
 

@@ -972,7 +972,9 @@ public class CurrencyCmds {
         });
         for (int i = 0; i < amtItems; i++) toAdd.add(selectWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
-        toAdd.forEach(item -> player.getInventory().process(new ItemStack(item, 1)));
+        ArrayList<ItemStack> ita = new ArrayList<>();
+        toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
+        player.getInventory().process((ItemStack[]) ita.toArray());
         player.save();
         event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won all these items! " + toAdd.toString()).queue();
     }
