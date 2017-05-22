@@ -829,7 +829,14 @@ public class CurrencyCmds {
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
+                return helpEmbed(event, "Transfer Items command")
+                        .setDescription("**Transfers items from you to another player.**")
+                        .addField("Usage", "`~>transfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**", false)
+                        .addField("Parameters", "`@user` - user to send the item to\n" +
+                                "`item emoji` - write out the emoji of the item you want to send\n" +
+                                "`amount` - optional, send a specific amount of an item to someone.", false)
+                        .addField("Important", "You cannot send more items than what you already have", false)
+                        .build();
             }
         });
     }
