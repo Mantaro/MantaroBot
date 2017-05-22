@@ -253,7 +253,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	/*@Command
 	public static void playfirst(CommandRegistry cr) {
 		cr.register("playfirst", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -286,9 +286,9 @@ public class MusicCmds {
 						.build();
 			}
 		});
-	}
+	}*/
 
-	@Command
+	/*@Command
 	public static void skipahead(CommandRegistry cr) {
 		cr.register("skipahead", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -308,7 +308,7 @@ public class MusicCmds {
 						.build();
 			}
 		});
-	}
+	}*/
 
 
 	@Command

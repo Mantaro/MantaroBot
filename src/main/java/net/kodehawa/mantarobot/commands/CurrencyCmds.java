@@ -287,12 +287,13 @@ public class CurrencyCmds {
                 }
 
                 TextChannelGround ground = TextChannelGround.of(event);
-                if (r.nextInt(15) == 0) {
+                if (r.nextInt(60) == 0) {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a normal loot box and its key! I'll " +
                             "open it now for you ! " + EmoteReference.SMILE).queue();
                     openLootBox(event, false);
                 }
-                if (r.nextInt(5) == 0) {
+
+                if (r.nextInt(15) == 0) {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a loot crate!").queue();
                     player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
                     player.saveAsync();
