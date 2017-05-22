@@ -777,10 +777,6 @@ public class CurrencyCmds {
         cr.register("transferitems", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (event.getAuthor().getIdLong() == 132584525296435200L) {
-                    event.getChannel().sendMessage("Nice try Lars x)").queue();
-                    return;
-                }
                 if (args.length < 2) {
                     onError(event);
                     return;
