@@ -65,6 +65,10 @@ public class Inventory {
 		replaceWith(ItemStack.reduce(cur));
 	}
 
+	public void process(List<ItemStack> is) {
+		merge(is);
+	}
+
 	public void process(ItemStack... stacks) {
 		merge(Arrays.asList(stacks));
 	}

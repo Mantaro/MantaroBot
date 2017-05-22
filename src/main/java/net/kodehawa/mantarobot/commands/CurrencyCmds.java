@@ -974,7 +974,7 @@ public class CurrencyCmds {
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
-        player.getInventory().process((ItemStack[]) ita.toArray());
+        player.getInventory().process(ita);
         player.save();
         event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won all these items! " + toAdd.toString()).queue();
     }
