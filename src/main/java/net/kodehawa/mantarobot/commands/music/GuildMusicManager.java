@@ -6,6 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.debug.SpeedingTicketFactory;
 import net.kodehawa.mantarobot.utils.sql.SQLAction;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
@@ -18,6 +19,7 @@ public class GuildMusicManager {
 
 	public GuildMusicManager(AudioPlayerManager playerManager, Guild guild) {
 		this.audioPlayer = playerManager.createPlayer();
+		playerManager.setOutputHookFactory(new SpeedingTicketFactory());
 		this.trackScheduler = new TrackScheduler(audioPlayer, guild.getId(), MantaroBot.getInstance().getId(guild.getJDA()));
 		this.audioPlayer.addListener(trackScheduler);
 		this.audioPlayer.addListener(new AudioEventAdapter() {
