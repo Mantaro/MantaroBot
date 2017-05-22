@@ -59,9 +59,9 @@ public enum EmoteReference {
 	CHOCOLATE(":chocolate_bar:", "\uD83C\uDF6B"),
 	CLOTHES(":shirt:", "\uD83D\uDC55"),
 	SHOES(":athletic_shoe:", "\uD83D\uDC5F"),
-	ROSE(":rose:", "\uD83C\uDF39");
-
-	String discordNotation;
+	ROSE(":rose:", "\uD83C\uDF39"),
+	PARTY(":tada:", "\uD83C\uDF89");
+    String discordNotation;
 	String unicode;
 
 	EmoteReference(String discordNotation, String unicode) {

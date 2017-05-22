@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.modules;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -73,6 +74,8 @@ public class CommandRegistry {
 		}
 
 		cmd.run(event, cmdname, content);
+
+		TextChannelGround.of(event).startLootBoxDrop(500);
 		return true;
 	}
 

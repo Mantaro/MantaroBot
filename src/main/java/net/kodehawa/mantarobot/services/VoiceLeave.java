@@ -1,7 +1,10 @@
 package net.kodehawa.mantarobot.services;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.GuildVoiceState;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -12,11 +15,11 @@ public class VoiceLeave implements Runnable {
         MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((guildId, manager) -> {
             try {
                 Guild guild = MantaroBot.getInstance().getGuildById(guildId);
-                if(guild == null) return;
+                if (guild == null) return;
 
                 GuildVoiceState voiceState = guild.getSelfMember().getVoiceState();
 
-                if(voiceState == null) return;
+                if (voiceState == null) return;
 
                 if (voiceState.inVoiceChannel()) {
                     TextChannel channel = guild.getPublicChannel();
@@ -26,9 +29,9 @@ public class VoiceLeave implements Runnable {
                             AudioPlayer player = manager.getAudioPlayer();
                             GuildMusicManager mm = MantaroBot.getInstance().getAudioManager().getMusicManager(guild);
 
-                            if(player == null || mm == null || voiceChannel == null) return;
+                            if (player == null || mm == null || voiceChannel == null) return;
 
-                            if(mm.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null){
+                            if (mm.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null) {
                                 channel = mm.getTrackScheduler().getCurrentTrack().getRequestedChannel();
                             }
 
@@ -38,14 +41,16 @@ public class VoiceLeave implements Runnable {
                             }
 
                             if (voiceChannel.getMembers().size() == 1) {
-                                channel.sendMessage(EmoteReference.THINKING + "I decided to leave **" + voiceChannel.getName() + "** because I was left all " +
+                                channel.sendMessage(EmoteReference.THINKING + "I decided to leave **" + voiceChannel.getName() + "** " +
+                                        "because I was left all " +
                                         "alone :<").queue();
 
                                 if (mm.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null) {
                                     mm.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
                                     mm.getTrackScheduler().getQueue().clear();
                                     mm.getTrackScheduler().next(true);
-                                } else {
+                                }
+                                else {
                                     guild.getAudioManager().closeAudioConnection();
                                 }
                             }
@@ -53,7 +58,8 @@ public class VoiceLeave implements Runnable {
                     }
                 }
             }
-            catch (Exception ignored) {}
+            catch (Exception ignored) {
+            }
         });
     }
 }
