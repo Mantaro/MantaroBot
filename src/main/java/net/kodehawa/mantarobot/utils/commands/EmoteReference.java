@@ -60,7 +60,8 @@ public enum EmoteReference {
 	CLOTHES(":shirt:", "\uD83D\uDC55"),
 	SHOES(":athletic_shoe:", "\uD83D\uDC5F"),
 	ROSE(":rose:", "\uD83C\uDF39"),
-	PARTY(":tada:", "\uD83C\uDF89");
+	PARTY(":tada:", "\uD83C\uDF89"),
+	LOOT_CRATE("<:lootcrate:316053940305133568>", null);
     String discordNotation;
 	String unicode;
 

@@ -19,6 +19,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
@@ -280,12 +281,18 @@ public class CurrencyCmds {
                 }
 
                 TextChannelGround ground = TextChannelGround.of(event);
-                if (r.nextInt(10) == 0) {
-                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a loot box!").queue();
+                if (r.nextInt(15) == 0) {
+                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a normal loot box and its key! I'll " +
+                            "open it now for you ! " + EmoteReference.SMILE).queue();
                     openLootBox(event, false);
                 }
+                if (r.nextInt(5) == 0) {
+                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a loot crate!").queue();
+                    player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
+                }
                 else if (r.nextInt(200) == 69) {
-                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a special loot box!").queue();
+                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a special loot box and its key! I'll " +
+                            "open it now for you ! " + EmoteReference.SMILE).queue();
                     openLootBox(event, true);
                 }
                 List<ItemStack> loot = ground.collectItems();
@@ -847,9 +854,22 @@ public class CurrencyCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Player player = Player.of(event.getAuthor());
-                player.getInventory().process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
-                player.save();
-                openLootBox(event, true);
+                Inventory inventory = player.getInventory();
+                if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
+                    if (inventory.containsItem(Items.LOOT_CRATE)) {
+                        inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
+                        inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
+                        player.save();
+                        openLootBox(event, true);
+                    }
+                    else {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >" +
+                                ".>").queue();
+                    }
+                }
+                else {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!").queue();
+                }
             }
 
             @Override
