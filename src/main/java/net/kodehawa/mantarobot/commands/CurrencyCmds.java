@@ -30,7 +30,6 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -279,7 +278,8 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again in " +
+                            "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again " +
+                            "in " +
                             Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
                             + ".**").queue();
                     return;
@@ -930,21 +930,21 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Player player = Player.of(event.getAuthor());
                 Inventory inventory = player.getInventory();
-                if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
-                    if (inventory.containsItem(Items.LOOT_CRATE)) {
+                if (inventory.containsItem(Items.LOOT_CRATE)) {
+                    if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
                         player.save();
                         openLootBox(event, true);
                     }
                     else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >" +
-                                ".>").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!")
+                                .queue();
                     }
                 }
                 else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!")
-                            .queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >" +
+                            ".>").queue();
                 }
             }
 
