@@ -63,6 +63,8 @@ public class MusicCmds {
 					.build();
 			}
 		});
+
+		cr.registerAlias("forceskip", "fs");
 	}
 
 	@Command
@@ -303,6 +305,8 @@ public class MusicCmds {
 					.build();
 			}
 		});
+
+		cr.registerAlias("queue", "q");
 	}
 
 	@Command
@@ -406,11 +410,11 @@ public class MusicCmds {
 						"Usage:", "`~>removetrack <tracknumber/first/next/last>` (as specified on the ~>queue command)",
 						false
 					)
-					//TODO Update this
 					.addField("Parameters:", "`tracknumber`: the number of the track to remove\n" +
 						"`first`: remove the first track\n"
 						+ "`next`: remove the next track\n"
-						+ "`last`: remove the last track", false)
+						+ "`last`: remove the last track\n"
+						+ "You can also specify a range (1-10, for example) to delete the first 10 tracks of the queue.", false)
 					.build();
 			}
 		});

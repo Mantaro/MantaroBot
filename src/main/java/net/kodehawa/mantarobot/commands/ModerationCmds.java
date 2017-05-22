@@ -537,7 +537,7 @@ public class ModerationCmds {
                             .queue();
                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
                     MantaroBot.getTempBanManager().addTempban(
-                            guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
+                        guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
                     TextChannelGround.of(event).dropItemWithChance(1, 2);
                 });
             }

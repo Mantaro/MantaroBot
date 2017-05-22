@@ -84,7 +84,10 @@ public class CommandRegistry {
 	}
 
 	public void registerAlias(String c, String o) {
-		Preconditions.checkArgument(commands.containsKey(o), "Command don't exists");
-		register(c, new AliasCommand(o, commands.get(o)));
+		if(!commands.containsKey(c)){
+			System.out.println(c + " isn't in the command map...");
+		}
+
+		register(o, new AliasCommand(o, commands.get(c)));
 	}
 }

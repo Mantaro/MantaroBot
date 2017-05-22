@@ -39,6 +39,9 @@ public class GuildData {
 
 	//TODO implement
 	private int maxFairQueue = 4;
+	private int maxResultsSearch = 5;
+
+	//TODO implement
 	private HashMap<String, List<String>> channelSpecificDisabledCategories = new HashMap<>();
 	private Set<String> disabledCategories = new HashSet<>();
 }

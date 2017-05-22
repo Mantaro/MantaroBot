@@ -15,7 +15,8 @@ public enum CommandPermission {
 		@Override
 		public boolean test(Member member) {
 			return member.isOwner() || member.hasPermission(Permission.ADMINISTRATOR) ||
-				member.hasPermission(Permission.MANAGE_SERVER) || OWNER.test(member);
+				member.hasPermission(Permission.MANAGE_SERVER) || OWNER.test(member) ||
+					member.getRoles().stream().anyMatch(role -> role.getName().equals("Bot Commander"));
 		}
 	},
 	OWNER() {

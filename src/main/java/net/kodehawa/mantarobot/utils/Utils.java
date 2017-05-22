@@ -51,6 +51,13 @@ public class Utils {
 				TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 	}
 
+	public static String getVerboseTime(long millis){
+		return String.format("%02d hours, %02d minutes and %02d seconds",
+				TimeUnit.MILLISECONDS.toHours(millis),
+				TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+				TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+	}
+
 	public static String getDurationMinutes(long length) {
 		return String.format("%d:%02d",
 			TimeUnit.MILLISECONDS.toMinutes(length),

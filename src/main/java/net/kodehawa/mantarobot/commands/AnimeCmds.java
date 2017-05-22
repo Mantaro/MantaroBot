@@ -79,6 +79,8 @@ public class AnimeCmds {
 					.build();
 			}
 		});
+
+		cr.registerAlias("anime", "animu");
 	}
 
 	/**
@@ -147,6 +149,8 @@ public class AnimeCmds {
 						.build();
 			}
 		});
+
+		cr.registerAlias("character", "char");
 	}
 
 	@Command

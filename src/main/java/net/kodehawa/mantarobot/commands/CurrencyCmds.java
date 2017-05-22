@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -64,9 +65,9 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You can only do this once every 24 hours. You'll next be able to use this command at " +
-                            Date.from(Instant.ofEpochMilli(rateLimiter.getUsersRateLimited().get(event.getAuthor().getId())))
-                                    .toLocaleString()).queue();
+                            "Halt! You can only do this once every 24 hours.\n **You'll be able to use this command again in " +
+                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                            + ".**").queue();
                     return;
                 }
 
@@ -278,8 +279,9 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 5 minutes. You'll be able to use this command in " +
-                            ((int) (rateLimiter.getUsersRateLimited().get(id) / 1000 / 60)) + " minutes").queue();
+                            "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again in " +
+                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                            + ".**").queue();
                     return;
                 }
 
@@ -292,6 +294,7 @@ public class CurrencyCmds {
                 if (r.nextInt(5) == 0) {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a loot crate!").queue();
                     player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
+                    player.saveAsync();
                 }
                 else if (r.nextInt(200) == 69) {
                     event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a special loot box and its key! I'll " +
@@ -818,7 +821,7 @@ public class CurrencyCmds {
                                     "to do that").queue();
                         }
                         catch (NumberFormatException nfe) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number provided");
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number provided").queue();
                         }
                         player.saveAsync();
                         giveToPlayer.saveAsync();
@@ -967,10 +970,10 @@ public class CurrencyCmds {
             return -1;
         });
         for (int i = 0; i < amtItems; i++) toAdd.add(selectWeighted(items));
-        Player player = Player.of(event.getAuthor());
+        Player player = MantaroData.db().getPlayer(event.getMember());
         items.forEach(item -> player.getInventory().process(new ItemStack(item, 1)));
         player.save();
-        event.getChannel().sendMessage(EmoteReference.PARTY + "You won one of all these items! " + toAdd.toString()).queue();
+        event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won one of all these items! " + toAdd.toString()).queue();
     }
 
     private static Item selectWeighted(List<Item> items) {

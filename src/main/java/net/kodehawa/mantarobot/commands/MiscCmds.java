@@ -76,6 +76,8 @@ public class MiscCmds {
 					.build();
 			}
 		});
+
+		cr.registerAlias("8ball", "8b");
 	}
 
 	@Command
@@ -267,6 +269,8 @@ public class MiscCmds {
 					.build();
 			}
 		});
+
+		cr.registerAlias("randomfact", "rf");
 	}
 
 	/**

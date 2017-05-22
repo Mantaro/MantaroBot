@@ -31,6 +31,8 @@ public class ActionCmds {
 	static final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
 	static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
 	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
+	private static final DataManager<List<String>> TICKLES = new SimpleFileDataManager("assets/mantaro/texts/tickles.txt");
+	private static final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
 	static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
@@ -176,6 +178,18 @@ public class ActionCmds {
 		cr.register("bite", new ImageActionCmd(
 				"Bite", "Bites the specified user.", Color.PINK,
 				"bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", BITES.get(), "*bites you*"
+		));
+
+		//tickle();
+		cr.register("tickle", new ImageActionCmd(
+				"Tickle", "Tickles the specified user.", Color.PINK,
+				"tickle.gif", EmoteReference.JOY + "%s you have been tickled by %s", TICKLES.get(), "*tickles you*"
+		));
+
+		//highfive();
+		cr.register("highfive", new ImageActionCmd(
+				"Highfive", "Highfives with the specified user.", Color.PINK,
+				"highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfive*"
 		));
 
 		//greet();

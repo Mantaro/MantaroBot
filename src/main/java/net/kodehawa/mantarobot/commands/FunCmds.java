@@ -99,7 +99,7 @@ public class FunCmds {
 					if (user1 == null) {
 						user.getData().setMarriedWith(null);
 						user.getData().setMarriedSince(0L);
-						user.save();
+						user.saveAsync();
 						event.getChannel().sendMessage(
 							EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
 						return;
@@ -108,16 +108,17 @@ public class FunCmds {
 					Player marriedWith = MantaroData.db().getPlayer(user1);
 
 					marriedWith.getData().setMarriedWith(null);
-					marriedWith.save();
 					marriedWith.getData().setMarriedSince(0L);
+					marriedWith.saveAsync();
 
 					user.getData().setMarriedWith(null);
 					user.getData().setMarriedSince(0L);
-					user.save();
+					user.saveAsync();
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?")
 						.queue();
 					return;
 				}
+
 
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry with.")
@@ -127,6 +128,9 @@ public class FunCmds {
 
 				User member = event.getAuthor();
 				User user = event.getMessage().getMentionedUsers().get(0);
+				Player player = MantaroData.db().getPlayer(event.getMember());
+				User user1 = player.getData().getMarriedWith() == null
+						? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
 				if (user.getId().equals(event.getAuthor().getId())) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with yourself.").queue();
@@ -138,12 +142,12 @@ public class FunCmds {
 					return;
 				}
 
-				if (MantaroData.db().getPlayer(event.getGuild().getMember(user)).getData().isMarried()) {
+				if (player.getData().isMarried()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
 					return;
 				}
 
-				if (MantaroData.db().getPlayer(event.getGuild().getMember(member)).getData().isMarried()) {
+				if (player.getData().isMarried() && user1 != null) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You are married already.").queue();
 					return;
 				}
@@ -154,13 +158,13 @@ public class FunCmds {
 						if (!e.getAuthor().getId().equals(user.getId())) return false;
 
 						if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
-							Player user1 = MantaroData.db().getPlayer(e.getMember());
+							Player user11 = MantaroData.db().getPlayer(e.getMember());
 							Player marry = MantaroData.db().getPlayer(e.getGuild().getMember(member));
-							user1.getData().setMarriedWith(member.getId());
+							user11.getData().setMarriedWith(member.getId());
 							marry.getData().setMarriedWith(e.getAuthor().getId());
 							e.getChannel().sendMessage(EmoteReference.POPPER + e.getMember()
 								.getEffectiveName() + " accepted the proposal of " + member.getName() + "!").queue();
-							user1.save();
+							user11.save();
 							marry.save();
 							return true;
 						}
@@ -238,6 +242,34 @@ public class FunCmds {
 					.build();
 			}
 		});
+	}
+
+	@Command
+	public static void ratewaifu(CommandRegistry cr){
+		cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+				if(args.length == 0){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Give me a waifu to rate!").queue();
+					return;
+				}
+
+				int waifuRate = r.nextInt(100);
+				if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
+
+				event.getChannel().sendMessage(EmoteReference.THINKING + "I rate " + content + " with a **" + waifuRate + "/100**").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Rate your waifu")
+						.setDescription("**Just rates your waifu from zero to 100. Results may vary.**")
+						.build();
+			}
+		});
+
+		cr.registerAlias("ratewaifu", "rw");
 	}
 
 	private static long diceRoll(int size, int amount) {

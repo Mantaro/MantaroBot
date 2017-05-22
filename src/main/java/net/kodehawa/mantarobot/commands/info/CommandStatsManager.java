@@ -67,7 +67,7 @@ public class CommandStatsManager {
 			.sorted(Comparator.comparingInt(entry -> total - entry.getValue().get()))
 			.limit(5)
 			.map(entry -> {
-				int percent = entry.getValue().get() * 100 / total;
+				int percent = Math.round((float) entry.getValue().get() * 100 / total);
 				return String.format("%s %d%% **%s** (%d)", bar(percent, 15), percent, entry.getKey(), entry.getValue().get());
 			})
 			.collect(Collectors.joining("\n")));

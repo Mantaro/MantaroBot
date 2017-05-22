@@ -67,7 +67,7 @@ public class InfoCmds {
 						.setColor(Color.PINK)
 						//<3
 						.addField("Special Mentions",
-								"**MrLar#8117** $101 pledge. <3 + $275 donation. <3\n" +
+								"**MrLar#8117** $101 pledge. <3 + $325 donation. <3\n" +
 								"**Quartermaster#1262** $40 pledge <3",false)
 						.setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
@@ -212,6 +212,8 @@ public class InfoCmds {
 					.build();
 			}
 		});
+
+		cr.registerAlias("serverinfo", "guildinfo");
 	}
 
 	@Command
@@ -329,7 +331,7 @@ public class InfoCmds {
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
 					+ "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize() + "\n"
-					+ "\n\n --------- RethinkDB Information --------- \n\n"
+					+ "\n --------- RethinkDB Information --------- \n\n"
 					+ "RethinkDB Version: " + rethonkVersion + "\n"
 						+ "Time Connected: " + DurationFormatUtils.formatDuration(
 						Duration.between(Instant.parse(timeConnected), Instant.now()).toMillis(),
