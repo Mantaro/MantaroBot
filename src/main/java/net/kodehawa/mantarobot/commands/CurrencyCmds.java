@@ -33,6 +33,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -971,13 +972,12 @@ public class CurrencyCmds {
         });
         for (int i = 0; i < amtItems; i++) toAdd.add(selectWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
-        items.forEach(item -> player.getInventory().process(new ItemStack(item, 1)));
+        toAdd.forEach(item -> player.getInventory().process(new ItemStack(item, 1)));
         player.save();
         event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won all these items! " + toAdd.toString()).queue();
     }
 
     private static Item selectWeighted(List<Item> items) {
-        final Item[] retrieved = {};
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
         for (int i = 0; i < items.size(); i++) {
@@ -986,12 +986,12 @@ public class CurrencyCmds {
             weights.put(t, items.get(i));
         }
         final int[] selected = {random.nextInt(weightedTotal)};
-        weights.forEach((weight, item) -> {
-            if ((selected[0] -= weight) <= 0) {
-                retrieved[0] = item;
+        for (Map.Entry<Integer, Item> i : weights.entrySet()) {
+            if ((selected[0] -= i.getKey()) <= 0) {
+                return i.getValue();
             }
-        });
-        return retrieved[0];
+        }
+       return null;
     }
 
     private static User getUserById(String id) {
