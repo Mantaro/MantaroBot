@@ -24,7 +24,7 @@ public class Items {
             FLOPPY_DISK = new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 80, false),
             MY_MATHS = new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 50, false),
             PING_RACKET = new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 50, false),
-            LOADED_DICE = new Item("\uD83C\uDFB2", "Loaded Dice", "Stolen from `~>dice` command", 100, false),
+            LOADED_DICE = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>dice` command", 100, false),
             FORGOTTEN_MUSIC = new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 50, false),
             CC_PENCIL = new Item("\u270f", "Pencil", "We have plenty of those!", 50, false),
             OVERFLOWED_BAG = new Item("\uD83D\uDCB0", "Moneybag", "What else?.", 2500, true),
@@ -49,7 +49,7 @@ public class Items {
             ROSE = new Item(EmoteReference.ROSE.getUnicode(), "Rose", "The embodiment of your love.", 650, true),
             CHOCOLATE = new Item(EmoteReference.CHOCOLATE.getUnicode(), "Chocolate", "Yummy.", 780, true),
             COOKIES = new Item(EmoteReference.COOKIE.getUnicode(), "Cookie", "Delicious.", 580, true),
-            LOADED_DICE_2 = new Item("\uD83C\uDFB2", "Loaded Dice", "Stolen from `~>dice` command. Gives you a 50% more chance at getting" +
+            LOADED_DICE_2 = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>dice` command. Gives you a 50% more chance at getting" +
                     " a perfect score on dice."),
             BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(), "Booster", "Gives you 5% more money in ~>loot and ~>daily per item. " +
                     "Stackable up to 10."),

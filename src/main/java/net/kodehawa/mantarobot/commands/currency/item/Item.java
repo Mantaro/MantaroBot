@@ -5,17 +5,17 @@ import lombok.Getter;
 import java.util.Random;
 
 public class Item {
-	protected final boolean staticPrice;
+	private final boolean staticPrice;
 	protected final long value;
 	private final String emoji, name, desc;
-	protected long price, maxSize;
+	private long price, maxSize;
 	private boolean sellable, buyable;
 	@Getter
 	private boolean hidden;
 
 	@Override
 	public String toString() {
-		return name;
+		return "**" + name + "** ($" + value + ")";
 	}
 
 	public Item(String emoji, String name, String desc, long value) {
