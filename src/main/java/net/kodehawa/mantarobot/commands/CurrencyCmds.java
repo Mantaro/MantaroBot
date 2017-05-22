@@ -794,8 +794,8 @@ public class CurrencyCmds {
                     }
                     else {
                         Item item = optional.get();
-                        Player player = Player.of(event.getAuthor());
-                        Player giveToPlayer = Player.of(giveTo);
+                        Player player = MantaroData.db().getPlayer(event.getAuthor());
+                        Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
                         if (args.length == 2) {
                             if (player.getInventory().containsItem(item)) {
                                 player.getInventory().process(new ItemStack(item, -1));
@@ -928,7 +928,7 @@ public class CurrencyCmds {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player player = Player.of(event.getAuthor());
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
                 if (inventory.containsItem(Items.LOOT_CRATE)) {
                     if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
@@ -973,11 +973,11 @@ public class CurrencyCmds {
         Player player = MantaroData.db().getPlayer(event.getMember());
         items.forEach(item -> player.getInventory().process(new ItemStack(item, 1)));
         player.save();
-        event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won one of all these items! " + toAdd.toString()).queue();
+        event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won all these items! " + toAdd.toString()).queue();
     }
 
     private static Item selectWeighted(List<Item> items) {
-        final Item[] retrieved = {null};
+        final Item[] retrieved = {};
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
         for (int i = 0; i < items.size(); i++) {
