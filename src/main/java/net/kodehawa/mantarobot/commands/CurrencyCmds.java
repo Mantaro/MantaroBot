@@ -770,6 +770,71 @@ public class CurrencyCmds {
     }
 
     @Command
+    public static void transferItems(CommandRegistry cr) {
+        cr.register("transferitems", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if (event.getAuthor().getIdLong() == 132584525296435200L) {
+                    event.getChannel().sendMessage("Nice try Lars x)").queue();
+                    return;
+                }
+                if (args.length < 2) {
+                    onError(event);
+                    return;
+                }
+                List<User> mentionedUsers = event.getMessage().getMentionedUsers();
+                if (mentionedUsers.size() == 0) event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
+                else {
+                    User giveTo = mentionedUsers.get(0);
+                    Optional<Item> optional = Items.fromAny(args[1]);
+                    if (!optional.isPresent()) {
+                        event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
+                    }
+                    else {
+                        Item item = optional.get();
+                        Player player = Player.of(event.getAuthor());
+                        Player giveToPlayer = Player.of(giveTo);
+                        if (args.length == 2) {
+                            if (player.getInventory().containsItem(item)) {
+                                player.getInventory().process(new ItemStack(item, -1));
+                                giveToPlayer.getInventory().process(new ItemStack(item, 1));
+                                event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave 1 " + item
+                                        .getName() + " to " + giveTo.getAsMention()).queue();
+                            }
+                            else {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
+                                        .queue();
+                            }
+                            return;
+                        }
+                        try {
+                            int amount = Integer.parseInt(args[2]);
+                            if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
+                                player.getInventory().process(new ItemStack(item, amount * -1));
+                                giveToPlayer.getInventory().process(new ItemStack(item, amount));
+                                event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave " + amount +
+                                        " " + item.getName() + " to " + giveTo.getAsMention()).queue();
+                            }
+                            else event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item " +
+                                    "to do that").queue();
+                        }
+                        catch (NumberFormatException nfe) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number provided");
+                        }
+                        player.saveAsync();
+                        giveToPlayer.saveAsync();
+                    }
+                }
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return null;
+            }
+        });
+    }
+
+    @Command
     public static void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -868,7 +933,8 @@ public class CurrencyCmds {
                     }
                 }
                 else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!")
+                            .queue();
                 }
             }
 

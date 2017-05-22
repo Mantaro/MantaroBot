@@ -110,7 +110,7 @@ public class TextChannelGround {
 
                     @Override
                     public void onExpire() {
-                        event.getChannel().sendMessage("No one claimed the loot box " + EmoteReference.SAD).queue();
+                        event.getChannel().sendMessage("No one claimed the loot crate key " + EmoteReference.SAD).queue();
                     }
                 });
     }

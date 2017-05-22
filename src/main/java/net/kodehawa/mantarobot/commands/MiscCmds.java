@@ -100,7 +100,6 @@ public class MiscCmds {
 					event.getChannel().sendMessage(embed.build()).queue();
 					return;
 				}
-
 				iamFunction(args[0], event);
 			}
 
