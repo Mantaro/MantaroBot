@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import gnu.trove.iterator.TIntIterator;
 import gnu.trove.set.hash.TIntHashSet;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -253,7 +254,7 @@ public class MusicCmds {
 		});
 	}
 
-	/*@Command
+	@Command
 	public static void playfirst(CommandRegistry cr) {
 		cr.register("playfirst", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -286,9 +287,56 @@ public class MusicCmds {
 						.build();
 			}
 		});
-	}*/
+	}
 
-	/*@Command
+	@Command
+	public static void rewind(CommandRegistry cr) {
+		cr.register("rewind", new SimpleCommand(Category.MUSIC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (args.length == 0) {
+					onHelp(event);
+					return;
+				}
+				GuildMusicManager manager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+				if (manager.getAudioPlayer().getPlayingTrack() == null) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I'm not currently playing anything").queue();
+					return;
+				}
+				if (isDJ(event.getMember())) {
+					try {
+						int amt = Integer.parseInt(args[0]);
+						if (amt < 0) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Positive integers only").queue();
+							return;
+						}
+						AudioTrack track = manager.getAudioPlayer().getPlayingTrack();
+						long position = track.getPosition();
+						if (position - (amt * 1000) < 0) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You can't skip past the beginning of a song").queue();
+							return;
+						}
+						track.setPosition(position - (amt * 1000));
+						event.getChannel().sendMessage("Rewound " + amt + " seconds").queue();
+					}
+					catch (NumberFormatException ex) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid number").queue();
+					}
+				}
+				else event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a music DJ to use this command!").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Rewind Command")
+						.addField("Description", "Rewind the current song a specified amount of seconds", false)
+						.addField("Usage", "~>rewind <seconds>", false)
+						.build();
+			}
+		});
+	}
+
+	@Command
 	public static void skipahead(CommandRegistry cr) {
 		cr.register("skipahead", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -297,7 +345,32 @@ public class MusicCmds {
 					onHelp(event);
 					return;
 				}
-
+				GuildMusicManager manager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+				if (manager.getAudioPlayer().getPlayingTrack() == null) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I'm not currently playing anything").queue();
+					return;
+				}
+				if (isDJ(event.getMember())) {
+					try {
+						int amt = Integer.parseInt(args[0]);
+						if (amt < 0) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Positive integers only").queue();
+							return;
+						}
+						AudioTrack track = manager.getAudioPlayer().getPlayingTrack();
+						long position = track.getPosition();
+						if (position + (amt * 1000) > track.getDuration()) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "You can't skip past the duration of a song").queue();
+							return;
+						}
+						track.setPosition(position + (amt * 1000));
+						event.getChannel().sendMessage("Skipped ahead " + amt + " seconds").queue();
+					}
+					catch (NumberFormatException ex) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid number").queue();
+					}
+				}
+				else event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a music DJ to use this command!").queue();
 			}
 
 			@Override
@@ -308,7 +381,7 @@ public class MusicCmds {
 						.build();
 			}
 		});
-	}*/
+	}
 
 
 	@Command

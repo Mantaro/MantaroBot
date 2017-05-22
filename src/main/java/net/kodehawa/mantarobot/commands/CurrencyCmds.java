@@ -353,9 +353,9 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Loot command")
-                        .setDescription("**Loots the current chat for items, for usage in Mantaro's currency system.**\n"
-                                + "Currently, there are ``" + Items.ALL.length + "`` items avaliable in chance," +
-                                "for which you have a `random chance` of getting one or more.")
+                        .setDescription("**Loot the current chat for items, for usage in Mantaro's currency system.**\n"
+                                + "Currently, there are ``" + Items.ALL.length + "`` items available in chance," +
+                                "in which you have a `random chance` of getting one or more.")
                         .addField("Usage", "~>loot", false)
                         .build();
             }
@@ -787,7 +787,7 @@ public class CurrencyCmds {
                 if (mentionedUsers.size() == 0) event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
                 else {
                     User giveTo = mentionedUsers.get(0);
-                    Optional<Item> optional = Items.fromAny(args[1]);
+                    Optional<Item> optional = Items.fromAny(event.getMessage().getRawContent().split(" ")[1]);
                     if (!optional.isPresent()) {
                         event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
                     }
@@ -806,6 +806,8 @@ public class CurrencyCmds {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
                                         .queue();
                             }
+                            player.saveAsync();
+                            giveToPlayer.saveAsync();
                             return;
                         }
                         try {
@@ -832,7 +834,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Transfer Items command")
                         .setDescription("**Transfers items from you to another player.**")
-                        .addField("Usage", "`~>transfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
+                        .addField("Usage", "`~>transferitems <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
                                 false)
                         .addField("Parameters", "`@user` - user to send the item to\n" +
                                 "`item emoji` - write out the emoji of the item you want to send\n" +
