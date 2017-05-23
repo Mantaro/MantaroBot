@@ -56,7 +56,7 @@ public class Items {
             BERSERK = new Item(EmoteReference.CROSSED_SWORD.getUnicode(), "Berserk", "Gives you a 2% boost in gamble profits. Stackable " +
                     "up to 5."),
             COMPANION = new Item(EmoteReference.DOG.getUnicode(), "Companion", "Aw. Gives you a 10% boost in ~>daily. Not stackable."),
-            RING_2 = new Item("\uD83D\uDC5A", "Special Ring.", "Gives you a extra boost on ~>daily when giving it to your loved one. Yes," +
+            RING_2 = new Item("\uD83D\uDC5A", "Special Ring", "Gives you a extra boost on ~>daily when giving it to your loved one. Yes," +
                     " I know the picture doesn't match."),
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of getting a win on " +
                     "~>gamble. Non-stackable."),
