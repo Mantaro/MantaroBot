@@ -787,6 +787,7 @@ public class CurrencyCmds {
                     onError(event);
                     return;
                 }
+
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
                 if (mentionedUsers.size() == 0) event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
                 else {
@@ -946,8 +947,23 @@ public class CurrencyCmds {
     @Command
     public static void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
+
+            RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
+
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                String id = event.getAuthor().getId();
+
+                if (!rateLimiter.process(id)) {
+                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+                            "Cooldown a lil bit, you can only do this once every 1 hour.\n **You'll be able to use this command again " +
+                            "in " +
+                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                            + ".**").queue();
+                    return;
+                }
+
+
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
                 if (inventory.containsItem(Items.LOOT_CRATE)) {
