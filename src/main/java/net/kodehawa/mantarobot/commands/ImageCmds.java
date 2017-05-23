@@ -520,7 +520,7 @@ public class ImageCmds {
 						+ "but tags can be set to safe if you so desire.**")
 					.addField("Usage",
 							"`~>yandere` - **Gets you a completely random image.**\n"
-							+ "`~>yandere get <imagenumber> <rating>` - **Gets you an image with the specified parameters.**\n"
+							+ "`~>yandere get <page> <rating> <imagenumber>` - **Gets you an image with the specified parameters.**\n"
 							+ "`~>yandere tags <tag> <rating> <imagenumber>` - **Gets you an image with the respective tag and specified parameters.**\n\n"
 							+ "**WARNING**: This command can be only used in NSFW channels! (Unless rating has been specified as safe or not specified at all)", false)
 					.addField("Parameters",
