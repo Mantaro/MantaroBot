@@ -780,7 +780,7 @@ public class CurrencyCmds {
 
     @Command
     public static void transferItems(CommandRegistry cr) {
-        cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
+        cr.register("transferitems", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if (args.length < 2) {
@@ -861,7 +861,7 @@ public class CurrencyCmds {
             }
         });
 
-        cr.registerAlias("itemtransfer", "transferitems");
+        cr.registerAlias("transferitems", "itemtransfer");
     }
 
     @Command
