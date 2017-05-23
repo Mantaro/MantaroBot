@@ -288,7 +288,8 @@ public class CurrencyCmds {
                 TextChannelGround ground = TextChannelGround.of(event);
 
                 if (r.nextInt(250) == 0) {
-                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a normal loot box and its key! Let me " +
+                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a normal loot box and its" +
+                            " key! Let me " +
                             "open it now for you!" + EmoteReference.SMILE).queue();
                     openLootBox(event, false);
                 }
@@ -299,7 +300,8 @@ public class CurrencyCmds {
                     player.save();
                 }
                 else if (r.nextInt(1000) == 69) {
-                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a special loot box and its key! Let me " +
+                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a special loot box and " +
+                            "its key! Let me " +
                             "open it now for you!" + EmoteReference.SMILE).queue();
                     openLootBox(event, true);
                 }
@@ -801,7 +803,7 @@ public class CurrencyCmds {
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
                         if (args.length == 2) {
                             if (player.getInventory().containsItem(item)) {
-                                if(item.isHidden()){
+                                if (item.isHidden()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
                                     return;
                                 }
@@ -823,7 +825,7 @@ public class CurrencyCmds {
                         try {
                             int amount = Integer.parseInt(args[2]);
                             if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
-                                if(item.isHidden()){
+                                if (item.isHidden()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
                                     return;
                                 }
@@ -980,14 +982,14 @@ public class CurrencyCmds {
         List<Item> items = new ArrayList<>();
         items.addAll(Arrays.asList(Items.ALL));
         items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
-        if (!special) {
-            for (Item i : Items.ALL) if (i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
-        }
-            items.sort((o1, o2) -> {
+        items.sort((o1, o2) -> {
             if (o1.getValue() > o2.getValue()) return 1;
             if (o1.getValue() == o2.getValue()) return 0;
             return -1;
         });
+        if (!special) {
+            for (Item i : Items.ALL) if (i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
+        }
         for (int i = 0; i < amtItems; i++) toAdd.add(selectReverseWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
@@ -1012,7 +1014,7 @@ public class CurrencyCmds {
                 return i.getValue();
             }
         }
-       return null;
+        return null;
     }
 
     private static User getUserById(String id) {
