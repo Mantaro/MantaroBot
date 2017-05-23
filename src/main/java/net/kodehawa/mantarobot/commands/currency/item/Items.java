@@ -14,7 +14,7 @@ public class Items {
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE;
+            DRESS, TUXEDO, LOOT_CRATE, STAR;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
@@ -24,7 +24,7 @@ public class Items {
             FLOPPY_DISK = new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 80, false),
             MY_MATHS = new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 50, false),
             PING_RACKET = new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 50, false),
-            LOADED_DICE = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>dice` command", 100, false),
+            LOADED_DICE = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>roll` command", 100, false),
             FORGOTTEN_MUSIC = new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 50, false),
             CC_PENCIL = new Item("\u270f", "Pencil", "We have plenty of those!", 50, false),
             OVERFLOWED_BAG = new Item("\uD83D\uDCB0", "Moneybag", "What else?.", 2500, true),
@@ -61,7 +61,8 @@ public class Items {
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of getting a win on " +
                     "~>gamble. Non-stackable."),
             LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key " +
-                    "to open a loot crate!", Integer.MAX_VALUE, true)
+                    "to open a loot crate!"),
+            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "In the first place, how did you overflow a long?", Long.MAX_VALUE / 2, true)
     };
 
     static {

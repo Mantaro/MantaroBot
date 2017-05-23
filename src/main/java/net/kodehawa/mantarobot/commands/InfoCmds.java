@@ -81,7 +81,7 @@ public class InfoCmds {
 						.setDescription("**Main developer**: Kodehawa#3457\n"
 							+ "**Developer**: AdrianTodt#0722\n" + "**Music**: Steven#6340 (Retired :<)\n" + "**Cross bot integration**: Natan#1289 (Retired :<)\n**Cool dev guy**: Adam#9261")
 						.addField("Special mentions",
-							"Thanks to bots.discord.pw, Carbonitex and DiscordBots.org for helping us with increasing the bot's visibility.", false)
+							"Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
 						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
@@ -224,7 +224,8 @@ public class InfoCmds {
 			"Congratulations, you managed to use the help command.",
 			"Helps you to help yourself.",
 			"Help Inception.",
-			"A help helping helping helping help."
+			"A help helping helping helping help.",
+			"I wonder if this is what you are looking for..."
 		));
 
 		cr.register("help", new SimpleCommand(Category.INFO) {

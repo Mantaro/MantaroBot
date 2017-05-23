@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
+import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.data.db.ManagedObject;
 import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.data.entities.helpers.PlayerData;
@@ -83,7 +84,7 @@ public class  Player implements ManagedObject {
 			return true;
 		} catch (ArithmeticException ignored) {
 			this.money = 0L;
-			this.getInventory().process(new ItemStack(9, 1));
+			this.getInventory().process(new ItemStack(Items.STAR, 1));
 			return false;
 		}
 	}
@@ -127,7 +128,6 @@ public class  Player implements ManagedObject {
 	 * Removes x amount of money from the player. Only goes though if money removed sums more than zero (avoids negative values).
 	 *
 	 * @param money How much?
-	 * @return well if the sum negative it won't pass through, you little fucker.
 	 */
 	public boolean removeMoney(long money) {
 		if (this.money - money < 0) return false;

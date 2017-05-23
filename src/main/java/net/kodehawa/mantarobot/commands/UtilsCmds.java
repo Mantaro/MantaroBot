@@ -468,7 +468,7 @@ public class UtilsCmds {
 								.setDescription("Main definition.")
 								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
 								.setColor(Color.GREEN)
-								.addField("Definition", data.list.get(0).definition, false)
+								.addField("Definition", data.list.get(0).definition.length() > 1000 ? data.list.get(0).definition + "..." : data.list.get(0).definition, false)
 								.addField("Example", data.list.get(0).example, false)
 								.addField(":thumbsup:", data.list.get(0).thumbs_up, true)
 								.addField(":thumbsdown:", data.list.get(0).thumbs_down, true)
@@ -478,6 +478,7 @@ public class UtilsCmds {
 						case 2:
 							int defn = Integer.parseInt(beheadedSplit[1]) - 1;
 							String defns = String.valueOf(defn + 1);
+							String definition = data.list.get(defn).definition;
 							embed.setAuthor(
 								"Urban Dictionary definition for " + beheadedSplit[0], data.list.get(defn).permalink,
 								null
@@ -485,7 +486,7 @@ public class UtilsCmds {
 								.setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
 								.setDescription("Definition " + defns)
 								.setColor(Color.GREEN)
-								.addField("Definition", data.list.get(defn).definition, false)
+								.addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
 								.addField("Example", data.list.get(defn).example, false)
 								.addField(":thumbsup:", data.list.get(defn).thumbs_up, true)
 								.addField(":thumbsdown:", data.list.get(defn).thumbs_down, true)

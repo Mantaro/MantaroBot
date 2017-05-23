@@ -67,7 +67,8 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
  * or close clones of Mantaro outside of bot listing sites, since it will just get deleted from there (as in for clones of any other bot).
  * Thanks.
  *
- * <pr>This bot is copyrighted work of Kodehawa, licensed under GPLv3, which summarized legal notice can be found down there.</pr>
+ * <pr>This bot is a copyrighted work of Kodehawa and is the result a collaborative effort with AdrianTodt and many others,
+ * This program is licensed under GPLv3, which summarized legal notice can be found down there.</pr>
  *
  * <pr>
  * This program is distributed in the hope that it will be useful,

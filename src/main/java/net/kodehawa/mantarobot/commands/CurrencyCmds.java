@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -33,6 +34,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -275,6 +277,7 @@ public class CurrencyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
+
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                             "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again " +
@@ -285,20 +288,21 @@ public class CurrencyCmds {
                 }
 
                 TextChannelGround ground = TextChannelGround.of(event);
-                if (r.nextInt(60) == 0) {
-                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a normal loot box and its key! I'll " +
-                            "open it now for you ! " + EmoteReference.SMILE).queue();
+
+                if (r.nextInt(250) == 0) {
+                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a normal loot box and its key! Let me " +
+                            "open it now for you!" + EmoteReference.SMILE).queue();
                     openLootBox(event, false);
                 }
 
-                if (r.nextInt(15) == 0) {
-                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a loot crate!").queue();
+                if (r.nextInt(60) == 0) {
+                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a loot crate!").queue();
                     player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
                     player.save();
                 }
-                else if (r.nextInt(200) == 69) {
-                    event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you found a special loot box and its key! I'll " +
-                            "open it now for you ! " + EmoteReference.SMILE).queue();
+                else if (r.nextInt(1000) == 69) {
+                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a special loot box and its key! Let me " +
+                            "open it now for you!" + EmoteReference.SMILE).queue();
                     openLootBox(event, true);
                 }
                 List<ItemStack> loot = ground.collectItems();
@@ -306,7 +310,7 @@ public class CurrencyCmds {
 
                 if (player.getInventory().getAmount(Items.BOOSTER) > 0) {
                     int total = Math.min(10, player.getInventory().getAmount(Items.BOOSTER));
-                    moneyFound = (int) Math.round(moneyFound + (moneyFound * (0.5 * total)));
+                    moneyFound = (int) Math.round(moneyFound + (moneyFound * (0.3 * total)));
                 }
 
                 if (MantaroData.db().getUser(event.getMember()).isPremium() && moneyFound > 0) {
@@ -334,8 +338,8 @@ public class CurrencyCmds {
                 else {
                     if (moneyFound != 0) {
                         if (player.addMoney(moneyFound)) {
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound +
-                                    " credits!").queue();
+                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
+                                    " credits!**").queue();
                         }
                         else {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound +
@@ -776,7 +780,7 @@ public class CurrencyCmds {
 
     @Command
     public static void transferItems(CommandRegistry cr) {
-        cr.register("transferitems", new SimpleCommand(Category.CURRENCY) {
+        cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if (args.length < 2) {
@@ -793,10 +797,17 @@ public class CurrencyCmds {
                     }
                     else {
                         Item item = optional.get();
+
+
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
                         if (args.length == 2) {
                             if (player.getInventory().containsItem(item)) {
+                                if(item.isHidden()){
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
+                                    return;
+                                }
+
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
                                 event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave 1 " + item
@@ -810,9 +821,15 @@ public class CurrencyCmds {
                             giveToPlayer.saveAsync();
                             return;
                         }
+
                         try {
                             int amount = Integer.parseInt(args[2]);
                             if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
+                                if(item.isHidden()){
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
+                                    return;
+                                }
+
                                 player.getInventory().process(new ItemStack(item, amount * -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
                                 event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave " + amount +
@@ -834,7 +851,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Transfer Items command")
                         .setDescription("**Transfers items from you to another player.**")
-                        .addField("Usage", "`~>transferitems <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
+                        .addField("Usage", "`~>transfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
                                 false)
                         .addField("Parameters", "`@user` - user to send the item to\n" +
                                 "`item emoji` - write out the emoji of the item you want to send\n" +
@@ -952,7 +969,7 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Open loot crates")
-                        .setDescription("Yep. It's really that simple")
+                        .setDescription("**Yep. It's really that simple**")
                         .build();
             }
         });
@@ -970,16 +987,17 @@ public class CurrencyCmds {
             if (o1.getValue() == o2.getValue()) return 0;
             return -1;
         });
-        for (int i = 0; i < amtItems; i++) toAdd.add(selectByReverseWeighted(items));
+        for (int i = 0; i < amtItems; i++) toAdd.add(selectWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
         player.getInventory().process(ita);
         player.save();
-        event.getChannel().sendMessage(EmoteReference.LOOT_CRATE + "You won all these items! " + toAdd.toString()).queue();
+        event.getChannel().sendMessage(EmoteReference.LOOT_CRATE.getDiscordNotation() + "**You won:** " +
+                toAdd.stream().map(Item::toString).collect(Collectors.joining(", "))).queue();
     }
 
-    private static Item selectByReverseWeighted(List<Item> items) {
+    private static Item selectWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
         for (int i = 0; i < items.size(); i++) {

@@ -711,7 +711,6 @@ public class OptsCmd {
 			}
 
 			String roleName = String.join(" ", args);
-			System.out.println(roleName);
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 

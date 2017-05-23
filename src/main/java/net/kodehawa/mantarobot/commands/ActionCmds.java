@@ -189,7 +189,7 @@ public class ActionCmds {
 		//highfive();
 		cr.register("highfive", new ImageActionCmd(
 				"Highfive", "Highfives with the specified user.", Color.PINK,
-				"highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfive*"
+				"highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfives*"
 		));
 
 		//greet();
