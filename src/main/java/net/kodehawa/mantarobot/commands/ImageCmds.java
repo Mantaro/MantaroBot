@@ -498,7 +498,7 @@ public class ImageCmds {
 							return;
 						}
 
-						String url1 = String.format(YANDERE_BASE + "tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
+						String url1 = String.format(YANDERE_BASE + "tags=%2s", tagsEncoded).replace(" ", "");
 						channel.sendMessage(getImage(argCount, "tags", url1, rating, args, event).build()).queue();
 						break;
 					case "":
