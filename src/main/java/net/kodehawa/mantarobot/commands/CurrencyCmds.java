@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.commands;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -34,7 +33,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -780,7 +778,7 @@ public class CurrencyCmds {
 
     @Command
     public static void transferItems(CommandRegistry cr) {
-        cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
+        cr.register("transferitems", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if (args.length < 2) {
@@ -981,13 +979,16 @@ public class CurrencyCmds {
         int amtItems = random.nextInt(3) + 3;
         List<Item> items = new ArrayList<>();
         items.addAll(Arrays.asList(Items.ALL));
-        if (!special) items.removeIf(item -> item.isHidden() || !item.isBuyable());
-        items.sort((o1, o2) -> {
+        items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
+        if (!special) {
+            for (Item i : Items.ALL) if (i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
+        }
+            items.sort((o1, o2) -> {
             if (o1.getValue() > o2.getValue()) return 1;
             if (o1.getValue() == o2.getValue()) return 0;
             return -1;
         });
-        for (int i = 0; i < amtItems; i++) toAdd.add(selectWeighted(items));
+        for (int i = 0; i < amtItems; i++) toAdd.add(selectReverseWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
@@ -997,7 +998,7 @@ public class CurrencyCmds {
                 toAdd.stream().map(Item::toString).collect(Collectors.joining(", "))).queue();
     }
 
-    private static Item selectWeighted(List<Item> items) {
+    private static Item selectReverseWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
         for (int i = 0; i < items.size(); i++) {
