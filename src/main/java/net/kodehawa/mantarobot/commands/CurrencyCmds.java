@@ -287,24 +287,12 @@ public class CurrencyCmds {
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
-                if (r.nextInt(250) == 0) {
-                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a normal loot box and its" +
-                            " key! Let me " +
-                            "open it now for you!" + EmoteReference.SMILE).queue();
-                    openLootBox(event, false);
-                }
-
-                if (r.nextInt(60) == 0) {
+                if (r.nextInt(350) == 0) {
                     event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a loot crate!").queue();
                     player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
                     player.save();
                 }
-                else if (r.nextInt(1000) == 69) {
-                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a special loot box and " +
-                            "its key! Let me " +
-                            "open it now for you!" + EmoteReference.SMILE).queue();
-                    openLootBox(event, true);
-                }
+
                 List<ItemStack> loot = ground.collectItems();
                 int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 100);
 

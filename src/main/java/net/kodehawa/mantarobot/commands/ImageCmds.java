@@ -498,7 +498,7 @@ public class ImageCmds {
 							return;
 						}
 
-						String url1 = String.format(YANDERE_BASE + "page=%2s&tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
+						String url1 = String.format(YANDERE_BASE + "tags=%3s", String.valueOf(page), tagsEncoded).replace(" ", "");
 						channel.sendMessage(getImage(argCount, "tags", url1, rating, args, event).build()).queue();
 						break;
 					case "":
@@ -580,7 +580,10 @@ public class ImageCmds {
 	}
 
 	private static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage) {
-		String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
+
+	    if(event.getChannel().isNSFW()) return true;
+
+	    String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
 			.filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
 		String rating1 = rating == null ? "s" : rating;
 		boolean trigger = !isGlobal ? ((rating1.equals("s") || (nsfwChannel == null)) ? rating1.equals("s") : nsfwChannel.equals(event.getChannel().getId())) :
