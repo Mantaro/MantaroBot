@@ -1043,7 +1043,7 @@ public class CurrencyCmds {
     }
 
     private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
-        if (luck > r.nextInt(100)) {
+        if (luck > r.nextInt(105)) {
             if (player.getInventory().containsItem(Items.BERSERK)) {
                 int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
                 gains = (long) (gains + (gains + Math.floor(amount * 0.02)));
