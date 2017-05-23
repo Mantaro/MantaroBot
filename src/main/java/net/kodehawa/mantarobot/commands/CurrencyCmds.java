@@ -190,7 +190,7 @@ public class CurrencyCmds {
 
                 if (i >= Integer.MAX_VALUE) {
                     event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
-                            "coins (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
+                            "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
                     InteractiveOperations.create(event.getChannel(), "Gambling",
                             (int) TimeUnit.SECONDS.toMillis(30), OptionalInt.empty(), new InteractiveOperation() {
                                 @Override
@@ -1030,7 +1030,7 @@ public class CurrencyCmds {
         if (luck > r.nextInt(100)) {
             if (player.getInventory().containsItem(Items.BERSERK)) {
                 int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
-                gains = (long) (gains + (gains + Math.floor(amount * 0.2)));
+                gains = (long) (gains + (gains + Math.floor(amount * 0.02)));
             }
 
             if (player.addMoney(gains)) {
