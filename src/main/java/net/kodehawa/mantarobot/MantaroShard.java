@@ -4,6 +4,7 @@ import br.com.brjdevs.java.utils.extensions.Async;
 import br.com.brjdevs.java.utils.holding.Holder;
 import com.mashape.unirest.http.Unirest;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
+import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -50,6 +51,7 @@ public class MantaroShard implements JDA {
 		return new String(almostPretty);
 	}
 
+	@Getter
 	public final MantaroEventManager manager;
 	private final CommandListener commandListener;
 	private final Logger log;

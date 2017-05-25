@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.core.listeners;
 
 import br.com.brjdevs.java.utils.extensions.Async;
 import com.google.common.cache.CacheLoader;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -69,6 +70,7 @@ public class MantaroListener implements EventListener {
 	public void onEvent(Event event) {
 
 		if (event instanceof ShardMonitorEvent) {
+			if(MantaroBot.getInstance().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
 			return;
 		}

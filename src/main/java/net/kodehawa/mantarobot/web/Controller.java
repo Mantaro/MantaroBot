@@ -76,7 +76,7 @@ public class Controller {
 					.with("users", s.getUsers().size())
 					.with("guilds", s.getGuilds().size())
 					.with("ping", s.getPing())
-					.with("lastEvent", System.currentTimeMillis() - s.getEventManager().LAST_EVENT)
+					.with("lastEvent", s.getEventManager().getLastJDAEventTimeDiff())
 					.with("musicChannels", s.getVoiceChannels().stream().filter(
 						c -> c.getMembers().contains(c.getGuild().getSelfMember())
 					).count())

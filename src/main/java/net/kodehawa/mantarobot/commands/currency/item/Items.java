@@ -89,7 +89,6 @@ public class Items {
 
         itemOptional = fromPartialName(any);
         return itemOptional;
-
     }
 
     public static Optional<Item> fromEmoji(String emoji) {

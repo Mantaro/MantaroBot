@@ -62,6 +62,11 @@ public class Inventory {
 	public void merge(List<ItemStack> inv) {
 		List<ItemStack> cur = asList();
 		cur.addAll(inv);
+
+		if(cur.size() >= Integer.MAX_VALUE){
+			return;
+		}
+
 		replaceWith(ItemStack.reduce(cur));
 	}
 

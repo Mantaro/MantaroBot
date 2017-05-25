@@ -425,7 +425,7 @@ public class InfoCmds {
 				for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
 					builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
 						.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append(" | L: ")
-						.append(System.currentTimeMillis() - shard.getEventManager().LAST_EVENT)
+						.append(shard.getEventManager().getLastJDAEventTimeDiff())
 						.append(" ms")
 						.append(" | MC: ")
 						.append(shard.getJDA().getVoiceChannels().stream().filter

@@ -35,10 +35,7 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
@@ -152,6 +149,8 @@ public class MantaroBot extends ShardedJDA {
 	private int totalShards;
 	@Getter
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+	private static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
+
 	private MantaroBot() throws Exception {
 		instance = this;
 
@@ -198,8 +197,27 @@ public class MantaroBot extends ShardedJDA {
 					int[] dead = sme.getDeadShards();
 					if (dead.length != 0) {
 						MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
-						Arrays.stream(dead).forEach(id -> getShard(id).readdListeners());
-					} else {
+						for(int id : dead){
+							try{
+								FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
+									try {
+										getShard(id).restartJDA(true);
+										Thread.sleep(1000);
+										return 1;
+									} catch (Exception e) {
+										log.warn("Cannot restart shard #" + id + " <@155867458203287552> try to do it manually.");
+										return 0;
+									}
+								});
+								THREAD_POOL.execute(restartJDA);
+								restartJDA.get(2, TimeUnit.MINUTES);
+							}
+							catch (Exception e){
+								log.warn("Cannot restart shard #" + id + " <@155867458203287552> try to do it manually.");
+							}
+						}
+					}
+					else {
 						MantaroEventManager.getLog().info("No dead shards found");
 					}
 				} catch (InterruptedException e) {

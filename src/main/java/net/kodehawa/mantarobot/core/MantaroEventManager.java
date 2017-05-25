@@ -11,11 +11,18 @@ public class MantaroEventManager extends InterfacedEventManager {
 		return log;
 	}
 
-	public long LAST_EVENT;
+	private long LAST_JDA_EVENT;
 
 	@Override
 	public void handle(Event event) {
-		LAST_EVENT = System.currentTimeMillis();
+		if(!(event instanceof ShardMonitorEvent)){
+			LAST_JDA_EVENT = System.currentTimeMillis();
+		}
+
 		super.handle(event);
+	}
+
+	public long getLastJDAEventTimeDiff(){
+		return System.currentTimeMillis() - LAST_JDA_EVENT;
 	}
 }
