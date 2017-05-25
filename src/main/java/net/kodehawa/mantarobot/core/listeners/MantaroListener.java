@@ -185,14 +185,11 @@ public class MantaroListener implements EventListener {
 
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				if (!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR) ||
-						!event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_READ) || !event.getGuild().getSelfMember().hasPermission(tc, Permission.MESSAGE_WRITE))
-					return;
 				User author = event.getAuthor();
 				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 
-				if (editedMessage != null && !editedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel)) {
-
+				if (editedMessage != null && !editedMessage.getContent().isEmpty()
+						&& !event.getChannel().getId().equals(logChannel)) {
 					if(MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(editedMessage.getChannel().getId())){
 						return;
 					}
