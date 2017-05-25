@@ -90,29 +90,4 @@ public class TextChannelGround {
         if (doDrop) dropMoney(money);
         return doDrop;
     }
-
-    public void startLootBoxDrop(GuildMessageReceivedEvent event, int weight) {
-        if (r.nextInt(weight) != 0) return;
-        InteractiveOperations.create(event.getChannel(), "lootboxclaim", (int) TimeUnit.MINUTES.convert(1, TimeUnit.MILLISECONDS),
-                OptionalInt.empty(), new InteractiveOperation() {
-                    @Override
-                    public boolean run(GuildMessageReceivedEvent event) {
-                        String content = event.getMessage().getContent();
-                        if (content.equalsIgnoreCase("claim")) {
-                            event.getChannel().sendMessage(event.getAuthor().getAsMention() + ", you've won a loot crate key! You still need " +
-                                    "to get a crate, though!").queue();
-                            Player player = MantaroData.db().getPlayer(event.getAuthor());
-                            player.getInventory().process(new ItemStack(Items.LOOT_CRATE_KEY, 1));
-                            player.saveAsync();
-                            return true;
-                        }
-                        return false;
-                    }
-
-                    @Override
-                    public void onExpire() {
-                        event.getChannel().sendMessage("No one claimed the loot crate key " + EmoteReference.SAD).queue();
-                    }
-                });
-    }
 }

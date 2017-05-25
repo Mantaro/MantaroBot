@@ -255,8 +255,8 @@ public class MusicCmds {
 	}
 
 	@Command
-	public static void playfirst(CommandRegistry cr) {
-		cr.register("playfirst", new SimpleCommand(Category.MUSIC) {
+	public static void forceplay(CommandRegistry cr) {
+		cr.register("forceplay", new SimpleCommand(Category.MUSIC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (content.trim().isEmpty()) {
@@ -305,19 +305,19 @@ public class MusicCmds {
 				}
 				if (isDJ(event.getMember())) {
 					try {
-						int amt = Integer.parseInt(args[0]);
+						long amt = AudioCmdUtils.parseTime(args[0]);
 						if (amt < 0) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Positive integers only").queue();
 							return;
 						}
 						AudioTrack track = manager.getAudioPlayer().getPlayingTrack();
 						long position = track.getPosition();
-						if (position - (amt * 1000) < 0) {
+						if (position - amt < 0) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You can't skip past the beginning of a song").queue();
 							return;
 						}
-						track.setPosition(position - (amt * 1000));
-						event.getChannel().sendMessage("Rewound " + amt + " seconds").queue();
+						track.setPosition(position - amt);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Rewound " + args[0] + " time on the playing song.").queue();
 					}
 					catch (NumberFormatException ex) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid number").queue();
@@ -330,7 +330,7 @@ public class MusicCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Rewind Command")
 						.addField("Description", "Rewind the current song a specified amount of seconds", false)
-						.addField("Usage", "~>rewind <seconds>", false)
+						.addField("Usage", "~>rewind <time>\nTime is in this format: 1m29s (1 minute and 29s)", false)
 						.build();
 			}
 		});
@@ -352,22 +352,22 @@ public class MusicCmds {
 				}
 				if (isDJ(event.getMember())) {
 					try {
-						int amt = Integer.parseInt(args[0]);
+						long amt = AudioCmdUtils.parseTime(args[0]);
 						if (amt < 0) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Positive integers only").queue();
 							return;
 						}
 						AudioTrack track = manager.getAudioPlayer().getPlayingTrack();
 						long position = track.getPosition();
-						if (position + (amt * 1000) > track.getDuration()) {
+						if (position + amt > track.getDuration()) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "You can't skip past the duration of a song").queue();
 							return;
 						}
-						track.setPosition(position + (amt * 1000));
-						event.getChannel().sendMessage("Skipped ahead " + amt + " seconds").queue();
+						track.setPosition(position + amt);
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Skipped ahead " + args[0] + " in the song.").queue();
 					}
 					catch (NumberFormatException ex) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid number").queue();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid query.").queue();
 					}
 				}
 				else event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a music DJ to use this command!").queue();
@@ -376,8 +376,8 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Skip Ahead Command")
-						.addField("Description", "Fast forward the current song a specified amount of seconds", false)
-						.addField("Usage", "~>skipahead <seconds>", false)
+						.addField("Description", "Fast forward the current song a specified amount of time", false)
+						.addField("Usage", "~>skipahead <time>\nTime is in this format: 1m29s (1 minute and 29s)", false)
 						.build();
 			}
 		});

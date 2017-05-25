@@ -61,8 +61,9 @@ public class Items {
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of getting a win on " +
                     "~>gamble. Non-stackable."),
             LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key " +
-                    "to open a loot crate!"),
-            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "In the first place, how did you overflow a long?", Long.MAX_VALUE / 2, true)
+                    "to open a loot crate!", 0,  false, false, true),
+            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "In the first place, how did you overflow a long?",
+                    Long.MAX_VALUE / 2, true, false, true)
     };
 
     static {
@@ -87,9 +88,8 @@ public class Items {
         if (itemOptional.isPresent()) return itemOptional;
 
         itemOptional = fromPartialName(any);
-        if (itemOptional.isPresent()) return itemOptional;
+        return itemOptional;
 
-        return Optional.empty();
     }
 
     public static Optional<Item> fromEmoji(String emoji) {

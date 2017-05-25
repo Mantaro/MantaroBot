@@ -74,8 +74,6 @@ public class CommandRegistry {
 		}
 
 		cmd.run(event, cmdname, content);
-
-		TextChannelGround.of(event).startLootBoxDrop(event, 500);
 		return true;
 	}
 

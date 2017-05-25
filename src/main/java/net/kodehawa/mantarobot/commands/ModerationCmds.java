@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -32,8 +33,6 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "Moderation")
 @Module
 public class ModerationCmds {
-    private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
-
     @Command
     public static void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
@@ -216,7 +215,7 @@ public class ModerationCmds {
                                         + event.getAuthor().getDiscriminator() + ". Reason: " + finalReason + ".").queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + member.getEffectiveName() + "... or not!")
+                                channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + user.getName() + "... or not!")
                                         .queue();
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(1, 2);
@@ -224,7 +223,7 @@ public class ModerationCmds {
                             error ->
                             {
                                 if (error instanceof PermissionException) {
-                                    channel.sendMessage(EmoteReference.ERROR + "Error banning " + member.getEffectiveName()
+                                    channel.sendMessage(EmoteReference.ERROR + "Error banning " + user.getName()
                                             + ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
                                             .queue();
                                 }
@@ -243,7 +242,7 @@ public class ModerationCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Ban")
                         .setDescription("**Bans the mentioned users. (You need Ban Members)**")
-                        .addField("Usage", "`~>ban <@user>` - **Bans the specified users**", false)
+                        .addField("Usage", "`~>ban <@user> <reason>` - **Bans the specified user**", false)
                         .build();
             }
         });
@@ -318,7 +317,7 @@ public class ModerationCmds {
                                         + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + member.getEffectiveName())
+                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + user.getName())
                                         .queue(); //Quite funny, I think.
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(2, 2);
@@ -343,7 +342,7 @@ public class ModerationCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Kick")
                         .setDescription("**Kicks the mentioned users. (You need Kick Members)**")
-                        .addField("Usage", "`~>kick <@user> - **Kicks the mentioned users**", false)
+                        .addField("Usage", "`~>kick <@user> <reason> - **Kicks the mentioned user   **", false)
                         .build();
             }
         });
@@ -524,22 +523,38 @@ public class ModerationCmds {
                 }
 
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
-                long l = parse(time);
+                long l = AudioCmdUtils.parseTime(time);
                 String finalReason = reason;
                 String sTime = StringUtils.parseTime(l);
-                receivedMessage.getMentionedUsers().forEach(user -> {
-                    user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event
-                            .getAuthor().getName() + "#"
-                            + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
-                    db.getData().setCases(db.getData().getCases() + 1);
-                    db.saveAsync();
-                    channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + event.getMember().getEffectiveName())
-                            .queue();
-                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
-                    MantaroBot.getTempBanManager().addTempban(
-                        guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
-                    TextChannelGround.of(event).dropItemWithChance(1, 2);
-                });
+                receivedMessage.getMentionedUsers().forEach(user ->
+                    guild.getController().ban(user, 7).queue(
+                            success -> {
+                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event
+                                        .getAuthor().getName() + "#"
+                                        + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+                                db.getData().setCases(db.getData().getCases() + 1);
+                                db.saveAsync();
+                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + user.getName())
+                                        .queue();
+                                ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
+                                MantaroBot.getTempBanManager().addTempban(
+                                        guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
+                                TextChannelGround.of(event).dropItemWithChance(1, 2);
+                            },
+                            error ->
+                            {
+                                if (error instanceof PermissionException) {
+                                    channel.sendMessage(EmoteReference.ERROR + "Error banning " + user.getName()
+                                            + ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
+                                            .queue();
+                                }
+                                else {
+                                    channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + user.getName() + ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+
+                                    log.warn("Encountered an unexpected error while trying to ban someone.", error);
+                                }
+                            })
+                );
             }
 
             @Override
@@ -595,6 +610,11 @@ public class ModerationCmds {
                         return;
                     }
 
+                    if(!event.getMember().canInteract(m)){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign or remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!").queue();
+                        return;
+                    }
+
                     if(m.getRoles().contains(mutedRole)){
                         event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
@@ -602,9 +622,12 @@ public class ModerationCmds {
                         return;
                     }
 
+                    final DBGuild dbg = db.getGuild(event.getGuild());
                     event.getGuild().getController().addRolesToMember(m, mutedRole).queue();
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Added mute role to **" + m.getEffectiveName() + "**").queue();
-                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, db.getGuild(event.getGuild()).getData().getCases());
+                    dbg.getData().setCases(dbg.getData().getCases() + 1);
+                    dbg.saveAsync();
+                    ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
                 });
             }
 
@@ -612,65 +635,11 @@ public class ModerationCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mute")
                         .setDescription("**Mutes or unmutes the specified users**")
-                        .addField("Usage", "`~>mute <users>` - Mutes or unmutes the specified users.", false)
+                        .addField("Usage", "`~>mute <user> <reason>` - Mutes or unmutes the specified users.", false)
                         .addField("Parameters", "`users` - The users to mute. Needs to be mentions.", false)
                         .addField("Considerations", "This command will mute if the user doesn't have the mute role and it will unmute the user if he or she has the role.", false)
                         .build();
             }
         });
-    }
-
-    private static Iterable<String> iterate(Matcher matcher) {
-        return new Iterable<String>() {
-            @Override
-            public Iterator<String> iterator() {
-                return new Iterator<String>() {
-                    @Override
-                    public boolean hasNext() {
-                        return matcher.find();
-                    }
-
-                    @Override
-                    public String next() {
-                        return matcher.group();
-                    }
-                };
-            }
-
-            @Override
-            public void forEach(Consumer<? super String> action) {
-                while (matcher.find()) {
-                    action.accept(matcher.group());
-                }
-            }
-        };
-    }
-
-    private static long parse(String s) {
-        s = s.toLowerCase();
-        long[] time = {0};
-        iterate(pattern.matcher(s)).forEach(string -> {
-            String l = string.substring(0, string.length() - 1);
-            TimeUnit unit;
-            switch (string.charAt(string.length() - 1)) {
-                case 's':
-                    unit = TimeUnit.SECONDS;
-                    break;
-                case 'm':
-                    unit = TimeUnit.MINUTES;
-                    break;
-                case 'h':
-                    unit = TimeUnit.HOURS;
-                    break;
-                case 'd':
-                    unit = TimeUnit.DAYS;
-                    break;
-                default:
-                    unit = TimeUnit.SECONDS;
-                    break;
-            }
-            time[0] += unit.toMillis(Long.parseLong(l));
-        });
-        return time[0];
     }
 }

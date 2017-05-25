@@ -337,7 +337,6 @@ public class CustomCmds {
 						pair -> {
 							String cmdName = pair.getValue().getName();
 							List<String> responses = pair.getValue().getValues();
-
 							CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmdName, responses);
 
 							//save at DB

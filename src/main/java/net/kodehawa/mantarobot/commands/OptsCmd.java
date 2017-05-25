@@ -923,7 +923,7 @@ public class OptsCmd {
 			GuildData guildData = dbGuild.getData();
 
 			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a positive integer.").queue();
 				return;
 			}
 
@@ -940,40 +940,6 @@ public class OptsCmd {
 			dbGuild.save();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
 		});
-
-		registerOption("commands:blockroles", (event, args) -> {
-
-		});
-
-		/*registerOption("server:category:disallow", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			if(args.length < 1){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the category to disallow!").queue();
-				return;
-			}
-
-			String categoryName = args[1];
-
-		});
-
-
-		registerOption("server:category:enable", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			if(args.length < 1){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the category to disallow!").queue();
-				return;
-			}
-
-			String categoryName = args[1];
-		});*/
 	}
 
 	@Command

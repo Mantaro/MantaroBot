@@ -64,7 +64,7 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You can only do this once every 24 hours.\n **You'll be able to use this command again in " +
+                            "Halt! You can only do this once every 24 hours.\n**You'll be able to use this command again in " +
                             Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
                             + ".**").queue();
                     return;
@@ -594,9 +594,9 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (args[1].equals("reset")) {
+                    if (args[1].equals("clear")) {
                         player.getData().setDescription(null);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset description.").queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully cleared description.").queue();
                         player.saveAsync();
                         return;
                     }
@@ -657,8 +657,8 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Profile command.")
                         .setDescription("**Retrieves your current user profile.**")
-                        .addField("Usage", "To retrieve your profile, `~>profile~\n" +
-                                "To change your description do `~>profile description set <description>\n" +
+                        .addField("Usage", "To retrieve your profile, `~>profile`\n" +
+                                "To change your description do `~>profile description set <description>`\n" +
                                 "To clear it, just do `~>profile description clear`\n" +
                                 "To set your timezone do `~>profile timezone <timezone>`", false)
                         .build();
@@ -780,14 +780,11 @@ public class CurrencyCmds {
                 if (mentionedUsers.size() == 0) event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
                 else {
                     User giveTo = mentionedUsers.get(0);
-                    Optional<Item> optional = Items.fromAny(event.getMessage().getRawContent().split(" ")[1]);
-                    if (!optional.isPresent()) {
+                    Item item = Items.fromAny(args[1]).orElse(null);
+                    if (item == null) {
                         event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
                     }
                     else {
-                        Item item = optional.get();
-
-
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
                         if (args.length == 2) {
@@ -840,7 +837,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Transfer Items command")
                         .setDescription("**Transfers items from you to another player.**")
-                        .addField("Usage", "`~>transfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
+                        .addField("Usage", "`~>itemtransfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
                                 false)
                         .addField("Parameters", "`@user` - user to send the item to\n" +
                                 "`item emoji` - write out the emoji of the item you want to send\n" +
@@ -879,7 +876,7 @@ public class CurrencyCmds {
 
                 if (toSend == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer no money :P").queue();
-                    return;
+                     return;
                 }
 
                 Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
@@ -944,7 +941,7 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 1 hour.\n **You'll be able to use this command again " +
+                            "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
                             "in " +
                             Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
                             + ".**").queue();

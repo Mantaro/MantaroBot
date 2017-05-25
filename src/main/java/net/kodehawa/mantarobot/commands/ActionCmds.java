@@ -96,7 +96,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+		@Command
 	public static void lewd(CommandRegistry registry) {
 		registry.register("lewd", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -123,7 +123,7 @@ public class ActionCmds {
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
 					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("*is meowing at %s.*", mew)).build()).queue();
+						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("%s *is meowing at %s.*", event.getAuthor().getAsMention(), mew)).build()).queue();
 				} else {
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
 						new MessageBuilder().append(":speech_balloon: Meow.").build()).queue();
@@ -138,7 +138,7 @@ public class ActionCmds {
 					.build();
 			}
 		});
-		registry.registerAlias("mew", "meow");
+		registry.registerAlias("meow", "mew");
 	}
 
 	@Command
