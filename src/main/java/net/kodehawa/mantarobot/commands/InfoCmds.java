@@ -80,7 +80,10 @@ public class InfoCmds {
 						.setColor(Color.BLUE)
 						.setDescription("**Main developer**: Kodehawa#3457\n"
 							+ "**Developer**: AdrianTodt#0722\n" +
-								"**Music**: Steven#6340 (Retired :<)\n" + "**Cross bot integration**: Natan#1289 (Retired :<)\n**Buggy guy**: Adam#9261")
+								"**Music**: Steven#6340 (Retired :<)\n"
+								+ "**Cross bot integration**: Natan#1289 (Retired :<)\n"
+								+ "**Meme guy**: Adam#9261\n"
+								+ "**Documentation:** Lars#8117")
 						.addField("Special mentions",
 							"Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
 						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
