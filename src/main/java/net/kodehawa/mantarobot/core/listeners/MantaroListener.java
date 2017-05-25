@@ -172,7 +172,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException) && !(e instanceof CacheLoader.InvalidCacheLoadException)) {
+			if (!(e instanceof IllegalArgumentException) && !(e instanceof NullPointerException) && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
 				log.warn("Unexpected exception while logging a deleted message.", e);
 			}
 		}
@@ -201,7 +201,7 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) && !(e instanceof CacheLoader.InvalidCacheLoadException)) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException) && !(e instanceof CacheLoader.InvalidCacheLoadException) && !(e instanceof PermissionException)) {
 				log.warn("Unexpected error while logging a edit.", e);
 			}
 		}
