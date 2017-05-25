@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.xml.soap.Text;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -288,9 +289,7 @@ public class CurrencyCmds {
                 TextChannelGround ground = TextChannelGround.of(event);
 
                 if (r.nextInt(350) == 0) {
-                    event.getChannel().sendMessage("**" + event.getMember().getEffectiveName() + "**, you found a loot crate!").queue();
-                    player.getInventory().process(new ItemStack(Items.LOOT_CRATE, 1));
-                    player.save();
+                    TextChannelGround.of(event.getChannel()).dropItem(Items.LOOT_CRATE);
                 }
 
                 List<ItemStack> loot = ground.collectItems();
