@@ -19,36 +19,36 @@ public class Items {
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
                     "something, tho.", 1, true, false),
-            BAN_HAMMER = new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 5, false),
-            KICK_BOOT = new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 2, false),
-            FLOPPY_DISK = new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 3, false),
-            MY_MATHS = new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 1, false),
-            PING_RACKET = new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 5, false),
-            LOADED_DICE = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>roll` command", 10, false),
-            FORGOTTEN_MUSIC = new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 5, false),
-            CC_PENCIL = new Item("\u270f", "Pencil", "We have plenty of those!", 5, false),
-            OVERFLOWED_BAG = new Item("\uD83D\uDCB0", "Moneybag", "What else?.", 20, true),
+            BAN_HAMMER = new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
+            KICK_BOOT = new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 12, false),
+            FLOPPY_DISK = new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 13, false),
+            MY_MATHS = new Item("\uD83D\uDCDD", "My Maths", "\"Oh, I forgot my maths.\"", 11, false),
+            PING_RACKET = new Item("\uD83C\uDFD3", "Ping Racket", "I won the ping-pong with Discord by a few miliseconds", 15, false),
+            LOADED_DICE = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>roll` command", 60, false),
+            FORGOTTEN_MUSIC = new Item("\uD83C\uDFB5", "Forgotten Music", "Never downloaded. Probably has Copyright.", 15, false),
+            CC_PENCIL = new Item("\u270f", "Pencil", "We have plenty of those!", 15, false),
+            OVERFLOWED_BAG = new Item("\uD83D\uDCB0", "Moneybag", "What else?.", 80, true),
             BROM_PICKAXE = new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much. Gives you a stackable boost when " +
                     "doing ~>mine.", 500, true),
-            POTION_HEALTH = new Item(EmoteReference.POTION1.getUnicode(), "Milk", "Good boy.", 12, true),
-            POTION_STAMINA = new Item(EmoteReference.POTION2.getUnicode(), "Alcohol", "Hmm. I wonder what's this good for.", 12, true),
-            LEWD_MAGAZINE = new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd Magazine", "Too many lewd commands.", 12, true),
-            RING = new Item(EmoteReference.RING.getUnicode(), "Marriage Ring", "What basically makes your marriage official", 10, true),
-            LOVE_LETTER = new Item(EmoteReference.LOVE_LETTER.getUnicode(), "Love Letter", "A letter from your beloved one.", 14, false),
-            LOOT_CRATE_KEY = new Item(EmoteReference.KEY.getUnicode(), "Crate Key", "Used to open loot boxes.", 14, true),
-            CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(), "Clothes", "Basically what you wear, but 100x more expensive.", 5,
+            POTION_HEALTH = new Item(EmoteReference.POTION1.getUnicode(), "Milk", "Good boy.", 45, true),
+            POTION_STAMINA = new Item(EmoteReference.POTION2.getUnicode(), "Alcohol", "Hmm. I wonder what's this good for.", 45, true),
+            LEWD_MAGAZINE = new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd Magazine", "Too many lewd commands.", 45, true),
+            RING = new Item(EmoteReference.RING.getUnicode(), "Marriage Ring", "What basically makes your marriage official", 60, true),
+            LOVE_LETTER = new Item(EmoteReference.LOVE_LETTER.getUnicode(), "Love Letter", "A letter from your beloved one.", 55, false),
+            LOOT_CRATE_KEY = new Item(EmoteReference.KEY.getUnicode(), "Crate Key", "Used to open loot boxes.", 58, true),
+            CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(), "Clothes", "Basically what you wear, but 100x more expensive.", 15,
                     true),
             DIAMOND = new Item(EmoteReference.DIAMOND.getUnicode(), "Diamond", "Basically a better way of saving your money. It's shiny " +
-                    "too.", 40, true),
-            DRESS = new Item(EmoteReference.DRESS.getUnicode(), "Wedding Dress", "Isn't it cute?", 20, true),
-            NECKLACE = new Item(EmoteReference.NECKLACE.getUnicode(), "Necklace", "Looks nice.", 7, true),
+                    "too.", 350, true),
+            DRESS = new Item(EmoteReference.DRESS.getUnicode(), "Wedding Dress", "Isn't it cute?", 75, true),
+            NECKLACE = new Item(EmoteReference.NECKLACE.getUnicode(), "Necklace", "Looks nice.", 17, true),
             TUXEDO = new Item(EmoteReference.TUXEDO.getUnicode(), "Tuxedo", "What you use when you're going to get married with a girl.",
-                    15, true),
+                    24, true),
             SHOES = new Item(EmoteReference.SHOES.getUnicode(), "Shoes", "Something you use when you don't want to walk on dirt.", 9,
                     true),
-            ROSE = new Item(EmoteReference.ROSE.getUnicode(), "Rose", "The embodiment of your love.", 4, true),
-            CHOCOLATE = new Item(EmoteReference.CHOCOLATE.getUnicode(), "Chocolate", "Yummy.", 5, true),
-            COOKIES = new Item(EmoteReference.COOKIE.getUnicode(), "Cookie", "Delicious.", 3, true),
+            ROSE = new Item(EmoteReference.ROSE.getUnicode(), "Rose", "The embodiment of your love.", 53, true),
+            CHOCOLATE = new Item(EmoteReference.CHOCOLATE.getUnicode(), "Chocolate", "Yummy.", 60, true),
+            COOKIES = new Item(EmoteReference.COOKIE.getUnicode(), "Cookie", "Delicious.", 48, true),
             LOADED_DICE_2 = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>dice` command. Gives you a 50% more chance at getting" +
                     " a perfect score on dice."),
             BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(), "Booster", "Gives you 5% more money in ~>loot and ~>daily per item. " +
@@ -65,7 +65,7 @@ public class Items {
             LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key " +
                     "to open a loot crate!", 0,  false, false, true),
             STAR_2 = new Item(EmoteReference.STAR.getUnicode(), "Prize 2", "In the first place, how did you get so much money?",
-                    50, true, false, true)
+                    500, true, false, true)
     };
 
     static {

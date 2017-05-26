@@ -53,7 +53,7 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
-                long money = 15L;
+                long money = 150L;
                 User mentionedUser = null;
                 try {
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
@@ -80,10 +80,10 @@ public class CurrencyCmds {
                     if (mentionedUser.getId().equals(player.getData().getMarriedWith()) && player.getData().getMarriedSince() != null &&
                             Long.parseLong(player.getData().anniversary()) - player.getData().getMarriedSince() > TimeUnit.DAYS.toMillis(1))
                     {
-                        money = money + r.nextInt(10);
+                        money = money + r.nextInt(20);
 
                         if (player.getInventory().containsItem(Items.RING_2)) {
-                            money = money + r.nextInt(5);
+                            money = money + r.nextInt(10);
                         }
                     }
 
@@ -105,7 +105,7 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Daily command")
-                        .setDescription("**Gives you $300 credits per day (or between 300 and 350 if you transfer it to another person)**.")
+                        .setDescription("**Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person)**.")
                         .build();
             }
         });
@@ -133,7 +133,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(player.getMoney() > (long)(Integer.MAX_VALUE) * 2){
+                if(player.getMoney() > (long)(Integer.MAX_VALUE) * 3){
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items?").queue();
                     return;
                 }
@@ -175,10 +175,6 @@ public class CurrencyCmds {
                 catch (UnsupportedOperationException e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a value within your credits amount.").queue();
                     return;
-                }
-
-                if (player.getInventory().containsItem(Items.ENHANCER)) {
-                    luck = luck + 5;
                 }
 
                 User user = event.getAuthor();
@@ -292,7 +288,7 @@ public class CurrencyCmds {
                 }
 
                 List<ItemStack> loot = ground.collectItems();
-                int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(10) - 2);
+                int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
 
 
                 if (MantaroData.db().getUser(event.getMember()).isPremium() && moneyFound > 0) {
