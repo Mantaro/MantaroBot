@@ -188,7 +188,7 @@ public class CurrencyCmds {
                 final int finalLuck = luck;
                 final long finalGains = gains;
 
-                if (i >= Integer.MAX_VALUE) {
+                if (i >= Integer.MAX_VALUE / 4) {
                     event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
                             "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
                     InteractiveOperations.create(event.getChannel(), "Gambling",

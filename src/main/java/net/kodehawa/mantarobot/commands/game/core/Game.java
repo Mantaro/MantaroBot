@@ -51,10 +51,10 @@ public abstract class Game {
 
 			if (e.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
 				Player player = players.get(e.getMember());
-				player.addMoney(150);
+				player.addMoney(10);
 				player.save();
 				TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $150 credits by answering correctly!").queue();
+				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $10 credits by answering correctly!").queue();
 				lobby.startNextGame();
 				return true;
 			}
