@@ -14,7 +14,7 @@ public class Items {
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
@@ -60,9 +60,11 @@ public class Items {
                     " I know the picture doesn't match."),
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of getting a win on " +
                     "~>gamble. Non-stackable."),
+            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "Pretty much, huh?",
+                    0, false, false, true),
             LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key " +
                     "to open a loot crate!", 0,  false, false, true),
-            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "In the first place, how did you overflow a long?",
+            STAR_2 = new Item(EmoteReference.STAR.getUnicode(), "Prize 2", "In the first place, how did you get so much money?",
                     50, true, false, true)
     };
 
