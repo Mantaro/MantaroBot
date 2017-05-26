@@ -688,7 +688,9 @@ public class CurrencyCmds {
                 }
 
                 if (!rateLimiter.process(event.getMember())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 12 hours.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 12 hours.\n**You'll be able to use this command again in " +
+                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(event.getAuthor().getId())))
+                            + ".**").queue();
                     return;
                 }
                 User mentioned = event.getMessage().getMentionedUsers().get(0);
@@ -708,6 +710,8 @@ public class CurrencyCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("rep", "reputation");
     }
 
     @Command
