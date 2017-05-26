@@ -133,6 +133,11 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(player.getMoney() > (long)(Integer.MAX_VALUE) * 2){
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items?").queue();
+                    return;
+                }
+
                 double multiplier;
                 long i;
                 int luck;
