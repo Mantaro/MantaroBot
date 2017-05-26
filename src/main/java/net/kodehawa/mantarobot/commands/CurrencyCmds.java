@@ -53,7 +53,7 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
-                long money = 300L;
+                long money = 15L;
                 User mentionedUser = null;
                 try {
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
@@ -72,7 +72,7 @@ public class CurrencyCmds {
                 }
 
                 if (mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
-                    money = money + r.nextInt(50);
+                    money = money + r.nextInt(2);
                     player = MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser));
 
                     if (player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
@@ -80,10 +80,10 @@ public class CurrencyCmds {
                     if (mentionedUser.getId().equals(player.getData().getMarriedWith()) && player.getData().getMarriedSince() != null &&
                             Long.parseLong(player.getData().anniversary()) - player.getData().getMarriedSince() > TimeUnit.DAYS.toMillis(1))
                     {
-                        money = money + r.nextInt(120);
+                        money = money + r.nextInt(10);
 
                         if (player.getInventory().containsItem(Items.RING_2)) {
-                            money = money + r.nextInt(50);
+                            money = money + r.nextInt(5);
                         }
                     }
 
@@ -96,12 +96,6 @@ public class CurrencyCmds {
                 }
 
                 player = MantaroData.db().getPlayer(event.getMember());
-                if (player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
-
-                if (player.getInventory().getAmount(Items.BOOSTER) > 0) {
-                    int total = Math.min(10, player.getInventory().getAmount(Items.BOOSTER));
-                    money = (int) Math.round(money + (money * (0.5 * total)));
-                }
 
                 player.addMoney(money);
                 player.save();
@@ -288,17 +282,13 @@ public class CurrencyCmds {
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
-                if (r.nextInt(350) == 0) {
+                if (r.nextInt(1500) == 0) {
                     TextChannelGround.of(event.getChannel()).dropItem(Items.LOOT_CRATE);
                 }
 
                 List<ItemStack> loot = ground.collectItems();
-                int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(400) - 100);
+                int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(10) - 2);
 
-                if (player.getInventory().getAmount(Items.BOOSTER) > 0) {
-                    int total = Math.min(10, player.getInventory().getAmount(Items.BOOSTER));
-                    moneyFound = (int) Math.round(moneyFound + (moneyFound * (0.3 * total)));
-                }
 
                 if (MantaroData.db().getUser(event.getMember()).isPremium() && moneyFound > 0) {
                     moneyFound = moneyFound + random.nextInt(moneyFound);
@@ -779,6 +769,12 @@ public class CurrencyCmds {
                 if (mentionedUsers.size() == 0) event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
                 else {
                     User giveTo = mentionedUsers.get(0);
+
+                    if(event.getAuthor().getId().equals(giveTo.getId())){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer an item to yourself!").queue();
+                        return;
+                    }
+
                     Item item = Items.fromAny(args[1]).orElse(null);
                     if (item == null) {
                         event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
@@ -808,7 +804,7 @@ public class CurrencyCmds {
                         }
 
                         try {
-                            int amount = Integer.parseInt(args[2]);
+                            int amount = Math.abs(Integer.parseInt(args[2]));
                             if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
                                 if (item.isHidden()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
@@ -1027,12 +1023,7 @@ public class CurrencyCmds {
     }
 
     private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
-        if (luck > r.nextInt(105)) {
-            if (player.getInventory().containsItem(Items.BERSERK)) {
-                int amount = Math.min(5, player.getInventory().getAmount(Items.BERSERK));
-                gains = (long) (gains + (gains + Math.floor(amount * 0.02)));
-            }
-
+        if (luck > r.nextInt(110)) {
             if (player.addMoney(gains)) {
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you " +
                         "had!").queue();
