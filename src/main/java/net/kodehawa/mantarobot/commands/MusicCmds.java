@@ -393,9 +393,8 @@ public class MusicCmds {
 					event.getGuild());
 				int page = 0;
 				try {
-					page = Integer.parseInt(args[0]) - 1;
+					page = Math.max(Integer.parseInt(args[0]), 1);
 				} catch (Exception ignored) {}
-				event.getChannel().sendMessage(embedForQueue(page, event.getGuild(), musicManager)).queue();
 
 				if (content.startsWith("clear")) {
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
@@ -423,7 +422,8 @@ public class MusicCmds {
 						EmoteReference.ERROR + "Either you're not connected to the VC or you're not the DJ.").queue();
 					return;
 				}
-				TextChannelGround.of(event).dropItemWithChance(0, 10);
+                embedForQueue(page, event, musicManager);
+                TextChannelGround.of(event).dropItemWithChance(0, 10);
 			}
 
 			@Override

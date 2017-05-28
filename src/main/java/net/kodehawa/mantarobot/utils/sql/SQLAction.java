@@ -29,6 +29,7 @@ public class SQLAction {
 	}
 
 	public void complete() throws SQLException {
+	    if(SQLDatabase.DISABLED) return;
 		task.run(conn);
 		if (!conn.isClosed())
 			conn.close();

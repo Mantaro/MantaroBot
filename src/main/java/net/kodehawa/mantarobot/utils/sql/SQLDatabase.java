@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SQLDatabase {
+    public static final boolean DISABLED = System.getProperty("mantaro.nosql", null) != null;
+
 	private static final SQLDatabase sql;
 
 	static {
@@ -20,6 +22,7 @@ public class SQLDatabase {
 	private MysqlDataSource dataSource;
 
 	public SQLDatabase() {
+	    if(DISABLED) return;
 		dataSource = new MysqlDataSource();
 		dataSource.setDatabaseName("mantarologs");
 		dataSource.setUser("root");
@@ -29,6 +32,7 @@ public class SQLDatabase {
 	}
 
 	public Connection getConnection() throws SQLException {
+	    if(DISABLED) return null;
 		return dataSource.getConnection();
 	}
 

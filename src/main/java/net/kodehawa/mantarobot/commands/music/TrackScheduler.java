@@ -11,6 +11,7 @@ import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
@@ -82,15 +83,19 @@ public class TrackScheduler extends AudioEventAdapter {
 			GuildData guildData = dbGuild.getData();
 
 			if(guildData.isMusicAnnounce()){
-				TextChannel req = getCurrentTrack().getRequestedChannel();
+			    AudioTrackContext atc = getCurrentTrack();
+			    if(atc == null) return;
+				TextChannel req = atc.getRequestedChannel();
+				if(req == null) return;
+				VoiceChannel vc = req.getGuild().getSelfMember().getVoiceState().getChannel();
 				AudioTrackInfo trackInfo = getCurrentTrack().getInfo();
 				String title = trackInfo.title;
 				long trackLength = trackInfo.length;
 
-				if (getCurrentTrack() != null && req != null && req.canTalk()){
+				if (req.canTalk()){
 					getCurrentTrack().getRequestedChannel()
 							.sendMessage(String.format("\uD83D\uDCE3 Now playing in **%s**: %s (%s)%s",
-									req.getName(), title, AudioUtils.getLength(trackLength), getCurrentTrack().getDJ() != null ?
+									vc.getName(), title, AudioUtils.getLength(trackLength), getCurrentTrack().getDJ() != null ?
 											" requested by **" + getCurrentTrack().getDJ().getName() + "**" : "")).queue(
 							message -> message.delete().queueAfter(90, TimeUnit.SECONDS)
 					);

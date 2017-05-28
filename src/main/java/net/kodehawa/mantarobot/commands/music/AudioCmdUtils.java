@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -38,56 +39,107 @@ public class AudioCmdUtils {
 		event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
 	}
 
-	public static MessageEmbed embedForQueue(int page, Guild guild, GuildMusicManager musicManager) {
+	public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
 		String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
-		List<String> lines = Arrays.asList(NEWLINE_PATTERN.split(toSend));
-		List<List<String>> list = new ArrayList<>();
+        Guild guild = event.getGuild();
 
-		if (lines.size() >= 15) {
+		if(toSend.isEmpty()) {
+            event.getChannel().sendMessage(new EmbedBuilder()
+                    .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                    .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you queue some songs?")
+                    .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
+            return;
+        }
 
-			int pages = list.size() % 2 == 0 ? lines.size() / 2 : (lines.size() / 2) + 1;
-			if (lines.size() <= 60) pages = lines.size() % 5 == 0 ? lines.size() / 5 : (lines.size() / 4) + 1; //5 or 4 pages
-			else if (lines.size() <= 100) pages = lines.size() % 8 == 0 ? lines.size() / 8 : (lines.size() / 7) + 1; //8 or 7 pages
-			else if (lines.size() <= 200) pages = lines.size() % 16 == 0 ? lines.size() / 16 : (lines.size() / 15) + 1; //16 or 15 pages
-			else if (lines.size() <= 300) pages = lines.size() % 24 == 0 ? lines.size() / 24 : (lines.size() / 23) + 1; //24 or 23 pages
+		String[] lines = NEWLINE_PATTERN.split(toSend);
 
-			list = chunks(lines, pages);
+		if(!guild.getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
+            String line = null;
+            StringBuilder sb = new StringBuilder();
+            int total; {
+                int t = 0;
+                int c = 0;
+                for(String s : lines) {
+                    if(s.length() + c + 1 > MessageEmbed.TEXT_MAX_LENGTH) {
+                        t++;
+                        c = 0;
+                    }
+                    c += s.length() + 1;
+                }
+                if(c > 0) t++;
+                total = t;
+            }
+            int current = 0;
+            for(String s : lines) {
+                int l = s.length()+1;
+                if(l > MessageEmbed.TEXT_MAX_LENGTH) throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
+                if(sb.length() + l > MessageEmbed.TEXT_MAX_LENGTH) {
+                    current++;
+                    if(current == page) {
+                        line = sb.toString();
+                        break;
+                    }
+                    sb = new StringBuilder();
+                }
+                sb.append(s).append('\n');
+            }
+            if(sb.length() > 0 && current + 1 == page) {
+                line = sb.toString();
+            }
+            if(line == null || page > total) {
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                        .setColor(Color.CYAN).setDescription("Nothing here, just dust. Why don't you go back some pages?")
+                        .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png").build()).queue();
+            } else {
+                long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+                EmbedBuilder builder = new EmbedBuilder()
+                        .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                        .setColor(Color.CYAN);
 
-			try {
-				toSend = list.get(page).stream().collect(Collectors.joining("\n"));
-			} catch (IndexOutOfBoundsException e) {
-				toSend = "Nothing on this page, just dust";
-			}
-		}
+                String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
+                        "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+                                + "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
+                                ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+                        "Nothing or title/duration not found";
+                VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
+                builder
+                        .addField("Currently playing", nowPlaying, false)
+                        .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+                        .addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
+                        .addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
+                        .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
+                                + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
+                        .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
+                        .setFooter("Total pages: " + total + " -> Use ~>queue <page> to change pages. Currently in page " + page, guild.getIconUrl());
+                event.getChannel().sendMessage(builder.setDescription(line).build()).queue();
+            }
+		    return;
+        }
 
-		long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+        DiscordUtils.list(event, 30, false, (p, total)->{
+            long length = musicManager.getTrackScheduler().getQueue().stream().mapToLong(value -> value.getInfo().length).sum();
+            EmbedBuilder builder = new EmbedBuilder()
+                    .setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
+                    .setColor(Color.CYAN);
 
-		EmbedBuilder builder = new EmbedBuilder()
-			.setAuthor("Queue for server " + guild.getName(), null, guild.getIconUrl())
-			.setColor(Color.CYAN);
-
-		String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
-				"**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
-						+ "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
-						")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
-						"Nothing or title/duration not found";
-		VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
-		if (!toSend.isEmpty()) {
-			builder.setDescription(toSend)
-				.addField("Currently playing", nowPlaying, false)
-				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-				.addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
-				.addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
-				.addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
-					+ " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
-				.addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
-				.setFooter("Total pages: " + list.size() + " -> Do ~>queue <page> to go to next page. Currently in page " + (page + 1), guild.getIconUrl());
-		} else {
-			builder.setDescription("Nothing here, just dust. Why don't you queue some songs?")
-					.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png");
-		}
-
-		return builder.build();
+            String nowPlaying = musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null ?
+                    "**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title
+                            + "](" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri +
+                            ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
+                    "Nothing or title/duration not found";
+            VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
+            builder
+                    .addField("Currently playing", nowPlaying, false)
+                    .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+                    .addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
+                    .addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
+                    .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
+                            + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
+                    .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
+                    .setFooter("Total pages: " + total + " -> React to change pages. Currently in page " + p, guild.getIconUrl());
+            return builder;
+        }, lines);
 	}
 
 	public static String getDurationMinutes(long length) {

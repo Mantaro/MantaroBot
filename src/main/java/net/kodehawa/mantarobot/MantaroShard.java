@@ -15,6 +15,7 @@ import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -99,8 +100,8 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners() {
-		jda.removeEventListener(mantaroListener, commandListener, InteractiveOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, InteractiveOperations.listener());
+		jda.removeEventListener(mantaroListener, commandListener, InteractiveOperations.listener(), ReactionOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, InteractiveOperations.listener(), ReactionOperations.listener());
 	}
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {

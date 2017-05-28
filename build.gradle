@@ -68,6 +68,8 @@ dependencies {
 	compile group: 'com.patreon', name: 'patreon', version: '0.1.1'
 
 	compile 'org.springframework.boot:spring-boot-starter-web:1.4.3.RELEASE'
+
+    compile 'net.jodah:expiringmap:0.5.8'
 }
 
 task wrapper(type: Wrapper) {

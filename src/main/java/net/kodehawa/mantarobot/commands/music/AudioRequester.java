@@ -8,7 +8,9 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
@@ -167,8 +169,21 @@ public class AudioRequester implements AudioLoadResultHandler {
 					.append("\n");
 		}
 
-		event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
-		IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), false);
-		DiscordUtils.selectInt(event, 5, consumer);
+		builder.setDescription(b);
+
+		if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION)) {
+            event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+            IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), false);
+            DiscordUtils.selectInt(event, 5, consumer);
+            return;
+        }
+        long id = event.getAuthor().getIdLong(); //just in case someone else uses play before timing out
+        ReactionOperations.create(event.getChannel().sendMessage(builder.build()).complete(), 15, (e)->{
+            if(e.getUser().getIdLong() != id) return false;
+            int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
+            if(i < 1 || i > 4) return false;
+            loadSingle(playlist.getTracks().get(i - 1), false);
+            return true;
+        }, "\u0031\u20e3", "\u0032\u20e3", "\u0033\u20e3", "\u0034\u20e3");
 	}
 }

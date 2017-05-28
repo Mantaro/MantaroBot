@@ -4,6 +4,7 @@ import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
@@ -81,9 +82,9 @@ public class InfoCmds {
 						.setDescription("**Main developer**: Kodehawa#3457\n"
 							+ "**Developer**: AdrianTodt#0722\n" +
 								"**Music**: Steven#6340 (Retired :<)\n"
-								+ "**Cross bot integration**: Natan#1289 (Retired :<)\n"
+								+ "**L33t H4x0r**: Natan#1289\n"
 								+ "**Meme guy**: Adam#9261\n"
-								+ "**Documentation:** MrLar#8117")
+								+ "**Documentation:** MrLar#8117 & Yuvira#7832")
 						.addField("Special mentions",
 							"Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
 						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
@@ -399,10 +400,7 @@ public class InfoCmds {
 				long start = System.currentTimeMillis();
 				event.getChannel().sendTyping().queue(v -> {
 					long ping = System.currentTimeMillis() - start;
-					//This is what happens when you donate $100.
-					if(event.getAuthor().getId().equals("132584525296435200")){
-						event.getChannel().sendMessage(EmoteReference.MEGA + "Hubby, my ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms` :heart:").queue();
-					} else event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
+					event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
 					TextChannelGround.of(event).dropItemWithChance(5, 5);
 				});
 			}
@@ -423,14 +421,16 @@ public class InfoCmds {
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				StringBuilder builder = new StringBuilder();
 				for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
-					builder.append(shard.getJDA().getShardInfo()).append(" | STATUS: ").append(shard.getJDA().getStatus()).append(" | U: ")
-						.append(shard.getJDA().getUsers().size()).append(" | G: ").append(shard.getJDA().getGuilds().size()).append(" | L: ")
-						.append(shard.getEventManager().getLastJDAEventTimeDiff())
-						.append(" ms")
-						.append(" | MC: ")
-						.append(shard.getJDA().getVoiceChannels().stream().filter
-							(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()))
-							.count());
+                    JDA jda = shard.getJDA();
+					builder.append(String.format(
+					    "%15s" + " | STATUS: %9s" + " | U: %5d" + " | G: %4d" + " | L: %4d" + " ms | MC: %2d",
+                        jda.getShardInfo(),
+                        jda.getStatus(),
+                        jda.getUsers().size(),
+                        jda.getGuilds().size(),
+                        shard.getEventManager().getLastJDAEventTimeDiff(),
+                        jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
+                    ));
 
 					if (shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
 						builder.append(" <- CURRENT");
