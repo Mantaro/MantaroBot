@@ -423,12 +423,12 @@ public class InfoCmds {
 				for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
 					builder.append(String.format(
-					    "%15s" + " | STATUS: %9s" + " | U: %5d" + " | G: %4d" + " | L: %4d" + " ms | MC: %2d",
-                        jda.getShardInfo(),
+					    "%-15s" + " | STATUS: %-9s" + " | U: %-5d" + " | G: %-4d" + " | L: %-7s" + " | MC: %-2d",
+                        jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                         jda.getStatus(),
                         jda.getUsers().size(),
                         jda.getGuilds().size(),
-                        shard.getEventManager().getLastJDAEventTimeDiff(),
+                        shard.getEventManager().getLastJDAEventTimeDiff() + " ms",
                         jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
 

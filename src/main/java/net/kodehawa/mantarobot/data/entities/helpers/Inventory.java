@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.data.entities.helpers;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -11,6 +13,9 @@ import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.s
 import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
 
 public class Inventory {
+    //this can be removed if no itemstack errors are showing up
+    private static final Logger LOGGER = LoggerFactory.getLogger("Inventory");
+
 	public static class Resolver {
 		public static Map<Integer, Integer> serialize(List<ItemStack> list) {
 			Map<Integer, Integer> collect = list.stream().filter(stack -> stack.getAmount() != 0).collect(Collectors.toMap(stack -> Items.idOf(stack.getItem()), ItemStack::getAmount, Integer::sum));
@@ -19,7 +24,7 @@ public class Inventory {
 		}
 
 		public static List<ItemStack> unserialize(Map<Integer, Integer> map) {
-			return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(Items.fromId(entry.getKey()), entry.getValue())).collect(Collectors.toList());
+			return map.entrySet().stream().filter(e -> e.getValue() != 0).map(entry -> new ItemStack(Items.fromId(entry.getKey()), Math.max(Math.min(entry.getValue(), 5000), 0))).collect(Collectors.toList());
 		}
 	}
 
@@ -39,8 +44,7 @@ public class Inventory {
 
 	public void clearOnlySellables(){
 		List<ItemStack> ns = asList().stream().filter(item -> !item.getItem().isSellable()).collect(Collectors.toList());
-		replaceWith(new ArrayList<>());
-		merge(ns);
+		replaceWith(ns);
 	}
 
 	public boolean containsItem(Item item) {
@@ -59,19 +63,29 @@ public class Inventory {
 		return asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount();
 	}
 
-	public void merge(List<ItemStack> inv) {
-		List<ItemStack> cur = asList();
-		cur.addAll(inv);
-
-		if(cur.size() >= Integer.MAX_VALUE){
-			return;
-		}
-
-		replaceWith(ItemStack.reduce(cur));
+	public boolean merge(List<ItemStack> inv) {
+		Map<Integer, Integer> map = new HashMap<>(inventory);
+		Map<Integer, Integer> toAdd = serialize(inv);
+		boolean[] hadOverflow = {false};
+		toAdd.forEach((id, amount)->{
+		    int currentAmount = map.getOrDefault(id, 0);
+		    if(currentAmount + amount > 5000) {
+		        currentAmount = 5000;
+		        hadOverflow[0] = true;
+            }
+		    else {
+		        currentAmount += amount;
+            }
+		    map.put(id, currentAmount);
+        });
+		replaceWith(unserialize(map));
+		return hadOverflow[0];
 	}
 
 	public void process(List<ItemStack> is) {
-		merge(is);
+		if(merge(is)) {
+		    LOGGER.error("Unhandled 'overflow' at " + Thread.currentThread().getStackTrace()[2] + ". <@182245310024777728> check it out");
+        }
 	}
 
 	public void process(ItemStack... stacks) {

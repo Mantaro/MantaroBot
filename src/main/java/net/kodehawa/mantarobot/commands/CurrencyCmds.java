@@ -297,20 +297,25 @@ public class CurrencyCmds {
 
                 if (!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
-                    player.getInventory().merge(loot);
+                    String overflow;
+                    if(player.getInventory().merge(loot)) {
+                        overflow = "But you already had too many items, so you decided to throw away the excess. ";
+                    } else {
+                        overflow = "";
+                    }
                     if (moneyFound != 0) {
                         if (player.addMoney(moneyFound)) {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits!").queue();
+                                    "with $" + moneyFound + " credits!" + overflow).queue();
                         }
                         else {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits. But you already had too many credits. Your bag overflowed" +
+                                    "with $" + moneyFound + " credits. " + overflow + "But you already had too many credits. Your bag overflowed" +
                                     ".\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
                         }
                     }
                     else {
-                        event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s).queue();
+                        event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s + ". " + overflow).queue();
                     }
                 }
                 else {
@@ -371,8 +376,16 @@ public class CurrencyCmds {
                         catch (Exception e) {
                             if (e instanceof NumberFormatException) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                            } else {
+                                onHelp(event);
+                                return;
                             }
                         }
+                    }
+
+                    if(itemNumber > 5000) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You can't buy more than 5000 items").queue();
+                        return;
                     }
 
                     if (args[0].equals("sell")) {
@@ -465,7 +478,8 @@ public class CurrencyCmds {
                                 return;
                             }
 
-                            if (player.getInventory().getAmount(itemToBuy) + itemNumber < 0) {
+                            ItemStack stack = player.getInventory().getStackOf(itemToBuy);
+                            if (stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
                                 //assume overflow
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy more of that object!").queue();
                                 return;
@@ -794,6 +808,11 @@ public class CurrencyCmds {
                                     return;
                                 }
 
+                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that").queue();
+                                    return;
+                                }
+
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
                                 event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave 1 " + item
@@ -813,6 +832,11 @@ public class CurrencyCmds {
                             if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
                                 if (item.isHidden()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
+                                    return;
+                                }
+
+                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount >= 5000) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that").queue();
                                     return;
                                 }
 
@@ -997,10 +1021,12 @@ public class CurrencyCmds {
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
-        player.getInventory().process(ita);
+        boolean overflow = player.getInventory().merge(ita);
         player.save();
         event.getChannel().sendMessage(EmoteReference.LOOT_CRATE.getDiscordNotation() + "**You won:** " +
-                toAdd.stream().map(Item::toString).collect(Collectors.joining(", "))).queue();
+                toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")) + (
+                        overflow ? ". But you already had too much, so you decided to throw away the excess" : ""
+                )).queue();
     }
 
     private static Item selectReverseWeighted(List<Item> items) {

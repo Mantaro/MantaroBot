@@ -53,7 +53,13 @@ public class ItemStack {
 	}
 
 	public ItemStack join(ItemStack stack) {
-		if (!stack.getItem().equals(this.getItem())) throw new UnsupportedOperationException("Not the same Items");
+		if(!stack.getItem().equals(this.getItem())) throw new UnsupportedOperationException("Not the same Items");
+		if(!canJoin(stack)) throw new UnsupportedOperationException("Add a check for canJoin before this");
 		return new ItemStack(this.getItem(), this.getAmount() + stack.getAmount());
 	}
+
+	public boolean canJoin(ItemStack other) {
+	    int amountAfter = amount + other.amount;
+	    return amountAfter >= 0 && amountAfter <= 5000;
+    }
 }
