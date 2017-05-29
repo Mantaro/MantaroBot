@@ -20,7 +20,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 3, revision: 0)
+def ver = new Version(major: 4, minor: 4, revision: 0)
 version ver.toString()
 
 //We are going to use Java 8
@@ -33,7 +33,8 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.1.0_206'
+	//compile 'net.dv8tion:JDA:3.1.0_206'
+	compile 'com.github.DV8FromTheWorld:JDA:95aaa45'
 
 	compile 'com.sedmelluq:lavaplayer:1.2.39'
 	compile 'com.sedmelluq:jda-nas:1.0.5'

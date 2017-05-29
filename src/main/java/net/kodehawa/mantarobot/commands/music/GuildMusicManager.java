@@ -19,7 +19,6 @@ public class GuildMusicManager {
 
 	public GuildMusicManager(AudioPlayerManager playerManager, Guild guild) {
 		this.audioPlayer = playerManager.createPlayer();
-		playerManager.setOutputHookFactory(new SpeedingTicketFactory());
 		this.trackScheduler = new TrackScheduler(audioPlayer, guild.getId(), MantaroBot.getInstance().getId(guild.getJDA()));
 		this.audioPlayer.addListener(trackScheduler);
 		this.audioPlayer.addListener(new AudioEventAdapter() {
