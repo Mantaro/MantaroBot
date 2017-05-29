@@ -283,8 +283,8 @@ public class CurrencyCmds {
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
-                if (r.nextInt(1500) == 0) {
-                    TextChannelGround.of(event.getChannel()).dropItem(Items.LOOT_CRATE);
+                if (r.nextInt(450) == 0) { //1 in 450 chance of it dropping a loot crate.
+                    ground.dropItem(Items.LOOT_CRATE);
                 }
 
                 List<ItemStack> loot = ground.collectItems();

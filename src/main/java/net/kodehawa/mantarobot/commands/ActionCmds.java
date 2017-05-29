@@ -32,6 +32,7 @@ public class ActionCmds {
 	static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
 	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
 	private static final DataManager<List<String>> TICKLES = new SimpleFileDataManager("assets/mantaro/texts/tickles.txt");
+	private static final DataManager<List<String>> POUTS = new SimpleFileDataManager("assets/mantaro/texts/pouts.txt");
 	private static final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
 	static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
@@ -190,6 +191,12 @@ public class ActionCmds {
 		cr.register("highfive", new ImageActionCmd(
 				"Highfive", "Highfives with the specified user.", Color.PINK,
 				"highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfives*"
+		));
+
+		//pout();
+		cr.register("pout", new ImageActionCmd(
+				"Pout", "Pouts at the specified user.", Color.PINK,
+				"pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", POUTS.get(), "*pouts*, **hmph**"
 		));
 
 		//greet();

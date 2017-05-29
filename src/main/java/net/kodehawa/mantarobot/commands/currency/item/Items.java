@@ -39,7 +39,7 @@ public class Items {
             CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(), "Clothes", "Basically what you wear, but 100x more expensive.", 15,
                     true),
             DIAMOND = new Item(EmoteReference.DIAMOND.getUnicode(), "Diamond", "Basically a better way of saving your money. It's shiny " +
-                    "too.", 350, true),
+                        "too.", 350, true),
             DRESS = new Item(EmoteReference.DRESS.getUnicode(), "Wedding Dress", "Isn't it cute?", 75, true),
             NECKLACE = new Item(EmoteReference.NECKLACE.getUnicode(), "Necklace", "Looks nice.", 17, true),
             TUXEDO = new Item(EmoteReference.TUXEDO.getUnicode(), "Tuxedo", "What you use when you're going to get married with a girl.",
