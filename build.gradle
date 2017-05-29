@@ -55,7 +55,7 @@ dependencies {
 
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0.pr1'
 
-	compile 'com.rethinkdb:rethinkdb-drive:2.3.3'
+	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 
 	compile 'mysql:mysql-connector-java:6.0.4'
 
