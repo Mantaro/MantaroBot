@@ -17,11 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j(topic = "Game[Trivia]")
 public class Trivia extends Game {
 	private static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
-	private String expectedAnswer;
+	private List<String> expectedAnswer;
 	private int maxAttempts = 10;
 
 	public Trivia() {
@@ -49,7 +51,8 @@ public class Trivia extends Game {
 	public boolean onStart(GameLobby lobby) {
 		try {
 			String[] s = CollectionUtils.random(TRIVIA.get()).split(":");
-			expectedAnswer = s[1];
+			expectedAnswer = Stream.of(s).filter(ts -> !ts.equals(s[0])).collect(Collectors.toList());
+			System.out.println(expectedAnswer);
 			lobby.getChannel().sendMessage(EmoteReference.MEGA + s[0]).queue();
 			return true;
 		} catch (Exception e) {

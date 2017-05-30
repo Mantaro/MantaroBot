@@ -19,6 +19,7 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -640,6 +641,29 @@ public class ModerationCmds {
                         .addField("Considerations", "This command will mute if the user doesn't have the mute role and it will unmute the user if he or she has the role.", false)
                         .build();
             }
+        });
+    }
+
+    @Command
+    public static void onPostLoad(PostLoadEvent e){
+        OptsCmd.registerOption("linkprotection:toggle", event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean toggler = guildData.isLinkProtection();
+
+            guildData.setLinkProtection(!toggler);
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set link protection to " + "**" + !toggler + "**").queue();
+            dbGuild.save();
+        });
+
+        OptsCmd.registerOption("slowmode:toggle", event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean toggler = guildData.isSlowMode();
+
+            guildData.setSlowMode(!toggler);
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set slowmode chat to " + "**" + !toggler + "**").queue();
+            dbGuild.save();
         });
     }
 }

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
@@ -9,11 +10,15 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -196,7 +201,7 @@ public class ActionCmds {
 		//pout();
 		cr.register("pout", new ImageActionCmd(
 				"Pout", "Pouts at the specified user.", Color.PINK,
-				"pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", POUTS.get(), "*pouts*, **hmph**"
+				"pout.gif", EmoteReference.TALKING + "%s has been pouted by %s *hmph*", POUTS.get(), "*pouts*, **hmph**"
 		));
 
 		//greet();
@@ -210,6 +215,19 @@ public class ActionCmds {
 			"Tsundere Command", "Y-You baka!", Color.PINK,
 			EmoteReference.MEGA + "%s", TSUNDERE.get()
 		));
-
 	}
+
+	@Command
+	public static void onPostLoad(PostLoadEvent e) {
+		OptsCmd.registerOption("actionmention:toggle", event -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			boolean toggler = guildData.isNoMentionsAction();
+
+			guildData.setNoMentionsAction(!toggler);
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no action mentions in chat to " + "**" + !toggler + "**").queue();
+			dbGuild.save();
+		});
+	}
+
 }

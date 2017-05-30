@@ -1,5 +1,7 @@
 package net.kodehawa.mantarobot.web;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.rethinkdb.model.MapObject;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
@@ -8,6 +10,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
+import net.kodehawa.mantarobot.data.MantaroData;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +29,15 @@ import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 
 @RestController
 public class Controller {
+
+	Gson gson = new GsonBuilder()
+			.serializeSpecialFloatingPointValues()
+			.serializeNulls()
+			.setDateFormat("dd-MM-yyyy")
+			.disableHtmlEscaping()
+			.setPrettyPrinting()
+			.create();
+
 	private Map<String, Callable<Object>> vpsMap = Arrays.stream(AsyncInfoMonitor.class.getDeclaredMethods())
 		.filter(method -> Modifier.isStatic(method.getModifiers()))
 		.filter(method -> method.getParameterCount() == 0)
@@ -38,15 +51,15 @@ public class Controller {
 	public Object cmds(@PathVariable("type") String type) {
 		switch (type) {
 			case "now":
-				return CommandStatsManager.MINUTE_CMDS;
+				return gson.toJson(CommandStatsManager.MINUTE_CMDS);
 			case "hourly":
-				return CommandStatsManager.HOUR_CMDS;
+				return gson.toJson(CommandStatsManager.HOUR_CMDS);
 			case "daily":
-				return CommandStatsManager.DAY_CMDS;
+				return gson.toJson(CommandStatsManager.DAY_CMDS);
 			case "total":
-				return CommandStatsManager.TOTAL_CMDS;
+				return gson.toJson(CommandStatsManager.TOTAL_CMDS);
 			default:
-				return null;
+				return new JSONObject().append("404", "Not a valid query.");
 		}
 	}
 
@@ -62,13 +75,13 @@ public class Controller {
 			case "total":
 				return GuildStatsManager.TOTAL_EVENTS;
 			default:
-				return null;
+				return new JSONObject().append("404", "Not a valid query.");
 		}
 	}
 
 	@RequestMapping("/stats/shards")
 	public Object shardinfo() {
-		return MantaroBot.getInstance().getShardList().stream()
+		return gson.toJson(MantaroBot.getApi().getBot().getShardList().stream()
 			.map(
 				s -> new MapObject<>()
 					.with("id", s.getShardInfo().getShardId())
@@ -81,88 +94,103 @@ public class Controller {
 						c -> c.getMembers().contains(c.getGuild().getSelfMember())
 					).count())
 			)
-			.collect(Collectors.toList());
+			.collect(Collectors.toList()));
 	}
 
 	@RequestMapping("/stats")
 	public Object stats() {
-
-		List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-		List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
+		List<Guild> guilds = MantaroBot.getApi().getBot().getGuilds();
+		List<VoiceChannel> voiceChannels = MantaroBot.getApi().getBot().getVoiceChannels();
 		List<VoiceChannel> musicChannels = voiceChannels.parallelStream().filter(
 			vc -> vc.getMembers().contains(vc.getGuild().getSelfMember())).collect(Collectors.toList());
 		long musicConnections, exclusiveness;
+		String json = gson.toJson(new MapObject<>()
+				.with(
+						"usersPerGuild",
+						calculateInt(guilds, value -> value.getMembers().size())
+				)
+				.with(
+						"onlineUsersPerGuild",
+						calculateInt(
+								guilds,
+								value -> (int) value.getMembers().stream()
+										.filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()
+						)
+				)
+				.with(
+						"onlineUsersPerUserPerGuild",
+						calculateDouble(
+								guilds,
+								value -> (double) value.getMembers()
+										.stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE))
+										.count() / (double) value.getMembers().size() * 100
+						)
+				)
+				.with(
+						"listeningUsersPerUsersPerGuilds",
+						calculateDouble(
+								musicChannels,
+								value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100
+						)
+				)
+				.with(
+						"listeningUsersPerOnlineUsersPerGuilds",
+						calculateDouble(
+								musicChannels,
+								value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream()
+										.filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100
+						)
+				)
+				.with(
+						"textChannelsPerGuild",
+						calculateInt(guilds, value -> value.getTextChannels().size())
+				)
+				.with(
+						"voiceChannelsPerGuild",
+						calculateInt(guilds, value -> value.getVoiceChannels().size())
+				)
+				.with(
+						"musicConnections",
+						musicConnections = voiceChannels.stream()
+								.filter(channel -> channel.getMembers().contains(channel.getGuild().getSelfMember()))
+								.count()
+				)
+				.with(
+						"exclusiveness",
+						exclusiveness = MantaroBot.getInstance().getGuilds().stream()
+								.filter(
+										g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1
+								).count()
+				)
+				.with(
+						"musicConnectionsPerServer",
+						(double) musicConnections / (double) guilds.size() * 100
+				)
+				.with(
+						"exclusivenessPercent",
+						(double) exclusiveness / (double) guilds.size() * 100
+				)
+				.with(
+						"bigGuilds",
+						MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count()
+				));
 
-		return new MapObject<>()
-			.with(
-				"usersPerGuild",
-				calculateInt(guilds, value -> value.getMembers().size())
-			)
-			.with(
-				"onlineUsersPerGuild",
-				calculateInt(
-					guilds,
-					value -> (int) value.getMembers().stream()
-						.filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count()
-				)
-			)
-			.with(
-				"onlineUsersPerUserPerGuild",
-				calculateDouble(
-					guilds,
-					value -> (double) value.getMembers()
-						.stream().filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE))
-						.count() / (double) value.getMembers().size() * 100
-				)
-			)
-			.with(
-				"listeningUsersPerUsersPerGuilds",
-				calculateDouble(
-					musicChannels,
-					value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().size() * 100
-				)
-			)
-			.with(
-				"listeningUsersPerOnlineUsersPerGuilds",
-				calculateDouble(
-					musicChannels,
-					value -> (double) value.getMembers().size() / (double) value.getGuild().getMembers().stream()
-						.filter(member -> !member.getOnlineStatus().equals(OnlineStatus.OFFLINE)).count() * 100
-				)
-			)
-			.with(
-				"textChannelsPerGuild",
-				calculateInt(guilds, value -> value.getTextChannels().size())
-			)
-			.with(
-				"voiceChannelsPerGuild",
-				calculateInt(guilds, value -> value.getVoiceChannels().size())
-			)
-			.with(
-				"musicConnections",
-				musicConnections = voiceChannels.stream()
-					.filter(channel -> channel.getMembers().contains(channel.getGuild().getSelfMember()))
-					.count()
-			)
-			.with(
-				"exclusiveness",
-				exclusiveness = MantaroBot.getInstance().getGuilds().stream()
-					.filter(
-						g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1
-					).count()
-			)
-			.with(
-				"musicConnectionsPerServer",
-				(double) musicConnections / (double) guilds.size() * 100
-			)
-			.with(
-				"exclusivenessPercent",
-				(double) exclusiveness / (double) guilds.size() * 100
-			)
-			.with(
-				"bigGuilds",
-				MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count()
-			);
+		return json;
+	}
+
+	@RequestMapping("/api/cc/{id}")
+	public Object custom(@PathVariable("id") String id){
+		return gson.toJson(MantaroData.db().getCustomCommands(id));
+	}
+
+	@RequestMapping("/api/player/{id}")
+	public Object player(@PathVariable("id") String id){
+		return gson.toJson(MantaroData.db().getPlayer(id));
+	}
+
+	@RequestMapping("/api/guild/{id}")
+	public Object guild(@PathVariable("id") String id){
+		return gson.toJson(MantaroData.db().getGuild(id));
 	}
 
 	@RequestMapping("/stats/resources")
@@ -174,6 +202,9 @@ public class Controller {
 			} catch (Exception ignored) {}
 		});
 
-		return map;
+		Gson gson = new Gson();
+		String json = gson.toJson(map);
+
+		return json;
 	}
 }

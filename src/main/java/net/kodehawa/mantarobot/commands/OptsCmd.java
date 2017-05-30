@@ -31,7 +31,6 @@ import static java.util.Map.Entry;
 
 @Module
 public class OptsCmd {
-	private static final Logger LOGGER = LoggerFactory.getLogger("Options");
 	private static final Map<String, BiConsumer<GuildMessageReceivedEvent, String[]>> options = new HashMap<>();
 	private static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
 
@@ -170,175 +169,6 @@ public class OptsCmd {
 			guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
 			dbGuild.saveAsync();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
-		});//endregion
-
-		//region birthday
-		//region enable
-		registerOption("birthday:enable", (event, args) -> {
-			if (args.length < 2) {
-				onHelp(event);
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			try {
-				String channel = args[0];
-				String role = args[1];
-
-				boolean isId = channel.matches("^[0-9]*$");
-				String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
-				String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
-				guildData.setBirthdayChannel(channelId);
-				guildData.setBirthdayRole(roleId);
-				dbGuild.save();
-				event.getChannel().sendMessage(
-					String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> " +
-							"Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-						channel, channelId, role, roleId)).queue();
-			} catch (Exception e) {
-				if (e instanceof IndexOutOfBoundsException) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel or role!\n " +
-						"**Remember, you don't have to mention neither the role or the channel, rather just type its " +
-						"name, order is <channel> <role>, without the leading \"<>\".**")
-						.queue();
-					return;
-				}
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You supplied invalid arguments for this command " +
-					EmoteReference.SAD).queue();
-				onHelp(event);
-			}
-		});//endregion
-
-		//region disable
-		registerOption("birthday:disable", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			guildData.setBirthdayChannel(null);
-			guildData.setBirthdayRole(null);
-			dbGuild.save();
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging has been disabled on this server").queue();
-		});//endregion
-		//endregion
-
-		//region music
-		//region channel
-		registerOption("music:channel", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			String channelName = String.join(" ", args);
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			VoiceChannel channel = null;
-
-			try {
-				channel = event.getGuild().getVoiceChannelById(channelName);
-			} catch (Exception ignored) {}
-
-			if (channel == null) {
-				try {
-					List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
-						.filter(voiceChannel -> voiceChannel.getName().contains(channelName))
-						.collect(Collectors.toList());
-
-					if (voiceChannels.size() == 0) {
-						event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found a voice channel matching that" +
-							" name or id").queue();
-						return;
-					} else if (voiceChannels.size() == 1) {
-						channel = voiceChannels.get(0);
-						guildData.setMusicChannel(channel.getId());
-						dbGuild.save();
-						event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " + channel.getName())
-							.queue();
-					} else {
-						DiscordUtils.selectList(event, voiceChannels,
-							voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
-							s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-							voiceChannel -> {
-								guildData.setMusicChannel(voiceChannel.getId());
-								dbGuild.save();
-								event.getChannel().sendMessage(EmoteReference.OK + "Music Channel set to: " +
-									voiceChannel.getName()).queue();
-							}
-						);
-					}
-				} catch (Exception e) {
-					LOGGER.warn("Error while setting voice channel", e);
-					event.getChannel().sendMessage("I couldn't set the voice channel " + EmoteReference.SAD + " - try again " +
-						"in a few minutes " +
-						"-> " + e.getClass().getSimpleName()).queue();
-				}
-			}
-		});//endregion
-
-		//region queuelimit
-		registerOption("music:queuelimit", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			boolean isNumber = args[0].matches("^[0-9]*$");
-			if (!isNumber) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number!").queue();
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			try {
-				int finalSize = Integer.parseInt(args[0]);
-				int applySize = finalSize >= 300 ? 300 : finalSize;
-				guildData.setMusicQueueSizeLimit((long) applySize);
-				dbGuild.save();
-				event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "The queue limit on this server is now " +
-					"**%d** songs.", applySize)).queue();
-				return;
-			} catch (NumberFormatException e) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set too high of a number (which won't" +
-					" be applied anyway), silly").queue();
-			}
-		});
-		//endregion
-
-		//region clear
-		registerOption("music:clear", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			guildData.setMusicSongDurationLimit(null);
-			guildData.setMusicChannel(null);
-			dbGuild.save();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
-		});//endregion
-		//endregion
-
-		//region admincustom
-		registerOption("admincustom", (event, args) -> {
-			if (args.length == 0) {
-				onHelp(event);
-				return;
-			}
-
-			String action = args[0];
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			try {
-				guildData.setCustomAdminLock(Boolean.parseBoolean(action));
-				dbGuild.save();
-				String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> User command creation " +
-					"is now admin only.``" : "``Permission -> User command creation can be done by anyone.``");
-				event.getChannel().sendMessage(toSend).queue();
-			} catch (Exception e) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
-			}
 		});//endregion
 
 		//region autorole
@@ -763,33 +593,6 @@ public class OptsCmd {
 		});//endregion
 		//endregion
 
-		registerOption("lobby:reset", event -> {
-			GameLobby.LOBBYS.remove(event.getChannel());
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
-		});
-
-		//region moderation
-		registerOption("linkprotection:toggle", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			boolean toggler = guildData.isLinkProtection();
-
-			guildData.setLinkProtection(!toggler);
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set link protection to " + "**" + !toggler + "**").queue();
-			dbGuild.save();
-		});
-
-		registerOption("slowmode:toggle", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			boolean toggler = guildData.isSlowMode();
-
-			guildData.setSlowMode(!toggler);
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set slowmode chat to " + "**" + !toggler + "**").queue();
-			dbGuild.save();
-		});
-		//endregion
-
 		registerOption("check:data", event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
@@ -869,77 +672,6 @@ public class OptsCmd {
 
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally unblacklisted users: **" + unBlackListed + "**").queue();
 		});
-
-		registerOption("actionmention:toggle", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			boolean toggler = guildData.isNoMentionsAction();
-
-			guildData.setNoMentionsAction(!toggler);
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no action mentions in chat to " + "**" + !toggler + "**").queue();
-			dbGuild.save();
-		});
-
-		registerOption("musicannounce:toggle", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			boolean toggler = guildData.isMusicAnnounce();
-
-			guildData.setMusicAnnounce(!toggler);
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no music announce to " + "**" + !toggler + "**").queue();
-			dbGuild.save();
-		});
-
-		registerOption("timedisplay:set", (event, args) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();
-				return;
-			}
-
-			String mode = args[0];
-
-			switch (mode){
-				case "12h":
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 12h").queue();
-					guildData.setTimeDisplay(1);
-					dbGuild.save();
-					break;
-				case "24h":
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 24h").queue();
-					guildData.setTimeDisplay(0);
-					dbGuild.save();
-					break;
-				default:
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid choice. Valid choices: **24h**, **12h**").queue();
-					break;
-			}
-		});
-
-		registerOption("fairqueue:max", (event, args) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a positive integer.").queue();
-				return;
-			}
-
-			String much = args[0];
-			final int fq;
-			try{
-				fq = Integer.parseInt(much);
-			} catch (Exception e){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number").queue();
-				return;
-			}
-
-			guildData.setMaxFairQueue(fq);
-			dbGuild.save();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
-		});
 	}
 
 	@Command
@@ -982,13 +714,17 @@ public class OptsCmd {
 		});
 	}
 
-	private static void onHelp(GuildMessageReceivedEvent event) {
+	public static void onHelp(GuildMessageReceivedEvent event) {
 		event.getChannel().sendMessage(optsCmd.help(event)).queue();
 	}
 
 	public static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
 		Preconditions.checkNotNull(code, "code");
 		registerOption(name, (event, ignored) -> code.accept(event));
+	}
+
+	public static SimpleCommand getOpts(){
+		return (SimpleCommand) optsCmd;
 	}
 
 	public static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
@@ -999,7 +735,6 @@ public class OptsCmd {
 	}
 
 	/**
-	 *
 	 * Retrieves a map of objects in a class and its respective values.
 	 * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
 	 *

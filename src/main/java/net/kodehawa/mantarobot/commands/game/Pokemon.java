@@ -17,11 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-@Slf4j(topic = "Game[PokemonTrivia]")
+@Slf4j(topic = "Game [Pokemon Trivia]")
 public class Pokemon extends ImageGame {
 	private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
-	private String expectedAnswer;
+	private List<String> expectedAnswer;
 	private int maxAttempts = 10;
 
 	public Pokemon() {
@@ -48,7 +50,7 @@ public class Pokemon extends ImageGame {
 		try {
 			String[] data = CollectionUtils.random(GUESSES.get()).split("`");
 			String pokemonImage = data[0];
-			expectedAnswer = data[1];
+			expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
 			sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb
 				.setTitle("Who's that pokemon?", null)
 				.setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null)

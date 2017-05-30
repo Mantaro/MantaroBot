@@ -17,8 +17,10 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
 import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
 import net.kodehawa.mantarobot.modules.Command;
@@ -26,6 +28,7 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
@@ -963,20 +966,19 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
 
-                if (!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
-                            "in " +
-                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
-                            + ".**").queue();
-                    return;
-                }
-
-
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
                 if (inventory.containsItem(Items.LOOT_CRATE)) {
                     if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
+                        if (!rateLimiter.process(id)) {
+                            event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+                                    "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
+                                    "in " +
+                                    Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                                    + ".**").queue();
+                            return;
+                        }
+
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
                         player.save();
@@ -1072,5 +1074,29 @@ public class CurrencyCmds {
         }
 
         player.saveAsync();
+    }
+
+    @Command
+    public static void onPostLoad(PostLoadEvent e){
+        OptsCmd.registerOption("admincustom", (event, args) -> {
+            if (args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            String action = args[0];
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            try {
+                guildData.setCustomAdminLock(Boolean.parseBoolean(action));
+                dbGuild.save();
+                String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> User command creation " +
+                        "is now admin only.``" : "``Permission -> User command creation can be done by anyone.``");
+                event.getChannel().sendMessage(toSend).queue();
+            } catch (Exception ex) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
+            }
+        });
     }
 }

@@ -11,6 +11,8 @@ import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Game {
 	@Setter
@@ -21,7 +23,7 @@ public abstract class Game {
 
 	public abstract boolean onStart(GameLobby lobby);
 
-	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, String expectedAnswer, int attempts, int maxAttempts) {
+	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return false;
 		}
@@ -37,19 +39,19 @@ public abstract class Game {
 
 		if (players.keySet().contains(e.getMember())) {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
-				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Answer was: " + expectedAnswer).queue();
+				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame();
 				GameLobby.LOBBYS.remove(lobby.getChannel());
 				return true;
 			}
 
 			if (attempts > maxAttempts) {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Answer was: " + expectedAnswer).queue();
+				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame(); //This should take care of removing the lobby, actually.
 				return true;
 			}
 
-			if (e.getMessage().getContent().equalsIgnoreCase(expectedAnswer)) {
+			if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
 				Player player = players.get(e.getMember());
 				player.addMoney(45);
 				player.save();

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -9,11 +10,14 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -279,4 +283,36 @@ public class MiscCmds {
 	private static String randomColor() {
 		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
+
+	@Command
+	public static void onPostLoad(PostLoadEvent e) {
+		OptsCmd.registerOption("timedisplay:set", (event, args) -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();
+				return;
+			}
+
+			String mode = args[0];
+
+			switch (mode){
+				case "12h":
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 12h").queue();
+					guildData.setTimeDisplay(1);
+					dbGuild.save();
+					break;
+				case "24h":
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 24h").queue();
+					guildData.setTimeDisplay(0);
+					dbGuild.save();
+					break;
+				default:
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid choice. Valid choices: **24h**, **12h**").queue();
+					break;
+			}
+		});
+	}
+
 }

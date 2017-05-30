@@ -19,16 +19,19 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Slf4j(topic = "Game[ImageGuess]")
 public class ImageGuess extends ImageGame {
 	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
 	private String authToken = AnimeCmds.authToken;
 	private String characterName;
+	private List<String> characterNameL;
 	@Getter
 	private int maxAttempts = 10;
 
@@ -41,7 +44,7 @@ public class ImageGuess extends ImageGame {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
 			@Override
 			public boolean run(GuildMessageReceivedEvent e) {
-				return callDefault(e, lobby, players, characterName, getAttempts(), maxAttempts);
+				return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts);
 			}
 
 			@Override
@@ -55,12 +58,14 @@ public class ImageGuess extends ImageGame {
 	@Override
 	public boolean onStart(GameLobby lobby) {
 		try {
+			characterNameL = new ArrayList<>();
 			characterName = CollectionUtils.random(NAMES.get());
 			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),
 				authToken);
 			String json = Utils.wget(url, null);
 			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
 			String imageUrl = character[0].getImage_url_med();
+			characterNameL.add(characterName);
 			sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
 				.setTitle("Guess the character", null)
 				.setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null)

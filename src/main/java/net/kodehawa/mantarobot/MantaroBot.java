@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
+import net.kodehawa.mantarobot.web.API;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -81,6 +82,7 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
  */
 @Slf4j
 public class MantaroBot extends ShardedJDA {
+
 	public static int cwport;
 	@Getter
 	private static MantaroBot instance;
@@ -88,10 +90,20 @@ public class MantaroBot extends ShardedJDA {
 	public static LoadState loadState = PRELOAD;
 	@Getter
 	private static TempBanManager tempBanManager;
+	@Getter
+	private static API api;
+
+	private static boolean DEBUG = false;
+
 	public static void main(String[] args) {
-		if (System.getProperty("mantaro.verbose", null) != null) {
+		if (System.getProperty("mantaro.verbose") != null) {
 			System.setOut(new CompactPrintStream(System.out));
 			System.setErr(new CompactPrintStream(System.err));
+		}
+
+		if(System.getProperty("mantaro.debug") != null){
+			DEBUG = true;
+			System.out.println("Running in debug mode!");
 		}
 
 		if (args.length > 0) {
@@ -120,6 +132,7 @@ public class MantaroBot extends ShardedJDA {
 
 		try {
 			new MantaroBot();
+			API.main(args);
 		} catch (Exception e) {
 			DiscordLogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);
@@ -169,7 +182,7 @@ public class MantaroBot extends ShardedJDA {
 				.getTypesAnnotatedWith(Module.class)
 		);
 
-		totalShards = getRecommendedShards(config.token);
+		totalShards = DEBUG ? 2 : getRecommendedShards(config.token);
 		shards = new MantaroShard[totalShards];
 		loadState = LOADING;
 
@@ -249,8 +262,13 @@ public class MantaroBot extends ShardedJDA {
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
+		log.info("Starting API config");
+		api = new API();
+		api.setBot(this);
+
 		loadState = POSTLOAD;
 		log.info("Finished loading basic components. Status is now set to POSTLOAD");
+
 
 		EventDispatcher.dispatch(events, new PostLoadEvent());
 

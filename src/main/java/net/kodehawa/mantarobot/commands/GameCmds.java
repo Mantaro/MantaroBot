@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -116,5 +117,13 @@ public class GameCmds {
 		GameLobby lobby = new GameLobby(event, map, list);
 
 		lobby.startFirstGame();
+	}
+
+	@Command
+	public static void onPostLoad(PostLoadEvent e){
+		OptsCmd.registerOption("lobby:reset", event -> {
+			GameLobby.LOBBYS.remove(event.getChannel());
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
+		});
 	}
 }
