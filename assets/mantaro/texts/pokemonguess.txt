@@ -443,10 +443,10 @@ http://i.imgur.com/tOn7Dxb.jpg`Primal Groudon
 http://i.imgur.com/vGQPGC8.jpg`Rayquaza
 http://i.imgur.com/SYp0wZG.jpg`Mega Rayquaza
 http://i.imgur.com/trN2yZO.jpg`Jirachi
-http://i.imgur.com/SgVEPev.jpg`Deoxys
-http://i.imgur.com/NcaBblR.jpg`Deoxys Attack
-http://i.imgur.com/FzySsTv.jpg`Deoxys Defense
-http://i.imgur.com/XNHC4Ey.jpg`Deoxys Speed
+http://i.imgur.com/SgVEPev.jpg`Deoxys`Deoxys Normal`Deoxys Normal Form`Deoxys Normal Forme
+http://i.imgur.com/NcaBblR.jpg`Deoxys Attack`Deoxys Attack Form`Deoxys Attack Forme
+http://i.imgur.com/FzySsTv.jpg`Deoxys Defense`Deoxys Defence Form`Deoxys Defense Forme`Deoxys Defence Form`Deoxys Defence Forme`Deoxys Defence
+http://i.imgur.com/XNHC4Ey.jpg`Deoxys Speed`Deoxys Speed Forme`Deoxys Speed Form
 http://i.imgur.com/JrjugDw.jpg`Turtwig
 http://i.imgur.com/UOwni3h.jpg`Grotle
 http://i.imgur.com/WsxCr6G.jpg`Torterra
@@ -564,14 +564,14 @@ http://i.imgur.com/WRenXoY.jpg`Dialga
 http://i.imgur.com/CYCrL08.jpg`Palkia
 http://i.imgur.com/G1yLavH.jpg`Heatran
 http://i.imgur.com/V38YdkE.jpg`Regigigas
-http://i.imgur.com/4AOatXw.jpg`Giratina Origin
-http://i.imgur.com/vspxoDq.jpg`Giratina Altered
+http://i.imgur.com/4AOatXw.jpg`Giratina Origin`Giratina`Giratina Origin Forme`Giratina Origin Form
+http://i.imgur.com/vspxoDq.jpg`Giratina Altered`Giratina Altered Forme`Giratina Altered Form
 http://i.imgur.com/enqu0el.jpg`Cresselia
 http://i.imgur.com/QR4RD2Y.jpg`Phione
 http://i.imgur.com/z3EN4CR.jpg`Manaphy
 http://i.imgur.com/OIpM7oW.jpg`Darkrai
-http://i.imgur.com/bn3UpR8.jpg`Shaymin Land
-http://i.imgur.com/2hd7T5u.jpg`Shaymin Sky
+http://i.imgur.com/bn3UpR8.jpg`Shaymin Land`Shaymin`Shaymin Land Forme
+http://i.imgur.com/2hd7T5u.jpg`Shaymin Sky`Shaymin Sky Forme`Shaymin Sky Form
 http://i.imgur.com/atulPAk.jpg`Arceus
 http://i.imgur.com/2Q4BJSv.jpg`Victini
 http://i.imgur.com/ssiUWQP.jpg`Snivy
@@ -667,10 +667,10 @@ http://i.imgur.com/WMln18p.jpg`Vanillite
 http://i.imgur.com/SphvNMp.jpg`Vanillish
 http://i.imgur.com/hrRE4pA.jpg`Vanilluxe
 http://i.imgur.com/DHA4Ct4.jpg`Deerling
-http://i.imgur.com/E0fjiCN.jpg`Sawsbuck
-http://i.imgur.com/MTgbPHm.jpg`Sawsbuck
-http://i.imgur.com/B5HiSEg.jpg`Sawsbuck
-http://i.imgur.com/VhUmYl5.jpg`Sawsbuck
+http://i.imgur.com/E0fjiCN.jpg`Sawsbuck`Sawsbuck Spring`Sawsbuck Spring Form
+http://i.imgur.com/MTgbPHm.jpg`Sawsbuck`Sawsbuck Summer`Sawsbuck Summer Form
+http://i.imgur.com/B5HiSEg.jpg`Sawsbuck`Sawsbuck Autumn`Sawsbuck Autumn Form
+http://i.imgur.com/VhUmYl5.jpg`Sawsbuck`Sawsbuck Winter`Sawsbuck Winter Form
 http://i.imgur.com/qyusgtJ.jpg`Emolga
 http://i.imgur.com/HZoaptj.jpg`Karrablast
 http://i.imgur.com/PCfdmVr.jpg`Escavalier
@@ -725,21 +725,21 @@ http://i.imgur.com/YZ4ZIwl.jpg`Volcarona
 http://i.imgur.com/blsR6bk.jpg`Cobalion
 http://i.imgur.com/odjZyDe.jpg`Terrakion
 http://i.imgur.com/43izQwW.jpg`Virizion
-http://i.imgur.com/cqzsDvl.jpg`Tornadus Incarnate
-http://i.imgur.com/t4Kv8Pp.jpg`Tornadus Therian
-http://i.imgur.com/EZis34j.jpg`Thundurus Incarnate
-http://i.imgur.com/KyDnfzS.jpg`Thundurus Therian
+http://i.imgur.com/cqzsDvl.jpg`Tornadus Incarnate`Tornadus Incarnate Forme`Tornadus Incarnate Form
+http://i.imgur.com/t4Kv8Pp.jpg`Tornadus Therian`Tornadus Therian Forme`Tornadus Therian Form
+http://i.imgur.com/EZis34j.jpg`Thundurus Incarnate`Thundurus Incarnate Forme`Thundurus Incarnate Form
+http://i.imgur.com/KyDnfzS.jpg`Thundurus Therian`Thundurus Therian Forme`Thundurus Therian Form
 http://i.imgur.com/f8DVbFy.jpg`Reshiram
 http://i.imgur.com/doANON9.jpg`Zekrom
-http://i.imgur.com/Yy6d1Ot.jpg`Landorus Incarnate
-http://i.imgur.com/tA9epxY.jpg`Landorus Therian
+http://i.imgur.com/Yy6d1Ot.jpg`Landorus Incarnate`Landorus Incarnate Forme`Landorus Incarnate Form
+http://i.imgur.com/tA9epxY.jpg`Landorus Therian`Landorus Therian Forme`Landorus Therian Form
 http://i.imgur.com/ORC0ycw.jpg`Kyurem
 http://i.imgur.com/NdCCSMa.jpg`Black Kyurem
 http://i.imgur.com/QQRn3xs.jpg`White Kyurem
-http://i.imgur.com/QWTfpv3.jpg`Keldeo Ordinary
-http://i.imgur.com/yhYTiST.jpg`Keldeo Resolute
-http://i.imgur.com/iFYHDYU.jpg`Meloetta Aria
-http://i.imgur.com/c8QBJHT.jpg`Meloetta Pirouette
+http://i.imgur.com/QWTfpv3.jpg`Keldeo Ordinary`Keldeo`Keldeo Ordinary Forme`Keldeo Ordinary Form
+http://i.imgur.com/yhYTiST.jpg`Keldeo Resolute`Keldeo Resolute Form`Keldeo Resolute Forme
+http://i.imgur.com/iFYHDYU.jpg`Meloetta Aria`Meloetta Aria Form`Meloetta Aria Forme`Meloetta
+http://i.imgur.com/c8QBJHT.jpg`Meloetta Pirouette`Meloetta Pirouette Forme`Meloetta Pirouette Form
 http://i.imgur.com/bO5l97s.jpg`Genesect
 http://i.imgur.com/CdvwWXE.jpg`Chespin
 http://i.imgur.com/YFh2MkF.jpg`Quilladin
@@ -772,8 +772,8 @@ http://i.imgur.com/OaKTqBc.jpg`Espurr
 http://i.imgur.com/v6TnuqR.jpg`Meowstic
 http://i.imgur.com/y9UrszU.jpg`Honedge
 http://i.imgur.com/utnaW5g.jpg`Doublade
-http://i.imgur.com/LE8Oq8e.jpg`Aegislash Shield
-http://i.imgur.com/HrfID0o.jpg`Aegislash Blade
+http://i.imgur.com/LE8Oq8e.jpg`Aegislash Shield`Aegislash`Aegislash Shield Forme`Aegislash Shield Form
+http://i.imgur.com/HrfID0o.jpg`Aegislash Blade`Aegislash Blade Forme`Aegislash Blade Form
 http://i.imgur.com/3F6AA8h.jpg`Spritzee
 http://i.imgur.com/kwUQ86M.jpg`Aromatisse
 http://i.imgur.com/7U8uuxw.jpg`Swirlix
@@ -810,12 +810,12 @@ http://i.imgur.com/Xma5Pys.jpg`Noibat
 http://i.imgur.com/OaWoiF8.jpg`Noivern
 http://i.imgur.com/p0a4tOM.jpg`Xerneas
 http://i.imgur.com/LcWUa0B.jpg`Yveltal
-http://i.imgur.com/XIxvXt2.jpg`Zygarde 50%
-http://i.imgur.com/AnHEUp8.jpg`Zygarde 10%
-http://i.imgur.com/sUASwWy.jpg`Zygarde Complete
+http://i.imgur.com/XIxvXt2.jpg`Zygarde 50%`Zygarde 50% Forme`Zygarde 50% Form`Zygarde 50%
+http://i.imgur.com/AnHEUp8.jpg`Zygarde 10%`Zygarde 10% Forme`Zygarde 10% Form
+http://i.imgur.com/sUASwWy.jpg`Zygarde Complete`Zygarde Complete Forme`Zygarde Complete Form
 http://i.imgur.com/1UleeRN.jpg`Diancie
 http://i.imgur.com/NagPVG1.jpg`Mega Diancie
-http://i.imgur.com/bdtm06y.jpg`Hoopa Confined
+http://i.imgur.com/bdtm06y.jpg`Hoopa Confined`Hoopa
 http://i.imgur.com/AwJBkWk.jpg`Hoopa Unbound
 http://i.imgur.com/WvC7LsD.jpg`Volcanion
 http://i.imgur.com/RppXk14.jpg`Rowlet
@@ -837,17 +837,17 @@ http://i.imgur.com/VmXlvaV.jpg`Charjabug
 http://i.imgur.com/7TL00lS.jpg`Vikavolt
 http://i.imgur.com/LEkBgVw.jpg`Crabrawler
 http://i.imgur.com/J5EunSp.jpg`Crabominable
-http://i.imgur.com/dUmQt0f.jpg`Oricorio
-http://i.imgur.com/RqgR22u.jpg`Oricorio
-http://i.imgur.com/Cgs6E9r.jpg`Oricorio
-http://i.imgur.com/Jcj37kp.jpg`Oricorio
+http://i.imgur.com/dUmQt0f.jpg`Oricorio`Oricorio Baile`Oricorio Baile Style
+http://i.imgur.com/RqgR22u.jpg`Oricorio`Oricorio Pa'u`Oricorio Pa'u Style
+http://i.imgur.com/Cgs6E9r.jpg`Oricorio`Oricorio Pom-Pom`Oricorio Pom-Pom Style
+http://i.imgur.com/Jcj37kp.jpg`Oricorio`Oricorio Sensu`Oricorio Sensu Style
 http://i.imgur.com/gr46H8O.jpg`Cutiefly
 http://i.imgur.com/uVUcZBl.jpg`Ribombee
 http://i.imgur.com/UHrTPqJ.jpg`Rockruff
-http://i.imgur.com/0RbRRA1.jpg`Lycanroc Midday
-http://i.imgur.com/96yLo6l.jpg`Lycanroc Midnight
-http://i.imgur.com/5Bhg16Z.jpg`Wishiwashi School
-http://i.imgur.com/m7978lm.jpg`Wishiwashi Solo
+http://i.imgur.com/0RbRRA1.jpg`Lycanroc Midday`Lycanroc Midday Form`Lycanroc Midday Forme
+http://i.imgur.com/96yLo6l.jpg`Lycanroc Midnight`Lycanroc Midnight Form`Lycanroc Midnight Forme
+http://i.imgur.com/5Bhg16Z.jpg`Wishiwashi School`Wishiwashi School Form`Wishiwashi School Forme
+http://i.imgur.com/m7978lm.jpg`Wishiwashi Solo`Wishiwashi Solo Form`Wishwashi Solo Forme`Wishiwashi
 http://i.imgur.com/QpF3Om4.jpg`Mareanie
 http://i.imgur.com/CFhT2hl.jpg`Toxapex
 http://i.imgur.com/Jkw6DYA.jpg`Mudbray
