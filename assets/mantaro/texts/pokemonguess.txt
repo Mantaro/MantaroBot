@@ -445,7 +445,7 @@ http://i.imgur.com/SYp0wZG.jpg`Mega Rayquaza
 http://i.imgur.com/trN2yZO.jpg`Jirachi
 http://i.imgur.com/SgVEPev.jpg`Deoxys`Deoxys Normal`Deoxys Normal Form`Deoxys Normal Forme
 http://i.imgur.com/NcaBblR.jpg`Deoxys Attack`Deoxys Attack Form`Deoxys Attack Forme
-http://i.imgur.com/FzySsTv.jpg`Deoxys Defense`Deoxys Defence Form`Deoxys Defense Forme`Deoxys Defence Form`Deoxys Defence Forme`Deoxys Defence
+http://i.imgur.com/FzySsTv.jpg`Deoxys Defense`Deoxys Defense Form`Deoxys Defense Forme`Deoxys Defence`Deoxys Defence Form`Deoxys Defence Forme
 http://i.imgur.com/XNHC4Ey.jpg`Deoxys Speed`Deoxys Speed Forme`Deoxys Speed Form
 http://i.imgur.com/JrjugDw.jpg`Turtwig
 http://i.imgur.com/UOwni3h.jpg`Grotle
@@ -570,7 +570,7 @@ http://i.imgur.com/enqu0el.jpg`Cresselia
 http://i.imgur.com/QR4RD2Y.jpg`Phione
 http://i.imgur.com/z3EN4CR.jpg`Manaphy
 http://i.imgur.com/OIpM7oW.jpg`Darkrai
-http://i.imgur.com/bn3UpR8.jpg`Shaymin Land`Shaymin`Shaymin Land Forme
+http://i.imgur.com/bn3UpR8.jpg`Shaymin Land`Shaymin`Shaymin Land Forme`Shaymin Land Form
 http://i.imgur.com/2hd7T5u.jpg`Shaymin Sky`Shaymin Sky Forme`Shaymin Sky Form
 http://i.imgur.com/atulPAk.jpg`Arceus
 http://i.imgur.com/2Q4BJSv.jpg`Victini
