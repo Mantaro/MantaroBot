@@ -369,7 +369,7 @@ public class OwnerCmd {
 					if (k.equals("time")) {
 						double s = Double.parseDouble(v);
 						int millis = (int) (s * 1000);
-						Async.thread(millis, () -> {
+						Async.thread(millis, TimeUnit.MILLISECONDS, () -> {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
@@ -417,7 +417,7 @@ public class OwnerCmd {
 								System.exit(0);
 							}
 							s.shutdown();
-						}, 2);
+						}, 2, TimeUnit.SECONDS);
 						return;
 					}
 

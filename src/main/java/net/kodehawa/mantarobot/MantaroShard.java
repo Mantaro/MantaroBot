@@ -27,6 +27,7 @@ import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
@@ -170,7 +171,7 @@ public class MantaroShard implements JDA {
 				} catch (Exception e) {
 					log.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
 				}
-			}, 3600);
+			}, 1, TimeUnit.HOURS);
 		}
 	}
 
@@ -196,6 +197,6 @@ public class MantaroShard implements JDA {
 		};
 
 		changeStatus.run();
-		Async.task("Splash Thread", changeStatus, 600);
+		Async.task("Splash Thread", changeStatus, 600, TimeUnit.SECONDS);
 	}
 }

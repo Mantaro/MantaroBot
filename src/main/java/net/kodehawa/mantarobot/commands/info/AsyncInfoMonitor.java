@@ -5,6 +5,7 @@ import br.com.brjdevs.java.utils.async.Async;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
+import java.util.concurrent.TimeUnit;
 
 public class AsyncInfoMonitor {
 	private static int availableProcessors = Runtime.getRuntime().availableProcessors();
@@ -93,7 +94,7 @@ public class AsyncInfoMonitor {
 			vpsFreeMemory = calculateVPSFreeMemory(os);
 			vpsMaxMemory = calculateVPSMaxMemory(os);
 			vpsUsedMemory = vpsMaxMemory - vpsFreeMemory;
-		}, 1);
+		}, 1, TimeUnit.SECONDS);
 		started = true;
 	}
 

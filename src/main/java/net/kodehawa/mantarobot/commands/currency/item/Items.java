@@ -6,6 +6,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class Items {
@@ -70,7 +71,7 @@ public class Items {
 
     static {
         Random r = new Random();
-        Async.task("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 3600);
+        Async.task("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 30, TimeUnit.MINUTES);
     }
 
     public static Optional<Item> fromAny(String any) {

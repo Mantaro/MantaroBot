@@ -132,7 +132,7 @@ public class MantaroBot extends ShardedJDA {
 
 		try {
 			new MantaroBot();
-			API.main(args);
+			//API.main(args);
 		} catch (Exception e) {
 			DiscordLogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);

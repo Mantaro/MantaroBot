@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.awt.Color;
 import java.net.URLEncoder;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -155,7 +156,7 @@ public class AnimeCmds {
 
 	@Command
 	public static void onPostLoad(PostLoadEvent e) {
-		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900);
+		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900, TimeUnit.SECONDS);
 	}
 
 	private static void animeData(GuildMessageReceivedEvent event, AnimeData type) {

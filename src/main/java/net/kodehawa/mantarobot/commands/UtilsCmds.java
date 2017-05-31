@@ -715,11 +715,7 @@ public class UtilsCmds {
 			format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
 		}
 
-		if (!tz.contains("GMT")) {
-			tz = ZoneId.of(tz).getId();
-		}
-
-		format.setTimeZone(TimeZone.getTimeZone(tz));
+		System.out.println(TimeZone.getTimeZone(tz));
 
 		return format.format(new Date());
 	}

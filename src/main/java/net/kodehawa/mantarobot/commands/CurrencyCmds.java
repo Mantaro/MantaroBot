@@ -1,8 +1,12 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
+import com.rethinkdb.gen.ast.GetField;
+import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -32,6 +36,7 @@ import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.core.annotation.Order;
 
 import javax.xml.soap.Text;
 import java.util.*;
@@ -739,23 +744,33 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Dang! Don't you think you're going a bit too fast?").queue();
                     return;
                 }
+                Map<String, Optional<String>> opts = StringUtils.parse(args);
 
                 String pattern = ":g$";
-
-                AtomicInteger i = new AtomicInteger();
-
-                Cursor<Map> c1 = r.table("players")
+                OrderBy template =
+                        r.table("players")
                         .orderBy()
-                        .optArg("index", r.desc("money"))
-                        .filter(player -> player.g("id").match(pattern))
-                        .map(player -> player.pluck("id", "money"))
-                        .limit(15)
-                        .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                        .optArg("index", r.desc("money"));
+                Cursor<Map> c1;
+                AtomicInteger i = new AtomicInteger();
+                String r = "\uD83D\uDCB0 Global richest users";
+                if(opts.get("mode") != null){
+                    if (opts.get("mode").get().equals("local")){
+                        //do smth, placeholder for now lol
+                        c1 = getGlobalRichest(template, pattern);
+                        //r = "\uD83D\uDCB0 "+ event.getGuild().getName() + " richest users";
+                    } else {
+                        c1 = getGlobalRichest(template, pattern);
+                    }
+                } else {
+                    c1 = getGlobalRichest(template, pattern);
+                }
+
                 List<Map> c = c1.toList();
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Global richest Users",
+                                r,
                                 event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
@@ -1098,5 +1113,23 @@ public class CurrencyCmds {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
             }
         });
+    }
+
+    private static boolean isUserInGuild(Guild g, String id){
+        if(g.getMembers().stream().anyMatch(member -> member.getUser().getId().equals(id))){
+            return true;
+        }
+
+        return false;
+    }
+
+    private static Cursor<Map> getGlobalRichest(OrderBy template, String pattern){
+
+        System.out.println(pattern);
+
+        return template.filter(player -> player.g("id").match(pattern))
+                .map(player -> player.pluck("id", "money"))
+                .limit(15)
+                .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
     }
 }
