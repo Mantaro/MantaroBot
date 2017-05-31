@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Arrays;

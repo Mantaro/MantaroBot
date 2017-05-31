@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.rethinkdb.gen.exc.ReqlError;

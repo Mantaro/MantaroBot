@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.utils;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.primitives.Longs;
 import gnu.trove.TCollections;
 import gnu.trove.map.TLongObjectMap;

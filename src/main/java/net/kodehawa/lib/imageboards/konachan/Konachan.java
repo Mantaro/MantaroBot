@@ -1,6 +1,6 @@
 package net.kodehawa.lib.imageboards.konachan;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.lib.imageboards.konachan.main.entities.Tag;
 import net.kodehawa.lib.imageboards.konachan.main.entities.Wallpaper;

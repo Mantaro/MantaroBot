@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.CollectionUtils;
+import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -12,8 +12,8 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.Quote;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;

@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.game;
 
-import br.com.brjdevs.java.utils.extensions.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -19,6 +18,8 @@ import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j(topic = "Game [Pokemon Trivia]")
 public class Pokemon extends ImageGame {
@@ -48,7 +49,7 @@ public class Pokemon extends ImageGame {
 
 	public boolean onStart(GameLobby lobby) {
 		try {
-			String[] data = CollectionUtils.random(GUESSES.get()).split("`");
+			String[] data = random(GUESSES.get()).split("`");
 			String pokemonImage = data[0];
 			expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
 			sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb

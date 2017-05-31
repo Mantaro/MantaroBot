@@ -8,7 +8,7 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import java.awt.Color;
 import java.util.List;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 public class TextActionCmd extends NoArgsCommand {
 	private final Color color;

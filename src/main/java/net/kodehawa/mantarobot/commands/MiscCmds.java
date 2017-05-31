@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.Async;
 import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -12,8 +11,8 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -30,7 +29,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Module
 @Slf4j
@@ -259,32 +258,6 @@ public class MiscCmds {
 	}
 
 	@Command
-	public static void randomFact(CommandRegistry cr) {
-		cr.register("randomfact", new SimpleCommand(Category.MISC) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Random Fact")
-					.setDescription("**Sends a random fact.**")
-					.build();
-			}
-		});
-
-		cr.registerAlias("randomfact", "rf");
-	}
-
-	/**
-	 * @return a random hex color.
-	 */
-	private static String randomColor() {
-		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
-	}
-
-	@Command
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("timedisplay:set", (event, args) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -313,6 +286,33 @@ public class MiscCmds {
 					break;
 			}
 		});
+	}
+
+	@Command
+	public static void randomFact(CommandRegistry cr) {
+		cr.register("randomfact", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				event.getChannel().sendMessage(
+					EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Random Fact")
+					.setDescription("**Sends a random fact.**")
+					.build();
+			}
+		});
+
+		cr.registerAlias("randomfact", "rf");
+	}
+
+	/**
+	 * @return a random hex color.
+	 */
+	private static String randomColor() {
+		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
 
 }

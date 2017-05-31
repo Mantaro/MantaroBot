@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot;
 
-import br.com.brjdevs.java.utils.extensions.Async;
-import br.com.brjdevs.java.utils.holding.Holder;
+import br.com.brjdevs.java.utils.async.Async;
+import br.com.brjdevs.java.utils.holding.objects.Holder;
 import com.mashape.unirest.http.Unirest;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class MantaroShard implements JDA {

@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.game;
 
-import br.com.brjdevs.java.utils.extensions.CollectionUtils;
+import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;

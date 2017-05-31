@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.Async;
-import br.com.brjdevs.java.utils.extensions.CollectionUtils;
+import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.Message;
@@ -13,8 +12,8 @@ import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -29,17 +28,20 @@ import java.util.stream.Collectors;
 
 @Module
 public class ActionCmds {
-	private static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
-	static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
-	static final DataManager<List<String>> POKES = new SimpleFileDataManager("assets/mantaro/texts/pokes.txt");
 	static final DataManager<List<String>> BITES = new SimpleFileDataManager("assets/mantaro/texts/bites.txt");
-	static final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
+	static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
 	static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
-	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
-	private static final DataManager<List<String>> TICKLES = new SimpleFileDataManager("assets/mantaro/texts/tickles.txt");
-	private static final DataManager<List<String>> POUTS = new SimpleFileDataManager("assets/mantaro/texts/pouts.txt");
-	private static final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
 	static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
+	static final DataManager<List<String>> POKES = new SimpleFileDataManager("assets/mantaro/texts/pokes.txt");
+	static final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
+	private static final DataManager<List<String>> BLEACH = new SimpleFileDataManager(
+		"assets/mantaro/texts/bleach.txt");
+	private static final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager(
+		"assets/mantaro/texts/highfives.txt");
+	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
+	private static final DataManager<List<String>> POUTS = new SimpleFileDataManager("assets/mantaro/texts/pouts.txt");
+	private static final DataManager<List<String>> TICKLES = new SimpleFileDataManager(
+		"assets/mantaro/texts/tickles.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
 	@Command
@@ -148,6 +150,20 @@ public class ActionCmds {
 	}
 
 	@Command
+	public static void onPostLoad(PostLoadEvent e) {
+		OptsCmd.registerOption("actionmention:toggle", event -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			boolean toggler = guildData.isNoMentionsAction();
+
+			guildData.setNoMentionsAction(!toggler);
+			event.getChannel().sendMessage(
+				EmoteReference.CORRECT + "Set no action mentions in chat to " + "**" + !toggler + "**").queue();
+			dbGuild.save();
+		});
+	}
+
+	@Command
 	public static void register(CommandRegistry cr) {
 
 		//pat();
@@ -215,19 +231,6 @@ public class ActionCmds {
 			"Tsundere Command", "Y-You baka!", Color.PINK,
 			EmoteReference.MEGA + "%s", TSUNDERE.get()
 		));
-	}
-
-	@Command
-	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("actionmention:toggle", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			boolean toggler = guildData.isNoMentionsAction();
-
-			guildData.setNoMentionsAction(!toggler);
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no action mentions in chat to " + "**" + !toggler + "**").queue();
-			dbGuild.save();
-		});
 	}
 
 }

@@ -1,6 +1,6 @@
 package net.kodehawa.lib.imageboards.rule34;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import com.mashape.unirest.http.Unirest;
 import net.kodehawa.lib.imageboards.rule34.entities.Hentai;
 import net.kodehawa.lib.imageboards.rule34.providers.HentaiProvider;

@@ -1,12 +1,10 @@
 package net.kodehawa.mantarobot.core.listeners;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.cache.CacheLoader;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.audio.hooks.ConnectionListener;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.DisconnectEvent;
 import net.dv8tion.jda.core.events.Event;
@@ -43,23 +41,21 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import static net.dv8tion.jda.core.audio.hooks.ConnectionStatus.CONNECTING_AWAITING_ENDPOINT;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
+	public static final Pattern DISCORD_INVITE = Pattern.compile(
+		"(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
+			"([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 	private static int logTotal = 0;
 
 	public static String getLogTotal() {
 		return String.valueOf(logTotal);
 	}
-
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
-
 	private final int shardId;
-	public static final Pattern DISCORD_INVITE = Pattern.compile("(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
-			"([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 	private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
 	public MantaroListener(int shardId) {
@@ -230,6 +226,83 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
+	//region minn
+	private void onDisconnect(DisconnectEvent event) {
+		if (event.isClosedByServer()) {
+			log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
+				event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()
+			));
+		} else {
+			log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
+				event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason()
+			));
+		}
+	}
+
+	private void onException(ExceptionEvent event) {
+		if (!event.isLogged()) event.getCause().printStackTrace();
+	} //endregion
+
+	private void onJoin(GuildJoinEvent event) {
+		try {
+			TextChannel tc = getLogChannel();
+			String hour = df.format(new Date(System.currentTimeMillis()));
+
+			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
+				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(
+				event.getGuild().getOwner().getUser().getId())) {
+				event.getGuild().leave().queue();
+				tc.sendMessage(String.format(
+					EmoteReference.MEGA + "`[%s]` I left a guild with name: ``%s`` (%s members) since it was blacklisted.",
+					hour, event.getGuild().getName(), event.getGuild().getMembers().size()
+				)).queue();
+				return;
+			}
+
+			tc.sendMessage(String.format(
+				EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members) [ID: `%s`, Owner:`%s#%s`]",
+				hour, event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(),
+				event.getGuild().getOwner().getEffectiveName(), event.getGuild().getOwner().getUser().getDiscriminator()
+			)).queue();
+			logTotal++;
+
+			GuildStatsManager.log(LoggedEvent.JOIN);
+		} catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a edit.", e);
+			}
+		}
+	}
+
+	private void onLeave(GuildLeaveEvent event) {
+		try {
+			TextChannel tc = getLogChannel();
+			String hour = df.format(new Date(System.currentTimeMillis()));
+
+			if (event.getGuild().getMembers().isEmpty()) {
+				tc.sendMessage(String
+					.format(EmoteReference.THINKING + "`[%s]` A guild with name: ``%s`` just got deleted.", hour,
+						event.getGuild().getName()
+					)).queue();
+				logTotal++;
+				return;
+			}
+
+			tc.sendMessage(String
+				.format(EmoteReference.SAD + "`[%s]` I left a guild with name: ``%s`` (%s members)", hour,
+					event.getGuild().getName(), event.getGuild().getMembers().size()
+				)).queue();
+			logTotal++;
+
+			MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
+			GuildStatsManager.log(LoggedEvent.LEAVE);
+		} catch (Exception e) {
+			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
+				log.warn("Unexpected error while logging a leave event.", e);
+			}
+		}
+	}
+
 	private void onMessage(GuildMessageReceivedEvent event) {
 
 		//Moderation features
@@ -307,69 +380,6 @@ public class MantaroListener implements EventListener {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "Error while applying birthday role, so the role assigner will be resetted. **Remember that the bot MUST have permissions to apply roles to that person, always**").queue();
 			}
 			//else ignore
-		}
-	}
-
-	//region minn
-	private void onDisconnect(DisconnectEvent event) {
-		if (event.isClosedByServer()) {
-			log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
-				event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()));
-		} else {
-			log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
-				event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason()));
-		}
-	}
-
-	private void onException(ExceptionEvent event) {
-		if (!event.isLogged()) event.getCause().printStackTrace();
-	} //endregion
-
-	private void onJoin(GuildJoinEvent event) {
-		try {
-			TextChannel tc = getLogChannel();
-			String hour = df.format(new Date(System.currentTimeMillis()));
-
-			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getGuild().getOwner().getUser().getId())) {
-				event.getGuild().leave().queue();
-				tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I left a guild with name: ``%s`` (%s members) since it was blacklisted.", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-				return;
-			}
-
-			tc.sendMessage(String.format(EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members) [ID: `%s`, Owner:`%s#%s`]",
-				hour, event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(),
-				event.getGuild().getOwner().getEffectiveName(), event.getGuild().getOwner().getUser().getDiscriminator())).queue();
-			logTotal++;
-
-			GuildStatsManager.log(LoggedEvent.JOIN);
-		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a edit.", e);
-			}
-		}
-	}
-
-	private void onLeave(GuildLeaveEvent event) {
-		try {
-			TextChannel tc = getLogChannel();
-			String hour = df.format(new Date(System.currentTimeMillis()));
-
-			if (event.getGuild().getMembers().isEmpty()) {
-				tc.sendMessage(String.format(EmoteReference.THINKING + "`[%s]` A guild with name: ``%s`` just got deleted.", hour, event.getGuild().getName())).queue();
-				logTotal++;
-				return;
-			}
-
-			tc.sendMessage(String.format(EmoteReference.SAD + "`[%s]` I left a guild with name: ``%s`` (%s members)", hour, event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
-			logTotal++;
-
-			MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
-			GuildStatsManager.log(LoggedEvent.LEAVE);
-		} catch (Exception e) {
-			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a leave event.", e);
-			}
 		}
 	}
 

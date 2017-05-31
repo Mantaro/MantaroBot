@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands.info;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;

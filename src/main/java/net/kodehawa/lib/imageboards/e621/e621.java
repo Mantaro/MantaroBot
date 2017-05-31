@@ -1,6 +1,6 @@
 package net.kodehawa.lib.imageboards.e621;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import com.rethinkdb.model.MapObject;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.lib.imageboards.e621.main.entities.Furry;

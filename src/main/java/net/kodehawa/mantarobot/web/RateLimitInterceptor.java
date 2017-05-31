@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.web;
 
-import br.com.brjdevs.utils.trove.RateLimiter;
+import br.com.brjdevs.java.utils.trove.async.RateLimiter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

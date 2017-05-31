@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 public class ShardedUser implements User {
 	private final List<User> users;

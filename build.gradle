@@ -30,6 +30,7 @@ targetCompatibility = 1.8
 repositories {
 	jcenter()
 	maven { url 'https://jitpack.io' }
+	mavenLocal()
 }
 
 dependencies {
@@ -46,9 +47,9 @@ dependencies {
 	compile 'us.monoid.web:resty:0.3.2'
 	compile 'org.jsoup:jsoup:1.8.3'
 
-	compile 'br.com.brjdevs:utils:1.0.0_13'
+	compile 'br.com.brjdevs:utils:1.0.0_15'
 	compile 'br.com.brjdevs:network:1.0.0_2'
-	compile 'br.com.brjdevs:trove-utils:1.0.0_1'
+	compile 'br.com.brjdevs:trove-utils:1.0.0_4'
 
 	compile 'com.google.guava:guava:22.0'
 	compile 'com.google.code.gson:gson:2.8.0'

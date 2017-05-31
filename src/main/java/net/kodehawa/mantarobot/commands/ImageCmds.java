@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.extensions.CollectionUtils;
+import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -15,8 +15,8 @@ import net.kodehawa.lib.imageboards.rule34.Rule34;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;

@@ -17,7 +17,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static br.com.brjdevs.java.utils.extensions.CollectionUtils.random;
+import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j
 public class ImageActionCmd extends NoArgsCommand {

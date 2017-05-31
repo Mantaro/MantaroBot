@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot;
 
-import br.com.brjdevs.java.utils.extensions.Async;
+import br.com.brjdevs.java.utils.async.Async;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -11,7 +11,6 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -24,6 +23,7 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import net.kodehawa.mantarobot.web.API;
@@ -83,17 +83,17 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 @Slf4j
 public class MantaroBot extends ShardedJDA {
 
+	private static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
 	public static int cwport;
+	@Getter
+	public static LoadState loadState = PRELOAD;
+	private static boolean DEBUG = false;
+	@Getter
+	private static API api;
 	@Getter
 	private static MantaroBot instance;
 	@Getter
-	public static LoadState loadState = PRELOAD;
-	@Getter
 	private static TempBanManager tempBanManager;
-	@Getter
-	private static API api;
-
-	private static boolean DEBUG = false;
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose") != null) {
@@ -153,16 +153,14 @@ public class MantaroBot extends ShardedJDA {
 		}
 		return 1;
 	}
-
 	@Getter
 	private MantaroAudioManager audioManager;
+	@Getter
+	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	private List<MantaroEventManager> managers = new ArrayList<>();
 	@Getter
 	private MantaroShard[] shards;
 	private int totalShards;
-	@Getter
-	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-	private static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
 
 	private MantaroBot() throws Exception {
 		instance = this;

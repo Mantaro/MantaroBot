@@ -18,13 +18,13 @@ import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
 public class Mapifier {
-	private static final Pattern CUSTOM_COMMAND_PATTERN = Pattern.compile("\\$\\([A-Za-z0-9.]+?\\)");
+	private static final Pattern GETTER_MODIFIER = Pattern.compile("\\$\\([A-Za-z0-9.]+?\\)");
 
 	public static String dynamicResolve(String string, Map<String, String> dynamicMap) {
 		if (!string.contains("$(")) return string;
 
 		Set<String> skipIfIterated = new HashSet<>();
-		for (String key : iterate(CUSTOM_COMMAND_PATTERN, string)) {
+		for (String key : iterate(GETTER_MODIFIER, string)) {
 			if (skipIfIterated.contains(key)) continue;
 			String mapKey = key.substring(2, key.length() - 1);
 			string = string.replace(key, dynamicMap.getOrDefault(mapKey, mapKey));

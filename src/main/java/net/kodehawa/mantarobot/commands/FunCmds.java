@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.strings.StringUtils;
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -200,6 +200,35 @@ public class FunCmds {
 	}
 
 	@Command
+	public static void ratewaifu(CommandRegistry cr) {
+		cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+				if (args.length == 0) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Give me a waifu to rate!").queue();
+					return;
+				}
+
+				int waifuRate = r.nextInt(100);
+				if (content.equalsIgnoreCase("mantaro")) waifuRate = 100;
+
+				event.getChannel().sendMessage(
+					EmoteReference.THINKING + "I rate " + content + " with a **" + waifuRate + "/100**").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Rate your waifu")
+					.setDescription("**Just rates your waifu from zero to 100. Results may vary.**")
+					.build();
+			}
+		});
+
+		cr.registerAlias("ratewaifu", "rw");
+	}
+
+	@Command
 	public static void roll(CommandRegistry registry) {
 		registry.register("roll", new SimpleCommand(Category.FUN) {
 			@Override
@@ -242,34 +271,6 @@ public class FunCmds {
 					.build();
 			}
 		});
-	}
-
-	@Command
-	public static void ratewaifu(CommandRegistry cr){
-		cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-
-				if(args.length == 0){
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Give me a waifu to rate!").queue();
-					return;
-				}
-
-				int waifuRate = r.nextInt(100);
-				if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
-
-				event.getChannel().sendMessage(EmoteReference.THINKING + "I rate " + content + " with a **" + waifuRate + "/100**").queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Rate your waifu")
-						.setDescription("**Just rates your waifu from zero to 100. Results may vary.**")
-						.build();
-			}
-		});
-
-		cr.registerAlias("ratewaifu", "rw");
 	}
 
 	private static long diceRoll(int size, int amount) {
