@@ -19,10 +19,10 @@ public class ConditionalCustoms {
 
 		comparators.put("eq", String::equals);
 		comparators.put("ieq", String::equalsIgnoreCase);
-		comparators.put("gt", (s1, s2) -> s1.compareTo(s2) > 1);
-		comparators.put("lt", (s1, s2) -> s1.compareTo(s2) < 1);
-		comparators.put("igt", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
-		comparators.put("ilt", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
+		comparators.put("gt", (s1, s2) -> s1.compareTo(s2) < 1);
+		comparators.put("lt", (s1, s2) -> s1.compareTo(s2) > 1);
+		comparators.put("igt", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
+		comparators.put("ilt", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
 		comparators.put("neq", comparators.get("eq").negate());
 		comparators.put("nieq", comparators.get("ieq").negate());
 		comparators.put("ngt", comparators.get("gt").negate());
