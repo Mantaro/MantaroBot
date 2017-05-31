@@ -69,9 +69,7 @@ public class CustomCmds {
 				response = dynamicResolve(response, dynamicMap);
 			}
 
-			if (response.contains("@{")) {
-				response = ConditionalCustoms.resolve(response, 0);
-			}
+			response = ConditionalCustoms.resolve(response, 0);
 
 			int c = response.indexOf(':');
 			if (c != -1) {
