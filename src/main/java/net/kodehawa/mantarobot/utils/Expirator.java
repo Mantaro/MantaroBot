@@ -11,6 +11,7 @@ import net.kodehawa.mantarobot.utils.Expirator.Expirable;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+//TODO Isn't this a bit overcomplicated? Need less overhead pls.
 public class Expirator<T extends Expirable> {
 	public interface Expirable {
 		static Expirable asExpirable(Runnable runnable) {
@@ -22,7 +23,7 @@ public class Expirator<T extends Expirable> {
 
 	@Getter private final Set<Expirable> expirables = Collections.newSetFromMap(new ConcurrentHashMap<>());
 	private final TLongObjectMap<Set<Expirable>> expirations = TCollections.synchronizedMap(new TLongObjectHashMap<>());
-	private boolean updated = false;
+	private volatile boolean updated = false;
 
 	public Expirator() {
 		Thread thread = new Thread(this::threadcode, "ExpirationManager Thread");
@@ -101,16 +102,6 @@ public class Expirator<T extends Expirable> {
 				firstExpirables.remove(null);
 				firstExpirables.forEach(expirable -> Async.thread("Expiration Executable", expirable::onExpire));
 			} else updated = false; //and the loop will restart and resolve it
-		}
-	}
-
-	public OptionalLong timeToExpire(Expirable expirable) {
-		synchronized (expirations) {
-			OptionalLong first = Arrays.stream(expirations.keys())
-				.filter(value -> expirations.get(value).contains(expirable))
-				.findFirst();
-
-			return !first.isPresent() ? first : OptionalLong.of(first.getAsLong() - System.currentTimeMillis());
 		}
 	}
 }

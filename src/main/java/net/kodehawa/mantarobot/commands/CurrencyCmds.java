@@ -74,7 +74,7 @@ public class CurrencyCmds {
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                             "Halt! You can only do this once every 24 hours.\n**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                            Utils.getVerboseTime(rateLimiter.tryAgainIn(id))
                             + ".**").queue();
                     return;
                 }
@@ -284,7 +284,7 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                             "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again " +
                             "in " +
-                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor()))
                             + ".**").queue();
                     return;
                 }
@@ -707,8 +707,7 @@ public class CurrencyCmds {
 
                 if (!rateLimiter.process(event.getMember())) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 12 hours.\n**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(event.getAuthor().getId())))
-                            + ".**").queue();
+                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**").queue();
                     return;
                 }
                 User mentioned = event.getMessage().getMentionedUsers().get(0);
@@ -989,7 +988,7 @@ public class CurrencyCmds {
                             event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                                     "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
                                     "in " +
-                                    Utils.getVerboseTime(Math.abs(System.currentTimeMillis() - rateLimiter.getUsersRateLimited().get(id)))
+                                    rateLimiter.tryAgainIn(event.getMember())
                                     + ".**").queue();
                             return;
                         }
