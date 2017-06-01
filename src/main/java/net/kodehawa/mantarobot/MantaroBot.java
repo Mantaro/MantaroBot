@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
-import net.kodehawa.mantarobot.web.API;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -89,8 +88,6 @@ public class MantaroBot extends ShardedJDA {
 	public static LoadState loadState = PRELOAD;
 	private static boolean DEBUG = false;
 	@Getter
-	private static API api;
-	@Getter
 	private static MantaroBot instance;
 	@Getter
 	private static TempBanManager tempBanManager;
@@ -132,7 +129,6 @@ public class MantaroBot extends ShardedJDA {
 
 		try {
 			new MantaroBot();
-			//API.main(args);
 		} catch (Exception e) {
 			DiscordLogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);
@@ -260,10 +256,6 @@ public class MantaroBot extends ShardedJDA {
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
-		log.info("Starting API config");
-		api = new API();
-		api.setBot(this);
-
 		loadState = POSTLOAD;
 		log.info("Finished loading basic components. Status is now set to POSTLOAD");
 
@@ -274,7 +266,6 @@ public class MantaroBot extends ShardedJDA {
 
 		//Free Instances
 		EventDispatcher.instances.clear();
-
 		executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
 	}
 
