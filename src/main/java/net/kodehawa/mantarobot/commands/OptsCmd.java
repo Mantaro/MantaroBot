@@ -28,6 +28,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
+import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
 public class OptsCmd {
@@ -154,22 +155,6 @@ public class OptsCmd {
 			event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been disabled").queue();
 		});//endregion
 		// endregion
-
-		//region nsfw
-		registerOption("nsfw:toggle", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
-				guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
-				dbGuild.saveAsync();
-				return;
-			}
-
-			guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
-			dbGuild.saveAsync();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
-		});//endregion
 
 		//region autorole
 		//region set
@@ -732,36 +717,5 @@ public class OptsCmd {
 		Preconditions.checkArgument(!name.isEmpty(), "Name is empty");
 		Preconditions.checkNotNull(code, "code");
 		options.putIfAbsent(name, code);
-	}
-
-	/**
-	 * Retrieves a map of objects in a class and its respective values.
-	 * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
-	 *
-	 * Modified it a bit. (Original: https://narendrakadali.wordpress.com/2011/08/27/41/)
-	 *
-	 * @since Aug 27, 2011 5:27:19 AM
-	 * @author Narendra
-	 */
-	private static HashMap<String, Object> mapObjects(Object valueObj)
-	{
-		try{
-			Class c1 = valueObj.getClass();
-			HashMap<String, Object> fieldMap = new HashMap();
-			Field[] valueObjFields = c1.getDeclaredFields();
-
-			for (int i = 0; i < valueObjFields.length; i++)
-			{
-				String fieldName = valueObjFields[i].getName();
-				valueObjFields[i].setAccessible(true);
-				Object newObj = valueObjFields[i].get(valueObj);
-
-				fieldMap.put(fieldName, newObj);
-			}
-
-			return fieldMap;
-		} catch (IllegalAccessException e){
-			return null;
-		}
 	}
 }

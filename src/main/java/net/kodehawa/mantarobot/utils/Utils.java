@@ -20,9 +20,11 @@ import us.monoid.web.Resty;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -156,12 +158,12 @@ public class Utils {
 			HttpURLConnection conn = (HttpURLConnection) ur1.openConnection();
 			conn.setRequestProperty("User-Agent", "Mantaro");
 			InputStream ism = conn.getInputStream();
-			webObject = CharStreams.toString(new InputStreamReader(ism, Charsets.UTF_8));
+			webObject = CharStreams.toString(new InputStreamReader(ism, StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			if (e instanceof java.io.FileNotFoundException) return null;
 
 			log.warn(getFetchDataFailureResponse(url, null), e);
-			event.getChannel().sendMessage("\u274C I got an error while retrieving data from " + url).queue();
+			Optional.ofNullable(event).ifPresent((w) -> w.getChannel().sendMessage("\u274C I got an error while retrieving data from " + url).queue());
 		}
 
 		return webObject;
@@ -178,7 +180,8 @@ public class Utils {
 		String url2 = null;
 		Resty resty = new Resty().identifyAsMozilla();
 		try {
-			url2 = resty.text(url).toString();
+			InputStream is = resty.text(url).stream();
+			url2 = CharStreams.toString(new InputStreamReader(is, StandardCharsets.UTF_8));
 		} catch (IOException e) {
 			log.warn(getFetchDataFailureResponse(url, "Resty"), e);
 			Optional.ofNullable(event).ifPresent((evt) -> evt.getChannel().sendMessage("\u274C Error retrieving data from URL [Resty]").queue());
@@ -199,6 +202,37 @@ public class Utils {
 		if (servicePrefix != null) response.append("[").append(servicePrefix).append("]");
 		else response.append("\u274C");
 		return response.append(" ").append("Hmm, seems like I can't retrieve data from ").append(url).toString();
+	}
+
+	/**
+	 * Retrieves a map of objects in a class and its respective values.
+	 * Yes, I'm too lazy to do it manually and it would make absolutely no sense to either.
+	 *
+	 * Modified it a bit. (Original: https://narendrakadali.wordpress.com/2011/08/27/41/)
+	 *
+	 * @since Aug 27, 2011 5:27:19 AM
+	 * @author Narendra
+	 */
+	public static HashMap<String, Object> mapObjects(Object valueObj)
+	{
+		try{
+			Class c1 = valueObj.getClass();
+			HashMap<String, Object> fieldMap = new HashMap<>();
+			Field[] valueObjFields = c1.getDeclaredFields();
+
+			for (int i = 0; i < valueObjFields.length; i++)
+			{
+				String fieldName = valueObjFields[i].getName();
+				valueObjFields[i].setAccessible(true);
+				Object newObj = valueObjFields[i].get(valueObj);
+
+				fieldMap.put(fieldName, newObj);
+			}
+
+			return fieldMap;
+		} catch (IllegalAccessException e){
+			return null;
+		}
 	}
 
 	@SneakyThrows

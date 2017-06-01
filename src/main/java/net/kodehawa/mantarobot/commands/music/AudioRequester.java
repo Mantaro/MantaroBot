@@ -186,6 +186,7 @@ public class AudioRequester implements AudioLoadResultHandler {
             int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
             if(i < 1 || i > 4) return false;
             loadSingle(playlist.getTracks().get(i - 1), false);
+            event.getChannel().getMessageById(e.getMessageIdLong()).queue(m -> m.clearReactions().queue());
             return true;
         }, "\u0031\u20e3", "\u0032\u20e3", "\u0033\u20e3", "\u0034\u20e3");
 	}

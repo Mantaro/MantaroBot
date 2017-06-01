@@ -15,6 +15,8 @@ import net.kodehawa.lib.imageboards.rule34.Rule34;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
@@ -38,6 +40,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static net.kodehawa.mantarobot.commands.OptsCmd.registerOption;
 
 @Module
 public class ImageCmds {
@@ -343,13 +347,6 @@ public class ImageCmds {
 	}
 
 	@Command
-	public static void onPostLoad(PostLoadEvent e) {
-		nRating.put("safe", "s");
-		nRating.put("questionable", "q");
-		nRating.put("explicit", "e");
-	}
-
-	@Command
 	public static void rule34(CommandRegistry cr) {
 		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -580,7 +577,6 @@ public class ImageCmds {
 	}
 
 	private static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage) {
-
 	    if(event.getChannel().isNSFW()) return true;
 
 	    String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
@@ -597,5 +593,27 @@ public class ImageCmds {
 		}
 
 		return true;
+	}
+
+	@Command
+	public static void onPostLoad(PostLoadEvent e) {
+		nRating.put("safe", "s");
+		nRating.put("questionable", "q");
+		nRating.put("explicit", "e");
+
+		registerOption("nsfw:toggle", (event) -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
+				guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
+				dbGuild.saveAsync();
+				return;
+			}
+
+			guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
+			dbGuild.saveAsync();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
+		});
 	}
 }

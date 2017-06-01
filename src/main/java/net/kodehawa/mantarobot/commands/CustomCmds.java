@@ -14,6 +14,8 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
+import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
@@ -537,6 +539,27 @@ public class CustomCmds {
 			CommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
 
 			customCommands.put(custom.getId(), custom.getValues());
+		});
+
+		OptsCmd.registerOption("admincustom", (event, args) -> {
+			if (args.length == 0) {
+				OptsCmd.onHelp(event);
+				return;
+			}
+
+			String action = args[0];
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			try {
+				guildData.setCustomAdminLock(Boolean.parseBoolean(action));
+				dbGuild.save();
+				String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> User command creation " +
+						"is now admin only.``" : "``Permission -> User command creation can be done by anyone.``");
+				event.getChannel().sendMessage(toSend).queue();
+			} catch (Exception ex) {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
+			}
 		});
 	}
 }
