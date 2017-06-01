@@ -11,9 +11,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
@@ -25,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game {
-	private static final DataManager<List<String>> TRIVIA = new SimpleFileDataManager("assets/mantaro/texts/trivia.txt");
 	private List<String> expectedAnswer;
 	private int maxAttempts = 10;
 
