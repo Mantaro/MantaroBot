@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.data.entities.helpers;
 import lombok.Data;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 public class GuildData {
@@ -31,18 +32,20 @@ public class GuildData {
 	private boolean rpgDevaluation = true;
 	private boolean linkProtection = false;
 	private boolean slowMode = false;
-	private List<String> disabledUsers = new ArrayList<>();
+	private List<String> disabledUsers 	= new ArrayList<>();
 	private boolean noMentionsAction = false;
 	private boolean musicAnnounce = true;
 	private int timeDisplay = 0; //0 = 24h, 1 = 12h
 	private ArrayList<String> rolesBlockedFromCommands = new ArrayList<>();
 	private boolean reactionMenus = true;
 	private int maxFairQueue = 4;
-
+	private Set<String> linkProtectionAllowedChannels = new HashSet<>();
+	private boolean antiSpam = false;
+	private Set<String> spamModeChannels = new HashSet<>();
+	private Set<String> slowModeChannels = new HashSet<>();
+	private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
 	//TODO implement
 	private int maxResultsSearch = 5;
-
-	//TODO implement
 	private HashMap<String, List<String>> channelSpecificDisabledCategories = new HashMap<>();
 	private Set<String> disabledCategories = new HashSet<>();
 }

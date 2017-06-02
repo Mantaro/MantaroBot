@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -311,6 +312,18 @@ public class OptsCmd {
 
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
+
+			if (args[0].equals("*")) {
+				Set<String> allChannelsMinusCurrent = event.getGuild().getTextChannels().
+						stream().filter(textChannel -> textChannel.getId().equals(event.getChannel().getId())).map(ISnowflake::getId).collect(Collectors.toSet());
+				guildData.getDisabledChannels().addAll(allChannelsMinusCurrent);
+				dbGuild.save();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Disallowed all channels except the current one. " +
+						"You can start allowing channels one by one again with `opts server channel allow` from **this** channel. " +
+						"You can disallow this channel later if you so desire.").queue();
+				return;
+			}
+
 			if ((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()) {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot " +
 					"wouldn't be able to talk otherwise :<").queue();
@@ -321,7 +334,7 @@ public class OptsCmd {
 				.collect(Collectors.toList());
 			DiscordUtils.selectList(event, textChannels,
 				textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-				s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+				s -> getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
 				textChannel -> {
 					guildData.getDisabledChannels().add(textChannel.getId());
 					dbGuild.save();
@@ -340,6 +353,14 @@ public class OptsCmd {
 
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
+
+			if (args[0].equals("*")) {
+				guildData.getDisabledChannels().clear();
+				dbGuild.save();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "All channels are allowed now.").queue();
+				return;
+			}
+
 			List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
 				.filter(textChannel -> textChannel.getName().contains(args[0]))
 				.collect(Collectors.toList());
@@ -594,9 +615,11 @@ public class OptsCmd {
 					.append(event.getGuild().getName())
 					.append("**\n\n");
 
-			for(Entry e : fieldMap.entrySet()){
+			AtomicInteger ai = new AtomicInteger();
 
-				show.append("Option `")
+			for(Entry e : fieldMap.entrySet()){
+				show.append(ai.incrementAndGet())
+						.append(".- `")
 						.append(e.getKey())
 						.append("`");
 
@@ -608,7 +631,6 @@ public class OptsCmd {
 							.append(e.getValue())
 							.append("**\n");
 				}
-
 			}
 
 			Queue<Message> toSend = new MessageBuilder().append(show.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);

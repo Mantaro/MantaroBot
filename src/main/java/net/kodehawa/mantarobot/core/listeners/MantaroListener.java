@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
+import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
@@ -57,6 +59,7 @@ public class MantaroListener implements EventListener {
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 	private final int shardId;
 	private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+	private final RateLimiter spamModeLimiter = new RateLimiter(TimeUnit.SECONDS, 2, 3);
 
 	public MantaroListener(int shardId) {
 		this.shardId = shardId;
@@ -304,11 +307,33 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onMessage(GuildMessageReceivedEvent event) {
-
 		//Moderation features
-		GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+		GuildData guildData = dbGuild.getData();
 
-		if(guildData.isLinkProtection()){
+		//un-mute check
+		//This is a pretty lazy check.
+		if(!guildData.getMutedTimelyUsers().isEmpty()){
+			guildData.getMutedTimelyUsers().forEach((id, maxTime) -> {
+				System.out.println(System.currentTimeMillis() > maxTime);
+				if(System.currentTimeMillis() > maxTime){
+					try{
+						guildData.getMutedTimelyUsers().remove(id);
+						dbGuild.saveAsync();
+						event.getGuild().getController().
+								removeRolesFromMember(event.getGuild().getMemberById(id), event.getGuild().getRoleById(guildData.getMutedRole())).queue();
+						guildData.setCases(guildData.getCases() + 1);
+						dbGuild.save();
+						ModLog.log(event.getMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
+					} catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+
+		//link protection
+		if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId())){
 			if(DISCORD_INVITE.matcher(event.getMessage().getContent()).find()
 					&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)){
 				Member bot = event.getGuild().getSelfMember();
@@ -336,6 +361,7 @@ public class MantaroListener implements EventListener {
 			}
 		}
 
+		//Slow mode
 		if(guildData.isSlowMode()){
 			if (!slowModeLimiter.process(event.getAuthor().getId())) {
 				Member bot = event.getGuild().getSelfMember();
@@ -344,10 +370,25 @@ public class MantaroListener implements EventListener {
 					event.getMessage().delete().queue();
 				}else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
-					DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 					guildData.setSlowMode(false);
 					dbGuild.save();
 					event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions.**").queue();
+				}
+			}
+		}
+
+		//Anti-spam. Allows 2 messages every 3 seconds.
+		if(guildData.isAntiSpam()){
+			if (!spamModeLimiter.process(event.getAuthor().getId())) {
+				Member bot = event.getGuild().getSelfMember();
+				if(bot.hasPermission(Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
+						&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)){
+					event.getMessage().delete().queue();
+				}else {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage anti-spam mode because I don't have permission to delete messages!").queue();
+					guildData.setAntiSpam(false);
+					dbGuild.save();
+					event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions.**").queue();
 				}
 			}
 		}

@@ -20,10 +20,16 @@ import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "Moderation")
@@ -575,6 +581,7 @@ public class ModerationCmds {
                 DBGuild dbGuild = db.getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
                 String reason = "Not specified";
+                Map<String, Optional<String>> opts = br.com.brjdevs.java.utils.texts.StringUtils.parse(args);
 
                 if(guildData.getMutedRole() == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "The mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`").queue();
@@ -597,30 +604,43 @@ public class ModerationCmds {
                     return;
                 }
 
-                final String finalReason = reason;
+
+                final String finalReason = reason.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");;
 
                 event.getMessage().getMentionedUsers().forEach(user -> {
                     Member m = event.getGuild().getMember(user);
+                    long time = 0L;
+
+                    if(opts.containsKey("time")){
+                        if(opts.get("time").get().isEmpty()){
+                            event.getChannel().sendMessage(EmoteReference.WARNING + "You wanted time but didn't specify for how long!").queue();
+                            return;
+                        }
+
+                        time = System.currentTimeMillis() + AudioCmdUtils.parseTime(opts.get("time").get());
+                        guildData.getMutedTimelyUsers().put(user.getIdLong(), time);
+                        dbGuild.save();
+                    }
+
+                    if(m.getRoles().contains(mutedRole)){
+                        event.getChannel().sendMessage(EmoteReference.WARNING + "This user already has a mute role assigned. Please do `~>unmute` to unmute them.").queue();
+                        return;
+                    }
+
                     if(!event.getGuild().getSelfMember().canInteract(m)){
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign or remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!").queue();
                         return;
                     }
 
                     if(!event.getMember().canInteract(m)){
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign or remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!").queue();
-                        return;
-                    }
-
-                    if(m.getRoles().contains(mutedRole)){
-                        event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
-                        ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot assign the mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!").queue();
                         return;
                     }
 
                     final DBGuild dbg = db.getGuild(event.getGuild());
                     event.getGuild().getController().addRolesToMember(m, mutedRole).queue();
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Added mute role to **" + m.getEffectiveName() + "**").queue();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +
+                            m.getEffectiveName() + (time > 0 ? "** for around " + Utils.getVerboseTime(time - System.currentTimeMillis()) : "")).queue();
                     dbg.getData().setCases(dbg.getData().getCases() + 1);
                     dbg.saveAsync();
                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
@@ -630,10 +650,85 @@ public class ModerationCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mute")
-                        .setDescription("**Mutes or unmutes the specified users**")
-                        .addField("Usage", "`~>mute <user> <reason>` - Mutes or unmutes the specified users.", false)
-                        .addField("Parameters", "`users` - The users to mute. Needs to be mentions.", false)
-                        .addField("Considerations", "This command will mute if the user doesn't have the mute role and it will unmute the user if he or she has the role.", false)
+                        .setDescription("**Mutes the specified users**")
+                        .addField("Usage", "`~>mute <user> <reason> [-time <time>]` - Mutes the specified users.", false)
+                        .addField("Parameters", "`users` - The users to mute. Needs to be mentions.\n" +
+                                "`[-time <time>]` - The time to mute an user for. For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.", false)
+                        .addField("Considerations", "To unmute an user, do `~>unmute`.", false)
+                        .build();
+            }
+        });
+    }
+
+    @Command
+    public static void unmute(CommandRegistry commandRegistry){
+        commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                ManagedDatabase db = MantaroData.db();
+                DBGuild dbGuild = db.getGuild(event.getGuild());
+                GuildData guildData = dbGuild.getData();
+                String reason = "Not specified";
+
+                if(guildData.getMutedRole() == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "The mute role is not set in this server, you can set it by doing `~>opts muterole set <role>`").queue();
+                    return;
+                }
+
+                Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
+
+                if(args.length > 1){
+                    reason = StringUtils.splitArgs(content, 2)[1];
+                }
+
+                if(event.getMessage().getMentionedUsers().isEmpty()){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user to un-mute.").queue();
+                    return;
+                }
+
+                if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permissions to administrate roles on this server!").queue();
+                    return;
+                }
+
+                //Regex from: Fabricio20
+                final String finalReason = reason;
+                final DBGuild dbg = db.getGuild(event.getGuild());
+
+                event.getMessage().getMentionedUsers().forEach(user -> {
+                    Member m = event.getGuild().getMember(user);
+
+                    guildData.getMutedTimelyUsers().remove(user.getIdLong());
+                    if(!event.getGuild().getSelfMember().canInteract(m)){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy!").queue();
+                        return;
+                    }
+
+                    if(!event.getMember().canInteract(m)){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot remove a mute role to this user because they're in a higher hierarchy than me, or the role is in a higher hierarchy than you!").queue();
+                        return;
+                    }
+
+                    if(m.getRoles().contains(mutedRole)){
+                        event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
+                        dbg.getData().setCases(dbg.getData().getCases() + 1 );
+                        dbg.saveAsync();
+                        ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
+                        return;
+                    } else {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "This user doesn't have the mute role assigned to them.").queue();
+                    }
+                });
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Un-mute")
+                        .setDescription("**Un-mutes the specified users**")
+                        .addField("Usage", "`~>unmute <user> <reason>` - Un-mutes the specified users.", false)
+                        .addField("Parameters", "`users` - The users to un-mute. Needs to be mentions.", false)
+                        .addField("Considerations", "To mute an user, do `~>mute`.", false)
                         .build();
             }
         });
@@ -647,7 +742,7 @@ public class ModerationCmds {
             boolean toggler = guildData.isLinkProtection();
 
             guildData.setLinkProtection(!toggler);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set link protection to " + "**" + !toggler + "**").queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set link protection to " + "`" + !toggler + "`").queue();
             dbGuild.save();
         });
 
@@ -657,8 +752,88 @@ public class ModerationCmds {
             boolean toggler = guildData.isSlowMode();
 
             guildData.setSlowMode(!toggler);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set slowmode chat to " + "**" + !toggler + "**").queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set slowmode chat to " + "`" + !toggler + "`").queue();
             dbGuild.save();
+        });
+
+        OptsCmd.registerOption("antispam:toggle", event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean toggler = guildData.isAntiSpam();
+
+            guildData.setAntiSpam(!toggler);
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set anti-spam chat mode to " + "`" + !toggler + "`").queue();
+            dbGuild.save();
+        });
+
+        OptsCmd.registerOption("linkprotection:channel:allow", (event, args) -> {
+            if (args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if (textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+            }
+
+            if (textChannels.size() <= 1) {
+                guildData.getLinkProtectionAllowedChannels().add(textChannels.get(0).getId());
+                dbGuild.save();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + textChannels.get(0).getAsMention() + " can now be used to post discord invites.").queue();
+                return;
+            }
+
+            DiscordUtils.selectList(event, textChannels,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> OptsCmd.getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                    textChannel -> {
+                        guildData.getLinkProtectionAllowedChannels().add(textChannel.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.OK + textChannel.getAsMention() + " can now be used to send discord invites.").queue();
+                    }
+            );
+        });
+
+        OptsCmd.registerOption("linkprotection:channel:disallow", (event, args) -> {
+            if (args.length == 0) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if (textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+            }
+
+            if (textChannels.size() <= 1) {
+                guildData.getLinkProtectionAllowedChannels().remove(textChannels.get(0).getId());
+                dbGuild.save();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + textChannels.get(0).getAsMention() + " cannot longer be used to post discord invites.").queue();
+                return;
+            }
+
+            DiscordUtils.selectList(event, textChannels,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> OptsCmd.getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                    textChannel -> {
+                        guildData.getLinkProtectionAllowedChannels().remove(textChannel.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.OK + textChannel.getAsMention() + " cannot longer be used to send discord invites.").queue();
+                    }
+            );
         });
     }
 }

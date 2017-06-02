@@ -25,27 +25,6 @@ public class Trivia extends Game {
 	private List<String> expectedAnswer;
 	private int maxAttempts = 10;
 
-	public Trivia() {
-		super();
-	}
-
-	@Override
-	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
-				@Override
-				public boolean run(GuildMessageReceivedEvent event) {
-					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts);
-				}
-
-				@Override
-				public void onExpire() {
-					lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + expectedAnswer).queue();
-					GameLobby.LOBBYS.remove(lobby.getChannel());
-				}
-			}
-		);
-	}
-
 	@Override
 	public boolean onStart(GameLobby lobby) {
 		try {
@@ -68,7 +47,7 @@ public class Trivia extends Game {
 
 			eb.setAuthor("Trivia Game", null, lobby.getEvent().getAuthor().getAvatarUrl())
 					.setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-						.setDescription("**" + qu + "**")
+					.setDescription("**" + qu + "**")
 					.addField("Difficulty", "`" + Utils.capitalize(diff) + "`", true)
 					.addField("Category", "`" + category + "`", true)
 					.setFooter("This times out in 2 minutes.", lobby.getEvent().getAuthor().getAvatarUrl());
@@ -81,5 +60,22 @@ public class Trivia extends Game {
 			log.warn("Error while starting a trivia game", e);
 			return false;
 		}
+	}
+
+	@Override
+	public void call(GameLobby lobby, HashMap<Member, Player> players) {
+		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
+				@Override
+				public boolean run(GuildMessageReceivedEvent event) {
+					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts);
+				}
+
+				@Override
+				public void onExpire() {
+					lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + expectedAnswer).queue();
+					GameLobby.LOBBYS.remove(lobby.getChannel());
+				}
+			}
+		);
 	}
 }

@@ -90,10 +90,10 @@ public class ImageActionCmd extends NoArgsCommand {
 	}
 
 	private String mentions(GuildMessageReceivedEvent event) {
-		return event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" ")).trim();
+		return event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(", ")).trim();
 	}
 
 	private String noMentions(GuildMessageReceivedEvent event){
-		return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(" ")).trim();
+		return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", ")).trim();
 	}
 }
