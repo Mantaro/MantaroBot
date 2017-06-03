@@ -82,6 +82,8 @@ public class PollLobby extends Lobby {
                     data.getRanPolls(), event.getAuthor().getName()), null, event.getAuthor().getAvatarUrl())
                     .setDescription("**Poll started. React to the number to vote.**\n*" + name + "*")
                     .addField("Options", "```md\n" + toShow + "```", false)
+                    .setColor(event.getMember().getColor())
+                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                     .setFooter("You have " + Utils.getDurationMinutes(timeout) + " minutes to vote.", event.getAuthor().getAvatarUrl());
 
             getChannel().sendMessage(builder.build()).queue(message -> ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
