@@ -19,7 +19,7 @@ public class Items {
 
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
-                    "something, tho.", 1, true, false),
+                    "something, tho.", 5, true, false),
             BAN_HAMMER = new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
             KICK_BOOT = new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 12, false),
             FLOPPY_DISK = new Item("\uD83D\uDCBE", "Floppy Disk", "Might have some games.", 13, false),
@@ -30,7 +30,7 @@ public class Items {
             CC_PENCIL = new Item("\u270f", "Pencil", "We have plenty of those!", 15, false),
             OVERFLOWED_BAG = new Item("\uD83D\uDCB0", "Moneybag", "What else?.", 80, true),
             BROM_PICKAXE = new Item("\u26cf", "Brom's Pickaxe", "That guy liked Minecraft way too much. Gives you a stackable boost when " +
-                    "doing ~>mine.", 500, true),
+                    "doing ~>mine.", 150, true),
             POTION_HEALTH = new Item(EmoteReference.POTION1.getUnicode(), "Milk", "Good boy.", 45, true),
             POTION_STAMINA = new Item(EmoteReference.POTION2.getUnicode(), "Alcohol", "Hmm. I wonder what's this good for.", 45, true),
             LEWD_MAGAZINE = new Item(EmoteReference.MAGAZINE.getUnicode(), "Lewd Magazine", "Too many lewd commands.", 45, true),
@@ -48,7 +48,7 @@ public class Items {
             SHOES = new Item(EmoteReference.SHOES.getUnicode(), "Shoes", "Something you use when you don't want to walk on dirt.", 9,
                     true),
             ROSE = new Item(EmoteReference.ROSE.getUnicode(), "Rose", "The embodiment of your love.", 53, true),
-            CHOCOLATE = new Item(EmoteReference.CHOCOLATE.getUnicode(), "Chocolate", "Yummy.", 60, true),
+            CHOCOLATE = new Item(EmoteReference.CHOCOLATE.getUnicode(), "Chocolate", "Yummy.", 45, true),
             COOKIES = new Item(EmoteReference.COOKIE.getUnicode(), "Cookie", "Delicious.", 48, true),
             LOADED_DICE_2 = new Item("\uD83C\uDFB2", "Loaded Die", "Stolen from `~>dice` command. Gives you a 50% more chance at getting" +
                     " a perfect score on dice."),

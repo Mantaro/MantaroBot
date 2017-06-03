@@ -314,7 +314,7 @@ public class MiscCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Map<String, Optional<String>> opts = StringUtils.parse(args);
-				PollLobby.PollBuilder builder = new PollLobby.PollBuilder();
+				PollLobby.PollBuilder builder = PollLobby.builder();
 				if(!opts.containsKey("time") || !opts.get("time").isPresent()){
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!").queue();
 					return;
