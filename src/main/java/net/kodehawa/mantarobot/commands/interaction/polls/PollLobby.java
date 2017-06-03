@@ -35,7 +35,6 @@ public class PollLobby extends Lobby {
 
     public PollLobby(GuildMessageReceivedEvent event, String name, long timeout, String... options) {
         super(event.getChannel());
-
         this.event = event;
         this.options = options;
         this.timeout = timeout;
@@ -44,6 +43,8 @@ public class PollLobby extends Lobby {
         if(options.length > 9 || options.length < 2 || timeout > 6000000 || timeout < 30000){
             isCompilant = false;
         }
+
+        getRunningPolls().put(getChannel(), this);
     }
 
     public void startPoll(){
@@ -53,6 +54,7 @@ public class PollLobby extends Lobby {
                         "This poll cannot build. " +
                         "**Remember that the maximum amount of options are 9, the minimum is 2 and that the maximum timeout is 10m and the minimum timeout is 30s.**\n" +
                         "Options are separated with a comma, for example `1,2,3`. For spaced stuff use commas at the start and end of the sentence.").queue();
+                getRunningPolls().remove(getChannel());
                 return;
             }
 
@@ -63,6 +65,8 @@ public class PollLobby extends Lobby {
 
             if(!event.getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)){
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I cannot add reactions here...").queue();
+                getRunningPolls().remove(getChannel());
+                return;
             }
 
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
