@@ -604,8 +604,8 @@ public class ModerationCmds {
                     return;
                 }
 
-
-                final String finalReason = reason.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");;
+                //Regex from: Fabricio20
+                final String finalReason = reason.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");
 
                 event.getMessage().getMentionedUsers().forEach(user -> {
                     Member m = event.getGuild().getMember(user);
@@ -691,7 +691,6 @@ public class ModerationCmds {
                     return;
                 }
 
-                //Regex from: Fabricio20
                 final String finalReason = reason;
                 final DBGuild dbg = db.getGuild(event.getGuild());
 

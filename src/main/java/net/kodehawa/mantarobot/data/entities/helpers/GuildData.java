@@ -1,9 +1,11 @@
 package net.kodehawa.mantarobot.data.entities.helpers;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.modules.commands.base.Category;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 public class GuildData {
@@ -44,8 +46,9 @@ public class GuildData {
 	private Set<String> spamModeChannels = new HashSet<>();
 	private Set<String> slowModeChannels = new HashSet<>();
 	private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
+	private long ranPolls = 0L;
 	//TODO implement
 	private int maxResultsSearch = 5;
-	private HashMap<String, List<String>> channelSpecificDisabledCategories = new HashMap<>();
-	private Set<String> disabledCategories = new HashSet<>();
+	private HashMap<String, List<Category>> channelSpecificDisabledCategories = new HashMap<>();
+	private Set<Category> disabledCategories = new HashSet<>();
 }

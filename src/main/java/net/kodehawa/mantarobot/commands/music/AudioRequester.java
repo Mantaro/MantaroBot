@@ -183,7 +183,7 @@ public class AudioRequester implements AudioLoadResultHandler {
         long id = event.getAuthor().getIdLong(); //just in case someone else uses play before timing out
         ReactionOperations.create(event.getChannel().sendMessage(builder.build()).complete(), 15, (e)->{
             if(e.getUser().getIdLong() != id) return false;
-            int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
+			int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
             if(i < 1 || i > 4) return false;
             loadSingle(playlist.getTracks().get(i - 1), false);
             event.getChannel().getMessageById(e.getMessageIdLong()).queue(m -> m.clearReactions().queue());

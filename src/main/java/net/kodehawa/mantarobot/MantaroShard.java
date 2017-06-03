@@ -118,7 +118,7 @@ public class MantaroShard implements JDA {
 			.setEventManager(manager)
 			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
-			.setCorePoolSize(5)
+			.setCorePoolSize(10)
 			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);

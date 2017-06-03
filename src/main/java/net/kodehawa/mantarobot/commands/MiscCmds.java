@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -8,6 +9,8 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
+import net.kodehawa.mantarobot.commands.interaction.polls.PollLobby;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
@@ -22,10 +25,7 @@ import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -308,11 +308,53 @@ public class MiscCmds {
 		cr.registerAlias("randomfact", "rf");
 	}
 
+	@Command
+	public static void createPoll(CommandRegistry registry){
+		registry.register("createpoll", new SimpleCommand(Category.MISC) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				Map<String, Optional<String>> opts = StringUtils.parse(args);
+				PollLobby.PollBuilder builder = new PollLobby.PollBuilder();
+				if(!opts.containsKey("time") || !opts.get("time").isPresent()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!").queue();
+					return;
+				}
+
+				if(!opts.containsKey("options") || !opts.get("options").isPresent()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-options` argument or it was empty!").queue();
+					return;
+				}
+
+				if(opts.containsKey("name") || opts.get("name").isPresent()){
+					builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
+				}
+
+				String[] options = opts.get("options").get().replaceAll(String.valueOf('"'), "").split(",");
+				long timeout = AudioCmdUtils.parseTime(opts.get("time").get());
+
+				builder.setEvent(event)
+						.setTimeout(timeout)
+						.setOptions(options)
+						.build()
+						.startPoll();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Poll Command")
+						.setDescription("**Creates a poll**")
+						.addField("Usage", "`~>poll [-options <options>] [-time <time>] ([-name <name>])`", false)
+						.addField("Parameters", "", false)
+						.addField("Considerations", "The name of the poll is optional.", false)
+						.build();
+			}
+		});
+	}
+
 	/**
 	 * @return a random hex color.
 	 */
 	private static String randomColor() {
 		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
-
 }
