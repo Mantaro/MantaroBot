@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.action;
 
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
@@ -15,12 +14,8 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
