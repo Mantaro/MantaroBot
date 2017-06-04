@@ -61,6 +61,10 @@ public class CommandRegistry {
 			return false;
 		}
 
+		if (data.getDisabledCategories().contains(cmd.category())){
+			return false;
+		}
+
 		//If we are in the patreon bot, deny all requests from unknown guilds.
 		if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()){
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +

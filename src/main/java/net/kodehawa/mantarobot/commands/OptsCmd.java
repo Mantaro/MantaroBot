@@ -32,6 +32,7 @@ import static java.util.Map.Entry;
 import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
+//TODO Maybe automate boolean ones? (x toggle)
 public class OptsCmd {
 	private static final Map<String, BiConsumer<GuildMessageReceivedEvent, String[]>> options = new HashMap<>();
 	private static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
@@ -678,6 +679,60 @@ public class OptsCmd {
 			dbGuild.save();
 
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally unblacklisted users: **" + unBlackListed + "**").queue();
+		});
+
+		registerOption("category:disable", (event, args) -> {
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			Category toDisable = Category.lookupFromString(args[0]);
+
+			if(toDisable == null){
+				AtomicInteger at = new AtomicInteger();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+								+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+				return;
+			}
+
+			if (guildData.getDisabledCategories().contains(toDisable)) {
+				event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
+				return;
+			}
+
+			if(toDisable.toString().equals("Moderation")){
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
+				return;
+			}
+
+			guildData.getDisabledCategories().add(toDisable);
+			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "`").queue();
+		});
+
+		registerOption("category:enable", (event, args) -> {
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			Category toEnable = Category.lookupFromString(args[0]);
+
+			if(toEnable == null){
+				AtomicInteger at = new AtomicInteger();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+						+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+				return;
+			}
+
+			guildData.getDisabledCategories().remove(toEnable);
+			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "`").queue();
 		});
 	}
 

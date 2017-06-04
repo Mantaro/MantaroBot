@@ -34,7 +34,7 @@ public class GuildData {
 	private boolean rpgDevaluation = true;
 	private boolean linkProtection = false;
 	private boolean slowMode = false;
-	private List<String> disabledUsers 	= new ArrayList<>();
+	private List<String> disabledUsers = new ArrayList<>();
 	private boolean noMentionsAction = false;
 	private boolean musicAnnounce = true;
 	private int timeDisplay = 0; //0 = 24h, 1 = 12h
@@ -46,9 +46,11 @@ public class GuildData {
 	private Set<String> spamModeChannels = new HashSet<>();
 	private Set<String> slowModeChannels = new HashSet<>();
 	private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
+	private Set<String> modlogBlacklistedPeople = new HashSet<>();
 	private long ranPolls = 0L;
-	//TODO implement
-	private int maxResultsSearch = 5;
 	private HashMap<String, List<Category>> channelSpecificDisabledCategories = new HashMap<>();
 	private Set<Category> disabledCategories = new HashSet<>();
+
+	//TODO implement
+	private int maxResultsSearch = 5;
 }

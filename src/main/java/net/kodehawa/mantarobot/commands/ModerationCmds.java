@@ -655,6 +655,8 @@ public class ModerationCmds {
                         .addField("Parameters", "`users` - The users to mute. Needs to be mentions.\n" +
                                 "`[-time <time>]` - The time to mute an user for. For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.", false)
                         .addField("Considerations", "To unmute an user, do `~>unmute`.", false)
+                        .addField("Extended usage", "`time` - can be used with the following parameters: " +
+                                "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
                         .build();
             }
         });
@@ -735,6 +737,45 @@ public class ModerationCmds {
 
     @Command
     public static void onPostLoad(PostLoadEvent e){
+
+        OptsCmd.registerOption("modlog:blacklist", event -> {
+            List<User> mentioned = event.getMessage().getMentionedUsers();
+            if(mentioned.isEmpty()){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+
+            guildData.getModlogBlacklistedPeople().addAll(toBlackList);
+            dbGuild.save();
+
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users from mod-log: **" + blacklisted + "**").queue();
+        });
+
+        OptsCmd.registerOption("modlog:whitelist", event -> {
+            List<User> mentioned = event.getMessage().getMentionedUsers();
+            if(mentioned.isEmpty()){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally un-blacklist from mod logs.**").queue();
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+            String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+
+            guildData.getModlogBlacklistedPeople().removeAll(toUnBlacklist);
+            dbGuild.save();
+
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally un-blacklisted users from mod-log: **" + unBlacklisted + "**").queue();
+        });
+
         OptsCmd.registerOption("linkprotection:toggle", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();

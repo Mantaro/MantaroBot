@@ -80,9 +80,9 @@ public class InfoCmds {
 					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
 						.setColor(Color.BLUE)
 						.setDescription("**Main developer**: Kodehawa#3457\n"
-							+ "**Developer**: AdrianTodt#0722\n" +
-								"**Music**: Steven#6340 (Retired :<)\n"
-								+ "**L33t H4x0r**: Natan#1289\n"
+							+ "**Developer**: AdrianTodt#0722\n"
+								+ "**Developer**: Natan#1289\n"
+								+ "**Music**: Steven#6340 (Retired :<)\n"
 								+ "**Meme guy**: Adam#9261\n"
 								+ "**Documentation:** MrLar#8117 & Yuvira#7832")
 						.addField("Special mentions",
