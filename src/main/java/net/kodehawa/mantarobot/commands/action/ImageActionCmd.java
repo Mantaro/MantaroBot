@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.action;
 
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
@@ -14,8 +15,12 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
@@ -30,6 +35,7 @@ public class ImageActionCmd extends NoArgsCommand {
 	private final List<String> images;
 	private final String lonelyLine;
 	private final String name;
+	private boolean swapNames = false;
 
 	public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine) {
 		super(Category.ACTION);
@@ -40,6 +46,18 @@ public class ImageActionCmd extends NoArgsCommand {
 		this.format = format;
 		this.images = images;
 		this.lonelyLine = lonelyLine;
+	}
+
+	public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine, boolean swap) {
+		super(Category.ACTION);
+		this.name = name;
+		this.desc = desc;
+		this.color = color;
+		this.imageName = imageName;
+		this.format = format;
+		this.images = images;
+		this.lonelyLine = lonelyLine;
+		this.swapNames = swap;
 	}
 
 	@Override
@@ -56,9 +74,19 @@ public class ImageActionCmd extends NoArgsCommand {
 			MessageBuilder toSend = new MessageBuilder()
 					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()));
 
-			if(guildData.isNoMentionsAction()){
+			if(!guildData.isNoMentionsAction() && swapNames){
+				toSend = new MessageBuilder()
+						.append(String.format(format, event.getAuthor().getAsMention(), mentions(event)));
+			}
+
+			if(guildData.isNoMentionsAction() && swapNames){
 				toSend = new MessageBuilder()
 						.append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"));
+			}
+
+			if(swapNames && guildData.isNoMentionsAction()){
+				toSend = new MessageBuilder()
+						.append(String.format(format, "**" +  event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**"));
 			}
 
 			if(isLonely(event)){

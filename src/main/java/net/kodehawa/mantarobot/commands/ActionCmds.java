@@ -211,13 +211,13 @@ public class ActionCmds {
 		//highfive();
 		cr.register("highfive", new ImageActionCmd(
 				"Highfive", "Highfives with the specified user.", Color.PINK,
-				"highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfives*"
+				"highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfives*", true
 		));
 
 		//pout();
 		cr.register("pout", new ImageActionCmd(
 				"Pout", "Pouts at the specified user.", Color.PINK,
-				"pout.gif", EmoteReference.TALKING + "%s has been pouted by %s *hmph*", POUTS.get(), "*pouts*, **hmph**"
+				"pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", POUTS.get(), "*pouts*, **hmph**", true
 		));
 
 		//greet();
