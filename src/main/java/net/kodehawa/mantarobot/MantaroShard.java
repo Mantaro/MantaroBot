@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
@@ -132,10 +133,9 @@ public class MantaroShard implements JDA {
 		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
 
 		String dbotsToken = config.dbotsToken;
-		String carbonToken = config.carbonToken;
 		String dbotsorgToken = config.dbotsorgToken;
 
-		if (dbotsToken != null || carbonToken != null || dbotsorgToken != null) {
+		if (dbotsToken != null || dbotsorgToken != null) {
 			Async.task("Botlist API update Thread", () -> {
 				int newC = jda.getGuilds().size();
 				try {
@@ -150,16 +150,6 @@ public class MantaroShard implements JDA {
 							.asString().getBody());
 					}
 
-					if (carbonToken != null) {
-						log.debug("Successfully posted the botdata to carbonitex.com: " +
-							Unirest.post("https://www.carbonitex.net/discord/data/botdata.php")
-								.field("key", carbonToken)
-								.field("servercount", newC)
-								.field("shardid", getId())
-								.field("shardcount", totalShards)
-								.asString().getBody());
-					}
-
 					if (dbotsorgToken != null) {
 						log.debug("Successfully posted the botdata to discordbots.org: " +
 							Unirest.post("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
@@ -169,10 +159,12 @@ public class MantaroShard implements JDA {
 								.asString().getBody());
 					}
 				} catch (Exception e) {
-					log.warn("An error occured while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
+					log.warn("An error occurred while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
 				}
 			}, 1, TimeUnit.HOURS);
 		}
+
+		Async.task(new Carbonitex(jda, getId(), getTotalShards()), 30, TimeUnit.MINUTES); //Carbon is special now.
 	}
 
 	void updateStatus() {

@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 public class ModLog {
 
 	public enum ModAction {
-		TEMP_BAN, BAN, KICK, MUTE, UNMUTE
+		TEMP_BAN, BAN, KICK, MUTE, UNMUTE, WARN
 	}
 
 	public static void log(Member author, User target, String reason, ModAction action, long caseN, String... time) {
