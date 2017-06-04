@@ -155,11 +155,16 @@ public class MantaroListener implements EventListener {
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 
+
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				Message deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
 
+
 				if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
+					if(MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())){
+						return;
+					}
 
 					if(MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(deletedMessage.getChannel().getId())){
 						return;
@@ -187,9 +192,13 @@ public class MantaroListener implements EventListener {
 				User author = event.getAuthor();
 				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 
-				if (editedMessage != null && !editedMessage.getContent().isEmpty()
-						&& !event.getChannel().getId().equals(logChannel)) {
+				if (editedMessage != null && !editedMessage.getContent().isEmpty()&& !event.getChannel().getId().equals(logChannel)) {
+
 					if(MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(editedMessage.getChannel().getId())){
+						return;
+					}
+
+					if(MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(editedMessage.getAuthor().getId())){
 						return;
 					}
 
