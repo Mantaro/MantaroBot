@@ -101,6 +101,7 @@ public class Poll extends Lobby {
                     if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")){
                         runningPoll.cancel(true);
                         getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
+                        getRunningPolls().remove(getChannel());
                         return true;
                     }
                     return false;
