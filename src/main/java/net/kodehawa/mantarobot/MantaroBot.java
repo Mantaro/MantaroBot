@@ -208,11 +208,12 @@ public class MantaroBot extends ShardedJDA {
 							try{
 								FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
 									try {
+										log.info("Starting automatic shard restart on shard {} due to it being inactive for longer than 2 minutes.", id);
 										getShard(id).restartJDA(true);
 										Thread.sleep(1000);
 										return 1;
 									} catch (Exception e) {
-										log.warn("Cannot restart shard #" + id + " <@155867458203287552> try to do it manually.");
+										log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
 										return 0;
 									}
 								});
@@ -220,7 +221,7 @@ public class MantaroBot extends ShardedJDA {
 								restartJDA.get(2, TimeUnit.MINUTES);
 							}
 							catch (Exception e){
-								log.warn("Cannot restart shard #" + id + " <@155867458203287552> try to do it manually.");
+								log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
 							}
 						}
 					}
@@ -238,7 +239,7 @@ public class MantaroBot extends ShardedJDA {
 		loadState = LOADED;
 		log.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		log.info("Started bot instance.");
-		log.info("Started MantaroBot " + VERSION + " on JDA " + JDAInfo.VERSION);
+		log.info("Started MantaroBot {} on JDA {}", MantaroInfo.VERSION, JDAInfo.VERSION);
 
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
@@ -258,7 +259,6 @@ public class MantaroBot extends ShardedJDA {
 
 		loadState = POSTLOAD;
 		log.info("Finished loading basic components. Status is now set to POSTLOAD");
-
 
 		EventDispatcher.dispatch(events, new PostLoadEvent());
 

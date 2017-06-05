@@ -388,8 +388,14 @@ public class ModerationCmds {
                                 final int size = messageHistory.size();
 
                                 channel.deleteMessages(messageHistory).queue(
-                                        success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot " +
-                                                "messages").queue(),
+                                        success -> {
+                                            channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot " +
+                                                    "messages").queue();
+                                            DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                                            db.getData().setCases(db.getData().getCases() + 1);
+                                            db.save();
+                                            ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
+                                        },
                                         error -> {
                                             if (error instanceof PermissionException) {
                                                 PermissionException pe = (PermissionException) error;
@@ -442,8 +448,14 @@ public class ModerationCmds {
                             final int size = messageHistory.size();
 
                             channel.deleteMessages(messageHistory).queue(
-                                    success -> channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages")
-                                            .queue(),
+                                    success -> {
+                                        channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages")
+                                                .queue();
+                                        DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                                        db.getData().setCases(db.getData().getCases() + 1);
+                                        db.save();
+                                        ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
+                                    },
                                     error -> {
                                         if (error instanceof PermissionException) {
                                             PermissionException pe = (PermissionException) error;

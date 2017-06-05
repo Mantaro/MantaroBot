@@ -23,9 +23,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PollLobby extends Lobby {
+public class Poll extends Lobby {
 
-    private static Map<TextChannel, PollLobby> runningPolls = new HashMap<>();
+    private static Map<TextChannel, Poll> runningPolls = new HashMap<>();
 
     private String[] options;
     private GuildMessageReceivedEvent event;
@@ -33,18 +33,16 @@ public class PollLobby extends Lobby {
     private boolean isCompilant = true;
     private String name = "";
 
-    public PollLobby(GuildMessageReceivedEvent event, String name, long timeout, String... options) {
+    public Poll(GuildMessageReceivedEvent event, String name, long timeout, String... options) {
         super(event.getChannel());
         this.event = event;
         this.options = options;
         this.timeout = timeout;
         this.name = name;
 
-        if(options.length > 9 || options.length < 2 || timeout > 6000000 || timeout < 30000){
+        if(options.length > 9 || options.length < 2 || timeout > 2820000 || timeout < 30000){
             isCompilant = false;
         }
-
-        getRunningPolls().put(getChannel(), this);
     }
 
     public void startPoll(){
@@ -52,7 +50,7 @@ public class PollLobby extends Lobby {
             if(!isCompilant){
                 getChannel().sendMessage(EmoteReference.WARNING +
                         "This poll cannot build. " +
-                        "**Remember that the maximum amount of options are 9, the minimum is 2 and that the maximum timeout is 10m and the minimum timeout is 30s.**\n" +
+                        "**Remember that the maximum amount of options are 9, the minimum is 2 and that the maximum timeout is 45m and the minimum timeout is 30s.**\n" +
                         "Options are separated with a comma, for example `1,2,3`. For spaced stuff use commas at the start and end of the sentence.").queue();
                 getRunningPolls().remove(getChannel());
                 return;
@@ -77,6 +75,10 @@ public class PollLobby extends Lobby {
             dbGuild.save();
 
             String toShow = Stream.of(options).map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt)).collect(Collectors.joining("\n"));
+
+            if(toShow.length() > 1014){
+                toShow = "This was too long to show, so I pasted it: " + Utils.paste(toShow);
+            }
 
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format("Poll #%1d created by %s",
                     data.getRanPolls(), event.getAuthor().getName()), null, event.getAuthor().getAvatarUrl())
@@ -112,13 +114,14 @@ public class PollLobby extends Lobby {
                     event.getChannel().sendMessage(embedBuilder.build()).queue();
                 }
             }, reactions(options.length)));
+            runningPolls.put(getChannel(), this);
         }
         catch(Exception e){
             getChannel().sendMessage(EmoteReference.ERROR + "An unknown error has occurred while setting up a poll. Maybe try again?").queue();
         }
     }
 
-    public Map<TextChannel, PollLobby> getRunningPolls(){
+    public Map<TextChannel, Poll> getRunningPolls(){
         return runningPolls;
     }
 
@@ -166,12 +169,12 @@ public class PollLobby extends Lobby {
             return this;
         }
 
-        public PollLobby build(){
+        public Poll build(){
             Assert.assertNotNull("Cannot create a poll with null options", options);
             Assert.assertNotNull("What is event :S", event);
             Assert.assertNotNull("You need to specify the timeout, pls.", timeout);
 
-            return new PollLobby(event, name, timeout, options);
+            return new Poll(event, name, timeout, options);
         }
     }
 }

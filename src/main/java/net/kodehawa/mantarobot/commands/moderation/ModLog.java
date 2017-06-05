@@ -10,23 +10,27 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 public class ModLog {
 
 	public enum ModAction {
-		TEMP_BAN, BAN, KICK, MUTE, UNMUTE, WARN
+		TEMP_BAN, BAN, KICK, MUTE, UNMUTE, WARN, PRUNE
 	}
 
 	public static void log(Member author, User target, String reason, ModAction action, long caseN, String... time) {
 		DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
-		embedBuilder.addField("Member", target.getName(), true);
+		if(target != null) embedBuilder.addField("Member", target.getName(), true);
 		embedBuilder.addField("Reason", reason, false);
-		embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
+		if(target != null){
+			embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
+		} else {
+			embedBuilder.setThumbnail(author.getUser().getEffectiveAvatarUrl());
+		}
 		switch (action) {
 			case BAN:
 				embedBuilder.setAuthor("Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
 			case TEMP_BAN:
-				embedBuilder.setAuthor("Temp Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
-				embedBuilder.addField("Time", time[0], true);
+				embedBuilder.setAuthor("Temp Ban | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl())
+						.addField("Time", time[0], true);
 				break;
 			case KICK:
 				embedBuilder.setAuthor("Kick | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
@@ -36,6 +40,9 @@ public class ModLog {
 				break;
 			case UNMUTE:
 				embedBuilder.setAuthor("Un-mute | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
+				break;
+			case PRUNE:
+				embedBuilder.setAuthor("Prune | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
 		}
 		if (guildDB.getData().getGuildLogChannel() != null) {
