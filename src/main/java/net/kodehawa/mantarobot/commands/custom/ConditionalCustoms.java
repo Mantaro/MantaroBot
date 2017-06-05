@@ -11,7 +11,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 
 public class ConditionalCustoms {
-	private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*}"),
+	private static final Pattern GETTER_MODIFIER = Pattern.compile("@[a-z]+\\{.*?}"),
 		FUNCNAME = Pattern.compile("\\{"),
 		SPLITTER = Pattern.compile(";", Pattern.LITERAL);
 	private static final Map<String, Function<String[], String>> functions = new HashMap<>();
