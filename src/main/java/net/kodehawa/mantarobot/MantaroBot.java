@@ -242,8 +242,10 @@ public class MantaroBot extends ShardedJDA {
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
 		log.info("Starting update managers.");
-			Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
-			Arrays.stream(shards).forEach(MantaroShard::updateStatus);
+			for(MantaroShard shard : shards) {
+				shard.updateServerCount();
+				shard.updateStatus();
+			}
 
 		MantaroData.config().save();
 
