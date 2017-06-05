@@ -244,7 +244,10 @@ public class InfoCmds {
 
 					EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
 						.setColor(Color.PINK)
-						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix)  + (guildData.getDisabledCommands().isEmpty() ? "" : "\n" + "Only showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()))
+						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix)  +
+								(guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
+							 	(guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
+								"" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
 								CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
 							, prefix), null);
@@ -253,7 +256,7 @@ public class InfoCmds {
 						.filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
 						.filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
 						.filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
-						.forEach(c -> embed.addField(c + " Commands:", forType(guildData, c), false));
+						.forEach(c -> embed.addField(c + " Commands:", forType(event.getChannel(), guildData, c), false));
 
 					event.getChannel().sendMessage(embed.build()).queue();
 
