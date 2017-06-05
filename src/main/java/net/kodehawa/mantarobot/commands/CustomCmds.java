@@ -330,7 +330,7 @@ public class CustomCmds {
 
 					Pair<String, Integer> pair = DiscordUtils.embedList(custom.getValues(), Object::toString);
 
-					event.getChannel().sendMessage(baseEmbed(event, "Command ``" + cmd + "``:")
+					event.getChannel().sendMessage(baseEmbed(event, "Command \"" + cmd + "\":")
 						.setDescription(pair.getLeft())
 						.setFooter(
 							"(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null)
