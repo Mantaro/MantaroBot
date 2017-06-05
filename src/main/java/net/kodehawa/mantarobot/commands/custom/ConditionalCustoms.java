@@ -23,10 +23,10 @@ public class ConditionalCustoms {
 		comparators.put("ignorecase-equals", String::equalsIgnoreCase);
 		comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) < 1);
 		comparators.put("lower-than", (s1, s2) -> s1.compareTo(s2) > 1);
-		comparators.put("ignorecase-gt", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
-		comparators.put("ignorecase-lt", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
+		comparators.put("ignorecase-greater-than", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
+		comparators.put("ignorecase-lower-than", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
 		comparators.put("not-equals", comparators.get("equals").negate());
-		comparators.put("ignorecase-not-eq", comparators.get("ignorecase-equals").negate());
+		comparators.put("ignorecase-not-equals", comparators.get("ignorecase-equals").negate());
 		comparators.put("not-greater-than", comparators.get("greater-than").negate());
 		comparators.put("not-lower-than", comparators.get("lower-than").negate());
 		comparators.put("ignorecase-not-greater-than", comparators.get("ignorecase-greater-than").negate());

@@ -47,7 +47,11 @@ public class OwnerCmd {
 		Object eval(GuildMessageReceivedEvent event, String code);
 	}
 
-	private static final String[] sleepQuotes = {"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*", "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*", "Momma, where's my Milk cup? *drinks and goes to sleep*"};
+	private static final String[] sleepQuotes = {
+		"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*",
+		"*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*",
+		"Momma, where's my Milk cup? *drinks and goes to sleep*"
+	};
 
 	@Command
 	public static void blacklist(CommandRegistry cr) {
@@ -59,12 +63,15 @@ public class OwnerCmd {
 					if (args[1].equals("add")) {
 						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
 						obj.getBlackListedGuilds().add(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+						event.getChannel().sendMessage(
+							EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2]))
+							.queue();
 						obj.save();
 					} else if (args[1].equals("remove")) {
 						if (!obj.getBlackListedGuilds().contains(args[2])) return;
 						obj.getBlackListedGuilds().remove(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2])
+							.queue();
 						obj.save();
 					}
 					return;
@@ -74,12 +81,16 @@ public class OwnerCmd {
 					if (args[1].equals("add")) {
 						if (MantaroBot.getInstance().getUserById(args[2]) == null) return;
 						obj.getBlackListedUsers().add(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						event.getChannel().sendMessage(
+							EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2]))
+							.queue();
 						obj.save();
 					} else if (args[1].equals("remove")) {
 						if (!obj.getBlackListedUsers().contains(args[2])) return;
 						obj.getBlackListedUsers().remove(args[2]);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+						event.getChannel().sendMessage(
+							EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2]))
+							.queue();
 						obj.save();
 					}
 				}
@@ -109,7 +120,8 @@ public class OwnerCmd {
 			script.put("channel", event.getChannel());
 
 			try {
-				return script.eval(String.join("\n",
+				return script.eval(String.join(
+					"\n",
 					"load(\"nashorn:mozilla_compat.js\");",
 					"imports = new JavaImporter(java.util, java.io, java.net);",
 					"(function() {",
@@ -133,7 +145,8 @@ public class OwnerCmd {
 				interpreter.set("guild", event.getGuild());
 				interpreter.set("channel", event.getChannel());
 
-				return interpreter.eval(String.join("\n",
+				return interpreter.eval(String.join(
+					"\n",
 					"import *;",
 					code
 				));
@@ -151,7 +164,8 @@ public class OwnerCmd {
 				errored = true;
 				returns = new Object[]{e.getMessage()};
 			}
-			String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
+			String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays
+				.asList(returns).toString();
 			if (errored) return new Error(result == null ? "Internal error" : result) {
 				@Override
 				public String toString() {
@@ -177,7 +191,11 @@ public class OwnerCmd {
 						"`~>owner eval <bsh/js/cw> <line of code>` - Evals a specified code snippet.\n" +
 						"`~>owner cw <info/eval>` - Shows info or evals specified code in the Connection Watcher.\n" +
 						"`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
-					.addField("Shush.", "If you aren't Adrian or Kode you shouldn't be looking at this, huh \uD83D\uDC40" + EmoteReference.EYES, false)
+					.addField(
+						"Shush.",
+						"If you aren't Adrian or Kode you shouldn't be looking at this, huh \uD83D\uDC40" + EmoteReference.EYES,
+						false
+					)
 					.build();
 			}
 
@@ -213,16 +231,22 @@ public class OwnerCmd {
 						Object[] returns;
 						boolean errored = false;
 						try {
-							returns = MantaroData.connectionWatcher().eval(String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
+							returns = MantaroData.connectionWatcher().eval(
+								String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
 						} catch (RuntimeException e) {
 							errored = true;
 							returns = new Object[]{e.getMessage()};
 						}
-						String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays.asList(returns).toString();
+						String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(
+							returns[0]) : Arrays.asList(returns).toString();
 						event.getChannel().sendMessage(new EmbedBuilder()
-							.setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
+							.setAuthor(
+								"Evaluated " + (errored ? "and errored" : "with success"), null,
+								event.getAuthor().getAvatarUrl()
+							)
 							.setColor(errored ? Color.RED : Color.GREEN)
-							.setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
+							.setDescription(
+								result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
 							.setFooter("Asked by: " + event.getAuthor().getName(), null)
 							.build()
 						).queue();
@@ -322,7 +346,9 @@ public class OwnerCmd {
 					try {
 						prepareShutdown(event);
 					} catch (Exception e) {
-						log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+						log.warn(
+							EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e
+								.toString(), e);
 					}
 
 					//If we manage to get here, there's nothing else except us.
@@ -373,7 +399,9 @@ public class OwnerCmd {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
-								log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e.toString(), e);
+								log.warn(
+									EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e
+										.toString(), e);
 							}
 							if (restart) {
 								try {
@@ -387,15 +415,17 @@ public class OwnerCmd {
 							}
 						});
 
-						event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...").queue();
+						event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...")
+							.queue();
 						return;
 					}
 
 					if (k.equals("connections")) {
 						int connections = Integer.parseInt(v);
 
-						IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-							voiceChannel.getGuild().getSelfMember())).count();
+						IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannels().stream().filter(
+							voiceChannel -> voiceChannel.getMembers().contains(
+								voiceChannel.getGuild().getSelfMember())).count();
 
 						Async.task("Watching Thread.", s -> {
 							if (currentConnections.getAsInt() > connections) return;
@@ -403,7 +433,10 @@ public class OwnerCmd {
 							try {
 								prepareShutdown(event);
 							} catch (Exception e) {
-								log.warn("Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(), e);
+								log.warn(
+									"Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(),
+									e
+								);
 							}
 
 							if (restart) {
@@ -432,22 +465,28 @@ public class OwnerCmd {
 							case "pat":
 								ActionCmds.PATS.get().add(v1);
 								ActionCmds.PATS.save();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v).queue();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v)
+									.queue();
 								break;
 							case "hug":
 								ActionCmds.HUGS.get().add(v1);
 								ActionCmds.HUGS.save();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v).queue();
+								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v)
+									.queue();
 								break;
 							case "greeting":
 								ActionCmds.GREETINGS.get().add(content.replace("varadd greeting ", ""));
 								ActionCmds.GREETINGS.save();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", "")).queue();
+								event.getChannel().sendMessage(
+									EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", ""))
+									.queue();
 								break;
 							case "splash":
 								MantaroShard.SPLASHES.get().add(content.replace("varadd splash ", ""));
 								MantaroShard.SPLASHES.save();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", "")).queue();
+								event.getChannel().sendMessage(
+									EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", ""))
+									.queue();
 								break;
 						}
 					} catch (Exception e) {
@@ -468,9 +507,14 @@ public class OwnerCmd {
 					boolean errored = result instanceof Throwable;
 
 					event.getChannel().sendMessage(new EmbedBuilder()
-						.setAuthor("Evaluated " + (errored ? "and errored" : "with success"), null, event.getAuthor().getAvatarUrl())
+						.setAuthor(
+							"Evaluated " + (errored ? "and errored" : "with success"), null,
+							event.getAuthor().getAvatarUrl()
+						)
 						.setColor(errored ? Color.RED : Color.GREEN)
-						.setDescription(result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result.toString()))
+						.setDescription(
+							result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result
+								.toString()))
 						.setFooter("Asked by: " + event.getAuthor().getName(), null)
 						.build()
 					).queue();
@@ -492,7 +536,8 @@ public class OwnerCmd {
 										conn.prepareStatement(expression).execute();
 										event.getChannel().sendMessage(" Query was successfully executed!").queue();
 									} catch (SQLException e1) {
-										event.getChannel().sendMessage("Failed to execute query! " + Utils.paste(getStackTrace(e1))).queue();
+										event.getChannel().sendMessage(
+											"Failed to execute query! " + Utils.paste(getStackTrace(e1))).queue();
 									}
 									return;
 								}
@@ -514,11 +559,13 @@ public class OwnerCmd {
 								String output = makeAsciiTable(header, table, null);
 								event.getChannel().sendMessage(Utils.paste(output)).queue();
 							} catch (SQLException e) {
-								event.getChannel().sendMessage(" Failed to build ascii table! " + Utils.paste(getStackTrace(e))).queue();
+								event.getChannel().sendMessage(
+									" Failed to build ascii table! " + Utils.paste(getStackTrace(e))).queue();
 							}
 						}).queue();
 					} catch (SQLException e) {
-						event.getChannel().sendMessage(" Failed to run query! " + Utils.paste(getStackTrace(e))).queue();
+						event.getChannel().sendMessage(" Failed to run query! " + Utils.paste(getStackTrace(e)))
+							.queue();
 					}
 					return;
 				}
@@ -605,7 +652,8 @@ public class OwnerCmd {
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null)
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk())
-			.map(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(content).submit())
+			.map(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel()
+				.sendMessage(content).submit())
 			.map(future -> (CompletableFuture<Message>) future)
 			.toArray(CompletableFuture[]::new));
 	}
@@ -623,6 +671,7 @@ public class OwnerCmd {
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
-		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(
+			mantaroShard -> mantaroShard.getJDA().shutdown(true));
 	}
 }
