@@ -52,7 +52,7 @@ public abstract class Game {
 			}
 
 			if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
-				Player player = players.get(e.getMember());
+				Player player = MantaroData.db().getPlayer(e.getMember());
 				player.addMoney(45);
 				player.save();
 				TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);

@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -108,7 +109,7 @@ public class MoneyCmds {
     @Command
     public static void gamble(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
-        Random r = new Random();
+        SecureRandom r = new SecureRandom();
 
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
             @Override
