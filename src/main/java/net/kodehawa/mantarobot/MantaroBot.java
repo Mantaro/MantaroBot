@@ -159,6 +159,7 @@ public class MantaroBot extends ShardedJDA {
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
+		long start = System.currentTimeMillis();
 		instance = this;
 
 		SimpleLogToSLF4JAdapter.install();
@@ -186,10 +187,6 @@ public class MantaroBot extends ShardedJDA {
 			managers.add(manager);
 			shards[i] = new MantaroShard(i, totalShards, manager);
 			log.debug("Finished loading shard #" + i + ".");
-			if (i + 1 < totalShards) {
-				log.info("Waiting for cooldown...");
-				Thread.sleep(5000);
-			}
 		}
 
 		new Thread(() -> {
@@ -245,8 +242,8 @@ public class MantaroBot extends ShardedJDA {
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
 		log.info("Starting update managers.");
-		Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
-		Arrays.stream(shards).forEach(MantaroShard::updateStatus);
+			Arrays.stream(shards).forEach(MantaroShard::updateServerCount);
+			Arrays.stream(shards).forEach(MantaroShard::updateStatus);
 
 		MantaroData.config().save();
 
@@ -267,6 +264,9 @@ public class MantaroBot extends ShardedJDA {
 		//Free Instances
 		EventDispatcher.instances.clear();
 		executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
+		long end = System.currentTimeMillis();
+
+		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
 	}
 
 	public Guild getGuildById(String guildId) {
