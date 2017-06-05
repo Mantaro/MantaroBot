@@ -2,10 +2,12 @@ package net.kodehawa.mantarobot.commands.interaction.polls;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -13,11 +15,12 @@ import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.OptionalInt;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -32,6 +35,7 @@ public class Poll extends Lobby {
     private long timeout;
     private boolean isCompilant = true;
     private String name = "";
+    private Future<Void> runningPoll;
 
     public Poll(GuildMessageReceivedEvent event, String name, long timeout, String... options) {
         super(event.getChannel());
@@ -88,32 +92,22 @@ public class Poll extends Lobby {
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                     .setFooter("You have " + Utils.getDurationMinutes(timeout) + " minutes to vote.", event.getAuthor().getAvatarUrl());
 
-            getChannel().sendMessage(builder.build()).queue(message -> ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
-                @Override
-                public boolean run(MessageReactionAddEvent e) {
-                    int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
-                    if(i < 1 || i > options.length) return false;
-                    return false; //always return false anyway lul
+
+
+            getChannel().sendMessage(builder.build()).queue(this::createPoll);
+
+            InteractiveOperations.create(getChannel(), "Poll canceller", (int) timeout, OptionalInt.empty(), e -> {
+                if(e.getAuthor().getId().equals(event.getAuthor().getId())){
+                    if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")){
+                        runningPoll.cancel(true);
+                        getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
+                        return true;
+                    }
+                    return false;
                 }
+                return false;
+            });
 
-                @Override
-                public void onExpire() {
-                    EmbedBuilder embedBuilder = new EmbedBuilder()
-                            .setTitle("Poll results")
-                            .setDescription("**Showing results for the poll started by " + event.getAuthor().getName() + "** with name: *" + name + "*")
-                            .setFooter("Thanks for your vote", null);
-
-                    AtomicInteger react = new AtomicInteger(0);
-                    AtomicInteger counter = new AtomicInteger(0);
-                    String votes = new ArrayList<>(getChannel().getMessageById(message.getIdLong()).complete().getReactions()).stream()
-                            .filter(r -> react.getAndIncrement() <= options.length)
-                            .map(r -> "+Registered " + (r.getCount() - 1) + " votes for option " + options[counter.getAndIncrement()])
-                            .collect(Collectors.joining("\n"));
-
-                    embedBuilder.addField("Results", "```diff\n" + votes + "```", false);
-                    event.getChannel().sendMessage(embedBuilder.build()).queue();
-                }
-            }, reactions(options.length)));
             runningPolls.put(getChannel(), this);
         }
         catch(Exception e){
@@ -143,38 +137,34 @@ public class Poll extends Lobby {
         return r;
     }
 
-    public static class PollBuilder {
-        private String[] options;
-        private GuildMessageReceivedEvent event;
-        private long timeout;
-        private String name = "";
+    private Future<Void> createPoll(Message message){
+        runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
+            @Override
+            public boolean run(MessageReactionAddEvent e) {
+                int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
+                if(i < 1 || i > options.length) return false;
+                return false; //always return false anyway lul
+            }
 
-        public PollBuilder setEvent(GuildMessageReceivedEvent event){
-            this.event = event;
-            return this;
-        }
+            @Override
+            public void onExpire() {
+                EmbedBuilder embedBuilder = new EmbedBuilder()
+                        .setTitle("Poll results")
+                        .setDescription("**Showing results for the poll started by " + event.getAuthor().getName() + "** with name: *" + name + "*")
+                        .setFooter("Thanks for your vote", null);
 
-        public PollBuilder setName(String name){
-            this.name = name;
-            return this;
-        }
+                AtomicInteger react = new AtomicInteger(0);
+                AtomicInteger counter = new AtomicInteger(0);
+                String votes = new ArrayList<>(getChannel().getMessageById(message.getIdLong()).complete().getReactions()).stream()
+                        .filter(r -> react.getAndIncrement() <= options.length)
+                        .map(r -> "+Registered " + (r.getCount() - 1) + " votes for option " + options[counter.getAndIncrement()])
+                        .collect(Collectors.joining("\n"));
 
-        public PollBuilder setTimeout(long timeout){
-            this.timeout = timeout;
-            return this;
-        }
+                embedBuilder.addField("Results", "```diff\n" + votes + "```", false);
+                event.getChannel().sendMessage(embedBuilder.build()).queue();
+            }
+        }, reactions(options.length));
 
-        public PollBuilder setOptions(String... options){
-            this.options = options;
-            return this;
-        }
-
-        public Poll build(){
-            Assert.assertNotNull("Cannot create a poll with null options", options);
-            Assert.assertNotNull("What is event :S", event);
-            Assert.assertNotNull("You need to specify the timeout, pls.", timeout);
-
-            return new Poll(event, name, timeout, options);
-        }
+        return runningPoll;
     }
 }

@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -314,7 +315,7 @@ public class MiscCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Map<String, Optional<String>> opts = StringUtils.parse(args);
-				Poll.PollBuilder builder = Poll.builder();
+				PollBuilder builder = Poll.builder();
 				if(!opts.containsKey("time") || !opts.get("time").isPresent()){
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!").queue();
 					return;
@@ -347,10 +348,12 @@ public class MiscCmds {
 						.addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9.\n" +
 								"`-time` The time the operation is gonna take. The format is as follows `1ms29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
 								"`-name` (Optional, but recommended) The name of the poll for reference.", false)
-						.addField("Considerations", "The name of the poll is optional.", false)
+						.addField("Considerations", "The name of the poll is optional.\nTo cancel the running poll type &cancelpoll", false)
 						.build();
 			}
 		});
+
+		registry.registerAlias("createpoll", "poll");
 	}
 
 	/**

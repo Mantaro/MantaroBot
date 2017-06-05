@@ -45,6 +45,7 @@ public class ModLog {
 				embedBuilder.setAuthor("Prune | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
 		}
+
 		if (guildDB.getData().getGuildLogChannel() != null) {
 			MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
 		}
