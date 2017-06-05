@@ -65,7 +65,7 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
  * Thanks.
  *
  * <pr>This bot is a copyrighted work of Kodehawa and is the result a collaborative effort with AdrianTodt and many others,
- * This program is licensed under GPLv3, which summarized legal notice can be found down there.</pr>
+ * This program is licensed under GPLv3, which summarized legal notice can be founzd down there.</pr>
  *
  * <pr>
  * This program is distributed in the hope that it will be useful,
