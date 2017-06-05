@@ -1,6 +1,8 @@
 package net.kodehawa.mantarobot.commands.custom;
 
 import br.com.brjdevs.java.utils.texts.MatcherUtils;
+import net.kodehawa.mantarobot.utils.URLEncoding;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,18 +19,18 @@ public class ConditionalCustoms {
 	static {
 		Map<String, BiPredicate<String, String>> comparators = new HashMap<>();
 
-		comparators.put("eq", String::equals);
-		comparators.put("ieq", String::equalsIgnoreCase);
-		comparators.put("gt", (s1, s2) -> s1.compareTo(s2) < 1);
-		comparators.put("lt", (s1, s2) -> s1.compareTo(s2) > 1);
-		comparators.put("igt", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
-		comparators.put("ilt", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
-		comparators.put("neq", comparators.get("eq").negate());
-		comparators.put("nieq", comparators.get("ieq").negate());
-		comparators.put("ngt", comparators.get("gt").negate());
-		comparators.put("nlt", comparators.get("lt").negate());
-		comparators.put("nigt", comparators.get("igt").negate());
-		comparators.put("nilt", comparators.get("ilt").negate());
+		comparators.put("equals", String::equals);
+		comparators.put("ignorecase-equals", String::equalsIgnoreCase);
+		comparators.put("greater-than", (s1, s2) -> s1.compareTo(s2) < 1);
+		comparators.put("lower-than", (s1, s2) -> s1.compareTo(s2) > 1);
+		comparators.put("ignorecase-gt", (s1, s2) -> s1.compareToIgnoreCase(s2) < 1);
+		comparators.put("ignorecase-lt", (s1, s2) -> s1.compareToIgnoreCase(s2) > 1);
+		comparators.put("not-equals", comparators.get("equals").negate());
+		comparators.put("ignorecase-not-eq", comparators.get("ignorecase-equals").negate());
+		comparators.put("not-greater-than", comparators.get("greater-than").negate());
+		comparators.put("not-lower-than", comparators.get("lower-than").negate());
+		comparators.put("ignorecase-not-greater-than", comparators.get("ignorecase-greater-than").negate());
+		comparators.put("ignorecase-not-lower-than", comparators.get("ignorecase-lower-than").negate());
 
 		//@{if;INPUT1;COMPARE;INPUT2;OUTPUT_TRUE[;OUTPUT_FALSE]}
 		functions.put("if", args -> {
@@ -51,6 +53,15 @@ public class ConditionalCustoms {
 		functions.put("nes", args -> {
 			for (String arg : args) if (!arg.trim().isEmpty()) return arg;
 			return "";
+		});
+
+		//@url
+		functions.put("url", args -> URLEncoding.encode(String.join(";", args)));
+
+		//@jsonescape
+		functions.put("jsonescape", args -> {
+			String s = new JSONObject(String.join(";", args)).toString();
+			return s.substring(1, s.length() - 1);
 		});
 	}
 
