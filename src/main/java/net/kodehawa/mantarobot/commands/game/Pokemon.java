@@ -41,7 +41,7 @@ public class Pokemon extends ImageGame {
 
 			@Override
 			public void onExpire() {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + expectedAnswer).queue();
+				lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 				GameLobby.LOBBYS.remove(lobby.getChannel());
 			}
 		});

@@ -707,6 +707,7 @@ public class UtilsCmds {
 
 	static String dateGMT(Guild guild, String tz) {
 		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		Date date = new Date();
 
 		DBGuild dbGuild = MantaroData.db().getGuild(guild.getId());
 		GuildData guildData = dbGuild.getData();
@@ -715,6 +716,7 @@ public class UtilsCmds {
 			format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
 		}
 
-		return format.format(TimeZone.getTimeZone(tz));
+		format.setTimeZone(TimeZone.getTimeZone(tz));
+		return format.format(date);
 	}
 }

@@ -335,7 +335,6 @@ public class InfoCmds {
 					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
-					+ "Total Guild Events: \n" + GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS).replace("`", "") + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"
 					+ "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
 					+ "Music Connections: " + c + "\n"
