@@ -116,7 +116,7 @@ public class Poll extends Lobby {
         }
     }
 
-    public Map<TextChannel, Poll> getRunningPolls(){
+    public static Map<TextChannel, Poll> getRunningPolls(){
         return runningPolls;
     }
 
