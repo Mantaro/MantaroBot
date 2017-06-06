@@ -314,7 +314,7 @@ public class ModerationCmds {
                     //Proceed to kick them. Again, using queue so I don't get rate limited.
                     guild.getController().kick(member).queue(
                             success -> {
-                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
+                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **kicked** by " + event
                                         .getAuthor().getName() + "#"
                                         + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
