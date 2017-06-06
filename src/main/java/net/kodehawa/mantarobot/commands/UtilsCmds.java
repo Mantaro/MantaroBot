@@ -715,8 +715,6 @@ public class UtilsCmds {
 			format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
 		}
 
-		System.out.println(TimeZone.getTimeZone(tz));
-
-		return format.format(new Date());
+		return format.format(TimeZone.getTimeZone(tz));
 	}
 }
