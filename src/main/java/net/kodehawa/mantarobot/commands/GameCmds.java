@@ -9,6 +9,7 @@ import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
@@ -124,6 +125,7 @@ public class GameCmds {
 	public static void onPostLoad(PostLoadEvent e){
 		OptsCmd.registerOption("lobby:reset", event -> {
 			GameLobby.LOBBYS.remove(event.getChannel());
+			Poll.getRunningPolls().remove(event.getChannel());
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
 		});
 	}
