@@ -71,6 +71,10 @@ public class ImageGuess extends ImageGame {
 			).queue();
 			return true;
 		} catch (Exception e) {
+			if(e instanceof IllegalStateException){
+				lobby.getChannel().sendMessage(EmoteReference.WARNING + "Report this in the official server please. Failed to setup game for pre-saved character: " + characterName).queue();
+				return false;
+			}
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
 			log.warn("Exception while setting up a game", e);
 			return false;
