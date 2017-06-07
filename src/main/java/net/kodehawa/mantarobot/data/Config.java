@@ -29,7 +29,7 @@ public class Config {
 	public int maxJdaReconnectDelay = 3; //3 seconds
 	public String osuApiKey;
 	public List<String> owners = new ArrayList<>();
-	public String[] prefix = {"~>", "->", "m."};
+	public String[] prefix = {"~>", "->"};
 	public String remoteNode;
 	public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
 	public int shardWatcherWait = 600000; //run once every 600 seconds (10 minutes)
