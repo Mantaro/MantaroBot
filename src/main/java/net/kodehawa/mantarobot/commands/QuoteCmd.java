@@ -23,6 +23,7 @@ import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Slf4j
 @Module
@@ -64,9 +65,9 @@ public class QuoteCmd {
 					Message message = messageHistory.stream().filter(
 						msg -> msg.getContent().toLowerCase().contains(phrase.toLowerCase())
 							&& !msg.getContent().startsWith(
-							db.getGuild(guild).getData().getGuildCustomPrefix() == null ? MantaroData.config().get().getPrefix()
+							db.getGuild(guild).getData().getGuildCustomPrefix() == null ? "~>"
 								: db.getGuild(guild).getData().getGuildCustomPrefix())
-							&& !msg.getContent().startsWith(MantaroData.config().get().getPrefix())
+							&& Stream.of(MantaroData.config().get().getPrefix()).noneMatch(p -> msg.getContent().startsWith(p))
 					).findFirst().orElse(null);
 
 					if (message == null) {

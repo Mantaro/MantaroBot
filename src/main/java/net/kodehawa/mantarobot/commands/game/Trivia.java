@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game {
 	private List<String> expectedAnswer;
-	private int maxAttempts = 10;
+	private int maxAttempts = 1;
 
 	@Override
 	public boolean onStart(GameLobby lobby) {

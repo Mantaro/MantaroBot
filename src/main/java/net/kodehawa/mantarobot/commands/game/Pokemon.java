@@ -25,7 +25,7 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 public class Pokemon extends ImageGame {
 	private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
 	private List<String> expectedAnswer;
-	private int maxAttempts = 10;
+	private int maxAttempts = 5;
 
 	public Pokemon() {
 		super(10);

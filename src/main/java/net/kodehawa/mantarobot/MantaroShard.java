@@ -184,7 +184,7 @@ public class MantaroShard implements JDA {
 				.replace("%prettyusercount%", pretty(users.get()))
 				.replace("%prettyguildcount%", pretty(guilds.get()));
 
-			getJDA().getPresence().setGame(Game.of(config().get().prefix + "help | " + newStatus + " | [" + getId() + "]"));
+			getJDA().getPresence().setGame(Game.of(config().get().prefix[0] + "help | " + newStatus + " | [" + getId() + "]"));
 			log.debug("Changed status to: " + newStatus);
 		};
 

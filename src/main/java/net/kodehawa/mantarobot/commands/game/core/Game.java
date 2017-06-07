@@ -28,8 +28,10 @@ public abstract class Game {
 			return false;
 		}
 
-		if (e.getMessage().getContent().startsWith(MantaroData.config().get().getPrefix())) {
-			return false;
+		for(String s : MantaroData.config().get().getPrefix()){
+			if (e.getMessage().getContent().startsWith(s)) {
+				return false;
+			}
 		}
 
 		if (MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&

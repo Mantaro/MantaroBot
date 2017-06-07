@@ -84,17 +84,19 @@ public class CommandProcessor {
 
 	public boolean run(GuildMessageReceivedEvent event) {
 		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
-
-		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
 		String rawCmd = event.getMessage().getRawContent();
-		String prefix = MantaroData.config().get().prefix;
+		String[] prefix = MantaroData.config().get().prefix;
 		String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-		if (rawCmd.startsWith(prefix)) rawCmd = rawCmd.substring(prefix.length());
-		else if (customPrefix != null && rawCmd.startsWith(customPrefix))
-			rawCmd = rawCmd.substring(customPrefix.length());
-		else return false;
+
+		String usedPrefix = null;
+		for(String s : prefix){
+			if(rawCmd.startsWith(s)) usedPrefix = s;
+		}
+
+		if (usedPrefix != null && rawCmd.startsWith(usedPrefix)) rawCmd = rawCmd.substring(usedPrefix.length());
+		else if (customPrefix != null && rawCmd.startsWith(customPrefix)) rawCmd = rawCmd.substring(customPrefix.length());
+		else if (usedPrefix == null) return false;
 
 		String[] parts = splitArgs(rawCmd, 2);
 		String cmdName = parts[0], content = parts[1];
