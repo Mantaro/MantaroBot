@@ -26,10 +26,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "Moderation")
@@ -419,6 +416,49 @@ public class ModerationCmds {
                     );
                     return;
                 }
+
+                if (!event.getMessage().getMentionedUsers().isEmpty()) {
+                    List<Long> users = new ArrayList<>();
+                    for (User user : event.getMessage().getMentionedUsers()) {
+                        users.add(user.getIdLong());
+                    }
+                    channel.getHistory().retrievePast(100).queue(
+                            messageHistory -> {
+                                messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
+
+                                if (messageHistory.isEmpty()) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from users which you mentioned " +
+                                            "here.").queue();
+                                    return;
+                                }
+
+                                final int size = messageHistory.size();
+
+                                channel.deleteMessages(messageHistory).queue(
+                                        success -> {
+                                            channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " users " +
+                                                    "messages").queue();
+                                            DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                                            db.getData().setCases(db.getData().getCases() + 1);
+                                            db.save();
+                                            ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
+                                        },
+                                        error -> {
+                                            if (error instanceof PermissionException) {
+                                                PermissionException pe = (PermissionException) error;
+                                                channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
+                                                        "(No permission provided: " + pe.getPermission() + ")").queue();
+                                            }
+                                            else {
+                                                channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
+                                                        + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                                                error.printStackTrace();
+                                            }
+                                        });
+                            });
+                    return;
+                }
+
                 int i;
                 try {
                     i = Integer.parseInt(content);
@@ -482,7 +522,7 @@ public class ModerationCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Prune command")
                         .setDescription("**Prunes a specific amount of messages.**")
-                        .addField("Usage", "`~>prune <x>` - **Prunes messages**", false)
+                        .addField("Usage", "`~>prune <x>/<@user>` - **Prunes messages**", false)
                         .addField("Parameters", "x = **number of messages to delete**", false)
                         .addField("Important", "You need to provide *at least* 5 messages. I'd say better 10 or more.\n" +
                                 "You can use `~>prune bot` to remove all bot messages and bot calls.", false)
