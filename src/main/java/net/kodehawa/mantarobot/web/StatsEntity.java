@@ -1,11 +1,9 @@
 package net.kodehawa.mantarobot.web;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 public class StatsEntity {
     private String jdaVersion;

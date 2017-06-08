@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.web.CommandsEntity;
+import net.kodehawa.mantarobot.web.GuildsEntity;
 import net.kodehawa.mantarobot.web.ShardInfo;
 import net.kodehawa.mantarobot.web.StatsEntity;
 
@@ -28,6 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.*;
+import static net.kodehawa.mantarobot.commands.info.GuildStatsManager.*;
 
 @Slf4j
 public class MantaroAPISender {
@@ -110,10 +112,20 @@ public class MantaroAPISender {
             }  catch (UnirestException e){
                 log.warn("Cannot post command info to Mantaro API, maybe it's down?");
             }
+
+            GuildsEntity guildsEntity = new GuildsEntity(TOTAL_EVENTS, DAY_EVENTS, HOUR_EVENTS, MINUTE_EVENTS);
+            try{
+                Unirest.post(String.format("http://%s/api/gstats", MantaroData.config().get().apiUrl))
+                        .header("Content-Type", "application/json")
+                        .body(GsonDataManager.GSON_PRETTY.toJson(guildsEntity))
+                        .asString().getBody();
+            }  catch (UnirestException e){
+                log.warn("Cannot post command info to Mantaro API, maybe it's down?");
+            }
         };
 
         log.debug("Posted all stats to MAPI");
 
-        Async.task("Mantaro API POST Worker", postStats, 120, TimeUnit.SECONDS);
+        Async.task("Mantaro API POST Worker", postStats, 2, TimeUnit.MINUTES);
     }
 }

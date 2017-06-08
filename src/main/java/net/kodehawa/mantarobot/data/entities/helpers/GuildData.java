@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.data.entities.helpers;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.commands.options.ConfigName;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 
 import java.util.*;
@@ -9,17 +10,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 public class GuildData {
-	private HashMap<String, String> autoroles = new HashMap<>();
+	@ConfigName("autoroles") private HashMap<String, String> autoroles = new HashMap<>();
 	private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
 	private String birthdayChannel = null;
 	private String birthdayRole = null;
 	private Long cases = 0L;
-	private boolean customAdminLock = false;
+	@ConfigName("admincustom") private boolean customAdminLock = false;
 	private Set<String> disabledChannels = new HashSet<>();
 	private Set<String> disabledCommands = new HashSet<>();
 	private String guildAutoRole = null;
-	private String guildCustomPrefix = null;
-	private String guildLogChannel = null;
+	@ConfigName("customPrefix") private String guildCustomPrefix = null;
+	@ConfigName("logChannel") private String guildLogChannel = null;
 	private Set<String> guildUnsafeChannels = new HashSet<>();
 	private String joinMessage = null;
 	private String leaveMessage = null;
