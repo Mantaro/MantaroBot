@@ -261,14 +261,21 @@ public class OwnerCmd {
 					String sub = args[1].substring(0, args[1].indexOf(' '));
 					if (sub.equals("add")) {
 						try {
+							String userId;
 							String[] values = SPLIT_PATTERN.split(args[1], 3);
 							try {
 								Long.parseLong(values[1]);
+								userId = values[1];
 							} catch (Exception e) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
-								return;
+								if(event.getMessage().getMentionedUsers().isEmpty()){
+									event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
+									return;
+								} else {
+									userId = event.getMessage().getMentionedUsers().get(0).getId();
+									return;
+								}
 							}
-							DBUser db = MantaroData.db().getUser(values[1]);
+							DBUser db = MantaroData.db().getUser(userId);
 							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
 							db.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT +

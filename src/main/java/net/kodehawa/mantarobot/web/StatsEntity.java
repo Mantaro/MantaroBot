@@ -1,10 +1,12 @@
 package net.kodehawa.mantarobot.web;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 public class StatsEntity {
     private String jdaVersion;
     private String lpVersion;
@@ -16,6 +18,7 @@ public class StatsEntity {
     private Integer logTotal;
     private Integer musicConnections;
     private Integer parsedCPUUsage;
-    private Integer queueSize;
+    private Integer cpuCores;
+    private Long queueSize;
     private List<Integer> memoryUsage; //[used, total]
 }

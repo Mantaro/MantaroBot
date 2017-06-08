@@ -328,7 +328,9 @@ public class InfoCmds {
 					+ "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
 					+ "CPU Usage: " + getVpsCPUUsage() + "%" + "\n"
 					+ "CPU Cores: " + getAvailableProcessors() + "\n"
-					+ "Shard Info: " + event.getJDA().getShardInfo()
+					+ "Shard Info: " + event.getJDA().getShardInfo() + "\n"
+					+ "API Status: " + MantaroBot.getInstance().getMantaroAPIChecker().STATUS + "\n"
+					+ "API Ping: " + MantaroBot.getInstance().getMantaroAPIChecker().getAPIPing() + "ms"
 					+ "\n\n --------- Mantaro Information --------- \n\n"
 					+ "Guilds: " + guilds.size() + "\n"
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"

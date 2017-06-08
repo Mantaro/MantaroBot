@@ -23,7 +23,7 @@ public abstract class Game {
 
 	public abstract boolean onStart(GameLobby lobby);
 
-	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts) {
+	protected boolean callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return false;
 		}
@@ -55,10 +55,11 @@ public abstract class Game {
 
 			if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
 				Player player = MantaroData.db().getPlayer(e.getMember());
-				player.addMoney(45);
+				int gains = 45 + extra;
+				player.addMoney(gains);
 				player.save();
 				TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $45 credits by answering correctly!").queue();
+				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
 				lobby.startNextGame();
 				return true;
 			}

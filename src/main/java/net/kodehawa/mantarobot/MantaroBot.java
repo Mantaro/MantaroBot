@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
-import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
@@ -24,11 +23,11 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.web.service.MantaroAPIChecker;
+import net.kodehawa.mantarobot.web.service.MantaroAPISender;
 import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
-import net.kodehawa.mantarobot.web.StatsEntity;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -40,7 +39,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static net.kodehawa.mantarobot.MantaroInfo.VERSION;
 import static net.kodehawa.mantarobot.core.LoadState.*;
 
 /**
@@ -94,6 +92,8 @@ public class MantaroBot extends ShardedJDA {
 	private static MantaroBot instance;
 	@Getter
 	private static TempBanManager tempBanManager;
+	@Getter
+	private MantaroAPIChecker mantaroAPIChecker = new MantaroAPIChecker();
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose") != null) {
@@ -273,17 +273,8 @@ public class MantaroBot extends ShardedJDA {
 
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
 
-		/*StatsEntity stats = new StatsEntity();
-		stats.setBotVersion(MantaroInfo.VERSION);S
-		stats.setExecutedCommands(0);
-		stats.setJdaVersion(JDAInfo.VERSION);
-		stats.setGuilds(getGuilds().size());
-		stats.setUsers(getUsers().size());
-		stats.setShardsTotal(shards.length);
-
-		System.out.println(Unirest.post("http://127.0.0.1:4454/api/stats")
-				.header("Content-Type", "application/json").body(GsonDataManager.GSON_PRETTY.toJson(stats)).getBody());
-        System.out.println(Unirest.get("http://127.0.0.1:4454/api/get/stats/").getBody());*/
+		mantaroAPIChecker.startService();
+		MantaroAPISender.startService();
 	}
 
 	public Guild getGuildById(String guildId) {

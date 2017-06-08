@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 
 public class Poll extends Lobby {
 
-    private static Map<TextChannel, Poll> runningPolls = new HashMap<>();
+    private static Map<String, Poll> runningPolls = new HashMap<>();
 
     private String[] options;
     private GuildMessageReceivedEvent event;
@@ -56,7 +56,7 @@ public class Poll extends Lobby {
                         "This poll cannot build. " +
                         "**Remember that the maximum amount of options are 9, the minimum is 2 and that the maximum timeout is 45m and the minimum timeout is 30s.**\n" +
                         "Options are separated with a comma, for example `1,2,3`. For spaced stuff use commas at the start and end of the sentence.").queue();
-                getRunningPolls().remove(getChannel());
+                getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
@@ -101,7 +101,7 @@ public class Poll extends Lobby {
                     if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")){
                         runningPoll.cancel(true);
                         getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
-                        getRunningPolls().remove(getChannel());
+                        getRunningPolls().remove(getChannel().getId());
                         return true;
                     }
                     return false;
@@ -109,19 +109,19 @@ public class Poll extends Lobby {
                 return false;
             });
 
-            runningPolls.put(getChannel(), this);
+            runningPolls.put(getChannel().getId(), this);
         }
         catch(Exception e){
             getChannel().sendMessage(EmoteReference.ERROR + "An unknown error has occurred while setting up a poll. Maybe try again?").queue();
         }
     }
 
-    public static Map<TextChannel, Poll> getRunningPolls(){
+    public static Map<String, Poll> getRunningPolls(){
         return runningPolls;
     }
 
     public boolean isPollAlreadyRunning(TextChannel channel){
-        return runningPolls.containsKey(channel);
+        return runningPolls.containsKey(channel.getId());
     }
 
     public static PollBuilder builder(){
@@ -163,6 +163,7 @@ public class Poll extends Lobby {
 
                 embedBuilder.addField("Results", "```diff\n" + votes + "```", false);
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
+                getRunningPolls().remove(getChannel().getId());
             }
         }, reactions(options.length));
 

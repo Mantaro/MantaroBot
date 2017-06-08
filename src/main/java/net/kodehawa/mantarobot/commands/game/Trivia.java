@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class Trivia extends Game {
 	private List<String> expectedAnswer;
 	private int maxAttempts = 1;
+	private boolean hardDiff = false;
 
 	@Override
 	public boolean onStart(GameLobby lobby) {
@@ -49,6 +50,7 @@ public class Trivia extends Game {
 			String qu = Jsoup.parse(question.getString("question")).text();
 			String category = question.getString("category");
 			String diff = question.getString("difficulty");
+			if(diff.equalsIgnoreCase("hard")) hardDiff = true;
 
 			expectedAnswer.add(Jsoup.parse(question.getString("correct_answer")).text());
 
@@ -80,7 +82,7 @@ public class Trivia extends Game {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
 				@Override
 				public boolean run(GuildMessageReceivedEvent event) {
-					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts);
+					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, hardDiff ? 10 : 0);
 				}
 
 				@Override

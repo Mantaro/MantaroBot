@@ -37,6 +37,7 @@ public class Config {
 	public String token;
 	public String weatherAppId;
 	public boolean isPremiumBot = false;
+	public String apiUrl;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

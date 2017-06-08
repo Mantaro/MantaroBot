@@ -43,7 +43,7 @@ public class ImageGuess extends ImageGame {
 		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
 			@Override
 			public boolean run(GuildMessageReceivedEvent e) {
-				return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts);
+				return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
 			}
 
 			@Override
