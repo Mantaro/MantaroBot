@@ -218,21 +218,6 @@ public class AudioCmdUtils {
 		return true;
 	}
 
-	static String getDurationMinutes(AudioTrack track) {
-		return getDurationMinutes(track.getInfo().length);
-	}
-
-	private static List<List<String>> chunks(List<String> bigList, int n) {
-		List<List<String>> chunks = new ArrayList<>();
-
-		for (int i = 0; i < bigList.size(); i += n) {
-			List<String> chunk = bigList.subList(i, Math.min(bigList.size(), i + n));
-			chunks.add(chunk);
-		}
-
-		return chunks;
-	}
-
 	public static String getProgressBar(long percent, long duration) {
 		int activeBlocks = (int) ((float) percent / duration * TOTAL_BLOCKS);
 		StringBuilder builder = new StringBuilder();

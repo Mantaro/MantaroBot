@@ -22,7 +22,6 @@ public class MantaroAPIChecker {
                 lastPing = end - start;
                 STATUS = APIStatus.ONLINE;
             } catch (UnirestException e){
-                log.warn("Mantaro API status is OFFLINE or it's unresponsive. You might wanna check into this...");
                 STATUS = APIStatus.OFFLINE;
             }
         };
