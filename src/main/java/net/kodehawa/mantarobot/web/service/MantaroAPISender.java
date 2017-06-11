@@ -127,6 +127,6 @@ public class MantaroAPISender {
 
         log.debug("Posted all stats to MAPI");
 
-        Async.task("Mantaro API POST Worker", postStats, 2, TimeUnit.MINUTES);
+        Async.task("Mantaro API POST Worker", postStats, 30, TimeUnit.SECONDS);
     }
 }
