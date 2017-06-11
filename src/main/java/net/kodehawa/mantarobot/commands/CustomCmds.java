@@ -235,6 +235,12 @@ public class CustomCmds {
 									return false;
 								}
 
+								if(cmd.length() >= 100){
+									event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
+											.queue();
+									return false;
+								}
+
 								if (CommandProcessor.REGISTRY.commands().containsKey(
 									saveTo) && !CommandProcessor.REGISTRY.commands().get(saveTo).equals(
 									customCommand)) {
@@ -451,6 +457,12 @@ public class CustomCmds {
 				if (action.equals("add") || action.equals("new")) {
 					if (!NAME_PATTERN.matcher(cmd).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
+						return;
+					}
+
+					if(cmd.length() >= 100){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
+								.queue();
 						return;
 					}
 

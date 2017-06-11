@@ -80,7 +80,7 @@ public class QuoteCmd {
 					Quote quote = Quote.of(guild.getMember(message.getAuthor()), channel, message);
 					db.getQuotes(guild).add(quote);
 					event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
-					quote.saveAsync();
+					quote.save();
 					return;
 				}
 

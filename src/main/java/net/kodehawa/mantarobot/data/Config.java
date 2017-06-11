@@ -38,6 +38,7 @@ public class Config {
 	public String weatherAppId;
 	public boolean isPremiumBot = false;
 	public String apiUrl;
+	public boolean isBeta = false;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

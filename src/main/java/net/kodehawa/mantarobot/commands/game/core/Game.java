@@ -64,7 +64,7 @@ public abstract class Game {
 				return true;
 			}
 
-			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + ((maxAttempts - attempts) + 1) + " attempts remaning.").queue();
+			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " +  (maxAttempts - attempts) + " attempts remaning.").queue();
 			setAttempts(getAttempts() + 1);
 			return false;
 		}

@@ -651,7 +651,7 @@ public class CurrencyCmds {
                             event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                                     "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
                                     "in " +
-                                    rateLimiter.tryAgainIn(event.getMember())
+                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember()))
                                     + ".**").queue();
                             return;
                         }
