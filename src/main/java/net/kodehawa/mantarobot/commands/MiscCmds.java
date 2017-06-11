@@ -330,7 +330,7 @@ public class MiscCmds {
 					builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
 				}
 
-				if(!opts.containsKey("name") || opts.get("name").isPresent()){
+				if(!opts.containsKey("name") || !opts.get("name").isPresent()){
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-name` argument or it was empty!").queue();
 					return;
 				}
