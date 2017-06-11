@@ -1,0 +1,13 @@
+sudo: required
+
+services:
+  - docker
+
+language: java
+os:
+  - linux
+
+install: true
+
+script:
+  - gradle shadowJar
