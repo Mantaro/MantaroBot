@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 
 public class SpeedingTicketFactory implements AudioOutputHookFactory {
     private static final Logger log = LoggerFactory.getLogger(SpeedingTicketFactory.class);
-    private static Guild guild;
+    private static String guildId;
 
-    public SpeedingTicketFactory(Guild guild){
-        this.guild = guild;
+    public SpeedingTicketFactory(Guild theGuild){
+        guildId = theGuild.getId();
     }
 
     @Override
@@ -43,22 +43,27 @@ public class SpeedingTicketFactory implements AudioOutputHookFactory {
 
             synchronized (timestamps) {
                 if (suspected) {
-                    if(samplesCollected++ > 6){
-                        if(MantaroBot.getInstance().getGuildById(guild.getId()) != null){
-                            MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-                            AudioManager audioManager = guild.getAudioManager();
-                            if(!audioManager.isAttemptingToConnect()) {
-                                VoiceChannel previousVc = audioManager.getConnectedChannel();
-                                audioManager.closeAudioConnection();
-                                manager.getMusicManagers().remove(guild.getId());
-                                manager.getMusicManager(guild); //re-create the manager
-                                audioManager.openAudioConnection(previousVc);
-                                MantaroListener.getLogChannel().sendMessage(EmoteReference.THINKING + "Performed automatic music speedup fix on guild " + guild.getId()).queue();
-                                suspected = false;
-                            }
+                    if(samplesCollected++ == 6){
+                        if(MantaroBot.getInstance().getGuildById(guildId) != null){
+                            try{
+                                Guild guild = MantaroBot.getInstance().getGuildById(guildId);
+                                MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+                                AudioManager audioManager = guild.getAudioManager();
+                                if(!audioManager.isAttemptingToConnect()) {
+                                    VoiceChannel previousVc = audioManager.getConnectedChannel();
+                                    audioManager.closeAudioConnection();
+                                    manager.getMusicManagers().remove(guild.getId());
+                                     //re-create the manager
+                                    MantaroListener.getLogChannel().sendMessage(EmoteReference.THINKING + "Performed automatic music speedup fix on guild `" + guild.getId() +
+                                            "` with new manager: " + manager.getMusicManager(guild)).queue();
+                                    suspected = false;
+                                    audioManager.openAudioConnection(previousVc);
+                                    manager.getMusicManager(guild).getTrackScheduler()
+                                            .getCurrentTrack().getRequestedChannel()
+                                            .sendMessage(EmoteReference.CORRECT + "Performed automatic fix for music speeding up.").queue();
+                                }
+                            } catch (Exception ignored){}
                         }
-                    } else {
-                        log.warn("Sample #{} for {}.", samplesCollected, System.identityHashCode(player), new Throwable());
                     }
                 } else {
                     if (count < timestamps.length) {

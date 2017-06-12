@@ -143,6 +143,12 @@ public class OptsCmd {
 				return;
 			}
 			String prefix = args[0];
+
+			if(prefix.length() > 200){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Don't you think that's a bit too long?").queue();
+				return;
+			}
+
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setGuildCustomPrefix(prefix);

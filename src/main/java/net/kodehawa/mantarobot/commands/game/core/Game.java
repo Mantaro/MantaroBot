@@ -47,7 +47,7 @@ public abstract class Game {
 				return true;
 			}
 
-			if (attempts > maxAttempts) {
+			if (attempts >= maxAttempts) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame(); //This should take care of removing the lobby, actually.
 				return true;
