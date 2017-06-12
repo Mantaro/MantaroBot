@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 @Module
 public class ActionCmds {
+	//TODO API-fy this images
 	static final DataManager<List<String>> BITES = new SimpleFileDataManager("assets/mantaro/texts/bites.txt");
 	static final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
 	static final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");

@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,17 +44,20 @@ public class SpeedingTicketFactory implements AudioOutputHookFactory {
             synchronized (timestamps) {
                 if (suspected) {
                     if(samplesCollected++ > 6){
-                        MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-                        AudioManager audioManager = guild.getAudioManager();
-                        if(!audioManager.isAttemptingToConnect()) {
-                            VoiceChannel previousVc = audioManager.getConnectedChannel();
-                            audioManager.closeAudioConnection();
-                            manager.getMusicManagers().remove(guild.getId());
-                            audioManager.openAudioConnection(previousVc);
-                            suspected = false;
-                        } else {
-                            log.warn("Sample #{} for {}.", samplesCollected, System.identityHashCode(player), new Throwable());
+                        if(MantaroBot.getInstance().getGuildById(guild.getId()) != null){
+                            MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+                            AudioManager audioManager = guild.getAudioManager();
+                            if(!audioManager.isAttemptingToConnect()) {
+                                VoiceChannel previousVc = audioManager.getConnectedChannel();
+                                audioManager.closeAudioConnection();
+                                manager.getMusicManagers().remove(guild.getId());
+                                audioManager.openAudioConnection(previousVc);
+                                MantaroListener.getLogChannel().sendMessage(EmoteReference.THINKING + "Performed automatic music speedup fix on guild " + guild.getId()).queue();
+                                suspected = false;
+                            }
                         }
+                    } else {
+                        log.warn("Sample #{} for {}.", samplesCollected, System.identityHashCode(player), new Throwable());
                     }
                 } else {
                     if (count < timestamps.length) {

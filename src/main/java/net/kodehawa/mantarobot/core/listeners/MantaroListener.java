@@ -134,7 +134,7 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
-	private TextChannel getLogChannel() {
+	public static TextChannel getLogChannel() {
 		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
 	}
 
