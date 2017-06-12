@@ -178,7 +178,7 @@ public class CustomCmds {
 				}
 
 				if (action.equals("clear")) {
-					if (CommandPermission.ADMIN.test(event.getMember())) {
+					if (!CommandPermission.ADMIN.test(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot do that, silly.").queue();
 						return;
 					}
