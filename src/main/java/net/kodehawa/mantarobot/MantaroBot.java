@@ -273,7 +273,7 @@ public class MantaroBot extends ShardedJDA {
 
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
 
-		if(!MantaroData.config().get().isPremiumBot() || !MantaroData.config().get().isBeta()){
+		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
 			mantaroAPIChecker.startService();
 			MantaroAPISender.startService();
 		}

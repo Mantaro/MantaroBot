@@ -5,7 +5,10 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -733,6 +736,28 @@ public class OptsCmd {
 			guildData.getDisabledCategories().remove(toEnable);
 			dbGuild.save();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "`").queue();
+		});
+
+		registerOption("musicspeedup:fix", event -> {
+			MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+			AudioManager audioManager = event.getGuild().getAudioManager();
+			VoiceChannel previousVc = audioManager.getConnectedChannel();
+			audioManager.closeAudioConnection();
+			manager.getMusicManagers().remove(event.getGuild().getId());
+			event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
+					+ " with debug:\n " +
+			 		"```diff\n"
+					+ "Audio Manager: " + manager + "\n"
+					+ "VC to connect: " + previousVc.getName() + "\n"
+					+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
+					+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
+					+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
+					+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
+					+ "Guild ID: " + event.getGuild().getId() + "\n"
+					+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
+					+ "```\n" +
+					"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
+			audioManager.openAudioConnection(previousVc);
 		});
 	}
 

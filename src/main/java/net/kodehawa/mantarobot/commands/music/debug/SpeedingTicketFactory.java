@@ -3,11 +3,22 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.hook.AudioOutputHook;
 import com.sedmelluq.discord.lavaplayer.player.hook.AudioOutputHookFactory;
 import com.sedmelluq.discord.lavaplayer.track.playback.AudioFrame;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SpeedingTicketFactory implements AudioOutputHookFactory {
     private static final Logger log = LoggerFactory.getLogger(SpeedingTicketFactory.class);
+    private static Guild guild;
+
+    public SpeedingTicketFactory(Guild guild){
+        this.guild = guild;
+    }
 
     @Override
     public AudioOutputHook createOutputHook() {
@@ -31,8 +42,14 @@ public class SpeedingTicketFactory implements AudioOutputHookFactory {
 
             synchronized (timestamps) {
                 if (suspected) {
-                    if (samplesCollected++ < 6) {
-                        log.warn("Sample #{} for {}.", samplesCollected, System.identityHashCode(player), new Throwable());
+                    MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+                    AudioManager audioManager = guild.getAudioManager();
+                    if(!audioManager.isAttemptingToConnect()) {
+                        VoiceChannel previousVc = audioManager.getConnectedChannel();
+                        audioManager.closeAudioConnection();
+                        manager.getMusicManagers().remove(guild.getId());
+                        audioManager.openAudioConnection(previousVc);
+                        suspected = false;
                     }
                 } else {
                     if (count < timestamps.length) {

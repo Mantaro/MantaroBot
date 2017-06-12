@@ -63,6 +63,7 @@ public class MantaroAudioManager {
 		GuildMusicManager musicManager = getMusicManager(event.getGuild());
 		if (!AudioCmdUtils.connectToVoiceChannel(event)) return;
 		musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
+		if(musicManager.getTrackScheduler().getQueue().isEmpty()) musicManager.getTrackScheduler().setRepeat(null);
 		playerManager.loadItemOrdered(musicManager, trackUrl, new AudioRequester(musicManager, event, trackUrl, skipSelection));
 	}
 }

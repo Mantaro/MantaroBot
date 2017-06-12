@@ -256,6 +256,7 @@ public class MusicCmds {
 										"but if you do ~>play soundcloud <search term> It will search soundcloud (not for usage w/links).",
 								false
 						)
+						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
 		});
@@ -440,6 +441,7 @@ public class MusicCmds {
 										"`~>queue clear` - **Clears the queue**",
 								false
 						)
+						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
 		});
