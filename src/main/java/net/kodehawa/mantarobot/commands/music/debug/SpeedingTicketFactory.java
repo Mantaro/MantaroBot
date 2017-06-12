@@ -51,6 +51,7 @@ public class SpeedingTicketFactory implements AudioOutputHookFactory {
                                 VoiceChannel previousVc = audioManager.getConnectedChannel();
                                 audioManager.closeAudioConnection();
                                 manager.getMusicManagers().remove(guild.getId());
+                                manager.getMusicManager(guild); //re-create the manager
                                 audioManager.openAudioConnection(previousVc);
                                 MantaroListener.getLogChannel().sendMessage(EmoteReference.THINKING + "Performed automatic music speedup fix on guild " + guild.getId()).queue();
                                 suspected = false;
