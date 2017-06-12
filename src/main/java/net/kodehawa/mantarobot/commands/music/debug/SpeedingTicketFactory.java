@@ -42,14 +42,18 @@ public class SpeedingTicketFactory implements AudioOutputHookFactory {
 
             synchronized (timestamps) {
                 if (suspected) {
-                    MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-                    AudioManager audioManager = guild.getAudioManager();
-                    if(!audioManager.isAttemptingToConnect()) {
-                        VoiceChannel previousVc = audioManager.getConnectedChannel();
-                        audioManager.closeAudioConnection();
-                        manager.getMusicManagers().remove(guild.getId());
-                        audioManager.openAudioConnection(previousVc);
-                        suspected = false;
+                    if(samplesCollected++ > 6){
+                        MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+                        AudioManager audioManager = guild.getAudioManager();
+                        if(!audioManager.isAttemptingToConnect()) {
+                            VoiceChannel previousVc = audioManager.getConnectedChannel();
+                            audioManager.closeAudioConnection();
+                            manager.getMusicManagers().remove(guild.getId());
+                            audioManager.openAudioConnection(previousVc);
+                            suspected = false;
+                        } else {
+                            log.warn("Sample #{} for {}.", samplesCollected, System.identityHashCode(player), new Throwable());
+                        }
                     }
                 } else {
                     if (count < timestamps.length) {
