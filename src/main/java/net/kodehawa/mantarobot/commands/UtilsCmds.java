@@ -541,7 +541,7 @@ public class UtilsCmds {
 								.setDescription("Definition " + defns)
 								.setColor(Color.GREEN)
 								.addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-								.addField("Example", data.list.get(defn).example, false)
+								.addField("Example", data.list.get(defn).example.length() > 1000 ? data.list.get(defn).example.substring(0, 1000) + "..." : data.list.get(defn).example, false)
 								.addField(":thumbsup:", data.list.get(defn).thumbs_up, true)
 								.addField(":thumbsdown:", data.list.get(defn).thumbs_down, true)
 								.setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);

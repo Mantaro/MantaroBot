@@ -164,7 +164,7 @@ public class CustomCmds {
 						.setAuthor("Commands for this guild", null, event.getGuild().getIconUrl())
 						.setColor(event.getMember().getColor());
 					builder.setDescription(
-						commands.isEmpty() ? "There is nothing here, just dust." : forType(commands));
+						commands.isEmpty() ? "There is nothing here, just dust." : checkString(forType(commands)));
 
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;

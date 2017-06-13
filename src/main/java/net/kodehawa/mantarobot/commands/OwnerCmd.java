@@ -619,11 +619,11 @@ public class OwnerCmd {
 					dummy.add(url);
 					toAdd.put(type, dummy);
 
-					Unirest.post("replace when it's done")
+					System.out.println(Unirest.post("http://127.0.0.1:4454/api/p/actions?type=" + type)
 							.header("Content-Type", "application/json")
 							.body(GsonDataManager.GSON_PRETTY.toJson(toAdd))
 							.asString()
-							.getBody();
+							.getBody());
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added gif to the API.").queue();
 				} catch (Exception e) {

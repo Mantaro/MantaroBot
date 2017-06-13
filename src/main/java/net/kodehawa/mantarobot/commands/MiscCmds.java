@@ -94,14 +94,19 @@ public class MiscCmds {
 					onError(event);
 					return;
 				}
+
+				StringBuilder stringBuilder = new StringBuilder();
+
 				if (content.equals("list")) {
 					EmbedBuilder embed = baseEmbed(event, "Autorole list");
 					if (autoroles.size() > 0) {
 						autoroles.forEach((name, roleId) -> {
 							Role role = event.getGuild().getRoleById(roleId);
 							if (role != null)
-								embed.appendDescription("\nAutorole name: " + name + " | Gives role **" + role.getName() + "**");
+								stringBuilder.append("\nAutorole name: ").append(name).append(" | Gives role **").append(role.getName()).append("**");
 						});
+
+						embed.setDescription(checkString(stringBuilder.toString()));
 					} else embed.setDescription("There aren't any autoroles setup in this server!");
 					event.getChannel().sendMessage(embed.build()).queue();
 					return;
@@ -326,14 +331,15 @@ public class MiscCmds {
 					return;
 				}
 
-				if(opts.containsKey("name") || opts.get("name").isPresent()){
-					builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
-				}
-
 				if(!opts.containsKey("name") || !opts.get("name").isPresent()){
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-name` argument or it was empty!").queue();
 					return;
 				}
+
+				if(opts.containsKey("name") || opts.get("name").isPresent()){
+					builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
+				}
+
 
 				String[] options = opts.get("options").get().replaceAll(String.valueOf('"'), "").split(",");
 				long timeout = AudioCmdUtils.parseTime(opts.get("time").get());

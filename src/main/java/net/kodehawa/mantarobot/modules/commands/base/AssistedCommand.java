@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.modules.commands.base;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,14 @@ public interface AssistedCommand extends Command {
 		return baseEmbed(event, name)
 				.setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
 				.addField("Permission required", permission().toString(), true);
+	}
+
+	default String checkString(String s){
+		if(s.length() > 2040){
+			return Utils.paste(s);
+		} else {
+			return s;
+		}
 	}
 
 	default void onError(GuildMessageReceivedEvent event){
