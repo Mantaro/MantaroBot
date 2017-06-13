@@ -34,10 +34,8 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		String toSend = patternLayout.doLayout(event);
 		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
 		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
-
-		if (toSend.contains("Detected possible multi-polling on") || toSend.contains("Sample #")){
-			return; //check out file for this
-		}
+		if (toSend.contains("PermissionException")) return;
+		if (toSend.contains("Read timed out")) return;
 
 		if (toSend.length() > 1920)
 			toSend = ":warning: Received a message but it was too long, Hastebin: " + Utils.paste(toSend);
