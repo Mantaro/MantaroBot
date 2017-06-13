@@ -47,12 +47,6 @@ public abstract class Game {
 				return true;
 			}
 
-			if (attempts >= maxAttempts) {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
-				lobby.startNextGame(); //This should take care of removing the lobby, actually.
-				return true;
-			}
-
 			if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
 				Player player = MantaroData.db().getPlayer(e.getMember());
 				int gains = 45 + extra;
@@ -61,6 +55,12 @@ public abstract class Game {
 				TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
 				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
 				lobby.startNextGame();
+				return true;
+			}
+
+			if (attempts >= maxAttempts) {
+				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
+				lobby.startNextGame(); //This should take care of removing the lobby, actually.
 				return true;
 			}
 
