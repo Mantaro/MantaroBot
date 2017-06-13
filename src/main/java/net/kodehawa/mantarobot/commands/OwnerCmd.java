@@ -1,7 +1,9 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.async.Async;
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import bsh.Interpreter;
+import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -21,6 +23,7 @@ import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
 import javax.script.ScriptEngine;
@@ -587,6 +590,54 @@ public class OwnerCmd {
 
 		});
 	}
+
+	//TODO pls fix this in API
+	@Command
+	public static void addGif(CommandRegistry registry){
+		registry.register("addgif", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				try {
+					Map<String, Optional<String>> opts = StringUtils.parse(args);
+
+					if(!opts.containsKey("type") || !opts.get("type").isPresent()){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-type` argument or it was empty!\n" +
+								"Accepted types: `pats, hugs, kisses, slaps, highfives, bites, pokes, tickles, pouts`. To create a new one just make it with a new name.").queue();
+						return;
+					}
+
+					if(!opts.containsKey("url") || !opts.get("url").isPresent()){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-url` argument or it was empty!").queue();
+						return;
+					}
+
+					String type = opts.get("type").get();
+					String url = opts.get("url").get();
+
+					Map<String, List<String>> toAdd = new HashMap<>();
+					List<String> dummy = new ArrayList<>();
+					dummy.add(url);
+					toAdd.put(type, dummy);
+
+					Unirest.post("replace when it's done")
+							.header("Content-Type", "application/json")
+							.body(GsonDataManager.GSON_PRETTY.toJson(toAdd))
+							.asString()
+							.getBody();
+
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added gif to the API.").queue();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
+	}
+
 
 	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
 		boolean first = true;

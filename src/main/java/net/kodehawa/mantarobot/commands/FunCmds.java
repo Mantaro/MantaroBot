@@ -17,11 +17,10 @@ import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Module
 public class FunCmds {
