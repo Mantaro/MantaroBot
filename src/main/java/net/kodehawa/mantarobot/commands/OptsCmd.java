@@ -750,6 +750,7 @@ public class OptsCmd {
 			VoiceChannel previousVc = audioManager.getConnectedChannel();
 			audioManager.closeAudioConnection();
 			manager.getMusicManagers().remove(event.getGuild().getId());
+			audioManager.setSendingHandler(null);
 			event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
 					+ " with debug:\n " +
 			 		"```diff\n"

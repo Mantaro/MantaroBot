@@ -41,9 +41,10 @@ public class MantaroAudioManager {
 	public synchronized GuildMusicManager getMusicManager(Guild guild) {
 		GuildMusicManager musicManager = musicManagers
 			.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(playerManager, guild));
-
-		if (guild.getAudioManager().getSendingHandler() == null)
+		if (guild.getAudioManager().getSendingHandler() == null){
 			guild.getAudioManager().setSendingHandler(musicManager.getSendHandler());
+		}
+
 		return musicManager;
 	}
 
