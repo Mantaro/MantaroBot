@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
@@ -25,8 +26,8 @@ import java.util.List;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j(topic = "Game[ImageGuess]")
-public class ImageGuess extends ImageGame {
+@Slf4j(topic = "Game [Character]")
+public class Character extends ImageGame {
 	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
 	private String authToken = AnimeCmds.authToken;
 	private String characterName;
@@ -34,7 +35,7 @@ public class ImageGuess extends ImageGame {
 	@Getter
 	private int maxAttempts = 10;
 
-	public ImageGuess() {
+	public Character() {
 		super(10);
 	}
 
@@ -71,7 +72,7 @@ public class ImageGuess extends ImageGame {
 			).queue();
 			return true;
 		} catch (Exception e) {
-			if(e instanceof IllegalStateException){
+			if(e instanceof JsonSyntaxException){
 				lobby.getChannel().sendMessage(EmoteReference.WARNING + "Report this in the official server please. Failed to setup game for pre-saved character: " + characterName).queue();
 				return false;
 			}

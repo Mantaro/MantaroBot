@@ -150,7 +150,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 	}
 
 	private void onSearchResult(AudioPlaylist playlist) {
-		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection." +
+		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. " +
 				(MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus() ? "React to the desired number to select a song." : "Type the song number to continue."), null)
 				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
 				.setFooter("This timeouts in 10 seconds.", null);

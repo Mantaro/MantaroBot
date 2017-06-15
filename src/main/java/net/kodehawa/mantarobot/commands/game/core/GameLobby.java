@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.game.ImageGuess;
+import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
@@ -25,7 +25,7 @@ public class GameLobby extends Lobby {
 		textRepresentation.clear();
 		textRepresentation.put("trivia", new Trivia());
 		textRepresentation.put("pokemon", new Pokemon());
-		textRepresentation.put("character", new ImageGuess());
+		textRepresentation.put("character", new Character());
 	}
 
 	@Getter

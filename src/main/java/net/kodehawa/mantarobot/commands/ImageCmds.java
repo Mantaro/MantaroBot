@@ -48,7 +48,7 @@ public class ImageCmds {
 
 	public static final URLCache CACHE = new URLCache(20);
 	private static final String BASEURL = "http://catgirls.brussell98.tk/api/random";
-	private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actualluy returns more questionable images than explicit tho
+	private static final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
 	private static final String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
 		"Am I cute yet?", "%mention%, I think you should have a cat."};
 	private static String YANDERE_BASE = "https://yande.re/post.json?limit=60&";

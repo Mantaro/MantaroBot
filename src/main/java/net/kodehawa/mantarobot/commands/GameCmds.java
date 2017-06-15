@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.game.ImageGuess;
+import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
@@ -38,7 +38,7 @@ public class GameCmds {
 				}
 
 				if (args[0].equals("character")) {
-					startGame(new ImageGuess(), event);
+					startGame(new Character(), event);
 					return;
 				}
 
@@ -125,7 +125,7 @@ public class GameCmds {
 	public static void onPostLoad(PostLoadEvent e){
 		OptsCmd.registerOption("lobby:reset", event -> {
 			GameLobby.LOBBYS.remove(event.getChannel());
-			Poll.getRunningPolls().remove(event.getChannel());
+			Poll.getRunningPolls().remove(event.getChannel().getId());
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
 		});
 	}
