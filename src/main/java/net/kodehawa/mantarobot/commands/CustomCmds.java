@@ -516,9 +516,9 @@ public class CustomCmds {
 						"Usage:",
 						"`~>custom` - Shows this help\n" +
 							"`~>custom <list|ls> [detailed]` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
-							"`~>custom debug` - **Gives a Hastebin of the Raw Custom Commands Data. (OWNER-ONLY)**\n" +
-							"`~>custom clear` - **Remove all Custom Commands from this Guild. (OWNER-ONLY)**\n" +
-							"`~>custom add <name> <responses>` - **Add a new Command with the response provided.**\n" +
+							"`~>custom clear` - **Remove all Custom Commands from this Guild. (ADMIN-ONLY)**\n" +
+							"`~>custom new <name> <response>` - **Creates a new custom command with one response. Use `custom add` to add more.**\n" +
+							"`~>custom add <name> <response>` - **Adds the response provided to a custom command.**\n" +
 							"`~>custom make <name>` - **Starts a Interactive Operation to create a command with the specified name.**\n" +
 							"`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
 							"`~>custom import <search>` - **Imports a command from another guild you're in.**",

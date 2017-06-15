@@ -47,16 +47,16 @@ public abstract class Game {
 				return true;
 			}
 
-			if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
-				Player player = MantaroData.db().getPlayer(e.getMember());
-				int gains = 45 + extra;
-				player.addMoney(gains);
-				player.save();
-				TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-				lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
-				lobby.startNextGame();
-				return true;
-			}
+				if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
+					Player player = MantaroData.db().getPlayer(e.getMember());
+					int gains = 45 + extra;
+					player.addMoney(gains);
+					player.save();
+					TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
+					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
+					lobby.startNextGame();
+					return true;
+				}
 
 			if (attempts >= maxAttempts) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
