@@ -3,6 +3,8 @@ package net.kodehawa.mantarobot.core.listeners.operations;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveAllEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.jodah.expiringmap.ExpiringMap;
 
@@ -14,26 +16,10 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public final class ReactionOperations {
-    private static final EventListener LISTENER = new EventListener() {
-        @Override
-        public void onEvent(Event e) {
-            if(!(e instanceof MessageReactionAddEvent)) return;
-            MessageReactionAddEvent event = (MessageReactionAddEvent)e;
-            if(event.getReaction().isSelf()) return;
-            long messageId = event.getMessageIdLong();
-            Operation o = OPERATIONS.get(messageId);
-            if(o == null) return;
-            if(o.operation.run(event)) {
-                OPERATIONS.remove(messageId);
-                o.future.complete(null);
-            } else {
-                OPERATIONS.resetExpiration(messageId);
-            }
-        }
-    };
+    private static final EventListener LISTENER = new ReactionListener();
 
-    private static final ExpiringMap<Long, Operation> OPERATIONS = ExpiringMap.<Long, Operation>builder()
-            .asyncExpirationListener((key, value) -> ((Operation)value).operation.onExpire())
+    private static final ExpiringMap<Long, RunningOperation> OPERATIONS = ExpiringMap.<Long, RunningOperation>builder()
+            .asyncExpirationListener((key, value) -> ((RunningOperation)value).operation.onExpire())
             .variableExpiration()
             .build();
 
@@ -43,7 +29,7 @@ public final class ReactionOperations {
     }
 
     public static Future<Void> get(long messageId) {
-        Operation o = OPERATIONS.get(messageId);
+        RunningOperation o = OPERATIONS.get(messageId);
         return o == null ? null : o.future;
     }
 
@@ -55,12 +41,13 @@ public final class ReactionOperations {
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
             Consumer<Throwable> ignore = (t)->{};
             c.set(ignored->{
+                if(f.isCancelled()) return;
                 int i = index.incrementAndGet();
                 if(i < defaultReactions.length) {
-                    message.addReaction(defaultReactions[i]).queue(c.get(), ignore);
+                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
                 }
             });
-            message.addReaction(defaultReactions[0]).queue(c.get(), ignore);
+            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
         }
         return f;
     }
@@ -68,9 +55,9 @@ public final class ReactionOperations {
     public static Future<Void> createOrGet(long messageId, long timeoutSeconds, ReactionOperation operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
-        Operation o = OPERATIONS.get(messageId);
+        RunningOperation o = OPERATIONS.get(messageId);
         if(o != null) return o.future;
-        o = new Operation(operation, new OperationFuture(messageId));
+        o = new RunningOperation(operation, new OperationFuture(messageId));
         OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
         return o.future;
     }
@@ -83,12 +70,13 @@ public final class ReactionOperations {
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
             Consumer<Throwable> ignore = (t)->{};
             c.set(ignored->{
+                if(f.isCancelled()) return;
                 int i = index.incrementAndGet();
                 if(i < defaultReactions.length) {
-                    message.addReaction(defaultReactions[i]).queue(c.get(), ignore);
+                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
                 }
             });
-            message.addReaction(defaultReactions[0]).queue(c.get(), ignore);
+            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
         }
         return f;
     }
@@ -96,9 +84,9 @@ public final class ReactionOperations {
     public static Future<Void> create(long messageId, long timeoutSeconds, ReactionOperation operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
-        Operation o = OPERATIONS.get(messageId);
+        RunningOperation o = OPERATIONS.get(messageId);
         if(o != null) return null;
-        o = new Operation(operation, new OperationFuture(messageId));
+        o = new RunningOperation(operation, new OperationFuture(messageId));
         OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
         return o.future;
     }
@@ -107,11 +95,65 @@ public final class ReactionOperations {
         return LISTENER;
     }
 
-    private static class Operation {
+    private static String reaction(String r) {
+        if(r.startsWith("<")) return r.replaceAll("<:(\\S+?)>", "$1");
+        return r;
+    }
+
+    public static class ReactionListener implements EventListener {
+        @Override
+        public void onEvent(Event e) {
+            if(e instanceof MessageReactionAddEvent) {
+                MessageReactionAddEvent event = (MessageReactionAddEvent) e;
+                if(event.getReaction().isSelf()) return;
+                long messageId = event.getMessageIdLong();
+                RunningOperation o = OPERATIONS.get(messageId);
+                if(o == null) return;
+                int i = o.operation.add(event);
+                if(i == Operation.COMPLETED) {
+                    OPERATIONS.remove(messageId);
+                    o.future.complete(null);
+                } else if(i == Operation.RESET_TIMEOUT) {
+                    OPERATIONS.resetExpiration(messageId);
+                }
+                return;
+            }
+            if(e instanceof MessageReactionRemoveEvent) {
+                MessageReactionRemoveEvent event = (MessageReactionRemoveEvent) e;
+                if(event.getReaction().isSelf()) return;
+                long messageId = event.getMessageIdLong();
+                RunningOperation o = OPERATIONS.get(messageId);
+                if(o == null) return;
+                int i = o.operation.remove(event);
+                if(i == Operation.COMPLETED) {
+                    OPERATIONS.remove(messageId);
+                    o.future.complete(null);
+                } else if(i == Operation.RESET_TIMEOUT) {
+                    OPERATIONS.resetExpiration(messageId);
+                }
+                return;
+            }
+            if(e instanceof MessageReactionRemoveAllEvent) {
+                MessageReactionRemoveAllEvent event = (MessageReactionRemoveAllEvent)e;
+                long messageId = event.getMessageIdLong();
+                RunningOperation o = OPERATIONS.get(messageId);
+                if(o == null) return;
+                int i = o.operation.removeAll(event);
+                if(i == Operation.COMPLETED) {
+                    OPERATIONS.remove(messageId);
+                    o.future.complete(null);
+                } else if(i == Operation.RESET_TIMEOUT) {
+                    OPERATIONS.resetExpiration(messageId);
+                }
+            }
+        }
+    }
+
+    private static class RunningOperation {
         final ReactionOperation operation;
         final OperationFuture future;
 
-        Operation(ReactionOperation operation, OperationFuture future) {
+        RunningOperation(ReactionOperation operation, OperationFuture future) {
             this.operation = operation;
             this.future = future;
         }
@@ -126,7 +168,8 @@ public final class ReactionOperations {
 
         @Override
         public boolean cancel(boolean mayInterruptIfRunning) {
-            Operation o = OPERATIONS.remove(id);
+            super.cancel(mayInterruptIfRunning);
+            RunningOperation o = OPERATIONS.remove(id);
             if(o == null) return false;
             o.operation.onCancel();
             return true;

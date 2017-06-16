@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -36,27 +37,27 @@ public class DiscordUtils {
 	}
 
 
-	public static boolean selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-		return InteractiveOperations.create(event.getChannel(), "Selection", 20000, OptionalInt.empty(), (e) -> {
-			if (!e.getAuthor().equals(event.getAuthor())) return false;
+	public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
+		return InteractiveOperations.create(event.getChannel(), 20, (e) -> {
+			if (!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
 			try {
 				int choose = Integer.parseInt(e.getMessage().getContent());
-				if (choose < 1 || choose >= max) return false;
+				if (choose < 1 || choose >= max) return Operation.RESET_TIMEOUT;
 				valueConsumer.accept(choose);
-				return true;
+				return Operation.COMPLETED;
 			} catch (Exception ignored) {}
-			return false;
+			return Operation.RESET_TIMEOUT;
 		});
 	}
 
-	public static <T> boolean selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+	public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
 		Pair<String, Integer> r = embedList(list, toString);
 		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 		return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)));
 	}
 
-	public static <T> boolean selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
+	public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
 		Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
 		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 		return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]));
@@ -66,12 +67,12 @@ public class DiscordUtils {
 		CompletableFuture<T> future = new CompletableFuture<T>();
 		Object notify = new Object();
 
-		if (!selectList(event, list, toString, toEmbed, (value) -> {
+		if (selectList(event, list, toString, toEmbed, (value) -> {
 			future.complete(value);
 			synchronized (notify) {
 				notify.notify();
 			}
-		})) throw new IllegalStateException();
+		}) == null) throw new IllegalStateException();
 
 		synchronized (notify) {
 			try {
@@ -124,7 +125,7 @@ public class DiscordUtils {
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
         return ReactionOperations.create(m, timeoutSeconds, (e)->{
-            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return false;
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
                     if(index.get() == 0) break;
@@ -138,7 +139,7 @@ public class DiscordUtils {
             if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
-            return false;
+            return Operation.RESET_TIMEOUT;
         }, "\u2b05", "\u27a1");
     }
 
@@ -174,7 +175,7 @@ public class DiscordUtils {
         }
         Message m = event.getChannel().sendMessage(supplier.apply(1, total).setDescription(embeds.get(0)).build()).complete();
         return ReactionOperations.create(m, timeoutSeconds, (e)->{
-            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return false;
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": {//left arrow
                     if (index.get() == 0) break;
@@ -190,7 +191,7 @@ public class DiscordUtils {
             if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
-            return false;
+            return Operation.RESET_TIMEOUT;
         }, "\u2b05", "\u27a1");
     }
 }

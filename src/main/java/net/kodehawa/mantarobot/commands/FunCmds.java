@@ -8,6 +8,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
 import net.kodehawa.mantarobot.modules.Command;
@@ -152,9 +153,9 @@ public class FunCmds {
 				}
 
 				if (InteractiveOperations.create(
-					event.getChannel(), "Marriage Proposal", (int) TimeUnit.SECONDS.toMillis(120), OptionalInt.empty(),
+					event.getChannel(), 120,
 					(e) -> {
-						if (!e.getAuthor().getId().equals(user.getId())) return false;
+						if (!e.getAuthor().getId().equals(user.getId())) return Operation.IGNORED;
 
 						if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
 							Player user11 = MantaroData.db().getPlayer(e.getMember());
@@ -165,17 +166,17 @@ public class FunCmds {
 								.getEffectiveName() + " accepted the proposal of " + member.getName() + "!").queue();
 							user11.save();
 							marry.save();
-							return true;
+							return Operation.COMPLETED;
 						}
 
 						if (e.getMessage().getContent().equalsIgnoreCase("no")) {
 							e.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal.").queue();
-							return true;
+							return Operation.COMPLETED;
 						}
 
-						return false;
+						return Operation.RESET_TIMEOUT;
 					}
-				)) {
+				) != null) {
 					TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
 					event.getChannel().sendMessage(EmoteReference.MEGA + user
 						.getName() + ", respond with **yes** or **no** to the marriage proposal from " + event

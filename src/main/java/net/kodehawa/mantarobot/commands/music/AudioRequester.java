@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -19,6 +20,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.IntConsumer;
@@ -154,7 +156,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 				(MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus() ? "React to the desired number to select a song." : "Type the song number to continue."), null)
 				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
 				.setFooter("This timeouts in 10 seconds.", null);
-		java.util.List<AudioTrack> tracks = playlist.getTracks();
+		List<AudioTrack> tracks = playlist.getTracks();
 		StringBuilder b = new StringBuilder();
 		for (int i = 0; i < 4 && i < tracks.size(); i++) {
 			AudioTrack at = tracks.get(i);
@@ -181,12 +183,13 @@ public class AudioRequester implements AudioLoadResultHandler {
         }
 
         long id = event.getAuthor().getIdLong(); //just in case someone else uses play before timing out
+        int max = tracks.size();
         ReactionOperations.create(event.getChannel().sendMessage(builder.build()).complete(), 15, (e)->{
-            if(e.getUser().getIdLong() != id) return false;
+            if(e.getUser().getIdLong() != id) return Operation.IGNORED;
 			int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
-            if(i < 1 || i > 4) return false;
-            loadSingle(playlist.getTracks().get(i - 1), false);
-            return true;
+            if(i < 1 || i > max) return Operation.RESET_TIMEOUT;
+            loadSingle(tracks.get(i - 1), false);
+            return Operation.COMPLETED;
         }, "\u0031\u20e3", "\u0032\u20e3", "\u0033\u20e3", "\u0034\u20e3");
 	}
 }

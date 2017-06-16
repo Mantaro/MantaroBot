@@ -182,22 +182,21 @@ public class MoneyCmds {
                 if (i >= Integer.MAX_VALUE / 4) {
                     event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
                             "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
-                    InteractiveOperations.create(event.getChannel(), "Gambling",
-                            (int) TimeUnit.SECONDS.toMillis(30), OptionalInt.empty(), new InteractiveOperation() {
+                    InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperation() {
                                 @Override
-                                public boolean run(GuildMessageReceivedEvent e) {
+                                public int run(GuildMessageReceivedEvent e) {
                                     if (e.getAuthor().getId().equals(user.getId())) {
                                         if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
                                             proceedGamble(event, player, finalLuck, random, i, finalGains);
-                                            return true;
+                                            return COMPLETED;
                                         }
                                         else if (e.getMessage().getContent().equalsIgnoreCase("no")) {
                                             e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
-                                            return true;
+                                            return COMPLETED;
                                         }
                                     }
 
-                                    return false;
+                                    return IGNORED;
                                 }
 
                                 @Override

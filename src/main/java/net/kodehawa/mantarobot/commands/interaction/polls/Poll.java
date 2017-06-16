@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -96,17 +97,17 @@ public class Poll extends Lobby {
 
             getChannel().sendMessage(builder.build()).queue(this::createPoll);
 
-            InteractiveOperations.create(getChannel(), "Poll canceller", (int) timeout, OptionalInt.empty(), e -> {
+            InteractiveOperations.create(getChannel(), timeout, e -> {
                 if(e.getAuthor().getId().equals(event.getAuthor().getId())){
                     if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")){
                         runningPoll.cancel(true);
                         getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
                         getRunningPolls().remove(getChannel().getId());
-                        return true;
+                        return Operation.COMPLETED;
                     }
-                    return false;
+                    return Operation.RESET_TIMEOUT;
                 }
-                return false;
+                return Operation.IGNORED;
             });
 
             runningPolls.put(getChannel().getId(), this);
@@ -141,10 +142,10 @@ public class Poll extends Lobby {
     private Future<Void> createPoll(Message message){
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
-            public boolean run(MessageReactionAddEvent e) {
+            public int add(MessageReactionAddEvent e) {
                 int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
-                if(i < 1 || i > options.length) return false;
-                return false; //always return false anyway lul
+                if(i < 1 || i > options.length) return Operation.IGNORED;
+                return Operation.IGNORED; //always return false anyway lul
             }
 
             @Override
