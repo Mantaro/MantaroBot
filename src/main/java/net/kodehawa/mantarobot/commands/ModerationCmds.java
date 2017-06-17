@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.OffsetDateTime;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "Moderation")
@@ -387,7 +388,7 @@ public class ModerationCmds {
                                 channel.deleteMessages(messageHistory).queue(
                                         success -> {
                                             channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot " +
-                                                    "messages").queue();
+                                                    "messages").queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                                             DBGuild db = MantaroData.db().getGuild(event.getGuild());
                                             db.getData().setCases(db.getData().getCases() + 1);
                                             db.save();
@@ -422,7 +423,19 @@ public class ModerationCmds {
                     for (User user : event.getMessage().getMentionedUsers()) {
                         users.add(user.getIdLong());
                     }
-                    channel.getHistory().retrievePast(100).queue(
+
+                    int i = 5;
+
+                    if(args.length > 1){
+                        try{
+                            i = Integer.parseInt(args[1]);
+                            if(i < 3) i = 3;
+                        } catch (Exception e){
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
+                        }
+                    }
+
+                    channel.getHistory().retrievePast(Math.min(i, 100)).queue(
                             messageHistory -> {
                                 messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
 
@@ -436,8 +449,9 @@ public class ModerationCmds {
 
                                 channel.deleteMessages(messageHistory).queue(
                                         success -> {
-                                            channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " users " +
-                                                    "messages").queue();
+                                            channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages from **"
+                                                   + event.getMessage().getMentionedUsers().get(0).getName() +
+                                                    "**").queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                                             DBGuild db = MantaroData.db().getGuild(event.getGuild());
                                             db.getData().setCases(db.getData().getCases() + 1);
                                             db.save();
@@ -490,7 +504,7 @@ public class ModerationCmds {
                             channel.deleteMessages(messageHistory).queue(
                                     success -> {
                                         channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages")
-                                                .queue();
+                                                .queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
                                         DBGuild db = MantaroData.db().getGuild(event.getGuild());
                                         db.getData().setCases(db.getData().getCases() + 1);
                                         db.save();
