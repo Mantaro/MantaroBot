@@ -510,8 +510,8 @@ public class MantaroListener implements EventListener {
 				logTotal++;
 			}
 
-			String leaveChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
-			String leaveMessage = MantaroData.db().getGuild(event.getGuild()).getData().getLeaveMessage();
+			String leaveChannel = data.getLogJoinLeaveChannel();
+			String leaveMessage = data.getLeaveMessage();
 
 
 			if (leaveChannel != null && leaveMessage != null) {
