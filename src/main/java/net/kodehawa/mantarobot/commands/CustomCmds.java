@@ -12,6 +12,7 @@ import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.CustomCommand;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -212,17 +213,17 @@ public class CustomCmds {
 
 					List<String> responses = new ArrayList<>();
 					boolean created = InteractiveOperations.create(
-						event.getChannel(), "Custom Command Creation", 60000, OptionalInt.of(60000), e -> {
-							if (!e.getAuthor().equals(event.getAuthor())) return false;
+						event.getChannel(), 60, e -> {
+							if (!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
 							String c = e.getMessage().getRawContent();
-							if (!c.startsWith("&")) return false;
+							if (!c.startsWith("&")) return Operation.IGNORED;
 							c = c.substring(1);
 
 							if (c.startsWith("~>cancel") || c.startsWith("~>stop")) {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Command Creation canceled.")
 									.queue();
-								return true;
+								return Operation.COMPLETED;
 							}
 
 							if (c.startsWith("~>save")) {
@@ -232,13 +233,13 @@ public class CustomCmds {
 								if (!NAME_PATTERN.matcher(cmd).matches()) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.")
 										.queue();
-									return false;
+									return Operation.RESET_TIMEOUT;
 								}
 
 								if(cmd.length() >= 100){
 									event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
 											.queue();
-									return false;
+									return Operation.RESET_TIMEOUT;
 								}
 
 								if (CommandProcessor.REGISTRY.commands().containsKey(
@@ -246,7 +247,7 @@ public class CustomCmds {
 									customCommand)) {
 									event.getChannel().sendMessage(
 										EmoteReference.ERROR + "A command already exists with this name!").queue();
-									return false;
+									return Operation.RESET_TIMEOUT;
 								}
 
 								if (responses.isEmpty()) {
@@ -271,13 +272,13 @@ public class CustomCmds {
 									//easter egg :D
 									TextChannelGround.of(event).dropItemWithChance(8, 2);
 								}
-								return true;
+								return Operation.COMPLETED;
 							}
 
 							responses.add(c);
 							e.getMessage().addReaction(EmoteReference.CORRECT.getUnicode()).queue();
-							return false;
-						});
+							return Operation.RESET_TIMEOUT;
+						}) != null;
 
 					if (created) {
 						event.getChannel().sendMessage(

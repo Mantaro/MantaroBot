@@ -41,9 +41,9 @@ public class Character extends ImageGame {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
+		InteractiveOperations.create(lobby.getChannel(), 120, new InteractiveOperation() {
 			@Override
-			public boolean run(GuildMessageReceivedEvent e) {
+			public int run(GuildMessageReceivedEvent e) {
 				return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
 			}
 

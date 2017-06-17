@@ -1,16 +1,18 @@
 package net.kodehawa.mantarobot.core.listeners.operations;
 
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveAllEvent;
+import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 
 @FunctionalInterface
-public interface ReactionOperation {
-    boolean run(MessageReactionAddEvent event);
+public interface ReactionOperation extends Operation {
+    int add(MessageReactionAddEvent event);
 
-    default void onCancel() {
-
+    default int remove(MessageReactionRemoveEvent event) {
+        return IGNORED;
     }
 
-    default void onExpire() {
-
+    default int removeAll(MessageReactionRemoveAllEvent event) {
+        return IGNORED;
     }
 }

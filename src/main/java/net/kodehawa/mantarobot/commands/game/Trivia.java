@@ -79,9 +79,9 @@ public class Trivia extends Game {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), "Game", (int) TimeUnit.MINUTES.toMillis(2), OptionalInt.empty(), new InteractiveOperation() {
+		InteractiveOperations.create(lobby.getChannel(), 120, new InteractiveOperation() {
 				@Override
-				public boolean run(GuildMessageReceivedEvent event) {
+				public int run(GuildMessageReceivedEvent event) {
 					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, hardDiff ? 10 : 0);
 				}
 
@@ -90,7 +90,6 @@ public class Trivia extends Game {
 					lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 					GameLobby.LOBBYS.remove(lobby.getChannel());
 				}
-			}
-		);
+			});
 	}
 }
