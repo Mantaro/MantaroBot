@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -29,6 +30,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
@@ -770,6 +772,37 @@ public class OptsCmd {
 				event.getChannel().sendMessage(EmoteReference.WARNING + "You have to run this command while Mantaro is playing music!").queue();
 			}
 
+		});
+
+		registerOption("defaultmutetimeout:set", ((event, args) -> {
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You have to specify a timeout in the format of 1m20s, for example.").queue();
+				return;
+			}
+
+			if(!(args[0]).matches("(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?")){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong time format. You have to specify a timeout in the format of 1m20s, for example.").queue();
+				return;
+			}
+
+			long timeoutToSet = AudioCmdUtils.parseTime(args[0]);
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			guildData.setSetModTimeout(timeoutToSet);
+			dbGuild.save();
+
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
+		}));
+
+		registerOption("defaultmutetimeout:reset", event -> {
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			guildData.setSetModTimeout(0L);
+			dbGuild.save();
+
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
 		});
 	}
 

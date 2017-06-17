@@ -37,12 +37,12 @@ public class GameCmds {
 					return;
 				}
 
-				if (args[0].equals("character")) {
+				if (args[0].equalsIgnoreCase("character")) {
 					startGame(new Character(), event);
 					return;
 				}
 
-				if (args[0].equals("pokemon")) {
+				if (args[0].equalsIgnoreCase("pokemon") || args[0].equalsIgnoreCase("pokémon")) {
 					startGame(new Pokemon(), event);
 					return;
 				}

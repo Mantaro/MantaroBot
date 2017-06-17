@@ -661,7 +661,12 @@ public class ModerationCmds {
 
                 event.getMessage().getMentionedUsers().forEach(user -> {
                     Member m = event.getGuild().getMember(user);
-                    long time = 0L;
+                    long time = System.currentTimeMillis() + guildData.getSetModTimeout();
+
+                    if(time > 0){
+                        guildData.getMutedTimelyUsers().put(user.getIdLong(), time);
+                        dbGuild.save();
+                    }
 
                     if(opts.containsKey("time")){
                         if(opts.get("time").get().isEmpty()){
@@ -673,6 +678,7 @@ public class ModerationCmds {
                         guildData.getMutedTimelyUsers().put(user.getIdLong(), time);
                         dbGuild.save();
                     }
+
 
                     if(m.getRoles().contains(mutedRole)){
                         event.getChannel().sendMessage(EmoteReference.WARNING + "This user already has a mute role assigned. Please do `~>unmute` to unmute them.").queue();

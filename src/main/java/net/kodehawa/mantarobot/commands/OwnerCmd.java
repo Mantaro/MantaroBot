@@ -592,7 +592,7 @@ public class OwnerCmd {
 	}
 
 	//TODO pls fix this in API
-	@Command
+	//@Command
 	public static void addGif(CommandRegistry registry){
 		registry.register("addgif", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override

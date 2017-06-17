@@ -97,7 +97,7 @@ public class MiscCmds {
 
 				StringBuilder stringBuilder = new StringBuilder();
 
-				if (content.equals("list")) {
+				if (content.equals("list") || content.equals("ls")) {
 					EmbedBuilder embed = baseEmbed(event, "Autorole list");
 					if (autoroles.size() > 0) {
 						autoroles.forEach((name, roleId) -> {

@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -42,6 +43,7 @@ public class Mapifier {
 		map(prefix + "owner", map, guild.getOwner());
 		map.put(prefix + "region", guild.getRegion().getName());
 		map(prefix + "publicChannel", map, guild.getPublicChannel());
+		map.put(prefix + "totalusers", String.valueOf(guild.getMembers().size()));
 		//map(prefix + "me", map, guild.getSelfMember());
 	}
 
@@ -68,15 +70,7 @@ public class Mapifier {
 		map(prefix + "message", map, event.getMessage());
 	}
 
-	public static void map(String prefix, Map<String, String> map, GuildMemberJoinEvent event) {
-		map.put(prefix, event.getMember().getAsMention() + "@" + event.getGuild().getName());
-		prefix = prefix + ".";
-		map(prefix + "guild", map, event.getGuild());
-		map(prefix + "me", map, event.getGuild().getSelfMember());
-		map(prefix + "user", map, event.getMember());
-	}
-
-	public static void map(String prefix, Map<String, String> map, GuildMemberLeaveEvent event) {
+	public static void map(String prefix, Map<String, String> map, GenericGuildMemberEvent event) {
 		map.put(prefix, event.getMember().getAsMention() + "@" + event.getGuild().getName());
 		prefix = prefix + ".";
 		map(prefix + "guild", map, event.getGuild());
