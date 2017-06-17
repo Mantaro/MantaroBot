@@ -73,6 +73,7 @@ public class CommandListener implements EventListener {
 			if (random.nextInt(15) > 10) {
 				if (((GuildMessageReceivedEvent) event).getMember() == null) return;
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
+				if(((GuildMessageReceivedEvent) event).getMember().getUser().isBot()) return;
 				if (player != null) {
 					//Note to myself: zero tends to infinity (or just NaN in this case).
 					//kill me

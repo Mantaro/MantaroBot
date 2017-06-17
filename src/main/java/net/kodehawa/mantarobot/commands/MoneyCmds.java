@@ -359,6 +359,7 @@ public class MoneyCmds {
                     return;
                 }
 
+
                 if (args.length > 0 && (args[0].equalsIgnoreCase("rep") || args[0].equalsIgnoreCase("reputation"))) {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
@@ -410,7 +411,7 @@ public class MoneyCmds {
                 return helpEmbed(event, "Leaderboard")
                         .setDescription("**Returns the leaderboard.**")
                         .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
-                                "`~>leaderboard rep` - **Returns the reputation leaderboard.**" +
+                                "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
                                 "`~>leaderboard lvl` - **Returns the level leaderboard.**", false)
                         .build();
             }
