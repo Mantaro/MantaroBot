@@ -745,26 +745,31 @@ public class OptsCmd {
 		});
 
 		registerOption("musicspeedup:fix", event -> {
-			MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-			AudioManager audioManager = event.getGuild().getAudioManager();
-			VoiceChannel previousVc = audioManager.getConnectedChannel();
-			audioManager.closeAudioConnection();
-			manager.getMusicManagers().remove(event.getGuild().getId());
-			audioManager.setSendingHandler(null);
-			event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
-					+ " with debug:\n " +
-			 		"```diff\n"
-					+ "Audio Manager: " + manager + "\n"
-					+ "VC to connect: " + previousVc.getName() + "\n"
-					+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
-					+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
-					+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
-					+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
-					+ "Guild ID: " + event.getGuild().getId() + "\n"
-					+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
-					+ "```\n" +
-					"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
-			audioManager.openAudioConnection(previousVc);
+			try{
+				MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+				AudioManager audioManager = event.getGuild().getAudioManager();
+				VoiceChannel previousVc = audioManager.getConnectedChannel();
+				audioManager.closeAudioConnection();
+				manager.getMusicManagers().remove(event.getGuild().getId());
+				audioManager.setSendingHandler(null);
+				event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
+						+ " with debug:\n " +
+						"```diff\n"
+						+ "Audio Manager: " + manager + "\n"
+						+ "VC to connect: " + previousVc.getName() + "\n"
+						+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
+						+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
+						+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
+						+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
+						+ "Guild ID: " + event.getGuild().getId() + "\n"
+						+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
+						+ "```\n" +
+						"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
+				audioManager.openAudioConnection(previousVc);
+			} catch (NullPointerException e){
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You have to run this command while Mantaro is playing music!").queue();
+			}
+
 		});
 	}
 
