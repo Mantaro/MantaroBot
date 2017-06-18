@@ -51,7 +51,7 @@ public class GuildData {
 	private long ranPolls = 0L;
 	private HashMap<String, List<Category>> channelSpecificDisabledCategories = new HashMap<>();
 	private Set<Category> disabledCategories = new HashSet<>();
-
+	private long setModTimeout = 0L;
 	//TODO implement
 	private int maxResultsSearch = 5;
 }

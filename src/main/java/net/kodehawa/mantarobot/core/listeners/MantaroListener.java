@@ -324,7 +324,6 @@ public class MantaroListener implements EventListener {
 		//This is a pretty lazy check.
 		if(!guildData.getMutedTimelyUsers().isEmpty()){
 			guildData.getMutedTimelyUsers().forEach((id, maxTime) -> {
-				System.out.println(System.currentTimeMillis() > maxTime);
 				if(System.currentTimeMillis() > maxTime){
 					try{
 						guildData.getMutedTimelyUsers().remove(id);
@@ -459,8 +458,8 @@ public class MantaroListener implements EventListener {
 				logTotal++;
 			}
 
-			String joinChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
-			String joinMessage = MantaroData.db().getGuild(event.getGuild()).getData().getJoinMessage();
+			String joinChannel = data.getLogJoinLeaveChannel();
+			String joinMessage = data.getJoinMessage();
 
 			if (joinChannel != null && joinMessage != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
@@ -511,8 +510,8 @@ public class MantaroListener implements EventListener {
 				logTotal++;
 			}
 
-			String leaveChannel = MantaroData.db().getGuild(event.getGuild()).getData().getLogJoinLeaveChannel();
-			String leaveMessage = MantaroData.db().getGuild(event.getGuild()).getData().getLeaveMessage();
+			String leaveChannel = data.getLogJoinLeaveChannel();
+			String leaveMessage = data.getLeaveMessage();
 
 
 			if (leaveChannel != null && leaveMessage != null) {

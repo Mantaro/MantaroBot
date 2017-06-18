@@ -1,12 +1,15 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -22,6 +25,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Module
 public class FunCmds {
@@ -269,6 +273,81 @@ public class FunCmds {
 							"(By default, this command will roll a 6-sized dice 1 time.)"
 					)
 					.build();
+			}
+		});
+	}
+
+	@Command
+	public static void love(CommandRegistry registry){
+		Random r = new Random();
+		String[] usersToMax = {"155867458203287552;132584525296435200",
+				"132584525296435200;155867458203287552","1558674582032875522;213466096718708737", "213466096718708737;1558674582032875522",
+				"267207628965281792;251260900252712962", "251260900252712962;267207628965281792"};
+
+		registry.register("love", new SimpleCommand(Category.FUN) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				List<User> mentioned = event.getMessage().getMentionedUsers();
+				int percentage = r.nextInt(100);
+				String result = "Uh...";
+
+				if(mentioned.size() < 1){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least 1 user.").queue();
+					return;
+				}
+
+				String ids = mentioned.get(0).getId() + ";" + event.getAuthor().getId();
+				List<String> listDisplay = new ArrayList<>();
+				String toDisplay;
+				listDisplay.add("\uD83D\uDC97  " + mentioned.get(0).getName() + "#" + mentioned.get(0).getDiscriminator());
+				listDisplay.add("\uD83D\uDC97  " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator());
+				toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
+
+				if(mentioned.size() == 2){
+					ids = mentioned.get(0).getId() + ";" + mentioned.get(1).getId();
+					toDisplay = mentioned.stream()
+							.map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining("\n"));
+				}
+
+				final String matcher = ids;
+				String[] yChecker = ids.split(";");
+				boolean yCheck = yChecker[0].equalsIgnoreCase(yChecker[1]);
+				if(Stream.of(usersToMax).anyMatch(s -> s.equals(matcher)) || yCheck){
+					percentage = 100;
+				}
+
+				if(percentage > 25 && percentage < 50){
+					result = "Try again next time...";
+				} else if (percentage > 50 && percentage < 75){
+					result = "Good enough!";
+				} else if (percentage > 75 && percentage < 100){
+					result = "Good match!";
+				}  else {
+					result = "Perfect match!";
+					if (yCheck){
+						result = "You're a special creature and you should love yourself more than anyone <3";
+					}
+				}
+
+				MessageEmbed loveEmbed = new EmbedBuilder()
+						.setAuthor("\u2764 Love Meter \u2764", null, event.getAuthor().getEffectiveAvatarUrl())
+						.setThumbnail("http://www.hey.fr/fun/emoji/twitter/en/twitter/469-emoji_twitter_sparkling_heart.png")
+						.setDescription("\n**" + toDisplay + "**\n\n" +
+								percentage + "% ||  " + CommandStatsManager.bar(percentage, 40) + "  **||** \n\n" +
+								"**Result:** `"
+								+ result + "`")
+						.setColor(event.getMember().getColor())
+						.build();
+
+				event.getChannel().sendMessage(loveEmbed).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Love Meter")
+						.setDescription("**Calculates the love between 2 discord users**")
+						.addField("Considerations", "You can either mention one user (matches with yourself) or two (matches 2 users)", false)
+						.build();
 			}
 		});
 	}

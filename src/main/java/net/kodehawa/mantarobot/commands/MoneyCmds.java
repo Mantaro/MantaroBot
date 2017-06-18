@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
@@ -312,7 +313,7 @@ public class MoneyCmds {
 
     @Command
     public static void richest(CommandRegistry cr) {
-        cr.register("richest", new SimpleCommand(Category.CURRENCY) {
+        cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
             @Override
@@ -323,18 +324,77 @@ public class MoneyCmds {
                     return;
                 }
 
+
                 String pattern = ":g$";
                 OrderBy template =
                         r.table("players")
                                 .orderBy()
                                 .optArg("index", r.desc("money"));
+
+                if (args.length > 0 && (args[0].equalsIgnoreCase("lvl") || args[0].equalsIgnoreCase("level"))) {
+                    Cursor<Map> m = r.table("players")
+                            .orderBy()
+                            .optArg("index", r.desc("level"))
+                            .filter(player -> player.g("id").match(pattern))
+                            .map(player -> player.pluck("id", "level"))
+                            .limit(15)
+                            .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                    AtomicInteger i = new AtomicInteger();
+                    List<Map> c = m.toList();
+
+                    event.getChannel().sendMessage(
+                            baseEmbed(event,
+                                    "Level leaderboard",
+                                    event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                            ).setDescription(c.stream()
+                                    .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
+                                    .filter(p -> Objects.nonNull(p.getKey()))
+                                    .map(p -> String.format("%d - **%s#%s** - Level: %s", i.incrementAndGet(), p.getKey().getName(), p
+                                            .getKey().getDiscriminator(), p.getValue()))
+                                    .collect(Collectors.joining("\n"))
+                            ).build()
+                    ).queue();
+
+
+                    return;
+                }
+
+
+                if (args.length > 0 && (args[0].equalsIgnoreCase("rep") || args[0].equalsIgnoreCase("reputation"))) {
+                    Cursor<Map> m = r.table("players")
+                            .orderBy()
+                            .optArg("index", r.desc("reputation"))
+                            .filter(player -> player.g("id").match(pattern))
+                            .map(player -> player.pluck("id", "reputation"))
+                            .limit(15)
+                            .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                    AtomicInteger i = new AtomicInteger();
+                    List<Map> c = m.toList();
+
+                    event.getChannel().sendMessage(
+                            baseEmbed(event,
+                                    "Reputation leaderboard",
+                                    event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                            ).setDescription(c.stream()
+                                    .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
+                                    .filter(p -> Objects.nonNull(p.getKey()))
+                                    .map(p -> String.format("%d - **%s#%s** - Reputation: %s", i.incrementAndGet(), p.getKey().getName(), p
+                                            .getKey().getDiscriminator(), p.getValue()))
+                                    .collect(Collectors.joining("\n"))
+                            ).build()
+                    ).queue();
+
+
+                    return;
+                }
+
                 Cursor<Map> c1 = getGlobalRichest(template, pattern);
                 AtomicInteger i = new AtomicInteger();
                 List<Map> c = c1.toList();
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Global richest list",
+                                "Money leaderboard",
                                 event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
@@ -348,12 +408,16 @@ public class MoneyCmds {
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Money list")
-                        .setDescription("**Returns the global richest users.**")
-                        .addField("Usage", "`~>richest` - **Returns the magical list.** ", false)
+                return helpEmbed(event, "Leaderboard")
+                        .setDescription("**Returns the leaderboard.**")
+                        .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
+                                "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
+                                "`~>leaderboard lvl` - **Returns the level leaderboard.**", false)
                         .build();
             }
         });
+
+        cr.registerAlias("leaderboard", "richest");
     }
 
     private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
