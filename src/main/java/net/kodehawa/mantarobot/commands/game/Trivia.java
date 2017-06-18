@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collector;
@@ -29,7 +30,7 @@ public class Trivia extends Game {
 	@Override
 	public boolean onStart(GameLobby lobby) {
 		try {
-			String json = Utils.wget("https://opentdb.com/api.php?amount=1", null);
+			String json = Utils.wget("https://opentdb.com/api.php?amount=1&encode=base64", null);
 
 			if(json == null){
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while starting trivia. Seemingly Open Trivia DB is having trouble.").queue();
@@ -45,14 +46,16 @@ public class Trivia extends Game {
 
 			List<Object> incorrectAnswers = question.getJSONArray("incorrect_answers").toList();
 			List<String> l = new ArrayList<>();
-			for(Object o : incorrectAnswers) l.add("**" + String.valueOf(o) + "**\n");
+			for(Object o : incorrectAnswers){
+					l.add("**" + fromB64(String.valueOf(o)) + "**\n");
+			}
 
-			String qu = Jsoup.parse(question.getString("question")).text();
-			String category = question.getString("category");
-			String diff = question.getString("difficulty");
+			String qu = fromB64(question.getString("question"));
+			String category = fromB64(question.getString("category"));
+			String diff = fromB64(question.getString("difficulty"));
 			if(diff.equalsIgnoreCase("hard")) hardDiff = true;
 
-			expectedAnswer.add(Jsoup.parse(question.getString("correct_answer")).text());
+			expectedAnswer.add(fromB64(question.getString("correct_answer")));
 
 			l.add("**" + expectedAnswer.stream().collect(Collectors.joining("\n")) + "**\n");
 			Collections.shuffle(l);
@@ -91,5 +94,9 @@ public class Trivia extends Game {
 					GameLobby.LOBBYS.remove(lobby.getChannel());
 				}
 			});
+	}
+
+	private String fromB64(String b64){
+		return new String(Base64.getDecoder().decode(b64), StandardCharsets.UTF_8);
 	}
 }
