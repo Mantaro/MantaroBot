@@ -178,7 +178,7 @@ public class FunCmds {
 							return Operation.COMPLETED;
 						}
 
-						return Operation.RESET_TIMEOUT;
+						return Operation.IGNORED;
 					}
 				) != null) {
 					TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
@@ -186,7 +186,9 @@ public class FunCmds {
 						.getName() + ", respond with **yes** or **no** to the marriage proposal from " + event
 						.getAuthor().getName() + ".").queue();
 
-				}
+				} else {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
+                }
 			}
 
 			@Override
