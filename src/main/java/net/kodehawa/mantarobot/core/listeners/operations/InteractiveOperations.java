@@ -48,9 +48,7 @@ public class InteractiveOperations {
     public static Future<Void> create(long channelId, long timeoutSeconds, InteractiveOperation operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
-        RunningOperation o = OPERATIONS.get(channelId);
-        if(o != null) return null;
-        o = new RunningOperation(operation, new OperationFuture(channelId));
+        RunningOperation o = new RunningOperation(operation, new OperationFuture(channelId));
         OPERATIONS.put(channelId, o, timeoutSeconds, TimeUnit.SECONDS);
         return o.future;
     }
