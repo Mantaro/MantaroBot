@@ -8,6 +8,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
+import net.kodehawa.mantarobot.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -81,8 +82,9 @@ public class CommandRegistry {
 		return true;
 	}
 
-	public void register(String s, Command c) {
+	public Command register(String s, Command c) {
 		commands.putIfAbsent(s, c);
+		return c;
 	}
 
 	public void registerAlias(String c, String o) {

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -10,6 +11,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -774,7 +776,7 @@ public class OptsCmd {
 
 		});
 
-		registerOption("defaultmutetimeout:set", ((event, args) -> {
+		/*registerOption("defaultmutetimeout:set", ((event, args) -> {
 			if(args.length == 0){
 				event.getChannel().sendMessage(EmoteReference.ERROR + "You have to specify a timeout in the format of 1m20s, for example.").queue();
 				return;
@@ -793,7 +795,7 @@ public class OptsCmd {
 			dbGuild.save();
 
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
-		}));
+		}));*/
 
 		registerOption("defaultmutetimeout:reset", event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -820,13 +822,25 @@ public class OptsCmd {
 					String s = args[i];
 					if (!name.isEmpty()) name += ":";
 					name += s;
-					BiConsumer<GuildMessageReceivedEvent, String[]> option = options.get(name);
+					Option option = Option.optionMap.get(name);
+
 					if (option != null) {
+						BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.optionMap.get(name).getEventConsumer();
 						try{
 							String[] a;
 							if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
 							else a = new String[0];
-							option.accept(event, a);
+							if(content.contains("-help")){
+								EmbedBuilder builder = new EmbedBuilder()
+										.setAuthor("Help for " +
+												option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
+										.setDescription(option.getDescription())
+										.addField("Type", option.getType().toString(), false);
+
+								event.getChannel().sendMessage(builder.build()).queue();
+								return;
+							}
+							callable.accept(event, a);
 						} catch (IndexOutOfBoundsException ignored){}
 
 						return;

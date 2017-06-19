@@ -9,6 +9,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.options.Option;
+import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.db.ManagedDatabase;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
@@ -675,7 +677,7 @@ public class ModerationCmds {
 
                 event.getMessage().getMentionedUsers().forEach(user -> {
                     Member m = event.getGuild().getMember(user);
-                    long time = System.currentTimeMillis() + guildData.getSetModTimeout();
+                    long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
 
                     if(time > 0){
                         guildData.getMutedTimelyUsers().put(user.getIdLong(), time);
@@ -731,7 +733,30 @@ public class ModerationCmds {
                                 "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
                         .build();
             }
-        });
+        }).addOption("defaultmutetimeout:set", new Option("Default mute timeout",
+                "Sets the default mute timeout for ~>mute.\n" +
+                        "This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**\n" +
+                        "**Example:** `~>opts defaultmutetimeout set 1m20s`\n" +
+                        "**Considerations:** Time is in 1m20s or 1h10m3s format, for example.", OptionType.GUILD)
+                .setAction(((event, args) -> {
+                    if(args.length == 0){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You have to specify a timeout in the format of 1m20s, for example.").queue();
+                        return;
+                    }
+
+                    if(!(args[0]).matches("(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?")){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong time format. You have to specify a timeout in the format of 1m20s, for example.").queue();
+                        return;
+                    }
+
+                    long timeoutToSet = AudioCmdUtils.parseTime(args[0]);
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    guildData.setSetModTimeout(timeoutToSet);
+                    dbGuild.save();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
+                })));
     }
 
     @Command

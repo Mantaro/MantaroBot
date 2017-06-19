@@ -3,9 +3,11 @@ package net.kodehawa.mantarobot.modules.commands.base;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -69,5 +71,11 @@ public interface AssistedCommand extends Command {
 		}
 
 		event.getChannel().sendMessage(help(event)).queue();
+	}
+
+	@Override
+	default Command addOption(String call, Option option){
+		Option.optionMap.put(call, option);
+		return this;
 	}
 }

@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.modules.commands.base;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 
 /**
@@ -33,4 +34,6 @@ public interface Command {
 	 * @param content     the arguments of the command
 	 */
 	void run(GuildMessageReceivedEvent event, String commandName, String content);
+
+	Command addOption(String call, Option option);
 }
