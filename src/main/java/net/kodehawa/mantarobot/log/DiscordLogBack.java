@@ -35,6 +35,7 @@ public class DiscordLogBack extends AppenderBase<ILoggingEvent> {
 		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
 		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
 		if (toSend.contains("PermissionException")) return;
+		if (toSend.contains("ResponseProcessCookies")) return;
 		if (toSend.contains("Read timed out")) return;
 
 		if (toSend.length() > 1920)
