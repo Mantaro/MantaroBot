@@ -675,7 +675,7 @@ public class ModerationCmds {
 
                 event.getMessage().getMentionedUsers().forEach(user -> {
                     Member m = event.getGuild().getMember(user);
-                    long time = System.currentTimeMillis() + guildData.getSetModTimeout();
+                    long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
 
                     if(time > 0){
                         guildData.getMutedTimelyUsers().put(user.getIdLong(), time);
