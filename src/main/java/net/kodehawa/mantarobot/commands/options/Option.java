@@ -1,20 +1,22 @@
 package net.kodehawa.mantarobot.commands.options;
 
-import com.google.common.base.Preconditions;
 import lombok.Getter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Option {
 
-    public static Map<String, Option> optionMap = new HashMap<>();
-
+    @Getter private static Map<String, Option> optionMap = new HashMap<>();
+    @Getter private static List<String> avaliableOptions = new ArrayList<>();
     @Getter private final String optionName;
     @Getter private final String description;
+    @Getter private static String shortDescription = "Not set.";
     @Getter private final OptionType type;
     @Getter private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
 
@@ -34,9 +36,13 @@ public class Option {
         return this;
     }
 
-    public BiConsumer<GuildMessageReceivedEvent, String[]> getOptionByCallable(String optionName) {
-        BiConsumer<GuildMessageReceivedEvent, String[]> c = optionMap.get(optionName).getEventConsumer();
-        Preconditions.checkNotNull(c, "Callable for " + optionName + "isn't set!");
-        return c;
+    public Option setShortDescription(String shortDescription){
+        this.shortDescription = shortDescription;
+        return this;
+    }
+
+    public static void addOption(String name, Option option) {
+        Option.optionMap.put(name, option);
+        Option.avaliableOptions.add("`" + name.replace(":", " ") + "` - **" + getShortDescription() + "**");
     }
 }

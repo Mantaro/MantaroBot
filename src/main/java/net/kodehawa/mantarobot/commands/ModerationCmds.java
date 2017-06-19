@@ -756,7 +756,7 @@ public class ModerationCmds {
                     dbGuild.save();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
-                })));
+                })).setShortDescription("Sets the default timeout for the ~>mute command"));
     }
 
     @Command

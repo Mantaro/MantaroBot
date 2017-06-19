@@ -39,7 +39,7 @@ public class AliasCommand implements Command {
 
 	@Override
 	public Command addOption(String call, Option option){
-		Option.optionMap.put(call, option);
+		Option.addOption(call, option);
 		return this;
 	}
 }

@@ -813,6 +813,21 @@ public class OptsCmd {
 		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
+					AtomicInteger counter = new AtomicInteger();
+					Queue<Message> toSend = new MessageBuilder().append(
+							EmoteReference.EYES + "A list of currently avaliable options will be shown below. **To get help for an option ")
+							.append("just run the option without any arguments with -help at the end of it.**\n\n")
+							.append(Option.getAvaliableOptions().stream().map(s -> "**" + counter.incrementAndGet() + ".** " + s).collect(Collectors.joining("\n"))
+					).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+					toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
+					return;
+				}
+
+				if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+					return;
+				}
+
 				if (args.length < 2) {
 					event.getChannel().sendMessage(help(event)).queue();
 					return;
@@ -822,10 +837,10 @@ public class OptsCmd {
 					String s = args[i];
 					if (!name.isEmpty()) name += ":";
 					name += s;
-					Option option = Option.optionMap.get(name);
+					Option option = Option.getOptionMap().get(name);
 
 					if (option != null) {
-						BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.optionMap.get(name).getEventConsumer();
+						BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.getOptionMap().get(name).getEventConsumer();
 						try{
 							String[] a;
 							if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);

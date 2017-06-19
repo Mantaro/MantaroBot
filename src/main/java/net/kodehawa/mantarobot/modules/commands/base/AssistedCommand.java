@@ -75,7 +75,7 @@ public interface AssistedCommand extends Command {
 
 	@Override
 	default Command addOption(String call, Option option){
-		Option.optionMap.put(call, option);
+		Option.addOption(call, option);
 		return this;
 	}
 }
