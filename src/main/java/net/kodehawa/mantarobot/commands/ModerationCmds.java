@@ -756,7 +756,59 @@ public class ModerationCmds {
                     dbGuild.save();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
-                })).setShortDescription("Sets the default timeout for the ~>mute command"));
+                })).setShortDescription("Sets the default timeout for the ~>mute command"))
+        .addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
+                "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", OptionType.GUILD)
+                .setAction((event -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    guildData.setSetModTimeout(0L);
+                    dbGuild.save();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
+                })).setShortDescription("Resets the default mute timeout."))
+        .addOption("muterole:set", new Option("Mute role set",
+                "Sets this guild's mute role to apply on the `~>mute` command.\n" +
+                        "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
+                        " be wrapped in quotation marks", OptionType.COMMAND)
+        .setAction((event, args) -> {
+            if (args.length < 1) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            String roleName = String.join(" ", args);
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
+            if (roleList.size() == 0) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
+            } else if (roleList.size() == 1) {
+                Role role = roleList.get(0);
+                guildData.setMutedRole(role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
+            } else {
+                DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
+                        role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Mute Role:")
+                                .setDescription(s).build(),
+                        role -> {
+                            guildData.setMutedRole(role.getId());
+                            dbGuild.saveAsync();
+                            event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
+                        });
+            }
+        }).setShortDescription("Sets this guild's mute role to apply on the `~>mute` command"))
+        .addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
+        .setAction(event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setMutedRole(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.OK + "Correctly resetted mute role.").queue();
+        }).setShortDescription("Resets the current value set for the mute role."));
     }
 
     @Command
@@ -834,7 +886,6 @@ public class ModerationCmds {
 
     @Command
     public static void onPostLoad(PostLoadEvent e){
-
         OptsCmd.registerOption("modlog:blacklist", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()){

@@ -14,10 +14,9 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
-import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.Repeat;
-import net.kodehawa.mantarobot.commands.music.TrackScheduler;
+import net.kodehawa.mantarobot.commands.music.*;
+import net.kodehawa.mantarobot.commands.options.Option;
+import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
@@ -259,7 +258,35 @@ public class MusicCmds {
 						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
-		});
+		}).addOption("musicspeedup:fix", new Option("Music speedup fix",
+				"Attempts to fix the music speedup issues on music playback.\n" +
+				"**Considerations:** This command *needs* to be run when mantaro is playing music.", OptionType.GENERAL)
+				.setAction(event -> {
+					try{
+						MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+						AudioManager audioManager = event.getGuild().getAudioManager();
+						VoiceChannel previousVc = audioManager.getConnectedChannel();
+						audioManager.closeAudioConnection();
+						manager.getMusicManagers().remove(event.getGuild().getId());
+						audioManager.setSendingHandler(null);
+						event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
+								+ " with debug:\n " +
+								"```diff\n"
+								+ "Audio Manager: " + manager + "\n"
+								+ "VC to connect: " + previousVc.getName() + "\n"
+								+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
+								+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
+								+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
+								+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
+								+ "Guild ID: " + event.getGuild().getId() + "\n"
+								+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
+								+ "```\n" +
+								"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
+						audioManager.openAudioConnection(previousVc);
+					} catch (NullPointerException e){
+						event.getChannel().sendMessage(EmoteReference.WARNING + "You have to run this command while Mantaro is playing music!").queue();
+					}
+				}).setShortDescription("Attempts to fix the music speedup issues on music playback."));
 	}
 
 	@Command

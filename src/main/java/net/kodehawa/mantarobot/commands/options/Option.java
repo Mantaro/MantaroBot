@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 public class Option {
 
     @Getter private static Map<String, Option> optionMap = new HashMap<>();
+    //Display names + desc in the avaliable options list.
     @Getter private static List<String> avaliableOptions = new ArrayList<>();
     @Getter private final String optionName;
     @Getter private final String description;
@@ -36,13 +37,18 @@ public class Option {
         return this;
     }
 
-    public Option setShortDescription(String shortDescription){
-        this.shortDescription = shortDescription;
+    public Option setShortDescription(String sd){
+        shortDescription = sd;
         return this;
     }
 
     public static void addOption(String name, Option option) {
         Option.optionMap.put(name, option);
-        Option.avaliableOptions.add("`" + name.replace(":", " ") + "` - **" + getShortDescription() + "**");
+        String toAdd = String.format(
+                "%-34s" + " | %s",
+                name.replace(":", " "),
+                getShortDescription()
+        );
+        Option.avaliableOptions.add(toAdd);
     }
 }
