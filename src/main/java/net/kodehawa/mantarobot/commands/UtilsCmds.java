@@ -318,7 +318,7 @@ public class UtilsCmds {
 		OptsCmd.registerOption("birthday:enable", "Birthday Monitoring enable",
 				"Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
 						"**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
-				"Sets the join/leave message channel.", (event, args) -> {
+				"Enables birthday monitoring.", (event, args) -> {
 			if (args.length < 2) {
 				OptsCmd.onHelp(event);
 				return;
