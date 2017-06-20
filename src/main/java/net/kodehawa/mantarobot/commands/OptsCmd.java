@@ -263,7 +263,10 @@ public class OptsCmd {
 		//endregion
 
 		//region channel
-		registerOption("usermessage:channel", (event, args) -> {
+		registerOption("usermessage:channel", "Set message channel",
+				"Sets the join/leave message channel. You need the channel **name**\n" +
+						"**Example:** `~>opts usermessage channel join-magic`",
+				"Sets the join/leave message channel.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;

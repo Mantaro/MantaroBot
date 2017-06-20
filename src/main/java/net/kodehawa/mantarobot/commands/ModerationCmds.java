@@ -769,7 +769,7 @@ public class ModerationCmds {
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
                 })).setShortDescription("Resets the default mute timeout."))
         .addOption("muterole:set", new Option("Mute role set",
-                "Sets this guild's mute role to apply on the `~>mute` command.\n" +
+                "Sets this guilds mute role to apply on the ~>mute command.\n" +
                         "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
                         " be wrapped in quotation marks", OptionType.COMMAND)
         .setAction((event, args) -> {
@@ -800,7 +800,7 @@ public class ModerationCmds {
                             event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
                         });
             }
-        }).setShortDescription("Sets this guild's mute role to apply on the `~>mute` command"))
+        }).setShortDescription("Sets this guilds mute role to apply on the ~>mute command"))
         .addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
         .setAction(event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());

@@ -140,6 +140,8 @@ public class OsuStatsCmd {
 						.build();
 			}
 		});
+
+		cr.registerAlias("osustats", "osu");
 	}
 
 	private static String recent(String content) {

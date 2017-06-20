@@ -601,7 +601,7 @@ public class ImageCmds {
 		nRating.put("questionable", "q");
 		nRating.put("explicit", "e");
 
-		registerOption("nsfw:toggle", (event) -> {
+		registerOption("nsfw:toggle","NSFW toggle","Toggles NSFW mode in the channel the command was ran at.", (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {

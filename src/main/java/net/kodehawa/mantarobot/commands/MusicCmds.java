@@ -874,7 +874,7 @@ public class MusicCmds {
 
 	@Command
 	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("reactionmenus:toggle", event -> {
+		OptsCmd.registerOption("reactionmenus:toggle", "Reaction menus toggle","Toggles reaction-based menues on music selection.", event -> {
 			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
 			GuildData data = dbg.getData();
 			boolean t = data.isReactionMenus();
@@ -884,7 +884,10 @@ public class MusicCmds {
 			dbg.save();
 		});
 
-		OptsCmd.registerOption("fairqueue:max", (event, args) -> {
+		OptsCmd.registerOption("fairqueue:max", "Fair queue maximum",
+				"Sets the maximum fairqueue value (max amount of the same song any user can add).\n" +
+						"Example: `~>opts fairqueue max 5`",
+				"Sets the maximum fairqueue value.", (event, args) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 
@@ -907,7 +910,7 @@ public class MusicCmds {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
 		});
 
-		OptsCmd.registerOption("musicannounce:toggle", event -> {
+		OptsCmd.registerOption("musicannounce:toggle","Music announce toggle","Toggles whether the bot will announce the new song playing or no.",  event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			boolean t1 = guildData.isMusicAnnounce();
@@ -999,10 +1002,9 @@ public class MusicCmds {
 			}
 		});
 
-		OptsCmd.registerOption("music:clear", (event) -> {
+		OptsCmd.registerOption("music:clear", "Music clear settings","Clears the specific music channel.",  (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
-			guildData.setMusicSongDurationLimit(null);
 			guildData.setMusicChannel(null);
 			dbGuild.save();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
