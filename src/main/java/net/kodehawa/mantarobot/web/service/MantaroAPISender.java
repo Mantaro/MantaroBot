@@ -36,7 +36,7 @@ public class MantaroAPISender {
     public static void startService(){
         Runnable postStats = () -> {
             //Ignore API calls if the api did a boom.
-            if(MantaroBot.getInstance().getMantaroAPIChecker().STATUS == APIStatus.OFFLINE){
+            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
                 return;
             }
 

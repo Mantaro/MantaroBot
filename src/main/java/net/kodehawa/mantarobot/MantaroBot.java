@@ -4,6 +4,7 @@ import br.com.brjdevs.java.utils.async.Async;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -23,7 +24,7 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
-import net.kodehawa.mantarobot.web.service.MantaroAPIChecker;
+import net.kodehawa.mantarobot.web.service.MantaroAPI;
 import net.kodehawa.mantarobot.web.service.MantaroAPISender;
 import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
@@ -93,7 +94,7 @@ public class MantaroBot extends ShardedJDA {
 	@Getter
 	private static TempBanManager tempBanManager;
 	@Getter
-	private MantaroAPIChecker mantaroAPIChecker = new MantaroAPIChecker();
+	private MantaroAPI mantaroAPI = new MantaroAPI();
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose") != null) {
@@ -162,6 +163,14 @@ public class MantaroBot extends ShardedJDA {
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
+
+		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta() && !mantaroAPI.configure()){
+			System.out.println("Shit's on fire yo. Cannot send node data to the remote server or ping timed out.");
+			System.exit(0);
+		}
+
+
+		sendSignal();
 		long start = System.currentTimeMillis();
 		instance = this;
 
@@ -274,8 +283,9 @@ public class MantaroBot extends ShardedJDA {
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
-			mantaroAPIChecker.startService();
+			mantaroAPI.startService();
 			MantaroAPISender.startService();
+			mantaroAPI.getNodeTotal();
 		}
 	}
 
@@ -317,5 +327,15 @@ public class MantaroBot extends ShardedJDA {
 
 	public List<MantaroShard> getShardList() {
 		return Arrays.asList(shards);
+	}
+
+	private void sendSignal(){
+		try{
+			Unirest.post(
+					MantaroData.config().get().webhookUrl)
+					.header("Content-Type", "application/json")
+					.body(String.format("{\"content\": \"**Received startup trigger on Node #%d (`Identifier: %s`)**\"}", mantaroAPI.nodeId, mantaroAPI.nodeUniqueIdentifier))
+					.asJson();
+		} catch (UnirestException e){}
 	}
 }

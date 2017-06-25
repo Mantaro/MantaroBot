@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
+import org.json.JSONObject;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -313,6 +314,7 @@ public class OwnerCmd {
 				}
 
 				if (option.equals("shutdown") || option.equals("restart")) {
+
 					if (args.length == 2) {
 						try {
 							notifyMusic(args[1]).get();
@@ -716,7 +718,7 @@ public class OwnerCmd {
 			.toArray(CompletableFuture[]::new));
 	}
 
-	private static void prepareShutdown(GuildMessageReceivedEvent event) {
+	private static void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
@@ -731,5 +733,9 @@ public class OwnerCmd {
 
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(
 			mantaroShard -> mantaroShard.getJDA().shutdown(true));
+
+		Unirest.post(
+				String.format("http://%s/api/nodev1/shutdown?nodeid=%d", MantaroData.config().get().apiUrl,  MantaroBot.getInstance().getMantaroAPI().nodeId))
+				.asString();
 	}
 }
