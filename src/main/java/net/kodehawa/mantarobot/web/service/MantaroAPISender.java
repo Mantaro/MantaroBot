@@ -32,6 +32,7 @@ import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.*;
 import static net.kodehawa.mantarobot.commands.info.GuildStatsManager.*;
 
 @Slf4j
+//TODO use /api/nodev1/stats
 public class MantaroAPISender {
     public static void startService(){
         Runnable postStats = () -> {
@@ -124,8 +125,6 @@ public class MantaroAPISender {
                 log.warn("Cannot post command info to Mantaro API, maybe it's down?");
             }
         };
-
-        log.debug("Posted all stats to MAPI");
 
         Async.task("Mantaro API POST Worker", postStats, 30, TimeUnit.SECONDS);
     }

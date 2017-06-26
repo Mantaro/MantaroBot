@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -108,7 +109,7 @@ public class CommandListener implements EventListener {
 			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
 		} catch (ReqlError e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry! I'm having some problems with my database... ").queue();
-			log.warn("Something broke on the database side.", e);
+			SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
 		} catch (Exception e) {
 			String id = Snow64.toSnow64(event.getMessage().getIdLong());
 
@@ -117,7 +118,7 @@ public class CommandListener implements EventListener {
 					"If you want, **contact ``Kodehawa#3457`` on DiscordBots** (popular bot guild), or join our **support guild** (Link on ``~>about``). Don't forget the Error ID!"
 			).queue();
 
-			log.warn("Unexpected Exception on Command ``" + event.getMessage().getRawContent() + "`` (Error ID: ``" + id + "``)", e);
+			SentryHelper.captureException("Unexpected Exception on Command: " + event.getMessage().getRawContent() + " | (Error ID: ``" + id + "``)", e, this.getClass());
 		}
 	}
 }

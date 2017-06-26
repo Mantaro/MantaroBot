@@ -5,6 +5,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.json.JSONObject;
 
 import java.util.UUID;
@@ -84,6 +85,7 @@ public class MantaroAPI {
         } catch (UnirestException e){
             //No need to set the status to OFFLINE since we already are gonna make the node exit.
             //Expecting maximum explosions at this point.
+            SentryHelper.captureExceptionContext("Cannot contact Mantaro API. Startup will be cancelled", e, this.getClass(), "MAPI Configurer");
             e.printStackTrace();
             return false;
         }

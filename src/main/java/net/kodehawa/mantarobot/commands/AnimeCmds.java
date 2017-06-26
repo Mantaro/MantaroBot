@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -100,8 +101,7 @@ public class AnimeCmds {
 				.getObject().getString("access_token");
 			log.info("Updated auth token.");
 		} catch (Exception e) {
-			log.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
-			log.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
+			SentryHelper.captureExceptionContext("Problem while updating Anilist token", e, AnimeCmds.class, "Anilist Token Worker");
 		}
 	}
 

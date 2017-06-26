@@ -57,7 +57,6 @@ public class QuoteCmd {
 						" " +
 						"request to retrieve message history was denied" +
 						"with the error `" + e.getClass().getSimpleName() + "`").queue();
-					log.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
 					return;
 				}
 

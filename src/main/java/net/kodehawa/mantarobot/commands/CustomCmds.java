@@ -534,7 +534,7 @@ public class CustomCmds {
 		db().getCustomCommands().forEach(custom -> {
 			if (!NAME_PATTERN.matcher(custom.getName()).matches()) {
 				String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
-				log.warn("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
+				log.info("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
 
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());

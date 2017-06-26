@@ -42,6 +42,7 @@ public class Config {
 	public int totalNodes = 1;
 	public int totalMusicNodes = 1;
 	public String webhookUrl;
+	public String sentryDSN;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

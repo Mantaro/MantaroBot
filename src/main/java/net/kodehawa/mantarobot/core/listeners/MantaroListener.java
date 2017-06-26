@@ -33,6 +33,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.data.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
@@ -252,7 +253,9 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onException(ExceptionEvent event) {
-		if (!event.isLogged()) event.getCause().printStackTrace();
+		if (!event.isLogged()){
+			SentryHelper.captureException("Exception captured in un-logged trace", event.getCause(), this.getClass());
+		};
 	} //endregion
 
 	private void onJoin(GuildJoinEvent event) {
@@ -281,7 +284,7 @@ public class MantaroListener implements EventListener {
 			GuildStatsManager.log(LoggedEvent.JOIN);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a edit.", e);
+				SentryHelper.captureException("Unexpected error while logging an event", e, this.getClass());
 			}
 		}
 	}
@@ -310,7 +313,7 @@ public class MantaroListener implements EventListener {
 			GuildStatsManager.log(LoggedEvent.LEAVE);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a leave event.", e);
+				SentryHelper.captureException("Unexpected error while logging an event", e, this.getClass());
 			}
 		}
 	}

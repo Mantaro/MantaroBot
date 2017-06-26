@@ -60,10 +60,8 @@ public class MiscCmds {
 						.getJSONObject("magic")
 						.getString("answer");
 				} catch (Exception exception) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners " +
-						"have been notified and will resolve this soon.")
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results.")
 						.queue();
-					log.warn("Error while processing answer", exception);
 					return;
 				}
 

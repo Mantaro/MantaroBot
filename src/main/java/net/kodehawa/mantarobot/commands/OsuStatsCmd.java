@@ -16,6 +16,7 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 
@@ -78,7 +79,7 @@ public class OsuStatsCmd {
 			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
 			else {
 				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
-				log.warn("Error retrieving results from osu!API", e);
+				SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
 			}
 		}
 
@@ -102,7 +103,9 @@ public class OsuStatsCmd {
 								if (e instanceof TimeoutException) {
 									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else log.warn("Exception thrown while fetching data", e);
+								} else {
+									SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
+								}
 							}
 						});
 						break;
@@ -179,7 +182,7 @@ public class OsuStatsCmd {
 			if (e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
 			else {
 				finalMessage = EmoteReference.ERROR + "Error while looking for results.";
-				log.warn("Error retrieving results from osu!API", e);
+				SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
 			}
 		}
 		return finalMessage;

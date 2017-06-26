@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.utils.cache;
 import com.google.common.base.Preconditions;
 import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,7 +54,7 @@ public class URLCache {
 			}
 		} catch (Exception e) {
 			if (file != null) file.delete();
-			log.error("Error caching", e);
+			SentryHelper.captureExceptionContext("Error caching", e, this.getClass(), "Cacher");
 			throw new InternalError();
 		}
 	}

@@ -5,6 +5,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -24,6 +25,7 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.web.service.MantaroAPI;
 import net.kodehawa.mantarobot.web.service.MantaroAPISender;
 import net.kodehawa.mantarobot.services.VoiceLeave;
@@ -126,6 +128,7 @@ public class MantaroBot extends ShardedJDA {
 				try {
 					MantaroData.connectionWatcher();
 				} catch (Exception e) {
+					//Don't log this to sentry!
 					log.error("Error connecting to Connection Watcher", e);
 				}
 			});
@@ -134,6 +137,7 @@ public class MantaroBot extends ShardedJDA {
 		try {
 			new MantaroBot();
 		} catch (Exception e) {
+			SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
 			DiscordLogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);
 			log.error("Cannot continue! Exiting program...");
@@ -149,7 +153,9 @@ public class MantaroBot extends ShardedJDA {
 				.asJson();
 			return shards.getBody().getObject().getInt("shards");
 		} catch (Exception e) {
-			e.printStackTrace();
+			SentryHelper.captureExceptionContext(
+					"Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
+			);
 		}
 		return 1;
 	}
@@ -163,9 +169,11 @@ public class MantaroBot extends ShardedJDA {
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
+		Config config = MantaroData.config().get();
+		Sentry.init(config.sentryDSN);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta() && !mantaroAPI.configure()){
-			System.out.println("Shit's on fire yo. Cannot send node data to the remote server or ping timed out.");
+			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit.", MantaroBot.class);
 			System.exit(0);
 		}
 
@@ -176,8 +184,6 @@ public class MantaroBot extends ShardedJDA {
 
 		SimpleLogToSLF4JAdapter.install();
 		log.info("MantaroBot starting...");
-
-		Config config = MantaroData.config().get();
 
 		//Let's see if we find a class.
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->

@@ -97,8 +97,7 @@ public class Utils {
 				.getString("key");
 			return "https://hastebin.com/" + pasteToken;
 		} catch (UnirestException e) {
-			log.warn("Hastebin is being stupid, huh? Can't send or retrieve paste.", e);
-			return "Mantaro threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
+			return "Mantaro threw an error while trying to upload paste, check logs";
 		}
 	}
 
@@ -117,7 +116,7 @@ public class Utils {
 		try (InputStream stream = new URL(imageUrl).openStream()) {
 			return IOUtils.toByteArray(stream);
 		} catch (Exception e) {
-			log.error("Cannot process file to byte[]", e);
+			SentryHelper.captureException("Cannot process file to byte[]", e, Utils.class);
 			return null;
 		}
 	}

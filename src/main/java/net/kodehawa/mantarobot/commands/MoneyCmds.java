@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;

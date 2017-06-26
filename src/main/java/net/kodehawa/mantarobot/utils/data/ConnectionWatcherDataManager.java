@@ -7,6 +7,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
 import net.kodehawa.mantarobot.utils.KryoUtils;
+import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -28,7 +30,7 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 			@Override
 			public void onClose(Connection connection, int id, int code, String message) {
 				if (code != CLOSE_CODE_OK) {
-					log.error("Connection closed with unexpected code " + code + ": " + message);
+					SentryHelper.captureMessage("Connection within MW closed with unexpected code " + code + ": " + message, this.getClass());
 				}
 			}
 

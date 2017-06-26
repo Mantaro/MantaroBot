@@ -18,6 +18,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.services.Carbonitex;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
@@ -159,7 +160,7 @@ public class MantaroShard implements JDA {
 								.asString().getBody());
 					}
 				} catch (Exception e) {
-					log.warn("An error occurred while posting the botdata to discord lists (DBots/Carbonitex/DBots.org)", e);
+					SentryHelper.captureException("An error occurred while posting the botdata to discord lists (DBots/DBots.org)", e, this.getClass());
 				}
 			}, 1, TimeUnit.HOURS);
 		}
