@@ -160,6 +160,7 @@ public class MantaroShard implements JDA {
 								.asString().getBody());
 					}
 				} catch (Exception e) {
+					if(e.getMessage().contains("Invalid cookie header")) return;
 					SentryHelper.captureException("An error occurred while posting the botdata to discord lists (DBots/DBots.org)", e, this.getClass());
 				}
 			}, 1, TimeUnit.HOURS);
