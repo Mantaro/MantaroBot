@@ -52,8 +52,12 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 								ConnectionWatcherDataManager.this.close();
 								System.exit(0);
 								break;
+							case "test":
+								System.out.println("received command remotely: " + json);
+								break;
 						}
 					}
+
 				}
 				return null;
 			}

@@ -43,6 +43,9 @@ public class Config {
 	public int totalMusicNodes = 1;
 	public String webhookUrl;
 	public String sentryDSN;
+	public String rMQUser;
+	public String rMQPassword;
+	public System rMQIP;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());
