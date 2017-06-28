@@ -156,13 +156,20 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                             break;
 
                         case RESTART:
+
+                            boolean hardkill = false;
+
+                            if(payload.has("hardkill")){
+                                hardkill = payload.getBoolean("hardkill");
+                            }
+
                             channel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
                                     String.format("Attempt to restart node no.%d from API call: %d, %s", nodeId, apiCalls, payloadIdentifier),
                                     true
                             ));
 
                             try{
-                                MantaroBot.getConnectionWatcher().eval("restart");
+                                MantaroBot.getConnectionWatcher().reboot(hardkill);
                             } catch (Exception e){
                                 code = CODE_FAILURE;
                             }
