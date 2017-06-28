@@ -69,7 +69,7 @@ public class ActionCmds {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "NodeAction commands")
+				return helpEmbed(event, "Action commands")
 					.addField("Usage", "`~>action bleach` - **Random bleach picture**.\n" +
 						"`~>action facedesk` - **When you really mess up.**\n" +
 						"`~>action nom` - **nom nom**.", false)

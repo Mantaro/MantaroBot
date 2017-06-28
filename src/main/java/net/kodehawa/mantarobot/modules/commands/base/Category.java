@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public enum Category {
 	MUSIC(CommandPermission.USER, "Audio"),
-	ACTION(CommandPermission.USER, "NodeAction"),
+	ACTION(CommandPermission.USER, "Action"),
 	CURRENCY(CommandPermission.USER, "Currency"),
 	GAMES(CommandPermission.USER, "Game"),
 	IMAGE(CommandPermission.USER, "Image"),
