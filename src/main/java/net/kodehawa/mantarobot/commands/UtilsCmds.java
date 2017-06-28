@@ -30,15 +30,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.List;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;

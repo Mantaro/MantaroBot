@@ -55,13 +55,14 @@ dependencies {
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 	compile 'mysql:mysql-connector-java:6.0.4'
+	compile 'com.rabbitmq:amqp-client:4.1.1'
+	compile 'io.sentry:sentry:1.2.0'
 
-    compile 'net.jodah:expiringmap:0.5.8'
+	compile 'net.jodah:expiringmap:0.5.8'
 
     compile fileTree(dir: 'lib', include: '*.jar')
 
     compileOnly "org.projectlombok:lombok:1.16.16"
-	compile 'io.sentry:sentry:1.2.0'
 }
 
 task wrapper(type: Wrapper) {

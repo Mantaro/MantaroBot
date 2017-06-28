@@ -8,7 +8,6 @@ import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
 import net.kodehawa.mantarobot.utils.KryoUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.Utils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

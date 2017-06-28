@@ -25,12 +25,14 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
-import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.web.service.MantaroAPI;
-import net.kodehawa.mantarobot.web.service.MantaroAPISender;
 import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
+import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
+import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
+import net.kodehawa.mantarobot.web.service.MantaroAPI;
+import net.kodehawa.mantarobot.web.service.MantaroAPISender;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -43,6 +45,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
 
 /**
  * <pre>Main class for MantaroBot.</pre>
@@ -97,6 +100,11 @@ public class MantaroBot extends ShardedJDA {
 	private static TempBanManager tempBanManager;
 	@Getter
 	private MantaroAPI mantaroAPI = new MantaroAPI();
+	@Getter
+	private RabbitMQDataManager rabbitMQDataManager;
+	@Getter
+	private static ConnectionWatcherDataManager connectionWatcher;
+
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose") != null) {
@@ -126,7 +134,7 @@ public class MantaroBot extends ShardedJDA {
 		if (cwport > 0) {
 			new Thread(() -> {
 				try {
-					MantaroData.connectionWatcher();
+					connectionWatcher = MantaroData.connectionWatcher();
 				} catch (Exception e) {
 					//Don't log this to sentry!
 					log.error("Error connecting to Connection Watcher", e);
@@ -141,7 +149,7 @@ public class MantaroBot extends ShardedJDA {
 			DiscordLogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);
 			log.error("Cannot continue! Exiting program...");
-			System.exit(-1);
+			System.exit(FATAL_FAILURE);
 		}
 	}
 
@@ -156,6 +164,7 @@ public class MantaroBot extends ShardedJDA {
 			SentryHelper.captureExceptionContext(
 					"Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
 			);
+			System.exit(SHARD_FETCH_FAILURE);
 		}
 		return 1;
 	}
@@ -173,10 +182,11 @@ public class MantaroBot extends ShardedJDA {
 		Sentry.init(config.sentryDSN);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta() && !mantaroAPI.configure()){
-			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit.", MantaroBot.class);
-			System.exit(0);
+			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
+			System.exit(API_HANDSHAKE_FAILURE);
 		}
 
+		rabbitMQDataManager = new RabbitMQDataManager(config);
 
 		sendSignal();
 		long start = System.currentTimeMillis();

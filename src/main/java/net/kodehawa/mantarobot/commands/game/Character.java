@@ -23,8 +23,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.OptionalInt;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {

@@ -20,7 +20,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.OptionalInt;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;

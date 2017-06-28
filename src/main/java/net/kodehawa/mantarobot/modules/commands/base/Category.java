@@ -2,14 +2,14 @@ package net.kodehawa.mantarobot.modules.commands.base;
 
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 
-	import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Category {
 	MUSIC(CommandPermission.USER, "Audio"),
-	ACTION(CommandPermission.USER, "Action"),
+	ACTION(CommandPermission.USER, "NodeAction"),
 	CURRENCY(CommandPermission.USER, "Currency"),
 	GAMES(CommandPermission.USER, "Game"),
 	IMAGE(CommandPermission.USER, "Image"),

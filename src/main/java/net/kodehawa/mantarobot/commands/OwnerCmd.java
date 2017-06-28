@@ -21,21 +21,22 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
-import org.json.JSONObject;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.awt.Color;
+import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -339,10 +340,10 @@ public class OwnerCmd {
 							MantaroData.connectionWatcher().reboot(false);
 						} catch (Exception e) {
 							log.error("Error restarting via manager, manual reboot required", e);
-							System.exit(-1);
+							System.exit(ShutdownCodes.REBOOT_FAILURE);
 						}
 					} else {
-						System.exit(0);
+						System.exit(ShutdownCodes.NORMAL);
 					}
 					return;
 				}
@@ -373,10 +374,10 @@ public class OwnerCmd {
 							MantaroData.connectionWatcher().reboot(false);
 						} catch (Exception e) {
 							log.error("Error restarting via manager, manual reboot required", e);
-							System.exit(-1);
+							System.exit(ShutdownCodes.REBOOT_FAILURE);
 						}
 					} else {
-						System.exit(0);
+						System.exit(ShutdownCodes.NORMAL);
 					}
 					return;
 				}
@@ -423,7 +424,7 @@ public class OwnerCmd {
 									System.exit(-1);
 								}
 							} else {
-								System.exit(0);
+								System.exit(ShutdownCodes.NORMAL);
 							}
 						});
 
@@ -456,7 +457,7 @@ public class OwnerCmd {
 									MantaroData.connectionWatcher().reboot(false);
 								} catch (Exception e) {
 									log.error("Error restarting via manager, manual reboot required", e);
-									System.exit(-1);
+									System.exit(ShutdownCodes.REBOOT_FAILURE);
 								}
 							} else {
 								System.exit(0);

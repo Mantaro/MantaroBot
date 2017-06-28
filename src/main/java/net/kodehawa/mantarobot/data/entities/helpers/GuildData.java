@@ -6,7 +6,6 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 public class GuildData {

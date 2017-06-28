@@ -45,7 +45,7 @@ public class Config {
 	public String sentryDSN;
 	public String rMQUser;
 	public String rMQPassword;
-	public System rMQIP;
+	public String rMQIP;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

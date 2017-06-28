@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
