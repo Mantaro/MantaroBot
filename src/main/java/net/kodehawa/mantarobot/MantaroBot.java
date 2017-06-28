@@ -178,6 +178,7 @@ public class MantaroBot extends ShardedJDA {
 	private int totalShards;
 
 	private MantaroBot() throws Exception {
+        instance = this;
 		Config config = MantaroData.config().get();
 		Sentry.init(config.sentryDSN);
 
@@ -190,7 +191,6 @@ public class MantaroBot extends ShardedJDA {
 
 		sendSignal();
 		long start = System.currentTimeMillis();
-		instance = this;
 
 		SimpleLogToSLF4JAdapter.install();
 		log.info("MantaroBot starting...");
@@ -293,7 +293,7 @@ public class MantaroBot extends ShardedJDA {
 
 		//Free Instances
 		EventDispatcher.instances.clear();
-		executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
+		//executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
 		long end = System.currentTimeMillis();
 
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
@@ -345,7 +345,11 @@ public class MantaroBot extends ShardedJDA {
 		return Arrays.asList(shards);
 	}
 
-	private void sendSignal(){
+	private void sendSignal() {
+	    if(MantaroData.config().get().webhookUrl == null) {
+	        System.out.println("[Sent signal]");
+	        return;
+        }
 		try{
 			Unirest.post(
 					MantaroData.config().get().webhookUrl)

@@ -92,8 +92,9 @@ public class ShardedUser implements User {
 	}
 
 	@Override
+    @Deprecated
 	public PrivateChannel getPrivateChannel() {
-		return random(users).getPrivateChannel();
+		throw new UnsupportedOperationException("Use openPrivateChannel");
 	}
 
 	@Override

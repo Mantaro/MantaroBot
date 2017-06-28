@@ -732,11 +732,11 @@ public class OwnerCmd {
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
+        Unirest.post(
+                String.format("http://%s/api/nodev1/shutdown?nodeid=%d", MantaroData.config().get().apiUrl,  MantaroBot.getInstance().getMantaroAPI().nodeId))
+                .asString();
+
 		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(
 			mantaroShard -> mantaroShard.getJDA().shutdown(true));
-
-		Unirest.post(
-				String.format("http://%s/api/nodev1/shutdown?nodeid=%d", MantaroData.config().get().apiUrl,  MantaroBot.getInstance().getMantaroAPI().nodeId))
-				.asString();
 	}
 }

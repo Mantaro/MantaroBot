@@ -11,6 +11,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.kodehawa.mantarobot.commands.music.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -37,6 +38,7 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 public class MantaroShard implements JDA {
 	public static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
+	public static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
 	private static final Random RANDOM = new Random();
 
 	static {
@@ -103,8 +105,8 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners() {
-		jda.removeEventListener(mantaroListener, commandListener, InteractiveOperations.listener(), ReactionOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, InteractiveOperations.listener(), ReactionOperations.listener());
+		jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
 	}
 
 	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {

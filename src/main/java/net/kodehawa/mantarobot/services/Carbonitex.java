@@ -10,8 +10,7 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 @Slf4j
 public class Carbonitex implements Runnable {
-    Config config = config().get();
-    String carbonToken = config.carbonToken;
+    private final String carbonToken = config().get().carbonToken;
     private int shardId, totalShards;
     private JDA jda;
 

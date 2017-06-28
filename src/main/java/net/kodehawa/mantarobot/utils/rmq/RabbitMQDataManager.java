@@ -8,11 +8,9 @@ import lombok.SneakyThrows;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroShard;
-import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import org.json.JSONObject;
 
@@ -39,7 +37,9 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
     @Setter @Getter public int nodeCalls;
 
     @SneakyThrows
-    public RabbitMQDataManager(Config config){
+    public RabbitMQDataManager(Config config) {
+        if(config.isBeta) return;
+
         Channel channel = getMainrMQChannel();
 
         try{
