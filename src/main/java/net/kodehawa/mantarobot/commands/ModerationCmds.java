@@ -812,7 +812,6 @@ public class ModerationCmds {
 
     @Command
     public static void onPostLoad(PostLoadEvent e){
-
         OptsCmd.registerOption("modlog:blacklist", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()){

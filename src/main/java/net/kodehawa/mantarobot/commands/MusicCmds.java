@@ -652,6 +652,7 @@ public class MusicCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
+
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
 							.getChannel().equals
 									(event.getGuild().getAudioManager().getConnectedChannel())) {
@@ -707,6 +708,7 @@ public class MusicCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
+
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
 							.getChannel().equals
 									(event.getGuild().getAudioManager().getConnectedChannel())) {
@@ -764,9 +766,9 @@ public class MusicCmds {
 				if (MantaroData.db().getUser(event.getMember()).isPremium() ||
 						MantaroData.db().getGuild(event.getMember()).isPremium() ||
 						MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
+
 					if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-							.getChannel().
-									equals(event.getGuild().getAudioManager().getConnectedChannel())) {
+							.getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
 						sendNotConnectedToMyChannel(event.getChannel());
 						return;
 					}

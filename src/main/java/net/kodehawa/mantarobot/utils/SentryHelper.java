@@ -55,6 +55,17 @@ public class SentryHelper {
         Sentry.clearContext();
     }
 
+    public static void captureMessageErrorContext(String message, Class clazz, String user){
+        Sentry.setUser(new UserBuilder().setUsername(user).build());
+        EventBuilder eventBuilder = new EventBuilder()
+                .withMessage(message)
+                .withLevel(Event.Level.ERROR)
+                .withLogger(clazz.getName());
+
+        Sentry.capture(eventBuilder);
+        Sentry.clearContext();
+    }
+
     public static void breadcrumbContext(String breadcrumb, String user){
         Sentry.setUser(new UserBuilder().setUsername(user).build());
         Sentry.record(

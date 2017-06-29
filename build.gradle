@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.1.1_215'
+	compile 'com.github.DV8FromTheWorld:JDA:7eacab3'
 	compile 'com.sedmelluq:lavaplayer:1.2.42'
 	compile 'com.sedmelluq:jda-nas:1.0.5'
 

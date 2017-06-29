@@ -315,9 +315,9 @@ public class FunCmds {
 					percentage = 100;
 				}
 
-				if(percentage > 25 && percentage < 50){
+				if(percentage < 45){
 					result = "Try again next time...";
-				} else if (percentage > 50 && percentage < 75){
+				} else if (percentage > 45 && percentage < 75){
 					result = "Good enough!";
 				} else if (percentage > 75 && percentage < 100){
 					result = "Good match!";

@@ -19,13 +19,12 @@ import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.log.DiscordLogBack;
+import net.kodehawa.mantarobot.log.LogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
-import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -146,7 +145,7 @@ public class MantaroBot extends ShardedJDA {
 			new MantaroBot();
 		} catch (Exception e) {
 			SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
-			DiscordLogBack.disable();
+			LogBack.disable();
 			log.error("Could not complete Main Thread routine!", e);
 			log.error("Cannot continue! Exiting program...");
 			System.exit(FATAL_FAILURE);
@@ -187,9 +186,7 @@ public class MantaroBot extends ShardedJDA {
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
 
-		rabbitMQDataManager = new RabbitMQDataManager(config);
-
-		sendSignal();
+		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
 		long start = System.currentTimeMillis();
 
 		SimpleLogToSLF4JAdapter.install();
@@ -260,7 +257,7 @@ public class MantaroBot extends ShardedJDA {
 			}
 		}, "ShardWatcherThread").start();
 
-		DiscordLogBack.enable();
+		LogBack.enable();
 		loadState = LOADED;
 		log.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 		log.info("Started bot instance.");
@@ -293,12 +290,12 @@ public class MantaroBot extends ShardedJDA {
 
 		//Free Instances
 		EventDispatcher.instances.clear();
-		//executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
 		long end = System.currentTimeMillis();
 
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
+			rabbitMQDataManager = new RabbitMQDataManager(config);
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
 			mantaroAPI.getNodeTotal();
