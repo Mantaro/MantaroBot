@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
-import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 import java.awt.*;
@@ -97,11 +96,10 @@ public class ImageCmds {
 
 				try {
 					JSONObject obj = new JSONObject(Utils.wgetResty(nsfw ? NSFWURL : BASEURL, event));
-					System.out.println(obj.get("url"));
 					if (!obj.has("url")) {
 						event.getChannel().sendMessage("Unable to find image").queue();
 					} else {
-						event.getChannel().sendFile(IOUtils.toByteArray(CACHE.getInput(obj.getString("url"))), "catgirl.png", null).queue();
+						event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
