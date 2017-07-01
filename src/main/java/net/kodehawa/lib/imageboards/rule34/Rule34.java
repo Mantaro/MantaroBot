@@ -1,7 +1,6 @@
 package net.kodehawa.lib.imageboards.rule34;
 
 import br.com.brjdevs.java.utils.async.Async;
-import com.mashape.unirest.http.Unirest;
 import net.kodehawa.lib.imageboards.rule34.entities.Hentai;
 import net.kodehawa.lib.imageboards.rule34.providers.HentaiProvider;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -41,11 +40,7 @@ public class Rule34 {
 		});
 
 		try {
-			String response = Unirest.get("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams))
-				.header("User-Agent", "Mantaro")
-				.header("Content-Type", "text/xml")
-				.asString()
-				.getBody();
+			String response = Utils.wgetResty("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams), null);
 			wallpapers = Utils.XML_MAPPER.readValue(response, Hentai[].class);
 		} catch (Exception e) {
 			e.printStackTrace();

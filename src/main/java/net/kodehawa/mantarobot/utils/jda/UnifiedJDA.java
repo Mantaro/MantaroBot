@@ -63,11 +63,6 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 	}
 
 	@Override
-	default HttpHost getGlobalProxy() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	default boolean isAutoReconnect() {
 		throw new UnsupportedOperationException();
 	}
@@ -79,17 +74,6 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 
 	@Override
 	default boolean isBulkDeleteSplittingEnabled() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Who doesn't love to install a fresh auxiliary cable.
-	 *
-	 * @param port Where?
-	 * @throws UnsupportedOperationException Guess.
-	 */
-	@Override
-	default void installAuxiliaryCable(int port) throws UnsupportedOperationException {
 		throw new UnsupportedOperationException();
 	}
 

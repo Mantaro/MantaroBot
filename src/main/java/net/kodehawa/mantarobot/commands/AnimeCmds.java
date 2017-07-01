@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.gson.JsonSyntaxException;
-import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -21,7 +20,9 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.net.URLEncoder;
@@ -32,6 +33,7 @@ import java.util.stream.Collectors;
 @Module
 public class AnimeCmds {
 	public static String authToken;
+	private static OkHttpClient client = new OkHttpClient();
 
 	@Command
 	public static void anime(CommandRegistry cr) {
@@ -92,13 +94,17 @@ public class AnimeCmds {
 		String aniList = "https://anilist.co/api/auth/access_token";
 		String CLIENT_ID = MantaroData.config().get().getAlClient();
 		try {
-			authToken = Unirest.post(aniList)
-				.header("User-Agent", "Mantaro")
-				.header("Content-Type", "application/x-www-form-urlencoded")
-				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret)
-				.asJson()
-				.getBody()
-				.getObject().getString("access_token");
+			RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded")
+					, "grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret);
+			Request request = new Request.Builder()
+					.header("Content-Type", "application/x-www-form-urlencoded")
+					.url(aniList)
+					.post(body)
+					.build();
+			Response response = client.newCall(request).execute();
+			JSONObject object = new JSONObject(response.body().string());
+			authToken = object.getString("access_token");
+			response.close();
 			log.info("Updated auth token.");
 		} catch (Exception e) {
 			SentryHelper.captureExceptionContext("Problem while updating Anilist token", e, AnimeCmds.class, "Anilist Token Worker");

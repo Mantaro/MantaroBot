@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.MantaroShard;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
@@ -124,7 +124,7 @@ public class InfoCmds {
 						"%d days, %02d hrs, %02d min",
 						days, hours % 24, minutes % 60
 					), false)
-					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShards().length), true)
+					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
 					.addField("Threads", String.valueOf(Thread.activeCount()), true)
 					.addField("Servers", String.valueOf(guilds.size()), true)
 					.addField("Users (Online/Unique)", guilds.stream().flatMap
@@ -332,7 +332,7 @@ public class InfoCmds {
 					+ "\n\n --------- Mantaro Information --------- \n\n"
 					+ "Guilds: " + guilds.size() + "\n"
 					+ "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-					+ "Shards: " + MantaroBot.getInstance().getShards().length + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
+					+ "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
 					+ "Threads: " + Thread.activeCount() + "\n"
 					+ "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
 					+ "Logs: " + MantaroListener.getLogTotal() + "\n"

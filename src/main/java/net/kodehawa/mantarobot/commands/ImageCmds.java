@@ -1,8 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -29,6 +27,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 import java.awt.*;
@@ -71,7 +70,7 @@ public class ImageCmds {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
-					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
+					String url = new JSONObject(Utils.wgetResty("http://random.cat/meow", event)).getString("file");
 					event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
 						new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
 				} catch (Exception e) {
@@ -97,16 +96,14 @@ public class ImageCmds {
 				if (nsfw && !nsfwCheck(event, true, true)) return;
 
 				try {
-					JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
-						.asJson()
-						.getBody()
-						.getObject();
+					JSONObject obj = new JSONObject(Utils.wgetResty(nsfw ? NSFWURL : BASEURL, event));
+					System.out.println(obj.get("url"));
 					if (!obj.has("url")) {
 						event.getChannel().sendMessage("Unable to find image").queue();
 					} else {
-						event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
+						event.getChannel().sendFile(IOUtils.toByteArray(CACHE.getInput(obj.getString("url"))), "catgirl.png", null).queue();
 					}
-				} catch (UnirestException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					event.getChannel().sendMessage("Unable to get image").queue();
 				}

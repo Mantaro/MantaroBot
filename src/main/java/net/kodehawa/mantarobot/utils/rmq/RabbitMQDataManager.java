@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
@@ -16,7 +16,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.UUID;
 import java.util.concurrent.TimeoutException;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.RABBITMQ_FAILURE;
@@ -38,7 +37,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
 
     @SneakyThrows
     public RabbitMQDataManager(Config config) {
-        if(config.isBeta) return;
+        if(config.isBeta || config.isPremiumBot) return;
 
         Channel channel = getMainrMQChannel();
 
@@ -72,7 +71,6 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                 String message = new String(body, "UTF-8");
                 JSONObject payload = new JSONObject(message);
                 ReturnCodes code = SUCCESS;
-                UUID payloadIdentifier = UUID.randomUUID();
                 apiCalls++;
 
                 if (payload.has("process_image")){
@@ -113,7 +111,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
         //--------------------------------  API QUEUE DECLARATION ---------------------------------------------
 
         apiChannel.exchangeDeclare("topic_api", "topic");
-        apiChannel.queueDeclare(API_QUEUE_NAME, true, false, false, null);
+        apiChannel.queueDeclare(API_QUEUE_NAME, false, false, false, null);
 
         Consumer apiConsumer = new DefaultConsumer(apiChannel) {
             @Override
@@ -122,7 +120,6 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                 String message = new String(body, "UTF-8");
                 JSONObject payload = new JSONObject(message);
                 ReturnCodes code = SUCCESS;
-                UUID payloadIdentifier = UUID.randomUUID();
                 int nodeId = MantaroBot.getInstance().getMantaroAPI().nodeId;
                 apiCalls++;
 
@@ -134,8 +131,8 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     musicManager.getTrackScheduler().stop();
                             });
 
-                            Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
-                            Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+                            Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
+                            Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
 
                             JSONObject shutdownPayload = new JSONObject();
                             shutdownPayload.put("shutdown", true);
@@ -156,7 +153,6 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                             break;
 
                         case RESTART:
-
                             boolean hardkill = false;
 
                             if(payload.has("hardkill")){
@@ -164,7 +160,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                             }
 
                             channel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
-                                    String.format("Attempt to restart node no.%d from API call: %d, %s", nodeId, apiCalls, payloadIdentifier),
+                                    String.format("Attempt to restart node no.%d from API call: %d", nodeId, apiCalls),
                                     true
                             ));
 
@@ -187,7 +183,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     MantaroBot.getInstance().getShardList().get(shardId).restartJDA(force);
 
                                     channel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
-                                            String.format("Restarted shard no.%d from API call: %d, %s", shardId, apiCalls, payloadIdentifier),
+                                            String.format("Restarted shard no.%d from API call: %d", shardId, apiCalls),
                                             true
                                     ));
 
@@ -213,14 +209,14 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     channel.basicPublish("", MAIN_QUEUE_NAME, null, formattedShardObject.toString().getBytes());
                                 } catch (Exception e) {
                                     SentryHelper.captureExceptionContext(
-                                            String.format("Cannot restart shard no.%d from API call: %d, %s (at %d)",
-                                                    shardId, apiCalls, payloadIdentifier, System.currentTimeMillis()),
+                                            String.format("Cannot restart shard no.%d from API call: %d (at %d)",
+                                                    shardId, apiCalls, System.currentTimeMillis()),
                                             e, this.getClass(),
                                             "Restart worker");
 
                                     channel.basicPublish("", MAIN_QUEUE_NAME, null, createFailureOutput(
                                             "restart", "warning",
-                                            String.format("Cannot restart shard %d from API call: %d, %s", shardId, apiCalls, payloadIdentifier),
+                                            String.format("Cannot restart shard %d from API call: %d", shardId, apiCalls),
                                             true
                                     ));
 

@@ -1,35 +1,6 @@
 package net.kodehawa.mantarobot.web.service;
 
-import br.com.brjdevs.java.utils.async.Async;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.VoiceChannel;
-import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.MantaroShard;
-import net.kodehawa.mantarobot.core.listeners.MantaroListener;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import net.kodehawa.mantarobot.web.CommandsEntity;
-import net.kodehawa.mantarobot.web.GuildsEntity;
-import net.kodehawa.mantarobot.web.ShardInfo;
-import net.kodehawa.mantarobot.web.StatsEntity;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
-import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.*;
-import static net.kodehawa.mantarobot.commands.info.GuildStatsManager.*;
 
 @Slf4j
 //TODO use /api/nodev1/stats
@@ -37,7 +8,7 @@ public class MantaroAPISender {
     public static void startService(){
         Runnable postStats = () -> {
             //Ignore API calls if the api did a boom.
-            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
+            /*if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
                 return;
             }
 
@@ -126,6 +97,7 @@ public class MantaroAPISender {
             }
         };
 
-        Async.task("Mantaro API POST Worker", postStats, 30, TimeUnit.SECONDS);
+        Async.task("Mantaro API POST Worker", postStats, 30, TimeUnit.SECONDS);*/
+        };
     }
 }

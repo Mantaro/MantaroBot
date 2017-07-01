@@ -3,14 +3,12 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.async.Async;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import bsh.Interpreter;
-import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.data.entities.DBGuild;
 import net.kodehawa.mantarobot.data.entities.DBUser;
@@ -21,10 +19,10 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
 import javax.script.ScriptEngine;
@@ -622,11 +620,11 @@ public class OwnerCmd {
 					dummy.add(url);
 					toAdd.put(type, dummy);
 
-					System.out.println(Unirest.post("http://127.0.0.1:4454/api/p/actions?type=" + type)
+					/*System.out.println(Unirest.post("http://127.0.0.1:4454/api/p/actions?type=" + type)
 							.header("Content-Type", "application/json")
 							.body(GsonDataManager.GSON_PRETTY.toJson(toAdd))
 							.asString()
-							.getBody());
+							.getBody());*/
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added gif to the API.").queue();
 				} catch (Exception e) {
@@ -728,15 +726,15 @@ public class OwnerCmd {
 			MantaroData.connectionWatcher().close();
 		} catch (Exception ignored) {}
 
-		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
+		Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
-        Unirest.post(
+        /*Unirest.post(
                 String.format("http://%s/api/nodev1/shutdown?nodeid=%d", MantaroData.config().get().apiUrl,  MantaroBot.getInstance().getMantaroAPI().nodeId))
-                .asString();
+                .asString();*/
 
-		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(
+		Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
 			mantaroShard -> mantaroShard.getJDA().shutdown(true));
 	}
 }

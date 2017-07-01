@@ -4,7 +4,7 @@ import br.com.brjdevs.network.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
 import net.kodehawa.mantarobot.utils.KryoUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
@@ -45,9 +45,9 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 										musicManager.getTrackScheduler().stop();
 								});
 
-								Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
+								Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
 
-								Arrays.stream(MantaroBot.getInstance().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+								Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
 								ConnectionWatcherDataManager.this.close();
 								System.exit(0);
 								break;

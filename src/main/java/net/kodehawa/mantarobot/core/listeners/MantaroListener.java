@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.core.events.http.HttpRequestEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
@@ -69,7 +70,7 @@ public class MantaroListener implements EventListener {
 	public void onEvent(Event event) {
 
 		if (event instanceof ShardMonitorEvent) {
-			if(MantaroBot.getInstance().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
+			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
 			return;
 		}
@@ -132,6 +133,10 @@ public class MantaroListener implements EventListener {
 		if (event instanceof ExceptionEvent) {
 			onException((ExceptionEvent) event);
 		}
+
+		if(event instanceof HttpRequestEvent){
+			onHttpRequest((HttpRequestEvent) event);
+		}
 	}
 
 	public static TextChannel getLogChannel() {
@@ -149,6 +154,21 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
+
+	public void onHttpRequest(HttpRequestEvent event)
+	{
+		try{
+			if(event.getResponse().isError() && !event.getResponse().isRateLimit()){
+				System.out.println("--------------------");
+				System.out.println("HTTP Request");
+				System.out.println(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute());
+				System.out.println(event.getRequestHeaders().toString().replace(event.getJDA().getToken(), "[TOKEN]"));
+				if (event.getRequestBodyRaw() != null)
+					System.out.println(event.getRequestBodyRaw());
+				System.out.println("--------------------");
+			}
+		} catch (Exception e){}
+	}
 
 	private void logDelete(GuildMessageDeleteEvent event) {
 		try {

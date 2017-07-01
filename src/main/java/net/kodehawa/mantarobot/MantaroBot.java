@@ -1,22 +1,17 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
-import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogBack;
@@ -25,6 +20,10 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.shard.ShardedBuilder;
+import net.kodehawa.mantarobot.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -32,6 +31,7 @@ import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.service.MantaroAPI;
 import net.kodehawa.mantarobot.web.service.MantaroAPISender;
+import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -40,11 +40,17 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
-import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
 /**
  * <pre>Main class for MantaroBot.</pre>
@@ -88,8 +94,9 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.*;
 @Slf4j
 public class MantaroBot extends ShardedJDA {
 
-	private static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
 	public static int cwport;
+	@Getter
+	private ShardedMantaro shardedMantaro;
 	@Getter
 	public static LoadState loadState = PRELOAD;
 	private static boolean DEBUG = false;
@@ -103,7 +110,10 @@ public class MantaroBot extends ShardedJDA {
 	private RabbitMQDataManager rabbitMQDataManager;
 	@Getter
 	private static ConnectionWatcherDataManager connectionWatcher;
-
+	@Getter
+	private MantaroAudioManager audioManager;
+	@Getter
+	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose") != null) {
@@ -152,30 +162,6 @@ public class MantaroBot extends ShardedJDA {
 		}
 	}
 
-	private static int getRecommendedShards(String token) {
-		try {
-			HttpResponse<JsonNode> shards = Unirest.get("https://discordapp.com/api/gateway/bot")
-				.header("Authorization", "Bot " + token)
-				.header("Content-Type", "application/json")
-				.asJson();
-			return shards.getBody().getObject().getInt("shards");
-		} catch (Exception e) {
-			SentryHelper.captureExceptionContext(
-					"Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
-			);
-			System.exit(SHARD_FETCH_FAILURE);
-		}
-		return 1;
-	}
-	@Getter
-	private MantaroAudioManager audioManager;
-	@Getter
-	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-	private List<MantaroEventManager> managers = new ArrayList<>();
-	@Getter
-	private MantaroShard[] shards;
-	private int totalShards;
-
 	private MantaroBot() throws Exception {
         instance = this;
 		Config config = MantaroData.config().get();
@@ -186,13 +172,14 @@ public class MantaroBot extends ShardedJDA {
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
 
+		rabbitMQDataManager = new RabbitMQDataManager(config);
+
 		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
 		long start = System.currentTimeMillis();
 
 		SimpleLogToSLF4JAdapter.install();
 		log.info("MantaroBot starting...");
 
-		//Let's see if we find a class.
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
 			new Reflections(
 				"net.kodehawa.mantarobot.commands",
@@ -202,60 +189,16 @@ public class MantaroBot extends ShardedJDA {
 				.getTypesAnnotatedWith(Module.class)
 		);
 
-		totalShards = DEBUG ? 2 : getRecommendedShards(config.token);
-		shards = new MantaroShard[totalShards];
 		loadState = LOADING;
 
-		for (int i = 0; i < totalShards; i++) {
-			log.info("Starting shard #" + i + " of " + totalShards);
-			MantaroEventManager manager = new MantaroEventManager();
-			managers.add(manager);
-			shards[i] = new MantaroShard(i, totalShards, manager);
-			log.debug("Finished loading shard #" + i + ".");
-		}
+		shardedMantaro = new ShardedBuilder()
+				.debug(DEBUG)
+				.auto(true)
+				.token(config.token)
+				.build();
 
-		new Thread(() -> {
-			log.info("ShardWatcherThread started");
-			final int wait = MantaroData.config().get().shardWatcherWait;
-			while (true) {
-				try {
-					Thread.sleep(wait);
-					MantaroEventManager.getLog().info("Checking shards...");
-					ShardMonitorEvent sme = new ShardMonitorEvent(totalShards);
-					managers.forEach(manager -> manager.handle(sme));
-					int[] dead = sme.getDeadShards();
-					if (dead.length != 0) {
-						MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
-						for(int id : dead){
-							try{
-								FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
-									try {
-										log.info("Starting automatic shard restart on shard {} due to it being inactive for longer than 2 minutes.", id);
-										getShard(id).restartJDA(true);
-										Thread.sleep(1000);
-										return 1;
-									} catch (Exception e) {
-										log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
-										return 0;
-									}
-								});
-								THREAD_POOL.execute(restartJDA);
-								restartJDA.get(2, TimeUnit.MINUTES);
-							}
-							catch (Exception e){
-								log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
-							}
-						}
-					}
-					else {
-						MantaroEventManager.getLog().info("No dead shards found");
-					}
-				} catch (InterruptedException e) {
-					log.error("ShardWatcher interrupted, stopping...");
-					return;
-				}
-			}
-		}, "ShardWatcherThread").start();
+		shardedMantaro.shard();
+		Async.thread(new ShardWatcher());
 
 		LogBack.enable();
 		loadState = LOADED;
@@ -266,27 +209,24 @@ public class MantaroBot extends ShardedJDA {
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
-		log.info("Starting update managers.");
-			for(MantaroShard shard : shards) {
-				shard.updateServerCount();
-				shard.updateStatus();
-			}
+		log.info("Starting update managers...");
+		shardedMantaro.startUpdaters();
 
 		MantaroData.config().save();
 
 		Set<Method> events = new Reflections(
 			classes.get(),
-			new MethodAnnotationsScanner())
-			.getMethodsAnnotatedWith(Command.class);
+			new MethodAnnotationsScanner()
+		).getMethodsAnnotatedWith(Command.class);
 
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
 		loadState = POSTLOAD;
-		log.info("Finished loading basic components. Status is now set to POSTLOAD");
+		log.info("Finished loading basic components. Status: " + loadState);
 
 		EventDispatcher.dispatch(events, new PostLoadEvent());
 
-		log.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + totalShards + " shards.");
+		log.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + shardedMantaro.getTotalShards() + " shards.");
 
 		//Free Instances
 		EventDispatcher.instances.clear();
@@ -295,7 +235,6 @@ public class MantaroBot extends ShardedJDA {
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
-			rabbitMQDataManager = new RabbitMQDataManager(config);
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
 			mantaroAPI.getNodeTotal();
@@ -307,27 +246,22 @@ public class MantaroBot extends ShardedJDA {
 	}
 
 	public MantaroShard getShard(int id) {
-		return Arrays.stream(shards).filter(shard -> shard.getId() == id).findFirst().orElse(null);
+		return Arrays.stream(shardedMantaro.getShards()).filter(shard -> shard.getId() == id).findFirst().orElse(null);
 	}
 
 	@Override
 	public int getShardAmount() {
-		return totalShards;
+		return shardedMantaro.getTotalShards();
 	}
 
 	@Nonnull
 	@Override
 	public Iterator<JDA> iterator() {
-		return new ArrayIterator<>(shards);
+		return new ArrayIterator<>(shardedMantaro.getShards());
 	}
 
 	public int getId(JDA jda) {
 		return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
-	}
-
-	public MantaroShard getShardBy(JDA jda) {
-		if (jda.getShardInfo() == null) return shards[0];
-		return Arrays.stream(shards).filter(shard -> shard.getId() == jda.getShardInfo().getShardId()).findFirst().orElse(null);
 	}
 
 	public MantaroShard getShardForGuild(String guildId) {
@@ -335,24 +269,27 @@ public class MantaroBot extends ShardedJDA {
 	}
 
 	public MantaroShard getShardForGuild(long guildId) {
-		return getShard((int) ((guildId >> 22) % totalShards));
+		return getShard((int) ((guildId >> 22) % shardedMantaro.getTotalShards()));
 	}
 
 	public List<MantaroShard> getShardList() {
-		return Arrays.asList(shards);
+		return Arrays.asList(shardedMantaro.getShards());
 	}
 
 	private void sendSignal() {
-	    if(MantaroData.config().get().webhookUrl == null) {
-	        System.out.println("[Sent signal]");
-	        return;
-        }
 		try{
-			Unirest.post(
-					MantaroData.config().get().webhookUrl)
+			OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+			RequestBody body = RequestBody.create(
+					MediaType.parse("application/json; charset=utf-8"),
+					String.format("{\"content\": \"**Received startup trigger on Node #%d (`Identifier: %s`)**\"}", mantaroAPI.nodeId, mantaroAPI.nodeUniqueIdentifier)
+			);
+			Request request = new Request.Builder()
 					.header("Content-Type", "application/json")
-					.body(String.format("{\"content\": \"**Received startup trigger on Node #%d (`Identifier: %s`)**\"}", mantaroAPI.nodeId, mantaroAPI.nodeUniqueIdentifier))
-					.asJson();
-		} catch (UnirestException e){}
+					.post(body)
+					.build();
+
+			Response response = okHttpClient.newCall(request).execute();
+			response.close();
+		} catch (Exception e){}
 	}
 }

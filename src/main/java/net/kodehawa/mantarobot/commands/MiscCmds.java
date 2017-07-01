@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
-import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -21,9 +20,11 @@ import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.*;
@@ -53,12 +54,8 @@ public class MiscCmds {
 				String answer;
 				try {
 					textEncoded = URLEncoder.encode(content, "UTF-8");
-					answer = Unirest.get(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded))
-						.asJson()
-						.getBody()
-						.getObject()
-						.getJSONObject("magic")
-						.getString("answer");
+					String json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded), event);
+					answer = new JSONObject(json).getJSONObject("magic").getString("answer");
 				} catch (Exception exception) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results.")
 						.queue();

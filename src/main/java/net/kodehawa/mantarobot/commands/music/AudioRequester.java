@@ -62,7 +62,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 					if (i < MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()) {
 						loadSingle(track, true);
 					} else {
-						event.getChannel().sendMessage(String.format(":warning: The queue you added had more than %d songs, so we added songs until this limit and ignored the rest.", MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit())).queue();
+						event.getChannel().sendMessage(String.format(":warning: The queue you a			dded had more than %d songs, so we added songs until this limit and ignored the rest.", MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit())).queue();
 						break;
 					}
 				} else {
@@ -161,7 +161,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 	private void onSearchResult(AudioPlaylist playlist) {
 		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. " +
-				(MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus() ? "React to the desired number to select a song." : "Type the song number to continue."), null)
+				(MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus() ?
+						"React to the desired number to select a song." : "Type the song number to continue."), null)
 				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
 				.setFooter("This timeouts in 10 seconds.", null);
 		List<AudioTrack> tracks = playlist.getTracks();

@@ -1,15 +1,8 @@
 package net.kodehawa.mantarobot.web.service;
 
-import br.com.brjdevs.java.utils.async.Async;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.SentryHelper;
-import org.json.JSONObject;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class MantaroAPI {
@@ -32,7 +25,7 @@ public class MantaroAPI {
     public int nodesTotal = 1;
 
     public void startService(){
-        Runnable checker = () -> {
+        /*Runnable checker = () -> {
             try{
                 STATUS = APIStatus.RECEIVING_DATA;
                 long start = System.currentTimeMillis();
@@ -53,11 +46,11 @@ public class MantaroAPI {
                 STATUS = APIStatus.OFFLINE;
             }
         };
-        Async.task("Mantaro API heartbeat", checker, 15, TimeUnit.SECONDS);
+        Async.task("Mantaro API heartbeat", checker, 15, TimeUnit.SECONDS);*/
     }
 
     public boolean configure(){
-        try{
+        /*try{
             //At this point, we're checking if we can initialize nodes and send the node data.
             STATUS = APIStatus.INITIAL_SETUP;
             long start = System.currentTimeMillis();
@@ -88,11 +81,12 @@ public class MantaroAPI {
             SentryHelper.captureExceptionContext("Cannot contact Mantaro API. Startup will be cancelled", e, this.getClass(), "MAPI Configurer");
             e.printStackTrace();
             return false;
-        }
+        }*/
+        return true;
     }
 
     public void getNodeTotal(){
-        Runnable checker = () -> {
+        /*Runnable checker = () -> {
             try{
                 nodesTotal = Integer.parseInt(Unirest.get(String.format("http://%s/api/nodev1/nodeid", MantaroData.config().get().apiUrl)).asString().getBody());
             } catch (UnirestException e){
@@ -100,7 +94,7 @@ public class MantaroAPI {
                 return;
             }
         };
-        Async.task("Total node checker", checker, 5, TimeUnit.MINUTES);
+        Async.task("Total node checker", checker, 5, TimeUnit.MINUTES);*/
     }
 
     public long getAPIPing() {

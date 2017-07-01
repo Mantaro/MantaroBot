@@ -58,7 +58,7 @@ public class CommandListener implements EventListener {
 	@Override
 	public void onEvent(Event event) {
 		if (event instanceof ShardMonitorEvent) {
-			if(MantaroBot.getInstance().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
+			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
 			return;
 		}

@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.*;
@@ -209,6 +210,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public void shutdownNow(){
+		forEach(jda -> jda.shutdownNow());
+	}
+
+	@Override
 	public Status[] getShardStatus() {
 		return stream().map(JDA::getStatus).toArray(Status[]::new);
 	}
@@ -231,5 +237,10 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	private <T extends ISnowflake> Map<String, T> map(List<T> list) {
 		return list.stream().collect(Collectors.toMap(ISnowflake::getId, UnaryOperator.identity()));
+	}
+
+	@Override
+	public AuditableRestAction<Void> installAuxiliaryCable(int port) {
+		return null;
 	}
 }

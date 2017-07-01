@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
-import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -206,8 +205,7 @@ public class UtilsCmds {
 				String definition, part_of_speech, headword, example;
 
 				try {
-					main = Unirest.get("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word).asJson()
-						.getBody().getObject();
+					main = new JSONObject(Utils.wgetResty("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word, event));
 					JSONArray results = main.getJSONArray("results");
 					JSONObject result = results.getJSONObject(0);
 					JSONArray senses = result.getJSONArray("senses");
