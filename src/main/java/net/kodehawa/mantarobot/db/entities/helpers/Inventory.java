@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.data.entities.helpers;
+package net.kodehawa.mantarobot.db.entities.helpers;
 
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 public class Inventory {
     //this can be removed if no itemstack errors are showing up

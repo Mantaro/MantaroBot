@@ -11,7 +11,7 @@ import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.data.entities;
+package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,9 +8,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.data.db.ManagedObject;
-import net.kodehawa.mantarobot.data.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.data.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 
 import java.beans.ConstructorProperties;
 import java.util.HashMap;
@@ -18,8 +18,8 @@ import java.util.Map;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
-import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.serialize;
-import static net.kodehawa.mantarobot.data.entities.helpers.Inventory.Resolver.unserialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
+import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 public class  Player implements ManagedObject {
 	public static final String DB_TABLE = "players";

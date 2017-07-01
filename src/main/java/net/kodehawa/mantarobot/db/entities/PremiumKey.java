@@ -1,7 +1,7 @@
-package net.kodehawa.mantarobot.data.entities;
+package net.kodehawa.mantarobot.db.entities;
 
 import lombok.Getter;
-import net.kodehawa.mantarobot.data.db.ManagedObject;
+import net.kodehawa.mantarobot.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
 

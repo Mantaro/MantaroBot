@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils.jda;
+package net.kodehawa.mantarobot.shard.jda;
 
 import net.dv8tion.jda.bot.JDABot;
 import net.dv8tion.jda.client.JDAClient;
@@ -8,7 +8,6 @@ import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.managers.Presence;
 import net.dv8tion.jda.core.requests.RestAction;
-import org.apache.http.HttpHost;
 
 import java.util.Comparator;
 import java.util.List;

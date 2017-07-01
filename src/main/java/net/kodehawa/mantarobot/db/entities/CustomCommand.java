@@ -1,9 +1,9 @@
-package net.kodehawa.mantarobot.data.entities;
+package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import net.kodehawa.mantarobot.data.db.ManagedObject;
+import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
 import java.beans.ConstructorProperties;

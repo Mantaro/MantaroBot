@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.data.db;
+package net.kodehawa.mantarobot.db;
 
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.data.entities.*;
+import net.kodehawa.mantarobot.db.entities.*;
 
 import java.util.List;
 

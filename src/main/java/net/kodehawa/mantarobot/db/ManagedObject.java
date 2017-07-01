@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.data.db;
+package net.kodehawa.mantarobot.db;
 
 import net.kodehawa.mantarobot.data.MantaroData;
 

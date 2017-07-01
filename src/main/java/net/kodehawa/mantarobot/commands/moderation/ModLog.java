@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 
 public class ModLog {
 

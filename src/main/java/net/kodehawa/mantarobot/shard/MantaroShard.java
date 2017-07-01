@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
 import br.com.brjdevs.java.utils.holding.objects.Holder;
+import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
@@ -72,17 +73,16 @@ public class MantaroShard implements JDA {
 		if (jda != null) {
 			log.info("Attempting to drop shard #" + shardId);
 			if (!force) prepareShutdown();
-			jda.shutdown(false);
+			jda.shutdown();
 			log.info("Dropped shard #" + shardId);
 		}
 
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
 			.setToken(config().get().token)
 			.setEventManager(manager)
-			//Keep this disabled until they fix the audio issues with it enabled (aka no audio coming out at all)
-			//.setAudioSendFactory(new NativeAudioSendFactory())
+			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
-			.setCorePoolSize(12)
+			.setCorePoolSize(15)
 			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);

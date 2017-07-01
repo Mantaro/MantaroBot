@@ -12,8 +12,8 @@ import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 

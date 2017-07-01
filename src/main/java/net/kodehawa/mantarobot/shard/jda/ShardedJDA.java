@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.utils.jda;
+package net.kodehawa.mantarobot.shard.jda;
 
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
@@ -211,7 +211,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	@Override
 	public void shutdownNow(){
-		forEach(jda -> jda.shutdownNow());
+		forEach(JDA::shutdownNow);
 	}
 
 	@Override

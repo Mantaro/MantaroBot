@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
@@ -27,7 +26,7 @@ import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
-import net.kodehawa.mantarobot.utils.jda.ShardedJDA;
+import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.service.MantaroAPI;
 import net.kodehawa.mantarobot.web.service.MantaroAPISender;
@@ -86,7 +85,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
  * GNU General Public License for more details.</pr>
  *
  * @see ShardedJDA
- * @see net.kodehawa.mantarobot.utils.jda.UnifiedJDA
+ * @see net.kodehawa.mantarobot.shard.jda.UnifiedJDA
  * @see Module
  * @since 16/08/2016
  * @author Kodehawa, AdrianTodt
@@ -198,7 +197,7 @@ public class MantaroBot extends ShardedJDA {
 				.build();
 
 		shardedMantaro.shard();
-		Async.thread(new ShardWatcher());
+		Async.thread("ShardWatcherThread", new ShardWatcher());
 
 		LogBack.enable();
 		loadState = LOADED;
