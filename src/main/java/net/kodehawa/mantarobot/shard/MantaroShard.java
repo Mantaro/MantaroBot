@@ -94,20 +94,18 @@ public class MantaroShard implements JDA {
 	public void updateServerCount() {
 		OkHttpClient httpClient = new OkHttpClient();
 		Config config = config().get();
-		Holder<Integer> guildCount = new Holder<>(jda.getGuilds().size());
 
 		String dbotsToken = config.dbotsToken;
 		String dbotsorgToken = config.dbotsorgToken;
 
 		if (dbotsToken != null || dbotsorgToken != null) {
 			Async.task("Botlist API update Thread", () -> {
-				int newC = jda.getGuilds().size();
-				guildCount.accept(newC);
+				int count = jda.getGuilds().size();
 
 				try {
 					RequestBody body = RequestBody.create(
 							JSON,
-							new JSONObject().put("server_count", guildCount).put("shard_id", getId()).put("shard_count", totalShards).toString()
+							new JSONObject().put("server_count", count).put("shard_id", getId()).put("shard_count", totalShards).toString()
 					);
 
 
@@ -118,8 +116,7 @@ public class MantaroShard implements JDA {
 								.addHeader("Content-Type", "application/json")
 								.post(body)
 								.build();
-						Response response = httpClient.newCall(request).execute();
-						response.close();
+						httpClient.newCall(request).execute().close();
 					}
 
 					if (dbotsorgToken != null) {
@@ -129,8 +126,7 @@ public class MantaroShard implements JDA {
 								.addHeader("Content-Type", "application/json")
 								.post(body)
 								.build();
-						Response response = httpClient.newCall(request).execute();
-						response.close();
+						httpClient.newCall(request).execute().close();
 					}
 				} catch (Exception ignored) {}
 			}, 1, TimeUnit.HOURS);
