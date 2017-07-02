@@ -73,7 +73,9 @@ public final class ReactionOperations {
                 if(f.isCancelled()) return;
                 int i = index.incrementAndGet();
                 if(i < defaultReactions.length) {
-                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
+                    if(message.getGuild() != null && message.getGuild().getSelfMember() != null){
+                        message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
+                    }
                 }
             });
             message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
