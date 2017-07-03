@@ -45,7 +45,8 @@ public final class ReactionOperations {
                     message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
                 }
             }
-            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
+        } else {
+            message.addReaction(reaction(defaultReactions[0])).queue();
         }
         return f;
     }
