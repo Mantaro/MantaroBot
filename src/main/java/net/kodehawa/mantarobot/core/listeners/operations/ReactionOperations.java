@@ -11,7 +11,6 @@ import net.jodah.expiringmap.ExpiringMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
@@ -45,8 +44,7 @@ public final class ReactionOperations {
                     message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
                 }
             }
-        } else {
-            message.addReaction(reaction(defaultReactions[0])).queue();
+            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
         }
         return f;
     }
