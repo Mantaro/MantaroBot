@@ -25,6 +25,9 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.json.JSONObject;
@@ -66,13 +69,22 @@ public class ImageCmds {
 	@Command
 	public static void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommand(Category.IMAGE) {
+			OkHttpClient httpClient = new OkHttpClient();
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
-					String url = new JSONObject(Utils.wgetResty("http://random.cat/meow", event)).getString("file");
+					Request r = new Request.Builder()
+							.url("http://random.cat/meow")
+							.build();
+
+					Response response = httpClient.newCall(r).execute();
+
+					String url = new JSONObject(response.body().string()).getString("file");
+					response.close();
 					event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
 						new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
 				} catch (Exception e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Error retrieving cute cat images :<").queue();
 					e.printStackTrace();
 				}
 			}

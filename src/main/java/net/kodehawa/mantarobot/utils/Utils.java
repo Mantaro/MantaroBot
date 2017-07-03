@@ -93,6 +93,7 @@ public class Utils {
 
 			Response r = httpClient.newCall(toPost).execute();
 			JSONObject response = new JSONObject(r.body().toString());
+			r.close();
 			return "https://hastebin.com/" + response.getString("key");
 		} catch (Exception e) {
 			return "An error was encountered while trying to upload to hastebin.";

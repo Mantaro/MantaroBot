@@ -268,6 +268,21 @@ public class UtilsCmds {
 		});
 	}
 
+	//@Command
+	public static void remindme(CommandRegistry registry){
+		registry.register("remindme", new SimpleCommand(Category.UTILS) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
+	}
+
 	@Command
 	public static void google(CommandRegistry registry) {
 		registry.register("google", new SimpleCommand(Category.UTILS) {

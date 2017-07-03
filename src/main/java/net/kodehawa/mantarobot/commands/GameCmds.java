@@ -10,6 +10,7 @@ import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.modules.Command;
@@ -126,6 +127,7 @@ public class GameCmds {
 		OptsCmd.registerOption("lobby:reset", event -> {
 			GameLobby.LOBBYS.remove(event.getChannel());
 			Poll.getRunningPolls().remove(event.getChannel().getId());
+			InteractiveOperations.get(event.getChannel()).cancel(true);
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
 		});
 	}

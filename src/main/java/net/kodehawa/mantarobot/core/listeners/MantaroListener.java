@@ -158,13 +158,13 @@ public class MantaroListener implements EventListener {
 	public void onHttpRequest(HttpRequestEvent event)
 	{
 		try{
-			if(event.getResponse().isError() && !event.getResponse().isRateLimit()){
+			if(!event.getResponse().isOk()){
 				System.out.println("--------------------");
 				System.out.println("HTTP Request");
 				System.out.println(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute());
 				System.out.println(event.getRequestHeaders().toString().replace(event.getJDA().getToken(), "[TOKEN]"));
-				if (event.getRequestBodyRaw() != null)
-					System.out.println(event.getRequestBodyRaw());
+				if (event.getRequestBodyRaw() != null) System.out.println(event.getRequestBodyRaw());
+				System.out.println("Response code: " + event.getResponseRaw().code());
 				System.out.println("--------------------");
 			}
 		} catch (Exception e){}

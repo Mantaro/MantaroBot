@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.DV8FromTheWorld:JDA:be66f70'
+	compile 'com.github.DV8FromTheWorld:JDA:b8f736a'
 	compile 'com.sedmelluq:lavaplayer:1.2.42'
 	compile 'com.sedmelluq:jda-nas:1.0.5'
 

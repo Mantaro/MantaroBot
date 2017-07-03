@@ -67,7 +67,6 @@ public class VoiceChannelListener implements EventListener {
     private void onJoin(VoiceChannel vc) {
         GuildVoiceState vs = vc.getGuild().getSelfMember().getVoiceState();
         if(validate(vs)) return;
-        System.out.println("processed!");
         if(!isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
@@ -90,9 +89,11 @@ public class VoiceChannelListener implements EventListener {
         if(isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
-                gmm.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(EmoteReference.THINKING + "I'll leave **" + vc.getName() + "** " +
-                        "in 2 minutes because I was left all " +
-                        "alone :<").queue();
+                if(gmm.getTrackScheduler() != null && gmm.getTrackScheduler().getCurrentTrack() != null){
+                    gmm.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(EmoteReference.THINKING + "I'll leave **" + vc.getName() + "** " +
+                            "in 2 minutes because I was left all " +
+                            "alone :<").queue();
+                }
                 gmm.getAudioPlayer().setPaused(true);
                 gmm.setAwaitingDeath(true);
                 gmm.scheduleLeave();
