@@ -54,7 +54,7 @@ public final class ReactionOperations {
 
     public static Future<Void> createOrGet(long messageId, long timeoutSeconds, ReactionOperation operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
-        if(operation == null) throw new NullPointerException("operation");
+        if(operation == null) throw new IllegalArgumentException("operation");
         RunningOperation o = OPERATIONS.get(messageId);
         if(o != null) return o.future;
         o = new RunningOperation(operation, new OperationFuture(messageId));
@@ -85,7 +85,7 @@ public final class ReactionOperations {
 
     public static Future<Void> create(long messageId, long timeoutSeconds, ReactionOperation operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
-        if(operation == null) throw new NullPointerException("operation");
+        if(operation == null) throw new IllegalArgumentException("operation");
         RunningOperation o = OPERATIONS.get(messageId);
         if(o != null) return null;
         o = new RunningOperation(operation, new OperationFuture(messageId));

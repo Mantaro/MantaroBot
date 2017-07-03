@@ -39,15 +39,13 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
 		if (toSend.contains("PermissionException")) return;
 		if (toSend.contains("ResponseProcessCookies")) return;
-		if (toSend.contains("Read timed out")) return;
+		if (toSend.contains("Read timed out") || toSend.contains("timeout")) return;
 		if(toSend.contains("RateLimitedException")) return;
+		if(toSend.equalsIgnoreCase("Encountered an exception:")) return;
 
 		if(event.getLevel().isGreaterOrEqual(Level.WARN)
-				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.equalsIgnoreCase("Encountered an exception:")
-				&& !toSend.contains("---- DISCONNECT")){
+				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.contains("---- DISCONNECT")){
 			SentryHelper.captureMessageErrorContext(sentry, this.getClass(), "Log Back");
-		} else if (event.getLevel() == Level.INFO){
-			SentryHelper.breadcrumb(sentry);
 		}
 
 
