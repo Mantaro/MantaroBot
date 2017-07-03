@@ -19,15 +19,14 @@ import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.events.EventDispatcher;
 import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
-import net.kodehawa.mantarobot.services.VoiceLeave;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
-import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.service.MantaroAPI;
 import net.kodehawa.mantarobot.web.service.MantaroAPISender;
@@ -47,7 +46,6 @@ import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
@@ -223,7 +221,7 @@ public class MantaroBot extends ShardedJDA {
 		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
 
 		loadState = POSTLOAD;
-		log.info("Finished loading basic components. **Status: " + loadState + "**");
+		log.info("Finished loading basic components. Current status: " + loadState + "");
 
 		EventDispatcher.dispatch(events, new PostLoadEvent());
 
@@ -234,7 +232,6 @@ public class MantaroBot extends ShardedJDA {
 		long end = System.currentTimeMillis();
 
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
-		executorService.scheduleWithFixedDelay(new VoiceLeave(), 1, 3, TimeUnit.MINUTES);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
 			mantaroAPI.startService();

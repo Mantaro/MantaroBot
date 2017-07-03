@@ -181,8 +181,8 @@ public class MantaroShard implements JDA {
 	}
 
 	public void readdListeners() {
-		jda.removeEventListener(mantaroListener, commandListener, /*VOICE_CHANNEL_LISTENER,*/ InteractiveOperations.listener(), ReactionOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, /*VOICE_CHANNEL_LISTENER,*/ InteractiveOperations.listener(), ReactionOperations.listener());
+		jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
+		jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceChannelListener implements EventListener {
+
     @Override
     public void onEvent(Event event) {
         if(event instanceof GuildVoiceMoveEvent) {
@@ -66,11 +67,19 @@ public class VoiceChannelListener implements EventListener {
     private void onJoin(VoiceChannel vc) {
         GuildVoiceState vs = vc.getGuild().getSelfMember().getVoiceState();
         if(validate(vs)) return;
+        System.out.println("processed!");
         if(!isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
-                gmm.cancelLeave();
+                if(gmm.getTrackScheduler().getCurrentTrack() != null){
+                    if(gmm.isAwaitingDeath()){
+                        gmm.getTrackScheduler().getCurrentTrack().getRequestedChannel().sendMessage(EmoteReference.POPPER +
+                                "Resuming playback because someone joined!").queue();
+                    }
+                }
                 gmm.getAudioPlayer().setPaused(false);
+                gmm.cancelLeave();
+                gmm.setAwaitingDeath(false);
             }
         }
     }
@@ -85,6 +94,7 @@ public class VoiceChannelListener implements EventListener {
                         "in 2 minutes because I was left all " +
                         "alone :<").queue();
                 gmm.getAudioPlayer().setPaused(true);
+                gmm.setAwaitingDeath(true);
                 gmm.scheduleLeave();
             }
         }

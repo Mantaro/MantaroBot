@@ -24,7 +24,8 @@ public abstract class Game {
 
 	public abstract boolean onStart(GameLobby lobby);
 
-	protected int callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
+	protected int callDefault(GuildMessageReceivedEvent e,
+							  GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return Operation.IGNORED;
 		}
@@ -67,7 +68,7 @@ public abstract class Game {
 
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " +  (maxAttempts - attempts) + " attempts remaning.").queue();
 			setAttempts(getAttempts() + 1);
-			return Operation.RESET_TIMEOUT;
+			return Operation.IGNORED;
 		}
 
 		return Operation.IGNORED;

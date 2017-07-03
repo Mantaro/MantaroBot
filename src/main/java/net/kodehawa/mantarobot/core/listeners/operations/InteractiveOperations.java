@@ -64,7 +64,7 @@ public class InteractiveOperations {
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = new RunningOperation(operation, new OperationFuture(channelId));
         RunningOperation running = OPERATIONS.get(channelId);
-        if(running != null) running.cancel(true);
+        if(running != null) running.future.cancel(true);
         OPERATIONS.put(channelId, o, timeoutSeconds, TimeUnit.SECONDS);
         return o.future;
     }

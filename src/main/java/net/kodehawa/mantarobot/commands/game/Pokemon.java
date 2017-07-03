@@ -31,7 +31,7 @@ public class Pokemon extends ImageGame {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), 120, new InteractiveOperation() {
+		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
 			@Override
 			public int run(GuildMessageReceivedEvent event) {
 				return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, 15);

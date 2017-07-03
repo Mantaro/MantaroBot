@@ -78,7 +78,7 @@ public class Trivia extends Game {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, Player> players) {
-		InteractiveOperations.create(lobby.getChannel(), 120, new InteractiveOperation() {
+		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
 				@Override
 				public int run(GuildMessageReceivedEvent event) {
 					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, hardDiff ? 10 : 0);
