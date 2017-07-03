@@ -33,51 +33,18 @@ public final class ReactionOperations {
         return o == null ? null : o.future;
     }
 
-    public static Future<Void> createOrGet(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
-        if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
-        Future<Void> f = createOrGet(message.getIdLong(), timeoutSeconds, operation);
-        if(defaultReactions.length > 0) {
-            AtomicInteger index = new AtomicInteger();
-            AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t)->{};
-            c.set(ignored->{
-                if(f.isCancelled()) return;
-                int i = index.incrementAndGet();
-                if(i < defaultReactions.length) {
-                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
-                }
-            });
-            message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
-        }
-        return f;
-    }
-
-    public static Future<Void> createOrGet(long messageId, long timeoutSeconds, ReactionOperation operation) {
-        if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
-        if(operation == null) throw new IllegalArgumentException("operation");
-        RunningOperation o = OPERATIONS.get(messageId);
-        if(o != null) return o.future;
-        o = new RunningOperation(operation, new OperationFuture(messageId));
-        OPERATIONS.put(messageId, o, timeoutSeconds, TimeUnit.SECONDS);
-        return o.future;
-    }
-
     public static Future<Void> create(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
         if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
         if(defaultReactions.length > 0) {
-            AtomicInteger index = new AtomicInteger();
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
             Consumer<Throwable> ignore = (t)->{};
-            c.set(ignored->{
-                if(f.isCancelled()) return;
-                int i = index.incrementAndGet();
-                if(i < defaultReactions.length) {
-                    if(message.getGuild() != null && message.getGuild().getSelfMember() != null){
-                        message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
-                    }
+            for(int i = 0; i < defaultReactions.length; i++){
+                if(f.isCancelled()) break;
+                if(message.getGuild() != null && message.getGuild().getSelfMember() != null){
+                    message.addReaction(reaction(defaultReactions[i])).queue(c.get(), ignore);
                 }
-            });
+            }
             message.addReaction(reaction(defaultReactions[0])).queue(c.get(), ignore);
         }
         return f;
