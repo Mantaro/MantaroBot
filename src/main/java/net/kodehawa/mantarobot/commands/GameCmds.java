@@ -13,12 +13,11 @@ import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -28,7 +27,7 @@ import java.util.LinkedList;
 @Module
 public class GameCmds {
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void guess(CommandRegistry cr) {
 		cr.register("game", new SimpleCommand(Category.GAMES) {
 			@Override
@@ -63,7 +62,7 @@ public class GameCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void trivia(CommandRegistry cr) {
 		cr.register("trivia", new SimpleCommand(Category.GAMES) {
 			@Override
@@ -122,7 +121,7 @@ public class GameCmds {
 		lobby.startFirstGame();
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void onPostLoad(PostLoadEvent e){
 		OptsCmd.registerOption("lobby:reset", event -> {
 			GameLobby.LOBBYS.remove(event.getChannel());

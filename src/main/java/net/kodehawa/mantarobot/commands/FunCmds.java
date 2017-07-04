@@ -13,7 +13,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -29,7 +28,7 @@ public class FunCmds {
 
 	private static Random r = new Random();
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void coinflip(CommandRegistry cr) {
 		cr.register("coinflip", new SimpleCommand(Category.FUN) {
 			@Override
@@ -74,7 +73,7 @@ public class FunCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void marry(CommandRegistry cr) {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override
@@ -202,7 +201,7 @@ public class FunCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void ratewaifu(CommandRegistry cr) {
 		cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
 			@Override
@@ -231,7 +230,7 @@ public class FunCmds {
 		cr.registerAlias("ratewaifu", "rw");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void roll(CommandRegistry registry) {
 		registry.register("roll", new SimpleCommand(Category.FUN) {
 			@Override
@@ -276,7 +275,7 @@ public class FunCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void love(CommandRegistry registry){
 		Random r = new Random();
 		String[] usersToMax = {"155867458203287552;132584525296435200",

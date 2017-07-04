@@ -13,13 +13,12 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j(topic = "Moderation")
 @Module
 public class ModerationCmds {
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -154,7 +153,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void ban(CommandRegistry cr) {
         cr.register("ban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -251,7 +250,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void kick(CommandRegistry cr) {
         cr.register("kick", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -351,7 +350,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void prune(CommandRegistry cr) {
         cr.register("prune", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -549,7 +548,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void tempban(CommandRegistry cr) {
         cr.register("tempban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -641,7 +640,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void mute(CommandRegistry registry){
         registry.register("mute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
@@ -737,7 +736,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void unmute(CommandRegistry commandRegistry){
         commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
@@ -810,7 +809,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void onPostLoad(PostLoadEvent e){
         OptsCmd.registerOption("modlog:blacklist", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();

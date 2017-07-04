@@ -15,12 +15,11 @@ import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -66,7 +65,7 @@ public class ImageCmds {
 	private static String tagsEncoded = "";
 	private static String tagsToEncode = "no";
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommand(Category.IMAGE) {
 			OkHttpClient httpClient = new OkHttpClient();
@@ -98,7 +97,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void catgirls(CommandRegistry cr) {
 		cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -130,7 +129,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void e621(CommandRegistry cr) {
 		cr.register("e621", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -242,7 +241,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void kona(CommandRegistry cr) {
 		cr.register("konachan", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -353,7 +352,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void rule34(CommandRegistry cr) {
 		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -466,7 +465,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void yandere(CommandRegistry cr) {
 		cr.register("yandere", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -602,7 +601,7 @@ public class ImageCmds {
 		return true;
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		nRating.put("safe", "s");
 		nRating.put("questionable", "q");

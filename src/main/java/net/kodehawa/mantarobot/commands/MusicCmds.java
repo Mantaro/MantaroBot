@@ -21,13 +21,12 @@ import net.kodehawa.mantarobot.commands.music.TrackScheduler;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -44,7 +43,7 @@ import static org.apache.commons.lang3.StringUtils.replaceEach;
 @Module
 @Slf4j
 public class MusicCmds {
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void forceskip(CommandRegistry cr) {
 		cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
 			@Override
@@ -75,7 +74,7 @@ public class MusicCmds {
 		cr.registerAlias("forceskip", "fs");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void move(CommandRegistry cr) {
 		cr.register("move", new SimpleCommand(Category.MUSIC) {
 			RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 20);
@@ -153,7 +152,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void np(CommandRegistry cr) {
 		cr.register("np", new SimpleCommand(Category.MUSIC) {
 
@@ -195,7 +194,7 @@ public class MusicCmds {
 	}
 
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void pause(CommandRegistry cr) {
 		cr.register("pause", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -225,7 +224,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void play(CommandRegistry cr) {
 		cr.register("play", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -262,7 +261,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void forceplay(CommandRegistry cr) {
 		cr.register("forceplay", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -297,7 +296,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void rewind(CommandRegistry cr) {
 		cr.register("rewind", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -343,7 +342,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void skipahead(CommandRegistry cr) {
 		cr.register("skipahead", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -390,7 +389,7 @@ public class MusicCmds {
 	}
 
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void queue(CommandRegistry cr) {
 		cr.register("queue", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -449,7 +448,7 @@ public class MusicCmds {
 		cr.registerAlias("queue", "q");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void removetrack(CommandRegistry cr) {
 		cr.register("removetrack", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -560,7 +559,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void repeat(CommandRegistry cr) {
 		cr.register("repeat", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -618,7 +617,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void shuffle(CommandRegistry cr) {
 		cr.register("shuffle", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -646,7 +645,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void skip(CommandRegistry cr) {
 		cr.register("skip", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -702,7 +701,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void stop(CommandRegistry cr) {
 		cr.register("stop", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -758,7 +757,7 @@ public class MusicCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void volume(CommandRegistry cr) {
 		cr.register("volume", new SimpleCommand(Category.MUSIC) {
 			@Override
@@ -847,7 +846,7 @@ public class MusicCmds {
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("reactionmenus:toggle", event -> {
 			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());

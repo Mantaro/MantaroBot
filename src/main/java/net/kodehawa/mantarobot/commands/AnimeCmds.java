@@ -9,12 +9,11 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -35,7 +34,7 @@ public class AnimeCmds {
 	public static String authToken;
 	private static OkHttpClient client = new OkHttpClient();
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void anime(CommandRegistry cr) {
 		cr.register("anime", new SimpleCommand(Category.FUN) {
 			@Override
@@ -111,7 +110,7 @@ public class AnimeCmds {
 		}
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void character(CommandRegistry cr) {
 		cr.register("character", new SimpleCommand(Category.FUN) {
 			@Override
@@ -160,7 +159,7 @@ public class AnimeCmds {
 		cr.registerAlias("character", "char");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900, TimeUnit.SECONDS);
 	}

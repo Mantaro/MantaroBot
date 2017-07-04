@@ -13,7 +13,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
@@ -56,7 +55,7 @@ public class OwnerCmd {
 		"Momma, where's my Milk cup? *drinks and goes to sleep*"
 	};
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void blacklist(CommandRegistry cr) {
 		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
@@ -110,7 +109,7 @@ public class OwnerCmd {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {

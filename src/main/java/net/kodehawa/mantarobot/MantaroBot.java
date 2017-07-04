@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.google.common.eventbus.EventBus;
 import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +16,8 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogBack;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.events.EventDispatcher;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.shard.ShardedMantaro;
@@ -38,7 +37,6 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -65,8 +63,8 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
  * A instance of this class contains most of the necessary wrappers to make a command and JDA lookups. (see ShardedJDA and UnifiedJDA). All shards come to an unifying point
  * in this class, meaning that doing {@link MantaroBot#getUserById(String)} is completely valid and so it will look for all users in all shards, without duplicates (distinct).
  *
- * After JDA startup, the internal {@link EventDispatcher} will attempt to dispatch {@link PostLoadEvent} to all the Module classes which contain a onPostLoad method, with a
- * {@link Command} annotation on it.
+ * After JDA startup, the internal {@link EventBus} will attempt to dispatch {@link PostLoadEvent} to all the Module classes which contain a onPostLoad method, with a
+ * {@link com.google.common.eventbus.Subscribe} annotation on it.
  *
  * Mantaro's version is determined, for now, on the data set in build.gradle and the date of build.
  *
@@ -213,22 +211,23 @@ public class MantaroBot extends ShardedJDA {
 
 		MantaroData.config().save();
 
-		Set<Method> events = new Reflections(
-			classes.get(),
-			new MethodAnnotationsScanner()
-		).getMethodsAnnotatedWith(Command.class);
-
-		EventDispatcher.dispatch(events, CommandProcessor.REGISTRY);
+        EventBus bus = new EventBus();
+        classes.get().forEach(clazz->{
+            try {
+                bus.register(clazz.newInstance());
+            } catch(Exception e) {
+                log.error("Invalid module: no zero arg public constructor found for " + clazz);
+            }
+        });
+		bus.post(CommandProcessor.REGISTRY);
 
 		loadState = POSTLOAD;
 		log.info("Finished loading basic components. Current status: " + loadState + "");
 
-		EventDispatcher.dispatch(events, new PostLoadEvent());
+		bus.post(new PostLoadEvent());
 
 		log.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + shardedMantaro.getTotalShards() + " shards.");
 
-		//Free Instances
-		EventDispatcher.instances.clear();
 		long end = System.currentTimeMillis();
 
 		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);

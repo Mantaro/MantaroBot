@@ -12,7 +12,6 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.Quote;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -28,7 +27,7 @@ import java.util.stream.Stream;
 @Slf4j
 @Module
 public class QuoteCmd {
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void quote(CommandRegistry cr) {
 		cr.register("quote", new SimpleCommand(Category.MISC) {
 			@Override

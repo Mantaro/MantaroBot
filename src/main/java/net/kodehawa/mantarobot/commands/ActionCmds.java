@@ -12,12 +12,11 @@ import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -45,7 +44,7 @@ public class ActionCmds {
 		"assets/mantaro/texts/tickles.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void action(CommandRegistry registry) {
 		registry.register("action", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -79,7 +78,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void bloodsuck(CommandRegistry registry) {
 		registry.register("bloodsuck", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -105,7 +104,7 @@ public class ActionCmds {
 		});
 	}
 
-		@Command
+		@com.google.common.eventbus.Subscribe
 	public static void lewd(CommandRegistry registry) {
 		registry.register("lewd", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -123,7 +122,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void meow(CommandRegistry registry) {
 		registry.register("meow", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -150,7 +149,7 @@ public class ActionCmds {
 		registry.registerAlias("meow", "mew");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("actionmention:toggle", event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -164,7 +163,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void register(CommandRegistry cr) {
 
 		//pat();

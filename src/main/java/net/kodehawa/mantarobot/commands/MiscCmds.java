@@ -14,12 +14,11 @@ import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -40,7 +39,7 @@ public class MiscCmds {
 	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
 	private static final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void eightBall(CommandRegistry cr) {
 		cr.register("8ball", new SimpleCommand(Category.MISC) {
 			@Override
@@ -79,7 +78,7 @@ public class MiscCmds {
 		cr.registerAlias("8ball", "8b");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void iam(CommandRegistry cr) {
 		cr.register("iam", new SimpleCommand(Category.MISC) {
 			@Override
@@ -148,7 +147,7 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void iamnot(CommandRegistry cr) {
 		cr.register("iamnot", new SimpleCommand(Category.MISC) {
 			@Override
@@ -214,7 +213,7 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void misc(CommandRegistry cr) {
 		cr.register("misc", new SimpleCommand(Category.MISC) {
 			@Override
@@ -258,7 +257,7 @@ public class MiscCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("timedisplay:set", (event, args) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -289,7 +288,7 @@ public class MiscCmds {
 		});
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void randomFact(CommandRegistry cr) {
 		cr.register("randomfact", new SimpleCommand(Category.MISC) {
 			@Override
@@ -309,7 +308,7 @@ public class MiscCmds {
 		cr.registerAlias("randomfact", "rf");
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void createPoll(CommandRegistry registry){
 		registry.register("createpoll", new SimpleCommand(Category.MISC) {
 			@Override

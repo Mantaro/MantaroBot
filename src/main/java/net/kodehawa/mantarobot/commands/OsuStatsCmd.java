@@ -11,7 +11,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -86,7 +85,7 @@ public class OsuStatsCmd {
 		return finalResponse;
 	}
 
-	@Command
+	@com.google.common.eventbus.Subscribe
 	public static void osustats(CommandRegistry cr) {
 		cr.register("osustats", new SimpleCommand(Category.GAMES) {
 			@Override

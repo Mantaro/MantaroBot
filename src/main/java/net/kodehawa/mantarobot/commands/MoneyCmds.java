@@ -15,7 +15,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -43,7 +42,7 @@ public class MoneyCmds {
 
     private static Random random = new Random();
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void daily(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
         Random r = new Random();
@@ -109,7 +108,7 @@ public class MoneyCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void gamble(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
         SecureRandom r = new SecureRandom();
@@ -225,7 +224,7 @@ public class MoneyCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void loot(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
         Random r = new Random();
@@ -313,7 +312,7 @@ public class MoneyCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void richest(CommandRegistry cr) {
         cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);

@@ -16,7 +16,6 @@ import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -36,7 +35,7 @@ public class CurrencyCmds {
 
     private static Random random = new Random();
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void inventory(CommandRegistry cr) {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -69,7 +68,7 @@ public class CurrencyCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void market(CommandRegistry cr) {
         cr.register("market", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
@@ -259,7 +258,7 @@ public class CurrencyCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void profile(CommandRegistry cr) {
         cr.register("profile", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -390,7 +389,7 @@ public class CurrencyCmds {
         });
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void rep(CommandRegistry cr) {
         cr.register("rep", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
@@ -443,7 +442,7 @@ public class CurrencyCmds {
         cr.registerAlias("rep", "reputation");
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -543,7 +542,7 @@ public class CurrencyCmds {
         cr.registerAlias("itemtransfer", "transferitems");
     }
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -622,7 +621,7 @@ public class CurrencyCmds {
     }
 
 
-    @Command
+    @com.google.common.eventbus.Subscribe
     public static void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
 
