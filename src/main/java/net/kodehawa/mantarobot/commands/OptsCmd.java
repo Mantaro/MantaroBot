@@ -20,6 +20,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -767,25 +768,31 @@ public class OptsCmd {
 
                 StringBuilder name = new StringBuilder();
 
-                for (int i = 1; i < args.length; i++) {
-                    String s = args[i];
-                    if (name.length() > 0) name.append(":");
-                    name.append(s);
-                    Option option = Option.getOptionMap().get(name.toString());
+				if (args[0].equalsIgnoreCase("help")) {
+					for (int i = 1; i < args.length; i++) {
+						String s = args[i];
+						if (name.length() > 0) name.append(":");
+						name.append(s);
+						Option option = Option.getOptionMap().get(name.toString());
 
-                    if (option != null) {
-                        try{
-                            EmbedBuilder builder = new EmbedBuilder()
-                                    .setAuthor(option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
-                                    .setDescription(option.getDescription())
-                                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                                    .addField("Type", option.getType().toString(), false);
-                            event.getChannel().sendMessage(builder.build()).queue();
-                            return;
-                        } catch (IndexOutOfBoundsException ignored){}
-                        return;
-                    }
-                }
+						if (option != null) {
+							try{
+								EmbedBuilder builder = new EmbedBuilder()
+										.setAuthor(option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
+										.setDescription(option.getDescription())
+										.setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
+										.addField("Type", option.getType().toString(), false);
+								event.getChannel().sendMessage(builder.build()).queue();
+							} catch (IndexOutOfBoundsException ignored){}
+							return;
+						}
+					}
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid option help name.").queue(
+							message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+					);
+
+					return;
+				}
 
                 for (int i = 0; i < args.length; i++) {
 					String s = args[i];
@@ -804,6 +811,10 @@ public class OptsCmd {
 						return;
 					}
 				}
+
+				event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid option or arguments.").queue(
+						message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+				);
 				event.getChannel().sendMessage(help(event)).queue();
 			}
 

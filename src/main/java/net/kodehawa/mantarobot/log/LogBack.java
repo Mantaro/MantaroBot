@@ -49,9 +49,9 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 		}
 
 
-		if (toSend.length() > 1920)
-			toSend = ":warning: Received a message but it was too long, Hastebin: " + Utils.paste(toSend);
-		consoleChannel().sendMessage(toSend).queue();
+		if (!(toSend.length() > 1920)){
+			consoleChannel().sendMessage(toSend).queue();
+		}
 		previousEvent = event;
 	}
 
