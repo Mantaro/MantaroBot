@@ -47,7 +47,9 @@ public class ModLog {
 		}
 
 		if (guildDB.getData().getGuildLogChannel() != null) {
-			MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
+			if(MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()) != null){
+				MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
+			}
 		}
 	}
 
