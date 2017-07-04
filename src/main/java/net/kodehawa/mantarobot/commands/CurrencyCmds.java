@@ -595,9 +595,8 @@ public class CurrencyCmds {
                     toTransfer.save();
 
                     if (user.getId().equals("224662505157427200")) {
-                        user.openPrivateChannel().queue(channel ->
-                                channel.sendMessage(event.getAuthor().getId() + " transferred **" + toSend + "** to you successfully."
-                                ).queue());
+                        MantaroBot.getInstance().getTextChannelById(329013929890283541L).
+                                sendMessage(event.getAuthor().getId() + " transferred **" + toSend + "** to you successfully.").queue();
                     }
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage()
