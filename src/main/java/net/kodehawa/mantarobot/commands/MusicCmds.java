@@ -920,7 +920,10 @@ public class MusicCmds {
 			dbGuild.save();
 		});
 
-		OptsCmd.registerOption("music:channel", (event, args) -> {
+		OptsCmd.registerOption("music:channel", "Music VC lock",
+				"Locks the bot to a VC. You need the VC name.\n" +
+						"Example: `~>opts music channel Music`",
+				"Locks the music feature to the specified VC.", (event, args) -> {
 			if (args.length == 0) {
 				OptsCmd.onHelp(event);
 				return;
@@ -974,7 +977,10 @@ public class MusicCmds {
 			}
 		});
 
-		OptsCmd.registerOption("music:queuelimit", (event, args) -> {
+		OptsCmd.registerOption("music:queuelimit", "Music queue limit",
+				"Sets a custom queue limit.\n" +
+						"Example: `~>opts music queuelimit 90`",
+				"Sets a custom queue limit.", (event, args) -> {
 			if (args.length == 0) {
 				OptsCmd.onHelp(event);
 				return;

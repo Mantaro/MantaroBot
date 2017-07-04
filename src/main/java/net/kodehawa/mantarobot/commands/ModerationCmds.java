@@ -886,7 +886,11 @@ public class ModerationCmds {
 
     @Command
     public static void onPostLoad(PostLoadEvent e){
-        OptsCmd.registerOption("modlog:blacklist", event -> {
+        OptsCmd.registerOption("modlog:blacklist", "Modlog blacklist",
+                "Prevents an user from appearing in modlogs.\n" +
+                        "You need the user mention.\n" +
+                        "Example: ~>opts modlog blacklist @user",
+                "Prevents an user from appearing in modlogs", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()){
                 event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
@@ -905,10 +909,14 @@ public class ModerationCmds {
             event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users from mod-log: **" + blacklisted + "**").queue();
         });
 
-        OptsCmd.registerOption("modlog:whitelist", event -> {
+        OptsCmd.registerOption("modlog:whitelist", "Modlog whitelist",
+                "Allows an user from appearing in modlogs.\n" +
+                        "You need the user mention.\n" +
+                        "Example: ~>opts modlog whitelist @user",
+                "Allows an user from appearing in modlogs (everyone by default)", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()){
-                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally un-blacklist from mod logs.**").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally whitelist from mod logs.**").queue();
                 return;
             }
 
@@ -924,7 +932,7 @@ public class ModerationCmds {
             event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally un-blacklisted users from mod-log: **" + unBlacklisted + "**").queue();
         });
 
-        OptsCmd.registerOption("linkprotection:toggle", event -> {
+        OptsCmd.registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isLinkProtection();
@@ -934,7 +942,7 @@ public class ModerationCmds {
             dbGuild.save();
         });
 
-        OptsCmd.registerOption("slowmode:toggle", event -> {
+        OptsCmd.registerOption("slowmode:toggle", "Slow mode toggle", "Toggles slow mode (1 message/3s)", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isSlowMode();
@@ -944,7 +952,7 @@ public class ModerationCmds {
             dbGuild.save();
         });
 
-        OptsCmd.registerOption("antispam:toggle", event -> {
+        OptsCmd.registerOption("antispam:toggle", "Link-protection toggle", "Toggles anti-spam (3 messages/3s)", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isAntiSpam();
@@ -954,7 +962,11 @@ public class ModerationCmds {
             dbGuild.save();
         });
 
-        OptsCmd.registerOption("linkprotection:channel:allow", (event, args) -> {
+        OptsCmd.registerOption("linkprotection:channel:allow", "Link-protection channel allow",
+                "Allows the posting of invites on a channel.\n" +
+                        "You need the channel name.\n" +
+                        "Example: ~>opts linkprotection channel allow promote-here",
+                "Allows the posting of invites on a channel.", (event, args) -> {
             if (args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
@@ -989,7 +1001,11 @@ public class ModerationCmds {
             );
         });
 
-        OptsCmd.registerOption("linkprotection:channel:disallow", (event, args) -> {
+        OptsCmd.registerOption("linkprotection:channel:disallow", "Link-protection channel disallow",
+                "Disallows the posting of invites on a channel.\n" +
+                        "You need the channel name.\n" +
+                        "Example: ~>opts linkprotection channel disallow general",
+                "Disallows the posting of invites on a channel (every channel by default)", (event, args) -> {
             if (args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
