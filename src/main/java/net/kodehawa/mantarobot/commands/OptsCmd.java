@@ -758,28 +758,47 @@ public class OptsCmd {
 					return;
 				}
 
-				if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
-					return;
-				}
-
 				if (args.length < 2) {
 					event.getChannel().sendMessage(help(event)).queue();
 					return;
 				}
-				String name = "";
-				for (int i = 0; i < args.length; i++) {
+
+                StringBuilder name = new StringBuilder();
+
+                for (int i = 1; i < args.length; i++) {
+                    String s = args[i];
+                    if (name.length() > 0) name.append(":");
+                    name.append(s);
+                    Option option = Option.getOptionMap().get(name.toString().replace("help ", ""));
+
+                    if (option != null) {
+                        try{
+                            EmbedBuilder builder = new EmbedBuilder()
+                                    .setAuthor("Help for " +
+                                            option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
+                                    .setDescription(option.getDescription())
+                                    .addField("Type", option.getType().toString(), false);
+
+                            event.getChannel().sendMessage(builder.build()).queue();
+                            return;
+                        } catch (IndexOutOfBoundsException ignored){}
+                        return;
+                    }
+                }
+
+                for (int i = 0; i < args.length; i++) {
 					String s = args[i];
-					if (!name.isEmpty()) name += ":";
-					name += s;
-					Option option = Option.getOptionMap().get(name);
+					if (name.length() > 0) name.append(":");
+					name.append(s);
+					Option option = Option.getOptionMap().get(name.toString());
 
 					if (option != null) {
-						BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.getOptionMap().get(name).getEventConsumer();
+						BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.getOptionMap().get(name.toString()).getEventConsumer();
 						try{
 							String[] a;
-							if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
+							if (++i < args.length) a = Arrays.copyOfRange(args  , i, args.length);
 							else a = new String[0];
-							if(content.contains("-help")){
+							if(content.contains("-help") || content.contains("-h")){
 								EmbedBuilder builder = new EmbedBuilder()
 										.setAuthor("Help for " +
 												option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
@@ -791,7 +810,6 @@ public class OptsCmd {
 							}
 							callable.accept(event, a);
 						} catch (IndexOutOfBoundsException ignored){}
-
 						return;
 					}
 				}
