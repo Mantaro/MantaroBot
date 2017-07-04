@@ -246,7 +246,8 @@ public class OptsCmd {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setLogJoinLeaveChannel(null);
-			dbGuild.saveAsync();
+			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Sucessfully reset the join/leave channel.").queue();
 		});//endregion
 
 		//region resetdata
@@ -259,6 +260,7 @@ public class OptsCmd {
 			guildData.setLeaveMessage(null);
 			guildData.setJoinMessage(null);
 			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Sucessfully reset the join/leave message.").queue();
 		});
 		//endregion
 
