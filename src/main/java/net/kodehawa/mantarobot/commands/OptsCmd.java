@@ -769,16 +769,15 @@ public class OptsCmd {
                     String s = args[i];
                     if (name.length() > 0) name.append(":");
                     name.append(s);
-                    Option option = Option.getOptionMap().get(name.toString().replace("help ", ""));
+                    Option option = Option.getOptionMap().get(name.toString());
 
                     if (option != null) {
                         try{
                             EmbedBuilder builder = new EmbedBuilder()
-                                    .setAuthor("Help for " +
-                                            option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
+                                    .setAuthor(option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
                                     .setDescription(option.getDescription())
+                                    .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                                     .addField("Type", option.getType().toString(), false);
-
                             event.getChannel().sendMessage(builder.build()).queue();
                             return;
                         } catch (IndexOutOfBoundsException ignored){}
@@ -798,16 +797,6 @@ public class OptsCmd {
 							String[] a;
 							if (++i < args.length) a = Arrays.copyOfRange(args  , i, args.length);
 							else a = new String[0];
-							if(content.contains("-help") || content.contains("-h")){
-								EmbedBuilder builder = new EmbedBuilder()
-										.setAuthor("Help for " +
-												option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
-										.setDescription(option.getDescription())
-										.addField("Type", option.getType().toString(), false);
-
-								event.getChannel().sendMessage(builder.build()).queue();
-								return;
-							}
 							callable.accept(event, a);
 						} catch (IndexOutOfBoundsException ignored){}
 						return;
