@@ -15,10 +15,9 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
-import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.commands.music.Repeat;
-import net.kodehawa.mantarobot.commands.music.TrackScheduler;
+import net.kodehawa.mantarobot.commands.music.*;
+import net.kodehawa.mantarobot.commands.options.Option;
+import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -259,7 +258,35 @@ public class MusicCmds {
 						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
-		});
+		}).addOption("musicspeedup:fix", new Option("Music speedup fix",
+				"Attempts to fix the music speedup issues on music playback.\n" +
+				"**Considerations:** This command *needs* to be run when mantaro is playing music.", OptionType.GENERAL)
+				.setAction(event -> {
+					try{
+						MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+						AudioManager audioManager = event.getGuild().getAudioManager();
+						VoiceChannel previousVc = audioManager.getConnectedChannel();
+						audioManager.closeAudioConnection();
+						manager.getMusicManagers().remove(event.getGuild().getId());
+						audioManager.setSendingHandler(null);
+						event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
+								+ " with debug:\n " +
+								"```diff\n"
+								+ "Audio Manager: " + manager + "\n"
+								+ "VC to connect: " + previousVc.getName() + "\n"
+								+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
+								+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
+								+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
+								+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
+								+ "Guild ID: " + event.getGuild().getId() + "\n"
+								+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
+								+ "```\n" +
+								"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
+						audioManager.openAudioConnection(previousVc);
+					} catch (NullPointerException e){
+						event.getChannel().sendMessage(EmoteReference.WARNING + "You have to run this command while Mantaro is playing music!").queue();
+					}
+				}).setShortDescription("Attempts to fix the music speedup issues on music playback."));
 	}
 
 	@Subscribe
@@ -849,7 +876,7 @@ public class MusicCmds {
 
 	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("reactionmenus:toggle", event -> {
+		OptsCmd.registerOption("reactionmenus:toggle", "Reaction menus toggle","Toggles reaction-based menues on music selection.", event -> {
 			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
 			GuildData data = dbg.getData();
 			boolean t = data.isReactionMenus();
@@ -859,7 +886,10 @@ public class MusicCmds {
 			dbg.save();
 		});
 
-		OptsCmd.registerOption("fairqueue:max", (event, args) -> {
+		OptsCmd.registerOption("fairqueue:max", "Fair queue maximum",
+				"Sets the maximum fairqueue value (max amount of the same song any user can add).\n" +
+						"Example: `~>opts fairqueue max 5`",
+				"Sets the maximum fairqueue value.", (event, args) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 
@@ -882,7 +912,7 @@ public class MusicCmds {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
 		});
 
-		OptsCmd.registerOption("musicannounce:toggle", event -> {
+		OptsCmd.registerOption("musicannounce:toggle","Music announce toggle","Toggles whether the bot will announce the new song playing or no.",  event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			boolean t1 = guildData.isMusicAnnounce();
@@ -892,7 +922,10 @@ public class MusicCmds {
 			dbGuild.save();
 		});
 
-		OptsCmd.registerOption("music:channel", (event, args) -> {
+		OptsCmd.registerOption("music:channel", "Music VC lock",
+				"Locks the bot to a VC. You need the VC name.\n" +
+						"Example: `~>opts music channel Music`",
+				"Locks the music feature to the specified VC.", (event, args) -> {
 			if (args.length == 0) {
 				OptsCmd.onHelp(event);
 				return;
@@ -946,7 +979,10 @@ public class MusicCmds {
 			}
 		});
 
-		OptsCmd.registerOption("music:queuelimit", (event, args) -> {
+		OptsCmd.registerOption("music:queuelimit", "Music queue limit",
+				"Sets a custom queue limit.\n" +
+						"Example: `~>opts music queuelimit 90`",
+				"Sets a custom queue limit.", (event, args) -> {
 			if (args.length == 0) {
 				OptsCmd.onHelp(event);
 				return;
@@ -974,10 +1010,9 @@ public class MusicCmds {
 			}
 		});
 
-		OptsCmd.registerOption("music:clear", (event) -> {
+		OptsCmd.registerOption("music:clear", "Music clear settings","Clears the specific music channel.",  (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
-			guildData.setMusicSongDurationLimit(null);
 			guildData.setMusicChannel(null);
 			dbGuild.save();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();

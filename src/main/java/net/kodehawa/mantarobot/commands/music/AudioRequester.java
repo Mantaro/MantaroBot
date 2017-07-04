@@ -92,7 +92,7 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 	@Override
 	public void noMatches() {
-		event.getChannel().sendMessage(String.format("Nothing found by %s.", trackUrl.startsWith("ytsearch:") ? trackUrl.substring(9) : trackUrl)).queue();
+		event.getChannel().sendMessage(String.format("Nothing found by %s.", trackUrl.startsWith("ytsearch:") || trackUrl.startsWith("scsearch:") ? trackUrl.substring(9) : trackUrl)).queue();
 		if (musicManager.getTrackScheduler().isStopped())
 			event.getGuild().getAudioManager().closeAudioConnection();
 	}

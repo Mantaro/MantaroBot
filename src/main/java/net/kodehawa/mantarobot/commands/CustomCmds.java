@@ -554,7 +554,10 @@ public class CustomCmds {
 			customCommands.put(custom.getId(), custom.getValues());
 		});
 
-		OptsCmd.registerOption("admincustom", (event, args) -> {
+		OptsCmd.registerOption("admincustom", "Admin custom commands",
+				"Locks custom commands to admin-only.\n" +
+						"Example: `~>opts admincustom true`",
+				"Locks custom commands to admin-only.", (event, args) -> {
 			if (args.length == 0) {
 				OptsCmd.onHelp(event);
 				return;

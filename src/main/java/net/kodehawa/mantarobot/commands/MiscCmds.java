@@ -260,7 +260,8 @@ public class MiscCmds {
 
 	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("timedisplay:set", (event, args) -> {
+		OptsCmd.registerOption("timedisplay:set", "Time display set","Toggles between 12h and 24h time display.\n" +
+				"Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.",  (event, args) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 

@@ -328,7 +328,10 @@ public class UtilsCmds {
 
 	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("birthday:enable", (event, args) -> {
+		OptsCmd.registerOption("birthday:enable", "Birthday Monitoring enable",
+				"Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
+						"**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
+				"Enables birthday monitoring.", (event, args) -> {
 			if (args.length < 2) {
 				OptsCmd.onHelp(event);
 				return;
@@ -368,7 +371,7 @@ public class UtilsCmds {
 			}
 		});
 
-		OptsCmd.registerOption("birthday:disable", (event) -> {
+		OptsCmd.registerOption("birthday:disable", "Birthday disable","Disables birthday monitoring.", (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setBirthdayChannel(null);

@@ -10,6 +10,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.options.Option;
+import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -734,7 +736,82 @@ public class ModerationCmds {
                                 "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
                         .build();
             }
-        });
+        }).addOption("defaultmutetimeout:set", new Option("Default mute timeout",
+                "Sets the default mute timeout for ~>mute.\n" +
+                        "This command will set the timeout of ~>mute to a fixed value **unless you specify another time in the command**\n" +
+                        "**Example:** `~>opts defaultmutetimeout set 1m20s`\n" +
+                        "**Considerations:** Time is in 1m20s or 1h10m3s format, for example.", OptionType.GUILD)
+                .setAction(((event, args) -> {
+                    if(args.length == 0){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You have to specify a timeout in the format of 1m20s, for example.").queue();
+                        return;
+                    }
+
+                    if(!(args[0]).matches("(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?")){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong time format. You have to specify a timeout in the format of 1m20s, for example.").queue();
+                        return;
+                    }
+
+                    long timeoutToSet = AudioCmdUtils.parseTime(args[0]);
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    guildData.setSetModTimeout(timeoutToSet);
+                    dbGuild.save();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
+                })).setShortDescription("Sets the default timeout for the ~>mute command"))
+        .addOption("defaultmutetimeout:reset", new Option("Default mute timeout reset",
+                "Resets the default mute timeout which was set previously with `defaultmusictimeout set`", OptionType.GUILD)
+                .setAction((event -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    guildData.setSetModTimeout(0L);
+                    dbGuild.save();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
+                })).setShortDescription("Resets the default mute timeout."))
+        .addOption("muterole:set", new Option("Mute role set",
+                "Sets this guilds mute role to apply on the ~>mute command.\n" +
+                        "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
+                        " be wrapped in quotation marks", OptionType.COMMAND)
+        .setAction((event, args) -> {
+            if (args.length < 1) {
+                OptsCmd.onHelp(event);
+                return;
+            }
+
+            String roleName = String.join(" ", args);
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
+            if (roleList.size() == 0) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
+            } else if (roleList.size() == 1) {
+                Role role = roleList.get(0);
+                guildData.setMutedRole(role.getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
+            } else {
+                DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
+                        role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Mute Role:")
+                                .setDescription(s).build(),
+                        role -> {
+                            guildData.setMutedRole(role.getId());
+                            dbGuild.saveAsync();
+                            event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
+                        });
+            }
+        }).setShortDescription("Sets this guilds mute role to apply on the ~>mute command"))
+        .addOption("muterole:unbind", new Option("Mute Role unbind", "Resets the current value set for the mute role", OptionType.GENERAL)
+        .setAction(event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setMutedRole(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.OK + "Correctly resetted mute role.").queue();
+        }).setShortDescription("Resets the current value set for the mute role."));
     }
 
     @Subscribe
@@ -812,7 +889,11 @@ public class ModerationCmds {
 
     @Subscribe
     public static void onPostLoad(PostLoadEvent e){
-        OptsCmd.registerOption("modlog:blacklist", event -> {
+        OptsCmd.registerOption("modlog:blacklist", "Modlog blacklist",
+                "Prevents an user from appearing in modlogs.\n" +
+                        "You need the user mention.\n" +
+                        "Example: ~>opts modlog blacklist @user",
+                "Prevents an user from appearing in modlogs", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()){
                 event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
@@ -831,10 +912,14 @@ public class ModerationCmds {
             event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users from mod-log: **" + blacklisted + "**").queue();
         });
 
-        OptsCmd.registerOption("modlog:whitelist", event -> {
+        OptsCmd.registerOption("modlog:whitelist", "Modlog whitelist",
+                "Allows an user from appearing in modlogs.\n" +
+                        "You need the user mention.\n" +
+                        "Example: ~>opts modlog whitelist @user",
+                "Allows an user from appearing in modlogs (everyone by default)", event -> {
             List<User> mentioned = event.getMessage().getMentionedUsers();
             if(mentioned.isEmpty()){
-                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally un-blacklist from mod logs.**").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally whitelist from mod logs.**").queue();
                 return;
             }
 
@@ -850,7 +935,7 @@ public class ModerationCmds {
             event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally un-blacklisted users from mod-log: **" + unBlacklisted + "**").queue();
         });
 
-        OptsCmd.registerOption("linkprotection:toggle", event -> {
+        OptsCmd.registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isLinkProtection();
@@ -860,7 +945,7 @@ public class ModerationCmds {
             dbGuild.save();
         });
 
-        OptsCmd.registerOption("slowmode:toggle", event -> {
+        OptsCmd.registerOption("slowmode:toggle", "Slow mode toggle", "Toggles slow mode (1 message/3s)", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isSlowMode();
@@ -870,7 +955,7 @@ public class ModerationCmds {
             dbGuild.save();
         });
 
-        OptsCmd.registerOption("antispam:toggle", event -> {
+        OptsCmd.registerOption("antispam:toggle", "Link-protection toggle", "Toggles anti-spam (3 messages/3s)", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isAntiSpam();
@@ -880,7 +965,11 @@ public class ModerationCmds {
             dbGuild.save();
         });
 
-        OptsCmd.registerOption("linkprotection:channel:allow", (event, args) -> {
+        OptsCmd.registerOption("linkprotection:channel:allow", "Link-protection channel allow",
+                "Allows the posting of invites on a channel.\n" +
+                        "You need the channel name.\n" +
+                        "Example: ~>opts linkprotection channel allow promote-here",
+                "Allows the posting of invites on a channel.", (event, args) -> {
             if (args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;
@@ -915,7 +1004,11 @@ public class ModerationCmds {
             );
         });
 
-        OptsCmd.registerOption("linkprotection:channel:disallow", (event, args) -> {
+        OptsCmd.registerOption("linkprotection:channel:disallow", "Link-protection channel disallow",
+                "Disallows the posting of invites on a channel.\n" +
+                        "You need the channel name.\n" +
+                        "Example: ~>opts linkprotection channel disallow general",
+                "Disallows the posting of invites on a channel (every channel by default)", (event, args) -> {
             if (args.length == 0) {
                 OptsCmd.onHelp(event);
                 return;

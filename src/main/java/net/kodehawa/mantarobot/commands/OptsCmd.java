@@ -6,6 +6,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.options.Option;
+import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
@@ -29,19 +31,22 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
+import static net.kodehawa.mantarobot.utils.Utils.centerString;
 import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
 //TODO Maybe automate boolean ones? (x toggle)
 public class OptsCmd {
-	private static final Map<String, BiConsumer<GuildMessageReceivedEvent, String[]>> options = new HashMap<>();
 	private static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
 
 	static {
 
 		//region logs
 		//region enable
-		registerOption("logs:enable", (event, args) -> {
+		registerOption("logs:enable",  "Enable logs",
+				"Enables logs. You need to use the channel name, *not* the mention.\n" +
+						"**Example:** `~>opts logs enable mod-logs`",
+				"Enables logs.", (event, args) -> {
 			if (args.length < 1) {
 				onHelp(event);
 				return;
@@ -59,7 +64,10 @@ public class OptsCmd {
 				logChannel, id)).queue();
 		});
 
-		registerOption("logs:exclude", (event, args) -> {
+		registerOption("logs:exclude", "Exclude log channel.",
+				"Excludes a channel from logging. You need to use the channel name, *not* the mention.\n" +
+						"**Example:** `~>opts logs exclude staff`",
+				"Excludes a channel from logging.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -123,7 +131,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region disable
-		registerOption("logs:disable", (event) -> {
+		registerOption("logs:disable", "Disable logs",
+				"Disables logs.\n" +
+						"**Example:** `~>opts logs disable`",
+				"Disables logs.",  (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setGuildLogChannel(null);
@@ -134,7 +145,10 @@ public class OptsCmd {
 
 		//region prefix
 		//region set
-		registerOption("prefix:set", (event, args) -> {
+		registerOption("prefix:set", "Prefix set",
+				"Sets the server prefix.\n" +
+						"**Example:** `~>opts prefix set .`",
+				"Sets the server prefix.", (event, args) -> {
 			if (args.length < 1) {
 				onHelp(event);
 				return;
@@ -155,7 +169,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region clear
-		registerOption("prefix:clear", (event) -> {
+		registerOption("prefix:clear", "Prefix clear",
+				"Clear the server prefix.\n" +
+						"**Example:** `~>opts prefix clear`",
+				"Resets the server prefix.", (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setGuildCustomPrefix(null);
@@ -166,7 +183,11 @@ public class OptsCmd {
 
 		//region autorole
 		//region set
-		registerOption("autorole:set", (event, args) -> {
+		registerOption("autorole:set", "Autorole set",
+				"Sets the server autorole. This means every user who joins will get this role. **You need to use the role name, if it contains spaces" +
+						" you need to wrap it in quotation marks**\n" +
+						"**Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`",
+				"Sets the server prefix.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -209,7 +230,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region unbind
-		registerOption("autorole:unbind", (event) -> {
+		registerOption("autorole:unbind", "Autorole clear",
+				"Clear the server autorole.\n" +
+						"**Example:** `~>opts autorole unbind`",
+				"Resets the servers autorole.", (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setGuildAutoRole(null);
@@ -220,7 +244,10 @@ public class OptsCmd {
 
 		//region usermessage
 		//region resetchannel
-		registerOption("usermessage:resetchannel", (event) -> {
+		registerOption("usermessage:resetchannel", "Reset message channel",
+				"Clears the join/leave message channel.\n" +
+						"**Example:** `~>opts usermessage resetchannel`",
+				"Clears the join/leave message channel.", (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setLogJoinLeaveChannel(null);
@@ -228,7 +255,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region resetdata
-		registerOption("usermessage:resetdata", (event) -> {
+		registerOption("usermessage:resetdata", "Reset join/leave message data",
+				"Resets the join/leave message data.\n" +
+						"**Example:** `~>opts usermessage resetdata`",
+				"Resets the join/leave message data.", (event) -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			guildData.setLeaveMessage(null);
@@ -238,7 +268,10 @@ public class OptsCmd {
 		//endregion
 
 		//region channel
-		registerOption("usermessage:channel", (event, args) -> {
+		registerOption("usermessage:channel", "Set message channel",
+				"Sets the join/leave message channel. You need the channel **name**\n" +
+						"**Example:** `~>opts usermessage channel join-magic`",
+				"Sets the join/leave message channel.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -276,7 +309,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region joinmessage
-		registerOption("usermessage:joinmessage", (event, args) -> {
+		registerOption("usermessage:joinmessage", "User join message",
+				"Sets the join message.\n" +
+						"**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to $(event.guild.name) server! Hope you have a great time`",
+				"Sets the join message.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -292,7 +328,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region leavemessage
-		registerOption("usermessage:leavemessage", (event, args) -> {
+		registerOption("usermessage:leavemessage", "User leave message",
+				"Sets the leave message.\n" +
+						"**Example:** `~>opts usermessage leavemessage Sad to see you depart, $(event.user.name)`",
+				"Sets the leave message.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -311,7 +350,10 @@ public class OptsCmd {
 		//region server
 		//region channel
 		//region disallow
-		registerOption("server:channel:disallow", (event, args) -> {
+		registerOption("server:channel:disallow", "Channel disallow",
+				"Disallows a channel from commands. Use the channel **name**\n" +
+						"**Example:** `~>opts server channel disallow general`",
+				"Disallows a channel from commands.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -352,7 +394,10 @@ public class OptsCmd {
 		});//endregion
 
 		//region allow
-		registerOption("server:channel:allow", (event, args) -> {
+		registerOption("server:channel:allow", "Channel allow",
+				"Allows a channel from commands. Use the channel **name**\n" +
+						"**Example:** `~>opts server channel allow general`",
+				"Re-allows a channel from commands.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -386,7 +431,10 @@ public class OptsCmd {
 
 		//region command
 		//region disallow
-		registerOption("server:command:disallow", (event, args) -> {
+		registerOption("server:command:disallow", "Command disallow",
+				"Disallows a command from being triggered at all. Use the command name\n" +
+						"**Example:** `~>opts server command disallow 8ball`",
+				"Disallows a command from being triggered at all.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -410,7 +458,10 @@ public class OptsCmd {
 		//endregion
 
 		//region allow
-		registerOption("server:command:allow", (event, args) -> {
+		registerOption("server:command:allow", "Command allow",
+				"Allows a command from being triggered. Use the command name\n" +
+						"**Example:** `~>opts server command allow 8ball`",
+				"Allows a command from being triggered.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -429,7 +480,10 @@ public class OptsCmd {
 		//endregion
 		//endregion
 
-		registerOption("server:command:specific:disallow", (event, args) -> {
+		registerOption("server:command:specific:disallow", "Specific command disallow",
+				"Disallows a command from being triggered at all in a specific channel. Use the channel **name** and command name\n" +
+						"**Example:** `~>opts server command specific disallow general 8ball`",
+				"Disallows a command from being triggered at all in a specific channel.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -472,7 +526,10 @@ public class OptsCmd {
 
 		});
 
-		registerOption("server:command:specific:allow", ((event, args) -> {
+		registerOption("server:command:specific:allow", "Specific command allow",
+				"Re-allows a command from being triggered in a specific channel. Use the channel **name** and command name\n" +
+						"**Example:** `~>opts server command specific allow general 8ball`",
+				"Re-allows a command from being triggered in a specific channel.", ((event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -511,7 +568,11 @@ public class OptsCmd {
 
 		//region autoroles
 		//region add
-		registerOption("autoroles:add", (event, args) -> {
+		registerOption("autoroles:add", "Autoroles add",
+				"Adds a role to the `~>iam` list.\n" +
+						"You need the name of the iam and the name of the role. If the role contains spaces wrap it in quotation marks.\n" +
+						"**Example:** `~>opts autoroles add member Member`, `~>opts autoroles add wew \"A role with spaces on its name\"`",
+				"Adds an auto-assignable role to the iam lists.", (event, args) -> {
 			if (args.length < 2) {
 				onHelp(event);
 				return;
@@ -547,47 +608,12 @@ public class OptsCmd {
 			}
 		});
 
-		registerOption("muterole:set", (event, args) -> {
-			if (args.length < 1) {
-				onHelp(event);
-				return;
-			}
-
-			String roleName = String.join(" ", args);
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-			if (roleList.size() == 0) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
-			} else if (roleList.size() == 1) {
-				Role role = roleList.get(0);
-				guildData.setMutedRole(role.getId());
-				dbGuild.saveAsync();
-				event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
-			} else {
-				DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
-						role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Mute Role:")
-								.setDescription(s).build(),
-						role -> {
-							guildData.setMutedRole(role.getId());
-							dbGuild.saveAsync();
-							event.getChannel().sendMessage(EmoteReference.OK + "Set mute role to **" + roleName + "**").queue();
-						});
-			}
-		});
-
-		registerOption("muterole:unbind", (event, args) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			guildData.setMutedRole(null);
-			dbGuild.saveAsync();
-			event.getChannel().sendMessage(EmoteReference.OK + "Correctly resetted mute role.").queue();
-		});
-		//endregion
-
 		//region remove
-		registerOption("autoroles:remove", (event, args) -> {
+		registerOption("autoroles:remove","Autoroles remove",
+				"Removes a role from the `~>iam` list.\n" +
+						"You need the name of the iam.\n" +
+						"**Example:** `~>opts autoroles remove iamname`",
+				"Removes an auto-assignable role from iam.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
@@ -606,7 +632,188 @@ public class OptsCmd {
 		});//endregion
 		//endregion
 
-		registerOption("check:data", event -> {
+		registerOption("localblacklist:add", "Local Blacklist add",
+				"Adds someone to the local blacklist.\n" +
+						"You need to mention the user. You can mention multiple users.\n" +
+						"**Example:** `~>opts localblacklist add @user1 @user2`",
+				"Adds someone to the local blacklist.", (event, args) -> {
+
+			List<User> mentioned = event.getMessage().getMentionedUsers();
+
+			if(mentioned.isEmpty()){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+			String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+
+			guildData.getDisabledUsers().addAll(toBlackList);
+			dbGuild.save();
+
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users: **" + blacklisted + "**").queue();
+		});
+
+		registerOption("localblacklist:remove", "Local Blacklist remove",
+				"Removes someone from the local blacklist.\n" +
+						"You need to mention the user. You can mention multiple users.\n" +
+						"**Example:** `~>opts localblacklist remove @user1 @user2`",
+				"Removes someone from the local blacklist.", (event, args) -> {
+			List<User> mentioned = event.getMessage().getMentionedUsers();
+
+			if(mentioned.isEmpty()){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+
+			List<String> toUnBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+			String unBlackListed = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
+
+			guildData.getDisabledUsers().removeAll(toUnBlackList);
+			dbGuild.save();
+
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally unblacklisted users: **" + unBlackListed + "**").queue();
+		});
+
+		registerOption("category:disable", "Disable categories",
+				"Disables a specified category.\n" +
+						"If a non-valid category it's specified, it will display a list of valid categories",
+				"Disables a specified category", (event, args) -> {
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			Category toDisable = Category.lookupFromString(args[0]);
+
+			if(toDisable == null){
+				AtomicInteger at = new AtomicInteger();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+								+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+				return;
+			}
+
+			if (guildData.getDisabledCategories().contains(toDisable)) {
+				event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
+				return;
+			}
+
+			if(toDisable.toString().equals("Moderation")){
+				event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
+				return;
+			}
+
+			guildData.getDisabledCategories().add(toDisable);
+			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "`").queue();
+		});
+
+		registerOption("category:enable", "Enable categories",
+				"Enables a specified category.\n" +
+						"If a non-valid category it's specified, it will display a list of valid categories",
+				"Enables a specified category", (event, args) -> {
+			if(args.length == 0){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
+				return;
+			}
+
+			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+			GuildData guildData = dbGuild.getData();
+			Category toEnable = Category.lookupFromString(args[0]);
+
+			if(toEnable == null){
+				AtomicInteger at = new AtomicInteger();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+						+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+				return;
+			}
+
+			guildData.getDisabledCategories().remove(toEnable);
+			dbGuild.save();
+			event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "`").queue();
+		});
+	}
+
+	@Subscribe
+	public static void register(CommandRegistry registry) {
+		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if (args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
+					Queue<Message> toSend = new MessageBuilder()
+							.append("```prologn```") //Trick to make it count the end and start of the formatting
+							.append(String.format("%-34s | %s \n", centerString("Name", 34), centerString("Description", 60)))
+							.append(centerString("** ------------------- **", 75))
+							.append("\n")
+							.append(Option.getAvaliableOptions().stream().collect(Collectors.joining("\n")))
+							.buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+
+					toSend.forEach(message -> event.getChannel().sendMessage("```prolog\n" +
+							message.getContent().replace("```prologn```", "")
+							+ "```").queue());
+
+					return;
+				}
+
+				if (args.length == 1 && args[0].equalsIgnoreCase("help")) {
+					return;
+				}
+
+				if (args.length < 2) {
+					event.getChannel().sendMessage(help(event)).queue();
+					return;
+				}
+				String name = "";
+				for (int i = 0; i < args.length; i++) {
+					String s = args[i];
+					if (!name.isEmpty()) name += ":";
+					name += s;
+					Option option = Option.getOptionMap().get(name);
+
+					if (option != null) {
+						BiConsumer<GuildMessageReceivedEvent, String[]> callable = Option.getOptionMap().get(name).getEventConsumer();
+						try{
+							String[] a;
+							if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
+							else a = new String[0];
+							if(content.contains("-help")){
+								EmbedBuilder builder = new EmbedBuilder()
+										.setAuthor("Help for " +
+												option.getOptionName(), null, event.getAuthor().getEffectiveAvatarUrl())
+										.setDescription(option.getDescription())
+										.addField("Type", option.getType().toString(), false);
+
+								event.getChannel().sendMessage(builder.build()).queue();
+								return;
+							}
+							callable.accept(event, a);
+						} catch (IndexOutOfBoundsException ignored){}
+
+						return;
+					}
+				}
+				event.getChannel().sendMessage(help(event)).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Options and Configurations Command")
+					.setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
+						"All values set are local rather than global, meaning that they will only effect this server.")
+					.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
+					.build();
+			}
+		}).addOption("check:data", new Option("Data check.",
+				"Checks the data values you have set on this server. **THIS IS NOT USER-FRIENDLY**", OptionType.GENERAL)
+		.setAction(event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			//Map as follows: name, value
@@ -641,204 +848,8 @@ public class OptsCmd {
 			}
 
 			Queue<Message> toSend = new MessageBuilder().append(show.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-
 			toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
-		});
-
-
-		registerOption("localblacklist:add", (event, args) -> {
-
-			List<User> mentioned = event.getMessage().getMentionedUsers();
-
-			if(mentioned.isEmpty()){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-			String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
-
-			guildData.getDisabledUsers().addAll(toBlackList);
-			dbGuild.save();
-
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally blacklisted users: **" + blacklisted + "**").queue();
-		});
-
-		registerOption("localblacklist:remove", (event, args) -> {
-			List<User> mentioned = event.getMessage().getMentionedUsers();
-
-			if(mentioned.isEmpty()){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			List<String> toUnBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
-			String unBlackListed = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
-
-			guildData.getDisabledUsers().removeAll(toUnBlackList);
-			dbGuild.save();
-
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Locally unblacklisted users: **" + unBlackListed + "**").queue();
-		});
-
-		registerOption("category:disable", (event, args) -> {
-			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			Category toDisable = Category.lookupFromString(args[0]);
-
-			if(toDisable == null){
-				AtomicInteger at = new AtomicInteger();
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-								+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
-				return;
-			}
-
-			if (guildData.getDisabledCategories().contains(toDisable)) {
-				event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
-				return;
-			}
-
-			if(toDisable.toString().equals("Moderation")){
-				event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
-				return;
-			}
-
-			guildData.getDisabledCategories().add(toDisable);
-			dbGuild.save();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "`").queue();
-		});
-
-		registerOption("category:enable", (event, args) -> {
-			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			Category toEnable = Category.lookupFromString(args[0]);
-
-			if(toEnable == null){
-				AtomicInteger at = new AtomicInteger();
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-						+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
-				return;
-			}
-
-			guildData.getDisabledCategories().remove(toEnable);
-			dbGuild.save();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "`").queue();
-		});
-
-		registerOption("musicspeedup:fix", event -> {
-			try{
-				MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-				AudioManager audioManager = event.getGuild().getAudioManager();
-				VoiceChannel previousVc = audioManager.getConnectedChannel();
-				audioManager.closeAudioConnection();
-				manager.getMusicManagers().remove(event.getGuild().getId());
-				audioManager.setSendingHandler(null);
-				event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
-						+ " with debug:\n " +
-						"```diff\n"
-						+ "Audio Manager: " + manager + "\n"
-						+ "VC to connect: " + previousVc.getName() + "\n"
-						+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
-						+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
-						+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
-						+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
-						+ "Guild ID: " + event.getGuild().getId() + "\n"
-						+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
-						+ "```\n" +
-						"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
-				audioManager.openAudioConnection(previousVc);
-			} catch (NullPointerException e){
-				event.getChannel().sendMessage(EmoteReference.WARNING + "You have to run this command while Mantaro is playing music!").queue();
-			}
-
-		});
-
-		registerOption("defaultmutetimeout:set", ((event, args) -> {
-			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You have to specify a timeout in the format of 1m20s, for example.").queue();
-				return;
-			}
-
-			if(!(args[0]).matches("(?:(\\d+)h)?(?:(\\d+)m)?(?:(\\d+)s)?")){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong time format. You have to specify a timeout in the format of 1m20s, for example.").queue();
-				return;
-			}
-
-			long timeoutToSet = AudioCmdUtils.parseTime(args[0]);
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			guildData.setSetModTimeout(timeoutToSet);
-			dbGuild.save();
-
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully set mod action timeout to `" + args[0] + "` (" + timeoutToSet + "ms)").queue();
-		}));
-
-		registerOption("defaultmutetimeout:reset", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			guildData.setSetModTimeout(0L);
-			dbGuild.save();
-
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset timeout.").queue();
-		});
-	}
-
-	@Subscribe
-	public static void register(CommandRegistry registry) {
-		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (args.length < 2) {
-					event.getChannel().sendMessage(help(event)).queue();
-					return;
-				}
-				String name = "";
-				for (int i = 0; i < args.length; i++) {
-					String s = args[i];
-					if (!name.isEmpty()) name += ":";
-					name += s;
-					BiConsumer<GuildMessageReceivedEvent, String[]> option = options.get(name);
-					if (option != null) {
-						try{
-							String[] a;
-							if (++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
-							else a = new String[0];
-							option.accept(event, a);
-						} catch (IndexOutOfBoundsException ignored){}
-
-						return;
-					}
-				}
-				event.getChannel().sendMessage(help(event)).queue();
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Options and Configurations Command")
-					.setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
-						"All values set are local rather than global, meaning that they will only effect this server.")
-					.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
-					.build();
-			}
-		});
+		}).setShortDescription("Checks the data values you have set on this server."));
 	}
 
 	public static void onHelp(GuildMessageReceivedEvent event) {
@@ -846,18 +857,46 @@ public class OptsCmd {
 	}
 
 	public static void registerOption(String name, Consumer<GuildMessageReceivedEvent> code) {
-		Preconditions.checkNotNull(code, "code");
-		registerOption(name, (event, ignored) -> code.accept(event));
+		Option.addOption(name, new Option("Default name", "Default description", OptionType.GENERAL).setAction(code).setShortDescription("Not set."));
+	}
+
+	public static void registerOption(String name, String displayName, String description, Consumer<GuildMessageReceivedEvent> code) {
+		Option.addOption(name,
+				new Option(displayName, description, OptionType.GENERAL).setAction(code).setShortDescription(description));
+	}
+
+	public static void registerOption(String name, String displayName, String description, String shortDescription, Consumer<GuildMessageReceivedEvent> code) {
+		Option.addOption(name,
+				new Option(displayName, description, OptionType.GENERAL).setAction(code).setShortDescription(shortDescription));
+	}
+
+	public static void registerOption(String name, String displayName, String description, String shortDescription,
+									  OptionType type, Consumer<GuildMessageReceivedEvent> code) {
+		Option.addOption(name,
+				new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
+	}
+
+	public static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+		Option.addOption(name, new Option("Default name", "Default description", OptionType.GENERAL).setAction(code));
+	}
+
+	public static void registerOption(String name, String displayName, String description, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+		Option.addOption(name,
+				new Option(displayName, description, OptionType.GENERAL).setAction(code).setShortDescription(description));
+	}
+
+	public static void registerOption(String name, String displayName, String description, String shortDescription, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+		Option.addOption(name,
+				new Option(displayName, description, OptionType.GENERAL).setAction(code).setShortDescription(shortDescription));
+	}
+
+	public static void registerOption(String name, String displayName, String description, String shortDescription,
+									  OptionType type, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+		Option.addOption(name,
+				new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
 	}
 
 	public static SimpleCommand getOpts(){
 		return (SimpleCommand) optsCmd;
-	}
-
-	public static void registerOption(String name, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
-		Preconditions.checkNotNull(name, "name");
-		Preconditions.checkArgument(!name.isEmpty(), "Name is empty");
-		Preconditions.checkNotNull(code, "code");
-		options.putIfAbsent(name, code);
 	}
 }

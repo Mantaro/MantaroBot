@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.modules.commands;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 
@@ -34,5 +35,11 @@ public class AliasCommand implements Command {
 	@Override
 	public void run(GuildMessageReceivedEvent event, String ignored, String content) {
 		command.run(event, commandName, content);
+	}
+
+	@Override
+	public Command addOption(String call, Option option){
+		Option.addOption(call, option);
+		return this;
 	}
 }

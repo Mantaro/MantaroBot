@@ -152,7 +152,10 @@ public class ActionCmds {
 
 	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("actionmention:toggle", event -> {
+		OptsCmd.registerOption("actionmention:toggle", "Action mention toggle",
+				"Toggles action mention (double-mention). On by default.\n" +
+						"Example: `~>opts actionmention toggle`",
+				"Toggles action mention (double-mention).", event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 			GuildData guildData = dbGuild.getData();
 			boolean toggler = guildData.isNoMentionsAction();
