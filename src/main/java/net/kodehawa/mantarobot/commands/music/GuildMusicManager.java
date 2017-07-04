@@ -16,7 +16,6 @@ import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 

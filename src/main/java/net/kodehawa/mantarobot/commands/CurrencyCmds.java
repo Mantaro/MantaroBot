@@ -1,12 +1,12 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -20,6 +20,7 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -35,7 +36,7 @@ public class CurrencyCmds {
 
     private static Random random = new Random();
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void inventory(CommandRegistry cr) {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -68,7 +69,7 @@ public class CurrencyCmds {
         });
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void market(CommandRegistry cr) {
         cr.register("market", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
@@ -258,7 +259,7 @@ public class CurrencyCmds {
         });
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void profile(CommandRegistry cr) {
         cr.register("profile", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -389,7 +390,7 @@ public class CurrencyCmds {
         });
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void rep(CommandRegistry cr) {
         cr.register("rep", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
@@ -442,7 +443,7 @@ public class CurrencyCmds {
         cr.registerAlias("rep", "reputation");
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -542,7 +543,7 @@ public class CurrencyCmds {
         cr.registerAlias("itemtransfer", "transferitems");
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -621,7 +622,7 @@ public class CurrencyCmds {
     }
 
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
 

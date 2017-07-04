@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.Message;
@@ -14,9 +15,9 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -44,7 +45,7 @@ public class ActionCmds {
 		"assets/mantaro/texts/tickles.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void action(CommandRegistry registry) {
 		registry.register("action", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -78,7 +79,7 @@ public class ActionCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void bloodsuck(CommandRegistry registry) {
 		registry.register("bloodsuck", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -104,7 +105,7 @@ public class ActionCmds {
 		});
 	}
 
-		@com.google.common.eventbus.Subscribe
+		@Subscribe
 	public static void lewd(CommandRegistry registry) {
 		registry.register("lewd", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -122,7 +123,7 @@ public class ActionCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void meow(CommandRegistry registry) {
 		registry.register("meow", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -149,7 +150,7 @@ public class ActionCmds {
 		registry.registerAlias("meow", "mew");
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("actionmention:toggle", event -> {
 			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
@@ -163,7 +164,7 @@ public class ActionCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void register(CommandRegistry cr) {
 
 		//pat();

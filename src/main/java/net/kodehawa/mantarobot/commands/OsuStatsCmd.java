@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import com.osu.api.ciyfhx.Mod;
 import com.osu.api.ciyfhx.OsuClient;
 import com.osu.api.ciyfhx.User;
@@ -85,7 +86,7 @@ public class OsuStatsCmd {
 		return finalResponse;
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void osustats(CommandRegistry cr) {
 		cr.register("osustats", new SimpleCommand(Category.GAMES) {
 			@Override

@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -47,7 +48,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UtilsCmds {
 	private static final Resty resty = new Resty();
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void birthday(CommandRegistry registry) {
 		registry.register("birthday", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -160,7 +161,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void choose(CommandRegistry registry) {
 		registry.register("choose", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -188,7 +189,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void dictionary(CommandRegistry registry) {
 		registry.register("dictionary", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -267,7 +268,7 @@ public class UtilsCmds {
 		});
 	}
 
-	//@com.google.common.eventbus.Subscribe
+	//@Subscribe
 	public static void remindme(CommandRegistry registry){
 		registry.register("remindme", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -282,7 +283,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void google(CommandRegistry registry) {
 		registry.register("google", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -325,7 +326,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("birthday:enable", (event, args) -> {
 			if (args.length < 2) {
@@ -378,7 +379,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void time(CommandRegistry registry) {
 		registry.register("time", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -423,7 +424,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void translate(CommandRegistry registry) {
 		registry.register("translate", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -498,7 +499,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void urban(CommandRegistry registry) {
 		registry.register("urban", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -583,7 +584,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void weather(CommandRegistry registry) {
 		registry.register("weather", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -663,7 +664,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void ytmp3(CommandRegistry registry) {
 		registry.register("ytmp3", new SimpleCommand(Category.UTILS) {
 			@Override

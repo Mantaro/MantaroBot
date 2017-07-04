@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
@@ -42,7 +43,7 @@ public class MoneyCmds {
 
     private static Random random = new Random();
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void daily(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
         Random r = new Random();
@@ -108,7 +109,7 @@ public class MoneyCmds {
         });
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void gamble(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
         SecureRandom r = new SecureRandom();
@@ -224,7 +225,7 @@ public class MoneyCmds {
         });
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void loot(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
         Random r = new Random();
@@ -312,7 +313,7 @@ public class MoneyCmds {
         });
     }
 
-    @com.google.common.eventbus.Subscribe
+    @Subscribe
     public static void richest(CommandRegistry cr) {
         cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);

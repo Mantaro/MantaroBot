@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -17,9 +18,9 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -65,7 +66,7 @@ public class ImageCmds {
 	private static String tagsEncoded = "";
 	private static String tagsToEncode = "no";
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommand(Category.IMAGE) {
 			OkHttpClient httpClient = new OkHttpClient();
@@ -97,7 +98,7 @@ public class ImageCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void catgirls(CommandRegistry cr) {
 		cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -129,7 +130,7 @@ public class ImageCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void e621(CommandRegistry cr) {
 		cr.register("e621", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -241,7 +242,7 @@ public class ImageCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void kona(CommandRegistry cr) {
 		cr.register("konachan", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -352,7 +353,7 @@ public class ImageCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void rule34(CommandRegistry cr) {
 		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -465,7 +466,7 @@ public class ImageCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void yandere(CommandRegistry cr) {
 		cr.register("yandere", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -601,7 +602,7 @@ public class ImageCmds {
 		return true;
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		nRating.put("safe", "s");
 		nRating.put("questionable", "q");

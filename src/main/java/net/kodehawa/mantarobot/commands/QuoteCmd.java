@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -27,7 +28,7 @@ import java.util.stream.Stream;
 @Slf4j
 @Module
 public class QuoteCmd {
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void quote(CommandRegistry cr) {
 		cr.register("quote", new SimpleCommand(Category.MISC) {
 			@Override

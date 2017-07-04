@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Cursor;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
@@ -8,7 +9,6 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
@@ -21,10 +21,11 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.time.DurationFormatUtils;
@@ -48,7 +49,7 @@ import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 @Module
 public class InfoCmds {
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void about(CommandRegistry cr) {
 		cr.register("about", new SimpleCommand(Category.INFO) {
 			@Override
@@ -60,21 +61,21 @@ public class InfoCmds {
 						role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(member ->
 						String.format("%s#%s", member.getUser().getName(), member.getUser().getDiscriminator()))
 						.collect(Collectors.joining(", "));
-					builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getAvatarUrl())
+					builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
 						.setDescription(donators)
 						.setColor(Color.PINK)
 						//<3
 						.addField("Special Mentions",
 								"**MrLar#8117** $100 pledge. <3 + $1025 donation. <3\n" +
 								"**Quartermaster#1262** $40 pledge <3",false)
-						.setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
+						.setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
 
 				if (!content.isEmpty() && args[0].equals("credits")) {
 					EmbedBuilder builder = new EmbedBuilder();
-					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getAvatarUrl())
+					builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
 						.setColor(Color.BLUE)
 						.setDescription("**Main developer**: Kodehawa#3457\n"
 							+ "**Developer**: AdrianTodt#0722\n"
@@ -84,7 +85,7 @@ public class InfoCmds {
 								+ "**Documentation:** MrLar#8117 & Yuvira#7832")
 						.addField("Special mentions",
 							"Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
-						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getAvatarUrl());
+						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
 				}
@@ -109,7 +110,7 @@ public class InfoCmds {
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(Color.PINK)
 					.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
-					.setThumbnail(event.getJDA().getSelfUser().getAvatarUrl())
+					.setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
 					.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
 						"Some of my features include:\n" +
 						"\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
@@ -131,7 +132,7 @@ public class InfoCmds {
 						guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
 					.addField("Text Channels", String.valueOf(textChannels.size()), true)
 					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getAvatarUrl())
+					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
 					.build()
 				).queue();
 			}
@@ -149,7 +150,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void avatar(CommandRegistry cr) {
 		cr.register("avatar", new SimpleCommand(Category.INFO) {
 			@Override
@@ -158,7 +159,7 @@ public class InfoCmds {
 					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
 					return;
 				}
-				event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getAvatarUrl())).queue();
+				event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl() + "?size=512")).queue();
 			}
 
 			@Override
@@ -173,7 +174,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void guildinfo(CommandRegistry cr) {
 		cr.register("serverinfo", new SimpleCommand(Category.INFO) {
 			@Override
@@ -218,7 +219,7 @@ public class InfoCmds {
 		cr.registerAlias("serverinfo", "guildinfo");
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void help(CommandRegistry cr) {
 		Random r = new Random();
 		List<String> jokes = Collections.unmodifiableList(Arrays.asList(
@@ -286,7 +287,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void info(CommandRegistry cr) {
 		cr.register("info", new SimpleCommand(Category.INFO) {
 			@Override
@@ -357,7 +358,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void invite(CommandRegistry cr) {
 		cr.register("invite", new SimpleCommand(Category.INFO) {
 			@Override
@@ -381,12 +382,12 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		start();
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void ping(CommandRegistry cr) {
 		RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
@@ -415,7 +416,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void shard(CommandRegistry cr) {
 		cr.register("shardinfo", new SimpleCommand(Category.INFO) {
 			@Override
@@ -453,7 +454,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void stats(CommandRegistry cr) {
 		cr.register("stats", new SimpleCommand(Category.INFO) {
 			@Override
@@ -622,7 +623,7 @@ public class InfoCmds {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void userinfo(CommandRegistry cr) {
 		cr.register("userinfo", new SimpleCommand(Category.INFO) {
 			@Override
@@ -644,7 +645,7 @@ public class InfoCmds {
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(member.getColor())
 					.setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
-					.setThumbnail(user.getAvatarUrl())
+					.setThumbnail(user.getEffectiveAvatarUrl())
 					.addField("Join Date:", member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), true)
 					.addField("Account Created:", user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), true)
 					.addField("Voice Channel:", member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None", false)

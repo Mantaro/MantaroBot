@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.base.Preconditions;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
@@ -800,7 +801,7 @@ public class OptsCmd {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
 			@Override

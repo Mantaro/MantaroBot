@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.async.Async;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import bsh.Interpreter;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -55,7 +56,7 @@ public class OwnerCmd {
 		"Momma, where's my Milk cup? *drinks and goes to sleep*"
 	};
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void blacklist(CommandRegistry cr) {
 		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
@@ -109,7 +110,7 @@ public class OwnerCmd {
 		});
 	}
 
-	@com.google.common.eventbus.Subscribe
+	@Subscribe
 	public static void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {
