@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.google.common.base.Preconditions;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -8,10 +7,6 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.commands.options.OptionType;
-import net.dv8tion.jda.core.managers.AudioManager;
-import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
-import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;

@@ -109,17 +109,6 @@ public class Utils {
 			.thenComparing(b ? Comparator.naturalOrder() : Comparator.reverseOrder());
 	}
 
-	public static byte[] toByteArray(String imageUrl) {
-		Objects.requireNonNull(imageUrl);
-
-		try (InputStream stream = new URL(imageUrl).openStream()) {
-			return IOUtils.toByteArray(stream);
-		} catch (Exception e) {
-			log.error("Cannot process file to byte[]", e);
-			return null;
-		}
-	}
-
 	public static String centerString(String text, int len){
 		String out = String.format("%"+len+"s%s%"+len+"s", "",text,"");
 		float mid = (out.length()/2);
