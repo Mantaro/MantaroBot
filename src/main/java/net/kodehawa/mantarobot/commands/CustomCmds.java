@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -14,17 +15,16 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.CustomCommand;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -140,7 +140,7 @@ public class CustomCmds {
 		}
 	};
 
-	@Command
+	@Subscribe
 	public static void custom(CommandRegistry cr) {
 		String any = "[\\d\\D]*?";
 
@@ -529,12 +529,12 @@ public class CustomCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		db().getCustomCommands().forEach(custom -> {
 			if (!NAME_PATTERN.matcher(custom.getName()).matches()) {
 				String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
-				log.warn("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
+				log.info("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
 
 				custom.deleteAsync();
 				custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());

@@ -2,15 +2,12 @@ package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.core.CommandProcessor;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class HelpUtils {
 	public static String forType(TextChannel channel, GuildData guildData, Category category) {

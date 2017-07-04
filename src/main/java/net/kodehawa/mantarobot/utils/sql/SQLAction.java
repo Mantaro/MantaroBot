@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.utils.sql;
 
 import lombok.extern.slf4j.Slf4j;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.slf4j.Logger;
 
 import java.sql.Connection;
@@ -40,7 +41,7 @@ public class SQLAction {
 			try {
 				complete();
 			} catch (Exception e) {
-				log.error("Error", e);
+				SentryHelper.captureExceptionContext("Error in SQL submit", e, this.getClass(), "MySQL sender");
 			}
 		});
 	}

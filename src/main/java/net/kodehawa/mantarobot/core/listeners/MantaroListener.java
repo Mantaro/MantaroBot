@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.core.events.http.HttpRequestEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
@@ -30,9 +31,10 @@ import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.data.entities.helpers.UserData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
@@ -41,7 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
@@ -69,7 +70,7 @@ public class MantaroListener implements EventListener {
 	public void onEvent(Event event) {
 
 		if (event instanceof ShardMonitorEvent) {
-			if(MantaroBot.getInstance().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
+			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
 			return;
 		}
@@ -132,6 +133,10 @@ public class MantaroListener implements EventListener {
 		if (event instanceof ExceptionEvent) {
 			onException((ExceptionEvent) event);
 		}
+
+		if(event instanceof HttpRequestEvent){
+			onHttpRequest((HttpRequestEvent) event);
+		}
 	}
 
 	public static TextChannel getLogChannel() {
@@ -149,6 +154,21 @@ public class MantaroListener implements EventListener {
 		}
 	}
 
+
+	public void onHttpRequest(HttpRequestEvent event)
+	{
+		try{
+			if(!event.getResponse().isOk()){
+				System.out.println("--------------------");
+				System.out.println("HTTP Request");
+				System.out.println(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute());
+				System.out.println(event.getRequestHeaders().toString().replace(event.getJDA().getToken(), "[TOKEN]"));
+				if (event.getRequestBodyRaw() != null) System.out.println(event.getRequestBodyRaw());
+				System.out.println("Response code: " + event.getResponseRaw().code());
+				System.out.println("--------------------");
+			}
+		} catch (Exception e){}
+	}
 
 	private void logDelete(GuildMessageDeleteEvent event) {
 		try {
@@ -252,7 +272,9 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void onException(ExceptionEvent event) {
-		if (!event.isLogged()) event.getCause().printStackTrace();
+		if (!event.isLogged()){
+			SentryHelper.captureException("Exception captured in un-logged trace", event.getCause(), this.getClass());
+		};
 	} //endregion
 
 	private void onJoin(GuildJoinEvent event) {
@@ -281,7 +303,7 @@ public class MantaroListener implements EventListener {
 			GuildStatsManager.log(LoggedEvent.JOIN);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a edit.", e);
+				SentryHelper.captureException("Unexpected error while logging an event", e, this.getClass());
 			}
 		}
 	}
@@ -310,7 +332,7 @@ public class MantaroListener implements EventListener {
 			GuildStatsManager.log(LoggedEvent.LEAVE);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-				log.warn("Unexpected error while logging a leave event.", e);
+				SentryHelper.captureException("Unexpected error while logging an event", e, this.getClass());
 			}
 		}
 	}

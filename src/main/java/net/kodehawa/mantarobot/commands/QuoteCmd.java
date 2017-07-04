@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -10,16 +11,15 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.db.ManagedDatabase;
-import net.kodehawa.mantarobot.data.entities.Quote;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.Quote;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 @Slf4j
 @Module
 public class QuoteCmd {
-	@Command
+	@Subscribe
 	public static void quote(CommandRegistry cr) {
 		cr.register("quote", new SimpleCommand(Category.MISC) {
 			@Override
@@ -57,7 +57,6 @@ public class QuoteCmd {
 						" " +
 						"request to retrieve message history was denied" +
 						"with the error `" + e.getClass().getSimpleName() + "`").queue();
-					log.warn("Shit exploded on Discord's backend. <@155867458203287552>", e);
 					return;
 				}
 

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -10,14 +11,14 @@ import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import java.util.LinkedList;
 @Module
 public class GameCmds {
 
-	@Command
+	@Subscribe
 	public static void guess(CommandRegistry cr) {
 		cr.register("game", new SimpleCommand(Category.GAMES) {
 			@Override
@@ -62,7 +63,7 @@ public class GameCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void trivia(CommandRegistry cr) {
 		cr.register("trivia", new SimpleCommand(Category.GAMES) {
 			@Override
@@ -121,11 +122,12 @@ public class GameCmds {
 		lobby.startFirstGame();
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e){
 		OptsCmd.registerOption("lobby:reset", "Lobby reset","Fixes stuck game/poll session.", event -> {
 			GameLobby.LOBBYS.remove(event.getChannel());
 			Poll.getRunningPolls().remove(event.getChannel().getId());
+			InteractiveOperations.get(event.getChannel()).cancel(true);
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
 		});
 	}

@@ -13,13 +13,14 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -54,31 +55,38 @@ public class AudioRequester implements AudioLoadResultHandler {
 			return;
 		}
 
-		int i = 0;
-		for (AudioTrack track : playlist.getTracks()) {
-			if (MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() != null) {
-				if (i < MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()) {
-					loadSingle(track, true);
+		try{
+			int i = 0;
+			for (AudioTrack track : playlist.getTracks()) {
+				if (MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() != null) {
+					if (i < MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()) {
+						loadSingle(track, true);
+					} else {
+						event.getChannel().sendMessage(String.format(":warning: The queue you a			dded had more than %d songs, so we added songs until this limit and ignored the rest.", MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit())).queue();
+						break;
+					}
 				} else {
-					event.getChannel().sendMessage(String.format(":warning: The queue you added had more than %d songs, so we added songs until this limit and ignored the rest.", MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit())).queue();
-					break;
+					if (i < MAX_QUEUE_LENGTH) {
+						loadSingle(track, true);
+					} else {
+						event.getChannel().sendMessage(":warning: The queue you added had more than 300 songs, so we added songs until this limit and ignored the rest.").queue();
+						break;
+					}
 				}
-			} else {
-				if (i < MAX_QUEUE_LENGTH) {
-					loadSingle(track, true);
-				} else {
-					event.getChannel().sendMessage(":warning: The queue you added had more than 300 songs, so we added songs until this limit and ignored the rest.").queue();
-					break;
-				}
+				i++;
 			}
-			i++;
-		}
 
-		event.getChannel().sendMessage(String.format(
-			"Added **%d songs** to queue on playlist: **%s** *(%s)*", i,
-			playlist.getName(),
-			Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
-		)).queue();
+			event.getChannel().sendMessage(String.format(
+					"Added **%d songs** to queue on playlist: **%s** *(%s)*", i,
+					playlist.getName(),
+					Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
+			)).queue();
+		} catch (Exception e){
+			if(e.getMessage().contains("Could not find tracks from mix")) return;
+			SentryHelper.captureExceptionContext(
+					"Cannot load playlist. I guess something broke pretty hard. Please check", e, this.getClass(), "Music Loader"
+			);
+		}
 
 	}
 
@@ -153,7 +161,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 	private void onSearchResult(AudioPlaylist playlist) {
 		EmbedBuilder builder = new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. " +
-				(MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus() ? "React to the desired number to select a song." : "Type the song number to continue."), null)
+				(MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus() ?
+						"React to the desired number to select a song." : "Type the song number to continue."), null)
 				.setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
 				.setFooter("This timeouts in 10 seconds.", null);
 		List<AudioTrack> tracks = playlist.getTracks();

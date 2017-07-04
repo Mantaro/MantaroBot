@@ -5,7 +5,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 
 public class AudioTrackContext {
 	private AudioTrack audioTrack;

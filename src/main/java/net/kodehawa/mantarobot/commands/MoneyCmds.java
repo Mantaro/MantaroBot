@@ -1,6 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.eventbus.Subscribe;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
@@ -15,8 +15,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.Player;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -26,7 +25,10 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -41,7 +43,7 @@ public class MoneyCmds {
 
     private static Random random = new Random();
 
-    @Command
+    @Subscribe
     public static void daily(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
         Random r = new Random();
@@ -107,7 +109,7 @@ public class MoneyCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void gamble(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
         SecureRandom r = new SecureRandom();
@@ -223,7 +225,7 @@ public class MoneyCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void loot(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
         Random r = new Random();
@@ -311,7 +313,7 @@ public class MoneyCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void richest(CommandRegistry cr) {
         cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);

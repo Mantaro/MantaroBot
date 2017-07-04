@@ -37,8 +37,15 @@ public class Config {
 	public String token;
 	public String weatherAppId;
 	public boolean isPremiumBot = false;
-	public String apiUrl;
+	public String apiUrl = "127.0.0.1:4454";
 	public boolean isBeta = false;
+	public int totalNodes = 1;
+	public int totalMusicNodes = 1;
+	public String webhookUrl;
+	public String sentryDSN;
+	public String rMQUser;
+	public String rMQPassword;
+	public String rMQIP;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

@@ -53,6 +53,7 @@ public class Util {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static ReqlAst toReqlAst(Object val, int remainingDepth) {
 		if (remainingDepth <= 0) {
 			throw new ReqlDriverCompileError("Recursion limit reached converting to ReqlAst");
@@ -107,23 +108,11 @@ public class Util {
 			return Iso8601.fromString(((OffsetDateTime) val).format(fmt));
 		}
 
-		if (val instanceof Integer) {
-			return new Datum((Integer) val);
+		if (val instanceof Number || val instanceof Boolean || val instanceof String) {
+			return new Datum(val);
 		}
 
-		if (val instanceof Number) {
-			return new Datum((Number) val);
-		}
-
-		if (val instanceof Boolean) {
-			return new Datum((Boolean) val);
-		}
-
-		if (val instanceof String) {
-			return new Datum((String) val);
-		}
-
-		if (val == null) {
+        if (val == null) {
 			return new Datum(null);
 		}
 

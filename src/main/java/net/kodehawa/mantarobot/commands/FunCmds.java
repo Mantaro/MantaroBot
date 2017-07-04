@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -9,12 +10,10 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
-import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.Player;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -22,8 +21,6 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,7 +29,7 @@ public class FunCmds {
 
 	private static Random r = new Random();
 
-	@Command
+	@Subscribe
 	public static void coinflip(CommandRegistry cr) {
 		cr.register("coinflip", new SimpleCommand(Category.FUN) {
 			@Override
@@ -77,7 +74,7 @@ public class FunCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void marry(CommandRegistry cr) {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override
@@ -205,7 +202,7 @@ public class FunCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void ratewaifu(CommandRegistry cr) {
 		cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
 			@Override
@@ -234,7 +231,7 @@ public class FunCmds {
 		cr.registerAlias("ratewaifu", "rw");
 	}
 
-	@Command
+	@Subscribe
 	public static void roll(CommandRegistry registry) {
 		registry.register("roll", new SimpleCommand(Category.FUN) {
 			@Override
@@ -279,7 +276,7 @@ public class FunCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void love(CommandRegistry registry){
 		Random r = new Random();
 		String[] usersToMax = {"155867458203287552;132584525296435200",
@@ -318,9 +315,9 @@ public class FunCmds {
 					percentage = 100;
 				}
 
-				if(percentage > 25 && percentage < 50){
+				if(percentage < 45){
 					result = "Try again next time...";
-				} else if (percentage > 50 && percentage < 75){
+				} else if (percentage > 45 && percentage < 75){
 					result = "Good enough!";
 				} else if (percentage > 75 && percentage < 100){
 					result = "Good match!";

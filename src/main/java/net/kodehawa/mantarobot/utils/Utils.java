@@ -3,18 +3,12 @@ package net.kodehawa.mantarobot.utils;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.apache.commons.io.IOUtils;
+import okhttp3.*;
+import org.json.JSONObject;
 import us.monoid.web.Resty;
 
 import java.io.IOException;
@@ -34,6 +28,7 @@ import java.util.regex.Pattern;
 @Slf4j
 public class Utils {
 	public static ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	public static final OkHttpClient httpClient = new OkHttpClient();
 
 	/**
 	 * Capitalizes the first letter of a string.
@@ -87,18 +82,21 @@ public class Utils {
 
 	public static String paste(String toSend) {
 		try {
-			String pasteToken = Unirest.post("https://hastebin.com/documents")
-				.header("User-Agent", "Mantaro")
-				.header("Content-Type", "text/plain")
-				.body(toSend)
-				.asJson()
-				.getBody()
-				.getObject()
-				.getString("key");
-			return "https://hastebin.com/" + pasteToken;
-		} catch (UnirestException e) {
-			log.warn("Hastebin is being stupid, huh? Can't send or retrieve paste.", e);
-			return "Mantaro threw ``" + e.getClass().getSimpleName() + "``" + " while trying to upload paste, check logs";
+			RequestBody post = RequestBody.create(MediaType.parse("text/plain"), toSend);
+
+			Request toPost = new Request.Builder()
+					.url("https://hastebin.com/documents")
+					.header("User-Agent", "Mantaro")
+					.header("Content-Type", "text/plain")
+					.post(post)
+					.build();
+
+			Response r = httpClient.newCall(toPost).execute();
+			JSONObject response = new JSONObject(r.body().toString());
+			r.close();
+			return "https://hastebin.com/" + response.getString("key");
+		} catch (Exception e) {
+			return "An error was encountered while trying to upload to hastebin.";
 		}
 	}
 
@@ -128,13 +126,6 @@ public class Utils {
 		float start = mid - (len/2);
 		float end = start + len;
 		return out.substring((int)start, (int)end);
-	}
-
-	public static String toPrettyJson(String jsonString) {
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		JsonParser jsonParser = new JsonParser();
-		JsonElement jsonElement = jsonParser.parse(jsonString);
-		return gson.toJson(jsonElement);
 	}
 
 	public static String urlEncodeUTF8(Map<?, ?> map) {
@@ -196,6 +187,18 @@ public class Utils {
 		}
 
 		return url2;
+	}
+
+	public static String pretty(int number) {
+		String ugly = Integer.toString(number);
+
+		char[] almostPretty = new char[ugly.length()];
+
+		Arrays.fill(almostPretty, '0');
+
+		if ((almostPretty[0] = ugly.charAt(0)) == '-') almostPretty[1] = ugly.charAt(1);
+
+		return new String(almostPretty);
 	}
 
 	/**

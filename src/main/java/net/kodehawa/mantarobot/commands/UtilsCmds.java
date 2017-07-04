@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
-import com.mashape.unirest.http.Unirest;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
@@ -14,15 +14,14 @@ import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.DBUser;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -30,15 +29,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.List;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -49,7 +48,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class UtilsCmds {
 	private static final Resty resty = new Resty();
 
-	@Command
+	@Subscribe
 	public static void birthday(CommandRegistry registry) {
 		registry.register("birthday", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -162,7 +161,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void choose(CommandRegistry registry) {
 		registry.register("choose", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -190,7 +189,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void dictionary(CommandRegistry registry) {
 		registry.register("dictionary", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -206,8 +205,7 @@ public class UtilsCmds {
 				String definition, part_of_speech, headword, example;
 
 				try {
-					main = Unirest.get("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word).asJson()
-						.getBody().getObject();
+					main = new JSONObject(Utils.wgetResty("http://api.pearson.com/v2/dictionaries/laes/entries?headword=" + word, event));
 					JSONArray results = main.getJSONArray("results");
 					JSONObject result = results.getJSONObject(0);
 					JSONArray senses = result.getJSONArray("senses");
@@ -270,7 +268,22 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	//@Subscribe
+	public static void remindme(CommandRegistry registry){
+		registry.register("remindme", new SimpleCommand(Category.UTILS) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
+	}
+
+	@Subscribe
 	public static void google(CommandRegistry registry) {
 		registry.register("google", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -313,7 +326,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("birthday:enable", "Birthday Monitoring enable",
 				"Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
@@ -369,7 +382,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void time(CommandRegistry registry) {
 		registry.register("time", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -414,7 +427,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void translate(CommandRegistry registry) {
 		registry.register("translate", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -489,7 +502,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void urban(CommandRegistry registry) {
 		registry.register("urban", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -574,7 +587,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void weather(CommandRegistry registry) {
 		registry.register("weather", new SimpleCommand(Category.UTILS) {
 			@Override
@@ -654,7 +667,7 @@ public class UtilsCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void ytmp3(CommandRegistry registry) {
 		registry.register("ytmp3", new SimpleCommand(Category.UTILS) {
 			@Override

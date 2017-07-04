@@ -1,9 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
-import br.com.brjdevs.java.utils.texts.StringUtils;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.Message;
@@ -13,25 +11,19 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
-import org.json.JSONObject;
 
-import java.awt.Color;
-import java.util.HashMap;
+import java.awt.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Module
@@ -53,7 +45,7 @@ public class ActionCmds {
 		"assets/mantaro/texts/tickles.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
-	@Command
+	@Subscribe
 	public static void action(CommandRegistry registry) {
 		registry.register("action", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -87,7 +79,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void bloodsuck(CommandRegistry registry) {
 		registry.register("bloodsuck", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -113,7 +105,7 @@ public class ActionCmds {
 		});
 	}
 
-		@Command
+		@Subscribe
 	public static void lewd(CommandRegistry registry) {
 		registry.register("lewd", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -131,7 +123,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void meow(CommandRegistry registry) {
 		registry.register("meow", new SimpleCommand(Category.ACTION) {
 			@Override
@@ -158,7 +150,7 @@ public class ActionCmds {
 		registry.registerAlias("meow", "mew");
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("actionmention:toggle", "Action mention toggle",
 				"Toggles action mention (double-mention). On by default.\n" +
@@ -175,7 +167,7 @@ public class ActionCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void register(CommandRegistry cr) {
 
 		//pat();

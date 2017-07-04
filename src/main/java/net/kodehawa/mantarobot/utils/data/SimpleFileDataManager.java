@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.utils.data;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +28,7 @@ public class SimpleFileDataManager implements DataManager<List<String>> {
 				FileIOUtils.write(this.path, this.data.stream().collect(Collectors.joining()));
 				log.info("Please, fill the file with valid properties.");
 			} else {
-				log.warn("Could not create config file at " + file);
+				SentryHelper.captureMessage("Could not create config file at " + file, this.getClass());
 			}
 		}
 

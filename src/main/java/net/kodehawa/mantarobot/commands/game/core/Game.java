@@ -8,7 +8,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.Player;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -24,7 +24,8 @@ public abstract class Game {
 
 	public abstract boolean onStart(GameLobby lobby);
 
-	protected int callDefault(GuildMessageReceivedEvent e, GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
+	protected int callDefault(GuildMessageReceivedEvent e,
+							  GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return Operation.IGNORED;
 		}
@@ -67,7 +68,7 @@ public abstract class Game {
 
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " +  (maxAttempts - attempts) + " attempts remaning.").queue();
 			setAttempts(getAttempts() + 1);
-			return Operation.RESET_TIMEOUT;
+			return Operation.IGNORED;
 		}
 
 		return Operation.IGNORED;

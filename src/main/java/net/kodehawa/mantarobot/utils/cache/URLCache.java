@@ -1,8 +1,11 @@
 package net.kodehawa.mantarobot.utils.cache;
 
 import com.google.common.base.Preconditions;
-import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
+import net.kodehawa.mantarobot.utils.SentryHelper;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,6 +18,7 @@ public class URLCache {
 	public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
 	public static final URLCache MISC_CACHE = new URLCache(40);
 	private static final Map<String, File> saved = new ConcurrentHashMap<>();
+	private static final OkHttpClient okHttp = new OkHttpClient();
 	private final FileCache cache;
 	private File cacheDir;
 
@@ -42,18 +46,25 @@ public class URLCache {
 		File file = null;
 		try {
 			file = File.createTempFile(url.replace('/', '_').replace(':', '_'), "cache", cacheDir);
-			try (InputStream is = Unirest.get(url).asBinary().getRawBody();
+			Request r = new Request.Builder()
+					.url(url)
+					.build();
+
+			Response response = okHttp.newCall(r).execute();
+			try (InputStream is = response.body().byteStream();
 				 FileOutputStream fos = new FileOutputStream(file)) {
 				byte[] buffer = new byte[1024];
 				int read;
 				while ((read = is.read(buffer)) != -1)
 					fos.write(buffer, 0, read);
 				saved.put(url, file);
+				response.close();
 				return file;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			if (file != null) file.delete();
-			log.error("Error caching", e);
+			SentryHelper.captureExceptionContext("Error caching", e, this.getClass(), "Cacher");
 			throw new InternalError();
 		}
 	}

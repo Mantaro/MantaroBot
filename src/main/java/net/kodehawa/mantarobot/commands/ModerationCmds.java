@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
@@ -12,30 +13,32 @@ import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.db.ManagedDatabase;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "Moderation")
 @Module
 public class ModerationCmds {
-    @Command
+    @Subscribe
     public static void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -153,7 +156,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void ban(CommandRegistry cr) {
         cr.register("ban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -250,7 +253,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void kick(CommandRegistry cr) {
         cr.register("kick", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -350,7 +353,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void prune(CommandRegistry cr) {
         cr.register("prune", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -548,7 +551,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void tempban(CommandRegistry cr) {
         cr.register("tempban", new SimpleCommand(Category.MODERATION) {
             @Override
@@ -640,7 +643,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void mute(CommandRegistry registry){
         registry.register("mute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
@@ -811,7 +814,7 @@ public class ModerationCmds {
         }).setShortDescription("Resets the current value set for the mute role."));
     }
 
-    @Command
+    @Subscribe
     public static void unmute(CommandRegistry commandRegistry){
         commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
@@ -884,7 +887,7 @@ public class ModerationCmds {
         });
     }
 
-    @Command
+    @Subscribe
     public static void onPostLoad(PostLoadEvent e){
         OptsCmd.registerOption("modlog:blacklist", "Modlog blacklist",
                 "Prevents an user from appearing in modlogs.\n" +

@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.eventbus.Subscribe;
 import com.osu.api.ciyfhx.Mod;
 import com.osu.api.ciyfhx.OsuClient;
 import com.osu.api.ciyfhx.User;
@@ -8,18 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -78,14 +79,14 @@ public class OsuStatsCmd {
 			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
 			else {
 				finalResponse = EmoteReference.ERROR + "Error while looking for results.";
-				log.warn("Error retrieving results from osu!API", e);
+				SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
 			}
 		}
 
 		return finalResponse;
 	}
 
-	@Command
+	@Subscribe
 	public static void osustats(CommandRegistry cr) {
 		cr.register("osustats", new SimpleCommand(Category.GAMES) {
 			@Override
@@ -102,7 +103,9 @@ public class OsuStatsCmd {
 								if (e instanceof TimeoutException) {
 									task.cancel(true);
 									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else log.warn("Exception thrown while fetching data", e);
+								} else {
+									SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
+								}
 							}
 						});
 						break;
@@ -181,7 +184,7 @@ public class OsuStatsCmd {
 			if (e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
 			else {
 				finalMessage = EmoteReference.ERROR + "Error while looking for results.";
-				log.warn("Error retrieving results from osu!API", e);
+				SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
 			}
 		}
 		return finalMessage;

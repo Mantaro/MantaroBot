@@ -22,7 +22,7 @@
         </encoder>
     </appender>
 
-    <appender name="DISCORD" class="net.kodehawa.mantarobot.log.DiscordLogBack"/>
+    <appender name="DISCORD" class="net.kodehawa.mantarobot.log.LogBack"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

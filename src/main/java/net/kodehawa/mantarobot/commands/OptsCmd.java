@@ -1,16 +1,21 @@
 package net.kodehawa.mantarobot.commands;
 
+import com.google.common.base.Preconditions;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.commands.options.OptionType;
+import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
@@ -737,7 +742,7 @@ public class OptsCmd {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
 			@Override

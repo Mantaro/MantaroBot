@@ -2,7 +2,7 @@ package net.kodehawa.mantarobot.modules.commands.base;
 
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 
-	import java.util.Arrays;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

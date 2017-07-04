@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
-import com.mashape.unirest.http.Unirest;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -13,17 +13,18 @@ import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.*;
@@ -39,7 +40,7 @@ public class MiscCmds {
 	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
 	private static final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
-	@Command
+	@Subscribe
 	public static void eightBall(CommandRegistry cr) {
 		cr.register("8ball", new SimpleCommand(Category.MISC) {
 			@Override
@@ -53,17 +54,11 @@ public class MiscCmds {
 				String answer;
 				try {
 					textEncoded = URLEncoder.encode(content, "UTF-8");
-					answer = Unirest.get(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded))
-						.asJson()
-						.getBody()
-						.getObject()
-						.getJSONObject("magic")
-						.getString("answer");
+					String json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded), event);
+					answer = new JSONObject(json).getJSONObject("magic").getString("answer");
 				} catch (Exception exception) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results. My owners " +
-						"have been notified and will resolve this soon.")
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results.")
 						.queue();
-					log.warn("Error while processing answer", exception);
 					return;
 				}
 
@@ -84,7 +79,7 @@ public class MiscCmds {
 		cr.registerAlias("8ball", "8b");
 	}
 
-	@Command
+	@Subscribe
 	public static void iam(CommandRegistry cr) {
 		cr.register("iam", new SimpleCommand(Category.MISC) {
 			@Override
@@ -153,7 +148,7 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@Command
+	@Subscribe
 	public static void iamnot(CommandRegistry cr) {
 		cr.register("iamnot", new SimpleCommand(Category.MISC) {
 			@Override
@@ -219,7 +214,7 @@ public class MiscCmds {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
 	}
 
-	@Command
+	@Subscribe
 	public static void misc(CommandRegistry cr) {
 		cr.register("misc", new SimpleCommand(Category.MISC) {
 			@Override
@@ -263,7 +258,7 @@ public class MiscCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		OptsCmd.registerOption("timedisplay:set", "Time display set","Toggles between 12h and 24h time display.\n" +
 				"Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.",  (event, args) -> {
@@ -295,7 +290,7 @@ public class MiscCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void randomFact(CommandRegistry cr) {
 		cr.register("randomfact", new SimpleCommand(Category.MISC) {
 			@Override
@@ -315,7 +310,7 @@ public class MiscCmds {
 		cr.registerAlias("randomfact", "rf");
 	}
 
-	@Command
+	@Subscribe
 	public static void createPoll(CommandRegistry registry){
 		registry.register("createpoll", new SimpleCommand(Category.MISC) {
 			@Override

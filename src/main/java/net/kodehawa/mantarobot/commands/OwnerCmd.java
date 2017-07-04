@@ -3,38 +3,38 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.async.Async;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import bsh.Interpreter;
-import com.mashape.unirest.http.Unirest;
+import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.DBUser;
-import net.kodehawa.mantarobot.data.entities.MantaroObj;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
-import java.awt.Color;
+import java.awt.*;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -56,7 +56,7 @@ public class OwnerCmd {
 		"Momma, where's my Milk cup? *drinks and goes to sleep*"
 	};
 
-	@Command
+	@Subscribe
 	public static void blacklist(CommandRegistry cr) {
 		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
@@ -110,7 +110,7 @@ public class OwnerCmd {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {
@@ -313,6 +313,7 @@ public class OwnerCmd {
 				}
 
 				if (option.equals("shutdown") || option.equals("restart")) {
+
 					if (args.length == 2) {
 						try {
 							notifyMusic(args[1]).get();
@@ -337,10 +338,10 @@ public class OwnerCmd {
 							MantaroData.connectionWatcher().reboot(false);
 						} catch (Exception e) {
 							log.error("Error restarting via manager, manual reboot required", e);
-							System.exit(-1);
+							System.exit(ShutdownCodes.REBOOT_FAILURE);
 						}
 					} else {
-						System.exit(0);
+						System.exit(ShutdownCodes.NORMAL);
 					}
 					return;
 				}
@@ -371,10 +372,10 @@ public class OwnerCmd {
 							MantaroData.connectionWatcher().reboot(false);
 						} catch (Exception e) {
 							log.error("Error restarting via manager, manual reboot required", e);
-							System.exit(-1);
+							System.exit(ShutdownCodes.REBOOT_FAILURE);
 						}
 					} else {
-						System.exit(0);
+						System.exit(ShutdownCodes.NORMAL);
 					}
 					return;
 				}
@@ -421,7 +422,7 @@ public class OwnerCmd {
 									System.exit(-1);
 								}
 							} else {
-								System.exit(0);
+								System.exit(ShutdownCodes.NORMAL);
 							}
 						});
 
@@ -454,7 +455,7 @@ public class OwnerCmd {
 									MantaroData.connectionWatcher().reboot(false);
 								} catch (Exception e) {
 									log.error("Error restarting via manager, manual reboot required", e);
-									System.exit(-1);
+									System.exit(ShutdownCodes.REBOOT_FAILURE);
 								}
 							} else {
 								System.exit(0);
@@ -619,11 +620,11 @@ public class OwnerCmd {
 					dummy.add(url);
 					toAdd.put(type, dummy);
 
-					System.out.println(Unirest.post("http://127.0.0.1:4454/api/p/actions?type=" + type)
+					/*System.out.println(Unirest.post("http://127.0.0.1:4454/api/p/actions?type=" + type)
 							.header("Content-Type", "application/json")
 							.body(GsonDataManager.GSON_PRETTY.toJson(toAdd))
 							.asString()
-							.getBody());
+							.getBody());*/
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added gif to the API.").queue();
 				} catch (Exception e) {
@@ -716,7 +717,7 @@ public class OwnerCmd {
 			.toArray(CompletableFuture[]::new));
 	}
 
-	private static void prepareShutdown(GuildMessageReceivedEvent event) {
+	private static void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});
@@ -725,11 +726,15 @@ public class OwnerCmd {
 			MantaroData.connectionWatcher().close();
 		} catch (Exception ignored) {}
 
-		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(MantaroShard::prepareShutdown);
+		Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
-		Arrays.stream(MantaroBot.getInstance().getShards()).forEach(
+        /*Unirest.post(
+                String.format("http://%s/api/nodev1/shutdown?nodeid=%d", MantaroData.config().get().apiUrl,  MantaroBot.getInstance().getMantaroAPI().nodeId))
+                .asString();*/
+
+		Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
 			mantaroShard -> mantaroShard.getJDA().shutdown(true));
 	}
 }

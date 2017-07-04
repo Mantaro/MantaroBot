@@ -3,10 +3,7 @@ package net.kodehawa.mantarobot.core;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.sql.SQLAction;
@@ -102,9 +99,10 @@ public class CommandProcessor {
 		String cmdName = parts[0], content = parts[1];
 
 		if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
-			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. All Commands will be refused until you give me that permission.\n" +
-				"http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
-				"Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
+			event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. " +
+					"All Commands will be refused until you give me that permission.\n" +
+					"http://i.imgur.com/Ydykxcy.gifv Refer to this on instructions on how to give the bot the permissions. " +
+					"Also check all the other roles the bot has have that permissions and remember to check channel-specific permissions. Thanks you.").queue();
 			return false;
 		}
 

@@ -1,8 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
+import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -15,23 +14,25 @@ import net.kodehawa.lib.imageboards.rule34.Rule34;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.Command;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.json.JSONObject;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -65,16 +66,25 @@ public class ImageCmds {
 	private static String tagsEncoded = "";
 	private static String tagsToEncode = "no";
 
-	@Command
+	@Subscribe
 	public static void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommand(Category.IMAGE) {
+			OkHttpClient httpClient = new OkHttpClient();
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
-					String url = Unirest.get("http://random.cat/meow").asJsonAsync().get().getBody().getObject().get("file").toString();
+					Request r = new Request.Builder()
+							.url("http://random.cat/meow")
+							.build();
+
+					Response response = httpClient.newCall(r).execute();
+
+					String url = new JSONObject(response.body().string()).getString("file");
+					response.close();
 					event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
 						new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
 				} catch (Exception e) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Error retrieving cute cat images :<").queue();
 					e.printStackTrace();
 				}
 			}
@@ -88,7 +98,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void catgirls(CommandRegistry cr) {
 		cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -97,16 +107,13 @@ public class ImageCmds {
 				if (nsfw && !nsfwCheck(event, true, true)) return;
 
 				try {
-					JSONObject obj = Unirest.get(nsfw ? NSFWURL : BASEURL)
-						.asJson()
-						.getBody()
-						.getObject();
+					JSONObject obj = new JSONObject(Utils.wgetResty(nsfw ? NSFWURL : BASEURL, event));
 					if (!obj.has("url")) {
 						event.getChannel().sendMessage("Unable to find image").queue();
 					} else {
 						event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
 					}
-				} catch (UnirestException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 					event.getChannel().sendMessage("Unable to get image").queue();
 				}
@@ -123,7 +130,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void e621(CommandRegistry cr) {
 		cr.register("e621", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -235,7 +242,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void kona(CommandRegistry cr) {
 		cr.register("konachan", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -346,7 +353,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void rule34(CommandRegistry cr) {
 		cr.register("rule34", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -459,7 +466,7 @@ public class ImageCmds {
 		});
 	}
 
-	@Command
+	@Subscribe
 	public static void yandere(CommandRegistry cr) {
 		cr.register("yandere", new SimpleCommand(Category.IMAGE) {
 			@Override
@@ -595,7 +602,7 @@ public class ImageCmds {
 		return true;
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		nRating.put("safe", "s");
 		nRating.put("questionable", "q");

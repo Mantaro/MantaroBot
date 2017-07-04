@@ -1,8 +1,8 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.google.common.eventbus.Subscribe;
 import com.google.gson.JsonSyntaxException;
-import com.mashape.unirest.http.Unirest;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -10,19 +10,21 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.Command;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.events.PostLoadEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 
-import java.awt.Color;
+import java.awt.*;
 import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -31,8 +33,9 @@ import java.util.stream.Collectors;
 @Module
 public class AnimeCmds {
 	public static String authToken;
+	private static OkHttpClient client = new OkHttpClient();
 
-	@Command
+	@Subscribe
 	public static void anime(CommandRegistry cr) {
 		cr.register("anime", new SimpleCommand(Category.FUN) {
 			@Override
@@ -91,21 +94,24 @@ public class AnimeCmds {
 		String aniList = "https://anilist.co/api/auth/access_token";
 		String CLIENT_ID = MantaroData.config().get().getAlClient();
 		try {
-			authToken = Unirest.post(aniList)
-				.header("User-Agent", "Mantaro")
-				.header("Content-Type", "application/x-www-form-urlencoded")
-				.body("grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret)
-				.asJson()
-				.getBody()
-				.getObject().getString("access_token");
+			RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded")
+					, "grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret);
+			Request request = new Request.Builder()
+					.header("Content-Type", "application/x-www-form-urlencoded")
+					.url(aniList)
+					.post(body)
+					.build();
+			Response response = client.newCall(request).execute();
+			JSONObject object = new JSONObject(response.body().string());
+			authToken = object.getString("access_token");
+			response.close();
 			log.info("Updated auth token.");
 		} catch (Exception e) {
-			log.warn("Problem while updating auth token! <@155867458203287552>, check nohup.out.");
-			log.warn("Problem while updating auth token! <@155867458203287552> check it out", e);
+			SentryHelper.captureExceptionContext("Problem while updating Anilist token", e, AnimeCmds.class, "Anilist Token Worker");
 		}
 	}
 
-	@Command
+	@Subscribe
 	public static void character(CommandRegistry cr) {
 		cr.register("character", new SimpleCommand(Category.FUN) {
 			@Override
@@ -154,7 +160,7 @@ public class AnimeCmds {
 		cr.registerAlias("character", "char");
 	}
 
-	@Command
+	@Subscribe
 	public static void onPostLoad(PostLoadEvent e) {
 		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900, TimeUnit.SECONDS);
 	}

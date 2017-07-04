@@ -8,7 +8,10 @@ import gnu.trove.map.hash.TLongObjectHashMap;
 import lombok.Getter;
 import net.kodehawa.mantarobot.utils.Expirator.Expirable;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 //TODO Isn't this a bit overcomplicated? Need less overhead pls.

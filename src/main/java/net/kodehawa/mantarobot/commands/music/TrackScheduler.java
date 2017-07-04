@@ -9,15 +9,14 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackState;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.data.entities.DBGuild;
-import net.kodehawa.mantarobot.data.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -191,6 +190,10 @@ public class TrackScheduler extends AudioEventAdapter {
 		AudioTrackContext previousTrack;
 
 		try {
+			MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
+			manager.getMusicManagers().remove(guildId);
+			m.setSendingHandler(null);
+
 			previousTrack = getPreviousTrack();
 			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
 				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue! Hope you enjoyed it.").queue(

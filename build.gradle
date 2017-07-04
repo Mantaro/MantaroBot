@@ -1,8 +1,6 @@
 /* Mantaro's build.gradle */
-
 //Imports
 import org.apache.tools.ant.filters.ReplaceTokens
-
 
 //Plugins
 plugins {
@@ -20,7 +18,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 4, revision: 2)
+def ver = new Version(major: 4, minor: 5, revision: 0)
 version ver.toString()
 
 //We are going to use Java 8
@@ -34,8 +32,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.1.1_212'
-
+	compile 'com.github.DV8FromTheWorld:JDA:7249a7a'
 	compile 'com.sedmelluq:lavaplayer:1.2.42'
 	compile 'com.sedmelluq:jda-nas:1.0.5'
 
@@ -53,20 +50,15 @@ dependencies {
 
 	compile 'com.google.guava:guava:22.0'
 	compile 'com.google.code.gson:gson:2.8.0'
-
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.0.pr1'
-
-	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
-
-	compile 'mysql:mysql-connector-java:6.0.4'
-
 	compile 'net.sf.trove4j:trove4j:3.0.3'
 
-	compile 'com.patreon:patreon:0.1.1'
+	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
+	compile 'mysql:mysql-connector-java:6.0.4'
+	compile 'com.rabbitmq:amqp-client:4.1.1'
+	compile 'io.sentry:sentry:1.2.0'
 
-	compile 'org.springframework.boot:spring-boot-starter-web:1.4.3.RELEASE'
-
-    compile 'net.jodah:expiringmap:0.5.8'
+	compile 'net.jodah:expiringmap:0.5.8'
 
     compile fileTree(dir: 'lib', include: '*.jar')
 
