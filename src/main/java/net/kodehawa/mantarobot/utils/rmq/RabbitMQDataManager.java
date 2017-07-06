@@ -5,6 +5,7 @@ import com.rabbitmq.client.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
@@ -22,6 +23,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.RABBITMQ_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.REMOTE_SHUTDOWN;
 import static net.kodehawa.mantarobot.utils.rmq.ReturnCodes.*;
 
+@Slf4j
 public class RabbitMQDataManager implements DataManager<JSONObject> {
 
     @Getter
@@ -30,6 +32,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
     public Channel mainrMQChannel;
 
     private final static String MAIN_QUEUE_NAME = "mantaro-nodes";
+    private final static String INFO_QUEUE_NAME = "mantaro-nodes";
     private final static String API_QUEUE_NAME = "mantaro-api-node_" + MantaroBot.getInstance().getMantaroAPI().nodeId;
     @Setter @Getter private JSONObject lastReceivedPayload = new JSONObject(); //{} if none
     @Setter @Getter public int apiCalls;
@@ -38,6 +41,8 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
     @SneakyThrows
     public RabbitMQDataManager(Config config) {
         if(config.isBeta || config.isPremiumBot) return;
+
+        log.info("Starting up RabbitMQ connection to {}@{}");
 
         Channel channel = getMainrMQChannel();
 
@@ -51,13 +56,19 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
             factory.setConnectionTimeout(1000);
 
             rMQConnection = factory.newConnection();
-            mainrMQChannel = rMQConnection.createChannel(1);
+            log.info("Created RabbitMQ connection with properties: " + factory.getClientProperties());
+            mainrMQChannel = rMQConnection.createChannel();
+            log.info("Acknowledged #" + mainrMQChannel.getChannelNumber() + "on queue: " + MAIN_QUEUE_NAME);
         } catch (IOException | TimeoutException e){
             SentryHelper.captureException("Something went horribly wrong while setting up the RabbitMQ connection", e, this.getClass());
             System.exit(RABBITMQ_FAILURE);
         }
 
-        Channel apiChannel = rMQConnection.createChannel(2);
+        Channel apiChannel = rMQConnection.createChannel();
+        log.info("Acknowledged #" + apiChannel.getChannelNumber() + "on queue: " + API_QUEUE_NAME);
+
+        Channel infoChannel = rMQConnection.createChannel();
+        log.info("Acknowledged #" + infoChannel.getChannelNumber() + "on queue: " + INFO_QUEUE_NAME);
 
         //--------------------------------  MAIN QUEUE DECLARATION ---------------------------------------------
 
@@ -72,35 +83,6 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                 JSONObject payload = new JSONObject(message);
                 ReturnCodes code = SUCCESS;
                 apiCalls++;
-
-                if (payload.has("process_image")){
-                    //soon (tm)
-                    //This should, and *should* load-balance itself between nodes.
-                } else if (payload.has("eval_query")){
-                    String toEval = payload.getString("eval_query");
-                    Interpreter interpreter = new Interpreter();
-                    try {
-                        interpreter.set("mantaro", MantaroBot.getInstance());
-                        interpreter.set("db", MantaroData.db());
-
-                        interpreter.eval(String.join(
-                                "\n",
-                                "import *;",
-                                toEval
-                        ));
-                    } catch (Exception e) {
-
-                    }
-
-
-                } else {
-                    code = NOT_VALID;
-                }
-
-                if(code != SUCCESS){
-                    SentryHelper.breadcrumb("Failed to process MAIN payload! Reason: " + code + " | With payload: " + payload);
-                }
-
 
                 setLastReceivedPayload(payload);
             }

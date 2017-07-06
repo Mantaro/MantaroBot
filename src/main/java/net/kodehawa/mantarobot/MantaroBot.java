@@ -6,7 +6,6 @@ import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
@@ -15,6 +14,7 @@ import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogBack;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.PostLoadEvent;
@@ -161,7 +161,9 @@ public class MantaroBot extends ShardedJDA {
 
 	private MantaroBot() throws Exception {
         instance = this;
+
 		Config config = MantaroData.config().get();
+
 		Sentry.init(config.sentryDSN);
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta() && !mantaroAPI.configure()){
@@ -169,13 +171,13 @@ public class MantaroBot extends ShardedJDA {
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
 
-		rabbitMQDataManager = new RabbitMQDataManager(config);
+		LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %d)", MantaroInfo.VERSION, mantaroAPI.nodeId));
 
+		rabbitMQDataManager = new RabbitMQDataManager(config);
 		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
 		long start = System.currentTimeMillis();
 
 		SimpleLogToSLF4JAdapter.install();
-		log.info("MantaroBot starting...");
 
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
 			new Reflections(
@@ -199,14 +201,12 @@ public class MantaroBot extends ShardedJDA {
 
 		LogBack.enable();
 		loadState = LOADED;
-		log.info("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-		log.info("Started bot instance.");
-		log.info("Started MantaroBot {} on JDA {}", MantaroInfo.VERSION, JDAInfo.VERSION);
+		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
-		log.info("Starting update managers...");
+		System.out.println("Starting update managers...");
 		shardedMantaro.startUpdaters();
 
 		MantaroData.config().save();
@@ -222,15 +222,14 @@ public class MantaroBot extends ShardedJDA {
 		bus.post(CommandProcessor.REGISTRY);
 
 		loadState = POSTLOAD;
-		log.info("Finished loading basic components. Current status: " + loadState + "");
+		System.out.println("Finished loading basic components. Current status: " + loadState);
 
 		bus.post(new PostLoadEvent());
-
-		log.info("Loaded " + CommandProcessor.REGISTRY.commands().size() + " commands in " + shardedMantaro.getTotalShards() + " shards.");
-
 		long end = System.currentTimeMillis();
 
-		log.info("Succesfully started MantaroBot in {} seconds.", (end - start) / 1000);
+		LogUtils.log("Startup",
+				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
+						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
 		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
 			mantaroAPI.startService();

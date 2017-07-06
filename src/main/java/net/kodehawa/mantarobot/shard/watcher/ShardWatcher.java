@@ -6,6 +6,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.shard.ShardedMantaro;
 
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class ShardWatcher implements Runnable {
 
     @Override
     public void run() {
-        log.info("ShardWatcherThread started");
+        LogUtils.shard("ShardWatcherThread started");
         final int wait = MantaroData.config().get().shardWatcherWait;
         while (true) {
             try {
@@ -37,7 +38,11 @@ public class ShardWatcher implements Runnable {
                         try{
                             FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
                                 try {
-                                    log.info("Starting automatic shard restart on shard {} due to it being inactive for longer than 2 minutes.", id);
+
+                                    LogUtils.shard(
+                                            "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 2 minutes."
+                                    );
+
                                     MantaroBot.getInstance().getShard(id).restartJDA(true);
                                     Thread.sleep(1000);
                                     return 1;

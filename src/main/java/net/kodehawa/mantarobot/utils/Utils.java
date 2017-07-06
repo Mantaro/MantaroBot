@@ -96,6 +96,7 @@ public class Utils {
 			r.close();
 			return "https://hastebin.com/" + response.getString("key");
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "An error was encountered while trying to upload to hastebin.";
 		}
 	}

@@ -4,14 +4,18 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.Utils;
 
 public class LogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
+	private PatternLayout patternLayout;
+	private PatternLayout patternLayoutSentry;
+	private String[] filters = {
+			"PermissionException", "Read timed out", "timeout", "RatelimitedException", "ResponseProcessCookies"
+	};
+	private String[] exactFilters = {
+			"Encountered an exception:"
+	};
 
 	public static void disable() {
 		enabled = false;
@@ -21,38 +25,30 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 		enabled = true;
 	}
 
-	private static TextChannel consoleChannel() {
-		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
-	}
-
-	private PatternLayout patternLayout;
-	private PatternLayout patternLayoutSentry;
-	private ILoggingEvent previousEvent;
-
 	@Override
 	protected void append(ILoggingEvent event) {
 		if (!enabled) return;
 		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
 		String toSend = patternLayout.doLayout(event);
 		String sentry = patternLayoutSentry.doLayout(event);
-		if (previousEvent != null && event.getMessage().equals(previousEvent.getMessage())) return;
 		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
-		if (toSend.contains("PermissionException")) return;
-		if (toSend.contains("ResponseProcessCookies")) return;
-		if (toSend.contains("Read timed out") || toSend.contains("timeout")) return;
-		if(toSend.contains("RateLimitedException")) return;
-		if(toSend.equalsIgnoreCase("Encountered an exception:")) return;
+
+		for(String filtered : filters){
+			if(toSend.contains(filtered)) return;
+		}
+
+		for(String filtered : exactFilters){
+			if(toSend.equalsIgnoreCase(filtered)) return;
+		}
 
 		if(event.getLevel().isGreaterOrEqual(Level.WARN)
 				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.contains("---- DISCONNECT")){
 			SentryHelper.captureMessageErrorContext(sentry, this.getClass(), "Log Back");
 		}
 
-
 		if (!(toSend.length() > 1920)){
-			consoleChannel().sendMessage(toSend).queue();
+			LogUtils.simple(toSend);
 		}
-		previousEvent = event;
 	}
 
 	@Override
