@@ -11,7 +11,7 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 	private PatternLayout patternLayout;
 	private PatternLayout patternLayoutSentry;
 	private String[] filters = {
-			"PermissionException", "Read timed out", "timeout", "RatelimitedException", "ResponseProcessCookies"
+			"PermissionException", "Read timed out", "timeout", "RatelimitedException", "ResponseProcessCookies", "Suspicious exception for loading item"
 	};
 	private String[] exactFilters = {
 			"Encountered an exception:"
