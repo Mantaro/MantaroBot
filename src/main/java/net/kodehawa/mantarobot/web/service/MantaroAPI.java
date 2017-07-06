@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.web.service;
 
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.OkHttpClient;
 
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import java.util.UUID;
 public class MantaroAPI {
     private long lastPing = 0;
     public APIStatus STATUS = APIStatus.ONLINE;
+    private OkHttpClient httpClient = new OkHttpClient();
 
     //Node ID is assigned by the API after receiving a HEARTBEAT request from this specific node. If the node is already registered, the server
     //will retrieve the saved value from NODE_LIST. In case a NODE_UNKNOWN_RECEIVE is handled by the API, all node ids will be reassigned by the server

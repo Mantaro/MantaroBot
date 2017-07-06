@@ -21,9 +21,8 @@ import java.util.concurrent.TimeUnit;
  * @since 04/07/2017
  */
 public class Webhook {
-    private static String API_ENDPOINT;
+    private String API_ENDPOINT;
     public static final Requester REQUESTER = new Requester();
-
     private String avatarUrl;
     private String username;
 
@@ -44,7 +43,7 @@ public class Webhook {
     public Response rawPost(JSONObject message) throws RequestingException {
         if(avatarUrl != null && !message.has("avatar_url")) message.put("avatar_url", avatarUrl);
         if(username != null && !message.has("username")) message.put("username", username);
-        return REQUESTER.post(message);
+        return REQUESTER.post(API_ENDPOINT, message);
     }
 
     public Response post(Message message) throws RequestingException {
@@ -74,8 +73,8 @@ public class Webhook {
             super("WebhookRequester", new RateLimiter(TimeUnit.SECONDS, 5, 5000));
         }
 
-        public Response post(JSONObject message) throws RequestingException {
-            return newRequest(API_ENDPOINT, API_ENDPOINT).body(message).header("Content-Type", "application/json").post();
+        public Response post(String endpoint, JSONObject message) throws RequestingException {
+            return newRequest(endpoint, endpoint).body(message).header("Content-Type", "application/json").post();
         }
     }
 }

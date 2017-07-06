@@ -29,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -85,6 +86,11 @@ public class MantaroShard implements JDA {
 			.setAudioSendFactory(new NativeAudioSendFactory())
 			.setAutoReconnect(true)
 			.setCorePoolSize(15)
+			.setHttpClientBuilder(
+					new OkHttpClient.Builder()
+							.connectTimeout(5, TimeUnit.SECONDS)
+							.readTimeout(5, TimeUnit.SECONDS)
+			)
 			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)
 			jdaBuilder.useSharding(shardId, totalShards);
