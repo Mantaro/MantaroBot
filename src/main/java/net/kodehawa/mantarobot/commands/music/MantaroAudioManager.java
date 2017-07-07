@@ -2,7 +2,12 @@ package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
+import com.sedmelluq.discord.lavaplayer.source.bandcamp.BandcampAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.beam.BeamAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.soundcloud.SoundCloudAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.twitch.TwitchStreamAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
+import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.utils.sql.SQLAction;
@@ -19,7 +24,7 @@ public class MantaroAudioManager {
 	public MantaroAudioManager() {
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
-		AudioSourceManagers.registerRemoteSources(playerManager);
+		registerRemoteSources(playerManager);
 
 		try {
 			SQLDatabase.getInstance().run((conn) -> {
@@ -67,4 +72,14 @@ public class MantaroAudioManager {
 		if(musicManager.getTrackScheduler().getQueue().isEmpty()) musicManager.getTrackScheduler().setRepeat(null);
 		playerManager.loadItemOrdered(musicManager, trackUrl, new AudioRequester(musicManager, event, trackUrl, skipSelection));
 	}
+
+	public static void registerRemoteSources(AudioPlayerManager playerManager) {
+		playerManager.registerSourceManager(new YoutubeAudioSourceManager(true));
+		playerManager.registerSourceManager(new SoundCloudAudioSourceManager());
+		playerManager.registerSourceManager(new BandcampAudioSourceManager());
+		playerManager.registerSourceManager(new VimeoAudioSourceManager());
+		playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
+		playerManager.registerSourceManager(new BeamAudioSourceManager());
+	}
+
 }
