@@ -5,6 +5,8 @@ import ch.qos.logback.classic.PatternLayout;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class LogBack extends AppenderBase<ILoggingEvent> {
 	private static boolean enabled = false;
@@ -28,26 +30,33 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 	@Override
 	protected void append(ILoggingEvent event) {
 		if (!enabled) return;
-		if (!event.getLevel().isGreaterOrEqual(Level.INFO)) return;
 		String toSend = patternLayout.doLayout(event);
 		String sentry = patternLayoutSentry.doLayout(event);
-		if (toSend.contains("INFO") && toSend.contains("RemoteNodeProcessor")) return;
 
 		for(String filtered : filters){
-			if(toSend.contains(filtered)) return;
+			if(toSend.contains(filtered)) {
+				System.out.println("filtered " + filtered);
+				return;
+			}
 		}
 
 		for(String filtered : exactFilters){
-			if(toSend.equalsIgnoreCase(filtered)) return;
+			if(toSend.equalsIgnoreCase(filtered)){
+				System.out.println("filtered " + filtered);
+				return;
+			}
 		}
 
 		if(event.getLevel().isGreaterOrEqual(Level.WARN)
 				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.contains("---- DISCONNECT")){
 			SentryHelper.captureMessageErrorContext(sentry, this.getClass(), "Log Back");
+			System.out.println("why");
 		}
 
-		if (!(toSend.length() > 1920)){
+		if (toSend.length() < 1920){
 			LogUtils.simple(toSend);
+		} else {
+			LogUtils.simple(EmoteReference.THINKING + "Received a log message larger than 1920 characters, so I pasted it (" + Utils.paste(toSend) + ")");
 		}
 	}
 

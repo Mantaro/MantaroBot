@@ -9,6 +9,7 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.time.OffsetDateTime;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -68,13 +69,40 @@ public class Webhook {
         return post(new MessageBuilder().append(message).build());
     }
 
-    private static final class Requester extends HTTPRequester {
+    public static final class Requester extends HTTPRequester {
+        private boolean configured = false;
+
         Requester() {
-            super("WebhookRequester", new RateLimiter(TimeUnit.SECONDS, 5, 5000));
+            super("WebhookRequester", new RateLimiter(TimeUnit.MILLISECONDS, 4, 5000), builder->
+                    builder.readTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).build()
+            );
         }
 
         public Response post(String endpoint, JSONObject message) throws RequestingException {
-            return newRequest(endpoint, endpoint).body(message).header("Content-Type", "application/json").post();
+            Request req = newRequest(endpoint, endpoint.split("/")[5]).body(message).header("Content-Type", "application/json");
+            Response res;
+            int i = 0;
+            do {
+                i++;
+                res = req.post();
+                if(res.code() == 429) {
+                    long tryAgainIn = res.asObject().getInt("retry_after");
+                    if(!onRateLimited(req, tryAgainIn)) {
+                        throw new RateLimitedException(tryAgainIn);
+                    }
+                }
+            } while(res.code() != 204 && i < 4);
+
+            if(!configured && res.code() == 204) {
+                int limit = Integer.parseInt(res.headers().get("x-ratelimit-limit").get(0));
+                int remaining = Integer.parseInt(res.headers().get("x-ratelimit-remaining").get(0));
+                if(remaining == limit-1) {
+                    long time = (Long.parseLong(res.headers().get("x-ratelimit-reset").get(0))- OffsetDateTime.now().toEpochSecond())/10;
+                    setRateLimiter(new RateLimiter(TimeUnit.SECONDS, remaining, (int)(time)));
+                    configured = true;
+                }
+            }
+            return res;
         }
     }
 }

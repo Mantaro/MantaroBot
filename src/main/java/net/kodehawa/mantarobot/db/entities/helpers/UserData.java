@@ -6,4 +6,5 @@ import lombok.Data;
 public class UserData {
 	private String birthday;
 	private String timezone;
+	private int reminderN;
 }

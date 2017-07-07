@@ -7,9 +7,12 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
@@ -268,17 +271,52 @@ public class UtilsCmds {
 		});
 	}
 
-	//@Subscribe
+	@Subscribe
 	public static void remindme(CommandRegistry registry){
 		registry.register("remindme", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if(content.isEmpty()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "What could I remind you of if you don't give me what to remind you? " +
+						"Oh! Lemme remind you of setting a reminder!").queue();
+					return;
+				}
 
+
+				Map<String, Optional<String>> t = StringUtils.parse(args);
+
+				if(!t.get("time").isPresent()){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h20m`)").queue();
+				}
+
+				String toRemind = content.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");
+				User user = event.getAuthor();
+				long time = AudioCmdUtils.parseTime(t.get("time").get());
+
+				if(time < 10000){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "That's too little time!").queue();
+					return;
+				}
+
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "I'll remind you of **" + toRemind + "**" +
+						" in " + Utils.getVerboseTime(time)).queue();
+
+				new Reminder.Builder()
+						.id(user.getId())
+						.reminder(toRemind)
+						.current(System.currentTimeMillis())
+						.time(time + System.currentTimeMillis())
+						.build()
+						.schedule();
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return null;
+				return helpEmbed(event, "Remind me")
+						.setDescription("**Reminds you of something**")
+						.addField("Usage", "`~>remindme do the laundry -time 1h20m`" +
+								"\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
+						.build();
 			}
 		});
 	}

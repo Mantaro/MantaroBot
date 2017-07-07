@@ -52,7 +52,7 @@ public class Pokemon extends ImageGame {
 			expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
 			sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb
 				.setTitle("Who's that pokemon?", null)
-				.setFooter("You have 10 attempts and 120 seconds. (Type end to end the game)", null)
+				.setFooter("You have 5 attempts and 120 seconds. (Type end to end the game)", null)
 			).queue();
 			return true;
 		} catch (Exception e) {

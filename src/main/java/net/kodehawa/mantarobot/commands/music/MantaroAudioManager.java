@@ -75,7 +75,7 @@ public class MantaroAudioManager {
 
 	public static void registerRemoteSources(AudioPlayerManager playerManager) {
 		playerManager.registerSourceManager(new YoutubeAudioSourceManager(true));
-		playerManager.registerSourceManager(new SoundCloudAudioSourceManager());
+		playerManager.registerSourceManager(new SoundCloudAudioSourceManager(true));
 		playerManager.registerSourceManager(new BandcampAudioSourceManager());
 		playerManager.registerSourceManager(new VimeoAudioSourceManager());
 		playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());

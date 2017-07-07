@@ -27,8 +27,8 @@ import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
-import net.kodehawa.mantarobot.web.service.MantaroAPI;
-import net.kodehawa.mantarobot.web.service.MantaroAPISender;
+import net.kodehawa.mantarobot.web.MantaroAPI;
+import net.kodehawa.mantarobot.web.MantaroAPISender;
 import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 import org.reflections.Reflections;
@@ -178,6 +178,7 @@ public class MantaroBot extends ShardedJDA {
 		long start = System.currentTimeMillis();
 
 		SimpleLogToSLF4JAdapter.install();
+		LogBack.enable();
 
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
 			new Reflections(
@@ -199,7 +200,6 @@ public class MantaroBot extends ShardedJDA {
 		shardedMantaro.shard();
 		Async.thread("ShardWatcherThread", new ShardWatcher());
 
-		LogBack.enable();
 		loadState = LOADED;
 		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 

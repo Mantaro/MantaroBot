@@ -22,6 +22,7 @@ public class Trivia extends Game {
 	private List<String> expectedAnswer;
 	private int maxAttempts = 2;
 	private boolean hardDiff = false;
+	private boolean isBool;
 
 	@Override
 	public boolean onStart(GameLobby lobby) {
@@ -50,6 +51,7 @@ public class Trivia extends Game {
 			String category = fromB64(question.getString("category"));
 			String diff = fromB64(question.getString("difficulty"));
 			if(diff.equalsIgnoreCase("hard")) hardDiff = true;
+			if(fromB64(question.getString("type")).equalsIgnoreCase("boolean")) isBool = true;
 
 			expectedAnswer.add(fromB64(question.getString("correct_answer")));
 
@@ -81,7 +83,7 @@ public class Trivia extends Game {
 		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
 				@Override
 				public int run(GuildMessageReceivedEvent event) {
-					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, hardDiff ? 10 : 0);
+					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), isBool ? 1 : maxAttempts, hardDiff ? 10 : 0);
 				}
 
 				@Override

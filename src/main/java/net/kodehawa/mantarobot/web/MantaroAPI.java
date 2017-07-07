@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.web.service;
+package net.kodehawa.mantarobot.web;
 
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;

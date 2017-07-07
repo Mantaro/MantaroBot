@@ -397,23 +397,29 @@ public class CurrencyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                long rl = rateLimiter.tryAgainIn(event.getMember());
+
                 if (event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.\n" +
+                            (rl > 0 ? "**You'll be able to use this command again in " +
+                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
+                                    "You can rep an user.")).queue();
                     return;
                 }
 
                 if (event.getMessage().getMentionedUsers().get(0).isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot.").queue();
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot." +
+                    (rl > 0 ? "**You'll be able to use this command again in " +
+                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
+                            "You can rep an user now.")).queue();
                     return;
                 }
 
                 if (event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself.").queue();
-                    return;
-                }
-
-                if (event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You need to mention one user.").queue();
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself." +
+                    (rl > 0 ? "**You'll be able to use this command again in " +
+                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
+                            "You can rep an user now.")).queue();
                     return;
                 }
 

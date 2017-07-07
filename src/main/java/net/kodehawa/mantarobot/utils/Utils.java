@@ -92,7 +92,7 @@ public class Utils {
 					.build();
 
 			Response r = httpClient.newCall(toPost).execute();
-			JSONObject response = new JSONObject(r.body().toString());
+			JSONObject response = new JSONObject(r.body().string());
 			r.close();
 			return "https://hastebin.com/" + response.getString("key");
 		} catch (Exception e) {

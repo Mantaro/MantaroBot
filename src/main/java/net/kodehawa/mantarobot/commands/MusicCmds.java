@@ -311,12 +311,12 @@ public class MusicCmds {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "PlayFirst Command")
+				return helpEmbed(event, "Forceplay Command")
 						.addField("Description", "Play the first song I find in your search", false)
-						.addField("Usage", "~>playfirst <song url> (playlists and song names are also acceptable)", false)
+						.addField("Usage", "~>forceplay <song url> (playlists and song names are also acceptable)", false)
 						.addField(
-								"Tip", "If you do ~>playfirst <search term> I'll search youtube (default), " +
-										"but if you do ~>playfirst soundcloud <search term> It will search soundcloud (not for usage w/links).",
+								"Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
+										"but if you do ~>forceplay soundcloud <search term> It will search soundcloud (not for usage w/links).",
 								false
 						)
 						.build();
