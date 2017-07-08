@@ -26,17 +26,20 @@ import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
+import net.kodehawa.mantarobot.utils.rmq.NodeAction;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.MantaroAPI;
 import net.kodehawa.mantarobot.web.MantaroAPISender;
 import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
+import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -166,7 +169,7 @@ public class MantaroBot extends ShardedJDA {
 
 		Sentry.init(config.sentryDSN);
 
-		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta() && !mantaroAPI.configure()){
+		if(!MantaroData.config().get().isPremiumBot()/* && !MantaroData.config().get().isBeta()*/ && !mantaroAPI.configure()){
 			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
@@ -231,11 +234,26 @@ public class MantaroBot extends ShardedJDA {
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
 						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
-		if(!MantaroData.config().get().isPremiumBot() && !MantaroData.config().get().isBeta()){
+		if(!MantaroData.config().get().isPremiumBot()/* && !MantaroData.config().get().isBeta()*/){
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
 			mantaroAPI.getNodeTotal();
 		}
+
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			System.out.println("Shutdown hook activated!");
+			log.error("Received an unexpected shutdown! Broadcasting node shutdown!");
+			try{
+				JSONObject mqSend = new JSONObject();
+				mqSend.put("action", NodeAction.SHUTDOWN);
+				mqSend.put("node_id", mantaroAPI.nodeId);
+				mqSend.put("node_identifier", mantaroAPI.nodeUniqueIdentifier);
+				rabbitMQDataManager.apirMQChannel.basicPublish("", "mantaro_nodes", null, mqSend.toString().getBytes());
+			} catch (IOException e){
+				LogUtils.log("Couldn't send node shutdown signal? Guessing everything just exploded.");
+				e.printStackTrace();
+			}
+        }));
 	}
 
 	public Guild getGuildById(String guildId) {

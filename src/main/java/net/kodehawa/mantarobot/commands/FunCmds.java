@@ -41,7 +41,7 @@ public class FunCmds {
 						times = Integer.parseInt(args[0]);
 						if (times > 1000) {
 							event.getChannel().sendMessage(
-								EmoteReference.ERROR + "Whoah there! The limit is 1,000 coinflips").queue();
+								EmoteReference.ERROR + "Whoa there! The limit is 1,000 coinflips").queue();
 							return;
 						}
 					} catch (NumberFormatException nfe) {

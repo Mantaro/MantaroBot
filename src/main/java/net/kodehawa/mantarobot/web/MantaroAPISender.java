@@ -1,16 +1,48 @@
 package net.kodehawa.mantarobot.web;
 
+import br.com.brjdevs.java.utils.async.Async;
+import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.JDAInfo;
+import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.core.listeners.MantaroListener;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.shard.MantaroShard;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.*;
+import static net.kodehawa.mantarobot.commands.info.GuildStatsManager.*;
+import static net.kodehawa.mantarobot.web.MantaroAPI.sessionToken;
 
 @Slf4j
-//TODO use /api/nodev1/stats
 public class MantaroAPISender {
+
+    private static OkHttpClient httpClient = new OkHttpClient();
+
     public static void startService(){
         Runnable postStats = () -> {
             //Ignore API calls if the api did a boom.
-            /*if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
+            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
                 return;
             }
+
+            MantaroBot bot = MantaroBot.getInstance();
 
             List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
             int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
@@ -19,29 +51,27 @@ public class MantaroAPISender {
             memoryUsage.add((int)(getTotalMemory() - getFreeMemory())); //used
             memoryUsage.add((int)getMaxMemory()); //total
 
-            StatsEntity statsEntity = new StatsEntity(
-                    JDAInfo.VERSION, PlayerLibrary.VERSION, MantaroInfo.VERSION, MantaroBot.getInstance().getGuilds().size(),
-                    MantaroBot.getInstance().getUsers().size(), MantaroBot.getInstance().getShardAmount(), Integer.parseInt(CommandListener.getCommandTotal()),
-                    Integer.parseInt(MantaroListener.getLogTotal()), c, (int)getVpsCPUUsage(), getAvailableProcessors(),
-                    MantaroBot.getInstance().getAudioManager().getTotalQueueSize(), memoryUsage
-            );
-
-            try{
-                Unirest.post(String.format("http://%s/api/stats", MantaroData.config().get().apiUrl))
-                        .header("Content-Type", "application/json")
-                        .body(GsonDataManager.GSON_PRETTY.toJson(statsEntity))
-                        .asString().getBody();
-            } catch (UnirestException e){
-                log.warn("Cannot post stats to Mantaro API, maybe it's down?");
-            }
-
+            JSONObject mainStats = new JSONObject();
+            mainStats.put("jdaVersion", JDAInfo.VERSION)
+                    .put("lpVersion", PlayerLibrary.VERSION)
+                    .put("botVersion", MantaroInfo.VERSION)
+                    .put("guilds", bot.getGuilds().size())
+                    .put("users", bot.getUsers().size())
+                    .put("shardsTotal", bot.getShardAmount())
+                    .put("executedCommands", Integer.parseInt(CommandListener.getCommandTotal()))
+                    .put("logTotal", Integer.parseInt(MantaroListener.getLogTotal()))
+                    .put("musicConnections", c)
+                    .put("parsedCpuUsage", getVpsCPUUsage())
+                    .put("cores", getAvailableProcessors())
+                    .put("queueSize", bot.getAudioManager().getTotalQueueSize())
+                    .put("memoryUsage", memoryUsage);
 
             List<Integer> ids = new ArrayList<>();
             List<JDA.Status> statuses = new ArrayList<>();
             List<Integer> users = new ArrayList<>();
             List<Integer> guilds = new ArrayList<>();
             List<Long> musicConnections = new ArrayList<>();
-            List<Long> lastUnifiedJDALastEventTimes = new ArrayList<>();
+            List<Long> lastEventTimes = new ArrayList<>();
 
             for(MantaroShard shard : MantaroBot.getInstance().getShardList()){
                 ids.add(shard.getId());
@@ -52,19 +82,16 @@ public class MantaroAPISender {
                         shard.getJDA().getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()))
                                 .count()
                 );
-                lastUnifiedJDALastEventTimes.add(shard.getEventManager().getLastJDAEventTimeDiff());
+                lastEventTimes.add(shard.getEventManager().getLastJDAEventTimeDiff());
             }
 
-            ShardInfo shardInfo = new ShardInfo(ids, statuses, users, guilds, musicConnections, lastUnifiedJDALastEventTimes);
-
-            try{
-                Unirest.post(String.format("http://%s/api/sinfo", MantaroData.config().get().apiUrl))
-                        .header("Content-Type", "application/json")
-                        .body(GsonDataManager.GSON_PRETTY.toJson(shardInfo))
-                        .asString().getBody();
-            }  catch (UnirestException e){
-                log.warn("Cannot post shard info to Mantaro API, maybe it's down?");
-            }
+            JSONObject shardInfo = new JSONObject();
+            shardInfo.put("ids", ids)
+                    .put("statuses", statuses)
+                    .put("users", users)
+                    .put("guilds", guilds)
+                    .put("musicConnections", musicConnections)
+                    .put("lastEventTimes", lastEventTimes);
 
             Map<Integer, Map<String, AtomicInteger>> total = new HashMap<>();
             Map<Integer, Map<String, AtomicInteger>> today = new HashMap<>();
@@ -75,29 +102,40 @@ public class MantaroAPISender {
             today.put(getTotalValueFor(DAY_CMDS), DAY_CMDS);
             hourly.put(getTotalValueFor(HOUR_CMDS), HOUR_CMDS);
             now.put(getTotalValueFor(MINUTE_CMDS), MINUTE_CMDS);
-            CommandsEntity commandsEntity = new CommandsEntity(total, today, hourly, now);
+            JSONObject commands = new JSONObject()
+                    .put("total", total)
+                    .put("today", today)
+                    .put("hourly", hourly)
+                    .put("now", now);
+
+            JSONObject guildsS = new JSONObject()
+                    .put("total", TOTAL_EVENTS)
+                    .put("today", DAY_EVENTS)
+                    .put("hourly", HOUR_EVENTS)
+                    .put("now", MINUTE_EVENTS);
+
+            JSONObject toPost = new JSONObject()
+                    .put("nodeid", bot.getMantaroAPI().nodeId)
+                    .put("stats", mainStats)
+                    .put("guildstats", guildsS)
+                    .put("commandstats", commands)
+                    .put("shardinfo", shardInfo);
 
             try{
-                Unirest.post(String.format("http://%s/api/cstats", MantaroData.config().get().apiUrl))
-                        .header("Content-Type", "application/json")
-                        .body(GsonDataManager.GSON_PRETTY.toJson(commandsEntity))
-                        .asString().getBody();
-            }  catch (UnirestException e){
-                log.warn("Cannot post command info to Mantaro API, maybe it's down?");
-            }
+                RequestBody body = RequestBody.create(MediaType.parse("application/json"),
+                        toPost.toString());
 
-            GuildsEntity guildsEntity = new GuildsEntity(TOTAL_EVENTS, DAY_EVENTS, HOUR_EVENTS, MINUTE_EVENTS);
-            try{
-                Unirest.post(String.format("http://%s/api/gstats", MantaroData.config().get().apiUrl))
-                        .header("Content-Type", "application/json")
-                        .body(GsonDataManager.GSON_PRETTY.toJson(guildsEntity))
-                        .asString().getBody();
-            }  catch (UnirestException e){
-                log.warn("Cannot post command info to Mantaro API, maybe it's down?");
+                Request identify = new Request.Builder()
+                        .url(String.format("http://%s/api/nodev1/identify", MantaroData.config().get().apiUrl))
+                        .header("Authorization", sessionToken)
+                        .post(body)
+                        .build();
+                httpClient.newCall(identify).execute().close();
+            } catch (Exception e){
+                e.printStackTrace();
             }
         };
 
-        Async.task("Mantaro API POST Worker", postStats, 30, TimeUnit.SECONDS);*/
-        };
+        Async.task("Mantaro API POST Worker", postStats, 15, TimeUnit.SECONDS);
     }
 }

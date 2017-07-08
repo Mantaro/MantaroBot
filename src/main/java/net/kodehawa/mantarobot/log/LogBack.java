@@ -13,7 +13,8 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 	private PatternLayout patternLayout;
 	private PatternLayout patternLayoutSentry;
 	private String[] filters = {
-			"PermissionException", "Read timed out", "timeout", "RatelimitedException", "ResponseProcessCookies", "Could not find tracks from mix."
+			"PermissionException", "Read timed out", "timeout", "RatelimitedException", "ResponseProcessCookies", "Could not find tracks from mix.",
+			"Data truncation: Data too long for column"
 	};
 	private String[] exactFilters = {
 			"Encountered an exception:"
@@ -35,14 +36,12 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 
 		for(String filtered : filters){
 			if(toSend.contains(filtered)) {
-				System.out.println("filtered " + filtered);
 				return;
 			}
 		}
 
 		for(String filtered : exactFilters){
 			if(toSend.equalsIgnoreCase(filtered)){
-				System.out.println("filtered " + filtered);
 				return;
 			}
 		}
@@ -50,7 +49,6 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 		if(event.getLevel().isGreaterOrEqual(Level.WARN)
 				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.contains("---- DISCONNECT")){
 			SentryHelper.captureMessageErrorContext(sentry, this.getClass(), "Log Back");
-			System.out.println("why");
 		}
 
 		if (toSend.length() < 1920){

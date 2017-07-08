@@ -47,6 +47,7 @@ public class Config {
 	public String rMQPassword;
 	public String rMQIP;
 	public String shardWebhookUrl;
+	public String apiLoginCreds;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.utils.rmq;
 
-import bsh.Interpreter;
 import com.rabbitmq.client.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -17,6 +16,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.RABBITMQ_FAILURE;
@@ -30,21 +31,20 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
     private Connection rMQConnection;
     @Getter
     public Channel mainrMQChannel;
+    @Getter
+    public Channel apirMQChannel;
+
 
     private final static String MAIN_QUEUE_NAME = "mantaro-nodes";
-    private final static String INFO_QUEUE_NAME = "mantaro-nodes";
-    private final static String API_QUEUE_NAME = "mantaro-api-node_" + MantaroBot.getInstance().getMantaroAPI().nodeId;
+    private final static String INFO_QUEUE_NAME = "mantaro-info";
+    private final static String API_QUEUE_NAME = "mantaro-api-noder";
     @Setter @Getter private JSONObject lastReceivedPayload = new JSONObject(); //{} if none
     @Setter @Getter public int apiCalls;
     @Setter @Getter public int nodeCalls;
 
     @SneakyThrows
     public RabbitMQDataManager(Config config) {
-        if(config.isBeta || config.isPremiumBot) return;
-
-        log.info("Starting up RabbitMQ connection to {}@{}");
-
-        Channel channel = getMainrMQChannel();
+        if(/*config.isBeta || */config.isPremiumBot) return;
 
         try{
             ConnectionFactory factory = new ConnectionFactory();
@@ -57,25 +57,25 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
 
             rMQConnection = factory.newConnection();
             log.info("Created RabbitMQ connection with properties: " + factory.getClientProperties());
-            mainrMQChannel = rMQConnection.createChannel();
-            log.info("Acknowledged #" + mainrMQChannel.getChannelNumber() + "on queue: " + MAIN_QUEUE_NAME);
+                mainrMQChannel = rMQConnection.createChannel();
+            log.info("Acknowledged #" + mainrMQChannel.getChannelNumber() + " on queue: " + MAIN_QUEUE_NAME);
         } catch (IOException | TimeoutException e){
             SentryHelper.captureException("Something went horribly wrong while setting up the RabbitMQ connection", e, this.getClass());
             System.exit(RABBITMQ_FAILURE);
         }
 
         Channel apiChannel = rMQConnection.createChannel();
-        log.info("Acknowledged #" + apiChannel.getChannelNumber() + "on queue: " + API_QUEUE_NAME);
+        log.info("Acknowledged #" + apiChannel.getChannelNumber() + " on queue: " + API_QUEUE_NAME);
 
         Channel infoChannel = rMQConnection.createChannel();
-        log.info("Acknowledged #" + infoChannel.getChannelNumber() + "on queue: " + INFO_QUEUE_NAME);
+        log.info("Acknowledged #" + infoChannel.getChannelNumber() + " on queue: " + INFO_QUEUE_NAME);
 
         //--------------------------------  MAIN QUEUE DECLARATION ---------------------------------------------
 
-        channel.exchangeDeclare("topic_action", "topic");
-        channel.queueDeclare(MAIN_QUEUE_NAME, false, false, false, null);
+        mainrMQChannel.exchangeDeclare("topic_action", "topic");
+        mainrMQChannel.queueDeclare(MAIN_QUEUE_NAME, false, false, false, null);
 
-        Consumer consumer = new DefaultConsumer(channel) {
+        Consumer consumer = new DefaultConsumer(mainrMQChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
                     throws IOException {
@@ -88,13 +88,14 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
             }
         };
 
-        channel.basicConsume(MAIN_QUEUE_NAME, true, consumer);
+        mainrMQChannel.basicConsume(MAIN_QUEUE_NAME, true, consumer);
 
         //--------------------------------  API QUEUE DECLARATION ---------------------------------------------
 
         apiChannel.exchangeDeclare("topic_api", "topic");
         apiChannel.queueDeclare(API_QUEUE_NAME, false, false, false, null);
 
+        apirMQChannel = apiChannel;
         Consumer apiConsumer = new DefaultConsumer(apiChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)
@@ -106,7 +107,15 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                 apiCalls++;
 
                 if(payload.has("action")){
+                    if(payload.has("node_identifier")){
+                        if(!payload.getString("node_identifier").equals(MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier.toString())){
+                            System.out.println("Received a request but the identfier doesn't match... maybe for another node?");
+                            return;
+                        }
+                    }
+
                     switch (NodeAction.valueOf(payload.getString("action"))){
+
                         case SHUTDOWN:
                             MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
                                 if (musicManager.getTrackScheduler() != null)
@@ -127,7 +136,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                             try{
                                 apiChannel.close();
                                 rMQConnection.close();
-                                channel.close();
+                                mainrMQChannel.close();
                             } catch (Exception e){}
 
                             System.exit(REMOTE_SHUTDOWN);
@@ -141,7 +150,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                 hardkill = payload.getBoolean("hardkill");
                             }
 
-                            channel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
+                            mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
                                     String.format("Attempt to restart node no.%d from API call: %d", nodeId, apiCalls),
                                     true
                             ));
@@ -164,7 +173,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                 try {
                                     MantaroBot.getInstance().getShardList().get(shardId).restartJDA(force);
 
-                                    channel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
+                                    mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
                                             String.format("Restarted shard no.%d from API call: %d", shardId, apiCalls),
                                             true
                                     ));
@@ -188,7 +197,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     formattedShardObject.put("current_node_shards_formatted", builder.toString());
                                     formattedShardObject.put("broadcast", false);
 
-                                    channel.basicPublish("", MAIN_QUEUE_NAME, null, formattedShardObject.toString().getBytes());
+                                    mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, formattedShardObject.toString().getBytes());
                                 } catch (Exception e) {
                                     SentryHelper.captureExceptionContext(
                                             String.format("Cannot restart shard no.%d from API call: %d (at %d)",
@@ -196,7 +205,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                             e, this.getClass(),
                                             "Restart worker");
 
-                                    channel.basicPublish("", MAIN_QUEUE_NAME, null, createFailureOutput(
+                                    mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, createFailureOutput(
                                             "restart", "warning",
                                             String.format("Cannot restart shard %d from API call: %d", shardId, apiCalls),
                                             true
