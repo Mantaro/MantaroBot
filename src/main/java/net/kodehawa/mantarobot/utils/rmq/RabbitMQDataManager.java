@@ -44,7 +44,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
 
     @SneakyThrows
     public RabbitMQDataManager(Config config) {
-        if(/*config.isBeta || */config.isPremiumBot) return;
+        if(config.isBeta || config.isPremiumBot) return;
 
         try{
             ConnectionFactory factory = new ConnectionFactory();

@@ -169,7 +169,7 @@ public class MantaroBot extends ShardedJDA {
 
 		Sentry.init(config.sentryDSN);
 
-		if(!MantaroData.config().get().isPremiumBot()/* && !MantaroData.config().get().isBeta()*/ && !mantaroAPI.configure()){
+		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()){
 			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
@@ -234,13 +234,14 @@ public class MantaroBot extends ShardedJDA {
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
 						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
-		if(!MantaroData.config().get().isPremiumBot()/* && !MantaroData.config().get().isBeta()*/){
+		if(!config.isPremiumBot() && !config.isBeta()){
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
 			mantaroAPI.getNodeTotal();
 		}
 
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			if(config.isBeta() || config.isPremiumBot()) return;
 			System.out.println("Shutdown hook activated!");
 			log.error("Received an unexpected shutdown! Broadcasting node shutdown!");
 			try{

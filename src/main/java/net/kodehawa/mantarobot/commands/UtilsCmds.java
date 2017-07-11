@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
@@ -33,7 +32,6 @@ import org.json.JSONObject;
 import us.monoid.web.Resty;
 
 import java.awt.*;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
@@ -460,81 +458,6 @@ public class UtilsCmds {
 						"Parameters", "`timezone` - **A valid timezone [no countries!] between GMT-12 and GMT+14**",
 						false
 					)
-					.build();
-			}
-		});
-	}
-
-	@Subscribe
-	public static void translate(CommandRegistry registry) {
-		registry.register("translate", new SimpleCommand(Category.UTILS) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				try {
-					TextChannel channel = event.getChannel();
-
-					if (!content.isEmpty()) {
-						String sourceLang = args[0];
-						String targetLang = args[1];
-						String textToEncode = content.replace(args[0] + " " + args[1] + " ", "");
-						String textEncoded = "";
-						String translatorUrl2;
-
-						try {
-							textEncoded = URLEncoder.encode(textToEncode, "UTF-8");
-						} catch (UnsupportedEncodingException ignored) {}
-
-						String translatorUrl = String.format("https://translate.google.com/translate_a/" +
-								"single?client=at&dt=t&dt=ld&dt=qca&dt=rm&dt=bd&dj=1&hl=es-ES&ie=UTF-8&oe=UTF-8&inputm=2" +
-								"&otf=2&iid=1dd3b944-fa62-4b55-b330-74909a99969e&sl=%1s&tl=%2s&dt=t&q=%3s", sourceLang,
-							targetLang,
-							textEncoded
-						);
-
-						try {
-							resty.identifyAsMozilla();
-							translatorUrl2 = resty.text(translatorUrl).toString();
-							JSONArray data = new JSONObject(translatorUrl2).getJSONArray("sentences");
-
-							for (int i = 0; i < data.length(); i++) {
-								JSONObject entry = data.getJSONObject(i);
-								channel.sendMessage(
-									":speech_balloon: " + "Translation for " + textToEncode + ": " + entry.getString
-										("trans")).queue();
-							}
-						} catch (IOException e) {
-							event.getChannel().sendMessage(
-								"I got an error while translating, Google doesn't like me " + EmoteReference.SAD
-									.getDiscordNotation())
-								.queue();
-						}
-					} else {
-						onHelp(event);
-					}
-				} catch (Exception e) {
-					event.getChannel().sendMessage(
-						"Error while fetching results. Google doesn't like us " + EmoteReference.SAD
-							.getDiscordNotation())
-						.queue();
-				}
-			}
-
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Translation command")
-					.setDescription("**Translates the given sentence**.")
-					.addField(
-						"Usage",
-						"`~>translate <sourcelang> <outputlang> <sentence>` - **Translates the specified sentence.**.",
-						false
-					)
-					.addField(
-						"Parameters",
-						"`sourcelang` - **The language the sentence is written in. Use codes (english = en)**\n"
-							+ "`outputlang` - **The language you want to translate to (french = fr, for example)**\n"
-							+ "`sentence` - **The sentence to translate.**", false
-					)
-					.setColor(Color.BLUE)
 					.build();
 			}
 		});

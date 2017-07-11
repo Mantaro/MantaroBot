@@ -43,8 +43,7 @@ public class MantaroAPI {
                 STATUS = APIStatus.RECEIVING_DATA;
                 long start = System.currentTimeMillis();
                 Request r = new Request.Builder()
-                        .url(String.format("http://%s/api/", MantaroData.config().get().apiUrl))
-                        .header("Authorization", sessionToken)
+                        .url(String.format("http://%s/", MantaroData.config().get().apiUrl))
                         .build();
 
                 httpClient.newCall(r).execute().close();
@@ -89,8 +88,7 @@ public class MantaroAPI {
             long start = System.currentTimeMillis();
             //ping
             Request r = new Request.Builder()
-                    .url(String.format("http://%s/api/", MantaroData.config().get().apiUrl))
-                    .header("Authorization", sessionToken)
+                    .url(String.format("http://%s/", MantaroData.config().get().apiUrl))
                     .build();
 
             httpClient.newCall(r).execute().close();

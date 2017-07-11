@@ -51,9 +51,7 @@ public class CustomCmds {
 		INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
 		NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
-	private static final net.kodehawa.mantarobot.modules.commands.base.Command customCommand = new AbstractCommand(
-		null) {
-
+	private static final net.kodehawa.mantarobot.modules.commands.base.Command customCommand = new AbstractCommand(null) {
 		@Override
 		public MessageEmbed help(GuildMessageReceivedEvent event) {
 			return null;

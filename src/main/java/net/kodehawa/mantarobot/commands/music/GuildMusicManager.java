@@ -32,7 +32,7 @@ public class GuildMusicManager {
 		this.trackScheduler = new TrackScheduler(audioPlayer, guild.getId(), MantaroBot.getInstance().getId(guild.getJDA()));
 		this.audioPlayer.addListener(trackScheduler);
 		this.audioPlayerSendHandler = new AudioPlayerSendHandler(audioPlayer);
-		this.audioPlayer.addListener(new AudioEventAdapter() {
+		/*this.audioPlayer.addListener(new AudioEventAdapter() {
 			@Override
 			public void onTrackStart(AudioPlayer player, AudioTrack track) {
 				super.onTrackStart(player, track);
@@ -54,7 +54,7 @@ public class GuildMusicManager {
 					SQLAction.getLog().error(null, e);
 				}
 			}
-		});
+		});*/
 	}
 
 	public AudioPlayerSendHandler getSendHandler() {

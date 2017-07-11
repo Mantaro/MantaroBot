@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.core;
 
+import com.mysql.cj.jdbc.exceptions.MysqlDataTruncation;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -75,7 +76,9 @@ public class CommandProcessor {
 				}
 			}).queue();
 		} catch (SQLException e) {
-			SQLAction.getLog().error(null, e);
+			if(!(e instanceof MysqlDataTruncation)){
+				SQLAction.getLog().error(null, e);
+			}
 		}
 	}
 
@@ -109,9 +112,9 @@ public class CommandProcessor {
 		try {
 			REGISTRY.process(event, cmdName, content);
 			LOGGER.trace("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
-			log(cmdName, content, event, 1);
+			//log(cmdName, content, event, 1);
 		} catch (Exception e) {
-			log(cmdName, content, event, 0);
+			//log(cmdName, content, event, 0);
 			throw e;
 		}
 		return true;
