@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.listeners.command;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.rethinkdb.gen.exc.ReqlError;
@@ -17,6 +16,7 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -50,9 +50,11 @@ public class CommandListener implements EventListener {
 
 	private final Random random = new Random();
 	private final int shardId;
+	private final MantaroShard shard;
 
-	public CommandListener(int shardId) {
+	public CommandListener(int shardId, MantaroShard shard) {
 		this.shardId = shardId;
+		this.shard = shard;
 	}
 
 	@Override
@@ -69,17 +71,14 @@ public class CommandListener implements EventListener {
 
 			if (msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
 
-			Async.thread("Cmd:" + msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator() + ":" + msg.getMessage().getRawContent(), () -> onCommand(msg));
+			shard.getCommandPool().execute(() -> onCommand(msg));
 
 			if (random.nextInt(15) > 10) {
 				if (((GuildMessageReceivedEvent) event).getMember() == null) return;
 				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
 				if(((GuildMessageReceivedEvent) event).getMember().getUser().isBot()) return;
 				if (player != null) {
-					//Note to myself: zero tends to infinity (or just NaN in this case).
-					//kill me
 					if (player.getLevel() == 0) player.setLevel(1);
-
 					player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
 
 					if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {

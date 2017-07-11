@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.rmq.NodeAction;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
@@ -164,6 +165,8 @@ public class MantaroBot extends ShardedJDA {
 
 	private MantaroBot() throws Exception {
         instance = this;
+
+        new BannerPrinter(1).printBanner();
 
 		Config config = MantaroData.config().get();
 

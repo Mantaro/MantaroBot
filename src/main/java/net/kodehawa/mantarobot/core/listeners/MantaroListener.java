@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -60,11 +61,13 @@ public class MantaroListener implements EventListener {
 	}
 	private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
 	private final int shardId;
+	private final MantaroShard shard;
 	private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 	private final RateLimiter spamModeLimiter = new RateLimiter(TimeUnit.SECONDS, 2, 3);
 
-	public MantaroListener(int shardId) {
+	public MantaroListener(int shardId, MantaroShard shard) {
 		this.shardId = shardId;
+		this.shard = shard;
 	}
 
 	@Override

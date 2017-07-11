@@ -123,7 +123,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                             });
 
                             Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
-                            Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdown(true));
+                            Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdownNow());
 
                             JSONObject shutdownPayload = new JSONObject();
                             shutdownPayload.put("shutdown", true);

@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
 import lombok.experimental.Delegate;
@@ -32,8 +33,9 @@ import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
@@ -43,6 +45,11 @@ public class MantaroShard implements JDA {
 	public static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
 	public static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
 	private static final Random RANDOM = new Random();
+	@Getter
+	private final ExecutorService threadPool;
+	@Getter
+	private final ExecutorService commandPool;
+
 
 	static {
 		if (SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
@@ -64,9 +71,22 @@ public class MantaroShard implements JDA {
 		this.totalShards = totalShards;
 		this.manager = manager;
 
+		ThreadFactory normalTPNamedFactory =
+				new ThreadFactoryBuilder()
+				.setNameFormat("MantaroShard-Executor[" + shardId + "/" + totalShards + "] Thread-%d")
+				.build();
+
+		ThreadFactory commandTPNamedFactory =
+				new ThreadFactoryBuilder()
+				.setNameFormat("MantaroShard-Command[" + shardId + "/" + totalShards + "] Thread-%d")
+				.build();
+
+		threadPool = new ThreadPoolExecutor(15, 15, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), normalTPNamedFactory);
+		commandPool = new ThreadPoolExecutor(20, 20, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), commandTPNamedFactory);
+
 		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
-		mantaroListener = new MantaroListener(shardId);
-		commandListener = new CommandListener(shardId);
+		mantaroListener = new MantaroListener(shardId, this);
+		commandListener = new CommandListener(shardId, this);
 
 		restartJDA(false);
 	}

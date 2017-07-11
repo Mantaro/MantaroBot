@@ -12,7 +12,7 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class SQLAction {
 	private static final ExecutorService SQL_SERVICE = Executors.newCachedThreadPool(r -> {
-		Thread t = new Thread(r, "SQL Thread ");
+		Thread t = new Thread(r, "SQL Thread");
 		t.setDaemon(true);
 		return t;
 	});

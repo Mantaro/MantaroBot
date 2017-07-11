@@ -183,7 +183,7 @@ public class OptsCmd {
 				"Sets the server autorole. This means every user who joins will get this role. **You need to use the role name, if it contains spaces" +
 						" you need to wrap it in quotation marks**\n" +
 						"**Example:** `~>opts autorole set Member`, `~>opts autorole set \"Magic Role\"`",
-				"Sets the server prefix.", (event, args) -> {
+				"Sets the server autorole.", (event, args) -> {
 			if (args.length == 0) {
 				onHelp(event);
 				return;
