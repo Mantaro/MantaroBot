@@ -6,6 +6,7 @@ import bsh.Interpreter;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -14,6 +15,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
@@ -23,11 +25,14 @@ import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.rmq.NodeAction;
 import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
+import org.json.JSONObject;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.*;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.ResultSet;
@@ -53,7 +58,7 @@ public class OwnerCmd {
 	private static final String[] sleepQuotes = {
 		"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*",
 		"*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*",
-		"Momma, where's my Milk cup? *drinks and goes to sleep*"
+		"Momma, where's my Milk cup? *drinks and goes to sleep*", "I-I don't wanna go to bed yet! Waaah... okay fine"
 	};
 
 	@Subscribe
@@ -103,8 +108,8 @@ public class OwnerCmd {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Blacklist command")
 					.setDescription("**Blacklists a user (user argument) or a guild (guild argument) by id.**")
-					.setFooter("Examples", "~>blacklist user add/remove 293884638101897216\n" +
-						"~>blacklist guild add/remove 305408763915927552")
+					.addField("Examples", "~>blacklist user add/remove 293884638101897216\n" +
+						"~>blacklist guild add/remove 305408763915927552", false)
 					.build();
 			}
 		});
@@ -620,12 +625,6 @@ public class OwnerCmd {
 					dummy.add(url);
 					toAdd.put(type, dummy);
 
-					/*System.out.println(Unirest.post("http://127.0.0.1:4454/api/p/actions?type=" + type)
-							.header("Content-Type", "application/json")
-							.body(GsonDataManager.GSON_PRETTY.toJson(toAdd))
-							.asString()
-							.getBody());*/
-
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Added gif to the API.").queue();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -730,9 +729,21 @@ public class OwnerCmd {
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
-        /*Unirest.post(
-                String.format("http://%s/api/nodev1/shutdown?nodeid=%d", MantaroData.config().get().apiUrl,  MantaroBot.getInstance().getMantaroAPI().nodeId))
-                .asString();*/
+		if(!MantaroData.config().get().isBeta() && !MantaroData.config().get().isPremiumBot()){
+			System.out.println("Shutdown hook activated!");
+			log.error("Received an unexpected shutdown! Broadcasting node shutdown!");
+			try{
+				JSONObject mqSend = new JSONObject();
+				mqSend.put("action", NodeAction.SHUTDOWN);
+				mqSend.put("node_id", MantaroBot.getInstance().getMantaroAPI().nodeId);
+				mqSend.put("node_identifier", MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier);
+				MantaroBot.getInstance().getRabbitMQDataManager().apirMQChannel.basicPublish("",
+						"mantaro_nodes", null, mqSend.toString().getBytes());
+			} catch (IOException e){
+				LogUtils.log("Couldn't send node shutdown signal? Guessing everything just exploded.");
+				e.printStackTrace();
+			}
+		}
 
 		Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
 			mantaroShard -> mantaroShard.getJDA().shutdown(true));

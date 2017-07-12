@@ -37,7 +37,7 @@ public class DiscordUtils {
 
 
 	public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-		return InteractiveOperations.create(event.getChannel(), 20, (e) -> {
+		return InteractiveOperations.createOverriding(event.getChannel(), 20, (e) -> {
 			if (!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
 			try {

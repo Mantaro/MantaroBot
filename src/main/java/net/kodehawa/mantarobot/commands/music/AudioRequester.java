@@ -181,15 +181,9 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 		builder.setDescription(b);
 
-		/*if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION) ||
-				!MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus()) {
-
-            return;
-        }}*/
-
         event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
 		IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), false);
-            DiscordUtils.selectInt(event, 5, consumer);
+        DiscordUtils.selectInt(event, 5, consumer);
 
         /*long id = event.getAuthor().getIdLong(); //just in case someone else uses play before timing out
         int max = tracks.size();
