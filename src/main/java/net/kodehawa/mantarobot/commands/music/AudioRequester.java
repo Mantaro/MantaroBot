@@ -183,15 +183,17 @@ public class AudioRequester implements AudioLoadResultHandler {
 
 		builder.setDescription(b);
 
-		if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION) ||
+		/*if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION) ||
 				!MantaroData.db().getGuild(event.getGuild()).getData().isReactionMenus()) {
-            event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
-            IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), false);
-            DiscordUtils.selectInt(event, 5, consumer);
-            return;
-        }
 
-        long id = event.getAuthor().getIdLong(); //just in case someone else uses play before timing out
+            return;
+        }}*/
+
+        event.getChannel().sendMessage(builder.setDescription(b.toString()).build()).queue();
+		IntConsumer consumer = (c) -> loadSingle(playlist.getTracks().get(c - 1), false);
+            DiscordUtils.selectInt(event, 5, consumer);
+
+        /*long id = event.getAuthor().getIdLong(); //just in case someone else uses play before timing out
         int max = tracks.size();
         ReactionOperations.create(event.getChannel().sendMessage(builder.build()).complete(), 15, (e)->{
             if(e.getUser().getIdLong() != id) return Operation.IGNORED;
@@ -199,6 +201,6 @@ public class AudioRequester implements AudioLoadResultHandler {
             if(i < 1 || i > max) return Operation.RESET_TIMEOUT;
             loadSingle(tracks.get(i - 1), false);
             return Operation.COMPLETED;
-        }, "\u0031\u20e3", "\u0032\u20e3", "\u0033\u20e3", "\u0034\u20e3");
+        }, "\u0031\u20e3", "\u0032\u20e3", "\u0033\u20e3", "\u0034\u20e3");*/
 	}
 }

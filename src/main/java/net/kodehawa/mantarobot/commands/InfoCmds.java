@@ -671,6 +671,7 @@ public class InfoCmds {
 	}
 
 	private static String ratePing(long ping) {
+		if(ping == 69) return "l-lewd";
 		if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
 		if (ping <= 10) return "faster than Sonic! :smiley:";
 		if (ping <= 100) return "great! :smiley:";
