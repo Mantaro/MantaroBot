@@ -80,6 +80,7 @@ public class MantaroListener implements EventListener {
 		}
 
 		if (event instanceof GuildMessageReceivedEvent) {
+			MantaroBot.getInstance().getStatsClient().increment("messages_received");
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 			Async.thread("BirthdayThread", () -> onMessage(e));
 			return;
@@ -117,11 +118,13 @@ public class MantaroListener implements EventListener {
 		}
 
 		if (event instanceof GuildJoinEvent) {
+			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
 			Async.thread("LogThread(GuildJoin)", () -> onJoin((GuildJoinEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildLeaveEvent) {
+			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
 			Async.thread("LogThread(GuildLeave)", () -> onLeave((GuildLeaveEvent) event));
 		}
 
@@ -135,6 +138,7 @@ public class MantaroListener implements EventListener {
 		}
 
 		if (event instanceof ExceptionEvent) {
+			MantaroBot.getInstance().getStatsClient().increment("exceptions");
 			onException((ExceptionEvent) event);
 		}
 
@@ -170,6 +174,9 @@ public class MantaroListener implements EventListener {
 				if (event.getRequestBodyRaw() != null) System.out.println(event.getRequestBodyRaw());
 				System.out.println("Response code: " + event.getResponseRaw().code());
 				System.out.println("--------------------");
+				MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("Failed HTTP request")
+						.withText(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute() + " | Response code: " + event.getResponseRaw().code())
+						.withDate(new Date()).build());
 			}
 		} catch (Exception e){}
 	}
@@ -242,7 +249,19 @@ public class MantaroListener implements EventListener {
 	private void logStatusChange(StatusChangeEvent event) {
 		JDA jda = event.getJDA();
 		if (jda.getShardInfo() == null) return;
+
+		if(event.getStatus().equals(JDA.Status.CONNECTED)){
+			MantaroBot.getInstance().getStatsClient().increment("shard.connect");
+			MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected").withDate(new Date()).build());
+		}
+
+		if(event.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT)){
+			MantaroBot.getInstance().getStatsClient().increment("shard.reconnect");
+			MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect").withDate(new Date()).build());
+		}
+
 		LogUtils.shardSimple(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+		MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("Shard [" + event.getStatus() + "] (" + shardId + ")").withDate(new Date()).build());
 	}
 	//endregion
 
@@ -297,6 +316,7 @@ public class MantaroListener implements EventListener {
 				return;
 			}
 
+			MantaroBot.getInstance().getStatsClient().increment("guild_join");
 			tc.sendMessage(String.format(
 				EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members) [ID: `%s`, Owner:`%s#%s`]",
 				hour, event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(),
@@ -325,7 +345,7 @@ public class MantaroListener implements EventListener {
 				logTotal++;
 				return;
 			}
-
+			MantaroBot.getInstance().getStatsClient().increment("guild_leave");
 			tc.sendMessage(String
 				.format(EmoteReference.SAD + "`[%s]` I left a guild with name: ``%s`` (%s members)", hour,
 					event.getGuild().getName(), event.getGuild().getMembers().size()
@@ -372,6 +392,7 @@ public class MantaroListener implements EventListener {
 					&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)){
 				Member bot = event.getGuild().getSelfMember();
 
+				MantaroBot.getInstance().getStatsClient().increment("links_blocked");
 				if(bot.hasPermission(Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)){
 					User author = event.getAuthor();
 
@@ -438,9 +459,11 @@ public class MantaroListener implements EventListener {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 				if (user.getBirthday().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
 					if (!event.getMember().getRoles().contains(birthdayRole)) {
-						event.getGuild().getController().addRolesToMember(event.getMember(), birthdayRole).queue(s ->
-							channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
-								event.getMember().getEffectiveName())).queue()
+						event.getGuild().getController().addRolesToMember(event.getMember(), birthdayRole).queue(s ->{
+									channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
+											event.getMember().getEffectiveName())).queue();
+									MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
+								}
 						);
 					}
 				} else {

@@ -63,6 +63,7 @@ dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
 
     compileOnly "org.projectlombok:lombok:1.16.16"
+	compile 'com.datadoghq:java-dogstatsd-client:2.3'
 }
 
 task wrapper(type: Wrapper) {

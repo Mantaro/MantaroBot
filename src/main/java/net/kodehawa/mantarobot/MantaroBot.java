@@ -2,6 +2,9 @@ package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
+import com.timgroup.statsd.Event;
+import com.timgroup.statsd.NonBlockingStatsDClient;
+import com.timgroup.statsd.StatsDClient;
 import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +44,7 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -115,6 +115,14 @@ public class MantaroBot extends ShardedJDA {
 	private MantaroAudioManager audioManager;
 	@Getter
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+	@Getter
+	private final StatsDClient statsClient = new NonBlockingStatsDClient(
+			"mantaro",
+			"localhost",
+			8125,
+			"tag:value"
+	);
+
 
 	public static void main(String[] args) {
 		if (System.getProperty("mantaro.verbose") != null) {
@@ -165,6 +173,15 @@ public class MantaroBot extends ShardedJDA {
 
 	private MantaroBot() throws Exception {
         instance = this;
+
+		statsClient.recordEvent(
+        		Event.builder()
+						.withTitle("Startup")
+						.withText("Started up Mantaro")
+						.withDate(new Date())
+						.withPriority(Event.Priority.LOW)
+						.build()
+		);
 
         new BannerPrinter(1).printBanner();
 

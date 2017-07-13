@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -113,6 +114,8 @@ public class AudioRequester implements AudioLoadResultHandler {
 	}
 
 	private void loadSingle(AudioTrack audioTrack, boolean silent) {
+		MantaroBot.getInstance().getStatsClient().increment("music_tracks_loaded");
+
 		AudioTrackInfo trackInfo = audioTrack.getInfo();
 		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 		GuildData guildData = dbGuild.getData();

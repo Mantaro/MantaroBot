@@ -47,10 +47,12 @@ public class MantaroData {
 	}
 
 	public static void queue(Callable<?> action) {
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 		getExecutor().submit(action);
 	}
 
 	public static void queue(Runnable runnable) {
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 		getExecutor().submit(runnable);
 	}
 }
