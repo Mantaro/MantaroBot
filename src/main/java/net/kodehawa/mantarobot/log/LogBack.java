@@ -14,7 +14,8 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 	private PatternLayout patternLayoutSentry;
 	private String[] filters = {
 			"PermissionException", "Read timed out", "timeout", "RatelimitedException", "ResponseProcessCookies", "Could not find tracks from mix.",
-			"Data truncation: Data too long for column"
+			"Data truncation: Data too long for column", "RestAction queue returned failure: [ErrorResponseException] -1: ERROR",
+			"RestAction queue returned failure: [ErrorResponseException] 10008: Unknown Message", "RestAction queue returned failure: [ErrorResponseException] 50001: Missing Access"
 	};
 	private String[] exactFilters = {
 			"Encountered an exception:"

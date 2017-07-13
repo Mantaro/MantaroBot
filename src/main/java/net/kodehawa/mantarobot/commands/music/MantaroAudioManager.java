@@ -25,22 +25,6 @@ public class MantaroAudioManager {
 		this.musicManagers = new HashMap<>();
 		this.playerManager = new DefaultAudioPlayerManager();
 		registerRemoteSources(playerManager);
-
-		try {
-			SQLDatabase.getInstance().run((conn) -> {
-				try {
-					conn.prepareStatement("CREATE TABLE IF NOT EXISTS PLAYED_SONGS (" +
-						"id varchar(15)," +
-						"times_played int," +
-						"PRIMARY KEY(id)" +
-						");").executeUpdate();
-				} catch (SQLException e) {
-					SQLAction.getLog().error(null, e);
-				}
-			}).queue();
-		} catch (SQLException e) {
-			SQLAction.getLog().error(null, e);
-		}
 	}
 
 	public synchronized GuildMusicManager getMusicManager(Guild guild) {

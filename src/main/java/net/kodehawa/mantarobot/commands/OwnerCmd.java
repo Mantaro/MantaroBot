@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.modules.commands.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -275,11 +276,11 @@ public class OwnerCmd {
 								Long.parseLong(values[1]);
 								userId = values[1];
 							} catch (Exception e) {
-								if(event.getMessage().getMentionedUsers().isEmpty()){
-									event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
+								if(!event.getMessage().getMentionedUsers().isEmpty()){
+									userId = event.getMessage().getMentionedUsers().get(0).getId();
 									return;
 								} else {
-									userId = event.getMessage().getMentionedUsers().get(0).getId();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid user id").queue();
 									return;
 								}
 							}
@@ -538,54 +539,6 @@ public class OwnerCmd {
 					return;
 				}
 
-				if (option.equals("query")) {
-					try {
-						String[] values1 = SPLIT_PATTERN.split(content);
-						String expression = content.replace(values1[0] + " ", "");
-						SQLDatabase.getInstance().run((conn) -> {
-							try {
-								ResultSet set;
-								try {
-									set = conn.prepareStatement(expression).executeQuery();
-								} catch (SQLException e) {
-									try {
-										conn.prepareStatement(expression).execute();
-										event.getChannel().sendMessage(" Query was successfully executed!").queue();
-									} catch (SQLException e1) {
-										event.getChannel().sendMessage(
-											"Failed to execute query! " + Utils.paste(getStackTrace(e1))).queue();
-									}
-									return;
-								}
-								List<String> header = new ArrayList<>();
-								List<List<String>> table = new ArrayList<>();
-								ResultSetMetaData metaData = set.getMetaData();
-								int columnsCount = metaData.getColumnCount();
-								for (int i = 0; i < columnsCount; i++) {
-									header.add(metaData.getColumnName(i + 1));
-								}
-								while (set.next()) {
-									List<String> row = new ArrayList<>();
-									for (int i = 0; i < columnsCount; i++) {
-										String s = String.valueOf(set.getString(i + 1)).trim();
-										row.add(s.substring(0, Math.min(30, s.length())));
-									}
-									table.add(row);
-								}
-								String output = makeAsciiTable(header, table, null);
-								event.getChannel().sendMessage(Utils.paste(output)).queue();
-							} catch (SQLException e) {
-								event.getChannel().sendMessage(
-									" Failed to build ascii table! " + Utils.paste(getStackTrace(e))).queue();
-							}
-						}).queue();
-					} catch (SQLException e) {
-						event.getChannel().sendMessage(" Failed to run query! " + Utils.paste(getStackTrace(e)))
-							.queue();
-					}
-					return;
-				}
-
 				onHelp(event);
 			}
 
@@ -741,11 +694,11 @@ public class OwnerCmd {
 						"mantaro_nodes", null, mqSend.toString().getBytes());
 			} catch (IOException e){
 				LogUtils.log("Couldn't send node shutdown signal? Guessing everything just exploded.");
-				e.printStackTrace();
+				SentryHelper.captureException("Couldn't send node shutdown signal? Guessing everything just exploded", e, OwnerCmd.class);
 			}
 		}
 
 		Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
-			mantaroShard -> mantaroShard.getJDA().shutdown(true));
+			mantaroShard -> mantaroShard.getJDA().shutdownNow());
 	}
 }

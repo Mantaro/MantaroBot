@@ -32,29 +32,6 @@ public class GuildMusicManager {
 		this.trackScheduler = new TrackScheduler(audioPlayer, guild.getId(), MantaroBot.getInstance().getId(guild.getJDA()));
 		this.audioPlayer.addListener(trackScheduler);
 		this.audioPlayerSendHandler = new AudioPlayerSendHandler(audioPlayer);
-		/*this.audioPlayer.addListener(new AudioEventAdapter() {
-			@Override
-			public void onTrackStart(AudioPlayer player, AudioTrack track) {
-				super.onTrackStart(player, track);
-				try {
-					SQLDatabase.getInstance().run((conn) -> {
-						try {
-							PreparedStatement statement = conn.prepareStatement("INSERT INTO PLAYED_SONGS " +
-								"VALUES(" +
-								"?, " +
-								"1" +
-								") ON DUPLICATE KEY UPDATE times_played = times_played + 1;");
-							statement.setString(1, track.getInfo().identifier);
-							statement.executeUpdate();
-						} catch (SQLException e) {
-							SQLAction.getLog().error(null, e);
-						}
-					}).queue();
-				} catch (SQLException e) {
-					SQLAction.getLog().error(null, e);
-				}
-			}
-		});*/
 	}
 
 	public AudioPlayerSendHandler getSendHandler() {
