@@ -176,7 +176,7 @@ public class MantaroBot extends ShardedJDA {
 
 		statsClient.recordEvent(
         		Event.builder()
-						.withTitle("Startup")
+						.withTitle("startup")
 						.withText("Started up Mantaro")
 						.withDate(new Date())
 						.withPriority(Event.Priority.LOW)

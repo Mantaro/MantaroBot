@@ -191,10 +191,6 @@ public class TrackScheduler extends AudioEventAdapter {
 		AudioTrackContext previousTrack;
 
 		try {
-			MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-			manager.getMusicManagers().remove(guildId);
-			m.setSendingHandler(null);
-
 			previousTrack = getPreviousTrack();
 			if (previousTrack != null && previousTrack.getRequestedChannel() != null && previousTrack.getRequestedChannel().canTalk())
 				previousTrack.getRequestedChannel().sendMessage(":mega: Finished playing queue! Hope you enjoyed it.").queue(

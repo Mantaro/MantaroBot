@@ -165,6 +165,7 @@ public class MantaroListener implements EventListener {
 
 	public void onHttpRequest(HttpRequestEvent event)
 	{
+		MantaroBot.getInstance().getStatsClient().incrementCounter("http_requests");
 		try{
 			if(!event.getResponse().isOk()){
 				System.out.println("--------------------");
@@ -252,16 +253,23 @@ public class MantaroListener implements EventListener {
 
 		if(event.getStatus().equals(JDA.Status.CONNECTED)){
 			MantaroBot.getInstance().getStatsClient().increment("shard.connect");
-			MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected").withDate(new Date()).build());
+			MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected")
+					.withText("Shard connected")
+					.withDate(new Date()).build());
 		}
 
 		if(event.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT)){
 			MantaroBot.getInstance().getStatsClient().increment("shard.reconnect");
-			MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect").withDate(new Date()).build());
+			MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
+					.withText("Shard reconnecting")
+					.withDate(new Date()).build());
 		}
 
 		LogUtils.shardSimple(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
-		MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("Shard [" + event.getStatus() + "] (" + shardId + ")").withDate(new Date()).build());
+		MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle(
+				"Shard [" + event.getStatus() + "] (" + shardId + ")")
+				.withText("Shard event")
+				.withDate(new Date()).build());
 	}
 	//endregion
 

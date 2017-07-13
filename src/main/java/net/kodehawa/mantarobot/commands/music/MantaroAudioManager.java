@@ -10,10 +10,7 @@ import com.sedmelluq.discord.lavaplayer.source.vimeo.VimeoAudioSourceManager;
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.utils.sql.SQLAction;
-import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 

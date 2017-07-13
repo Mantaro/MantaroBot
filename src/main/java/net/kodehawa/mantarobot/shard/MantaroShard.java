@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.shard;
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
+import com.timgroup.statsd.Event;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
@@ -81,8 +82,8 @@ public class MantaroShard implements JDA {
 				.setNameFormat("MantaroShard-Command[" + shardId + "/" + totalShards + "] Thread-%d")
 				.build();
 
-		threadPool = new ThreadPoolExecutor(15, 15, 20, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), normalTPNamedFactory);
-		commandPool = new ThreadPoolExecutor(20, 20, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), commandTPNamedFactory);
+		threadPool = Executors.newCachedThreadPool(normalTPNamedFactory);
+		commandPool = Executors.newCachedThreadPool(commandTPNamedFactory);
 
 		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		mantaroListener = new MantaroListener(shardId, this);

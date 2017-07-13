@@ -2,8 +2,6 @@ package net.kodehawa.mantarobot.commands.music;
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
-import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Guild;
@@ -11,11 +9,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.sql.SQLAction;
-import net.kodehawa.mantarobot.utils.sql.SQLDatabase;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
