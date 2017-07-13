@@ -116,12 +116,7 @@ public class MantaroBot extends ShardedJDA {
 	@Getter
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	@Getter
-	private final StatsDClient statsClient = new NonBlockingStatsDClient(
-			"mantaro",
-			"localhost",
-			8125,
-			"tag:value"
-	);
+	private final StatsDClient statsClient;
 
 
 	public static void main(String[] args) {
@@ -173,6 +168,14 @@ public class MantaroBot extends ShardedJDA {
 
 	private MantaroBot() throws Exception {
         instance = this;
+		Config config = MantaroData.config().get();
+
+        statsClient = new NonBlockingStatsDClient(
+				config.isPremiumBot() ? "mantaro-patreon" : config.isBeta() ? "mantaro-local" : "mantaro",
+				"localhost",
+				8125,
+				"tag:value"
+		);
 
 		statsClient.recordEvent(
         		Event.builder()
@@ -185,7 +188,6 @@ public class MantaroBot extends ShardedJDA {
 
         new BannerPrinter(1).printBanner();
 
-		Config config = MantaroData.config().get();
 
 		Sentry.init(config.sentryDSN);
 
