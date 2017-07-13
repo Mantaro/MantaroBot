@@ -306,28 +306,14 @@ public class MantaroListener implements EventListener {
 
 	private void onJoin(GuildJoinEvent event) {
 		try {
-			TextChannel tc = getLogChannel();
-			String hour = df.format(new Date(System.currentTimeMillis()));
-
 			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
 				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(
 				event.getGuild().getOwner().getUser().getId())) {
 				event.getGuild().leave().queue();
-				tc.sendMessage(String.format(
-					EmoteReference.MEGA + "`[%s]` I left a guild with name: ``%s`` (%s members) since it was blacklisted.",
-					hour, event.getGuild().getName(), event.getGuild().getMembers().size()
-				)).queue();
 				return;
 			}
 
 			MantaroBot.getInstance().getStatsClient().increment("guild_join");
-			tc.sendMessage(String.format(
-				EmoteReference.MEGA + "`[%s]` I joined a new guild with name: ``%s`` (%s members) [ID: `%s`, Owner:`%s#%s`]",
-				hour, event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId(),
-				event.getGuild().getOwner().getEffectiveName(), event.getGuild().getOwner().getUser().getDiscriminator()
-			)).queue();
-			logTotal++;
-
 			GuildStatsManager.log(LoggedEvent.JOIN);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
@@ -338,24 +324,7 @@ public class MantaroListener implements EventListener {
 
 	private void onLeave(GuildLeaveEvent event) {
 		try {
-			TextChannel tc = getLogChannel();
-			String hour = df.format(new Date(System.currentTimeMillis()));
-
-			if (event.getGuild().getMembers().isEmpty()) {
-				tc.sendMessage(String
-					.format(EmoteReference.THINKING + "`[%s]` A guild with name: ``%s`` just got deleted.", hour,
-						event.getGuild().getName()
-					)).queue();
-				logTotal++;
-				return;
-			}
 			MantaroBot.getInstance().getStatsClient().increment("guild_leave");
-			tc.sendMessage(String
-				.format(EmoteReference.SAD + "`[%s]` I left a guild with name: ``%s`` (%s members)", hour,
-					event.getGuild().getName(), event.getGuild().getMembers().size()
-				)).queue();
-			logTotal++;
-
 			MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
 			GuildStatsManager.log(LoggedEvent.LEAVE);
 		} catch (Exception e) {
