@@ -266,10 +266,6 @@ public class MantaroListener implements EventListener {
 		}
 
 		LogUtils.shardSimple(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
-		MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle(
-				"Shard [" + event.getStatus() + "] (" + shardId + ")")
-				.withText("Shard event")
-				.withDate(new Date()).build());
 	}
 	//endregion
 
