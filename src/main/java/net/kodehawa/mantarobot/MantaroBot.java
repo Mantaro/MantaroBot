@@ -171,7 +171,7 @@ public class MantaroBot extends ShardedJDA {
 		Config config = MantaroData.config().get();
 
         statsClient = new NonBlockingStatsDClient(
-				config.isPremiumBot() ? "mantaro-patreon" : config.isBeta() ? "mantaro-local" : "mantaro",
+				config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
 				"localhost",
 				8125,
 				"tag:value"
