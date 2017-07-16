@@ -35,15 +35,14 @@ public class ActionCmds {
 	static final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
 	static final DataManager<List<String>> POKES = new SimpleFileDataManager("assets/mantaro/texts/pokes.txt");
 	static final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
-	private static final DataManager<List<String>> BLEACH = new SimpleFileDataManager(
-		"assets/mantaro/texts/bleach.txt");
-	private static final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager(
-		"assets/mantaro/texts/highfives.txt");
+	private static final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
+	private static final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
 	private static final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
 	private static final DataManager<List<String>> POUTS = new SimpleFileDataManager("assets/mantaro/texts/pouts.txt");
-	private static final DataManager<List<String>> TICKLES = new SimpleFileDataManager(
-		"assets/mantaro/texts/tickles.txt");
+	private static final DataManager<List<String>> TICKLES = new SimpleFileDataManager("assets/mantaro/texts/tickles.txt");
 	private static final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
+	private static final DataManager<List<String>> LEWD = new SimpleFileDataManager("assets/mantaro/texts/lewd.txt");
+	private static final DataManager<List<String>> FACEDESK = new SimpleFileDataManager("assets/mantaro/texts/facedesk.txt");
 
 	@Subscribe
 	public static void action(CommandRegistry registry) {
