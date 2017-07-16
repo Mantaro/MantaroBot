@@ -34,6 +34,9 @@ public class GuildMusicManager {
 
     public synchronized void leave() {
         Guild guild = trackScheduler.getGuild();
+
+        if(guild == null) return;
+
         (trackScheduler.getCurrentTrack() == null ?
                 guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(()-> new IllegalStateException("No channel to speak")) :
                 trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.THINKING + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +

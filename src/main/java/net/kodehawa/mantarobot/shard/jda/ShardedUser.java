@@ -92,12 +92,6 @@ public class ShardedUser implements User {
 	}
 
 	@Override
-    @Deprecated
-	public PrivateChannel getPrivateChannel() {
-		throw new UnsupportedOperationException("Use openPrivateChannel");
-	}
-
-	@Override
 	public boolean isBot() {
 		return random(users).isBot();
 	}
