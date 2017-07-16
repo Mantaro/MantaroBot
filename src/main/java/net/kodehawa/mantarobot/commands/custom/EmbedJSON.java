@@ -6,6 +6,9 @@ import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +71,7 @@ public class EmbedJSON {
 		if (description != null) embed.setDescription(description);
 		if (author != null) embed.setAuthor(author, authorUrl, authorImg);
 		if (footer != null) embed.setFooter(footer, footerImg);
-		if (image != null) embed.setImage(image);
+		if (image != null && urlExists(image)) embed.setImage(image);
 		if (thumbnail != null) embed.setThumbnail(thumbnail);
 		if (color != null) {
 			Color c = null;
@@ -98,6 +101,18 @@ public class EmbedJSON {
 		});
 
 		return embed.build();
+	}
+
+	public boolean urlExists(String URLName){
+		try {
+			HttpURLConnection.setFollowRedirects(false);
+			HttpURLConnection con = (HttpURLConnection) new URL(URLName).openConnection();
+			con.setRequestMethod("HEAD");
+			return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+		}
+		catch (Exception e) {
+			return false;
+		}
 	}
 
 }

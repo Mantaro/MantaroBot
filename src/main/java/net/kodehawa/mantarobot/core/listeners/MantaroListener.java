@@ -306,6 +306,7 @@ public class MantaroListener implements EventListener {
 
 	private void onJoin(GuildJoinEvent event) {
 		try {
+
 			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
 				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(
 				event.getGuild().getOwner().getUser().getId())) {
@@ -325,8 +326,7 @@ public class MantaroListener implements EventListener {
 	private void onLeave(GuildLeaveEvent event) {
 		try {
 			MantaroBot.getInstance().getStatsClient().increment("guild_leave");
-			//TODO re-enable
-			//MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
+			MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
 			GuildStatsManager.log(LoggedEvent.LEAVE);
 		} catch (Exception e) {
 			if (!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
