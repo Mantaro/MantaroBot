@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands;
+/*package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -1018,4 +1018,4 @@ public class MusicCmds {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
 		});
 	}
-}
+}*/

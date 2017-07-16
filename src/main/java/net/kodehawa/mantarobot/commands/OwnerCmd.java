@@ -315,10 +315,11 @@ public class OwnerCmd {
 				if (option.equals("shutdown") || option.equals("restart")) {
 
 					if (args.length == 2) {
-						try {
-							notifyMusic(args[1]).get();
+						/*try {
+							//TODO re-enable
+							//notifyMusic(args[1]).get();
 						} catch (InterruptedException | ExecutionException ignored) {
-						}
+						}*/
 					}
 
 					try {
@@ -348,10 +349,11 @@ public class OwnerCmd {
 
 				if (option.equals("forceshutdown") || option.equals("forcerestart")) {
 					if (args.length == 2) {
-						try {
-							notifyMusic(args[1]).get();
+						/*try {
+							//TODO re-enable
+							//notifyMusic(args[1]).get();
 						} catch (InterruptedException | ExecutionException ignored) {
-						}
+						}*/
 					}
 
 					try {
@@ -388,7 +390,8 @@ public class OwnerCmd {
 				String value = args[1];
 
 				if (option.equals("notifymusic")) {
-					notifyMusic(value);
+					//TODO re-enable
+					//notifyMusic(value);
 					event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
 					return;
 				}
@@ -651,7 +654,8 @@ public class OwnerCmd {
 		return sb.toString();
 	}
 
-	private static CompletableFuture<Void> notifyMusic(String content) {
+	//TODO re-enable
+	/*private static CompletableFuture<Void> notifyMusic(String content) {
 		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
 			.stream()
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
@@ -661,12 +665,13 @@ public class OwnerCmd {
 				.sendMessage(content).submit())
 			.map(future -> (CompletableFuture<Message>) future)
 			.toArray(CompletableFuture[]::new));
-	}
+	}*/
 
 	private static void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
-		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+		//TODO re-enable
+		/*MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
-		});
+		});*/
 
 		try {
 			MantaroData.connectionWatcher().close();

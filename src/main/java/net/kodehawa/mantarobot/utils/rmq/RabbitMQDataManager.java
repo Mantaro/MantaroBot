@@ -117,10 +117,11 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                     switch (NodeAction.valueOf(payload.getString("action"))){
 
                         case SHUTDOWN:
-                            MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+                            //TODO re-enable
+                            /*MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
                                 if (musicManager.getTrackScheduler() != null)
                                     musicManager.getTrackScheduler().stop();
-                            });
+                            });*/
 
                             Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
                             Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdownNow());

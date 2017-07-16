@@ -235,10 +235,6 @@ public abstract class ShardedJDA implements UnifiedJDA {
 			.collect(Collectors.toList());
 	}
 
-	private <T extends ISnowflake> Map<String, T> map(List<T> list) {
-		return list.stream().collect(Collectors.toMap(ISnowflake::getId, UnaryOperator.identity()));
-	}
-
 	@Override
 	public AuditableRestAction<Void> installAuxiliaryCable(int port) {
 		return null;

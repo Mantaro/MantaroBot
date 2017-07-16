@@ -40,10 +40,11 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
 					if (json.has("action")) {
 						switch (json.getString("action")) {
 							case "shutdown":
-								MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+								//TODO re-enable
+								/*MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 									if (musicManager.getTrackScheduler() != null)
 										musicManager.getTrackScheduler().stop();
-								});
+								});*/
 
 								Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
 

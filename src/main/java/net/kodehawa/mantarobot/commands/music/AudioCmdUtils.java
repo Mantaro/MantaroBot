@@ -33,7 +33,7 @@ public class AudioCmdUtils {
 		event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
 	}
 
-	public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
+	/*public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
 		String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
         Guild guild = event.getGuild();
 
@@ -135,7 +135,7 @@ public class AudioCmdUtils {
             return builder;
         }, lines);
 	}
-
+*/
 	public static String getDurationMinutes(long length) {
 		return String.format("%d:%02d minutes",
 			TimeUnit.MILLISECONDS.toMinutes(length),

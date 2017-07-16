@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.commands.music;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 class AudioUtils {
@@ -11,7 +10,7 @@ class AudioUtils {
 		);
 	}
 
-	static String getQueueList(BlockingQueue<AudioTrackContext> queue) {
+	/*static String getQueueList(BlockingQueue<AudioTrackContext> queue) {
 		StringBuilder sb = new StringBuilder();
 		int n = 1;
 		for (AudioTrackContext audioTrack : queue) {
@@ -38,6 +37,6 @@ class AudioUtils {
 			n++;
 		}
 		return sb.toString();
-	}
+	}*/
 
 }
