@@ -1,4 +1,4 @@
-/*package net.kodehawa.mantarobot.commands;
+package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
@@ -16,6 +16,10 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.music.*;
+import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
+import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
+import net.kodehawa.mantarobot.commands.music.utils.Repeat;
 import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -37,7 +41,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static net.kodehawa.mantarobot.commands.music.AudioCmdUtils.embedForQueue;
+import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
 import static org.apache.commons.lang3.StringUtils.replaceEach;
 
 @Module
@@ -60,7 +64,7 @@ public class MusicCmds {
 						.getTrackScheduler();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin decided to skip the current song.")
 						.queue();
-				scheduler.next(true);
+				scheduler.nextTrack(true);
 			}
 
 			@Override
@@ -176,7 +180,7 @@ public class MusicCmds {
 								"**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack()
 								.getInfo().title + "]"
 								+ "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack()
-								.getInfo().uri + ")** "
+									.getInfo().uri + ")** "
 								+ String.format("`(%s/%s)`", Utils.getDurationMinutes(now), Utils.getDurationMinutes(total)))
 						.setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
 
@@ -258,35 +262,7 @@ public class MusicCmds {
 						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
-		}).addOption("musicspeedup:fix", new Option("Music speedup fix",
-				"Attempts to fix the music speedup issues on music playback.\n" +
-				"**Considerations:** This command *needs* to be run when mantaro is playing music.", OptionType.GENERAL)
-				.setAction(event -> {
-					try{
-						MantaroAudioManager manager = MantaroBot.getInstance().getAudioManager();
-						AudioManager audioManager = event.getGuild().getAudioManager();
-						VoiceChannel previousVc = audioManager.getConnectedChannel();
-						audioManager.closeAudioConnection();
-						manager.getMusicManagers().remove(event.getGuild().getId());
-						audioManager.setSendingHandler(null);
-						event.getChannel().sendMessage(EmoteReference.THINKING + "Sped up music should be fixed now,"
-								+ " with debug:\n " +
-								"```diff\n"
-								+ "Audio Manager: " + manager + "\n"
-								+ "VC to connect: " + previousVc.getName() + "\n"
-								+ "Music Managers: " + manager.getMusicManagers().size() + "\n"
-								+ "New MM reference: " + manager.getMusicManager(event.getGuild()) + "\n" //this recreates the MusicManager
-								+ "Music Managers after fix: " + manager.getMusicManagers().size() + "\n"
-								+ "Send Handler: " + manager.getMusicManager(event.getGuild()).getSendHandler() + "\n"
-								+ "Guild ID: " + event.getGuild().getId() + "\n"
-								+ "Owner ID: " + event.getGuild().getOwner().getUser().getId() + "\n"
-								+ "```\n" +
-								"If this didn't work please forward this information to polr.me/mantaroguild or just kick and re-add the bot.").queue();
-						audioManager.openAudioConnection(previousVc);
-					} catch (NullPointerException e){
-						event.getChannel().sendMessage(EmoteReference.WARNING + "You have to run this command while Mantaro is playing music!").queue();
-					}
-				}).setShortDescription("Attempts to fix the music speedup issues on music playback."));
+		});
 	}
 
 	@Subscribe
@@ -314,11 +290,9 @@ public class MusicCmds {
 				return helpEmbed(event, "Forceplay Command")
 						.addField("Description", "Play the first song I find in your search", false)
 						.addField("Usage", "~>forceplay <song url> (playlists and song names are also acceptable)", false)
-						.addField(
-								"Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
+						.addField("Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
 										"but if you do ~>forceplay soundcloud <search term> It will search soundcloud (not for usage w/links).",
-								false
-						)
+								false)
 						.build();
 			}
 		});
@@ -352,7 +326,7 @@ public class MusicCmds {
 							return;
 						}
 						track.setPosition(position - amt);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Rewound " + args[0] + " time on the playing song.").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Rewound to: " + AudioUtils.getLength(position - amt) + ".").queue();
 					} catch (NumberFormatException ex) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid number").queue();
 					}
@@ -398,7 +372,7 @@ public class MusicCmds {
 							return;
 						}
 						track.setPosition(position + amt);
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "Skipped ahead " + args[0] + " in the song.").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Skipped ahead to " + AudioUtils.getLength(position + amt) + ".").queue();
 					} catch (NumberFormatException ex) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid query.").queue();
 					}
@@ -448,7 +422,7 @@ public class MusicCmds {
 								EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue" +
 										".").queue();
 						MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
-								.next(true);
+								.stop();
 						return;
 					}
 
@@ -604,24 +578,24 @@ public class MusicCmds {
 				try {
 					switch (args[0].toLowerCase()) {
 						case "queue":
-							if (musicManager.getTrackScheduler().getRepeat() == Repeat.QUEUE) {
-								musicManager.getTrackScheduler().setRepeat(null);
+							if (musicManager.getTrackScheduler().getRepeatMode() == Repeat.QUEUE) {
+								musicManager.getTrackScheduler().setRepeatMode(null);
 								event.getChannel().sendMessage(
 										EmoteReference.CORRECT + "Continuing with the current queue.").queue();
 							} else {
-								musicManager.getTrackScheduler().setRepeat(Repeat.QUEUE);
+								musicManager.getTrackScheduler().setRepeatMode(Repeat.QUEUE);
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current queue.")
 										.queue();
 							}
 							break;
 					}
 				} catch (Exception e) {
-					if (musicManager.getTrackScheduler().getRepeat() == Repeat.SONG) {
-						musicManager.getTrackScheduler().setRepeat(null);
+					if (musicManager.getTrackScheduler().getRepeatMode() == Repeat.SONG) {
+						musicManager.getTrackScheduler().setRepeatMode(null);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the normal queue.")
 								.queue();
 					} else {
-						musicManager.getTrackScheduler().setRepeat(Repeat.SONG);
+						musicManager.getTrackScheduler().setRepeatMode(Repeat.SONG);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current song.").queue();
 					}
 				}
@@ -689,15 +663,16 @@ public class MusicCmds {
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(
 							event.getGuild())
 							.getTrackScheduler();
-					if (scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(
+					//TODO
+					if (/*scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(
 							event.getAuthor())
-							|| isDJ(event.getMember())) {
+							|| */isDJ(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "The DJ has decided to skip!").queue();
-						scheduler.next(true);
+						scheduler.nextTrack(true);
 						return;
 					}
 					List<String> voteSkips = scheduler.getVoteSkips();
-					int requiredVotes = scheduler.getRequiredSkipVotes();
+					int requiredVotes = scheduler.getRequiredVotes();
 					if (voteSkips.contains(event.getAuthor().getId())) {
 						voteSkips.remove(event.getAuthor().getId());
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "**Your vote has been removed!** " +
@@ -708,7 +683,7 @@ public class MusicCmds {
 							event.getChannel().sendMessage(
 									EmoteReference.CORRECT + "Reached the required amount of votes, skipping song...")
 									.queue();
-							scheduler.next(true);
+							scheduler.nextTrack(true);
 							return;
 						}
 						event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** " +
@@ -754,7 +729,7 @@ public class MusicCmds {
 					}
 
 					List<String> stopVotes = scheduler.getVoteStop();
-					int requiredVotes = scheduler.getRequiredSkipVotes();
+					int requiredVotes = scheduler.getRequiredVotes();
 					if (stopVotes.contains(event.getAuthor().getId())) {
 						stopVotes.remove(event.getAuthor().getId());
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "**Your vote has been removed!** " +
@@ -870,7 +845,7 @@ public class MusicCmds {
 			event.getChannel().sendMessage(
 					EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 		}
-		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().next(true);
+		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().nextTrack(true);
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 
@@ -1018,4 +993,4 @@ public class MusicCmds {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
 		});
 	}
-}*/
+}

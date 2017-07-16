@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.shard;
 
-import com.timgroup.statsd.Event;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -12,7 +11,6 @@ import okhttp3.Response;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
@@ -42,12 +40,6 @@ public class ShardedMantaro {
                 managers.add(manager);
                 shards[i] = new MantaroShard(i, totalShards, manager);
                 log.debug("Finished loading shard #" + i + ".");
-                MantaroBot.getInstance().getStatsClient().recordEvent(Event.builder()
-                        .withTitle("shard.start")
-                        .withText("Shard " + i + " started up")
-                        .withDate(new Date())
-                        .withPriority(Event.Priority.LOW)
-                        .build());
             }
         } catch (Exception e){
             SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");

@@ -12,6 +12,7 @@ import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +63,10 @@ public class CommandRegistry {
 		}
 
 		if (data.getDisabledCategories().contains(cmd.category())){
+			return false;
+		}
+
+		if (data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())){
 			return false;
 		}
 

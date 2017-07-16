@@ -315,11 +315,10 @@ public class OwnerCmd {
 				if (option.equals("shutdown") || option.equals("restart")) {
 
 					if (args.length == 2) {
-						/*try {
-							//TODO re-enable
-							//notifyMusic(args[1]).get();
+						try {
+							notifyMusic(args[1]).get();
 						} catch (InterruptedException | ExecutionException ignored) {
-						}*/
+						}
 					}
 
 					try {
@@ -349,11 +348,10 @@ public class OwnerCmd {
 
 				if (option.equals("forceshutdown") || option.equals("forcerestart")) {
 					if (args.length == 2) {
-						/*try {
-							//TODO re-enable
-							//notifyMusic(args[1]).get();
+						try {
+							notifyMusic(args[1]).get();
 						} catch (InterruptedException | ExecutionException ignored) {
-						}*/
+						}
 					}
 
 					try {
@@ -654,24 +652,22 @@ public class OwnerCmd {
 		return sb.toString();
 	}
 
-	//TODO re-enable
-	/*private static CompletableFuture<Void> notifyMusic(String content) {
+	private static CompletableFuture<Void> notifyMusic(String content) {
 		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
 			.stream()
 			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
-			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel() != null)
-			.filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel().canTalk())
-			.map(musicManager -> musicManager.getTrackScheduler().getCurrentTrack().getRequestedChannel()
+			.filter(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed() != null)
+			.filter(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed().canTalk())
+			.map(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed()
 				.sendMessage(content).submit())
 			.map(future -> (CompletableFuture<Message>) future)
 			.toArray(CompletableFuture[]::new));
-	}*/
+	}
 
 	private static void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
-		//TODO re-enable
-		/*MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
-		});*/
+		});
 
 		try {
 			MantaroData.connectionWatcher().close();

@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.core.CommandProcessor;
@@ -737,6 +738,87 @@ public class OptsCmd {
 			guildData.getDisabledCategories().remove(toEnable);
 			dbGuild.save();
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "`").queue();
+		});
+
+		registerOption("category:specific:disable", "Disable categories on a channel",
+				"Disables a specified category.\n" +
+						"If a non-valid category it's specified, it will display a list of valid categories",
+				"Disables a specified category", (event, args) -> {
+					if(args.length < 2){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();
+						return;
+					}
+
+					DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+					GuildData guildData = dbGuild.getData();
+					Category toDisable = Category.lookupFromString(args[0]);
+					String where = args[1];
+					TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
+
+					if(toDisable == null){
+						AtomicInteger at = new AtomicInteger();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+								+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+						return;
+					}
+
+					if(channel == null){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
+						return;
+					}
+
+					guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), uwu -> new ArrayList<>());
+
+					if (guildData.getChannelSpecificDisabledCategories().get(channel.getId()).contains(toDisable)) {
+						event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
+						return;
+					}
+
+					if(toDisable.toString().equals("Moderation")){
+						event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
+						return;
+					}
+
+					guildData.getChannelSpecificDisabledCategories().get(channel.getId()).add(toDisable);
+					dbGuild.save();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` on channel " + channel.getAsMention()).queue();
+				});
+
+		registerOption("category:specific:enable", "Enable categories on a channel",
+				"Enables a specified category.\n" +
+						"If a non-valid category it's specified, it will display a list of valid categories",
+				"Enables a specified category", (event, args) -> {
+					if(args.length < 2){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();
+						return;
+					}
+
+					DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+					GuildData guildData = dbGuild.getData();
+					Category toEnable = Category.lookupFromString(args[0]);
+					String where = args[1];
+					TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
+
+					if(toEnable == null){
+						AtomicInteger at = new AtomicInteger();
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
+								+ "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+						return;
+					}
+
+					if(channel == null){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
+						return;
+					}
+
+					List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), uwu -> new ArrayList<>());
+					if(l.isEmpty() || !l.contains(toEnable)){
+						event.getChannel().sendMessage(EmoteReference.THINKING + "This category wasn't enabled?").queue();
+						return;
+					}
+					guildData.getChannelSpecificDisabledCategories().get(channel.getId()).remove(toEnable);
+					dbGuild.save();
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "` on channel " + channel.getAsMention()).queue();
 		});
 	}
 

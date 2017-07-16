@@ -63,8 +63,7 @@ public class MantaroAPISender {
                     .put("musicConnections", c)
                     .put("parsedCpuUsage", getVpsCPUUsage())
                     .put("cores", getAvailableProcessors())
-                    //TODO re-enable
-                    //.put("queueSize", bot.getAudioManager().getTotalQueueSize())
+                    .put("queueSize", bot.getAudioManager().getTotalQueueSize())
                     .put("memoryUsage", memoryUsage);
 
             List<Integer> ids = new ArrayList<>();

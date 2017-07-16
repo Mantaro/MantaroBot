@@ -84,8 +84,7 @@ public class CustomCmds {
 						v = "ytsearch: " + v;
 					}
 
-					//TODO re-enable
-					//MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false);
+					MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false);
 					return;
 				}
 

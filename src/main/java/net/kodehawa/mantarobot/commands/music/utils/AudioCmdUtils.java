@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.music;
+package net.kodehawa.mantarobot.commands.music.utils;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -33,7 +34,7 @@ public class AudioCmdUtils {
 		event.getChannel().sendMessage(EmoteReference.CORRECT + "Closed audio connection.").queue();
 	}
 
-	/*public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
+	public static void embedForQueue(int page, GuildMessageReceivedEvent event, GuildMusicManager musicManager) {
 		String toSend = AudioUtils.getQueueList(musicManager.getTrackScheduler().getQueue());
         Guild guild = event.getGuild();
 
@@ -102,7 +103,7 @@ public class AudioCmdUtils {
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
                         .addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
-                        .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
+                        .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                                 + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                         .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
                         .setFooter("Total pages: " + total + " -> Use ~>queue <page> to change pages. Currently in page " + page, guild.getIconUrl());
@@ -128,14 +129,14 @@ public class AudioCmdUtils {
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                     .addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
                     .addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
-                    .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeat() == null ? "false" : musicManager.getTrackScheduler().getRepeat())
+                    .addField("Repeat / Pause", "`" + (musicManager.getTrackScheduler().getRepeatMode() == null ? "false" : musicManager.getTrackScheduler().getRepeatMode())
                             + " / " + String.valueOf(musicManager.getTrackScheduler().getAudioPlayer().isPaused()) + "`", true)
                     .addField("Playing in", vch == null ? "No channel :<" : "`" + vch.getName() + "`" , true)
                     .setFooter("Total pages: " + total + " -> React to change pages. Currently in page " + p, guild.getIconUrl());
             return builder;
         }, lines);
 	}
-*/
+
 	public static String getDurationMinutes(long length) {
 		return String.format("%d:%02d minutes",
 			TimeUnit.MILLISECONDS.toMinutes(length),
@@ -161,7 +162,7 @@ public class AudioCmdUtils {
 		}
 	}
 
-	static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
+	public static boolean connectToVoiceChannel(GuildMessageReceivedEvent event) {
 		VoiceChannel userChannel = event.getMember().getVoiceState().getChannel();
 
 		if (userChannel == null) {

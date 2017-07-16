@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.AudioCmdUtils;
+import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
@@ -29,7 +29,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import us.monoid.web.Resty;
 
 import java.awt.*;
 import java.io.UnsupportedEncodingException;
@@ -47,8 +46,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @Slf4j
 @Module
 public class UtilsCmds {
-	private static final Resty resty = new Resty();
-
 	@Subscribe
 	public static void birthday(CommandRegistry registry) {
 		registry.register("birthday", new SimpleCommand(Category.UTILS) {

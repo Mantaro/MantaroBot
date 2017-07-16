@@ -1,19 +1,23 @@
-package net.kodehawa.mantarobot.commands.music;
+package net.kodehawa.mantarobot.commands.music.utils;
 
+import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import net.kodehawa.mantarobot.MantaroBot;
+
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-class AudioUtils {
-	static String getLength(long length) {
+public class AudioUtils {
+	public static String getLength(long length) {
 		return String.format("%02d:%02d",
 			TimeUnit.MILLISECONDS.toMinutes(length),
 			TimeUnit.MILLISECONDS.toSeconds(length) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
 		);
 	}
 
-	/*static String getQueueList(BlockingQueue<AudioTrackContext> queue) {
+	public static String getQueueList(BlockingQueue<AudioTrack> queue) {
 		StringBuilder sb = new StringBuilder();
 		int n = 1;
-		for (AudioTrackContext audioTrack : queue) {
+		for (AudioTrack audioTrack : queue) {
 			long aDuration = audioTrack.getDuration();
 			String duration = String.format("%02d:%02d",
 				TimeUnit.MILLISECONDS.toMinutes(aDuration),
@@ -22,7 +26,6 @@ class AudioUtils {
 
 			String title = audioTrack.getInfo().title;
 			if(title.length() > 30) title = title.substring(0, 30) + "...";
-			//.append intensifies
 			sb.append("**")
 				.append(n)
 				.append(". [")
@@ -32,11 +35,11 @@ class AudioUtils {
 				.append(")** (")
 				.append(duration)
 				.append(")")
-				.append(audioTrack.getDJ() != null ? " **[" + audioTrack.getDJ().getName() + "]**" : "")
+				.append(audioTrack.getUserData() != null ? " **[" + MantaroBot.getInstance().getUserById(String.valueOf(audioTrack.getUserData())).getName() + "]**" : "")
 				.append("\n");
 			n++;
 		}
 		return sb.toString();
-	}*/
+	}
 
 }

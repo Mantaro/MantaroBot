@@ -13,8 +13,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -60,32 +58,6 @@ public class DiscordUtils {
 		Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
 		event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
 		return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]));
-	}
-
-	public static <T> T selectListSync(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed) {
-		CompletableFuture<T> future = new CompletableFuture<T>();
-		Object notify = new Object();
-
-		if (selectList(event, list, toString, toEmbed, (value) -> {
-			future.complete(value);
-			synchronized (notify) {
-				notify.notify();
-			}
-		}) == null) throw new IllegalStateException();
-
-		synchronized (notify) {
-			try {
-				notify.wait(10000);
-			} catch (InterruptedException ignored) {}
-		}
-
-		if (!future.isDone()) future.complete(null);
-
-		try {
-			return future.get();
-		} catch (InterruptedException | ExecutionException ignored) {
-			return null;
-		}
 	}
 
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
@@ -134,58 +106,6 @@ public class DiscordUtils {
                     if(index.get() + 1 >= embeds.size()) break;
                     m.editMessage(embeds.get(index.incrementAndGet())).queue();
                     break;
-            }
-            if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
-                e.getReaction().removeReaction(e.getUser()).queue();
-            }
-            return Operation.RESET_TIMEOUT;
-        }, "\u2b05", "\u27a1");
-    }
-
-    public static Future<Void> listUpdatable(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, IntIntObjectFunction<EmbedBuilder> supplier, String... parts) {
-        if(parts.length == 0) return null;
-        List<StringBuilder> embeds = new ArrayList<>();
-        AtomicInteger index = new AtomicInteger();
-        StringBuilder sb = new StringBuilder();
-        int total; {
-            int t = 0;
-            int c = 0;
-            for(String s : parts) {
-                if(s.length() + c + 1 > MessageEmbed.TEXT_MAX_LENGTH) {
-                    t++;
-                    c = 0;
-                }
-                c += s.length() + 1;
-            }
-            if(c > 0) t++;
-            total = t;
-        }
-        for(String s : parts) {
-            int l = s.length()+1;
-            if(l > MessageEmbed.TEXT_MAX_LENGTH) throw new IllegalArgumentException("Length for one of the pages is greater than the maximum");
-            if(sb.length() + l > MessageEmbed.TEXT_MAX_LENGTH) {
-                embeds.add(sb);
-                sb = new StringBuilder();
-            }
-            sb.append(s).append('\n');
-        }
-        if(sb.length() > 0) {
-            embeds.add(sb);
-        }
-        Message m = event.getChannel().sendMessage(supplier.apply(1, total).setDescription(embeds.get(0)).build()).complete();
-        return ReactionOperations.create(m, timeoutSeconds, (e)->{
-            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
-            switch(e.getReactionEmote().getName()) {
-                case "\u2b05": {//left arrow
-                    if (index.get() == 0) break;
-                    int i = index.decrementAndGet();
-                    m.editMessage(supplier.apply(i+1, total).setDescription(embeds.get(i)).build()).queue();
-                } break;
-                case "\u27a1": {//right arrow
-                    if (index.get() + 1 >= embeds.size()) break;
-                    int i = index.incrementAndGet();
-                    m.editMessage(supplier.apply(i+1, total).setDescription(embeds.get(i)).build()).queue();
-                } break;
             }
             if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
