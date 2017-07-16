@@ -9,7 +9,6 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
-import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.options.Option;
 import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -596,7 +595,7 @@ public class ModerationCmds {
                 }
 
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
-                long l = AudioCmdUtils.parseTime(time);
+                long l = Utils.parseTime(time);
                 String finalReason = reason;
                 String sTime = StringUtils.parseTime(l);
                 receivedMessage.getMentionedUsers().forEach(user ->
@@ -693,7 +692,7 @@ public class ModerationCmds {
                             return;
                         }
 
-                        time = System.currentTimeMillis() + AudioCmdUtils.parseTime(opts.get("time").get());
+                        time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
                         guildData.getMutedTimelyUsers().put(user.getIdLong(), time);
                         dbGuild.save();
                     }
@@ -752,7 +751,7 @@ public class ModerationCmds {
                         return;
                     }
 
-                    long timeoutToSet = AudioCmdUtils.parseTime(args[0]);
+                    long timeoutToSet = Utils.parseTime(args[0]);
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setSetModTimeout(timeoutToSet);

@@ -14,11 +14,6 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
-import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static net.kodehawa.mantarobot.utils.data.SimpleFileDataManager.NEWLINE_PATTERN;
 
@@ -27,7 +22,6 @@ public class AudioCmdUtils {
 	private final static String BLOCK_INACTIVE = "\u25AC";
 	private final static String BLOCK_ACTIVE = "\uD83D\uDD18";
 	private static final int TOTAL_BLOCKS = 10;
-	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
 
 	public static void closeAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager) {
 		audioManager.closeAudioConnection();
@@ -137,14 +131,6 @@ public class AudioCmdUtils {
         }, lines);
 	}
 
-	public static String getDurationMinutes(long length) {
-		return String.format("%d:%02d minutes",
-			TimeUnit.MILLISECONDS.toMinutes(length),
-			TimeUnit.MILLISECONDS.toSeconds(length) -
-				TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
-		);
-	}
-
 	public static void openAudioConnection(GuildMessageReceivedEvent event, AudioManager audioManager, VoiceChannel userChannel) {
 		if (userChannel.getUserLimit() <= userChannel.getMembers().size() && userChannel.getUserLimit() > 0 && !event.getGuild().getSelfMember().hasPermission(Permission.MANAGE_CHANNEL)) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "I can't connect to that channel because it is full!").queue();
@@ -213,65 +199,10 @@ public class AudioCmdUtils {
 		return true;
 	}
 
-	public static String getProgressBar(long percent, long duration) {
-		int activeBlocks = (int) ((float) percent / duration * TOTAL_BLOCKS);
+	public static String getProgressBar(long now, long total) {
+		int activeBlocks = (int) ((float) now / total * TOTAL_BLOCKS);
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < TOTAL_BLOCKS; i++) builder.append(activeBlocks == i ? BLOCK_ACTIVE : BLOCK_INACTIVE);
 		return builder.append(BLOCK_INACTIVE).toString();
-	}
-
-	private static Iterable<String> iterate(Matcher matcher) {
-		return new Iterable<String>() {
-			@Override
-			public Iterator<String> iterator() {
-				return new Iterator<String>() {
-					@Override
-					public boolean hasNext() {
-						return matcher.find();
-					}
-
-					@Override
-					public String next() {
-						return matcher.group();
-					}
-				};
-			}
-
-			@Override
-			public void forEach(Consumer<? super String> action) {
-				while (matcher.find()) {
-					action.accept(matcher.group());
-				}
-			}
-		};
-	}
-
-
-	public static long parseTime(String s) {
-		s = s.toLowerCase();
-		long[] time = {0};
-		iterate(pattern.matcher(s)).forEach(string -> {
-			String l = string.substring(0, string.length() - 1);
-			TimeUnit unit;
-			switch (string.charAt(string.length() - 1)) {
-				case 's':
-					unit = TimeUnit.SECONDS;
-					break;
-				case 'm':
-					unit = TimeUnit.MINUTES;
-					break;
-				case 'h':
-					unit = TimeUnit.HOURS;
-					break;
-				case 'd':
-					unit = TimeUnit.DAYS;
-					break;
-				default:
-					unit = TimeUnit.SECONDS;
-					break;
-			}
-			time[0] += unit.toMillis(Long.parseLong(l));
-		});
-		return time[0];
 	}
 }

@@ -13,7 +13,6 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.music.utils.Repeat;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -34,7 +33,6 @@ public class TrackScheduler extends AudioEventAdapter {
     @Getter
     private final BlockingQueue<AudioTrack> queue;
     private String guildId;
-
     @Getter @Setter
     private Repeat repeatMode;
     @Getter
@@ -64,7 +62,7 @@ public class TrackScheduler extends AudioEventAdapter {
         }
     }
 
-    public void nextTrack(boolean force) {
+    public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
         if(repeatMode == Repeat.SONG && currentTrack != null && !force){
             queue(currentTrack.makeClone());
@@ -72,7 +70,7 @@ public class TrackScheduler extends AudioEventAdapter {
             if(currentTrack != null) previousTrack = currentTrack;
             currentTrack = queue.poll();
             audioPlayer.startTrack(currentTrack, !force);
-            onTrackStart();
+            if(skip) onTrackStart();
             if(repeatMode == Repeat.QUEUE) queue(previousTrack);
         }
 
@@ -103,7 +101,7 @@ public class TrackScheduler extends AudioEventAdapter {
     @Override
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
         if (endReason.mayStartNext) {
-            nextTrack(false);
+            nextTrack(false, false);
             onTrackStart();
         }
     }
@@ -176,5 +174,9 @@ public class TrackScheduler extends AudioEventAdapter {
             ch.sendMessage(":mega: Finished playing current queue! I hope you enjoyed it.")
                     .queue(message -> message.delete().queueAfter(20, TimeUnit.SECONDS));
         }
+    }
+
+    public enum Repeat {
+        SONG, QUEUE
     }
 }

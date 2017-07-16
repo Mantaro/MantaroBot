@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
 public class Utils {
 	public static ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	public static final OkHttpClient httpClient = new OkHttpClient();
+	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
 
 	/**
 	 * Capitalizes the first letter of a string.
@@ -239,5 +241,61 @@ public class Utils {
 	@SneakyThrows
 	private static String urlEncodeUTF8(String s) {
 		return URLEncoder.encode(s, "UTF-8");
+	}
+
+
+	private static Iterable<String> iterate(Matcher matcher) {
+		return new Iterable<String>() {
+			@Override
+			public Iterator<String> iterator() {
+				return new Iterator<String>() {
+					@Override
+					public boolean hasNext() {
+						return matcher.find();
+					}
+
+					@Override
+					public String next() {
+						return matcher.group();
+					}
+				};
+			}
+
+			@Override
+			public void forEach(Consumer<? super String> action) {
+				while (matcher.find()) {
+					action.accept(matcher.group());
+				}
+			}
+		};
+	}
+
+
+	public static long parseTime(String s) {
+		s = s.toLowerCase();
+		long[] time = {0};
+		iterate(pattern.matcher(s)).forEach(string -> {
+			String l = string.substring(0, string.length() - 1);
+			TimeUnit unit;
+			switch (string.charAt(string.length() - 1)) {
+				case 's':
+					unit = TimeUnit.SECONDS;
+					break;
+				case 'm':
+					unit = TimeUnit.MINUTES;
+					break;
+				case 'h':
+					unit = TimeUnit.HOURS;
+					break;
+				case 'd':
+					unit = TimeUnit.DAYS;
+					break;
+				default:
+					unit = TimeUnit.SECONDS;
+					break;
+			}
+			time[0] += unit.toMillis(Long.parseLong(l));
+		});
+		return time[0];
 	}
 }

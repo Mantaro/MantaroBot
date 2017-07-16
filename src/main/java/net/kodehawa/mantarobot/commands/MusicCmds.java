@@ -15,13 +15,11 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.*;
+import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
+import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
-import net.kodehawa.mantarobot.commands.music.utils.Repeat;
-import net.kodehawa.mantarobot.commands.options.Option;
-import net.kodehawa.mantarobot.commands.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -64,7 +62,7 @@ public class MusicCmds {
 						.getTrackScheduler();
 				event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin decided to skip the current song.")
 						.queue();
-				scheduler.nextTrack(true);
+				scheduler.nextTrack(true, true);
 			}
 
 			@Override
@@ -314,7 +312,7 @@ public class MusicCmds {
 				}
 				if (isDJ(event.getMember())) {
 					try {
-						long amt = AudioCmdUtils.parseTime(args[0]);
+						long amt = Utils.parseTime(args[0]);
 						if (amt < 0) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Positive integers only").queue();
 							return;
@@ -360,7 +358,7 @@ public class MusicCmds {
 				}
 				if (isDJ(event.getMember())) {
 					try {
-						long amt = AudioCmdUtils.parseTime(args[0]);
+						long amt = Utils.parseTime(args[0]);
 						if (amt < 0) {
 							event.getChannel().sendMessage(EmoteReference.ERROR + "Positive integers only").queue();
 							return;
@@ -578,24 +576,24 @@ public class MusicCmds {
 				try {
 					switch (args[0].toLowerCase()) {
 						case "queue":
-							if (musicManager.getTrackScheduler().getRepeatMode() == Repeat.QUEUE) {
+							if (musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
 								musicManager.getTrackScheduler().setRepeatMode(null);
 								event.getChannel().sendMessage(
 										EmoteReference.CORRECT + "Continuing with the current queue.").queue();
 							} else {
-								musicManager.getTrackScheduler().setRepeatMode(Repeat.QUEUE);
+								musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.QUEUE);
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current queue.")
 										.queue();
 							}
 							break;
 					}
 				} catch (Exception e) {
-					if (musicManager.getTrackScheduler().getRepeatMode() == Repeat.SONG) {
+					if (musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.SONG) {
 						musicManager.getTrackScheduler().setRepeatMode(null);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the normal queue.")
 								.queue();
 					} else {
-						musicManager.getTrackScheduler().setRepeatMode(Repeat.SONG);
+						musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.SONG);
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current song.").queue();
 					}
 				}
@@ -663,12 +661,11 @@ public class MusicCmds {
 					TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(
 							event.getGuild())
 							.getTrackScheduler();
-					//TODO
-					if (/*scheduler.getCurrentTrack().getDJ() != null && scheduler.getCurrentTrack().getDJ().equals(
-							event.getAuthor())
-							|| */isDJ(event.getMember())) {
+					if (scheduler.getCurrentTrack().getUserData() != null && String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(
+							event.getAuthor().getId())
+							|| isDJ(event.getMember())) {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "The DJ has decided to skip!").queue();
-						scheduler.nextTrack(true);
+						scheduler.nextTrack(true, true);
 						return;
 					}
 					List<String> voteSkips = scheduler.getVoteSkips();
@@ -683,7 +680,7 @@ public class MusicCmds {
 							event.getChannel().sendMessage(
 									EmoteReference.CORRECT + "Reached the required amount of votes, skipping song...")
 									.queue();
-							scheduler.nextTrack(true);
+							scheduler.nextTrack(true, true);
 							return;
 						}
 						event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** " +
@@ -785,7 +782,8 @@ public class MusicCmds {
 
 					if (args[0].equals("check")) {
 						event.getChannel().sendMessage(
-								EmoteReference.ZAP + "The current volume for this session is: " + player.getVolume())
+								EmoteReference.ZAP + "The current volume for this session is: " + player.getVolume() + "\n\n" +
+										GuildStatsManager.bar(player.getVolume() / 2, 50))
 								.queue();
 						return;
 					}
@@ -798,7 +796,8 @@ public class MusicCmds {
 						return;
 					}
 					player.setVolume(volume);
-					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d", volume))
+					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d\n\n%s", volume,
+							GuildStatsManager.bar(volume / 2, 50)))
 							.queue();
 				} else {
 					event.getChannel().sendMessage(
@@ -823,29 +822,29 @@ public class MusicCmds {
 
 	private static boolean isDJ(Member member) {
 		Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
-		return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(
-				Permission.ADMINISTRATOR)
-				|| (djRole != null && member.getRoles().contains(djRole));
+		return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(Permission.ADMINISTRATOR) ||
+				(djRole != null && member.getRoles().contains(djRole));
 	}
 
 	private static void sendNotConnectedToMyChannel(MessageChannel channel) {
-		channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently " +
-				"playing in!").queue();
+		channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently playing in!").queue();
 	}
 
 	private static void stop(GuildMessageReceivedEvent event) {
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-		if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager
-				.getTrackScheduler().getAudioPlayer().isPaused())
+
+		if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused()){
 			musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
-		int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue()
-				.clear();
-		if (TEMP_QUEUE_LENGTH > 0) { //else we just don't show this, why shall we?
-			event.getChannel().sendMessage(
-					EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 		}
-		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().nextTrack(true);
+
+		int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
+		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+
+		if (TEMP_QUEUE_LENGTH > 0){
+			event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
+		}
+
+		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().nextTrack(true, false);
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 

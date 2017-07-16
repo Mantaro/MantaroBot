@@ -741,7 +741,7 @@ public class OptsCmd {
 		});
 
 		registerOption("category:specific:disable", "Disable categories on a channel",
-				"Disables a specified category.\n" +
+				"Disables a specified category on a specific channel.\n" +
 						"If a non-valid category it's specified, it will display a list of valid categories",
 				"Disables a specified category", (event, args) -> {
 					if(args.length < 2){
@@ -784,8 +784,8 @@ public class OptsCmd {
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` on channel " + channel.getAsMention()).queue();
 				});
 
-		registerOption("category:specific:enable", "Enable categories on a channel",
-				"Enables a specified category.\n" +
+		registerOption("category:specific:enable", "Enable categories on a specific channel",
+				"Enables a specified category on a specific channel.\n" +
 						"If a non-valid category it's specified, it will display a list of valid categories",
 				"Enables a specified category", (event, args) -> {
 					if(args.length < 2){

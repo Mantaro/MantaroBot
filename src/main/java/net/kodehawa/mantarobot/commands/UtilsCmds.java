@@ -10,7 +10,6 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
@@ -286,7 +285,7 @@ public class UtilsCmds {
 
 				String toRemind = content.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");
 				User user = event.getAuthor();
-				long time = AudioCmdUtils.parseTime(t.get("time").get());
+				long time = Utils.parseTime(t.get("time").get());
 
 				if(time < 10000){
 					event.getChannel().sendMessage(EmoteReference.ERROR + "That's too little time!").queue();
