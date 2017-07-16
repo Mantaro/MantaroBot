@@ -18,6 +18,7 @@ import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,6 +110,10 @@ public class TrackScheduler extends AudioEventAdapter {
 
     @Override
     public void onTrackException(AudioPlayer player, AudioTrack track, FriendlyException exception) {
+        if(getRequestedChannelParsed() != null && getRequestedChannelParsed().canTalk()){
+            getRequestedChannelParsed().sendMessage(EmoteReference.SAD +
+                    "Something went wrong while playing this track! Sorry for the inconveniences, I'll try to play the next one avaliable if there is one.").queue();
+        }
     }
 
     public Guild getGuild(){
