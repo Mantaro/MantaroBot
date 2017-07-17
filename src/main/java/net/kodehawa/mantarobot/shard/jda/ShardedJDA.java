@@ -205,6 +205,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	@Deprecated
 	public void shutdown(boolean free) {
 		forEach(jda -> jda.shutdown(free));
 	}

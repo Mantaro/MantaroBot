@@ -49,11 +49,6 @@ public class  Player implements ManagedObject {
 	@Setter
 	private Long reputation = null;
 
-	@Getter
-	@Setter
-	@JsonIgnore
-	private boolean locked = false;
-
 	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
 	public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
 		this.id = id;
@@ -148,5 +143,16 @@ public class  Player implements ManagedObject {
 	public Player setMoney(long money) {
 		this.money = money < 0 ? 0 : money;
 		return this;
+	}
+
+	//it's 3am and i cba to replace usages of this so whatever
+    @JsonIgnore
+	public boolean isLocked() {
+        return data.getLockedUntil() - System.currentTimeMillis() > 0;
+	}
+
+	@JsonIgnore
+	public void setLocked(boolean locked) {
+        data.setLockedUntil(locked ? System.currentTimeMillis() + 30000 : 0);
 	}
 }

@@ -15,6 +15,7 @@ public class PlayerData {
 	private String description = null;
 	private Long marriedSince = null;
 	private String marriedWith = null;
+	private long lockedUntil = 0;
 
 	@Transient
 	public boolean isMarried() {
