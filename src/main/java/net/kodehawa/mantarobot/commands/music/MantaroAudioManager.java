@@ -41,11 +41,11 @@ public class MantaroAudioManager {
         return musicManager;
     }
 
-    public long getTotalQueueSize() {
+    public synchronized long getTotalQueueSize() {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
-    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
+    public synchronized void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
         if (!AudioCmdUtils.connectToVoiceChannel(event)) return;
         musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);

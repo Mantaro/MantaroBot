@@ -58,14 +58,14 @@ public class MusicOptions extends OptionHandler {
             boolean t1 = guildData.isMusicAnnounce();
 
             guildData.setMusicAnnounce(!t1);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no impl announce to " + "**" + !t1 + "**").queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no music announce to " + "**" + !t1 + "**").queue();
             dbGuild.save();
         });
 
         registerOption("music:channel", "Music VC lock",
                 "Locks the bot to a VC. You need the VC name.\n" +
-                        "Example: `~>opts impl channel Music`",
-                "Locks the impl feature to the specified VC.", (event, args) -> {
+                        "Example: `~>opts music channel Music`",
+                "Locks the music feature to the specified VC.", (event, args) -> {
                     if (args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
@@ -121,7 +121,7 @@ public class MusicOptions extends OptionHandler {
 
         registerOption("music:queuelimit", "Music queue limit",
                 "Sets a custom queue limit.\n" +
-                        "Example: `~>opts impl queuelimit 90`",
+                        "Example: `~>opts music queuelimit 90`",
                 "Sets a custom queue limit.", (event, args) -> {
                     if (args.length == 0) {
                         OptsCmd.onHelp(event);
@@ -150,12 +150,12 @@ public class MusicOptions extends OptionHandler {
                     }
                 });
 
-        registerOption("music:clear", "Music clear settings","Clears the specific impl channel.",  (event) -> {
+        registerOption("music:clear", "Music clear settings","Clears the specific music channel.",  (event) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setMusicChannel(null);
             dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play impl on all channels now").queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();
         });
     }
 

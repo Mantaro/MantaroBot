@@ -252,7 +252,7 @@ public class MusicCmds {
 										"but if you do ~>play soundcloud <search term> It will search soundcloud (not for usage w/links).",
 								false
 						)
-						.addField("Considerations", "If impl is playing at 2x speed please do `~>opts musicspeedup fix`", false)
+						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
 		});
@@ -324,7 +324,7 @@ public class MusicCmds {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid number").queue();
 					}
 				} else
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a impl DJ to use this command!").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a music DJ to use this command!").queue();
 			}
 
 			@Override
@@ -370,7 +370,7 @@ public class MusicCmds {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a valid query.").queue();
 					}
 				} else
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a impl DJ to use this command!").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a music DJ to use this command!").queue();
 			}
 
 			@Override
@@ -435,7 +435,7 @@ public class MusicCmds {
 										"`~>queue clear` - **Clears the queue**",
 								false
 						)
-						.addField("Considerations", "If impl is playing at 2x speed please do `~>opts musicspeedup fix`", false)
+						.addField("Considerations", "If music is playing at 2x speed please do `~>opts musicspeedup fix`", false)
 						.build();
 			}
 		});
