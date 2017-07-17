@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import lombok.Data;
-import net.kodehawa.mantarobot.commands.options.ConfigName;
+import net.kodehawa.mantarobot.options.ConfigName;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 
 import java.util.*;

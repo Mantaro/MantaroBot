@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.options;
+package net.kodehawa.mantarobot.options;
 
 public @interface ConfigName {
     String value();

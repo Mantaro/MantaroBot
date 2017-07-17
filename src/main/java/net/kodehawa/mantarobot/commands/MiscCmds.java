@@ -258,38 +258,6 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("timedisplay:set", "Time display set","Toggles between 12h and 24h time display.\n" +
-				"Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.",  (event, args) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			if(args.length == 0){
-				event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();
-				return;
-			}
-
-			String mode = args[0];
-
-			switch (mode){
-				case "12h":
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 12h").queue();
-					guildData.setTimeDisplay(1);
-					dbGuild.save();
-					break;
-				case "24h":
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 24h").queue();
-					guildData.setTimeDisplay(0);
-					dbGuild.save();
-					break;
-				default:
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid choice. Valid choices: **24h**, **12h**").queue();
-					break;
-			}
-		});
-	}
-
-	@Subscribe
 	public static void randomFact(CommandRegistry cr) {
 		cr.register("randomfact", new SimpleCommand(Category.MISC) {
 			@Override

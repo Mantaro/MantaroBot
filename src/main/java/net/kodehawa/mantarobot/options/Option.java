@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.commands.options;
+package net.kodehawa.mantarobot.options;
 
 import lombok.Getter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;

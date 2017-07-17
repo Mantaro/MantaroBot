@@ -142,7 +142,7 @@ public class AudioCmdUtils {
 			event.getChannel().sendMessage(EmoteReference.CORRECT + "Connected to channel **" + userChannel.getName() + "**!").queue();
 		} catch (NullPointerException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "We received a non-existant channel as response. If you set a voice channel and then deleted it, that might be the cause." +
-				"\n We resetted your music channel for you, try to play the music again.").queue();
+				"\n We resetted your impl channel for you, try to play the impl again.").queue();
 			MantaroData.db().getGuild(event.getGuild()).getData().setMusicChannel(null);
 			MantaroData.db().getGuild(event.getGuild()).save();
 		}
@@ -170,7 +170,7 @@ public class AudioCmdUtils {
 
 		if (guildMusicChannel != null) {
 			if (!userChannel.equals(guildMusicChannel)) {
-				event.getChannel().sendMessage(EmoteReference.ERROR + "I can only play music on channel **" + guildMusicChannel.getName() + "**!").queue();
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I can only play impl on channel **" + guildMusicChannel.getName() + "**!").queue();
 				return false;
 			}
 

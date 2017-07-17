@@ -12,6 +12,8 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.data.Config;
@@ -214,6 +216,15 @@ public class MantaroBot extends ShardedJDA {
 				.getTypesAnnotatedWith(Module.class)
 		);
 
+		Future<Set<Class<?>>> options = Async.future("Classes Lookup", () ->
+				new Reflections(
+						"net.kodehawa.mantarobot.options",
+						new MethodAnnotationsScanner(),
+						new TypeAnnotationsScanner(),
+						new SubTypesScanner())
+						.getTypesAnnotatedWith(Option.class)
+		);
+
 		loadState = LOADING;
 
 		shardedMantaro = new ShardedBuilder()
@@ -244,12 +255,23 @@ public class MantaroBot extends ShardedJDA {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
         });
+
+
+		EventBus bus1 = new EventBus();
+		options.get().forEach(clazz->{
+			try {
+				bus1.register(clazz.newInstance());
+			} catch(Exception e) {
+				log.error("Invalid module: no zero arg public constructor found for " + clazz);
+			}
+		});
 		bus.post(CommandProcessor.REGISTRY);
 
 		loadState = POSTLOAD;
 		System.out.println("Finished loading basic components. Current status: " + loadState);
 
 		bus.post(new PostLoadEvent());
+		bus1.post(new OptionRegistryEvent());
 		long end = System.currentTimeMillis();
 
 		LogUtils.log("Startup",

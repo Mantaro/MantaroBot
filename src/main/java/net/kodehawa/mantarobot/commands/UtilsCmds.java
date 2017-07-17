@@ -359,62 +359,6 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("birthday:enable", "Birthday Monitoring enable",
-				"Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
-						"**Example:** `~>opts birthday enable general Birthday`, `~>opts birthday enable general \"Happy Birthday\"`",
-				"Enables birthday monitoring.", (event, args) -> {
-			if (args.length < 2) {
-				OptsCmd.onHelp(event);
-				return;
-			}
-
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-
-			try {
-				String channel = args[0];
-				String role = args[1];
-
-				boolean isId = channel.matches("^[0-9]*$");
-				String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0)
-					.getId();
-				String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
-				guildData.setBirthdayChannel(channelId);
-				guildData.setBirthdayRole(roleId);
-				dbGuild.save();
-				event.getChannel().sendMessage(
-					String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> " +
-							"Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-						channel, channelId, role, roleId
-					)).queue();
-			} catch (Exception ex) {
-				if (ex instanceof IndexOutOfBoundsException) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel or role!\n " +
-						"**Remember, you don't have to mention neither the role or the channel, rather just type its " +
-						"name, order is <channel> <role>, without the leading \"<>\".**")
-						.queue();
-					return;
-				}
-				event.getChannel().sendMessage(
-					EmoteReference.ERROR + "You supplied invalid arguments for this command " +
-						EmoteReference.SAD).queue();
-				OptsCmd.onHelp(event);
-			}
-		});
-
-		OptsCmd.registerOption("birthday:disable", "Birthday disable","Disables birthday monitoring.", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			guildData.setBirthdayChannel(null);
-			guildData.setBirthdayRole(null);
-			dbGuild.save();
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging has been disabled on this server")
-				.queue();
-		});
-	}
-
-	@Subscribe
 	public static void time(CommandRegistry registry) {
 		registry.register("time", new SimpleCommand(Category.UTILS) {
 			@Override

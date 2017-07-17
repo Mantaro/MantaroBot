@@ -390,7 +390,7 @@ public class OwnerCmd {
 				if (option.equals("notifymusic")) {
 					//TODO re-enable
 					//notifyMusic(value);
-					event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
+					event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing impl were notified!").queue();
 					return;
 				}
 

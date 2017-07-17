@@ -1,0 +1,38 @@
+package net.kodehawa.mantarobot.options.opts;
+
+import lombok.Setter;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.options.Option;
+import net.kodehawa.mantarobot.options.OptionType;
+
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
+import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
+
+public abstract class OptionHandler {
+    @Setter
+    protected OptionType type = OptionType.GENERAL;
+
+    public abstract String description();
+
+    protected void registerOption(String name, String displayName, String description, Consumer<GuildMessageReceivedEvent> code) {
+        Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(description));
+    }
+
+    protected void registerOption(String name, String displayName, String description, String shortDescription, Consumer<GuildMessageReceivedEvent> code) {
+        Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
+    }
+
+    protected void registerOption(String name, String displayName, String description, String shortDescription, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+        Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
+    }
+
+    protected void registerOption(String name, String displayName, String description, String shortDescription, OptionType type, BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+        Option.addOption(name, new Option(displayName, description, type).setAction(code).setShortDescription(shortDescription));
+    }
+
+    public void onHelp(GuildMessageReceivedEvent event) {
+        event.getChannel().sendMessage(optsCmd.help(event)).queue();
+    }
+}

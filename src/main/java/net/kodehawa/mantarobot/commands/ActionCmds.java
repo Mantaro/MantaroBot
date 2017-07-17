@@ -10,12 +10,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -147,23 +143,6 @@ public class ActionCmds {
 			}
 		});
 		registry.registerAlias("meow", "mew");
-	}
-
-	@Subscribe
-	public static void onPostLoad(PostLoadEvent e) {
-		OptsCmd.registerOption("actionmention:toggle", "Action mention toggle",
-				"Toggles action mention (double-mention). On by default.\n" +
-						"Example: `~>opts actionmention toggle`",
-				"Toggles action mention (double-mention).", event -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			boolean toggler = guildData.isNoMentionsAction();
-
-			guildData.setNoMentionsAction(!toggler);
-			event.getChannel().sendMessage(
-				EmoteReference.CORRECT + "Set no action mentions in chat to " + "**" + !toggler + "**").queue();
-			dbGuild.save();
-		});
 	}
 
 	@Subscribe

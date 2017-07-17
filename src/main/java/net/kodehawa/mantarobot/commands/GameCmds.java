@@ -121,14 +121,4 @@ public class GameCmds {
 
 		lobby.startFirstGame();
 	}
-
-	@Subscribe
-	public static void onPostLoad(PostLoadEvent e){
-		OptsCmd.registerOption("lobby:reset", "Lobby reset","Fixes stuck game/poll session.", event -> {
-			GameLobby.LOBBYS.remove(event.getChannel());
-			Poll.getRunningPolls().remove(event.getChannel().getId());
-			InteractiveOperations.get(event.getChannel()).cancel(true);
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
-		});
-	}
 }

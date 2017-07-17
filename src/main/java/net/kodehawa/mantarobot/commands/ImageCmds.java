@@ -14,8 +14,6 @@ import net.kodehawa.lib.imageboards.rule34.Rule34;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.image.YandereImageData;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.PostLoadEvent;
@@ -41,8 +39,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.commands.OptsCmd.registerOption;
 
 @Module
 public class ImageCmds {
@@ -268,7 +264,7 @@ public class ImageCmds {
 							String TAGS = wallpapers.get(number - 1).getTags().stream().collect(Collectors.joining(", "));
 
 							EmbedBuilder builder = new EmbedBuilder();
-							builder.setAuthor("Found image", null, "https:" + wallpapers.get(number - 1).getJpeg_url())
+							builder.setAuthor("Found image", "https:" + wallpapers.get(number - 1).getJpeg_url(), null)
 								.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
 								.setImage("https:" + wallpapers.get(number - 1).getJpeg_url())
 								.addField("Width", String.valueOf(wallpapers.get(number - 1).getWidth()), true)
@@ -308,7 +304,7 @@ public class ImageCmds {
 								String TAGS1 = wallpapers1.get(number1).getTags().stream().collect(Collectors.joining(", "));
 
 								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", null, "https:" + wallpapers1.get(number1 - 1).getJpeg_url())
+								builder.setAuthor("Found image", "https:" + wallpapers1.get(number1 - 1).getJpeg_url(), null)
 									.setDescription("Image uploaded by: " + (wallpapers1.get(number1 - 1).getAuthor() == null ? "not found" : wallpapers1.get(number1 - 1).getAuthor()))
 									.setImage("https:" + wallpapers1.get(number1 - 1).getJpeg_url())
 									.addField("Width", String.valueOf(wallpapers1.get(number1 - 1).getWidth()), true)
@@ -378,7 +374,7 @@ public class ImageCmds {
 
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
-									builder.setAuthor("Found image", null, "http:" + image.get(number - 1).getFile_url())
+									builder.setAuthor("Found image", "http:" + image.get(number - 1).getFile_url(), null)
 										.setImage("http:" + image.get(number - 1).getFile_url())
 										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
 										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
@@ -421,7 +417,7 @@ public class ImageCmds {
 										String TAGS = images.get(number).getTags() == null ? tags : images.get(number).getTags()
 											.replace(" ", " ,");
 										EmbedBuilder builder = new EmbedBuilder();
-										builder.setAuthor("Found image", null, "http:" + images.get(number1 - 1).getFile_url())
+										builder.setAuthor("Found image", "http:" + images.get(number1 - 1).getFile_url(), null)
 											.setImage("http:" + images.get(number1 - 1).getFile_url())
 											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
 											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
@@ -607,20 +603,5 @@ public class ImageCmds {
 		nRating.put("safe", "s");
 		nRating.put("questionable", "q");
 		nRating.put("explicit", "e");
-
-		registerOption("nsfw:toggle","NSFW toggle","Toggles NSFW mode in the channel the command was ran at.", (event) -> {
-			DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-			GuildData guildData = dbGuild.getData();
-			if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
-				guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
-				dbGuild.saveAsync();
-				return;
-			}
-
-			guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
-			dbGuild.saveAsync();
-			event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
-		});
 	}
 }

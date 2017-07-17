@@ -106,9 +106,9 @@ public class MantaroShard implements JDA {
 			.setCorePoolSize(15)
 			.setHttpClientBuilder(
 					new OkHttpClient.Builder()
-							.connectTimeout(15, TimeUnit.SECONDS)
-							.readTimeout(15, TimeUnit.SECONDS)
-							.writeTimeout(15, TimeUnit.SECONDS)
+							.connectTimeout(30, TimeUnit.SECONDS)
+							.readTimeout(30, TimeUnit.SECONDS)
+							.writeTimeout(30, TimeUnit.SECONDS)
 			)
 			.setGame(Game.of("Hold on to your seatbelts!"));
 		if (totalShards > 1)

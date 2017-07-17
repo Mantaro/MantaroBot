@@ -18,7 +18,7 @@ public class Items {
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2;
 
     public static final Item[] ALL = {
-            HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
+            HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much impl. Should be worth " +
                     "something, tho.", 5, true, false),
             BAN_HAMMER = new Item("\uD83D\uDD28", "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
             KICK_BOOT = new Item("\uD83D\uDC62", "Kick Boot", "Left by an admin. +INF Knockback", 12, false),
