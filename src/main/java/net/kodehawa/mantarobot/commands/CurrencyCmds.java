@@ -84,6 +84,11 @@ public class CurrencyCmds {
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
+                if(player.isLocked()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot access the market now.").queue();
+                    return;
+                }
+
                 if (args.length > 0) {
                     int itemNumber = 1;
                     String itemName = content.replace(args[0] + " ", "");
@@ -579,6 +584,12 @@ public class CurrencyCmds {
                 }
 
                 Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
+
+                if(transferPlayer.isLocked()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money now.").queue();
+                    return;
+                }
+
                 if (transferPlayer.getMoney() < toSend) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money you don't have.").queue();
                     return;
@@ -591,6 +602,12 @@ public class CurrencyCmds {
                 }
 
                 Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
+
+                if(toTransfer.isLocked()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "That user cannot receive money now.").queue();
+                    return;
+                }
+
                 if (toTransfer.getMoney() + toSend < 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
                     return;

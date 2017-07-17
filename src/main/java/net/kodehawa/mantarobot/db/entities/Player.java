@@ -49,6 +49,11 @@ public class  Player implements ManagedObject {
 	@Setter
 	private Long reputation = null;
 
+	@Getter
+	@Setter
+	@JsonIgnore
+	private boolean locked = false;
+
 	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
 	public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
 		this.id = id;

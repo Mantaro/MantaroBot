@@ -59,7 +59,12 @@ public class MoneyCmds {
                 catch (IndexOutOfBoundsException ignored) {
                 }
 
-                Player player;
+                Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
+
+                if(player.isLocked()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot get daily credits now").queue();
+                    return;
+                }
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
@@ -71,7 +76,6 @@ public class MoneyCmds {
 
                 if (mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(2);
-                    player = MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser));
 
                     if (player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
 
@@ -92,8 +96,6 @@ public class MoneyCmds {
                             mentionedUser.getName()).queue();
                     return;
                 }
-
-                player = MantaroData.db().getPlayer(event.getMember());
 
                 player.addMoney(money);
                 player.save();
@@ -182,6 +184,8 @@ public class MoneyCmds {
                 final int finalLuck = luck;
                 final long finalGains = gains;
 
+                player.setLocked(true);
+
                 if (i >= Integer.MAX_VALUE / 4) {
                     event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
                             "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
@@ -191,10 +195,12 @@ public class MoneyCmds {
                                     if (e.getAuthor().getId().equals(user.getId())) {
                                         if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
                                             proceedGamble(event, player, finalLuck, random, i, finalGains);
+                                            player.setLocked(false);
                                             return COMPLETED;
                                         }
                                         else if (e.getMessage().getContent().equalsIgnoreCase("no")) {
                                             e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
+                                            player.setLocked(false);
                                             return COMPLETED;
                                         }
                                     }
@@ -206,6 +212,7 @@ public class MoneyCmds {
                                 public void onExpire() {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Time to complete the operation has ran out.")
                                             .queue();
+                                    player.setLocked(false);
                                 }
                             });
 
@@ -213,6 +220,7 @@ public class MoneyCmds {
                 }
 
                 proceedGamble(event, player, luck, random, i, gains);
+                player.setLocked(false);
             }
 
             @Override
@@ -235,6 +243,11 @@ public class MoneyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
+
+                if(player.isLocked()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot loot now.").queue();
+                    return;
+                }
 
                 if (!rateLimiter.process(id)) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
