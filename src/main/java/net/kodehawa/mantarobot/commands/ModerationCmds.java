@@ -75,7 +75,7 @@ public class ModerationCmds {
                     Member member = guild.getMember(user);
                     if (member == null) return;
 
-                    //If one of them is in a higher hierarchy than the bot, cannot kick.
+                    //If one of them is in a higher hierarchy than the bot, cannot ban.
                     if (!selfMember.canInteract(member)) {
                         channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban member: " + member.getEffectiveName() + ", they are " +
                                 "higher or the same " + "hierachy than I am!").queue();
@@ -83,8 +83,8 @@ public class ModerationCmds {
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-                    //Proceed to kick them. Again, using queue so I don't get rate limited.
-                    guild.getController().ban(member, 7).queue(
+                    //Proceed to ban them. Again, using queue so I don't get rate limited.
+                    guild.getController().ban(member, 7).reason(finalReason).queue(
                             success -> {
                                 user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **softbanned** by " + event
                                         .getAuthor().getName() + "#"
@@ -197,7 +197,7 @@ public class ModerationCmds {
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
-                    guild.getController().ban(member, 7).queue(
+                    guild.getController().ban(member, 7).reason(finalReason).queue(
                             success -> {
                                 user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
                                         .getAuthor().getName() + "#"
@@ -299,7 +299,7 @@ public class ModerationCmds {
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
 
                     //Proceed to kick them. Again, using queue so I don't get rate limited.
-                    guild.getController().kick(member).queue(
+                    guild.getController().kick(member).reason(finalReason).queue(
                             success -> {
 
                                 if(!user.isBot()){
@@ -317,7 +317,7 @@ public class ModerationCmds {
                             error -> {
                                 if (error instanceof PermissionException) {
                                     channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission " +
-                                            "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
+                                            "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission().getName()))
                                             .queue();
                                 }
                                 else {
