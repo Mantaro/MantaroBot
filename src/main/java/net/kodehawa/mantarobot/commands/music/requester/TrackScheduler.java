@@ -89,7 +89,7 @@ public class TrackScheduler extends AudioEventAdapter {
             long trackLength = information.length;
 
             if (getRequestedChannelParsed().canTalk()){
-                getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s), on **%s**!",
+                getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s), on **%s**!%s",
                         title, AudioUtils.getLength(trackLength), voiceChannel.getName(), getCurrentTrack().getUserData() != null ?
                                 " requested by **" + getCurrentTrack().getUserData() + "**" : "")).queue(message -> message.delete().queueAfter(
                                         90, TimeUnit.SECONDS)

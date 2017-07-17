@@ -100,7 +100,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if (!exception.severity.equals(FriendlyException.Severity.FAULT)) {
             event.getChannel().sendMessage("\u274C Error while fetching impl: " + exception.getMessage()).queue();
         } else {
-            log.warn("Error caught while playing audio, the bot might be able to continue playing impl.", exception);
+            log.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
         }
         if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
     }
