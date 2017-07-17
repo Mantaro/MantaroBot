@@ -62,7 +62,7 @@ public class MoneyCmds {
                 Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot get daily credits now").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? "That user cannot receive daily credits now." : "You cannot get daily credits now.")).queue();
                     return;
                 }
 
