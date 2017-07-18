@@ -31,6 +31,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -164,9 +165,21 @@ public class DebugCmds {
 
                     builder.append("\n");
                 }
-                MessageBuilder messageBuilder = new MessageBuilder();
-                Queue<Message> m = messageBuilder.append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
-                m.forEach(message -> event.getChannel().sendMessage(String.format("```prolog\n%s```", message.getRawContent())).queue());
+                Queue<String> m = new LinkedList<>();
+                String s = builder.toString();
+                StringBuilder sb = new StringBuilder();
+                while(s.length() > 0) {
+                    String line = s.substring(0, Math.max(s.indexOf('\n'), s.length()));
+                    s = s.substring(line.length());
+                    if(sb.length() + line.length() > 1980) {
+                        m.add(sb.toString());
+                        sb = new StringBuilder();
+                    }
+                    sb.append(line).append('\n');
+                }
+                if(sb.length() != 0) m.add(sb.toString());
+
+                m.forEach(message -> event.getChannel().sendMessage(String.format("```prolog\n%s```", message)).queue());
             }
 
             @Override
@@ -190,7 +203,6 @@ public class DebugCmds {
         if (ping <= 600) return "kinda slow.. :frowning2:";
         if (ping <= 700) return "slow.. :worried:";
         if (ping <= 800) return "too slow. :disappointed:";
-        if (ping <= 800) return "awful. :weary:";
         if (ping <= 900) return "bad. :sob: (helpme)";
         if (ping <= 1600) return "#BlameDiscord. :angry:";
         if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
