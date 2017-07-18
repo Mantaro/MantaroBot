@@ -193,7 +193,7 @@ public class MantaroListener implements EventListener {
 
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-				Message deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
+				Message deletedMessage = CommandListener.getMessageCache().getIfPresent(event.getMessageId());
 
 
 				if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -225,7 +225,7 @@ public class MantaroListener implements EventListener {
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				User author = event.getAuthor();
-				Message editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
+				Message editedMessage = CommandListener.getMessageCache().getIfPresent(event.getMessageId());
 
 				if (editedMessage != null && !editedMessage.getContent().isEmpty()&& !event.getChannel().getId().equals(logChannel)) {
 
@@ -239,7 +239,7 @@ public class MantaroListener implements EventListener {
 
 					tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
 							hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
-					CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(event.getMessage()));
+					CommandListener.getMessageCache().put(event.getMessage().getId(), event.getMessage());
 					logTotal++;
 				}
 			}

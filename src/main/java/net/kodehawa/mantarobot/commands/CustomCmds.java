@@ -7,15 +7,15 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.dataporter.oldentities.OldCustomCommand;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.dataporter.oldentities.OldCustomCommand;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.PostLoadEvent;
@@ -238,8 +238,8 @@ public class CustomCmds {
 									return Operation.RESET_TIMEOUT;
 								}
 
-								if (CommandProcessor.REGISTRY.commands().containsKey(
-									saveTo) && !CommandProcessor.REGISTRY.commands().get(saveTo).equals(
+								if (CommandListener.PROCESSOR.commands().containsKey(
+									saveTo) && !CommandListener.PROCESSOR.commands().get(saveTo).equals(
 									customCommand)) {
 									event.getChannel().sendMessage(
 										EmoteReference.ERROR + "A command already exists with this name!").queue();
@@ -260,7 +260,7 @@ public class CustomCmds {
 									customCommands.put(custom.getId(), custom.getValues());
 
 									//add mini-hack
-									CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
+									CommandListener.PROCESSOR.commands().put(cmd, customCommand);
 
 									event.getChannel().sendMessage(
 										EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!").queue();
@@ -310,7 +310,7 @@ public class CustomCmds {
 
 					//clear commands if none
 					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-						CommandProcessor.REGISTRY.commands().remove(cmd);
+						CommandListener.PROCESSOR.commands().remove(cmd);
 
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Removed Custom Command ``" + cmd + "``!")
 						.queue();
@@ -411,7 +411,7 @@ public class CustomCmds {
 						return;
 					}
 
-					if (CommandProcessor.REGISTRY.commands().containsKey(value) && !CommandProcessor.REGISTRY.commands()
+					if (CommandListener.PROCESSOR.commands().containsKey(value) && !CommandListener.PROCESSOR.commands()
 						.get(value).equals(customCommand)) {
 						event.getChannel().sendMessage(
 							EmoteReference.ERROR + "A command already exists with this name!").queue();
@@ -437,11 +437,11 @@ public class CustomCmds {
 					customCommands.put(newCustom.getId(), newCustom.getValues());
 
 					//add mini-hack
-					CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
+					CommandListener.PROCESSOR.commands().put(cmd, customCommand);
 
 					//clear commands if none
 					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
-						CommandProcessor.REGISTRY.commands().remove(cmd);
+						CommandListener.PROCESSOR.commands().remove(cmd);
 
 					event.getChannel().sendMessage(
 						EmoteReference.CORRECT + "Renamed command ``" + cmd + "`` to ``" + value + "``!").queue();
@@ -463,7 +463,7 @@ public class CustomCmds {
 						return;
 					}
 
-					if (CommandProcessor.REGISTRY.commands().containsKey(cmd) && !CommandProcessor.REGISTRY.commands()
+					if (CommandListener.PROCESSOR.commands().containsKey(cmd) && !CommandListener.PROCESSOR.commands()
 						.get(cmd).equals(customCommand)) {
 						event.getChannel().sendMessage(
 							EmoteReference.ERROR + "A command already exists with this name!").queue();
@@ -486,7 +486,7 @@ public class CustomCmds {
 					customCommands.put(custom.getId(), custom.getValues());
 
 					//add mini-hack
-					CommandProcessor.REGISTRY.commands().put(cmd, customCommand);
+					CommandListener.PROCESSOR.commands().put(cmd, customCommand);
 
 					event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved to command ``" + cmd + "``!")
 						.queue();
@@ -537,7 +537,7 @@ public class CustomCmds {
 				custom.saveAsync();
 			}
 
-			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !CommandProcessor.REGISTRY
+			if (CommandListener.PROCESSOR.commands().containsKey(custom.getName()) && !CommandListener.PROCESSOR
 				.commands().get(custom.getName()).equals(customCommand)) {
 				custom.deleteAsync();
 				custom = OldCustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
@@ -545,7 +545,7 @@ public class CustomCmds {
 			}
 
 			//add mini-hack
-			CommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
+			CommandListener.PROCESSOR.commands().put(custom.getName(), customCommand);
 
 			customCommands.put(custom.getId(), custom.getValues());
 		});

@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.CommandProcessorAndRegistry;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -36,7 +36,6 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
-import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getMaxMemory;
 
 @Module
 public class DebugCmds {
@@ -72,7 +71,7 @@ public class DebugCmds {
 
                 event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
-                        + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
+                        + "Commands: " + CommandListener.PROCESSOR.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
@@ -87,7 +86,7 @@ public class DebugCmds {
                         + "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
                         + "Threads: " + Thread.activeCount() + "\n"
-                        + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
+                        + "Executed Commands: " + CommandProcessorAndRegistry.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
                         + "Music Connections: " + c + "\n"

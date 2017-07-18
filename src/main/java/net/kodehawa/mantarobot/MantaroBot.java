@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
-import com.timgroup.statsd.Event;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 import io.sentry.Sentry;
@@ -12,10 +11,8 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.options.annotations.Option;
-import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogBack;
@@ -23,6 +20,8 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.PostLoadEvent;
+import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.shard.ShardedMantaro;
@@ -32,21 +31,21 @@ import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
-import net.kodehawa.mantarobot.utils.rmq.NodeAction;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.MantaroAPI;
 import net.kodehawa.mantarobot.web.MantaroAPISender;
 import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
-import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -264,7 +263,7 @@ public class MantaroBot extends ShardedJDA {
 				log.error("Invalid module: no zero arg public constructor found for " + clazz);
 			}
 		});
-		bus.post(CommandProcessor.REGISTRY);
+		bus.post(CommandListener.PROCESSOR);
 
 		loadState = POSTLOAD;
 		System.out.println("Finished loading basic components. Current status: " + loadState);
@@ -275,7 +274,7 @@ public class MantaroBot extends ShardedJDA {
 
 		LogUtils.log("Startup",
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
-						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
+						CommandListener.PROCESSOR.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
 		if(!config.isPremiumBot() && !config.isBeta()){
 			mantaroAPI.startService();

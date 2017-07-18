@@ -3,16 +3,16 @@ package net.kodehawa.mantarobot.options.opts;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.options.OptionType;
-import net.kodehawa.mantarobot.options.annotations.Option;
-import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.core.CommandProcessor;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.options.OptionType;
+import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -44,7 +44,7 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
                     String commandName = args[0];
-                    if (CommandProcessor.REGISTRY.commands().get(commandName) == null) {
+                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
@@ -70,7 +70,7 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
                     String commandName = args[0];
-                    if (CommandProcessor.REGISTRY.commands().get(commandName) == null) {
+                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
@@ -99,7 +99,7 @@ public class CommandOptions extends OptionHandler{
                     String channelName = args[0];
                     String commandName = args[1];
 
-                    if (CommandProcessor.REGISTRY.commands().get(commandName) == null) {
+                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
@@ -145,7 +145,7 @@ public class CommandOptions extends OptionHandler{
                     String channelName = args[0];
                     String commandName = args[1];
 
-                    if (CommandProcessor.REGISTRY.commands().get(commandName) == null) {
+                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }

@@ -8,8 +8,8 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.core.CommandProcessorAndRegistry;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
-import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import okhttp3.MediaType;
@@ -58,7 +58,7 @@ public class MantaroAPISender {
                     .put("guilds", bot.getGuilds().size())
                     .put("users", bot.getUsers().size())
                     .put("shardsTotal", bot.getShardAmount())
-                    .put("executedCommands", Integer.parseInt(CommandListener.getCommandTotal()))
+                    .put("executedCommands", CommandProcessorAndRegistry.getCommandTotal())
                     .put("logTotal", Integer.parseInt(MantaroListener.getLogTotal()))
                     .put("musicConnections", c)
                     .put("parsedCpuUsage", getVpsCPUUsage())
