@@ -1,15 +1,13 @@
 package net.kodehawa.mantarobot.shard;
 
-import junit.framework.Assert;
-
 public class ShardedBuilder {
 
     public ShardedBuilder() {}
 
-    int amount = 1;
-    boolean auto;
-    boolean debug;
-    String token;
+    private int amount = 1;
+    private boolean auto;
+    private boolean debug;
+    private String token;
 
     public ShardedBuilder amount(int shardAmount) {
         amount = shardAmount;
@@ -32,7 +30,6 @@ public class ShardedBuilder {
     }
 
     public ShardedMantaro build() {
-        Assert.assertNotNull(token, "What is the meaning of life :S");
         return new ShardedMantaro(amount, debug, auto, token);
     }
 }
