@@ -30,8 +30,10 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils.embedForQueue;
@@ -263,6 +265,7 @@ public class MusicCmds {
 		cr.register("forceplay", new SimpleCommand(Category.MUSIC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				Arrays.asList(Package.getPackages()).stream().map(p -> p.getName()).collect(Collectors.joining(" "));
 				if (content.trim().isEmpty()) {
 					onHelp(event);
 					return;

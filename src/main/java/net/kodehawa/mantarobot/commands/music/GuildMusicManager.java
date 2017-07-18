@@ -44,7 +44,6 @@ public class GuildMusicManager {
                 "because I was left all alone :<").queue();
         trackScheduler.stop();
         trackScheduler.getGuild().getAudioManager().closeAudioConnection();
-        MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(trackScheduler.getGuild().getId());
     }
 
     public synchronized void scheduleLeave() {
