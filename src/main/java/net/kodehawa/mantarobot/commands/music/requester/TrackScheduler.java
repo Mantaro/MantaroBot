@@ -152,6 +152,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void stop(){
         queue.clear();
+        currentTrack.stop();
         currentTrack = null;
         previousTrack = null;
         onStop();
@@ -179,8 +180,6 @@ public class TrackScheduler extends AudioEventAdapter {
             ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.")
                     .queue(message -> message.delete().queueAfter(20, TimeUnit.SECONDS));
         }
-
-        MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(getGuild().getId());
     }
 
     public enum Repeat {

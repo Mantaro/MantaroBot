@@ -38,6 +38,7 @@ public class GuildMusicManager {
                 guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(()-> new IllegalStateException("No channel to speak")) :
                 trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.THINKING + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
                 "because I was left all alone :<").queue();
+        isAwaitingDeath = false;
         trackScheduler.stop();
         trackScheduler.getGuild().getAudioManager().closeAudioConnection();
     }
