@@ -94,9 +94,9 @@ public class TrackScheduler extends AudioEventAdapter {
                 if(getCurrentTrack().getUserData() != null){
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
-                getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s), on **%s**!%s",
+                getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
                         title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                String.format(" requested by **%s#%s**", user.getName(), user.getDiscriminator()) : "")).queue(message -> message.delete().queueAfter(
+                                String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : "")).queue(message -> message.delete().queueAfter(
                                         90, TimeUnit.SECONDS)
                 );
             }
