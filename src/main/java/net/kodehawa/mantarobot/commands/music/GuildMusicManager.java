@@ -41,7 +41,6 @@ public class GuildMusicManager {
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
         trackScheduler.nextTrack(true, true);
-        trackScheduler.getGuild().getAudioManager().closeAudioConnection();
     }
 
     public synchronized void scheduleLeave() {

@@ -89,7 +89,7 @@ public class TrackScheduler extends AudioEventAdapter {
             String title = information.title;
             long trackLength = information.length;
 
-            if (getRequestedChannelParsed().canTalk()){
+            if (getRequestedChannelParsed().canTalk() && currentTrack != null){
                 User user = null;
                 if(getCurrentTrack().getUserData() != null){
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
