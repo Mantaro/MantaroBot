@@ -265,7 +265,6 @@ public class MusicCmds {
 		cr.register("forceplay", new SimpleCommand(Category.MUSIC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				Arrays.asList(Package.getPackages()).stream().map(p -> p.getName()).collect(Collectors.joining(" "));
 				if (content.trim().isEmpty()) {
 					onHelp(event);
 					return;
