@@ -175,7 +175,7 @@ public class MusicCmds {
 								+ "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack()
 									.getInfo().uri + ")** "
 								+ String.format("`(%s/%s)`", Utils.getDurationMinutes(now), Utils.getDurationMinutes(total)))
-						.setFooter("Enjoy the impl! <3", event.getAuthor().getAvatarUrl());
+						.setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
 
 				event.getChannel().sendMessage(npEmbed.build()).queue();
 				TextChannelGround.of(event).dropItemWithChance(0, 10);
