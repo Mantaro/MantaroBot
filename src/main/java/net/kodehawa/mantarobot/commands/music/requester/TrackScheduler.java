@@ -152,9 +152,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void stop(){
         queue.clear();
-        currentTrack.stop();
-        currentTrack = null;
-        previousTrack = null;
         onStop();
     }
 

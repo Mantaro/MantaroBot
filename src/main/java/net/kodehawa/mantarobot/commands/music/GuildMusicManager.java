@@ -39,6 +39,7 @@ public class GuildMusicManager {
                 trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.THINKING + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
                 "because I was left all alone :<").queue();
         isAwaitingDeath = false;
+        trackScheduler.getCurrentTrack().stop();
         trackScheduler.stop();
         trackScheduler.getGuild().getAudioManager().closeAudioConnection();
     }
