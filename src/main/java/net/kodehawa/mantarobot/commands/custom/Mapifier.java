@@ -7,12 +7,13 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
+import static br.com.brjdevs.java.utils.texts.StringUtils.splitArgs;
 import static net.kodehawa.mantarobot.utils.Utils.iterate;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 
@@ -91,5 +92,11 @@ public class Mapifier {
 		map.put(prefix + "name", channel.getName());
 		map.put(prefix + "id", channel.getId());
 		map.put(prefix + "mention", channel.getAsMention());
+	}
+
+	public static Map<String, String> mapped(String prefix, GuildMessageReceivedEvent event) {
+		Map<String, String> map = new HashMap<>();
+		map(prefix, map, event);
+		return map;
 	}
 }

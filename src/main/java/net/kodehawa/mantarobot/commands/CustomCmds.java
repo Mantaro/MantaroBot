@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.dataporter.oldentities.OldCustomCommand;
+import net.kodehawa.lib.customfunc.CustomFunc;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
@@ -35,8 +36,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
@@ -60,15 +59,8 @@ public class CustomCmds {
 
 			if (values == null) return;
 
-			String response = random(values);
+			String response = CustomFunc.embeddedEval(random(values), ConditionalCustoms.genEnv(event));
 
-			if (response.contains("$(")) {
-				Map<String, String> dynamicMap = new HashMap<>();
-				map("event", dynamicMap, event);
-				response = dynamicResolve(response, dynamicMap);
-			}
-
-			response = ConditionalCustoms.resolve(response, 0);
 
 			int c = response.indexOf(':');
 			if (c != -1) {
