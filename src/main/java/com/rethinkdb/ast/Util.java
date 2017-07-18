@@ -6,7 +6,6 @@ import com.rethinkdb.gen.exc.ReqlDriverError;
 import com.rethinkdb.model.Arguments;
 import com.rethinkdb.model.MapObject;
 import com.rethinkdb.model.ReqlLambda;
-import net.kodehawa.mantarobot.utils.Mapifier;
 
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -14,8 +13,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
+
+import static com.rethinkdb.net.Util.mapper;
 
 public class Util {
 	/**
@@ -45,9 +45,10 @@ public class Util {
 	 * @param pojo POJO to be introspected
 	 * @return Map of POJO's public properties
 	 */
+	@SuppressWarnings("unchecked")
 	private static Map<String, Object> toMap(Object pojo) {
 		try {
-			return Mapifier.toMap(pojo);
+			return ((Map<String, Object>) mapper.convertValue(pojo, Map.class));
 		} catch (IllegalArgumentException e) {
 			throw new ReqlDriverError("Can't convert %s to a ReqlAst: %s", pojo, e.getMessage());
 		}
@@ -64,17 +65,21 @@ public class Util {
 
 		if (val instanceof Object[]) {
 			Arguments innerValues = new Arguments();
+
 			for (Object innerValue : Arrays.asList((Object[]) val)) {
 				innerValues.add(toReqlAst(innerValue, remainingDepth - 1));
 			}
+
 			return new MakeArray(innerValues, null);
 		}
 
-		if (val instanceof List) {
+		if (val instanceof Iterable) {
 			Arguments innerValues = new Arguments();
-			for (Object innerValue : (List) val) {
+
+			for (Object innerValue : (Iterable) val) {
 				innerValues.add(toReqlAst(innerValue, remainingDepth - 1));
 			}
+
 			return new MakeArray(innerValues, null);
 		}
 
@@ -97,28 +102,25 @@ public class Util {
 		final DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 
 		if (val instanceof LocalDateTime) {
-			ZoneId zid = ZoneId.systemDefault();
-			DateTimeFormatter fmt2 = fmt.withZone(zid);
-			return Iso8601.fromString(((LocalDateTime) val).format(fmt2));
+			return Iso8601.fromString(((LocalDateTime) val).format(fmt.withZone(ZoneId.systemDefault())));
 		}
+
 		if (val instanceof ZonedDateTime) {
 			return Iso8601.fromString(((ZonedDateTime) val).format(fmt));
 		}
+
 		if (val instanceof OffsetDateTime) {
 			return Iso8601.fromString(((OffsetDateTime) val).format(fmt));
 		}
 
-		if (val instanceof Number || val instanceof Boolean || val instanceof String) {
+		if (val instanceof Integer || val instanceof Number || val instanceof Boolean || val instanceof String || val == null) {
 			return new Datum(val);
-		}
-
-        if (val == null) {
-			return new Datum(null);
 		}
 
 		// val is a non-null POJO, let's introspect its public properties
 		return toReqlAst(toMap(val));
 	}
 
-	private Util() {}
+	private Util() {
+	}
 }

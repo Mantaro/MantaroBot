@@ -5,15 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapObject<K, V> extends LinkedHashMap<K, V> {
-	public MapObject() {}
+	public MapObject() {
+	}
 
 	public MapObject(Map<? extends K, ? extends V> m) {
 		super(m);
-	}
-
-	@SafeVarargs
-	public MapObject(Map<? extends K, ? extends V>... maps) {
-		for (Map<? extends K, ? extends V> m : maps) putAll(m);
 	}
 
 	public MapObject(K key, V value) {
@@ -34,6 +30,12 @@ public class MapObject<K, V> extends LinkedHashMap<K, V> {
 		return Collections.unmodifiableMap(this);
 	}
 
+	@SafeVarargs
+	public final MapObject<K, V> joining(Map<? extends K, ? extends V>... maps) {
+		for (Map<? extends K, ? extends V> m : maps) putAll(m);
+		return this;
+	}
+
 	/**
 	 * Associates the specified value with the specified key in this map.
 	 * If the map previously contained a mapping for the key, the old
@@ -45,6 +47,11 @@ public class MapObject<K, V> extends LinkedHashMap<K, V> {
 	 */
 	public MapObject<K, V> with(K key, V value) {
 		put(key, value);
+		return this;
+	}
+
+	public MapObject<K, V> without(K key) {
+		remove(key);
 		return this;
 	}
 }
