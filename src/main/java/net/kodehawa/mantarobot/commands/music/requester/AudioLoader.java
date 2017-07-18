@@ -149,7 +149,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
         if (!silent) {
             event.getChannel().sendMessage(
-                    String.format("\uD83D\uDCE3 Added to queue -> **%s** **!(%s)**", title, AudioUtils.getLength(length))
+                    String.format("\uD83D\uDCE3 Added to queue -> **%s** **(%s)**", title, AudioUtils.getLength(length))
             ).queue();
         }
     }

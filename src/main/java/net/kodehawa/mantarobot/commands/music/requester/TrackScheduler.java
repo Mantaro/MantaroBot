@@ -89,7 +89,7 @@ public class TrackScheduler extends AudioEventAdapter {
             String title = information.title;
             long trackLength = information.length;
 
-            if (getRequestedChannelParsed().canTalk()){
+            if (getRequestedChannelParsed().canTalk() && currentTrack != null){
                 User user = null;
                 if(getCurrentTrack().getUserData() != null){
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
@@ -152,8 +152,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public void stop(){
         queue.clear();
-        currentTrack = null;
-        previousTrack = null;
         onStop();
     }
 
@@ -176,7 +174,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
         TextChannel ch = getRequestedChannelParsed();
         if (ch != null && ch.canTalk()) {
-            ch.sendMessage(":mega: Finished playing current queue! I hope you enjoyed it.")
+            ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.")
                     .queue(message -> message.delete().queueAfter(20, TimeUnit.SECONDS));
         }
     }

@@ -11,7 +11,6 @@ import net.kodehawa.mantarobot.commands.music.handlers.AudioPlayerSendHandler;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +19,6 @@ public class GuildMusicManager {
     public final AudioPlayer audioPlayer;
     @Getter
     public final TrackScheduler trackScheduler;
-    @Getter
-    public final AudioPlayerSendHandler audioPlayerSendHandler;
     @Getter @Setter
     public boolean isAwaitingDeath;
     private ScheduledFuture<?> leaveTask = null;
@@ -29,7 +26,6 @@ public class GuildMusicManager {
     public GuildMusicManager(AudioPlayerManager manager, String guildId) {
         audioPlayer = manager.createPlayer();
         trackScheduler = new TrackScheduler(audioPlayer, guildId);
-        audioPlayerSendHandler = new AudioPlayerSendHandler(audioPlayer);
         audioPlayer.addListener(trackScheduler);
     }
 
@@ -40,11 +36,11 @@ public class GuildMusicManager {
 
         (trackScheduler.getCurrentTrack() == null ?
                 guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(()-> new IllegalStateException("No channel to speak")) :
-                trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.THINKING + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
+                trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.SAD + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
                 "because I was left all alone :<").queue();
-        trackScheduler.stop();
-        trackScheduler.getGuild().getAudioManager().closeAudioConnection();
-        MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(trackScheduler.getGuild().getId());
+        isAwaitingDeath = false;
+        trackScheduler.getQueue().clear();
+        trackScheduler.nextTrack(true, true);
     }
 
     public synchronized void scheduleLeave() {
@@ -56,5 +52,9 @@ public class GuildMusicManager {
         if(leaveTask == null) return;
         leaveTask.cancel(true);
         leaveTask = null;
+    }
+
+    public AudioPlayerSendHandler getAudioPlayerSendHandler(){
+        return new AudioPlayerSendHandler(audioPlayer);
     }
 }

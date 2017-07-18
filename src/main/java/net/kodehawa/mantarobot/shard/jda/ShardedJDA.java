@@ -237,6 +237,11 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
+	public List<String> getWebSocketTrace() {
+		return null; //use the shard-specific one
+	}
+
+	@Override
 	public AuditableRestAction<Void> installAuxiliaryCable(int port) {
 		return null;
 	}
