@@ -1,33 +1,41 @@
 package net.kodehawa.mantarobot.db.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.utils.URLEncoding;
+import net.kodehawa.mantarobot.db.entities.helpers.CustomCommandList;
 
-import java.beans.ConstructorProperties;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
+/**
+ * <p>A Custom Command Object.</p>
+ * <p><b>DON'T USE</b> {@link CustomCommand#getValues()}. Use {@link CustomCommand#values()} instead.</p>
+ */
 @Getter
+@ToString
+@RequiredArgsConstructor
 public class CustomCommand implements ManagedObject {
 	public static final String DB_TABLE = "commands";
-
-	public static CustomCommand of(String guildId, String cmdName, List<String> responses) {
-		return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(URLEncoding::encode).collect(Collectors.toList()));
-	}
-
-	private final String id;
+	private final Set<String> authors;
+	private final String id, commandName, guildId;
 	private final List<String> values;
 
-	@ConstructorProperties({"id", "values"})
-	public CustomCommand(String id, List<String> values) {
-		this.id = id;
-		this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());
+	public CustomCommand(String name, String guildId) {
+		this.id = String.valueOf(ManagedDatabase.ID_WORKER.generate());
+
+		this.commandName = name;
+		this.guildId = guildId;
+
+		this.authors = new HashSet<>();
+		this.values = new LinkedList<>();
 	}
 
 	@Override
@@ -42,23 +50,7 @@ public class CustomCommand implements ManagedObject {
 			.runNoReply(conn());
 	}
 
-	@JsonProperty("values")
-	public List<String> encodedValues() {
-		return values.stream().map(URLEncoding::encode).collect(Collectors.toList());
-	}
-
-	@JsonIgnore
-	public String getGuildId() {
-		return getId().split(":", 2)[0];
-	}
-
-	@JsonIgnore
-	public String getName() {
-		return getId().split(":", 2)[1];
-	}
-
-	@JsonIgnore
-	public List<String> getValues() {
-		return values;
+	public List<String> values() {
+		return new CustomCommandList(values);
 	}
 }

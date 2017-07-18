@@ -1,39 +1,35 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
-
-import java.beans.ConstructorProperties;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 
 import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
+@Setter
 @ToString
-@EqualsAndHashCode
-public class DBUser implements ManagedObject {
-	public static final String DB_TABLE = "users";
-
-	public static DBUser of(String id) {
-		return new DBUser(id, 0, new UserData());
-	}
-
-	private final UserData data;
+@RequiredArgsConstructor
+public class GuildData implements ManagedObject {
+	public static final String DB_TABLE = "guilds";
+	private final ExtraGuildData data;
 	private final String id;
 	private long premiumUntil;
 
-	@ConstructorProperties({"id", "premiumUntil", "data"})
-	public DBUser(String id, long premiumUntil, UserData data) {
-		this.id = id;
-		this.premiumUntil = premiumUntil;
-		this.data = data;
+	public GuildData(Guild guild) {
+		this(guild.getId());
+	}
+
+	public GuildData(String guildId) {
+		this.id = guildId;
+		this.data = new ExtraGuildData();
 	}
 
 	@Override
@@ -53,17 +49,12 @@ public class DBUser implements ManagedObject {
 		return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
 	}
 
-	public User getUser(JDA jda) {
-		return jda.getUserById(getId());
-	}
-
-	public DBUser incrementPremium(long milliseconds) {
+	public void incrementPremium(long milliseconds) {
 		if (isPremium()) {
 			this.premiumUntil += milliseconds;
 		} else {
 			this.premiumUntil = currentTimeMillis() + milliseconds;
 		}
-		return this;
 	}
 
 	@JsonIgnore

@@ -8,8 +8,8 @@ import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -30,8 +30,8 @@ public class MusicOptions extends OptionHandler {
                 "Sets the maximum fairqueue value (max amount of the same song any user can add).\n" +
                         "Example: `~>opts fairqueue max 5`",
                 "Sets the maximum fairqueue value.", (event, args) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     if (args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a positive integer.").queue();
@@ -53,8 +53,8 @@ public class MusicOptions extends OptionHandler {
                 });
 
         registerOption("musicannounce:toggle","Music announce toggle","Toggles whether the bot will announce the new song playing or no.",  event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
             boolean t1 = guildData.isMusicAnnounce();
 
             guildData.setMusicAnnounce(!t1);
@@ -73,8 +73,8 @@ public class MusicOptions extends OptionHandler {
 
                     String channelName = String.join(" ", args);
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     VoiceChannel channel = null;
 
@@ -134,8 +134,8 @@ public class MusicOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     try {
                         int finalSize = Integer.parseInt(args[0]);
                         int applySize = finalSize >= 300 ? 300 : finalSize;
@@ -151,8 +151,8 @@ public class MusicOptions extends OptionHandler {
                 });
 
         registerOption("music:clear", "Music clear settings","Clears the specific music channel.",  (event) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
             guildData.setMusicChannel(null);
             dbGuild.save();
             event.getChannel().sendMessage(EmoteReference.CORRECT + "I can play music on all channels now").queue();

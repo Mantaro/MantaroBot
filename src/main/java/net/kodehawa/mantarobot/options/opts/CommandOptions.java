@@ -9,8 +9,8 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -53,8 +53,8 @@ public class CommandOptions extends OptionHandler{
                                 .queue();
                         return;
                     }
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.getDisabledCommands().add(commandName);
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Disabled " + commandName + " on this server.").queue();
                     dbGuild.saveAsync();
@@ -74,8 +74,8 @@ public class CommandOptions extends OptionHandler{
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.getDisabledCommands().remove(commandName);
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Enabled " + commandName + " on this server.").queue();
                     dbGuild.saveAsync();
@@ -115,8 +115,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     String id = event.getGuild().getTextChannelsByName(channelName, true).get(0).getId();
                     guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
@@ -155,8 +155,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     String id = event.getGuild().getTextChannelsByName(channelName, true).get(0).getId();
 
                     guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
@@ -178,8 +178,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     if (args[0].equals("*")) {
                         Set<String> allChannelsMinusCurrent = event.getGuild().getTextChannels().
@@ -222,8 +222,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     if (args[0].equals("*")) {
                         guildData.getDisabledChannels().clear();
@@ -257,8 +257,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     Category toDisable = Category.lookupFromString(args[0]);
 
                     if(toDisable == null){
@@ -292,8 +292,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     Category toEnable = Category.lookupFromString(args[0]);
 
                     if(toEnable == null){
@@ -317,8 +317,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     Category toDisable = Category.lookupFromString(args[0]);
                     String where = args[1];
                     TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
@@ -361,8 +361,8 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     Category toEnable = Category.lookupFromString(args[0]);
                     String where = args[1];
                     TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);

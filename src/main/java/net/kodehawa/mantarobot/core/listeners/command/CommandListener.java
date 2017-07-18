@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
@@ -79,7 +79,7 @@ public class CommandListener implements EventListener {
 
 			if (random.nextInt(15) > 10) {
 				if (((GuildMessageReceivedEvent) event).getMember() == null) return;
-				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
+				OldPlayer player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
 				if(((GuildMessageReceivedEvent) event).getMember().getUser().isBot()) return;
 				if (player != null) {
 					if (player.getLevel() == 0) player.setLevel(1);

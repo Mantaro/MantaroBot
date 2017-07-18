@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Data
-public class GuildData {
+public class ExtraGuildData {
 	@ConfigName("autoroles") private HashMap<String, String> autoroles = new HashMap<>();
 	private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
 	private String birthdayChannel = null;

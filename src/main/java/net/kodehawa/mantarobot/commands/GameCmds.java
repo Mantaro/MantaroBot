@@ -10,13 +10,10 @@ import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
-import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -90,7 +87,7 @@ public class GameCmds {
 		LinkedList<Game> list = new LinkedList<>();
 		list.add(game);
 
-		HashMap<Member, Player> map = new HashMap<>();
+		HashMap<Member, OldPlayer> map = new HashMap<>();
 		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
 
 

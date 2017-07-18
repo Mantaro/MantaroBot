@@ -8,8 +8,8 @@ import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -40,8 +40,8 @@ public class ModerationOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
                     String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
@@ -64,8 +64,8 @@ public class ModerationOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     List<String> toUnBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
                     String unBlackListed = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
@@ -90,8 +90,8 @@ public class ModerationOptions extends OptionHandler {
                     String logChannel = args[0];
                     boolean isId = args[0].matches("^[0-9]*$");
                     String id = isId ? logChannel : event.getGuild().getTextChannelsByName(logChannel, true).get(0).getId();
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setGuildLogChannel(id);
                     dbGuild.saveAsync();
                     event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with " +
@@ -107,8 +107,8 @@ public class ModerationOptions extends OptionHandler {
                         onHelp(event);
                         return;
                     }
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     if (args[0].equals("clearchannels")) {
                         guildData.getLogExcludedChannels().clear();
@@ -170,8 +170,8 @@ public class ModerationOptions extends OptionHandler {
                 "Disables logs.\n" +
                         "**Example:** `~>opts logs disable`",
                 "Disables logs.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setGuildLogChannel(null);
                     dbGuild.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Message logging has been disabled.").queue();

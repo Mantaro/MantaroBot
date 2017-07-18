@@ -32,9 +32,9 @@ import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraUserData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
@@ -340,8 +340,8 @@ public class MantaroListener implements EventListener {
 
 	private void onMessage(GuildMessageReceivedEvent event) {
 		//Moderation features
-		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-		GuildData guildData = dbGuild.getData();
+		OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+		ExtraGuildData guildData = dbGuild.getData();
 
 		//un-mute check
 		//This is a pretty lazy check.
@@ -429,7 +429,7 @@ public class MantaroListener implements EventListener {
 		//Birthday role checker.
 		try {
 			Role birthdayRole = event.getGuild().getRoleById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayRole());
-			UserData user = MantaroData.db().getUser(event.getMember()).getData();
+			ExtraUserData user = MantaroData.db().getUser(event.getMember()).getData();
 			if (birthdayRole != null && user.getBirthday() != null) {
 				TextChannel channel = event.getGuild().getTextChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayChannel());
 				Calendar cal = Calendar.getInstance();
@@ -461,8 +461,8 @@ public class MantaroListener implements EventListener {
 	private void onUserJoin(GuildMemberJoinEvent event) {
 		try {
 			String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
-			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-			GuildData data = dbg.getData();
+			OldGuild dbg = MantaroData.db().getGuild(event.getGuild());
+			ExtraGuildData data = dbg.getData();
 
 			String hour = df.format(new Date(System.currentTimeMillis()));
 			if (role != null) {
@@ -525,8 +525,8 @@ public class MantaroListener implements EventListener {
 
 
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-			GuildData data = dbg.getData();
+			OldGuild dbg = MantaroData.db().getGuild(event.getGuild());
+			ExtraGuildData data = dbg.getData();
 
 
 			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
@@ -574,7 +574,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void resetBirthdays(Guild guild) {
-		DBGuild data = MantaroData.db().getGuild(guild);
+		OldGuild data = MantaroData.db().getGuild(guild);
 		data.getData().setBirthdayChannel(null);
 		data.getData().setBirthdayRole(null);
 		data.save();

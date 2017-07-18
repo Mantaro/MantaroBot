@@ -7,13 +7,12 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -22,7 +21,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.awt.Color;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class AudioLoader implements AudioLoadResultHandler {
@@ -112,8 +110,8 @@ public class AudioLoader implements AudioLoadResultHandler {
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
         AudioTrackInfo trackInfo = audioTrack.getInfo();
         audioTrack.setUserData(event.getAuthor().getId());
-        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-        GuildData guildData = dbGuild.getData();
+        OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        ExtraGuildData guildData = dbGuild.getData();
 
         String title = trackInfo.title;
         long length = trackInfo.length;

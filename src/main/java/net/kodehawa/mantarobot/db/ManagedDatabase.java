@@ -1,18 +1,25 @@
 package net.kodehawa.mantarobot.db;
 
+import br.com.brjdevs.java.snowflakes.Snowflakes;
+import br.com.brjdevs.java.snowflakes.entities.Config;
+import br.com.brjdevs.java.snowflakes.entities.Worker;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.dataporter.oldentities.*;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 
 import java.util.List;
 
 import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
+	public static final Config MANTARO_FACTORY = Snowflakes.config(1495900000L, 2L, 2L, 12L);
+	public static final Worker ID_WORKER = MANTARO_FACTORY.worker(0, 0), LOG_WORKER = MANTARO_FACTORY.worker(0, 2);
+
 	private final Connection conn;
 	private Guild guild;
 
@@ -20,85 +27,85 @@ public class ManagedDatabase {
 		this.conn = conn;
 	}
 
-	public CustomCommand getCustomCommand(String guildId, String name) {
-		return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
+	public OldCustomCommand getCustomCommand(String guildId, String name) {
+		return r.table(OldCustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, OldCustomCommand.class);
 	}
 
-	public CustomCommand getCustomCommand(Guild guild, String name) {
+	public OldCustomCommand getCustomCommand(Guild guild, String name) {
 		return getCustomCommand(guild.getId(), name);
 	}
 
-	public CustomCommand getCustomCommand(DBGuild guild, String name) {
+	public OldCustomCommand getCustomCommand(OldGuild guild, String name) {
 		return getCustomCommand(guild.getId(), name);
 	}
 
-	public CustomCommand getCustomCommand(GuildMessageReceivedEvent event, String cmd) {
+	public OldCustomCommand getCustomCommand(GuildMessageReceivedEvent event, String cmd) {
 		return getCustomCommand(event.getGuild(), cmd);
 	}
 
-	public List<CustomCommand> getCustomCommands() {
-		Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
+	public List<OldCustomCommand> getCustomCommands() {
+		Cursor<OldCustomCommand> c = r.table(OldCustomCommand.DB_TABLE).run(conn, OldCustomCommand.class);
 		return c.toList();
 	}
 
-	public List<CustomCommand> getCustomCommands(String guildId) {
+	public List<OldCustomCommand> getCustomCommands(String guildId) {
 		String pattern = '^' + guildId + ':';
-		Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+		Cursor<OldCustomCommand> c = r.table(OldCustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, OldCustomCommand.class);
 		return c.toList();
 	}
 
-	public List<CustomCommand> getCustomCommands(Guild guild) {
+	public List<OldCustomCommand> getCustomCommands(Guild guild) {
 		return getCustomCommands(guild.getId());
 	}
 
-	public List<CustomCommand> getCustomCommands(DBGuild guild) {
+	public List<OldCustomCommand> getCustomCommands(OldGuild guild) {
 		return getCustomCommands(guild.getId());
 	}
 
-	public List<CustomCommand> getCustomCommandsByName(String name) {
+	public List<OldCustomCommand> getCustomCommandsByName(String name) {
 		String pattern = ':' + name + '$';
-		Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+		Cursor<OldCustomCommand> c = r.table(OldCustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, OldCustomCommand.class);
 		return c.toList();
 	}
 
-	public DBGuild getGuild(String guildId) {
-		DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class);
-		return guild == null ? DBGuild.of(guildId) : guild;
+	public OldGuild getGuild(String guildId) {
+		OldGuild guild = r.table(OldGuild.DB_TABLE).get(guildId).run(conn, OldGuild.class);
+		return guild == null ? OldGuild.of(guildId) : guild;
 	}
 
-	public DBGuild getGuild(Guild guild) {
+	public OldGuild getGuild(Guild guild) {
 		return getGuild(guild.getId());
 	}
 
-	public DBGuild getGuild(Member member) {
+	public OldGuild getGuild(Member member) {
 		return getGuild(member.getGuild());
 	}
 
-	public DBGuild getGuild(GuildMessageReceivedEvent event) {
+	public OldGuild getGuild(GuildMessageReceivedEvent event) {
 		return getGuild(event.getGuild());
 	}
 
-	public MantaroObj getMantaroData() {
-		MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
-		return obj == null ? MantaroObj.create() : obj;
+	public OldMantaroObj getMantaroData() {
+		OldMantaroObj obj = r.table(OldMantaroObj.DB_TABLE).get("mantaro").run(conn, OldMantaroObj.class);
+		return obj == null ? OldMantaroObj.create() : obj;
 	}
 
-	public Player getPlayer(String userId) {
-		Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
-		return player == null ? Player.of(userId) : player;
+	public OldPlayer getPlayer(String userId) {
+		OldPlayer player = r.table(OldPlayer.DB_TABLE).get(userId + ":g").run(conn, OldPlayer.class);
+		return player == null ? OldPlayer.of(userId) : player;
 	}
 
-	public Player getPlayer(User user) {
+	public OldPlayer getPlayer(User user) {
 		return getPlayer(user.getId());
 	}
 
-	public Player getPlayer(Member member) {
+	public OldPlayer getPlayer(Member member) {
 		return getPlayer(member.getUser());
 	}
 
-	public List<Player> getPlayers() {
+	public List<OldPlayer> getPlayers() {
 		String pattern = ":g$";
-		Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
+		Cursor<OldPlayer> c = r.table(OldPlayer.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, OldPlayer.class);
 		return c.toList();
 	}
 
@@ -107,30 +114,30 @@ public class ManagedDatabase {
 		return c.toList();
 	}
 
-	public List<Quote> getQuotes(String guildId) {
+	public List<OldQuote> getQuotes(String guildId) {
 		String pattern = '^' + guildId + ':';
-		Cursor<Quote> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Quote.class);
+		Cursor<OldQuote> c = r.table(OldQuote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, OldQuote.class);
 		return c.toList();
 	}
 
-	public List<Quote> getQuotes(Guild guild) {
+	public List<OldQuote> getQuotes(Guild guild) {
 		return getQuotes(guild.getId());
 	}
 
-	public List<Quote> getQuotes(DBGuild guild) {
+	public List<OldQuote> getQuotes(OldGuild guild) {
 		return getQuotes(guild.getId());
 	}
 
-	public DBUser getUser(String userId) {
-		DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
-		return user == null ? DBUser.of(userId) : user;
+	public OldUser getUser(String userId) {
+		OldUser user = r.table(OldUser.DB_TABLE).get(userId).run(conn, OldUser.class);
+		return user == null ? OldUser.of(userId) : user;
 	}
 
-	public DBUser getUser(User user) {
+	public OldUser getUser(User user) {
 		return getUser(user.getId());
 	}
 
-	public DBUser getUser(Member member) {
+	public OldUser getUser(Member member) {
 		return getUser(member.getUser());
 	}
 }

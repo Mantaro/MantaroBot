@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 @Data
-public class PlayerData {
+public class ExtraPlayerData {
 	public long experience = 0;
 	private String description = null;
 	private Long marriedSince = null;

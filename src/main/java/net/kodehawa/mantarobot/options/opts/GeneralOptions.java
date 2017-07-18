@@ -12,8 +12,8 @@ import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -44,8 +44,8 @@ public class GeneralOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
                     String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
@@ -67,8 +67,8 @@ public class GeneralOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     List<String> toUnBlacklist = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
                     String unBlacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
@@ -80,8 +80,8 @@ public class GeneralOptions extends OptionHandler {
                 });
 
         registerOption("linkprotection:toggle", "Link-protection toggle", "Toggles anti-link protection.", event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isLinkProtection();
 
             guildData.setLinkProtection(!toggler);
@@ -90,8 +90,8 @@ public class GeneralOptions extends OptionHandler {
         });
 
         registerOption("slowmode:toggle", "Slow mode toggle", "Toggles slow mode (1 message/3s)", event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isSlowMode();
 
             guildData.setSlowMode(!toggler);
@@ -100,8 +100,8 @@ public class GeneralOptions extends OptionHandler {
         });
 
         registerOption("antispam:toggle", "Link-protection toggle", "Toggles anti-spam (3 messages/3s)", event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
             boolean toggler = guildData.isAntiSpam();
 
             guildData.setAntiSpam(!toggler);
@@ -119,8 +119,8 @@ public class GeneralOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     String channelName = args[0];
                     List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                             .filter(textChannel -> textChannel.getName().contains(channelName))
@@ -158,8 +158,8 @@ public class GeneralOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     String channelName = args[0];
                     List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                             .filter(textChannel -> textChannel.getName().contains(channelName))

@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
-import net.kodehawa.mantarobot.db.entities.Quote;
+import net.kodehawa.dataporter.oldentities.OldQuote;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -76,7 +76,7 @@ public class QuoteCmd {
 					}
 
 					TextChannel channel = guild.getTextChannelById(message.getChannel().getId());
-					Quote quote = Quote.of(guild.getMember(message.getAuthor()), channel, message);
+					OldQuote quote = OldQuote.of(guild.getMember(message.getAuthor()), channel, message);
 					db.getQuotes(guild).add(quote);
 					event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
 					quote.save();
@@ -85,7 +85,7 @@ public class QuoteCmd {
 
 				if (action.equals("random")) {
 					try {
-						Quote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
+						OldQuote quote = CollectionUtils.random(db.getQuotes(event.getGuild()));
 						event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
 					} catch (Exception e) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "This server has no set quotes!").queue();
@@ -95,10 +95,10 @@ public class QuoteCmd {
 
 				if (action.equals("readfrom")) {
 					try {
-						List<Quote> quotes = db.getQuotes(guild);
+						List<OldQuote> quotes = db.getQuotes(guild);
 						for (int i2 = 0; i2 < quotes.size(); i2++) {
 							if (quotes.get(i2).getContent().contains(phrase)) {
-								Quote quote = quotes.get(i2);
+								OldQuote quote = quotes.get(i2);
 								event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
 								break;
 							}
@@ -111,10 +111,10 @@ public class QuoteCmd {
 
 				if (action.equals("removefrom")) {
 					try {
-						List<Quote> quotes = db.getQuotes(guild);
+						List<OldQuote> quotes = db.getQuotes(guild);
 						for (int i2 = 0; i2 < quotes.size(); i2++) {
 							if (quotes.get(i2).getContent().contains(phrase)) {
-								Quote quote = quotes.get(i2);
+								OldQuote quote = quotes.get(i2);
 								db.getQuotes(guild).remove(i2);
 								quote.saveAsync();
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed quote with content: " + quote.getContent())
@@ -146,7 +146,7 @@ public class QuoteCmd {
 		});
 	}
 
-	private static MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote) {
+	private static MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, OldQuote quote) {
 		builder.setAuthor(quote.getUserName() + " said: ", null, quote.getUserAvatar())
 			.setDescription("Quote made in server " + quote.getGuildName() + " in channel #" + quote.getChannelName())
 			.addField("Content", quote.getContent(), false)

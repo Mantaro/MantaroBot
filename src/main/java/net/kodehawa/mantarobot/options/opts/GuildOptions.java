@@ -9,8 +9,8 @@ import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -40,8 +40,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     try {
                         String channel = args[0];
@@ -75,8 +75,8 @@ public class GuildOptions extends OptionHandler {
                 });
 
         registerOption("birthday:disable", "Birthday disable","Disables birthday monitoring.", (event) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
             guildData.setBirthdayChannel(null);
             guildData.setBirthdayRole(null);
             dbGuild.save();
@@ -102,8 +102,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(prefix);
                     dbGuild.save();
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been set to " + prefix)
@@ -115,8 +115,8 @@ public class GuildOptions extends OptionHandler {
                 "Clear the server prefix.\n" +
                         "**Example:** `~>opts prefix clear`",
                 "Resets the server prefix.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(null);
                     dbGuild.save();
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been disabled").queue();
@@ -135,8 +135,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     String name = args[0];
                     List<Role> roles = event.getGuild().getRolesByName(name, true);
@@ -176,8 +176,8 @@ public class GuildOptions extends OptionHandler {
                 "Clear the server autorole.\n" +
                         "**Example:** `~>opts autorole unbind`",
                 "Resets the servers autorole.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setGuildAutoRole(null);
                     dbGuild.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.OK + "The autorole for this server has been removed.").queue();
@@ -190,8 +190,8 @@ public class GuildOptions extends OptionHandler {
                 "Clears the join/leave message channel.\n" +
                         "**Example:** `~>opts usermessage resetchannel`",
                 "Clears the join/leave message channel.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setLogJoinLeaveChannel(null);
                     dbGuild.save();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Sucessfully reset the join/leave channel.").queue();
@@ -202,8 +202,8 @@ public class GuildOptions extends OptionHandler {
                 "Resets the join/leave message data.\n" +
                         "**Example:** `~>opts usermessage resetdata`",
                 "Resets the join/leave message data.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     guildData.setLeaveMessage(null);
                     guildData.setJoinMessage(null);
                     dbGuild.save();
@@ -221,8 +221,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     String channelName = args[0];
                     List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                             .filter(textChannel -> textChannel.getName().contains(channelName))
@@ -262,8 +262,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     String joinMessage = String.join(" ", args);
                     guildData.setJoinMessage(joinMessage);
@@ -281,8 +281,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     String leaveMessage = String.join(" ", args);
                     guildData.setLeaveMessage(leaveMessage);
@@ -304,8 +304,8 @@ public class GuildOptions extends OptionHandler {
 
                     String roleName = args[1];
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
                     if (roleList.size() == 0) {
@@ -343,8 +343,8 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     HashMap<String, String> autoroles = guildData.getAutoroles();
                     if (autoroles.containsKey(args[0])) {
                         autoroles.remove(args[0]);
@@ -367,8 +367,8 @@ public class GuildOptions extends OptionHandler {
                     }
 
                     String action = args[0];
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
 
                     try {
                         guildData.setCustomAdminLock(Boolean.parseBoolean(action));
@@ -386,8 +386,8 @@ public class GuildOptions extends OptionHandler {
                 "Toggles action mention (double-mention). On by default.\n" +
                         "Example: `~>opts actionmention toggle`",
                 "Toggles action mention (double-mention).", event -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    ExtraGuildData guildData = dbGuild.getData();
                     boolean toggler = guildData.isNoMentionsAction();
 
                     guildData.setNoMentionsAction(!toggler);
@@ -398,8 +398,8 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("timedisplay:set", "Time display set","Toggles between 12h and 24h time display.\n" +
                 "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.",  (event, args) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+            OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            ExtraGuildData guildData = dbGuild.getData();
 
             if(args.length == 0){
                 event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();

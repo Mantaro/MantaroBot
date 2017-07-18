@@ -15,7 +15,7 @@ import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.CustomCommand;
+import net.kodehawa.dataporter.oldentities.OldCustomCommand;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.PostLoadEvent;
@@ -180,14 +180,14 @@ public class CustomCmds {
 						return;
 					}
 
-					List<CustomCommand> customCommands = db().getCustomCommands(event.getGuild());
+					List<OldCustomCommand> customCommands = db().getCustomCommands(event.getGuild());
 
 					if (customCommands.isEmpty()) {
 						event.getChannel().sendMessage(
 							EmoteReference.ERROR + "There's no Custom Commands registered in this Guild.").queue();
 					}
 					int size = customCommands.size();
-					customCommands.forEach(CustomCommand::deleteAsync);
+					customCommands.forEach(OldCustomCommand::deleteAsync);
 					customCommands.forEach(c -> CustomCmds.customCommands.remove(c.getId()));
 					event.getChannel().sendMessage(EmoteReference.PENCIL + "Cleared **" + size + " Custom Commands**!")
 						.queue();
@@ -251,7 +251,7 @@ public class CustomCmds {
 										EmoteReference.ERROR + "No responses were added. Stopping creation without saving...")
 										.queue();
 								} else {
-									CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmd, responses);
+									OldCustomCommand custom = OldCustomCommand.of(event.getGuild().getId(), cmd, responses);
 
 									//save at DB
 									custom.saveAsync();
@@ -295,7 +295,7 @@ public class CustomCmds {
 						return;
 					}
 
-					CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+					OldCustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
 					if (custom == null) {
 						event.getChannel().sendMessage(
 							EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
@@ -324,7 +324,7 @@ public class CustomCmds {
 						return;
 					}
 
-					CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+					OldCustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
 					if (custom == null) {
 						event.getChannel().sendMessage(
 							EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
@@ -351,7 +351,7 @@ public class CustomCmds {
 					Map<String, Guild> mapped = MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).stream()
 						.collect(Collectors.toMap(ISnowflake::getId, g -> g));
 
-					List<Pair<Guild, CustomCommand>> filtered = MantaroData.db()
+					List<Pair<Guild, OldCustomCommand>> filtered = MantaroData.db()
 						.getCustomCommandsByName(("*" + cmd + "*").replace("*", any)).stream()
 						.map(customCommand -> {
 							Guild guild = mapped.get(customCommand.getGuildId());
@@ -377,7 +377,7 @@ public class CustomCmds {
 						pair -> {
 							String cmdName = pair.getValue().getName();
 							List<String> responses = pair.getValue().getValues();
-							CustomCommand custom = CustomCommand.of(event.getGuild().getId(), cmdName, responses);
+							OldCustomCommand custom = OldCustomCommand.of(event.getGuild().getId(), cmdName, responses);
 
 							//save at DB
 							custom.saveAsync();
@@ -418,7 +418,7 @@ public class CustomCmds {
 						return;
 					}
 
-					CustomCommand oldCustom = db().getCustomCommand(event.getGuild(), cmd);
+					OldCustomCommand oldCustom = db().getCustomCommand(event.getGuild(), cmd);
 
 					if (oldCustom == null) {
 						event.getChannel().sendMessage(
@@ -426,7 +426,7 @@ public class CustomCmds {
 						return;
 					}
 
-					CustomCommand newCustom = CustomCommand.of(event.getGuild().getId(), value, oldCustom.getValues());
+					OldCustomCommand newCustom = OldCustomCommand.of(event.getGuild().getId(), value, oldCustom.getValues());
 
 					//change at DB
 					oldCustom.deleteAsync();
@@ -470,11 +470,11 @@ public class CustomCmds {
 						return;
 					}
 
-					CustomCommand custom = CustomCommand.of(
+					OldCustomCommand custom = OldCustomCommand.of(
 						event.getGuild().getId(), cmd, Collections.singletonList(value));
 
 					if (action.equals("add")) {
-						CustomCommand c = db().getCustomCommand(event, cmd);
+						OldCustomCommand c = db().getCustomCommand(event, cmd);
 
 						if (c != null) custom.getValues().addAll(c.getValues());
 					}
@@ -533,14 +533,14 @@ public class CustomCmds {
 				log.info("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
 
 				custom.deleteAsync();
-				custom = CustomCommand.of(custom.getGuildId(), newName, custom.getValues());
+				custom = OldCustomCommand.of(custom.getGuildId(), newName, custom.getValues());
 				custom.saveAsync();
 			}
 
 			if (CommandProcessor.REGISTRY.commands().containsKey(custom.getName()) && !CommandProcessor.REGISTRY
 				.commands().get(custom.getName()).equals(customCommand)) {
 				custom.deleteAsync();
-				custom = CustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
+				custom = OldCustomCommand.of(custom.getGuildId(), "_" + custom.getName(), custom.getValues());
 				custom.saveAsync();
 			}
 

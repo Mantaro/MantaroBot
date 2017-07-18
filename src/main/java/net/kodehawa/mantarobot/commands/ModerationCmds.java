@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.dataporter.oldentities.OldGuild;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -81,7 +81,7 @@ public class ModerationCmds {
                                 "higher or the same " + "hierachy than I am!").queue();
                         return;
                     }
-                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                    final OldGuild db = MantaroData.db().getGuild(event.getGuild());
 
                     //Proceed to ban them. Again, using queue so I don't get rate limited.
                     guild.getController().ban(member, 7).reason(finalReason).queue(
@@ -195,7 +195,7 @@ public class ModerationCmds {
                         channel.sendMessage(EmoteReference.ERROR + "Sorry! I don't have permission to ban members in this server!").queue();
                         return;
                     }
-                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                    final OldGuild db = MantaroData.db().getGuild(event.getGuild());
 
                     guild.getController().ban(member, 7).reason(finalReason).queue(
                             success -> {
@@ -296,7 +296,7 @@ public class ModerationCmds {
                                 "higher or the same " + "hierachy than I am!").queue();
                         return;
                     }
-                    final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                    final OldGuild db = MantaroData.db().getGuild(event.getGuild());
 
                     //Proceed to kick them. Again, using queue so I don't get rate limited.
                     guild.getController().kick(member).reason(finalReason).queue(
@@ -384,7 +384,7 @@ public class ModerationCmds {
                     return;
                 }
 
-                final DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                final OldGuild db = MantaroData.db().getGuild(event.getGuild());
                 long l = Utils.parseTime(time);
                 String finalReason = reason;
                 String sTime = StringUtils.parseTime(l);

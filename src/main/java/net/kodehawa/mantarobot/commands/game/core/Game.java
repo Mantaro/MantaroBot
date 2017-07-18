@@ -8,7 +8,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -20,12 +20,12 @@ public abstract class Game {
 	@Getter
 	private int attempts = 1;
 
-	public abstract void call(GameLobby lobby, HashMap<Member, Player> players);
+	public abstract void call(GameLobby lobby, HashMap<Member, OldPlayer> players);
 
 	public abstract boolean onStart(GameLobby lobby);
 
 	protected int callDefault(GuildMessageReceivedEvent e,
-							  GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
+							  GameLobby lobby, HashMap<Member, OldPlayer> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return Operation.IGNORED;
 		}
@@ -50,7 +50,7 @@ public abstract class Game {
 			}
 
 				if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
-					Player player = MantaroData.db().getPlayer(e.getMember());
+					OldPlayer player = MantaroData.db().getPlayer(e.getMember());
 					int gains = 45 + extra;
 					player.addMoney(gains);
 					player.save();

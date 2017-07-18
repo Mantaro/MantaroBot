@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.db.entities;
+package net.kodehawa.dataporter.oldentities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraPlayerData;
 
 import java.beans.ConstructorProperties;
 import java.util.HashMap;
@@ -21,23 +21,23 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
-public class  Player implements ManagedObject {
+public class OldPlayer implements ManagedObject {
 	public static final String DB_TABLE = "players";
 
-	public static Player of(User user) {
+	public static OldPlayer of(User user) {
 		return of(user.getId());
 	}
 
-	public static Player of(Member member) {
+	public static OldPlayer of(Member member) {
 		return of(member.getUser());
 	}
 
-	public static Player of(String userId) {
-		return new Player(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new PlayerData());
+	public static OldPlayer of(String userId) {
+		return new OldPlayer(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new ExtraPlayerData());
 	}
 
 	@Getter
-	private final PlayerData data;
+	private final ExtraPlayerData data;
 	@Getter
 	private final String id;
 	private transient Inventory inventory = new Inventory();
@@ -50,7 +50,7 @@ public class  Player implements ManagedObject {
 	private Long reputation = null;
 
 	@ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-	public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
+	public OldPlayer(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, ExtraPlayerData data) {
 		this.id = id;
 		this.level = level == null ? 0 : level;
 		this.money = money == null ? 0 : money;
@@ -135,12 +135,12 @@ public class  Player implements ManagedObject {
 		return true;
 	}
 
-	public Player setLevel(long level) {
+	public OldPlayer setLevel(long level) {
 		this.level = level;
 		return this;
 	}
 
-	public Player setMoney(long money) {
+	public OldPlayer setMoney(long money) {
 		this.money = money < 0 ? 0 : money;
 		return this;
 	}

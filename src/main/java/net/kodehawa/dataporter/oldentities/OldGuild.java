@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.db.entities;
+package net.kodehawa.dataporter.oldentities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
@@ -7,7 +7,7 @@ import lombok.ToString;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.db.ManagedObject;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 
 import java.beans.ConstructorProperties;
 
@@ -18,19 +18,19 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class DBGuild implements ManagedObject {
+public class OldGuild implements ManagedObject {
 	public static final String DB_TABLE = "guilds";
 
-	public static DBGuild of(String id) {
-		return new DBGuild(id, 0, new GuildData());
+	public static OldGuild of(String id) {
+		return new OldGuild(id, 0, new ExtraGuildData());
 	}
 
-	private final GuildData data;
+	private final ExtraGuildData data;
 	private final String id;
 	private long premiumUntil;
 
 	@ConstructorProperties({"id", "premiumUntil", "data"})
-	public DBGuild(String id, long premiumUntil, GuildData data) {
+	public OldGuild(String id, long premiumUntil, ExtraGuildData data) {
 		this.id = id;
 		this.premiumUntil = premiumUntil;
 		this.data = data;
@@ -57,7 +57,7 @@ public class DBGuild implements ManagedObject {
 		return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
 	}
 
-	public DBGuild incrementPremium(long milliseconds) {
+	public OldGuild incrementPremium(long milliseconds) {
 		if (isPremium()) {
 			this.premiumUntil += milliseconds;
 		} else {

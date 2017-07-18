@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.dataporter.oldentities.OldGuild;
 
 public class ModLog {
 
@@ -14,7 +14,7 @@ public class ModLog {
 	}
 
 	public static void log(Member author, User target, String reason, ModAction action, long caseN, String... time) {
-		DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
+		OldGuild guildDB = MantaroData.db().getGuild(author.getGuild());
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
 		if(target != null) embedBuilder.addField("Member", target.getName(), true);
@@ -54,7 +54,7 @@ public class ModLog {
 	}
 
 	public static void logUnban(Member author, String target, String reason) {
-		DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
+		OldGuild guildDB = MantaroData.db().getGuild(author.getGuild());
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
 		embedBuilder.addField("Member ID", target, true);

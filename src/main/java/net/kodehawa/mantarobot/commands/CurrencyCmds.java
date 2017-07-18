@@ -12,10 +12,10 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.dataporter.oldentities.OldUser;
+import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraUserData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -41,7 +41,7 @@ public class CurrencyCmds {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player user = MantaroData.db().getPlayer(event.getMember());
+                OldPlayer user = MantaroData.db().getPlayer(event.getMember());
 
                 EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor()
                         .getEffectiveAvatarUrl());
@@ -82,7 +82,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Player player = MantaroData.db().getPlayer(event.getMember());
+                OldPlayer player = MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot access the market now.").queue();
@@ -270,8 +270,8 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
-                Player player = MantaroData.db().getPlayer(event.getMember());
-                DBUser u1 = MantaroData.db().getUser(event.getMember());
+                OldPlayer player = MantaroData.db().getPlayer(event.getMember());
+                OldUser u1 = MantaroData.db().getUser(event.getMember());
                 User author = event.getAuthor();
 
                 if (args.length > 0 && args[0].equals("timezone")) {
@@ -331,7 +331,7 @@ public class CurrencyCmds {
                     }
                 }
 
-                UserData user = MantaroData.db().getUser(event.getMember()).getData();
+                ExtraUserData user = MantaroData.db().getUser(event.getMember()).getData();
                 Member member = event.getMember();
 
                 if (!event.getMessage().getMentionedUsers().isEmpty()) {
@@ -434,7 +434,7 @@ public class CurrencyCmds {
                     return;
                 }
                 User mentioned = event.getMessage().getMentionedUsers().get(0);
-                Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
+                OldPlayer player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
                 player.addReputation(1L);
                 player.saveAsync();
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
@@ -479,8 +479,8 @@ public class CurrencyCmds {
                         event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
                     }
                     else {
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
+                        OldPlayer player = MantaroData.db().getPlayer(event.getAuthor());
+                        OldPlayer giveToPlayer = MantaroData.db().getPlayer(giveTo);
                         if (args.length == 2) {
                             if (player.getInventory().containsItem(item)) {
                                 if (item.isHidden()) {
@@ -583,7 +583,7 @@ public class CurrencyCmds {
                      return;
                 }
 
-                Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
+                OldPlayer transferPlayer = MantaroData.db().getPlayer(event.getMember());
 
                 if(transferPlayer.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money now.").queue();
@@ -601,7 +601,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
+                OldPlayer toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
 
                 if(toTransfer.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "That user cannot receive money now.").queue();
@@ -654,7 +654,7 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
 
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                OldPlayer player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
                 if (inventory.containsItem(Items.LOOT_CRATE)) {
                     if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
@@ -708,7 +708,7 @@ public class CurrencyCmds {
             for (Item i : Items.ALL) if (i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
         }
         for (int i = 0; i < amtItems; i++) toAdd.add(selectReverseWeighted(items));
-        Player player = MantaroData.db().getPlayer(event.getMember());
+        OldPlayer player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
         boolean overflow = player.getInventory().merge(ita);

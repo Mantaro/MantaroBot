@@ -16,7 +16,7 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -44,7 +44,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private long requestedChannel;
     @Getter
     private AudioTrack previousTrack, currentTrack;
-    private GuildData guildData;
+    private ExtraGuildData guildData;
 
     public TrackScheduler(AudioPlayer player, String guildId){
         this.audioPlayer = player;

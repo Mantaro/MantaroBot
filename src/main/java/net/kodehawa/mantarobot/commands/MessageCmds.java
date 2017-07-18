@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.dataporter.oldentities.OldGuild;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.CommandPermission;
@@ -71,7 +71,7 @@ public class MessageCmds {
                                         success -> {
                                             channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " bot " +
                                                     "messages").queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                                            DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                                            OldGuild db = MantaroData.db().getGuild(event.getGuild());
                                             db.getData().setCases(db.getData().getCases() + 1);
                                             db.save();
                                             ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
@@ -139,7 +139,7 @@ public class MessageCmds {
                                             channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages from **"
                                                     + event.getMessage().getMentionedUsers().get(0).getName() +
                                                     "**").queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                                            DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                                            OldGuild db = MantaroData.db().getGuild(event.getGuild());
                                             db.getData().setCases(db.getData().getCases() + 1);
                                             db.save();
                                             ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
@@ -197,7 +197,7 @@ public class MessageCmds {
                                     success -> {
                                         channel.sendMessage(EmoteReference.PENCIL + "Successfully pruned " + size + " messages")
                                                 .queue(message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                                        DBGuild db = MantaroData.db().getGuild(event.getGuild());
+                                        OldGuild db = MantaroData.db().getGuild(event.getGuild());
                                         db.getData().setCases(db.getData().getCases() + 1);
                                         db.save();
                                         ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());

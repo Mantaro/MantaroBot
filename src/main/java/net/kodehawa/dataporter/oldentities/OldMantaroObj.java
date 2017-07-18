@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.db.entities;
+package net.kodehawa.dataporter.oldentities;
 
 import lombok.Data;
 import net.kodehawa.mantarobot.db.ManagedObject;
@@ -13,11 +13,11 @@ import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Data
-public class MantaroObj implements ManagedObject {
+public class OldMantaroObj implements ManagedObject {
 	public static final String DB_TABLE = "mantaro";
 
-	public static MantaroObj create() {
-		return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+	public static OldMantaroObj create() {
+		return new OldMantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
 	}
 
 	public final String id = "mantaro";
@@ -27,7 +27,7 @@ public class MantaroObj implements ManagedObject {
 	private Map<String, Long> tempBans = null;
 
 	@ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans"})
-	public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans) {
+	public OldMantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans) {
 		this.blackListedGuilds = blackListedGuilds;
 		this.blackListedUsers = blackListedUsers;
 		this.patreonUsers = patreonUsers;

@@ -11,9 +11,9 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.dataporter.oldentities.OldUser;
+import net.kodehawa.dataporter.oldentities.OldMantaroObj;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
@@ -61,7 +61,7 @@ public class OwnerCmd {
 		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				MantaroObj obj = MantaroData.db().getMantaroData();
+				OldMantaroObj obj = MantaroData.db().getMantaroData();
 				if (args[0].equals("guild")) {
 					if (args[1].equals("add")) {
 						if (MantaroBot.getInstance().getGuildById(args[2]) == null) return;
@@ -278,7 +278,7 @@ public class OwnerCmd {
 									return;
 								}
 							}
-							DBUser db = MantaroData.db().getUser(userId);
+							OldUser db = MantaroData.db().getUser(userId);
 							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
 							db.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT +
@@ -296,7 +296,7 @@ public class OwnerCmd {
 					if (sub.equals("guild")) {
 						try {
 							String[] values = SPLIT_PATTERN.split(args[1], 3);
-							DBGuild db = MantaroData.db().getGuild(values[1]);
+							OldGuild db = MantaroData.db().getGuild(values[1]);
 							db.incrementPremium(TimeUnit.DAYS.toMillis(Long.parseLong(values[2])));
 							db.saveAsync();
 							event.getChannel().sendMessage(EmoteReference.CORRECT +

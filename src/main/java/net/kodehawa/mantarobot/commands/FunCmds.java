@@ -13,7 +13,7 @@ import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -85,7 +85,7 @@ public class FunCmds {
 				}
 
 				if (args[0].equals("divorce")) {
-					Player user = MantaroData.db().getPlayer(event.getMember());
+					OldPlayer user = MantaroData.db().getPlayer(event.getMember());
 
 					if (user.getData().getMarriedWith() == null) {
 						event.getChannel().sendMessage(
@@ -106,7 +106,7 @@ public class FunCmds {
 						return;
 					}
 
-					Player marriedWith = MantaroData.db().getPlayer(user1);
+					OldPlayer marriedWith = MantaroData.db().getPlayer(user1);
 
 					marriedWith.getData().setMarriedWith(null);
 					marriedWith.getData().setMarriedSince(0L);
@@ -129,7 +129,7 @@ public class FunCmds {
 
 				User member = event.getAuthor();
 				User user = event.getMessage().getMentionedUsers().get(0);
-				Player player = MantaroData.db().getPlayer(event.getMember());
+				OldPlayer player = MantaroData.db().getPlayer(event.getMember());
 				User user1 = player.getData().getMarriedWith() == null
 						? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
@@ -159,8 +159,8 @@ public class FunCmds {
 						if (!e.getAuthor().getId().equals(user.getId())) return Operation.IGNORED;
 
 						if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
-							Player user11 = MantaroData.db().getPlayer(e.getMember());
-							Player marry = MantaroData.db().getPlayer(e.getGuild().getMember(member));
+							OldPlayer user11 = MantaroData.db().getPlayer(e.getMember());
+							OldPlayer marry = MantaroData.db().getPlayer(e.getGuild().getMember(member));
 							user11.getData().setMarriedWith(member.getId());
 							marry.getData().setMarriedWith(e.getAuthor().getId());
 							e.getChannel().sendMessage(EmoteReference.POPPER + e.getMember()

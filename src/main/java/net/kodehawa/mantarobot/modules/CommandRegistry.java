@@ -4,10 +4,9 @@ import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.dataporter.oldentities.OldGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -36,8 +35,8 @@ public class CommandRegistry {
 		Command cmd = commands.get(cmdname);
 
 		Config conf = MantaroData.config().get();
-		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-		GuildData data = dbg.getData();
+		OldGuild dbg = MantaroData.db().getGuild(event.getGuild());
+		ExtraGuildData data = dbg.getData();
 
 		if (cmd == null) return false;
 

@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.dataporter.oldentities.OldUser;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.junit.Assert;
 
@@ -32,7 +32,7 @@ public class Reminder {
         this.time = time;
         this.current = current;
         CURRENT_REMINDERS.computeIfAbsent(userId, (id) -> new ArrayList<>());
-        DBUser user = MantaroData.db().getUser(userId);
+        OldUser user = MantaroData.db().getUser(userId);
         user.getData().setReminderN(user.getData().getReminderN() + 1);
         user.saveAsync();
     }

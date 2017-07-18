@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.db.entities;
+package net.kodehawa.dataporter.oldentities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -14,11 +14,11 @@ import static com.rethinkdb.RethinkDB.r;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
-public class Quote implements ManagedObject {
+public class OldQuote implements ManagedObject {
 	public static final String DB_TABLE = "quotes";
 
-	public static Quote of(Member member, TextChannel channel, Message message) {
-		return new Quote(
+	public static OldQuote of(Member member, TextChannel channel, Message message) {
+		return new OldQuote(
 			member.getGuild().getId() + ":",
 			member.getUser().getId(),
 			channel.getId(),
@@ -30,7 +30,7 @@ public class Quote implements ManagedObject {
 		);
 	}
 
-	public static Quote of(GuildMessageReceivedEvent event) {
+	public static OldQuote of(GuildMessageReceivedEvent event) {
 		return of(event.getMember(), event.getChannel(), event.getMessage());
 	}
 
@@ -44,7 +44,7 @@ public class Quote implements ManagedObject {
 	private final String userName;
 
 	@ConstructorProperties({"id", "userId", "channelId", "content", "guildName", "userName", "userAvatar", "channelName"})
-	public Quote(String id, String userId, String channelId, String content, String guildName, String userName, String userAvatar, String channelName) {
+	public OldQuote(String id, String userId, String channelId, String content, String guildName, String userName, String userAvatar, String channelName) {
 		this.id = id;
 		this.userId = userId;
 		this.channelId = channelId;
