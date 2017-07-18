@@ -5,8 +5,8 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperationListener;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
 import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -31,7 +31,7 @@ public class Pokemon extends ImageGame {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, OldPlayer> players) {
-		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
+		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperationListener() {
 			@Override
 			public int run(GuildMessageReceivedEvent event) {
 				return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, 15);

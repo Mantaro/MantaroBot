@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
@@ -15,8 +14,8 @@ import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.ReactionOperations;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.data.DataManager;

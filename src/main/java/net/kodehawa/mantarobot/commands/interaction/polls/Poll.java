@@ -7,10 +7,10 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.Operation;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperation;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.OperationListener;
+import net.kodehawa.mantarobot.core.listeners.operations.old.ReactionOperationListener;
+import net.kodehawa.mantarobot.core.listeners.operations.old.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.dataporter.oldentities.OldGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
@@ -102,11 +102,11 @@ public class Poll extends Lobby {
                         runningPoll.cancel(true);
                         getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
                         getRunningPolls().remove(getChannel().getId());
-                        return Operation.COMPLETED;
+                        return OperationListener.COMPLETED;
                     }
-                    return Operation.RESET_TIMEOUT;
+                    return OperationListener.RESET_TIMEOUT;
                 }
-                return Operation.IGNORED;
+                return OperationListener.IGNORED;
             });
 
             runningPolls.put(getChannel().getId(), this);
@@ -139,12 +139,12 @@ public class Poll extends Lobby {
     }
 
     private Future<Void> createPoll(Message message){
-        runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
+        runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperationListener() {
             @Override
             public int add(MessageReactionAddEvent e) {
                 int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
-                if(i < 1 || i > options.length) return Operation.IGNORED;
-                return Operation.IGNORED; //always return false anyway lul
+                if(i < 1 || i > options.length) return OperationListener.IGNORED;
+                return OperationListener.IGNORED; //always return false anyway lul
             }
 
             @Override

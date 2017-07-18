@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.core.listeners.operations;
+package net.kodehawa.mantarobot.core.listeners.operations.old;
 
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.Event;
@@ -33,7 +33,7 @@ public final class ReactionOperations {
         return o == null ? null : o.future;
     }
 
-    public static Future<Void> createOrGet(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
+    public static Future<Void> createOrGet(Message message, long timeoutSeconds, ReactionOperationListener operation, String... defaultReactions) {
         if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
         Future<Void> f = createOrGet(message.getIdLong(), timeoutSeconds, operation);
         if(defaultReactions.length > 0) {
@@ -52,7 +52,7 @@ public final class ReactionOperations {
         return f;
     }
 
-    public static Future<Void> createOrGet(long messageId, long timeoutSeconds, ReactionOperation operation) {
+    public static Future<Void> createOrGet(long messageId, long timeoutSeconds, ReactionOperationListener operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = OPERATIONS.get(messageId);
@@ -62,7 +62,7 @@ public final class ReactionOperations {
         return o.future;
     }
 
-    public static Future<Void> create(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
+    public static Future<Void> create(Message message, long timeoutSeconds, ReactionOperationListener operation, String... defaultReactions) {
         if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
         if(defaultReactions.length > 0) {
@@ -83,7 +83,7 @@ public final class ReactionOperations {
         return f;
     }
 
-    public static Future<Void> create(long messageId, long timeoutSeconds, ReactionOperation operation) {
+    public static Future<Void> create(long messageId, long timeoutSeconds, ReactionOperationListener operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = OPERATIONS.get(messageId);
@@ -112,10 +112,10 @@ public final class ReactionOperations {
                 RunningOperation o = OPERATIONS.get(messageId);
                 if(o == null) return;
                 int i = o.operation.add(event);
-                if(i == Operation.COMPLETED) {
+                if(i == OperationListener.COMPLETED) {
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if(i == Operation.RESET_TIMEOUT) {
+                } else if(i == OperationListener.RESET_TIMEOUT) {
                     OPERATIONS.resetExpiration(messageId);
                 }
                 return;
@@ -127,10 +127,10 @@ public final class ReactionOperations {
                 RunningOperation o = OPERATIONS.get(messageId);
                 if(o == null) return;
                 int i = o.operation.remove(event);
-                if(i == Operation.COMPLETED) {
+                if(i == OperationListener.COMPLETED) {
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if(i == Operation.RESET_TIMEOUT) {
+                } else if(i == OperationListener.RESET_TIMEOUT) {
                     OPERATIONS.resetExpiration(messageId);
                 }
                 return;
@@ -141,10 +141,10 @@ public final class ReactionOperations {
                 RunningOperation o = OPERATIONS.get(messageId);
                 if(o == null) return;
                 int i = o.operation.removeAll(event);
-                if(i == Operation.COMPLETED) {
+                if(i == OperationListener.COMPLETED) {
                     OPERATIONS.remove(messageId);
                     o.future.complete(null);
-                } else if(i == Operation.RESET_TIMEOUT) {
+                } else if(i == OperationListener.RESET_TIMEOUT) {
                     OPERATIONS.resetExpiration(messageId);
                 }
             }
@@ -152,10 +152,10 @@ public final class ReactionOperations {
     }
 
     private static class RunningOperation {
-        final ReactionOperation operation;
+        final ReactionOperationListener operation;
         final OperationFuture future;
 
-        RunningOperation(ReactionOperation operation, OperationFuture future) {
+        RunningOperation(ReactionOperationListener operation, OperationFuture future) {
             this.operation = operation;
             this.future = future;
         }

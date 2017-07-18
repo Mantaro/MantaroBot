@@ -6,8 +6,8 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperationListener;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
 import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -80,7 +80,7 @@ public class Trivia extends Game {
 
 	@Override
 	public void call(GameLobby lobby, HashMap<Member, OldPlayer> players) {
-		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
+		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperationListener() {
 				@Override
 				public int run(GuildMessageReceivedEvent event) {
 					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), isBool ? 1 : maxAttempts, hardDiff ? 10 : 0);

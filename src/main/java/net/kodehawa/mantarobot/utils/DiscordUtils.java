@@ -5,9 +5,9 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.Operation;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.OperationListener;
+import net.kodehawa.mantarobot.core.listeners.operations.old.ReactionOperations;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -36,15 +36,15 @@ public class DiscordUtils {
 
 	public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
 		return InteractiveOperations.createOverriding(event.getChannel(), 20, (e) -> {
-			if (!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
+			if (!e.getAuthor().equals(event.getAuthor())) return OperationListener.IGNORED;
 
 			try {
 				int choose = Integer.parseInt(e.getMessage().getContent());
-				if (choose < 1 || choose >= max) return Operation.RESET_TIMEOUT;
+				if (choose < 1 || choose >= max) return OperationListener.RESET_TIMEOUT;
 				valueConsumer.accept(choose);
-				return Operation.COMPLETED;
+				return OperationListener.COMPLETED;
 			} catch (Exception ignored) {}
-			return Operation.RESET_TIMEOUT;
+			return OperationListener.RESET_TIMEOUT;
 		});
 	}
 
@@ -96,7 +96,7 @@ public class DiscordUtils {
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
         return ReactionOperations.create(m, timeoutSeconds, (e)->{
-            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return OperationListener.IGNORED;
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
                     if(index.get() == 0) break;
@@ -110,7 +110,7 @@ public class DiscordUtils {
             if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
-            return Operation.RESET_TIMEOUT;
+            return OperationListener.RESET_TIMEOUT;
         }, "\u2b05", "\u27a1");
     }
 }

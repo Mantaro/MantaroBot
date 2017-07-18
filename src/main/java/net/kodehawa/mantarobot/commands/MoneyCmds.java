@@ -12,8 +12,8 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperation;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperationListener;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
@@ -189,7 +189,7 @@ public class MoneyCmds {
                 if (i >= Integer.MAX_VALUE / 4) {
                     event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
                             "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
-                    InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperation() {
+                    InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperationListener() {
                                 @Override
                                 public int run(GuildMessageReceivedEvent e) {
                                     if (e.getAuthor().getId().equals(user.getId())) {

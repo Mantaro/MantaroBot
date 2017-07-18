@@ -14,8 +14,8 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.Operation;
+import net.kodehawa.mantarobot.core.listeners.operations.old.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.old.OperationListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
@@ -202,16 +202,16 @@ public class CustomCmds {
 					List<String> responses = new ArrayList<>();
 					boolean created = InteractiveOperations.create(
 						event.getChannel(), 60, e -> {
-							if (!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
+							if (!e.getAuthor().equals(event.getAuthor())) return OperationListener.IGNORED;
 
 							String c = e.getMessage().getRawContent();
-							if (!c.startsWith("&")) return Operation.IGNORED;
+							if (!c.startsWith("&")) return OperationListener.IGNORED;
 							c = c.substring(1);
 
 							if (c.startsWith("~>cancel") || c.startsWith("~>stop")) {
 								event.getChannel().sendMessage(EmoteReference.CORRECT + "Command Creation canceled.")
 									.queue();
-								return Operation.COMPLETED;
+								return OperationListener.COMPLETED;
 							}
 
 							if (c.startsWith("~>save")) {
@@ -221,13 +221,13 @@ public class CustomCmds {
 								if (!NAME_PATTERN.matcher(cmd).matches()) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.")
 										.queue();
-									return Operation.RESET_TIMEOUT;
+									return OperationListener.RESET_TIMEOUT;
 								}
 
 								if(cmd.length() >= 100){
 									event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
 											.queue();
-									return Operation.RESET_TIMEOUT;
+									return OperationListener.RESET_TIMEOUT;
 								}
 
 								if (CommandListener.PROCESSOR.commands().containsKey(
@@ -235,7 +235,7 @@ public class CustomCmds {
 									customCommand)) {
 									event.getChannel().sendMessage(
 										EmoteReference.ERROR + "A command already exists with this name!").queue();
-									return Operation.RESET_TIMEOUT;
+									return OperationListener.RESET_TIMEOUT;
 								}
 
 								if (responses.isEmpty()) {
@@ -260,12 +260,12 @@ public class CustomCmds {
 									//easter egg :D
 									TextChannelGround.of(event).dropItemWithChance(8, 2);
 								}
-								return Operation.COMPLETED;
+								return OperationListener.COMPLETED;
 							}
 
 							responses.add(c);
 							e.getMessage().addReaction(EmoteReference.CORRECT.getUnicode()).queue();
-							return Operation.RESET_TIMEOUT;
+							return OperationListener.RESET_TIMEOUT;
 						}) != null;
 
 					if (created) {

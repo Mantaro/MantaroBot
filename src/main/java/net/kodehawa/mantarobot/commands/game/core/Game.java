@@ -6,7 +6,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.core.listeners.operations.Operation;
+import net.kodehawa.mantarobot.core.listeners.operations.old.OperationListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -27,18 +27,18 @@ public abstract class Game {
 	protected int callDefault(GuildMessageReceivedEvent e,
 							  GameLobby lobby, HashMap<Member, OldPlayer> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
-			return Operation.IGNORED;
+			return OperationListener.IGNORED;
 		}
 
 		for(String s : MantaroData.config().get().getPrefix()){
 			if (e.getMessage().getContent().startsWith(s)) {
-				return Operation.IGNORED;
+				return OperationListener.IGNORED;
 			}
 		}
 
 		if (MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
 			e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
-			return Operation.IGNORED;
+			return OperationListener.IGNORED;
 		}
 
 		if (players.keySet().contains(e.getMember())) {
@@ -46,7 +46,7 @@ public abstract class Game {
 				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame();
 				GameLobby.LOBBYS.remove(lobby.getChannel());
-				return Operation.COMPLETED;
+				return OperationListener.COMPLETED;
 			}
 
 				if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
@@ -57,20 +57,20 @@ public abstract class Game {
 					TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
 					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
 					lobby.startNextGame();
-					return Operation.COMPLETED;
+					return OperationListener.COMPLETED;
 				}
 
 			if (attempts >= maxAttempts) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame(); //This should take care of removing the lobby, actually.
-				return Operation.COMPLETED;
+				return OperationListener.COMPLETED;
 			}
 
 			lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " +  (maxAttempts - attempts) + " attempts remaning.").queue();
 			setAttempts(getAttempts() + 1);
-			return Operation.IGNORED;
+			return OperationListener.IGNORED;
 		}
 
-		return Operation.IGNORED;
+		return OperationListener.IGNORED;
 	}
 }

@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.core.listeners.operations;
+package net.kodehawa.mantarobot.core.listeners.operations.old;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.Event;
@@ -27,11 +27,11 @@ public class InteractiveOperations {
         return o == null ? null : o.future;
     }
 
-    public static Future<Void> createOrGet(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> createOrGet(MessageChannel channel, long timeoutSeconds, InteractiveOperationListener operation) {
         return createOrGet(channel.getIdLong(), timeoutSeconds, operation);
     }
 
-    public static Future<Void> createOrGet(long channelId, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> createOrGet(long channelId, long timeoutSeconds, InteractiveOperationListener operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = OPERATIONS.get(channelId);
@@ -41,11 +41,11 @@ public class InteractiveOperations {
         return o.future;
     }
 
-    public static Future<Void> create(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> create(MessageChannel channel, long timeoutSeconds, InteractiveOperationListener operation) {
         return create(channel.getIdLong(), timeoutSeconds, operation);
     }
 
-    public static Future<Void> create(long channelId, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> create(long channelId, long timeoutSeconds, InteractiveOperationListener operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = OPERATIONS.get(channelId);
@@ -55,11 +55,11 @@ public class InteractiveOperations {
         return o.future;
     }
 
-    public static Future<Void> createOverriding(MessageChannel channel, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> createOverriding(MessageChannel channel, long timeoutSeconds, InteractiveOperationListener operation) {
         return createOverriding(channel.getIdLong(), timeoutSeconds, operation);
     }
 
-    public static Future<Void> createOverriding(long channelId, long timeoutSeconds, InteractiveOperation operation) {
+    public static Future<Void> createOverriding(long channelId, long timeoutSeconds, InteractiveOperationListener operation) {
         if(timeoutSeconds < 1) throw new IllegalArgumentException("Timeout < 1");
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = new RunningOperation(operation, new OperationFuture(channelId));
@@ -86,20 +86,20 @@ public class InteractiveOperations {
             RunningOperation o = OPERATIONS.get(channelId);
             if(o == null) return;
             int i = o.operation.run(event);
-            if(i == Operation.COMPLETED) {
+            if(i == OperationListener.COMPLETED) {
                 OPERATIONS.remove(channelId);
                 o.future.complete(null);
-            } else if(i == Operation.RESET_TIMEOUT) {
+            } else if(i == OperationListener.RESET_TIMEOUT) {
                 OPERATIONS.resetExpiration(channelId);
             }
         }
     }
 
     private static class RunningOperation {
-        final InteractiveOperation operation;
+        final InteractiveOperationListener operation;
         final OperationFuture future;
 
-        RunningOperation(InteractiveOperation operation, OperationFuture future) {
+        RunningOperation(InteractiveOperationListener operation, OperationFuture future) {
             this.operation = operation;
             this.future = future;
         }
