@@ -150,7 +150,7 @@ public class DebugCmds {
                 for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-15s | %-9s | U: %-5d | G: %-4d | L: %-7s | MC: %-2d",
+                            "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | MC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUsers().size(),
@@ -166,16 +166,18 @@ public class DebugCmds {
                     builder.append("\n");
                 }
                 Queue<String> m = new LinkedList<>();
-                String s = builder.toString();
+                String s = builder.toString().trim();
                 StringBuilder sb = new StringBuilder();
                 while(s.length() > 0) {
-                    String line = s.substring(0, Math.max(s.indexOf('\n'), s.length()));
+                    int idx = s.indexOf('\n');
+                    String line = idx == -1 ? s : s.substring(0, idx+1);
                     s = s.substring(line.length());
-                    if(sb.length() + line.length() > 1980) {
+                    if(s.equals("\n")) s = "";
+                    if(sb.length() + line.length() > 1800) {
                         m.add(sb.toString());
                         sb = new StringBuilder();
                     }
-                    sb.append(line).append('\n');
+                    sb.append(line);
                 }
                 if(sb.length() != 0) m.add(sb.toString());
 

@@ -34,7 +34,7 @@ repositories {
 dependencies {
 	compile 'com.github.DV8FromTheWorld:JDA:fc03aab'
 	compile 'com.sedmelluq:lavaplayer:1.2.42'
-	compile group: 'com.sedmelluq', name: 'jda-nas', version: '1.0.7-rythm'
+	compile 'com.sedmelluq:jda-nas:1.0.7-rythm' //local m2 repo
 
 	compile 'org.reflections:reflections:0.9.9'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
