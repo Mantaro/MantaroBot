@@ -13,6 +13,13 @@ public class TextChannelGround {
     private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
     private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
     private static Random r = new Random(System.currentTimeMillis());
+    private final AtomicInteger money;
+    private final List<ItemStack> stacks;
+
+    private TextChannelGround(List<ItemStack> stacks, AtomicInteger money) {
+        this.stacks = stacks;
+        this.money = money;
+    }
 
     public static TextChannelGround of(String id) {
         return new TextChannelGround(
@@ -27,14 +34,6 @@ public class TextChannelGround {
 
     public static TextChannelGround of(GuildMessageReceivedEvent event) {
         return of(event.getChannel());
-    }
-
-    private final AtomicInteger money;
-    private final List<ItemStack> stacks;
-
-    private TextChannelGround(List<ItemStack> stacks, AtomicInteger money) {
-        this.stacks = stacks;
-        this.money = money;
     }
 
     public List<ItemStack> collectItems() {
@@ -57,7 +56,7 @@ public class TextChannelGround {
 
     public boolean dropItemWithChance(Item item, int weight) {
         boolean doDrop = r.nextInt(weight) == 0;
-        if (doDrop) dropItem(item);
+        if(doDrop) dropItem(item);
         return doDrop;
     }
 
@@ -81,7 +80,7 @@ public class TextChannelGround {
 
     public boolean dropMoneyWithChance(int money, int weight) {
         boolean doDrop = r.nextInt(weight) == 0;
-        if (doDrop) dropMoney(money);
+        if(doDrop) dropMoney(money);
         return doDrop;
     }
 }

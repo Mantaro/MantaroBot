@@ -19,55 +19,53 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 @ToString
 @EqualsAndHashCode
 public class OldGuild implements ManagedObject {
-	public static final String DB_TABLE = "guilds";
+    public static final String DB_TABLE = "guilds";
+    private final ExtraGuildData data;
+    private final String id;
+    private long premiumUntil;
+    @ConstructorProperties({"id", "premiumUntil", "data"})
+    public OldGuild(String id, long premiumUntil, ExtraGuildData data) {
+        this.id = id;
+        this.premiumUntil = premiumUntil;
+        this.data = data;
+    }
 
-	public static OldGuild of(String id) {
-		return new OldGuild(id, 0, new ExtraGuildData());
-	}
+    public static OldGuild of(String id) {
+        return new OldGuild(id, 0, new ExtraGuildData());
+    }
 
-	private final ExtraGuildData data;
-	private final String id;
-	private long premiumUntil;
+    @Override
+    public void delete() {
+        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+    }
 
-	@ConstructorProperties({"id", "premiumUntil", "data"})
-	public OldGuild(String id, long premiumUntil, ExtraGuildData data) {
-		this.id = id;
-		this.premiumUntil = premiumUntil;
-		this.data = data;
-	}
+    @Override
+    public void save() {
+        r.table(DB_TABLE).insert(this)
+                .optArg("conflict", "replace")
+                .runNoReply(conn());
+    }
 
-	@Override
-	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
-	}
+    public Guild getGuild(JDA jda) {
+        return jda.getGuildById(getId());
+    }
 
-	@Override
-	public void save() {
-		r.table(DB_TABLE).insert(this)
-			.optArg("conflict", "replace")
-			.runNoReply(conn());
-	}
+    @JsonIgnore
+    public long getPremiumLeft() {
+        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
+    }
 
-	public Guild getGuild(JDA jda) {
-		return jda.getGuildById(getId());
-	}
+    public OldGuild incrementPremium(long milliseconds) {
+        if(isPremium()) {
+            this.premiumUntil += milliseconds;
+        } else {
+            this.premiumUntil = currentTimeMillis() + milliseconds;
+        }
+        return this;
+    }
 
-	@JsonIgnore
-	public long getPremiumLeft() {
-		return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
-	}
-
-	public OldGuild incrementPremium(long milliseconds) {
-		if (isPremium()) {
-			this.premiumUntil += milliseconds;
-		} else {
-			this.premiumUntil = currentTimeMillis() + milliseconds;
-		}
-		return this;
-	}
-
-	@JsonIgnore
-	public boolean isPremium() {
-		return currentTimeMillis() < premiumUntil;
-	}
+    @JsonIgnore
+    public boolean isPremium() {
+        return currentTimeMillis() < premiumUntil;
+    }
 }

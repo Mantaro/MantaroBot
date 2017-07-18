@@ -11,44 +11,42 @@ import java.util.function.Supplier;
 
 @Slf4j
 public class GsonDataManager<T> implements DataManager<T> {
-	public static final Gson GSON_PRETTY = new GsonBuilder()
-			.setPrettyPrinting()
-			.serializeNulls()
-			.create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
+    public static final Gson GSON_PRETTY = new GsonBuilder()
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
+    private final Path configPath;
+    private final T data;
+    @SneakyThrows
+    public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
+        this.configPath = Paths.get(file);
+        if(!configPath.toFile().exists()) {
+            log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
+            if(configPath.toFile().createNewFile()) {
+                log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
+                FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
+                log.info("Please, fill the file with valid properties.");
+            } else {
+                log.warn("Could not create config file at " + file);
+            }
+            System.exit(0);
+        }
 
-	public static Gson gson(boolean pretty) {
-		return pretty ? GSON_PRETTY : GSON_UNPRETTY;
-	}
+        this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
+    }
 
-	private final Path configPath;
-	private final T data;
+    public static Gson gson(boolean pretty) {
+        return pretty ? GSON_PRETTY : GSON_UNPRETTY;
+    }
 
-	@SneakyThrows
-	public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
-		this.configPath = Paths.get(file);
-		if (!configPath.toFile().exists()) {
-			log.info("Could not find config file at " + configPath.toFile().getAbsolutePath() + ", creating a new one...");
-			if (configPath.toFile().createNewFile()) {
-				log.info("Generated new config file at " + configPath.toFile().getAbsolutePath() + ".");
-				FileIOUtils.write(configPath, GSON_PRETTY.toJson(constructor.get()));
-				log.info("Please, fill the file with valid properties.");
-			} else {
-				log.warn("Could not create config file at " + file);
-			}
-			System.exit(0);
-		}
+    @Override
+    public T get() {
+        return data;
+    }
 
-		this.data = GSON_PRETTY.fromJson(FileIOUtils.read(configPath), clazz);
-	}
-
-	@Override
-	public T get() {
-		return data;
-	}
-
-	@Override
-	@SneakyThrows
-	public void save() {
-		FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
-	}
+    @Override
+    @SneakyThrows
+    public void save() {
+        FileIOUtils.write(configPath, GSON_PRETTY.toJson(data));
+    }
 }

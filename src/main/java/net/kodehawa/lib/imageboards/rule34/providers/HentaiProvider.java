@@ -7,6 +7,6 @@ import java.util.List;
 @FunctionalInterface
 public interface HentaiProvider {
 
-	void onSuccess(List<Hentai> results);
+    void onSuccess(List<Hentai> results);
 
 }

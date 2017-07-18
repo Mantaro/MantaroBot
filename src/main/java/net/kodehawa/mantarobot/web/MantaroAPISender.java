@@ -35,10 +35,10 @@ public class MantaroAPISender {
 
     private static OkHttpClient httpClient = new OkHttpClient();
 
-    public static void startService(){
+    public static void startService() {
         Runnable postStats = () -> {
             //Ignore API calls if the api did a boom.
-            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
+            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE) {
                 return;
             }
 
@@ -48,8 +48,8 @@ public class MantaroAPISender {
             int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
                     voiceChannel.getGuild().getSelfMember())).count();
             List<Integer> memoryUsage = new ArrayList<>();
-            memoryUsage.add((int)(getTotalMemory() - getFreeMemory())); //used
-            memoryUsage.add((int)getMaxMemory()); //total
+            memoryUsage.add((int) (getTotalMemory() - getFreeMemory())); //used
+            memoryUsage.add((int) getMaxMemory()); //total
 
             JSONObject mainStats = new JSONObject();
             mainStats.put("jdaVersion", JDAInfo.VERSION)
@@ -73,7 +73,7 @@ public class MantaroAPISender {
             List<Long> musicConnections = new ArrayList<>();
             List<Long> lastEventTimes = new ArrayList<>();
 
-            for(MantaroShard shard : MantaroBot.getInstance().getShardList()){
+            for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                 ids.add(shard.getId());
                 statuses.add(shard.getStatus());
                 users.add(shard.getUsers().size());
@@ -121,7 +121,7 @@ public class MantaroAPISender {
                     .put("commandstats", commands)
                     .put("shardinfo", shardInfo);
 
-            try{
+            try {
                 RequestBody body = RequestBody.create(MediaType.parse("application/json"),
                         toPost.toString());
 
@@ -131,7 +131,7 @@ public class MantaroAPISender {
                         .post(body)
                         .build();
                 httpClient.newCall(identify).execute().close();
-            } catch (Exception e){
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         };

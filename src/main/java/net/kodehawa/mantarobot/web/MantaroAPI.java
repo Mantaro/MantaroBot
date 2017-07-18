@@ -12,34 +12,27 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class MantaroAPI {
-    private long lastPing = 0;
-
-    public APIStatus STATUS = APIStatus.ON_HALT;
-
-    private OkHttpClient httpClient = new OkHttpClient();
-
     //The token we will use to interface with the API
     public static String sessionToken;
-
+    public APIStatus STATUS = APIStatus.ON_HALT;
     //Node ID is assigned by the API after receiving a HEARTBEAT request from this specific node. If the node is already registered, the server
     //will retrieve the saved value from NODE_LIST. In case a NODE_UNKNOWN_RECEIVE is handled by the API, all node ids will be reassigned by the server
     //and sent back here.
     public int nodeId = 0;
-
-
     //Unique identifier of this specific node. Will be saved on NODE_LIST until the server sends a NODE_SHUTDOWN signal or 10 HEARTBEAT requests
     //time out. In the last case I should get notified that it did a boom and that I should start running in circles because the probability of me
     //being home when this happens is around zero.
     //Note: The number of random version 4 UUIDs *which need to be generated* in order to have a 50% probability of at least one collision is 2.71 quintillion
     //This ID is compared when doing node requests!
     public UUID nodeUniqueIdentifier = UUID.randomUUID();
-
     //The total number of nodes received. This should be received under request after initial setup.
     public int nodesTotal = 1;
+    private long lastPing = 0;
+    private OkHttpClient httpClient = new OkHttpClient();
 
-    public void startService(){
+    public void startService() {
         Runnable checker = () -> {
-            try{
+            try {
                 STATUS = APIStatus.RECEIVING_DATA;
                 long start = System.currentTimeMillis();
                 Request r = new Request.Builder()
@@ -63,15 +56,15 @@ public class MantaroAPI {
                         .post(identifyBody)
                         .build();
                 httpClient.newCall(identify).execute().close();
-            } catch (Exception e){
+            } catch(Exception e) {
                 STATUS = APIStatus.OFFLINE;
             }
         };
         Async.task("Mantaro API checker", checker, 10, TimeUnit.SECONDS);
     }
 
-    public boolean configure(){
-        try{
+    public boolean configure() {
+        try {
             STATUS = APIStatus.INITIAL_SETUP;
 
             //get token
@@ -124,7 +117,7 @@ public class MantaroAPI {
 
             STATUS = APIStatus.ONLINE;
             return true;
-        } catch (Exception e){
+        } catch(Exception e) {
             //No need to set the status to OFFLINE since we already are gonna make the node exit.
             //Expecting maximum explosions at this point.
             SentryHelper.captureExceptionContext("Cannot contact Mantaro API. Startup will be cancelled", e, this.getClass(), "MAPI Configurer");
@@ -133,9 +126,9 @@ public class MantaroAPI {
         }
     }
 
-    public void getNodeTotal(){
+    public void getNodeTotal() {
         Runnable checker = () -> {
-            try{
+            try {
                 Request nodeidr = new Request.Builder()
                         .url(String.format("http://%s/api/nodev1/next", MantaroData.config().get().apiUrl))
                         .header("Authorization", sessionToken)
@@ -144,7 +137,7 @@ public class MantaroAPI {
                 Response response = httpClient.newCall(nodeidr).execute();
                 nodesTotal = new JSONObject(response.body().string()).getInt("id");
                 response.close();
-            } catch (Exception e){
+            } catch(Exception e) {
                 e.printStackTrace();
                 return;
             }

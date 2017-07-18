@@ -9,7 +9,7 @@ import io.sentry.event.interfaces.ExceptionInterface;
 
 public class SentryHelper {
 
-    public static void captureException(String message, Throwable t, Class clazz){
+    public static void captureException(String message, Throwable t, Class clazz) {
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.ERROR)
@@ -18,7 +18,7 @@ public class SentryHelper {
         Sentry.capture(eventBuilder);
     }
 
-    public static void captureMessage(String message, Class clazz){
+    public static void captureMessage(String message, Class clazz) {
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
                 .withLevel(Event.Level.INFO)
@@ -27,13 +27,13 @@ public class SentryHelper {
         Sentry.capture(eventBuilder);
     }
 
-    public static void breadcrumb(String breadcrumb){
+    public static void breadcrumb(String breadcrumb) {
         Sentry.record(
                 new BreadcrumbBuilder().setMessage(breadcrumb).build()
         );
     }
 
-    public static void captureExceptionContext(String message, Throwable t, Class clazz, String user){
+    public static void captureExceptionContext(String message, Throwable t, Class clazz, String user) {
         Sentry.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
@@ -44,7 +44,7 @@ public class SentryHelper {
         Sentry.clearContext();
     }
 
-    public static void captureMessageContext(String message, Class clazz, String user){
+    public static void captureMessageContext(String message, Class clazz, String user) {
         Sentry.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
@@ -55,7 +55,7 @@ public class SentryHelper {
         Sentry.clearContext();
     }
 
-    public static void captureMessageErrorContext(String message, Class clazz, String user){
+    public static void captureMessageErrorContext(String message, Class clazz, String user) {
         Sentry.setUser(new UserBuilder().setUsername(user).build());
         EventBuilder eventBuilder = new EventBuilder()
                 .withMessage(message)
@@ -66,7 +66,7 @@ public class SentryHelper {
         Sentry.clearContext();
     }
 
-    public static void breadcrumbContext(String breadcrumb, String user){
+    public static void breadcrumbContext(String breadcrumb, String user) {
         Sentry.setUser(new UserBuilder().setUsername(user).build());
         Sentry.record(
                 new BreadcrumbBuilder().setMessage(breadcrumb).build()

@@ -9,27 +9,27 @@ public class PollBuilder {
     private long timeout;
     private String name = "";
 
-    public PollBuilder setEvent(GuildMessageReceivedEvent event){
+    public PollBuilder setEvent(GuildMessageReceivedEvent event) {
         this.event = event;
         return this;
     }
 
-    public PollBuilder setName(String name){
+    public PollBuilder setName(String name) {
         this.name = name;
         return this;
     }
 
-    public PollBuilder setTimeout(long timeout){
+    public PollBuilder setTimeout(long timeout) {
         this.timeout = timeout;
         return this;
     }
 
-    public PollBuilder setOptions(String... options){
+    public PollBuilder setOptions(String... options) {
         this.options = options;
         return this;
     }
 
-    public Poll build(){
+    public Poll build() {
         Assert.assertNotNull("Cannot create a poll with null options", options);
         Assert.assertNotNull("What is event :S", event);
         Assert.assertNotNull("You need to specify the timeout, pls.", timeout);

@@ -26,79 +26,79 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 @ToString
 @RequiredArgsConstructor
 public class UserData implements ManagedObject {
-	public static final String DB_TABLE = "users";
-	private final ExtraUserData data;
-	private final String id;
-	private final Map<Integer, Integer> inventory;
-	private String birthday;
-	private String description;
-	private long level, money, reputation, xp;
-	private long premiumUntil;
-	private String timezone;
+    public static final String DB_TABLE = "users";
+    private final ExtraUserData data;
+    private final String id;
+    private final Map<Integer, Integer> inventory;
+    private String birthday;
+    private String description;
+    private long level, money, reputation, xp;
+    private long premiumUntil;
+    private String timezone;
 
-	public UserData(User user) {
-		this(user.getId());
-	}
+    public UserData(User user) {
+        this(user.getId());
+    }
 
-	public UserData(String userId) {
-		this.id = userId;
-		this.inventory = new HashMap<>();
-		this.data = new ExtraUserData();
-	}
+    public UserData(String userId) {
+        this.id = userId;
+        this.inventory = new HashMap<>();
+        this.data = new ExtraUserData();
+    }
 
-	@Override
-	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
-	}
+    @Override
+    public void delete() {
+        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+    }
 
-	@Override
-	public void save() {
-		r.table(DB_TABLE).insert(this)
-			.optArg("conflict", "replace")
-			.runNoReply(conn());
-	}
+    @Override
+    public void save() {
+        r.table(DB_TABLE).insert(this)
+                .optArg("conflict", "replace")
+                .runNoReply(conn());
+    }
 
-	public boolean addMoney(@Nonnegative long money) {
-		if (money == 0) return false;
-		try {
-			this.money = Math.addExact(this.money, Args.positive(money, "money"));
-			return true;
-		} catch (ArithmeticException ignored) {
-			this.money = 0;
-			this.inventory().process(new ItemStack(Items.STAR, 1));
-			return false;
-		}
-	}
+    public boolean addMoney(@Nonnegative long money) {
+        if(money == 0) return false;
+        try {
+            this.money = Math.addExact(this.money, Args.positive(money, "money"));
+            return true;
+        } catch(ArithmeticException ignored) {
+            this.money = 0;
+            this.inventory().process(new ItemStack(Items.STAR, 1));
+            return false;
+        }
+    }
 
-	public void addReputation(long reputation) {
-		if (reputation == 0) return;
-		this.reputation += Args.positive(reputation, "reputation");
-	}
+    public void addReputation(long reputation) {
+        if(reputation == 0) return;
+        this.reputation += Args.positive(reputation, "reputation");
+    }
 
-	@JsonIgnore
-	public long getPremiumLeft() {
-		return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
-	}
+    @JsonIgnore
+    public long getPremiumLeft() {
+        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
+    }
 
-	public void incrementPremium(long milliseconds) {
-		if (isPremium()) {
-			this.premiumUntil += milliseconds;
-		} else {
-			this.premiumUntil = currentTimeMillis() + milliseconds;
-		}
-	}
+    public void incrementPremium(long milliseconds) {
+        if(isPremium()) {
+            this.premiumUntil += milliseconds;
+        } else {
+            this.premiumUntil = currentTimeMillis() + milliseconds;
+        }
+    }
 
-	@JsonIgnore
-	public Inventory inventory() {
-		return new Inventory(inventory);
-	}
+    @JsonIgnore
+    public Inventory inventory() {
+        return new Inventory(inventory);
+    }
 
-	@JsonIgnore
-	public boolean isPremium() {
-		return currentTimeMillis() < premiumUntil;
-	}
+    @JsonIgnore
+    public boolean isPremium() {
+        return currentTimeMillis() < premiumUntil;
+    }
 
-	public void setMoney(long money) {
-		this.money = Math.max(0, money);
-	}
+    public void setMoney(long money) {
+        this.money = Math.max(0, money);
+    }
 }

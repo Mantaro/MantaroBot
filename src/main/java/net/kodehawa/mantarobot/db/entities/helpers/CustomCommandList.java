@@ -12,129 +12,129 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings({"NullableProblems", "SuspiciousToArrayCall"})
 public class CustomCommandList extends AbstractListDecorator<String> {
-	private static class CustomCommandIterator extends AbstractListIteratorDecorator<String> {
-		public CustomCommandIterator(ListIterator<String> iterator) {
-			super(iterator);
-		}
+    public CustomCommandList(List<String> list) {
+        super(list);
+    }
 
-		@Override
-		public String next() {
-			return decode(super.next());
-		}
+    private static String decode(String s) {
+        return s == null ? null : URLEncoding.decode(s);
+    }
 
-		@Override
-		public String previous() {
-			return decode(super.previous());
-		}
+    private static String encode(String s) {
+        return s == null ? null : URLEncoding.encode(s);
+    }
 
-		@Override
-		public void set(String obj) {
-			super.set(encode(obj));
-		}
+    @Override
+    public void add(int index, String object) {
+        super.add(index, encode(object));
+    }
 
-		@Override
-		public void add(String obj) {
-			super.add(encode(obj));
-		}
-	}
+    @Override
+    public boolean addAll(int index, Collection<? extends String> collection) {
+        return super.addAll(index, collection.stream().map(CustomCommandList::encode).collect(Collectors.toList()));
+    }
 
-	private static String decode(String s) {
-		return s == null ? null : URLEncoding.decode(s);
-	}
+    @Override
+    public String get(int index) {
+        return decode(super.get(index));
+    }
 
-	private static String encode(String s) {
-		return s == null ? null : URLEncoding.encode(s);
-	}
+    @Override
+    public int indexOf(Object object) {
+        return super.indexOf(
+                object instanceof String ? encode((String) object) : object
+        );
+    }
 
-	public CustomCommandList(List<String> list) {
-		super(list);
-	}
+    @Override
+    public int lastIndexOf(Object object) {
+        return super.lastIndexOf(
+                object instanceof String ? encode((String) object) : object
+        );
+    }
 
-	@Override
-	public void add(int index, String object) {
-		super.add(index, encode(object));
-	}
+    @Override
+    public ListIterator<String> listIterator() {
+        return new CustomCommandIterator(super.listIterator());
+    }
 
-	@Override
-	public boolean addAll(int index, Collection<? extends String> collection) {
-		return super.addAll(index, collection.stream().map(CustomCommandList::encode).collect(Collectors.toList()));
-	}
+    @Override
+    public ListIterator<String> listIterator(int index) {
+        return new CustomCommandIterator(super.listIterator(index));
+    }
 
-	@Override
-	public String get(int index) {
-		return decode(super.get(index));
-	}
+    @Override
+    public String remove(int index) {
+        return decode(super.remove(index));
+    }
 
-	@Override
-	public int indexOf(Object object) {
-		return super.indexOf(
-			object instanceof String ? encode((String) object) : object
-		);
-	}
+    @Override
+    public String set(int index, String object) {
+        return decode(super.set(index, encode(object)));
+    }
 
-	@Override
-	public int lastIndexOf(Object object) {
-		return super.lastIndexOf(
-			object instanceof String ? encode((String) object) : object
-		);
-	}
+    @Override
+    public List<String> subList(int fromIndex, int toIndex) {
+        return new CustomCommandList(super.subList(fromIndex, toIndex));
+    }
 
-	@Override
-	public ListIterator<String> listIterator() {
-		return new CustomCommandIterator(super.listIterator());
-	}
+    @Override
+    public boolean contains(Object object) {
+        return super.contains(object);
+    }
 
-	@Override
-	public ListIterator<String> listIterator(int index) {
-		return new CustomCommandIterator(super.listIterator(index));
-	}
+    @Override
+    public Iterator<String> iterator() {
+        return new CustomCommandIterator(super.listIterator());
+    }
 
-	@Override
-	public String remove(int index) {
-		return decode(super.remove(index));
-	}
+    @Override
+    public boolean remove(Object object) {
+        return super.remove(object);
+    }
 
-	@Override
-	public String set(int index, String object) {
-		return decode(super.set(index, encode(object)));
-	}
+    @Override
+    public Object[] toArray() {
+        return readOnlyCopy().toArray();
+    }
 
-	@Override
-	public List<String> subList(int fromIndex, int toIndex) {
-		return new CustomCommandList(super.subList(fromIndex, toIndex));
-	}
+    @Override
+    public <T> T[] toArray(T[] object) {
+        return readOnlyCopy().toArray(object);
+    }
 
-	@Override
-	public boolean contains(Object object) {
-		return super.contains(object);
-	}
+    @Override
+    public String toString() {
+        return readOnlyCopy().toString();
+    }
 
-	@Override
-	public Iterator<String> iterator() {
-		return new CustomCommandIterator(super.listIterator());
-	}
+    private List<String> readOnlyCopy() {
+        return new ArrayList<>(this);
+    }
 
-	@Override
-	public boolean remove(Object object) {
-		return super.remove(object);
-	}
+    private static class CustomCommandIterator extends AbstractListIteratorDecorator<String> {
+        public CustomCommandIterator(ListIterator<String> iterator) {
+            super(iterator);
+        }
 
-	@Override
-	public Object[] toArray() {
-		return readOnlyCopy().toArray();
-	}
+        @Override
+        public String next() {
+            return decode(super.next());
+        }
 
-	@Override
-	public <T> T[] toArray(T[] object) {
-		return readOnlyCopy().toArray(object);
-	}
+        @Override
+        public String previous() {
+            return decode(super.previous());
+        }
 
-	@Override
-	public String toString() {
-		return readOnlyCopy().toString();
-	}
+        @Override
+        public void set(String obj) {
+            super.set(encode(obj));
+        }
 
-	private List<String> readOnlyCopy() {
-		return new ArrayList<>(this);
-	}
+        @Override
+        public void add(String obj) {
+            super.add(encode(obj));
+        }
+    }
 }

@@ -12,34 +12,26 @@ import java.util.function.Consumer;
 
 public class Option {
 
-    @Getter private static Map<String, Option> optionMap = new HashMap<>();
+    @Getter
+    private static Map<String, Option> optionMap = new HashMap<>();
     //Display names + desc in the avaliable options list.
-    @Getter private static List<String> avaliableOptions = new ArrayList<>();
-    @Getter private final String optionName;
-    @Getter private final String description;
-    @Getter private static String shortDescription = "Not set.";
-    @Getter private final OptionType type;
-    @Getter private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
+    @Getter
+    private static List<String> avaliableOptions = new ArrayList<>();
+    @Getter
+    private static String shortDescription = "Not set.";
+    @Getter
+    private final String optionName;
+    @Getter
+    private final String description;
+    @Getter
+    private final OptionType type;
+    @Getter
+    private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
 
-    public Option(String displayName, String description, OptionType type){
+    public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
         this.description = description;
         this.type = type;
-    }
-
-    public Option setAction(Consumer<GuildMessageReceivedEvent> code){
-        eventConsumer = (event, ignored) -> code.accept(event);
-        return this;
-    }
-
-    public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code){
-        eventConsumer = code;
-        return this;
-    }
-
-    public Option setShortDescription(String sd){
-        shortDescription = sd;
-        return this;
     }
 
     public static void addOption(String name, Option option) {
@@ -50,5 +42,20 @@ public class Option {
                 getShortDescription()
         );
         Option.avaliableOptions.add(toAdd);
+    }
+
+    public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
+        eventConsumer = (event, ignored) -> code.accept(event);
+        return this;
+    }
+
+    public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
+        eventConsumer = code;
+        return this;
+    }
+
+    public Option setShortDescription(String sd) {
+        shortDescription = sd;
+        return this;
     }
 }

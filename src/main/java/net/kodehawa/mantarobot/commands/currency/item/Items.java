@@ -40,7 +40,7 @@ public class Items {
             CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(), "Clothes", "Basically what you wear, but 100x more expensive.", 15,
                     true),
             DIAMOND = new Item(EmoteReference.DIAMOND.getUnicode(), "Diamond", "Basically a better way of saving your money. It's shiny " +
-                        "too.", 350, true),
+                    "too.", 350, true),
             DRESS = new Item(EmoteReference.DRESS.getUnicode(), "Wedding Dress", "Isn't it cute?", 75, true),
             NECKLACE = new Item(EmoteReference.NECKLACE.getUnicode(), "Necklace", "Looks nice.", 17, true),
             TUXEDO = new Item(EmoteReference.TUXEDO.getUnicode(), "Tuxedo", "What you use when you're going to get married with a girl.",
@@ -64,7 +64,7 @@ public class Items {
             STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "Pretty much, huh?",
                     0, false, false, true),
             LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key " +
-                    "to open a loot crate!", 0,  false, false, true),
+                    "to open a loot crate!", 0, false, false, true),
             STAR_2 = new Item(EmoteReference.STAR.getUnicode(), "Prize 2", "In the first place, how did you get so much money?",
                     500, true, false, true)
     };
@@ -77,18 +77,17 @@ public class Items {
     public static Optional<Item> fromAny(String any) {
         try {
             Item item = fromId(Integer.parseInt(any));
-            if (item != null) return Optional.of(item);
-        }
-        catch (NumberFormatException ignored) {
+            if(item != null) return Optional.of(item);
+        } catch(NumberFormatException ignored) {
         }
 
         Optional<Item> itemOptional;
 
         itemOptional = fromEmoji(any);
-        if (itemOptional.isPresent()) return itemOptional;
+        if(itemOptional.isPresent()) return itemOptional;
 
         itemOptional = fromName(any);
-        if (itemOptional.isPresent()) return itemOptional;
+        if(itemOptional.isPresent()) return itemOptional;
 
         itemOptional = fromPartialName(any);
         return itemOptional;

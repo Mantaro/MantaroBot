@@ -14,91 +14,89 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Predicate;
 
 public class InteractiveOperation {
-	private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor(
-		new ThreadBuilder().setName("InteractiveOperations Executor")
-	);
+    private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor(
+            new ThreadBuilder().setName("InteractiveOperations Executor")
+    );
 
-	private static final Map<String, InteractiveOperation> OPERATIONS = new ConcurrentHashMap<>();
-	private static final EventListener LISTENER = new OptimizedListener<GuildMessageReceivedEvent>(
-		GuildMessageReceivedEvent.class) {
-		@Override
-		public void event(GuildMessageReceivedEvent event) {
-			String id = event.getChannel().getId();
-			InteractiveOperation operation = OPERATIONS.get(id);
+    private static final Map<String, InteractiveOperation> OPERATIONS = new ConcurrentHashMap<>();
+    private static final EventListener LISTENER = new OptimizedListener<GuildMessageReceivedEvent>(
+            GuildMessageReceivedEvent.class) {
+        @Override
+        public void event(GuildMessageReceivedEvent event) {
+            String id = event.getChannel().getId();
+            InteractiveOperation operation = OPERATIONS.get(id);
 
-			if (operation != null) {
-				if (operation.timeoutFuture != null) {
-					operation.timeoutFuture.cancel(true);
-					operation.timeoutFuture = null;
-				}
+            if(operation != null) {
+                if(operation.timeoutFuture != null) {
+                    operation.timeoutFuture.cancel(true);
+                    operation.timeoutFuture = null;
+                }
 
-				if (operation.onMessage.test(event)) {
-					OPERATIONS.remove(id, operation);
-				} else {
-					scheduleTimeout(operation, false);
-				}
-			}
-		}
-	};
+                if(operation.onMessage.test(event)) {
+                    OPERATIONS.remove(id, operation);
+                } else {
+                    scheduleTimeout(operation, false);
+                }
+            }
+        }
+    };
+    private final String channelId;
+    private final TimeAmount increasingTimeout;
+    private final TimeAmount initialTimeout;
+    private final Predicate<GuildMessageReceivedEvent> onMessage;
+    private final Runnable onTimeout, onRemoved;
+    private Future<?> timeoutFuture;
+    InteractiveOperation(String channelId, TimeAmount initialTimeout, TimeAmount increasingTimeout, Predicate<GuildMessageReceivedEvent> onMessage, Runnable onTimeout, Runnable onRemoved) {
+        this.channelId = channelId;
+        this.initialTimeout = initialTimeout;
+        this.increasingTimeout = increasingTimeout;
+        this.onMessage = onMessage;
+        this.onRemoved = onRemoved;
+        this.onTimeout = onTimeout;
 
-	public static InteractiveOperationBuilder builder() {
-		return new InteractiveOperationBuilder();
-	}
+        if(OPERATIONS.containsKey(channelId))
+            throw new IllegalStateException("Operation already happening at channelId");
 
-	public static EventListener listener() {
-		return LISTENER;
-	}
+        OPERATIONS.put(channelId, this);
 
-	public static void stopOperation(String channelId) {
-		InteractiveOperation operation = OPERATIONS.remove(channelId);
+        scheduleTimeout(this, true);
+    }
 
-		if (operation != null) {
-			if (operation.timeoutFuture != null) {
-				operation.timeoutFuture.cancel(true);
-				operation.timeoutFuture = null;
-			}
+    public static InteractiveOperationBuilder builder() {
+        return new InteractiveOperationBuilder();
+    }
 
-			if (operation.onRemoved != null) {
-				operation.onRemoved.run();
-			}
-		}
-	}
+    public static EventListener listener() {
+        return LISTENER;
+    }
 
-	private static void scheduleTimeout(InteractiveOperation operation, boolean first) {
-		TimeAmount timeAmount = first ? operation.initialTimeout : operation.increasingTimeout;
+    public static void stopOperation(String channelId) {
+        InteractiveOperation operation = OPERATIONS.remove(channelId);
 
-		if (timeAmount == null) return;
+        if(operation != null) {
+            if(operation.timeoutFuture != null) {
+                operation.timeoutFuture.cancel(true);
+                operation.timeoutFuture = null;
+            }
 
-		operation.timeoutFuture = EXECUTOR.schedule(
-			() -> {
-				OPERATIONS.remove(operation.channelId, operation);
-				if (operation.onTimeout != null) {
-					operation.onTimeout.run();
-				}
-			}, timeAmount.getAmount(), timeAmount.getUnit()
-		);
-	}
+            if(operation.onRemoved != null) {
+                operation.onRemoved.run();
+            }
+        }
+    }
 
-	private final String channelId;
-	private final TimeAmount increasingTimeout;
-	private final TimeAmount initialTimeout;
-	private final Predicate<GuildMessageReceivedEvent> onMessage;
-	private final Runnable onTimeout, onRemoved;
-	private Future<?> timeoutFuture;
+    private static void scheduleTimeout(InteractiveOperation operation, boolean first) {
+        TimeAmount timeAmount = first ? operation.initialTimeout : operation.increasingTimeout;
 
-	InteractiveOperation(String channelId, TimeAmount initialTimeout, TimeAmount increasingTimeout, Predicate<GuildMessageReceivedEvent> onMessage, Runnable onTimeout, Runnable onRemoved) {
-		this.channelId = channelId;
-		this.initialTimeout = initialTimeout;
-		this.increasingTimeout = increasingTimeout;
-		this.onMessage = onMessage;
-		this.onRemoved = onRemoved;
-		this.onTimeout = onTimeout;
+        if(timeAmount == null) return;
 
-		if (OPERATIONS.containsKey(channelId))
-			throw new IllegalStateException("Operation already happening at channelId");
-
-		OPERATIONS.put(channelId, this);
-
-		scheduleTimeout(this, true);
-	}
+        operation.timeoutFuture = EXECUTOR.schedule(
+                () -> {
+                    OPERATIONS.remove(operation.channelId, operation);
+                    if(operation.onTimeout != null) {
+                        operation.onTimeout.run();
+                    }
+                }, timeAmount.getAmount(), timeAmount.getUnit()
+        );
+    }
 }

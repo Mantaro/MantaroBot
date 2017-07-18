@@ -21,60 +21,59 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public final class DatabaseLogger extends SimpleLogger {
-	@Getter
-	public static class QueuedLog {
-		private final String level;
-		private final String message;
-		private final OffsetDateTime timestamp = OffsetDateTime.now();
+    private static final Queue<QueuedLog> queue = new LinkedBlockingQueue<>();
+    private String name;
+    public DatabaseLogger(String name) {
+        this.name = name;
+    }
 
-		public QueuedLog(Level level, String message) {
-			this.level = level.toString();
-			this.message = message;
-		}
-	}
+    public DatabaseLogger() {
+        this("");
+    }
 
-	private static final Queue<QueuedLog> queue = new LinkedBlockingQueue<>();
-	private String name;
+    @Override
+    public String getName() {
+        return name;
+    }
 
-	public DatabaseLogger(String name) {
-		this.name = name;
-	}
+    @Override
+    public void trace(String msg) {
+        log(msg, Level.TRACE);
+    }
 
-	public DatabaseLogger() {
-		this("");
-	}
+    @Override
+    public void debug(String msg) {
+        log(msg, Level.DEBUG);
+    }
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public void info(String msg) {
+        log(msg, Level.INFO);
+    }
 
-	@Override
-	public void trace(String msg) {
-		log(msg, Level.TRACE);
-	}
+    @Override
+    public void warn(String msg) {
+        log(msg, Level.WARN);
+    }
 
-	@Override
-	public void debug(String msg) {
-		log(msg, Level.DEBUG);
-	}
+    @Override
+    public void error(String msg) {
+        log(msg, Level.ERROR);
+    }
 
-	@Override
-	public void info(String msg) {
-		log(msg, Level.INFO);
-	}
+    private void log(String msg, Level level) {
+        queue.offer(new QueuedLog(level, msg));
+    }
 
-	@Override
-	public void warn(String msg) {
-		log(msg, Level.WARN);
-	}
+    @Getter
+    public static class QueuedLog {
+        private final String level;
+        private final String message;
+        private final OffsetDateTime timestamp = OffsetDateTime.now();
 
-	@Override
-	public void error(String msg) {
-		log(msg, Level.ERROR);
-	}
-
-	private void log(String msg, Level level) {
-		queue.offer(new QueuedLog(level, msg));
-	}
+        public QueuedLog(Level level, String message) {
+            this.level = level.toString();
+            this.message = message;
+        }
+    }
 }

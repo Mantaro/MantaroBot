@@ -5,13 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.commands.game.Character;
 import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.dataporter.oldentities.OldPlayer;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
@@ -25,97 +25,97 @@ import java.util.LinkedList;
 @Module
 public class GameCmds {
 
-	@Subscribe
-	public static void guess(CommandRegistry cr) {
-		cr.register("game", new SimpleCommand(Category.GAMES) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (content.isEmpty()) {
-					onError(event);
-					return;
-				}
+    @Subscribe
+    public static void guess(CommandRegistry cr) {
+        cr.register("game", new SimpleCommand(Category.GAMES) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(content.isEmpty()) {
+                    onError(event);
+                    return;
+                }
 
-				if (args[0].equalsIgnoreCase("character")) {
-					startGame(new Character(), event);
-					return;
-				}
+                if(args[0].equalsIgnoreCase("character")) {
+                    startGame(new Character(), event);
+                    return;
+                }
 
-				if (args[0].equalsIgnoreCase("pokemon") || args[0].equalsIgnoreCase("pokémon")) {
-					startGame(new Pokemon(), event);
-					return;
-				}
+                if(args[0].equalsIgnoreCase("pokemon") || args[0].equalsIgnoreCase("pokémon")) {
+                    startGame(new Pokemon(), event);
+                    return;
+                }
 
-				onHelp(event);
-			}
+                onHelp(event);
+            }
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "`~>game character` - **Starts a instance of Guess the character (anime)**.\n"
-						+ "`~>game pokemon` - **Starts a instance of who's that pokemon?**", false)
-					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
-					.addField("Considerations", "The pokemon guessing game has around 900 different pokemons to guess, where the anime guessing game has around 60.", false)
-					.build();
-			}
-		});
-	}
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Guessing games.")
+                        .addField("Games", "`~>game character` - **Starts a instance of Guess the character (anime)**.\n"
+                                + "`~>game pokemon` - **Starts a instance of who's that pokemon?**", false)
+                        .addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
+                        .addField("Considerations", "The pokemon guessing game has around 900 different pokemons to guess, where the anime guessing game has around 60.", false)
+                        .build();
+            }
+        });
+    }
 
-	@Subscribe
-	public static void trivia(CommandRegistry cr) {
-		cr.register("trivia", new SimpleCommand(Category.GAMES) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				startGame(new Trivia(), event);
-			}
+    @Subscribe
+    public static void trivia(CommandRegistry cr) {
+        cr.register("trivia", new SimpleCommand(Category.GAMES) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                startGame(new Trivia(), event);
+            }
 
-			@Override
-			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "Trivia command.")
-					.setDescription("**Starts an instance of trivia.**")
-					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
-					.build();
-			}
-		});
-	}
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Trivia command.")
+                        .setDescription("**Starts an instance of trivia.**")
+                        .addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
+                        .build();
+            }
+        });
+    }
 
-	private static void startGame(Game game, GuildMessageReceivedEvent event) {
-		if (GameLobby.LOBBYS.containsKey(event.getChannel())) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game when there is a game currently running.").queue();
-			return;
-		}
+    private static void startGame(Game game, GuildMessageReceivedEvent event) {
+        if(GameLobby.LOBBYS.containsKey(event.getChannel())) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game when there is a game currently running.").queue();
+            return;
+        }
 
-		LinkedList<Game> list = new LinkedList<>();
-		list.add(game);
+        LinkedList<Game> list = new LinkedList<>();
+        list.add(game);
 
-		HashMap<Member, OldPlayer> map = new HashMap<>();
-		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
+        HashMap<Member, OldPlayer> map = new HashMap<>();
+        map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
 
 
-		if(!event.getMessage().getMentionedRoles().isEmpty()){
-			StringBuilder b = new StringBuilder();
-			event.getMessage().getMentionedRoles().forEach(role ->
-				event.getGuild().getMembersWithRoles(role).forEach(user  -> {
-					if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
-						map.put(user, MantaroData.db().getPlayer(user));
-					b.append(user.getEffectiveName()).append(" ");
-				})
-			);
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
-		}
+        if(!event.getMessage().getMentionedRoles().isEmpty()) {
+            StringBuilder b = new StringBuilder();
+            event.getMessage().getMentionedRoles().forEach(role ->
+                    event.getGuild().getMembersWithRoles(role).forEach(user -> {
+                        if(!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
+                            map.put(user, MantaroData.db().getPlayer(user));
+                        b.append(user.getEffectiveName()).append(" ");
+                    })
+            );
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
+        }
 
-		if (!event.getMessage().getMentionedUsers().isEmpty()) {
-			StringBuilder builder = new StringBuilder();
-			event.getMessage().getMentionedUsers().forEach(user -> {
-				if (!user.getId().equals(event.getJDA().getSelfUser().getId()))
-					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
-				builder.append(user.getName()).append(" ");
-			});
+        if(!event.getMessage().getMentionedUsers().isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            event.getMessage().getMentionedUsers().forEach(user -> {
+                if(!user.getId().equals(event.getJDA().getSelfUser().getId()))
+                    map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
+                builder.append(user.getName()).append(" ");
+            });
 
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
-		}
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
+        }
 
-		GameLobby lobby = new GameLobby(event, map, list);
+        GameLobby lobby = new GameLobby(event, map, list);
 
-		lobby.startFirstGame();
-	}
+        lobby.startFirstGame();
+    }
 }

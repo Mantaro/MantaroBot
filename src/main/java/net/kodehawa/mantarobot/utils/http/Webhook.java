@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
  * @since 04/07/2017
  */
 public class Webhook {
-    private String API_ENDPOINT;
     public static final Requester REQUESTER = new Requester();
+    private String API_ENDPOINT;
     private String avatarUrl;
     private String username;
 
@@ -48,14 +48,14 @@ public class Webhook {
     }
 
     public Response post(Message message) throws RequestingException {
-        return rawPost(((MessageImpl)message).toJSONObject());
+        return rawPost(((MessageImpl) message).toJSONObject());
     }
 
     public Response post(MessageEmbed... embeds) throws RequestingException {
         JSONObject object = new JSONObject();
         JSONArray array = new JSONArray();
         for(MessageEmbed embed : embeds) {
-            array.put(((MessageEmbedImpl)embed).toJSONObject());
+            array.put(((MessageEmbedImpl) embed).toJSONObject());
         }
         object.put("embeds", array);
         return rawPost(object);
@@ -73,7 +73,7 @@ public class Webhook {
         private boolean configured = false;
 
         Requester() {
-            super("WebhookRequester", new RateLimiter(TimeUnit.MILLISECONDS, 4, 5000), builder->
+            super("WebhookRequester", new RateLimiter(TimeUnit.MILLISECONDS, 4, 5000), builder ->
                     builder.readTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).build()
             );
         }
@@ -96,9 +96,9 @@ public class Webhook {
             if(!configured && res.code() == 204) {
                 int limit = Integer.parseInt(res.headers().get("x-ratelimit-limit").get(0));
                 int remaining = Integer.parseInt(res.headers().get("x-ratelimit-remaining").get(0));
-                if(remaining == limit-1) {
-                    long time = (Long.parseLong(res.headers().get("x-ratelimit-reset").get(0))- OffsetDateTime.now().toEpochSecond())/10;
-                    setRateLimiter(new RateLimiter(TimeUnit.SECONDS, remaining, (int)(time)));
+                if(remaining == limit - 1) {
+                    long time = (Long.parseLong(res.headers().get("x-ratelimit-reset").get(0)) - OffsetDateTime.now().toEpochSecond()) / 10;
+                    setRateLimiter(new RateLimiter(TimeUnit.SECONDS, remaining, (int) (time)));
                     configured = true;
                 }
             }

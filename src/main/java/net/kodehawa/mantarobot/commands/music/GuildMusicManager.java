@@ -11,7 +11,6 @@ import net.kodehawa.mantarobot.commands.music.handlers.AudioPlayerSendHandler;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -22,7 +21,8 @@ public class GuildMusicManager {
     public final TrackScheduler trackScheduler;
     @Getter
     public final AudioPlayerSendHandler audioPlayerSendHandler;
-    @Getter @Setter
+    @Getter
+    @Setter
     public boolean isAwaitingDeath;
     private ScheduledFuture<?> leaveTask = null;
 
@@ -39,7 +39,7 @@ public class GuildMusicManager {
         if(guild == null) return;
 
         (trackScheduler.getCurrentTrack() == null ?
-                guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(()-> new IllegalStateException("No channel to speak")) :
+                guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(() -> new IllegalStateException("No channel to speak")) :
                 trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.THINKING + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
                 "because I was left all alone :<").queue();
         trackScheduler.stop();

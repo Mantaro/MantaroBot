@@ -6,5 +6,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface FurryProvider {
-	void onSuccess(List<Furry> results);
+    void onSuccess(List<Furry> results);
 }

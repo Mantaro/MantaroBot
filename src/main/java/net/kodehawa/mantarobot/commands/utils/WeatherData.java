@@ -4,68 +4,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherData {
-	public class Clouds {
-		public int all = 0;
-	}
+    public Clouds clouds = new Clouds();
+    public Main main = new Main();
+    public Sys sys = new Sys();
+    public List<Weather> weather = new ArrayList<>();
+    public Wind wind = new Wind();
 
-	public class Main {
-		public int humidity; //Humidity in percentage.
-		public double pressure = 0;
-		public double speed; //Speed in m/h.
-		public double temp = 0;
+    public Clouds getClouds() {
+        return clouds;
+    }
 
-		public int getHumidity() {
-			return humidity;
-		}
+    public Main getMain() {
+        return main;
+    }
 
-		public double getPressure() {
-			return pressure;
-		}
+    public Sys getSys() {
+        return sys;
+    }
 
-		public double getSpeed() {
-			return speed;
-		}
+    public List<Weather> getWeather() {
+        return weather;
+    }
 
-		public double getTemp() {
-			return temp;
-		}
-	}
+    public Wind getWind() {
+        return wind;
+    }
 
-	public class Sys {
-		public String country = null;
-	}
+    public class Clouds {
+        public int all = 0;
+    }
 
-	public class Weather {
-		public String main = null;
-	}
+    public class Main {
+        public int humidity; //Humidity in percentage.
+        public double pressure = 0;
+        public double speed; //Speed in m/h.
+        public double temp = 0;
 
-	public class Wind {
-		public double speed = 0;
-	}
+        public int getHumidity() {
+            return humidity;
+        }
 
-	public Clouds clouds = new Clouds();
-	public Main main = new Main();
-	public Sys sys = new Sys();
-	public List<Weather> weather = new ArrayList<>();
-	public Wind wind = new Wind();
+        public double getPressure() {
+            return pressure;
+        }
 
-	public Clouds getClouds() {
-		return clouds;
-	}
+        public double getSpeed() {
+            return speed;
+        }
 
-	public Main getMain() {
-		return main;
-	}
+        public double getTemp() {
+            return temp;
+        }
+    }
 
-	public Sys getSys() {
-		return sys;
-	}
+    public class Sys {
+        public String country = null;
+    }
 
-	public List<Weather> getWeather() {
-		return weather;
-	}
+    public class Weather {
+        public String main = null;
+    }
 
-	public Wind getWind() {
-		return wind;
-	}
+    public class Wind {
+        public double speed = 0;
+    }
 }

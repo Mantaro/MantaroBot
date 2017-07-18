@@ -46,6 +46,18 @@ public class HTTPRequester {
         this.rateLimiter = rateLimiter;
     }
 
+    private static byte[] fromBody(ResponseBody body) throws IOException {
+        if(body == null) return new byte[0];
+        InputStream is = body.byteStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int r;
+        while((r = is.read(buffer)) != -1) {
+            baos.write(buffer, 0, r);
+        }
+        return baos.toByteArray();
+    }
+
     public Request newRequest(String url) {
         return newRequest(url, "no-key");
     }
@@ -113,17 +125,5 @@ public class HTTPRequester {
         Response r = new Response(fromBody(body), res.code(), res.headers().toMultimap());
         res.close();
         return r;
-    }
-
-    private static byte[] fromBody(ResponseBody body) throws IOException {
-        if(body == null) return new byte[0];
-        InputStream is = body.byteStream();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int r;
-        while((r = is.read(buffer)) != -1) {
-            baos.write(buffer, 0, r);
-        }
-        return baos.toByteArray();
     }
 }

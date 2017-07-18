@@ -19,88 +19,86 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class ReactionOperation {
-	private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor(
-		new ThreadBuilder().setName("ReactionOperations Executor")
-	);
+    private static final ScheduledExecutorService EXECUTOR = Executors.newSingleThreadScheduledExecutor(
+            new ThreadBuilder().setName("ReactionOperations Executor")
+    );
 
-	private static final Map<String, ReactionOperation> OPERATIONS = new ConcurrentHashMap<>();
-	private static final EventListener LISTENER = new OptimizedListener<MessageReactionAddEvent>(
-		MessageReactionAddEvent.class
-	) {
-		@Override
-		public void event(MessageReactionAddEvent event) {
-			if (event.getReaction().isSelf()) return;
+    private static final Map<String, ReactionOperation> OPERATIONS = new ConcurrentHashMap<>();
+    private static final EventListener LISTENER = new OptimizedListener<MessageReactionAddEvent>(
+            MessageReactionAddEvent.class
+    ) {
+        @Override
+        public void event(MessageReactionAddEvent event) {
+            if(event.getReaction().isSelf()) return;
 
-			String id = event.getMessageId();
-			ReactionOperation operation = OPERATIONS.get(id);
+            String id = event.getMessageId();
+            ReactionOperation operation = OPERATIONS.get(id);
 
-			if (operation != null && operation.onReaction.test(event)) {
-				if (operation.timeoutFuture != null) {
-					operation.timeoutFuture.cancel(true);
-				}
+            if(operation != null && operation.onReaction.test(event)) {
+                if(operation.timeoutFuture != null) {
+                    operation.timeoutFuture.cancel(true);
+                }
 
-				OPERATIONS.remove(id, operation);
-			}
-		}
-	};
+                OPERATIONS.remove(id, operation);
+            }
+        }
+    };
+    private final String messageId;
+    private final Predicate<MessageReactionAddEvent> onReaction;
+    private final Runnable onRemoved;
+    private Future<?> timeoutFuture;
+    ReactionOperation(Message message, Collection<String> reactions, TimeAmount timeout, Predicate<MessageReactionAddEvent> onReaction, Runnable onTimeout, Runnable onRemoved, boolean force) {
+        this.messageId = message.getId();
+        this.onReaction = onReaction;
+        this.onRemoved = onRemoved;
 
-	public static ReactionOperationBuilder builder() {
-		return new ReactionOperationBuilder();
-	}
+        if(!force && OPERATIONS.containsKey(messageId))
+            throw new IllegalStateException("Operation already happening at messageId");
 
-	public static EventListener listener() {
-		return LISTENER;
-	}
+        OPERATIONS.put(messageId, this);
 
-	public static void stopOperation(String messageId) {
-		ReactionOperation operation = OPERATIONS.remove(messageId);
+        timeoutFuture = EXECUTOR.schedule(
+                () -> {
+                    OPERATIONS.remove(messageId, this);
+                    if(onTimeout != null) {
+                        onTimeout.run();
+                    }
+                }, timeout.getAmount(), timeout.getUnit()
+        );
 
-		if (operation != null) {
-			if (operation.timeoutFuture != null) {
-				operation.timeoutFuture.cancel(true);
-				operation.timeoutFuture = null;
-			}
+        if(!reactions.isEmpty()) {
+            Iterator<String> iterator = reactions.iterator();
+            Holder<Consumer<Void>> chain = new Holder<>();
+            chain.value = nil -> {
+                if(iterator.hasNext()) {
+                    message.addReaction(iterator.next()).queue(chain.value);
+                }
+            };
 
-			if (operation.onRemoved != null) {
-				operation.onRemoved.run();
-			}
-		}
-	}
+            message.clearReactions().queue(chain.value);
+        }
+    }
 
-	private final String messageId;
-	private final Predicate<MessageReactionAddEvent> onReaction;
-	private final Runnable onRemoved;
-	private Future<?> timeoutFuture;
+    public static ReactionOperationBuilder builder() {
+        return new ReactionOperationBuilder();
+    }
 
-	ReactionOperation(Message message, Collection<String> reactions, TimeAmount timeout, Predicate<MessageReactionAddEvent> onReaction, Runnable onTimeout, Runnable onRemoved, boolean force) {
-		this.messageId = message.getId();
-		this.onReaction = onReaction;
-		this.onRemoved = onRemoved;
+    public static EventListener listener() {
+        return LISTENER;
+    }
 
-		if (!force && OPERATIONS.containsKey(messageId))
-			throw new IllegalStateException("Operation already happening at messageId");
+    public static void stopOperation(String messageId) {
+        ReactionOperation operation = OPERATIONS.remove(messageId);
 
-		OPERATIONS.put(messageId, this);
+        if(operation != null) {
+            if(operation.timeoutFuture != null) {
+                operation.timeoutFuture.cancel(true);
+                operation.timeoutFuture = null;
+            }
 
-		timeoutFuture = EXECUTOR.schedule(
-			() -> {
-				OPERATIONS.remove(messageId, this);
-				if (onTimeout != null) {
-					onTimeout.run();
-				}
-			}, timeout.getAmount(), timeout.getUnit()
-		);
-
-		if (!reactions.isEmpty()) {
-			Iterator<String> iterator = reactions.iterator();
-			Holder<Consumer<Void>> chain = new Holder<>();
-			chain.value = nil -> {
-				if (iterator.hasNext()) {
-					message.addReaction(iterator.next()).queue(chain.value);
-				}
-			};
-
-			message.clearReactions().queue(chain.value);
-		}
-	}
+            if(operation.onRemoved != null) {
+                operation.onRemoved.run();
+            }
+        }
+    }
 }

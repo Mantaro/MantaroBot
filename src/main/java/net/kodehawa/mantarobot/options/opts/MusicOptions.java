@@ -3,13 +3,13 @@ package net.kodehawa.mantarobot.options.opts;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.kodehawa.dataporter.oldentities.OldGuild;
 import net.kodehawa.mantarobot.commands.OptsCmd;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.dataporter.oldentities.OldGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.ExtraGuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MusicOptions extends OptionHandler {
 
-    public MusicOptions(){
+    public MusicOptions() {
         setType(OptionType.MUSIC);
     }
 
@@ -33,7 +33,7 @@ public class MusicOptions extends OptionHandler {
                     OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     ExtraGuildData guildData = dbGuild.getData();
 
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a positive integer.").queue();
                         return;
                     }
@@ -42,7 +42,7 @@ public class MusicOptions extends OptionHandler {
                     final int fq;
                     try {
                         fq = Integer.parseInt(much);
-                    } catch (Exception ex) {
+                    } catch(Exception ex) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number").queue();
                         return;
                     }
@@ -52,7 +52,7 @@ public class MusicOptions extends OptionHandler {
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Set max fair queue size to " + fq).queue();
                 });
 
-        registerOption("musicannounce:toggle","Music announce toggle","Toggles whether the bot will announce the new song playing or no.",  event -> {
+        registerOption("musicannounce:toggle", "Music announce toggle", "Toggles whether the bot will announce the new song playing or no.", event -> {
             OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             ExtraGuildData guildData = dbGuild.getData();
             boolean t1 = guildData.isMusicAnnounce();
@@ -66,7 +66,7 @@ public class MusicOptions extends OptionHandler {
                 "Locks the bot to a VC. You need the VC name.\n" +
                         "Example: `~>opts music channel Music`",
                 "Locks the music feature to the specified VC.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
                     }
@@ -80,19 +80,20 @@ public class MusicOptions extends OptionHandler {
 
                     try {
                         channel = event.getGuild().getVoiceChannelById(channelName);
-                    } catch (Exception ignored) {}
+                    } catch(Exception ignored) {
+                    }
 
-                    if (channel == null) {
+                    if(channel == null) {
                         try {
                             List<VoiceChannel> voiceChannels = event.getGuild().getVoiceChannels().stream()
                                     .filter(voiceChannel -> voiceChannel.getName().contains(channelName))
                                     .collect(Collectors.toList());
 
-                            if (voiceChannels.size() == 0) {
+                            if(voiceChannels.size() == 0) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found a voice channel matching that" +
                                         " name or id").queue();
                                 return;
-                            } else if (voiceChannels.size() == 1) {
+                            } else if(voiceChannels.size() == 1) {
                                 channel = voiceChannels.get(0);
                                 guildData.setMusicChannel(channel.getId());
                                 dbGuild.save();
@@ -110,7 +111,7 @@ public class MusicOptions extends OptionHandler {
                                         }
                                 );
                             }
-                        } catch (Exception ex) {
+                        } catch(Exception ex) {
                             log.warn("Error while setting voice channel", ex);
                             event.getChannel().sendMessage("I couldn't set the voice channel " + EmoteReference.SAD + " - try again " +
                                     "in a few minutes " +
@@ -123,13 +124,13 @@ public class MusicOptions extends OptionHandler {
                 "Sets a custom queue limit.\n" +
                         "Example: `~>opts music queuelimit 90`",
                 "Sets a custom queue limit.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
                     }
 
                     boolean isNumber = args[0].matches("^[0-9]*$");
-                    if (!isNumber) {
+                    if(!isNumber) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid number!").queue();
                         return;
                     }
@@ -144,13 +145,13 @@ public class MusicOptions extends OptionHandler {
                         event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "The queue limit on this server is now " +
                                 "**%d** songs.", applySize)).queue();
                         return;
-                    } catch (NumberFormatException ex) {
+                    } catch(NumberFormatException ex) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set too high of a number (which won't" +
                                 " be applied anyway), silly").queue();
                     }
                 });
 
-        registerOption("music:clear", "Music clear settings","Clears the specific music channel.",  (event) -> {
+        registerOption("music:clear", "Music clear settings", "Clears the specific music channel.", (event) -> {
             OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             ExtraGuildData guildData = dbGuild.getData();
             guildData.setMusicChannel(null);

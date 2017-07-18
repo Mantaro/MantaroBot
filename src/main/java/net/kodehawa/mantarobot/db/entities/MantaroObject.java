@@ -17,27 +17,27 @@ import static net.kodehawa.mantarobot.data.MantaroData.conn;
 @ToString
 @RequiredArgsConstructor
 public class MantaroObject implements ManagedObject {
-	public static final String DB_TABLE = "mantaro";
-	public final List<String> blackListedGuilds;
-	public final List<String> blackListedUsers;
-	public final String id = "mantaro";
-	private final Map<String, Long> tempBans;
+    public static final String DB_TABLE = "mantaro";
+    public final List<String> blackListedGuilds;
+    public final List<String> blackListedUsers;
+    public final String id = "mantaro";
+    private final Map<String, Long> tempBans;
 
-	public MantaroObject() {
-		this.blackListedGuilds = new LinkedList<>();
-		this.blackListedUsers = new LinkedList<>();
-		this.tempBans = new HashMap<>();
-	}
+    public MantaroObject() {
+        this.blackListedGuilds = new LinkedList<>();
+        this.blackListedUsers = new LinkedList<>();
+        this.tempBans = new HashMap<>();
+    }
 
-	@Override
-	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
-	}
+    @Override
+    public void delete() {
+        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+    }
 
-	@Override
-	public void save() {
-		r.table(DB_TABLE).insert(this)
-			.optArg("conflict", "replace")
-			.runNoReply(conn());
-	}
+    @Override
+    public void save() {
+        r.table(DB_TABLE).insert(this)
+                .optArg("conflict", "replace")
+                .runNoReply(conn());
+    }
 }

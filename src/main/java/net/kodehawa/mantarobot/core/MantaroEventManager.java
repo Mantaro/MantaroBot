@@ -7,22 +7,22 @@ import org.slf4j.Logger;
 
 @Slf4j
 public class MantaroEventManager extends InterfacedEventManager {
-	public static Logger getLog() {
-		return log;
-	}
+    private long LAST_JDA_EVENT;
 
-	private long LAST_JDA_EVENT;
+    public static Logger getLog() {
+        return log;
+    }
 
-	@Override
-	public void handle(Event event) {
-		if(!(event instanceof ShardMonitorEvent)){
-			LAST_JDA_EVENT = System.currentTimeMillis();
-		}
+    @Override
+    public void handle(Event event) {
+        if(!(event instanceof ShardMonitorEvent)) {
+            LAST_JDA_EVENT = System.currentTimeMillis();
+        }
 
-		super.handle(event);
-	}
+        super.handle(event);
+    }
 
-	public long getLastJDAEventTimeDiff(){
-		return System.currentTimeMillis() - LAST_JDA_EVENT;
-	}
+    public long getLastJDAEventTimeDiff() {
+        return System.currentTimeMillis() - LAST_JDA_EVENT;
+    }
 }

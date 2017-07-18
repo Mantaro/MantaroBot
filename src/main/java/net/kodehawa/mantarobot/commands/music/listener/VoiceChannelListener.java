@@ -14,16 +14,24 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceChannelListener implements EventListener {
 
+    private static boolean validate(GuildVoiceState state) {
+        return state == null || !state.inVoiceChannel();
+    }
+
+    private static boolean isAlone(VoiceChannel vc) {
+        return vc.getMembers().stream().filter(m -> !m.getUser().isBot()).count() == 0;
+    }
+
     @Override
     public void onEvent(Event event) {
         if(event instanceof GuildVoiceMoveEvent) {
-            onGuildVoiceMove((GuildVoiceMoveEvent)event);
+            onGuildVoiceMove((GuildVoiceMoveEvent) event);
         } else if(event instanceof GuildVoiceJoinEvent) {
-            onGuildVoiceJoin((GuildVoiceJoinEvent)event);
+            onGuildVoiceJoin((GuildVoiceJoinEvent) event);
         } else if(event instanceof GuildVoiceLeaveEvent) {
-            onGuildVoiceLeave((GuildVoiceLeaveEvent)event);
+            onGuildVoiceLeave((GuildVoiceLeaveEvent) event);
         } else if(event instanceof GuildVoiceMuteEvent) {
-            onGuildVoiceMute((GuildVoiceMuteEvent)event);
+            onGuildVoiceMute((GuildVoiceMuteEvent) event);
         }
     }
 
@@ -71,8 +79,8 @@ public class VoiceChannelListener implements EventListener {
         if(!isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
-                if(gmm.getTrackScheduler().getCurrentTrack() != null){
-                    if(gmm.isAwaitingDeath()){
+                if(gmm.getTrackScheduler().getCurrentTrack() != null) {
+                    if(gmm.isAwaitingDeath()) {
                         gmm.getTrackScheduler().getRequestedChannelParsed().sendMessage(EmoteReference.POPPER +
                                 "Resuming playback because someone joined!").queue();
                     }
@@ -90,7 +98,7 @@ public class VoiceChannelListener implements EventListener {
         if(isAlone(vc)) {
             GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(vc.getGuild());
             if(gmm != null) {
-                if(gmm.getTrackScheduler() != null && gmm.getTrackScheduler().getCurrentTrack() != null){
+                if(gmm.getTrackScheduler() != null && gmm.getTrackScheduler().getCurrentTrack() != null) {
                     gmm.getTrackScheduler().getRequestedChannelParsed().sendMessage(EmoteReference.THINKING + "I'll leave **" + vc.getName() + "** " +
                             "in 2 minutes because I was left all " +
                             "alone :<").queue();
@@ -100,13 +108,5 @@ public class VoiceChannelListener implements EventListener {
                 gmm.scheduleLeave();
             }
         }
-    }
-
-    private static boolean validate(GuildVoiceState state) {
-        return state == null || !state.inVoiceChannel();
-    }
-
-    private static boolean isAlone(VoiceChannel vc) {
-        return vc.getMembers().stream().filter(m -> !m.getUser().isBot()).count() == 0;
     }
 }

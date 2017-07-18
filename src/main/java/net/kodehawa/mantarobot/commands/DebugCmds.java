@@ -6,9 +6,7 @@ import com.rethinkdb.net.Cursor;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -118,7 +116,7 @@ public class DebugCmds {
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (!rateLimiter.process(event.getMember())) {
+                if(!rateLimiter.process(event.getMember())) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Yikes! Seems like you're going too fast.").queue();
                     return;
                 }
@@ -146,7 +144,7 @@ public class DebugCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
-                for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
+                for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
                             "%-15s | %-9s | U: %-5d | G: %-4d | L: %-7s | MC: %-2d",
@@ -158,7 +156,7 @@ public class DebugCmds {
                             jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
 
-                    if (shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
+                    if(shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
                         builder.append(" <- CURRENT");
                     }
 
@@ -192,19 +190,19 @@ public class DebugCmds {
 
     private static String ratePing(long ping) {
         if(ping == 69) return "l-lewd";
-        if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
-        if (ping <= 10) return "faster than Sonic! :smiley:";
-        if (ping <= 100) return "great! :smiley:";
-        if (ping <= 200) return "nice! :slight_smile:";
-        if (ping <= 300) return "decent. :neutral_face:";
-        if (ping <= 400) return "average... :confused:";
-        if (ping <= 500) return "slightly slow. :slight_frown:";
-        if (ping <= 600) return "kinda slow.. :frowning2:";
-        if (ping <= 700) return "slow.. :worried:";
-        if (ping <= 800) return "too slow. :disappointed:";
-        if (ping <= 900) return "bad. :sob: (helpme)";
-        if (ping <= 1600) return "#BlameDiscord. :angry:";
-        if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
+        if(ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
+        if(ping <= 10) return "faster than Sonic! :smiley:";
+        if(ping <= 100) return "great! :smiley:";
+        if(ping <= 200) return "nice! :slight_smile:";
+        if(ping <= 300) return "decent. :neutral_face:";
+        if(ping <= 400) return "average... :confused:";
+        if(ping <= 500) return "slightly slow. :slight_frown:";
+        if(ping <= 600) return "kinda slow.. :frowning2:";
+        if(ping <= 700) return "slow.. :worried:";
+        if(ping <= 800) return "too slow. :disappointed:";
+        if(ping <= 900) return "bad. :sob: (helpme)";
+        if(ping <= 1600) return "#BlameDiscord. :angry:";
+        if(ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
         return "slow af. :dizzy_face: ";
     }
 }

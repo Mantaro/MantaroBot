@@ -5,9 +5,9 @@ import net.kodehawa.mantarobot.modules.commands.base.Command;
 import java.util.Map;
 
 public interface CommandRegistry {
-	Map<String, Command> commands();
+    Map<String, Command> commands();
 
-	Command register(String commandName, Command command);
+    Command register(String commandName, Command command);
 
-	void registerAlias(String commandName, String originalCommand);
+    void registerAlias(String commandName, String originalCommand);
 }

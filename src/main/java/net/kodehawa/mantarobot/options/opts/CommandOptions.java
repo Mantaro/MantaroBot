@@ -26,29 +26,29 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.getOpts;
 import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Option
-public class CommandOptions extends OptionHandler{
+public class CommandOptions extends OptionHandler {
 
-    public CommandOptions(){
+    public CommandOptions() {
         setType(OptionType.COMMAND);
     }
 
     @Subscribe
-    public void onRegister(OptionRegistryEvent e){
+    public void onRegister(OptionRegistryEvent e) {
         //region disallow
         registerOption("server:command:disallow", "Command disallow",
                 "Disallows a command from being triggered at all. Use the command name\n" +
                         "**Example:** `~>opts server command disallow 8ball`",
                 "Disallows a command from being triggered at all.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
                     String commandName = args[0];
-                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
+                    if(CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
-                    if (commandName.equals("opts") || commandName.equals("help")) {
+                    if(commandName.equals("opts") || commandName.equals("help")) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable the options or the help command.")
                                 .queue();
                         return;
@@ -65,12 +65,12 @@ public class CommandOptions extends OptionHandler{
                 "Allows a command from being triggered. Use the command name\n" +
                         "**Example:** `~>opts server command allow 8ball`",
                 "Allows a command from being triggered.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
                     String commandName = args[0];
-                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
+                    if(CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
@@ -86,12 +86,12 @@ public class CommandOptions extends OptionHandler{
                 "Disallows a command from being triggered at all in a specific channel. Use the channel **name** and command name\n" +
                         "**Example:** `~>opts server command specific disallow general 8ball`",
                 "Disallows a command from being triggered at all in a specific channel.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
 
-                    if(args.length < 2){
+                    if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disalllow!").queue();
                         return;
                     }
@@ -99,17 +99,17 @@ public class CommandOptions extends OptionHandler{
                     String channelName = args[0];
                     String commandName = args[1];
 
-                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
+                    if(CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
 
-                    if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()){
+                    if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
                         return;
                     }
 
-                    if (commandName.equals("opts") || commandName.equals("help")) {
+                    if(commandName.equals("opts") || commandName.equals("help")) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable the options or the help command.")
                                 .queue();
                         return;
@@ -132,12 +132,12 @@ public class CommandOptions extends OptionHandler{
                 "Re-allows a command from being triggered in a specific channel. Use the channel **name** and command name\n" +
                         "**Example:** `~>opts server command specific allow general 8ball`",
                 "Re-allows a command from being triggered in a specific channel.", ((event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
 
-                    if(args.length < 2){
+                    if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disalllow!").queue();
                         return;
                     }
@@ -145,12 +145,12 @@ public class CommandOptions extends OptionHandler{
                     String channelName = args[0];
                     String commandName = args[1];
 
-                    if (CommandListener.PROCESSOR.commands().get(commandName) == null) {
+                    if(CommandListener.PROCESSOR.commands().get(commandName) == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No command called " + commandName).queue();
                         return;
                     }
 
-                    if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()){
+                    if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
                         return;
                     }
@@ -173,7 +173,7 @@ public class CommandOptions extends OptionHandler{
                 "Disallows a channel from commands. Use the channel **name**\n" +
                         "**Example:** `~>opts server channel disallow general`",
                 "Disallows a channel from commands.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
@@ -181,7 +181,7 @@ public class CommandOptions extends OptionHandler{
                     OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     ExtraGuildData guildData = dbGuild.getData();
 
-                    if (args[0].equals("*")) {
+                    if(args[0].equals("*")) {
                         Set<String> allChannelsMinusCurrent = event.getGuild().getTextChannels().
                                 stream().filter(textChannel -> textChannel.getId().equals(event.getChannel().getId())).map(ISnowflake::getId).collect(Collectors.toSet());
                         guildData.getDisabledChannels().addAll(allChannelsMinusCurrent);
@@ -192,7 +192,7 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    if ((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()) {
+                    if((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot " +
                                 "wouldn't be able to talk otherwise :<").queue();
                         return;
@@ -217,7 +217,7 @@ public class CommandOptions extends OptionHandler{
                 "Allows a channel from commands. Use the channel **name**\n" +
                         "**Example:** `~>opts server channel allow general`",
                 "Re-allows a channel from commands.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
@@ -225,7 +225,7 @@ public class CommandOptions extends OptionHandler{
                     OldGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     ExtraGuildData guildData = dbGuild.getData();
 
-                    if (args[0].equals("*")) {
+                    if(args[0].equals("*")) {
                         guildData.getDisabledChannels().clear();
                         dbGuild.save();
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "All channels are allowed now.").queue();
@@ -252,7 +252,7 @@ public class CommandOptions extends OptionHandler{
                 "Disables a specified category.\n" +
                         "If a non-valid category it's specified, it will display a list of valid categories",
                 "Disables a specified category", (event, args) -> {
-                    if(args.length == 0){
+                    if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
                         return;
                     }
@@ -261,19 +261,19 @@ public class CommandOptions extends OptionHandler{
                     ExtraGuildData guildData = dbGuild.getData();
                     Category toDisable = Category.lookupFromString(args[0]);
 
-                    if(toDisable == null){
+                    if(toDisable == null) {
                         AtomicInteger at = new AtomicInteger();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
                         return;
                     }
 
-                    if (guildData.getDisabledCategories().contains(toDisable)) {
+                    if(guildData.getDisabledCategories().contains(toDisable)) {
                         event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
                         return;
                     }
 
-                    if(toDisable.toString().equals("Moderation")){
+                    if(toDisable.toString().equals("Moderation")) {
                         event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
                         return;
                     }
@@ -287,7 +287,7 @@ public class CommandOptions extends OptionHandler{
                 "Enables a specified category.\n" +
                         "If a non-valid category it's specified, it will display a list of valid categories",
                 "Enables a specified category", (event, args) -> {
-                    if(args.length == 0){
+                    if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
                         return;
                     }
@@ -296,10 +296,10 @@ public class CommandOptions extends OptionHandler{
                     ExtraGuildData guildData = dbGuild.getData();
                     Category toEnable = Category.lookupFromString(args[0]);
 
-                    if(toEnable == null){
+                    if(toEnable == null) {
                         AtomicInteger at = new AtomicInteger();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
                         return;
                     }
 
@@ -312,7 +312,7 @@ public class CommandOptions extends OptionHandler{
                 "Disables a specified category on a specific channel.\n" +
                         "If a non-valid category it's specified, it will display a list of valid categories",
                 "Disables a specified category", (event, args) -> {
-                    if(args.length < 2){
+                    if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();
                         return;
                     }
@@ -323,26 +323,26 @@ public class CommandOptions extends OptionHandler{
                     String where = args[1];
                     TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
 
-                    if(toDisable == null){
+                    if(toDisable == null) {
                         AtomicInteger at = new AtomicInteger();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
                         return;
                     }
 
-                    if(channel == null){
+                    if(channel == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
                         return;
                     }
 
                     guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), uwu -> new ArrayList<>());
 
-                    if (guildData.getChannelSpecificDisabledCategories().get(channel.getId()).contains(toDisable)) {
+                    if(guildData.getChannelSpecificDisabledCategories().get(channel.getId()).contains(toDisable)) {
                         event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
                         return;
                     }
 
-                    if(toDisable.toString().equals("Moderation")){
+                    if(toDisable.toString().equals("Moderation")) {
                         event.getChannel().sendMessage(EmoteReference.WARNING + "You cannot disable moderation since it contains this command.").queue();
                         return;
                     }
@@ -356,7 +356,7 @@ public class CommandOptions extends OptionHandler{
                 "Enables a specified category on a specific channel.\n" +
                         "If a non-valid category it's specified, it will display a list of valid categories",
                 "Enables a specified category", (event, args) -> {
-                    if(args.length < 2){
+                    if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();
                         return;
                     }
@@ -367,20 +367,20 @@ public class CommandOptions extends OptionHandler{
                     String where = args[1];
                     TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
 
-                    if(toEnable == null){
+                    if(toEnable == null) {
                         AtomicInteger at = new AtomicInteger();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You entered a invalid category. A list of valid categories to disable (case-insensitive) will be shown below"
-                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" +  at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
+                                + "```md\n" + Category.getAllNames().stream().map(name -> "#" + at.incrementAndGet() + ". " + name).collect(Collectors.joining("\n")) + "```").queue();
                         return;
                     }
 
-                    if(channel == null){
+                    if(channel == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
                         return;
                     }
 
                     List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), uwu -> new ArrayList<>());
-                    if(l.isEmpty() || !l.contains(toEnable)){
+                    if(l.isEmpty() || !l.contains(toEnable)) {
                         event.getChannel().sendMessage(EmoteReference.THINKING + "This category wasn't enabled?").queue();
                         return;
                     }

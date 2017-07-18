@@ -15,89 +15,88 @@ import java.util.concurrent.atomic.AtomicInteger;
  * The user will be not able to use the command until the ratelimit gets lifted, and instead it will send a message saying how much time is left (usually managed in
  * Currency commands themselves).
  * When the ratelimit gets reset, if the user tries to use the command again it will start all over again.
- *
+ * <p>
  * This class normally does the work of making abusable commands not-so abusable, like ~>loot. Also sorts daily or timely timeouts for other commands like daily and rep.
- *
+ * <p>
  * Made by UmModderQualquier (Natan), modified by Kodehawa.
+ *
  * @since 01-06-2017
  */
 public class RateLimiter {
-	private static class Pair<F,S> {
-		F first;
-		S second;
-	}
+    private static final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
+    @Getter
+    private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
+    private final long max;
+    private final long timeout;
+    /**
+     * Default constructor normally used in Currency commands to ratelimit all people.
+     *
+     * 
+     * @param timeout How much time until the ratelimit gets lifted
+     */
+    public RateLimiter(TimeUnit timeUnit, int timeout) {
+        this.max = 1;
+        this.timeout = timeUnit.toMillis(timeout);
+    }
 
-	private static final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
+    /**
+     * @param timeUnit The timeunit you'll input the RL time in. For example, TimeUnit#SECONDS.
+     * @param max      How many times before you get ratelimited.
+     * @param timeout  How much time until the ratelimit gets lifted.
+     */
+    public RateLimiter(TimeUnit timeUnit, int max, int timeout) {
+        this.max = max;
+        this.timeout = timeUnit.toMillis(timeout);
+    }
 
-	@Getter
-	private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
+    //Basically where you get b1nzy'd.
+    public boolean process(String key) {
+        Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
+        if(p == null) {
+            usersRateLimited.put(key, p = new Pair<>());
+            p.first = new AtomicInteger();
+        }
+        AtomicInteger a = p.first;
 
-	private final long max;
-	private final long timeout;
+        long i = a.get();
+        if(i >= max) return false;
 
-	/**
-	 * Default constructor normally used in Currency commands to ratelimit all people.
-	 * @param max How many times before you get ratelimited.
-	 * @param timeout How much time until the ratelimit gets lifted
-	 */
-	public RateLimiter(TimeUnit timeUnit, int timeout) {
-		this.max = 1;
-		this.timeout = timeUnit.toMillis(timeout);
-	}
+        a.incrementAndGet();
+        long now = System.currentTimeMillis();
+        Long tryAgain = p.second;
+        if(tryAgain == null || tryAgain < now) {
+            p.second = now + timeout;
+        }
 
-	/**
-	 * @param timeUnit The timeunit you'll input the RL time in. For example, TimeUnit#SECONDS.
-	 * @param max How many times before you get ratelimited.
-	 * @param timeout How much time until the ratelimit gets lifted.
-	 */
-	public RateLimiter(TimeUnit timeUnit, int max, int timeout) {
-		this.max = max;
-		this.timeout = timeUnit.toMillis(timeout);
-	}
+        ses.schedule(a::decrementAndGet, timeout, TimeUnit.MILLISECONDS);
+        return true;
+    }
 
-	//Basically where you get b1nzy'd.
-	public boolean process(String key) {
-		Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
-		if(p == null) {
-			usersRateLimited.put(key, p = new Pair<>());
-			p.first = new AtomicInteger();
-		}
-		AtomicInteger a = p.first;
+    //Method overload.
+    public long tryAgainIn(String key) {
+        Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
+        if(p == null || p.second == null) return 0;
+        return Math.max(p.second - System.currentTimeMillis(), 0);
+    }
 
-		long i = a.get();
-		if(i >= max) return false;
+    public long tryAgainIn(Member key) {
+        return tryAgainIn(key.getUser().getId());
+    }
 
-		a.incrementAndGet();
-		long now = System.currentTimeMillis();
-		Long tryAgain = p.second;
-		if(tryAgain == null || tryAgain < now) {
-			p.second = now + timeout;
-		}
+    public long tryAgainIn(User key) {
+        return tryAgainIn(key.getId());
+    }
 
-		ses.schedule(a::decrementAndGet, timeout, TimeUnit.MILLISECONDS);
-		return true;
-	}
+    public boolean process(User user) {
+        return process(user.getId());
+    }
 
-	//Method overload.
-	public long tryAgainIn(String key) {
-		Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
-		if(p == null || p.second == null) return 0;
-		return Math.max(p.second-System.currentTimeMillis(), 0);
-	}
+    public boolean process(Member member) {
+        return process(member.getUser());
+    }
 
-	public long tryAgainIn(Member key) {
-		return tryAgainIn(key.getUser().getId());
-	}
-
-	public long tryAgainIn(User key) {
-		return tryAgainIn(key.getId());
-	}
-
-	public boolean process(User user) {
-		return process(user.getId());
-	}
-
-	public boolean process(Member member) {
-		return process(member.getUser());
-	}
+    private static class Pair<F, S> {
+        F first;
+        S second;
+    }
 }

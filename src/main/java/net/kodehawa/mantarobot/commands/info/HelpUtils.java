@@ -10,22 +10,22 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class HelpUtils {
-	public static String forType(TextChannel channel, ExtraGuildData guildData, Category category) {
-		return forType(
-			CommandListener.PROCESSOR.commands().entrySet().stream()
-				.filter(entry -> entry.getValue().category() == category)
-				.filter(entry -> !guildData.getDisabledCategories().contains(entry.getValue().category()))
-				.filter(c -> !guildData.getDisabledCommands().contains(c.getKey()))
-				.filter(c -> guildData.getChannelSpecificDisabledCommands().get(channel.getId()) == null || !guildData.getChannelSpecificDisabledCommands().get(channel.getId()).contains(c.getKey()))
-				.map(Entry::getKey)
-				.collect(Collectors.toList())
-		);
-	}
+    public static String forType(TextChannel channel, ExtraGuildData guildData, Category category) {
+        return forType(
+                CommandListener.PROCESSOR.commands().entrySet().stream()
+                        .filter(entry -> entry.getValue().category() == category)
+                        .filter(entry -> !guildData.getDisabledCategories().contains(entry.getValue().category()))
+                        .filter(c -> !guildData.getDisabledCommands().contains(c.getKey()))
+                        .filter(c -> guildData.getChannelSpecificDisabledCommands().get(channel.getId()) == null || !guildData.getChannelSpecificDisabledCommands().get(channel.getId()).contains(c.getKey()))
+                        .map(Entry::getKey)
+                        .collect(Collectors.toList())
+        );
+    }
 
-	public static String forType(List<String> values) {
-		if(values.size() == 0) return "`Disabled`";
+    public static String forType(List<String> values) {
+        if(values.size() == 0) return "`Disabled`";
 
-		return "``" + values.stream().sorted()
-				.collect(Collectors.joining("`` ``")) + "``";
-	}
+        return "``" + values.stream().sorted()
+                .collect(Collectors.joining("`` ``")) + "``";
+    }
 }

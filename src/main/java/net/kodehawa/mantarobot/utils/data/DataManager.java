@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 public interface DataManager<T> extends Supplier<T>, Closeable {
-	void save();
+    void save();
 
-	@Override
-	default void close() throws IOException {
-		save();
-	}
+    @Override
+    default void close() throws IOException {
+        save();
+    }
 }
