@@ -12,6 +12,7 @@ import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class GuildMusicManager {
@@ -23,7 +24,7 @@ public class GuildMusicManager {
     public final AudioPlayerSendHandler audioPlayerSendHandler;
     @Getter @Setter
     public boolean isAwaitingDeath;
-    private CompletableFuture<?> leaveTask = null;
+    private ScheduledFuture<?> leaveTask = null;
 
     public GuildMusicManager(AudioPlayerManager manager, String guildId) {
         audioPlayer = manager.createPlayer();
@@ -48,7 +49,7 @@ public class GuildMusicManager {
 
     public synchronized void scheduleLeave() {
         if(leaveTask != null) return;
-        MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
+        leaveTask = MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
     }
 
     public synchronized void cancelLeave() {

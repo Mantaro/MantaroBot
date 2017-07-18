@@ -179,14 +179,14 @@ public class MantaroBot extends ShardedJDA {
 				"tag:value"
 		);
 
-		statsClient.recordEvent(
+		/*statsClient.recordEvent(
         		Event.builder()
 						.withTitle("startup")
 						.withText("Started up Mantaro")
 						.withDate(new Date())
 						.withPriority(Event.Priority.LOW)
 						.build()
-		);
+		);*/
 
         new BannerPrinter(1).printBanner();
 
@@ -205,7 +205,7 @@ public class MantaroBot extends ShardedJDA {
 		long start = System.currentTimeMillis();
 
 		SimpleLogToSLF4JAdapter.install();
-		LogBack.enable();
+		//LogBack.enable();
 
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
 			new Reflections(
@@ -242,10 +242,10 @@ public class MantaroBot extends ShardedJDA {
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
-		System.out.println("Starting update managers...");
-		shardedMantaro.startUpdaters();
-
 		MantaroData.config().save();
+
+		log.info("Starting update managers...");
+		shardedMantaro.startUpdaters();
 
         EventBus bus = new EventBus();
         classes.get().forEach(clazz->{
@@ -255,7 +255,6 @@ public class MantaroBot extends ShardedJDA {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
         });
-
 
 		EventBus bus1 = new EventBus();
 		options.get().forEach(clazz->{
@@ -283,22 +282,6 @@ public class MantaroBot extends ShardedJDA {
 			MantaroAPISender.startService();
 			mantaroAPI.getNodeTotal();
 		}
-
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			if(config.isBeta() || config.isPremiumBot()) return;
-			System.out.println("Shutdown hook activated!");
-			log.error("Received an unexpected shutdown! Broadcasting node shutdown!");
-			try{
-				JSONObject mqSend = new JSONObject();
-				mqSend.put("action", NodeAction.SHUTDOWN);
-				mqSend.put("node_id", mantaroAPI.nodeId);
-				mqSend.put("node_identifier", mantaroAPI.nodeUniqueIdentifier);
-				rabbitMQDataManager.apirMQChannel.basicPublish("", "mantaro_nodes", null, mqSend.toString().getBytes());
-			} catch (IOException e){
-				LogUtils.log("Couldn't send node shutdown signal? Guessing everything just exploded.");
-				e.printStackTrace();
-			}
-        }));
 	}
 
 	public Guild getGuildById(String guildId) {

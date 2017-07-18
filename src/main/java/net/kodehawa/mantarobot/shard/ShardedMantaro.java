@@ -42,6 +42,7 @@ public class ShardedMantaro {
                 log.debug("Finished loading shard #" + i + ".");
             }
         } catch (Exception e){
+            e.printStackTrace();
             SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");
         }
     }

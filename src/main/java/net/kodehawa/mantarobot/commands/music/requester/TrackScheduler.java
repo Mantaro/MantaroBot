@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -89,9 +90,13 @@ public class TrackScheduler extends AudioEventAdapter {
             long trackLength = information.length;
 
             if (getRequestedChannelParsed().canTalk()){
+                User user = null;
+                if(getCurrentTrack().getUserData() != null){
+                    user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
+                }
                 getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s), on **%s**!%s",
-                        title, AudioUtils.getLength(trackLength), voiceChannel.getName(), getCurrentTrack().getUserData() != null ?
-                                " requested by **" + getCurrentTrack().getUserData() + "**" : "")).queue(message -> message.delete().queueAfter(
+                        title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
+                                String.format(" requested by **%s#%s**", user.getName(), user.getDiscriminator()) : "")).queue(message -> message.delete().queueAfter(
                                         90, TimeUnit.SECONDS)
                 );
             }

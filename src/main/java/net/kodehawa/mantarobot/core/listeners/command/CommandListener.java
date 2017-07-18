@@ -13,6 +13,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -59,6 +60,9 @@ public class CommandListener implements EventListener {
 
 	@Override
 	public void onEvent(Event event) {
+
+		if(!MantaroBot.loadState.equals(LoadState.POSTLOAD)) return;
+
 		if (event instanceof ShardMonitorEvent) {
 			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
