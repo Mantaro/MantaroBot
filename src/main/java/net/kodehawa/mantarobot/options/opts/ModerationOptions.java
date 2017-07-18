@@ -21,12 +21,12 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Option
 public class ModerationOptions extends OptionHandler {
-    public ModerationOptions(){
+    public ModerationOptions() {
         setType(OptionType.MODERATION);
     }
 
     @Subscribe
-    public void onRegistry(OptionRegistryEvent e){
+    public void onRegistry(OptionRegistryEvent e) {
         registerOption("localblacklist:add", "Local Blacklist add",
                 "Adds someone to the local blacklist.\n" +
                         "You need to mention the user. You can mention multiple users.\n" +

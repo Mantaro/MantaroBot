@@ -21,23 +21,23 @@ public class Option {
     @Getter private final OptionType type;
     @Getter private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
 
-    public Option(String displayName, String description, OptionType type){
+    public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
         this.description = description;
         this.type = type;
     }
 
-    public Option setAction(Consumer<GuildMessageReceivedEvent> code){
+    public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
         eventConsumer = (event, ignored) -> code.accept(event);
         return this;
     }
 
-    public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code){
+    public Option setAction(BiConsumer<GuildMessageReceivedEvent, String[]> code) {
         eventConsumer = code;
         return this;
     }
 
-    public Option setShortDescription(String sd){
+    public Option setShortDescription(String sd) {
         shortDescription = sd;
         return this;
     }

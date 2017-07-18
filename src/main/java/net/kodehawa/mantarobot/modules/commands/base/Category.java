@@ -58,7 +58,7 @@ public enum Category {
 	/**
 	 * @return All categories as a List. You could do Category#values anyway, this is just for my convenience.
 	 */
-	public static List<Category> getAllCategories(){
+	public static List<Category> getAllCategories() {
 		return Arrays.asList(Category.values());
 	}
 }

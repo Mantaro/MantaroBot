@@ -39,7 +39,7 @@ public class GeneralOptions extends OptionHandler {
                         "Example: ~>opts modlog blacklist @user",
                 "Prevents an user from appearing in modlogs", event -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
-                    if(mentioned.isEmpty()){
+                    if(mentioned.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist from mod logs.**").queue();
                         return;
                     }
@@ -62,7 +62,7 @@ public class GeneralOptions extends OptionHandler {
                         "Example: ~>opts modlog whitelist @user",
                 "Allows an user from appearing in modlogs (everyone by default)", event -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
-                    if(mentioned.isEmpty()){
+                    if(mentioned.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally whitelist from mod logs.**").queue();
                         return;
                     }

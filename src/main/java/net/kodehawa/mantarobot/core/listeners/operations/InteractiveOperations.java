@@ -64,7 +64,7 @@ public class InteractiveOperations {
         if(operation == null) throw new NullPointerException("operation");
         RunningOperation o = new RunningOperation(operation, new OperationFuture(channelId));
         RunningOperation running = OPERATIONS.get(channelId);
-        if(running != null){
+        if(running != null) {
             running.operation.onExpire();
             running.future.cancel(true);
         }

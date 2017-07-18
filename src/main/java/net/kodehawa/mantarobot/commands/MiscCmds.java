@@ -278,28 +278,28 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void createPoll(CommandRegistry registry){
+	public static void createPoll(CommandRegistry registry) {
 		registry.register("createpoll", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Map<String, Optional<String>> opts = StringUtils.parse(args);
 				PollBuilder builder = Poll.builder();
-				if(!opts.containsKey("time") || !opts.get("time").isPresent()){
+				if(!opts.containsKey("time") || !opts.get("time").isPresent()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-time` argument or it was empty!").queue();
 					return;
 				}
 
-				if(!opts.containsKey("options") || !opts.get("options").isPresent()){
+				if(!opts.containsKey("options") || !opts.get("options").isPresent()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-options` argument or it was empty!").queue();
 					return;
 				}
 
-				if(!opts.containsKey("name") || !opts.get("name").isPresent()){
+				if(!opts.containsKey("name") || !opts.get("name").isPresent()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-name` argument or it was empty!").queue();
 					return;
 				}
 
-				if(opts.containsKey("name") || opts.get("name").isPresent()){
+				if(opts.containsKey("name") || opts.get("name").isPresent()) {
 					builder.setName(opts.get("name").get().replaceAll(String.valueOf('"'), ""));
 				}
 

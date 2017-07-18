@@ -34,7 +34,7 @@ public class ShardWatcher implements Runnable {
                 int[] dead = sme.getDeadShards();
                 if (dead.length != 0) {
                     MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
-                    for(int id : dead){
+                    for(int id : dead) {
                         try{
                             FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
                                 try {
@@ -54,7 +54,7 @@ public class ShardWatcher implements Runnable {
                             THREAD_POOL.execute(restartJDA);
                             restartJDA.get(2, TimeUnit.MINUTES);
                         }
-                        catch (Exception e){
+                        catch (Exception e) {
                             log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
                         }
                     }

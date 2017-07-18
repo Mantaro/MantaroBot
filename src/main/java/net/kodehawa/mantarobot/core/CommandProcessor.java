@@ -27,7 +27,7 @@ public class CommandProcessor {
 		String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 
 		String usedPrefix = null;
-		for(String s : prefix){
+		for(String s : prefix) {
 			if(rawCmd.startsWith(s)) usedPrefix = s;
 		}
 

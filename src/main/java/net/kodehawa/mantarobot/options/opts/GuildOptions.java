@@ -24,12 +24,12 @@ import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 @Option
 public class GuildOptions extends OptionHandler {
 
-    public GuildOptions(){
+    public GuildOptions() {
         setType(OptionType.GUILD);
     }
 
     @Subscribe
-    public void onRegistry(OptionRegistryEvent e){
+    public void onRegistry(OptionRegistryEvent e) {
         //region opts birthday
         registerOption("birthday:enable", "Birthday Monitoring enable",
                 "Enables birthday monitoring. You need the channel **name** and the role name (it assigns that role on birthday)\n" +
@@ -401,14 +401,14 @@ public class GuildOptions extends OptionHandler {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
 
-            if(args.length == 0){
+            if(args.length == 0) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a mode (12h or 24h)").queue();
                 return;
             }
 
             String mode = args[0];
 
-            switch (mode){
+            switch (mode) {
                 case "12h":
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Set time display mode to 12h").queue();
                     guildData.setTimeDisplay(1);

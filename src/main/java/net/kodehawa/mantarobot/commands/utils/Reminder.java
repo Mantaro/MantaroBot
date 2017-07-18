@@ -26,7 +26,7 @@ public class Reminder {
     private long time;
     private long current;
 
-    private Reminder(String userId, String reminder, long current, long time){
+    private Reminder(String userId, String reminder, long current, long time) {
         this.userId = userId;
         this.reminder = reminder;
         this.time = time;
@@ -37,7 +37,7 @@ public class Reminder {
         user.saveAsync();
     }
 
-    public void schedule(){
+    public void schedule() {
         CURRENT_REMINDERS.computeIfPresent(userId, (id, list) ->{
             list.add(this);
             return list;
@@ -61,22 +61,22 @@ public class Reminder {
         }, time - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
     }
 
-    public Reminder cancel(){
+    public Reminder cancel() {
         removeCurrent();
         scheduledReminder.cancel(true);
         return this;
     }
 
-    private void removeCurrent(){
+    private void removeCurrent() {
         CURRENT_REMINDERS.computeIfPresent(userId, (id, list) ->{
             list.remove(this);
             return list;
         });
     }
 
-    public static void onDeserialization(){
+    public static void onDeserialization() {
         CURRENT_REMINDERS.forEach((id, reminder) -> {
-            for(Reminder r : reminder){
+            for(Reminder r : reminder) {
                 r.schedule();
             }
         });
@@ -88,28 +88,28 @@ public class Reminder {
         private long time;
         private long current;
 
-        public Builder id(String id){
+        public Builder id(String id) {
             userId = id;
             return this;
         }
 
-        public Builder reminder(String reminder){
+        public Builder reminder(String reminder) {
             this.reminder = reminder;
             return this;
         }
 
-        public Builder time(long to){
+        public Builder time(long to) {
             time = to;
             return this;
         }
 
-        public Builder current(long start){
+        public Builder current(long start) {
             current = start;
             return this;
         }
 
 
-        public Reminder build(){
+        public Reminder build() {
             Assert.assertNotNull(userId);
             Assert.assertNotNull(reminder);
             if(time <= 0) throw new IllegalArgumentException("Time to remind must be positive and >0");

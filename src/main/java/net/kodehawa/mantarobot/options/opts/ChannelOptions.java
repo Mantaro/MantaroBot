@@ -12,12 +12,12 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 @Option
 public class ChannelOptions extends OptionHandler {
 
-    public ChannelOptions(){
+    public ChannelOptions() {
         setType(OptionType.CHANNEL);
     }
 
     @Subscribe
-    public void onRegister(OptionRegistryEvent e){
+    public void onRegister(OptionRegistryEvent e) {
         registerOption("nsfw:toggle","NSFW toggle","Toggles NSFW mode in the channel the command was ran at.", (event) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();

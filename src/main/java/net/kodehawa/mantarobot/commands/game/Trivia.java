@@ -29,7 +29,7 @@ public class Trivia extends Game {
 		try {
 			String json = Utils.wget("https://opentdb.com/api.php?amount=1&encode=base64", null);
 
-			if(json == null){
+			if(json == null) {
 				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while starting trivia. Seemingly Open Trivia DB is having trouble.").queue();
 				return false;
 			}
@@ -43,7 +43,7 @@ public class Trivia extends Game {
 
 			List<Object> incorrectAnswers = question.getJSONArray("incorrect_answers").toList();
 			List<String> l = new ArrayList<>();
-			for(Object o : incorrectAnswers){
+			for(Object o : incorrectAnswers) {
 					l.add("**" + fromB64(String.valueOf(o)) + "**\n");
 			}
 
@@ -94,7 +94,7 @@ public class Trivia extends Game {
 			});
 	}
 
-	private String fromB64(String b64){
+	private String fromB64(String b64) {
 		return new String(Base64.getDecoder().decode(b64), StandardCharsets.UTF_8);
 	}
 }

@@ -94,7 +94,7 @@ public class GameCmds {
 		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
 
 
-		if(!event.getMessage().getMentionedRoles().isEmpty()){
+		if(!event.getMessage().getMentionedRoles().isEmpty()) {
 			StringBuilder b = new StringBuilder();
 			event.getMessage().getMentionedRoles().forEach(role ->
 				event.getGuild().getMembersWithRoles(role).forEach(user  -> {

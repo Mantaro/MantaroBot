@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MusicOptions extends OptionHandler {
 
-    public MusicOptions(){
+    public MusicOptions() {
         setType(OptionType.MUSIC);
     }
 

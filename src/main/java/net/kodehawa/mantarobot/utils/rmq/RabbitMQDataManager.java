@@ -59,7 +59,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
             log.info("Created RabbitMQ connection with properties: " + factory.getClientProperties());
                 mainrMQChannel = rMQConnection.createChannel();
             log.info("Acknowledged #" + mainrMQChannel.getChannelNumber() + " on queue: " + MAIN_QUEUE_NAME);
-        } catch (IOException | TimeoutException e){
+        } catch (IOException | TimeoutException e) {
             SentryHelper.captureException("Something went horribly wrong while setting up the RabbitMQ connection", e, this.getClass());
             System.exit(RABBITMQ_FAILURE);
         }
@@ -106,15 +106,15 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                 int nodeId = MantaroBot.getInstance().getMantaroAPI().nodeId;
                 apiCalls++;
 
-                if(payload.has("action")){
-                    if(payload.has("node_identifier")){
-                        if(!payload.getString("node_identifier").equals(MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier.toString())){
+                if(payload.has("action")) {
+                    if(payload.has("node_identifier")) {
+                        if(!payload.getString("node_identifier").equals(MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier.toString())) {
                             System.out.println("Received a request but the identfier doesn't match... maybe for another node?");
                             return;
                         }
                     }
 
-                    switch (NodeAction.valueOf(payload.getString("action"))){
+                    switch (NodeAction.valueOf(payload.getString("action"))) {
 
                         case SHUTDOWN:
                             //TODO re-enable
@@ -138,7 +138,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                 apiChannel.close();
                                 rMQConnection.close();
                                 mainrMQChannel.close();
-                            } catch (Exception e){}
+                            } catch (Exception e) {}
 
                             System.exit(REMOTE_SHUTDOWN);
 
@@ -147,7 +147,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                         case RESTART:
                             boolean hardkill = false;
 
-                            if(payload.has("hardkill")){
+                            if(payload.has("hardkill")) {
                                 hardkill = payload.getBoolean("hardkill");
                             }
 
@@ -158,16 +158,16 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
 
                             try{
                                 MantaroBot.getConnectionWatcher().reboot(hardkill);
-                            } catch (Exception e){
+                            } catch (Exception e) {
                                 code = CODE_FAILURE;
                             }
                             break;
 
                         case RESTART_SHARD:
-                            if(payload.has("shard_id")){
+                            if(payload.has("shard_id")) {
                                 int shardId = payload.getInt("shard_id");
                                 boolean force = true;
-                                if(payload.has("force")){
+                                if(payload.has("force")) {
                                     force = payload.getBoolean("force");
                                 }
 
@@ -222,13 +222,13 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                         case ROLLING_RESTART:
                             break;
                     }
-                } else if(payload.has("get_node")){
+                } else if(payload.has("get_node")) {
                     //TODO: get stuff from the node, broadcast to guilds here.
                 } else {
                     code = NOT_VALID;
                 }
 
-                if(code != SUCCESS){
+                if(code != SUCCESS) {
                     SentryHelper.breadcrumb("Failed to process NODE payload! Reason: " + code + " | With payload: " + payload);
                 }
 
@@ -247,7 +247,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
         return lastReceivedPayload;
     }
 
-    public byte[] createFailureOutput(String failureType, String errorType, String message, boolean broadcast){
+    public byte[] createFailureOutput(String failureType, String errorType, String message, boolean broadcast) {
         JSONObject failure = new JSONObject();
         failure.put("failure", failureType);
         failure.put("type", errorType);
@@ -257,7 +257,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
         return failure.toString().getBytes();
     }
 
-    public byte[] createSuccessOutput(String message, boolean broadcast){
+    public byte[] createSuccessOutput(String message, boolean broadcast) {
         JSONObject success = new JSONObject();
         success.put("success", "");
         success.put("message", message);

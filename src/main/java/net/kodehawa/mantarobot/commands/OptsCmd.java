@@ -78,7 +78,7 @@ public class OptsCmd {
 										.setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
 										.addField("Type", option.getType().toString(), false);
 								event.getChannel().sendMessage(builder.build()).queue();
-							} catch (IndexOutOfBoundsException ignored){}
+							} catch (IndexOutOfBoundsException ignored) {}
 							return;
 						}
 					}
@@ -102,7 +102,7 @@ public class OptsCmd {
 							if (++i < args.length) a = Arrays.copyOfRange(args  , i, args.length);
 							else a = new String[0];
 							callable.accept(event, a);
-						} catch (IndexOutOfBoundsException ignored){}
+						} catch (IndexOutOfBoundsException ignored) {}
 						return;
 					}
 				}
@@ -129,7 +129,7 @@ public class OptsCmd {
 			//Map as follows: name, value
 			Map<String, Object> fieldMap = mapObjects(guildData);
 
-			if(fieldMap == null){
+			if(fieldMap == null) {
 				event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot retrieve values. Weird thing...").queue();
 				return;
 			}
@@ -141,13 +141,13 @@ public class OptsCmd {
 
 			AtomicInteger ai = new AtomicInteger();
 
-			for(Entry e : fieldMap.entrySet()){
+			for(Entry e : fieldMap.entrySet()) {
 				show.append(ai.incrementAndGet())
 						.append(".- `")
 						.append(e.getKey())
 						.append("`");
 
-				if(e.getValue() == null){
+				if(e.getValue() == null) {
 					show.append(" **is not set to anything.")
 							.append("**\n");
 				} else {
@@ -166,7 +166,7 @@ public class OptsCmd {
 		event.getChannel().sendMessage(optsCmd.help(event)).queue();
 	}
 
-	public static SimpleCommand getOpts(){
+	public static SimpleCommand getOpts() {
 		return (SimpleCommand) optsCmd;
 	}
 }

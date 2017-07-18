@@ -6,7 +6,7 @@ public enum OptionType {
     GENERAL, SPECIFIC, COMMAND, GUILD, CHANNEL, USER, MUSIC, MODERATION;
 
     @Override
-    public String toString(){
+    public String toString() {
         return Utils.capitalize(this.name().toLowerCase());
     }
 }

@@ -302,7 +302,7 @@ public class ModerationCmds {
                     guild.getController().kick(member).reason(finalReason).queue(
                             success -> {
 
-                                if(!user.isBot()){
+                                if(!user.isBot()) {
                                     user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **kicked** by " + event
                                             .getAuthor().getName() + "#"
                                             + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();

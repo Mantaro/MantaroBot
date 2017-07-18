@@ -73,7 +73,7 @@ public class CommandStatsManager {
 			.collect(Collectors.joining("\n")));
 	}
 
-	public static int getTotalValueFor(Map<String, AtomicInteger> map){
+	public static int getTotalValueFor(Map<String, AtomicInteger> map) {
 		return map.values().stream().mapToInt(AtomicInteger::get).sum();
 	}
 }

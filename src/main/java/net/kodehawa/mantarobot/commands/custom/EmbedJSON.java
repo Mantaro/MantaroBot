@@ -103,7 +103,7 @@ public class EmbedJSON {
 		return embed.build();
 	}
 
-	public boolean urlExists(String URLName){
+	public boolean urlExists(String URLName) {
 		try {
 			HttpURLConnection.setFollowRedirects(false);
 			HttpURLConnection con = (HttpURLConnection) new URL(URLName).openConnection();

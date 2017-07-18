@@ -35,10 +35,10 @@ public class MantaroAPISender {
 
     private static OkHttpClient httpClient = new OkHttpClient();
 
-    public static void startService(){
+    public static void startService() {
         Runnable postStats = () -> {
             //Ignore API calls if the api did a boom.
-            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE){
+            if(MantaroBot.getInstance().getMantaroAPI().STATUS == APIStatus.OFFLINE) {
                 return;
             }
 
@@ -73,7 +73,7 @@ public class MantaroAPISender {
             List<Long> musicConnections = new ArrayList<>();
             List<Long> lastEventTimes = new ArrayList<>();
 
-            for(MantaroShard shard : MantaroBot.getInstance().getShardList()){
+            for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                 ids.add(shard.getId());
                 statuses.add(shard.getStatus());
                 users.add(shard.getUsers().size());
@@ -131,7 +131,7 @@ public class MantaroAPISender {
                         .post(body)
                         .build();
                 httpClient.newCall(identify).execute().close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         };

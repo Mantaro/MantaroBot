@@ -20,6 +20,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -154,7 +155,8 @@ public class AudioLoader implements AudioLoadResultHandler {
     }
 
     private void onSearch(AudioPlaylist playlist) {
-        DiscordUtils.selectList(event, playlist.getTracks(),
+        List<AudioTrack> list = playlist.getTracks();
+        DiscordUtils.selectList(event, list.subList(0, Math.min(5, list.size())),
                 track -> String.format("**[%s](%s)** (%s)", track.getInfo().title, track.getInfo().uri, Utils.getDurationMinutes(track.getInfo().length)),
                 s -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Song selection. Type the song number to continue.", null)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")

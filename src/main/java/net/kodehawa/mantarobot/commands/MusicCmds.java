@@ -828,14 +828,14 @@ public class MusicCmds {
 	private static void stop(GuildMessageReceivedEvent event) {
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
 
-		if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused()){
+		if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused()) {
 			musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
 		}
 
 		int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
 		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
 
-		if (TEMP_QUEUE_LENGTH > 0){
+		if (TEMP_QUEUE_LENGTH > 0) {
 			event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 		}
 

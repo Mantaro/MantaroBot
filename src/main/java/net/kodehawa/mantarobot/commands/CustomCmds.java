@@ -232,7 +232,7 @@ public class CustomCmds {
 									return Operation.RESET_TIMEOUT;
 								}
 
-								if(cmd.length() >= 100){
+								if(cmd.length() >= 100) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
 											.queue();
 									return Operation.RESET_TIMEOUT;
@@ -457,7 +457,7 @@ public class CustomCmds {
 						return;
 					}
 
-					if(cmd.length() >= 100){
+					if(cmd.length() >= 100) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Name is too long.")
 								.queue();
 						return;

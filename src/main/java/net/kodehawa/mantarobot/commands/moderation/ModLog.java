@@ -19,7 +19,7 @@ public class ModLog {
 		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
 		if(target != null) embedBuilder.addField("Member", target.getName(), true);
 		embedBuilder.addField("Reason", reason, false);
-		if(target != null){
+		if(target != null) {
 			embedBuilder.setThumbnail(target.getEffectiveAvatarUrl());
 		} else {
 			embedBuilder.setThumbnail(author.getUser().getEffectiveAvatarUrl());
@@ -47,7 +47,7 @@ public class ModLog {
 		}
 
 		if (guildDB.getData().getGuildLogChannel() != null) {
-			if(MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()) != null){
+			if(MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()) != null) {
 				MantaroBot.getInstance().getTextChannelById(guildDB.getData().getGuildLogChannel()).sendMessage(embedBuilder.build()).queue();
 			}
 		}

@@ -34,15 +34,15 @@ public interface AssistedCommand extends Command {
 				.addField("Permission required", permission().toString(), true);
 	}
 
-	default String checkString(String s){
-		if(s.length() > 2040){
+	default String checkString(String s) {
+		if(s.length() > 2040) {
 			return Utils.paste(s);
 		} else {
 			return s;
 		}
 	}
 
-	default void onError(GuildMessageReceivedEvent event){
+	default void onError(GuildMessageReceivedEvent event) {
 		MessageEmbed helpEmbed = help(event);
 
 		if (helpEmbed == null) {
@@ -73,7 +73,7 @@ public interface AssistedCommand extends Command {
 	}
 
 	@Override
-	default Command addOption(String call, Option option){
+	default Command addOption(String call, Option option) {
 		Option.addOption(call, option);
 		return this;
 	}

@@ -127,7 +127,7 @@ public class MantaroBot extends ShardedJDA {
 			System.setErr(new CompactPrintStream(System.err));
 		}
 
-		if(System.getProperty("mantaro.debug") != null){
+		if(System.getProperty("mantaro.debug") != null) {
 			DEBUG = true;
 			System.out.println("Running in debug mode!");
 		}
@@ -193,7 +193,7 @@ public class MantaroBot extends ShardedJDA {
 
 		Sentry.init(config.sentryDSN);
 
-		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()){
+		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
 			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
@@ -277,7 +277,7 @@ public class MantaroBot extends ShardedJDA {
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
 						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
-		if(!config.isPremiumBot() && !config.isBeta()){
+		if(!config.isPremiumBot() && !config.isBeta()) {
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
 			mantaroAPI.getNodeTotal();
@@ -333,6 +333,6 @@ public class MantaroBot extends ShardedJDA {
 
 			Response response = okHttpClient.newCall(request).execute();
 			response.close();
-		} catch (Exception e){}
+		} catch (Exception e) {}
 	}
 }

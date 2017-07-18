@@ -211,7 +211,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	@Override
-	public void shutdownNow(){
+	public void shutdownNow() {
 		forEach(JDA::shutdownNow);
 	}
 

@@ -277,7 +277,7 @@ public class FunCmds {
 	}
 
 	@Subscribe
-	public static void love(CommandRegistry registry){
+	public static void love(CommandRegistry registry) {
 		Random r = new Random();
 		String[] usersToMax = {"155867458203287552;132584525296435200",
 				"132584525296435200;155867458203287552","1558674582032875522;213466096718708737", "213466096718708737;1558674582032875522",
@@ -290,7 +290,7 @@ public class FunCmds {
 				int percentage = r.nextInt(100);
 				String result = "Uh...";
 
-				if(mentioned.size() < 1){
+				if(mentioned.size() < 1) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least 1 user.").queue();
 					return;
 				}
@@ -302,7 +302,7 @@ public class FunCmds {
 				listDisplay.add("\uD83D\uDC97  " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator());
 				toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
 
-				if(mentioned.size() == 2){
+				if(mentioned.size() == 2) {
 					ids = mentioned.get(0).getId() + ";" + mentioned.get(1).getId();
 					toDisplay = mentioned.stream()
 							.map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining("\n"));
@@ -311,19 +311,19 @@ public class FunCmds {
 				final String matcher = ids;
 				String[] yChecker = ids.split(";");
 				boolean yCheck = yChecker[0].equalsIgnoreCase(yChecker[1]);
-				if(Stream.of(usersToMax).anyMatch(s -> s.equals(matcher)) || yCheck){
+				if(Stream.of(usersToMax).anyMatch(s -> s.equals(matcher)) || yCheck) {
 					percentage = 100;
 				}
 
-				if(percentage < 45){
+				if(percentage < 45) {
 					result = "Try again next time...";
-				} else if (percentage > 45 && percentage < 75){
+				} else if (percentage > 45 && percentage < 75) {
 					result = "Good enough!";
-				} else if (percentage > 75 && percentage < 100){
+				} else if (percentage > 75 && percentage < 100) {
 					result = "Good match!";
 				}  else {
 					result = "Perfect match!";
-					if (yCheck){
+					if (yCheck) {
 						result = "You're a special creature and you should love yourself more than anyone <3";
 					}
 				}

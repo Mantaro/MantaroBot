@@ -42,7 +42,7 @@ public class Inventory {
 		replaceWith(new ArrayList<>());
 	}
 
-	public void clearOnlySellables(){
+	public void clearOnlySellables() {
 		List<ItemStack> ns = asList().stream().filter(item -> !item.getItem().isSellable()).collect(Collectors.toList());
 		replaceWith(ns);
 	}
@@ -52,7 +52,7 @@ public class Inventory {
 	}
 
 	public ItemStack getStackOf(Item item) {
-		if(containsItem(item)){
+		if(containsItem(item)) {
 			return asMap().get(item);
 		} else {
 			return null;

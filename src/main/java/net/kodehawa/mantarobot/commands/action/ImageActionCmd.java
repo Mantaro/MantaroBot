@@ -69,22 +69,22 @@ public class ImageActionCmd extends NoArgsCommand {
 			MessageBuilder toSend = new MessageBuilder()
 					.append(String.format(format, mentions(event), event.getAuthor().getAsMention()));
 
-			if(!guildData.isNoMentionsAction() && swapNames){
+			if(!guildData.isNoMentionsAction() && swapNames) {
 				toSend = new MessageBuilder()
 						.append(String.format(format, event.getAuthor().getAsMention(), mentions(event)));
 			}
 
-			if(guildData.isNoMentionsAction()){
+			if(guildData.isNoMentionsAction()) {
 				toSend = new MessageBuilder()
 						.append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"));
 			}
 
-			if(swapNames && guildData.isNoMentionsAction()){
+			if(swapNames && guildData.isNoMentionsAction()) {
 				toSend = new MessageBuilder()
 						.append(String.format(format, "**" +  event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**"));
 			}
 
-			if(isLonely(event)){
+			if(isLonely(event)) {
 				toSend = new MessageBuilder().append("**").append(lonelyLine).append("**");
 			}
 
@@ -115,7 +115,7 @@ public class ImageActionCmd extends NoArgsCommand {
 		return event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(", ")).trim();
 	}
 
-	private String noMentions(GuildMessageReceivedEvent event){
+	private String noMentions(GuildMessageReceivedEvent event) {
 		return event.getMessage().getMentionedUsers().stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", ")).trim();
 	}
 }

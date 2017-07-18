@@ -133,7 +133,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(player.getMoney() > (long)(Integer.MAX_VALUE) * 3){
+                if(player.getMoney() > (long)(Integer.MAX_VALUE) * 3) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items?").queue();
                     return;
                 }
@@ -456,7 +456,7 @@ public class MoneyCmds {
         player.saveAsync();
     }
 
-    private static Cursor<Map> getGlobalRichest(OrderBy template, String pattern){
+    private static Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
         return template.filter(player -> player.g("id").match(pattern))
                 .map(player -> player.pluck("id", "money"))
                 .limit(15)

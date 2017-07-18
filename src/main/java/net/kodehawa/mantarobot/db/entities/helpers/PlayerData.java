@@ -23,7 +23,7 @@ public class PlayerData {
 	}
 
 	@Transient
-	public String marryDate(){
+	public String marryDate() {
 		if(getMarriedSince() == null) return null;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		final Date date = new Date(getMarriedSince());
@@ -31,7 +31,7 @@ public class PlayerData {
 	}
 
 	@Transient
-	public String anniversary(){
+	public String anniversary() {
 		if(getMarriedSince() == null) return null;
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 		Calendar cal = new GregorianCalendar();

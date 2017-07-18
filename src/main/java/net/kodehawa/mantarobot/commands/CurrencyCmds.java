@@ -469,7 +469,7 @@ public class CurrencyCmds {
                 else {
                     User giveTo = mentionedUsers.get(0);
 
-                    if(event.getAuthor().getId().equals(giveTo.getId())){
+                    if(event.getAuthor().getId().equals(giveTo.getId())) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer an item to yourself!").queue();
                         return;
                     }

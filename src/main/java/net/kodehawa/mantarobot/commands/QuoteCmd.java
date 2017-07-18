@@ -48,7 +48,7 @@ public class QuoteCmd {
 				try {
 					messageHistory = event.getChannel().getHistory().retrievePast(100).complete();
 				} catch (Exception e) {
-					if(e instanceof PermissionException){
+					if(e instanceof PermissionException) {
 						event.getChannel().sendMessage(EmoteReference.CRYING + "I don't have permission to do this :<").queue();
 						return;
 					}

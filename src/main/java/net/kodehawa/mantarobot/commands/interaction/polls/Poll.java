@@ -44,14 +44,14 @@ public class Poll extends Lobby {
         this.timeout = timeout;
         this.name = name;
 
-        if(options.length > 9 || options.length < 2 || timeout > 2820000 || timeout < 30000){
+        if(options.length > 9 || options.length < 2 || timeout > 2820000 || timeout < 30000) {
             isCompilant = false;
         }
     }
 
-    public void startPoll(){
+    public void startPoll() {
         try{
-            if(!isCompilant){
+            if(!isCompilant) {
                 getChannel().sendMessage(EmoteReference.WARNING +
                         "This poll cannot build. " +
                         "**Remember that the maximum amount of options are 9, the minimum is 2 and that the maximum timeout is 45m and the minimum timeout is 30s.**\n" +
@@ -60,12 +60,12 @@ public class Poll extends Lobby {
                 return;
             }
 
-            if(isPollAlreadyRunning(getChannel())){
+            if(isPollAlreadyRunning(getChannel())) {
                 getChannel().sendMessage(EmoteReference.WARNING + "There seems to be another poll running here...").queue();
                 return;
             }
 
-            if(!event.getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)){
+            if(!event.getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I cannot add reactions here...").queue();
                 getRunningPolls().remove(getChannel());
                 return;
@@ -80,7 +80,7 @@ public class Poll extends Lobby {
 
             String toShow = Stream.of(options).map(opt -> String.format("#%01d.- %s", at.incrementAndGet(), opt)).collect(Collectors.joining("\n"));
 
-            if(toShow.length() > 1014){
+            if(toShow.length() > 1014) {
                 toShow = "This was too long to show, so I pasted it: " + Utils.paste(toShow);
             }
 
@@ -97,8 +97,8 @@ public class Poll extends Lobby {
             getChannel().sendMessage(builder.build()).queue(this::createPoll);
 
             InteractiveOperations.create(getChannel(), timeout, e -> {
-                if(e.getAuthor().getId().equals(event.getAuthor().getId())){
-                    if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")){
+                if(e.getAuthor().getId().equals(event.getAuthor().getId())) {
+                    if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")) {
                         runningPoll.cancel(true);
                         getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
                         getRunningPolls().remove(getChannel().getId());
@@ -111,20 +111,20 @@ public class Poll extends Lobby {
 
             runningPolls.put(getChannel().getId(), this);
         }
-        catch(Exception e){
+        catch(Exception e) {
             getChannel().sendMessage(EmoteReference.ERROR + "An unknown error has occurred while setting up a poll. Maybe try again?").queue();
         }
     }
 
-    public static Map<String, Poll> getRunningPolls(){
+    public static Map<String, Poll> getRunningPolls() {
         return runningPolls;
     }
 
-    public boolean isPollAlreadyRunning(TextChannel channel){
+    public boolean isPollAlreadyRunning(TextChannel channel) {
         return runningPolls.containsKey(channel.getId());
     }
 
-    public static PollBuilder builder(){
+    public static PollBuilder builder() {
         return new PollBuilder();
     }
 
@@ -138,7 +138,7 @@ public class Poll extends Lobby {
         return r;
     }
 
-    private Future<Void> createPoll(Message message){
+    private Future<Void> createPoll(Message message) {
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
             public int add(MessageReactionAddEvent e) {

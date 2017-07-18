@@ -13,7 +13,7 @@ public class Carbonitex implements Runnable {
     private JDA jda;
     private final OkHttpClient httpClient = new OkHttpClient();
 
-    public Carbonitex(JDA jda, int shardId, int totalShards){
+    public Carbonitex(JDA jda, int shardId, int totalShards) {
         this.shardId = shardId;
         this.totalShards = totalShards;
         this.jda = jda;
@@ -38,7 +38,7 @@ public class Carbonitex implements Runnable {
 
                 Response response = httpClient.newCall(request).execute();
                 response.close();
-            } catch (Exception ignored){}
+            } catch (Exception ignored) {}
         }
     }
 }

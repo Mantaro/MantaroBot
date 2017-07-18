@@ -46,11 +46,11 @@ public class CommandRegistry {
 		}
 
 		if(data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) != null &&
-				data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).contains(cmdname)){
+				data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).contains(cmdname)) {
 			return false;
 		}
 
-		if(data.getDisabledUsers().contains(event.getAuthor().getId())){
+		if(data.getDisabledUsers().contains(event.getAuthor().getId())) {
 			return false;
 		}
 
@@ -58,20 +58,20 @@ public class CommandRegistry {
 			return false;
 		}
 
-		if(MantaroData.config().get().isPremiumBot() && cmd.category() == Category.CURRENCY){
+		if(MantaroData.config().get().isPremiumBot() && cmd.category() == Category.CURRENCY) {
 			return false;
 		}
 
-		if (data.getDisabledCategories().contains(cmd.category())){
+		if (data.getDisabledCategories().contains(cmd.category())) {
 			return false;
 		}
 
-		if (data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())){
+		if (data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())) {
 			return false;
 		}
 
 		//If we are in the patreon bot, deny all requests from unknown guilds.
-		if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()){
+		if(conf.isPremiumBot() && !conf.isOwner(event.getAuthor()) && !dbg.isPremium()) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like you're trying to use the Patreon bot when this guild is **not** marked as premium. " +
 					"**If you think this is an error please contact Kodehawa#3457 or poke me on #donators in the support guild**").queue();
 			return false;
@@ -92,7 +92,7 @@ public class CommandRegistry {
 	}
 
 	public void registerAlias(String c, String o) {
-		if(!commands.containsKey(c)){
+		if(!commands.containsKey(c)) {
 			System.out.println(c + " isn't in the command map...");
 		}
 

@@ -25,14 +25,14 @@ public class ShardedMantaro {
     @Getter
     private int totalShards;
 
-    public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token){
+    public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token) {
         if(isDebug) totalShards = 2;
         if(auto) totalShards = getRecommendedShards(token);
         this.totalShards = totalShards;
         shards = new MantaroShard[totalShards];
     }
 
-    public void shard(){
+    public void shard() {
         try{
             for (int i = 0; i < totalShards; i++) {
                 log.info("Starting shard #" + i + " of " + totalShards);
@@ -41,13 +41,13 @@ public class ShardedMantaro {
                 shards[i] = new MantaroShard(i, totalShards, manager);
                 log.debug("Finished loading shard #" + i + ".");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");
         }
     }
 
-    public void startUpdaters(){
+    public void startUpdaters() {
         for(MantaroShard shard : getShards()) {
             shard.updateServerCount();
             shard.updateStatus();

@@ -35,24 +35,24 @@ public class LogBack extends AppenderBase<ILoggingEvent> {
 		String toSend = patternLayout.doLayout(event);
 		String sentry = patternLayoutSentry.doLayout(event);
 
-		for(String filtered : filters){
+		for(String filtered : filters) {
 			if(toSend.contains(filtered)) {
 				return;
 			}
 		}
 
-		for(String filtered : exactFilters){
-			if(toSend.equalsIgnoreCase(filtered)){
+		for(String filtered : exactFilters) {
+			if(toSend.equalsIgnoreCase(filtered)) {
 				return;
 			}
 		}
 
 		if(event.getLevel().isGreaterOrEqual(Level.WARN)
-				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.contains("---- DISCONNECT")){
+				&& !toSend.contains("Attempting to reconnect in 2s") && !toSend.contains("---- DISCONNECT")) {
 			SentryHelper.captureMessageErrorContext(sentry, this.getClass(), "Log Back");
 		}
 
-		if (toSend.length() < 1920){
+		if (toSend.length() < 1920) {
 			LogUtils.simple(toSend);
 		} else {
 			LogUtils.simple(EmoteReference.THINKING + "Received a log message larger than 1920 characters, so I pasted it (" + Utils.paste(toSend) + ")");

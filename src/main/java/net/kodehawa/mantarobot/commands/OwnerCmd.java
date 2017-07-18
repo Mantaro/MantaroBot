@@ -270,7 +270,7 @@ public class OwnerCmd {
 								Long.parseLong(values[1]);
 								userId = values[1];
 							} catch (Exception e) {
-								if(!event.getMessage().getMentionedUsers().isEmpty()){
+								if(!event.getMessage().getMentionedUsers().isEmpty()) {
 									userId = event.getMessage().getMentionedUsers().get(0).getId();
 									return;
 								} else {
@@ -547,20 +547,20 @@ public class OwnerCmd {
 
 	//TODO pls fix this in API
 	//@Command
-	public static void addGif(CommandRegistry registry){
+	public static void addGif(CommandRegistry registry) {
 		registry.register("addgif", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {
 					Map<String, Optional<String>> opts = StringUtils.parse(args);
 
-					if(!opts.containsKey("type") || !opts.get("type").isPresent()){
+					if(!opts.containsKey("type") || !opts.get("type").isPresent()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-type` argument or it was empty!\n" +
 								"Accepted types: `pats, hugs, kisses, slaps, highfives, bites, pokes, tickles, pouts`. To create a new one just make it with a new name.").queue();
 						return;
 					}
 
-					if(!opts.containsKey("url") || !opts.get("url").isPresent()){
+					if(!opts.containsKey("url") || !opts.get("url").isPresent()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-url` argument or it was empty!").queue();
 						return;
 					}
@@ -677,7 +677,7 @@ public class OwnerCmd {
 
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
-		if(!MantaroData.config().get().isBeta() && !MantaroData.config().get().isPremiumBot()){
+		if(!MantaroData.config().get().isBeta() && !MantaroData.config().get().isPremiumBot()) {
 			System.out.println("Shutdown hook activated!");
 			log.error("Received an unexpected shutdown! Broadcasting node shutdown!");
 			try{
@@ -687,7 +687,7 @@ public class OwnerCmd {
 				mqSend.put("node_identifier", MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier);
 				MantaroBot.getInstance().getRabbitMQDataManager().apirMQChannel.basicPublish("",
 						"mantaro_nodes", null, mqSend.toString().getBytes());
-			} catch (IOException e){
+			} catch (IOException e) {
 				LogUtils.log("Couldn't send node shutdown signal? Guessing everything just exploded.");
 				SentryHelper.captureException("Couldn't send node shutdown signal? Guessing everything just exploded", e, OwnerCmd.class);
 			}

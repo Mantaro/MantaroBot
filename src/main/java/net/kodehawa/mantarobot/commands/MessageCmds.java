@@ -62,7 +62,7 @@ public class MessageCmds {
 
                                 final int size = messageHistory.size();
 
-                                if(messageHistory.size() < 3){
+                                if(messageHistory.size() < 3) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
                                     return;
                                 }
@@ -108,11 +108,11 @@ public class MessageCmds {
 
                     int i = 5;
 
-                    if(args.length > 1){
+                    if(args.length > 1) {
                         try{
                             i = Integer.parseInt(args[1]);
                             if(i < 3) i = 3;
-                        } catch (Exception e){
+                        } catch (Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
                         }
                     }
@@ -129,7 +129,7 @@ public class MessageCmds {
 
                                 final int size = messageHistory.size();
 
-                                if(messageHistory.size() < 3){
+                                if(messageHistory.size() < 3) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
                                     return;
                                 }
@@ -188,7 +188,7 @@ public class MessageCmds {
 
                             final int size = messageHistory.size();
 
-                            if(messageHistory.size() < 3){
+                            if(messageHistory.size() < 3) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
                                 return;
                             }

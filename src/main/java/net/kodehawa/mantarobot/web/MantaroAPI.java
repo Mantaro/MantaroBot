@@ -37,7 +37,7 @@ public class MantaroAPI {
     //The total number of nodes received. This should be received under request after initial setup.
     public int nodesTotal = 1;
 
-    public void startService(){
+    public void startService() {
         Runnable checker = () -> {
             try{
                 STATUS = APIStatus.RECEIVING_DATA;
@@ -63,14 +63,14 @@ public class MantaroAPI {
                         .post(identifyBody)
                         .build();
                 httpClient.newCall(identify).execute().close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 STATUS = APIStatus.OFFLINE;
             }
         };
         Async.task("Mantaro API checker", checker, 10, TimeUnit.SECONDS);
     }
 
-    public boolean configure(){
+    public boolean configure() {
         try{
             STATUS = APIStatus.INITIAL_SETUP;
 
@@ -124,7 +124,7 @@ public class MantaroAPI {
 
             STATUS = APIStatus.ONLINE;
             return true;
-        } catch (Exception e){
+        } catch (Exception e) {
             //No need to set the status to OFFLINE since we already are gonna make the node exit.
             //Expecting maximum explosions at this point.
             SentryHelper.captureExceptionContext("Cannot contact Mantaro API. Startup will be cancelled", e, this.getClass(), "MAPI Configurer");
@@ -133,7 +133,7 @@ public class MantaroAPI {
         }
     }
 
-    public void getNodeTotal(){
+    public void getNodeTotal() {
         Runnable checker = () -> {
             try{
                 Request nodeidr = new Request.Builder()
@@ -144,7 +144,7 @@ public class MantaroAPI {
                 Response response = httpClient.newCall(nodeidr).execute();
                 nodesTotal = new JSONObject(response.body().string()).getInt("id");
                 response.close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return;
             }

@@ -43,14 +43,14 @@ public class Utils {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
 
-	public static String getReadableTime(long millis){
+	public static String getReadableTime(long millis) {
 		return String.format("%02d:%02d:%02d",
 				TimeUnit.MILLISECONDS.toHours(millis),
 				TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
 				TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
 	}
 
-	public static String getVerboseTime(long millis){
+	public static String getVerboseTime(long millis) {
 		return String.format("%02d hours, %02d minutes and %02d seconds",
 				TimeUnit.MILLISECONDS.toHours(millis),
 				TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
@@ -112,7 +112,7 @@ public class Utils {
 			.thenComparing(b ? Comparator.naturalOrder() : Comparator.reverseOrder());
 	}
 
-	public static String centerString(String text, int len){
+	public static String centerString(String text, int len) {
 		String out = String.format("%"+len+"s%s%"+len+"s", "",text,"");
 		float mid = (out.length()/2);
 		float start = mid - (len/2);
@@ -233,7 +233,7 @@ public class Utils {
 			}
 
 			return fieldMap;
-		} catch (IllegalAccessException e){
+		} catch (IllegalAccessException e) {
 			return null;
 		}
 	}

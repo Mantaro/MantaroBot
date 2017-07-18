@@ -70,7 +70,7 @@ public class Character extends ImageGame {
 			).queue();
 			return true;
 		} catch (Exception e) {
-			if(e instanceof JsonSyntaxException){
+			if(e instanceof JsonSyntaxException) {
 				lobby.getChannel().sendMessage(EmoteReference.WARNING + "Report this in the official server please. Failed to setup game for pre-saved character: " + characterName).queue();
 				return false;
 			}

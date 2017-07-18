@@ -266,11 +266,11 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void remindme(CommandRegistry registry){
+	public static void remindme(CommandRegistry registry) {
 		registry.register("remindme", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if(content.isEmpty()){
+				if(content.isEmpty()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "What could I remind you of if you don't give me what to remind you? " +
 						"Oh! Lemme remind you of setting a reminder!").queue();
 					return;
@@ -279,7 +279,7 @@ public class UtilsCmds {
 
 				Map<String, Optional<String>> t = StringUtils.parse(args);
 
-				if(!t.get("time").isPresent()){
+				if(!t.get("time").isPresent()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h20m`)").queue();
 				}
 
@@ -287,7 +287,7 @@ public class UtilsCmds {
 				User user = event.getAuthor();
 				long time = Utils.parseTime(t.get("time").get());
 
-				if(time < 10000){
+				if(time < 10000) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "That's too little time!").queue();
 					return;
 				}
@@ -629,7 +629,7 @@ public class UtilsCmds {
 		DBGuild dbGuild = MantaroData.db().getGuild(guild.getId());
 		GuildData guildData = dbGuild.getData();
 
-		if(guildData.getTimeDisplay() == 1){
+		if(guildData.getTimeDisplay() == 1) {
 			format = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss a");
 		}
 
