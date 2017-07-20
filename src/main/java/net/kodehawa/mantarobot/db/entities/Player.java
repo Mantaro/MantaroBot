@@ -153,6 +153,6 @@ public class  Player implements ManagedObject {
 
 	@JsonIgnore
 	public void setLocked(boolean locked) {
-        data.setLockedUntil(locked ? System.currentTimeMillis() + 30000 : 0);
+        data.setLockedUntil(locked ? System.currentTimeMillis() + 35000 : 0);
 	}
 }
