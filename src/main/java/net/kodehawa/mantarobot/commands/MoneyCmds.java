@@ -184,9 +184,9 @@ public class MoneyCmds {
                 final int finalLuck = luck;
                 final long finalGains = gains;
 
-                player.setLocked(true);
-
                 if (i >= Integer.MAX_VALUE / 4) {
+                    player.setLocked(true);
+                    player.save();
                     event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
                             "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
                     InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperation() {
@@ -195,12 +195,12 @@ public class MoneyCmds {
                                     if (e.getAuthor().getId().equals(user.getId())) {
                                         if (e.getMessage().getContent().equalsIgnoreCase("yes")) {
                                             proceedGamble(event, player, finalLuck, random, i, finalGains);
-                                            player.setLocked(false);
                                             return COMPLETED;
                                         }
                                         else if (e.getMessage().getContent().equalsIgnoreCase("no")) {
                                             e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
                                             player.setLocked(false);
+                                            player.saveAsync();
                                             return COMPLETED;
                                         }
                                     }
@@ -213,6 +213,7 @@ public class MoneyCmds {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Time to complete the operation has ran out.")
                                             .queue();
                                     player.setLocked(false);
+                                    player.saveAsync();
                                 }
                             });
 
@@ -220,7 +221,6 @@ public class MoneyCmds {
                 }
 
                 proceedGamble(event, player, luck, random, i, gains);
-                player.setLocked(false);
             }
 
             @Override
@@ -452,7 +452,7 @@ public class MoneyCmds {
             event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all your" : i) + " credits! " +
                     "\uD83D\uDE26").queue();
         }
-
+        player.setLocked(false);
         player.saveAsync();
     }
 
