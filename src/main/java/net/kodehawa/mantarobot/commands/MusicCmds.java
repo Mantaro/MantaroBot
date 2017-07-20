@@ -780,21 +780,21 @@ public class MusicCmds {
 					if (args[0].equals("check")) {
 						event.getChannel().sendMessage(
 								EmoteReference.ZAP + "The current volume for this session is: " + player.getVolume() + "\n\n" +
-										GuildStatsManager.bar(player.getVolume() / 2, 50))
+										GuildStatsManager.bar(player.getVolume(), 50))
 								.queue();
 						return;
 					}
 
 					int volume;
 					try {
-						volume = Math.max(0, Math.min(100, Integer.parseInt(args[0])));
+						volume = Math.max(4, Math.min(100, Integer.parseInt(args[0])));
 					} catch (Exception e) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number.").queue();
 						return;
 					}
 					player.setVolume(volume);
 					event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d\n\n%s", volume,
-							GuildStatsManager.bar(volume / 2, 50)))
+							GuildStatsManager.bar(volume, 50)))
 							.queue();
 				} else {
 					event.getChannel().sendMessage(
@@ -811,7 +811,7 @@ public class MusicCmds {
 						.addField("Usage", "`~>volume <number>` - **Sets the volume**", false)
 						.addField("Parameters", "`number` - **An integer between 1 and 100**", false)
 						.addField("Notice", "**This is a *donator-only* feature!**" +
-								"\nTo check the current volume, do `~>volume check`", false)
+								"\nTo check the current volume, do `~>volume check. Minimum volume is 4.`", false)
 						.build();
 			}
 		});
