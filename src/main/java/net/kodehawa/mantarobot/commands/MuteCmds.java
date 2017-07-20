@@ -31,7 +31,7 @@ import java.util.Optional;
 public class MuteCmds {
 
     @Subscribe
-    public static void mute(CommandRegistry registry) {
+    public void mute(CommandRegistry registry) {
         registry.register("mute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -202,7 +202,7 @@ public class MuteCmds {
     }
 
     @Subscribe
-    public static void unmute(CommandRegistry commandRegistry) {
+    public void unmute(CommandRegistry commandRegistry) {
         commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

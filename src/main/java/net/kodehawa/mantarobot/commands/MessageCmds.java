@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Module
 public class MessageCmds {
     @Subscribe
-    public static void prune(CommandRegistry cr) {
+    public void prune(CommandRegistry cr) {
         cr.register("prune", new SimpleCommand(Category.MODERATION) {
             @Override
             public CommandPermission permission() {

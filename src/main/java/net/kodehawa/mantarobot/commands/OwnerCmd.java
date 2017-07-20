@@ -50,14 +50,14 @@ public class OwnerCmd {
 		Object eval(GuildMessageReceivedEvent event, String code);
 	}
 
-	private static final String[] sleepQuotes = {
+	private final String[] sleepQuotes = {
 		"*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*",
 		"*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*",
 		"Momma, where's my Milk cup? *drinks and goes to sleep*", "I-I don't wanna go to bed yet! Waaah... okay fine"
 	};
 
 	@Subscribe
-	public static void blacklist(CommandRegistry cr) {
+	public void blacklist(CommandRegistry cr) {
 		cr.register("blacklist", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -111,7 +111,7 @@ public class OwnerCmd {
 	}
 
 	@Subscribe
-	public static void owner(CommandRegistry cr) {
+	public void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
 		evals.put("js", (event, code) -> {
 			ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
@@ -664,7 +664,7 @@ public class OwnerCmd {
 			.toArray(CompletableFuture[]::new));
 	}
 
-	private static void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
+	private void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
 		});

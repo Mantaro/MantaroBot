@@ -46,7 +46,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @Module
 public class UtilsCmds {
 	@Subscribe
-	public static void birthday(CommandRegistry registry) {
+	public void birthday(CommandRegistry registry) {
 		registry.register("birthday", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -159,7 +159,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void choose(CommandRegistry registry) {
+	public void choose(CommandRegistry registry) {
 		registry.register("choose", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -187,7 +187,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void dictionary(CommandRegistry registry) {
+	public void dictionary(CommandRegistry registry) {
 		registry.register("dictionary", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -266,7 +266,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void remindme(CommandRegistry registry) {
+	public void remindme(CommandRegistry registry) {
 		registry.register("remindme", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -316,7 +316,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void google(CommandRegistry registry) {
+	public void google(CommandRegistry registry) {
 		registry.register("google", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -359,7 +359,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void time(CommandRegistry registry) {
+	public void time(CommandRegistry registry) {
 		registry.register("time", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -404,7 +404,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void urban(CommandRegistry registry) {
+	public void urban(CommandRegistry registry) {
 		registry.register("urban", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -489,7 +489,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void weather(CommandRegistry registry) {
+	public void weather(CommandRegistry registry) {
 		registry.register("weather", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -569,7 +569,7 @@ public class UtilsCmds {
 	}
 
 	@Subscribe
-	public static void ytmp3(CommandRegistry registry) {
+	public void ytmp3(CommandRegistry registry) {
 		registry.register("ytmp3", new SimpleCommand(Category.UTILS) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -622,7 +622,7 @@ public class UtilsCmds {
 		});
 	}
 
-	static String dateGMT(Guild guild, String tz) {
+	protected static String dateGMT(Guild guild, String tz) {
 		DateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		Date date = new Date();
 

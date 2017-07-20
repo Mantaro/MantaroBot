@@ -44,7 +44,6 @@ public class TrackScheduler extends AudioEventAdapter {
     private long requestedChannel;
     @Getter
     private AudioTrack previousTrack, currentTrack;
-    private GuildData guildData;
 
     public TrackScheduler(AudioPlayer player, String guildId){
         this.audioPlayer = player;
@@ -52,7 +51,6 @@ public class TrackScheduler extends AudioEventAdapter {
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
-        this.guildData = MantaroData.db().getGuild(guildId).getData();
     }
 
     public void queue(AudioTrack track) {
@@ -83,7 +81,7 @@ public class TrackScheduler extends AudioEventAdapter {
             return;
         }
 
-        if(guildData.isMusicAnnounce() && getRequestedChannelParsed() != null){
+        if(MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && getRequestedChannelParsed() != null){
             VoiceChannel voiceChannel = getRequestedChannelParsed().getGuild().getSelfMember().getVoiceState().getChannel();
             AudioTrackInfo information = currentTrack.getInfo();
             String title = information.title;
@@ -174,7 +172,8 @@ public class TrackScheduler extends AudioEventAdapter {
 
         TextChannel ch = getRequestedChannelParsed();
         if (ch != null && ch.canTalk()) {
-            ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.")
+            ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
+                    "Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive :heart:")
                     .queue(message -> message.delete().queueAfter(20, TimeUnit.SECONDS));
         }
     }

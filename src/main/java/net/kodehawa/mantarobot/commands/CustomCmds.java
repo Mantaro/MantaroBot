@@ -45,11 +45,11 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Slf4j
 @Module
 public class CustomCmds {
-	private static final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
+	private final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
 		INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
 		NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
 	private static Map<String, List<String>> customCommands = new ConcurrentHashMap<>();
-	private static final net.kodehawa.mantarobot.modules.commands.base.Command customCommand = new AbstractCommand(null) {
+	private final net.kodehawa.mantarobot.modules.commands.base.Command customCommand = new AbstractCommand(null) {
 		@Override
 		public MessageEmbed help(GuildMessageReceivedEvent event) {
 			return null;
@@ -137,7 +137,7 @@ public class CustomCmds {
 	};
 
 	@Subscribe
-	public static void custom(CommandRegistry cr) {
+	public void custom(CommandRegistry cr) {
 		String any = "[\\d\\D]*?";
 
 		cr.register("custom", new SimpleCommand(Category.UTILS) {
@@ -526,7 +526,7 @@ public class CustomCmds {
 	}
 
 	@Subscribe
-	public static void onPostLoad(PostLoadEvent e) {
+	public void onPostLoad(PostLoadEvent e) {
 		db().getCustomCommands().forEach(custom -> {
 			if (!NAME_PATTERN.matcher(custom.getName()).matches()) {
 				String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");

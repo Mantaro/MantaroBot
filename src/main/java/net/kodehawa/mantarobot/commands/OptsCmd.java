@@ -36,7 +36,7 @@ public class OptsCmd {
 	public static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
 
 	@Subscribe
-	public static void register(CommandRegistry registry) {
+	public void register(CommandRegistry registry) {
 		registry.register("opts", optsCmd = new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

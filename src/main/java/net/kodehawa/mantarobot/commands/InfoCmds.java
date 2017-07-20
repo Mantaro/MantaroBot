@@ -46,7 +46,7 @@ import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
 public class InfoCmds {
 
 	@Subscribe
-	public static void about(CommandRegistry cr) {
+	public void about(CommandRegistry cr) {
 		cr.register("about", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -147,7 +147,7 @@ public class InfoCmds {
 	}
 
 	@Subscribe
-	public static void avatar(CommandRegistry cr) {
+	public void avatar(CommandRegistry cr) {
 		cr.register("avatar", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -171,7 +171,7 @@ public class InfoCmds {
 	}
 
 	@Subscribe
-	public static void guildinfo(CommandRegistry cr) {
+	public void guildinfo(CommandRegistry cr) {
 		cr.register("serverinfo", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -216,7 +216,7 @@ public class InfoCmds {
 	}
 
 	@Subscribe
-	public static void help(CommandRegistry cr) {
+	public void help(CommandRegistry cr) {
 		Random r = new Random();
 		List<String> jokes = Collections.unmodifiableList(Arrays.asList(
 			"Yo damn I heard you like help, because you just issued the help command to get the help about the help command.",
@@ -284,7 +284,7 @@ public class InfoCmds {
 	}
 
 	@Subscribe
-	public static void invite(CommandRegistry cr) {
+	public void invite(CommandRegistry cr) {
 		cr.register("invite", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -308,12 +308,12 @@ public class InfoCmds {
 	}
 
 	@Subscribe
-	public static void onPostLoad(PostLoadEvent e) {
+	public void onPostLoad(PostLoadEvent e) {
 		start();
 	}
 
 	@Subscribe
-	public static void stats(CommandRegistry cr) {
+	public void stats(CommandRegistry cr) {
 		cr.register("stats", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -482,7 +482,7 @@ public class InfoCmds {
 	}
 
 	@Subscribe
-	public static void userinfo(CommandRegistry cr) {
+	public void userinfo(CommandRegistry cr) {
 		cr.register("userinfo", new SimpleCommand(Category.INFO) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

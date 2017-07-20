@@ -37,7 +37,7 @@ public class CurrencyCmds {
     private static Random random = new Random();
 
     @Subscribe
-    public static void inventory(CommandRegistry cr) {
+    public void inventory(CommandRegistry cr) {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -70,7 +70,7 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public static void market(CommandRegistry cr) {
+    public void market(CommandRegistry cr) {
         cr.register("market", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
@@ -265,7 +265,7 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public static void profile(CommandRegistry cr) {
+    public void profile(CommandRegistry cr) {
         cr.register("profile", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -396,7 +396,7 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public static void rep(CommandRegistry cr) {
+    public void rep(CommandRegistry cr) {
         cr.register("rep", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
 
@@ -455,7 +455,7 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public static void transferItems(CommandRegistry cr) {
+    public void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -555,7 +555,7 @@ public class CurrencyCmds {
     }
 
     @Subscribe
-    public static void transfer(CommandRegistry cr) {
+    public void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -645,7 +645,7 @@ public class CurrencyCmds {
 
 
     @Subscribe
-    public static void lootcrate(CommandRegistry registry) {
+    public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
 
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
@@ -693,7 +693,7 @@ public class CurrencyCmds {
     }
 
 
-    public static void openLootBox(GuildMessageReceivedEvent event, boolean special) {
+    private void openLootBox(GuildMessageReceivedEvent event, boolean special) {
         List<Item> toAdd = new ArrayList<>();
         int amtItems = random.nextInt(3) + 3;
         List<Item> items = new ArrayList<>();
@@ -719,7 +719,7 @@ public class CurrencyCmds {
                 )).queue();
     }
 
-    private static Item selectReverseWeighted(List<Item> items) {
+    private Item selectReverseWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
         for (int i = 0; i < items.size(); i++) {
@@ -736,7 +736,7 @@ public class CurrencyCmds {
         return null;
     }
 
-    private static User getUserById(String id) {
+    private User getUserById(String id) {
         if (id == null) return null;
         MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
                 shard.getJDA().getUserById(id) != null).findFirst().orElse(null);

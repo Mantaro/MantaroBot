@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 @Module
 public class QuoteCmd {
 	@Subscribe
-	public static void quote(CommandRegistry cr) {
+	public void quote(CommandRegistry cr) {
 		cr.register("quote", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -146,7 +146,7 @@ public class QuoteCmd {
 		});
 	}
 
-	private static MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote) {
+	private MessageEmbed buildQuoteEmbed(SimpleDateFormat dateFormat, EmbedBuilder builder, Quote quote) {
 		builder.setAuthor(quote.getUserName() + " said: ", null, quote.getUserAvatar())
 			.setDescription("Quote made in server " + quote.getGuildName() + " in channel #" + quote.getChannelName())
 			.addField("Content", quote.getContent(), false)

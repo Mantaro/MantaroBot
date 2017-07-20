@@ -32,16 +32,16 @@ import java.util.concurrent.*;
 
 //TODO rewrite
 public class OsuStatsCmd {
-	private static final ExecutorService threadpool = Executors.newSingleThreadExecutor();
-	private static Map<String, Object> map = new HashMap<>();
-	private static String mods1 = "";
+	private final ExecutorService threadpool = Executors.newSingleThreadExecutor();
+	private Map<String, Object> map = new HashMap<>();
+	private String mods1 = "";
 	private static OsuClient osuClient = null;
 
 	static {
 		osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 	}
 
-	private static String best(String content) {
+	private String best(String content) {
 		String finalResponse;
 		try {
 			long start = System.currentTimeMillis();
@@ -87,7 +87,7 @@ public class OsuStatsCmd {
 	}
 
 	@Subscribe
-	public static void osustats(CommandRegistry cr) {
+	public void osustats(CommandRegistry cr) {
 		cr.register("osustats", new SimpleCommand(Category.GAMES) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -147,7 +147,7 @@ public class OsuStatsCmd {
 		cr.registerAlias("osustats", "osu");
 	}
 
-	private static String recent(String content) {
+	private String recent(String content) {
 		String finalMessage;
 		try {
 			long start = System.currentTimeMillis();
@@ -190,7 +190,7 @@ public class OsuStatsCmd {
 		return finalMessage;
 	}
 
-	private static MessageEmbed user(String content) {
+	private MessageEmbed user(String content) {
 		MessageEmbed finalMessage;
 		try {
 			long start = System.currentTimeMillis();

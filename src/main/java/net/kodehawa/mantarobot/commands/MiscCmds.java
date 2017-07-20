@@ -35,12 +35,12 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 @Module
 @Slf4j
 public class MiscCmds {
-	public static final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
-	public static final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
-	private static final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+	public final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
+	public final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
+	private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
 	@Subscribe
-	public static void eightBall(CommandRegistry cr) {
+	public void eightBall(CommandRegistry cr) {
 		cr.register("8ball", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -79,7 +79,7 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void iam(CommandRegistry cr) {
+	public void iam(CommandRegistry cr) {
 		cr.register("iam", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -119,7 +119,7 @@ public class MiscCmds {
 		});
 	}
 
-	public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
+	protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
 		Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 
 		if (autoroles.containsKey(autoroleName)) {
@@ -148,7 +148,7 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void iamnot(CommandRegistry cr) {
+	public void iamnot(CommandRegistry cr) {
 		cr.register("iamnot", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -185,7 +185,7 @@ public class MiscCmds {
 		});
 	}
 
-	public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
+	protected static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
 		Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 
 		if (autoroles.containsKey(autoroleName)) {
@@ -214,7 +214,7 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void misc(CommandRegistry cr) {
+	public void misc(CommandRegistry cr) {
 		cr.register("misc", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -258,7 +258,7 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void randomFact(CommandRegistry cr) {
+	public void randomFact(CommandRegistry cr) {
 		cr.register("randomfact", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -278,7 +278,7 @@ public class MiscCmds {
 	}
 
 	@Subscribe
-	public static void createPoll(CommandRegistry registry) {
+	public void createPoll(CommandRegistry registry) {
 		registry.register("createpoll", new SimpleCommand(Category.MISC) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -333,7 +333,7 @@ public class MiscCmds {
 	/**
 	 * @return a random hex color.
 	 */
-	private static String randomColor() {
+	private String randomColor() {
 		return IntStream.range(0, 6).mapToObj(i -> random(HEX_LETTERS)).collect(Collectors.joining());
 	}
 }

@@ -36,7 +36,7 @@ public class AnimeCmds {
 	private static OkHttpClient client = new OkHttpClient();
 
 	@Subscribe
-	public static void anime(CommandRegistry cr) {
+	public void anime(CommandRegistry cr) {
 		cr.register("anime", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -112,7 +112,7 @@ public class AnimeCmds {
 	}
 
 	@Subscribe
-	public static void character(CommandRegistry cr) {
+	public void character(CommandRegistry cr) {
 		cr.register("character", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -161,11 +161,11 @@ public class AnimeCmds {
 	}
 
 	@Subscribe
-	public static void onPostLoad(PostLoadEvent e) {
+	public void onPostLoad(PostLoadEvent e) {
 		Async.task("AniList Login Task", AnimeCmds::authenticate, 1900, TimeUnit.SECONDS);
 	}
 
-	private static void animeData(GuildMessageReceivedEvent event, AnimeData type) {
+	private void animeData(GuildMessageReceivedEvent event, AnimeData type) {
 		String ANIME_TITLE = type.getTitle_english();
 		String RELEASE_DATE = StringUtils.substringBefore(type.getStart_date(), "T");
 		String END_DATE = StringUtils.substringBefore(type.getEnd_date(), "T");
@@ -195,7 +195,7 @@ public class AnimeCmds {
 		event.getChannel().sendMessage(embed.build()).queue();
 	}
 
-	private static void characterData(GuildMessageReceivedEvent event, CharacterData character) {
+	private void characterData(GuildMessageReceivedEvent event, CharacterData character) {
 		String JAP_NAME = character.getName_japanese() == null ? "" : "\n(" + character.getName_japanese() + ")";
 		String CHAR_NAME = character.getName_first() + " " + character.getName_last() + JAP_NAME;
 		String ALIASES = character.getName_alt() == null ? "No aliases" : "Also known as: " + character.getName_alt();

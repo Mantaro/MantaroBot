@@ -23,7 +23,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 @Module
 public class ModerationCmds {
     @Subscribe
-    public static void softban(CommandRegistry cr) {
+    public void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -141,7 +141,7 @@ public class ModerationCmds {
     }
 
     @Subscribe
-    public static void ban(CommandRegistry cr) {
+    public void ban(CommandRegistry cr) {
         cr.register("ban", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -238,7 +238,7 @@ public class ModerationCmds {
     }
 
     @Subscribe
-    public static void kick(CommandRegistry cr) {
+    public void kick(CommandRegistry cr) {
         cr.register("kick", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -341,7 +341,7 @@ public class ModerationCmds {
     }
 
     @Subscribe
-    public static void tempban(CommandRegistry cr) {
+    public void tempban(CommandRegistry cr) {
         cr.register("tempban", new SimpleCommand(Category.MODERATION) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

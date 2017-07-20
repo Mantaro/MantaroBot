@@ -27,10 +27,10 @@ import java.util.stream.Stream;
 @Module
 public class FunCmds {
 
-	private static Random r = new Random();
+	private Random r = new Random();
 
 	@Subscribe
-	public static void coinflip(CommandRegistry cr) {
+	public void coinflip(CommandRegistry cr) {
 		cr.register("coinflip", new SimpleCommand(Category.FUN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -75,7 +75,7 @@ public class FunCmds {
 	}
 
 	@Subscribe
-	public static void marry(CommandRegistry cr) {
+	public void marry(CommandRegistry cr) {
 		cr.register("marry", new SimpleCommand(Category.FUN) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -203,7 +203,7 @@ public class FunCmds {
 	}
 
 	@Subscribe
-	public static void ratewaifu(CommandRegistry cr) {
+	public void ratewaifu(CommandRegistry cr) {
 		cr.register("ratewaifu", new SimpleCommand(Category.FUN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -232,7 +232,7 @@ public class FunCmds {
 	}
 
 	@Subscribe
-	public static void roll(CommandRegistry registry) {
+	public void roll(CommandRegistry registry) {
 		registry.register("roll", new SimpleCommand(Category.FUN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -277,7 +277,7 @@ public class FunCmds {
 	}
 
 	@Subscribe
-	public static void love(CommandRegistry registry) {
+	public void love(CommandRegistry registry) {
 		Random r = new Random();
 		String[] usersToMax = {"155867458203287552;132584525296435200",
 				"132584525296435200;155867458203287552","1558674582032875522;213466096718708737", "213466096718708737;1558674582032875522",
@@ -340,7 +340,6 @@ public class FunCmds {
 
 				event.getChannel().sendMessage(loveEmbed).queue();
 			}
-
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Love Meter")
@@ -351,7 +350,7 @@ public class FunCmds {
 		});
 	}
 
-	private static long diceRoll(int size, int amount) {
+	private long diceRoll(int size, int amount) {
 		long sum = 0;
 		for (int i = 0; i < amount; i++) sum += r.nextInt(size) + 1;
 		return sum;

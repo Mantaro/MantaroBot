@@ -64,7 +64,7 @@ public class Quote implements ManagedObject {
 	public void save() {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
-			.runNoReply(conn());
+			.run(conn());
 	}
 
 	@JsonIgnore

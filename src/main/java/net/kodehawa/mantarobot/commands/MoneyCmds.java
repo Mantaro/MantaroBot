@@ -41,10 +41,10 @@ import static com.rethinkdb.RethinkDB.r;
 @Module
 public class MoneyCmds {
 
-    private static Random random = new Random();
+    private Random random = new Random();
 
     @Subscribe
-    public static void daily(CommandRegistry cr) {
+    public void daily(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
         Random r = new Random();
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
@@ -112,7 +112,7 @@ public class MoneyCmds {
     }
 
     @Subscribe
-    public static void gamble(CommandRegistry cr) {
+    public void gamble(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
         SecureRandom r = new SecureRandom();
 
@@ -234,7 +234,7 @@ public class MoneyCmds {
     }
 
     @Subscribe
-    public static void loot(CommandRegistry cr) {
+    public void loot(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
         Random r = new Random();
 
@@ -327,7 +327,7 @@ public class MoneyCmds {
     }
 
     @Subscribe
-    public static void richest(CommandRegistry cr) {
+    public void richest(CommandRegistry cr) {
         cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
@@ -435,7 +435,7 @@ public class MoneyCmds {
         cr.registerAlias("leaderboard", "richest");
     }
 
-    private static void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
+    private void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
         if (luck > r.nextInt(110)) {
             if (player.addMoney(gains)) {
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you " +
@@ -456,7 +456,7 @@ public class MoneyCmds {
         player.saveAsync();
     }
 
-    private static Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
+    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
         return template.filter(player -> player.g("id").match(pattern))
                 .map(player -> player.pluck("id", "money"))
                 .limit(15)

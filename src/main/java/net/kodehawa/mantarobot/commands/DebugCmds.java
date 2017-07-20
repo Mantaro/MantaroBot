@@ -42,7 +42,7 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.getMaxMemor
 @Module
 public class DebugCmds {
     @Subscribe
-    public static void info(CommandRegistry cr) {
+    public void info(CommandRegistry cr) {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -113,7 +113,7 @@ public class DebugCmds {
     }
 
     @Subscribe
-    public static void ping(CommandRegistry cr) {
+    public void ping(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
@@ -142,7 +142,7 @@ public class DebugCmds {
     }
 
     @Subscribe
-    public static void shard(CommandRegistry cr) {
+    public void shard(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -193,7 +193,7 @@ public class DebugCmds {
         });
     }
 
-    private static String ratePing(long ping) {
+    private String ratePing(long ping) {
         if(ping == 69) return "l-lewd";
         if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
         if (ping <= 10) return "faster than Sonic! :smiley:";
