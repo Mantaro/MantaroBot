@@ -112,6 +112,7 @@ public class CommandListener implements EventListener {
 			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
 		} catch (ReqlError e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry! I'm having some problems with my database... ").queue();
+			e.printStackTrace();
 			SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
 		} catch (Exception e) {
 			String id = Snow64.toSnow64(event.getMessage().getIdLong());

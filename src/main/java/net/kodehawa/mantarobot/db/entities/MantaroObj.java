@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.db.entities;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class MantaroObj implements ManagedObject {
 	public static final String DB_TABLE = "mantaro";
 
 	public static MantaroObj create() {
-		return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>());
+		return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new HashMap<>());
 	}
 
 	public final String id = "mantaro";
@@ -26,13 +27,15 @@ public class MantaroObj implements ManagedObject {
 	public List<String> blackListedUsers = null;
 	public List<String> patreonUsers = null;
 	private Map<String, Long> tempBans = null;
+	private Map<Long, Pair<String, Long>> mutes = null;
 
-	@ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans"})
-	public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans) {
+	@ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
+	public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans, Map<Long, Pair<String, Long>> mutes) {
 		this.blackListedGuilds = blackListedGuilds;
 		this.blackListedUsers = blackListedUsers;
 		this.patreonUsers = patreonUsers;
 		this.tempBans = tempBans;
+		this.mutes = mutes;
 	}
 
 	@Override

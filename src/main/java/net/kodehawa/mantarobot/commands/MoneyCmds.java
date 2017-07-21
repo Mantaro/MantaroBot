@@ -327,6 +327,32 @@ public class MoneyCmds {
     }
 
     @Subscribe
+    public void balance(CommandRegistry cr){
+        cr.register("balance", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                User user = event.getAuthor();
+                boolean isExternal = false;
+                if(!event.getMessage().getMentionedUsers().isEmpty()){
+                    user = event.getMessage().getMentionedUsers().get(0);
+                    isExternal = true;
+                }
+
+                long balance = MantaroData.db().getPlayer(user).getMoney();
+
+                event.getChannel().sendMessage(EmoteReference.DIAMOND + (isExternal ? user.getName() + "'s balance is: **$" : "Your balance is: **$") + balance + "**").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return baseEmbed(event, "Balance command")
+                        .setDescription("**Shows your current balance or another person's balance.**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void richest(CommandRegistry cr) {
         cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
             RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);

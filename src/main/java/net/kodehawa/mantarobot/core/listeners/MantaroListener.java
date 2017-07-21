@@ -27,7 +27,6 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager.LoggedEvent;
-import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -35,7 +34,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
-import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -343,25 +341,6 @@ public class MantaroListener implements EventListener {
 		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
 		GuildData guildData = dbGuild.getData();
 
-		//un-mute check
-		//This is a pretty lazy check.
-		if(!guildData.getMutedTimelyUsers().isEmpty()) {
-			guildData.getMutedTimelyUsers().forEach((id, maxTime) -> {
-				if(System.currentTimeMillis() > maxTime) {
-					try{
-						guildData.getMutedTimelyUsers().remove(id);
-						dbGuild.saveAsync();
-						event.getGuild().getController().
-								removeRolesFromMember(event.getGuild().getMemberById(id), event.getGuild().getRoleById(guildData.getMutedRole())).queue();
-						guildData.setCases(guildData.getCases() + 1);
-						dbGuild.save();
-						ModLog.log(event.getMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
 
 		//link protection
 		if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId())) {

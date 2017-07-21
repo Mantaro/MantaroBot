@@ -391,7 +391,7 @@ public class ModerationCmds {
                 receivedMessage.getMentionedUsers().forEach(user ->
                     guild.getController().ban(user, 7).queue(
                             success -> {
-                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarly banned** by " + event
+                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarily banned** by " + event
                                         .getAuthor().getName() + "#"
                                         + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
