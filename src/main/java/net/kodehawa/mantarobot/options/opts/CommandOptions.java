@@ -308,7 +308,7 @@ public class CommandOptions extends OptionHandler{
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "`").queue();
                 });
         //region specific
-        /*registerOption("category:specific:disable", "Disable categories on a channel",
+        registerOption("category:specific:disable", "Disable categories on a specific channel",
                 "Disables a specified category on a specific channel.\n" +
                         "If a non-valid category it's specified, it will display a list of valid categories",
                 "Disables a specified category", (event, args) -> {
@@ -321,7 +321,14 @@ public class CommandOptions extends OptionHandler{
                     GuildData guildData = dbGuild.getData();
                     Category toDisable = Category.lookupFromString(args[0]);
                     String where = args[1];
-                    TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
+                    List<TextChannel> channels = MantaroBot.getInstance().getTextChannelsByName(where, false);
+                    TextChannel selectedChannel;
+                    if(channels.isEmpty()){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + where + " was found. Try again with the correct name.").queue();
+                        return;
+                    }
+
+                    selectedChannel = channels.get(0);
 
                     if(toDisable == null) {
                         AtomicInteger at = new AtomicInteger();
@@ -330,14 +337,9 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    if(channel == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
-                        return;
-                    }
+                    guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
 
-                    guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), uwu -> new ArrayList<>());
-
-                    if (guildData.getChannelSpecificDisabledCategories().get(channel.getId()).contains(toDisable)) {
+                    if (guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).contains(toDisable)) {
                         event.getChannel().sendMessage(EmoteReference.WARNING + "This category is already disabled.").queue();
                         return;
                     }
@@ -347,9 +349,10 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    guildData.getChannelSpecificDisabledCategories().get(channel.getId()).add(toDisable);
+                    guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).add(toDisable);
                     dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` on channel " + channel.getAsMention()).queue();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled category `" + toDisable.toString() + "` on channel " + selectedChannel.getAsMention()).queue();
+
                 });
 
         registerOption("category:specific:enable", "Enable categories on a specific channel",
@@ -365,7 +368,14 @@ public class CommandOptions extends OptionHandler{
                     GuildData guildData = dbGuild.getData();
                     Category toEnable = Category.lookupFromString(args[0]);
                     String where = args[1];
-                    TextChannel channel = MantaroBot.getInstance().getTextChannelById(where);
+                    List<TextChannel> channels = MantaroBot.getInstance().getTextChannelsByName(where, false);
+                    TextChannel selectedChannel;
+                    if(channels.isEmpty()){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + where + " was found. Try again with the correct name.").queue();
+                        return;
+                    }
+
+                    selectedChannel = channels.get(0);
 
                     if(toEnable == null) {
                         AtomicInteger at = new AtomicInteger();
@@ -374,20 +384,20 @@ public class CommandOptions extends OptionHandler{
                         return;
                     }
 
-                    if(channel == null) {
+                    if(selectedChannel == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a valid channel!").queue();
                         return;
                     }
 
-                    List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(channel.getId(), uwu -> new ArrayList<>());
+                    List l = guildData.getChannelSpecificDisabledCategories().computeIfAbsent(selectedChannel.getId(), uwu -> new ArrayList<>());
                     if(l.isEmpty() || !l.contains(toEnable)) {
                         event.getChannel().sendMessage(EmoteReference.THINKING + "This category wasn't enabled?").queue();
                         return;
                     }
-                    guildData.getChannelSpecificDisabledCategories().get(channel.getId()).remove(toEnable);
+                    guildData.getChannelSpecificDisabledCategories().get(selectedChannel.getId()).remove(toEnable);
                     dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "` on channel " + channel.getAsMention()).queue();
-                });*///endregion
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Enabled category `" + toEnable.toString() + "` on channel " + selectedChannel.getAsMention()).queue();
+                });//endregion
         //endregion
     }
 

@@ -46,13 +46,9 @@ public class CommandProcessor {
 			return false;
 		}
 
-		try {
-			MantaroBot.getInstance().getStatsClient().increment("commands");
-			REGISTRY.process(event, cmdName, content);
-			LOGGER.trace("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
-		} catch (Exception e) {
-			throw e;
-		}
+		MantaroBot.getInstance().getStatsClient().increment("commands");
+		REGISTRY.process(event, cmdName, content);
+		LOGGER.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
 
 		long end = System.currentTimeMillis();
 		MantaroBot.getInstance().getStatsClient().histogram("command_query_time", end - start);
