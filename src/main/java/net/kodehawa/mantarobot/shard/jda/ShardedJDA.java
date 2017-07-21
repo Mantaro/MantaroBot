@@ -40,7 +40,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	@Override
 	public List<User> getUsers() {
-		return distinct(stream().map(JDA::getUsers).flatMap(Collection::stream).collect(Collectors.toList()));
+		return stream().flatMap(j -> j.getUsers().stream()).distinct().collect(Collectors.toList());
 	}
 
 	@Override
@@ -226,14 +226,21 @@ public abstract class ShardedJDA implements UnifiedJDA {
 	}
 
 	private List<User> distinct(List<User> list) {
+		long start = System.currentTimeMillis();
 		Map<String, List<User>> map = new HashMap<>();
 		list.forEach(user -> map.computeIfAbsent(user != null ? user.getId() : null, k -> new ArrayList<>()).add(user));
 
-		return map.values().stream()
+		List<User> ret =  map.values().stream()
 			.map(users -> users.size() == 0 ? null : users.size() == 1 ? users.get(0) : new ShardedUser(users, this))
 			.filter(Objects::nonNull)
 			.sorted(Comparator.comparing(ISnowflake::getId))
 			.collect(Collectors.toList());
+		long end = System.currentTimeMillis();
+
+		System.out.println(end - start);
+
+		return ret;
+
 	}
 
 	@Override
