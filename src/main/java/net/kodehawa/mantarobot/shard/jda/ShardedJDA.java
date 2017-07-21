@@ -66,7 +66,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	@Override
 	public List<User> getUsersByName(String name, boolean ignoreCase) {
-		return distinct(stream().flatMap(jda -> jda.getUsersByName(name, ignoreCase).stream()).collect(Collectors.toList()));
+		return stream().flatMap(jda -> jda.getUsersByName(name, ignoreCase).stream()).distinct().collect(Collectors.toList());
 	}
 
 	@Override
@@ -225,7 +225,8 @@ public abstract class ShardedJDA implements UnifiedJDA {
 		return MantaroData.config().get().maxJdaReconnectDelay;
 	}
 
-	private List<User> distinct(List<User> list) {
+	//TODO remove if not needed
+	/*private List<User> distinct(List<User> list) {
 		long start = System.currentTimeMillis();
 		Map<String, List<User>> map = new HashMap<>();
 		list.forEach(user -> map.computeIfAbsent(user != null ? user.getId() : null, k -> new ArrayList<>()).add(user));
@@ -241,7 +242,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 		return ret;
 
-	}
+	}*/
 
 	@Override
 	public List<String> getWebSocketTrace() {
