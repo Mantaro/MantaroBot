@@ -45,8 +45,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
 
 	@Override
 	public User getUserById(String id) {
-		List<User> users = stream().map(jda -> jda.getUserById(id)).filter(Objects::nonNull).distinct().collect(Collectors.toList());
-		return users.size() == 0 ? null : users.get(0);
+		return stream().map(jda -> jda.getUserById(id)).filter(Objects::nonNull).findFirst().orElse(null);
 	}
 
 	@Override
