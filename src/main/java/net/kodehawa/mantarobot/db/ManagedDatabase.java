@@ -14,7 +14,6 @@ import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
 	private final Connection conn;
-	private Guild guild;
 
 	public ManagedDatabase(Connection conn) {
 		this.conn = conn;

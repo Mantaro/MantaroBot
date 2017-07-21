@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
@@ -36,7 +37,8 @@ public class MantaroObj implements ManagedObject {
 
 	@Override
 	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+		r.table(DB_TABLE).get(getId()).delete().run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	@Override
@@ -44,5 +46,6 @@ public class MantaroObj implements ManagedObject {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
 			.run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 }

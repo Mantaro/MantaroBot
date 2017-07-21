@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import lombok.Getter;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
@@ -24,13 +25,15 @@ public class PremiumKey implements ManagedObject {
 
 	@Override
 	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+		r.table(DB_TABLE).get(getId()).delete().run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	@Override
 	public void save() {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
-			.runNoReply(conn());
+			.run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 }

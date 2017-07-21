@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.db.ManagedObject;
@@ -62,6 +63,7 @@ public class  Player implements ManagedObject {
 	@Override
 	public void delete() {
 		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	@Override
@@ -69,6 +71,7 @@ public class  Player implements ManagedObject {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
 			.run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	/**

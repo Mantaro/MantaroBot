@@ -7,8 +7,8 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -19,11 +19,10 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class AudioLoader implements AudioLoadResultHandler {
@@ -76,7 +75,9 @@ public class AudioLoader implements AudioLoadResultHandler {
             }
 
             event.getChannel().sendMessage(String.format(
-                    "Added **%d songs** to queue on playlist: **%s** *(%s)*", i,
+                    "%sAdded **%d songs** to queue on playlist: **%s** *(%s)*",
+                    EmoteReference.CORRECT,
+                    i,
                     playlist.getName(),
                     Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
             )).queue();
@@ -90,7 +91,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
     @Override
     public void noMatches() {
-        event.getChannel().sendMessage(String.format("Nothing found by %s.", (trackUrl.startsWith("ytsearch:") || trackUrl.startsWith("scsearch:")) ?
+        event.getChannel().sendMessage(String.format("%sNothing found by %s.", EmoteReference.ERROR, (trackUrl.startsWith("ytsearch:") || trackUrl.startsWith("scsearch:")) ?
                 trackUrl.substring(9) : trackUrl)).queue();
         if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
     }
@@ -133,13 +134,13 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         if (audioTrack.getInfo().length > MAX_SONG_LENGTH && !MantaroData.db().getUser(event.getMember()).isPremium() && !dbGuild.isPremium()) {
-            event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 21 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
+            event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 30 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
             if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
             return;
         }
 
         //Comparing if the URLs are the same to be 100% sure they're just not spamming the same url over and over again.
-        if (musicManager.getTrackScheduler().getQueue().stream().filter(track -> track.getInfo().uri.equals(audioTrack.getInfo().uri)).count() > fqSize) {
+        if (musicManager.getTrackScheduler().getQueue().stream().filter(track -> track.getInfo().uri.equals(audioTrack.getInfo().uri)).count() > fqSize && !silent) {
             event.getChannel().sendMessage(EmoteReference.ERROR + String.format("**Surpassed fair queue level of %d (Too many songs which are exactly equal)**", fqSize + 1)).queue();
             return;
         }
@@ -152,6 +153,8 @@ public class AudioLoader implements AudioLoadResultHandler {
                     String.format("\uD83D\uDCE3 Added to queue -> **%s** **(%s)**", title, AudioUtils.getLength(length))
             ).queue();
         }
+
+        MantaroBot.getInstance().getStatsClient().increment("tracks_loaded");
     }
 
     private void onSearch(AudioPlaylist playlist) {

@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.db.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
@@ -32,7 +33,8 @@ public class CustomCommand implements ManagedObject {
 
 	@Override
 	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+		r.table(DB_TABLE).get(getId()).delete().run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	@Override
@@ -40,6 +42,7 @@ public class CustomCommand implements ManagedObject {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
 			.run(conn());
+		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	@JsonProperty("values")
