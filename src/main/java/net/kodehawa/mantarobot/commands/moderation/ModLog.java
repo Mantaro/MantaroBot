@@ -44,6 +44,10 @@ public class ModLog {
 			case PRUNE:
 				embedBuilder.setAuthor("Prune | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
+			case WARN:
+				embedBuilder.setAuthor("Warn | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
+				break;
+
 		}
 
 		if (guildDB.getData().getGuildLogChannel() != null) {
