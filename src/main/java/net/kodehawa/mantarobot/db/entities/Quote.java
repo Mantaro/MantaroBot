@@ -58,7 +58,7 @@ public class Quote implements ManagedObject {
 
 	@Override
 	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+		r.table(DB_TABLE).get(getId()).delete().run(conn());
 		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
