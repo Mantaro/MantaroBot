@@ -16,7 +16,6 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class URLCache {
 	public static final File DEFAULT_CACHE_DIR = new File("urlcache_files");
-	public static final URLCache MISC_CACHE = new URLCache(40);
 	private static final Map<String, File> saved = new ConcurrentHashMap<>();
 	private static final OkHttpClient okHttp = new OkHttpClient();
 	private final FileCache cache;
@@ -45,7 +44,7 @@ public class URLCache {
 		if (cachedFile != null) return cachedFile;
 		File file = null;
 		try {
-			file = File.createTempFile(url.replace('/', '_').replace(':', '_'), "cache", cacheDir);
+			file = new File(cacheDir, url.replace('/', '_').replace(':', '_'));
 			Request r = new Request.Builder()
 					.url(url)
 					.build();
