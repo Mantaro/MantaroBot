@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -119,8 +120,10 @@ public class MantaroListener implements EventListener {
 		}
 
 		if (event instanceof GuildJoinEvent) {
+			GuildJoinEvent e = (GuildJoinEvent)event;
+			if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30))) return;
 			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
-			Async.thread("LogThread(GuildJoin)", () -> onJoin((GuildJoinEvent) event));
+			Async.thread("LogThread(GuildJoin)", () -> onJoin(e));
 			return;
 		}
 
@@ -374,12 +377,12 @@ public class MantaroListener implements EventListener {
 
 		//Slow mode
 		if(guildData.isSlowMode()) {
-			if (!slowModeLimiter.process(event.getAuthor().getId())) {
+			if (!slowModeLimiter.process(event.getGuild().getId() + ":" + event.getAuthor().getId())) {
 				Member bot = event.getGuild().getSelfMember();
 				if(bot.hasPermission(Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
 					&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
 					event.getMessage().delete().queue();
-				}else {
+				} else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
 					guildData.setSlowMode(false);
 					dbGuild.save();
@@ -390,12 +393,12 @@ public class MantaroListener implements EventListener {
 
 		//Anti-spam. Allows 2 messages every 3 seconds.
 		if(guildData.isAntiSpam()) {
-			if (!spamModeLimiter.process(event.getAuthor().getId())) {
+			if (!spamModeLimiter.process(event.getGuild().getId() + ":" + event.getAuthor().getId())) {
 				Member bot = event.getGuild().getSelfMember();
 				if(bot.hasPermission(Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
 						&& !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)) {
 					event.getMessage().delete().queue();
-				}else {
+				} else {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage anti-spam mode because I don't have permission to delete messages!").queue();
 					guildData.setAntiSpam(false);
 					dbGuild.save();
