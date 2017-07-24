@@ -63,15 +63,13 @@ public class  Player implements ManagedObject {
 	@Override
 	public void delete() {
 		r.table(DB_TABLE).get(getId()).delete().run(conn());
-		MantaroBot.getInstance().getStatsClient().increment("database_hits");
 	}
 
 	@Override
 	public void save() {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
-			.run(conn());
-		MantaroBot.getInstance().getStatsClient().increment("database_hits");
+			.runNoReply(conn());
 	}
 
 	/**
