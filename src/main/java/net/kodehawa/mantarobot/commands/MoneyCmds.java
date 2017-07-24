@@ -200,7 +200,7 @@ public class MoneyCmds {
                                         else if (e.getMessage().getContent().equalsIgnoreCase("no")) {
                                             e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
                                             player.setLocked(false);
-                                            player.save();
+                                            player.saveAsync();
                                             return COMPLETED;
                                         }
                                     }
@@ -213,7 +213,7 @@ public class MoneyCmds {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Time to complete the operation has ran out.")
                                             .queue();
                                     player.setLocked(false);
-                                    player.save();
+                                    player.saveAsync();
                                 }
                             });
 
@@ -311,7 +311,7 @@ public class MoneyCmds {
                         event.getChannel().sendMessage(EmoteReference.SAD + "Digging through messages, you found nothing but dust").queue();
                     }
                 }
-                player.save();
+                player.saveAsync();
             }
 
             @Override
@@ -479,7 +479,7 @@ public class MoneyCmds {
                     "\uD83D\uDE26").queue();
         }
         player.setLocked(false);
-        player.save();
+        player.saveAsync();
     }
 
     private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {

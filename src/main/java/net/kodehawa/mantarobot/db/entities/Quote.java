@@ -58,14 +58,14 @@ public class Quote implements ManagedObject {
 
 	@Override
 	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().run(conn());
+		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
 	}
 
 	@Override
 	public void save() {
 		r.table(DB_TABLE).insert(this)
 			.optArg("conflict", "replace")
-			.run(conn());
+			.runNoReply(conn());
 	}
 
 	@JsonIgnore

@@ -614,8 +614,8 @@ public class CurrencyCmds {
                 }
                 if (toTransfer.addMoney(toSend)) {
                     transferPlayer.removeMoney(toSend);
-                    transferPlayer.save();
-                    toTransfer.save();
+                    transferPlayer.saveAsync();
+                    toTransfer.saveAsync();
 
                     if (user.getId().equals("224662505157427200")) {
                         MantaroBot.getInstance().getTextChannelById(329013929890283541L).

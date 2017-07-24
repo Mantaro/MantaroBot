@@ -62,7 +62,7 @@ public class  Player implements ManagedObject {
 
 	@Override
 	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().run(conn());
+		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
 	}
 
 	@Override
