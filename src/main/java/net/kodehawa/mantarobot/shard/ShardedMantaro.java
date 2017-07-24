@@ -26,8 +26,8 @@ public class ShardedMantaro {
     private int totalShards;
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token) {
-        if(isDebug) totalShards = 2;
         if(auto) totalShards = getRecommendedShards(token);
+        if(isDebug) totalShards = 2;
         this.totalShards = totalShards;
         shards = new MantaroShard[totalShards];
     }

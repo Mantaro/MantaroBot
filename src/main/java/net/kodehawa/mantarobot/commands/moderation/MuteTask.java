@@ -15,7 +15,6 @@ public class MuteTask implements Runnable {
     @Override
     public void run() {
         MantaroObj data = MantaroData.db().getMantaroData();
-        System.out.println(data.getMutes());
         for (Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet())
         {
             try {
