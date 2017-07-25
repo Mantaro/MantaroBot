@@ -148,7 +148,6 @@ public class ActionCmds {
 
 	@Subscribe
 	public void register(CommandRegistry cr) {
-
 		//pat();
 		cr.register("pat", new ImageActionCmd(
 			"Pat", "Pats the specified user.", Color.PINK,

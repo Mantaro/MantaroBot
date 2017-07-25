@@ -42,7 +42,7 @@ public class MessageCmds {
                 }
 
                 if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have permission: " +
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have the permission: " +
                             "Manage Messages").queue();
                     return;
                 }

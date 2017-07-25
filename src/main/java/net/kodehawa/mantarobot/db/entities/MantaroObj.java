@@ -36,7 +36,6 @@ public class MantaroObj implements ManagedObject {
 		this.patreonUsers = patreonUsers;
 		this.tempBans = tempBans;
 		this.mutes = mutes;
-		if(mutes == null) this.mutes = new HashMap<>();
 	}
 
 	@Override
