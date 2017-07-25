@@ -460,6 +460,7 @@ public class MoneyCmds {
 
         @Subscribe
         public void slots(CommandRegistry cr){
+            RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 45);
             String[] emotes = {":cherries:", ":moneybag:", ":heavy_dollar_sign:", ":carrot:", ":popcorn:", ":tea:"};
             Random random = new SecureRandom();
             List<String> winCombinations = new ArrayList<>();
@@ -476,6 +477,15 @@ public class MoneyCmds {
 
                     if(player.getMoney() < 50){
                         event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine.").queue();
+                        return;
+                    }
+
+                    if(!rateLimiter.process(event.getAuthor())){
+                        event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+                                "Cooldown a lil bit, you can only roll the slot machine once every 45 seconds.\n" +
+                                "**You'll be able to use this command again " +
+                                "in " + Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor()))
+                                + ".**").queue();
                         return;
                     }
 
