@@ -281,6 +281,7 @@ public class UtilsCmds {
 
 				if(!t.get("time").isPresent()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h20m`)").queue();
+					return;
 				}
 
 				String toRemind = content.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");

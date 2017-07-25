@@ -82,15 +82,20 @@ public class TrackScheduler extends AudioEventAdapter {
 
         if(MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && getRequestedChannelParsed() != null){
             VoiceChannel voiceChannel = getRequestedChannelParsed().getGuild().getSelfMember().getVoiceState().getChannel();
-            AudioTrackInfo information = currentTrack.getInfo();
-            String title = information.title;
-            long trackLength = information.length;
 
-            if (getRequestedChannelParsed().canTalk() && currentTrack != null){
+            //What kind of massive meme is this?
+            if(voiceChannel == null) return;
+
+            if (getRequestedChannelParsed().canTalk()){
+                AudioTrackInfo information = currentTrack.getInfo();
+                String title = information.title;
+                long trackLength = information.length;
+
                 User user = null;
                 if(getCurrentTrack().getUserData() != null){
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
+
                 getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
                         title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
                                 String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : "")).queue(message -> message.delete().queueAfter(

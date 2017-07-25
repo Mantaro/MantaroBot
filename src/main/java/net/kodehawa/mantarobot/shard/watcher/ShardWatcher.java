@@ -61,7 +61,7 @@ public class ShardWatcher implements Runnable {
                 }
                 else {
                     MantaroEventManager.getLog().info("No dead shards found");
-                    LogUtils.shard("No dead shards found (Average shard ping: " + MantaroBot.getInstance().getPing() + ")");
+                    LogUtils.shard("No dead shards found (Average shard ping: " + MantaroBot.getInstance().getPing() + "ms)");
                 }
             } catch (InterruptedException e) {
                 log.error("ShardWatcher interrupted, stopping...");

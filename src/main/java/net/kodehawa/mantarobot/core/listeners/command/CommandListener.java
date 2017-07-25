@@ -123,6 +123,8 @@ public class CommandListener implements EventListener {
 			).queue();
 
 			SentryHelper.captureException("Unexpected Exception on Command: " + event.getMessage().getRawContent() + " | (Error ID: ``" + id + "``)", e, this.getClass());
+			System.out.println("Error happened with id: " + id);
+			e.printStackTrace();
 		}
 	}
 }
