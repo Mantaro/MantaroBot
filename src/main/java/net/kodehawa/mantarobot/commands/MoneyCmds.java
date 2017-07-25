@@ -461,7 +461,7 @@ public class MoneyCmds {
     @Subscribe
     public void slots(CommandRegistry cr){
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 45);
-        String[] emotes = {":cherries:", ":moneybag:", ":heavy_dollar_sign:", ":carrot:", ":popcorn:", ":tea:"};
+        String[] emotes = {":cherries:", ":moneybag:", ":heavy_dollar_sign:", ":carrot:", ":popcorn:", ":tea:", ":notes:"};
         Random random = new SecureRandom();
         List<String> winCombinations = new ArrayList<>();
         winCombinations.add(":cherries::cherries::cherries:");
