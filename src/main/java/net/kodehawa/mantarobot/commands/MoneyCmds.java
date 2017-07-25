@@ -458,84 +458,82 @@ public class MoneyCmds {
         cr.registerAlias("leaderboard", "richest");
     }
 
-        @Subscribe
-        public void slots(CommandRegistry cr){
-            RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 45);
-            String[] emotes = {":cherries:", ":moneybag:", ":heavy_dollar_sign:", ":carrot:", ":popcorn:", ":tea:"};
-            Random random = new SecureRandom();
-            List<String> winCombinations = new ArrayList<>();
-            winCombinations.add(":cherries::cherries::cherries:");
-            winCombinations.add(":moneybag::moneybag::moneybag:");
-            winCombinations.add(":sunny::sunny::sunny:");
-            winCombinations.add(":heavy_dollar_sign::heavy_dollar_sign::heavy_dollar_sign:");
+    @Subscribe
+    public void slots(CommandRegistry cr){
+        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 45);
+        String[] emotes = {":cherries:", ":moneybag:", ":heavy_dollar_sign:", ":carrot:", ":popcorn:", ":tea:"};
+        Random random = new SecureRandom();
+        List<String> winCombinations = new ArrayList<>();
+        winCombinations.add(":cherries::cherries::cherries:");
+        winCombinations.add(":moneybag::moneybag::moneybag:");
+        winCombinations.add(":sunny::sunny::sunny:");
+        winCombinations.add(":heavy_dollar_sign::heavy_dollar_sign::heavy_dollar_sign:");
 
-            cr.register("slots", new SimpleCommand(Category.CURRENCY) {
-                @Override
-                protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                    boolean isWin = false;
-                    Player player = MantaroData.db().getPlayer(event.getAuthor());
-
-                    if(player.getMoney() < 50){
-                        event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine.").queue();
-                        return;
-                    }
-
-                    if(!rateLimiter.process(event.getAuthor())){
-                        event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                                "Cooldown a lil bit, you can only roll the slot machine once every 45 seconds.\n" +
-                                "**You'll be able to use this command again " +
-                                "in " + Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor()))
-                                + ".**").queue();
-                        return;
-                    }
-
-                    StringBuilder message = new StringBuilder(EmoteReference.DICE + "**You used 50 credits and rolled the slot machine**\n\n");
-                    StringBuilder builder = new StringBuilder();
-                    for(int i = 0; i < 9; i++){
-                        if(i > 1 && i % 3 == 0){
-                            builder.append("\n");
-                        }
-                        builder.append(emotes[random.nextInt(emotes.length)]);
-                    }
-
-                    String toSend = builder.toString();
-                    int gains = 0;
-                    String[] rows = toSend.split("\\r?\\n");
-
-                    if(random.nextInt(100) < 25){
-                        rows[1] = winCombinations.get(random.nextInt(winCombinations.size()));
-                    }
-
-                    if(winCombinations.contains(rows[1])){
-                        isWin = true;
-                        gains = random.nextInt(250); //Up to 250 coins
-                    }
-
-                    rows[1] = rows[1] + " \u2b05";
-                    toSend = String.join("\n", rows);
-
-                    player.removeMoney(50);
-                    player.saveAsync();
-
-                    if(isWin){
-                        message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits! Lucky!", gains));
-                        player.addMoney(gains + 100);
-                    } else {
-                        message.append(toSend).append("\n\n").append("And you lost :(").append("\n").append("I hope you do better next time!");
-                    }
-
-                    message.append("\n");
-
-                    event.getChannel().sendMessage(message.toString()).queue();
+        cr.register("slots", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                boolean isWin = false;
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                if(player.getMoney() < 50) {
+                    event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine.").queue();
+                    return;
                 }
 
-                @Override
-                public MessageEmbed help(GuildMessageReceivedEvent event) {
-                    return helpEmbed(event, "Slots Command")
-                            .setDescription("**Rolls the slot machine. Requires 50 coins to roll.**")
-                            .addField("Considerations", "You can gain a maximum of 250 coins from it.\n" +
-                                    "If you win, you get the 50 coins back.", false)
-                            .build();
+                if(!rateLimiter.process(event.getAuthor())){
+                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+                            "Cooldown a lil bit, you can only roll the slot machine once every 45 seconds.\n" +
+                            "**You'll be able to use this command again " +
+                            "in " + Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor()))
+                            + ".**").queue();
+                    return;
+                }
+
+                StringBuilder message = new StringBuilder(EmoteReference.DICE + "**You used 50 credits and rolled the slot machine**\n\n");
+                StringBuilder builder = new StringBuilder();
+                for(int i = 0; i < 9; i++){
+                    if(i > 1 && i % 3 == 0){
+                        builder.append("\n");
+                    }
+                    builder.append(emotes[random.nextInt(emotes.length)]);
+                }
+
+                String toSend = builder.toString();
+                int gains = 0;
+                String[] rows = toSend.split("\\r?\\n");
+
+                if(random.nextInt(100) < 25){
+                    rows[1] = winCombinations.get(random.nextInt(winCombinations.size()));
+                }
+
+                if(winCombinations.contains(rows[1])){
+                    isWin = true;
+                    gains = random.nextInt(250); //Up to 250 coins
+                }
+
+                rows[1] = rows[1] + " \u2b05";
+                toSend = String.join("\n", rows);
+
+                player.removeMoney(50);
+                player.saveAsync();
+
+                 if(isWin){
+                     message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits! Lucky!", gains));
+                     player.addMoney(gains + 100);
+                 } else {
+                     message.append(toSend).append("\n\n").append("And you lost :(").append("\n").append("I hope you do better next time!");
+                 }
+
+                message.append("\n");
+                event.getChannel().sendMessage(message.toString()).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Slots Command")
+                        .setDescription("**Rolls the slot machine. Requires 50 coins to roll.**")
+                        .addField("Considerations", "You can gain a maximum of 250 coins from it.\n" +
+                                "If you win, you get the 50 coins back.", false)
+                        .build();
                 }
             });
         }
