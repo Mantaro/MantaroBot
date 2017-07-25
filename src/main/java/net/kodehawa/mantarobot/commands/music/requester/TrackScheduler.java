@@ -84,6 +84,7 @@ public class TrackScheduler extends AudioEventAdapter {
             VoiceChannel voiceChannel = getRequestedChannelParsed().getGuild().getSelfMember().getVoiceState().getChannel();
 
             //What kind of massive meme is this?
+            //It's called mantaro
             if(voiceChannel == null) return;
 
             if (getRequestedChannelParsed().canTalk()){
