@@ -58,7 +58,7 @@ public class MusicOptions extends OptionHandler {
             boolean t1 = guildData.isMusicAnnounce();
 
             guildData.setMusicAnnounce(!t1);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set no music announce to " + "**" + !t1 + "**").queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set music announce to " + "**" + !t1 + "**").queue();
             dbGuild.save();
         });
 
