@@ -517,8 +517,8 @@ public class MoneyCmds {
                 player.saveAsync();
 
                  if(isWin){
-                     message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits! Lucky! ", gains)).append(EmoteReference.POPPER);
-                     player.addMoney(gains + 100);
+                     message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits (And got your 50 coins back)! Lucky! ", gains)).append(EmoteReference.POPPER);
+                     player.addMoney(gains + 50);
                  } else {
                      message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
                  }
