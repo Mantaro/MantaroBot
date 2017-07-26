@@ -14,7 +14,7 @@ public class StringLongPairDeserializator extends JsonDeserializer<Pair> {
         jp.nextToken();
         String key = jp.getText();
         jp.nextToken();
-        Object value = jp.getText() ;
+        Long value = Long.valueOf(jp.getText());
         jp.nextToken();
         tmp = jp.getText(); // }
 

@@ -16,7 +16,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.HashMap;
 import java.util.Random;
 
-public class GuessTheNumber extends Game<Integer> {
+public class GuessTheNumber extends Game<Object> {
 
     private Random r = new Random();
     private int number = 0; //set to random number on game start
@@ -25,6 +25,7 @@ public class GuessTheNumber extends Game<Integer> {
 
     @Override
     public void call(GameLobby lobby, HashMap<Member, Player> players) {
+        //This class is not using Game<T>#callDefault due to it being custom/way too different from the default ones (aka give hints/etc)
         InteractiveOperations.createOverriding(lobby.getChannel(), 30, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
