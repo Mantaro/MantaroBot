@@ -52,4 +52,5 @@ public class GuildData {
 	private Set<Category> disabledCategories = new HashSet<>();
 	private long setModTimeout = 0L;
 	private int maxResultsSearch = 5;
+	private Set<String> disabledRoles = new HashSet<>();
 }

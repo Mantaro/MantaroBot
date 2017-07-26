@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.modules;
 
 import com.google.common.base.Preconditions;
+import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -13,8 +14,10 @@ import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CommandRegistry {
 
@@ -67,6 +70,10 @@ public class CommandRegistry {
 		}
 
 		if (data.getChannelSpecificDisabledCategories().computeIfAbsent(event.getChannel().getId(), wew -> new ArrayList<>()).contains(cmd.category())) {
+			return false;
+		}
+
+		if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().map(ISnowflake::getId).anyMatch(s -> data.getDisabledRoles().contains(s))){
 			return false;
 		}
 

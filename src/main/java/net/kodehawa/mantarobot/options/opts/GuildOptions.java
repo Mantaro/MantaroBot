@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
@@ -423,6 +424,55 @@ public class GuildOptions extends OptionHandler {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid choice. Valid choices: **24h**, **12h**").queue();
                     break;
             }
+        });
+
+        registerOption("server:role:disallow", "Role disallow", "Disallows all users with a role from executing commands.\n" +
+                        "You need to provide the name of the role to disallow from mantaro.\n" +
+                        "Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`",
+                "Disallows all users with a role from executing commands.", (event, args) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            if(args.length == 0){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
+                return;
+            }
+
+            Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
+
+            if(role == null){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
+                return;
+            }
+
+            guildData.getDisabledRoles().add(role.getId());
+            dbGuild.save();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled role " + role.getName() + " from executing commands.").queue();
+        });
+
+        registerOption("server:role:allow", "Role allow", "Allows all users with a role from executing commands.\n" +
+                        "You need to provide the name of the role to allow from mantaro. Has to be already disabled.\n" +
+                        "Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`",
+                "Allows all users with a role from executing commands (Has to be already disabled)", (event, args) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            if(args.length == 0) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
+                return;
+            }
+            Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
+            if(role == null){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
+                return;
+            }
+
+            if(!guildData.getDisabledRoles().contains(role.getId())){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "This role is not disabled from executing commands!").queue();
+                return;
+            }
+            guildData.getDisabledRoles().remove(role.getId());
+            dbGuild.save();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Re-enabled role " + role.getName() + " from executing commands.").queue();
         });
     }
 
