@@ -488,7 +488,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                StringBuilder message = new StringBuilder(EmoteReference.DICE + "**You used 50 credits and rolled the slot machine**\n\n");
+                StringBuilder message = new StringBuilder(EmoteReference.DICE + "**You used 50 credits and rolled the slot machine!**\n\n");
                 StringBuilder builder = new StringBuilder();
                 for(int i = 0; i < 9; i++){
                     if(i > 1 && i % 3 == 0){
@@ -501,7 +501,7 @@ public class MoneyCmds {
                 int gains = 0;
                 String[] rows = toSend.split("\\r?\\n");
 
-                if(random.nextInt(100) < 25){
+                if(random.nextInt(100) < 23){ //23% raw chance of winning, completely random chance of winning on the previous random iteration
                     rows[1] = winCombinations.get(random.nextInt(winCombinations.size()));
                 }
 
@@ -517,10 +517,10 @@ public class MoneyCmds {
                 player.saveAsync();
 
                  if(isWin){
-                     message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits! Lucky!", gains));
+                     message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits! Lucky! ", gains)).append(EmoteReference.POPPER);
                      player.addMoney(gains + 100);
                  } else {
-                     message.append(toSend).append("\n\n").append("And you lost :(").append("\n").append("I hope you do better next time!");
+                     message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
                  }
 
                 message.append("\n");

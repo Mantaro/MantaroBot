@@ -54,7 +54,6 @@ dependencies {
 	compile 'net.sf.trove4j:trove4j:3.0.3'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
-	compile 'mysql:mysql-connector-java:6.0.4'
 	compile 'com.rabbitmq:amqp-client:4.1.1'
 	compile 'io.sentry:sentry:1.2.0'
 
@@ -114,10 +113,6 @@ shadowJar { classifier = "" }
 
 class Version {
 	String major, minor, revision
-
-	static String getBuild() {
-		System.getenv("BUILD_NUMBER") ?: System.getProperty("BUILD_NUMBER") ?: "DEV-" + new Date().format('ddMMyyyy')
-	}
 
 	String toString() {
 		"${major}.${minor}.${revision}"
