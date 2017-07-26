@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class Game {
+public abstract class Game<T> {
 	@Setter
 	@Getter
 	private int attempts = 1;
@@ -25,7 +25,7 @@ public abstract class Game {
 	public abstract boolean onStart(GameLobby lobby);
 
 	protected int callDefault(GuildMessageReceivedEvent e,
-							  GameLobby lobby, HashMap<Member, Player> players, List<String> expectedAnswer, int attempts, int maxAttempts, int extra) {
+							  GameLobby lobby, HashMap<Member, Player> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return Operation.IGNORED;
 		}
@@ -43,13 +43,14 @@ public abstract class Game {
 
 		if (players.keySet().contains(e.getMember())) {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
-				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
+				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream()
+						.map(String::valueOf).collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame();
 				GameLobby.LOBBYS.remove(lobby.getChannel());
 				return Operation.COMPLETED;
 			}
 
-				if (expectedAnswer.stream().anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
+				if (expectedAnswer.stream().map(String::valueOf).anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
 					Player player = MantaroData.db().getPlayer(e.getMember());
 					int gains = 45 + extra;
 					player.addMoney(gains);
@@ -61,7 +62,8 @@ public abstract class Game {
 				}
 
 			if (attempts >= maxAttempts) {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
+				lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. Possible answers were: " + expectedAnswer.stream()
+						.map(String::valueOf).collect(Collectors.joining(" ,"))).queue();
 				lobby.startNextGame(); //This should take care of removing the lobby, actually.
 				return Operation.COMPLETED;
 			}

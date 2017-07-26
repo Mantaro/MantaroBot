@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "Game [Trivia]")
-public class Trivia extends Game {
+public class Trivia extends Game<String> {
 	private List<String> expectedAnswer;
 	private int maxAttempts = 2;
 	private boolean hardDiff = false;

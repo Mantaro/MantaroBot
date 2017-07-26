@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.Character;
+import net.kodehawa.mantarobot.commands.game.GuessTheNumber;
 import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
@@ -48,14 +49,20 @@ public class GameCmds {
 					return;
 				}
 
+				if (args[0].equalsIgnoreCase("number")) {
+					startGame(new GuessTheNumber(), event);
+					return;
+				}
+
 				onHelp(event);
 			}
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "`~>game character` - **Starts a instance of Guess the character (anime)**.\n"
-						+ "`~>game pokemon` - **Starts a instance of who's that pokemon?**", false)
+					.addField("Games", "`~>game character` - **Starts an instance of Guess the character (anime)**.\n"
+						+ "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
+							"`~>game number` - **Starts an instance of Guess The Number**`", false)
 					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
 					.addField("Considerations", "The pokemon guessing game has around 900 different pokemons to guess, where the anime guessing game has around 60.", false)
 					.build();

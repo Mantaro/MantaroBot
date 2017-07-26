@@ -60,7 +60,7 @@ public class GameLobby extends Lobby {
 		}
 	}
 
-	boolean startNextGame() {
+	public boolean startNextGame() {
 		gamesToPlay.removeFirst();
 		try {
 			if (gamesToPlay.getFirst().onStart(this)) {

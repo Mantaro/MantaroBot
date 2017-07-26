@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 
 import java.util.function.Consumer;
 
-public abstract class ImageGame extends Game {
+public abstract class ImageGame extends Game<String> {
 	private final URLCache cache;
 
 	public ImageGame(int cacheSize) {
