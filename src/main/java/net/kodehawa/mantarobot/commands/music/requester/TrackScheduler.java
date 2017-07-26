@@ -179,7 +179,8 @@ public class TrackScheduler extends AudioEventAdapter {
             TextChannel ch = getRequestedChannelParsed();
             if (ch != null && ch.canTalk()) {
                 ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
-                        ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive")
+                        (MantaroData.db().getGuild(g).isPremium() ? "" :
+                        ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch (Exception ignored){}

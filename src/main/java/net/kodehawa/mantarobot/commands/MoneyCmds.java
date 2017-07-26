@@ -475,7 +475,7 @@ public class MoneyCmds {
                 boolean isWin = false;
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 if(player.getMoney() < 50) {
-                    event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine.").queue();
+                    event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine!").queue();
                     return;
                 }
 
