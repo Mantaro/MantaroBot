@@ -18,6 +18,7 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 @Option
@@ -29,7 +30,8 @@ public class GeneralOptions extends OptionHandler {
         registerOption("lobby:reset", "Lobby reset","Fixes stuck game/poll/operations session.", event -> {
             GameLobby.LOBBYS.remove(event.getChannel());
             Poll.getRunningPolls().remove(event.getChannel().getId());
-            InteractiveOperations.get(event.getChannel()).cancel(true);
+            Future<Void> stuck = InteractiveOperations.get(event.getChannel());
+            if(stuck != null) stuck.cancel(true);
             event.getChannel().sendMessage(EmoteReference.CORRECT + "Reset the lobby correctly.").queue();
         });
 
