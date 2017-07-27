@@ -114,7 +114,10 @@ public class MantaroAPISender {
                     .put("hourly", HOUR_EVENTS)
                     .put("now", MINUTE_EVENTS);
 
-            JSONObject toPost = new JSONObject()
+            JSONObject identify = new JSONObject()
+                    .put("nodeIdentifier", bot.getMantaroAPI().nodeUniqueIdentifier);
+
+            JSONObject stats1 = new JSONObject()
                     .put("nodeIdentifier", bot.getMantaroAPI().nodeUniqueIdentifier)
                     .put("stats", mainStats)
                     .put("guildStats", guildsS)
@@ -123,14 +126,23 @@ public class MantaroAPISender {
 
             try{
                 RequestBody body = RequestBody.create(MediaType.parse("application/json"),
-                        toPost.toString());
+                        identify.toString());
+                RequestBody bodyStats = RequestBody.create(MediaType.parse("application/json"),
+                        stats1.toString());
 
-                Request identify = new Request.Builder()
+                Request id = new Request.Builder()
                         .url(String.format("http://%s/api/nodev1/identify", MantaroData.config().get().apiUrl))
                         .header("Authorization", sessionToken)
                         .post(body)
                         .build();
-                httpClient.newCall(identify).execute().close();
+                httpClient.newCall(id).execute().close();
+
+                Request st = new Request.Builder()
+                        .url(String.format("http://%s/api/nodev1/stats", MantaroData.config().get().apiUrl))
+                        .header("Authorization", sessionToken)
+                        .post(bodyStats)
+                        .build();
+                httpClient.newCall(st).execute().close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
