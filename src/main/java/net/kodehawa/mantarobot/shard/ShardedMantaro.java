@@ -43,8 +43,10 @@ public class ShardedMantaro {
                     int lowerLimit = Integer.parseInt(parts[0]);
                     int upperLimit = Integer.parseInt(parts[1]);
 
-                    if(i < lowerLimit) continue;
-                    if(i > upperLimit) break;
+                    if(i < lowerLimit || i > upperLimit){
+                        shards[i] = null;
+                        continue;
+                    }
                 }
 
                 log.info("Starting shard #" + i + " of " + totalShards);
