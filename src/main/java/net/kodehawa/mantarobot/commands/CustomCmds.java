@@ -271,7 +271,7 @@ public class CustomCmds {
 								return Operation.COMPLETED;
 							}
 
-							responses.add(c);
+							responses.add(c.replace("@everyone", "[nice meme]").replace("@here", "[you tried]"));
 							e.getMessage().addReaction(EmoteReference.CORRECT.getUnicode()).queue();
 							return Operation.RESET_TIMEOUT;
 						}) != null;
@@ -471,7 +471,7 @@ public class CustomCmds {
 					}
 
 					CustomCommand custom = CustomCommand.of(
-						event.getGuild().getId(), cmd, Collections.singletonList(value));
+						event.getGuild().getId(), cmd, Collections.singletonList(value.replace("@everyone", "[nice meme]").replace("@here", "[you tried]")));
 
 					if (action.equals("add")) {
 						CustomCommand c = db().getCustomCommand(event, cmd);
