@@ -202,7 +202,7 @@ public class OwnerCmd {
 						"`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
 					.addField(
 						"Shush.",
-						"If you aren't Adrian or Kode you shouldn't be looking at this, huh \uD83D\uDC40" + EmoteReference.EYES,
+						"If you aren't Adrian, Kode or Natan you shouldn't be looking at this, huh \uD83D\uDC40" + EmoteReference.EYES,
 						false
 					)
 					.build();
@@ -553,21 +553,6 @@ public class OwnerCmd {
 		});
 	}
 
-
-	private static String appendSeparatorLine(String left, String middle, String right, int padding, int... sizes) {
-		boolean first = true;
-		StringBuilder ret = new StringBuilder();
-		for (int size : sizes) {
-			if (first) {
-				first = false;
-				ret.append(left).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-			} else {
-				ret.append(middle).append(String.join("", Collections.nCopies(size + padding * 2, "-")));
-			}
-		}
-		return ret.append(right).append("\n").toString();
-	}
-
 	private static CompletableFuture<Void> notifyMusic(String content) {
 		return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
 			.stream()
@@ -602,8 +587,7 @@ public class OwnerCmd {
 		event.getChannel().sendMessage(random(sleepQuotes)).complete();
 
 		if(!MantaroData.config().get().isBeta() && !MantaroData.config().get().isPremiumBot()) {
-			System.out.println("Shutdown hook activated!");
-			log.error("Received an unexpected shutdown! Broadcasting node shutdown!");
+			log.error("Received a shutdown! Broadcasting node shutdown!");
 			try{
 				JSONObject mqSend = new JSONObject();
 				mqSend.put("action", NodeAction.SHUTDOWN);
