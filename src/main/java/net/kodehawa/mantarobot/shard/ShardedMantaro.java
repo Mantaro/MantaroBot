@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,6 +36,17 @@ public class ShardedMantaro {
     public void shard() {
         try{
             for (int i = 0; i < totalShards; i++) {
+
+                String shardsL = MantaroData.config().get().shardsToStart;
+                if(!shardsL.isEmpty()){
+                    String[] parts = shardsL.split("-");
+                    int lowerLimit = Integer.parseInt(parts[0]);
+                    int upperLimit = Integer.parseInt(parts[1]);
+
+                    if(i < lowerLimit) continue;
+                    if(i > upperLimit) break;
+                }
+
                 log.info("Starting shard #" + i + " of " + totalShards);
                 MantaroEventManager manager = new MantaroEventManager();
                 managers.add(manager);
@@ -55,6 +67,10 @@ public class ShardedMantaro {
     }
 
     private static int getRecommendedShards(String token) {
+        if(MantaroData.config().get().totalShards != 0){
+            return MantaroData.config().get().totalShards;
+        }
+
         try {
             OkHttpClient okHttp = new OkHttpClient();
             Request shards = new Request.Builder()

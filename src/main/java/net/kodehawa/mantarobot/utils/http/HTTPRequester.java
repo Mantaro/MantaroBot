@@ -21,7 +21,6 @@ import java.util.function.Function;
  */
 public class HTTPRequester {
     public static final OkHttpClient PARENT = new OkHttpClient();
-    public static final HTTPRequester DEFAULT = new HTTPRequester("Default");
 
     protected final OkHttpClient client;
     protected final String identifier;
