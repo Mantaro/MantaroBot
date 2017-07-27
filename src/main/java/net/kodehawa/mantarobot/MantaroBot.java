@@ -184,19 +184,18 @@ public class MantaroBot extends ShardedJDA {
 
 		Sentry.init(config.sentryDSN);
 
-		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
+		if(!config.isPremiumBot()/* && !config.isBeta()*/ && !mantaroAPI.configure()) {
 			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
 			System.exit(API_HANDSHAKE_FAILURE);
 		}
 
-		LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %d)", MantaroInfo.VERSION, mantaroAPI.nodeId));
+		LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %s)", MantaroInfo.VERSION, mantaroAPI.nodeUniqueIdentifier));
 
 		rabbitMQDataManager = new RabbitMQDataManager(config);
 		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
 		long start = System.currentTimeMillis();
 
 		SimpleLogToSLF4JAdapter.install();
-		//LogBack.enable();
 
 		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
 			new Reflections(
@@ -268,10 +267,9 @@ public class MantaroBot extends ShardedJDA {
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
 						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
-		if(!config.isPremiumBot() && !config.isBeta()) {
+		if(!config.isPremiumBot()/* && !config.isBeta()*/) {
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
-			mantaroAPI.getNodeTotal();
 		}
 	}
 
@@ -315,7 +313,7 @@ public class MantaroBot extends ShardedJDA {
 			OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 			RequestBody body = RequestBody.create(
 					MediaType.parse("application/json; charset=utf-8"),
-					String.format("{\"content\": \"**Received startup trigger on Node #%d (`Identifier: %s`)**\"}", mantaroAPI.nodeId, mantaroAPI.nodeUniqueIdentifier)
+					String.format("{\"content\": \"**Received startup trigger on Node %s", mantaroAPI.nodeUniqueIdentifier)
 			);
 			Request request = new Request.Builder()
 					.header("Content-Type", "application/json")

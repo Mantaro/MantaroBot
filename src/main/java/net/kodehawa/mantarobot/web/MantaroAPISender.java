@@ -115,11 +115,11 @@ public class MantaroAPISender {
                     .put("now", MINUTE_EVENTS);
 
             JSONObject toPost = new JSONObject()
-                    .put("nodeid", bot.getMantaroAPI().nodeId)
+                    .put("nodeIdentifier", bot.getMantaroAPI().nodeUniqueIdentifier)
                     .put("stats", mainStats)
-                    .put("guildstats", guildsS)
-                    .put("commandstats", commands)
-                    .put("shardinfo", shardInfo);
+                    .put("guildStats", guildsS)
+                    .put("commandStats", commands)
+                    .put("shard_info", shardInfo);
 
             try{
                 RequestBody body = RequestBody.create(MediaType.parse("application/json"),
@@ -136,6 +136,6 @@ public class MantaroAPISender {
             }
         };
 
-        Async.task("Mantaro API POST Worker", postStats, 15, TimeUnit.SECONDS);
+        Async.task("Mantaro API POST Worker", postStats, 5, TimeUnit.SECONDS);
     }
 }

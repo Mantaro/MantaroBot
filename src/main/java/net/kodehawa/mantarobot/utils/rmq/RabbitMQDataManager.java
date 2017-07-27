@@ -103,7 +103,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                 String message = new String(body, "UTF-8");
                 JSONObject payload = new JSONObject(message);
                 ReturnCodes code = SUCCESS;
-                int nodeId = MantaroBot.getInstance().getMantaroAPI().nodeId;
+                String nodeId = MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier.toString();
                 apiCalls++;
 
                 if(payload.has("action")) {
@@ -117,11 +117,10 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                     switch (NodeAction.valueOf(payload.getString("action"))) {
 
                         case SHUTDOWN:
-                            //TODO re-enable
-                            /*MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
+                            MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
                                 if (musicManager.getTrackScheduler() != null)
                                     musicManager.getTrackScheduler().stop();
-                            });*/
+                            });
 
                             Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
                             Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(mantaroShard -> mantaroShard.getJDA().shutdownNow());
@@ -222,8 +221,6 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                         case ROLLING_RESTART:
                             break;
                     }
-                } else if(payload.has("get_node")) {
-                    //TODO: get stuff from the node, broadcast to guilds here.
                 } else {
                     code = NOT_VALID;
                 }

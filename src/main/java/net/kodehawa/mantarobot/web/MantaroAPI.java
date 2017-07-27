@@ -21,12 +21,6 @@ public class MantaroAPI {
     //The token we will use to interface with the API
     public static String sessionToken;
 
-    //Node ID is assigned by the API after receiving a HEARTBEAT request from this specific node. If the node is already registered, the server
-    //will retrieve the saved value from NODE_LIST. In case a NODE_UNKNOWN_RECEIVE is handled by the API, all node ids will be reassigned by the server
-    //and sent back here.
-    public int nodeId = 0;
-
-
     //Unique identifier of this specific node. Will be saved on NODE_LIST until the server sends a NODE_SHUTDOWN signal or 10 HEARTBEAT requests
     //time out. In the last case I should get notified that it did a boom and that I should start running in circles because the probability of me
     //being home when this happens is around zero.
@@ -51,11 +45,7 @@ public class MantaroAPI {
                 lastPing = end - start;
                 STATUS = APIStatus.ONLINE;
 
-                RequestBody identifyBody = RequestBody.create(MediaType.parse("application/json"),
-                        new JSONObject()
-                                .put("nodeId", nodeId)
-                                .put("nodeIdentifier", nodeUniqueIdentifier
-                                ).toString());
+                RequestBody identifyBody = RequestBody.create(MediaType.parse("application/json"), new JSONObject().put("nodeIdentifier", nodeUniqueIdentifier).toString());
 
                 Request identify = new Request.Builder()
                         .url(String.format("http://%s/api/nodev1/identify", MantaroData.config().get().apiUrl))
@@ -96,24 +86,8 @@ public class MantaroAPI {
             //pong, pls no lag.
             lastPing = end - start;
             System.out.println(sessionToken);
-            Request nodeidr = new Request.Builder()
-                    .url(String.format("http://%s/api/nodev1/next", MantaroData.config().get().apiUrl))
-                    .header("Authorization", sessionToken)
-                    .build();
-
-            Response response1 = httpClient.newCall(nodeidr).execute();
-            String reply = response1.body().string();
-            System.out.println(reply);
-            nodeId = new JSONObject(reply).getInt("id");
-            response1.close();
-
-            log.info("Received desired node id: {} ", nodeId);
-
             RequestBody identifyBody = RequestBody.create(MediaType.parse("application/json"),
-                    new JSONObject()
-                            .put("nodeId", nodeId)
-                            .put("nodeIdentifier", nodeUniqueIdentifier
-                            ).toString());
+                    new JSONObject().put("nodeIdentifier", nodeUniqueIdentifier).toString());
 
             Request identify = new Request.Builder()
                     .url(String.format("http://%s/api/nodev1/identify", MantaroData.config().get().apiUrl))
@@ -131,25 +105,6 @@ public class MantaroAPI {
             e.printStackTrace();
             return false;
         }
-    }
-
-    public void getNodeTotal() {
-        Runnable checker = () -> {
-            try{
-                Request nodeidr = new Request.Builder()
-                        .url(String.format("http://%s/api/nodev1/next", MantaroData.config().get().apiUrl))
-                        .header("Authorization", sessionToken)
-                        .build();
-
-                Response response = httpClient.newCall(nodeidr).execute();
-                nodesTotal = new JSONObject(response.body().string()).getInt("id");
-                response.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
-            }
-        };
-        Async.task("Total node checker", checker, 5, TimeUnit.MINUTES);
     }
 
     public long getAPIPing() {
