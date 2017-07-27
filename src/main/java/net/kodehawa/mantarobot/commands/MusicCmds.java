@@ -97,7 +97,6 @@ public class MusicCmds {
 						if (vc != guild.getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()) {
 							event.getChannel().sendMessage(
 									EmoteReference.THINKING + "I will try to move to the channel you're in").queue();
-							AudioCmdUtils.closeAudioConnection(event, am);
 							AudioCmdUtils.openAudioConnection(event, am, vc);
 							return;
 						}

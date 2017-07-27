@@ -470,44 +470,6 @@ public class OwnerCmd {
 					return;
 				}
 
-				if (option.equals("varadd")) {
-					try {
-						String v1 = values[1];
-						switch (values[0]) {
-							case "pat":
-								ActionCmds.PATS.get().add(v1);
-								ActionCmds.PATS.save();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to pat list: " + v)
-									.queue();
-								break;
-							case "hug":
-								ActionCmds.HUGS.get().add(v1);
-								ActionCmds.HUGS.save();
-								event.getChannel().sendMessage(EmoteReference.CORRECT + "Added to hug list: " + v)
-									.queue();
-								break;
-							case "greeting":
-								ActionCmds.GREETINGS.get().add(content.replace("varadd greeting ", ""));
-								ActionCmds.GREETINGS.save();
-								event.getChannel().sendMessage(
-									EmoteReference.CORRECT + "Added to greet list: " + content.replace("greeting ", ""))
-									.queue();
-								break;
-							case "splash":
-								MantaroShard.SPLASHES.get().add(content.replace("varadd splash ", ""));
-								MantaroShard.SPLASHES.save();
-								event.getChannel().sendMessage(
-									EmoteReference.CORRECT + "Added to splash list: " + content.replace("splash ", ""))
-									.queue();
-								break;
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-					return;
-				}
-
 				if (option.equals("eval")) {
 					Evaluator evaluator = evals.get(k);
 					if (evaluator == null) {
