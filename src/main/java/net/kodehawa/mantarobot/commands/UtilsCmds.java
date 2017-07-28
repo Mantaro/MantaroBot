@@ -60,7 +60,7 @@ public class UtilsCmds {
 				if (content.startsWith("remove")) {
 					user.getData().setBirthday(null);
 					user.save();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly resetted birthday date.")
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset birthdate.")
 						.queue();
 					return;
 				}
@@ -125,14 +125,14 @@ public class UtilsCmds {
 				} catch (Exception e) {
 					Optional.ofNullable(args[0]).ifPresent((s -> event.getChannel().sendMessage(
 						"\u274C" + args[0] + " is either not a " +
-							"valid date or not parseable. Please try with the correct formatting. Remember to include the year (though you can put any year)")
+							"valid date or not parseable. Please try with the correct formatting. Remember to include the year, although you can put any year and it won't affect anything.")
 						.queue()));
 					return;
 				}
 
 				user.getData().setBirthday(format1.format(bd1));
 				user.save();
-				event.getChannel().sendMessage(EmoteReference.CORRECT + "Added birthday date.").queue();
+				event.getChannel().sendMessage(EmoteReference.CORRECT + "Added birthdate.").queue();
 			}
 
 			@Override
@@ -583,7 +583,7 @@ public class UtilsCmds {
 
 				if (info.error != null) {
 					event.getChannel().sendMessage(
-						":heavy_multiplication_x: I got an error while fetching that link``" + info.error
+						":heavy_multiplication_x: I got an error while fetching that link. ``" + info.error
 							+ "``").queue();
 					return;
 				}

@@ -668,8 +668,8 @@ public class MusicCmds {
 					int requiredVotes = scheduler.getRequiredVotes();
 					if (voteSkips.contains(event.getAuthor().getId())) {
 						voteSkips.remove(event.getAuthor().getId());
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "**Your vote has been removed!** " +
-								(requiredVotes - voteSkips.size()) + " more votes are required to skip!").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "**Your vote has been removed!** You need " +
+								(requiredVotes - voteSkips.size()) + " more vote(s) to skip!").queue();
 					} else {
 						voteSkips.add(event.getAuthor().getId());
 						if (voteSkips.size() >= requiredVotes) {
@@ -679,8 +679,8 @@ public class MusicCmds {
 							scheduler.nextTrack(true, true);
 							return;
 						}
-						event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** " +
-								(requiredVotes - voteSkips.size()) + " more votes are required to skip!").queue();
+						event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** You need " +
+								(requiredVotes - voteSkips.size()) + " more vote(s) to skip!").queue();
 					}
 					TextChannelGround.of(event).dropItemWithChance(0, 10);
 				} catch (NullPointerException e) {
@@ -725,8 +725,8 @@ public class MusicCmds {
 					int requiredVotes = scheduler.getRequiredVotes();
 					if (stopVotes.contains(event.getAuthor().getId())) {
 						stopVotes.remove(event.getAuthor().getId());
-						event.getChannel().sendMessage(EmoteReference.CORRECT + "**Your vote has been removed!** " +
-								(requiredVotes - stopVotes.size()) + " more votes are required to stop!").queue();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "**Your vote has been removed!** You need " +
+								(requiredVotes - stopVotes.size()) + " more vote(s) to stop!").queue();
 					} else {
 						stopVotes.add(event.getAuthor().getId());
 						if (stopVotes.size() >= requiredVotes) {
@@ -736,8 +736,8 @@ public class MusicCmds {
 							stop(event);
 							return;
 						}
-						event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** "
-								+ (requiredVotes - stopVotes.size()) + " more votes are required to stop!").queue();
+						event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** You need "
+								+ (requiredVotes - stopVotes.size()) + " more vote(s) to stop!").queue();
 					}
 				} catch (NullPointerException e) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "There is no player to stop... I cannot stop anything without one.").queue();

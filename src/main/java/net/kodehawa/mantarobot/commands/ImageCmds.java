@@ -88,7 +88,7 @@ public class ImageCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Cat command")
-					.setDescription("Sends a random cat image")
+					.setDescription("Sends a random cat image.")
 					.build();
 			}
 		});
@@ -105,13 +105,13 @@ public class ImageCmds {
 				try {
 					JSONObject obj = new JSONObject(Utils.wgetResty(nsfw ? NSFWURL : BASEURL, event));
 					if (!obj.has("url")) {
-						event.getChannel().sendMessage("Unable to find image").queue();
+						event.getChannel().sendMessage("Unable to find image.").queue();
 					} else {
 						event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					event.getChannel().sendMessage("Unable to get image").queue();
+					event.getChannel().sendMessage("Unable to get image.").queue();
 				}
 			}
 
@@ -181,7 +181,7 @@ public class ImageCmds {
 
 							boolean isOldFormat = args[1].matches("^[0-9]*$");
 							if (isOldFormat) {
-								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use ~>e621 tags <tag>").queue();
+								event.getChannel().sendMessage(EmoteReference.WARNING + "Now you don't need to specify the page number. Please use `~>e621 tags <tag>`").queue();
 								return;
 							}
 
@@ -205,7 +205,7 @@ public class ImageCmds {
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (IndexOutOfBoundsException | IllegalArgumentException e) {
-									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 								}
 							});
 						} catch (Exception exception) {
@@ -316,7 +316,7 @@ public class ImageCmds {
 							});
 						} catch (Exception exception) {
 							if (exception instanceof IndexOutOfBoundsException) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
+								event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 								return;
 							}
 
@@ -383,7 +383,7 @@ public class ImageCmds {
 
 									event.getChannel().sendMessage(builder.build()).queue();
 								} catch (ArrayIndexOutOfBoundsException e) {
-									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 								}
 							});
 
@@ -427,7 +427,7 @@ public class ImageCmds {
 										event.getChannel().sendMessage(builder.build()).queue();
 									} catch (Exception e) {
 										e.printStackTrace();
-										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
+										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 									}
 
 								});

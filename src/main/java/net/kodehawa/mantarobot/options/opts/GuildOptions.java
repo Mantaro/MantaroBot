@@ -256,7 +256,7 @@ public class GuildOptions extends OptionHandler {
         //region joinmessage
         registerOption("usermessage:joinmessage", "User join message",
                 "Sets the join message.\n" +
-                        "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to $(event.guild.name) server! Hope you have a great time`",
+                        "**Example:** `~>opts usermessage joinmessage Welcome $(event.user.name) to the $(event.guild.name) server! Hope you have a great time`",
                 "Sets the join message.", (event, args) -> {
                     if (args.length == 0) {
                         onHelp(event);

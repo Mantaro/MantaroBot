@@ -56,7 +56,7 @@ public abstract class Game<T> {
 					player.addMoney(gains);
 					player.save();
 					TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
+					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " just won $" + gains +" credits by answering correctly!").queue();
 					lobby.startNextGame();
 					return Operation.COMPLETED;
 				}

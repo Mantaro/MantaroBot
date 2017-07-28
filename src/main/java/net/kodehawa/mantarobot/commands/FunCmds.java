@@ -89,7 +89,7 @@ public class FunCmds {
 
 					if (user.getData().getMarriedWith() == null) {
 						event.getChannel().sendMessage(
-							EmoteReference.ERROR + "You aren't married with anyone, why don't you get started?")
+							EmoteReference.ERROR + "You aren't married with anyone, why don't you find that special someone?")
 							.queue();
 						return;
 					}
@@ -102,7 +102,7 @@ public class FunCmds {
 						user.getData().setMarriedSince(0L);
 						user.saveAsync();
 						event.getChannel().sendMessage(
-							EmoteReference.CORRECT + "Now you're single. I guess that's nice?").queue();
+							EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
 						return;
 					}
 
@@ -115,14 +115,14 @@ public class FunCmds {
 					user.getData().setMarriedWith(null);
 					user.getData().setMarriedSince(0L);
 					user.saveAsync();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. I guess that's nice?")
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.")
 						.queue();
 					return;
 				}
 
 
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry with.")
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.")
 						.queue();
 					return;
 				}
@@ -134,7 +134,7 @@ public class FunCmds {
 						? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
 				if (user.getId().equals(event.getAuthor().getId())) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with yourself.").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
 					return;
 				}
 
