@@ -63,8 +63,8 @@ public class GameCmds {
 					.addField("Games", "`~>game character` - **Starts an instance of Guess the character (anime)**.\n"
 						+ "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
 							"`~>game number` - **Starts an instance of Guess The Number**`", false)
-					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
-					.addField("Considerations", "The pokemon guessing game has around 900 different pokemons to guess, where the anime guessing game has around 60.", false)
+					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends.", false)
+					.addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, where the anime guessing game has around 60.", false)
 					.build();
 			}
 		});
@@ -82,7 +82,7 @@ public class GameCmds {
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Trivia command.")
 					.setDescription("**Starts an instance of trivia.**")
-					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends", false)
+					.addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends.", false)
 					.build();
 			}
 		});
