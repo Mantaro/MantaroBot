@@ -202,7 +202,7 @@ public class OwnerCmd {
 						"`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
 					.addField(
 						"Shush.",
-						"If you aren't Adrian, Kode or Natan you shouldn't be looking at this, huh \uD83D\uDC40" + EmoteReference.EYES,
+						"If you aren't Adrian, Kode, or Natan you shouldn't be looking at this, hmmm? \uD83D\uDC40" + EmoteReference.EYES,
 						false
 					)
 					.build();
