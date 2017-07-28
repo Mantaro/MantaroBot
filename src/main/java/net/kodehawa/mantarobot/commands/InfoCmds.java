@@ -78,7 +78,9 @@ public class InfoCmds {
 								+ "**Developer**: Natan#1289\n"
 								+ "**Music**: Steven#6340 (Retired :<)\n"
 								+ "**Meme guy**: Adam#9261\n"
-								+ "**Documentation:** MrLar#8117 & Yuvira#7832")
+								+ "**Documentation**: MrLar#8117 & Yuvira#7832\n"
+								+ "**Community Admin**: MrLar#8117\n"
+								+ "**Grammar Nazi**: Desiree#3658")
 						.addField("Special mentions",
 							"Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
 						.setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
