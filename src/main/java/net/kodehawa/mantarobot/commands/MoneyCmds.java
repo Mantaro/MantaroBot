@@ -165,12 +165,12 @@ public class MoneyCmds {
                     }
                 }
                 catch (NumberFormatException e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid number equal or less than your credits or" +
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid number less than or equal to your current balance or" +
                             " `all` to gamble all your credits.").queue();
                     return;
                 }
                 catch (UnsupportedOperationException e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a value within your credits amount.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a value within your balance.").queue();
                     return;
                 }
 
@@ -280,7 +280,7 @@ public class MoneyCmds {
                     if (moneyFound != 0) {
                         if (player.addMoney(moneyFound)) {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits!" + overflow).queue();
+                                    "with $" + moneyFound + " credits! " + overflow).queue();
                         }
                         else {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
