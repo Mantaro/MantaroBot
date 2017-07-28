@@ -89,7 +89,7 @@ public class MusicOptions extends OptionHandler {
                                     .collect(Collectors.toList());
 
                             if (voiceChannels.size() == 0) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't found a voice channel matching that" +
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a voice channel matching that" +
                                         " name or id").queue();
                                 return;
                             } else if (voiceChannels.size() == 1) {
