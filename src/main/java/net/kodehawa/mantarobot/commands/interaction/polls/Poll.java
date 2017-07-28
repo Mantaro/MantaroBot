@@ -54,8 +54,8 @@ public class Poll extends Lobby {
             if(!isCompilant) {
                 getChannel().sendMessage(EmoteReference.WARNING +
                         "This poll cannot build. " +
-                        "**Remember that the maximum amount of options are 9, the minimum is 2 and that the maximum timeout is 45m and the minimum timeout is 30s.**\n" +
-                        "OptionHandler are separated with a comma, for example `1,2,3`. For spaced stuff use commas at the start and end of the sentence.").queue();
+                        "**Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\n" +
+                        "OptionHandler are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.").queue();
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
