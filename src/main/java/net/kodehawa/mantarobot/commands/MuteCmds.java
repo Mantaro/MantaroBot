@@ -138,7 +138,7 @@ public class MuteCmds {
                                 "`[-time <time>]` - The time to mute an user for. For example `~>mute @Natan#1289 wew, nice -time 1m20s` will mute Natan for 1 minute and 20 seconds.", false)
                         .addField("Considerations", "To unmute an user, do `~>unmute`.", false)
                         .addField("Extended usage", "`time` - can be used with the following parameters: " +
-                                "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
+                                "d (days), s (second), m (minutes), h (hour). **For example -time 1d1h will mute for one day and one hour.**", false)
                         .build();
             }
         }).addOption("defaultmutetimeout:set", new Option("Default mute timeout",
@@ -246,7 +246,7 @@ public class MuteCmds {
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MANAGE_ROLES)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permissions to administrate roles on this server!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permissions to administer roles on this server!").queue();
                     return;
                 }
 
