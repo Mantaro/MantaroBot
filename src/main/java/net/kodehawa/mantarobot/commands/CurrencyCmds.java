@@ -339,7 +339,7 @@ public class CurrencyCmds {
                     member = event.getGuild().getMember(author);
 
                     if (author.isBot()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Bots have no profiles.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
                         return;
                     }
 
@@ -408,7 +408,7 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                                    "You can rep an user.")).queue();
+                                    "You can rep someone now.")).queue();
                     return;
                 }
 
@@ -416,7 +416,7 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot." +
                     (rl > 0 ? "**You'll be able to use this command again in " +
                             Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                            "You can rep an user now.")).queue();
+                            "You can rep someone now.")).queue();
                     return;
                 }
 
@@ -424,7 +424,7 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself." +
                     (rl > 0 ? "**You'll be able to use this command again in " +
                             Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                            "You can rep an user now.")).queue();
+                            "You can rep someone now.")).queue();
                     return;
                 }
 
