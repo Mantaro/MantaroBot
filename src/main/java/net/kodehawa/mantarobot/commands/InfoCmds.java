@@ -62,7 +62,7 @@ public class InfoCmds {
 						.setColor(Color.PINK)
 						//<3
 						.addField("Special Mentions",
-								"**MrLar#8117** $100 pledge. <3 + $1025 donation. <3\n" +
+								"**MrLar#8117** $100 pledge. <3 + $1075 donation. <3\n" +
 								"**Quartermaster#1262** $40 pledge <3",false)
 						.setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
@@ -275,7 +275,7 @@ public class InfoCmds {
 					.setDescription("**" + jokes.get(r.nextInt(jokes.size())) + "**")
 					.addField(
 						"Usage",
-						"`~>help` - **Return information about who issued the command**.\n" +
+						"`~>help` - **Returns a list of commands that you can use**.\n" +
 						"`~>help <command>` - **Return information about the command specified**.",
 						false
 					).build();
