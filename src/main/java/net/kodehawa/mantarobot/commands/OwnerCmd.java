@@ -513,7 +513,7 @@ public class OwnerCmd {
 		});
 	}
 
-	@Subscribe
+	//@Subscribe
 	public void addGif(CommandRegistry registry) {
 		registry.register("addgif", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
@@ -523,7 +523,7 @@ public class OwnerCmd {
 
 					if(!opts.containsKey("type") || !opts.get("type").isPresent()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-type` argument or it was empty!\n" +
-								"Accepted types: `pat, hug, kisse, slap, highfive, bite, poke, tickle, pout, nuzzle`. To create a new one just make it with a new name.").queue();
+								"Accepted types: `pat, hug, kiss, slap, highfive, bite, poke, tickle, pout, nuzzle`. To create a new one just make it with a new name.").queue();
 						return;
 					}
 
@@ -566,13 +566,14 @@ public class OwnerCmd {
 	}
 
 	private void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
-
-		Request rip = new Request.Builder()
-				.url(String.format("http://%s/api/nodev1/shutdown?nodeid=" + MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier
-						, MantaroData.config().get().apiUrl))
-				.header("Authorization", sessionToken)
-				.build();
-		client.newCall(rip).execute().close();
+		try{
+			Request rip = new Request.Builder()
+					.url(String.format("http://%s/api/nodev1/shutdown?nodeid=" + MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier
+							, MantaroData.config().get().apiUrl))
+					.header("Authorization", sessionToken)
+					.build();
+			client.newCall(rip).execute().close();
+		} catch (Exception ignored){}
 
 		MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
 			if (musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();

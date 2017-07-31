@@ -36,18 +36,7 @@ public class ShardedMantaro {
     public void shard() {
         try{
             for (int i = 0; i < totalShards; i++) {
-
-                String shardsL = MantaroData.config().get().shardsToStart;
-                if(!shardsL.isEmpty()){
-                    String[] parts = shardsL.split("-");
-                    int lowerLimit = Integer.parseInt(parts[0]);
-                    int upperLimit = Integer.parseInt(parts[1]);
-
-                    if(i < lowerLimit || i > upperLimit){
-                        shards[i] = null;
-                        continue;
-                    }
-                }
+                if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;
 
                 log.info("Starting shard #" + i + " of " + totalShards);
                 MantaroEventManager manager = new MantaroEventManager();
@@ -69,6 +58,7 @@ public class ShardedMantaro {
     }
 
     private static int getRecommendedShards(String token) {
+
         if(MantaroData.config().get().totalShards != 0){
             return MantaroData.config().get().totalShards;
         }

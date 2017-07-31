@@ -18,7 +18,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 5, revision: 1)
+def ver = new Version(major: 4, minor: 5, revision: 2)
 version ver.toString()
 
 //We are going to use Java 8
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.DV8FromTheWorld:JDA:fc03aab'
+	compile 'com.github.DV8FromTheWorld:JDA:46802e1'
 	compile 'com.sedmelluq:lavaplayer:1.2.42'
 	compile 'com.sedmelluq:jda-nas:1.0.7-rythm' //local m2 repo
 
@@ -58,6 +58,7 @@ dependencies {
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
 

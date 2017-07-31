@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import javax.security.auth.login.LoginException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -167,7 +168,7 @@ public class MantaroShard implements JDA {
 		Runnable changeStatus = () -> {
 			AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
 			if (MantaroBot.getInstance() != null) {
-				Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).map(MantaroShard::getJDA).forEach(jda -> {
+				Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
 					users.addAndGet(jda.getUsers().size());
 					guilds.addAndGet(jda.getGuilds().size());
 				});

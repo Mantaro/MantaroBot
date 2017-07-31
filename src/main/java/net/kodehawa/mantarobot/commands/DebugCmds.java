@@ -65,13 +65,14 @@ public class DebugCmds {
 
                 HashMap process = (HashMap) save.get("process");
                 HashMap network = (HashMap) save.get("network");
+                o.close();
                 rethonkVersion = process.get("version").toString();
                 cacheSizeMB = process.get("cache_size_mb").toString();
                 timeConnected = process.get("time_started").toString();
 
                 hostName = network.get("hostname").toString();
 
-                event.getChannel().sendMessage("**[Stats]** Y-Yeah... gathering them, wait a bit!").queue(message ->
+                event.getChannel().sendMessage(EmoteReference.MEGA + "**[Stats]** Y-Yeah... gathering them, hold on for a bit...").queue(message ->
                     message.editMessage("```prolog\n"
                             + " --------- Technical Information --------- \n\n"
                             + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
@@ -153,7 +154,7 @@ public class DebugCmds {
                 for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | MC: %-2d",
+                            "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUsers().size(),

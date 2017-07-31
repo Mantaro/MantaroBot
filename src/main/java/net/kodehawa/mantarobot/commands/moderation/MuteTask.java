@@ -26,7 +26,6 @@ public class MuteTask implements Runnable {
                 DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                 GuildData guildData = dbGuild.getData();
 
-                System.out.println(id + " | {" + guildId + " " + maxTime + "}");
                 if (guild == null) {
                     data.getMutes().remove(id);
                     data.save();
@@ -34,7 +33,6 @@ public class MuteTask implements Runnable {
                     data.getMutes().remove(id);
                     data.save();
                 } else {
-                    System.out.println(System.currentTimeMillis() > maxTime);
                     if (System.currentTimeMillis() > maxTime) {
                         data.getMutes().remove(id);
                         data.save();

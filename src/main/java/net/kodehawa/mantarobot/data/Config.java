@@ -48,8 +48,8 @@ public class Config {
 	public String rMQIP;
 	public String shardWebhookUrl;
 	public String apiLoginCreds;
-	public String shardsToStart = ""; //0-20 will start shards zero to twenty on this node, for example. "0-20" / "21-40" totalShards = 41
-	public int totalShards = 3; //needs to be more than the upper limit of all nodes
+	public int totalShards = 0;
+	public int upToShard = 1;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

@@ -472,9 +472,25 @@ public class MoneyCmds {
         cr.register("slots", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                long money = 50;
+
+                if(args.length == 1){
+                    try {
+                        money = Math.abs(Integer.parseInt(args[0]));
+                        if(money > 10000){
+                            event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!");
+                            return;
+                        }
+                    } catch (NumberFormatException e){
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
+                        return;
+                    }
+                }
+
                 boolean isWin = false;
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
-                if(player.getMoney() < 50) {
+                if(player.getMoney() < money) {
                     event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine!").queue();
                     return;
                 }
@@ -488,7 +504,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                StringBuilder message = new StringBuilder(EmoteReference.DICE + "**You used 50 credits and rolled the slot machine!**\n\n");
+                StringBuilder message = new StringBuilder(EmoteReference.DICE + "**You used " + money + " credits and rolled the slot machine!**\n\n");
                 StringBuilder builder = new StringBuilder();
                 for(int i = 0; i < 9; i++){
                     if(i > 1 && i % 3 == 0){
@@ -507,18 +523,18 @@ public class MoneyCmds {
 
                 if(winCombinations.contains(rows[1])){
                     isWin = true;
-                    gains = random.nextInt(250); //Up to 250 coins
+                    gains = random.nextInt((int) Math.round(money * 1.76) + 14);
                 }
 
                 rows[1] = rows[1] + " \u2b05";
                 toSend = String.join("\n", rows);
 
-                player.removeMoney(50);
+                player.removeMoney(money);
                 player.saveAsync();
 
                  if(isWin){
                      message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits (And got your 50 coins back)! Lucky! ", gains)).append(EmoteReference.POPPER);
-                     player.addMoney(gains + 50);
+                     player.addMoney(gains + money);
                  } else {
                      message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
                  }
