@@ -460,7 +460,7 @@ public class MoneyCmds {
 
     @Subscribe
     public void slots(CommandRegistry cr){
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 45);
+        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 25);
         String[] emotes = {":cherries:", ":moneybag:", ":heavy_dollar_sign:", ":carrot:", ":popcorn:", ":tea:", ":notes:"};
         Random random = new SecureRandom();
         List<String> winCombinations = new ArrayList<>();
@@ -547,8 +547,8 @@ public class MoneyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Slots Command")
                         .setDescription("**Rolls the slot machine. Requires 50 coins to roll.**")
-                        .addField("Considerations", "You can gain a maximum of 250 coins from it.\n" +
-                                "If you win, you get the 50 coins back.", false)
+                        .addField("Considerations", "You can gain a maximum of ((putcoins * 1.76) + 14) coins from it.\n" +
+                                "If you win, you get your coins back.", false)
                         .build();
                 }
             });
