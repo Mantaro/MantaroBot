@@ -1,6 +1,5 @@
 package net.kodehawa.mantarobot.core.listeners;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.cache.CacheLoader;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -84,52 +83,56 @@ public class MantaroListener implements EventListener {
 		if (event instanceof GuildMessageReceivedEvent) {
 			MantaroBot.getInstance().getStatsClient().increment("messages_received");
 			GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-			Async.thread("BirthdayThread", () -> onMessage(e));
+			shard.getThreadPool().execute(() -> onMessage(e));
 			return;
 		}
 
 		//Log intensifies
 		if (event instanceof GuildMessageUpdateEvent) {
-			Async.thread("LogThread(Edit)", () -> logEdit((GuildMessageUpdateEvent) event));
+			shard.getThreadPool().execute(() -> logEdit((GuildMessageUpdateEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMessageDeleteEvent) {
-			Async.thread("LogThread(Delete)", () -> logDelete((GuildMessageDeleteEvent) event));
+			shard.getThreadPool().execute(() -> logDelete((GuildMessageDeleteEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMemberJoinEvent) {
-			Async.thread("LogThread(Join)", () -> onUserJoin((GuildMemberJoinEvent) event));
+			shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildMemberLeaveEvent) {
-			Async.thread("LogThread(Leave)", () -> onUserLeave((GuildMemberLeaveEvent) event));
+			shard.getThreadPool().execute(() -> onUserLeave((GuildMemberLeaveEvent) event));
 			return;
 		}
 
 		if (event instanceof GuildUnbanEvent) {
-			Async.thread("LogThread(Unban)", () -> logUnban((GuildUnbanEvent) event));
+			logUnban((GuildUnbanEvent) event);
 			return;
 		}
 
 		if (event instanceof GuildBanEvent) {
-			Async.thread("LogThread(Ban)", () -> logBan((GuildBanEvent) event));
+			logBan((GuildBanEvent) event);
 			return;
 		}
 
+
+		//Internal events
 		if (event instanceof GuildJoinEvent) {
 			GuildJoinEvent e = (GuildJoinEvent)event;
 			if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30))) return;
 			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
-			Async.thread("LogThread(GuildJoin)", () -> onJoin(e));
+			MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUsers().size());
+			onJoin(e);
 			return;
 		}
 
 		if (event instanceof GuildLeaveEvent) {
 			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
-			Async.thread("LogThread(GuildLeave)", () -> onLeave((GuildLeaveEvent) event));
+			MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUsers().size());
+			onLeave((GuildLeaveEvent) event);
 		}
 
 		//debug
@@ -149,10 +152,6 @@ public class MantaroListener implements EventListener {
 		if(event instanceof HttpRequestEvent) {
 			onHttpRequest((HttpRequestEvent) event);
 		}
-	}
-
-	public static TextChannel getLogChannel() {
-		return MantaroBot.getInstance().getTextChannelById(MantaroData.config().get().consoleChannel);
 	}
 
 	private void logBan(GuildBanEvent event) {

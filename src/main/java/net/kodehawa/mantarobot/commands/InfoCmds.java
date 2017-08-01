@@ -503,18 +503,23 @@ public class InfoCmds {
 
 				if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
 					roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
+
+				String s =
+						"**User ID:** " + user.getId() + "\n" +
+						"**Join Date:** "+ member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+						"**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+						"**Mutual Guilds:** " + member.getUser().getMutualGuilds().size() + "\n" +
+						"**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
+						"**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
+						"**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
+						"**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase());
+
 				event.getChannel().sendMessage(new EmbedBuilder()
 					.setColor(member.getColor())
 					.setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
 					.setThumbnail(user.getEffectiveAvatarUrl())
-					.addField("Join Date:", member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), true)
-					.addField("Account Created:", user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""), true)
-					.addField("Voice Channel:", member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None", false)
-					.addField("Playing:", member.getGame() == null ? "None" : member.getGame().getName(), false)
-					.addField("Color:", member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase(), true)
-					.addField("Status:", Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase()), true)
+					.setDescription(s)
 					.addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles, true)
-					.setFooter("User ID: " + user.getId(), null)
 					.build()
 				).queue();
 			}

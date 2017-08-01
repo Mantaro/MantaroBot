@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Wallpaper {
+public class  Wallpaper {
 
 	private String author;
 	private Integer created_at;
@@ -34,18 +34,6 @@ public class Wallpaper {
 		return author;
 	}
 
-	public Integer getCreated_at() {
-		return created_at;
-	}
-
-	public long getFile_size() {
-		return file_size;
-	}
-
-	public String getFile_url() {
-		return file_url;
-	}
-
 	public Integer getHeight() {
 		return height;
 	}
@@ -54,60 +42,12 @@ public class Wallpaper {
 		return id;
 	}
 
-	public long getJpeg_file_size() {
-		return jpeg_file_size;
-	}
-
-	public Integer getJpeg_height() {
-		return jpeg_height;
-	}
-
 	public String getJpeg_url() {
 		return jpeg_url;
 	}
 
-	public Integer getJpeg_width() {
-		return jpeg_width;
-	}
-
-	public Integer getPreview_height() {
-		return preview_height;
-	}
-
-	public String getPreview_url() {
-		return preview_url;
-	}
-
-	public Integer getPreview_width() {
-		return preview_width;
-	}
-
 	public String getRating() {
 		return rating;
-	}
-
-	public long getSample_file_size() {
-		return sample_file_size;
-	}
-
-	public Integer getSample_height() {
-		return sample_height;
-	}
-
-	public String getSample_url() {
-		return sample_url;
-	}
-
-	public Integer getSample_width() {
-		return sample_width;
-	}
-
-	public Integer getScore() {
-		return score;
-	}
-
-	public String getSource() {
-		return source;
 	}
 
 	public String getStatus() {

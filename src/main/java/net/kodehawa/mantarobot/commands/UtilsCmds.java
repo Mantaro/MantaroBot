@@ -244,8 +244,7 @@ public class UtilsCmds {
 
 				EmbedBuilder eb = new EmbedBuilder();
 				eb.setAuthor("Definition for " + word, null, event.getAuthor().getAvatarUrl())
-					.setThumbnail(
-						"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
+					.setThumbnail("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Wikt_dynamic_dictionary_logo.svg/1000px-Wikt_dynamic_dictionary_logo.svg.png")
 					.addField("Definition", "**" + definition + "**", false)
 					.addField("Example", "**" + example + "**", false)
 					.setDescription(

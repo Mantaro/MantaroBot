@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -232,18 +233,25 @@ public class CurrencyCmds {
 
                 EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
 
+                StringBuilder items = new StringBuilder();
+                StringBuilder prices = new StringBuilder();
+                AtomicInteger atomicInteger = new AtomicInteger();
                 Stream.of(Items.ALL).forEach(item -> {
                     if (!item.isHidden()) {
-                        String buyValue = item.isBuyable() ? EmoteReference.BUY + "$" + String.valueOf((int) Math.floor(item.getValue() *
-                                1.1)) + " " : "";
-                        String sellValue = item.isSellable() ? EmoteReference.SELL + "$" + String.valueOf((int) Math.floor(item.getValue
-                                () * 0.9)) : "";
-                        embed.addField(item.getEmoji() + " " + item.getName(), buyValue + sellValue, true);
+                        String buyValue = item.isBuyable() ? String.format("$%d", (int) Math.floor(item.getValue() *
+                                1.1)) : "N/A";
+                        String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue
+                                () * 0.9)) : "N/A";
+
+                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
+                        prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
                     }
                 });
 
                 event.getChannel().sendMessage(
-                        embed.setThumbnail("https://i.imgur.com/OA7QCaM.png")
+                        embed/*.setThumbnail("https://i.imgur.com/OA7QCaM.png")*/
+                                .addField("Items", items.toString(), true)
+                                .addField("Value (Buy/Sell)", prices.toString(), true)
                                 .build()).queue();
             }
 

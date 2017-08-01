@@ -7,9 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.PostLoadEvent;
@@ -107,6 +109,7 @@ public class AnimeCmds {
 			response.close();
 			log.info("Updated auth token.");
 		} catch (Exception e) {
+			LogUtils.log("Problem while updating Anilist token!");
 			SentryHelper.captureExceptionContext("Problem while updating Anilist token", e, AnimeCmds.class, "Anilist Token Worker");
 		}
 	}
@@ -184,7 +187,7 @@ public class AnimeCmds {
 				+ type.getId(), type.getImage_url_sml())
 			.setFooter("Information provided by AniList", null)
 			.setThumbnail(IMAGE_URL)
-			.addField("Description: ", ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...", false)
+			.setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
 			.addField("Release date: ", "`" + RELEASE_DATE + "`", true)
 			.addField("End date: ", "`" + END_DATE + "`", true)
 			.addField("Average score: ", "`" + AVERAGE_SCORE + "/100" + "`", true)

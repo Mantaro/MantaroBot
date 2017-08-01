@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -22,10 +23,12 @@ import org.json.JSONException;
 
 import java.awt.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Module
@@ -50,31 +53,29 @@ public class OsuStatsCmd {
 			map.put("m", 0);
 
 			User hey = osuClient.getUser(args[0], map);
+			MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
 			List<UserScore> userBest = osuClient.getUserBest(hey, map);
+			MantaroBot.getInstance().getStatsClient().gauge("osu_score_ping", System.currentTimeMillis() - start);
 			StringBuilder sb = new StringBuilder();
-			List<String> best = new CopyOnWriteArrayList<>();
+			StringBuilder sb1 = new StringBuilder();
 
-			int n1 = 0;
-			DecimalFormat df = new DecimalFormat("####0.0");
 			for (UserScore userScore : userBest) {
-				if (n1 > 9)
-					break;
 				if (userScore.getEnabledMods().size() > 0) {
-					List<Mod> mods = userScore.getEnabledMods();
-					StringBuilder sb1 = new StringBuilder();
-					mods.forEach(mod -> sb1.append(OsuMod.get(mod).getAbbreviation()));
-					mods1 = " Mods: " + sb1.toString();
+					for (Mod mod : userScore.getEnabledMods()) {
+						sb1.append(OsuMod.get(mod).getAbbreviation());
+					}
+
+					mods1 = "Mods: " + sb1.toString();
+					sb1.setLength(0);
 				}
 
-				best.add(
-					String.format("# %s -> %s\n | ###### |  [%spp] -> Rank: %s\n | (★%s) - %s | Date: %s -> Max Combo: %d\n", userScore.getBeatMap().getTitle().replace("'", ""), mods1,
-						df.format(userScore.getPP()), userScore.getRank(), df.format(userScore.getBeatMap().getDifficultyRating()), userScore.getBeatMap().getCreator(), userScore.getDate(), userScore.getMaxCombo()));
-				sb.append(best.get(n1));
-				n1++;
+				sb.append(String.format("# %s -> %s\n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
+						userScore.getBeatMap().getTitle().replace("'", ""), mods1,
+						(int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
+				.append("\n");
 			}
 
-			long end = System.currentTimeMillis() - start;
-			finalResponse = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
+			finalResponse = "```md\n" + sb.toString() + "```";
 		} catch (Exception e) {
 			if (e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
 			else {

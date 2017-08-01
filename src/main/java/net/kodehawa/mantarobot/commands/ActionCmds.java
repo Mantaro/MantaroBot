@@ -3,10 +3,7 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.IMentionable;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
@@ -83,9 +80,8 @@ public class ActionCmds {
 				if (event.getMessage().getMentionedUsers().isEmpty()) {
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png", null).queue();
 				} else {
-					String bString = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors
-						.joining(" "));
-					String bs = String.format(EmoteReference.TALKING + "%s has sucked the blood of %s", event.getAuthor().getAsMention(),
+					String bString = event.getMessage().getMentionedUsers().stream().map(User::getName).collect(Collectors.joining(" "));
+					String bs = String.format(EmoteReference.TALKING + "%s has sucked the blood of %s", event.getAuthor().getName(),
 						bString);
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/ZR8Plmd.png"), "suck.png",
 						new MessageBuilder().append(bs).build()).queue();
@@ -126,9 +122,9 @@ public class ActionCmds {
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				Message receivedMessage = event.getMessage();
 				if (!receivedMessage.getMentionedUsers().isEmpty()) {
-					String mew = event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(" "));
+					String mew = event.getMessage().getMentionedUsers().stream().map(User::getName).collect(Collectors.joining(" "));
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
-						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("%s *is meowing at %s.*", event.getAuthor().getAsMention(), mew)).build()).queue();
+						new MessageBuilder().append(EmoteReference.TALKING).append(String.format("%s *is meowing at %s.*", event.getAuthor().getName(), mew)).build()).queue();
 				} else {
 					event.getChannel().sendFile(ImageActionCmd.CACHE.getInput("http://imgur.com/yFGHvVR.gif"), "mew.gif",
 						new MessageBuilder().append(":speech_balloon: Meow.").build()).queue();
