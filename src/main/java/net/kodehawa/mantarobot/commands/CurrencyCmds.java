@@ -249,8 +249,7 @@ public class CurrencyCmds {
                 });
 
                 event.getChannel().sendMessage(
-                        embed/*.setThumbnail("https://i.imgur.com/OA7QCaM.png")*/
-                                .addField("Items", items.toString(), true)
+                        embed.addField("Items", items.toString(), true)
                                 .addField("Value (Buy/Sell)", prices.toString(), true)
                                 .build()).queue();
             }

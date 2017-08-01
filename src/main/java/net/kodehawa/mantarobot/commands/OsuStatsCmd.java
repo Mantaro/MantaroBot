@@ -33,9 +33,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 @Module
 
-//TODO rewrite
 public class OsuStatsCmd {
-	private final ExecutorService threadpool = Executors.newSingleThreadExecutor();
+	private final ExecutorService threadpool = Executors.newCachedThreadPool();
 	private Map<String, Object> map = new HashMap<>();
 	private String mods1 = "";
 	private static OsuClient osuClient = null;
