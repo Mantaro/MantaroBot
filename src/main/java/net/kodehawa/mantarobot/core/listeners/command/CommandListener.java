@@ -106,7 +106,13 @@ public class CommandListener implements EventListener {
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or incorrect type arguments. Check the command help.").queue();
 		} catch (PermissionException e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permission to do this :(! I need the permission: " + e.getPermission() + (e.getMessage() != null ? " | Message: " + e.getMessage() : "")).queue();
+			if(e.getPermission() != Permission.UNKNOWN){
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permission to do this :( | I need the permission: " +
+						"" + e.getPermission() + (e.getMessage() != null ? " | Message: " + e.getMessage() : "")).queue();
+			} else {
+				event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot perform this action due to the lack of permission! Is the role I might be trying to assign" +
+						" higher than my role? Do I have the correct permissions/hierarchy to perform this action?").queue();
+			}
 		} catch (IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments or message exceeds 2048 characters. Check command help.").queue();
 			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
@@ -115,7 +121,6 @@ public class CommandListener implements EventListener {
 			SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
 		} catch (Exception e) {
 			String id = Snow64.toSnow64(event.getMessage().getIdLong());
-
 			event.getChannel().sendMessage(
 				EmoteReference.ERROR + "I ran into an unexpected error. (Error ID: ``" + id + "``)\n" +
 					"If you want, **contact ``Kodehawa#3457`` on DiscordBots** (popular bot guild), or join our **support guild** (Link on ``~>about``). Don't forget the Error ID!"

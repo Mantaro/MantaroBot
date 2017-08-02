@@ -147,6 +147,11 @@ public class CurrencyCmds {
 
                             Item toSell = Items.fromAny(itemName).orElse(null);
 
+                            if(toSell == null){
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell a non-existant item.").queue();
+                                return;
+                            }
+
                             if (!toSell.isSellable()) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.")
                                         .queue();
