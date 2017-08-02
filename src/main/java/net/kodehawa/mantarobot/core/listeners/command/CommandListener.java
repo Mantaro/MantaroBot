@@ -111,7 +111,6 @@ public class CommandListener implements EventListener {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect type arguments or message exceeds 2048 characters. Check command help.").queue();
 			log.warn("Exception caught and alternate message sent. We should look into this, anyway.", e);
 		} catch (ReqlError e) {
-			event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry! I'm having some problems with my database... ").queue();
 			e.printStackTrace();
 			SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
 		} catch (Exception e) {
