@@ -320,11 +320,13 @@ public class CommandOptions extends OptionHandler{
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     Category toDisable = Category.lookupFromString(args[0]);
-                    String where = args[1];
-                    List<TextChannel> channels = MantaroBot.getInstance().getTextChannelsByName(where, false);
+
+                    String channelName = args[1];
+
                     TextChannel selectedChannel;
+                    List<TextChannel> channels = event.getGuild().getTextChannelsByName(channelName, true);
                     if(channels.isEmpty()){
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + where + " was found. Try again with the correct name.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
                         return;
                     }
 
@@ -368,7 +370,7 @@ public class CommandOptions extends OptionHandler{
                     GuildData guildData = dbGuild.getData();
                     Category toEnable = Category.lookupFromString(args[0]);
                     String where = args[1];
-                    List<TextChannel> channels = MantaroBot.getInstance().getTextChannelsByName(where, false);
+                    List<TextChannel> channels = event.getGuild().getTextChannelsByName(where, true);
                     TextChannel selectedChannel;
                     if(channels.isEmpty()){
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + where + " was found. Try again with the correct name.").queue();
