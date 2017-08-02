@@ -23,18 +23,16 @@ import org.json.JSONException;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @Module
 
 public class OsuStatsCmd {
-	private final ExecutorService threadpool = Executors.newCachedThreadPool();
+	private final ExecutorService pool = Executors.newCachedThreadPool();
 	private Map<String, Object> map = new HashMap<>();
 	private String mods1 = "";
 	private static OsuClient osuClient = null;
@@ -96,7 +94,7 @@ public class OsuStatsCmd {
 				switch (noArgs) {
 					case "best":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
-							Future<String> task = threadpool.submit(() -> best(content));
+							Future<String> task = pool.submit(() -> best(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {
@@ -111,7 +109,7 @@ public class OsuStatsCmd {
 						break;
 					case "recent":
 						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
-							Future<String> task = threadpool.submit(() -> recent(content));
+							Future<String> task = pool.submit(() -> recent(content));
 							try {
 								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
 							} catch (Exception e) {

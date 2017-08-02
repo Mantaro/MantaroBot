@@ -28,9 +28,6 @@ public class MantaroAPI {
     //This ID is compared when doing node requests!
     public UUID nodeUniqueIdentifier = UUID.randomUUID();
 
-    //The total number of nodes received. This should be received under request after initial setup.
-    public int nodesTotal = 1;
-
     public void startService() {
         Runnable checker = () -> {
             try{
