@@ -426,7 +426,6 @@ public class ImageCmds {
 
 										event.getChannel().sendMessage(builder.build()).queue();
 									} catch (Exception e) {
-										e.printStackTrace();
 										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 									}
 
