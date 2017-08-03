@@ -41,6 +41,7 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
+import static net.kodehawa.mantarobot.commands.info.StatsHelper.sendStatsMessageAndThen;
 
 @Module
 public class InfoCmds {
@@ -60,10 +61,8 @@ public class InfoCmds {
 					builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
 						.setDescription(donators)
 						.setColor(Color.PINK)
-						//<3
 						.addField("Special Mentions",
-								"**MrLar#8117** $100 pledge. <3 + $1075 donation. <3\n" +
-								"**Quartermaster#1262** $40 pledge <3",false)
+								"**MrLar#8117** $100 pledge. <3 + $1075 donation. <3\n",false)
 						.setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
 					event.getChannel().sendMessage(builder.build()).queue();
 					return;
@@ -105,34 +104,33 @@ public class InfoCmds {
 
 				if (madeBy.contains("<@")) madeBy += " (say hi to them!)";
 
-				event.getChannel().sendMessage(new EmbedBuilder()
-					.setColor(Color.PINK)
-					.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
-					.setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-					.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
-						"Some of my features include:\n" +
-						"\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
-						"\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
-						"\u2713 **[Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
-						" [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
-						EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
-					)
-					.addField("MantaroBot Version", MantaroInfo.VERSION, false)
-					.addField("Uptime", String.format(
-						"%d days, %02d hrs, %02d min",
-						days, hours % 24, minutes % 60
-					), false)
-					.addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
-					.addField("Threads", String.valueOf(Thread.activeCount()), true)
-					.addField("Servers", String.valueOf(guilds.size()), true)
-					.addField("Users (Online/Unique)", guilds.stream().flatMap
-						(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
-						guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
-					.addField("Text Channels", String.valueOf(textChannels.size()), true)
-					.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-					.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-					.build()
-				).queue();
+				sendStatsMessageAndThen(event, new EmbedBuilder()
+						.setColor(Color.PINK)
+						.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
+						.setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+						.setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
+								"Some of my features include:\n" +
+								"\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
+								"\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
+								"\u2713 **[Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
+								" [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
+								EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
+						)
+						.addField("MantaroBot Version", MantaroInfo.VERSION, false)
+						.addField("Uptime", String.format(
+								"%d days, %02d hrs, %02d min",
+								days, hours % 24, minutes % 60
+						), false)
+						.addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
+						.addField("Threads", String.valueOf(Thread.activeCount()), true)
+						.addField("Servers", String.valueOf(guilds.size()), true)
+						.addField("Users (Online/Unique)", guilds.stream().flatMap
+								(g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
+								guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
+						.addField("Text Channels", String.valueOf(textChannels.size()), true)
+						.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
+						.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+						.build());
 			}
 
 			@Override
