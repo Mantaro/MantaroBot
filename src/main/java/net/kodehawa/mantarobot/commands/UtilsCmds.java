@@ -60,7 +60,7 @@ public class UtilsCmds {
 				if (content.startsWith("remove")) {
 					user.getData().setBirthday(null);
 					user.save();
-					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset birthdate.")
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset birthday date.")
 						.queue();
 					return;
 				}

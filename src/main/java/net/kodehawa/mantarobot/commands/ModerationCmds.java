@@ -39,7 +39,7 @@ public class ModerationCmds {
                 }
 
                 if (receivedMessage.getMentionedUsers().isEmpty()) {
-                    channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be softbanned!").queue();
+                    channel.sendMessage(EmoteReference.ERROR + "You must mention 1 or more users to be soft-banned!").queue();
                     return;
                 }
 
@@ -68,7 +68,7 @@ public class ModerationCmds {
                     }
 
                     if (event.getAuthor().getId().equals(user.getId())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to softban yourself?").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to soft-ban yourself?").queue();
                         return;
                     }
 

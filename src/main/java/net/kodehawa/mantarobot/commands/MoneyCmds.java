@@ -132,7 +132,7 @@ public class MoneyCmds {
                 }
 
                 if(player.getMoney() > (long)(Integer.MAX_VALUE) * 3) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items?").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs!").queue();
                     return;
                 }
 
@@ -397,7 +397,7 @@ public class MoneyCmds {
 
                     event.getChannel().sendMessage(
                             baseEmbed(event,
-                                    "Level leaderboard",
+                                    "Level leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
                                     event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
@@ -405,7 +405,7 @@ public class MoneyCmds {
                                     .map(p -> String.format("%d - **%s#%s** - Level: %s", i.incrementAndGet(), p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
-                            ).build()
+                            ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
                     ).queue();
 
 
@@ -427,7 +427,7 @@ public class MoneyCmds {
 
                     event.getChannel().sendMessage(
                             baseEmbed(event,
-                                    "Reputation leaderboard",
+                                    "Reputation leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
                                     event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
@@ -435,7 +435,7 @@ public class MoneyCmds {
                                     .map(p -> String.format("%d - **%s#%s** - Reputation: %s", i.incrementAndGet(), p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
-                            ).build()
+                            ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
                     ).queue();
 
 
@@ -449,7 +449,7 @@ public class MoneyCmds {
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Money leaderboard",
+                                "Money leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
                                 event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
@@ -457,7 +457,7 @@ public class MoneyCmds {
                                 .map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
                                 .collect(Collectors.joining("\n"))
-                        ).build()
+                        ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
                 ).queue();
             }
 
