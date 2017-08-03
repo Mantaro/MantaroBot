@@ -115,7 +115,7 @@ public class OptsCmd {
 
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
-				return helpEmbed(event, "OptionHandler and Configurations Command")
+				return helpEmbed(event, "Options and Configurations Command")
 					.setDescription("**This command allows you to change Mantaro settings for this server.**\n" +
 						"All values set are local rather than global, meaning that they will only effect this server.")
 					.addField("Usage", "The command is so big that we moved the description to the wiki. [Click here](https://github.com/Mantaro/MantaroBot/wiki/Configuration) to go to the Wiki Article.", false)
@@ -135,7 +135,7 @@ public class OptsCmd {
 			}
 
 			StringBuilder show = new StringBuilder();
-			show.append("OptionHandler set for server **")
+			show.append("Options set for server **")
 					.append(event.getGuild().getName())
 					.append("**\n\n");
 

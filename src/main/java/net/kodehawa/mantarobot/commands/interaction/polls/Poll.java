@@ -55,7 +55,7 @@ public class Poll extends Lobby {
                 getChannel().sendMessage(EmoteReference.WARNING +
                         "This poll cannot build. " +
                         "**Remember that the options must be a maximum of 9 and a minimum of 2 and the timeout must be a maximum of 45m and a minimum of 30s.**\n" +
-                        "OptionHandler are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.").queue();
+                        "Options are separated with a comma, for example `1,2,3`. For spaced stuff use quotation marks at the start and end of the sentence.").queue();
                 getRunningPolls().remove(getChannel().getId());
                 return;
             }
@@ -67,7 +67,7 @@ public class Poll extends Lobby {
 
             if(!event.getGuild().getSelfMember().hasPermission(getChannel(), Permission.MESSAGE_ADD_REACTION)) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I cannot add reactions here...").queue();
-                getRunningPolls().remove(getChannel());
+                getRunningPolls().remove(getChannel().getId());
                 return;
             }
 
@@ -86,8 +86,9 @@ public class Poll extends Lobby {
 
             EmbedBuilder builder = new EmbedBuilder().setAuthor(String.format("Poll #%1d created by %s",
                     data.getRanPolls(), event.getAuthor().getName()), null, event.getAuthor().getAvatarUrl())
-                    .setDescription("**Poll started. React to the number to vote.**\n*" + name + "*")
-                    .addField("OptionHandler", "```md\n" + toShow + "```", false)
+                    .setDescription("**Poll started. React to the number to vote.**\n*" + name + "*\n" +
+                            "Type &cancelpoll to cancel a running poll.")
+                    .addField("Options", "```md\n" + toShow + "```", false)
                     .setColor(event.getMember().getColor())
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
                     .setFooter("You have " + Utils.getDurationMinutes(timeout) + " minutes to vote.", event.getAuthor().getAvatarUrl());

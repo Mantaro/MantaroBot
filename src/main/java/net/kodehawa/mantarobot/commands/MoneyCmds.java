@@ -363,8 +363,21 @@ public class MoneyCmds {
                     return;
                 }
 
+                Map<String, Optional<String>> opts = StringUtils.parse(args);
+                List<String> memberIds = null;
+                boolean local = false;
+                if(opts.containsKey("local")){
+                     memberIds = event.getGuild().getMembers().stream().map(m -> m.getUser().getId() + ":g").collect(Collectors.toList());
+                     local = true;
+                }
 
+
+
+                //Value used in lambda expresion must be blablabla fuck it.
+                boolean isLocal = local;
+                List<String> mids = memberIds;
                 String pattern = ":g$";
+
                 OrderBy template =
                         r.table("players")
                                 .orderBy()
@@ -374,12 +387,13 @@ public class MoneyCmds {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
                             .optArg("index", r.desc("level"))
-                            .filter(player -> player.g("id").match(pattern))
+                            .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "level"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
                     AtomicInteger i = new AtomicInteger();
                     List<Map> c = m.toList();
+                    m.close();
 
                     event.getChannel().sendMessage(
                             baseEmbed(event,
@@ -403,12 +417,13 @@ public class MoneyCmds {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
                             .optArg("index", r.desc("reputation"))
-                            .filter(player -> player.g("id").match(pattern))
+                            .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "reputation"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
                     AtomicInteger i = new AtomicInteger();
                     List<Map> c = m.toList();
+                    m.close();
 
                     event.getChannel().sendMessage(
                             baseEmbed(event,
@@ -427,9 +442,10 @@ public class MoneyCmds {
                     return;
                 }
 
-                Cursor<Map> c1 = getGlobalRichest(template, pattern);
+                Cursor<Map> c1 = getGlobalRichest(template, pattern, mids, isLocal);
                 AtomicInteger i = new AtomicInteger();
                 List<Map> c = c1.toList();
+                c1.close();
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
@@ -596,9 +612,10 @@ public class MoneyCmds {
         player.saveAsync();
     }
 
-    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
+    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern, List<String> mids, boolean isLocal) {
         return template.filter(player -> player.g("id").match(pattern))
                 .map(player -> player.pluck("id", "money"))
+                .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : true)
                 .limit(15)
                 .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
     }
