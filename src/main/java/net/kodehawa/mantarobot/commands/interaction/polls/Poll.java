@@ -165,6 +165,11 @@ public class Poll extends Lobby {
                 event.getChannel().sendMessage(embedBuilder.build()).queue();
                 getRunningPolls().remove(getChannel().getId());
             }
+
+            @Override
+            public void onCancel(){
+                getRunningPolls().remove(getChannel().getId());
+            }
         }, reactions(options.length));
 
         return runningPoll;
