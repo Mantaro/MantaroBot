@@ -122,17 +122,16 @@ public class MantaroListener implements EventListener {
 		//Internal events
 		if (event instanceof GuildJoinEvent) {
 			GuildJoinEvent e = (GuildJoinEvent)event;
-			onJoin(e);
 			if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30))) return;
+
+			onJoin(e);
 			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
-			MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUsers().size());
 			return;
 		}
 
 		if (event instanceof GuildLeaveEvent) {
 			onLeave((GuildLeaveEvent) event);
 			MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
-			MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUsers().size());
 		}
 
 		//debug
@@ -182,7 +181,7 @@ public class MantaroListener implements EventListener {
 						.withText(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute() + " | Response code: " + event.getResponseRaw().code())
 						.withDate(new Date()).build());
 			}
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 
 	private void logDelete(GuildMessageDeleteEvent event) {

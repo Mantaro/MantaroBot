@@ -49,7 +49,7 @@ public class Config {
 	public String shardWebhookUrl;
 	public String apiLoginCreds;
 	public int totalShards = 0;
-	public int upToShard = 1;
+	public int upToShard = 0;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

@@ -97,6 +97,7 @@ public class MantaroShard implements JDA {
 			if (!force) prepareShutdown();
 			jda.shutdown();
 			log.info("Dropped shard #" + shardId);
+			removeListeners();
 		}
 
 		JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
@@ -117,7 +118,15 @@ public class MantaroShard implements JDA {
 
 		jda = jdaBuilder.buildAsync();
 		Thread.sleep(5000);
-		readdListeners();
+		addListeners();
+	}
+
+	public void addListeners(){
+		jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
+	}
+
+	public void removeListeners(){
+		jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
 	}
 
 	public void updateServerCount() {
@@ -201,17 +210,12 @@ public class MantaroShard implements JDA {
 		return jda;
 	}
 
-	public int getTotalShards() {
+	private int getTotalShards() {
 		return totalShards;
 	}
 
 	public void prepareShutdown() {
 		jda.removeEventListener(jda.getRegisteredListeners().toArray());
-	}
-
-	public void readdListeners() {
-		jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
-		jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
 	}
 
 	@Override
