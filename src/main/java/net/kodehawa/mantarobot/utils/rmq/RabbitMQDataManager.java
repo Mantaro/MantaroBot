@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -16,8 +15,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.RABBITMQ_FAILURE;
@@ -137,7 +134,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                 apiChannel.close();
                                 rMQConnection.close();
                                 mainrMQChannel.close();
-                            } catch (Exception e) {}
+                            } catch (Exception ignored) {}
 
                             System.exit(REMOTE_SHUTDOWN);
 

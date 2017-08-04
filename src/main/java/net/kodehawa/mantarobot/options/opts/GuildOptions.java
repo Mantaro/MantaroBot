@@ -141,7 +141,6 @@ public class GuildOptions extends OptionHandler {
 
                     String name = args[0];
                     List<Role> roles = event.getGuild().getRolesByName(name, true);
-                    StringBuilder b = new StringBuilder();
 
                     if (roles.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a role with that name").queue();
@@ -157,7 +156,7 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription(b.toString()).build
+                    event.getChannel().sendMessage(new EmbedBuilder().setTitle("Selection", null).setDescription("").build
                             ()).queue();
 
                     DiscordUtils.selectList(event, roles,

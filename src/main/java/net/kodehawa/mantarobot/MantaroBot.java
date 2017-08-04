@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
-import com.timgroup.statsd.Event;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 import io.sentry.Sentry;
@@ -32,20 +31,17 @@ import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
-import net.kodehawa.mantarobot.utils.rmq.NodeAction;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.MantaroAPI;
 import net.kodehawa.mantarobot.web.MantaroAPISender;
 import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
-import org.json.JSONObject;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -99,7 +95,7 @@ public class MantaroBot extends ShardedJDA {
 
 	public static int cwport;
 	@Getter
-	private ShardedMantaro shardedMantaro;
+	private final ShardedMantaro shardedMantaro;
 	@Getter
 	public static LoadState loadState = PRELOAD;
 	private static boolean DEBUG = false;
@@ -108,13 +104,13 @@ public class MantaroBot extends ShardedJDA {
 	@Getter
 	private static TempBanManager tempBanManager;
 	@Getter
-	private MantaroAPI mantaroAPI = new MantaroAPI();
+	private final MantaroAPI mantaroAPI = new MantaroAPI();
 	@Getter
-	private RabbitMQDataManager rabbitMQDataManager;
+	private final RabbitMQDataManager rabbitMQDataManager;
 	@Getter
 	private static ConnectionWatcherDataManager connectionWatcher;
 	@Getter
-	private MantaroAudioManager audioManager;
+	private final MantaroAudioManager audioManager;
 	@Getter
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	@Getter
@@ -322,6 +318,6 @@ public class MantaroBot extends ShardedJDA {
 
 			Response response = okHttpClient.newCall(request).execute();
 			response.close();
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 }

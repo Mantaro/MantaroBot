@@ -14,7 +14,7 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 public class ShardedUser implements User {
 	private final List<User> users;
-	private ShardedJDA jda;
+	private final ShardedJDA jda;
 
 	public ShardedUser(List<User> users, ShardedJDA jda) {
 		this.users = new ArrayList<>(users);

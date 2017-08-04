@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Rule34 {
-	private static HashMap<String, Object> queryParams = new HashMap<>();
+	private static final HashMap<String, Object> queryParams = new HashMap<>();
 
 	public static void get(int limit, HentaiProvider provider) {
 		get(limit, null, provider);

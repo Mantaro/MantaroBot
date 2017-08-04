@@ -49,8 +49,8 @@ public class ShardMonitorEvent extends Event {
 	public static final int
 		MANTARO_LISTENER = 0,
 		COMMAND_LISTENER = 1;
-	private Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
-	private Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
+	private final Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
+	private final Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
 
 	public ShardMonitorEvent(int shards) {
 		super(null, 0);

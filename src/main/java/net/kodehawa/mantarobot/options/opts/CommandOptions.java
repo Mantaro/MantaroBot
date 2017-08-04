@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.options.opts;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;

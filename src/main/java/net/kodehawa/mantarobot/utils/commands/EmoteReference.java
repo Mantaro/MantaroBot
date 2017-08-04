@@ -65,8 +65,8 @@ public enum EmoteReference {
 	STAR(":star:", "\u2b50");
 
 
-	String discordNotation;
-	String unicode;
+	final String discordNotation;
+	final String unicode;
 
 	EmoteReference(String discordNotation, String unicode) {
 		this.discordNotation = discordNotation;

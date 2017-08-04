@@ -18,9 +18,9 @@ import java.util.Random;
 
 public class GuessTheNumber extends Game<Object> {
 
-    private Random r = new Random();
+    private final Random r = new Random();
     private int number = 0; //set to random number on game start
-    private int maxAttempts = 5;
+    private final int maxAttempts = 5;
     private int attempts = 1;
 
     @Override

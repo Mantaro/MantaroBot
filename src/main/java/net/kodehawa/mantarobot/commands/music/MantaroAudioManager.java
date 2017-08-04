@@ -21,7 +21,7 @@ public class MantaroAudioManager {
     @Getter
     private final Map<String, GuildMusicManager> musicManagers;
     @Getter
-    private AudioPlayerManager playerManager;
+    private final AudioPlayerManager playerManager;
 
     public MantaroAudioManager() {
         this.musicManagers = new HashMap<>();

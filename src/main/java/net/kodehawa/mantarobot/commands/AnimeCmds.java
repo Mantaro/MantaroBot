@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @Module
 public class AnimeCmds {
 	public static String authToken;
-	private static OkHttpClient client = new OkHttpClient();
+	private final static OkHttpClient client = new OkHttpClient();
 
 	@Subscribe
 	public void anime(CommandRegistry cr) {

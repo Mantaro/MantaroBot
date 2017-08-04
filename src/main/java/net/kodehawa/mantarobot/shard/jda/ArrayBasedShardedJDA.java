@@ -5,7 +5,6 @@ import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
 import java.util.Iterator;
-import java.util.List;
 
 public class ArrayBasedShardedJDA extends ShardedJDA {
 	private final JDA[] shards;

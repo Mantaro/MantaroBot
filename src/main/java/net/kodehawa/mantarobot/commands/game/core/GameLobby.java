@@ -17,9 +17,9 @@ import java.util.Map;
 
 public class GameLobby extends Lobby {
 
-	public static Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
+	public static final Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
 	@Getter
-	private static Map<String, Game> textRepresentation = new HashMap<>();
+	private static final Map<String, Game> textRepresentation = new HashMap<>();
 
 	static {
 		textRepresentation.clear();
@@ -65,6 +65,7 @@ public class GameLobby extends Lobby {
 		try {
 			if (gamesToPlay.getFirst().onStart(this)) {
 				gamesToPlay.getFirst().call(this, players);
+				return true;
 			} else {
 				gamesToPlay.clear();
 				LOBBYS.remove(getChannel());

@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 @Module
 public class FunCmds {
 
-	private Random r = new Random();
+	private final Random r = new Random();
 
 	@Subscribe
 	public void coinflip(CommandRegistry cr) {

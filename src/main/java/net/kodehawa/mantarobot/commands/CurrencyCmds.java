@@ -35,7 +35,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Module
 public class CurrencyCmds {
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
@@ -73,7 +73,7 @@ public class CurrencyCmds {
     @Subscribe
     public void market(CommandRegistry cr) {
         cr.register("market", new SimpleCommand(Category.CURRENCY) {
-            RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -410,7 +410,7 @@ public class CurrencyCmds {
     @Subscribe
     public void rep(CommandRegistry cr) {
         cr.register("rep", new SimpleCommand(Category.CURRENCY) {
-            RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 12);
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
@@ -553,10 +553,9 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Transfer Items command")
                         .setDescription("**Transfers items from you to another player.**")
-                        .addField("Usage", "`~>itemtransfer <@user> <item emoji> <amount (optional)>` - **Transfers the item to player x**",
-                                false)
+                        .addField("Usage", "`~>itemtransfer <@user> <item emoji or part of the name> <amount (optional)>` - **Transfers the item to player x**", false)
                         .addField("Parameters", "`@user` - user to send the item to\n" +
-                                "`item emoji` - write out the emoji of the item you want to send\n" +
+                                "`item emoji` - write out the emoji of the item you want to send, or you can just use part of its name.\n" +
                                 "`amount` - optional, send a specific amount of an item to someone.", false)
                         .addField("Important", "You cannot send more items than what you already have", false)
                         .build();
@@ -660,7 +659,7 @@ public class CurrencyCmds {
     public void lootcrate(CommandRegistry registry) {
         registry.register("opencrate", new SimpleCommand(Category.CURRENCY) {
 
-            RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 1);
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class Konachan {
 	private final Resty resty = new Resty().identifyAsMozilla();
-	private HashMap<String, Object> queryParams;
+	private final HashMap<String, Object> queryParams;
 	private boolean safeForWork = false;
 
 	public Konachan(boolean safeForWork) {

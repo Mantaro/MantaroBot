@@ -16,7 +16,7 @@ public class MantaroAPI {
 
     public APIStatus STATUS = APIStatus.ON_HALT;
 
-    private OkHttpClient httpClient = new OkHttpClient();
+    private final OkHttpClient httpClient = new OkHttpClient();
 
     //The token we will use to interface with the API
     public static String sessionToken;
@@ -26,7 +26,7 @@ public class MantaroAPI {
     //being home when this happens is around zero.
     //Note: The number of random version 4 UUIDs *which need to be generated* in order to have a 50% probability of at least one collision is 2.71 quintillion
     //This ID is compared when doing node requests!
-    public UUID nodeUniqueIdentifier = UUID.randomUUID();
+    public final UUID nodeUniqueIdentifier = UUID.randomUUID();
 
     public void startService() {
         Runnable checker = () -> {

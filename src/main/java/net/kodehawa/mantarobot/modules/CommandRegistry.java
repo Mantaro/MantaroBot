@@ -8,16 +8,13 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CommandRegistry {
 

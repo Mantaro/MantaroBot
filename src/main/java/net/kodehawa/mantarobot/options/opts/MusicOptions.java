@@ -91,7 +91,6 @@ public class MusicOptions extends OptionHandler {
                             if (voiceChannels.size() == 0) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find a voice channel matching that" +
                                         " name or id").queue();
-                                return;
                             } else if (voiceChannels.size() == 1) {
                                 channel = voiceChannels.get(0);
                                 guildData.setMusicChannel(channel.getId());
@@ -143,7 +142,6 @@ public class MusicOptions extends OptionHandler {
                         dbGuild.save();
                         event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "The queue limit on this server is now " +
                                 "**%d** songs.", applySize)).queue();
-                        return;
                     } catch (NumberFormatException ex) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You're trying to set too high of a number (which won't" +
                                 " be applied anyway), silly").queue();

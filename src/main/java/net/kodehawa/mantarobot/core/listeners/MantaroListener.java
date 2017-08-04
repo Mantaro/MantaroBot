@@ -303,7 +303,7 @@ public class MantaroListener implements EventListener {
 	private void onException(ExceptionEvent event) {
 		if (!event.isLogged()) {
 			SentryHelper.captureException("Exception captured in un-logged trace", event.getCause(), this.getClass());
-		};
+		}
 	} //endregion
 
 	private void onJoin(GuildJoinEvent event) {
@@ -497,7 +497,7 @@ public class MantaroListener implements EventListener {
 
 				tc.sendMessage(joinMessage).queue();
 			}
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 
 	private void onUserLeave(GuildMemberLeaveEvent event) {
@@ -550,7 +550,7 @@ public class MantaroListener implements EventListener {
 				tc.sendMessage(leaveMessage).queue();
 			}
 
-		} catch (Exception e) {}
+		} catch (Exception ignored) {}
 	}
 
 	private void resetBirthdays(Guild guild) {

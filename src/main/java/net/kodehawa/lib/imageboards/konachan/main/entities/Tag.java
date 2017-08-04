@@ -2,11 +2,11 @@ package net.kodehawa.lib.imageboards.konachan.main.entities;
 
 public class Tag {
 
-	private boolean ambiguos;
-	private int count;
-	private int id;
-	private String name;
-	private int type;
+	private final boolean ambiguos;
+	private final int count;
+	private final int id;
+	private final String name;
+	private final int type;
 
 	public Tag(int id, String name, int count, int type, boolean ambiguos) {
 		this.id = id;

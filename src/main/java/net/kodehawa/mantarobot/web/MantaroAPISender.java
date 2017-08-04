@@ -33,7 +33,7 @@ import static net.kodehawa.mantarobot.web.MantaroAPI.sessionToken;
 @Slf4j
 public class MantaroAPISender {
 
-    private static OkHttpClient httpClient = new OkHttpClient();
+    private static final OkHttpClient httpClient = new OkHttpClient();
 
     public static void startService() {
         Runnable postStats = () -> {

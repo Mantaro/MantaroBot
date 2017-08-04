@@ -21,11 +21,11 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 public class ShardedMantaro {
 
     @Getter
-    private List<MantaroEventManager> managers = new ArrayList<>();
+    private final List<MantaroEventManager> managers = new ArrayList<>();
     @Getter
-    private MantaroShard[] shards;
+    private final MantaroShard[] shards;
     @Getter
-    private int totalShards;
+    private final int totalShards;
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token) {
         if(auto) totalShards = getRecommendedShards(token);

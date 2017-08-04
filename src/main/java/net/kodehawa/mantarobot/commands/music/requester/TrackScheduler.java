@@ -32,13 +32,13 @@ public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer audioPlayer;
     @Getter
     private final BlockingQueue<AudioTrack> queue;
-    private String guildId;
+    private final String guildId;
     @Getter @Setter
     private Repeat repeatMode;
     @Getter
-    private List<String> voteSkips;
+    private final List<String> voteSkips;
     @Getter
-    private List<String> voteStop;
+    private final List<String> voteStop;
     @Setter
     private long requestedChannel;
     @Getter

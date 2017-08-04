@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 
 public class Lobby {
 	@Getter
-	private TextChannel channel;
+	private final TextChannel channel;
 
 	public Lobby(TextChannel channel) {
 		this.channel = channel;

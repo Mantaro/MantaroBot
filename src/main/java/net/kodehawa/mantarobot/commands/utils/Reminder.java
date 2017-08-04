@@ -18,13 +18,13 @@ import java.util.function.Consumer;
 
 public class Reminder {
 
-    private static ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-    public static Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
+    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+    public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
     private Future<?> scheduledReminder;
-    private String userId;
-    private String reminder;
-    private long time;
-    private long current;
+    private final String userId;
+    private final String reminder;
+    private final long time;
+    private final long current;
 
     private Reminder(String userId, String reminder, long current, long time) {
         this.userId = userId;

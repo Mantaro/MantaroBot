@@ -12,11 +12,8 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -133,10 +130,8 @@ public class MiscCmds {
 					return;
 				}
 				try {
-					event.getGuild().getController().addRolesToMember(event.getMember(), role).queue(aVoid -> {
-						event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've been " +
-							"given the **" + role.getName() + "** role").queue();
-					});
+					event.getGuild().getController().addRolesToMember(event.getMember(), role).queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've been " +
+                        "given the **" + role.getName() + "** role").queue());
 				} catch (PermissionException pex) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't take from you **" + role.getName() + ". Make " +
 						"sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
@@ -199,10 +194,8 @@ public class MiscCmds {
 					return;
 				}
 				try {
-					event.getGuild().getController().removeRolesFromMember(event.getMember(), role).queue(aVoid -> {
-						event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've " +
-							"lost the **" + role.getName() + "** role").queue();
-					});
+					event.getGuild().getController().removeRolesFromMember(event.getMember(), role).queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've " +
+                        "lost the **" + role.getName() + "** role").queue());
 				} catch (PermissionException pex) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +
 						"sure that I have permission to add roles and that my role is above **" + role.getName() + "**")

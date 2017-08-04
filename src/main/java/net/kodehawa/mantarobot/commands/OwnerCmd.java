@@ -36,7 +36,6 @@ import javax.script.ScriptEngineManager;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +49,7 @@ import static net.kodehawa.mantarobot.web.MantaroAPI.sessionToken;
 @Module
 public class OwnerCmd {
 
-	OkHttpClient client = new OkHttpClient();
+	final OkHttpClient client = new OkHttpClient();
 
 	private interface Evaluator {
 		Object eval(GuildMessageReceivedEvent event, String code);
@@ -224,43 +223,47 @@ public class OwnerCmd {
 					}
 
 					String sub = args[1].split("\\s+")[0];
-					if (sub.equals("info")) {
-						event.getChannel().sendMessage(new EmbedBuilder()
-							.setAuthor("Connection Watcher info", null, null)
-							.setDescription(MantaroData.connectionWatcher().get().toString())
-							.setColor(event.getGuild().getSelfMember().getColor())
-							.setFooter("Asked by: " + event.getAuthor().getName(), null)
-							.build()).queue();
-					} else if (sub.equals("eval")) {
-						String[] parts = event.getMessage().getRawContent().split(" ");
-						if (parts.length < 4) {
+					switch (sub) {
+						case "info":
+							event.getChannel().sendMessage(new EmbedBuilder()
+									.setAuthor("Connection Watcher info", null, null)
+									.setDescription(MantaroData.connectionWatcher().get().toString())
+									.setColor(event.getGuild().getSelfMember().getColor())
+									.setFooter("Asked by: " + event.getAuthor().getName(), null)
+									.build()).queue();
+							break;
+						case "eval":
+							String[] parts = event.getMessage().getRawContent().split(" ");
+							if (parts.length < 4) {
+								onHelp(event);
+								return;
+							}
+							Object[] returns;
+							boolean errored = false;
+							try {
+								returns = MantaroData.connectionWatcher().eval(
+										String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
+							} catch (RuntimeException e) {
+								errored = true;
+								returns = new Object[]{e.getMessage()};
+							}
+							String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(
+									returns[0]) : Arrays.asList(returns).toString();
+							event.getChannel().sendMessage(new EmbedBuilder()
+									.setAuthor(
+											"Evaluated " + (errored ? "and errored" : "with success"), null,
+											event.getAuthor().getAvatarUrl()
+									)
+									.setColor(errored ? Color.RED : Color.GREEN)
+									.setDescription(
+											result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
+									.setFooter("Asked by: " + event.getAuthor().getName(), null)
+									.build()
+							).queue();
+							break;
+						default:
 							onHelp(event);
-							return;
-						}
-						Object[] returns;
-						boolean errored = false;
-						try {
-							returns = MantaroData.connectionWatcher().eval(
-								String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
-						} catch (RuntimeException e) {
-							errored = true;
-							returns = new Object[]{e.getMessage()};
-						}
-						String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(
-							returns[0]) : Arrays.asList(returns).toString();
-						event.getChannel().sendMessage(new EmbedBuilder()
-							.setAuthor(
-								"Evaluated " + (errored ? "and errored" : "with success"), null,
-								event.getAuthor().getAvatarUrl()
-							)
-							.setColor(errored ? Color.RED : Color.GREEN)
-							.setDescription(
-								result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
-							.setFooter("Asked by: " + event.getAuthor().getName(), null)
-							.build()
-						).queue();
-					} else {
-						onHelp(event);
+							break;
 					}
 
 					return;

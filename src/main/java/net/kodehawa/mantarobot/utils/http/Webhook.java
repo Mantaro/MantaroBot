@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @since 04/07/2017
  */
 public class Webhook {
-    private String API_ENDPOINT;
+    private final String API_ENDPOINT;
     public static final Requester REQUESTER = new Requester();
     private String avatarUrl;
     private String username;

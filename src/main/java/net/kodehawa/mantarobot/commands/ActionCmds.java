@@ -2,7 +2,6 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
@@ -18,7 +17,6 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.awt.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Module
 public class ActionCmds {

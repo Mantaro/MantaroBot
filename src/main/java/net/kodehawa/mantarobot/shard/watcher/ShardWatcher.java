@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class ShardWatcher implements Runnable {
 
     private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
-    private ShardedMantaro shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
+    private final ShardedMantaro shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
 
     @Override
     public void run() {

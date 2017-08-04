@@ -1,14 +1,11 @@
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,7 +37,7 @@ import java.util.concurrent.TimeUnit;
 @Module
 public class MuteCmds {
 
-    private ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
+    private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -273,7 +270,6 @@ public class MuteCmds {
                         dbg.getData().setCases(dbg.getData().getCases() + 1 );
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
-                        return;
                     } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "This user doesn't have the mute role assigned to them.").queue();
                     }

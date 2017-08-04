@@ -9,8 +9,9 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 @Slf4j
 public class Carbonitex implements Runnable {
     private final String carbonToken = config().get().carbonToken;
-    private int shardId, totalShards;
-    private JDA jda;
+    private final int shardId;
+    private final int totalShards;
+    private final JDA jda;
     private final OkHttpClient httpClient = new OkHttpClient();
 
     public Carbonitex(JDA jda, int shardId, int totalShards) {

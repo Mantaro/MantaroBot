@@ -28,10 +28,10 @@ import java.util.concurrent.TimeUnit;
 public class AudioLoader implements AudioLoadResultHandler {
     public static final int MAX_QUEUE_LENGTH = 350;
     public static final long MAX_SONG_LENGTH = 1800000; //30 minutes
-    private GuildMessageReceivedEvent event;
-    private GuildMusicManager musicManager;
-    private boolean skipSelection;
-    private String trackUrl;
+    private final GuildMessageReceivedEvent event;
+    private final GuildMusicManager musicManager;
+    private final boolean skipSelection;
+    private final String trackUrl;
 
     public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
         this.musicManager = musicManager;

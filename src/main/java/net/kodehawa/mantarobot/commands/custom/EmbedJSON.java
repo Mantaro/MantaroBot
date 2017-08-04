@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.awt.*;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class EmbedJSON {
 	public String author, authorImg, authorUrl;
 	public String color;
 	public String description;
-	public List<EmbedField> fields = new ArrayList<>();
+	public final List<EmbedField> fields = new ArrayList<>();
 	public String footer, footerImg;
 	public String image;
 	public String thumbnail;

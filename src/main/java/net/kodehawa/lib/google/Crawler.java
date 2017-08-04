@@ -15,8 +15,8 @@ import java.util.List;
 public class Crawler {
 
 	public static class SearchResult {
-		public String title;
-		public String url;
+		public final String title;
+		public final String url;
 
 		SearchResult(String url, String title) {
 			this.url = url;

@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class Utils {
-	public static ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+	public static final ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	public static final OkHttpClient httpClient = new OkHttpClient();
 	private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
 
@@ -223,11 +223,10 @@ public class Utils {
 			HashMap<String, Object> fieldMap = new HashMap<>();
 			Field[] valueObjFields = c1.getDeclaredFields();
 
-			for (int i = 0; i < valueObjFields.length; i++)
-			{
-				String fieldName = valueObjFields[i].getName();
-				valueObjFields[i].setAccessible(true);
-				Object newObj = valueObjFields[i].get(valueObj);
+			for (Field valueObjField : valueObjFields) {
+				String fieldName = valueObjField.getName();
+				valueObjField.setAccessible(true);
+				Object newObj = valueObjField.get(valueObj);
 
 				fieldMap.put(fieldName, newObj);
 			}

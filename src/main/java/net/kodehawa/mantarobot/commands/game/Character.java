@@ -27,11 +27,11 @@ import java.util.List;
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
 	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
-	private String authToken = AnimeCmds.authToken;
+	private final String authToken = AnimeCmds.authToken;
 	private String characterName;
 	private List<String> characterNameL;
 	@Getter
-	private int maxAttempts = 10;
+	private final int maxAttempts = 10;
 
 	public Character() {
 		super(10);

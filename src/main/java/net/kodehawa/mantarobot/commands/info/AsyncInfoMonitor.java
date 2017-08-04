@@ -11,7 +11,7 @@ public class AsyncInfoMonitor {
 	private static int availableProcessors = Runtime.getRuntime().availableProcessors();
 	private static double cpuUsage = 0;
 	private static double freeMemory = 0;
-	private static double gb = 1024 * 1024 * 1024;
+	private static final double gb = 1024 * 1024 * 1024;
 	private static double lastProcessCpuTime = 0;
 	private static long lastSystemTime = 0;
 	private static double maxMemory = 0;

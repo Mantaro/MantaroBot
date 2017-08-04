@@ -17,7 +17,7 @@ public class MantaroData {
 	private static Connection conn;
 	private static ConnectionWatcherDataManager connectionWatcher;
 	private static ManagedDatabase db;
-	private static ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+	private static final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
 
 	public static GsonDataManager<Config> config() {
 		if (config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);

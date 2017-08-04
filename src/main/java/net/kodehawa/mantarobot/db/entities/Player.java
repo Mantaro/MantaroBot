@@ -40,7 +40,7 @@ public class  Player implements ManagedObject {
 	private final PlayerData data;
 	@Getter
 	private final String id;
-	private transient Inventory inventory = new Inventory();
+	private final transient Inventory inventory = new Inventory();
 	@Getter
 	private Long level = null;
 	@Getter

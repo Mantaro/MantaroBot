@@ -33,7 +33,7 @@ import java.util.concurrent.*;
 
 public class OsuStatsCmd {
 	private final ExecutorService pool = Executors.newCachedThreadPool();
-	private Map<String, Object> map = new HashMap<>();
+	private final Map<String, Object> map = new HashMap<>();
 	private String mods1 = "";
 	private static OsuClient osuClient = null;
 

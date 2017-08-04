@@ -96,10 +96,9 @@ public class QuoteCmd {
 				if (action.equals("readfrom")) {
 					try {
 						List<Quote> quotes = db.getQuotes(guild);
-						for (int i2 = 0; i2 < quotes.size(); i2++) {
-							if (quotes.get(i2).getContent().contains(phrase)) {
-								Quote quote = quotes.get(i2);
-								event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote)).queue();
+						for (Quote quote1 : quotes) {
+							if (quote1.getContent().contains(phrase)) {
+								event.getChannel().sendMessage(buildQuoteEmbed(dateFormat, builder, quote1)).queue();
 								break;
 							}
 						}

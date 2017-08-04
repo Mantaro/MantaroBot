@@ -10,8 +10,8 @@ import java.awt.Color;
 import java.util.Date;
 
 public class LogUtils {
-    private static Webhook SHARD_WEBHOOK;
-    private static Webhook LOGBACK_WEBHOOK;
+    private static final Webhook SHARD_WEBHOOK;
+    private static final Webhook LOGBACK_WEBHOOK;
     private final static String ICON_URL = "https://totally-not.a-sketchy.site/985414.png";
 
     static {

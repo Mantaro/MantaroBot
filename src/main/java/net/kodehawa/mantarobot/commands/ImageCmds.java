@@ -48,15 +48,15 @@ public class ImageCmds {
 	private final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
 	private static final String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
 		"Am I cute yet?", "%mention%, I think you should have a cat."};
-	private String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
-	private e621 e621 = new e621();
-	private Konachan konachan = new Konachan(true);
-	private BidiMap<String, String> nRating = new DualHashBidiMap<>();
+	private final String YANDERE_BASE = "https://yande.re/post.json?limit=60&";
+	private final e621 e621 = new e621();
+	private final Konachan konachan = new Konachan(true);
+	private final BidiMap<String, String> nRating = new DualHashBidiMap<>();
 	private boolean needRating = false;
 	private int number = 0;
 	private int number1;
 	private int page = 0;
-	private Random r = new Random();
+	private final Random r = new Random();
 	private String rating = "";
 	private boolean smallRequest = false;
 	private String tagsEncoded = "";
@@ -65,7 +65,7 @@ public class ImageCmds {
 	@Subscribe
 	public void cat(CommandRegistry cr) {
 		cr.register("cat", new SimpleCommand(Category.IMAGE) {
-			OkHttpClient httpClient = new OkHttpClient();
+			final OkHttpClient httpClient = new OkHttpClient();
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				try {

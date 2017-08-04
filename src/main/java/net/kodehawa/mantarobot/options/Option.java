@@ -12,9 +12,9 @@ import java.util.function.Consumer;
 
 public class Option {
 
-    @Getter private static Map<String, Option> optionMap = new HashMap<>();
+    @Getter private static final Map<String, Option> optionMap = new HashMap<>();
     //Display names + desc in the avaliable options list.
-    @Getter private static List<String> avaliableOptions = new ArrayList<>();
+    @Getter private static final List<String> avaliableOptions = new ArrayList<>();
     @Getter private final String optionName;
     @Getter private final String description;
     @Getter private static String shortDescription = "Not set.";

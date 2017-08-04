@@ -1,7 +1,6 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import lombok.Data;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import org.apache.commons.lang3.tuple.Pair;
 

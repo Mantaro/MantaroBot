@@ -39,7 +39,7 @@ import static com.rethinkdb.RethinkDB.r;
 @Module
 public class MoneyCmds {
 
-    private Random random = new Random();
+    private final Random random = new Random();
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -353,7 +353,7 @@ public class MoneyCmds {
     @Subscribe
     public void richest(CommandRegistry cr) {
         cr.register("leaderboard", new SimpleCommand(Category.CURRENCY) {
-            RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {

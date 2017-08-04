@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class TextChannelGround {
     private static final Map<String, List<ItemStack>> DROPPED_ITEMS = new HashMap<>();
     private static final Map<String, AtomicInteger> DROPPED_MONEY = new HashMap<>();
-    private static Random r = new Random(System.currentTimeMillis());
+    private static final Random r = new Random(System.currentTimeMillis());
 
     public static TextChannelGround of(String id) {
         return new TextChannelGround(

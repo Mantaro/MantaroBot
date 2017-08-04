@@ -28,11 +28,11 @@ import java.util.stream.Stream;
 
 public class Poll extends Lobby {
 
-    private static Map<String, Poll> runningPolls = new HashMap<>();
+    private static final Map<String, Poll> runningPolls = new HashMap<>();
 
-    private String[] options;
-    private GuildMessageReceivedEvent event;
-    private long timeout;
+    private final String[] options;
+    private final GuildMessageReceivedEvent event;
+    private final long timeout;
     private boolean isCompilant = true;
     private String name = "";
     private Future<Void> runningPoll;

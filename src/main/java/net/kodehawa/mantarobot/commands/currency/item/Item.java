@@ -8,10 +8,12 @@ public class Item {
 	private final boolean staticPrice;
 	protected final long value;
 	private final String emoji, name, desc;
-	private long price, maxSize;
-	private boolean sellable, buyable;
+	private long price;
+    private final long maxSize;
+	private final boolean sellable;
+	private final boolean buyable;
 	@Getter
-	private boolean hidden;
+	private final boolean hidden;
 
 	@Override
 	public String toString() {
