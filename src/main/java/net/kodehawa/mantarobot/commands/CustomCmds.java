@@ -92,7 +92,7 @@ public class CustomCmds {
 						embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
 					} catch (Exception ignored) {
 						event.getChannel().sendMessage(
-							EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+								EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
 						return;
 					}
 
@@ -103,11 +103,11 @@ public class CustomCmds {
 				if (m.equals("img") || m.equals("image") || m.equals("imgembed")) {
 					if (!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
 						event.getChannel().sendMessage(
-							EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
+								EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
 						return;
 					}
-					event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setTitle(cmdName, null)
-						.setColor(event.getMember().getColor()).build()).queue();
+					event.getChannel().sendMessage(new EmbedBuilder().setImage(v)
+							.setColor(event.getMember().getColor()).build()).queue();
 					return;
 				}
 
@@ -184,7 +184,7 @@ public class CustomCmds {
 
 					if (customCommands.isEmpty()) {
 						event.getChannel().sendMessage(
-							EmoteReference.ERROR + "There's no Custom Commands registered in this Guild.").queue();
+							EmoteReference.ERROR + "There's no Custom Commands registered in this Guild, just dust.").queue();
 					}
 					int size = customCommands.size();
 					customCommands.forEach(CustomCommand::deleteAsync);
@@ -286,6 +286,11 @@ public class CustomCmds {
 							.queue();
 					}
 
+					return;
+				}
+
+				if(action.equals("eval")){
+					eval(content.replace("eval ", ""), event);
 					return;
 				}
 
@@ -518,7 +523,8 @@ public class CustomCmds {
 							"`~>custom add <name> <response>` - **Adds the response provided to a custom command.**\n" +
 							"`~>custom make <name>` - **Starts a Interactive Operation to create a command with the specified name.**\n" +
 							"`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
-							"`~>custom import <search>` - **Imports a command from another guild you're in.**",
+							"`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
+							"`~>custom eval <response>` **Tests how a custom command response will look**",
 						false
 					).build();
 			}
@@ -549,5 +555,69 @@ public class CustomCmds {
 
 			customCommands.put(custom.getId(), custom.getValues());
 		});
+	}
+
+	private void eval(String response, GuildMessageReceivedEvent event) {
+		if (response.contains("$(")) {
+			Map<String, String> dynamicMap = new HashMap<>();
+			map("event", dynamicMap, event);
+			response = dynamicResolve(response, dynamicMap);
+		}
+
+		response = ConditionalCustoms.resolve(response, 0);
+
+		int c = response.indexOf(':');
+		if (c != -1) {
+			String m = response.substring(0, c);
+			String v = response.substring(c + 1);
+
+			if (m.equals("play")) {
+				try {
+					new URL(v);
+				} catch (Exception e) {
+					v = "ytsearch: " + v;
+				}
+
+				MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false);
+				return;
+			}
+
+			if (m.equals("embed")) {
+				EmbedJSON embed;
+				try {
+					embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+				} catch (Exception ignored) {
+					event.getChannel().sendMessage(
+							EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+					return;
+				}
+
+				event.getChannel().sendMessage(embed.gen(event)).queue();
+				return;
+			}
+
+			if (m.equals("img") || m.equals("image") || m.equals("imgembed")) {
+				if (!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
+					event.getChannel().sendMessage(
+							EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
+					return;
+				}
+				event.getChannel().sendMessage(new EmbedBuilder().setImage(v)
+						.setColor(event.getMember().getColor()).build()).queue();
+				return;
+			}
+
+			if (m.equals("iam")) {
+				MiscCmds.iamFunction(v, event);
+				return;
+			}
+
+			if (m.equals("iamnot")) {
+				MiscCmds.iamnotFunction(v, event);
+				return;
+			}
+		}
+
+		event.getChannel().sendMessage(response).queue();
 	}
 }
