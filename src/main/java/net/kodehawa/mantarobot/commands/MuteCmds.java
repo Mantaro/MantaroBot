@@ -117,7 +117,7 @@ public class MuteCmds {
                     }
 
                     final DBGuild dbg = db.getGuild(event.getGuild());
-                    event.getGuild().getController().addRolesToMember(m, mutedRole).queue();
+                    event.getGuild().getController().addSingleRoleToMember(m, mutedRole).queue();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +
                             m.getEffectiveName() + (time > 0 ? "** for around " + Utils.getVerboseTime(time - System.currentTimeMillis()) : "**")).queue();
                     dbg.getData().setCases(dbg.getData().getCases() + 1);

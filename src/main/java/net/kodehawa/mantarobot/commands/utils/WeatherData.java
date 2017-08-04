@@ -5,7 +5,7 @@ import java.util.List;
 
 public class WeatherData {
 	public class Clouds {
-		public int all = 0;
+		public int all;
 	}
 
 	public class Main {

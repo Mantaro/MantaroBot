@@ -114,7 +114,7 @@ public class DebugCmds {
 
     @Subscribe
     public void ping(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override

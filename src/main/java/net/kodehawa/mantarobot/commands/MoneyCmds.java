@@ -43,7 +43,7 @@ public class MoneyCmds {
 
     @Subscribe
     public void daily(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.HOURS, 24);
         Random r = new Random();
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
@@ -111,10 +111,10 @@ public class MoneyCmds {
 
     @Subscribe
     public void gamble(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15);
-        SecureRandom r = new SecureRandom();
-
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15, true);
+            SecureRandom r = new SecureRandom();
+
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();
@@ -233,10 +233,10 @@ public class MoneyCmds {
 
     @Subscribe
     public void loot(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5);
-        Random r = new Random();
-
         cr.register("loot", new SimpleCommand(Category.CURRENCY) {
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, true);
+            Random r = new Random();
+
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String id = event.getAuthor().getId();

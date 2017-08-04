@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.commands.currency;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.data.MantaroData;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -28,14 +29,26 @@ public class RateLimiter {
     private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
     private final long max;
     private final long timeout;
+    private boolean isPremiumAware = false;
+
     /**
      * Default constructor normally used in Currency commands to ratelimit all people.
      *
-     * 
      * @param timeout How much time until the ratelimit gets lifted
      */
     public RateLimiter(TimeUnit timeUnit, int timeout) {
         this.max = 1;
+        this.timeout = timeUnit.toMillis(timeout);
+    }
+
+    /**
+     * Default constructor normally used in Currency commands to ratelimit all people.
+     *
+     * @param timeout How much time until the ratelimit gets lifted
+     */
+    public RateLimiter(TimeUnit timeUnit, int timeout, boolean isPremiumAware) {
+        this.max = 1;
+        this.isPremiumAware = isPremiumAware;
         this.timeout = timeUnit.toMillis(timeout);
     }
 
@@ -51,6 +64,7 @@ public class RateLimiter {
 
     //Basically where you get b1nzy'd.
     public boolean process(String key) {
+        boolean isPremium = isPremiumAware && MantaroData.db().getUser(key) != null && MantaroData.db().getUser(key).isPremium();
         Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
         if(p == null) {
             usersRateLimited.put(key, p = new Pair<>());
@@ -65,10 +79,10 @@ public class RateLimiter {
         long now = System.currentTimeMillis();
         Long tryAgain = p.second;
         if(tryAgain == null || tryAgain < now) {
-            p.second = now + timeout;
+            p.second = now + (isPremium ? (long)(timeout * 0.75) : timeout);
         }
 
-        ses.schedule(a::decrementAndGet, timeout, TimeUnit.MILLISECONDS);
+        ses.schedule(a::decrementAndGet, isPremium ? (long)(timeout * 0.75) : timeout, TimeUnit.MILLISECONDS);
         return true;
     }
 
