@@ -375,7 +375,7 @@ public class ImageCmds {
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", "http:" + image.get(number - 1).getFile_url(), null)
-										.setImage("http:" + image.get(number - 1).getFile_url())
+										.setImage("https:" + image.get(number - 1).getFile_url())
 										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
 										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
 										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)

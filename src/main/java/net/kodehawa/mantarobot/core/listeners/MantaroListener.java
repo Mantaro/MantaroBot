@@ -416,7 +416,7 @@ public class MantaroListener implements EventListener {
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 				if (user.getBirthday().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
 					if (!event.getMember().getRoles().contains(birthdayRole)) {
-						event.getGuild().getController().addRolesToMember(event.getMember(), birthdayRole).queue(s ->{
+						event.getGuild().getController().addSingleRoleToMember(event.getMember(), birthdayRole).queue(s ->{
 									channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
 											event.getMember().getEffectiveName())).queue();
 									MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");

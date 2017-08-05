@@ -4,7 +4,9 @@ import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -22,6 +24,7 @@ import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -36,6 +39,9 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneOffset;
 import java.util.*;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -44,6 +50,9 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @Slf4j
 @Module
 public class UtilsCmds {
+
+	private static Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+
 	@Subscribe
 	public void birthday(CommandRegistry registry) {
 		registry.register("birthday", new SimpleCommand(Category.UTILS) {
@@ -274,15 +283,63 @@ public class UtilsCmds {
 					return;
 				}
 
+				if(args[0].equals("list") || args[0].equals("ls")){
+					List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+
+					if(reminders.isEmpty()){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+						return;
+					}
+
+					StringBuilder builder = new StringBuilder();
+					AtomicInteger i = new AtomicInteger();
+					for(Reminder r : reminders){
+						builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
+								.append(Utils.getReadableTime(r.time - System.currentTimeMillis())).append("**").append("\n");
+					}
+
+					Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+					toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
+
+					return;
+				}
+
+
+				if(args[0].equals("cancel")){
+					List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+
+					if(reminders.isEmpty()){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+						return;
+					}
+
+					if(reminders.size() == 1){
+						reminders.get(0).cancel();
+						event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
+					} else {
+						DiscordUtils.selectList(event, reminders,
+								(r) -> String.format("%s, Due in: %s", r.reminder, Utils.getShortReadableTime(r.time - System.currentTimeMillis())),
+								r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
+										.setDescription(r1)
+										.setFooter("This timeouts in 10 seconds.", null).build(),
+								sr -> {
+									sr.cancel();
+									event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
+								});
+					}
+
+					return;
+				}
+
 
 				Map<String, Optional<String>> t = StringUtils.parse(args);
 
 				if(!t.get("time").isPresent()) {
-					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h20m`)").queue();
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h`)").queue();
 					return;
 				}
 
-				String toRemind = content.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");
+				String toRemind = timePattern.matcher(content).replaceAll("");
 				User user = event.getAuthor();
 				long time = Utils.parseTime(t.get("time").get());
 

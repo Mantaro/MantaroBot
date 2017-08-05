@@ -50,6 +50,8 @@ public class Config {
 	public String apiLoginCreds;
 	public int totalShards = 0;
 	public int upToShard = 0;
+	public String dbUser;
+	public String dbPassword;
 
 	public boolean isOwner(Member member) {
 		return isOwner(member.getUser());

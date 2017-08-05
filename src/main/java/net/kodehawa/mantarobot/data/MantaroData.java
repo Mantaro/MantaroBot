@@ -26,7 +26,7 @@ public class MantaroData {
 
 	public static Connection conn() {
 		Config c = config().get();
-		if (conn == null) conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).connect();
+		if (conn == null) conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
 		return conn;
 	}
 

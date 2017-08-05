@@ -33,11 +33,13 @@ import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 @Module
 public class MuteCmds {
 
     private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
+    private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -72,7 +74,7 @@ public class MuteCmds {
                 }
 
                 //Regex from: Fabricio20
-                final String finalReason = reason.replaceAll("-time (\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))", "");
+                final String finalReason = timePattern.matcher(reason).replaceAll("");
 
                 MantaroObj data = db.getMantaroData();
 

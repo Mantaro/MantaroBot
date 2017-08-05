@@ -22,8 +22,8 @@ public class Reminder {
     public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
     private Future<?> scheduledReminder;
     private final String userId;
-    private final String reminder;
-    private final long time;
+    public final String reminder;
+    public final long time;
     private final long current;
 
     private Reminder(String userId, String reminder, long current, long time) {
@@ -42,8 +42,6 @@ public class Reminder {
             list.add(this);
             return list;
         });
-
-        System.out.println("Scheduled");
 
         scheduledReminder = service.schedule(() -> {
             User user = MantaroBot.getInstance().getUserById(userId);
@@ -110,8 +108,8 @@ public class Reminder {
 
 
         public Reminder build() {
-            Assert.assertNotNull(userId);
-            Assert.assertNotNull(reminder);
+            if(userId == null) throw new IllegalArgumentException("User ID cannot be null");
+            if(reminder == null) throw new IllegalArgumentException("Reminder cannot be null");
             if(time <= 0) throw new IllegalArgumentException("Time to remind must be positive and >0");
             if(current <= 0) throw new IllegalArgumentException("Current time must be positive and >0");
             return new Reminder(userId, reminder, current, time);

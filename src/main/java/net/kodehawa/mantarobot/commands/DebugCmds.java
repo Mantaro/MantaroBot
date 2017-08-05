@@ -1,8 +1,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.rethinkdb.RethinkDB;
-import com.rethinkdb.net.Cursor;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
@@ -17,18 +15,13 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -49,27 +42,6 @@ public class DebugCmds {
                 int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
                         voiceChannel.getGuild().getSelfMember())).count();
 
-                Cursor<HashMap> o =
-                        RethinkDB.r.db("rethinkdb")
-                                .table("server_status")
-                                .run(MantaroData.conn());
-
-                String cacheSizeMB;
-                String rethonkVersion;
-                String hostName;
-                String timeConnected;
-
-                HashMap save = o.next();
-
-                HashMap process = (HashMap) save.get("process");
-                HashMap network = (HashMap) save.get("network");
-                o.close();
-                rethonkVersion = process.get("version").toString();
-                cacheSizeMB = process.get("cache_size_mb").toString();
-                timeConnected = process.get("time_started").toString();
-
-                hostName = network.get("hostname").toString();
-
                 sendStatsMessageAndThen(event, "```prolog\n"
                         + " --------- Technical Information --------- \n\n"
                         + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
@@ -85,22 +57,15 @@ public class DebugCmds {
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
                         + "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1) + ")" + "\n"
+                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild()
+                                .getId()).getId() + 1) + ")" + "\n"
                         + "Threads: " + Thread.activeCount() + "\n"
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
                         + "Music Connections: " + c + "\n"
-                        + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize() + "\n"
-                        + "\n --------- RethinkDB Information --------- \n\n"
-                        + "RethinkDB Version: " + rethonkVersion + "\n"
-                        + "Time Connected: " + DurationFormatUtils.formatDuration(
-                        Duration.between(Instant.parse(timeConnected), Instant.now()).toMillis(),
-                        "HH:mm:ss", true) + "\n"
-                        + "Cache Size: " + String.format("%.02f", Float.parseFloat(cacheSizeMB)) + "MB" + "\n"
-                        + "Hostname: " + hostName
+                        + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
                         + "```");
-
             }
 
             @Override

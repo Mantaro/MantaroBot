@@ -42,7 +42,7 @@ import static org.apache.commons.lang3.StringUtils.replaceEach;
 public class MusicCmds {
 	@Subscribe
 	public void forceskip(CommandRegistry cr) {
-		cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
+			cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()

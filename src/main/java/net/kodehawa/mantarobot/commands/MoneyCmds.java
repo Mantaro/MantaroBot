@@ -366,10 +366,10 @@ public class MoneyCmds {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 List<String> memberIds = null;
                 boolean local = false;
-                if(opts.containsKey("local")){
+                /*if(opts.containsKey("local")){
                      memberIds = event.getGuild().getMembers().stream().map(m -> m.getUser().getId() + ":g").collect(Collectors.toList());
                      local = true;
-                }
+                }*/
 
 
 
@@ -530,6 +530,7 @@ public class MoneyCmds {
                 if(coinSelect){
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
                         player.getInventory().process(new ItemStack(Items.SLOT_COIN, -1));
+                        player.saveAsync();
                         slotsChance = slotsChance + 10;
                     } else {
                         event.getChannel().sendMessage(EmoteReference.SAD + "You wanted to use tickets but you don't have any :<").queue();
