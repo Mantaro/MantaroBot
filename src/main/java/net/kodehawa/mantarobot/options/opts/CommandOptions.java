@@ -249,7 +249,8 @@ public class CommandOptions extends OptionHandler{
         //region category
         registerOption("category:disable", "Disable categories",
                 "Disables a specified category.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories",
+                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
+                        "You need the category name, for example ` ~>opts category disable Action`",
                 "Disables a specified category", (event, args) -> {
                     if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
@@ -284,7 +285,8 @@ public class CommandOptions extends OptionHandler{
 
         registerOption("category:enable", "Enable categories",
                 "Enables a specified category.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories",
+                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
+                        "You need the category name, for example ` ~>opts category enable Action`",
                 "Enables a specified category", (event, args) -> {
                     if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable.").queue();
@@ -309,7 +311,8 @@ public class CommandOptions extends OptionHandler{
         //region specific
         registerOption("category:specific:disable", "Disable categories on a specific channel",
                 "Disables a specified category on a specific channel.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories",
+                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
+                        "You need the category name and the channel name, for example ` ~>opts category specific disable Action general`",
                 "Disables a specified category", (event, args) -> {
                     if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();
@@ -358,7 +361,8 @@ public class CommandOptions extends OptionHandler{
 
         registerOption("category:specific:enable", "Enable categories on a specific channel",
                 "Enables a specified category on a specific channel.\n" +
-                        "If a non-valid category it's specified, it will display a list of valid categories",
+                        "If a non-valid category it's specified, it will display a list of valid categories\n" +
+                        "You need the category name and the channel name, for example ` ~>opts category specific enable Action general`",
                 "Enables a specified category", (event, args) -> {
                     if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a category to disable and the channel where.").queue();

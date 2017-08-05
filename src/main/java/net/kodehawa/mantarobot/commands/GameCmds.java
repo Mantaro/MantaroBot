@@ -46,7 +46,7 @@ public class GameCmds {
 					return;
 				}
 
-				if (args[0].equalsIgnoreCase("number")) {
+				if (args[0].equalsIgnoreCase("number") || args[0].equalsIgnoreCase("guessthenumber")) {
 					startGame(new GuessTheNumber(), event);
 					return;
 				}

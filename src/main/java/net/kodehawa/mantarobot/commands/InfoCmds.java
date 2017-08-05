@@ -235,7 +235,7 @@ public class InfoCmds {
 						.setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix)  +
 								(guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
 							 	(guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
-								"" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
+								"" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
 								CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
 							, prefix), null);
