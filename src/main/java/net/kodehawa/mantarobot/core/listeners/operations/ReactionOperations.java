@@ -21,12 +21,13 @@ public final class ReactionOperations {
     private static final EventListener LISTENER = new ReactionListener();
 
     private static final ExpiringMap<Long, RunningOperation> OPERATIONS = ExpiringMap.<Long, RunningOperation>builder()
-            .asyncExpirationListener((key, value) -> ((RunningOperation)value).operation.onExpire())
+            .asyncExpirationListener((key, value) -> ((RunningOperation) value).operation.onExpire())
             .variableExpiration()
             .build();
 
     public static Future<Void> get(Message message) {
-        if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
+        if(!message.getAuthor().equals(message.getJDA().getSelfUser()))
+            throw new IllegalArgumentException("Must provide a message sent by the bot");
         return get(message.getIdLong());
     }
 
@@ -36,13 +37,15 @@ public final class ReactionOperations {
     }
 
     public static Future<Void> createOrGet(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
-        if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
+        if(!message.getAuthor().equals(message.getJDA().getSelfUser()))
+            throw new IllegalArgumentException("Must provide a message sent by the bot");
         Future<Void> f = createOrGet(message.getIdLong(), timeoutSeconds, operation);
         if(defaultReactions.length > 0) {
             AtomicInteger index = new AtomicInteger();
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t)->{};
-            c.set(ignored->{
+            Consumer<Throwable> ignore = (t) -> {
+            };
+            c.set(ignored -> {
                 if(f.isCancelled()) return;
                 int i = index.incrementAndGet();
                 if(i < defaultReactions.length) {
@@ -65,13 +68,15 @@ public final class ReactionOperations {
     }
 
     public static Future<Void> create(Message message, long timeoutSeconds, ReactionOperation operation, String... defaultReactions) {
-        if(!message.getAuthor().equals(message.getJDA().getSelfUser())) throw new IllegalArgumentException("Must provide a message sent by the bot");
+        if(!message.getAuthor().equals(message.getJDA().getSelfUser()))
+            throw new IllegalArgumentException("Must provide a message sent by the bot");
         Future<Void> f = create(message.getIdLong(), timeoutSeconds, operation);
         if(defaultReactions.length > 0) {
             AtomicInteger index = new AtomicInteger();
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t)->{};
-            c.set(ignored->{
+            Consumer<Throwable> ignore = (t) -> {
+            };
+            c.set(ignored -> {
                 if(f.isCancelled()) return;
                 int i = index.incrementAndGet();
                 if(i < defaultReactions.length) {
@@ -138,7 +143,7 @@ public final class ReactionOperations {
                 return;
             }
             if(e instanceof MessageReactionRemoveAllEvent) {
-                MessageReactionRemoveAllEvent event = (MessageReactionRemoveAllEvent)e;
+                MessageReactionRemoveAllEvent event = (MessageReactionRemoveAllEvent) e;
                 long messageId = event.getMessageIdLong();
                 RunningOperation o = OPERATIONS.get(messageId);
                 if(o == null) return;

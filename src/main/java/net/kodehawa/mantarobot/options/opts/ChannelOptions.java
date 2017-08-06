@@ -18,10 +18,10 @@ public class ChannelOptions extends OptionHandler {
 
     @Subscribe
     public void onRegister(OptionRegistryEvent e) {
-        registerOption("nsfw:toggle","NSFW toggle","Toggles NSFW mode in the channel the command was ran at.", (event) -> {
+        registerOption("nsfw:toggle", "NSFW toggle", "Toggles NSFW mode in the channel the command was ran at.", (event) -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
-            if (guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
+            if(guildData.getGuildUnsafeChannels().contains(event.getChannel().getId())) {
                 guildData.getGuildUnsafeChannels().remove(event.getChannel().getId());
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been disabled").queue();
                 dbGuild.saveAsync();

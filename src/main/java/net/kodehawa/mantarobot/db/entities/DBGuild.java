@@ -8,66 +8,90 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.redis.Input;
+import net.kodehawa.mantarobot.db.redis.Output;
 
 import java.beans.ConstructorProperties;
 
 import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
+import static net.kodehawa.mantarobot.data.MantaroData.cache;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 @ToString
 @EqualsAndHashCode
 public class DBGuild implements ManagedObject {
-	public static final String DB_TABLE = "guilds";
+    public static final String DB_TABLE = "guilds";
+    private GuildData data;
+    private String id;
+    private long premiumUntil;
 
-	public static DBGuild of(String id) {
-		return new DBGuild(id, 0, new GuildData());
-	}
+    @ConstructorProperties({"id", "premiumUntil", "data"})
+    public DBGuild(String id, long premiumUntil, GuildData data) {
+        this.id = id;
+        this.premiumUntil = premiumUntil;
+        this.data = data;
+    }
 
-	private final GuildData data;
-	private final String id;
-	private long premiumUntil;
+    @JsonIgnore
+    public DBGuild() {
 
-	@ConstructorProperties({"id", "premiumUntil", "data"})
-	public DBGuild(String id, long premiumUntil, GuildData data) {
-		this.id = id;
-		this.premiumUntil = premiumUntil;
-		this.data = data;
-	}
+    }
 
-	@Override
-	public void delete() {
-		r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
-	}
+    public static DBGuild of(String id) {
+        return new DBGuild(id, 0, new GuildData());
+    }
 
-	@Override
-	public void save() {
-		r.table(DB_TABLE).insert(this)
-			.optArg("conflict", "replace")
-			.runNoReply(conn());
-	}
+    @Override
+    public void delete() {
+        r.table(DB_TABLE).get(id).delete().runNoReply(conn());
+        cache().invalidate(id);
+    }
 
-	public Guild getGuild(JDA jda) {
-		return jda.getGuildById(getId());
-	}
+    @Override
+    public void save() {
+        cache().set(id, this);
+        r.table(DB_TABLE).insert(this)
+                .optArg("conflict", "replace")
+                .runNoReply(conn());
+    }
 
-	@JsonIgnore
-	public long getPremiumLeft() {
-		return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
-	}
+    @Override
+    public void write(Output out) {
+        out.writeLong(Long.parseLong(id));
+        out.writeLong(premiumUntil);
+        data.write(out);
+    }
 
-	public DBGuild incrementPremium(long milliseconds) {
-		if (isPremium()) {
-			this.premiumUntil += milliseconds;
-		} else {
-			this.premiumUntil = currentTimeMillis() + milliseconds;
-		}
-		return this;
-	}
+    @Override
+    public void read(Input in) {
+        id = String.valueOf(in.readLong());
+        premiumUntil = in.readLong();
+        data = new GuildData();
+        data.read(in);
+    }
 
-	@JsonIgnore
-	public boolean isPremium() {
-		return currentTimeMillis() < premiumUntil;
-	}
+    public Guild getGuild(JDA jda) {
+        return jda.getGuildById(getId());
+    }
+
+    @JsonIgnore
+    public long getPremiumLeft() {
+        return isPremium() ? this.premiumUntil - currentTimeMillis() : 0;
+    }
+
+    public DBGuild incrementPremium(long milliseconds) {
+        if(isPremium()) {
+            this.premiumUntil += milliseconds;
+        } else {
+            this.premiumUntil = currentTimeMillis() + milliseconds;
+        }
+        return this;
+    }
+
+    @JsonIgnore
+    public boolean isPremium() {
+        return currentTimeMillis() < premiumUntil;
+    }
 }

@@ -16,95 +16,98 @@ import java.util.concurrent.ConcurrentHashMap;
 
 //TODO Isn't this a bit overcomplicated? Need less overhead pls.
 public class Expirator<T extends Expirable> {
-	public interface Expirable {
-		static Expirable asExpirable(Runnable runnable) {
-			return runnable::run;
-		}
+    @Getter
+    private final Set<Expirable> expirables = Collections.newSetFromMap(new ConcurrentHashMap<>());
+    private final TLongObjectMap<Set<Expirable>> expirations = TCollections.synchronizedMap(new TLongObjectHashMap<>());
+    private volatile boolean updated = false;
 
-		void onExpire();
-	}
+    public Expirator() {
+        Thread thread = new Thread(this::threadcode, "ExpirationManager Thread");
+        thread.setDaemon(true);
+        thread.start();
+    }
 
-	@Getter private final Set<Expirable> expirables = Collections.newSetFromMap(new ConcurrentHashMap<>());
-	private final TLongObjectMap<Set<Expirable>> expirations = TCollections.synchronizedMap(new TLongObjectHashMap<>());
-	private volatile boolean updated = false;
+    public void put(long milis, Expirable expirable) {
+        Objects.requireNonNull(expirable);
 
-	public Expirator() {
-		Thread thread = new Thread(this::threadcode, "ExpirationManager Thread");
-		thread.setDaemon(true);
-		thread.start();
-	}
+        synchronized(expirations) {
+            if(expirables.contains(expirable)) {
+                expirations.valueCollection().forEach(list -> list.remove(expirable));
+                expirables.remove(expirable);
+            }
 
-	public void put(long milis, Expirable expirable) {
-		Objects.requireNonNull(expirable);
+            if(!expirations.containsKey(milis)) expirations.put(milis, new LinkedHashSet<>());
 
-		synchronized (expirations) {
-			if (expirables.contains(expirable)) {
-				expirations.valueCollection().forEach(list -> list.remove(expirable));
-				expirables.remove(expirable);
-			}
+            expirations.get(milis).add(expirable);
+            expirables.add(expirable);
+        }
 
-			if (!expirations.containsKey(milis)) expirations.put(milis, new LinkedHashSet<>());
+        updated = true;
+        synchronized(this) {
+            notify();
+        }
+    }
 
-			expirations.get(milis).add(expirable);
-			expirables.add(expirable);
-		}
+    public void putRelative(long millisToAwait, Expirable expirable) {
+        put(System.currentTimeMillis() + millisToAwait, expirable);
+    }
 
-		updated = true;
-		synchronized (this) {
-			notify();
-		}
-	}
+    public void remove(Expirable expirable) {
+        Objects.requireNonNull(expirable);
 
-	public void putRelative(long millisToAwait, Expirable expirable) {
-		put(System.currentTimeMillis() + millisToAwait, expirable);
-	}
+        synchronized(expirations) {
+            if(expirables.contains(expirable)) {
+                expirations.valueCollection().forEach(list -> list.remove(expirable));
+                expirables.remove(expirable);
+            }
+        }
 
-	public void remove(Expirable expirable) {
-		Objects.requireNonNull(expirable);
+        updated = true;
+        synchronized(this) {
+            notify();
+        }
+    }
 
-		synchronized (expirations) {
-			if (expirables.contains(expirable)) {
-				expirations.valueCollection().forEach(list -> list.remove(expirable));
-				expirables.remove(expirable);
-			}
-		}
+    private void threadcode() {
+        //noinspection InfiniteLoopStatement
+        while(true) {
+            if(expirations.isEmpty()) {
+                try {
+                    synchronized(this) {
+                        wait();
+                        updated = false;
+                    }
+                } catch(InterruptedException ignored) {
+                }
+            }
 
-		updated = true;
-		synchronized (this) {
-			notify();
-		}
-	}
+            //noinspection OptionalGetWithoutIsPresent
 
-	private void threadcode() {
-		//noinspection InfiniteLoopStatement
-		while (true) {
-			if (expirations.isEmpty()) {
-				try {
-					synchronized (this) {
-						wait();
-						updated = false;
-					}
-				} catch (InterruptedException ignored) {}
-			}
+            long firstEntry = Longs.min(expirations.keys());
 
-			//noinspection OptionalGetWithoutIsPresent
+            long timeout = firstEntry - System.currentTimeMillis();
+            if(timeout > 0) {
+                synchronized(this) {
+                    try {
+                        wait(timeout);
+                    } catch(InterruptedException ignored) {
+                    }
+                }
+            }
 
-			long firstEntry = Longs.min(expirations.keys());
+            if(!updated) {
+                Set<Expirable> firstExpirables = expirations.remove(firstEntry);
+                firstExpirables.remove(null);
+                firstExpirables.forEach(expirable -> Async.thread("Expiration Executable", expirable::onExpire));
+            } else updated = false; //and the loop will restart and resolve it
+        }
+    }
 
-			long timeout = firstEntry - System.currentTimeMillis();
-			if (timeout > 0) {
-				synchronized (this) {
-					try {
-						wait(timeout);
-					} catch (InterruptedException ignored) {}
-				}
-			}
+    public interface Expirable {
+        static Expirable asExpirable(Runnable runnable) {
+            return runnable::run;
+        }
 
-			if (!updated) {
-				Set<Expirable> firstExpirables = expirations.remove(firstEntry);
-				firstExpirables.remove(null);
-				firstExpirables.forEach(expirable -> Async.thread("Expiration Executable", expirable::onExpire));
-			} else updated = false; //and the loop will restart and resolve it
-		}
-	}
+        void onExpire();
+    }
 }

@@ -47,7 +47,7 @@ public class CurrencyCmds {
                 EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor()
                         .getEffectiveAvatarUrl());
                 List<ItemStack> list = user.getInventory().asList();
-                if (list.isEmpty()) builder.setDescription("There is only dust.");
+                if(list.isEmpty()) builder.setDescription("There is only dust.");
                 else
                     user.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
@@ -77,7 +77,7 @@ public class CurrencyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (!rateLimiter.process(event.getAuthor().getId())) {
+                if(!rateLimiter.process(event.getAuthor().getId())) {
                     event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                             "Wait! You're calling me so fast that I can't get enough items!").queue();
                     return;
@@ -90,17 +90,16 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (args.length > 0) {
+                if(args.length > 0) {
                     int itemNumber = 1;
                     String itemName = content.replace(args[0] + " ", "");
                     boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
-                    if (isMassive) {
+                    if(isMassive) {
                         try {
                             itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
                             itemName = itemName.replace(args[1] + " ", "");
-                        }
-                        catch (Exception e) {
-                            if (e instanceof NumberFormatException) {
+                        } catch(Exception e) {
+                            if(e instanceof NumberFormatException) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
                             } else {
                                 onHelp(event);
@@ -114,15 +113,15 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (args[0].equals("sell")) {
+                    if(args[0].equals("sell")) {
                         try {
-                            if (args[1].equals("all")) {
+                            if(args[1].equals("all")) {
                                 long all = player.getInventory().asList().stream()
                                         .filter(item -> item.getItem().isSellable())
                                         .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                                         .sum();
 
-                                if (args.length > 2 && args[2].equals("calculate")) {
+                                if(args.length > 2 && args[2].equals("calculate")) {
                                     event.getChannel().sendMessage(EmoteReference.THINKING + "You'll get **" + all + "** credits if you " +
                                             "sell all of your items").queue();
                                     return;
@@ -130,11 +129,10 @@ public class CurrencyCmds {
 
                                 player.getInventory().clearOnlySellables();
 
-                                if (player.addMoney(all)) {
+                                if(player.addMoney(all)) {
                                     event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained "
                                             + all + " credits!").queue();
-                                }
-                                else {
+                                } else {
                                     event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained "
                                             + all + " credits. But you already had too many credits. Your bag overflowed" +
                                             ".\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.")
@@ -147,23 +145,23 @@ public class CurrencyCmds {
 
                             Item toSell = Items.fromAny(itemName).orElse(null);
 
-                            if(toSell == null){
+                            if(toSell == null) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell a non-existant item.").queue();
                                 return;
                             }
 
-                            if (!toSell.isSellable()) {
+                            if(!toSell.isSellable()) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.")
                                         .queue();
                                 return;
                             }
 
-                            if (player.getInventory().asMap().getOrDefault(toSell, null) == null) {
+                            if(player.getInventory().asMap().getOrDefault(toSell, null) == null) {
                                 event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
                                 return;
                             }
 
-                            if (player.getInventory().getAmount(toSell) < itemNumber) {
+                            if(player.getInventory().getAmount(toSell) < itemNumber) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.")
                                         .queue();
                                 return;
@@ -173,12 +171,11 @@ public class CurrencyCmds {
                             long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
                             player.getInventory().process(new ItemStack(toSell, many));
 
-                            if (player.addMoney(amount)) {
+                            if(player.addMoney(amount)) {
                                 event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell
                                         .getName() +
                                         "** and gained " + amount + " credits!").queue();
-                            }
-                            else {
+                            } else {
                                 event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold **" + toSell.getName() +
                                         "** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed" +
                                         ".\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
@@ -186,50 +183,47 @@ public class CurrencyCmds {
 
                             player.save();
                             return;
-                        }
-                        catch (Exception e) {
+                        } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
                             e.printStackTrace();
                         }
                         return;
                     }
 
-                    if (args[0].equals("buy")) {
+                    if(args[0].equals("buy")) {
                         Item itemToBuy = Items.fromAny(itemName).orElse(null);
 
-                        if (itemToBuy == null) {
+                        if(itemToBuy == null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
                             return;
                         }
 
                         try {
-                            if (!itemToBuy.isBuyable()) {
+                            if(!itemToBuy.isBuyable()) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.")
                                         .queue();
                                 return;
                             }
 
                             ItemStack stack = player.getInventory().getStackOf(itemToBuy);
-                            if (stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
+                            if(stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
                                 //assume overflow
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy more of that object!").queue();
                                 return;
                             }
 
-                            if (player.removeMoney(itemToBuy.getValue() * itemNumber)) {
+                            if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
                                 player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
                                 player.save();
                                 event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
                                         " successfully. You now have " + player.getMoney() + " credits.").queue();
 
-                            }
-                            else {
+                            } else {
                                 event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.")
                                         .queue();
                             }
                             return;
-                        }
-                        catch (Exception e) {
+                        } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax.").queue();
                         }
                         return;
@@ -242,7 +236,7 @@ public class CurrencyCmds {
                 StringBuilder prices = new StringBuilder();
                 AtomicInteger atomicInteger = new AtomicInteger();
                 Stream.of(Items.ALL).forEach(item -> {
-                    if (!item.isHidden()) {
+                    if(!item.isHidden()) {
                         String buyValue = item.isBuyable() ? String.format("$%d", (int) Math.floor(item.getValue() *
                                 1.1)) : "N/A";
                         String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue
@@ -286,17 +280,16 @@ public class CurrencyCmds {
                 DBUser u1 = MantaroData.db().getUser(event.getMember());
                 User author = event.getAuthor();
 
-                if (args.length > 0 && args[0].equals("timezone")) {
+                if(args.length > 0 && args[0].equals("timezone")) {
 
-                    if (args.length < 2) {
+                    if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
                         return;
                     }
 
                     try {
                         UtilsCmds.dateGMT(event.getGuild(), args[1]);
-                    }
-                    catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid timezone.").queue();
                         return;
                     }
@@ -308,20 +301,20 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (args.length > 0 && args[0].equals("description")) {
-                    if (args.length == 1) {
+                if(args.length > 0 && args[0].equals("description")) {
+                    if(args.length == 1) {
                         event.getChannel().sendMessage(EmoteReference.ERROR +
                                 "You need to provide an argument! (set or remove)\n" +
                                 "for example, ~>profile description set Hi there!").queue();
                         return;
                     }
 
-                    if (args[1].equals("set")) {
+                    if(args[1].equals("set")) {
                         int MAX_LENGTH = 300;
-                        if (MantaroData.db().getUser(author).isPremium()) MAX_LENGTH = 500;
+                        if(MantaroData.db().getUser(author).isPremium()) MAX_LENGTH = 500;
                         String content1 = SPLIT_PATTERN.split(content, 3)[2];
 
-                        if (content1.length() > MAX_LENGTH) {
+                        if(content1.length() > MAX_LENGTH) {
                             event.getChannel().sendMessage(EmoteReference.ERROR +
                                     "The description is too long! `(Limit of 300 characters for everyone and 500 for premium users)`")
                                     .queue();
@@ -335,7 +328,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if (args[1].equals("clear")) {
+                    if(args[1].equals("clear")) {
                         player.getData().setDescription(null);
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully cleared description.").queue();
                         player.save();
@@ -346,11 +339,11 @@ public class CurrencyCmds {
                 UserData user = MantaroData.db().getUser(event.getMember()).getData();
                 Member member = event.getMember();
 
-                if (!event.getMessage().getMentionedUsers().isEmpty()) {
+                if(!event.getMessage().getMentionedUsers().isEmpty()) {
                     author = event.getMessage().getMentionedUsers().get(0);
                     member = event.getGuild().getMember(author);
 
-                    if (author.isBot()) {
+                    if(author.isBot()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
                         return;
                     }
@@ -363,8 +356,8 @@ public class CurrencyCmds {
                 String marriedSince = player.getData().marryDate();
                 String anniversary = player.getData().anniversary();
 
-                if (args.length > 0 && args[0].equals("anniversary")) {
-                    if (anniversary == null) {
+                if(args.length > 0 && args[0].equals("anniversary")) {
+                    if(anniversary == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "I don't see any anniversary here :(. Maybe you were " +
                                 "married before this change was implemented, in that case do ~>marry anniversarystart").queue();
                         return;
@@ -416,7 +409,7 @@ public class CurrencyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 long rl = rateLimiter.tryAgainIn(event.getMember());
 
-                if (event.getMessage().getMentionedUsers().isEmpty()) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
@@ -424,23 +417,23 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (event.getMessage().getMentionedUsers().get(0).isBot()) {
+                if(event.getMessage().getMentionedUsers().get(0).isBot()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot." +
-                    (rl > 0 ? "**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                            "You can rep someone now.")).queue();
+                            (rl > 0 ? "**You'll be able to use this command again in " +
+                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
+                                    "You can rep someone now.")).queue();
                     return;
                 }
 
-                if (event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
+                if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself." +
-                    (rl > 0 ? "**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
-                            "You can rep someone now.")).queue();
+                            (rl > 0 ? "**You'll be able to use this command again in " +
+                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
+                                    "You can rep someone now.")).queue();
                     return;
                 }
 
-                if (!rateLimiter.process(event.getMember())) {
+                if(!rateLimiter.process(event.getMember())) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 12 hours.\n**You'll be able to use this command again in " +
                             Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**").queue();
                     return;
@@ -471,13 +464,14 @@ public class CurrencyCmds {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (args.length < 2) {
+                if(args.length < 2) {
                     onError(event);
                     return;
                 }
 
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-                if (mentionedUsers.size() == 0) event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
+                if(mentionedUsers.size() == 0)
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
                 else {
                     User giveTo = mentionedUsers.get(0);
 
@@ -487,15 +481,14 @@ public class CurrencyCmds {
                     }
 
                     Item item = Items.fromAny(args[1]).orElse(null);
-                    if (item == null) {
+                    if(item == null) {
                         event.getChannel().sendMessage("There isn't an item associated with this emoji.").queue();
-                    }
-                    else {
+                    } else {
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
-                        if (args.length == 2) {
-                            if (player.getInventory().containsItem(item)) {
-                                if (item.isHidden()) {
+                        if(args.length == 2) {
+                            if(player.getInventory().containsItem(item)) {
+                                if(item.isHidden()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
                                     return;
                                 }
@@ -509,8 +502,7 @@ public class CurrencyCmds {
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
                                 event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave 1 " + item
                                         .getName() + " to " + giveTo.getAsMention()).queue();
-                            }
-                            else {
+                            } else {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
                                         .queue();
                             }
@@ -521,8 +513,8 @@ public class CurrencyCmds {
 
                         try {
                             int amount = Math.abs(Integer.parseInt(args[2]));
-                            if (player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
-                                if (item.isHidden()) {
+                            if(player.getInventory().containsItem(item) && player.getInventory().getAmount(item) >= amount) {
+                                if(item.isHidden()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this item!").queue();
                                     return;
                                 }
@@ -536,11 +528,10 @@ public class CurrencyCmds {
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
                                 event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave " + amount +
                                         " " + item.getName() + " to " + giveTo.getAsMention()).queue();
-                            }
-                            else event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item " +
-                                    "to do that").queue();
-                        }
-                        catch (NumberFormatException nfe) {
+                            } else
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item " +
+                                        "to do that").queue();
+                        } catch(NumberFormatException nfe) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number provided").queue();
                         }
                         player.save();
@@ -570,12 +561,12 @@ public class CurrencyCmds {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (event.getMessage().getMentionedUsers().isEmpty()) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention one user.").queue();
                     return;
                 }
 
-                if (event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
+                if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot transfer money to yourself.").queue();
                     return;
                 }
@@ -583,15 +574,14 @@ public class CurrencyCmds {
                 long toSend;
                 try {
                     toSend = Math.abs(Long.parseLong(args[1]));
-                }
-                catch (Exception e) {
+                } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the amount.").queue();
                     return;
                 }
 
-                if (toSend == 0) {
+                if(toSend == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer no money :P").queue();
-                     return;
+                    return;
                 }
 
                 Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
@@ -601,13 +591,13 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (transferPlayer.getMoney() < toSend) {
+                if(transferPlayer.getMoney() < toSend) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money you don't have.").queue();
                     return;
                 }
 
                 User user = event.getMessage().getMentionedUsers().get(0);
-                if (user.isBot() && !user.getId().equals("224662505157427200")) {
+                if(user.isBot() && !user.getId().equals("224662505157427200")) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money to a bot.").queue();
                     return;
                 }
@@ -619,24 +609,23 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if (toTransfer.getMoney() + toSend < 0) {
+                if(toTransfer.getMoney() + toSend < 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
                     return;
                 }
-                if (toTransfer.addMoney(toSend)) {
+                if(toTransfer.addMoney(toSend)) {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
                     toTransfer.saveAsync();
 
-                    if (user.getId().equals("224662505157427200")) {
+                    if(user.getId().equals("224662505157427200")) {
                         MantaroBot.getInstance().getTextChannelById(329013929890283541L).
                                 sendMessage(event.getAuthor().getId() + " transferred **" + toSend + "** to you successfully.").queue();
                     }
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage()
                             .getMentionedUsers().get(0).getName() + "* successfully.").queue();
-                }
-                else {
+                } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
                 }
             }
@@ -667,9 +656,9 @@ public class CurrencyCmds {
 
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
-                if (inventory.containsItem(Items.LOOT_CRATE)) {
-                    if (inventory.containsItem(Items.LOOT_CRATE_KEY)) {
-                        if (!rateLimiter.process(id)) {
+                if(inventory.containsItem(Items.LOOT_CRATE)) {
+                    if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
+                        if(!rateLimiter.process(id)) {
                             event.getChannel().sendMessage(EmoteReference.STOPWATCH +
                                     "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
                                     "in " +
@@ -682,13 +671,11 @@ public class CurrencyCmds {
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
                         player.save();
                         openLootBox(event, true);
-                    }
-                    else {
+                    } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!")
                                 .queue();
                     }
-                }
-                else {
+                } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >" +
                             ".>").queue();
                 }
@@ -711,14 +698,14 @@ public class CurrencyCmds {
         items.addAll(Arrays.asList(Items.ALL));
         items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
         items.sort((o1, o2) -> {
-            if (o1.getValue() > o2.getValue()) return 1;
-            if (o1.getValue() == o2.getValue()) return 0;
+            if(o1.getValue() > o2.getValue()) return 1;
+            if(o1.getValue() == o2.getValue()) return 0;
             return -1;
         });
-        if (!special) {
-            for (Item i : Items.ALL) if (i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
+        if(!special) {
+            for(Item i : Items.ALL) if(i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
         }
-        for (int i = 0; i < amtItems; i++) toAdd.add(selectReverseWeighted(items));
+        for(int i = 0; i < amtItems; i++) toAdd.add(selectReverseWeighted(items));
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
@@ -726,21 +713,21 @@ public class CurrencyCmds {
         player.save();
         event.getChannel().sendMessage(EmoteReference.LOOT_CRATE.getDiscordNotation() + "**You won:** " +
                 toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")) + (
-                        overflow ? ". But you already had too much, so you decided to throw away the excess" : ""
-                )).queue();
+                overflow ? ". But you already had too much, so you decided to throw away the excess" : ""
+        )).queue();
     }
 
     private Item selectReverseWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
-        for (int i = 0; i < items.size(); i++) {
+        for(int i = 0; i < items.size(); i++) {
             int t = items.size() - i;
             weightedTotal += t;
             weights.put(t, items.get(i));
         }
         final int[] selected = {random.nextInt(weightedTotal)};
-        for (Map.Entry<Integer, Item> i : weights.entrySet()) {
-            if ((selected[0] -= i.getKey()) <= 0) {
+        for(Map.Entry<Integer, Item> i : weights.entrySet()) {
+            if((selected[0] -= i.getKey()) <= 0) {
                 return i.getValue();
             }
         }
@@ -748,7 +735,7 @@ public class CurrencyCmds {
     }
 
     private User getUserById(String id) {
-        if (id == null) return null;
+        if(id == null) return null;
         MantaroShard shard1 = MantaroBot.getInstance().getShardList().stream().filter(shard ->
                 shard.getJDA().getUserById(id) != null).findFirst().orElse(null);
         return shard1 == null ? null : shard1.getUserById(id);
