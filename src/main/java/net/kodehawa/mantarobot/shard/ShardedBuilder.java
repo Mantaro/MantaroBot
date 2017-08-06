@@ -2,12 +2,13 @@ package net.kodehawa.mantarobot.shard;
 
 public class ShardedBuilder {
 
-    public ShardedBuilder() {}
-
     private int amount = 1;
     private boolean auto;
     private boolean debug;
     private String token;
+
+    public ShardedBuilder() {
+    }
 
     public ShardedBuilder amount(int shardAmount) {
         amount = shardAmount;

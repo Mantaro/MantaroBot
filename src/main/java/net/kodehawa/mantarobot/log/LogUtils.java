@@ -6,7 +6,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.http.Webhook;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Date;
 
 public class LogUtils {
@@ -29,56 +29,56 @@ public class LogUtils {
     }
 
     public static void shard(String message) {
-        try{
+        try {
             SHARD_WEBHOOK.post(new EmbedBuilder()
                     .setTitle("Shard")
                     .setDescription(message)
                     .setColor(Color.PINK)
                     .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
                     .build());
-        } catch (Exception e) {
+        } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
     public static void log(String title, String message) {
-        try{
+        try {
             LOGBACK_WEBHOOK.post(new EmbedBuilder()
                     .setTitle(title)
                     .setDescription(message)
                     .setColor(Color.PINK)
                     .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
                     .build());
-        } catch (Exception e) {
+        } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
     public static void log(String message) {
-        try{
+        try {
             LOGBACK_WEBHOOK.post(new EmbedBuilder()
                     .setTitle("Log")
                     .setDescription(message)
                     .setColor(Color.PINK)
                     .setFooter(new Date(System.currentTimeMillis()).toString(), ICON_URL)
                     .build());
-        } catch (Exception e) {
+        } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
     public static void simple(String message) {
-        try{
+        try {
             LOGBACK_WEBHOOK.post(message);
-        } catch (Exception e) {
+        } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
     public static void shardSimple(String message) {
-        try{
+        try {
             SHARD_WEBHOOK.post(message);
-        } catch (Exception e) {
+        } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }

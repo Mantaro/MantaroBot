@@ -36,7 +36,7 @@ public class Items {
             RING = new Item(EmoteReference.RING.getUnicode(), "Marriage Ring", "What basically makes your marriage official", 60, true),
             LOVE_LETTER = new Item(EmoteReference.LOVE_LETTER.getUnicode(), "Love Letter", "A letter from your beloved one.", 55, false),
             LOOT_CRATE_KEY = new Item(EmoteReference.KEY.getUnicode(), "Crate Key", "Used to open loot boxes.", 58, true),
-            CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(), "Clothes", "Basically what you wear, but 100x more expensive.", 15,true),
+            CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(), "Clothes", "Basically what you wear, but 100x more expensive.", 15, true),
             DIAMOND = new Item(EmoteReference.DIAMOND.getUnicode(), "Diamond", "Basically a better way of saving your money. It's shiny too.", 350, true),
             DRESS = new Item(EmoteReference.DRESS.getUnicode(), "Wedding Dress", "Isn't it cute?", 75, true),
             NECKLACE = new Item(EmoteReference.NECKLACE.getUnicode(), "Necklace", "Looks nice.", 17, true),
@@ -51,8 +51,8 @@ public class Items {
             COMPANION = new Item(EmoteReference.DOG.getUnicode(), "Companion", "Aw. Gives you a 10% boost in ~>daily. Not stackable."),
             RING_2 = new Item("\uD83D\uDC5A", "Special Ring", "Gives you a extra boost on ~>daily when giving it to your loved one. Yes, I know the picture doesn't match."),
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(), "Enchancer", "Gives you a higher possibility of getting a win on ~>gamble. Non-stackable."),
-            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "Pretty much, huh?",0, false, false, true),
-            LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key to open a loot crate!", 0,  false, false, true),
+            STAR = new Item(EmoteReference.STAR.getUnicode(), "Prize", "Pretty much, huh?", 0, false, false, true),
+            LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(), "Loot Crate", "You can use this along with a loot key to open a loot crate!", 0, false, false, true),
             STAR_2 = new Item(EmoteReference.STAR.getUnicode(), "Prize 2", "In the first place, how did you get so much money?", 500, true, false, true),
             SLOT_COIN = new Item("\uD83C\uDF9F", "Slot ticket", "Gives you extra chance in slots, also works as bulk storage.", 65, true, true)
     };
@@ -65,18 +65,17 @@ public class Items {
     public static Optional<Item> fromAny(String any) {
         try {
             Item item = fromId(Integer.parseInt(any));
-            if (item != null) return Optional.of(item);
-        }
-        catch (NumberFormatException ignored) {
+            if(item != null) return Optional.of(item);
+        } catch(NumberFormatException ignored) {
         }
 
         Optional<Item> itemOptional;
 
         itemOptional = fromEmoji(any);
-        if (itemOptional.isPresent()) return itemOptional;
+        if(itemOptional.isPresent()) return itemOptional;
 
         itemOptional = fromName(any);
-        if (itemOptional.isPresent()) return itemOptional;
+        if(itemOptional.isPresent()) return itemOptional;
 
         itemOptional = fromPartialName(any);
         return itemOptional;

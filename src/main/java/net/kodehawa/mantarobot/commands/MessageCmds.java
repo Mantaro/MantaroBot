@@ -36,25 +36,25 @@ public class MessageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 TextChannel channel = event.getChannel();
-                if (content.isEmpty()) {
+                if(content.isEmpty()) {
                     channel.sendMessage(EmoteReference.ERROR + "You specified no messages to prune.").queue();
                     return;
                 }
 
-                if (!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
+                if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have the permission: " +
                             "Manage Messages").queue();
                     return;
                 }
 
-                if (content.startsWith("bot")) {
+                if(content.startsWith("bot")) {
                     channel.getHistory().retrievePast(100).queue(
                             messageHistory -> {
                                 String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
                                 messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
                                         message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 
-                                if (messageHistory.isEmpty()) {
+                                if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls " +
                                             "here.").queue();
                                     return;
@@ -77,12 +77,11 @@ public class MessageCmds {
                                             ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
                                         },
                                         error -> {
-                                            if (error instanceof PermissionException) {
+                                            if(error instanceof PermissionException) {
                                                 PermissionException pe = (PermissionException) error;
                                                 channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
                                                         "(No permission provided: " + pe.getPermission() + ")").queue();
-                                            }
-                                            else {
+                                            } else {
                                                 channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
                                                         + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                                                 error.printStackTrace();
@@ -100,19 +99,19 @@ public class MessageCmds {
                     return;
                 }
 
-                if (!event.getMessage().getMentionedUsers().isEmpty()) {
+                if(!event.getMessage().getMentionedUsers().isEmpty()) {
                     List<Long> users = new ArrayList<>();
-                    for (User user : event.getMessage().getMentionedUsers()) {
+                    for(User user : event.getMessage().getMentionedUsers()) {
                         users.add(user.getIdLong());
                     }
 
                     int i = 5;
 
                     if(args.length > 1) {
-                        try{
+                        try {
                             i = Integer.parseInt(args[1]);
                             if(i < 3) i = 3;
-                        } catch (Exception e) {
+                        } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number!").queue();
                         }
                     }
@@ -121,7 +120,7 @@ public class MessageCmds {
                             messageHistory -> {
                                 messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
 
-                                if (messageHistory.isEmpty()) {
+                                if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from users which you mentioned " +
                                             "here.").queue();
                                     return;
@@ -145,12 +144,11 @@ public class MessageCmds {
                                             ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
                                         },
                                         error -> {
-                                            if (error instanceof PermissionException) {
+                                            if(error instanceof PermissionException) {
                                                 PermissionException pe = (PermissionException) error;
                                                 channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
                                                         "(No permission provided: " + pe.getPermission() + ")").queue();
-                                            }
-                                            else {
+                                            } else {
                                                 channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
                                                         + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                                                 error.printStackTrace();
@@ -163,13 +161,12 @@ public class MessageCmds {
                 int i;
                 try {
                     i = Integer.parseInt(content);
-                }
-                catch (Exception e) {
+                } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Please specify a valid number.").queue();
                     return;
                 }
 
-                if (i < 5) {
+                if(i < 5) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide at least 5 messages.").queue();
                     return;
                 }
@@ -180,7 +177,7 @@ public class MessageCmds {
                                     .isBefore(OffsetDateTime.now().minusWeeks(2)))
                                     .collect(Collectors.toList());
 
-                            if (messageHistory.isEmpty()) {
+                            if(messageHistory.isEmpty()) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, " +
                                         "discord won't let me delete them.").queue();
                                 return;
@@ -203,12 +200,11 @@ public class MessageCmds {
                                         ModLog.log(event.getMember(), null, "Prune action", ModLog.ModAction.PRUNE, db.getData().getCases());
                                     },
                                     error -> {
-                                        if (error instanceof PermissionException) {
+                                        if(error instanceof PermissionException) {
                                             PermissionException pe = (PermissionException) error;
                                             channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
                                                     "(No permission provided: " + pe.getPermission() + ")").queue();
-                                        }
-                                        else {
+                                        } else {
                                             channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
                                                     + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
                                             error.printStackTrace();

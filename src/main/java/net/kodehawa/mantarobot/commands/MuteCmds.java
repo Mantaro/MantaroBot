@@ -38,8 +38,8 @@ import java.util.regex.Pattern;
 @Module
 public class MuteCmds {
 
-    private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
     private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -180,7 +180,7 @@ public class MuteCmds {
                                 "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
                                 " be wrapped in quotation marks", OptionType.COMMAND)
                         .setAction((event, args) -> {
-                            if (args.length < 1) {
+                            if(args.length < 1) {
                                 OptsCmd.onHelp(event);
                                 return;
                             }
@@ -190,9 +190,9 @@ public class MuteCmds {
                             GuildData guildData = dbGuild.getData();
 
                             List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-                            if (roleList.size() == 0) {
+                            if(roleList.size() == 0) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
-                            } else if (roleList.size() == 1) {
+                            } else if(roleList.size() == 1) {
                                 Role role = roleList.get(0);
                                 guildData.setMutedRole(role.getId());
                                 dbGuild.saveAsync();
@@ -269,7 +269,7 @@ public class MuteCmds {
                     if(m.getRoles().contains(mutedRole)) {
                         event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
-                        dbg.getData().setCases(dbg.getData().getCases() + 1 );
+                        dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
                     } else {
@@ -291,7 +291,7 @@ public class MuteCmds {
     }
 
     @Subscribe
-    public void onPostLoad(PostLoadEvent e){
+    public void onPostLoad(PostLoadEvent e) {
         muteExecutor.scheduleAtFixedRate(new MuteTask(), 0, 25, TimeUnit.SECONDS);
     }
 }

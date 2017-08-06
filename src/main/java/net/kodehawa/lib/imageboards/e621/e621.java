@@ -21,43 +21,44 @@ import java.util.Optional;
  */
 @Slf4j
 public class e621 {
-	private final Resty resty = new Resty().identifyAsMozilla();
+    private final Resty resty = new Resty().identifyAsMozilla();
 
-	public void get(int page, int limit, FurryProvider provider) {
-		this.get(page, limit, null, provider);
-	}
+    public void get(int page, int limit, FurryProvider provider) {
+        this.get(page, limit, null, provider);
+    }
 
-	private void get(final int page, final int limit, final String search, final FurryProvider provider) {
-		Async.thread("Image fetch thread", () -> {
-			try {
-				if (provider == null) throw new IllegalStateException("Provider is null");
-				List<Furry> wallpapers = this.get(page, limit, search);
-				provider.onSuccess(wallpapers);
-			} catch (Exception ignored) {}
-		});
-	}
+    private void get(final int page, final int limit, final String search, final FurryProvider provider) {
+        Async.thread("Image fetch thread", () -> {
+            try {
+                if(provider == null) throw new IllegalStateException("Provider is null");
+                List<Furry> wallpapers = this.get(page, limit, search);
+                provider.onSuccess(wallpapers);
+            } catch(Exception ignored) {
+            }
+        });
+    }
 
-	private List<Furry> get(int page, int limit, String search) {
-		Map<String, Object> queryParams = new MapObject<String, Object>()
-			.with("limit", limit).with("page", page);
-		Furry[] wallpapers;
-		Optional.ofNullable(search).ifPresent((element) ->{
-			queryParams.put("tags", search.toLowerCase().trim());
-			queryParams.remove("page");
-		});
-		try {
-			String response = this.resty.text("https://e621.net/post/index.json" + "?" + Utils.urlEncodeUTF8(queryParams)).toString();
-			wallpapers = GsonDataManager.GSON_PRETTY.fromJson(response, Furry[].class);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			queryParams.clear();
-		}
-		return Arrays.asList(wallpapers);
-	}
+    private List<Furry> get(int page, int limit, String search) {
+        Map<String, Object> queryParams = new MapObject<String, Object>()
+                .with("limit", limit).with("page", page);
+        Furry[] wallpapers;
+        Optional.ofNullable(search).ifPresent((element) -> {
+            queryParams.put("tags", search.toLowerCase().trim());
+            queryParams.remove("page");
+        });
+        try {
+            String response = this.resty.text("https://e621.net/post/index.json" + "?" + Utils.urlEncodeUTF8(queryParams)).toString();
+            wallpapers = GsonDataManager.GSON_PRETTY.fromJson(response, Furry[].class);
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            queryParams.clear();
+        }
+        return Arrays.asList(wallpapers);
+    }
 
-	public void onSearch(int page, int limit, String search, FurryProvider provider) {
-		this.get(page, limit, search, provider);
-	}
+    public void onSearch(int page, int limit, String search, FurryProvider provider) {
+        this.get(page, limit, search, provider);
+    }
 }

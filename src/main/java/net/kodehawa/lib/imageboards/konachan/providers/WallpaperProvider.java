@@ -7,5 +7,5 @@ import java.util.List;
 
 @FunctionalInterface
 public interface WallpaperProvider {
-	void onSuccess(List<Wallpaper> wallpapers, Tag[] tags);
+    void onSuccess(List<Wallpaper> wallpapers, Tag[] tags);
 }

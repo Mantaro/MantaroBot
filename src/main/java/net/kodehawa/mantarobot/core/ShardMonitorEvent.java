@@ -8,73 +8,73 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 @Slf4j
 public class ShardMonitorEvent extends Event {
-	private class ShardListeners {
-		private final int shardId;
-		private boolean commandListener = false;
-		private boolean mantaroListener = false;
+    public static final int
+            MANTARO_LISTENER = 0,
+            COMMAND_LISTENER = 1;
+    private final Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
+    private final Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
 
-		private ShardListeners(int shardId) {
-			this.shardId = shardId;
-		}
+    public ShardMonitorEvent(int shards) {
+        super(null, 0);
+        for(int i = 0; i < shards; i++)
+            dead.add(new ShardListeners(i));
+    }
 
-		@Override
-		public int hashCode() {
-			return shardId;
-		}
+    public void alive(int shard, int listener) {
+        dead.stream().filter(s -> s.shardId == shard).forEach(s -> s.alive(listener));
+    }
 
-		@Override
-		public boolean equals(Object other) {
-			return other instanceof ShardListeners && ((ShardListeners) other).shardId == shardId;
-		}
+    public int[] getAliveShards() {
+        return alive.stream().mapToInt(s -> s.shardId).toArray();
+    }
 
-		private void alive(int listener) {
-			switch (listener) {
-				case MANTARO_LISTENER:
-					mantaroListener = true;
-					break;
-				case COMMAND_LISTENER:
-					commandListener = true;
-					break;
-				default:
-					throw new IllegalArgumentException("Unknown listener id " + listener);
-			}
-			if (mantaroListener && commandListener) {
-				log.debug("Shard " + shardId + " is alive");
-				dead.remove(this);
-				alive.add(this);
-			}
-		}
-	}
+    public int[] getDeadShards() {
+        return dead.stream().mapToInt(s -> s.shardId).toArray();
+    }
 
-	public static final int
-		MANTARO_LISTENER = 0,
-		COMMAND_LISTENER = 1;
-	private final Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
-	private final Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
+    public boolean isAlive(int shard) {
+        return alive.stream().map(s -> s.shardId == shard).count() != 0;
+    }
 
-	public ShardMonitorEvent(int shards) {
-		super(null, 0);
-		for (int i = 0; i < shards; i++)
-			dead.add(new ShardListeners(i));
-	}
+    public int totalAliveShards() {
+        return alive.size();
+    }
 
-	public void alive(int shard, int listener) {
-		dead.stream().filter(s -> s.shardId == shard).forEach(s -> s.alive(listener));
-	}
+    private class ShardListeners {
+        private final int shardId;
+        private boolean commandListener = false;
+        private boolean mantaroListener = false;
 
-	public int[] getAliveShards() {
-		return alive.stream().mapToInt(s -> s.shardId).toArray();
-	}
+        private ShardListeners(int shardId) {
+            this.shardId = shardId;
+        }
 
-	public int[] getDeadShards() {
-		return dead.stream().mapToInt(s -> s.shardId).toArray();
-	}
+        @Override
+        public int hashCode() {
+            return shardId;
+        }
 
-	public boolean isAlive(int shard) {
-		return alive.stream().map(s -> s.shardId == shard).count() != 0;
-	}
+        @Override
+        public boolean equals(Object other) {
+            return other instanceof ShardListeners && ((ShardListeners) other).shardId == shardId;
+        }
 
-	public int totalAliveShards() {
-		return alive.size();
-	}
+        private void alive(int listener) {
+            switch(listener) {
+                case MANTARO_LISTENER:
+                    mantaroListener = true;
+                    break;
+                case COMMAND_LISTENER:
+                    commandListener = true;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown listener id " + listener);
+            }
+            if(mantaroListener && commandListener) {
+                log.debug("Shard " + shardId + " is alive");
+                dead.remove(this);
+                alive.add(this);
+            }
+        }
+    }
 }

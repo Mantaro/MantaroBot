@@ -14,47 +14,47 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class Mapifier {
-	public enum Mode {
-		SOFT(() -> {
-			ObjectMapper m = new ObjectMapper();
-			SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null));
-			pair.addDeserializer(Pair.class, new StringLongPairDeserializator());
-			m.registerModule(pair);
-			return m;
-		}),
-		RAW(() -> {
-			ObjectMapper m = new ObjectMapper();
-			m.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
-			m.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-			SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null));
-			pair.addDeserializer(Pair.class, new StringLongPairDeserializator());
-			m.registerModule(pair);
-			return m;
-		});
+    private static Logger logger = LoggerFactory.getLogger("Mapifier");
 
-		private final ObjectMapper mapper;
+    public static <T> T fromMap(Mode mode, Class<T> c, Map<String, Object> map) {
+        return mode.mapper.convertValue(map, c);
+    }
 
-		Mode(Supplier<ObjectMapper> mapper) {
-			this.mapper = mapper.get();
-		}
-	}
+    public static <T> T fromMap(Class<T> c, Map<String, Object> map) {
+        return fromMap(Mode.SOFT, c, map);
+    }
 
-	private static Logger logger = LoggerFactory.getLogger("Mapifier");
+    public static Map<String, Object> toMap(Object object) {
+        return toMap(Mode.SOFT, object);
+    }
 
-	public static <T> T fromMap(Mode mode, Class<T> c, Map<String, Object> map) {
-		return mode.mapper.convertValue(map, c);
-	}
+    @SuppressWarnings("unchecked")
+    public static Map<String, Object> toMap(Mode mode, Object object) {
+        return (Map<String, Object>) mode.mapper.convertValue(object, Map.class);
+    }
 
-	public static <T> T fromMap(Class<T> c, Map<String, Object> map) {
-		return fromMap(Mode.SOFT, c, map);
-	}
+    public enum Mode {
+        SOFT(() -> {
+            ObjectMapper m = new ObjectMapper();
+            SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null));
+            pair.addDeserializer(Pair.class, new StringLongPairDeserializator());
+            m.registerModule(pair);
+            return m;
+        }),
+        RAW(() -> {
+            ObjectMapper m = new ObjectMapper();
+            m.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
+            m.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+            SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null));
+            pair.addDeserializer(Pair.class, new StringLongPairDeserializator());
+            m.registerModule(pair);
+            return m;
+        });
 
-	public static Map<String, Object> toMap(Object object) {
-		return toMap(Mode.SOFT, object);
-	}
+        private final ObjectMapper mapper;
 
-	@SuppressWarnings("unchecked")
-	public static Map<String, Object> toMap(Mode mode, Object object) {
-		return (Map<String, Object>) mode.mapper.convertValue(object, Map.class);
-	}
+        Mode(Supplier<ObjectMapper> mapper) {
+            this.mapper = mapper.get();
+        }
+    }
 }

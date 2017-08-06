@@ -48,8 +48,8 @@ public class MantaroAPISender {
             int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
                     voiceChannel.getGuild().getSelfMember())).count();
             List<Integer> memoryUsage = new ArrayList<>();
-            memoryUsage.add((int)(getTotalMemory() - getFreeMemory())); //used
-            memoryUsage.add((int)getMaxMemory()); //total
+            memoryUsage.add((int) (getTotalMemory() - getFreeMemory())); //used
+            memoryUsage.add((int) getMaxMemory()); //total
 
             JSONObject mainStats = new JSONObject();
             mainStats.put("jdaVersion", JDAInfo.VERSION)
@@ -124,7 +124,7 @@ public class MantaroAPISender {
                     .put("commandStats", commands)
                     .put("shard_info", shardInfo);
 
-            try{
+            try {
                 RequestBody body = RequestBody.create(MediaType.parse("application/json"),
                         identify.toString());
                 RequestBody bodyStats = RequestBody.create(MediaType.parse("application/json"),
@@ -143,7 +143,7 @@ public class MantaroAPISender {
                         .post(bodyStats)
                         .build();
                 httpClient.newCall(st).execute().close();
-            } catch (Exception e) {
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         };

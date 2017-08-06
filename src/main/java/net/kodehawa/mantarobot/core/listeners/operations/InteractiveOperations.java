@@ -14,7 +14,7 @@ public class InteractiveOperations {
     private static final EventListener LISTENER = new InteractiveListener();
 
     private static final ExpiringMap<Long, RunningOperation> OPERATIONS = ExpiringMap.<Long, RunningOperation>builder()
-            .asyncExpirationListener((key, value) -> ((RunningOperation)value).operation.onExpire())
+            .asyncExpirationListener((key, value) -> ((RunningOperation) value).operation.onExpire())
             .variableExpiration()
             .build();
 
@@ -80,7 +80,7 @@ public class InteractiveOperations {
         @Override
         public void onEvent(Event e) {
             if(!(e instanceof GuildMessageReceivedEvent)) return;
-            GuildMessageReceivedEvent event = (GuildMessageReceivedEvent)e;
+            GuildMessageReceivedEvent event = (GuildMessageReceivedEvent) e;
             if(event.getAuthor().equals(event.getJDA().getSelfUser())) return;
             long channelId = event.getChannel().getIdLong();
             RunningOperation o = OPERATIONS.get(channelId);

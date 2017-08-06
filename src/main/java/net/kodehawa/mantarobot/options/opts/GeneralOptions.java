@@ -8,12 +8,12 @@ import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
-import net.kodehawa.mantarobot.options.annotations.Option;
-import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -27,7 +27,7 @@ public class GeneralOptions extends OptionHandler {
 
     @Subscribe
     public void onRegistry(OptionRegistryEvent e) {
-        registerOption("lobby:reset", "Lobby reset","Fixes stuck game/poll/operations session.", event -> {
+        registerOption("lobby:reset", "Lobby reset", "Fixes stuck game/poll/operations session.", event -> {
             GameLobby.LOBBYS.remove(event.getChannel());
             Poll.getRunningPolls().remove(event.getChannel().getId());
             Future<Void> stuck = InteractiveOperations.get(event.getChannel());
@@ -116,7 +116,7 @@ public class GeneralOptions extends OptionHandler {
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel allow promote-here",
                 "Allows the posting of invites on a channel.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
                     }
@@ -128,11 +128,11 @@ public class GeneralOptions extends OptionHandler {
                             .filter(textChannel -> textChannel.getName().contains(channelName))
                             .collect(Collectors.toList());
 
-                    if (textChannels.isEmpty()) {
+                    if(textChannels.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
                     }
 
-                    if (textChannels.size() <= 1) {
+                    if(textChannels.size() <= 1) {
                         guildData.getLinkProtectionAllowedChannels().add(textChannels.get(0).getId());
                         dbGuild.save();
                         event.getChannel().sendMessage(EmoteReference.CORRECT + textChannels.get(0).getAsMention() + " can now be used to post discord invites.").queue();
@@ -155,7 +155,7 @@ public class GeneralOptions extends OptionHandler {
                         "You need the channel name.\n" +
                         "Example: ~>opts linkprotection channel disallow general",
                 "Disallows the posting of invites on a channel (every channel by default)", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         OptsCmd.onHelp(event);
                         return;
                     }
@@ -167,11 +167,11 @@ public class GeneralOptions extends OptionHandler {
                             .filter(textChannel -> textChannel.getName().contains(channelName))
                             .collect(Collectors.toList());
 
-                    if (textChannels.isEmpty()) {
+                    if(textChannels.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
                     }
 
-                    if (textChannels.size() <= 1) {
+                    if(textChannels.size() <= 1) {
                         guildData.getLinkProtectionAllowedChannels().remove(textChannels.get(0).getId());
                         dbGuild.save();
                         event.getChannel().sendMessage(EmoteReference.CORRECT + textChannels.get(0).getAsMention() + " cannot longer be used to post discord invites.").queue();

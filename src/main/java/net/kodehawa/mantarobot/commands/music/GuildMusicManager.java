@@ -19,7 +19,8 @@ public class GuildMusicManager {
     public final AudioPlayer audioPlayer;
     @Getter
     public final TrackScheduler trackScheduler;
-    @Getter @Setter
+    @Getter
+    @Setter
     public boolean isAwaitingDeath;
     private ScheduledFuture<?> leaveTask = null;
 
@@ -35,7 +36,7 @@ public class GuildMusicManager {
         if(guild == null) return;
 
         (trackScheduler.getCurrentTrack() == null ?
-                guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(()-> new IllegalStateException("No channel to speak")) :
+                guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(() -> new IllegalStateException("No channel to speak")) :
                 trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.SAD + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
                 "because I was left all alone :<").queue();
         isAwaitingDeath = false;
@@ -54,7 +55,7 @@ public class GuildMusicManager {
         leaveTask = null;
     }
 
-    public AudioPlayerSendHandler getAudioPlayerSendHandler(){
+    public AudioPlayerSendHandler getAudioPlayerSendHandler() {
         return new AudioPlayerSendHandler(audioPlayer);
     }
 }

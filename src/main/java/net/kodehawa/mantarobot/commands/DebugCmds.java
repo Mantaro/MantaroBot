@@ -58,7 +58,7 @@ public class DebugCmds {
                         + "Guilds: " + guilds.size() + "\n"
                         + "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild()
-                                .getId()).getId() + 1) + ")" + "\n"
+                        .getId()).getId() + 1) + ")" + "\n"
                         + "Threads: " + Thread.activeCount() + "\n"
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
@@ -84,7 +84,7 @@ public class DebugCmds {
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (!rateLimiter.process(event.getMember())) {
+                if(!rateLimiter.process(event.getMember())) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Yikes! Seems like you're going too fast.").queue();
                     return;
                 }
@@ -112,7 +112,7 @@ public class DebugCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
-                for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
+                for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
                             "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | VC: %-2d",
@@ -124,7 +124,7 @@ public class DebugCmds {
                             jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
 
-                    if (shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
+                    if(shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
                         builder.append(" <- CURRENT");
                     }
 
@@ -135,7 +135,7 @@ public class DebugCmds {
                 StringBuilder sb = new StringBuilder();
                 while(s.length() > 0) {
                     int idx = s.indexOf('\n');
-                    String line = idx == -1 ? s : s.substring(0, idx+1);
+                    String line = idx == -1 ? s : s.substring(0, idx + 1);
                     s = s.substring(line.length());
                     if(s.equals("\n")) s = "";
                     if(sb.length() + line.length() > 1800) {
@@ -160,19 +160,19 @@ public class DebugCmds {
 
     private String ratePing(long ping) {
         if(ping == 69) return "l-lewd! <:MantaroGasm:318869352851963904>";
-        if (ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
-        if (ping <= 10) return "faster than Sonic! :smiley:";
-        if (ping <= 100) return "great! :smiley:";
-        if (ping <= 200) return "nice! :slight_smile:";
-        if (ping <= 300) return "decent. :neutral_face:";
-        if (ping <= 400) return "average... :confused:";
-        if (ping <= 500) return "slightly slow. :slight_frown:";
-        if (ping <= 600) return "kinda slow.. :frowning2:";
-        if (ping <= 700) return "slow.. :worried:";
-        if (ping <= 800) return "too slow. :disappointed:";
-        if (ping <= 900) return "bad. :sob: (helpme)";
-        if (ping <= 1600) return "#BlameDiscord. :angry:";
-        if (ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
+        if(ping <= 1) return "supersonic speed! :upside_down:"; //just in case...
+        if(ping <= 10) return "faster than Sonic! :smiley:";
+        if(ping <= 100) return "great! :smiley:";
+        if(ping <= 200) return "nice! :slight_smile:";
+        if(ping <= 300) return "decent. :neutral_face:";
+        if(ping <= 400) return "average... :confused:";
+        if(ping <= 500) return "slightly slow. :slight_frown:";
+        if(ping <= 600) return "kinda slow.. :frowning2:";
+        if(ping <= 700) return "slow.. :worried:";
+        if(ping <= 800) return "too slow. :disappointed:";
+        if(ping <= 900) return "bad. :sob: (helpme)";
+        if(ping <= 1600) return "#BlameDiscord. :angry:";
+        if(ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
         return "slow af. :dizzy_face: ";
     }
 }

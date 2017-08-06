@@ -15,8 +15,7 @@ public class MuteTask implements Runnable {
     @Override
     public void run() {
         MantaroObj data = MantaroData.db().getMantaroData();
-        for (Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet())
-        {
+        for(Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet()) {
             try {
                 Long id = entry.getKey();
                 Pair<String, Long> pair = entry.getValue();
@@ -26,14 +25,14 @@ public class MuteTask implements Runnable {
                 DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                 GuildData guildData = dbGuild.getData();
 
-                if (guild == null) {
+                if(guild == null) {
                     data.getMutes().remove(id);
                     data.save();
-                } else if (guild.getMemberById(id) == null) {
+                } else if(guild.getMemberById(id) == null) {
                     data.getMutes().remove(id);
                     data.save();
                 } else {
-                    if (System.currentTimeMillis() > maxTime) {
+                    if(System.currentTimeMillis() > maxTime) {
                         data.getMutes().remove(id);
                         data.save();
                         guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
@@ -42,7 +41,7 @@ public class MuteTask implements Runnable {
                         ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
                     }
                 }
-            } catch (Exception e1) {
+            } catch(Exception e1) {
                 e1.printStackTrace();
             }
         }
