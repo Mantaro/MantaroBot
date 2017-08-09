@@ -1,4 +1,4 @@
-package net.kodehawa.lib.imageboards.rule34.entities;
+package net.kodehawa.lib.imageboards.entities;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;

@@ -1,4 +1,4 @@
-package net.kodehawa.lib.imageboards.e621.main.entities;
+package net.kodehawa.lib.imageboards.entities;
 
 public class Furry {
 

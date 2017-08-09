@@ -1,10 +1,10 @@
-package net.kodehawa.mantarobot.commands.image;
+package net.kodehawa.lib.imageboards.entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class YandereImageData {
+public class YandereImage {
 
 	public Integer actual_preview_height = null;
 	public final Integer actual_preview_width = null;
