@@ -4,7 +4,6 @@ import lombok.Data;
 import net.kodehawa.mantarobot.db.redis.Input;
 import net.kodehawa.mantarobot.db.redis.Output;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.options.ConfigName;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,14 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Data
 public class GuildData {
     private boolean antiSpam = false;
-    @ConfigName("autoroles")
     private HashMap<String, String> autoroles = new HashMap<>();
     private String birthdayChannel = null;
     private String birthdayRole = null;
     private Long cases = 0L;
     private HashMap<String, List<Category>> channelSpecificDisabledCategories = new HashMap<>();
     private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
-    @ConfigName("admincustom")
     private boolean customAdminLock = false;
     private Set<Category> disabledCategories = new HashSet<>();
     private Set<String> disabledChannels = new HashSet<>();
@@ -30,9 +27,7 @@ public class GuildData {
     private Set<String> disabledRoles = new HashSet<>();
     private Set<String> disabledUsers = new HashSet<>();
     private String guildAutoRole = null;
-    @ConfigName("customPrefix")
     private String guildCustomPrefix = null;
-    @ConfigName("logChannel")
     private String guildLogChannel = null;
     private Set<String> guildUnsafeChannels = new HashSet<>();
     private String joinMessage = null;
@@ -62,6 +57,7 @@ public class GuildData {
     private Set<String> slowModeChannels = new HashSet<>();
     private Set<String> spamModeChannels = new HashSet<>();
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
+    private String premiumKey;
 
     public void write(Output out) {
         out.writeBoolean(antiSpam);
@@ -112,6 +108,7 @@ public class GuildData {
         out.writeCollection(slowModeChannels, Output::writeUTF);
         out.writeCollection(spamModeChannels, Output::writeUTF);
         out.writeInt(timeDisplay);
+        out.writeUTF(premiumKey, true);
     }
 
     public void read(Input in) {
@@ -163,5 +160,6 @@ public class GuildData {
         slowModeChannels = in.readSet(Input::readUTF);
         spamModeChannels = in.readSet(Input::readUTF);
         timeDisplay = in.readInt();
+        premiumKey = in.readUTF(true);
     }
 }
