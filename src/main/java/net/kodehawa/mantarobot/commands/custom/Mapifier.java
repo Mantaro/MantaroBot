@@ -40,9 +40,7 @@ public class Mapifier {
 		map.put(prefix + "name", guild.getName());
 		map(prefix + "owner", map, guild.getOwner());
 		map.put(prefix + "region", guild.getRegion().getName());
-		map(prefix + "publicChannel", map, guild.getPublicChannel());
 		map.put(prefix + "totalusers", String.valueOf(guild.getMembers().size()));
-		//map(prefix + "me", map, guild.getSelfMember());
 	}
 
 	public static void map(String prefix, Map<String, String> map, Member member) {

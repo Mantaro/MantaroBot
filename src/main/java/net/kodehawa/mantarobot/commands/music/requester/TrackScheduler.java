@@ -168,6 +168,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private void onStop() {
         getVoteStop().clear();
         getVoteSkips().clear();
+        requestedChannel = 0;
 
         Guild g = getGuild();
         if (g == null) return;

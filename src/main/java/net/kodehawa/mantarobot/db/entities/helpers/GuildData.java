@@ -53,4 +53,5 @@ public class GuildData {
 	private long setModTimeout = 0L;
 	private int maxResultsSearch = 5;
 	private Set<String> disabledRoles = new HashSet<>();
+	private String premiumKey; //Placeholder here for rethonk plz
 }

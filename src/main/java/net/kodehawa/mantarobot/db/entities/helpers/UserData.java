@@ -7,4 +7,5 @@ public class UserData {
 	private String birthday;
 	private String timezone;
 	private int reminderN;
+	private String premiumKey; //Placeholder here for rethonk plz
 }

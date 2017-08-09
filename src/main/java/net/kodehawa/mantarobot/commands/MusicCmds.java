@@ -831,6 +831,7 @@ public class MusicCmds {
 			musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
 		}
 
+
 		int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
 		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
 
@@ -839,6 +840,7 @@ public class MusicCmds {
 		}
 
 		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().nextTrack(true, false);
+		musicManager.getTrackScheduler().setRequestedChannel(0L);
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 }

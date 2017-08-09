@@ -46,8 +46,8 @@ public class MantaroAudioManager {
     }
 
     public synchronized void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
-        GuildMusicManager musicManager = getMusicManager(event.getGuild());
         if (!AudioCmdUtils.connectToVoiceChannel(event)) return;
+        GuildMusicManager musicManager = getMusicManager(event.getGuild());
         musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
         if(musicManager.getTrackScheduler().getQueue().isEmpty()) musicManager.getTrackScheduler().setRepeatMode(null);
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, trackUrl, skipSelection));
