@@ -374,10 +374,10 @@ public class ImageCmds {
 
 									String TAGS = image.get(number).getTags().replace(" ", " ,");
 									EmbedBuilder builder = new EmbedBuilder();
-									builder.setAuthor("Found image", "http:" + image.get(number - 1).getFile_url(), null)
-										.setImage("https:" + image.get(number - 1).getFile_url())
-										.addField("Width", String.valueOf(image.get(number - 1).getWidth()), true)
-										.addField("Height", String.valueOf(image.get(number - 1).getHeight()), true)
+									builder.setAuthor("Found image", image.get(number).getFile_url(), null)
+										.setImage(image.get(number).getFile_url())
+										.addField("Width", String.valueOf(image.get(number).getWidth()), true)
+										.addField("Height", String.valueOf(image.get(number).getHeight()), true)
 										.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
 										.setFooter("If the image doesn't load, click the title.", null);
 
@@ -414,18 +414,22 @@ public class ImageCmds {
 										} catch (Exception e) {
 											number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
 										}
-										String TAGS = images.get(number).getTags() == null ? tags : images.get(number).getTags()
-											.replace(" ", " ,");
+
+										String TAGS = images.get(number1).getTags() == null ? tags : images.get(number1).getTags();
+
+										if(TAGS.length() > 980) TAGS = TAGS.substring(0, 980) + "...";
+
 										EmbedBuilder builder = new EmbedBuilder();
-										builder.setAuthor("Found image", "http:" + images.get(number1 - 1).getFile_url(), null)
-											.setImage("http:" + images.get(number1 - 1).getFile_url())
-											.addField("Width", String.valueOf(images.get(number1 - 1).getWidth()), true)
-											.addField("Height", String.valueOf(images.get(number1 - 1).getHeight()), true)
+										builder.setAuthor("Found image", images.get(number1).getFile_url(), null)
+											.setImage(images.get(number1).getFile_url())
+											.addField("Width", String.valueOf(images.get(number1).getWidth()), true)
+											.addField("Height", String.valueOf(images.get(number1).getHeight()), true)
 											.addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
 											.setFooter("If the image doesn't load, click the title.", null);
 
 										event.getChannel().sendMessage(builder.build()).queue();
 									} catch (Exception e) {
+										e.printStackTrace();
 										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 									}
 

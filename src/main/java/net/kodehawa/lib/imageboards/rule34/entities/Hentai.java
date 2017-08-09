@@ -7,10 +7,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 public class Hentai {
 
 	@JacksonXmlProperty(isAttribute = true)
-	public String file_url = null;
-	public Integer height = null;
-	public String tags = null;
-	public Integer width = null;
+	public String file_url;
+	public Integer height;
+	public String tags;
+	public Integer width;
 
 	public String getFile_url() {
 		return file_url;
