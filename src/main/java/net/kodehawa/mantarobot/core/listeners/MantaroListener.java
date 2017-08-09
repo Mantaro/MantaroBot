@@ -175,11 +175,12 @@ public class MantaroListener implements EventListener {
     private void onRoleAdd(GuildMemberRoleAddEvent event){
         User user = event.getUser();
         DBUser dbUser = db.getUser(user);
-        if(event.getRoles().stream().anyMatch(r -> r.getId().equals("331250898590367744"))) {
+        if(event.getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
             //Thanks lombok for the meme names
             if (!dbUser.getData().isHasReceivedFirstKey() && !MantaroData.config().get().isPremiumBot()) {
                 //Attempt to open a PM and send a key!
                 user.openPrivateChannel().queue(channel -> {
+                    //Sellout message :^)
                     channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
                         message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. If any doubts, please contact Kodehawa#3457.\n" +
                                 "Instructions: **Apply this key to yourself!**. This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
