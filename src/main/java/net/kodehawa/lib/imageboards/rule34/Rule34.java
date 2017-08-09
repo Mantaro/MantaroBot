@@ -40,7 +40,7 @@ public class Rule34 {
 		});
 
 		try {
-			String response = Utils.wgetResty("http://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams), null);
+			String response = Utils.wgetResty("https://rule34.xxx/index.php?page=dapi&s=post&q=index" + "&" + Utils.urlEncodeUTF8(queryParams), null);
 			wallpapers = Utils.XML_MAPPER.readValue(response, Hentai[].class);
 		} catch (Exception e) {
 			e.printStackTrace();

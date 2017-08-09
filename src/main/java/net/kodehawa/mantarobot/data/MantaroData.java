@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.data;
 
 import com.rethinkdb.net.Connection;
+import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -12,6 +13,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import static com.rethinkdb.RethinkDB.r;
 
+@Slf4j
 public class MantaroData {
 	private static GsonDataManager<Config> config;
 	private static Connection conn;
@@ -26,7 +28,10 @@ public class MantaroData {
 
 	public static Connection conn() {
 		Config c = config().get();
-		if (conn == null) conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
+		if (conn == null){
+			conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
+			log.info("[STARTUP] Establishing database connection to {}:{} ({})...", c.dbHost, c.dbPort, c.dbUser);
+		}
 		return conn;
 	}
 

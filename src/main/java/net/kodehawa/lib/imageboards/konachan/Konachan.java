@@ -66,7 +66,7 @@ public class Konachan {
 
 		String response;
 		try {
-			response = this.resty.text("http://konachan.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
+			response = this.resty.text("https://konachan.com/post.json" + "?" + Utils.urlEncodeUTF8(this.queryParams)).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
