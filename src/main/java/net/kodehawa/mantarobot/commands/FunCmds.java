@@ -288,7 +288,7 @@ public class FunCmds {
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				List<User> mentioned = event.getMessage().getMentionedUsers();
 				int percentage = r.nextInt(100);
-				String result = "Uh...";
+				String result;
 
 				if(mentioned.size() < 1) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least 1 user.").queue();
@@ -317,9 +317,9 @@ public class FunCmds {
 
 				if(percentage < 45) {
 					result = "Try again next time...";
-				} else if (percentage > 45 && percentage < 75) {
+				} else if (percentage >= 45 && percentage < 75) {
 					result = "Good enough!";
-				} else if (percentage > 75 && percentage < 100) {
+				} else if (percentage >= 75 && percentage < 100) {
 					result = "Good match!";
 				}  else {
 					result = "Perfect match!";

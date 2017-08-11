@@ -502,6 +502,12 @@ public class MoneyCmds {
                 if(args.length == 1 && !coinSelect){
                     try {
                         money = Math.abs(Integer.parseInt(args[0]));
+
+                        if(money < 25){
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "The minimum amount is 25!").queue();
+                            return;
+                        }
+
                         if(money > 10000){
                             event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!").queue();
                             return;
