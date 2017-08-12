@@ -825,7 +825,7 @@ public class MusicCmds {
 
 	/**
 	 *  This only fires on manual stop!
-	 * @param event
+	 * @param event wha
 	 */
 	private void stop(GuildMessageReceivedEvent event) {
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
@@ -844,9 +844,6 @@ public class MusicCmds {
 
 
 		trackScheduler.nextTrack(true, false);
-		trackScheduler.setRequestedChannel(0L);
-		trackScheduler.getVoteSkips().clear();
-		trackScheduler.getVoteStop().clear();
 
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
