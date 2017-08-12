@@ -823,23 +823,31 @@ public class MusicCmds {
 		channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently playing in!").queue();
 	}
 
+	/**
+	 *  This only fires on manual stop!
+	 * @param event
+	 */
 	private void stop(GuildMessageReceivedEvent event) {
 		GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-
-		if (musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack() != null && !musicManager.getTrackScheduler().getAudioPlayer().isPaused()) {
-			musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().stop();
+		TrackScheduler trackScheduler = musicManager.getTrackScheduler();
+		if (trackScheduler.getAudioPlayer().getPlayingTrack() != null && !trackScheduler.getAudioPlayer().isPaused()) {
+			trackScheduler.getAudioPlayer().getPlayingTrack().stop();
 		}
 
 
-		int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+		int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
+		trackScheduler.getQueue().clear();
 
 		if (TEMP_QUEUE_LENGTH > 0) {
 			event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 		}
 
-		MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().nextTrack(true, false);
-		musicManager.getTrackScheduler().setRequestedChannel(0L);
+
+		trackScheduler.nextTrack(true, false);
+		trackScheduler.setRequestedChannel(0L);
+		trackScheduler.getVoteSkips().clear();
+		trackScheduler.getVoteStop().clear();
+
 		event.getGuild().getAudioManager().closeAudioConnection();
 	}
 }
