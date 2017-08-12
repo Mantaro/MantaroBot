@@ -168,7 +168,6 @@ public class TrackScheduler extends AudioEventAdapter {
     private void onStop() {
         getVoteStop().clear();
         getVoteSkips().clear();
-        requestedChannel = 0;
 
         Guild g = getGuild();
         if (g == null) return;
@@ -181,10 +180,12 @@ public class TrackScheduler extends AudioEventAdapter {
             if (ch != null && ch.canTalk()) {
                 ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
                         (MantaroData.db().getGuild(g).isPremium() ? "" :
-                        ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
+                                ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch (Exception ignored){}
+
+        requestedChannel = 0;
     }
 
     public enum Repeat {
