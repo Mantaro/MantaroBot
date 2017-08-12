@@ -71,12 +71,11 @@ public class TrackScheduler extends AudioEventAdapter {
             if(skip) onTrackStart();
             if(repeatMode == Repeat.QUEUE) queue(previousTrack.makeClone());
         }
-
-        if(currentTrack == null) onStop();
     }
 
     private void onTrackStart(){
         if(currentTrack == null){
+            onStop();
             return;
         }
 
@@ -173,19 +172,23 @@ public class TrackScheduler extends AudioEventAdapter {
         if (g == null) return;
         AudioManager m = g.getAudioManager();
         if (m == null) return;
-        m.closeAudioConnection();
+
+        boolean premium = MantaroData.db().getGuild(g).isPremium();
 
         try{
             TextChannel ch = getRequestedChannelParsed();
+            System.out.println(ch + "{" + requestedChannel + "}");
             if (ch != null && ch.canTalk()) {
                 ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
-                        (MantaroData.db().getGuild(g).isPremium() ? "" :
+                        (premium ? "" :
                                 ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
+
+            requestedChannel = 0;
         } catch (Exception ignored){}
 
-        requestedChannel = 0;
+        m.closeAudioConnection();
     }
 
     public enum Repeat {

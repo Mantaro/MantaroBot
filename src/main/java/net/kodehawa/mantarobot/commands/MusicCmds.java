@@ -824,7 +824,7 @@ public class MusicCmds {
 	}
 
 	/**
-	 *  This only fires on manual stop!
+	 * This only fires on manual stop!
 	 * @param event wha
 	 */
 	private void stop(GuildMessageReceivedEvent event) {
@@ -834,7 +834,6 @@ public class MusicCmds {
 			trackScheduler.getAudioPlayer().getPlayingTrack().stop();
 		}
 
-
 		int TEMP_QUEUE_LENGTH = trackScheduler.getQueue().size();
 		trackScheduler.getQueue().clear();
 
@@ -842,9 +841,8 @@ public class MusicCmds {
 			event.getChannel().sendMessage(EmoteReference.OK + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
 		}
 
-
-		trackScheduler.nextTrack(true, false);
-
-		event.getGuild().getAudioManager().closeAudioConnection();
+		//This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
+		//Beware to not close the connection twice...
+		trackScheduler.nextTrack(true, true);
 	}
 }
