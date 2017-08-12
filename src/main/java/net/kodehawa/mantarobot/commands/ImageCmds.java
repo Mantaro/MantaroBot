@@ -636,9 +636,9 @@ public class ImageCmds {
 	}
 
 	private boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, String rating){
-		boolean trigger =
-				tags.contains("loli") || tags.contains("lolis") ||
-				tags.contains("shota") || tags.contains("shotas") &&
+		boolean trigger = tags.contains("loli") || tags.contains("lolis") ||
+				tags.contains("shota") || tags.contains("shotas") ||
+				tags.contains("lolicon") || tags.contains("shotacon") &&
 				(rating == null || rating.equals("q") || rating.equals("e"));
 
 		if(!trigger){
