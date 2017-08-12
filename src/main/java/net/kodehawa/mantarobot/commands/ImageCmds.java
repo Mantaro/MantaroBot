@@ -144,6 +144,7 @@ public class ImageCmds {
 
 									Furry image = image1.get(number);
 									String TAGS = image.getTags().replace(" ", " ,");
+									if(foundMinorTags(event, TAGS, null)) return;
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, image.getFile_url())
 											.setImage(image.getFile_url())
@@ -153,7 +154,7 @@ public class ImageCmds {
 											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch(IndexOutOfBoundsException e) {
+								} catch(IndexOutOfBoundsException | IllegalArgumentException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 								}
 							});
@@ -182,6 +183,7 @@ public class ImageCmds {
 
 									Furry image = images.get(number1);
 									String TAGS = image.getTags().replace(" ", " ,");
+									if(foundMinorTags(event, TAGS, null)) return;
 
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", null, image.getFile_url())
@@ -268,7 +270,7 @@ public class ImageCmds {
 								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
 										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
 								);
-							if(exception instanceof IndexOutOfBoundsException)
+							if(exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException)
 								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
@@ -301,15 +303,15 @@ public class ImageCmds {
 								channel.sendMessage(builder.build()).queue();
 							});
 						} catch(Exception exception) {
-							if(exception instanceof IndexOutOfBoundsException) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
-								return;
-							}
-
 							if(exception instanceof NumberFormatException)
 								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
 										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
 								);
+
+							if(exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException) {
+								event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
+								return;
+							}
 						}
 						break;
 					default:
@@ -359,6 +361,7 @@ public class ImageCmds {
 									}
 									Hentai image = images.get(number);
 									String TAGS = image.getTags().replace(" ", " ,");
+									if(foundMinorTags(event, TAGS, null)) return;
 									EmbedBuilder builder = new EmbedBuilder();
 									builder.setAuthor("Found image", image.getFile_url(), null)
 											.setImage(image.getFile_url())
@@ -368,7 +371,7 @@ public class ImageCmds {
 											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException e) {
+								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 								}
 							});
@@ -398,6 +401,7 @@ public class ImageCmds {
 
 										Hentai image = images.get(number1);
 										String tags1 = image.getTags() == null ? tags : image.getTags();
+										if(foundMinorTags(event, tags1, null)) return;
 
 										if(tags1.length() > 980) tags1 = tags1.substring(0, 980) + "...";
 
@@ -410,7 +414,7 @@ public class ImageCmds {
 												.setFooter("If the image doesn't load, click the title.", null);
 
 										event.getChannel().sendMessage(builder.build()).queue();
-									} catch (ArrayIndexOutOfBoundsException e) {
+									} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
 										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
 												"number or another search.").queue();
 									}
@@ -478,36 +482,42 @@ public class ImageCmds {
 							String[] wholeBeheaded = whole1.split(" ");
 
 							yandere.get(images1 -> {
-								int number;
-								List<YandereImage> images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-								try {
-									number = Integer.parseInt(wholeBeheaded[0]);
-								} catch(Exception e) {
-									number = r.nextInt(images.size());
+								try{
+									int number;
+									List<YandereImage> images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+									try {
+										number = Integer.parseInt(wholeBeheaded[0]);
+									} catch(Exception e) {
+										number = r.nextInt(images.size());
+									}
+									YandereImage image = images.get(number);
+									String tags = image.getTags().stream().collect(Collectors.joining(", "));
+									String author = image.getAuthor();
+									if(foundMinorTags(event, tags, image.rating)){
+										return;
+									}
+
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", image.getJpeg_url(), null)
+											.setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.rating)))
+											.setImage(image.getJpeg_url())
+											.addField("Width", String.valueOf(image.getWidth()), true)
+											.addField("Height", String.valueOf(image.getHeight()), true)
+											.addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
+											.setFooter("If the image doesn't load, click the title.", null);
+
+									channel.sendMessage(builder.build()).queue();
+									TextChannelGround.of(event).dropItemWithChance(13, 3);
+								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
+											"number or another search.").queue();
 								}
-								YandereImage image = images.get(number);
-								String tags = image.getTags().stream().collect(Collectors.joining(", "));
-								String author = image.getAuthor();
-
-								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", image.getJpeg_url(), null)
-										.setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.rating)))
-										.setImage(image.getJpeg_url())
-										.addField("Width", String.valueOf(image.getWidth()), true)
-										.addField("Height", String.valueOf(image.getHeight()), true)
-										.addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
-										.setFooter("If the image doesn't load, click the title.", null);
-
-								channel.sendMessage(builder.build()).queue();
-								TextChannelGround.of(event).dropItemWithChance(13, 3);
 							});
 						} catch(Exception exception) {
 							if(exception instanceof NumberFormatException)
 								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help yandere").queue(
 										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
 								);
-							if(exception instanceof IndexOutOfBoundsException)
-								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
 					case "tags":
@@ -517,35 +527,40 @@ public class ImageCmds {
 							String tags = expectedNumber[0];
 
 							yandere.onSearch(tags, images -> {
-								List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-								int number1;
-								try {
-									number1 = Integer.parseInt(expectedNumber[1]);
-								} catch(Exception e) {
-									number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+								try{
+									List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+									int number1;
+									try {
+										number1 = Integer.parseInt(expectedNumber[1]);
+									} catch(Exception e) {
+										number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+									}
+									YandereImage image = filter.get(number1);
+									String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
+
+									if(foundMinorTags(event, tags1, image.rating)){
+										System.out.println("filtered");
+										return;
+									}
+									String author = image.getAuthor();
+
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", image.getJpeg_url(), null)
+											.setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.rating)))
+											.setImage(image.getJpeg_url())
+											.addField("Width", String.valueOf(image.getWidth()), true)
+											.addField("Height", String.valueOf(image.getHeight()), true)
+											.addField("Tags", "`" + (tags1 == null ? "None" : tags1) + "`", false)
+											.setFooter("If the image doesn't load, click the title.", null);
+
+									channel.sendMessage(builder.build()).queue();
+									TextChannelGround.of(event).dropItemWithChance(13, 3);
+								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
+											"number or another search.").queue();
 								}
-								YandereImage image = filter.get(number1);
-								String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
-								String author = image.getAuthor();
-
-								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", image.getJpeg_url(), null)
-										.setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.rating)))
-										.setImage(image.getJpeg_url())
-										.addField("Width", String.valueOf(image.getWidth()), true)
-										.addField("Height", String.valueOf(image.getHeight()), true)
-										.addField("Tags", "`" + (tags1 == null ? "None" : tags1) + "`", false)
-										.setFooter("If the image doesn't load, click the title.", null);
-
-								channel.sendMessage(builder.build()).queue();
-								TextChannelGround.of(event).dropItemWithChance(13, 3);
 							});
 						} catch(Exception exception) {
-							if(exception instanceof IndexOutOfBoundsException) {
-								event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
-								return;
-							}
-
 							if(exception instanceof NumberFormatException)
 								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help yandere").queue(
 										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
@@ -617,6 +632,21 @@ public class ImageCmds {
 			return false;
 		}
 
+		return true;
+	}
+
+	private boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, String rating){
+		boolean trigger =
+				tags.contains("loli") || tags.contains("lolis") ||
+				tags.contains("shota") || tags.contains("shotas") &&
+				(rating == null || rating.equals("q") || rating.equals("e"));
+
+		if(!trigger){
+			return false;
+		}
+
+		event.getChannel().sendMessage(EmoteReference.WARNING + "Sadly we cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord" +
+				" prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)").queue();
 		return true;
 	}
 

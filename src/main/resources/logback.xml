@@ -18,15 +18,12 @@
             <level>INFO</level>
         </filter>
         <encoder>
-            <pattern>[%d{HH:mm:ss}] [%t/%level] [%logger{0}]: %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0} ] %msg%n</pattern>
         </encoder>
     </appender>
-
-    <appender name="DISCORD" class="net.kodehawa.mantarobot.log.LogBack"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
-        <appender-ref ref="DISCORD"/>
     </root>
 </configuration>

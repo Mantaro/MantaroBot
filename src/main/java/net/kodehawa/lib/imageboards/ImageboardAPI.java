@@ -70,7 +70,6 @@ public class ImageboardAPI<T> {
         T[] wallpapers;
         Optional.ofNullable(search).ifPresent((element) -> {
             queryParams.put("tags", search.toLowerCase().trim());
-            queryParams.remove("page");
         });
 
         try {
@@ -89,7 +88,9 @@ public class ImageboardAPI<T> {
             try {
                 List<T> wallpapers = get(limit, search);
                 result.accept(wallpapers);
-            } catch(Exception ignored) {}
+            } catch(Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 }
