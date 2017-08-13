@@ -334,6 +334,11 @@ public class UtilsCmds {
 
 				Map<String, Optional<String>> t = StringUtils.parse(args);
 
+				if(!t.containsKey("time")){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h`)").queue();
+					return;
+				}
+
 				if(!t.get("time").isPresent()) {
 					event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't give me a `-time` argument! (Example: `-time 1h`)").queue();
 					return;

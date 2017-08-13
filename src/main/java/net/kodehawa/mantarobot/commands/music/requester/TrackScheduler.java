@@ -177,7 +177,6 @@ public class TrackScheduler extends AudioEventAdapter {
 
         try{
             TextChannel ch = getRequestedChannelParsed();
-            System.out.println(ch + "{" + requestedChannel + "}");
             if (ch != null && ch.canTalk()) {
                 ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
                         (premium ? "" :
@@ -185,9 +184,9 @@ public class TrackScheduler extends AudioEventAdapter {
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
 
-            requestedChannel = 0;
         } catch (Exception ignored){}
 
+        requestedChannel = 0;
         m.closeAudioConnection();
     }
 
