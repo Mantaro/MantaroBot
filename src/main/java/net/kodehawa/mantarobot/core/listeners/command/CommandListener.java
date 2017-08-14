@@ -55,7 +55,7 @@ public class CommandListener implements EventListener {
 		return String.valueOf(commandTotal);
 	}
 
-	public static void setCustomProcessor(String channelId, DefaultCommandProcessor processor) {
+	public static void setCustomProcessor(String channelId, ICommandProcessor processor) {
 		if (processor == null) CUSTOM_PROCESSORS.remove(channelId);
 		else CUSTOM_PROCESSORS.put(channelId, processor);
 	}

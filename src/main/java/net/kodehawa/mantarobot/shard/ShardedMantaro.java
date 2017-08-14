@@ -35,7 +35,7 @@ public class ShardedMantaro {
         if(isDebug) shardAmount = 2;
         this.totalShards = shardAmount;
         processor = commandProcessor;
-        shards = new MantaroShard[shardAmount];
+        shards = new MantaroShard[this.totalShards];
     }
 
     public void shard() {
