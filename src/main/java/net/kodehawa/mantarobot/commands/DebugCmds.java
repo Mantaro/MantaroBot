@@ -12,7 +12,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.core.processor.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
@@ -44,7 +44,7 @@ public class DebugCmds {
 
                 sendStatsMessageAndThen(event, "```prolog\n"
                         + " --------- Technical Information --------- \n\n"
-                        + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
+                        + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"

@@ -30,11 +30,12 @@ public class ShardedMantaro {
     private final ICommandProcessor processor;
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
-        if(auto) totalShards = getRecommendedShards(token);
-        if(isDebug) totalShards = 2;
-        this.totalShards = totalShards;
+        int shardAmount = totalShards;
+        if(auto) shardAmount = getRecommendedShards(token);
+        if(isDebug) shardAmount = 2;
+        this.totalShards = shardAmount;
         processor = commandProcessor;
-        shards = new MantaroShard[totalShards];
+        shards = new MantaroShard[shardAmount];
     }
 
     public void shard() {

@@ -3,14 +3,13 @@ package net.kodehawa.mantarobot.shard;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 
 public class ShardedBuilder {
-
-    public ShardedBuilder() {}
-
     private int amount = 1;
     private boolean auto;
     private boolean debug;
     private String token;
     private ICommandProcessor commandProcessor;
+
+    public ShardedBuilder() {}
 
     public ShardedBuilder amount(int shardAmount) {
         amount = shardAmount;

@@ -10,7 +10,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
-import net.kodehawa.mantarobot.core.processor.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -244,7 +244,7 @@ public class InfoCmds {
 							 	(guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
 								"" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
 						.setFooter(String.format("To check command usage, type %shelp <command> // -> Commands: " +
-								CommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
+								DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(c -> c.category() != null).count()
 							, prefix), null);
 
 					Arrays.stream(Category.values())
@@ -256,7 +256,7 @@ public class InfoCmds {
 					event.getChannel().sendMessage(embed.build()).queue();
 
 				} else {
-					net.kodehawa.mantarobot.modules.commands.base.Command command = CommandProcessor.REGISTRY.commands().get(content);
+					net.kodehawa.mantarobot.modules.commands.base.Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
 					if (command != null) {
 						final MessageEmbed help = command.help(event);
@@ -353,7 +353,7 @@ public class InfoCmds {
 												.addField("Music Listeners per Online Users per Server", String.format(Locale.ENGLISH, "Min: %.1f%%\nAvg: %.1f%%\nMax: %.1f%%", listeningUsersPerOnlineUsersPerGuilds.getMin(), listeningUsersPerOnlineUsersPerGuilds.getAverage(), listeningUsersPerOnlineUsersPerGuilds.getMax()), true)
 												.addField("Music Connections per Server", String.format(Locale.ENGLISH, "%.1f%% (%d Connections)", musicConnectionsPerServer, musicConnections), true)
 												.addField("Total queue size", Long.toString(MantaroBot.getInstance().getAudioManager().getTotalQueueSize()), true)
-												.addField("Total commands (including custom)", String.valueOf(CommandProcessor.REGISTRY.commands().size()), true)
+												.addField("Total commands (including custom)", String.valueOf(DefaultCommandProcessor.REGISTRY.commands().size()), true)
 												.addField("Exclusiveness in Total Servers", Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
 												.addField("Big Servers", String.valueOf(bigGuilds), true)
 												.setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())

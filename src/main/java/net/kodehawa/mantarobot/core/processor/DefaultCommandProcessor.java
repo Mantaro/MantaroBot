@@ -15,7 +15,7 @@ import java.util.Date;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
-public class CommandProcessor implements ICommandProcessor {
+public class DefaultCommandProcessor implements ICommandProcessor {
 
 	public static final CommandRegistry REGISTRY = new CommandRegistry();
 	private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");

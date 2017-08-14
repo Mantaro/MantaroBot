@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.core.processor.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -218,7 +218,7 @@ public class MantaroBot extends ShardedJDA {
 				.debug(DEBUG)
 				.auto(true)
 				.token(config.token)
-				.commandProcessor(new CommandProcessor())
+				.commandProcessor(new DefaultCommandProcessor())
 				.build();
 
 		shardedMantaro.shard();
@@ -252,7 +252,7 @@ public class MantaroBot extends ShardedJDA {
 				log.error("Invalid module: no zero arg public constructor found for " + clazz);
 			}
 		});
-		bus.post(CommandProcessor.REGISTRY);
+		bus.post(DefaultCommandProcessor.REGISTRY);
 
 		loadState = POSTLOAD;
 		System.out.println("Finished loading basic components. Current status: " + loadState);
@@ -263,7 +263,7 @@ public class MantaroBot extends ShardedJDA {
 
 		LogUtils.log("Startup",
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
-						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
+						DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
 		if(!config.isPremiumBot() && !config.isBeta() ) {
 			mantaroAPI.startService();

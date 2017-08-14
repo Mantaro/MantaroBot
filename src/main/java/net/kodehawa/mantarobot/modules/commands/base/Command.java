@@ -4,9 +4,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.options.Option;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Interface used for handling commands within the bot.
  */
