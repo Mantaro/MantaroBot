@@ -8,8 +8,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
-import net.kodehawa.mantarobot.core.listeners.operations.Operation;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -121,7 +121,7 @@ public class Poll extends Lobby {
         return runningPolls;
     }
 
-    public boolean isPollAlreadyRunning(TextChannel channel) {
+    private boolean isPollAlreadyRunning(TextChannel channel) {
         return runningPolls.containsKey(channel.getId());
     }
 

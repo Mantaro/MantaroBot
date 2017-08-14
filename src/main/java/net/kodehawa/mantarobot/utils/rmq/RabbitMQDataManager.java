@@ -168,7 +168,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                 }
 
                                 try {
-                                    MantaroBot.getInstance().getShardList().get(shardId).restartJDA(force);
+                                    MantaroBot.getInstance().getShardList().get(shardId).start(force);
 
                                     mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
                                             String.format("Restarted shard no.%d from API call: %d", shardId, apiCalls),

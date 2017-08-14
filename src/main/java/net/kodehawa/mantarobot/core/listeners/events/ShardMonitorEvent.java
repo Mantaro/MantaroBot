@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.core;
+package net.kodehawa.mantarobot.core.listeners.events;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.Event;
@@ -7,7 +7,8 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Slf4j
-public class ShardMonitorEvent extends Event {
+public class ShardMonitorEvent extends Event implements MantaroEvent {
+
 	private class ShardListeners {
 		private final int shardId;
 		private boolean commandListener = false;
@@ -77,4 +78,7 @@ public class ShardMonitorEvent extends Event {
 	public int totalAliveShards() {
 		return alive.size();
 	}
+
+	@Override
+	public void onPropagation() {}
 }

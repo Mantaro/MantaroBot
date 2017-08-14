@@ -17,6 +17,7 @@ import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
+import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -66,7 +67,7 @@ public class MantaroShard implements JDA {
 	private JDA jda;
 	private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-	public MantaroShard(int shardId, int totalShards, MantaroEventManager manager) throws RateLimitedException, LoginException, InterruptedException {
+	public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
 		this.shardId = shardId;
 		this.totalShards = totalShards;
 		this.manager = manager;
@@ -86,12 +87,12 @@ public class MantaroShard implements JDA {
 
 		log = LoggerFactory.getLogger("MantaroShard-" + shardId);
 		mantaroListener = new MantaroListener(shardId, this);
-		commandListener = new CommandListener(shardId, this);
+		commandListener = new CommandListener(shardId, this, commandProcessor);
 
-		restartJDA(false);
+		start(false);
 	}
 
-	public void restartJDA(boolean force) throws RateLimitedException, LoginException, InterruptedException {
+	public void start(boolean force) throws RateLimitedException, LoginException, InterruptedException {
 		if (jda != null) {
 			log.info("Attempting to drop shard #" + shardId);
 			if (!force) prepareShutdown();

@@ -7,12 +7,15 @@ import net.kodehawa.mantarobot.options.Option;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
  * "Assisted" version of the {@link Command} interface, providing some "common ground" for all Commands based on it.
  */
 public interface AssistedCommand extends Command {
+
 	default EmbedBuilder baseEmbed(GuildMessageReceivedEvent event, String name) {
 		return baseEmbed(event, name, event.getJDA().getSelfUser().getEffectiveAvatarUrl());
 	}

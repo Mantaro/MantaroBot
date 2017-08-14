@@ -15,9 +15,9 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.shard.MantaroShard;
@@ -397,8 +397,7 @@ public class OwnerCmd {
 				String value = args[1];
 
 				if (option.equals("notifymusic")) {
-					//TODO re-enable
-					//notifyMusic(value);
+					notifyMusic(value);
 					event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
 					return;
 				}

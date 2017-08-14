@@ -7,9 +7,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.ImageCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -43,32 +44,26 @@ public class ActionCmds {
 
 	@Subscribe
 	public void action(CommandRegistry registry) {
-		registry.register("action", new SimpleCommand(Category.ACTION) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				String noArgs = content.split(" ")[0];
-				TextChannel channel = event.getChannel();
-				switch (noArgs) {
-					case "nom":
-						channel.sendMessage(CollectionUtils.random(NOMS.get())).queue();
-						break;
-					case "bleach":
-						channel.sendMessage(CollectionUtils.random(BLEACH.get())).queue();
-						break;
-					default:
-						onError(event);
-				}
-			}
-
+		registry.register("action", new SimpleTreeCommand(Category.ACTION) {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Action commands")
-					.addField("Usage", "`~>action bleach` - **Random bleach picture**.\n" +
-						"`~>action nom` - **nom nom**.", false)
-					.setColor(Color.PINK)
-					.build();
+						.addField("Usage", "`~>action bleach` - **Random bleach picture**.\n" +
+								"`~>action nom` - **nom nom**.", false)
+						.setColor(Color.PINK)
+						.build();
 			}
-		});
+		}.addSubCommand("nom", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(CollectionUtils.random(NOMS.get())).queue();
+			}
+		}).addSubCommand("bleach", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(CollectionUtils.random(BLEACH.get())).queue();
+			}
+		}));
 	}
 
 	@Subscribe

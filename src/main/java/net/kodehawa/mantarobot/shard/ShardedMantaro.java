@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
+import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import okhttp3.OkHttpClient;
@@ -26,11 +27,13 @@ public class ShardedMantaro {
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
+    private final ICommandProcessor processor;
 
-    public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token) {
+    public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         if(auto) totalShards = getRecommendedShards(token);
         if(isDebug) totalShards = 2;
         this.totalShards = totalShards;
+        processor = commandProcessor;
         shards = new MantaroShard[totalShards];
     }
 
@@ -44,7 +47,7 @@ public class ShardedMantaro {
                 log.info("Starting shard #" + i + " of " + totalShards);
                 MantaroEventManager manager = new MantaroEventManager();
                 managers.add(manager);
-                shards[i] = new MantaroShard(i, totalShards, manager);
+                shards[i] = new MantaroShard(i, totalShards, manager, processor);
                 log.debug("Finished loading shard #" + i + ".");
             }
         } catch (Exception e) {

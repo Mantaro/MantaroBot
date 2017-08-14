@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.modules.commands;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
 
 import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 

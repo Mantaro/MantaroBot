@@ -12,9 +12,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
-import net.kodehawa.mantarobot.core.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.shard.MantaroShard;
@@ -29,8 +30,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class CommandListener implements EventListener {
-	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
-	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
+	private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
+	private static ICommandProcessor DEFAULT_PROCESSOR;
 	//Message cache of 5000 messages. If it reaches 5000 it will delete the first one stored, and continue being 5000
 	@Getter
 	private static final Cache<String, Optional<Message>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(5000).build();
@@ -54,9 +55,10 @@ public class CommandListener implements EventListener {
 	private final int shardId;
 	private final MantaroShard shard;
 
-	public CommandListener(int shardId, MantaroShard shard) {
+	public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
 		this.shardId = shardId;
 		this.shard = shard;
+		DEFAULT_PROCESSOR = processor;
 	}
 
 	@Override

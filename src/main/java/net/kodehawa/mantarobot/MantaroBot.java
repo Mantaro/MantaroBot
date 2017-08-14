@@ -11,14 +11,14 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
+import net.kodehawa.mantarobot.modules.commands.core.PostLoadEvent;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.shard.MantaroShard;
@@ -194,7 +194,7 @@ public class MantaroBot extends ShardedJDA {
 
 		SimpleLogToSLF4JAdapter.install();
 
-		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
+		Future<Set<Class<?>>> classes = Async.future("Commands Lookup", () ->
 			new Reflections(
 				"net.kodehawa.mantarobot.commands",
 				new MethodAnnotationsScanner(),
@@ -203,7 +203,7 @@ public class MantaroBot extends ShardedJDA {
 				.getTypesAnnotatedWith(Module.class)
 		);
 
-		Future<Set<Class<?>>> options = Async.future("Classes Lookup", () ->
+		Future<Set<Class<?>>> options = Async.future("Options Lookup", () ->
 				new Reflections(
 						"net.kodehawa.mantarobot.options",
 						new MethodAnnotationsScanner(),
@@ -218,6 +218,7 @@ public class MantaroBot extends ShardedJDA {
 				.debug(DEBUG)
 				.auto(true)
 				.token(config.token)
+				.commandProcessor(new CommandProcessor())
 				.build();
 
 		shardedMantaro.shard();

@@ -3,6 +3,7 @@ package net.kodehawa.mantarobot.core;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.hooks.InterfacedEventManager;
+import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import org.slf4j.Logger;
 
 @Slf4j

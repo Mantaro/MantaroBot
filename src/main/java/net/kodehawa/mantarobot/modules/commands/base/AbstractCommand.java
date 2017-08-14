@@ -1,7 +1,5 @@
 package net.kodehawa.mantarobot.modules.commands.base;
 
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
-
 public abstract class AbstractCommand implements AssistedCommand {
 	private final Category category;
 	private final CommandPermission permission;

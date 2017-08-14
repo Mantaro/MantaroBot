@@ -1,10 +1,12 @@
-package net.kodehawa.mantarobot.core;
+package net.kodehawa.mantarobot.core.processor;
 
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +15,12 @@ import java.util.Date;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
-public class CommandProcessor {
-	public static final CommandRegistry REGISTRY = new CommandRegistry();
+public class CommandProcessor implements ICommandProcessor {
 
+	public static final CommandRegistry REGISTRY = new CommandRegistry();
 	private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");
 
+	@Override
 	public boolean run(GuildMessageReceivedEvent event) {
 		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;

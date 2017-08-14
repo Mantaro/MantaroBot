@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.core.listeners.operations;
+package net.kodehawa.mantarobot.core.listeners.operations.core;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 

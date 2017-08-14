@@ -6,13 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.commands.interaction.polls.Poll;
 import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -208,46 +209,41 @@ public class MiscCmds {
 
 	@Subscribe
 	public void misc(CommandRegistry cr) {
-		cr.register("misc", new SimpleCommand(Category.MISC) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				TextChannel channel = event.getChannel();
-				String noArgs = content.split(" ")[0];
-				switch (noArgs) {
-					case "reverse":
-						String stringToReverse = content.replace("reverse ", "");
-						String reversed = new StringBuilder(stringToReverse).reverse().toString();
-						channel.sendMessage(reversed.replace("@everyone", "").replace("@here", "")).queue();
-						break;
-					case "rndcolor":
-						String s = String.format(EmoteReference.TALKING + "Your random color is %s", randomColor());
-						channel.sendMessage(s).queue();
-						break;
-					case "noble":
-						channel.sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
-							"-Noble").queue();
-						break;
-					default:
-						onError(event);
-						break;
-				}
-			}
-
+		cr.register("misc", new SimpleTreeCommand(Category.MISC) {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Misc Commands")
-					.setDescription("**Miscellaneous funny/useful commands.**")
+						.setDescription("**Miscellaneous funny/useful commands.**")
 						.addField("Usage",
 								"`~>misc reverse <sentence>` - **Reverses any given sentence.**\n"
-								+ "`~>misc noble` - **Random Lost Pause quote.**\n"
-								+ "`~>misc rndcolor` - **Gives you a random hex color.**\n"
+										+ "`~>misc noble` - **Random Lost Pause quote.**\n"
+										+ "`~>misc rndcolor` - **Gives you a random hex color.**\n"
 								, false)
 						.addField("Parameter Explanation",
 								"`sentence` - **A sentence to reverse.**\n"
-								+ "`@user` - **A user to mention.**", false)
-					.build();
+										+ "`@user` - **A user to mention.**", false)
+						.build();
 			}
-		});
+		}.addSubCommand("reverse", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				String stringToReverse = content.replace("reverse ", "");
+				String reversed = new StringBuilder(stringToReverse).reverse().toString();
+				event.getChannel().sendMessage(reversed.replace("@everyone", "").replace("@here", "")).queue();
+			}
+		}).addSubCommand("rndcolor", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				String s = String.format(EmoteReference.TALKING + "Your random color is %s", randomColor());
+				event.getChannel().sendMessage(s).queue();
+			}
+		}).addSubCommand("noble", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
+						"-Noble").queue();
+			}
+		}));
 	}
 
 	@Subscribe

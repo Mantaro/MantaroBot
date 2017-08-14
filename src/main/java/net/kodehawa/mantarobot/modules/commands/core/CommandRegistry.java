@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules;
+package net.kodehawa.mantarobot.modules.commands.core;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.entities.ISnowflake;
@@ -8,6 +8,9 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.AliasCommand;
+import net.kodehawa.mantarobot.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -101,5 +104,13 @@ public class CommandRegistry {
 		}
 
 		register(o, new AliasCommand(o, commands.get(c)));
+	}
+
+	public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand){
+		command.addSubCommand(name, subCommand);
+	}
+
+	public void addSubCommandTo(SimpleTreeCommand command, String name, SubCommand subCommand){
+		command.addSubCommand(name, subCommand);
 	}
 }

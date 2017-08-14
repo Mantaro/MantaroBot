@@ -1,10 +1,10 @@
 package net.kodehawa.mantarobot.shard.watcher;
 
-
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.core.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
+import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.shard.ShardedMantaro;
@@ -30,7 +30,7 @@ public class ShardWatcher implements Runnable {
                 Thread.sleep(wait);
                 MantaroEventManager.getLog().info("Checking shards...");
                 ShardMonitorEvent sme = new ShardMonitorEvent(shardedMantaro.getTotalShards());
-                shardedMantaro.getManagers().forEach(manager -> manager.handle(sme));
+                EventUtils.propagateEvent(sme);
                 int[] dead = sme.getDeadShards();
                 if (dead.length != 0) {
                     MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
@@ -43,7 +43,7 @@ public class ShardWatcher implements Runnable {
                                             "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 2 minutes."
                                     );
 
-                                    MantaroBot.getInstance().getShard(id).restartJDA(true);
+                                    MantaroBot.getInstance().getShard(id).start(true);
                                     Thread.sleep(1000);
                                     return 1;
                                 } catch (Exception e) {

@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.CommandProcessor;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 

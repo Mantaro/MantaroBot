@@ -11,9 +11,9 @@ import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
+import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -31,7 +31,6 @@ import static net.kodehawa.mantarobot.utils.Utils.centerString;
 import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
-//TODO Maybe automate boolean ones? (x toggle)
 public class OptsCmd {
 	public static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
 
