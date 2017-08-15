@@ -15,7 +15,7 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -39,8 +39,6 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 List<Guild> guilds = MantaroBot.getInstance().getGuilds();
                 List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
-                int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-                        voiceChannel.getGuild().getSelfMember())).count();
 
                 sendStatsMessageAndThen(event, "```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -63,7 +61,7 @@ public class DebugCmds {
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
-                        + "Music Connections: " + c + "\n"
+                        + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
                         + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
                         + "```");
             }

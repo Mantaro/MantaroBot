@@ -11,7 +11,7 @@ import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;

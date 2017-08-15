@@ -13,7 +13,7 @@ import net.kodehawa.mantarobot.commands.interaction.polls.PollBuilder;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;

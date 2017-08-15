@@ -18,9 +18,9 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Command;
-import net.kodehawa.mantarobot.modules.commands.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.core.PostLoadEvent;
+import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
@@ -256,7 +256,7 @@ public class InfoCmds {
 					event.getChannel().sendMessage(embed.build()).queue();
 
 				} else {
-					net.kodehawa.mantarobot.modules.commands.base.Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
+					Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
 					if (command != null) {
 						final MessageEmbed help = command.help(event);

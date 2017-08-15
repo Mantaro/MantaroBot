@@ -1,55 +1,44 @@
 package net.kodehawa.mantarobot;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.MantaroCore;
+import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.core.PostLoadEvent;
-import net.kodehawa.mantarobot.options.annotations.Option;
-import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.shard.MantaroShard;
-import net.kodehawa.mantarobot.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
-import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.MantaroAPI;
 import net.kodehawa.mantarobot.web.MantaroAPISender;
 import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
-import static net.kodehawa.mantarobot.core.LoadState.*;
+import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
+import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
@@ -176,11 +165,6 @@ public class MantaroBot extends ShardedJDA {
 				"tag:value"
 		);
 
-        new BannerPrinter(1).printBanner();
-
-
-		Sentry.init(config.sentryDSN);
-
 		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
 			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
 			System.exit(API_HANDSHAKE_FAILURE);
@@ -194,72 +178,26 @@ public class MantaroBot extends ShardedJDA {
 
 		SimpleLogToSLF4JAdapter.install();
 
-		Future<Set<Class<?>>> classes = Async.future("Commands Lookup", () ->
-			new Reflections(
-				"net.kodehawa.mantarobot.commands",
-				new MethodAnnotationsScanner(),
-				new TypeAnnotationsScanner(),
-				new SubTypesScanner())
-				.getTypesAnnotatedWith(Module.class)
-		);
+		MantaroCore core = new MantaroCore(config, true, true, DEBUG)
+				.setCommandsPackage("net.kodehawa.mantarobot.commands")
+				.setOptionsPackage("net.kodehawa.mantarobot.options")
+				.startMainComponents(false);
 
-		Future<Set<Class<?>>> options = Async.future("Options Lookup", () ->
-				new Reflections(
-						"net.kodehawa.mantarobot.options",
-						new MethodAnnotationsScanner(),
-						new TypeAnnotationsScanner(),
-						new SubTypesScanner())
-						.getTypesAnnotatedWith(Option.class)
-		);
-
-		loadState = LOADING;
-
-		shardedMantaro = new ShardedBuilder()
-				.debug(DEBUG)
-				.auto(true)
-				.token(config.token)
-				.commandProcessor(new DefaultCommandProcessor())
-				.build();
-
-		shardedMantaro.shard();
-		Async.thread("ShardWatcherThread", new ShardWatcher());
-
-		loadState = LOADED;
-		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-
+		shardedMantaro = core.getShardedInstance();
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
+
+		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 
 		MantaroData.config().save();
 
 		log.info("Starting update managers...");
 		shardedMantaro.startUpdaters();
 
-        EventBus bus = new EventBus();
-        classes.get().forEach(clazz->{
-            try {
-                bus.register(clazz.newInstance());
-            } catch(Exception e) {
-                log.error("Invalid module: no zero arg public constructor found for " + clazz);
-            }
-        });
-
-		EventBus bus1 = new EventBus();
-		options.get().forEach(clazz->{
-			try {
-				bus1.register(clazz.newInstance());
-			} catch(Exception e) {
-				log.error("Invalid module: no zero arg public constructor found for " + clazz);
-			}
-		});
-		bus.post(DefaultCommandProcessor.REGISTRY);
-
 		loadState = POSTLOAD;
-		System.out.println("Finished loading basic components. Current status: " + loadState);
-
-		bus.post(new PostLoadEvent());
-		bus1.post(new OptionRegistryEvent());
 		long end = System.currentTimeMillis();
+
+		System.out.println("Finished loading basic components. Current status: " + loadState);
 
 		LogUtils.log("Startup",
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",

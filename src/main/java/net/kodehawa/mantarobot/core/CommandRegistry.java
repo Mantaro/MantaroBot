@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules.commands.core;
+package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.entities.ISnowflake;
