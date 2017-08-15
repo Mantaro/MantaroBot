@@ -8,12 +8,11 @@ import net.kodehawa.mantarobot.db.redis.Output;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.beans.ConstructorProperties;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static com.rethinkdb.RethinkDB.r;
+import static java.lang.System.currentTimeMillis;
 import static net.kodehawa.mantarobot.data.MantaroData.cache;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
@@ -37,9 +36,7 @@ public class MantaroObj implements ManagedObject {
     }
 
     @JsonIgnore
-    public MantaroObj() {
-
-    }
+    public MantaroObj() {}
 
     public static MantaroObj create() {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new HashMap<>());
@@ -58,6 +55,7 @@ public class MantaroObj implements ManagedObject {
                 .optArg("conflict", "replace")
                 .runNoReply(conn());
     }
+
 
     @Override
     public void write(Output out) {

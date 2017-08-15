@@ -50,9 +50,7 @@ public class Player implements ManagedObject {
     }
 
     @JsonIgnore
-    public Player() {
-
-    }
+    public Player() {}
 
     public static Player of(User user) {
         return of(user.getId());
