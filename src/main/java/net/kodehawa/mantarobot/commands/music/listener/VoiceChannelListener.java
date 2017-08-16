@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMuteEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
-import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceChannelListener implements EventListener {
@@ -18,7 +18,7 @@ public class VoiceChannelListener implements EventListener {
     @Override
     public void onEvent(Event event) {
 
-        if(!MantaroBot.getInstance().getCore().hasLoadedCompletely()) return;
+        if(!MantaroCore.hasLoadedCompletely()) return;
 
         if(event instanceof GuildVoiceMoveEvent) {
             onGuildVoiceMove((GuildVoiceMoveEvent)event);
