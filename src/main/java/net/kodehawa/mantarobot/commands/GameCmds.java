@@ -20,7 +20,6 @@ import net.kodehawa.mantarobot.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.util.HashMap;
 import java.util.LinkedList;

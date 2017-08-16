@@ -3,9 +3,7 @@ package net.kodehawa.mantarobot.core;
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import io.sentry.Sentry;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
@@ -71,7 +69,7 @@ public class MantaroCore {
                 .debug(isDebug)
                 .auto(true)
                 .token(config.token)
-                .commandProcessor(new DefaultCommandProcessor())
+                .commandProcessor(commandProcessor)
                 .build();
 
         shardedMantaro.shard();
@@ -115,22 +113,23 @@ public class MantaroCore {
         }
 
         EventBus bus = new EventBus();
-        commands.get().forEach(clazz->{
+
+        for (Class<?> aClass : commands.get()) {
             try {
-                bus.register(clazz.newInstance());
-            } catch(Exception e) {
-                log.error("Invalid module: no zero arg public constructor found for " + clazz);
+                bus.register(aClass.newInstance());
+            } catch (Exception e) {
+                log.error("Invalid module: no zero arg public constructor found for " + aClass);
             }
-        });
+        }
 
         EventBus bus1 = new EventBus();
-        options.get().forEach(clazz->{
+        for (Class<?> clazz : options.get()) {
             try {
                 bus1.register(clazz.newInstance());
-            } catch(Exception e) {
+            } catch (Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
-        });
+        }
 
         bus.post(DefaultCommandProcessor.REGISTRY);
         bus.post(new PostLoadEvent());
