@@ -1,19 +1,16 @@
 package net.kodehawa.mantarobot.modules.commands;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.commands.base.Command;
-import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.base.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
-public abstract class TreeCommand extends AbstractCommand {
+public abstract class TreeCommand extends AbstractCommand implements ITreeCommand {
 
-    private Map<String, Command> subCommands = new HashMap<>();
+    private Map<String, SubCommand> subCommands = new HashMap<>();
 
     public TreeCommand(Category category) {
         super(category);
@@ -22,8 +19,6 @@ public abstract class TreeCommand extends AbstractCommand {
     public TreeCommand(Category category, CommandPermission permission) {
         super(category, permission);
     }
-
-    protected abstract Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName);
 
     @Override
     public void run(GuildMessageReceivedEvent event, String commandName, String content) {
@@ -40,12 +35,27 @@ public abstract class TreeCommand extends AbstractCommand {
         command.run(event, commandName + " " + args[0], args[1]);
     }
 
-    public TreeCommand addSubCommand(String name, Command command){
+    @Override
+    public ITreeCommand addSubCommand(String name, SubCommand command){
         subCommands.put(name, command);
         return this;
     }
 
-    public Map<String, Command> getSubCommands() {
+    @Override
+    public Map<String, SubCommand> getSubCommands() {
         return subCommands;
+    }
+
+    @Override
+    public TreeCommand createSubCommandAlias(String name, String alias){
+        SubCommand cmd = subCommands.get(name);
+
+        if(cmd == null){
+            throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");
+        }
+
+        subCommands.put(alias, cmd);
+
+        return this;
     }
 }

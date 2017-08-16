@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -261,6 +262,8 @@ public class FunCmds {
 					EmoteReference.DICE + "You got **" + diceRoll(size, amount) + "**" +
 						(amount == 1 ? "!" : (", doing **" + amount + "** rolls."))
 				).queue();
+
+				TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
 			}
 
 			@Override

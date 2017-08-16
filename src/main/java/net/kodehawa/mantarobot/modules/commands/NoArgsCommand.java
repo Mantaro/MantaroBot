@@ -5,8 +5,6 @@ import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.modules.commands.base.Category;
 import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
 
-import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
-
 public abstract class NoArgsCommand extends AbstractCommand {
 	public NoArgsCommand(Category category) {
 		super(category);
@@ -21,6 +19,5 @@ public abstract class NoArgsCommand extends AbstractCommand {
 	@Override
 	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
 		call(event, content);
-		log(commandName);
 	}
 }

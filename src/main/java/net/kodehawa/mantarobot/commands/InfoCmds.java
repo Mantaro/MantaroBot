@@ -38,7 +38,6 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
-import static net.kodehawa.mantarobot.commands.info.StatsHelper.sendStatsMessageAndThen;
 
 @Module
 public class InfoCmds {
@@ -47,7 +46,7 @@ public class InfoCmds {
 	public void about(CommandRegistry cr) {
 		cr.register("about", new TreeCommand(Category.INFO) {
 			@Override
-			protected Command defaultTrigger(GuildMessageReceivedEvent event, String thisCommand, String attemptedSubCommand) {
+			public Command defaultTrigger(GuildMessageReceivedEvent event, String thisCommand, String attemptedSubCommand) {
 				return new SubCommand() {
 					@Override
 					protected void call(GuildMessageReceivedEvent event, String content) {
@@ -68,7 +67,7 @@ public class InfoCmds {
 
 						if (madeBy.contains("<@")) madeBy += " (say hi to them!)";
 
-						sendStatsMessageAndThen(event, new EmbedBuilder()
+						event.getChannel().sendMessage(new EmbedBuilder()
 								.setColor(Color.PINK)
 								.setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
 								.setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -94,7 +93,7 @@ public class InfoCmds {
 								.addField("Text Channels", String.valueOf(textChannels.size()), true)
 								.addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
 								.setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-								.build());
+								.build()).queue();
 					}
 				};
 			}
@@ -312,7 +311,7 @@ public class InfoCmds {
 	public void stats(CommandRegistry cr) {
 		TreeCommand statsCommand = (TreeCommand) cr.register("stats", new TreeCommand(Category.INFO) {
 			@Override
-			protected Command defaultTrigger(GuildMessageReceivedEvent event, String currentCommand, String attemptedCommand) {
+			public Command defaultTrigger(GuildMessageReceivedEvent event, String currentCommand, String attemptedCommand) {
 				return new SubCommand() {
 					@Override
 					protected void call(GuildMessageReceivedEvent event, String content) {

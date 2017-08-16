@@ -1,10 +1,7 @@
 package net.kodehawa.mantarobot.modules.commands;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.base.AbstractCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.commands.base.Command;
-import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.modules.commands.base.*;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -12,25 +9,14 @@ import java.util.Map;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
-public abstract class SimpleTreeCommand extends AbstractCommand {
-	private Map<String, Command> subCommands = new HashMap<>();
-
-	public SimpleTreeCommand(Category category, Map<String, Command> subCommands) {
-		super(category);
-		this.subCommands = subCommands;
-	}
+public abstract class SimpleTreeCommand extends AbstractCommand implements ITreeCommand {
+	private Map<String, SubCommand> subCommands = new HashMap<>();
 
 	public SimpleTreeCommand(Category category) {
 		super(category);
 	}
-
 	public SimpleTreeCommand(Category category, CommandPermission permission) {
 		super(category, permission);
-	}
-
-	public SimpleTreeCommand(Category category, CommandPermission permission, Map<String, Command> subCommands) {
-		super(category, permission);
-		this.subCommands = subCommands;
 	}
 
 	/**
@@ -39,9 +25,11 @@ public abstract class SimpleTreeCommand extends AbstractCommand {
 	 * @param event       the Event
 	 * @param commandName the Name of the not-found command.
 	 */
-	public void onNotFound(GuildMessageReceivedEvent event, String mainCommand, String commandName){
+	public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName){
 		event.getChannel().sendMessage(String.format("%sNo subcommand `%s` found in the `%s` command! Help for this command will be shown below.", EmoteReference.ERROR, commandName, mainCommand)).queue();
 		onHelp(event);
+
+		return null;
 	}
 
 	/**
@@ -61,19 +49,33 @@ public abstract class SimpleTreeCommand extends AbstractCommand {
 
 		Command command = subCommands.get(args[0]);
 		if (command == null) {
-			onNotFound(event, commandName, args[0]);
+			defaultTrigger(event, commandName, args[0]);
 			return;
 		}
 
 		command.run(event, commandName + " " + args[0], args[1]);
 	}
 
-	public SimpleTreeCommand addSubCommand(String name, Command command){
+	public SimpleTreeCommand addSubCommand(String name, SubCommand command){
 		subCommands.put(name, command);
 		return this;
 	}
 
-	public Map<String, Command> getSubCommands() {
+	@Override
+	public Map<String, SubCommand> getSubCommands() {
 		return subCommands;
+	}
+
+	@Override
+	public SimpleTreeCommand createSubCommandAlias(String name, String alias){
+		SubCommand cmd = subCommands.get(name);
+
+		if(cmd == null){
+			throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");
+		}
+
+		subCommands.put(alias, cmd);
+
+		return this;
 	}
 }

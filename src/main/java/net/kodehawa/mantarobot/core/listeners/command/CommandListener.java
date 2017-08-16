@@ -13,6 +13,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -31,9 +32,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CommandListener implements EventListener {
 	private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
 	private final ICommandProcessor commandProcessor;
-	//Message cache of 5000 messages. If it reaches 5000 it will delete the first one stored, and continue being 5000
+	//Message cache of 20000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 5000
 	@Getter
-	private static final Cache<String, Optional<Message>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(5000).build();
+	private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(20000).build();
 	//Commands ran this session.
 	private static int commandTotal = 0;
 	private final Random random = new Random();
@@ -71,7 +72,7 @@ public class CommandListener implements EventListener {
 
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
-			messageCache.put(msg.getMessage().getId(), Optional.of(msg.getMessage()));
+			messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContent())));
 
 			if (msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
 

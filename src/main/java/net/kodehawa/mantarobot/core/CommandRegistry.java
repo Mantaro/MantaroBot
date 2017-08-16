@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
+
 public class CommandRegistry {
 
 	private final Map<String, Command> commands;
@@ -90,6 +92,7 @@ public class CommandRegistry {
 		}
 
 		cmd.run(event, cmdname, content);
+		log(cmdname);
 		return true;
 	}
 

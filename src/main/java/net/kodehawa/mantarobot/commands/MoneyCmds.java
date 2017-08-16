@@ -258,7 +258,7 @@ public class MoneyCmds {
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
-                if (r.nextInt(150) == 0) { //1 in 450 chance of it dropping a loot crate.
+                if (r.nextInt(125) == 0) { //1 in 125 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
                 }
 
