@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.shard;
+package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;

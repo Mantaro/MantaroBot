@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.core.listeners.events;
 import net.dv8tion.jda.core.events.Event;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
-import net.kodehawa.mantarobot.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 
 public class EventUtils {
 

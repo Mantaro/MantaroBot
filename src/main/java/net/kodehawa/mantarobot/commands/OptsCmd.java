@@ -12,10 +12,10 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
 public class OptsCmd {
-	public static net.kodehawa.mantarobot.modules.commands.base.Command optsCmd;
+	public static net.kodehawa.mantarobot.core.modules.commands.base.Command optsCmd;
 
 	@Subscribe
 	public void register(CommandRegistry registry) {

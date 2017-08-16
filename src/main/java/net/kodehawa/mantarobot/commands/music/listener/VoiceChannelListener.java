@@ -18,7 +18,7 @@ public class VoiceChannelListener implements EventListener {
     @Override
     public void onEvent(Event event) {
 
-        if(!MantaroBot.loadState.equals(LoadState.POSTLOAD)) return;
+        if(!MantaroBot.getInstance().getCore().hasLoadedCompletely()) return;
 
         if(event instanceof GuildVoiceMoveEvent) {
             onGuildVoiceMove((GuildVoiceMoveEvent)event);

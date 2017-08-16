@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules;
+package net.kodehawa.mantarobot.core.modules;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

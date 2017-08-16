@@ -3,10 +3,9 @@ package net.kodehawa.mantarobot.core.processor;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ public class DefaultCommandProcessor implements ICommandProcessor {
 
 	@Override
 	public boolean run(GuildMessageReceivedEvent event) {
-		if (MantaroBot.getLoadState() != LoadState.POSTLOAD) return false;
 		if (MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
 		long start = System.currentTimeMillis();
 		String rawCmd = event.getMessage().getRawContent();

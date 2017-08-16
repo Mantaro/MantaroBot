@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules.commands.base;
+package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;

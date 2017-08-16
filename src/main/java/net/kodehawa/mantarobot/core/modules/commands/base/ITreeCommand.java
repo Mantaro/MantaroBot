@@ -1,7 +1,7 @@
-package net.kodehawa.mantarobot.modules.commands.base;
+package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 
 import java.util.Map;
 

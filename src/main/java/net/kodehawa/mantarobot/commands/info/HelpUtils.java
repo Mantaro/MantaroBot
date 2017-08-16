@@ -3,7 +3,7 @@ package net.kodehawa.mantarobot.commands.info;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 
 import java.util.ArrayList;
 import java.util.List;

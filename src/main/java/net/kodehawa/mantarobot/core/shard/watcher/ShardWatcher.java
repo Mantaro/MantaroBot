@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.shard.watcher;
+package net.kodehawa.mantarobot.core.shard.watcher;
 
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -7,7 +7,7 @@ import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;

@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
-import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.KryoUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.json.JSONArray;

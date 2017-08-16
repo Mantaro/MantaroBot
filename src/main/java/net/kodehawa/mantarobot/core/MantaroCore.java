@@ -3,17 +3,19 @@ package net.kodehawa.mantarobot.core;
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import io.sentry.Sentry;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.shard.ShardedBuilder;
+import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.modules.Module;
+import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.shard.ShardedBuilder;
-import net.kodehawa.mantarobot.shard.ShardedMantaro;
-import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -24,13 +26,14 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 import java.util.concurrent.Future;
 
-import static net.kodehawa.mantarobot.MantaroBot.loadState;
-import static net.kodehawa.mantarobot.core.LoadState.LOADED;
-import static net.kodehawa.mantarobot.core.LoadState.LOADING;
+import static net.kodehawa.mantarobot.core.LoadState.*;
 
 @Slf4j
 public class MantaroCore {
 
+    @Getter
+    @Setter
+    private static LoadState loadState = PRELOAD;
     private final Config config;
     private final boolean useBanner;
     private final boolean useSentry;
@@ -140,6 +143,14 @@ public class MantaroCore {
 
     public ShardedMantaro getShardedInstance(){
         return shardedMantaro;
+    }
+
+    public void markAsReady(){
+        loadState = POSTLOAD;
+    }
+
+    public static boolean hasLoadedCompletely(){
+        return getLoadState().equals(POSTLOAD);
     }
 
     private Future<Set<Class<?>>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {

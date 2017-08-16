@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules.commands.base;
+package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import java.util.Arrays;
 import java.util.List;

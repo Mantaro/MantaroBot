@@ -7,12 +7,12 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.commands.AliasCommand;
-import net.kodehawa.mantarobot.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.modules.commands.TreeCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.modules.commands.base.Command;
+import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
@@ -39,6 +39,8 @@ public class CommandRegistry {
 
 	public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
 		Command cmd = commands.get(cmdname);
+
+		System.out.println(cmd);
 
 		Config conf = MantaroData.config().get();
 		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());

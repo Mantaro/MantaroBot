@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.shard;
+package net.kodehawa.mantarobot.core.shard;
 
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 

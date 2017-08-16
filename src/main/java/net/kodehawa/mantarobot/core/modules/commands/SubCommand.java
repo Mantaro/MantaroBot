@@ -1,8 +1,8 @@
-package net.kodehawa.mantarobot.modules.commands;
+package net.kodehawa.mantarobot.core.modules.commands;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
 public abstract class SubCommand extends NoArgsCommand {
     public SubCommand() {

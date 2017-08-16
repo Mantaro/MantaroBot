@@ -13,14 +13,14 @@ import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.shard.MantaroShard;
-import net.kodehawa.mantarobot.shard.ShardedMantaro;
-import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
+import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -37,8 +37,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import static net.kodehawa.mantarobot.core.LoadState.POSTLOAD;
-import static net.kodehawa.mantarobot.core.LoadState.PRELOAD;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
@@ -76,7 +74,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
  * GNU General Public License for more details.</pr>
  *
  * @see ShardedJDA
- * @see net.kodehawa.mantarobot.shard.jda.UnifiedJDA
+ * @see net.kodehawa.mantarobot.core.shard.jda.UnifiedJDA
  * @see Module
  * @since 16/08/2016
  * @author Kodehawa, AdrianTodt
@@ -87,8 +85,6 @@ public class MantaroBot extends ShardedJDA {
 	public static int cwport;
 	@Getter
 	private final ShardedMantaro shardedMantaro;
-	@Getter
-	public static LoadState loadState = PRELOAD;
 	private static boolean DEBUG = false;
 	@Getter
 	private static MantaroBot instance;
@@ -106,6 +102,8 @@ public class MantaroBot extends ShardedJDA {
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	@Getter
 	private final StatsDClient statsClient;
+	@Getter
+	private final MantaroCore core;
 
 
 	public static void main(String[] args) {
@@ -157,6 +155,7 @@ public class MantaroBot extends ShardedJDA {
 	private MantaroBot() throws Exception {
         instance = this;
 		Config config = MantaroData.config().get();
+		core = new MantaroCore(config, true, true, DEBUG);
 
         statsClient = new NonBlockingStatsDClient(
 				config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
@@ -176,10 +175,10 @@ public class MantaroBot extends ShardedJDA {
 		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
 		long start = System.currentTimeMillis();
 
+
 		SimpleLogToSLF4JAdapter.install();
 
-		MantaroCore core = new MantaroCore(config, true, true, DEBUG)
-				.setCommandsPackage("net.kodehawa.mantarobot.commands")
+		core.setCommandsPackage("net.kodehawa.mantarobot.commands")
 				.setOptionsPackage("net.kodehawa.mantarobot.options")
 				.startMainComponents(false);
 
@@ -194,10 +193,10 @@ public class MantaroBot extends ShardedJDA {
 		log.info("Starting update managers...");
 		shardedMantaro.startUpdaters();
 
-		loadState = POSTLOAD;
+		core.markAsReady();
 		long end = System.currentTimeMillis();
 
-		System.out.println("Finished loading basic components. Current status: " + loadState);
+		System.out.println("Finished loading basic components. Current status: " + core.getLoadState());
 
 		LogUtils.log("Startup",
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",

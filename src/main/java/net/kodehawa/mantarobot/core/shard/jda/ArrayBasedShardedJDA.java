@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.shard.jda;
+package net.kodehawa.mantarobot.core.shard.jda;
 
 import net.dv8tion.jda.core.JDA;
 import org.apache.commons.collections4.iterators.ArrayIterator;

@@ -1,7 +1,7 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import lombok.Data;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

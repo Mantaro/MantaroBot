@@ -1,4 +1,4 @@
-package net.kodehawa.mantarobot.modules.commands.base;
+package net.kodehawa.mantarobot.core.modules.commands.base;
 
 public abstract class AbstractCommand implements AssistedCommand {
 	private final Category category;
