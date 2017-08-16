@@ -9,8 +9,6 @@ public class ShardedBuilder {
     private String token;
     private ICommandProcessor commandProcessor;
 
-    public ShardedBuilder() {}
-
     public ShardedBuilder amount(int shardAmount) {
         amount = shardAmount;
         return this;
