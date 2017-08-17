@@ -563,7 +563,8 @@ public class CustomCmds {
 							"`~>custom make <name>` - **Starts a Interactive Operation to create a command with the specified name.**\n" +
 							"`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
 							"`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
-							"`~>custom eval <response>` **Tests how a custom command response will look**",
+							"`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
+							"`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**",
 						false
 					).build();
 			}
