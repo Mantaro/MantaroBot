@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,6 +33,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -338,12 +340,23 @@ public class CustomCmds {
 
 					Pair<String, Integer> pair = DiscordUtils.embedList(custom.getValues(), Object::toString);
 
-					event.getChannel().sendMessage(baseEmbed(event, "Command \"" + cmd + "\":")
-						.setDescription(pair.getLeft())
-						.setFooter(
-							"(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null)
-						.build()
-					).queue();
+					String pasted = null;
+
+					if(pair.getRight() < custom.getValues().size()){
+                        AtomicInteger i = new AtomicInteger();
+                        pasted = Utils.paste(custom.getValues().stream().map(s -> i.incrementAndGet() + s).collect(Collectors.joining("\n")));
+                    }
+
+                    EmbedBuilder embed = baseEmbed(event, "Command \"" + cmd + "\":")
+                            .setDescription(pair.getLeft())
+                            .setFooter(
+                                    "(Showing " + pair.getRight() + " responses of " + custom.getValues().size() + ")", null);
+
+					if(pasted != null && pasted.contains("hastebin.com")){
+					    embed.addField("Pasted content", pasted, false);
+                    }
+
+					event.getChannel().sendMessage(embed.build()).queue();
 					return;
 				}
 

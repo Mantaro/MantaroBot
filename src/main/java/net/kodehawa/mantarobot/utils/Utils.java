@@ -105,7 +105,7 @@ public class Utils {
 			return "https://hastebin.com/" + response.getString("key");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "An error was encountered while trying to upload to hastebin.";
+			return "Pastebin is unavaliable right now";
 		}
 	}
 
