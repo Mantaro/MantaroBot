@@ -440,7 +440,6 @@ public class CustomCmds {
 					}
 
 					custom.getValues().set(where - 1, vals[1]);
-					heck, now you'll all stop asking for custom edit
 
 					custom.saveAsync();
 					customCommands.put(custom.getId(), custom.getValues());
