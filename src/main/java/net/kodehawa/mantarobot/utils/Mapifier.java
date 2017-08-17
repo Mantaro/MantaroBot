@@ -39,8 +39,6 @@ public class Mapifier {
 		}
 	}
 
-	private static Logger logger = LoggerFactory.getLogger("Mapifier");
-
 	public static <T> T fromMap(Mode mode, Class<T> c, Map<String, Object> map) {
 		return mode.mapper.convertValue(map, c);
 	}

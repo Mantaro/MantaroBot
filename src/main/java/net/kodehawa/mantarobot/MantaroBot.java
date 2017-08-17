@@ -182,7 +182,7 @@ public class MantaroBot extends ShardedJDA {
 				.setOptionsPackage("net.kodehawa.mantarobot.options")
 				.startMainComponents(false);
 
-		shardedMantaro = core.getShardedInstance();
+			shardedMantaro = core.getShardedInstance();
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
@@ -196,7 +196,7 @@ public class MantaroBot extends ShardedJDA {
 		core.markAsReady();
 		long end = System.currentTimeMillis();
 
-		System.out.println("Finished loading basic components. Current status: " + core.getLoadState());
+		System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
 
 		LogUtils.log("Startup",
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",

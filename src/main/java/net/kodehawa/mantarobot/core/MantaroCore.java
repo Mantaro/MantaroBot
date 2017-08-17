@@ -125,10 +125,9 @@ public class MantaroCore {
             }
         }
 
-        EventBus bus1 = new EventBus();
         for (Class<?> clazz : options.get()) {
             try {
-                bus1.register(clazz.newInstance());
+                bus.register(clazz.newInstance());
             } catch (Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
@@ -136,7 +135,7 @@ public class MantaroCore {
 
         bus.post(DefaultCommandProcessor.REGISTRY);
         bus.post(new PostLoadEvent());
-        bus1.post(new OptionRegistryEvent());
+        bus.post(new OptionRegistryEvent());
 
         return this;
     }

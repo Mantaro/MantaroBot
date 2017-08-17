@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
@@ -409,6 +410,45 @@ public class CustomCmds {
 
 				String value = args[2];
 
+				if(action.equals("edit")){
+					CustomCommand custom = db().getCustomCommand(event.getGuild(), cmd);
+					if (custom == null) {
+						event.getChannel().sendMessage(
+								EmoteReference.ERROR2 + "There's no Custom Command ``" + cmd + "`` in this Guild.").queue();
+						return;
+					}
+
+					String[] vals = StringUtils.splitArgs(value, 2);
+					int where;
+
+					try{
+						where = Math.abs(Integer.parseInt(vals[0]));
+					} catch (NumberFormatException e){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a correct number to change!").queue();
+						return;
+					}
+
+					List<String> values = custom.getValues();
+					if(where - 1 > values.size()) {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot edit a non-existent index!").queue();
+						return;
+					}
+
+					if(vals[1].isEmpty()){
+						event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot edit to an empty response!").queue();
+						return;
+					}
+
+					custom.getValues().set(where - 1, vals[1]);
+					heck, now you'll all stop asking for custom edit
+
+					custom.saveAsync();
+					customCommands.put(custom.getId(), custom.getValues());
+
+					event.getChannel().sendMessage(EmoteReference.CORRECT + "Edited response **#" + where + "** of the command `" + custom.getName() + "` correctly!").queue();
+					return;
+				}
+
 				if (action.equals("rename")) {
 					if (!NAME_PATTERN.matcher(cmd).matches() || !NAME_PATTERN.matcher(value).matches()) {
 						event.getChannel().sendMessage(EmoteReference.ERROR + "Not allowed character.").queue();
@@ -475,7 +515,8 @@ public class CustomCmds {
 					}
 
 					CustomCommand custom = CustomCommand.of(
-						event.getGuild().getId(), cmd, Collections.singletonList(value.replace("@everyone", "[nice meme]").replace("@here", "[you tried]")));
+						event.getGuild().getId(), cmd,
+							Collections.singletonList(value.replace("@everyone", "[nice meme]").replace("@here", "[you tried]")));
 
 					if (action.equals("add")) {
 						CustomCommand c = db().getCustomCommand(event, cmd);

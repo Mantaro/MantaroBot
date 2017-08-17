@@ -39,9 +39,6 @@ public class CommandRegistry {
 
 	public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
 		Command cmd = commands.get(cmdname);
-
-		System.out.println(cmd);
-
 		Config conf = MantaroData.config().get();
 		DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
 		GuildData data = dbg.getData();
