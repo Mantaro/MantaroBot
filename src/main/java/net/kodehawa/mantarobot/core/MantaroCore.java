@@ -40,6 +40,7 @@ public class MantaroCore {
     private final boolean isDebug;
     private String commandsPackage;
     private String optsPackage;
+    @Getter
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
     private ShardedMantaro shardedMantaro;
 
