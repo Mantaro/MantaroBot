@@ -15,14 +15,14 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
-import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.CustomCommand;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -142,6 +142,7 @@ public class CustomCmds {
 	@Subscribe
 	public void custom(CommandRegistry cr) {
 		String any = "[\\d\\D]*?";
+
 		cr.register("custom", new SimpleCommand(Category.UTILS) {
 			@Override
 			public void call(GuildMessageReceivedEvent event, String content, String[] args) {
