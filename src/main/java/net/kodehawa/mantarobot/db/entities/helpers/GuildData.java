@@ -1,25 +1,24 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import lombok.Data;
-import net.kodehawa.mantarobot.options.ConfigName;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 public class GuildData {
-	@ConfigName("autoroles") private HashMap<String, String> autoroles = new HashMap<>();
+	private HashMap<String, String> autoroles = new HashMap<>();
 	private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
 	private String birthdayChannel = null;
 	private String birthdayRole = null;
 	private Long cases = 0L;
-	@ConfigName("admincustom") private boolean customAdminLock = false;
+	private boolean customAdminLock = false;
 	private Set<String> disabledChannels = new HashSet<>();
 	private Set<String> disabledCommands = new HashSet<>();
 	private String guildAutoRole = null;
-	@ConfigName("customPrefix") private String guildCustomPrefix = null;
-	@ConfigName("logChannel") private String guildLogChannel = null;
+	private String guildCustomPrefix = null;
+	private String guildLogChannel = null;
 	private Set<String> guildUnsafeChannels = new HashSet<>();
 	private String joinMessage = null;
 	private String leaveMessage = null;

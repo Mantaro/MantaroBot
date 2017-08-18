@@ -2,8 +2,8 @@ package net.kodehawa.mantarobot.commands.action;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.modules.commands.NoArgsCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 
 import java.awt.*;
 import java.util.List;

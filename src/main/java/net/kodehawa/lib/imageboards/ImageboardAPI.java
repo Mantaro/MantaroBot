@@ -68,9 +68,8 @@ public class ImageboardAPI<T> {
         queryParams = new HashMap<>();
         queryParams.put("limit", limit);
         T[] wallpapers;
-        Optional.ofNullable(search).ifPresent((element) -> {
-            queryParams.put("tags", search.toLowerCase().trim());
-        });
+
+        if(search != null) queryParams.put("tags", search.toLowerCase().trim());
 
         try {
             String response = Utils.wgetResty(apiHome + apiHome.separator + Utils.urlEncodeUTF8(queryParams), null);

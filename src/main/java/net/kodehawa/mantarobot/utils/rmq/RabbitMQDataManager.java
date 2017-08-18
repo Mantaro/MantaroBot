@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import org.json.JSONObject;
@@ -168,7 +168,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                 }
 
                                 try {
-                                    MantaroBot.getInstance().getShardList().get(shardId).restartJDA(force);
+                                    MantaroBot.getInstance().getShardList().get(shardId).start(force);
 
                                     mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, createSuccessOutput(
                                             String.format("Restarted shard no.%d from API call: %d", shardId, apiCalls),

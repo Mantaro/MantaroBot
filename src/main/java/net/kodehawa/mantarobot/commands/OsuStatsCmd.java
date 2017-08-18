@@ -10,13 +10,13 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.osu.OsuMod;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONException;
@@ -30,16 +30,11 @@ import java.util.concurrent.*;
 
 @Slf4j
 @Module
-
 public class OsuStatsCmd {
 	private final ExecutorService pool = Executors.newCachedThreadPool();
 	private final Map<String, Object> map = new HashMap<>();
 	private String mods1 = "";
-	private static OsuClient osuClient = null;
-
-	static {
-		osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
-	}
+	private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 
 	private String best(String content) {
 		String finalResponse;
@@ -86,61 +81,56 @@ public class OsuStatsCmd {
 
 	@Subscribe
 	public void osustats(CommandRegistry cr) {
-		cr.register("osustats", new SimpleCommand(Category.GAMES) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				String noArgs = content.split(" ")[0];
-				TextChannelGround.of(event).dropItemWithChance(4, 5);
-				switch (noArgs) {
-					case "best":
-						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
-							Future<String> task = pool.submit(() -> best(content));
-							try {
-								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-							} catch (Exception e) {
-								if (e instanceof TimeoutException) {
-									task.cancel(true);
-									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else {
-									SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
-								}
-							}
-						});
-						break;
-					case "recent":
-						event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
-							Future<String> task = pool.submit(() -> recent(content));
-							try {
-								sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
-							} catch (Exception e) {
-								if (e instanceof TimeoutException) {
-									task.cancel(true);
-									sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
-								} else log.warn("Exception thrown while fetching data", e);
-							}
-						});
-						break;
-					case "user":
-						event.getChannel().sendMessage(user(content)).queue();
-						break;
-					default:
-						onError(event);
-						break;
-				}
-			}
-
+		cr.register("osustats", new SimpleTreeCommand(Category.GAMES) {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "osu! command")
 						.setDescription("**Retrieves information from the osu!API**.")
 						.addField("Usage", "`~>osustats best <player>` - **Retrieves best scores of the user specified in the specified gamemode**.\n"
-								+ "`~>osustats recent <player>` - **Retrieves recent scores of the user specified in the specified gamemode.**\n"
-								+ "`~>osustats user <player>` - **Retrieves information about a osu! player**.\n"
+										+ "`~>osustats recent <player>` - **Retrieves recent scores of the user specified in the specified gamemode.**\n"
+										+ "`~>osustats user <player>` - **Retrieves information about a osu! player**.\n"
 								, false)
 						.addField("Parameters", "`player` - **The osu! player to look info for.**", false)
 						.build();
 			}
-		});
+		}.addSubCommand("best", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from osu! server...").queue(sentMessage -> {
+					Future<String> task = pool.submit(() -> best(content));
+					try {
+						sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
+					} catch (Exception e) {
+						if (e instanceof TimeoutException) {
+							task.cancel(true);
+							sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+						} else {
+							SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
+						}
+					}
+				});
+			}
+		}).addSubCommand("recent", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(EmoteReference.STOPWATCH + "Retrieving information from server...").queue(sentMessage -> {
+					Future<String> task = pool.submit(() -> recent(content));
+					try {
+						sentMessage.editMessage(task.get(16, TimeUnit.SECONDS)).queue();
+					} catch (Exception e) {
+						if (e instanceof TimeoutException) {
+							task.cancel(true);
+							sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+						} else log.warn("Exception thrown while fetching data", e);
+					}
+				});
+			}
+		}).addSubCommand("user", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(user(content)).queue();
+			}
+		}));
 
 		cr.registerAlias("osustats", "osu");
 	}

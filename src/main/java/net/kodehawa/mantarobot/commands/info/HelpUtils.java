@@ -1,9 +1,9 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class HelpUtils {
 	public static String forType(TextChannel channel, GuildData guildData, Category category) {
 		return forType(
-			CommandProcessor.REGISTRY.commands().entrySet().stream()
+			DefaultCommandProcessor.REGISTRY.commands().entrySet().stream()
 				.filter(entry -> entry.getValue().category() == category)
 				.filter(entry -> !guildData.getDisabledCategories().contains(entry.getValue().category()))
 				.filter(c -> !guildData.getDisabledCommands().contains(c.getKey()))

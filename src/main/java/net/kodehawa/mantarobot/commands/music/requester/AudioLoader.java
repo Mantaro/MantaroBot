@@ -167,5 +167,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                         .setFooter("This timeouts in 10 seconds.", null).build(),
                 selected -> loadSingle(selected, false)
         );
+
+        MantaroBot.getInstance().getStatsClient().increment("tracks_searched");
     }
 }

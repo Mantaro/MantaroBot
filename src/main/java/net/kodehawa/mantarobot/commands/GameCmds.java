@@ -11,12 +11,14 @@ import net.kodehawa.mantarobot.commands.game.Pokemon;
 import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
@@ -28,43 +30,34 @@ public class GameCmds {
 
 	@Subscribe
 	public void guess(CommandRegistry cr) {
-		cr.register("game", new SimpleCommand(Category.GAMES) {
-			@Override
-			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-				if (content.isEmpty()) {
-					onError(event);
-					return;
-				}
-
-				if (args[0].equalsIgnoreCase("character")) {
-					startGame(new Character(), event);
-					return;
-				}
-
-				if (args[0].equalsIgnoreCase("pokemon") || args[0].equalsIgnoreCase("pokémon")) {
-					startGame(new Pokemon(), event);
-					return;
-				}
-
-				if (args[0].equalsIgnoreCase("number") || args[0].equalsIgnoreCase("guessthenumber")) {
-					startGame(new GuessTheNumber(), event);
-					return;
-				}
-
-				onHelp(event);
-			}
-
+		cr.register("game", new SimpleTreeCommand(Category.GAMES) {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Guessing games.")
-					.addField("Games", "`~>game character` - **Starts an instance of Guess the character (anime)**.\n"
-						+ "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
-							"`~>game number` - **Starts an instance of Guess The Number**`", false)
-					.addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, " +
-							"where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.", false)
-					.build();
+						.addField("Games", "`~>game character` - **Starts an instance of Guess the character (anime)**.\n"
+								+ "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
+								"`~>game number` - **Starts an instance of Guess The Number**`", false)
+						.addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, " +
+								"where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.", false)
+						.build();
 			}
-		});
+		}.addSubCommand("character", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				startGame(new Character(), event);
+			}
+		}).addSubCommand("pokemon", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				startGame(new Pokemon(), event);
+			}
+		}).addSubCommand("number", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				startGame(new GuessTheNumber(), event);
+			}
+		}).createSubCommandAlias("pokemon", "pokémon")
+				.createSubCommandAlias("number", "guessthatnumber"));
 	}
 
 	@Subscribe

@@ -1,55 +1,42 @@
 package net.kodehawa.mantarobot;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
-import net.kodehawa.mantarobot.core.CommandProcessor;
 import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.MantaroCore;
+import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
+import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
-import net.kodehawa.mantarobot.options.annotations.Option;
-import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.shard.MantaroShard;
-import net.kodehawa.mantarobot.shard.ShardedBuilder;
-import net.kodehawa.mantarobot.shard.ShardedMantaro;
-import net.kodehawa.mantarobot.shard.jda.ShardedJDA;
-import net.kodehawa.mantarobot.shard.watcher.ShardWatcher;
+import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
 import net.kodehawa.mantarobot.web.MantaroAPI;
 import net.kodehawa.mantarobot.web.MantaroAPISender;
 import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 
-import static net.kodehawa.mantarobot.core.LoadState.*;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
@@ -87,7 +74,7 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
  * GNU General Public License for more details.</pr>
  *
  * @see ShardedJDA
- * @see net.kodehawa.mantarobot.shard.jda.UnifiedJDA
+ * @see net.kodehawa.mantarobot.core.shard.jda.UnifiedJDA
  * @see Module
  * @since 16/08/2016
  * @author Kodehawa, AdrianTodt
@@ -98,8 +85,6 @@ public class MantaroBot extends ShardedJDA {
 	public static int cwport;
 	@Getter
 	private final ShardedMantaro shardedMantaro;
-	@Getter
-	public static LoadState loadState = PRELOAD;
 	private static boolean DEBUG = false;
 	@Getter
 	private static MantaroBot instance;
@@ -117,6 +102,8 @@ public class MantaroBot extends ShardedJDA {
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	@Getter
 	private final StatsDClient statsClient;
+	@Getter
+	private final MantaroCore core;
 
 
 	public static void main(String[] args) {
@@ -168,6 +155,7 @@ public class MantaroBot extends ShardedJDA {
 	private MantaroBot() throws Exception {
         instance = this;
 		Config config = MantaroData.config().get();
+		core = new MantaroCore(config, true, true, DEBUG);
 
         statsClient = new NonBlockingStatsDClient(
 				config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
@@ -175,11 +163,6 @@ public class MantaroBot extends ShardedJDA {
 				8125,
 				"tag:value"
 		);
-
-        new BannerPrinter(1).printBanner();
-
-
-		Sentry.init(config.sentryDSN);
 
 		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
 			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
@@ -192,77 +175,32 @@ public class MantaroBot extends ShardedJDA {
 		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
 		long start = System.currentTimeMillis();
 
+
 		SimpleLogToSLF4JAdapter.install();
 
-		Future<Set<Class<?>>> classes = Async.future("Classes Lookup", () ->
-			new Reflections(
-				"net.kodehawa.mantarobot.commands",
-				new MethodAnnotationsScanner(),
-				new TypeAnnotationsScanner(),
-				new SubTypesScanner())
-				.getTypesAnnotatedWith(Module.class)
-		);
+		core.setCommandsPackage("net.kodehawa.mantarobot.commands")
+				.setOptionsPackage("net.kodehawa.mantarobot.options")
+				.startMainComponents(false);
 
-		Future<Set<Class<?>>> options = Async.future("Classes Lookup", () ->
-				new Reflections(
-						"net.kodehawa.mantarobot.options",
-						new MethodAnnotationsScanner(),
-						new TypeAnnotationsScanner(),
-						new SubTypesScanner())
-						.getTypesAnnotatedWith(Option.class)
-		);
-
-		loadState = LOADING;
-
-		shardedMantaro = new ShardedBuilder()
-				.debug(DEBUG)
-				.auto(true)
-				.token(config.token)
-				.build();
-
-		shardedMantaro.shard();
-		Async.thread("ShardWatcherThread", new ShardWatcher());
-
-		loadState = LOADED;
-		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-
+			shardedMantaro = core.getShardedInstance();
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
+
+		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 
 		MantaroData.config().save();
 
 		log.info("Starting update managers...");
 		shardedMantaro.startUpdaters();
 
-        EventBus bus = new EventBus();
-        classes.get().forEach(clazz->{
-            try {
-                bus.register(clazz.newInstance());
-            } catch(Exception e) {
-                log.error("Invalid module: no zero arg public constructor found for " + clazz);
-            }
-        });
-
-		EventBus bus1 = new EventBus();
-		options.get().forEach(clazz->{
-			try {
-				bus1.register(clazz.newInstance());
-			} catch(Exception e) {
-				log.error("Invalid module: no zero arg public constructor found for " + clazz);
-			}
-		});
-		bus.post(CommandProcessor.REGISTRY);
-
-		loadState = POSTLOAD;
-		System.out.println("Finished loading basic components. Current status: " + loadState);
-
-		bus.post(new PostLoadEvent());
-		bus1.post(new OptionRegistryEvent());
+		core.markAsReady();
 		long end = System.currentTimeMillis();
+
+		System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
 
 		LogUtils.log("Startup",
 				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
-						CommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
+						DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
 		if(!config.isPremiumBot() && !config.isBeta() ) {
 			mantaroAPI.startService();

@@ -17,7 +17,7 @@ public class Mapifier {
 	public enum Mode {
 		SOFT(() -> {
 			ObjectMapper m = new ObjectMapper();
-			SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null));
+			SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null, null, null));
 			pair.addDeserializer(Pair.class, new StringLongPairDeserializator());
 			m.registerModule(pair);
 			return m;
@@ -26,7 +26,7 @@ public class Mapifier {
 			ObjectMapper m = new ObjectMapper();
 			m.setVisibility(PropertyAccessor.ALL, Visibility.NONE);
 			m.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
-			SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null));
+			SimpleModule pair = new SimpleModule("Pair", new Version(1, 0, 0, null, null, null));
 			pair.addDeserializer(Pair.class, new StringLongPairDeserializator());
 			m.registerModule(pair);
 			return m;
@@ -38,8 +38,6 @@ public class Mapifier {
 			this.mapper = mapper.get();
 		}
 	}
-
-	private static Logger logger = LoggerFactory.getLogger("Mapifier");
 
 	public static <T> T fromMap(Mode mode, Class<T> c, Map<String, Object> map) {
 		return mode.mapper.convertValue(map, c);

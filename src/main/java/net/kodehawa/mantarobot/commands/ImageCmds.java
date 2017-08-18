@@ -14,11 +14,11 @@ import net.kodehawa.lib.imageboards.entities.Wallpaper;
 import net.kodehawa.lib.imageboards.entities.YandereImage;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.PostLoadEvent;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -376,58 +376,50 @@ public class ImageCmds {
 								}
 							});
 
-						} catch (Exception exception) {
-							if (exception instanceof NumberFormatException)
-								event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue(
-										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-								);
+						} catch (Exception e) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type (or we couldn't complete the query? Maybe try another one?, try again or check ~>help rule34)").queue(
+									message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
 						}
 						break;
 					case "tags":
 						try {
-							try {
-								String sNoArgs = content.replace("tags ", "");
-								String[] expectedNumber = sNoArgs.split(" ");
-								String tags = expectedNumber[0];
+							String sNoArgs = content.replace("tags ", "");
+							String[] expectedNumber = sNoArgs.split(" ");
+							String tags = expectedNumber[0];
 
-								rule34.onSearch(tags, images -> {
+							rule34.onSearch(tags, images -> {
+								try {
+									int number1;
 									try {
-										int number1;
-										try {
-											number1 = Integer.parseInt(expectedNumber[2]);
-										} catch (Exception e) {
-											number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
-										}
-
-										Hentai image = images.get(number1);
-										String tags1 = image.getTags() == null ? tags : image.getTags();
-										if(foundMinorTags(event, tags1, null)) return;
-
-										if(tags1.length() > 980) tags1 = tags1.substring(0, 980) + "...";
-
-										EmbedBuilder builder = new EmbedBuilder();
-										builder.setAuthor("Found image", image.getFile_url(), null)
-												.setImage(image.getFile_url())
-												.addField("Width", String.valueOf(image.getWidth()), true)
-												.addField("Height", String.valueOf(image.getHeight()), true)
-												.addField("Tags",  "`" + tags1  + "`", false)
-												.setFooter("If the image doesn't load, click the title.", null);
-
-										event.getChannel().sendMessage(builder.build()).queue();
-									} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
-										event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-												"number or another search.").queue();
+										number1 = Integer.parseInt(expectedNumber[2]);
+									} catch (Exception e) {
+										number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
 									}
 
-								});
-							} catch (Exception exception) {
-								if (exception instanceof NumberFormatException)
-									event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help rule34").queue(
-											message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-									);
-							}
-						} catch (NullPointerException e) {
-							event.getChannel().sendMessage(EmoteReference.ERROR + "Rule34 decided to not fetch the image. Well, you can try with another number or tag.").queue();
+									Hentai image = images.get(number1);
+									String tags1 = image.getTags() == null ? tags : image.getTags();
+									if(foundMinorTags(event, tags1, null)) return;
+
+									if(tags1.length() > 980) tags1 = tags1.substring(0, 980) + "...";
+
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", image.getFile_url(), null)
+											.setImage(image.getFile_url())
+											.addField("Width", String.valueOf(image.getWidth()), true)
+											.addField("Height", String.valueOf(image.getHeight()), true)
+											.addField("Tags",  "`" + tags1  + "`", false)
+											.setFooter("If the image doesn't load, click the title.", null);
+
+									event.getChannel().sendMessage(builder.build()).queue();
+								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
+											"number or another search.").queue();
+								}
+
+							});
+						} catch (Exception e) {
+							event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type (or we couldn't complete the query? Maybe try another one?, try again or check ~>help rule34)").queue(
+									message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
 						}
 						break;
 					default:
@@ -539,7 +531,6 @@ public class ImageCmds {
 									String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
 
 									if(foundMinorTags(event, tags1, image.rating)){
-										System.out.println("filtered");
 										return;
 									}
 									String author = image.getAuthor();

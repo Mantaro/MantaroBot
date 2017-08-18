@@ -7,6 +7,8 @@ import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveAllEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.jodah.expiringmap.ExpiringMap;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;

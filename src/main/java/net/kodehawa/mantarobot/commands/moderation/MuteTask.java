@@ -14,10 +14,10 @@ public class MuteTask implements Runnable {
 
     @Override
     public void run() {
-        MantaroObj data = MantaroData.db().getMantaroData();
-        for (Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet())
-        {
-            try {
+        try {
+            MantaroObj data = MantaroData.db().getMantaroData();
+            for (Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet())
+            {
                 Long id = entry.getKey();
                 Pair<String, Long> pair = entry.getValue();
                 String guildId = pair.getKey();
@@ -42,9 +42,9 @@ public class MuteTask implements Runnable {
                         ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
                     }
                 }
-            } catch (Exception e1) {
-                e1.printStackTrace();
             }
+        } catch (Exception e1) {
+            e1.printStackTrace();
         }
     }
 }

@@ -5,6 +5,8 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.jodah.expiringmap.ExpiringMap;
+import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;

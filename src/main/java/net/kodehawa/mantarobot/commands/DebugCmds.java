@@ -12,14 +12,14 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.core.CommandProcessor;
+import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.modules.CommandRegistry;
-import net.kodehawa.mantarobot.modules.Module;
-import net.kodehawa.mantarobot.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.modules.commands.base.Category;
-import net.kodehawa.mantarobot.shard.MantaroShard;
+import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.LinkedList;
@@ -39,12 +39,10 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 List<Guild> guilds = MantaroBot.getInstance().getGuilds();
                 List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
-                int c = (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
-                        voiceChannel.getGuild().getSelfMember())).count();
 
                 sendStatsMessageAndThen(event, "```prolog\n"
                         + " --------- Technical Information --------- \n\n"
-                        + "Commands: " + CommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
+                        + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
@@ -63,7 +61,7 @@ public class DebugCmds {
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
-                        + "Music Connections: " + c + "\n"
+                        + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
                         + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
                         + "```");
             }

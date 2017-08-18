@@ -6,18 +6,18 @@ import com.rethinkdb.gen.exc.ReqlError;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.CommandProcessor;
-import net.kodehawa.mantarobot.core.LoadState;
-import net.kodehawa.mantarobot.core.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.MantaroCore;
+import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
+import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -29,13 +29,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class CommandListener implements EventListener {
-	private static final Map<String, CommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
-	private static final CommandProcessor DEFAULT_PROCESSOR = new CommandProcessor();
-	//Message cache of 5000 messages. If it reaches 5000 it will delete the first one stored, and continue being 5000
+	private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
+	private final ICommandProcessor commandProcessor;
+	//Message cache of 20000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 5000
 	@Getter
-	private static final Cache<String, Optional<Message>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(5000).build();
+	private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(20000).build();
 	//Commands ran this session.
 	private static int commandTotal = 0;
+	private final Random random = new Random();
+	private final int shardId;
+	private final MantaroShard shard;
+
+	public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
+		this.shardId = shardId;
+		this.shard = shard;
+		commandProcessor = processor;
+	}
 
 	public static void clearCustomProcessor(String channelId) {
 		CUSTOM_PROCESSORS.remove(channelId);
@@ -45,24 +54,14 @@ public class CommandListener implements EventListener {
 		return String.valueOf(commandTotal);
 	}
 
-	public static void setCustomProcessor(String channelId, CommandProcessor processor) {
+	public static void setCustomProcessor(String channelId, ICommandProcessor processor) {
 		if (processor == null) CUSTOM_PROCESSORS.remove(channelId);
 		else CUSTOM_PROCESSORS.put(channelId, processor);
 	}
 
-	private final Random random = new Random();
-	private final int shardId;
-	private final MantaroShard shard;
-
-	public CommandListener(int shardId, MantaroShard shard) {
-		this.shardId = shardId;
-		this.shard = shard;
-	}
-
 	@Override
 	public void onEvent(Event event) {
-
-		if(!MantaroBot.loadState.equals(LoadState.POSTLOAD)) return;
+		if(!MantaroCore.hasLoadedCompletely()) return;
 
 		if (event instanceof ShardMonitorEvent) {
 			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
@@ -72,7 +71,7 @@ public class CommandListener implements EventListener {
 
 		if (event instanceof GuildMessageReceivedEvent) {
 			GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
-			messageCache.put(msg.getMessage().getId(), Optional.of(msg.getMessage()));
+			messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContent())));
 
 			if (msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
 
@@ -102,7 +101,7 @@ public class CommandListener implements EventListener {
 					!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
 				return;
 			if (event.getAuthor().isBot()) return;
-			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), DEFAULT_PROCESSOR).run(event))
+			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event))
 				commandTotal++;
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or incorrect type arguments. Check the command help.").queue();
