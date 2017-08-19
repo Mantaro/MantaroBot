@@ -15,6 +15,7 @@ import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.core.events.http.HttpRequestEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -32,9 +33,13 @@ import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -51,7 +56,7 @@ import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
-	public static final Pattern DISCORD_INVITE = Pattern.compile(
+	private static final Pattern DISCORD_INVITE = Pattern.compile(
 		"(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
 			"([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
 	private static int logTotal = 0;
@@ -64,6 +69,7 @@ public class MantaroListener implements EventListener {
 	private final MantaroShard shard;
 	private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 	private final RateLimiter spamModeLimiter = new RateLimiter(TimeUnit.SECONDS, 2, 3);
+	private final ManagedDatabase db = MantaroData.db();
 
 	public MantaroListener(int shardId, MantaroShard shard) {
 		this.shardId = shardId;
@@ -152,11 +158,45 @@ public class MantaroListener implements EventListener {
 		if(event instanceof HttpRequestEvent) {
 			onHttpRequest((HttpRequestEvent) event);
 		}
+		if(event instanceof GuildMemberRoleAddEvent){
+			onRoleAdd((GuildMemberRoleAddEvent) event);
+		}
+	}
+
+	/**
+	 * Handles automatic deliver of patreon keys. Should only deliver keys when
+	 * - An user just joined the guild and got the "Patreon" role assigned by the Patreon bot
+	 * - The user hasn't re-joined to get the role re-assigned
+	 * - The user hasn't received any keys
+	 * - The user pledged, obviously
+	 * @param event The event that says that a role got added, obv.
+	 */
+	private void onRoleAdd(GuildMemberRoleAddEvent event){
+		User user = event.getUser();
+		DBUser dbUser = db.getUser(user);
+		if(event.getRoles().stream().anyMatch(r -> r.getId().equals("331250898590367744"))) {
+			//Thanks lombok for the meme names
+			if (!dbUser.getData().isHasReceivedFirstKey() && !MantaroData.config().get().isPremiumBot()) {
+				//Attempt to open a PM and send a key!
+				user.openPrivateChannel().queue(channel -> channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
+                    message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. If any doubts, please contact Kodehawa#3457.\n" +
+                            "Instructions: **Apply this key to yourself!**. This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
+                            "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
+                            "To apply this key, run the following command in any channel `~>activatekey " +
+                            PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER) + " user`\n" +
+                            "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
+                                dbUser.getData().setHasReceivedFirstKey(true);
+                                dbUser.saveAsync();
+                            }
+                    );
+                }), failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+			}
+		}
 	}
 
 	private void logBan(GuildBanEvent event) {
 		String hour = df.format(new Date(System.currentTimeMillis()));
-		String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+		String logChannel = db.getGuild(event.getGuild()).getData().getGuildLogChannel();
 		if (logChannel != null) {
 			TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 			tc.sendMessage
@@ -166,7 +206,7 @@ public class MantaroListener implements EventListener {
 	}
 
 
-	public void onHttpRequest(HttpRequestEvent event)
+	private void onHttpRequest(HttpRequestEvent event)
 	{
 		MantaroBot.getInstance().getStatsClient().incrementCounter("http_requests");
 		try{
@@ -188,7 +228,7 @@ public class MantaroListener implements EventListener {
 	private void logDelete(GuildMessageDeleteEvent event) {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			String logChannel = db.getGuild(event.getGuild()).getData().getGuildLogChannel();
 
 
 			if (logChannel != null) {
@@ -197,11 +237,11 @@ public class MantaroListener implements EventListener {
 
 
 				if (deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
-					if(MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
+					if(db.getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
 						return;
 					}
 
-					if(MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(event.getChannel().getId())) {
+					if(db.getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(event.getChannel().getId())) {
 						return;
 					}
 
@@ -220,7 +260,7 @@ public class MantaroListener implements EventListener {
 	private void logEdit(GuildMessageUpdateEvent event) {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			String logChannel = db.getGuild(event.getGuild()).getData().getGuildLogChannel();
 
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
@@ -229,11 +269,11 @@ public class MantaroListener implements EventListener {
 
 				if (editedMessage != null && !editedMessage.getContent().isEmpty()&& !event.getChannel().getId().equals(logChannel)) {
 
-					if(MantaroData.db().getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(event.getChannel().getId())) {
+					if(db.getGuild(event.getGuild()).getData().getLogExcludedChannels().contains(event.getChannel().getId())) {
 						return;
 					}
 
-					if(MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(editedMessage.getAuthor().getId())) {
+					if(db.getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(editedMessage.getAuthor().getId())) {
 						return;
 					}
 
@@ -275,7 +315,7 @@ public class MantaroListener implements EventListener {
 	private void logUnban(GuildUnbanEvent event) {
 		try {
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			String logChannel = db.getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
@@ -310,8 +350,8 @@ public class MantaroListener implements EventListener {
 	private void onJoin(GuildJoinEvent event) {
 		try {
 
-			if (MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
-				|| MantaroData.db().getMantaroData().getBlackListedUsers().contains(
+			if (db.getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
+				|| db.getMantaroData().getBlackListedUsers().contains(
 				event.getGuild().getOwner().getUser().getId())) {
 				event.getGuild().leave().queue();
 				return;
@@ -340,7 +380,7 @@ public class MantaroListener implements EventListener {
 
 	private void onMessage(GuildMessageReceivedEvent event) {
 		//Moderation features
-		DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+		DBGuild dbGuild = db.getGuild(event.getGuild());
 		GuildData guildData = dbGuild.getData();
 
 
@@ -409,10 +449,10 @@ public class MantaroListener implements EventListener {
 
 		//Birthday role checker.
 		try {
-			Role birthdayRole = event.getGuild().getRoleById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayRole());
-			UserData user = MantaroData.db().getUser(event.getMember()).getData();
+			Role birthdayRole = event.getGuild().getRoleById(db.getGuild(event.getGuild()).getData().getBirthdayRole());
+			UserData user = db.getUser(event.getMember()).getData();
 			if (birthdayRole != null && user.getBirthday() != null) {
-				TextChannel channel = event.getGuild().getTextChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayChannel());
+				TextChannel channel = event.getGuild().getTextChannelById(db.getGuild(event.getGuild()).getData().getBirthdayChannel());
 				Calendar cal = Calendar.getInstance();
 				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 				if (user.getBirthday().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
@@ -441,8 +481,8 @@ public class MantaroListener implements EventListener {
 
 	private void onUserJoin(GuildMemberJoinEvent event) {
 		try {
-			String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
-			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+			String role = db.getGuild(event.getGuild()).getData().getGuildAutoRole();
+			DBGuild dbg = db.getGuild(event.getGuild());
 			GuildData data = dbg.getData();
 
 			String hour = df.format(new Date(System.currentTimeMillis()));
@@ -451,14 +491,14 @@ public class MantaroListener implements EventListener {
 					event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
 							log.debug("Successfully added a new role to " + event.getMember()));
 				} catch (PermissionException e) {
-					MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
-					MantaroData.db().getGuild(event.getGuild()).save();
+					db.getGuild(event.getGuild()).getData().setGuildAutoRole(null);
+					db.getGuild(event.getGuild()).save();
 					event.getGuild().getOwner().getUser().openPrivateChannel().queue(messageChannel ->
 							messageChannel.sendMessage("Removed autorole since I don't have the permissions to assign that role").queue());
 				}
 			}
 
-			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			String logChannel = db.getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId())).queue();
@@ -506,11 +546,11 @@ public class MantaroListener implements EventListener {
 
 
 			String hour = df.format(new Date(System.currentTimeMillis()));
-			DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+			DBGuild dbg = db.getGuild(event.getGuild());
 			GuildData data = dbg.getData();
 
 
-			String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
+			String logChannel = db.getGuild(event.getGuild()).getData().getGuildLogChannel();
 			if (logChannel != null) {
 				TextChannel tc = event.getGuild().getTextChannelById(logChannel);
 				tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
@@ -555,7 +595,7 @@ public class MantaroListener implements EventListener {
 	}
 
 	private void resetBirthdays(Guild guild) {
-		DBGuild data = MantaroData.db().getGuild(guild);
+		DBGuild data = db.getGuild(guild);
 		data.getData().setBirthdayChannel(null);
 		data.getData().setBirthdayRole(null);
 		data.save();

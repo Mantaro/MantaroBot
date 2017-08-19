@@ -37,9 +37,7 @@ public class MantaroObj implements ManagedObject {
     }
 
     @JsonIgnore
-    public MantaroObj() {
-
-    }
+    public MantaroObj() {}
 
     public static MantaroObj create() {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new HashMap<>());
@@ -58,6 +56,7 @@ public class MantaroObj implements ManagedObject {
                 .optArg("conflict", "replace")
                 .runNoReply(conn());
     }
+
 
     @Override
     public void write(Output out) {

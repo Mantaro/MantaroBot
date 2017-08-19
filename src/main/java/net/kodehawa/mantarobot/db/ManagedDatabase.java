@@ -125,6 +125,12 @@ public class ManagedDatabase {
         return c.toList();
     }
 
+    //Also tests if the key is valid or not!
+    public PremiumKey getPremiumKey(String id){
+        if(id == null) return null;
+        return cache.getOrElse(id, () -> r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class));
+    }
+
     public List<Quote> getQuotes(String guildId) {
         String pattern = '^' + guildId + ':';
         Cursor<Quote> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Quote.class);

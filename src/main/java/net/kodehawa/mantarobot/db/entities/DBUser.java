@@ -6,12 +6,15 @@ import lombok.Getter;
 import lombok.ToString;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.User;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.db.redis.Input;
 import net.kodehawa.mantarobot.db.redis.Output;
 
 import java.beans.ConstructorProperties;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
@@ -92,6 +95,17 @@ public class DBUser implements ManagedObject {
 
     @JsonIgnore
     public boolean isPremium() {
-        return currentTimeMillis() < premiumUntil;
+        PremiumKey key = MantaroData.db().getPremiumKey(data.getPremiumKey());
+        return currentTimeMillis() < premiumUntil || (key != null && currentTimeMillis() < key.getExpiration() && key.getParsedType().equals(PremiumKey.Type.USER));
+    }
+
+    @JsonIgnore
+    public PremiumKey generateAndApplyPremiumKey(int days, String owner){
+        String premiumId = UUID.randomUUID().toString();
+        PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner);
+        data.setPremiumKey(premiumId);
+        newKey.save();
+        save();
+        return newKey;
     }
 }
