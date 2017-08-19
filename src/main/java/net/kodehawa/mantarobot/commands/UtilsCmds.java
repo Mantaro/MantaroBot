@@ -73,51 +73,6 @@ public class UtilsCmds {
 					return;
 				}
 
-				if (content.startsWith("month")) {
-					Map<String, String> closeBirthdays = new HashMap<>();
-					final int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
-
-					event.getGuild().getMembers().forEach(member -> {
-						try {
-							if (MantaroData.db().getUser(member.getUser()) != null &&
-								MantaroData.db().getUser(event.getMember()).getData().getBirthday() != null) {
-								Date date = format1.parse(MantaroData.db().getUser(member).getData().getBirthday());
-								int month = date.toInstant().atOffset(ZoneOffset.UTC).getMonthValue();
-								if (currentMonth == month) {
-									closeBirthdays.put(
-										member.getEffectiveName() + "#" + member.getUser().getDiscriminator(),
-										MantaroData
-											.db().getUser(member.getUser()).getData().getBirthday()
-									);
-								}
-							}
-						} catch (Exception e) {
-							if (!(e instanceof NullPointerException))
-								log.warn("Error while retrieving close birthdays", e);
-						}
-					});
-
-					if (closeBirthdays.isEmpty()) {
-						event.getChannel().sendMessage(
-							"No one has a birthday this month! " + EmoteReference.SAD.getDiscordNotation())
-							.queue();
-						return;
-					}
-
-					StringBuilder builder = new StringBuilder();
-					closeBirthdays.forEach((name, birthday) -> {
-						if (name != null && birthday != null) {
-							builder.append(name).append(": ").append(birthday.substring(0, 5)).append("\n");
-						}
-					});
-
-					event.getChannel().sendMessage(
-						"```md\n" + "--Birthdays this month--\n\n" + builder.toString() + "```"
-					).queue();
-
-					return;
-				}
-
 				Date bd1;
 				try {
 					String bd;
