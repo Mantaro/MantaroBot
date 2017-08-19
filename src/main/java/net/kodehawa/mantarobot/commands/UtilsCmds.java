@@ -19,6 +19,7 @@ import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -44,6 +45,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
+import static java.lang.System.currentTimeMillis;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -250,7 +252,7 @@ public class UtilsCmds {
 					AtomicInteger i = new AtomicInteger();
 					for(Reminder r : reminders){
 						builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
-								.append(Utils.getReadableTime(r.time - System.currentTimeMillis())).append("**").append("\n");
+								.append(Utils.getReadableTime(r.time - currentTimeMillis())).append("**").append("\n");
 					}
 
 					Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
@@ -273,7 +275,7 @@ public class UtilsCmds {
 						event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
 					} else {
 						DiscordUtils.selectList(event, reminders,
-								(r) -> String.format("%s, Due in: %s", r.reminder, Utils.getShortReadableTime(r.time - System.currentTimeMillis())),
+								(r) -> String.format("%s, Due in: %s", r.reminder, Utils.getShortReadableTime(r.time - currentTimeMillis())),
 								r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
 										.setDescription(r1)
 										.setFooter("This timeouts in 10 seconds.", null).build(),
@@ -314,8 +316,8 @@ public class UtilsCmds {
 				new Reminder.Builder()
 						.id(user.getId())
 						.reminder(toRemind)
-						.current(System.currentTimeMillis())
-						.time(time + System.currentTimeMillis())
+						.current(currentTimeMillis())
+						.time(time + currentTimeMillis())
 						.build()
 						.schedule();
 			}
@@ -428,7 +430,7 @@ public class UtilsCmds {
 				EmbedBuilder embed = new EmbedBuilder();
 
 				if (!content.isEmpty()) {
-					long start = System.currentTimeMillis();
+					long start = currentTimeMillis();
 					String url = null;
 					try {
 						url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(
@@ -437,7 +439,7 @@ public class UtilsCmds {
 					String json = Utils.wgetResty(url, event);
 					UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
-					long end = System.currentTimeMillis() - start;
+					long end = currentTimeMillis() - start;
 					//This shouldn't happen, but it fucking happened.
 					if (beheadedSplit.length < 1) {
 						return;
@@ -516,7 +518,7 @@ public class UtilsCmds {
 
 				EmbedBuilder embed = new EmbedBuilder();
 				try {
-					long start = System.currentTimeMillis();
+					long start = currentTimeMillis();
 					WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(
 						Utils.wget(
 							String.format(
@@ -540,7 +542,7 @@ public class UtilsCmds {
 					Double finalTemperatureFarnheit = temp * 9 / 5 - 459.67;
 					Double finalWindSpeedMetric = ws * 3.6;
 					Double finalWindSpeedImperial = ws / 0.447046;
-					long end = System.currentTimeMillis() - start;
+					long end = currentTimeMillis() - start;
 
 					embed.setColor(Color.CYAN)
 						.setTitle(
@@ -634,6 +636,99 @@ public class UtilsCmds {
 					.addField("Usage", "`~>ytmp3 <youtube link>`", true)
 					.addField("Parameters", "`youtube link` - **The link of the video to convert to MP3**", true)
 					.build();
+			}
+		});
+	}
+
+	@Subscribe
+	public void comprevip(CommandRegistry cr){
+		cr.register("activatekey", new SimpleCommand(Category.UTILS) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+				if(!(args.length == 0) && args[0].equalsIgnoreCase("check")){
+					PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
+
+					if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()){ //Should always be enabled...
+						event.getChannel().sendMessage(EmoteReference.EYES + "Your key is valid for " + currentKey.validFor() + " more days :heart:").queue();
+					} else {
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have a key enabled... If you're a premium from the old system you should " +
+								"still have your rewards, though!").queue();
+					}
+					return;
+				}
+
+				if(args.length < 2){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot enable a premium key if you don't give me one or if you don't give me the scope!").queue();
+					return;
+				}
+
+				PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
+
+				if(key == null || (key.isEnabled() && !(key.getParsedType().equals(PremiumKey.Type.MASTER)))){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid or already enabled key!").queue();
+					return;
+				}
+
+				String scope = args[1];
+				PremiumKey.Type scopeParsed = null;
+				try{
+					scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
+				} catch (IllegalArgumentException ignored){}
+
+				if(scopeParsed == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user` or `guild`)").queue();
+					return;
+				}
+
+				if(!key.getParsedType().equals(scopeParsed)){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "This key is for another scope (Scope: " + key.getParsedType() + ")").queue();
+					return;
+				}
+
+				if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
+					DBGuild guild = MantaroData.db().getGuild(event.getGuild());
+
+					PremiumKey currentKey = MantaroData.db().getPremiumKey(guild.getData().getPremiumKey());
+
+					if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < key.getExpiration()){ //Should always be enabled...
+						event.getChannel().sendMessage(EmoteReference.ERROR + "This server already has a premium subscription!").queue();
+						return;
+					}
+
+					key.activate(180);
+					event.getChannel().sendMessage(EmoteReference.POPPER + "This server is now **Premium** :heart: (For: " + key.getDurationDays() + " days)").queue();
+					guild.getData().setPremiumKey(key.getId());
+					guild.save();
+					return;
+				}
+
+				if(scopeParsed.equals(PremiumKey.Type.USER)){
+					DBUser user = MantaroData.db().getUser(event.getAuthor());
+
+					PremiumKey currentUserKey = MantaroData.db().getPremiumKey(user.getData().getPremiumKey());
+					if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < key.getExpiration()){ //Should always be enabled...
+						event.getChannel().sendMessage(EmoteReference.ERROR + "You're already premium :heart:!").queue();
+						return;
+					}
+
+					key.activate(event.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
+					event.getChannel().sendMessage(EmoteReference.POPPER + "You're now **Premium** :heart: (For: " + key.getDurationDays() + " days)").queue();
+					user.getData().setPremiumKey(key.getId());
+					user.save();
+					return;
+				}
+
+				event.getChannel().sendMessage(EmoteReference.ERROR + "This shouldn't happen...").queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Premium Key Actvation")
+						.setDescription("Activates a premium key!\n" +
+								"Example: `~>activatekey a4e98f07-1a32-4dcc-b53f-c540214d54ec user` or `~>activatekey 550e8400-e29b-41d4-a716-446655440000 guild`\n" +
+								"No, those aren't valid keys.")
+						.build();
 			}
 		});
 	}

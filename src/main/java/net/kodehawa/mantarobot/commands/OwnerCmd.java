@@ -14,6 +14,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -111,6 +112,43 @@ public class OwnerCmd {
 					.addField("Examples", "~>blacklist user add/remove 293884638101897216\n" +
 						"~>blacklist guild add/remove 305408763915927552", false)
 					.build();
+			}
+		});
+	}
+
+	@Subscribe
+	public void createkey(CommandRegistry cr){
+		cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+				if(args.length < 2){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: master 1558674582032875529)").queue();
+					return;
+				}
+
+				String scope = args[0];
+				String owner = args[1];
+				PremiumKey.Type scopeParsed = null;
+				try{
+					scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
+				} catch (IllegalArgumentException ignored){}
+
+				if(scopeParsed == null){
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user`, `guild` or `master`)").queue();
+					return;
+				}
+
+
+				//This method generates a premium key AND saves it on the database! Please use this result!
+				PremiumKey generated = PremiumKey.generatePremiumKey(owner, scopeParsed);
+				event.getChannel().sendMessage(EmoteReference.CORRECT + String.format("Generated: `%s` (S: %s) **[NOT ACTIVATED]**",
+						generated.getId(), generated.getParsedType())).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Makes a premium key, what else? Needs scope (user or guild) and id.").build();
 			}
 		});
 	}

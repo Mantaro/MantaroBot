@@ -80,10 +80,10 @@ public class RateLimiter {
         long now = System.currentTimeMillis();
         Long tryAgain = p.second;
         if(tryAgain == null || tryAgain < now) {
-            p.second = now + (isPremium ? (long)(timeout * 0.75) : timeout);
+            p.second = now + (isPremium ? (long) (timeout * 0.75) : timeout);
         }
 
-        ses.schedule(a::decrementAndGet, isPremium ? (long)(timeout * 0.75) : timeout, TimeUnit.MILLISECONDS);
+        ses.schedule(a::decrementAndGet, isPremium ? (long) (timeout * 0.75) : timeout, TimeUnit.MILLISECONDS);
         return true;
     }
 

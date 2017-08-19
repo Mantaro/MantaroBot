@@ -25,7 +25,7 @@ public class ShardWatcher implements Runnable {
     public void run() {
         LogUtils.shard("ShardWatcherThread started");
         final int wait = MantaroData.config().get().shardWatcherWait;
-        while (true) {
+        while(true) {
             try {
                 Thread.sleep(wait);
                 MantaroEventManager.getLog().info("Checking shards...");
@@ -33,10 +33,10 @@ public class ShardWatcher implements Runnable {
                 ShardMonitorEvent sme = new ShardMonitorEvent(shardedMantaro.getTotalShards());
                 EventUtils.propagateEvent(sme);
                 int[] dead = sme.getDeadShards();
-                if (dead.length != 0) {
+                if(dead.length != 0) {
                     MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
                     for(int id : dead) {
-                        try{
+                        try {
                             FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
                                 try {
 
@@ -47,24 +47,22 @@ public class ShardWatcher implements Runnable {
                                     MantaroBot.getInstance().getShard(id).start(true);
                                     Thread.sleep(1000);
                                     return 1;
-                                } catch (Exception e) {
+                                } catch(Exception e) {
                                     log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
                                     return 0;
                                 }
                             });
                             THREAD_POOL.execute(restartJDA);
                             restartJDA.get(2, TimeUnit.MINUTES);
-                        }
-                        catch (Exception e) {
+                        } catch(Exception e) {
                             log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
                         }
                     }
-                }
-                else {
+                } else {
                     MantaroEventManager.getLog().info("No dead shards found");
                     LogUtils.shard("No dead shards found (Average shard ping: " + MantaroBot.getInstance().getPing() + "ms)");
                 }
-            } catch (InterruptedException e) {
+            } catch(InterruptedException e) {
                 log.error("ShardWatcher interrupted, stopping...");
                 LogUtils.shard("ShardWatcher interrupted, stopping...");
                 return;

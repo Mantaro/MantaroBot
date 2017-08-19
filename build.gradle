@@ -55,10 +55,11 @@ dependencies {
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 	compile 'com.rabbitmq:amqp-client:4.1.1'
+	compile 'redis.clients:jedis:2.9.0'
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compile 'org.apache.commons:commons-lang3:3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
 
