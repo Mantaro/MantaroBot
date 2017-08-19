@@ -43,6 +43,16 @@ public class Utils {
 		return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <K, V> Map<K, V> map(Object... objects) {
+		if(objects.length % 2 != 0) throw new IllegalArgumentException("Usage: map(k1, v1, k2, v2, ...)");
+		Map<K, V> map = new HashMap<>();
+		for(int i = 0; i < objects.length; i += 2) {
+			map.put((K) objects[i], (V) objects[i + 1]);
+		}
+		return Collections.unmodifiableMap(map);
+	}
+
 	public static String getShortReadableTime(long millis) {
 		return String.format("%02d:%02d",
 				TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),

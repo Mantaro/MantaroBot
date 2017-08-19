@@ -57,7 +57,7 @@ public class GuildData {
     private Set<String> slowModeChannels = new HashSet<>();
     private Set<String> spamModeChannels = new HashSet<>();
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
-    private String premiumKey; //Placeholder here for rethonk plz
+    private String premiumKey;
 
     public void write(Output out) {
         out.writeBoolean(antiSpam);
