@@ -7,6 +7,8 @@ public enum Badge {
     DEVELOPER("Developer", "\uD83D\uDEE0"),
     //Contributed in any way to mantaro's development.
     CONTRIBUTOR("Contributor", "\u2b50"),
+    //Is a helper, owo.
+    HELPER("Helper", "\uD83D\uDC9A"),
     //Self-explanatory.
     DONATOR("Donator", "\u2764"),
     //Have more than 8 billion credits.
