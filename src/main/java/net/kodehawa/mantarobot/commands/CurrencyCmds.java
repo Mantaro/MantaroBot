@@ -386,28 +386,8 @@ public class CurrencyCmds {
                 Collections.sort(badges);
                 String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
 
-                /*event.getChannel().sendMessage(baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
-                        EmoteReference.RING) + (badges.isEmpty() ? "" : badges.get(0).unicode + " ") + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
-                        .setThumbnail(author.getEffectiveAvatarUrl())
-                        .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
-                                + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
-                        .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
-                        .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
-                                ")", true)
-                        .addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
-                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
-                        .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
-                                "Not specified.", true)
-                        .addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" +
-                                user1.getDiscriminator(), true)
-                        .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
-                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set" : user.getTimezone()) + " | " +
-                                "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
-                        .build()
-                ).queue();*/
-
                 applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), author, baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
-                        EmoteReference.RING) + (badges.isEmpty() ? "" : badges.get(0).unicode + " ") + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+                        EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
                         .setThumbnail(author.getEffectiveAvatarUrl())
                         .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
                                 + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))

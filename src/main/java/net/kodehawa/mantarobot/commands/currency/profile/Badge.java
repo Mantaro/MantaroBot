@@ -44,10 +44,7 @@ public enum Badge {
             "Gambled their life away.", 91, 92),
     //Queue more than 1000 songs.
     DJ("DJ", "\uD83C\uDFB6",
-            "Too many songs.", 91, 92),
-    //Default.
-    USER("User", null, null, 0, 0);
-
+            "Too many songs.", 91, 92);
 
     //What does the fox say?
     @Getter

@@ -494,7 +494,7 @@ public class CustomCmds {
 					customCommands.put(newCustom.getId(), newCustom.getValues());
 
 					//add mini-hack
-					DefaultCommandProcessor.REGISTRY.commands().put(cmd, customCommand);
+					DefaultCommandProcessor.REGISTRY.commands().put(value, customCommand);
 
 					//clear commands if none
 					if (customCommands.keySet().stream().noneMatch(s -> s.endsWith(":" + cmd)))
