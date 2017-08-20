@@ -1,6 +1,12 @@
 package net.kodehawa.mantarobot.commands.currency.profile;
 
 import lombok.Getter;
+import net.dv8tion.jda.core.utils.IOUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public enum Badge {
     //Self-explanatory.
@@ -43,15 +49,19 @@ public enum Badge {
     USER("User", null, null);
 
 
-    //The name to display.
-    @Getter
-    public String display;
-    //The unicode to display.
-    @Getter
-    public String unicode;
     //What does the fox say?
     @Getter
-    public String description;
+    private final String description;
+    //The name to display.
+    @Getter
+    private final String display;
+    //What to put on the user's avatar
+    @Getter
+    private final byte[] icon;
+    //The unicode to display.
+    @Getter
+    private final String unicode;
+
 
     /**
      * Represents an user badge.
@@ -61,11 +71,28 @@ public enum Badge {
      * profile title itself, the rest (including the one on the title) will display on the "badges" version.
      * @param display The display name of this badge.
      * @param unicode The unicode of the badge. Used to display on the profile.
+     * @param description What did you do to win this
      */
     Badge(String display, String unicode, String description){
         this.display = display;
         this.unicode = unicode;
         this.description = description;
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream("badges/" + display.toLowerCase() + ".png");
+            if(is == null) {
+                LoggerHolder.LOGGER.error("No badge found for '" + display + "'");
+                this.icon = new byte[0];
+            } else {
+                this.icon = IOUtil.readFully(is);
+            }
+        } catch(IOException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    public byte[] apply(byte[] userAvatar) {
+        if(icon.length == 0) return userAvatar;
+        return BadgeUtils.applyBadge(userAvatar, icon);
     }
 
     /**
@@ -75,5 +102,9 @@ public enum Badge {
     @Override
     public String toString() {
         return display + (unicode == null ? "" :  " " + unicode);
+    }
+
+    private static class LoggerHolder {
+        static final Logger LOGGER = LoggerFactory.getLogger("Badge");
     }
 }
