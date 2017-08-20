@@ -398,8 +398,8 @@ public class CurrencyCmds {
                         .addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" +
                                 user1.getDiscriminator(), true)
                         .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
-                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone() + " | " +
-                                "Requested by " + event.getAuthor().getName()), event.getAuthor().getAvatarUrl())
+                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
+                                "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
                         .build()
                 ).queue();
             }
