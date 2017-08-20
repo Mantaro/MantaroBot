@@ -2,9 +2,8 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
@@ -12,20 +11,25 @@ import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
-import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,7 +40,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class CurrencyCmds {
-
+    private static final OkHttpClient client = new OkHttpClient();
     private static final Random random = new Random();
 
     @Subscribe
@@ -384,7 +388,7 @@ public class CurrencyCmds {
                 Collections.sort(badges);
                 String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
 
-                event.getChannel().sendMessage(baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
+                /*event.getChannel().sendMessage(baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
                         EmoteReference.RING) + (badges.isEmpty() ? "" : badges.get(0).unicode + " ") + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
                         .setThumbnail(author.getEffectiveAvatarUrl())
                         .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
@@ -402,7 +406,52 @@ public class CurrencyCmds {
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
                         .build()
-                ).queue();
+                ).queue();*/
+
+                applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), author, baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
+                        EmoteReference.RING) + (badges.isEmpty() ? "" : badges.get(0).unicode + " ") + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+                        .setThumbnail(author.getEffectiveAvatarUrl())
+                        .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
+                                + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
+                        .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
+                        .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
+                                ")", true)
+                        .addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
+                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+                        .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
+                                "Not specified.", true)
+                        .addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" +
+                                user1.getDiscriminator(), true)
+                        .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
+                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
+                                "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl()));
+            }
+
+            private void applyBadge(MessageChannel channel, Badge badge, User author, EmbedBuilder builder) {
+                if(badge == null) {
+                    channel.sendMessage(builder.build()).queue();
+                    return;
+                }
+                Message message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
+                byte[] bytes;
+                try {
+                    String url = author.getEffectiveAvatarUrl();
+                    if(url.endsWith(".gif")) {
+                        url = url.substring(0, url.length() - 3) + "png";
+                    }
+                    Response res = client.newCall(new Request.Builder()
+                            .url(url)
+                            .addHeader("User-Agent", "MantaroBot")
+                            .build()
+                    ).execute();
+                    ResponseBody body = res.body();
+                    if(body == null) throw new IOException("o shit body is null");
+                    bytes = body.bytes();
+                    res.close();
+                } catch(IOException e) {
+                    throw new AssertionError("o shit io error", e);
+                }
+                channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
             }
 
             @Override

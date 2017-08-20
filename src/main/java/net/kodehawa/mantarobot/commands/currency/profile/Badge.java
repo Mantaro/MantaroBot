@@ -103,6 +103,7 @@ public enum Badge {
         return display + (unicode == null ? "" :  " " + unicode);
     }
 
+    //need this to get access to a logger in the constructor
     private static class LoggerHolder {
         static final Logger LOGGER = LoggerFactory.getLogger("Badge");
     }
