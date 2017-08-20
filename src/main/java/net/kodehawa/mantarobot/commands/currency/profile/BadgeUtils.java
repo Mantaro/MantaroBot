@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class BadgeUtils {
-    public static byte[] applyBadge(byte[] avatarBytes, byte[] badgeBytes, int startX, int startY) {
+    public static byte[] applyBadge(byte[] avatarBytes, byte[] badgeBytes, int startX, int startY, boolean allWhite) {
         BufferedImage avatar;
         BufferedImage badge;
         try {
@@ -20,7 +20,7 @@ public class BadgeUtils {
         }
         WritableRaster raster = badge.getRaster();
 
-        for(int xx = 0, width = badge.getWidth(); xx < width; xx++) {
+        if(allWhite) for(int xx = 0, width = badge.getWidth(); xx < width; xx++) {
             for(int yy = 0, height = badge.getHeight(); yy < height; yy++) {
                 int[] pixels = raster.getPixel(xx, yy, (int[]) null);
                 pixels[0] = 255;

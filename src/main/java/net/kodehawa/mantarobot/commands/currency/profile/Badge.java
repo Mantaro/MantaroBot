@@ -20,7 +20,7 @@ public enum Badge {
             "Helps to maintain the Mantaro Hub community.", 92, 93),
     //Is a helper, owo.
     HELPER("Helper", "\uD83D\uDC9A",
-            "Helps to maintain the support influx on Mantaro Hub.", 91, 92),
+            "Helps to maintain the support influx on Mantaro Hub.", 92, 94),
     //Self-explanatory.
     DONATOR("Donator", "\u2764",
             "Actively helps on keeping Mantaro alive <3", 92, 94),
@@ -98,9 +98,13 @@ public enum Badge {
         }
     }
 
-    public byte[] apply(byte[] userAvatar) {
+    public byte[] apply(byte[] userAvatar, boolean white) {
         if(icon.length == 0) return userAvatar;
-        return BadgeUtils.applyBadge(userAvatar, icon, iconStartX, iconStartY);
+        return BadgeUtils.applyBadge(userAvatar, icon, iconStartX, iconStartY, white);
+    }
+
+    public byte[] apply(byte[] userAvatar) {
+        return apply(userAvatar, false);
     }
 
     /**
