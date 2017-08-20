@@ -46,20 +46,22 @@ public class PlayerData {
 	}
 
 	@Transient
-	public void addBadge(Badge b){
+	public boolean addBadge(Badge b){
 		if(hasBadge(b)){
-			return;
+			return false;
 		}
 
 		badges.add(b);
+		return true;
 	}
 
 	@Transient
-	public void removeBadge(Badge b){
+	public boolean removeBadge(Badge b){
 		if(!hasBadge(b)){
-			return;
+			return false;
 		}
 
 		badges.remove(b);
+		return true;
 	}
 }
