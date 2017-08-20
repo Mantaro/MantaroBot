@@ -378,10 +378,21 @@ public class CurrencyCmds {
                             EmoteReference.POPPER, user1.getName(), anniversary, marriedSince)).queue();
                     return;
                 }
+
                 PlayerData playerData = player.getData();
 
-                if(player.getMoney() > 7526527671L) player.getData().addBadge(Badge.ALTERNATIVE_WORLD);
-                if(MantaroData.config().get().isOwner(author)) player.getData().addBadge(Badge.DEVELOPER);
+                boolean appliedNewBadge = false;
+                if(player.getMoney() > 7526527671L) {
+                    appliedNewBadge = true;
+                    player.getData().addBadge(Badge.ALTERNATIVE_WORLD);
+                }
+                if(MantaroData.config().get().isOwner(author)) {
+                    appliedNewBadge = true;
+                    player.getData().addBadge(Badge.DEVELOPER);
+                }
+
+                if(appliedNewBadge) player.saveAsync();
+
                 List<Badge> badges = playerData.getBadges();
                 Collections.sort(badges);
                 String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
@@ -403,33 +414,6 @@ public class CurrencyCmds {
                         .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl()));
-            }
-
-            private void applyBadge(MessageChannel channel, Badge badge, User author, EmbedBuilder builder) {
-                if(badge == null) {
-                    channel.sendMessage(builder.build()).queue();
-                    return;
-                }
-                Message message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
-                byte[] bytes;
-                try {
-                    String url = author.getEffectiveAvatarUrl();
-                    if(url.endsWith(".gif")) {
-                        url = url.substring(0, url.length() - 3) + "png";
-                    }
-                    Response res = client.newCall(new Request.Builder()
-                            .url(url)
-                            .addHeader("User-Agent", "MantaroBot")
-                            .build()
-                    ).execute();
-                    ResponseBody body = res.body();
-                    if(body == null) throw new IOException("o shit body is null");
-                    bytes = body.bytes();
-                    res.close();
-                } catch(IOException e) {
-                    throw new AssertionError("o shit io error", e);
-                }
-                channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
             }
 
             @Override
@@ -496,7 +480,7 @@ public class CurrencyCmds {
                         .setDescription("**Reps an user**")
                         .addField("Usage", "`~>rep <@user>` - **Gives reputation to x user**", false)
                         .addField("Parameters", "`@user` - user to mention", false)
-                        .addField("Important", "Only usable every 24 hours.", false)
+                        .addField("Important", "Only usable every 12 hours.", false)
                         .build();
             }
         });
@@ -741,6 +725,46 @@ public class CurrencyCmds {
         });
     }
 
+    @Subscribe
+    public void badges(CommandRegistry cr){
+        cr.register("badges", new SimpleCommand(Category.CURRENCY) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                User toLookup = event.getAuthor();
+                if(!event.getMessage().getMentionedUsers().isEmpty()){
+                    toLookup = event.getMessage().getMentionedUsers().get(0);
+                }
+
+                Player player = MantaroData.db().getPlayer(toLookup);
+                PlayerData playerData = player.getData();
+
+                List<Badge> badges = playerData.getBadges();
+                Collections.sort(badges);
+                AtomicInteger counter = new AtomicInteger();
+
+                String toShow = badges.stream().map(
+                        badge -> String.format("**%d.-** %s\n*%4s*", counter.incrementAndGet(), badge, badge.description)
+                ).collect(Collectors.joining("\n"));
+
+                if(toShow.isEmpty()) toShow = "No badges to show (yet!)";
+
+                applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), toLookup, new EmbedBuilder()
+                        .setAuthor(toLookup.getName() + "'s badges", null, toLookup.getEffectiveAvatarUrl())
+                        .setDescription(toShow)
+                        .setThumbnail(toLookup.getEffectiveAvatarUrl()));
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Badge list")
+                        .setDescription("**Shows your (or another person)'s badges**\n" +
+                                "If you want to check out the badges of another person just mention them.")
+                        .build();
+            }
+        });
+    }
+
 
     private void openLootBox(GuildMessageReceivedEvent event, boolean special) {
         List<Item> toAdd = new ArrayList<>();
@@ -784,6 +808,33 @@ public class CurrencyCmds {
         }
         return null;
     }
+    private void applyBadge(MessageChannel channel, Badge badge, User author, EmbedBuilder builder) {
+        if(badge == null) {
+            channel.sendMessage(builder.build()).queue();
+            return;
+        }
+        Message message = new MessageBuilder().setEmbed(builder.setThumbnail("attachment://avatar.png").build()).build();
+        byte[] bytes;
+        try {
+            String url = author.getEffectiveAvatarUrl();
+            if(url.endsWith(".gif")) {
+                url = url.substring(0, url.length() - 3) + "png";
+            }
+            Response res = client.newCall(new Request.Builder()
+                    .url(url)
+                    .addHeader("User-Agent", "MantaroBot")
+                    .build()
+            ).execute();
+            ResponseBody body = res.body();
+            if(body == null) throw new IOException("o shit body is null");
+            bytes = body.bytes();
+            res.close();
+        } catch(IOException e) {
+            throw new AssertionError("o shit io error", e);
+        }
+        channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
+    }
+
 
     private User getUserById(String id) {
         if (id == null) return null;

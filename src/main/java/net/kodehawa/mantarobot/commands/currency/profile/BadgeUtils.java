@@ -20,14 +20,16 @@ public class BadgeUtils {
         }
         WritableRaster raster = badge.getRaster();
 
-        if(allWhite) for(int xx = 0, width = badge.getWidth(); xx < width; xx++) {
-            for(int yy = 0, height = badge.getHeight(); yy < height; yy++) {
-                int[] pixels = raster.getPixel(xx, yy, (int[]) null);
-                pixels[0] = 255;
-                pixels[1] = 255;
-                pixels[2] = 255;
-                pixels[3] = pixels[3] == 255 ? 165 : 0;
-                raster.setPixel(xx, yy, pixels);
+        if(allWhite){
+            for(int xx = 0, width = badge.getWidth(); xx < width; xx++) {
+                for(int yy = 0, height = badge.getHeight(); yy < height; yy++) {
+                    int[] pixels = raster.getPixel(xx, yy, (int[]) null);
+                    pixels[0] = 255;
+                    pixels[1] = 255;
+                    pixels[2] = 255;
+                    pixels[3] = pixels[3] == 255 ? 165 : 0;
+                    raster.setPixel(xx, yy, pixels);
+                }
             }
         }
 
