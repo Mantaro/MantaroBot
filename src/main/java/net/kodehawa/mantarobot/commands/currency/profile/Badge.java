@@ -51,16 +51,16 @@ public enum Badge {
 
     //What does the fox say?
     @Getter
-    private final String description;
+    public final String description;
     //The name to display.
     @Getter
-    private final String display;
+    public final String display;
     //What to put on the user's avatar
     @Getter
-    private final byte[] icon;
+    public final byte[] icon;
     //The unicode to display.
     @Getter
-    private final String unicode;
+    public final String unicode;
 
 
     /**
