@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class BadgeUtils {
-    public static byte[] applyBadge(byte[] avatarBytes, byte[] badgeBytes) {
+    public static byte[] applyBadge(byte[] avatarBytes, byte[] badgeBytes, int startX, int startY) {
         BufferedImage avatar;
         BufferedImage badge;
         try {
@@ -33,7 +33,6 @@ public class BadgeUtils {
 
         BufferedImage res = new BufferedImage(128, 128, BufferedImage.TYPE_INT_ARGB);
 
-        int startX = 91, startY = 92;
         int circleCenterX = 88, circleCenterY = 88;
         int width = 32, height = 32;
         int circleRadius = 40;
