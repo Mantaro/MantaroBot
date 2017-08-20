@@ -285,7 +285,6 @@ public class CurrencyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
-                PlayerData playerData = player.getData();
                 DBUser u1 = MantaroData.db().getUser(event.getMember());
                 User author = event.getAuthor();
 
@@ -376,10 +375,12 @@ public class CurrencyCmds {
                             EmoteReference.POPPER, user1.getName(), anniversary, marriedSince)).queue();
                     return;
                 }
+                PlayerData playerData = player.getData();
 
                 if(player.getMoney() > 7526527671L) player.getData().addBadge(Badge.ALTERNATIVE_WORLD);
-                if(MantaroData.config().get().isOwner(event.getMember())) player.getData().addBadge(Badge.DEVELOPER);
+                if(MantaroData.config().get().isOwner(author)) player.getData().addBadge(Badge.DEVELOPER);
                 List<Badge> badges = playerData.getBadges();
+                System.out.println(badges);
                 Collections.sort(badges);
                 String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
 
