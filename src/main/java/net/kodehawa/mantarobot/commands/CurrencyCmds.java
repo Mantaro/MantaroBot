@@ -287,7 +287,6 @@ public class CurrencyCmds {
         cr.register("profile", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 DBUser u1 = MantaroData.db().getUser(event.getMember());
                 User author = event.getAuthor();
@@ -384,7 +383,6 @@ public class CurrencyCmds {
                 if(player.getMoney() > 7526527671L) player.getData().addBadge(Badge.ALTERNATIVE_WORLD);
                 if(MantaroData.config().get().isOwner(author)) player.getData().addBadge(Badge.DEVELOPER);
                 List<Badge> badges = playerData.getBadges();
-                System.out.println(badges);
                 Collections.sort(badges);
                 String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
 
@@ -403,7 +401,7 @@ public class CurrencyCmds {
                         .addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" +
                                 user1.getDiscriminator(), true)
                         .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
-                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
+                        .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set" : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl())
                         .build()
                 ).queue();*/

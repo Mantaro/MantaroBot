@@ -37,7 +37,7 @@ public enum Badge {
     POWER_USER("Power User", "\uD83D\uDD27",
             "Do mod stuff with Mantaro."),
     //Use opts properly
-    DID_THIS_WORK("This worked??", "\u26cf",
+    DID_THIS_WORK("This worked", "\u26cf",
             "Used `~>opts` properly."),
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0",
@@ -51,15 +51,16 @@ public enum Badge {
 
     //What does the fox say?
     @Getter
-    public final String description;
+    private final String description;
     //The name to display.
     @Getter
-    public final String display;
+    private final String display;
     //What to put on the user's avatar
+    @Getter
     private final byte[] icon;
     //The unicode to display.
     @Getter
-    public final String unicode;
+    private final String unicode;
 
 
     /**
