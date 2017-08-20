@@ -4,17 +4,26 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 
 public class ModLog {
+
+	private static ManagedDatabase db = MantaroData.db();
 
 	public enum ModAction {
 		TEMP_BAN, BAN, KICK, MUTE, UNMUTE, WARN, PRUNE
 	}
 
 	public static void log(Member author, User target, String reason, ModAction action, long caseN, String... time) {
-		DBGuild guildDB = MantaroData.db().getGuild(author.getGuild());
+		DBGuild guildDB = db.getGuild(author.getGuild());
+		Player player = db.getPlayer(author);
+		PlayerData playerData = player.getData();
 		EmbedBuilder embedBuilder = new EmbedBuilder();
 		embedBuilder.addField("Responsible Moderator", author.getEffectiveName(), true);
 		if(target != null) embedBuilder.addField("Member", target.getName(), true);
@@ -48,6 +57,11 @@ public class ModLog {
 				embedBuilder.setAuthor("Warn | Case #" + caseN, null, author.getUser().getEffectiveAvatarUrl());
 				break;
 
+		}
+
+		if(!playerData.hasBadge(Badge.POWER_USER)){
+			playerData.addBadge(Badge.POWER_USER);
+			player.saveAsync();
 		}
 
 		if (guildDB.getData().getGuildLogChannel() != null) {

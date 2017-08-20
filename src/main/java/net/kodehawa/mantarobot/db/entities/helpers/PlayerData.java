@@ -1,13 +1,11 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 
 import java.beans.Transient;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.*;
 
 @Data
 public class PlayerData {
@@ -16,6 +14,8 @@ public class PlayerData {
 	private Long marriedSince = null;
 	private String marriedWith = null;
 	private long lockedUntil = 0;
+	private List<Badge> badges = new ArrayList<>();
+	private long gamesWon = 0;
 
 	@Transient
 	public boolean isMarried() {
@@ -38,5 +38,28 @@ public class PlayerData {
 		cal.setTime(new Date(getMarriedSince()));
 		cal.add(Calendar.YEAR, 1);
 		return sdf.format(cal.getTime());
+	}
+
+	@Transient
+	public boolean hasBadge(Badge b){
+		return badges.contains(b);
+	}
+
+	@Transient
+	public void addBadge(Badge b){
+		if(hasBadge(b)){
+			return;
+		}
+
+		badges.add(b);
+	}
+
+	@Transient
+	public void removeBadge(Badge b){
+		if(!hasBadge(b)){
+			return;
+		}
+
+		badges.remove(b);
 	}
 }

@@ -13,6 +13,7 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -602,6 +603,12 @@ public class MoneyCmds {
     private void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
         if (luck > r.nextInt(110)) {
             if (player.addMoney(gains)) {
+                if(gains > Integer.MAX_VALUE){
+                    if(!player.getData().hasBadge(Badge.GAMBLER)){
+                        player.getData().addBadge(Badge.GAMBLER);
+                        player.saveAsync();
+                    }
+                }
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you " +
                         "had!").queue();
             }

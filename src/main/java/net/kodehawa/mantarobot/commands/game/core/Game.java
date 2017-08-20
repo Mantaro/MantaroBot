@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
@@ -54,6 +55,8 @@ public abstract class Game<T> {
 					Player player = MantaroData.db().getPlayer(e.getMember());
 					int gains = 45 + extra;
 					player.addMoney(gains);
+					if(player.getData().getGamesWon() == 100) player.getData().addBadge(Badge.GAMER);
+					player.getData().setGamesWon(player.getData().getGamesWon() + 1);
 					player.save();
 					TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
 					lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " just won $" + gains +" credits by answering correctly!").queue();

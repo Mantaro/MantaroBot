@@ -16,14 +16,14 @@ import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -36,7 +36,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.List;
 import java.util.Queue;
@@ -109,12 +108,7 @@ public class UtilsCmds {
 							+ "**Parameter explanation:**\n"
 							+ "date. A date in dd-mm-yyyy format (13-02-1998 for example)", false
 					)
-					.addField(
-						"Tip",
-						"To see whose birthdays are this month, type ~>birthday month\nTo remove your birthday date do " +
-							"~>birthday " +
-							"remove", false
-					)
+					.addField("Tip","To remove your birthday date do ~>birthday remove", false)
 					.setColor(Color.DARK_GRAY)
 					.build();
 			}

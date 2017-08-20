@@ -11,10 +11,12 @@ import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -283,6 +285,7 @@ public class CurrencyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
+                PlayerData playerData = player.getData();
                 DBUser u1 = MantaroData.db().getUser(event.getMember());
                 User author = event.getAuthor();
 
@@ -374,11 +377,17 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(player.getMoney() > 7526527671L) player.getData().addBadge(Badge.ALTERNATIVE_WORLD);
+                if(MantaroData.config().get().isOwner(event.getMember())) player.getData().addBadge(Badge.DEVELOPER);
+                List<Badge> badges = playerData.getBadges();
+                Collections.sort(badges);
+                String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
+
                 event.getChannel().sendMessage(baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
-                        EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
+                        EmoteReference.RING) + (badges.isEmpty() ? "" : badges.get(0).unicode + " ") + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
                         .setThumbnail(author.getEffectiveAvatarUrl())
-                        .setDescription(player.getData().getDescription() == null ? "No description set" : player.getData()
-                                .getDescription())
+                        .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
+                                + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
                         .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
                         .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
                                 ")", true)
@@ -388,6 +397,7 @@ public class CurrencyCmds {
                                 "Not specified.", true)
                         .addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" +
                                 user1.getDiscriminator(), true)
+                        .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone() + " | " +
                                 "Requested by " + event.getAuthor().getName()), event.getAuthor().getAvatarUrl())
                         .build()
