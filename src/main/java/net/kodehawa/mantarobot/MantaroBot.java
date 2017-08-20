@@ -182,7 +182,7 @@ public class MantaroBot extends ShardedJDA {
 				.setOptionsPackage("net.kodehawa.mantarobot.options")
 				.startMainComponents(false);
 
-			shardedMantaro = core.getShardedInstance();
+		shardedMantaro = core.getShardedInstance();
 		audioManager = new MantaroAudioManager();
 		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 

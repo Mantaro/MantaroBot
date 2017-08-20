@@ -2,6 +2,7 @@ package net.kodehawa.mantarobot.commands.moderation;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
@@ -15,6 +16,7 @@ public class MuteTask implements Runnable {
     @Override
     public void run() {
         try {
+            if(!MantaroCore.hasLoadedCompletely()) return;
             MantaroObj data = MantaroData.db().getMantaroData();
             for (Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet())
             {
