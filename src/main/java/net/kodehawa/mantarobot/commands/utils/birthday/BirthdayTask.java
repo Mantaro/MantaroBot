@@ -1,5 +1,6 @@
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
+import io.sentry.Sentry;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -80,6 +81,7 @@ public class BirthdayTask implements Runnable {
 
         } catch (Exception e){
             e.printStackTrace();
+            Sentry.capture(e);
         }
     }
 }

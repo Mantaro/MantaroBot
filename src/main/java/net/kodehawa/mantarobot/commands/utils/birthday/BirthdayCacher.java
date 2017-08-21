@@ -36,6 +36,7 @@ public class BirthdayCacher {
                 List<Map> m1 = m.toList();
 
                 for(Map r : m1){
+                    //Blame rethinkdb for the casting hell thx
                     String birthday = (String)((HashMap)r.get("data")).get("birthday");
                     if(birthday != null && !birthday.isEmpty()){
                         log.debug("-> PROCESS: {}", r);
