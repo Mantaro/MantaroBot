@@ -24,6 +24,7 @@ public enum Badge {
     //Self-explanatory.
     DONATOR("Donator", "\u2764",
             "Actively helps on keeping Mantaro alive <3", 92, 94),
+    //Helps find important bugs.
     BUG_HUNTER("Bug Hunter", "\uD83D\uDC1B",
             "Has reported one or more important bugs with details.", 92, 94),
     //Have more than 8 billion credits.
