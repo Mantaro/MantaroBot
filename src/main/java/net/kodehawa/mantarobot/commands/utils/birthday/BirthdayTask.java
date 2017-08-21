@@ -9,7 +9,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.SimpleDateFormat;
@@ -50,15 +49,15 @@ public class BirthdayTask implements Runnable {
 
                         for(Map.Entry<String, String> data : guildMap.entrySet()){
                             Member member = guild.getMemberById(data.getKey());
-                            UserData userData = db.getUser(member).getData();
-                            if(userData.getBirthday() == null) continue;
+                            String birthday = data.getValue();
+                            if(birthday == null) continue; //shouldnt happen
                             //else start the assigning
 
                             Calendar cal = Calendar.getInstance();
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
                             //tada!
-                            if (userData.getBirthday().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
+                            if (birthday.substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 if (!member.getRoles().contains(birthdayRole)) {
                                     guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s ->{

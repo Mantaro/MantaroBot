@@ -216,7 +216,7 @@ public class MantaroBot extends ShardedJDA {
 			MantaroAPISender.startService();
 		}
 
-		birthdayCacher = new BirthdayCacher(MantaroData.db());
+		birthdayCacher = new BirthdayCacher();
 		this.startCheckingBirthdays();
 	}
 
