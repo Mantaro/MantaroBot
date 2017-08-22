@@ -1,6 +1,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
@@ -43,8 +44,10 @@ public class ImageCmds {
 
 	private final URLCache CACHE = new URLCache(20);
 
-	private static final String[] responses = {"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
-			"Am I cute yet?", "%mention%, I think you should have a cat."};
+	private static final String[] responses = {
+			"Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
+			"Am I cute yet?", "%mention%, I think you should have a cat."
+	};
 
 	private final String BASEURL = "http://catgirls.brussell98.tk/api/random";
 	private final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
@@ -154,7 +157,7 @@ public class ImageCmds {
 											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch(IndexOutOfBoundsException | IllegalArgumentException e) {
+								} catch(Exception e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
 								}
 							});
@@ -194,7 +197,7 @@ public class ImageCmds {
 											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch(IndexOutOfBoundsException | IllegalArgumentException e) {
+								} catch(Exception e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 								}
 							});
@@ -242,36 +245,38 @@ public class ImageCmds {
 							String whole1 = content.replace("get ", "");
 							String[] wholeBeheaded = whole1.split(" ");
 							konachan.get(images -> {
-								int number;
-								List<Wallpaper> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
-								try {
-									number = Integer.parseInt(wholeBeheaded[0]);
-								} catch(Exception e) {
-									number = r.nextInt(wallpapers.size());
+								try{
+									int number;
+									List<Wallpaper> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
+									try {
+										number = Integer.parseInt(wholeBeheaded[0]);
+									} catch(Exception e) {
+										number = r.nextInt(wallpapers.size());
+									}
+
+									Wallpaper wallpaper = wallpapers.get(number);
+									String AUTHOR = wallpaper.getAuthor();
+									String TAGS = wallpaper.getTags().stream().collect(Collectors.joining(", "));
+
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", "https:" + wallpaper.getJpeg_url(), null)
+											.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
+											.setImage("https:" + wallpaper.getJpeg_url())
+											.addField("Width", String.valueOf(wallpaper.getWidth()), true)
+											.addField("Height", String.valueOf(wallpaper.getHeight()), true)
+											.addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
+											.setFooter("If the image doesn't load, click the title.", null);
+
+									channel.sendMessage(builder.build()).queue();
+								} catch (IllegalArgumentException e){
+									channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
-
-								Wallpaper wallpaper = wallpapers.get(number);
-								String AUTHOR = wallpaper.getAuthor();
-								String TAGS = wallpaper.getTags().stream().collect(Collectors.joining(", "));
-
-								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", "https:" + wallpaper.getJpeg_url(), null)
-										.setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-										.setImage("https:" + wallpaper.getJpeg_url())
-										.addField("Width", String.valueOf(wallpaper.getWidth()), true)
-										.addField("Height", String.valueOf(wallpaper.getHeight()), true)
-										.addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-										.setFooter("If the image doesn't load, click the title.", null);
-
-								channel.sendMessage(builder.build()).queue();
 							});
 						} catch(Exception exception) {
 							if(exception instanceof NumberFormatException)
 								channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
 										message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
 								);
-							if(exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException)
-								channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 						}
 						break;
 					case "tags":
@@ -280,27 +285,31 @@ public class ImageCmds {
 							String[] expectedNumber = sNoArgs.split(" ");
 							String tags = expectedNumber[0];
 							konachan.onSearch(tags, wallpapers1 -> {
-								List<Wallpaper> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
-								int number1;
-								try {
-									number1 = Integer.parseInt(expectedNumber[1]);
-								} catch(Exception e) {
-									number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+								try{
+									List<Wallpaper> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
+									int number1;
+									try {
+										number1 = Integer.parseInt(expectedNumber[1]);
+									} catch(Exception e) {
+										number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+									}
+
+									Wallpaper wallpaper = filter.get(number1);
+									String TAGS1 = wallpaper.getTags().stream().collect(Collectors.joining(", "));
+
+									EmbedBuilder builder = new EmbedBuilder();
+									builder.setAuthor("Found image", "https:" + wallpaper.getJpeg_url(), null)
+											.setDescription("Image uploaded by: " + (wallpaper.getAuthor() == null ? "not found" : wallpaper.getAuthor()))
+											.setImage("https:" + wallpaper.getJpeg_url())
+											.addField("Width", String.valueOf(wallpaper.getWidth()), true)
+											.addField("Height", String.valueOf(wallpaper.getHeight()), true)
+											.addField("Tags", "`" + (TAGS1 == null ? "None" : TAGS1) + "`", false)
+											.setFooter("If the image doesn't load, click the title.", null);
+
+									channel.sendMessage(builder.build()).queue();
+								} catch (IllegalArgumentException e){
+									channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
 								}
-
-								Wallpaper wallpaper = filter.get(number1);
-								String TAGS1 = wallpaper.getTags().stream().collect(Collectors.joining(", "));
-
-								EmbedBuilder builder = new EmbedBuilder();
-								builder.setAuthor("Found image", "https:" + wallpaper.getJpeg_url(), null)
-										.setDescription("Image uploaded by: " + (wallpaper.getAuthor() == null ? "not found" : wallpaper.getAuthor()))
-										.setImage("https:" + wallpaper.getJpeg_url())
-										.addField("Width", String.valueOf(wallpaper.getWidth()), true)
-										.addField("Height", String.valueOf(wallpaper.getHeight()), true)
-										.addField("Tags", "`" + (TAGS1 == null ? "None" : TAGS1) + "`", false)
-										.setFooter("If the image doesn't load, click the title.", null);
-
-								channel.sendMessage(builder.build()).queue();
 							});
 						} catch(Exception exception) {
 							if(exception instanceof NumberFormatException)
@@ -371,7 +380,7 @@ public class ImageCmds {
 											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+								} catch (Exception e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
 								}
 							});
@@ -411,7 +420,7 @@ public class ImageCmds {
 											.setFooter("If the image doesn't load, click the title.", null);
 
 									event.getChannel().sendMessage(builder.build()).queue();
-								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+								} catch (Exception e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
 											"number or another search.").queue();
 								}
@@ -500,7 +509,7 @@ public class ImageCmds {
 
 									channel.sendMessage(builder.build()).queue();
 									TextChannelGround.of(event).dropItemWithChance(13, 3);
-								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+								} catch (Exception e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
 											"number or another search.").queue();
 								}
@@ -546,7 +555,7 @@ public class ImageCmds {
 
 									channel.sendMessage(builder.build()).queue();
 									TextChannelGround.of(event).dropItemWithChance(13, 3);
-								} catch (ArrayIndexOutOfBoundsException | IllegalArgumentException e) {
+								} catch (Exception e) {
 									event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
 											"number or another search.").queue();
 								}

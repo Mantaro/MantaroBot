@@ -405,38 +405,6 @@ public class MantaroListener implements EventListener {
 				}
 			}
 		}
-
-
-		//Birthday role checker.
-		try {
-			Role birthdayRole = event.getGuild().getRoleById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayRole());
-			UserData user = MantaroData.db().getUser(event.getMember()).getData();
-			if (birthdayRole != null && user.getBirthday() != null) {
-				TextChannel channel = event.getGuild().getTextChannelById(MantaroData.db().getGuild(event.getGuild()).getData().getBirthdayChannel());
-				Calendar cal = Calendar.getInstance();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-				if (user.getBirthday().substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
-					if (!event.getMember().getRoles().contains(birthdayRole)) {
-						event.getGuild().getController().addSingleRoleToMember(event.getMember(), birthdayRole).queue(s ->{
-									channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
-											event.getMember().getEffectiveName())).queue();
-									MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
-								}
-						);
-					}
-				} else {
-					if (event.getGuild().getRoles().contains(birthdayRole)) {
-						event.getGuild().getController().removeRolesFromMember(event.getMember(), birthdayRole).queue();
-					}
-				}
-			}
-		} catch (Exception e) {
-			if (e instanceof PermissionException) {
-				resetBirthdays(event.getGuild());
-				event.getChannel().sendMessage(EmoteReference.ERROR + "Error while applying birthday role, so the role assigner will be resetted. **Remember that the bot MUST have permissions to apply roles to that person, always**").queue();
-			}
-			//else ignore
-		}
 	}
 
 	private void onUserJoin(GuildMemberJoinEvent event) {

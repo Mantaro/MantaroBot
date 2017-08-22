@@ -9,6 +9,8 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -31,11 +33,16 @@ import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
@@ -102,6 +109,8 @@ public class MantaroBot extends ShardedJDA {
 	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 	@Getter
 	private final StatsDClient statsClient;
+	@Getter
+	private final BirthdayCacher birthdayCacher;
 	@Getter
 	private final MantaroCore core;
 
@@ -206,6 +215,9 @@ public class MantaroBot extends ShardedJDA {
 			mantaroAPI.startService();
 			MantaroAPISender.startService();
 		}
+
+		birthdayCacher = new BirthdayCacher();
+		this.startCheckingBirthdays();
 	}
 
 	public Guild getGuildById(String guildId) {
@@ -258,5 +270,15 @@ public class MantaroBot extends ShardedJDA {
 			Response response = okHttpClient.newCall(request).execute();
 			response.close();
 		} catch (Exception ignored) {}
+	}
+
+	private void startCheckingBirthdays(){
+		ZoneId z = ZoneId.of("America/Chicago");
+		ZonedDateTime now = ZonedDateTime.now( z );
+		LocalDate tomorrow = now.toLocalDate().plusDays(1);
+		ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
+		Duration duration = Duration.between( now , tomorrowStart );
+		long millisecondsUntilTomorrow = duration.toMillis();
+		Executors.newScheduledThreadPool(2).scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
 	}
 }
