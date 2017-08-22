@@ -86,7 +86,6 @@ public class AudioLoader implements AudioLoadResultHandler {
                     "Cannot load playlist. I guess something broke pretty hard. Please check", e, this.getClass(), "Music Loader"
             );
         }
-
     }
 
     @Override

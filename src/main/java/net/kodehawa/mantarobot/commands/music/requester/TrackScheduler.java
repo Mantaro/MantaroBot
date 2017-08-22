@@ -79,7 +79,7 @@ public class TrackScheduler extends AudioEventAdapter {
             return;
         }
 
-        if(MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && getRequestedChannelParsed() != null){
+        if(MantaroData.db().getGuild(guildId).getData().isMusicAnnounce() && requestedChannel != 0 && getRequestedChannelParsed() != null){
             VoiceChannel voiceChannel = getRequestedChannelParsed().getGuild().getSelfMember().getVoiceState().getChannel();
 
             //What kind of massive meme is this?

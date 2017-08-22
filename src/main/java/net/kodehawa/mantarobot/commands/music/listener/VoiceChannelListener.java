@@ -55,7 +55,7 @@ public class VoiceChannelListener implements EventListener {
         GuildMusicManager gmm = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
         if(gmm != null) {
             if(event.isMuted()) {
-                if(gmm.getTrackScheduler().getCurrentTrack() != null) {
+                if(gmm.getTrackScheduler().getCurrentTrack() != null && gmm.getTrackScheduler().getRequestedChannelParsed() != null) {
                     gmm.getTrackScheduler().getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "Pausing player because I got muted :(").queue();
                     gmm.getAudioPlayer().setPaused(true);
                 }

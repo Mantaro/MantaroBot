@@ -34,12 +34,12 @@ public class GuildMusicManager {
 
         if(guild == null) return;
 
-        (trackScheduler.getCurrentTrack() == null ?
-                guild.getTextChannels().stream().filter(TextChannel::canTalk).findFirst().orElseThrow(()-> new IllegalStateException("No channel to speak")) :
-                trackScheduler.getRequestedChannelParsed()).sendMessage(EmoteReference.SAD + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
-                "because I was left all alone :<").queue();
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
+        if(trackScheduler.getRequestedChannelParsed() != null){
+            trackScheduler.getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
+                    "because I was left all alone :<").queue();
+        }
         trackScheduler.nextTrack(true, true);
     }
 
