@@ -5,7 +5,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.handlers.AudioPlayerSendHandler;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
