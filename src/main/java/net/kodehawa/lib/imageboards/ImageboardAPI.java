@@ -7,7 +7,6 @@ import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ImageboardAPI<T> {
@@ -37,7 +36,6 @@ public class ImageboardAPI<T> {
         }
     }
 
-    private HashMap<String, Object> queryParams;
     private Boards apiHome;
     private Class<T[]> clazz;
     private Type type;
@@ -64,8 +62,8 @@ public class ImageboardAPI<T> {
         get(60, search, handler);
     }
 
-    private List<T> get(int limit, String search){
-        queryParams = new HashMap<>();
+    private List<T> get(int limit, String search) throws Exception {
+        HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("limit", limit);
         T[] wallpapers;
 
@@ -75,7 +73,6 @@ public class ImageboardAPI<T> {
             String response = Utils.wgetResty(apiHome + apiHome.separator + Utils.urlEncodeUTF8(queryParams), null);
             wallpapers = type.equals(Type.JSON) ? GsonDataManager.GSON_PRETTY.fromJson(response, clazz) : Utils.XML_MAPPER.readValue(response, clazz);
         } catch(Exception e) {
-            e.printStackTrace();
             return null;
         }
 
