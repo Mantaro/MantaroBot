@@ -354,7 +354,16 @@ public class GuildOptions extends OptionHandler {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't find an autorole with that name").queue();
                     }
                 });//endregion
-        //endregion
+
+        //region clear
+        registerOption("autoroles:clear", "Autoroles clear",
+                "Removes all autoroles.",
+                "Removes all autoroles.", (event, args) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    dbGuild.getData().getAutoroles().clear();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Cleared all autoroles!").queue();
+                }
+        ); //endregion
 
         //region custom
         registerOption("admincustom", "Admin custom commands",
