@@ -19,7 +19,10 @@ import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
@@ -576,6 +579,65 @@ public class UtilsCmds {
 					.build();
 			}
 		});
+	}
+
+	@Subscribe
+	public void wiki(CommandRegistry registry){
+		registry.register("wiki", new TreeCommand(Category.UTILS) {
+			@Override
+			public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+				return new SubCommand() {
+					@Override
+					protected void call(GuildMessageReceivedEvent event, String content) {
+						event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation please visit:** https://github.com/Mantaro/MantaroBot/wiki/Home").queue();
+					}
+				};
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return helpEmbed(event, "Wiki command")
+                        .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
+                                "Avaliable subcommands: `opts`, `custom`, `gifs`, `faq`, `commands`, `modifiers`")
+                        .build();
+			}
+		}.addSubCommand("opts", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on `~>opts` and general bot options " +
+                        "please visit:** https://github.com/Mantaro/MantaroBot/wiki/Configuration").queue();
+			}
+		}).addSubCommand("custom", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
+                        "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands").queue();
+			}
+		}).addSubCommand("gifs", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's gif reference please visit:**" +
+                        "  https://github.com/Mantaro/MantaroBot/wiki/Gif-reference").queue();
+			}
+		}).addSubCommand("modifiers", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
+                        "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers").queue();
+            }
+		}).addSubCommand("commands", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on commands and usage please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/Command-reference-and-documentation").queue();
+			}
+		}).addSubCommand("faq", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's FAQ please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/FAQ").queue();
+            }
+        }));
 	}
 
 	@Subscribe
