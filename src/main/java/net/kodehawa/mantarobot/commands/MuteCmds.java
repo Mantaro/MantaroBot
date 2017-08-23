@@ -292,6 +292,6 @@ public class MuteCmds {
 
     @Subscribe
     public void onPostLoad(PostLoadEvent e){
-        muteExecutor.scheduleAtFixedRate(new MuteTask(), 0, 25, TimeUnit.SECONDS);
+        muteExecutor.scheduleAtFixedRate(new MuteTask(), 40, 40, TimeUnit.SECONDS);
     }
 }
