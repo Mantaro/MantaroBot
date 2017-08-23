@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.LoadState;
+import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -40,7 +41,7 @@ public class ShardedMantaro {
 
     public void shard() {
         try{
-            MantaroBot.getInstance().getCore().setLoadState(LoadState.LOADING_SHARDS);
+            MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
             log.info("Spawning shards...");
             for (int i = 0; i < totalShards; i++) {
                 if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;

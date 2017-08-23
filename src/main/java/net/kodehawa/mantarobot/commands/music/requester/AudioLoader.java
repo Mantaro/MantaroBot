@@ -92,7 +92,6 @@ public class AudioLoader implements AudioLoadResultHandler {
     public void noMatches() {
         event.getChannel().sendMessage(EmoteReference.ERROR + "The search yielded no results. If this appears for *all songs* you try to search for, you might want to use" +
                 "`~>play soundcloud <search term>` instead on the meanwhile. Direct links to youtube should work too.").queue();
-        if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
     }
 
 

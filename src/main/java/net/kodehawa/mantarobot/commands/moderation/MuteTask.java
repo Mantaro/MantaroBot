@@ -18,7 +18,8 @@ public class MuteTask implements Runnable {
         try {
             if(!MantaroCore.hasLoadedCompletely()) return;
             MantaroObj data = MantaroData.db().getMantaroData();
-            for (Map.Entry<Long, Pair<String, Long>> entry : data.getMutes().entrySet())
+            Map<Long, Pair<String, Long>> mutes = data.getMutes();
+            for (Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet())
             {
                 Long id = entry.getKey();
                 Pair<String, Long> pair = entry.getValue();
@@ -31,9 +32,15 @@ public class MuteTask implements Runnable {
                 if (guild == null) {
                     data.getMutes().remove(id);
                     data.save();
+                    return;
                 } else if (guild.getMemberById(id) == null) {
                     data.getMutes().remove(id);
                     data.save();
+                    return;
+                } if(guild.getRoleById(id) == null){
+                    data.getMutes().remove(id);
+                    data.save();
+                    return;
                 } else {
                     if (System.currentTimeMillis() > maxTime) {
                         data.getMutes().remove(id);
@@ -45,8 +52,6 @@ public class MuteTask implements Runnable {
                     }
                 }
             }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+        } catch (Exception e1) {}
     }
 }
