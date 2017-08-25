@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ *
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ */
+
 package net.kodehawa.mantarobot;
 
 import com.google.common.eventbus.EventBus;
@@ -47,45 +63,6 @@ import java.util.concurrent.TimeUnit;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
-/**
- * <pre>Main class for MantaroBot.</pre>
- *
- * <pre>This class could be considered a wrapper and a main initializer if you would like.</pre>
- *
- * This class contains all the methods and variables necessary for the main component of the bot.
- * Mantaro is modular, which means you technically could add more modules to /commands without the necessity to even touch this class. This also means you can remove modules
- * without major problems.
- *
- * <pre>This class and most classes check for a status of {@link LoadState#POSTLOAD} to start doing any JDA-related work, to avoid stacktraces and unwanted results.</pre>
- *
- * A instance of this class contains most of the necessary wrappers to make a command and JDA lookups. (see ShardedJDA and UnifiedJDA). All shards come to an unifying point
- * in this class, meaning that doing {@link MantaroBot#getUserById(String)} is completely valid and so it will look for all users in all shards, without duplicates (distinct).
- *
- * After JDA startup, the internal {@link EventBus} will attempt to dispatch {@link PostLoadEvent} to all the Module classes which contain a onPostLoad method, with a
- * {@link com.google.common.eventbus.Subscribe} annotation on it.
- *
- * Mantaro's version is determined, for now, on the data set in build.gradle and the date of build.
- *
- * This bot contains some mechanisms to prevent clones, such as some triggers to avoid bot start on incorrect settings, or just no timeout on database connection.
- * If you know about coding, I'm sure you could setup a instance of this bot without any problems and play around with it, but I would appreciate if you could keep all exact
- * or close clones of Mantaro outside of bot listing sites, since it will just get deleted from there (as in for clones of any other bot).
- * Thanks.
- *
- * <pr>This bot is a copyrighted work of Kodehawa and is the result a collaborative effort with AdrianTodt and many others,
- * This program is licensed under GPLv3, which summarized legal notice can be found down there.</pr>
- *
- * <pr>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.</pr>
- *
- * @see ShardedJDA
- * @see net.kodehawa.mantarobot.core.shard.jda.UnifiedJDA
- * @see Module
- * @since 16/08/2016
- * @author Kodehawa, AdrianTodt
- */
 @Slf4j
 public class MantaroBot extends ShardedJDA {
 

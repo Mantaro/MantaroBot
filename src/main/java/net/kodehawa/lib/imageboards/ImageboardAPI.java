@@ -1,15 +1,40 @@
+/*
+ * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ *
+ * Mantaro is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * Mantaro is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Mantaro.  If not, see http://www.gnu.org/licenses/
+ */
+
 package net.kodehawa.lib.imageboards;
 
-import br.com.brjdevs.java.utils.async.Async;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.google.gson.Gson;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class ImageboardAPI<T> {
+
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final Gson gson = new Gson();
+    private static final ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     public enum Type {
         JSON, XML
     }
@@ -54,12 +79,28 @@ public class ImageboardAPI<T> {
         get(60, null, handler);
     }
 
+    public void getBlocking(int limit, Consumer<List<T>> handler) {
+        getBlocking(limit, null, handler);
+    }
+
+    public void getBlocking(Consumer<List<T>> handler) {
+        getBlocking(60, null, handler);
+    }
+
     public void onSearch(int limit, String search, Consumer<List<T>> handler) {
         get(limit, search, handler);
     }
 
     public void onSearch(String search, Consumer<List<T>> handler) {
         get(60, search, handler);
+    }
+
+    public void onSearchBlocking(int limit, String search, Consumer<List<T>> handler) {
+        getBlocking(limit, search, handler);
+    }
+
+    public void onSearchBlocking(String search, Consumer<List<T>> handler) {
+        getBlocking(60, search, handler);
     }
 
     private List<T> get(int limit, String search) throws Exception {
@@ -71,7 +112,7 @@ public class ImageboardAPI<T> {
 
         try {
             String response = Utils.wgetResty(apiHome + apiHome.separator + Utils.urlEncodeUTF8(queryParams), null);
-            wallpapers = type.equals(Type.JSON) ? GsonDataManager.GSON_PRETTY.fromJson(response, clazz) : Utils.XML_MAPPER.readValue(response, clazz);
+            wallpapers = type.equals(Type.JSON) ? gson.fromJson(response, clazz) : XML_MAPPER.readValue(response, clazz);
         } catch(Exception e) {
             return null;
         }
@@ -79,8 +120,8 @@ public class ImageboardAPI<T> {
         return Arrays.asList(wallpapers);
     }
 
-    private void get(int limit, String search, Consumer<List<T>> result){
-        Async.thread("Image fetch thread", () -> {
+    private void get(int limit, String search, Consumer<List<T>> result) {
+        executorService.execute(() -> {
             try {
                 List<T> wallpapers = get(limit, search);
                 result.accept(wallpapers);
@@ -88,5 +129,14 @@ public class ImageboardAPI<T> {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void getBlocking(int limit, String search, Consumer<List<T>> result) {
+        try {
+            List<T> wallpapers = get(limit, search);
+            result.accept(wallpapers);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
