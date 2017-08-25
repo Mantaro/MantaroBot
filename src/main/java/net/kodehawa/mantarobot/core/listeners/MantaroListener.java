@@ -92,7 +92,7 @@ public class MantaroListener implements EventListener {
 		if(!MantaroCore.hasLoadedCompletely()) return;
 
 		if (event instanceof ShardMonitorEvent) {
-			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 120000) return;
+			if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000) return;
 			((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.MANTARO_LISTENER);
 			return;
 		}
