@@ -238,7 +238,7 @@ public class UtilsCmds {
 				if(args[0].equals("list") || args[0].equals("ls")){
 					List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
 
-					if(reminders.isEmpty()){
+					if(reminders == null || reminders.isEmpty()){
 						event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
 						return;
 					}
@@ -624,7 +624,7 @@ public class UtilsCmds {
 			protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation in custom commands modifiers please visit:** " +
                         "https://github.com/Mantaro/MantaroBot/wiki/Custom-Command-Modifiers").queue();
-            }
+			}
 		}).addSubCommand("commands", new SubCommand() {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content) {
@@ -637,7 +637,13 @@ public class UtilsCmds {
                 event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's FAQ please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/FAQ").queue();
             }
-        }));
+        }).addSubCommand("badges", new SubCommand() {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content) {
+				event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's badge documentation please visit:**" +
+						" https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation").queue();
+			}
+		}));
 	}
 
 	@Subscribe

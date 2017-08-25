@@ -5,9 +5,6 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.game.Character;
-import net.kodehawa.mantarobot.commands.game.Pokemon;
-import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.db.entities.Player;
 
@@ -18,15 +15,6 @@ import java.util.Map;
 public class GameLobby extends Lobby {
 
 	public static final Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
-	@Getter
-	private static final Map<String, Game> textRepresentation = new HashMap<>();
-
-	static {
-		textRepresentation.clear();
-		textRepresentation.put("trivia", new Trivia());
-		textRepresentation.put("pokemon", new Pokemon());
-		textRepresentation.put("character", new Character());
-	}
 
 	@Getter
 	GuildMessageReceivedEvent event;
@@ -60,21 +48,17 @@ public class GameLobby extends Lobby {
 		}
 	}
 
-	public boolean startNextGame() {
+	public void startNextGame() {
 		gamesToPlay.removeFirst();
 		try {
 			if (gamesToPlay.getFirst().onStart(this)) {
 				gamesToPlay.getFirst().call(this, players);
-				return true;
 			} else {
 				gamesToPlay.clear();
 				LOBBYS.remove(getChannel());
-				return false;
 			}
 		} catch (Exception e) {
 			LOBBYS.remove(getChannel());
 		}
-
-		return false;
 	}
 }

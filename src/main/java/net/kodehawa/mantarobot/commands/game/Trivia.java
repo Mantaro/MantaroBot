@@ -6,8 +6,8 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
-import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -15,11 +15,10 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game<String> {
-	private List<String> expectedAnswer;
+	private String expectedAnswer;
 	private final int maxAttempts = 2;
 	private boolean hardDiff = false;
 	private boolean isBool;
@@ -35,7 +34,6 @@ public class Trivia extends Game<String> {
 			}
 
 			EmbedBuilder eb = new EmbedBuilder();
-			expectedAnswer = new ArrayList<>();
 			JSONObject ob = new JSONObject(json);
 
 
@@ -53,9 +51,10 @@ public class Trivia extends Game<String> {
 			if(diff.equalsIgnoreCase("hard")) hardDiff = true;
 			if(fromB64(question.getString("type")).equalsIgnoreCase("boolean")) isBool = true;
 
-			expectedAnswer.add(fromB64(question.getString("correct_answer")));
+			//Why was this returning an extra space at the end? otdb pls?
+			expectedAnswer = fromB64(question.getString("correct_answer")).trim();
 
-			l.add("**" + expectedAnswer.stream().collect(Collectors.joining("\n")) + "**\n");
+			l.add("**" + expectedAnswer + "**\n");
 			Collections.shuffle(l);
 			StringBuilder sb = new StringBuilder();
 			for(String s : l) sb.append(s);
@@ -88,7 +87,7 @@ public class Trivia extends Game<String> {
 
 				@Override
 				public void onExpire() {
-					lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Possible answers were: " + expectedAnswer.stream().collect(Collectors.joining(" ,"))).queue();
+					lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! The answer was: " + expectedAnswer).queue();
 					GameLobby.LOBBYS.remove(lobby.getChannel());
 				}
 			});

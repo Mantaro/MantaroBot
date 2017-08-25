@@ -1,21 +1,24 @@
 package net.kodehawa.mantarobot.core.modules.commands;
 
-import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.core.modules.commands.base.AssistedCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
 
-public abstract class SubCommand extends NoArgsCommand {
-    public SubCommand() {
-        super(null);
-    }
+public abstract class SubCommand implements InnerCommand, AssistedCommand {
+    private CommandPermission permission = null;
+
+    public SubCommand() {}
 
     public SubCommand(CommandPermission permission) {
-        super(null, permission);
+        this.permission = permission;
     }
 
+    protected abstract void call(GuildMessageReceivedEvent event, String content);
+
     @Override
-    public MessageEmbed help(GuildMessageReceivedEvent event) {
-        return null;
+    public CommandPermission permission() {
+        return permission;
     }
 
     @Override

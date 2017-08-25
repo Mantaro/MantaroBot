@@ -10,8 +10,8 @@ import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
-import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -47,7 +47,7 @@ public class Character extends ImageGame {
 
 			@Override
 			public void onExpire() {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + characterName).queue();
+				lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + String.join(" ,", characterNameL)).queue();
 				GameLobby.LOBBYS.remove(lobby.getChannel());
 			}
 		});
@@ -63,6 +63,10 @@ public class Character extends ImageGame {
 			String json = Utils.wget(url, null);
 			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
 			String imageUrl = character[0].getImage_url_med();
+			//Allow for replying with only the first name.
+			if(characterName.contains(" ")){
+				characterNameL.add(characterName.split(" ")[0]);
+			}
 			characterNameL.add(characterName);
 			sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
 				.setTitle("Guess the character", null)

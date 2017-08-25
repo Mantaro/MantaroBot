@@ -41,7 +41,7 @@ public class OptsCmd {
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if (args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
 					Queue<Message> toSend = new MessageBuilder()
-							.append("```prologn```") //Trick to make it count the end and start of the formatting
+							.append("```prologn ```") //Trick to make it count the end and start of the formatting
 							.append(String.format("%-34s | %s \n", centerString("Name", 34), centerString("Description", 60)))
 							.append(centerString("** ------------------- **", 75))
 							.append("\n")
@@ -49,7 +49,7 @@ public class OptsCmd {
 							.buildAll(MessageBuilder.SplitPolicy.NEWLINE);
 
 					toSend.forEach(message -> event.getChannel().sendMessage("```prolog\n" +
-							message.getContent().replace("```prologn```", "")
+							message.getContent().replace("```prologn ```", "")
 							+ "```").queue());
 
 					return;

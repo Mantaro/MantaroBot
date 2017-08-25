@@ -10,7 +10,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class TreeCommand extends AbstractCommand implements ITreeCommand {
 
-    private Map<String, SubCommand> subCommands = new HashMap<>();
+    private Map<String, InnerCommand> subCommands = new HashMap<>();
 
     public TreeCommand(Category category) {
         super(category);
@@ -42,13 +42,13 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     }
 
     @Override
-    public Map<String, SubCommand> getSubCommands() {
+    public Map<String, InnerCommand> getSubCommands() {
         return subCommands;
     }
 
     @Override
     public TreeCommand createSubCommandAlias(String name, String alias){
-        SubCommand cmd = subCommands.get(name);
+        InnerCommand cmd = subCommands.get(name);
 
         if(cmd == null){
             throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");

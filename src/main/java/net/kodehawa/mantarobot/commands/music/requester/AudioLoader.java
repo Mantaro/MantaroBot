@@ -102,7 +102,6 @@ public class AudioLoader implements AudioLoadResultHandler {
         } else {
             log.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
         }
-        if (musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
     }
 
     public GuildMusicManager getMusicManager() {

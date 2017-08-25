@@ -244,7 +244,8 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Play Command")
-						.addField("Description", "Play songs!", false)
+						.addField("Description", "Play songs! This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
+								" no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song.", false)
 						.addField("Usage", "~>play <song url> (playlists and song names are also acceptable)", false)
 						.addField(
 								"Tip", "If you do ~>play <search term> I'll search youtube (default), " +
@@ -279,7 +280,8 @@ public class MusicCmds {
 			@Override
 			public MessageEmbed help(GuildMessageReceivedEvent event) {
 				return helpEmbed(event, "Forceplay Command")
-						.addField("Description", "Play the first song I find in your search", false)
+						.addField("Description", "Play the first song I find in your search. This connects to the voice channel the user that triggers it it's connected to, *only* if there is" +
+								" no song playing currently and Mantaro isn't bound to any channel. Basically this works as a join command on the first song.", false)
 						.addField("Usage", "~>forceplay <song url> (playlists and song names are also acceptable)", false)
 						.addField("Tip", "If you do ~>forceplay <search term> I'll search youtube (default), " +
 										"but if you do ~>forceplay soundcloud <search term> It will search soundcloud (not for usage w/links).",

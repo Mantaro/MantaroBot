@@ -8,19 +8,22 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
+import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -36,10 +39,12 @@ import javax.script.ScriptEngineManager;
 import java.awt.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.function.IntSupplier;
+import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -115,6 +120,49 @@ public class OwnerCmd {
 		});
 	}
 
+	@Subscribe
+	public void badge(CommandRegistry cr){
+		cr.register("addbadge", new SimpleCommand(Category.OWNER) {
+			@Override
+			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+				if(event.getMessage().getMentionedUsers().isEmpty()) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to apply the badge to!").queue();
+					return;
+				}
+
+				if(args.length != 2) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
+					return;
+				}
+
+				String b = args[1];
+				List<User> users = event.getMessage().getMentionedUsers();
+				Badge badge = Badge.lookupFromString(b);
+				if(badge == null) {
+					event.getChannel().sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
+							Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,"))).queue();
+					return;
+				}
+
+				for(User u : users) {
+					Player p = MantaroData.db().getPlayer(u);
+					p.getData().addBadge(badge);
+					p.saveAsync();
+				}
+
+				event.getChannel().sendMessage(
+						EmoteReference.CORRECT + "Added badge " + badge + " to " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
+				).queue();
+			}
+
+			@Override
+			public MessageEmbed help(GuildMessageReceivedEvent event) {
+				return null;
+			}
+		});
+	}
+
+	//TODO: Split into subcommands soon please ;_;
 	@Subscribe
 	public void owner(CommandRegistry cr) {
 		Map<String, Evaluator> evals = new HashMap<>();
