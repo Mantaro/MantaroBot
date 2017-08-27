@@ -397,11 +397,8 @@ public class CurrencyCmds {
 
                 PlayerData playerData = player.getData();
 
-                //Apply new badges if applicable.
-                boolean appliedNewBadge = false;
-                if(player.getMoney() > 7526527671L) appliedNewBadge = player.getData().addBadge(Badge.ALTERNATIVE_WORLD);
-                if(MantaroData.config().get().isOwner(author)) appliedNewBadge = player.getData().addBadge(Badge.DEVELOPER);
-                if(appliedNewBadge) player.saveAsync();
+                if(player.getMoney() > 7526527671L && player.getData().addBadge(Badge.ALTERNATIVE_WORLD)) player.saveAsync();
+                if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER)) player.saveAsync();
 
                 List<Badge> badges = playerData.getBadges();
                 Collections.sort(badges);

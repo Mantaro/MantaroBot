@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot;
 
-import com.google.common.eventbus.EventBus;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 import lombok.Getter;
@@ -27,9 +26,7 @@ import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
-import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
@@ -38,7 +35,6 @@ import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
-import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -87,7 +83,7 @@ public class MantaroBot extends ShardedJDA {
 	@Getter
 	private final StatsDClient statsClient;
 	@Getter
-	private final BirthdayCacher birthdayCacher;
+	private BirthdayCacher birthdayCacher;
 	@Getter
 	private final MantaroCore core;
 
@@ -193,8 +189,9 @@ public class MantaroBot extends ShardedJDA {
 			MantaroAPISender.startService();
 		}
 
-		birthdayCacher = new BirthdayCacher();
-		this.startCheckingBirthdays();
+		//TODO fix
+		//birthdayCacher = new BirthdayCacher();
+		//this.startCheckingBirthdays();
 	}
 
 	public Guild getGuildById(String guildId) {

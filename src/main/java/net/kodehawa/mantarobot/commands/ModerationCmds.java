@@ -25,12 +25,14 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -443,6 +445,57 @@ public class ModerationCmds {
                         .addField("Example", "`~>tempban @Kodehawa example time:1d`", false)
                         .addField("Extended usage", "`time` - can be used with the following parameters: " +
                                 "d (days), s (second), m (minutes), h (hour). **For example time:1d1h will give a day and an hour.**", false)
+                        .build();
+            }
+        });
+    }
+
+    //@Subscribe
+    public void warn(CommandRegistry cr){
+        cr.register("warn", new SimpleCommand(Category.MODERATION) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                if(args.length < 2 || event.getMessage().getMentionedUsers().isEmpty()){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention someone to warn and the reason!").queue();
+                    return;
+                }
+
+                try{
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData data = dbGuild.getData();
+                    User toWarn = event.getMessage().getMentionedUsers().get(0);
+                    String reason = args[1];
+                    long count = data.getWarnCount().getOrDefault(toWarn.getId(), 0L) + 1;
+                    WarnAction action = data.getWarnActions().get(count);
+
+                    if(action != null) {
+                        switch (action) {
+                        //TODO finish | Might end up calling the command itself instead of handling it entirely here?
+                            case BAN:
+                                break;
+                            case KICK:
+                                break;
+                            case MUTE:
+                                break;
+                        }
+                        return;
+                    }
+
+                    data.getWarnCount().put(toWarn.getId(), count);
+                    ModLog.log(event.getMember(), toWarn, reason, ModLog.ModAction.KICK, count, "0");
+
+                    event.getChannel().sendMessage(String.format("%sWarned %s#%s for: **%s** (Warn #%d)",
+                            EmoteReference.CORRECT, toWarn.getName(), toWarn.getDiscriminator(), reason, count)).queue();
+                    dbGuild.saveAsync();
+                } catch (IndexOutOfBoundsException e){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect arguments.").queue();
+                }
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Warn command")
                         .build();
             }
         });

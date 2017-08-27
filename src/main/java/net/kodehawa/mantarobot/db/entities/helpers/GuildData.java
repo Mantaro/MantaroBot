@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.commands.moderation.WarnAction;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 
 import java.util.*;
@@ -69,4 +70,6 @@ public class GuildData {
 	private int maxResultsSearch = 5;
 	private Set<String> disabledRoles = new HashSet<>();
 	private String premiumKey; //Placeholder here for rethonk plz
+	private Map<String, Long> warnCount = new HashMap<>();
+	private Map<Long, WarnAction> warnActions = new HashMap<>(); //TODO add config for this!
 }

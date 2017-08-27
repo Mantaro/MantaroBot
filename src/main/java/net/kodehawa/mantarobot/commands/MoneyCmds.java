@@ -277,6 +277,7 @@ public class MoneyCmds {
 
                 if (r.nextInt(125) == 0) { //1 in 125 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
+                    if(player.getData().addBadge(Badge.LUCKY)) player.saveAsync();
                 }
 
                 List<ItemStack> loot = ground.collectItems();

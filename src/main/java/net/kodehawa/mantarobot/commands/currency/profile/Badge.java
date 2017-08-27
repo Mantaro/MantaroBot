@@ -54,6 +54,10 @@ public enum Badge {
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E",
             "Have more than 8 billion credits at any given time.", 92, 92),
 
+    //Get a loot crate.
+    LUCKY("Lucky", "\uD83C\uDF40",
+            "Be lucky enough to loot a loot crate.", 92, 92),
+
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2",
             "Have more than 5000 items of any kind.", 91, 92),
@@ -74,7 +78,7 @@ public enum Badge {
     GAMBLER("Gambler", "\uD83D\uDCB0",
             "Gambled their life away.", 91, 92),
 
-    //Queue more than 1000 songs.
+    //Something to do with songs :3.
     DJ("DJ", "\uD83C\uDFB6",
             "Too many songs.", 91, 92);
 

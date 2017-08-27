@@ -36,6 +36,10 @@ public abstract class ShardedJDA implements UnifiedJDA {
 		return ((long) stream().mapToLong(JDA::getPing).average().orElseThrow(() -> new IllegalStateException("no JDA instances")));
 	}
 
+	public long[] getPings() {
+		return stream().mapToLong(JDA::getPing).toArray();
+	}
+
 	@Override
 	public List<String> getCloudflareRays() {
 		return stream().map(JDA::getCloudflareRays).filter(Objects::nonNull).findFirst().orElse(null);
