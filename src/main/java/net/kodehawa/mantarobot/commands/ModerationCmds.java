@@ -197,7 +197,7 @@ public class ModerationCmds {
                     }
 
                     if (event.getAuthor().getId().equals(user.getId())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why're trying to ban yourself, silly?").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to ban yourself, silly?").queue();
                         return;
                     }
 

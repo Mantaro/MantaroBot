@@ -32,6 +32,7 @@ public class PlayerData {
 	private long lockedUntil = 0;
 	private List<Badge> badges = new ArrayList<>();
 	private long gamesWon = 0;
+	private long moneyOnBank = 0;
 
 	@Transient
 	public boolean isMarried() {
