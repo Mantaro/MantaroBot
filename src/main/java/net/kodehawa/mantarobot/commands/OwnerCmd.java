@@ -138,7 +138,7 @@ public class OwnerCmd {
 
 	@Subscribe
 	public void badge(CommandRegistry cr){
-		cr.register("addbadge", new SimpleCommand(Category.OWNER) {
+		cr.register("addbadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
 			@Override
 			protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
 				if(event.getMessage().getMentionedUsers().isEmpty()) {
