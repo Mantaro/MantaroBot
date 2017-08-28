@@ -105,6 +105,16 @@ public class MuteCmds {
                         }
 
                         time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
+
+                        if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(5)){
+                            //smh smh smfh god fuck rethinkdb just
+                            //dont
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
+                            //yeah why am I doing this
+                            //smh
+                            return;
+                        }
+
                         data.getMutes().put(user.getIdLong(), Pair.of(event.getGuild().getId(), time));
                         data.save();
                         dbGuild.save();
