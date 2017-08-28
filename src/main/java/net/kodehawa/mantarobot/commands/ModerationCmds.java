@@ -319,7 +319,6 @@ public class ModerationCmds {
                     //Proceed to kick them. Again, using queue so I don't get rate limited.
                     guild.getController().kick(member).reason(finalReason).queue(
                             success -> {
-
                                 if(!user.isBot()) {
                                     user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **kicked** by " + event
                                             .getAuthor().getName() + "#"

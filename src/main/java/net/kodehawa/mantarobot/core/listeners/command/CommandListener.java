@@ -92,22 +92,6 @@ public class CommandListener implements EventListener {
 			if (msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
 
 			shard.getCommandPool().execute(() -> onCommand(msg));
-
-			if (random.nextInt(15) > 10) {
-				if (((GuildMessageReceivedEvent) event).getMember() == null) return;
-				Player player = MantaroData.db().getPlayer(((GuildMessageReceivedEvent) event).getMember());
-				if(((GuildMessageReceivedEvent) event).getMember().getUser().isBot()) return;
-				if (player != null) {
-					if (player.getLevel() == 0) player.setLevel(1);
-					player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
-
-					if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {
-						player.setLevel(player.getLevel() + 1);
-					}
-
-					player.saveAsync();
-				}
-			}
 		}
 	}
 
@@ -116,9 +100,35 @@ public class CommandListener implements EventListener {
 			if (!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) &&
 					!event.getGuild().getSelfMember().hasPermission(Permission.ADMINISTRATOR))
 				return;
-			if (event.getAuthor().isBot()) return;
+			if (event.getAuthor().isBot())
+				return;
 			if (CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event))
 				commandTotal++;
+
+			if (random.nextInt(15) > 10) {
+				if (event.getMember() == null)
+					return;
+				if (event.getMember().getUser().isBot())
+					return;
+
+				Player player = MantaroData.db().getPlayer(event.getMember());
+
+				if (player != null) {
+					if (player.getLevel() == 0) {
+						player.setLevel(1);
+					}
+
+					player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
+
+					if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {
+						player.setLevel(player.getLevel() + 1);
+					}
+
+
+					player.saveAsync();
+				}
+			}
+
 		} catch (IndexOutOfBoundsException e) {
 			event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or incorrect type arguments. Check the command help.").queue();
 		} catch (PermissionException e) {
