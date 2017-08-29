@@ -24,7 +24,8 @@ import net.kodehawa.mantarobot.core.modules.commands.base.InnerCommand;
 public abstract class SubCommand implements InnerCommand, AssistedCommand {
     private CommandPermission permission = null;
 
-    public SubCommand() {}
+    public SubCommand() {
+    }
 
     public SubCommand(CommandPermission permission) {
         this.permission = permission;

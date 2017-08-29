@@ -42,8 +42,8 @@ public class BirthdayTask implements Runnable {
 
     @Override
     public void run() {
-        try{
-            if(cache == null){
+        try {
+            if(cache == null) {
                 cache = MantaroBot.getInstance().getBirthdayCacher();
                 if(cache == null) return;
             }
@@ -54,17 +54,17 @@ public class BirthdayTask implements Runnable {
             Map<String, String> cached = cache.cachedBirthdays;
             List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
-            for(Guild guild : guilds){
+            for(Guild guild : guilds) {
                 GuildData tempData = db.getGuild(guild).getData();
-                if(tempData.getBirthdayChannel() != null && tempData.getBirthdayRole() != null){
+                if(tempData.getBirthdayChannel() != null && tempData.getBirthdayRole() != null) {
                     Role birthdayRole = guild.getRoleById(tempData.getBirthdayRole());
                     TextChannel channel = guild.getTextChannelById(tempData.getBirthdayChannel());
 
-                    if(channel != null && birthdayRole != null){
+                    if(channel != null && birthdayRole != null) {
                         Map<String, String> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-                        for(Map.Entry<String, String> data : guildMap.entrySet()){
+                        for(Map.Entry<String, String> data : guildMap.entrySet()) {
                             Member member = guild.getMemberById(data.getKey());
                             String birthday = data.getValue();
                             if(birthday == null) continue; //shouldnt happen
@@ -74,10 +74,10 @@ public class BirthdayTask implements Runnable {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
                             //tada!
-                            if (birthday.substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
+                            if(birthday.substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
-                                if (!member.getRoles().contains(birthdayRole)) {
-                                    guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s ->{
+                                if(!member.getRoles().contains(birthdayRole)) {
+                                    guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s -> {
                                                 channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
                                                         member.getEffectiveName())).queue();
                                                 MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
@@ -86,7 +86,7 @@ public class BirthdayTask implements Runnable {
                                 }
                             } else {
                                 //day passed
-                                if (guild.getRoles().contains(birthdayRole)) {
+                                if(guild.getRoles().contains(birthdayRole)) {
                                     guild.getController().removeRolesFromMember(member, birthdayRole).queue();
                                 }
                             }
@@ -95,7 +95,7 @@ public class BirthdayTask implements Runnable {
                 }
             }
 
-        } catch (Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
             Sentry.capture(e);
         }

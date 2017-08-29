@@ -25,8 +25,8 @@ public class EventUtils {
 
     private static final ShardedMantaro shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
 
-    public static void propagateEvent(MantaroEvent event){
-        for(MantaroEventManager manager : shardedMantaro.getManagers()){
+    public static void propagateEvent(MantaroEvent event) {
+        for(MantaroEventManager manager : shardedMantaro.getManagers()) {
             manager.handle((Event) event);
         }
 

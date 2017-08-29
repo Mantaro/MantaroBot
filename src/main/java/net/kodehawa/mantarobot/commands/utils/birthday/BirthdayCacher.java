@@ -36,14 +36,14 @@ import static com.rethinkdb.RethinkDB.r;
  */
 @Slf4j
 public class BirthdayCacher {
-    public volatile boolean isDone;
     public Map<String, String> cachedBirthdays = new ConcurrentHashMap<>();
+    public volatile boolean isDone;
 
-    public BirthdayCacher(){
+    public BirthdayCacher() {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         log.info("Caching birthdays...");
         executorService.submit(() -> {
-            try{
+            try {
                 Cursor<Map> m = r.table("users")
                         .orderBy()
                         .optArg("index", r.desc("premiumUntil"))
@@ -51,10 +51,10 @@ public class BirthdayCacher {
 
                 List<Map> m1 = m.toList();
 
-                for(Map r : m1){
+                for(Map r : m1) {
                     //Blame rethinkdb for the casting hell thx
-                    String birthday = (String)((HashMap)r.get("data")).get("birthday");
-                    if(birthday != null && !birthday.isEmpty()){
+                    String birthday = (String) ((HashMap) r.get("data")).get("birthday");
+                    if(birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
                         cachedBirthdays.putIfAbsent(String.valueOf(r.get("id")), birthday);
                     }
@@ -64,7 +64,7 @@ public class BirthdayCacher {
 
                 m.close();
                 isDone = true;
-            } catch (Exception e){
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         });

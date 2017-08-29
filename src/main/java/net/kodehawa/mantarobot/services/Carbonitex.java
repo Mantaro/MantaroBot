@@ -25,10 +25,10 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 @Slf4j
 public class Carbonitex implements Runnable {
     private final String carbonToken = config().get().carbonToken;
+    private final OkHttpClient httpClient = new OkHttpClient();
+    private final JDA jda;
     private final int shardId;
     private final int totalShards;
-    private final JDA jda;
-    private final OkHttpClient httpClient = new OkHttpClient();
 
     public Carbonitex(JDA jda, int shardId, int totalShards) {
         this.shardId = shardId;
@@ -38,9 +38,9 @@ public class Carbonitex implements Runnable {
 
     @Override
     public void run() {
-        if (carbonToken != null) {
+        if(carbonToken != null) {
             int newC = jda.getGuilds().size();
-            try{
+            try {
                 RequestBody body = new FormBody.Builder()
                         .add("key", carbonToken)
                         .add("servercount", String.valueOf(newC))
@@ -55,7 +55,8 @@ public class Carbonitex implements Runnable {
 
                 Response response = httpClient.newCall(request).execute();
                 response.close();
-            } catch (Exception ignored) {}
+            } catch(Exception ignored) {
+            }
         }
     }
 }

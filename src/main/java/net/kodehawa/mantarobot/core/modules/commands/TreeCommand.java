@@ -40,19 +40,19 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     public void run(GuildMessageReceivedEvent event, String commandName, String content) {
         String[] args = splitArgs(content, 2);
 
-        if(subCommands.isEmpty()){
+        if(subCommands.isEmpty()) {
             throw new IllegalArgumentException("No subcommands registered!");
         }
 
         Command command = subCommands.get(args[0]);
-        if (command == null) command = defaultTrigger(event, commandName, args[0]);
+        if(command == null) command = defaultTrigger(event, commandName, args[0]);
         if(command == null) return; //Use SimpleTreeCommand then?
 
         command.run(event, commandName + " " + args[0], args[1]);
     }
 
     @Override
-    public ITreeCommand addSubCommand(String name, SubCommand command){
+    public ITreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);
         return this;
     }
@@ -63,10 +63,10 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     }
 
     @Override
-    public TreeCommand createSubCommandAlias(String name, String alias){
+    public TreeCommand createSubCommandAlias(String name, String alias) {
         InnerCommand cmd = subCommands.get(name);
 
-        if(cmd == null){
+        if(cmd == null) {
             throw new IllegalArgumentException("Cannot create an alias of a non-existent sub command!");
         }
 

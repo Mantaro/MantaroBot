@@ -28,7 +28,7 @@ public class BannerPrinter {
     private String toPrint;
 
     public BannerPrinter(int spaces) {
-        try{
+        try {
             List<String> lines = defaultBanner.get();
             StringBuilder builder = new StringBuilder();
 
@@ -51,7 +51,7 @@ public class BannerPrinter {
             }
 
             toPrint = builder.toString();
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
             toPrint = "Exception arised while getting the default banner";
         }
@@ -84,7 +84,7 @@ public class BannerPrinter {
     }
 
     public BannerPrinter() {
-        try{
+        try {
             List<String> lines = defaultBanner.get();
             StringBuilder builder = new StringBuilder();
             for(String line : lines) {
@@ -93,7 +93,7 @@ public class BannerPrinter {
                 builder.append(toPrint).append("\n");
             }
             toPrint = builder.toString();
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
             toPrint = "Exception arised while getting the default banner";
         }

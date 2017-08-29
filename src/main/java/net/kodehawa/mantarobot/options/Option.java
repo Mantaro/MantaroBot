@@ -28,19 +28,36 @@ import java.util.function.Consumer;
 
 public class Option {
 
-    @Getter private static final Map<String, Option> optionMap = new HashMap<>();
+    @Getter
+    private static final Map<String, Option> optionMap = new HashMap<>();
     //Display names + desc in the avaliable options list.
-    @Getter private static final List<String> avaliableOptions = new ArrayList<>();
-    @Getter private final String optionName;
-    @Getter private final String description;
-    @Getter private static String shortDescription = "Not set.";
-    @Getter private final OptionType type;
-    @Getter private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
+    @Getter
+    private static final List<String> avaliableOptions = new ArrayList<>();
+    @Getter
+    private static String shortDescription = "Not set.";
+    @Getter
+    private final String description;
+    @Getter
+    private final String optionName;
+    @Getter
+    private final OptionType type;
+    @Getter
+    private BiConsumer<GuildMessageReceivedEvent, String[]> eventConsumer;
 
     public Option(String displayName, String description, OptionType type) {
         this.optionName = displayName;
         this.description = description;
         this.type = type;
+    }
+
+    public static void addOption(String name, Option option) {
+        Option.optionMap.put(name, option);
+        String toAdd = String.format(
+                "%-34s" + " | %s",
+                name.replace(":", " "),
+                getShortDescription()
+        );
+        Option.avaliableOptions.add(toAdd);
     }
 
     public Option setAction(Consumer<GuildMessageReceivedEvent> code) {
@@ -56,15 +73,5 @@ public class Option {
     public Option setShortDescription(String sd) {
         shortDescription = sd;
         return this;
-    }
-
-    public static void addOption(String name, Option option) {
-        Option.optionMap.put(name, option);
-        String toAdd = String.format(
-                "%-34s" + " | %s",
-                name.replace(":", " "),
-                getShortDescription()
-        );
-        Option.avaliableOptions.add(toAdd);
     }
 }

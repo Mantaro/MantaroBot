@@ -35,8 +35,7 @@ public class MuteTask implements Runnable {
             if(!MantaroCore.hasLoadedCompletely()) return;
             MantaroObj data = MantaroData.db().getMantaroData();
             Map<Long, Pair<String, Long>> mutes = data.getMutes();
-            for (Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet())
-            {
+            for(Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet()) {
                 Long id = entry.getKey();
                 Pair<String, Long> pair = entry.getValue();
                 String guildId = pair.getKey();
@@ -45,20 +44,21 @@ public class MuteTask implements Runnable {
                 DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                 GuildData guildData = dbGuild.getData();
 
-                if (guild == null) {
+                if(guild == null) {
                     data.getMutes().remove(id);
                     data.save();
                     return;
-                } else if (guild.getMemberById(id) == null) {
+                } else if(guild.getMemberById(id) == null) {
                     data.getMutes().remove(id);
                     data.save();
                     return;
-                } if(guild.getRoleById(id) == null){
+                }
+                if(guild.getRoleById(id) == null) {
                     data.getMutes().remove(id);
                     data.save();
                     return;
                 } else {
-                    if (System.currentTimeMillis() > maxTime) {
+                    if(System.currentTimeMillis() > maxTime) {
                         data.getMutes().remove(id);
                         data.save();
                         guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
@@ -68,6 +68,7 @@ public class MuteTask implements Runnable {
                     }
                 }
             }
-        } catch (Exception e1) {}
+        } catch(Exception e1) {
+        }
     }
 }

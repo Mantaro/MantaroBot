@@ -31,41 +31,13 @@ import java.util.function.Consumer;
 
 public class ImageboardAPI<T> {
 
+    private static final ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     private final Gson gson = new Gson();
-    private static final ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-    public enum Type {
-        JSON, XML
-    }
-
-    public enum Boards {
-        //Lewd APIs
-        R34("https://rule34.xxx/index.php?page=dapi&s=post&q=index", "&"),
-        E621("https://e621.net/post/index.json", "?"),
-        //Normal APIs
-        KONACHAN("http://konachan.com/post.json", "?"),
-        YANDERE("https://yande.re/post.json", "?");
-
-        private String url;
-        private String separator;
-
-        Boards(String url, String separator){
-            this.url = url;
-            this.separator = separator;
-        }
-
-        @Override
-        public String toString() {
-            return url;
-        }
-    }
-
     private Boards apiHome;
     private Class<T[]> clazz;
     private Type type;
-
-    public ImageboardAPI(Boards landing, Type type, Class<T[]> clazz1){
+    public ImageboardAPI(Boards landing, Type type, Class<T[]> clazz1) {
         this.apiHome = landing;
         this.type = type;
         this.clazz = clazz1;
@@ -137,6 +109,32 @@ public class ImageboardAPI<T> {
             result.accept(wallpapers);
         } catch(Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public enum Type {
+        JSON, XML
+    }
+
+    public enum Boards {
+        //Lewd APIs
+        R34("https://rule34.xxx/index.php?page=dapi&s=post&q=index", "&"),
+        E621("https://e621.net/post/index.json", "?"),
+        //Normal APIs
+        KONACHAN("http://konachan.com/post.json", "?"),
+        YANDERE("https://yande.re/post.json", "?");
+
+        private String separator;
+        private String url;
+
+        Boards(String url, String separator) {
+            this.url = url;
+            this.separator = separator;
+        }
+
+        @Override
+        public String toString() {
+            return url;
         }
     }
 }

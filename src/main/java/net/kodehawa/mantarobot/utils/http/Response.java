@@ -36,8 +36,8 @@ import java.util.Map;
  * @since 04/07/2017
  */
 public class Response {
-    private final byte[] data;
     private final int code;
+    private final byte[] data;
     private final Map<String, List<String>> headers;
 
     public Response(byte[] data, int code, Map<String, List<String>> headers) {

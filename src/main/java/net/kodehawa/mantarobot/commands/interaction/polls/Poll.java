@@ -24,9 +24,9 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.ReactionOperation;
-import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -45,9 +45,8 @@ import java.util.stream.Stream;
 public class Poll extends Lobby {
 
     private static final Map<String, Poll> runningPolls = new HashMap<>();
-
-    private final String[] options;
     private final GuildMessageReceivedEvent event;
+    private final String[] options;
     private final long timeout;
     private boolean isCompilant = true;
     private String name = "";
@@ -65,8 +64,16 @@ public class Poll extends Lobby {
         }
     }
 
+    public static Map<String, Poll> getRunningPolls() {
+        return runningPolls;
+    }
+
+    public static PollBuilder builder() {
+        return new PollBuilder();
+    }
+
     public void startPoll() {
-        try{
+        try {
             if(!isCompilant) {
                 getChannel().sendMessage(EmoteReference.WARNING +
                         "This poll cannot build. " +
@@ -110,7 +117,6 @@ public class Poll extends Lobby {
                     .setFooter("You have " + Utils.getDurationMinutes(timeout) + " minutes to vote.", event.getAuthor().getAvatarUrl());
 
 
-
             getChannel().sendMessage(builder.build()).queue(this::createPoll);
 
             InteractiveOperations.create(getChannel(), timeout, e -> {
@@ -127,22 +133,13 @@ public class Poll extends Lobby {
             });
 
             runningPolls.put(getChannel().getId(), this);
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             getChannel().sendMessage(EmoteReference.ERROR + "An unknown error has occurred while setting up a poll. Maybe try again?").queue();
         }
     }
 
-    public static Map<String, Poll> getRunningPolls() {
-        return runningPolls;
-    }
-
     private boolean isPollAlreadyRunning(TextChannel channel) {
         return runningPolls.containsKey(channel.getId());
-    }
-
-    public static PollBuilder builder() {
-        return new PollBuilder();
     }
 
     private String[] reactions(int options) {
@@ -150,7 +147,7 @@ public class Poll extends Lobby {
         if(options > 9) throw new IllegalArgumentException("How?? ^ 2");
         String[] r = new String[options];
         for(int i = 0; i < options; i++) {
-            r[i] = (char) ('\u0031'+i) + "\u20e3";
+            r[i] = (char) ('\u0031' + i) + "\u20e3";
         }
         return r;
     }
@@ -159,7 +156,7 @@ public class Poll extends Lobby {
         runningPoll = ReactionOperations.create(message, TimeUnit.MILLISECONDS.toSeconds(timeout), new ReactionOperation() {
             @Override
             public int add(MessageReactionAddEvent e) {
-                int i = e.getReactionEmote().getName().charAt(0)-'\u0030';
+                int i = e.getReactionEmote().getName().charAt(0) - '\u0030';
                 if(i < 1 || i > options.length) return Operation.IGNORED;
                 return Operation.IGNORED; //always return false anyway lul
             }
@@ -184,7 +181,7 @@ public class Poll extends Lobby {
             }
 
             @Override
-            public void onCancel(){
+            public void onCancel() {
                 getRunningPolls().remove(getChannel().getId());
             }
         }, reactions(options.length));

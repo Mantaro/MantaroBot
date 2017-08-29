@@ -20,10 +20,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.junit.Assert;
 
 public class PollBuilder {
-    private String[] options;
     private GuildMessageReceivedEvent event;
-    private long timeout;
     private String name = "";
+    private String[] options;
+    private long timeout;
 
     public PollBuilder setEvent(GuildMessageReceivedEvent event) {
         this.event = event;

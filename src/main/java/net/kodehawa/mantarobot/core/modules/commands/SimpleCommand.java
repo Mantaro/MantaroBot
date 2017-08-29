@@ -23,22 +23,22 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.utils.StringUtils;
 
 public abstract class SimpleCommand extends AbstractCommand {
-	public SimpleCommand(Category category) {
-		super(category);
-	}
+    public SimpleCommand(Category category) {
+        super(category);
+    }
 
-	public SimpleCommand(Category category, CommandPermission permission) {
-		super(category, permission);
-	}
+    public SimpleCommand(Category category, CommandPermission permission) {
+        super(category, permission);
+    }
 
-	protected abstract void call(GuildMessageReceivedEvent event, String content, String[] args);
+    protected abstract void call(GuildMessageReceivedEvent event, String content, String[] args);
 
-	@Override
-	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
-		call(event, content, splitArgs(content));
-	}
+    @Override
+    public void run(GuildMessageReceivedEvent event, String commandName, String content) {
+        call(event, content, splitArgs(content));
+    }
 
-	protected String[] splitArgs(String content) {
-		return StringUtils.advancedSplitArgs(content, 0);
-	}
+    protected String[] splitArgs(String content) {
+        return StringUtils.advancedSplitArgs(content, 0);
+    }
 }
