@@ -20,7 +20,6 @@ import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
@@ -28,7 +27,6 @@ import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
-import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -37,7 +35,6 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j(topic = "Game [Character]")
@@ -54,7 +51,7 @@ public class Character extends ImageGame {
 	}
 
 	@Override
-	public void call(GameLobby lobby, HashMap<Member, Player> players) {
+	public void call(GameLobby lobby, List<String> players) {
 		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
 			@Override
 			public int run(GuildMessageReceivedEvent e) {

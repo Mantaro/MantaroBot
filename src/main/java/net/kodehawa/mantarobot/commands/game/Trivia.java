@@ -18,19 +18,20 @@ package net.kodehawa.mantarobot.commands.game;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
-import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game<String> {
@@ -94,7 +95,7 @@ public class Trivia extends Game<String> {
 	}
 
 	@Override
-	public void call(GameLobby lobby, HashMap<Member, Player> players) {
+	public void call(GameLobby lobby, List<String> players) {
 		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
 				@Override
 				public int run(GuildMessageReceivedEvent event) {

@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -29,7 +28,6 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,12 +36,12 @@ public abstract class Game<T> {
 	@Getter
 	private int attempts = 1;
 
-	public abstract void call(GameLobby lobby, HashMap<Member, Player> players);
+	public abstract void call(GameLobby lobby, List<String> players);
 
 	public abstract boolean onStart(GameLobby lobby);
 
 	protected int callDefault(GuildMessageReceivedEvent e,
-							  GameLobby lobby, HashMap<Member, Player> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
+							  GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
 			return Operation.IGNORED;
 		}
@@ -59,7 +57,7 @@ public abstract class Game<T> {
 			return Operation.IGNORED;
 		}
 
-		if (players.keySet().contains(e.getMember())) {
+		if (players.contains(e.getAuthor().getId())) {
 			if (e.getMessage().getContent().equalsIgnoreCase("end")) {
 				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream()
 						.map(String::valueOf).collect(Collectors.joining(", "))).queue();
@@ -100,7 +98,7 @@ public abstract class Game<T> {
 	//Mostly only for trivia tho.
 	@SuppressWarnings("unchecked")
 	protected int callDefault(GuildMessageReceivedEvent e,
-							  GameLobby lobby, HashMap<Member, Player> players, String expectedAnswer, int attempts, int maxAttempts, int extra) {
+							  GameLobby lobby, List<String> players, String expectedAnswer, int attempts, int maxAttempts, int extra) {
 		return callDefault(e, lobby, players, (List<T>) Collections.singletonList(expectedAnswer), attempts, maxAttempts, extra);
 	}
 }

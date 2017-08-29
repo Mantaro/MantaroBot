@@ -37,8 +37,10 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 @Slf4j
 @Module
@@ -103,8 +105,8 @@ public class GameCmds {
 		LinkedList<Game> list = new LinkedList<>();
 		list.add(game);
 
-		HashMap<Member, Player> map = new HashMap<>();
-		map.put(event.getMember(), MantaroData.db().getPlayer(event.getMember()));
+		List<String> players = new ArrayList<>();
+		players.add(event.getAuthor().getId());
 
 
 		if(!event.getMessage().getMentionedRoles().isEmpty()) {
@@ -112,7 +114,7 @@ public class GameCmds {
 			event.getMessage().getMentionedRoles().forEach(role ->
 				event.getGuild().getMembersWithRoles(role).forEach(user  -> {
 					if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
-						map.put(user, MantaroData.db().getPlayer(user));
+						players.add(user.getUser().getId());
 					b.append(user.getEffectiveName()).append(" ");
 				})
 			);
@@ -123,14 +125,14 @@ public class GameCmds {
 			StringBuilder builder = new StringBuilder();
 			event.getMessage().getMentionedUsers().forEach(user -> {
 				if (!user.getId().equals(event.getJDA().getSelfUser().getId()))
-					map.put(event.getGuild().getMember(user), MantaroData.db().getPlayer(event.getGuild().getMember(user)));
+					players.add(user.getId());
 				builder.append(user.getName()).append(" ");
 			});
 
 			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
 		}
 
-		GameLobby lobby = new GameLobby(event, map, list);
+		GameLobby lobby = new GameLobby(event, players, list);
 
 		lobby.startFirstGame();
 	}

@@ -18,14 +18,13 @@ package net.kodehawa.mantarobot.commands.game.core;
 
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
-import net.kodehawa.mantarobot.db.entities.Player;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class GameLobby extends Lobby {
@@ -39,9 +38,9 @@ public class GameLobby extends Lobby {
 	@Getter
 	Guild guild;
 	@Getter
-	HashMap<Member, Player> players;
+	List<String> players;
 
-	public GameLobby(GuildMessageReceivedEvent event, HashMap<Member, Player> players, LinkedList<Game> games) {
+	public GameLobby(GuildMessageReceivedEvent event, List<String> players, LinkedList<Game> games) {
 		super(event.getChannel());
 		this.guild = event.getGuild();
 		this.event = event;

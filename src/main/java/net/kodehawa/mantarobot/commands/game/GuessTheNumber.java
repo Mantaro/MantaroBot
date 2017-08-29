@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.game;
 
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -29,7 +28,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class GuessTheNumber extends Game<Object> {
@@ -40,7 +39,7 @@ public class GuessTheNumber extends Game<Object> {
     private int attempts = 1;
 
     @Override
-    public void call(GameLobby lobby, HashMap<Member, Player> players) {
+    public void call(GameLobby lobby, List<String> players) {
         //This class is not using Game<T>#callDefault due to it being custom/way too different from the default ones (aka give hints/etc)
         InteractiveOperations.createOverriding(lobby.getChannel(), 30, new InteractiveOperation() {
             @Override
@@ -60,7 +59,7 @@ public class GuessTheNumber extends Game<Object> {
                     return Operation.IGNORED;
                 }
 
-                if (players.keySet().contains(e.getMember())) {
+                if (players.contains(e.getAuthor().getId())) {
                     if (e.getMessage().getContent().equalsIgnoreCase("end")) {
                         lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. The number was: " + number).queue();
                         lobby.startNextGame();

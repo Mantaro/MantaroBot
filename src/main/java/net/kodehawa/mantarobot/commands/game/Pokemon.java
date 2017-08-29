@@ -17,18 +17,15 @@
 package net.kodehawa.mantarobot.commands.game;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
-import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -46,7 +43,7 @@ public class Pokemon extends ImageGame {
 	}
 
 	@Override
-	public void call(GameLobby lobby, HashMap<Member, Player> players) {
+	public void call(GameLobby lobby, List<String> players) {
 		InteractiveOperations.createOverriding(lobby.getChannel(), 120, new InteractiveOperation() {
 			@Override
 			public int run(GuildMessageReceivedEvent event) {
