@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.interaction.Lobby;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameLobby extends Lobby {
 
