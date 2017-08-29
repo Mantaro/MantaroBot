@@ -22,14 +22,13 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class GameLobby extends Lobby {
 
-	public static final Map<TextChannel, GameLobby> LOBBYS = new HashMap<>();
+    public static final Map<TextChannel, GameLobby> LOBBYS = new ConcurrentHashMap<>();
 
 	@Getter
 	GuildMessageReceivedEvent event;
@@ -48,32 +47,32 @@ public class GameLobby extends Lobby {
 		this.gamesToPlay = games;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(), gamesToPlay, players.size(), getChannel());
-	}
+    @Override
+    public String toString() {
+        return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(), gamesToPlay, players.size(), getChannel());
+    }
 
-	public void startFirstGame() {
-		LOBBYS.put(event.getChannel(), this);
-		if (gamesToPlay.getFirst().onStart(this)) {
-			gamesToPlay.getFirst().call(this, players);
-		} else {
-			LOBBYS.remove(getChannel());
-			gamesToPlay.clear();
-		}
-	}
+    public void startFirstGame() {
+        LOBBYS.put(event.getChannel(), this);
+        if(gamesToPlay.getFirst().onStart(this)) {
+            gamesToPlay.getFirst().call(this, players);
+        } else {
+            LOBBYS.remove(getChannel());
+            gamesToPlay.clear();
+        }
+    }
 
-	public void startNextGame() {
-		gamesToPlay.removeFirst();
-		try {
-			if (gamesToPlay.getFirst().onStart(this)) {
-				gamesToPlay.getFirst().call(this, players);
-			} else {
-				gamesToPlay.clear();
-				LOBBYS.remove(getChannel());
-			}
-		} catch (Exception e) {
-			LOBBYS.remove(getChannel());
-		}
-	}
+    public void startNextGame() {
+        gamesToPlay.removeFirst();
+        try {
+            if(gamesToPlay.getFirst().onStart(this)) {
+                gamesToPlay.getFirst().call(this, players);
+            } else {
+                gamesToPlay.clear();
+                LOBBYS.remove(getChannel());
+            }
+        } catch(Exception e) {
+            LOBBYS.remove(getChannel());
+        }
+    }
 }

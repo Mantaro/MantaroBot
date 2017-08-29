@@ -22,7 +22,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.junit.Assert;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -34,13 +33,13 @@ import java.util.function.Consumer;
 
 public class Reminder {
 
-    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
-    private Future<?> scheduledReminder;
-    private final String userId;
+    private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
     public final String reminder;
     public final long time;
     private final long current;
+    private final String userId;
+    private Future<?> scheduledReminder;
 
     private Reminder(String userId, String reminder, long current, long time) {
         this.userId = userId;
@@ -53,8 +52,16 @@ public class Reminder {
         user.saveAsync();
     }
 
+    public static void onDeserialization() {
+        CURRENT_REMINDERS.forEach((id, reminder) -> {
+            for(Reminder r : reminder) {
+                r.schedule();
+            }
+        });
+    }
+
     public void schedule() {
-        CURRENT_REMINDERS.computeIfPresent(userId, (id, list) ->{
+        CURRENT_REMINDERS.computeIfPresent(userId, (id, list) -> {
             list.add(this);
             return list;
         });
@@ -67,7 +74,8 @@ public class Reminder {
 
             //Ignore "cannot open a private channel with this user"
             AtomicReference<Consumer<Message>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t)->{};
+            Consumer<Throwable> ignore = (t) -> {
+            };
 
             user.openPrivateChannel().queue(channel -> channel.sendMessage(
                     EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(current)
@@ -82,25 +90,17 @@ public class Reminder {
     }
 
     private void removeCurrent() {
-        CURRENT_REMINDERS.computeIfPresent(userId, (id, list) ->{
+        CURRENT_REMINDERS.computeIfPresent(userId, (id, list) -> {
             list.remove(this);
             return list;
         });
     }
 
-    public static void onDeserialization() {
-        CURRENT_REMINDERS.forEach((id, reminder) -> {
-            for(Reminder r : reminder) {
-                r.schedule();
-            }
-        });
-    }
-
     public static class Builder {
-        private String userId;
+        private long current;
         private String reminder;
         private long time;
-        private long current;
+        private String userId;
 
         public Builder id(String id) {
             userId = id;

@@ -28,25 +28,21 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class MantaroAPI {
-    private long lastPing = 0;
-
-    public APIStatus STATUS = APIStatus.ON_HALT;
-
-    private final OkHttpClient httpClient = new OkHttpClient();
-
     //The token we will use to interface with the API
     public static String sessionToken;
-
     //Unique identifier of this specific node. Will be saved on NODE_LIST until the server sends a NODE_SHUTDOWN signal or 10 HEARTBEAT requests
     //time out. In the last case I should get notified that it did a boom and that I should start running in circles because the probability of me
     //being home when this happens is around zero.
     //Note: The number of random version 4 UUIDs *which need to be generated* in order to have a 50% probability of at least one collision is 2.71 quintillion
     //This ID is compared when doing node requests!
     public final UUID nodeUniqueIdentifier = UUID.randomUUID();
+    private final OkHttpClient httpClient = new OkHttpClient();
+    public APIStatus STATUS = APIStatus.ON_HALT;
+    private long lastPing = 0;
 
     public void startService() {
         Runnable checker = () -> {
-            try{
+            try {
                 STATUS = APIStatus.RECEIVING_DATA;
                 long start = System.currentTimeMillis();
                 Request r = new Request.Builder()
@@ -66,7 +62,7 @@ public class MantaroAPI {
                         .post(identifyBody)
                         .build();
                 httpClient.newCall(identify).execute().close();
-            } catch (Exception e) {
+            } catch(Exception e) {
                 STATUS = APIStatus.OFFLINE;
             }
         };
@@ -74,7 +70,7 @@ public class MantaroAPI {
     }
 
     public boolean configure() {
-        try{
+        try {
             STATUS = APIStatus.INITIAL_SETUP;
 
             //get token
@@ -111,7 +107,7 @@ public class MantaroAPI {
 
             STATUS = APIStatus.ONLINE;
             return true;
-        } catch (Exception e) {
+        } catch(Exception e) {
             //No need to set the status to OFFLINE since we already are gonna make the node exit.
             //Expecting maximum explosions at this point.
             SentryHelper.captureExceptionContext("Cannot contact Mantaro API. Startup will be cancelled", e, this.getClass(), "MAPI Configurer");

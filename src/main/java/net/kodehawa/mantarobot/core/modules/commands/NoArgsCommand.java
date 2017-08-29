@@ -22,18 +22,18 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 
 public abstract class NoArgsCommand extends AbstractCommand {
-	public NoArgsCommand(Category category) {
-		super(category);
-	}
+    public NoArgsCommand(Category category) {
+        super(category);
+    }
 
-	public NoArgsCommand(Category category, CommandPermission permission) {
-		super(category, permission);
-	}
+    public NoArgsCommand(Category category, CommandPermission permission) {
+        super(category, permission);
+    }
 
-	protected abstract void call(GuildMessageReceivedEvent event, String content);
+    protected abstract void call(GuildMessageReceivedEvent event, String content);
 
-	@Override
-	public void run(GuildMessageReceivedEvent event, String commandName, String content) {
-		call(event, content);
-	}
+    @Override
+    public void run(GuildMessageReceivedEvent event, String commandName, String content) {
+        call(event, content);
+    }
 }

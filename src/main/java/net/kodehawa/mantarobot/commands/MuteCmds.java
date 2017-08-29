@@ -24,17 +24,17 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
 import net.kodehawa.mantarobot.commands.moderation.MuteTask;
+import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.modules.Module;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
-import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.options.Option;
 import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -54,8 +54,8 @@ import java.util.regex.Pattern;
 @Module
 public class MuteCmds {
 
-    private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
     private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
+    private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -106,7 +106,7 @@ public class MuteCmds {
 
                         time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
 
-                        if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(5)){
+                        if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(5)) {
                             //smh smh smfh god fuck rethinkdb just
                             //dont
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
@@ -206,7 +206,7 @@ public class MuteCmds {
                                 "To use this command you need to specify a role name. *In case the name contains spaces, the name should" +
                                 " be wrapped in quotation marks", OptionType.COMMAND)
                         .setAction((event, args) -> {
-                            if (args.length < 1) {
+                            if(args.length < 1) {
                                 OptsCmd.onHelp(event);
                                 return;
                             }
@@ -216,9 +216,9 @@ public class MuteCmds {
                             GuildData guildData = dbGuild.getData();
 
                             List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
-                            if (roleList.size() == 0) {
+                            if(roleList.size() == 0) {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
-                            } else if (roleList.size() == 1) {
+                            } else if(roleList.size() == 1) {
                                 Role role = roleList.get(0);
                                 guildData.setMutedRole(role.getId());
                                 dbGuild.saveAsync();
@@ -295,7 +295,7 @@ public class MuteCmds {
                     if(m.getRoles().contains(mutedRole)) {
                         event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
-                        dbg.getData().setCases(dbg.getData().getCases() + 1 );
+                        dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
                     } else {
@@ -317,7 +317,7 @@ public class MuteCmds {
     }
 
     @Subscribe
-    public void onPostLoad(PostLoadEvent e){
+    public void onPostLoad(PostLoadEvent e) {
         muteExecutor.scheduleAtFixedRate(new MuteTask(), 40, 40, TimeUnit.SECONDS);
     }
 }

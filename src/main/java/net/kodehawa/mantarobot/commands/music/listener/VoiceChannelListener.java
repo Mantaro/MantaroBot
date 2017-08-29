@@ -31,19 +31,27 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 public class VoiceChannelListener implements EventListener {
 
+    private static boolean validate(GuildVoiceState state) {
+        return state == null || !state.inVoiceChannel();
+    }
+
+    private static boolean isAlone(VoiceChannel vc) {
+        return vc.getMembers().stream().filter(m -> !m.getUser().isBot()).count() == 0;
+    }
+
     @Override
     public void onEvent(Event event) {
 
         if(!MantaroCore.hasLoadedCompletely()) return;
 
         if(event instanceof GuildVoiceMoveEvent) {
-            onGuildVoiceMove((GuildVoiceMoveEvent)event);
+            onGuildVoiceMove((GuildVoiceMoveEvent) event);
         } else if(event instanceof GuildVoiceJoinEvent) {
-            onGuildVoiceJoin((GuildVoiceJoinEvent)event);
+            onGuildVoiceJoin((GuildVoiceJoinEvent) event);
         } else if(event instanceof GuildVoiceLeaveEvent) {
-            onGuildVoiceLeave((GuildVoiceLeaveEvent)event);
+            onGuildVoiceLeave((GuildVoiceLeaveEvent) event);
         } else if(event instanceof GuildVoiceMuteEvent) {
-            onGuildVoiceMute((GuildVoiceMuteEvent)event);
+            onGuildVoiceMute((GuildVoiceMuteEvent) event);
         }
     }
 
@@ -120,13 +128,5 @@ public class VoiceChannelListener implements EventListener {
                 gmm.scheduleLeave();
             }
         }
-    }
-
-    private static boolean validate(GuildVoiceState state) {
-        return state == null || !state.inVoiceChannel();
-    }
-
-    private static boolean isAlone(VoiceChannel vc) {
-        return vc.getMembers().stream().filter(m -> !m.getUser().isBot()).count() == 0;
     }
 }

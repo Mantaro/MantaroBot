@@ -41,10 +41,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RateLimiter {
     private static final ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
-    @Getter
-    private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
     private final long max;
     private final long timeout;
+    @Getter
+    private final ConcurrentHashMap<String, Pair<AtomicInteger, Long>> usersRateLimited = new ConcurrentHashMap<>();
     private boolean isPremiumAware = false;
 
     /**
@@ -96,10 +96,10 @@ public class RateLimiter {
         long now = System.currentTimeMillis();
         Long tryAgain = p.second;
         if(tryAgain == null || tryAgain < now) {
-            p.second = now + (isPremium ? (long)(timeout * 0.75) : timeout);
+            p.second = now + (isPremium ? (long) (timeout * 0.75) : timeout);
         }
 
-        ses.schedule(a::decrementAndGet, isPremium ? (long)(timeout * 0.75) : timeout, TimeUnit.MILLISECONDS);
+        ses.schedule(a::decrementAndGet, isPremium ? (long) (timeout * 0.75) : timeout, TimeUnit.MILLISECONDS);
         return true;
     }
 

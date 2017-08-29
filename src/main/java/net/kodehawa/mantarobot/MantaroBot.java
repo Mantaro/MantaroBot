@@ -62,197 +62,198 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 @Slf4j
 public class MantaroBot extends ShardedJDA {
 
-	public static int cwport;
-	@Getter
-	private final ShardedMantaro shardedMantaro;
-	private static boolean DEBUG = false;
-	@Getter
-	private static MantaroBot instance;
-	@Getter
-	private static TempBanManager tempBanManager;
-	@Getter
-	private final MantaroAPI mantaroAPI = new MantaroAPI();
-	@Getter
-	private final RabbitMQDataManager rabbitMQDataManager;
-	@Getter
-	private static ConnectionWatcherDataManager connectionWatcher;
-	@Getter
-	private final MantaroAudioManager audioManager;
-	@Getter
-	private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-	@Getter
-	private final StatsDClient statsClient;
-	@Getter
-	private BirthdayCacher birthdayCacher;
-	@Getter
-	private final MantaroCore core;
+    public static int cwport;
+    private static boolean DEBUG = false;
+    @Getter
+    private static ConnectionWatcherDataManager connectionWatcher;
+    @Getter
+    private static MantaroBot instance;
+    @Getter
+    private static TempBanManager tempBanManager;
+    @Getter
+    private final MantaroAudioManager audioManager;
+    @Getter
+    private final MantaroCore core;
+    @Getter
+    private final MantaroAPI mantaroAPI = new MantaroAPI();
+    @Getter
+    private final RabbitMQDataManager rabbitMQDataManager;
+    @Getter
+    private final ShardedMantaro shardedMantaro;
+    @Getter
+    private final StatsDClient statsClient;
+    @Getter
+    private BirthdayCacher birthdayCacher;
+    @Getter
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
 
-	public static void main(String[] args) {
-		if (System.getProperty("mantaro.verbose") != null) {
-			System.setOut(new CompactPrintStream(System.out));
-			System.setErr(new CompactPrintStream(System.err));
-		}
-
-		if(System.getProperty("mantaro.debug") != null) {
-			DEBUG = true;
-			System.out.println("Running in debug mode!");
-		}
-
-		if (args.length > 0) {
-			try {
-				cwport = Integer.parseInt(args[0]);
-			} catch (Exception e) {
-				log.info("Invalid connection watcher port specified in arguments, using value in config");
-				cwport = MantaroData.config().get().connectionWatcherPort;
-			}
-		} else {
-			log.info("No connection watcher port specified, using value in config");
-			cwport = MantaroData.config().get().connectionWatcherPort;
-		}
-
-		log.info("Using port " + cwport + " to communicate with connection watcher");
-
-		if (cwport > 0) {
-			new Thread(() -> {
-				try {
-					connectionWatcher = MantaroData.connectionWatcher();
-				} catch (Exception e) {
-					//Don't log this to sentry!
-					log.error("Error connecting to Connection Watcher", e);
-				}
-			});
-		}
-
-		try {
-			new MantaroBot();
-		} catch (Exception e) {
-			SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
-			log.error("Could not complete Main Thread routine!", e);
-			log.error("Cannot continue! Exiting program...");
-			System.exit(FATAL_FAILURE);
-		}
-	}
-
-	private MantaroBot() throws Exception {
+    private MantaroBot() throws Exception {
         instance = this;
-		Config config = MantaroData.config().get();
-		core = new MantaroCore(config, true, true, DEBUG);
+        Config config = MantaroData.config().get();
+        core = new MantaroCore(config, true, true, DEBUG);
 
         statsClient = new NonBlockingStatsDClient(
-				config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
-				"localhost",
-				8125,
-				"tag:value"
-		);
+                config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
+                "localhost",
+                8125,
+                "tag:value"
+        );
 
-		if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
-			SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
-			System.exit(API_HANDSHAKE_FAILURE);
-		}
+        if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
+            SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
+            System.exit(API_HANDSHAKE_FAILURE);
+        }
 
-		LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %s)", MantaroInfo.VERSION, mantaroAPI.nodeUniqueIdentifier));
+        LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %s)", MantaroInfo.VERSION, mantaroAPI.nodeUniqueIdentifier));
 
-		rabbitMQDataManager = new RabbitMQDataManager(config);
-		if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
-		long start = System.currentTimeMillis();
+        rabbitMQDataManager = new RabbitMQDataManager(config);
+        if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
+        long start = System.currentTimeMillis();
 
 
-		SimpleLogToSLF4JAdapter.install();
+        SimpleLogToSLF4JAdapter.install();
 
-		core.setCommandsPackage("net.kodehawa.mantarobot.commands")
-				.setOptionsPackage("net.kodehawa.mantarobot.options")
-				.startMainComponents(false);
+        core.setCommandsPackage("net.kodehawa.mantarobot.commands")
+                .setOptionsPackage("net.kodehawa.mantarobot.options")
+                .startMainComponents(false);
 
-		shardedMantaro = core.getShardedInstance();
-		audioManager = new MantaroAudioManager();
-		tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
+        shardedMantaro = core.getShardedInstance();
+        audioManager = new MantaroAudioManager();
+        tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
 
-		System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
+        System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
 
-		MantaroData.config().save();
+        MantaroData.config().save();
 
-		log.info("Starting update managers...");
-		shardedMantaro.startUpdaters();
+        log.info("Starting update managers...");
+        shardedMantaro.startUpdaters();
 
-		core.markAsReady();
-		long end = System.currentTimeMillis();
+        core.markAsReady();
+        long end = System.currentTimeMillis();
 
-		System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
+        System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
 
-		LogUtils.log("Startup",
-				String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
-						DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
+        LogUtils.log("Startup",
+                String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
+                        DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
-		if(!config.isPremiumBot() && !config.isBeta() ) {
-			mantaroAPI.startService();
-			MantaroAPISender.startService();
-		}
+        if(!config.isPremiumBot() && !config.isBeta()) {
+            mantaroAPI.startService();
+            MantaroAPISender.startService();
+        }
 
-		//TODO fix
-		//birthdayCacher = new BirthdayCacher();
-		//this.startCheckingBirthdays();
-	}
+        //TODO fix
+        //birthdayCacher = new BirthdayCacher();
+        //this.startCheckingBirthdays();
+    }
 
-	public Guild getGuildById(String guildId) {
-		return getShardForGuild(guildId).getGuildById(guildId);
-	}
+    public static void main(String[] args) {
+        if(System.getProperty("mantaro.verbose") != null) {
+            System.setOut(new CompactPrintStream(System.out));
+            System.setErr(new CompactPrintStream(System.err));
+        }
 
-	public MantaroShard getShard(int id) {
-		return Arrays.stream(shardedMantaro.getShards()).filter(shard -> shard.getId() == id).findFirst().orElse(null);
-	}
+        if(System.getProperty("mantaro.debug") != null) {
+            DEBUG = true;
+            System.out.println("Running in debug mode!");
+        }
 
-	@Override
-	public int getShardAmount() {
-		return shardedMantaro.getTotalShards();
-	}
+        if(args.length > 0) {
+            try {
+                cwport = Integer.parseInt(args[0]);
+            } catch(Exception e) {
+                log.info("Invalid connection watcher port specified in arguments, using value in config");
+                cwport = MantaroData.config().get().connectionWatcherPort;
+            }
+        } else {
+            log.info("No connection watcher port specified, using value in config");
+            cwport = MantaroData.config().get().connectionWatcherPort;
+        }
 
-	@Nonnull
-	@Override
-	public Iterator<JDA> iterator() {
-		return new ArrayIterator<>(shardedMantaro.getShards());
-	}
+        log.info("Using port " + cwport + " to communicate with connection watcher");
 
-	public int getId(JDA jda) {
-		return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
-	}
+        if(cwport > 0) {
+            new Thread(() -> {
+                try {
+                    connectionWatcher = MantaroData.connectionWatcher();
+                } catch(Exception e) {
+                    //Don't log this to sentry!
+                    log.error("Error connecting to Connection Watcher", e);
+                }
+            });
+        }
 
-	public MantaroShard getShardForGuild(String guildId) {
-		return getShardForGuild(Long.parseLong(guildId));
-	}
+        try {
+            new MantaroBot();
+        } catch(Exception e) {
+            SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
+            log.error("Could not complete Main Thread routine!", e);
+            log.error("Cannot continue! Exiting program...");
+            System.exit(FATAL_FAILURE);
+        }
+    }
 
-	public MantaroShard getShardForGuild(long guildId) {
-		return getShard((int) ((guildId >> 22) % shardedMantaro.getTotalShards()));
-	}
+    public Guild getGuildById(String guildId) {
+        return getShardForGuild(guildId).getGuildById(guildId);
+    }
 
-	public List<MantaroShard> getShardList() {
-		return Arrays.asList(shardedMantaro.getShards());
-	}
+    public MantaroShard getShard(int id) {
+        return Arrays.stream(shardedMantaro.getShards()).filter(shard -> shard.getId() == id).findFirst().orElse(null);
+    }
 
-	private void sendSignal() {
-		try{
-			OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-			RequestBody body = RequestBody.create(
-					MediaType.parse("application/json; charset=utf-8"),
-					String.format("{\"content\": \"**Received startup trigger on Node %s", mantaroAPI.nodeUniqueIdentifier)
-			);
-			Request request = new Request.Builder()
-					.header("Content-Type", "application/json")
-					.post(body)
-					.build();
+    @Override
+    public int getShardAmount() {
+        return shardedMantaro.getTotalShards();
+    }
 
-			Response response = okHttpClient.newCall(request).execute();
-			response.close();
-		} catch (Exception ignored) {}
-	}
+    @Nonnull
+    @Override
+    public Iterator<JDA> iterator() {
+        return new ArrayIterator<>(shardedMantaro.getShards());
+    }
 
-	private void startCheckingBirthdays(){
-		ZoneId z = ZoneId.of("America/Chicago");
-		ZonedDateTime now = ZonedDateTime.now( z );
-		LocalDate tomorrow = now.toLocalDate().plusDays(1);
-		ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
-		Duration duration = Duration.between( now , tomorrowStart );
-		long millisecondsUntilTomorrow = duration.toMillis();
-		Executors.newScheduledThreadPool(2).scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
-	}
+    public int getId(JDA jda) {
+        return jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId();
+    }
+
+    public MantaroShard getShardForGuild(String guildId) {
+        return getShardForGuild(Long.parseLong(guildId));
+    }
+
+    public MantaroShard getShardForGuild(long guildId) {
+        return getShard((int) ((guildId >> 22) % shardedMantaro.getTotalShards()));
+    }
+
+    public List<MantaroShard> getShardList() {
+        return Arrays.asList(shardedMantaro.getShards());
+    }
+
+    private void sendSignal() {
+        try {
+            OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+            RequestBody body = RequestBody.create(
+                    MediaType.parse("application/json; charset=utf-8"),
+                    String.format("{\"content\": \"**Received startup trigger on Node %s", mantaroAPI.nodeUniqueIdentifier)
+            );
+            Request request = new Request.Builder()
+                    .header("Content-Type", "application/json")
+                    .post(body)
+                    .build();
+
+            Response response = okHttpClient.newCall(request).execute();
+            response.close();
+        } catch(Exception ignored) {
+        }
+    }
+
+    private void startCheckingBirthdays() {
+        ZoneId z = ZoneId.of("America/Chicago");
+        ZonedDateTime now = ZonedDateTime.now(z);
+        LocalDate tomorrow = now.toLocalDate().plusDays(1);
+        ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
+        Duration duration = Duration.between(now, tomorrowStart);
+        long millisecondsUntilTomorrow = duration.toMillis();
+        Executors.newScheduledThreadPool(2).scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+    }
 }

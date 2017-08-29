@@ -93,16 +93,13 @@ public enum Badge {
     //What to put on the user's avatar
     @Getter
     public final byte[] icon;
-
-    //Where does the icon go in the X axis relative to the circle placement on the avatar replacement.
-    private final int iconStartX;
-
-    //Where does the icon go in the Y axis relative to the circle placement on the avatar replacement.
-    private final int iconStartY;
-
     //The unicode to display.
     @Getter
     public final String unicode;
+    //Where does the icon go in the X axis relative to the circle placement on the avatar replacement.
+    private final int iconStartX;
+    //Where does the icon go in the Y axis relative to the circle placement on the avatar replacement.
+    private final int iconStartY;
 
 
     /**
@@ -111,8 +108,9 @@ public enum Badge {
      * Mantaro itself.
      * The enum ordinal represents the order of which the badges will be displayed. The first badge will display on the
      * profile title itself, the rest (including the one on the title) will display on the "badges" version.
-     * @param display The display name of this badge.
-     * @param unicode The unicode of the badge. Used to display on the profile.
+     *
+     * @param display     The display name of this badge.
+     * @param unicode     The unicode of the badge. Used to display on the profile.
      * @param description What did you do to win this
      */
     Badge(String display, String unicode, String description, int iconStartX, int iconStartY) {
@@ -139,9 +137,25 @@ public enum Badge {
     }
 
     /**
+     * Looks up the Badge based on a String value, if nothing is found returns null.
+     *
+     * @param name The String value to match
+     * @return The badge, or null if nothing is found.
+     */
+    public static Badge lookupFromString(String name) {
+        for(Badge b : Badge.values()) {
+            if(b.name().equalsIgnoreCase(name)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Applies the image into the user's avatar.
+     *
      * @param userAvatar Avatar image as a byte array.
-     * @param white Whether the badge should display as only-white or full color otherwise
+     * @param white      Whether the badge should display as only-white or full color otherwise
      * @return A byte[] with the modified image.
      */
     public byte[] apply(byte[] userAvatar, boolean white) {
@@ -151,6 +165,7 @@ public enum Badge {
 
     /**
      * Applies the image into the user's avatar.
+     *
      * @param userAvatar Avatar image as a byte array.
      * @return A byte[] with the modified image.
      */
@@ -160,26 +175,12 @@ public enum Badge {
 
     /**
      * To show in badge list and probably in some other places.
+     *
      * @return A representation of this object in the form of name + unicode.
      */
     @Override
     public String toString() {
-        return display + (unicode == null ? "" :  " " + unicode);
-    }
-
-    /**
-     * Looks up the Badge based on a String value, if nothing is found returns null.
-     *
-     * @param name The String value to match
-     * @return The badge, or null if nothing is found.
-     */
-    public static Badge lookupFromString(String name) {
-        for (Badge b : Badge.values()) {
-            if (b.name().equalsIgnoreCase(name)) {
-                return b;
-            }
-        }
-        return null;
+        return display + (unicode == null ? "" : " " + unicode);
     }
 
     //need this to get access to a logger in the constructor

@@ -23,8 +23,8 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import org.json.JSONObject;
@@ -40,26 +40,30 @@ import static net.kodehawa.mantarobot.utils.rmq.ReturnCodes.*;
 @Slf4j
 public class RabbitMQDataManager implements DataManager<JSONObject> {
 
-    @Getter
-    private Connection rMQConnection;
-    @Getter
-    public Channel mainrMQChannel;
-    @Getter
-    public Channel apirMQChannel;
-
-
     private final static String MAIN_QUEUE_NAME = "mantaro-nodes";
     private final static String INFO_QUEUE_NAME = "mantaro-info";
     private final static String API_QUEUE_NAME = "mantaro-api-noder";
-    @Setter @Getter private JSONObject lastReceivedPayload = new JSONObject(); //{} if none
-    @Setter @Getter public int apiCalls;
-    @Setter @Getter public int nodeCalls;
+    @Setter
+    @Getter
+    public int apiCalls;
+    @Getter
+    public Channel apirMQChannel;
+    @Getter
+    public Channel mainrMQChannel;
+    @Setter
+    @Getter
+    public int nodeCalls;
+    @Setter
+    @Getter
+    private JSONObject lastReceivedPayload = new JSONObject(); //{} if none
+    @Getter
+    private Connection rMQConnection;
 
     @SneakyThrows
     public RabbitMQDataManager(Config config) {
         if(config.isBeta || config.isPremiumBot) return;
 
-        try{
+        try {
             ConnectionFactory factory = new ConnectionFactory();
 
             factory.setHost(config.rMQIP);
@@ -70,9 +74,9 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
 
             rMQConnection = factory.newConnection();
             log.info("Created RabbitMQ connection with properties: " + factory.getClientProperties());
-                mainrMQChannel = rMQConnection.createChannel();
+            mainrMQChannel = rMQConnection.createChannel();
             log.info("Acknowledged #" + mainrMQChannel.getChannelNumber() + " on queue: " + MAIN_QUEUE_NAME);
-        } catch (IOException | TimeoutException e) {
+        } catch(IOException | TimeoutException e) {
             SentryHelper.captureException("Something went horribly wrong while setting up the RabbitMQ connection", e, this.getClass());
             System.exit(RABBITMQ_FAILURE);
         }
@@ -127,11 +131,11 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                         }
                     }
 
-                    switch (NodeAction.valueOf(payload.getString("action"))) {
+                    switch(NodeAction.valueOf(payload.getString("action"))) {
 
                         case SHUTDOWN:
                             MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
-                                if (musicManager.getTrackScheduler() != null)
+                                if(musicManager.getTrackScheduler() != null)
                                     musicManager.getTrackScheduler().stop();
                             });
 
@@ -146,11 +150,12 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
 
                             SentryHelper.breadcrumb("Shutting down node #" + nodeId + "remotely...");
 
-                            try{
+                            try {
                                 apiChannel.close();
                                 rMQConnection.close();
                                 mainrMQChannel.close();
-                            } catch (Exception ignored) {}
+                            } catch(Exception ignored) {
+                            }
 
                             System.exit(REMOTE_SHUTDOWN);
 
@@ -168,9 +173,9 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     true
                             ));
 
-                            try{
+                            try {
                                 MantaroBot.getConnectionWatcher().reboot(hardkill);
-                            } catch (Exception e) {
+                            } catch(Exception e) {
                                 code = CODE_FAILURE;
                             }
                             break;
@@ -192,7 +197,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     ));
 
                                     StringBuilder builder = new StringBuilder();
-                                    for (MantaroShard shard : MantaroBot.getInstance().getShardList()) {
+                                    for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                                         JDA jda = shard.getJDA();
                                         builder.append(String.format(
                                                 "%-15s" + " | STATUS: %-9s" + " | U: %-5d" + " | G: %-4d" + " | L: %-7s" + " | MC: %-2d",
@@ -211,7 +216,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                     formattedShardObject.put("broadcast", false);
 
                                     mainrMQChannel.basicPublish("", MAIN_QUEUE_NAME, null, formattedShardObject.toString().getBytes());
-                                } catch (Exception e) {
+                                } catch(Exception e) {
                                     SentryHelper.captureExceptionContext(
                                             String.format("Cannot restart shard no.%d from API call: %d (at %d)",
                                                     shardId, apiCalls, System.currentTimeMillis()),
@@ -250,7 +255,8 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
     }
 
     @Override
-    public void save() {}
+    public void save() {
+    }
 
     @Override
     public JSONObject get() {

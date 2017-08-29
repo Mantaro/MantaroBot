@@ -39,11 +39,11 @@ public class Request {
             TEXT = MediaType.parse("text/plain");
 
     final Map<String, String> headers = new HashMap<>();
+    final String rateLimitKey;
     final HTTPRequester requester;
     final String url;
-    final String rateLimitKey;
-    MediaType type = BINARY;
     byte[] body;
+    MediaType type = BINARY;
 
     public Request(HTTPRequester requester, String url, String rateLimitKey) {
         this.requester = requester;

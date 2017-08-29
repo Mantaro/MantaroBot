@@ -34,7 +34,8 @@ public class GuildMusicManager {
     public final AudioPlayer audioPlayer;
     @Getter
     public final TrackScheduler trackScheduler;
-    @Getter @Setter
+    @Getter
+    @Setter
     public boolean isAwaitingDeath;
     private ScheduledFuture<?> leaveTask = null;
 
@@ -51,7 +52,7 @@ public class GuildMusicManager {
 
         isAwaitingDeath = false;
         trackScheduler.getQueue().clear();
-        if(trackScheduler.getRequestedChannelParsed() != null){
+        if(trackScheduler.getRequestedChannelParsed() != null) {
             trackScheduler.getRequestedChannelParsed().sendMessage(EmoteReference.SAD + "I decided to leave **" + guild.getSelfMember().getVoiceState().getChannel().getName() + "** " +
                     "because I was left all alone :<").queue();
         }
@@ -69,7 +70,7 @@ public class GuildMusicManager {
         leaveTask = null;
     }
 
-    public AudioPlayerSendHandler getAudioPlayerSendHandler(){
+    public AudioPlayerSendHandler getAudioPlayerSendHandler() {
         return new AudioPlayerSendHandler(audioPlayer);
     }
 }

@@ -23,13 +23,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.banner.BannerPrinter;
@@ -51,20 +51,24 @@ public class MantaroCore {
     @Setter
     private static LoadState loadState = PRELOAD;
     private final Config config;
+    private final boolean isDebug;
     private final boolean useBanner;
     private final boolean useSentry;
-    private final boolean isDebug;
-    private String commandsPackage;
-    private String optsPackage;
     @Getter
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
+    private String commandsPackage;
+    private String optsPackage;
     private ShardedMantaro shardedMantaro;
 
-    public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug){
+    public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;
         this.useBanner = useBanner;
         this.useSentry = useSentry;
         this.isDebug = isDebug;
+    }
+
+    public static boolean hasLoadedCompletely() {
+        return getLoadState().equals(POSTLOAD);
     }
 
     public MantaroCore setOptionsPackage(String optionsPackage) {
@@ -120,13 +124,15 @@ public class MantaroCore {
         if(useBanner)
             new BannerPrinter(1).printBanner();
 
-        if(commandsPackage == null) throw new IllegalArgumentException("Cannot look for commands if you don't specify where!");
-        if(optsPackage == null) throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
+        if(commandsPackage == null)
+            throw new IllegalArgumentException("Cannot look for commands if you don't specify where!");
+        if(optsPackage == null)
+            throw new IllegalArgumentException("Cannot look for options if you don't specify where!");
 
         Future<Set<Class<?>>> commands = lookForAnnotatedOn(commandsPackage, Module.class);
         Future<Set<Class<?>>> options = lookForAnnotatedOn(optsPackage, Option.class);
 
-        if(single){
+        if(single) {
             startSingleShardInstance();
         } else {
             startShardedInstance();
@@ -134,18 +140,18 @@ public class MantaroCore {
 
         EventBus bus = new EventBus();
 
-        for (Class<?> aClass : commands.get()) {
+        for(Class<?> aClass : commands.get()) {
             try {
                 bus.register(aClass.newInstance());
-            } catch (Exception e) {
+            } catch(Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + aClass);
             }
         }
 
-        for (Class<?> clazz : options.get()) {
+        for(Class<?> clazz : options.get()) {
             try {
                 bus.register(clazz.newInstance());
-            } catch (Exception e) {
+            } catch(Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
         }
@@ -157,21 +163,17 @@ public class MantaroCore {
         return this;
     }
 
-    public ShardedMantaro getShardedInstance(){
+    public ShardedMantaro getShardedInstance() {
         return shardedMantaro;
     }
 
-    public void markAsReady(){
+    public void markAsReady() {
         loadState = POSTLOAD;
-    }
-
-    public static boolean hasLoadedCompletely(){
-        return getLoadState().equals(POSTLOAD);
     }
 
     private Future<Set<Class<?>>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
         return Async.future("Annotation Lookup (" + annotation + ")", () ->
-                new Reflections(packageName,new MethodAnnotationsScanner(),new TypeAnnotationsScanner(), new SubTypesScanner()).getTypesAnnotatedWith(annotation)
+                new Reflections(packageName, new MethodAnnotationsScanner(), new TypeAnnotationsScanner(), new SubTypesScanner()).getTypesAnnotatedWith(annotation)
         );
     }
 }

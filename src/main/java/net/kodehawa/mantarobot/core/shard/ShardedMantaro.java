@@ -40,11 +40,11 @@ public class ShardedMantaro {
 
     @Getter
     private final List<MantaroEventManager> managers = new ArrayList<>();
+    private final ICommandProcessor processor;
     @Getter
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
-    private final ICommandProcessor processor;
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -55,35 +55,9 @@ public class ShardedMantaro {
         shards = new MantaroShard[this.totalShards];
     }
 
-    public void shard() {
-        try{
-            MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
-            log.info("Spawning shards...");
-            for (int i = 0; i < totalShards; i++) {
-                if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;
-
-                log.info("Starting shard #" + i + " of " + totalShards);
-                MantaroEventManager manager = new MantaroEventManager();
-                managers.add(manager);
-                shards[i] = new MantaroShard(i, totalShards, manager, processor);
-                log.debug("Finished loading shard #" + i + ".");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");
-        }
-    }
-
-    public void startUpdaters() {
-        for(MantaroShard shard : getShards()) {
-            shard.updateServerCount();
-            shard.updateStatus();
-        }
-    }
-
     private static int getRecommendedShards(String token) {
 
-        if(MantaroData.config().get().totalShards != 0){
+        if(MantaroData.config().get().totalShards != 0) {
             return MantaroData.config().get().totalShards;
         }
 
@@ -99,12 +73,38 @@ public class ShardedMantaro {
             JSONObject shardObject = new JSONObject(response.body().string());
             response.close();
             return shardObject.getInt("shards");
-        } catch (Exception e) {
+        } catch(Exception e) {
             SentryHelper.captureExceptionContext(
                     "Exception thrown when trying to get shard count, discord isn't responding?", e, MantaroBot.class, "Shard Count Fetcher"
             );
             System.exit(SHARD_FETCH_FAILURE);
         }
         return 1;
+    }
+
+    public void shard() {
+        try {
+            MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
+            log.info("Spawning shards...");
+            for(int i = 0; i < totalShards; i++) {
+                if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;
+
+                log.info("Starting shard #" + i + " of " + totalShards);
+                MantaroEventManager manager = new MantaroEventManager();
+                managers.add(manager);
+                shards[i] = new MantaroShard(i, totalShards, manager, processor);
+                log.debug("Finished loading shard #" + i + ".");
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");
+        }
+    }
+
+    public void startUpdaters() {
+        for(MantaroShard shard : getShards()) {
+            shard.updateServerCount();
+            shard.updateStatus();
+        }
     }
 }

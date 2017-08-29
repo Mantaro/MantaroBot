@@ -34,13 +34,13 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j(topic = "Game [Pokemon Trivia]")
 public class Pokemon extends ImageGame {
-	private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
-	private List<String> expectedAnswer;
-	private final int maxAttempts = 5;
+    private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
+    private final int maxAttempts = 5;
+    private List<String> expectedAnswer;
 
-	public Pokemon() {
-		super(10);
-	}
+    public Pokemon() {
+        super(10);
+    }
 
 	@Override
 	public void call(GameLobby lobby, List<String> players) {
@@ -50,28 +50,28 @@ public class Pokemon extends ImageGame {
 				return callDefault(event, lobby, players, expectedAnswer, getAttempts(), maxAttempts, 15);
 			}
 
-			@Override
-			public void onExpire() {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Possible answers were: " + String.join(", ", expectedAnswer)).queue();
-				GameLobby.LOBBYS.remove(lobby.getChannel());
-			}
-		});
-	}
+            @Override
+            public void onExpire() {
+                lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Possible answers were: " + String.join(", ", expectedAnswer)).queue();
+                GameLobby.LOBBYS.remove(lobby.getChannel());
+            }
+        });
+    }
 
-	public boolean onStart(GameLobby lobby) {
-		try {
-			String[] data = random(GUESSES.get()).split("`");
-			String pokemonImage = data[0];
-			expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
-			sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb
-				.setTitle("Who's that pokemon?", null)
-				.setFooter("You have 5 attempts and 120 seconds. (Type end to end the game)", null)
-			).queue();
-			return true;
-		} catch (Exception e) {
-			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
-			log.warn("Exception while setting up a game", e);
-			return false;
-		}
-	}
+    public boolean onStart(GameLobby lobby) {
+        try {
+            String[] data = random(GUESSES.get()).split("`");
+            String pokemonImage = data[0];
+            expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
+            sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb
+                    .setTitle("Who's that pokemon?", null)
+                    .setFooter("You have 5 attempts and 120 seconds. (Type end to end the game)", null)
+            ).queue();
+            return true;
+        } catch(Exception e) {
+            lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
+            log.warn("Exception while setting up a game", e);
+            return false;
+        }
+    }
 }

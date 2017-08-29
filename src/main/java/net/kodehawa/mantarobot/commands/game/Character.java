@@ -39,16 +39,16 @@ import java.util.List;
 
 @Slf4j(topic = "Game [Character]")
 public class Character extends ImageGame {
-	private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
-	private final String authToken = AnimeCmds.authToken;
-	private String characterName;
-	private List<String> characterNameL;
-	@Getter
-	private final int maxAttempts = 10;
+    private static final DataManager<List<String>> NAMES = new SimpleFileDataManager("assets/mantaro/texts/animenames.txt");
+    private final String authToken = AnimeCmds.authToken;
+    @Getter
+    private final int maxAttempts = 10;
+    private String characterName;
+    private List<String> characterNameL;
 
-	public Character() {
-		super(10);
-	}
+    public Character() {
+        super(10);
+    }
 
 	@Override
 	public void call(GameLobby lobby, List<String> players) {
@@ -58,42 +58,42 @@ public class Character extends ImageGame {
 				return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
 			}
 
-			@Override
-			public void onExpire() {
-				lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + String.join(" ,", characterNameL)).queue();
-				GameLobby.LOBBYS.remove(lobby.getChannel());
-			}
-		});
-	}
+            @Override
+            public void onExpire() {
+                lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + String.join(" ,", characterNameL)).queue();
+                GameLobby.LOBBYS.remove(lobby.getChannel());
+            }
+        });
+    }
 
-	@Override
-	public boolean onStart(GameLobby lobby) {
-		try {
-			characterNameL = new ArrayList<>();
-			characterName = CollectionUtils.random(NAMES.get());
-			String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),
-				authToken);
-			String json = Utils.wget(url, null);
-			CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
-			String imageUrl = character[0].getImage_url_med();
-			//Allow for replying with only the first name.
-			if(characterName.contains(" ")){
-				characterNameL.add(characterName.split(" ")[0]);
-			}
-			characterNameL.add(characterName);
-			sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
-				.setTitle("Guess the character", null)
-				.setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null)
-			).queue();
-			return true;
-		} catch (Exception e) {
-			if(e instanceof JsonSyntaxException) {
-				lobby.getChannel().sendMessage(EmoteReference.WARNING + "Report this in the official server please. Failed to setup game for pre-saved character: " + characterName).queue();
-				return false;
-			}
-			lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
-			log.warn("Exception while setting up a game", e);
-			return false;
-		}
-	}
+    @Override
+    public boolean onStart(GameLobby lobby) {
+        try {
+            characterNameL = new ArrayList<>();
+            characterName = CollectionUtils.random(NAMES.get());
+            String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),
+                    authToken);
+            String json = Utils.wget(url, null);
+            CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
+            String imageUrl = character[0].getImage_url_med();
+            //Allow for replying with only the first name.
+            if(characterName.contains(" ")) {
+                characterNameL.add(characterName.split(" ")[0]);
+            }
+            characterNameL.add(characterName);
+            sendEmbedImage(lobby.getChannel(), imageUrl, eb -> eb
+                    .setTitle("Guess the character", null)
+                    .setFooter("You have 10 attempts and 60 seconds. (Type end to end the game)", null)
+            ).queue();
+            return true;
+        } catch(Exception e) {
+            if(e instanceof JsonSyntaxException) {
+                lobby.getChannel().sendMessage(EmoteReference.WARNING + "Report this in the official server please. Failed to setup game for pre-saved character: " + characterName).queue();
+                return false;
+            }
+            lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while setting up a game.").queue();
+            log.warn("Exception while setting up a game", e);
+            return false;
+        }
+    }
 }

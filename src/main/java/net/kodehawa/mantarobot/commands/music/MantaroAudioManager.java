@@ -57,7 +57,8 @@ public class MantaroAudioManager {
 
     public synchronized GuildMusicManager getMusicManager(Guild guild) {
         GuildMusicManager musicManager = musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(playerManager, guild.getId()));
-        if (guild.getAudioManager().getSendingHandler() == null) guild.getAudioManager().setSendingHandler(musicManager.getAudioPlayerSendHandler());
+        if(guild.getAudioManager().getSendingHandler() == null)
+            guild.getAudioManager().setSendingHandler(musicManager.getAudioPlayerSendHandler());
         return musicManager;
     }
 
@@ -66,7 +67,7 @@ public class MantaroAudioManager {
     }
 
     public synchronized void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
-        if (!AudioCmdUtils.connectToVoiceChannel(event)) return;
+        if(!AudioCmdUtils.connectToVoiceChannel(event)) return;
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
         musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
         if(musicManager.getTrackScheduler().getQueue().isEmpty()) musicManager.getTrackScheduler().setRepeatMode(null);

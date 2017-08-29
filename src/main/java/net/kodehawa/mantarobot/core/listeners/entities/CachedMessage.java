@@ -27,7 +27,7 @@ public class CachedMessage {
     @Getter
     private String content;
 
-    public User getAuthor(){
+    public User getAuthor() {
         return MantaroBot.getInstance().getUserById(author);
     }
 }

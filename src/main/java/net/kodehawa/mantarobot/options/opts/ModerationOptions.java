@@ -20,13 +20,13 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
-import net.kodehawa.mantarobot.options.OptionType;
-import net.kodehawa.mantarobot.options.annotations.Option;
-import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.options.OptionType;
+import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -51,7 +51,7 @@ public class ModerationOptions extends OptionHandler {
 
                     List<User> mentioned = event.getMessage().getMentionedUsers();
 
-                    if (mentioned.isEmpty()) {
+                    if(mentioned.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
                         return;
                     }
@@ -75,7 +75,7 @@ public class ModerationOptions extends OptionHandler {
                 "Removes someone from the local blacklist.", (event, args) -> {
                     List<User> mentioned = event.getMessage().getMentionedUsers();
 
-                    if (mentioned.isEmpty()) {
+                    if(mentioned.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "**You need to specify the users to locally blacklist.**").queue();
                         return;
                     }
@@ -98,7 +98,7 @@ public class ModerationOptions extends OptionHandler {
                 "Enables logs. You need to use the channel name, *not* the mention.\n" +
                         "**Example:** `~>opts logs enable mod-logs`",
                 "Enables logs.", (event, args) -> {
-                    if (args.length < 1) {
+                    if(args.length < 1) {
                         onHelp(event);
                         return;
                     }
@@ -119,30 +119,30 @@ public class ModerationOptions extends OptionHandler {
                 "Excludes a channel from logging. You need to use the channel name, *not* the mention.\n" +
                         "**Example:** `~>opts logs exclude staff`",
                 "Excludes a channel from logging.", (event, args) -> {
-                    if (args.length == 0) {
+                    if(args.length == 0) {
                         onHelp(event);
                         return;
                     }
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
 
-                    if (args[0].equals("clearchannels")) {
+                    if(args[0].equals("clearchannels")) {
                         guildData.getLogExcludedChannels().clear();
                         dbGuild.saveAsync();
                         event.getChannel().sendMessage(EmoteReference.OK + "Cleared log exceptions!").queue();
                         return;
                     }
 
-                    if (args[0].equals("remove")) {
-                        if (args.length < 2) {
+                    if(args[0].equals("remove")) {
+                        if(args.length < 2) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect argument lenght.").queue();
                             return;
                         }
                         String channel = args[1];
                         List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
-                        if (channels.size() == 0) {
+                        if(channels.size() == 0) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel with that name!").queue();
-                        } else if (channels.size() == 1) {
+                        } else if(channels.size() == 1) {
                             TextChannel ch = channels.get(0);
                             guildData.getLogExcludedChannels().remove(ch.getId());
                             dbGuild.saveAsync();
@@ -162,9 +162,9 @@ public class ModerationOptions extends OptionHandler {
 
                     String channel = args[0];
                     List<TextChannel> channels = event.getGuild().getTextChannelsByName(channel, true);
-                    if (channels.size() == 0) {
+                    if(channels.size() == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel with that name!").queue();
-                    } else if (channels.size() == 1) {
+                    } else if(channels.size() == 1) {
                         TextChannel ch = channels.get(0);
                         guildData.getLogExcludedChannels().add(ch.getId());
                         dbGuild.saveAsync();

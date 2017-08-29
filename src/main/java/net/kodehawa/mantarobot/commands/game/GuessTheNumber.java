@@ -33,10 +33,10 @@ import java.util.Random;
 
 public class GuessTheNumber extends Game<Object> {
 
-    private final Random r = new Random();
-    private int number = 0; //set to random number on game start
     private final int maxAttempts = 5;
+    private final Random r = new Random();
     private int attempts = 1;
+    private int number = 0; //set to random number on game start
 
     @Override
     public void call(GameLobby lobby, List<String> players) {
@@ -44,17 +44,17 @@ public class GuessTheNumber extends Game<Object> {
         InteractiveOperations.createOverriding(lobby.getChannel(), 30, new InteractiveOperation() {
             @Override
             public int run(GuildMessageReceivedEvent e) {
-                if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {
+                if(!e.getChannel().getId().equals(lobby.getChannel().getId())) {
                     return Operation.IGNORED;
                 }
 
                 for(String s : MantaroData.config().get().getPrefix()) {
-                    if (e.getMessage().getContent().startsWith(s)) {
+                    if(e.getMessage().getContent().startsWith(s)) {
                         return Operation.IGNORED;
                     }
                 }
 
-                if (MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
+                if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
                         e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
                     return Operation.IGNORED;
                 }
@@ -69,33 +69,33 @@ public class GuessTheNumber extends Game<Object> {
 
                     int parsedAnswer = 0;
 
-                    try{
+                    try {
                         parsedAnswer = Integer.parseInt(e.getMessage().getRawContent());
-                    } catch (NumberFormatException ex){
+                    } catch(NumberFormatException ex) {
                         lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not even a number...").queue();
                         attempts = attempts + 1;
                         return Operation.IGNORED;
                     }
 
-                    if (e.getMessage().getRawContent().equals(String.valueOf(number))) {
+                    if(e.getMessage().getRawContent().equals(String.valueOf(number))) {
                         Player player = MantaroData.db().getPlayer(e.getMember());
                         int gains = 80;
                         player.addMoney(gains);
                         player.save();
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
-                        lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains +" credits by answering correctly!").queue();
+                        lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains + " credits by answering correctly!").queue();
                         lobby.startNextGame();
                         return Operation.COMPLETED;
                     }
 
-                    if (attempts >= maxAttempts) {
+                    if(attempts >= maxAttempts) {
                         lobby.getChannel().sendMessage(EmoteReference.ERROR + "Already used all attempts, ending game. The number was: " + number).queue();
                         lobby.startNextGame(); //This should take care of removing the lobby, actually.
                         return Operation.COMPLETED;
                     }
 
 
-                    lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " +  (maxAttempts - attempts) + " attempts remaning.\n" +
+                    lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not it, you have " + (maxAttempts - attempts) + " attempts remaning.\n" +
                             "Hint: The number is " + (parsedAnswer < number ? "higher" : "lower") + " than your input number.").queue();
                     attempts = attempts + 1;
                     return Operation.IGNORED;

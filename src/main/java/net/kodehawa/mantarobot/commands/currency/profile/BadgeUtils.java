@@ -36,7 +36,7 @@ public class BadgeUtils {
         }
         WritableRaster raster = badge.getRaster();
 
-        if(allWhite){
+        if(allWhite) {
             for(int xx = 0, width = badge.getWidth(); xx < width; xx++) {
                 for(int yy = 0, height = badge.getHeight(); yy < height; yy++) {
                     int[] pixels = raster.getPixel(xx, yy, (int[]) null);

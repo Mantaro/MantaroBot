@@ -40,7 +40,7 @@ public class ImageCmd extends NoArgsCommand {
     private final String toSend;
     private boolean noMentions = false;
 
-    public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend){
+    public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
@@ -49,7 +49,7 @@ public class ImageCmd extends NoArgsCommand {
         this.toSend = toSend;
     }
 
-    public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend, boolean noMentions){
+    public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend, boolean noMentions) {
         super(Category.ACTION);
         this.name = name;
         this.desc = desc;
@@ -66,10 +66,11 @@ public class ImageCmd extends NoArgsCommand {
         MessageBuilder builder = new MessageBuilder();
         builder.append(EmoteReference.TALKING);
 
-        if(!noMentions){
+        if(!noMentions) {
             List<User> users = event.getMessage().getMentionedUsers();
             String names = "";
-            if(users != null) names = users.stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", "));
+            if(users != null)
+                names = users.stream().map(user -> event.getGuild().getMember(user).getEffectiveName()).collect(Collectors.joining(", "));
             if(!names.isEmpty()) builder.append("**").append(names).append("**, ");
         }
 
