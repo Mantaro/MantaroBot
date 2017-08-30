@@ -607,7 +607,7 @@ public class MoneyCmds {
     }
 
     private void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
-        if(luck > r.nextInt(110)) {
+        if(luck > r.nextInt(135)) {
             if(player.addMoney(gains)) {
                 if(gains > Integer.MAX_VALUE) {
                     if(!player.getData().hasBadge(Badge.GAMBLER)) {
