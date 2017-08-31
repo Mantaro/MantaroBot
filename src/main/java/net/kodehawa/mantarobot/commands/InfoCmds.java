@@ -412,7 +412,7 @@ public class InfoCmds {
             }
         });
 
-        statsCommand.addSubCommand("vps", new SubCommand() {
+        statsCommand.addSubCommand("server", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
@@ -431,8 +431,8 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if(args.length > 1) {
-                    String what = args[1];
+                if(args.length > 0) {
+                    String what = args[0];
                     if(what.equals("total")) {
                         event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
                         return;
@@ -469,8 +469,8 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if(args.length > 1) {
-                    String what = args[1];
+                if(args.length > 0) {
+                    String what = args[0];
                     if(what.equals("total")) {
                         event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
                         return;

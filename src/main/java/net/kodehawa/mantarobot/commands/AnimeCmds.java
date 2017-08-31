@@ -102,7 +102,7 @@ public class AnimeCmds {
                             anime -> animeData(event, anime));
                 } catch(Exception e) {
                     if(e instanceof JsonSyntaxException) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results or the API query was unsuccessful").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
                         return;
                     }
 
@@ -110,7 +110,9 @@ public class AnimeCmds {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
                         return;
                     }
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**Houston, we have a problem!**\n\n > We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command. \nError: ``" + e.getMessage() + "``").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your favorite anime!**\n " +
+                            "We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command." +
+                            "\nError: ``" + e.getMessage() + "``").queue();
                 }
             }
 
@@ -155,11 +157,13 @@ public class AnimeCmds {
                             character1 -> characterData(event, character1));
                 } catch(Exception e) {
                     if(e instanceof JsonSyntaxException) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results!").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
                         return;
                     }
                     log.warn("Problem processing data.", e);
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**We have a problem!**\n\n > I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command. \nError: ``" + e.getMessage() + "``").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your waifu!**\n" +
+                            "I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command." +
+                            "\nError: ``" + e.getMessage() + "``").queue();
                 }
             }
 

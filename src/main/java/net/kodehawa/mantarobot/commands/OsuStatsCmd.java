@@ -119,7 +119,7 @@ public class OsuStatsCmd {
                     } catch(Exception e) {
                         if(e instanceof TimeoutException) {
                             task.cancel(true);
-                            sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+                            sentMessage.editMessage(EmoteReference.ERROR + "The osu! api seems to be taking a nap. Maybe try again later?").queue();
                         } else {
                             SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
                         }
@@ -136,7 +136,7 @@ public class OsuStatsCmd {
                     } catch(Exception e) {
                         if(e instanceof TimeoutException) {
                             task.cancel(true);
-                            sentMessage.editMessage(EmoteReference.ERROR + "Request timeout. Maybe osu! API is slow?").queue();
+                            sentMessage.editMessage(EmoteReference.ERROR + "The osu! api seems to be taking a nap. Maybe try again later?").queue();
                         } else log.warn("Exception thrown while fetching data", e);
                     }
                 });
@@ -187,7 +187,7 @@ public class OsuStatsCmd {
         } catch(Exception e) {
             if(e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
             else {
-                finalMessage = EmoteReference.ERROR + "Error while looking for results.";
+                finalMessage = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
                 SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
             }
         }
@@ -226,7 +226,7 @@ public class OsuStatsCmd {
             EmbedBuilder builder = new EmbedBuilder();
             builder.setTitle("Error.", null)
                     .setColor(Color.RED)
-                    .addField("Description", "Error retrieving results or no results found. (" + e.getMessage() + ")", false);
+                    .addField("Description", "Uh-oh... seems like I just received scramble soup as a response... (" + e.getMessage() + ")", false);
             finalMessage = builder.build();
         }
         return finalMessage;

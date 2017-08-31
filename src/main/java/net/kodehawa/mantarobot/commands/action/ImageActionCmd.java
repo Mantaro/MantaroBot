@@ -110,7 +110,7 @@ public class ImageActionCmd extends NoArgsCommand {
                     toSend.build()
             ).queue();
         } catch(Exception e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "I'd like to know what happened, but I couldn't send the image. Probably I don't have permissions to.").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "S-Sorry, but I dropped the image. Probably I don't have permissions to send it.").queue();
         }
     }
 

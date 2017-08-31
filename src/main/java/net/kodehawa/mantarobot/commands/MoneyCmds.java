@@ -127,7 +127,7 @@ public class MoneyCmds {
     @Subscribe
     public void gamble(CommandRegistry cr) {
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 15, true);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 18, true);
             SecureRandom r = new SecureRandom();
 
             @Override
@@ -147,7 +147,8 @@ public class MoneyCmds {
                 }
 
                 if(player.getMoney() > (long) (Integer.MAX_VALUE) * 3) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs!").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! " +
+                            "Thanks for not breaking the local bank.").queue();
                     return;
                 }
 
@@ -314,7 +315,13 @@ public class MoneyCmds {
                                     "a Java long. Here's a buggy money bag for you.").queue();
                         }
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.SAD + "Digging through messages, you found nothing but dust").queue();
+                        String msg = "Digging through messages, you found nothing but dust";
+
+                        if(r.nextInt(100) > 85){
+                            msg += "\n" +
+                                    "Seems like you've got so much dust here... You might want to clean this up before it gets too messy!";
+                        }
+                        event.getChannel().sendMessage(EmoteReference.SAD + msg).queue();
                     }
                 }
                 player.saveAsync();
@@ -585,7 +592,8 @@ public class MoneyCmds {
                     player.addMoney(gains);
                     player.saveAsync();
                 } else {
-                    message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
+                    message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!")
+                        .append("\n").append("You know... on the bright side... at least this machine doesn't give you dust.");
                 }
 
                 message.append("\n");
