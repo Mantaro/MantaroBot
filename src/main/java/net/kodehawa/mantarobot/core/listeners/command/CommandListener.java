@@ -102,31 +102,34 @@ public class CommandListener implements EventListener {
                 return;
             if(event.getAuthor().isBot())
                 return;
-            if(CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event))
+            if(CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event)) {
                 commandTotal++;
+            } else {
+                try {
+                    if (random.nextInt(15) > 10) {
+                        if (event.getMember() == null)
+                            return;
+                        if (event.getMember().getUser().isBot())
+                            return;
 
-            if(random.nextInt(15) > 10) {
-                if(event.getMember() == null)
-                    return;
-                if(event.getMember().getUser().isBot())
-                    return;
+                        Player player = MantaroData.db().getPlayer(event.getMember());
 
-                Player player = MantaroData.db().getPlayer(event.getMember());
+                        if (player != null) {
+                            if (player.getLevel() == 0) {
+                                player.setLevel(1);
+                            }
 
-                if(player != null) {
-                    if(player.getLevel() == 0) {
-                        player.setLevel(1);
+                            player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
+
+                            if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {
+                                player.setLevel(player.getLevel() + 1);
+                            }
+
+
+                            player.saveAsync();
+                        }
                     }
-
-                    player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
-
-                    if(player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {
-                        player.setLevel(player.getLevel() + 1);
-                    }
-
-
-                    player.saveAsync();
-                }
+                } catch (Exception ignored) {}
             }
         } catch(IndexOutOfBoundsException e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "I owe you one, friend!\n" +

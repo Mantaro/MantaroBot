@@ -688,16 +688,7 @@ public class CurrencyCmds {
 
                     toTransfer.saveAsync();
 
-                    rl.process(toTransfer.getId());
-
-                    try {
-                        Thread.sleep(210);
-                        if(MantaroData.db().getPlayer(event.getAuthor()).getMoney() > moneyCheck){
-                            Player p = MantaroData.db().getPlayer(event.getAuthor());
-                            p.setMoney(moneyCheck);
-                            p.saveAsync();
-                        }
-                    } catch (InterruptedException ignored) {}
+                    rl.process(toTransfer.getUserId());
                 } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
                 }
