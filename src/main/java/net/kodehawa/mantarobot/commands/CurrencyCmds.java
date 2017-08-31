@@ -493,6 +493,9 @@ public class CurrencyCmds {
     @Subscribe
     public void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
+
+            RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
+
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(args.length < 2) {
@@ -508,6 +511,15 @@ public class CurrencyCmds {
 
                     if(event.getAuthor().getId().equals(giveTo.getId())) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer an item to yourself!").queue();
+                        return;
+                    }
+
+                    if(!rl.process(event.getAuthor().getId())) {
+                        event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+                                "Cooldown a lil bit, you can only do this once every 10 seconds.\n**You'll be able to use this command again " +
+                                "in " +
+                                Utils.getVerboseTime(rl.tryAgainIn(event.getMember()))
+                                + ".**").queue();
                         return;
                     }
 
@@ -590,6 +602,9 @@ public class CurrencyCmds {
     @Subscribe
     public void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
+
+            RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
+
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(event.getMessage().getMentionedUsers().isEmpty()) {
@@ -602,7 +617,19 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(!rl.process(event.getAuthor().getId())) {
+                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
+                            "Cooldown a lil bit, you can only do this once every 10 seconds.\n**You'll be able to use this command again " +
+                            "in " +
+                            Utils.getVerboseTime(rl.tryAgainIn(event.getMember()))
+                            + ".**").queue();
+                    return;
+                }
+
                 long toSend;
+                long moneyCheck;
+
+
                 try {
                     toSend = Math.abs(Long.parseLong(args[1]));
                 } catch(Exception e) {
@@ -644,9 +671,14 @@ public class CurrencyCmds {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
                     return;
                 }
+
                 if(toTransfer.addMoney(toSend)) {
+                    moneyCheck = Math.max(0, (transferPlayer.getMoney() - toSend));
+
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
+
+
                     toTransfer.saveAsync();
 
                     if(user.getId().equals("224662505157427200")) {
@@ -656,6 +688,16 @@ public class CurrencyCmds {
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage()
                             .getMentionedUsers().get(0).getName() + "* successfully.").queue();
+
+
+                    try {
+                        Thread.sleep(250);
+                        if(MantaroData.db().getPlayer(event.getAuthor()).getMoney() > moneyCheck){
+                            Player p = MantaroData.db().getPlayer(event.getAuthor());
+                            p.setMoney(moneyCheck);
+                            p.saveAsync();
+                        }
+                    } catch (InterruptedException ignored) {}
                 } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
                 }
