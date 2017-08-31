@@ -691,7 +691,7 @@ public class CurrencyCmds {
 
 
                     try {
-                        Thread.sleep(250);
+                        Thread.sleep(210);
                         if(MantaroData.db().getPlayer(event.getAuthor()).getMoney() > moneyCheck){
                             Player p = MantaroData.db().getPlayer(event.getAuthor());
                             p.setMoney(moneyCheck);
