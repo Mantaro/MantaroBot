@@ -80,7 +80,7 @@ public class ShardWatcher implements Runnable {
                     if(ping > 900) {
                         LogUtils.shard(String.format("No dead shards found, but average ping is high (%dms). Ping breakdown: %s",
                                 ping, Arrays.toString(MantaroBot.getInstance().getPings())));
-                        return;
+                        continue;
                     }
                     LogUtils.shard("No dead shards found (Average shard ping: " + ping + "ms)");
                 }
