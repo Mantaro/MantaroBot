@@ -26,6 +26,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.requests.SessionReconnectQueue;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
@@ -85,6 +86,20 @@ public class MantaroShard implements JDA {
     @Delegate
     private JDA jda;
 
+    private JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
+            .setToken(config().get().token)
+            .setAudioSendFactory(new NativeAudioSendFactory())
+            .setAutoReconnect(true)
+            .setCorePoolSize(15)
+            .setHttpClientBuilder(
+                    new OkHttpClient.Builder()
+                            .connectTimeout(30, TimeUnit.SECONDS)
+                            .readTimeout(30, TimeUnit.SECONDS)
+                            .writeTimeout(30, TimeUnit.SECONDS)
+            )
+            .setGame(Game.of("Hold on to your seatbelts!"))
+            .setReconnectQueue(new SessionReconnectQueue());
+
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.shardId = shardId;
         this.totalShards = totalShards;
@@ -119,24 +134,13 @@ public class MantaroShard implements JDA {
             removeListeners();
         }
 
-        JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
-                .setToken(config().get().token)
-                .setEventManager(manager)
-                .setAudioSendFactory(new NativeAudioSendFactory())
-                .setAutoReconnect(true)
-                .setCorePoolSize(15)
-                .setHttpClientBuilder(
-                        new OkHttpClient.Builder()
-                                .connectTimeout(30, TimeUnit.SECONDS)
-                                .readTimeout(30, TimeUnit.SECONDS)
-                                .writeTimeout(30, TimeUnit.SECONDS)
-                )
-                .setGame(Game.of("Hold on to your seatbelts!"));
         if(totalShards > 1)
             jdaBuilder.useSharding(shardId, totalShards);
 
-        jda = jdaBuilder.buildAsync();
-        Thread.sleep(5000);
+        jda = jdaBuilder
+                .setEventManager(manager)
+                .buildAsync();
+        if(totalShards > 1) Thread.sleep(5000);
         addListeners();
     }
 
