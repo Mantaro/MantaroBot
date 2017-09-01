@@ -56,8 +56,10 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Module
 public class CurrencyCmds {
-    private static final OkHttpClient client = new OkHttpClient();
-    private static final Random random = new Random();
+    private final OkHttpClient client = new OkHttpClient();
+    private final Random random = new Random();
+    private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 10;
+
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
@@ -627,8 +629,6 @@ public class CurrencyCmds {
                 }
 
                 long toSend;
-                long moneyCheck;
-
 
                 try {
                     toSend = Math.abs(Long.parseLong(args[1]));
@@ -639,6 +639,11 @@ public class CurrencyCmds {
 
                 if(toSend == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer no money :P").queue();
+                    return;
+                }
+
+                if(toSend > TRANSFER_LIMIT){
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this much money. (Limit: " + TRANSFER_LIMIT + ")").queue();
                     return;
                 }
 
@@ -672,9 +677,12 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(toTransfer.addMoney(toSend)) {
-                    moneyCheck = Math.max(0, (transferPlayer.getMoney() - toSend));
+                if(toTransfer.getMoney() > (long)TRANSFER_LIMIT * 20) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "This user already has too much money...").queue();
+                    return;
+                }
 
+                if(toTransfer.addMoney(toSend)) {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
 

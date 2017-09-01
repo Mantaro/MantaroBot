@@ -146,7 +146,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(player.getMoney() > (long) (Integer.MAX_VALUE) * 3) {
+                if(player.getMoney() > (long) (Integer.MAX_VALUE) * 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! " +
                             "Thanks for not breaking the local bank.").queue();
                     return;
