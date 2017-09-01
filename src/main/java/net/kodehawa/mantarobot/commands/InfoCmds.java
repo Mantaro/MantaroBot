@@ -417,7 +417,7 @@ public class InfoCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                 EmbedBuilder embedBuilder = new EmbedBuilder()
-                        .setAuthor("Mantaro's VPS information", null, "https://puu.sh/sMsVC/576856f52b.png")
+                        .setAuthor("Mantaro's server usage information", null, "https://puu.sh/sMsVC/576856f52b.png")
                         .setThumbnail("https://puu.sh/suxQf/e7625cd3cd.png")
                         .addField("CPU Usage", String.format("%.2f", getVpsCPUUsage()) + "%", true)
                         .addField("RAM (TOTAL/FREE/USED)", String.format("%.2f", getVpsMaxMemory()) + "GB/" + String.format("%.2f", getVpsFreeMemory())

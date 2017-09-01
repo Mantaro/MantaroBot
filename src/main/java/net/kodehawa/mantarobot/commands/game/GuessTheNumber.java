@@ -109,6 +109,11 @@ public class GuessTheNumber extends Game<Object> {
                 lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! The number was: " + number).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
+
+            @Override
+            public void onCancel(){
+                GameLobby.LOBBYS.remove(lobby.getChannel());
+            }
         });
     }
 

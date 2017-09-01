@@ -63,6 +63,11 @@ public class Character extends ImageGame {
                 lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + String.join(" ,", characterNameL)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
+
+            @Override
+            public void onCancel(){
+                GameLobby.LOBBYS.remove(lobby.getChannel());
+            }
         });
     }
 
