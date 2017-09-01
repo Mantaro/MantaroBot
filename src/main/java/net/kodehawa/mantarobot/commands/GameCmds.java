@@ -34,11 +34,14 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Module
@@ -96,8 +99,14 @@ public class GameCmds {
 
     private void startGame(Game game, GuildMessageReceivedEvent event) {
         if(GameLobby.LOBBYS.containsKey(event.getChannel())) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game when there is a game currently running.").queue();
-            return;
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            if(dbGuild.getData().getGameTimeoutExpectedAt() != null &&
+                    (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))){
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!").queue();
+            } else {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game when there is a game currently running.").queue();
+                return;
+            }
         }
 
         LinkedList<Game> list = new LinkedList<>();

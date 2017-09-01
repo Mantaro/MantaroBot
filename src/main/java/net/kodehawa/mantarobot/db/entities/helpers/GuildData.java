@@ -72,4 +72,5 @@ public class GuildData {
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
     private Map<Long, WarnAction> warnActions = new HashMap<>(); //TODO add config for this!
     private Map<String, Long> warnCount = new HashMap<>();
+    private String gameTimeoutExpectedAt;
 }

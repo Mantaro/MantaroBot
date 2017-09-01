@@ -21,11 +21,14 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.interaction.Lobby;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 public class GameLobby extends Lobby {
 
@@ -57,6 +60,9 @@ public class GameLobby extends Lobby {
         LOBBYS.put(event.getChannel(), this);
         if(gamesToPlay.getFirst().onStart(this)) {
             gamesToPlay.getFirst().call(this, players);
+            DBGuild dbGuild = MantaroData.db().getGuild(guild);
+            dbGuild.getData().setGameTimeoutExpectedAt(String.valueOf(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(60)));
+            dbGuild.saveAsync();
         } else {
             LOBBYS.remove(getChannel());
             gamesToPlay.clear();

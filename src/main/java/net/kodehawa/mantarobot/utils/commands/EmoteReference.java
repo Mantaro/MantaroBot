@@ -78,7 +78,8 @@ public enum EmoteReference {
     ROSE(":rose:", "\uD83C\uDF39"),
     PARTY(":tada:", "\uD83C\uDF89"),
     LOOT_CRATE("<:crate1:316053940305133568>", null),
-    STAR(":star:", "\u2b50");
+    STAR(":star:", "\u2b50"),
+    HOUSE(":house:", "\uD83C\uDFE0");
 
 
     final String discordNotation;
