@@ -522,7 +522,7 @@ public class MoneyCmds {
                             return;
                         }
 
-                        if(money > 10000) {
+                        if(money > 50000) {
                             event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!").queue();
                             return;
                         }
@@ -607,7 +607,7 @@ public class MoneyCmds {
                         .addField("Considerations", "You can gain a maximum of put credits * 1.76 coins from it.\n" +
                                 "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of 10000.\n" +
+                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of 50000.\n" +
                                 "`~>slots -usecoin` - Rolls the slot machine with one slot coin.", false)
                         .build();
             }
@@ -615,7 +615,7 @@ public class MoneyCmds {
     }
 
     private void proceedGamble(GuildMessageReceivedEvent event, Player player, int luck, Random r, long i, long gains) {
-        if(luck > r.nextInt(135)) {
+        if(luck > r.nextInt(140)) {
             if(player.addMoney(gains)) {
                 if(gains > Integer.MAX_VALUE) {
                     if(!player.getData().hasBadge(Badge.GAMBLER)) {
