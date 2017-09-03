@@ -44,7 +44,6 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
-import static net.kodehawa.mantarobot.commands.info.StatsHelper.sendStatsMessageAndThen;
 
 @Module
 public class DebugCmds {
@@ -56,7 +55,7 @@ public class DebugCmds {
                 List<Guild> guilds = MantaroBot.getInstance().getGuilds();
                 List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
 
-                sendStatsMessageAndThen(event, "```prolog\n"
+                event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
                         + "Commands: " + DefaultCommandProcessor.REGISTRY.commands().values().stream().filter(command -> command.category() != null).count() + "\n"
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
@@ -66,7 +65,6 @@ public class DebugCmds {
                         + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + event.getJDA().getShardInfo() + "\n"
-                        //+ "API Status: " + MantaroBot.getInstance().getMantaroAPI().STATUS + "\n"
                         + "DAPI Ping: " + MantaroBot.getInstance().getPing() + "ms"
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
@@ -79,7 +77,7 @@ public class DebugCmds {
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
                         + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
                         + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
-                        + "```");
+                        + "```").queue();
             }
 
             @Override

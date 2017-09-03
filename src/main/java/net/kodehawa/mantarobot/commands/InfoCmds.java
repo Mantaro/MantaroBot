@@ -388,7 +388,7 @@ public class InfoCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Statistics command")
                         .setDescription("**See the bot, usage or vps statistics**")
-                        .addField("Usage", "`~>stats <usage/vps/cmds/guilds>` - **Returns statistical information**", true)
+                        .addField("Usage", "`~>stats <usage/server/cmds/guilds>` - **Returns statistical information**", true)
                         .build();
             }
         });

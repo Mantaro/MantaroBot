@@ -111,7 +111,6 @@ public class MantaroBot extends ShardedJDA {
         if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
         long start = System.currentTimeMillis();
 
-
         SimpleLogToSLF4JAdapter.install();
 
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")

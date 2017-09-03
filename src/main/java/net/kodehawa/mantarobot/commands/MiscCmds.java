@@ -49,8 +49,8 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 @Module
 @Slf4j
 public class MiscCmds {
-    public final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
-    public final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
+    private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
+    private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
 
     protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {

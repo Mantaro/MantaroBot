@@ -55,7 +55,7 @@ public class AnimeCmds {
     /**
      * returns the new AniList access token.
      */
-    public static void authenticate() {
+    private void authenticate() {
         String aniList = "https://anilist.co/api/auth/access_token";
         String CLIENT_ID = MantaroData.config().get().getAlClient();
         try {
@@ -184,7 +184,7 @@ public class AnimeCmds {
 
     @Subscribe
     public void onPostLoad(PostLoadEvent e) {
-        Async.task("AniList Login Task", AnimeCmds::authenticate, 1900, TimeUnit.SECONDS);
+        Async.task("AniList Login Task", this::authenticate, 1900, TimeUnit.SECONDS);
     }
 
     private void animeData(GuildMessageReceivedEvent event, AnimeData type) {

@@ -70,8 +70,7 @@ public class MoneyCmds {
                 User mentionedUser = null;
                 try {
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
-                } catch(IndexOutOfBoundsException ignored) {
-                }
+                } catch(IndexOutOfBoundsException ignored) {}
 
                 Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
 

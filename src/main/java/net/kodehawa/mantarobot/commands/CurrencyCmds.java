@@ -58,7 +58,7 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 public class CurrencyCmds {
     private final OkHttpClient client = new OkHttpClient();
     private final Random random = new Random();
-    private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 10;
+    private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 7;
 
 
     @Subscribe
