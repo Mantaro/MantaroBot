@@ -246,8 +246,8 @@ public class CustomCmds {
                     return;
                 }
 
-                if(action.equals("runCustom")) {
-                    runCustom(content.replace("runCustom ", ""), event);
+                if(action.equals("eval")) {
+                    runCustom(content.replace("eval ", ""), event);
                     return;
                 }
 
