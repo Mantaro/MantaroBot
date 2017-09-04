@@ -144,11 +144,11 @@ public class MantaroShard implements JDA {
         addListeners();
     }
 
-    public void addListeners() {
+    private void addListeners() {
         jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 
-    public void removeListeners() {
+    private void removeListeners() {
         jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 
@@ -244,6 +244,6 @@ public class MantaroShard implements JDA {
 
     @Override
     public String toString() {
-        return "MantaroShard [" + (getId() + 1) + "/" + totalShards + " ]";
+        return "MantaroShard [" + (getId() + 1) + "/" + totalShards + "]";
     }
 }

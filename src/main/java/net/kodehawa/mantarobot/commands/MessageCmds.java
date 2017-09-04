@@ -44,12 +44,7 @@ import java.util.stream.Collectors;
 public class MessageCmds {
     @Subscribe
     public void prune(CommandRegistry cr) {
-        cr.register("prune", new SimpleCommand(Category.MODERATION) {
-            @Override
-            public CommandPermission permission() {
-                return CommandPermission.ADMIN;
-            }
-
+        cr.register("prune", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 TextChannel channel = event.getChannel();
