@@ -76,72 +76,10 @@ public class CustomCmds {
 
         private void handle(String cmdName, GuildMessageReceivedEvent event) {
             List<String> values = customCommands.get(event.getGuild().getId() + ":" + cmdName);
-
             if(values == null) return;
 
             String response = random(values);
-
-            if(response.contains("$(")) {
-                Map<String, String> dynamicMap = new HashMap<>();
-                map("event", dynamicMap, event);
-                response = dynamicResolve(response, dynamicMap);
-            }
-
-            response = ConditionalCustoms.resolve(response, 0);
-
-            int c = response.indexOf(':');
-            if(c != -1) {
-                String m = response.substring(0, c);
-                String v = response.substring(c + 1);
-
-                if(m.equals("play")) {
-                    try {
-                        new URL(v);
-                    } catch(Exception e) {
-                        v = "ytsearch: " + v;
-                    }
-
-                    MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false);
-                    return;
-                }
-
-                if(m.equals("embed")) {
-                    EmbedJSON embed;
-                    try {
-                        embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
-                    } catch(Exception ignored) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
-                        return;
-                    }
-
-                    event.getChannel().sendMessage(embed.gen(event)).queue();
-                    return;
-                }
-
-                if(m.equals("img") || m.equals("image") || m.equals("imgembed")) {
-                    if(!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
-                        return;
-                    }
-                    event.getChannel().sendMessage(new EmbedBuilder().setImage(v)
-                            .setColor(event.getMember().getColor()).build()).queue();
-                    return;
-                }
-
-                if(m.equals("iam")) {
-                    MiscCmds.iamFunction(v, event);
-                    return;
-                }
-
-                if(m.equals("iamnot")) {
-                    MiscCmds.iamnotFunction(v, event);
-                    return;
-                }
-            }
-
-            event.getChannel().sendMessage(response).queue();
+            runCustom(response, event);
         }
 
         @Override
@@ -308,8 +246,8 @@ public class CustomCmds {
                     return;
                 }
 
-                if(action.equals("eval")) {
-                    eval(content.replace("eval ", ""), event);
+                if(action.equals("runCustom")) {
+                    runCustom(content.replace("runCustom ", ""), event);
                     return;
                 }
 
@@ -593,7 +531,7 @@ public class CustomCmds {
                                         "`~>custom make <name>` - **Starts a Interactive Operation to create a command with the specified name.**\n" +
                                         "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
                                         "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
-                                        "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
+                                        "`~>custom runCustom <response>` - **Tests how a custom command response will look**\n" +
                                         "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**",
                                 false
                         ).build();
@@ -627,7 +565,7 @@ public class CustomCmds {
         });
     }
 
-    private void eval(String response, GuildMessageReceivedEvent event) {
+    private void runCustom(String response, GuildMessageReceivedEvent event) {
         if(response.contains("$(")) {
             Map<String, String> dynamicMap = new HashMap<>();
             map("event", dynamicMap, event);

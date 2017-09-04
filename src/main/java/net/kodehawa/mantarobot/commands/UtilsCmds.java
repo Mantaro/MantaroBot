@@ -68,7 +68,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @Slf4j
 @Module
 public class UtilsCmds {
-
     private static Pattern timePattern = Pattern.compile(" -time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     protected static String dateGMT(Guild guild, String tz) {
