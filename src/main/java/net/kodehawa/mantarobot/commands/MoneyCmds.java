@@ -121,6 +121,8 @@ public class MoneyCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("daily", "dailies");
     }
 
     @Subscribe

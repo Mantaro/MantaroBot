@@ -82,7 +82,7 @@ public class Character extends ImageGame {
             CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
             String imageUrl = character[0].getImage_url_med();
             //Allow for replying with only the first name.
-            if(characterName.contains(" ")) {
+            if(characterName.contains(" ") && !characterName.contains("Sailor")) {
                 characterNameL.add(characterName.split(" ")[0]);
             }
             characterNameL.add(characterName);

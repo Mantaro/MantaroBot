@@ -57,7 +57,7 @@ public class ShardWatcher implements Runnable {
                                 try {
 
                                     LogUtils.shard(
-                                            "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 2 minutes."
+                                            "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 30 seconds."
                                     );
 
                                     MantaroBot.getInstance().getShard(id).start(true);

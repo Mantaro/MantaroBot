@@ -485,7 +485,7 @@ public class UtilsCmds {
                                     .setColor(Color.GREEN)
                                     .addField("Definition", data.list.get(0).definition.length() > 1000 ?
                                             data.list.get(0).definition.substring(0, 1000) + "..." : data.list.get(0).definition, false)
-                                    .addField("Example", data.list.get(0).definition.length() > 1000 ?
+                                    .addField("Example", data.list.get(0).example.length() > 1000 ?
                                             data.list.get(0).example.substring(0, 1000) + "..." : data.list.get(0).example, false)
                                     .addField(":thumbsup:", data.list.get(0).thumbs_up, true)
                                     .addField(":thumbsdown:", data.list.get(0).thumbs_down, true)
