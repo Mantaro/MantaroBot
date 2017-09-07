@@ -85,19 +85,7 @@ public class MantaroShard implements JDA {
     private final int totalShards;
     @Delegate
     private JDA jda;
-
-    private static JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
-            .setToken(config().get().token)
-            .setAutoReconnect(true)
-            .setCorePoolSize(15)
-            .setHttpClientBuilder(
-                    new OkHttpClient.Builder()
-                            .connectTimeout(30, TimeUnit.SECONDS)
-                            .readTimeout(30, TimeUnit.SECONDS)
-                            .writeTimeout(30, TimeUnit.SECONDS)
-            )
-            .setGame(Game.of("Hold on to your seatbelts!"))
-            .setReconnectQueue(new SessionReconnectQueue());
+    private static SessionReconnectQueue sessionQueue = new SessionReconnectQueue();
 
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.shardId = shardId;
@@ -133,13 +121,25 @@ public class MantaroShard implements JDA {
             removeListeners();
         }
 
+        JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
+                .setToken(config().get().token)
+                .setAutoReconnect(true)
+                .setCorePoolSize(15)
+                .setHttpClientBuilder(
+                        new OkHttpClient.Builder()
+                                .connectTimeout(30, TimeUnit.SECONDS)
+                                .readTimeout(30, TimeUnit.SECONDS)
+                                .writeTimeout(30, TimeUnit.SECONDS)
+                )
+                .setAudioSendFactory(new NativeAudioSendFactory())
+                .setEventManager(manager)
+                .setGame(Game.of("Hold on to your seatbelts!"))
+                .setReconnectQueue(sessionQueue);
+
         if(totalShards > 1)
             jdaBuilder.useSharding(shardId, totalShards);
 
-        jda = jdaBuilder
-                .setAudioSendFactory(new NativeAudioSendFactory())
-                .setEventManager(manager)
-                .buildAsync();
+        jda = jdaBuilder.buildAsync();
         if(totalShards > 1) Thread.sleep(5000);
         addListeners();
     }
