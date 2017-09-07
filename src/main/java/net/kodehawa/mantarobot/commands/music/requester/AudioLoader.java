@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
@@ -72,18 +73,19 @@ public class AudioLoader implements AudioLoadResultHandler {
         try {
             int i = 0;
             for(AudioTrack track : playlist.getTracks()) {
-                if(MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit() != null) {
-                    if(i < MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit()) {
+                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+                if(guildData.getMusicQueueSizeLimit() != null) {
+                    if(i < guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true);
                     } else {
-                        event.getChannel().sendMessage(String.format(":warning: The queue you added had more than %d songs, so we added songs until this limit and ignored the rest.", MantaroData.db().getGuild(event.getGuild()).getData().getMusicQueueSizeLimit())).queue();
+                        event.getChannel().sendMessage(String.format(":warning: The queue you added had more than %d songs, so we added songs until this limit and ignored the rest.", guildData.getMusicQueueSizeLimit())).queue();
                         break;
                     }
                 } else {
                     if(i < MAX_QUEUE_LENGTH) {
                         loadSingle(track, true);
                     } else {
-                        event.getChannel().sendMessage(":warning: The queue you added had more than 300 songs, so we added songs until this limit and ignored the rest.").queue();
+                        event.getChannel().sendMessage(":warning: The queue you added had more than" + MAX_QUEUE_LENGTH + "songs, so we added songs until this limit and ignored the rest.").queue();
                         break;
                     }
                 }
@@ -128,6 +130,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         AudioTrackInfo trackInfo = audioTrack.getInfo();
         audioTrack.setUserData(event.getAuthor().getId());
         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+        DBUser dbUser = MantaroData.db().getUser(event.getMember());
         GuildData guildData = dbGuild.getData();
 
         String title = trackInfo.title;
@@ -137,7 +140,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 dbGuild.getData().getMusicQueueSizeLimit();
         int fqSize = guildData.getMaxFairQueue();
 
-        if(getMusicManager().getTrackScheduler().getQueue().size() > queueLimit && !MantaroData.db().getUser(event.getMember()).isPremium() && !dbGuild.isPremium()) {
+        if(getMusicManager().getTrackScheduler().getQueue().size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if(!silent)
                 event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Surpassed queue song limit!", title)).queue(
                         message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
@@ -146,7 +149,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        if(audioTrack.getInfo().length > MAX_SONG_LENGTH && !MantaroData.db().getUser(event.getMember()).isPremium() && !dbGuild.isPremium()) {
+        if(audioTrack.getInfo().length > MAX_SONG_LENGTH && !dbUser.isPremium() && !dbGuild.isPremium()) {
             event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 30 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
             if(musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
             return;

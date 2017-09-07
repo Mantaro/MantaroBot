@@ -247,9 +247,9 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(content.isEmpty()) {
-                    String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
-                    String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
+                    String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
                     GuildData guildData = dbGuild.getData();
 
                     EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")

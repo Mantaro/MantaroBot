@@ -24,7 +24,9 @@ import gnu.trove.set.hash.TIntHashSet;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.WebSocketCode;
 import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -44,6 +46,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.List;
@@ -720,8 +723,7 @@ public class MusicCmds {
                 try {
 
                     if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                            .getChannel().equals
-                                    (event.getGuild().getAudioManager().getConnectedChannel())) {
+                            .getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
                         sendNotConnectedToMyChannel(event.getChannel());
                         return;
                     }
@@ -763,6 +765,31 @@ public class MusicCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Stop Command")
                         .setDescription("**Clears the queue and leaves the voice channel.**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void forcestop(CommandRegistry cr){
+        cr.register("forcestop", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                JDAImpl api = (JDAImpl) event.getJDA();
+                api.getClient().send(new JSONObject().put("op", WebSocketCode.VOICE_STATE).put("d", new JSONObject()
+                        .put("guild_id", event.getGuild().getId())
+                        .put("channel_id", JSONObject.NULL)
+                        .put("self_muted", false)
+                        .put("self_deafened", false)).toString());
+
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Voice connection has been forcefully closed succesfully! (Please note: Only use this command again " +
+                        "when `stop` doesn't work at all)").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Force Stop")
+                        .setDescription("**Forcefully stops an audio connection (Only usable by administrators or bot commanders!)**")
                         .build();
             }
         });
@@ -838,7 +865,9 @@ public class MusicCmds {
     }
 
     private void sendNotConnectedToMyChannel(MessageChannel channel) {
-        channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently playing in!").queue();
+        channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently playing in!\n" +
+                "If you believe this is an error and Mantaro is currently on a voice channel, please tell an Administrator (or someone with Bot Commander/Manage Server) to run " +
+                "`forcestop`").queue();
     }
 
     /**
