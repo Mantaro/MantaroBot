@@ -87,6 +87,8 @@ public class ImageboardAPI<T> {
 
         try {
             String response = requester.request(apiHome + apiHome.separator + Utils.urlEncodeUTF8(queryParams));
+            if(response == null) return null;
+
             wallpapers = type.equals(Type.JSON) ? gson.fromJson(response, clazz) : XML_MAPPER.readValue(response, clazz);
         } catch(Exception e) {
             return null;
