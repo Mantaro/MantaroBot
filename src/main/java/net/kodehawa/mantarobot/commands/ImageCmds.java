@@ -24,11 +24,11 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.ImageboardAPI;
-import net.kodehawa.lib.imageboards.util.Imageboards;
-import net.kodehawa.lib.imageboards.entities.Furry;
-import net.kodehawa.lib.imageboards.entities.Hentai;
-import net.kodehawa.lib.imageboards.entities.Wallpaper;
+import net.kodehawa.lib.imageboards.entities.FurryImage;
+import net.kodehawa.lib.imageboards.entities.KonachanWallpaper;
+import net.kodehawa.lib.imageboards.entities.Rule34Image;
 import net.kodehawa.lib.imageboards.entities.YandereImage;
+import net.kodehawa.lib.imageboards.util.Imageboards;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -68,9 +68,9 @@ public class ImageCmds {
     private final BidiMap<String, String> nRating = new DualHashBidiMap<>();
     private final Random r = new Random();
 
-    private final ImageboardAPI<Furry> e621 = Imageboards.E621;
-    private final ImageboardAPI<Wallpaper> konachan = Imageboards.KONACHAN;
-    private final ImageboardAPI<Hentai> rule34 = Imageboards.RULE34;
+    private final ImageboardAPI<FurryImage> e621 = Imageboards.E621;
+    private final ImageboardAPI<KonachanWallpaper> konachan = Imageboards.KONACHAN;
+    private final ImageboardAPI<Rule34Image> rule34 = Imageboards.RULE34;
     private final ImageboardAPI<YandereImage> yandere = Imageboards.YANDERE;
 
     @Subscribe
@@ -161,7 +161,7 @@ public class ImageCmds {
                                         number = r.nextInt(image1.size());
                                     }
 
-                                    Furry image = image1.get(number);
+                                    FurryImage image = image1.get(number);
                                     String TAGS = image.getTags().replace(" ", " ,");
                                     if(foundMinorTags(event, TAGS, null)) return;
                                     EmbedBuilder builder = new EmbedBuilder();
@@ -200,7 +200,7 @@ public class ImageCmds {
                                         number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
                                     }
 
-                                    Furry image = images.get(number1);
+                                    FurryImage image = images.get(number1);
                                     String TAGS = image.getTags().replace(" ", " ,");
                                     if(foundMinorTags(event, TAGS, null)) return;
 
@@ -263,14 +263,14 @@ public class ImageCmds {
                             konachan.get(images -> {
                                 try {
                                     int number;
-                                    List<Wallpaper> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
+                                    List<KonachanWallpaper> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
                                     try {
                                         number = Integer.parseInt(wholeBeheaded[0]);
                                     } catch(Exception e) {
                                         number = r.nextInt(wallpapers.size());
                                     }
 
-                                    Wallpaper wallpaper = wallpapers.get(number);
+                                    KonachanWallpaper wallpaper = wallpapers.get(number);
                                     String AUTHOR = wallpaper.getAuthor();
                                     String TAGS = wallpaper.getTags().stream().collect(Collectors.joining(", "));
 
@@ -302,7 +302,7 @@ public class ImageCmds {
                             String tags = expectedNumber[0];
                             konachan.onSearch(tags, wallpapers1 -> {
                                 try {
-                                    List<Wallpaper> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
+                                    List<KonachanWallpaper> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
                                     int number1;
                                     try {
                                         number1 = Integer.parseInt(expectedNumber[1]);
@@ -310,7 +310,7 @@ public class ImageCmds {
                                         number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                                     }
 
-                                    Wallpaper wallpaper = filter.get(number1);
+                                    KonachanWallpaper wallpaper = filter.get(number1);
                                     String TAGS1 = wallpaper.getTags().stream().collect(Collectors.joining(", "));
 
                                     EmbedBuilder builder = new EmbedBuilder();
@@ -384,7 +384,7 @@ public class ImageCmds {
                                     } catch(Exception e) {
                                         number = r.nextInt(images.size());
                                     }
-                                    Hentai image = images.get(number);
+                                    Rule34Image image = images.get(number);
                                     String TAGS = image.getTags().replace(" ", " ,");
                                     if(foundMinorTags(event, TAGS, null)) return;
                                     EmbedBuilder builder = new EmbedBuilder();
@@ -421,7 +421,7 @@ public class ImageCmds {
                                         number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
                                     }
 
-                                    Hentai image = images.get(number1);
+                                    Rule34Image image = images.get(number1);
 
                                     if(image.getFile_url() == null || image.getFile_url().equals("null")){
                                         number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
