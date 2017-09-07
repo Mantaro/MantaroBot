@@ -523,7 +523,7 @@ public class MoneyCmds {
                             return;
                         }
 
-                        if(money > 50000) {
+                        if(money > 1000000) {
                             event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!").queue();
                             return;
                         }
@@ -593,8 +593,7 @@ public class MoneyCmds {
                     player.addMoney(gains);
                     player.saveAsync();
                 } else {
-                    message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!")
-                        .append("\n").append("You know... on the bright side... at least this machine doesn't give you dust.");
+                    message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
                 }
 
                 message.append("\n");
@@ -608,8 +607,8 @@ public class MoneyCmds {
                         .addField("Considerations", "You can gain a maximum of put credits * 1.76 coins from it.\n" +
                                 "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of 50000.\n" +
-                                "`~>slots -usecoin` - Rolls the slot machine with one slot coin.", false)
+                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of 1000000 coins.\n" +
+                                "`~>slots -useticket` - Rolls the slot machine with one slot coin.", false)
                         .build();
             }
         });

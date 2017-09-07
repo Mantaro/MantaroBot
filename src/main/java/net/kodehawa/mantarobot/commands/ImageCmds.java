@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.ImageboardAPI;
+import net.kodehawa.lib.imageboards.Imageboards;
 import net.kodehawa.lib.imageboards.entities.Furry;
 import net.kodehawa.lib.imageboards.entities.Hentai;
 import net.kodehawa.lib.imageboards.entities.Wallpaper;
@@ -54,19 +55,23 @@ import java.util.stream.Collectors;
 @Module
 public class ImageCmds {
 
-    private static final String[] responses = {
+    private final String[] responses = {
             "Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
             "Am I cute yet?", "%mention%, I think you should have a cat."
     };
-    private final String BASEURL = "http://catgirls.brussell98.tk/api/random";
+
     private final URLCache CACHE = new URLCache(20);
+
+    private final String BASEURL = "http://catgirls.brussell98.tk/api/random";
     private final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
-    private final ImageboardAPI<Furry> e621 = new ImageboardAPI<>(ImageboardAPI.Boards.E621, ImageboardAPI.Type.JSON, Furry[].class);
-    private final ImageboardAPI<Wallpaper> konachan = new ImageboardAPI<>(ImageboardAPI.Boards.KONACHAN, ImageboardAPI.Type.JSON, Wallpaper[].class);
+
     private final BidiMap<String, String> nRating = new DualHashBidiMap<>();
     private final Random r = new Random();
-    private final ImageboardAPI<Hentai> rule34 = new ImageboardAPI<>(ImageboardAPI.Boards.R34, ImageboardAPI.Type.XML, Hentai[].class);
-    private final ImageboardAPI<YandereImage> yandere = new ImageboardAPI<>(ImageboardAPI.Boards.YANDERE, ImageboardAPI.Type.JSON, YandereImage[].class);
+
+    private final ImageboardAPI<Furry> e621 = Imageboards.E621;
+    private final ImageboardAPI<Wallpaper> konachan = Imageboards.KONACHAN;
+    private final ImageboardAPI<Hentai> rule34 = Imageboards.RULE34;
+    private final ImageboardAPI<YandereImage> yandere = Imageboards.YANDERE;
 
     @Subscribe
     public void cat(CommandRegistry cr) {
@@ -417,6 +422,18 @@ public class ImageCmds {
                                     }
 
                                     Hentai image = images.get(number1);
+
+                                    if(image.getFile_url() == null || image.getFile_url().equals("null")){
+                                        number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
+                                        //Shouldn't happen twice... should it?
+                                        image = images.get(number1);
+                                        //well... in case it does...
+                                        if(image.getFile_url() == null || image.getFile_url().equals("null")){
+                                            event.getChannel().sendMessage(EmoteReference.SAD + "This image doesn't seem right... can you try again or with other tags?...").queue();
+                                            return;
+                                        }
+                                    }
+
                                     String tags1 = image.getTags() == null ? tags : image.getTags();
                                     if(foundMinorTags(event, tags1, null)) return;
 

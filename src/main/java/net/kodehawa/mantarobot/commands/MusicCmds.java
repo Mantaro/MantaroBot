@@ -773,8 +773,17 @@ public class MusicCmds {
     @Subscribe
     public void forcestop(CommandRegistry cr){
         cr.register("forcestop", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
+
+            //Just in case, we don't want to spam the websocket. Anyway, this command shouldn't be used a LOT.
+            RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
+
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(!rateLimiter.process(event.getAuthor())){
+                    event.getChannel().sendMessage(EmoteReference.STOP + "You can only use this once in a while... I hope you didn't need it right after 30 seconds ^^;").queue();
+                    return;
+                }
+
                 JDAImpl api = (JDAImpl) event.getJDA();
                 api.getClient().send(new JSONObject().put("op", WebSocketCode.VOICE_STATE).put("d", new JSONObject()
                         .put("guild_id", event.getGuild().getId())
