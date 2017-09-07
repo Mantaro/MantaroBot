@@ -14,8 +14,9 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.lib.imageboards;
+package net.kodehawa.lib.imageboards.util;
 
+import net.kodehawa.lib.imageboards.ImageboardAPI;
 import net.kodehawa.lib.imageboards.entities.Furry;
 import net.kodehawa.lib.imageboards.entities.Hentai;
 import net.kodehawa.lib.imageboards.entities.Wallpaper;

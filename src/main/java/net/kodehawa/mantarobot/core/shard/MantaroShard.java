@@ -85,7 +85,7 @@ public class MantaroShard implements JDA {
     private final int totalShards;
     @Delegate
     private JDA jda;
-    private static SessionReconnectQueue sessionQueue = new SessionReconnectQueue();
+    private static SessionReconnectQueue reconnectQueue = new SessionReconnectQueue();
 
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.shardId = shardId;
@@ -134,13 +134,13 @@ public class MantaroShard implements JDA {
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
                 .setGame(Game.of("Hold on to your seatbelts!"))
-                .setReconnectQueue(sessionQueue);
+                .setReconnectQueue(reconnectQueue);
 
-        if(totalShards > 1)
-            jdaBuilder.useSharding(shardId, totalShards);
-
+        if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
         jda = jdaBuilder.buildAsync();
         if(totalShards > 1) Thread.sleep(5000);
+
+        //Assume everything is alright~
         addListeners();
     }
 

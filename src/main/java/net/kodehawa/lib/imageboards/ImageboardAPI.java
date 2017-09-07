@@ -20,7 +20,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.gson.Gson;
-import net.kodehawa.mantarobot.utils.Utils;
+import net.kodehawa.lib.imageboards.util.Requester;
+import net.kodehawa.lib.imageboards.util.Utils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,9 +35,11 @@ public class ImageboardAPI<T> {
     private static final ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final ExecutorService executorService = Executors.newCachedThreadPool();
     private final Gson gson = new Gson();
+    private final Requester requester = new Requester();
     private Boards apiHome;
     private Class<T[]> clazz;
     private Type type;
+
     public ImageboardAPI(Boards landing, Type type, Class<T[]> clazz1) {
         this.apiHome = landing;
         this.type = type;
@@ -83,7 +86,7 @@ public class ImageboardAPI<T> {
         if(search != null) queryParams.put("tags", search.toLowerCase().trim());
 
         try {
-            String response = Utils.wgetResty(apiHome + apiHome.separator + Utils.urlEncodeUTF8(queryParams), null);
+            String response = requester.request(apiHome + apiHome.separator + Utils.urlEncodeUTF8(queryParams));
             wallpapers = type.equals(Type.JSON) ? gson.fromJson(response, clazz) : XML_MAPPER.readValue(response, clazz);
         } catch(Exception e) {
             return null;

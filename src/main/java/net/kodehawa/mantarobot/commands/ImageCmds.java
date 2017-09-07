@@ -24,7 +24,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.ImageboardAPI;
-import net.kodehawa.lib.imageboards.Imageboards;
+import net.kodehawa.lib.imageboards.util.Imageboards;
 import net.kodehawa.lib.imageboards.entities.Furry;
 import net.kodehawa.lib.imageboards.entities.Hentai;
 import net.kodehawa.lib.imageboards.entities.Wallpaper;
