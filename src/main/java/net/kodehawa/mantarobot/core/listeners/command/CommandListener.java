@@ -22,6 +22,7 @@ import com.rethinkdb.gen.exc.ReqlError;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -98,7 +99,8 @@ public class CommandListener implements EventListener {
 
     private void onCommand(GuildMessageReceivedEvent event) {
         try {
-            if(!event.getChannel().canTalk())
+            Member self = event.getGuild().getSelfMember();
+            if(!self.getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR))
                 return;
             if(event.getAuthor().isBot())
                 return;
