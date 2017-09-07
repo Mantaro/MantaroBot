@@ -71,6 +71,7 @@ import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
+    //The regex to filter discord invites.
     public static final Pattern DISCORD_INVITE = Pattern.compile(
             "(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
                     "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
