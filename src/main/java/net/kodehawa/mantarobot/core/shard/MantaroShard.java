@@ -86,9 +86,8 @@ public class MantaroShard implements JDA {
     @Delegate
     private JDA jda;
 
-    private JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
+    private static JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
             .setToken(config().get().token)
-            .setAudioSendFactory(new NativeAudioSendFactory())
             .setAutoReconnect(true)
             .setCorePoolSize(15)
             .setHttpClientBuilder(
@@ -138,6 +137,7 @@ public class MantaroShard implements JDA {
             jdaBuilder.useSharding(shardId, totalShards);
 
         jda = jdaBuilder
+                .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
                 .buildAsync();
         if(totalShards > 1) Thread.sleep(5000);
