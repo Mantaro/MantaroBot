@@ -180,9 +180,11 @@ public class MantaroListener implements EventListener {
         String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
         if(logChannel != null) {
             TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-            tc.sendMessage
-                    (EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
-            logTotal++;
+            if(tc != null){
+                tc.sendMessage
+                        (EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
+                logTotal++;
+            }
         }
     }
 
@@ -299,8 +301,10 @@ public class MantaroListener implements EventListener {
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
-                logTotal++;
+                if(tc != null){
+                    tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` %s#%s just got unbanned.", hour, event.getUser().getName(), event.getUser().getDiscriminator())).queue();
+                    logTotal++;
+                }
             }
         } catch(Exception e) {
             if(!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
