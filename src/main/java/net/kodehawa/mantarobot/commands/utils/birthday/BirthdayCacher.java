@@ -37,11 +37,15 @@ import static com.rethinkdb.RethinkDB.r;
 @Slf4j
 public class BirthdayCacher {
     public Map<String, String> cachedBirthdays = new ConcurrentHashMap<>();
+    private ExecutorService executorService = Executors.newFixedThreadPool(1);
     public volatile boolean isDone;
 
     public BirthdayCacher() {
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
         log.info("Caching birthdays...");
+        cache();
+    }
+
+    public void cache(){
         executorService.submit(() -> {
             try {
                 Cursor<Map> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));

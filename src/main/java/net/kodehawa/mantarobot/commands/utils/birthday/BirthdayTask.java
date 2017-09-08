@@ -88,23 +88,29 @@ public class BirthdayTask implements Runnable {
 
                             //tada!
                             if(birthday.substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
-                                if(!guild.getSelfMember().canInteract(member)) continue;
-
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 if(!member.getRoles().contains(birthdayRole)) {
-                                    guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s -> {
-                                                channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
-                                                        member.getEffectiveName())).queue();
-                                                MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
-                                            }
-                                    );
-                                    i++;
+                                    try {
+                                        guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s -> {
+                                                    channel.sendMessage(String.format(EmoteReference.POPPER + "**%s is a year older now! Wish them a happy birthday.** :tada:",
+                                                            member.getEffectiveName())).queue();
+                                                    MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
+                                                }
+                                        );
+                                        i++;
+                                    } catch (Exception ignored) {
+                                        ignored.printStackTrace();
+                                    }
                                 }
                             } else {
                                 //day passed
-                                if(guild.getRoles().contains(birthdayRole)) {
-                                    guild.getController().removeRolesFromMember(member, birthdayRole).queue();
-                                    r++;
+                                if(member.getRoles().contains(birthdayRole)) {
+                                    try {
+                                        guild.getController().removeRolesFromMember(member, birthdayRole).queue();
+                                        r++;
+                                    } catch (Exception ignored) {
+                                        ignored.printStackTrace();
+                                    }
                                 }
                             }
                         }
