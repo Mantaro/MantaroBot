@@ -258,6 +258,6 @@ public class MantaroBot extends ShardedJDA {
 
         executorService.scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, 1, TimeUnit.DAYS);
 
-        executorService.schedule(() -> birthdayCacher.cache(), 12, TimeUnit.HOURS);
+        executorService.schedule(() -> birthdayCacher.cache(), 22, TimeUnit.HOURS);
     }
 }
