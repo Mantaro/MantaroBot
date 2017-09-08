@@ -71,8 +71,7 @@ public class BirthdayTask implements Runnable {
                     TextChannel channel = guild.getTextChannelById(tempData.getBirthdayChannel());
 
                     if(channel != null && birthdayRole != null) {
-                        if(!guild.getSelfMember().canInteract(birthdayRole))
-                            continue;
+                        if(!guild.getSelfMember().canInteract(birthdayRole)) continue;
 
                         Map<String, String> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));

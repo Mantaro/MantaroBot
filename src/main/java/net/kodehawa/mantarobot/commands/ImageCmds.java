@@ -25,7 +25,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.ImageboardAPI;
 import net.kodehawa.lib.imageboards.entities.FurryImage;
-import net.kodehawa.lib.imageboards.entities.KonachanWallpaper;
+import net.kodehawa.lib.imageboards.entities.KonachanImage;
 import net.kodehawa.lib.imageboards.entities.Rule34Image;
 import net.kodehawa.lib.imageboards.entities.YandereImage;
 import net.kodehawa.lib.imageboards.util.Imageboards;
@@ -69,7 +69,7 @@ public class ImageCmds {
     private final Random r = new Random();
 
     private final ImageboardAPI<FurryImage> e621 = Imageboards.E621;
-    private final ImageboardAPI<KonachanWallpaper> konachan = Imageboards.KONACHAN;
+    private final ImageboardAPI<KonachanImage> konachan = Imageboards.KONACHAN;
     private final ImageboardAPI<Rule34Image> rule34 = Imageboards.RULE34;
     private final ImageboardAPI<YandereImage> yandere = Imageboards.YANDERE;
 
@@ -263,14 +263,14 @@ public class ImageCmds {
                             konachan.get(images -> {
                                 try {
                                     int number;
-                                    List<KonachanWallpaper> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
+                                    List<KonachanImage> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
                                     try {
                                         number = Integer.parseInt(wholeBeheaded[0]);
                                     } catch(Exception e) {
                                         number = r.nextInt(wallpapers.size());
                                     }
 
-                                    KonachanWallpaper wallpaper = wallpapers.get(number);
+                                    KonachanImage wallpaper = wallpapers.get(number);
                                     String AUTHOR = wallpaper.getAuthor();
                                     String TAGS = wallpaper.getTags().stream().collect(Collectors.joining(", "));
 
@@ -302,7 +302,7 @@ public class ImageCmds {
                             String tags = expectedNumber[0];
                             konachan.onSearch(tags, wallpapers1 -> {
                                 try {
-                                    List<KonachanWallpaper> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
+                                    List<KonachanImage> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
                                     int number1;
                                     try {
                                         number1 = Integer.parseInt(expectedNumber[1]);
@@ -310,7 +310,7 @@ public class ImageCmds {
                                         number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                                     }
 
-                                    KonachanWallpaper wallpaper = filter.get(number1);
+                                    KonachanImage wallpaper = filter.get(number1);
                                     String TAGS1 = wallpaper.getTags().stream().collect(Collectors.joining(", "));
 
                                     EmbedBuilder builder = new EmbedBuilder();
@@ -388,8 +388,8 @@ public class ImageCmds {
                                     String TAGS = image.getTags().replace(" ", " ,");
                                     if(foundMinorTags(event, TAGS, null)) return;
                                     EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getFile_url(), null)
-                                            .setImage(image.getFile_url())
+                                    builder.setAuthor("Found image", image.getImageUrl(), null)
+                                            .setImage(image.getImageUrl())
                                             .addField("Width", String.valueOf(image.getWidth()), true)
                                             .addField("Height", String.valueOf(image.getHeight()), true)
                                             .addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
@@ -423,25 +423,14 @@ public class ImageCmds {
 
                                     Rule34Image image = images.get(number1);
 
-                                    if(image.getFile_url() == null || image.getFile_url().equals("null")){
-                                        number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
-                                        //Shouldn't happen twice... should it?
-                                        image = images.get(number1);
-                                        //well... in case it does...
-                                        if(image.getFile_url() == null || image.getFile_url().equals("null")){
-                                            event.getChannel().sendMessage(EmoteReference.SAD + "This image doesn't seem right... can you try again or with other tags?...").queue();
-                                            return;
-                                        }
-                                    }
-
                                     String tags1 = image.getTags() == null ? tags : image.getTags();
                                     if(foundMinorTags(event, tags1, null)) return;
 
                                     if(tags1.length() > 980) tags1 = tags1.substring(0, 980) + "...";
 
                                     EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getFile_url(), null)
-                                            .setImage(image.getFile_url())
+                                    builder.setAuthor("Found image", image.getImageUrl(), null)
+                                            .setImage(image.getImageUrl())
                                             .addField("Width", String.valueOf(image.getWidth()), true)
                                             .addField("Height", String.valueOf(image.getHeight()), true)
                                             .addField("Tags", "`" + tags1 + "`", false)

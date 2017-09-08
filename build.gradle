@@ -62,7 +62,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-	compile 'kodehawa:imageboard-api:1.0.2'
+	compile 'net.kodehawa:imageboard-api:1.1'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
