@@ -98,9 +98,7 @@ public class BirthdayTask implements Runnable {
                                                 }
                                         );
                                         i++;
-                                    } catch (Exception ignored) {
-                                        ignored.printStackTrace();
-                                    }
+                                    } catch (Exception ignored) {}
                                 }
                             } else {
                                 //day passed
@@ -108,9 +106,7 @@ public class BirthdayTask implements Runnable {
                                     try {
                                         guild.getController().removeRolesFromMember(member, birthdayRole).queue();
                                         r++;
-                                    } catch (Exception ignored) {
-                                        ignored.printStackTrace();
-                                    }
+                                    } catch (Exception ignored) {}
                                 }
                             }
                         }
