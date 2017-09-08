@@ -376,6 +376,7 @@ public class ImageCmds {
                         try {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
+
                             rule34.get(images -> {
                                 try {
                                     int number;

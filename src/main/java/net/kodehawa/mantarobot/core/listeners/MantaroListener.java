@@ -23,10 +23,7 @@ import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.DisconnectEvent;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.ExceptionEvent;
-import net.dv8tion.jda.core.events.StatusChangeEvent;
+import net.dv8tion.jda.core.events.*;
 import net.dv8tion.jda.core.events.guild.GuildBanEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
@@ -173,6 +170,13 @@ public class MantaroListener implements EventListener {
         if(event instanceof HttpRequestEvent) {
             onHttpRequest((HttpRequestEvent) event);
         }
+
+        if(event instanceof ReconnectedEvent){
+            MantaroBot.getInstance().getStatsClient().increment("shard.reconnect");
+            MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
+                    .withText("Shard reconnected")
+                    .withDate(new Date()).build());
+        }
     }
 
     private void logBan(GuildBanEvent event) {
@@ -281,13 +285,6 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getStatsClient().increment("shard.connect");
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.connected")
                     .withText("Shard connected")
-                    .withDate(new Date()).build());
-        }
-
-        if(event.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT)) {
-            MantaroBot.getInstance().getStatsClient().increment("shard.reconnect");
-            MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
-                    .withText("Shard reconnecting")
                     .withDate(new Date()).build());
         }
 
