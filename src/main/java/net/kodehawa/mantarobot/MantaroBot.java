@@ -246,12 +246,16 @@ public class MantaroBot extends ShardedJDA {
     }
 
     private void startCheckingBirthdays() {
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
+
+        //How much until tomorrow? That's the initial delay, then run it once a day.
         ZoneId z = ZoneId.of("America/Chicago");
         ZonedDateTime now = ZonedDateTime.now(z);
         LocalDate tomorrow = now.toLocalDate().plusDays(1);
         ZonedDateTime tomorrowStart = tomorrow.atStartOfDay(z);
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
-        Executors.newScheduledThreadPool(2).scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+
+        executorService.scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
     }
 }

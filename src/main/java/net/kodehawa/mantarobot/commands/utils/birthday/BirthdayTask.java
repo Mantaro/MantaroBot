@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import io.sentry.Sentry;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -26,6 +27,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.text.SimpleDateFormat;
@@ -40,27 +42,26 @@ public class BirthdayTask implements Runnable {
     private BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
     private ManagedDatabase db = MantaroData.db();
     //just in case shit goes massively boom
+    @Setter
     public static boolean isEnabled = true;
-
-    public BirthdayTask(){
-        log.info("Started BirthdayTask...");
-    }
 
     @Override
     public void run() {
         try {
-            if(!isEnabled) return;
+            if (!isEnabled) return;
 
-            if(cache == null) {
+            if (cache == null) {
                 cache = MantaroBot.getInstance().getBirthdayCacher();
-                if(cache == null) return;
+                if (cache == null) return;
             }
 
-            if(!cache.isDone) return;
+            if (!cache.isDone) return;
 
             log.info("Checking birthdays to assign roles...");
+            long start = System.currentTimeMillis();
             Map<String, String> cached = cache.cachedBirthdays;
             int i = 0;
+            int r = 0;
             List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
             for(Guild guild : guilds) {
@@ -103,6 +104,7 @@ public class BirthdayTask implements Runnable {
                                 //day passed
                                 if(guild.getRoles().contains(birthdayRole)) {
                                     guild.getController().removeRolesFromMember(member, birthdayRole).queue();
+                                    r++;
                                 }
                             }
                         }
@@ -110,7 +112,12 @@ public class BirthdayTask implements Runnable {
                 }
             }
 
-            log.info("Finished checking birthdays, people assigned: {}", i);
+            long end = System.currentTimeMillis();
+
+            String toSend = String.format("Finished checking birthdays, people assigned: %d, people divested: %d, took %dms", i, r, (end - start));
+
+            log.info(toSend);
+            LogUtils.log("Birthday", toSend);
 
         } catch(Exception e) {
             e.printStackTrace();
