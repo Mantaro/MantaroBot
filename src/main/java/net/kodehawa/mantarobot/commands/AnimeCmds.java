@@ -25,6 +25,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -43,6 +44,7 @@ import org.json.JSONObject;
 
 import java.awt.*;
 import java.net.URLEncoder;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 

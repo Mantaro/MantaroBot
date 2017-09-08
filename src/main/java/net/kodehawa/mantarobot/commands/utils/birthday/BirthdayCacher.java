@@ -44,10 +44,7 @@ public class BirthdayCacher {
         log.info("Caching birthdays...");
         executorService.submit(() -> {
             try {
-                Cursor<Map> m = r.table("users")
-                        .orderBy()
-                        .optArg("index", r.desc("premiumUntil"))
-                        .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                Cursor<Map> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
 
                 List<Map> m1 = m.toList();
 
@@ -64,6 +61,7 @@ public class BirthdayCacher {
 
                 m.close();
                 isDone = true;
+                log.info("Cached all birthdays!");
             } catch(Exception e) {
                 e.printStackTrace();
             }

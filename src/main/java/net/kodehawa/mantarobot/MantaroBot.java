@@ -142,9 +142,8 @@ public class MantaroBot extends ShardedJDA {
             MantaroAPISender.startService();
         }
 
-        //TODO fix
-        //birthdayCacher = new BirthdayCacher();
-        //this.startCheckingBirthdays();
+        birthdayCacher = new BirthdayCacher();
+        this.startCheckingBirthdays();
     }
 
     public static void main(String[] args) {

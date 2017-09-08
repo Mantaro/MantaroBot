@@ -39,10 +39,18 @@ public class BirthdayTask implements Runnable {
 
     private BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
     private ManagedDatabase db = MantaroData.db();
+    //just in case shit goes massively boom
+    public static boolean isEnabled = true;
+
+    public BirthdayTask(){
+        log.info("Started BirthdayTask...");
+    }
 
     @Override
     public void run() {
         try {
+            if(!isEnabled) return;
+
             if(cache == null) {
                 cache = MantaroBot.getInstance().getBirthdayCacher();
                 if(cache == null) return;
@@ -52,6 +60,7 @@ public class BirthdayTask implements Runnable {
 
             log.info("Checking birthdays to assign roles...");
             Map<String, String> cached = cache.cachedBirthdays;
+            int i = 0;
             List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
             for(Guild guild : guilds) {
@@ -61,6 +70,9 @@ public class BirthdayTask implements Runnable {
                     TextChannel channel = guild.getTextChannelById(tempData.getBirthdayChannel());
 
                     if(channel != null && birthdayRole != null) {
+                        if(!guild.getSelfMember().canInteract(birthdayRole))
+                            continue;
+
                         Map<String, String> guildMap = cached.entrySet().stream().filter(map -> guild.getMemberById(map.getKey()) != null)
                                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
@@ -75,6 +87,8 @@ public class BirthdayTask implements Runnable {
 
                             //tada!
                             if(birthday.substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
+                                if(!guild.getSelfMember().canInteract(member)) continue;
+
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 if(!member.getRoles().contains(birthdayRole)) {
                                     guild.getController().addSingleRoleToMember(member, birthdayRole).queue(s -> {
@@ -83,6 +97,7 @@ public class BirthdayTask implements Runnable {
                                                 MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
                                             }
                                     );
+                                    i++;
                                 }
                             } else {
                                 //day passed
@@ -94,6 +109,8 @@ public class BirthdayTask implements Runnable {
                     }
                 }
             }
+
+            log.info("Finished checking birthdays, people assigned: {}", i);
 
         } catch(Exception e) {
             e.printStackTrace();
