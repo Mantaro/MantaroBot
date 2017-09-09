@@ -145,13 +145,11 @@ public class AudioLoader implements AudioLoadResultHandler {
                 event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Surpassed queue song limit!", title)).queue(
                         message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
                 );
-            if(musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
             return;
         }
 
         if(audioTrack.getInfo().length > MAX_SONG_LENGTH && !dbUser.isPremium() && !dbGuild.isPremium()) {
             event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 30 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
-            if(musicManager.getTrackScheduler().isStopped()) event.getGuild().getAudioManager().closeAudioConnection();
             return;
         }
 
