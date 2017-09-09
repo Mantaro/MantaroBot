@@ -138,7 +138,7 @@ public class MantaroShard implements JDA {
 
         if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
         jda = jdaBuilder.buildAsync();
-        if(totalShards > 1) Thread.sleep(5000);
+        if(totalShards > 1) Thread.sleep(5500);
 
         //Assume everything is alright~
         addListeners();
