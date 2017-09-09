@@ -275,9 +275,9 @@ public class ImageCmds {
                                     String TAGS = wallpaper.getTags().stream().collect(Collectors.joining(", "));
 
                                     EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", "https:" + wallpaper.getJpeg_url(), null)
+                                    builder.setAuthor("Found image", wallpaper.getParsedUrl(), null)
                                             .setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-                                            .setImage("https:" + wallpaper.getJpeg_url())
+                                            .setImage(wallpaper.getParsedUrl())
                                             .addField("Width", String.valueOf(wallpaper.getWidth()), true)
                                             .addField("Height", String.valueOf(wallpaper.getHeight()), true)
                                             .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
@@ -314,9 +314,9 @@ public class ImageCmds {
                                     String TAGS1 = wallpaper.getTags().stream().collect(Collectors.joining(", "));
 
                                     EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", "https:" + wallpaper.getJpeg_url(), null)
+                                    builder.setAuthor("Found image", wallpaper.getParsedUrl(), null)
                                             .setDescription("Image uploaded by: " + (wallpaper.getAuthor() == null ? "not found" : wallpaper.getAuthor()))
-                                            .setImage("https:" + wallpaper.getJpeg_url())
+                                            .setImage(wallpaper.getParsedUrl())
                                             .addField("Width", String.valueOf(wallpaper.getWidth()), true)
                                             .addField("Height", String.valueOf(wallpaper.getHeight()), true)
                                             .addField("Tags", "`" + (TAGS1 == null ? "None" : TAGS1) + "`", false)
@@ -512,13 +512,13 @@ public class ImageCmds {
                                     YandereImage image = images.get(number);
                                     String tags = image.getTags().stream().collect(Collectors.joining(", "));
                                     String author = image.getAuthor();
-                                    if(foundMinorTags(event, tags, image.rating)) {
+                                    if(foundMinorTags(event, tags, image.getRating())) {
                                         return;
                                     }
 
                                     EmbedBuilder builder = new EmbedBuilder();
                                     builder.setAuthor("Found image", image.getJpeg_url(), null)
-                                            .setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.rating)))
+                                            .setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.getRating())))
                                             .setImage(image.getJpeg_url())
                                             .addField("Width", String.valueOf(image.getWidth()), true)
                                             .addField("Height", String.valueOf(image.getHeight()), true)
@@ -557,14 +557,14 @@ public class ImageCmds {
                                     YandereImage image = filter.get(number1);
                                     String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
 
-                                    if(foundMinorTags(event, tags1, image.rating)) {
+                                    if(foundMinorTags(event, tags1, image.getRating())) {
                                         return;
                                     }
                                     String author = image.getAuthor();
 
                                     EmbedBuilder builder = new EmbedBuilder();
                                     builder.setAuthor("Found image", image.getJpeg_url(), null)
-                                            .setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.rating)))
+                                            .setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.getRating())))
                                             .setImage(image.getJpeg_url())
                                             .addField("Width", String.valueOf(image.getWidth()), true)
                                             .addField("Height", String.valueOf(image.getHeight()), true)
@@ -596,7 +596,7 @@ public class ImageCmds {
                             String TAGS = image.getTags().stream().collect(Collectors.joining(", "));
                             EmbedBuilder builder = new EmbedBuilder();
                             builder.setAuthor("Found image", image.getJpeg_url(), null)
-                                    .setDescription("Image uploaded by: **" + (AUTHOR == null ? "not found" : AUTHOR + "** with a rating of " + nRating.getKey(image.rating)))
+                                    .setDescription("Image uploaded by: **" + (AUTHOR == null ? "not found" : AUTHOR + "** with a rating of " + nRating.getKey(image.getRating())))
                                     .setImage(image.getJpeg_url())
                                     .addField("Width", String.valueOf(image.getWidth()), true)
                                     .addField("Height", String.valueOf(image.getHeight()), true)
