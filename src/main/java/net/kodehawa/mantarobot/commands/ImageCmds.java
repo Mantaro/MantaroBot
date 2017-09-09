@@ -420,7 +420,7 @@ public class ImageCmds {
                             });
                         } catch (Exception exception) {
                             if (exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
+                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help danbooru").queue(
                                         message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                                 );
                         }
