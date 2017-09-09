@@ -24,10 +24,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.ImageboardAPI;
-import net.kodehawa.lib.imageboards.entities.FurryImage;
-import net.kodehawa.lib.imageboards.entities.KonachanImage;
-import net.kodehawa.lib.imageboards.entities.Rule34Image;
-import net.kodehawa.lib.imageboards.entities.YandereImage;
+import net.kodehawa.lib.imageboards.entities.*;
 import net.kodehawa.lib.imageboards.util.Imageboards;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -72,6 +69,7 @@ public class ImageCmds {
     private final ImageboardAPI<KonachanImage> konachan = Imageboards.KONACHAN;
     private final ImageboardAPI<Rule34Image> rule34 = Imageboards.RULE34;
     private final ImageboardAPI<YandereImage> yandere = Imageboards.YANDERE;
+    private final ImageboardAPI<DanbooruImage> danbooru = Imageboards.DANBOORU;
 
     @Subscribe
     public void cat(CommandRegistry cr) {
@@ -357,6 +355,135 @@ public class ImageCmds {
                                         + "`~>konachan tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
                         .addField("Parameters",
                                 "`page` - **Can be any value from 1 to the Konachan maximum page. Probably around 4000.**\n"
+                                        + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
+                                        + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void danbooru(CommandRegistry cr) {
+        cr.register("danbooru", new SimpleCommand(Category.IMAGE) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                TextChannel channel = event.getChannel();
+                int page = Math.max(1, r.nextInt(25));
+                String noArgs = content.split(" ")[0];
+                boolean needRating = args.length >= 3;
+                String rating = "s";
+
+                try {
+                    if(needRating) rating = nRating.get(args[2]);
+                } catch(Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid rating (valid ratings: safe, explicit, questionable)").queue();
+                    return;
+                }
+
+                final String fRating = rating;
+
+                if(!nsfwCheck(event, false, false, fRating)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel.").queue();
+                    return;
+                }
+
+                switch (noArgs) {
+                    case "get":
+                        try {
+                            String whole1 = content.replace("get ", "");
+                            String[] wholeBeheaded = whole1.split(" ");
+                            danbooru.get(page, images -> {
+                                try {
+                                    int number;
+                                    List<DanbooruImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+                                    try {
+                                        number = Integer.parseInt(wholeBeheaded[0]);
+                                    } catch (Exception e) {
+                                        number = r.nextInt(filter.size());
+                                    }
+
+                                    DanbooruImage image = filter.get(number);
+                                    String TAGS = image.getTag_string();
+
+                                    EmbedBuilder builder = new EmbedBuilder();
+                                    builder.setAuthor("Found image", image.getParsedFileUrl(), null)
+                                            .setImage(image.getParsedFileUrl())
+                                            .addField("Width", String.valueOf(image.getImage_width()), true)
+                                            .addField("Height", String.valueOf(image.getImage_height()), true)
+                                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
+                                            .setFooter("If the image doesn't load, click the title.", null);
+
+                                    channel.sendMessage(builder.build()).queue();
+                                } catch (IllegalArgumentException e) {
+                                    channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+                                }
+                            });
+                        } catch (Exception exception) {
+                            if (exception instanceof NumberFormatException)
+                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
+                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                                );
+                        }
+                        break;
+                    case "tags":
+                        try {
+                            String sNoArgs = content.replace("tags ", "");
+                            String[] expectedNumber = sNoArgs.split(" ");
+                            String tags = expectedNumber[0];
+                            danbooru.onSearch(tags, wallpapers1 -> {
+                                try {
+                                    List<DanbooruImage> filter = wallpapers1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+                                    int number;
+                                    try {
+                                        number = Integer.parseInt(expectedNumber[1]);
+                                    } catch (Exception e) {
+                                        number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+                                    }
+
+                                    DanbooruImage image = filter.get(number);
+                                    String TAGS = image.getTag_string();
+
+                                    EmbedBuilder builder = new EmbedBuilder();
+                                    builder.setAuthor("Found image", image.getParsedFileUrl(), null)
+                                            .setImage(image.getParsedFileUrl())
+                                            .addField("Width", String.valueOf(image.getImage_width()), true)
+                                            .addField("Height", String.valueOf(image.getImage_height()), true)
+                                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
+                                            .setFooter("If the image doesn't load, click the title.", null);
+
+                                    channel.sendMessage(builder.build()).queue();
+                                } catch (IllegalArgumentException e) {
+                                    channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
+                                }
+                            });
+                        } catch (Exception exception) {
+                            if (exception instanceof NumberFormatException)
+                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help danbooru").queue(
+                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                                );
+
+                            if (exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException) {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
+                                return;
+                            }
+                        }
+                        break;
+                    default:
+                        onHelp(event);
+                        break;
+                }
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Danbooru commmand")
+                        .setColor(Color.PINK)
+                        .setDescription("**Retrieves images from the danbooru image board.**")
+                        .addField("Usage",
+                                "`~>danbooru get <page> <imagenumber>` - **Gets an image based in parameters.**\n"
+                                        + "`~>danbooru tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
+                        .addField("Parameters",
+                                "`page` - **Can be any value from 1 to the danbooru maximum page. Probably around 4000.**\n"
                                         + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
                                         + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
                         .build();
