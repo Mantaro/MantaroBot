@@ -145,6 +145,7 @@ public class ImageCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(!nsfwCheck(event, true, true, null)) return;
                 TextChannelGround.of(event).dropItemWithChance(13, 3);
+                int page = Math.max(1, r.nextInt(25));
 
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
@@ -152,7 +153,7 @@ public class ImageCmds {
                         try {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
-                            e621.get(image1 -> {
+                            e621.get(page, image1 -> {
                                 try {
                                     int number;
                                     try {
@@ -253,14 +254,15 @@ public class ImageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 TextChannel channel = event.getChannel();
-
+                int page = Math.max(1, r.nextInt(25));
                 String noArgs = content.split(" ")[0];
+
                 switch(noArgs) {
                     case "get":
                         try {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
-                            konachan.get(images -> {
+                            konachan.get(page, images -> {
                                 try {
                                     int number;
                                     List<KonachanImage> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
@@ -371,13 +373,15 @@ public class ImageCmds {
 
                 String noArgs = content.split(" ")[0];
                 TextChannelGround.of(event).dropItemWithChance(13, 3);
+                int page = Math.max(1, r.nextInt(25));
+
                 switch(noArgs) {
                     case "get":
                         try {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
 
-                            rule34.get(images -> {
+                            rule34.get(page, images -> {
                                 try {
                                     int number;
                                     try {
@@ -492,6 +496,7 @@ public class ImageCmds {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a lewd image in a non-nsfw channel.").queue();
                     return;
                 }
+                int page = Math.max(1, r.nextInt(25));
 
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
@@ -500,7 +505,7 @@ public class ImageCmds {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
 
-                            yandere.get(images1 -> {
+                            yandere.get(page, images1 -> {
                                 try {
                                     int number;
                                     List<YandereImage> images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
@@ -544,7 +549,6 @@ public class ImageCmds {
                             String sNoArgs = content.replace("tags ", "");
                             String[] expectedNumber = sNoArgs.split(" ");
                             String tags = expectedNumber[0];
-
                             yandere.onSearch(tags, images -> {
                                 try {
                                     List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
@@ -588,7 +592,7 @@ public class ImageCmds {
                         }
                         break;
                     case "":
-                        yandere.get(images -> {
+                        yandere.get(page, images -> {
                             List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
                             int number = r.nextInt(filter.size());
                             YandereImage image = filter.get(number);
