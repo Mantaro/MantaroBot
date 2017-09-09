@@ -677,6 +677,12 @@ public class UtilsCmds {
                 event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's badge documentation please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/Badge-reference-and-documentation").queue();
             }
+        }).addSubCommand("tos", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's ToS please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service").queue();
+            }
         }));
     }
 
