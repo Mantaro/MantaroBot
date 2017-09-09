@@ -147,7 +147,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(player.getMoney() > (long) (Integer.MAX_VALUE) * 2) {
+                if(player.getMoney() > (long) (Integer.MAX_VALUE) * 4) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! " +
                             "Thanks for not breaking the local bank.").queue();
                     return;
@@ -162,12 +162,12 @@ public class MoneyCmds {
                         case "everything":
                             i = player.getMoney();
                             multiplier = 1.4d + (r.nextInt(1500) / 1000d);
-                            luck = 30 + (int) (multiplier * 10) + r.nextInt(20);
+                            luck = 30 + (int) (multiplier * 15) + r.nextInt(20);
                             break;
                         case "half":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
                             multiplier = 1.2d + (r.nextInt(1500) / 1000d);
-                            luck = 20 + (int) (multiplier * 15) + r.nextInt(20);
+                            luck = 20 + (int) (multiplier * 13) + r.nextInt(20);
                             break;
                         case "quarter":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;

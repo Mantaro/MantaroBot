@@ -221,12 +221,7 @@ public class MusicCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                        .getChannel().equals(event
-                                .getGuild().getAudioManager().getConnectedChannel())) {
-                    sendNotConnectedToMyChannel(event.getChannel());
-                    return;
-                }
+                if(!isInConditionTo(event)) return;
 
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(
                         event.getGuild());
@@ -413,14 +408,10 @@ public class MusicCmds {
                 int page = 0;
                 try {
                     page = Math.max(Integer.parseInt(args[0]), 1);
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) {}
 
                 if(content.startsWith("clear")) {
-                    if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                            .getChannel().equals
-                                    (event.getGuild().getAudioManager().getConnectedChannel())) {
-                        sendNotConnectedToMyChannel(event.getChannel());
+                    if(!isInConditionTo(event)) {
                         return;
                     }
 
@@ -467,14 +458,7 @@ public class MusicCmds {
         cr.register("removetrack", new SimpleCommand(Category.MUSIC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                        .getChannel().equals(event
-                                .getGuild().getAudioManager().getConnectedChannel())) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "You are not connected to the voice channel I am currently " +
-                                    "playing!").queue();
-                    return;
-                }
+                if(!isInConditionTo(event)) return;
 
                 MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
                         .getQueueAsList(list -> {
@@ -578,10 +562,7 @@ public class MusicCmds {
         cr.register("repeat", new SimpleCommand(Category.MUSIC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                        .getChannel().equals(event
-                                .getGuild().getAudioManager().getConnectedChannel())) {
-                    sendNotConnectedToMyChannel(event.getChannel());
+                if(!isInConditionTo(event)) {
                     return;
                 }
 
@@ -665,13 +646,8 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
+                    if(!isInConditionTo(event)) return;
 
-                    if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                            .getChannel().equals
-                                    (event.getGuild().getAudioManager().getConnectedChannel())) {
-                        sendNotConnectedToMyChannel(event.getChannel());
-                        return;
-                    }
                     TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(
                             event.getGuild())
                             .getTrackScheduler();
@@ -721,19 +697,11 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
+                    if(!isInConditionTo(event)) return;
 
-                    if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                            .getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
-                        sendNotConnectedToMyChannel(event.getChannel());
-                        return;
-                    }
-
-                    TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(
-                            event.getGuild())
-                            .getTrackScheduler();
+                    TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
                     if(isDJ(event.getMember())) {
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "The server DJ has decided to stop!")
-                                .queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "The server DJ has decided to stop!").queue();
                         stop(event);
                         return;
                     }
@@ -764,13 +732,14 @@ public class MusicCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Stop Command")
-                        .setDescription("**Clears the queue and leaves the voice channel.**")
+                        .setDescription("**Clears the queue and leaves the voice channel.**\n" +
+                                "If this won't work but the bot is in a channel, tell an admin/bot commander to run `forcestop`")
                         .build();
             }
         });
     }
 
-    @Subscribe
+    //@Subscribe
     public void forcestop(CommandRegistry cr){
         cr.register("forcestop", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
 
@@ -785,7 +754,8 @@ public class MusicCmds {
                 }
 
                 JDAImpl api = (JDAImpl) event.getJDA();
-                api.getClient().send(new JSONObject().put("op", WebSocketCode.VOICE_STATE).put("d", new JSONObject()
+                api.getClient().send(new JSONObject().put("op", WebSocketCode.VOICE_STATE)
+                        .put("d", new JSONObject()
                         .put("guild_id", event.getGuild().getId())
                         .put("channel_id", JSONObject.NULL)
                         .put("self_muted", false)
@@ -813,11 +783,7 @@ public class MusicCmds {
                         MantaroData.db().getGuild(event.getMember()).isPremium() ||
                         MantaroData.config().get().getOwners().contains(event.getAuthor().getId())) {
 
-                    if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                            .getChannel().equals(event.getGuild().getAudioManager().getConnectedChannel())) {
-                        sendNotConnectedToMyChannel(event.getChannel());
-                        return;
-                    }
+                    if(!isInConditionTo(event)) return;
 
                     if(args.length == 0) {
                         onError(event);
@@ -874,9 +840,7 @@ public class MusicCmds {
     }
 
     private void sendNotConnectedToMyChannel(MessageChannel channel) {
-        channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently playing in!\n" +
-                "If you believe this is an error and Mantaro is currently on a voice channel, please tell an Administrator (or someone with Bot Commander/Manage Server) to run " +
-                "`forcestop`").queue();
+        channel.sendMessage(EmoteReference.ERROR + "You aren't connected to the voice channel I'm currently playing in! (If you believe this is an error, please report it on the support server)\n").queue();
     }
 
     /**
@@ -901,5 +865,20 @@ public class MusicCmds {
         //This ends up calling TrackScheduler#onTrackStart -> currentTrack == null -> TrackScheduler#onStop!
         //Beware to not close the connection twice...
         trackScheduler.nextTrack(true, true);
+    }
+
+    private boolean isInConditionTo(GuildMessageReceivedEvent event) {
+        if(!event.getMember().getVoiceState().inVoiceChannel() ||
+                event.getMember().getVoiceState().getChannel().getIdLong() != event.getGuild().getAudioManager().getConnectedChannel().getIdLong()) {
+
+            if(isDJ(event.getMember()) || CommandPermission.ADMIN.test(event.getMember())) {
+                return true;
+            }
+
+            sendNotConnectedToMyChannel(event.getChannel());
+            return false;
+        }
+
+        return true;
     }
 }

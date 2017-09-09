@@ -17,10 +17,12 @@
 package net.kodehawa.mantarobot.core.shard.jda;
 
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.Category;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
 import java.util.Iterator;
+import java.util.List;
 
 public class ArrayBasedShardedJDA extends ShardedJDA {
     private final JDA[] shards;

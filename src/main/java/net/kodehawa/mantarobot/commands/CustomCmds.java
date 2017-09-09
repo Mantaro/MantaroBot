@@ -246,6 +246,40 @@ public class CustomCmds {
                     return;
                 }
 
+                if(action.equals("view")) {
+                    if(args.length < 2) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the command and the response number!").queue();
+                        return;
+                    }
+
+                    CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
+
+
+                    if(command == null) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a custom command with that name here!").queue();
+                        return;
+                    }
+
+                    int number;
+
+                    try {
+                        number = Integer.parseInt(args[2]) - 1;
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number...").queue();
+                        return;
+                    }
+
+                    if(command.getValues().size() < number) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "This commands has less responses than the number you specified...").queue();
+                        return;
+                    }
+
+                    event.getChannel().sendMessage(String.format("**Response `%d` for custom command `%s`:** \n```\n%s```", (number + 1),
+                            command.getName(), command.getValues().get(number))).queue();
+
+                    return;
+                }
+
                 if(action.equals("eval")) {
                     runCustom(content.replace("eval ", ""), event);
                     return;
@@ -532,7 +566,8 @@ public class CustomCmds {
                                         "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
                                         "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
                                         "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
-                                        "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**",
+                                        "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
+                                        "`~>custom view <name> <response number>` - **Views the content of one response**",
                                 false
                         ).build();
             }

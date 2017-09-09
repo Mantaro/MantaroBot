@@ -91,7 +91,7 @@ public class InfoCmds {
                                         "Some of my features include:\n" +
                                         "\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
                                         "\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
-                                        "\u2713 **[Extensive support](https://discordapp.com/invite/cMTmuPa)! |" +
+                                        "\u2713 **[Support server](https://discordapp.com/invite/cMTmuPa)! |" +
                                         " [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
                                         EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
                                 )

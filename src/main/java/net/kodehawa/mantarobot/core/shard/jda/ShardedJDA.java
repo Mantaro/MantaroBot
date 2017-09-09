@@ -211,6 +211,26 @@ public abstract class ShardedJDA implements UnifiedJDA {
     }
 
     @Override
+    public List<Category> getCategoriesByName(String name, boolean ignoreCase){
+        return stream().flatMap(jda -> jda.getCategoriesByName(name, ignoreCase).stream()).collect(Collectors.toList());
+    }
+
+    @Override
+    public Category getCategoryById(String id) {
+        return stream().map(jda -> jda.getCategoryById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
+
+    @Override
+    public Category getCategoryById(long id) {
+        return stream().map(jda -> jda.getCategoryById(id)).filter(Objects::nonNull).findFirst().orElse(null);
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        return stream().flatMap(jda -> jda.getCategories().stream()).collect(Collectors.toList());
+    }
+
+    @Override
     public long getResponseTotal() {
         return stream().mapToLong(JDA::getResponseTotal).sum();
     }

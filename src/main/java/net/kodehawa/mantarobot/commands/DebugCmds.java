@@ -90,6 +90,23 @@ public class DebugCmds {
     }
 
     @Subscribe
+    public void shard(CommandRegistry cr) {
+        cr.register("shard", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage("I'm in shard " + (event.getJDA().getShardInfo() == null ? 0 : event.getJDA().getShardInfo().getShardId()) + "!").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Shard")
+                        .setDescription("**Returns in what shard I am**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void ping(CommandRegistry cr) {
         RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
@@ -119,7 +136,7 @@ public class DebugCmds {
     }
 
     @Subscribe
-    public void shard(CommandRegistry cr) {
+    public void shardinfo(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

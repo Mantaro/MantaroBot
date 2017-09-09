@@ -34,7 +34,7 @@
             <level>INFO</level>
         </filter>
         <encoder>
-            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0} ] %msg%n</pattern>
+            <pattern>[%d{HH:mm:ss}] [%t] [%level] [%logger{0}] %msg%n</pattern>
         </encoder>
     </appender>
 
