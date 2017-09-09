@@ -137,7 +137,8 @@ public class InfoCmds {
                         .setDescription(donators)
                         .setColor(Color.PINK)
                         .addField("Special Mentions",
-                                "**MrLar#8117** $100 pledge. <3 + $1075 donation. <3\n", false)
+                                "**MrLar#8117** $70 pledge. <3 + $1075 donation. <3\n" +
+                                        "**Hazerki#7707#** $100 pledge <3", false)
                         .setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
                 event.getChannel().sendMessage(builder.build()).queue();
             }
@@ -147,11 +148,10 @@ public class InfoCmds {
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.BLUE)
-                        .setDescription("**Main developer**: Kodehawa#3457\n"
+                        .setDescription(
+                                "**Main developer**: Kodehawa#3457\n"
                                 + "**Developer**: AdrianTodt#0722\n"
                                 + "**Developer**: Natan#1289\n"
-                                + "**Music**: Steven#6340 (Retired :<)\n"
-                                + "**Meme guy**: Adam#9261\n"
                                 + "**Documentation**: MrLar#8117 & Yuvira#7832\n"
                                 + "**Community Admin**: MrLar#8117\n"
                                 + "**Grammar Nazi**: Desiree#3658")
