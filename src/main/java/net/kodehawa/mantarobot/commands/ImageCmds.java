@@ -695,6 +695,7 @@ public class ImageCmds {
                             String[] expectedNumber = sNoArgs.split(" ");
                             String tags = expectedNumber[0];
                             yandere.onSearch(tags, images -> {
+                                //account for this
                                 if(boom(images, event)) return;
 
                                 try {
