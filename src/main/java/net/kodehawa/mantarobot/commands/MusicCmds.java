@@ -868,22 +868,26 @@ public class MusicCmds {
     }
 
     private boolean isInConditionTo(GuildMessageReceivedEvent event) {
-        if(isDJ(event.getMember())) {
+        try {
+            if(isDJ(event.getMember())) {
+                return true;
+            }
+
+            if(event.getMember().getVoiceState().getChannel() == null) {
+                sendNotConnectedToMyChannel(event.getChannel());
+                return false;
+            }
+
+            if(!event.getMember().getVoiceState().inVoiceChannel() ||
+                    event.getMember().getVoiceState().getChannel().getIdLong() != event.getGuild().getAudioManager().getConnectedChannel().getIdLong()) {
+
+                sendNotConnectedToMyChannel(event.getChannel());
+                return false;
+            }
+
             return true;
+        } catch (Exception e) {
+            return true; //actually let them if for unholy reason this crashes.
         }
-
-        if(event.getMember().getVoiceState().getChannel() == null) {
-            sendNotConnectedToMyChannel(event.getChannel());
-            return false;
-        }
-
-        if(!event.getMember().getVoiceState().inVoiceChannel() ||
-                event.getMember().getVoiceState().getChannel().getIdLong() != event.getGuild().getAudioManager().getConnectedChannel().getIdLong()) {
-
-            sendNotConnectedToMyChannel(event.getChannel());
-            return false;
-        }
-
-        return true;
     }
 }

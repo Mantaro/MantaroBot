@@ -152,6 +152,8 @@ public class ImageCmds {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
                             e621.get(page, image1 -> {
+                                if(boom(image1, event)) return;
+
                                 try {
                                     int number;
                                     try {
@@ -191,6 +193,8 @@ public class ImageCmds {
                             String[] expectedNumber = sNoArgs.split(" ");
                             String tags = expectedNumber[0];
                             e621.onSearch(tags, images -> {
+                                if(boom(images, event)) return;
+
                                 try {
                                     int number1;
                                     try {
@@ -261,6 +265,8 @@ public class ImageCmds {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
                             konachan.get(page, images -> {
+                                if(boom(images, event)) return;
+
                                 try {
                                     int number;
                                     List<KonachanImage> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
@@ -301,6 +307,8 @@ public class ImageCmds {
                             String[] expectedNumber = sNoArgs.split(" ");
                             String tags = expectedNumber[0];
                             konachan.onSearch(tags, wallpapers1 -> {
+                                if(boom(wallpapers1, event)) return;
+
                                 try {
                                     List<KonachanImage> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
                                     int number1;
@@ -393,6 +401,8 @@ public class ImageCmds {
                             String whole1 = content.replace("get ", "");
                             String[] wholeBeheaded = whole1.split(" ");
                             danbooru.get(page, images -> {
+                                if(boom(images, event)) return;
+
                                 try {
                                     int number;
                                     List<DanbooruImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
@@ -431,6 +441,8 @@ public class ImageCmds {
                             String[] expectedNumber = sNoArgs.split(" ");
                             String tags = expectedNumber[0];
                             danbooru.onSearch(tags, wallpapers1 -> {
+                                if(boom(wallpapers1, event)) return;
+
                                 try {
                                     List<DanbooruImage> filter = wallpapers1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
                                     int number;
@@ -509,6 +521,8 @@ public class ImageCmds {
                             String[] wholeBeheaded = whole1.split(" ");
 
                             rule34.get(page, images -> {
+                                if(boom(images, event)) return;
+
                                 try {
                                     int number;
                                     try {
@@ -545,6 +559,8 @@ public class ImageCmds {
                             String tags = expectedNumber[0];
 
                             rule34.onSearch(tags, images -> {
+                                if(boom(images, event)) return;
+
                                 try {
                                     int number1;
                                     try {
@@ -633,6 +649,8 @@ public class ImageCmds {
                             String[] wholeBeheaded = whole1.split(" ");
 
                             yandere.get(page, images1 -> {
+                                if(boom(images1, event)) return;
+
                                 try {
                                     int number;
                                     List<YandereImage> images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
@@ -677,6 +695,8 @@ public class ImageCmds {
                             String[] expectedNumber = sNoArgs.split(" ");
                             String tags = expectedNumber[0];
                             yandere.onSearch(tags, images -> {
+                                if(boom(images, event)) return;
+
                                 try {
                                     List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
                                     int number1;
@@ -720,6 +740,8 @@ public class ImageCmds {
                         break;
                     case "":
                         yandere.get(page, images -> {
+                            if(boom(images, event)) return;
+
                             List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
                             int number = r.nextInt(filter.size());
                             YandereImage image = filter.get(number);
@@ -797,6 +819,15 @@ public class ImageCmds {
         event.getChannel().sendMessage(EmoteReference.WARNING + "Sadly we cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord" +
                 " prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)").queue();
         return true;
+    }
+
+    private boolean boom(List<?> l, GuildMessageReceivedEvent event) {
+        if(l == null) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Oops... something went wrong when searching...").queue();
+            return true;
+        }
+
+        return false;
     }
 
     @Subscribe
