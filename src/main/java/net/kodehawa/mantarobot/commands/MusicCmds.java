@@ -881,7 +881,7 @@ public class MusicCmds {
             }
 
             return true;
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "There seems to be no player here...").queue();
             return false; //No player to stop/change?
         }
