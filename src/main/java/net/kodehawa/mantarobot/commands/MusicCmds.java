@@ -869,17 +869,12 @@ public class MusicCmds {
 
     private boolean isInConditionTo(GuildMessageReceivedEvent event) {
         try {
-            if(isDJ(event.getMember())) {
-                return true;
-            }
-
-            if(event.getMember().getVoiceState().getChannel() == null) {
-                sendNotConnectedToMyChannel(event.getChannel());
-                return false;
-            }
-
             if(!event.getMember().getVoiceState().inVoiceChannel() ||
                     event.getMember().getVoiceState().getChannel().getIdLong() != event.getGuild().getAudioManager().getConnectedChannel().getIdLong()) {
+
+                if(isDJ(event.getMember())) {
+                    return true;
+                }
 
                 sendNotConnectedToMyChannel(event.getChannel());
                 return false;
