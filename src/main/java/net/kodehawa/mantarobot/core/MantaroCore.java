@@ -108,7 +108,7 @@ public class MantaroCore {
         shardedMantaro = new ShardedBuilder()
                 .amount(1)
                 .token(config.token)
-                .commandProcessor(new DefaultCommandProcessor())
+                .commandProcessor(commandProcessor)
                 .build();
 
         shardedMantaro.shard();

@@ -256,8 +256,7 @@ public class MantaroBot extends ShardedJDA {
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
 
-        executorService.scheduleAtFixedRate(BirthdayTask::new, millisecondsUntilTomorrow, 1, TimeUnit.DAYS);
-
-        executorService.schedule(() -> birthdayCacher.cache(), 22, TimeUnit.HOURS);
+        executorService.scheduleWithFixedDelay(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+        executorService.scheduleWithFixedDelay(() -> birthdayCacher.cache(), 22, 22, TimeUnit.HOURS);
     }
 }

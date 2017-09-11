@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
@@ -46,8 +47,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -55,7 +54,6 @@ import java.util.regex.Pattern;
 public class MuteCmds {
 
     private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
-    private final ScheduledExecutorService muteExecutor = Executors.newSingleThreadScheduledExecutor();
 
     @Subscribe
     public void mute(CommandRegistry registry) {
@@ -318,6 +316,6 @@ public class MuteCmds {
 
     @Subscribe
     public void onPostLoad(PostLoadEvent e) {
-        muteExecutor.scheduleAtFixedRate(new MuteTask(), 40, 40, TimeUnit.SECONDS);
+        Async.task(new MuteTask(), 45, TimeUnit.SECONDS);
     }
 }
