@@ -28,6 +28,7 @@ import net.dv8tion.jda.core.events.guild.GuildBanEvent;
 import net.dv8tion.jda.core.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
+import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.events.http.HttpRequestEvent;
@@ -458,38 +459,8 @@ public class MantaroListener implements EventListener {
             String joinChannel = data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
 
-            if(joinChannel != null && joinMessage != null) {
-                TextChannel tc = event.getGuild().getTextChannelById(joinChannel);
-
-                if(joinMessage.contains("$(")) {
-                    Map<String, String> dynamicMap = new HashMap<>();
-                    map("event", dynamicMap, event);
-                    joinMessage = dynamicResolve(joinMessage, dynamicMap);
-                }
-
-                int c = joinMessage.indexOf(':');
-                if(c != -1) {
-                    String m = joinMessage.substring(0, c);
-                    String v = joinMessage.substring(c + 1);
-
-                    if(m.equals("embed")) {
-                        EmbedJSON embed;
-                        try {
-                            embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
-                        } catch(Exception ignored) {
-                            tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
-                            return;
-                        }
-
-                        tc.sendMessage(embed.gen(event)).queue();
-                        return;
-                    }
-                }
-
-                tc.sendMessage(joinMessage).queue();
-            }
-        } catch(Exception ignored) {
-        }
+            sendJoinLeaveMessage(event, joinMessage, joinChannel);
+        } catch(Exception ignored) { }
     }
 
     private void onUserLeave(GuildMemberLeaveEvent event) {
@@ -511,38 +482,40 @@ public class MantaroListener implements EventListener {
             String leaveChannel = data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
 
+            sendJoinLeaveMessage(event, leaveMessage, leaveChannel);
 
-            if(leaveChannel != null && leaveMessage != null) {
-                TextChannel tc = event.getGuild().getTextChannelById(leaveChannel);
+        } catch(Exception ignored) { }
+    }
 
-                if(leaveMessage.contains("$(")) {
-                    Map<String, String> dynamicMap = new HashMap<>();
-                    map("event", dynamicMap, event);
-                    leaveMessage = dynamicResolve(leaveMessage, dynamicMap);
-                }
+    private void sendJoinLeaveMessage(GenericGuildMemberEvent event, String message, String channel) {
+        if(channel != null && message != null) {
+            TextChannel tc = event.getGuild().getTextChannelById(channel);
 
-                int c = leaveMessage.indexOf(':');
-                if(c != -1) {
-                    String m = leaveMessage.substring(0, c);
-                    String v = leaveMessage.substring(c + 1);
-
-                    if(m.equals("embed")) {
-                        EmbedJSON embed;
-                        try {
-                            embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
-                        } catch(Exception ignored) {
-                            tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
-                            return;
-                        }
-
-                        tc.sendMessage(embed.gen(event)).queue();
-                        return;
-                    }
-                }
-                tc.sendMessage(leaveMessage).queue();
+            if(message.contains("$(")) {
+                Map<String, String> dynamicMap = new HashMap<>();
+                map("event", dynamicMap, event);
+                message = dynamicResolve(message, dynamicMap);
             }
 
-        } catch(Exception ignored) {
+            int c = message.indexOf(':');
+            if(c != -1) {
+                String m = message.substring(0, c);
+                String v = message.substring(c + 1);
+
+                if(m.equals("embed")) {
+                    EmbedJSON embed;
+                    try {
+                        embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
+                    } catch(Exception ignored) {
+                        tc.sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                        return;
+                    }
+
+                    tc.sendMessage(embed.gen(event)).queue();
+                    return;
+                }
+            }
+            tc.sendMessage(message).queue();
         }
     }
 }

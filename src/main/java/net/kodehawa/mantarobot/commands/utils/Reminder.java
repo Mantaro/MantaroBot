@@ -69,7 +69,6 @@ public class Reminder {
         scheduledReminder = service.schedule(() -> {
             User user = MantaroBot.getInstance().getUserById(userId);
             if(user == null) return;
-            System.out.println("AAAAAAAA done");
             removeCurrent();
 
             //Ignore "cannot open a private channel with this user"
