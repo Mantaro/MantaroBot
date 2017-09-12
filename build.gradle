@@ -28,7 +28,6 @@ targetCompatibility = 1.8
 repositories {
 	jcenter()
 	maven { url 'https://jitpack.io' }
-	maven {	url  "https://dl.bintray.com/kodehawa/maven" }
 	mavenLocal()
 }
 
@@ -62,7 +61,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-	compile 'net.kodehawa:imageboard-api:1.1.1_1'
+	compile 'net.kodehawa:imageboard-api:1.1.2'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'

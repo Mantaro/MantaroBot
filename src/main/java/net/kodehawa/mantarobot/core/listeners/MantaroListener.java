@@ -483,7 +483,6 @@ public class MantaroListener implements EventListener {
             String leaveMessage = data.getLeaveMessage();
 
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);
-
         } catch(Exception ignored) { }
     }
 
