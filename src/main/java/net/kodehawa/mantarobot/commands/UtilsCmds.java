@@ -632,7 +632,7 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Wiki command")
                         .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
-                                "Avaliable subcommands: `opts`, `custom`, `gifs`, `faq`, `commands`, `modifiers`")
+                                "Avaliable subcommands: `opts`, `custom`, `gifs`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
                         .build();
             }
         }.addSubCommand("opts", new SubCommand() {
@@ -682,6 +682,18 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's ToS please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/Terms-of-Service").queue();
+            }
+        }).addSubCommand("usermessage", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's Welcome and Leave message tutorial please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/Welcome-and-Leave-Messages-tutorial").queue();
+            }
+        }).addSubCommand("premium", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premmium features offer please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
             }
         }));
     }
