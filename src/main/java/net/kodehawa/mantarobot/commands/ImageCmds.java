@@ -378,13 +378,6 @@ public class ImageCmds {
         return false;
     }
 
-    @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
-        nRating.put("safe", "s");
-        nRating.put("questionable", "q");
-        nRating.put("explicit", "e");
-    }
-
     private void getImage(ImageboardAPI<?> api, String type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
         String rating = "s";
         boolean needRating = args.length >= 3;
@@ -403,7 +396,7 @@ public class ImageCmds {
         final String fRating = rating;
 
         if(!nsfwCheck(event, false, false, fRating)) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(.").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
             return;
         }
         int page = Math.max(1, r.nextInt(25));
@@ -434,16 +427,7 @@ public class ImageCmds {
                                 return;
                             }
 
-                            EmbedBuilder builder = new EmbedBuilder();
-                            builder.setAuthor("Found image", image.getImageUrl(), null)
-                                    .setImage(image.getImageUrl())
-                                    .setDescription("Rating: **" + nRating.getKey(fRating) + "**, Imageboard: **" + imageboard + "**" )
-                                    .addField("Width", String.valueOf(image.getWidth()), true)
-                                    .addField("Height", String.valueOf(image.getHeight()), true)
-                                    .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
-                                    .setFooter("If the image doesn't load, click the title.", null);
-
-                            channel.sendMessage(builder.build()).queue();
+                            imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, fRating, imageboard, channel);
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
@@ -484,16 +468,7 @@ public class ImageCmds {
                                 return;
                             }
 
-                            EmbedBuilder builder = new EmbedBuilder();
-                            builder.setAuthor("Found image", image.getImageUrl(), null)
-                                    .setImage(image.getImageUrl())
-                                    .setDescription("Rating: **" + nRating.getKey(fRating) + "**, Imageboard: **" + imageboard + "**" )
-                                    .addField("Width", String.valueOf(image.getWidth()), true)
-                                    .addField("Height", String.valueOf(image.getHeight()), true)
-                                    .addField("Tags", "`" + (tags1 == null ? "None" : tags1) + "`", false)
-                                    .setFooter("If the image doesn't load, click the title.", null);
-
-                            channel.sendMessage(builder.build()).queue();
+                            imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, fRating, imageboard, channel);
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
@@ -519,20 +494,31 @@ public class ImageCmds {
 
                     int number = r.nextInt(filter.size());
                     BoardImage image = filter.get(number);
-                    String TAGS = image.getTags().stream().collect(Collectors.joining(", "));
-                    EmbedBuilder builder = new EmbedBuilder();
-                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                            .setImage(image.getImageUrl())
-                            .setDescription("Rating: **" + nRating.getKey(fRating) + "**, Imageboard: **" + imageboard + "**" )
-                            .addField("Width", String.valueOf(image.getWidth()), true)
-                            .addField("Height", String.valueOf(image.getHeight()), true)
-                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-                            .setFooter("If the image doesn't load, click the title.", null);
-
-                    channel.sendMessage(builder.build()).queue();
+                    String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
+                    imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, fRating, imageboard, channel);
                     TextChannelGround.of(event).dropItemWithChance(13, 3);
                 });
                 break;
         }
+    }
+
+    private void imageEmbed(String url, String width, String height, String tags, String rating, String imageboard, TextChannel channel) {
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setAuthor("Found image", url, null)
+                .setImage(url)
+                .setDescription("Rating: **" + nRating.getKey(rating) + "**, Imageboard: **" + imageboard + "**" )
+                .addField("Width", width, true)
+                .addField("Height", height, true)
+                .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
+                .setFooter("If the image doesn't load, click the title.", null);
+
+        channel.sendMessage(builder.build()).queue();
+    }
+
+    @Subscribe
+    public void onPostLoad(PostLoadEvent e) {
+        nRating.put("safe", "s");
+        nRating.put("questionable", "q");
+        nRating.put("explicit", "e");
     }
 }
