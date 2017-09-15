@@ -80,6 +80,10 @@ public class ImageboardUtils {
                             if(!nsfwOnly)
                                 images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
 
+                            if(images.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                            }
+
                             try {
                                 number = Integer.parseInt(wholeBeheaded[0]);
                             } catch(Exception e) {
@@ -119,6 +123,10 @@ public class ImageboardUtils {
                             if(!nsfwOnly)
                                 filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
 
+                            if(filter.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                            }
+
                             int number1;
                             try {
                                 number1 = Integer.parseInt(expectedNumber[1]);
@@ -155,6 +163,10 @@ public class ImageboardUtils {
                     List<BoardImage> filter = (List<BoardImage>) images;
                     if(!nsfwOnly)
                         filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+
+                    if(filter.isEmpty()) {
+                        event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                    }
 
                     int number = r.nextInt(filter.size());
                     BoardImage image = filter.get(number);
