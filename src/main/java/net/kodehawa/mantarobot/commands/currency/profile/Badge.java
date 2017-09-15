@@ -66,6 +66,10 @@ public enum Badge {
     GAMER("Gamer", "\uD83D\uDD79",
             "Win 100 games.", 91, 92),
 
+    //Claim daily more than 10 days in a row.
+    CLAIMER("Claimer", "\uD83C\uDF89",
+            "Claim daily more than 10 days in a row.", 91, 92),
+
     //Use a mod action with mantaro
     POWER_USER("Power User", "\uD83D\uDD27",
             "Do mod stuff with Mantaro.", 91, 92),

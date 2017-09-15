@@ -38,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
@@ -109,9 +110,35 @@ public class MoneyCmds {
                     return;
                 }
 
+                PlayerData playerData = player.getData();
+
+                String streak;
+                if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.DAYS.toMillis(2)) {
+                    playerData.setDailyStrike(playerData.getDailyStrike() + 1);
+                    streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "`";
+                } else {
+                    if(playerData.getDailyStrike() == 0) {
+                        streak = "First time claiming daily, have fun!";
+                    } else {
+                        streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
+                                "Current strike: `" + playerData.getDailyStrike() + "`";
+                    }
+                    playerData.setDailyStrike(1);
+                }
+
+                if(playerData.getDailyStrike() > 5) {
+                    streak += "\nYou won a bonus of $150 for claiming your daily for 5 days in a row or more!";
+                    money += 150;
+                }
+
+                if(playerData.getDailyStrike() > 10) {
+                    playerData.addBadge(Badge.CLAIMER);
+                }
+
                 player.addMoney(money);
+                playerData.setLastDailyAt(System.currentTimeMillis());
                 player.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.").queue();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.\n\n" + streak).queue();
             }
 
             @Override

@@ -33,6 +33,8 @@ public class PlayerData {
     private Long marriedSince = null;
     private String marriedWith = null;
     private long moneyOnBank = 0;
+    private long dailyStrike;
+    private long lastDailyAt;
 
     @Transient
     public boolean isMarried() {

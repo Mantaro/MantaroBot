@@ -204,8 +204,7 @@ public class TrackScheduler extends AudioEventAdapter {
         } catch(Exception ignored) {}
 
         requestedChannel = 0;
-        Thread.interrupted(); //"dirty" fix.
-        m.closeAudioConnection();
+        Async.thread("Audio connection close", m::closeAudioConnection);
     }
 
     public enum Repeat {
