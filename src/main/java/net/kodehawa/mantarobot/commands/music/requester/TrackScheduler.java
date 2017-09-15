@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.music.requester;
 
+import br.com.brjdevs.java.utils.async.Async;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -200,11 +201,10 @@ public class TrackScheduler extends AudioEventAdapter {
                                 ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-
-        } catch(Exception ignored) {
-        }
+        } catch(Exception ignored) {}
 
         requestedChannel = 0;
+        Thread.interrupted(); //"dirty" fix.
         m.closeAudioConnection();
     }
 

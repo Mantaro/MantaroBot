@@ -141,91 +141,17 @@ public class ImageCmds {
         cr.register("e621", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!nsfwCheck(event, true, true, null)) return;
                 TextChannelGround.of(event).dropItemWithChance(13, 3);
-                int page = Math.max(1, r.nextInt(25));
-
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        try {
-                            String whole1 = content.replace("get ", "");
-                            String[] wholeBeheaded = whole1.split(" ");
-                            e621.get(page, image1 -> {
-                                if(boom(image1, event)) return;
-
-                                try {
-                                    int number;
-                                    try {
-                                        number = Integer.parseInt(wholeBeheaded[0]);
-                                    } catch(Exception e) {
-                                        number = r.nextInt(image1.size());
-                                    }
-
-                                    FurryImage image = image1.get(number);
-                                    String TAGS = String.join(", ", image.getTags());
-                                    if(foundMinorTags(event, TAGS, null)) return;
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", null, image.getImageUrl())
-                                            .setImage(image.getFile_url())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    event.getChannel().sendMessage(builder.build()).queue();
-                                } catch(Exception e) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't more images or no results found**! Try with a lower number.").queue();
-                                }
-                            });
-
-                        } catch(Exception exception) {
-                            if(exception instanceof NumberFormatException)
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-                        }
+                        getImage(e621, "get", true, "e621", args, content, event);
                         break;
-
                     case "tags":
-                        try {
-                            String sNoArgs = content.replace("tags ", "");
-                            String[] expectedNumber = sNoArgs.split(" ");
-                            String tags = expectedNumber[0];
-                            e621.onSearch(tags, images -> {
-                                if(boom(images, event)) return;
-
-                                try {
-                                    int number1;
-                                    try {
-                                        number1 = Integer.parseInt(expectedNumber[1]);
-                                    } catch(Exception e) {
-                                        number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
-                                    }
-
-                                    FurryImage image = images.get(number1);
-                                    String TAGS = String.join(", ", image.getTags());
-                                    if(foundMinorTags(event, TAGS, null)) return;
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", null, image.getImageUrl())
-                                            .setImage(image.getFile_url())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    event.getChannel().sendMessage(builder.build()).queue();
-                                } catch(Exception e) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
-                                }
-                            });
-                        } catch(Exception exception) {
-                            if(exception instanceof NumberFormatException)
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help e621").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-                        }
+                        getImage(e621, "tags", true, "e621", args, content, event);
+                        break;
+                    case "":
+                        getImage(e621, "", true, "e621", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -255,97 +181,16 @@ public class ImageCmds {
         cr.register("konachan", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-                int page = Math.max(1, r.nextInt(25));
                 String noArgs = content.split(" ")[0];
-
                 switch(noArgs) {
                     case "get":
-                        try {
-                            String whole1 = content.replace("get ", "");
-                            String[] wholeBeheaded = whole1.split(" ");
-                            konachan.get(page, images -> {
-                                if(boom(images, event)) return;
-
-                                try {
-                                    int number;
-                                    List<KonachanImage> wallpapers = images.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
-                                    try {
-                                        number = Integer.parseInt(wholeBeheaded[0]);
-                                    } catch(Exception e) {
-                                        number = r.nextInt(wallpapers.size());
-                                    }
-
-                                    KonachanImage wallpaper = wallpapers.get(number);
-                                    String AUTHOR = wallpaper.getAuthor();
-                                    String TAGS = wallpaper.getTags().stream().collect(Collectors.joining(", "));
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", wallpaper.getImageUrl(), null)
-                                            .setDescription("Image uploaded by: " + (AUTHOR == null ? "not found" : AUTHOR))
-                                            .setImage(wallpaper.getParsedUrl())
-                                            .addField("Width", String.valueOf(wallpaper.getWidth()), true)
-                                            .addField("Height", String.valueOf(wallpaper.getHeight()), true)
-                                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    channel.sendMessage(builder.build()).queue();
-                                } catch(IllegalArgumentException e) {
-                                    channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
-                                }
-                            });
-                        } catch(Exception exception) {
-                            if(exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-                        }
+                        getImage(konachan, "get", false, "konachan", args, content, event);
                         break;
                     case "tags":
-                        try {
-                            String sNoArgs = content.replace("tags ", "");
-                            String[] expectedNumber = sNoArgs.split(" ");
-                            String tags = expectedNumber[0];
-                            konachan.onSearch(tags, wallpapers1 -> {
-                                if(boom(wallpapers1, event)) return;
-
-                                try {
-                                    List<KonachanImage> filter = wallpapers1.stream().filter(data -> data.getRating().equals("s")).collect(Collectors.toList());
-                                    int number1;
-                                    try {
-                                        number1 = Integer.parseInt(expectedNumber[1]);
-                                    } catch(Exception e) {
-                                        number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
-                                    }
-
-                                    KonachanImage wallpaper = filter.get(number1);
-                                    String TAGS1 = wallpaper.getTags().stream().collect(Collectors.joining(", "));
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", wallpaper.getImageUrl(), null)
-                                            .setDescription("Image uploaded by: " + (wallpaper.getAuthor() == null ? "not found" : wallpaper.getAuthor()))
-                                            .setImage(wallpaper.getParsedUrl())
-                                            .addField("Width", String.valueOf(wallpaper.getWidth()), true)
-                                            .addField("Height", String.valueOf(wallpaper.getHeight()), true)
-                                            .addField("Tags", "`" + (TAGS1 == null ? "None" : TAGS1) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    channel.sendMessage(builder.build()).queue();
-                                } catch(IllegalArgumentException e) {
-                                    channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
-                                }
-                            });
-                        } catch(Exception exception) {
-                            if(exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help konachan").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-
-                            if(exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
-                                return;
-                            }
-                        }
+                        getImage(konachan, "tags", false, "konachan", args, content, event);
+                        break;
+                    case "":
+                        getImage(konachan, "", false, "konachan", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -375,110 +220,16 @@ public class ImageCmds {
         cr.register("danbooru", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                TextChannel channel = event.getChannel();
-                int page = Math.max(1, r.nextInt(25));
                 String noArgs = content.split(" ")[0];
-                boolean needRating = args.length >= 3;
-                String rating = "s";
-
-                try {
-                    if(needRating) rating = nRating.get(args[2]);
-                } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid rating (valid ratings: safe, explicit, questionable)").queue();
-                    return;
-                }
-
-                final String fRating = rating;
-
-                if(!nsfwCheck(event, false, false, fRating)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel.").queue();
-                    return;
-                }
-
-                switch (noArgs) {
+                switch(noArgs) {
                     case "get":
-                        try {
-                            String whole1 = content.replace("get ", "");
-                            String[] wholeBeheaded = whole1.split(" ");
-                            danbooru.get(page, images -> {
-                                if(boom(images, event)) return;
-
-                                try {
-                                    int number;
-                                    List<DanbooruImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-                                    try {
-                                        number = Integer.parseInt(wholeBeheaded[0]);
-                                    } catch (Exception e) {
-                                        number = r.nextInt(filter.size());
-                                    }
-
-                                    DanbooruImage image = filter.get(number);
-                                    String TAGS = image.getTag_string();
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                                            .setImage(image.getParsedFileUrl())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    channel.sendMessage(builder.build()).queue();
-                                } catch (IllegalArgumentException e) {
-                                    channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
-                                }
-                            });
-                        } catch (Exception exception) {
-                            if (exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help danbooru").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-                        }
+                        getImage(danbooru, "get", false, "danbooru", args, content, event);
                         break;
                     case "tags":
-                        try {
-                            String sNoArgs = content.replace("tags ", "");
-                            String[] expectedNumber = sNoArgs.split(" ");
-                            String tags = expectedNumber[0];
-                            danbooru.onSearch(tags, wallpapers1 -> {
-                                if(boom(wallpapers1, event)) return;
-
-                                try {
-                                    List<DanbooruImage> filter = wallpapers1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-                                    int number;
-                                    try {
-                                        number = Integer.parseInt(expectedNumber[1]);
-                                    } catch (Exception e) {
-                                        number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
-                                    }
-
-                                    DanbooruImage image = filter.get(number);
-                                    String TAGS = image.getTag_string();
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                                            .setImage(image.getParsedFileUrl())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    channel.sendMessage(builder.build()).queue();
-                                } catch (IllegalArgumentException e) {
-                                    channel.sendMessage(EmoteReference.ERROR + "There aren't more images! Try with a lower number.").queue();
-                                }
-                            });
-                        } catch (Exception exception) {
-                            if (exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help danbooru").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-
-                            if (exception instanceof IndexOutOfBoundsException || exception instanceof IllegalArgumentException) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
-                                return;
-                            }
-                        }
+                        getImage(danbooru, "tags", false, "danbooru", args, content, event);
+                        break;
+                    case "":
+                        getImage(danbooru, "", false, "danbooru", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -508,93 +259,17 @@ public class ImageCmds {
         cr.register("rule34", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!nsfwCheck(event, true, true, null)) return;
-
                 String noArgs = content.split(" ")[0];
                 TextChannelGround.of(event).dropItemWithChance(13, 3);
-                int page = Math.max(1, r.nextInt(25));
-
                 switch(noArgs) {
                     case "get":
-                        try {
-                            String whole1 = content.replace("get ", "");
-                            String[] wholeBeheaded = whole1.split(" ");
-
-                            rule34.get(page, images -> {
-                                if(boom(images, event)) return;
-
-                                try {
-                                    int number;
-                                    try {
-                                        number = Integer.parseInt(wholeBeheaded[0]);
-                                    } catch(Exception e) {
-                                        number = r.nextInt(images.size());
-                                    }
-                                    Rule34Image image = images.get(number);
-                                    String TAGS = String.join(", ", image.getTags());
-                                    if(foundMinorTags(event, TAGS, null)) return;
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                                            .setImage(image.getImageUrl())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "``" + (TAGS == null ? "None" : TAGS) + "``", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    event.getChannel().sendMessage(builder.build()).queue();
-                                } catch(Exception e) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Try with a lower number.").queue();
-                                }
-                            });
-
-                        } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type (or we couldn't complete the query? Maybe try another one?, try again or check ~>help rule34)").queue(
-                                    message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                        }
+                        getImage(rule34, "get", true, "rule34", args, content, event);
                         break;
                     case "tags":
-                        try {
-                            String sNoArgs = content.replace("tags ", "");
-                            String[] expectedNumber = sNoArgs.split(" ");
-                            String tags = expectedNumber[0];
-
-                            rule34.onSearch(tags, images -> {
-                                if(boom(images, event)) return;
-
-                                try {
-                                    int number1;
-                                    try {
-                                        number1 = Integer.parseInt(expectedNumber[2]);
-                                    } catch(Exception e) {
-                                        number1 = r.nextInt(images.size() > 0 ? images.size() - 1 : images.size());
-                                    }
-
-                                    Rule34Image image = images.get(number1);
-
-                                    String tags1 = image.getTags() == null ? tags : String.join(", ", image.getTags());
-                                    if(foundMinorTags(event, tags1, null)) return;
-
-                                    if(tags1.length() > 980) tags1 = tags1.substring(0, 980) + "...";
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                                            .setImage(image.getImageUrl())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "`" + tags1 + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    event.getChannel().sendMessage(builder.build()).queue();
-                                } catch(Exception e) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                            "number or another search.").queue();
-                                }
-
-                            });
-                        } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong argument type (or we couldn't complete the query? Maybe try another one?, try again or check ~>help rule34)").queue(
-                                    message -> message.delete().queueAfter(10, TimeUnit.SECONDS));
-                        }
+                        getImage(rule34, "tags", true, "rule34", args, content, event);
+                        break;
+                    case "":
+                        getImage(rule34, "", true, "rule34", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -622,144 +297,16 @@ public class ImageCmds {
         cr.register("yandere", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String rating = "s";
-                boolean needRating = args.length >= 3;
-                TextChannel channel = event.getChannel();
-
-                try {
-                    if(needRating) rating = nRating.get(args[2]);
-                } catch(Exception e) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid rating!").queue();
-                    return;
-                }
-
-                final String fRating = rating;
-
-                if(!nsfwCheck(event, false, false, fRating)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a lewd image in a non-nsfw channel.").queue();
-                    return;
-                }
-                int page = Math.max(1, r.nextInt(25));
-
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        try {
-                            String whole1 = content.replace("get ", "");
-                            String[] wholeBeheaded = whole1.split(" ");
-
-                            yandere.get(page, images1 -> {
-                                if(boom(images1, event)) return;
-
-                                try {
-                                    int number;
-                                    List<YandereImage> images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-                                    try {
-                                        number = Integer.parseInt(wholeBeheaded[0]);
-                                    } catch(Exception e) {
-                                        number = r.nextInt(images.size());
-                                    }
-                                    YandereImage image = images.get(number);
-                                    String tags = image.getTags().stream().collect(Collectors.joining(", "));
-                                    String author = image.getAuthor();
-                                    if(foundMinorTags(event, tags, image.getRating())) {
-                                        return;
-                                    }
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                                            .setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.getRating())))
-                                            .setImage(image.getJpeg_url())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    channel.sendMessage(builder.build()).queue();
-                                    TextChannelGround.of(event).dropItemWithChance(13, 3);
-                                } catch(Exception e) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                            "number or another search.").queue();
-                                }
-                            });
-                        } catch(Exception exception) {
-                            if(exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help yandere").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-                        }
+                        getImage(yandere, "get", false, "yandere", args, content, event);
                         break;
                     case "tags":
-                        try {
-                            String sNoArgs = content.replace("tags ", "");
-                            String[] expectedNumber = sNoArgs.split(" ");
-                            String tags = expectedNumber[0];
-                            yandere.onSearch(tags, images -> {
-                                //account for this
-                                if(boom(images, event)) return;
-
-                                try {
-                                    List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-                                    int number1;
-                                    try {
-                                        number1 = Integer.parseInt(expectedNumber[1]);
-                                    } catch(Exception e) {
-                                        number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
-                                    }
-                                    YandereImage image = filter.get(number1);
-                                    String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
-
-                                    if(foundMinorTags(event, tags1, image.getRating())) {
-                                        return;
-                                    }
-                                    String author = image.getAuthor();
-
-                                    EmbedBuilder builder = new EmbedBuilder();
-                                    builder.setAuthor("Found image", image.getImageUrl(), null)
-                                            .setDescription("Image uploaded by: **" + (author == null ? "not found" : author + "** with a rating of " + nRating.getKey(image.getRating())))
-                                            .setImage(image.getJpeg_url())
-                                            .addField("Width", String.valueOf(image.getWidth()), true)
-                                            .addField("Height", String.valueOf(image.getHeight()), true)
-                                            .addField("Tags", "`" + (tags1 == null ? "None" : tags1) + "`", false)
-                                            .setFooter("If the image doesn't load, click the title.", null);
-
-                                    channel.sendMessage(builder.build()).queue();
-                                    TextChannelGround.of(event).dropItemWithChance(13, 3);
-                                } catch(Exception e) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                            "number or another search.").queue();
-                                }
-                            });
-                        } catch(Exception exception) {
-                            if(exception instanceof NumberFormatException)
-                                channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help yandere").queue(
-                                        message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                                );
-
-                            exception.printStackTrace();
-                        }
+                        getImage(yandere, "tags", false, "yandere", args, content, event);
                         break;
                     case "":
-                        yandere.get(page, images -> {
-                            if(boom(images, event)) return;
-
-                            List<YandereImage> filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-                            int number = r.nextInt(filter.size());
-                            YandereImage image = filter.get(number);
-                            String AUTHOR = image.getAuthor();
-                            String TAGS = image.getTags().stream().collect(Collectors.joining(", "));
-                            EmbedBuilder builder = new EmbedBuilder();
-                            builder.setAuthor("Found image", image.getImageUrl(), null)
-                                    .setDescription("Image uploaded by: **" + (AUTHOR == null ? "not found" : AUTHOR + "** with a rating of " + nRating.getKey(image.getRating())))
-                                    .setImage(image.getJpeg_url())
-                                    .addField("Width", String.valueOf(image.getWidth()), true)
-                                    .addField("Height", String.valueOf(image.getHeight()), true)
-                                    .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
-                                    .setFooter("If the image doesn't load, click the title.", null);
-
-                            channel.sendMessage(builder.build()).queue();
-                            TextChannelGround.of(event).dropItemWithChance(13, 3);
-                        });
+                        getImage(yandere, "", false, "yandere", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -836,5 +383,159 @@ public class ImageCmds {
         nRating.put("safe", "s");
         nRating.put("questionable", "q");
         nRating.put("explicit", "e");
+    }
+
+    private void getImage(ImageboardAPI<?> api, String type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
+        String rating = "s";
+        boolean needRating = args.length >= 3;
+        TextChannel channel = event.getChannel();
+
+        if(nsfwOnly)
+            rating = "e";
+
+        try {
+            if(needRating) rating = nRating.get(args[2]);
+        } catch(Exception e) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
+            return;
+        }
+
+        final String fRating = rating;
+
+        if(!nsfwCheck(event, false, false, fRating)) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(.").queue();
+            return;
+        }
+        int page = Math.max(1, r.nextInt(25));
+
+        switch(type) {
+            case "get":
+                try {
+                    String whole1 = content.replace("get ", "");
+                    String[] wholeBeheaded = whole1.split(" ");
+
+                    api.get(page, images1 -> {
+                        if(boom(images1, event)) return;
+
+                        try {
+                            int number;
+                            List<BoardImage> images = (List<BoardImage>) images1;
+                            if(!nsfwOnly)
+                                images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+
+                            try {
+                                number = Integer.parseInt(wholeBeheaded[0]);
+                            } catch(Exception e) {
+                                number = r.nextInt(images.size());
+                            }
+                            BoardImage image = images.get(number);
+                            String tags = image.getTags().stream().collect(Collectors.joining(", "));
+                            if(foundMinorTags(event, tags, image.getRating())) {
+                                return;
+                            }
+
+                            EmbedBuilder builder = new EmbedBuilder();
+                            builder.setAuthor("Found image", image.getImageUrl(), null)
+                                    .setImage(image.getImageUrl())
+                                    .setDescription("Rating: **" + nRating.getKey(fRating) + "**, Imageboard: **" + imageboard + "**" )
+                                    .addField("Width", String.valueOf(image.getWidth()), true)
+                                    .addField("Height", String.valueOf(image.getHeight()), true)
+                                    .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
+                                    .setFooter("If the image doesn't load, click the title.", null);
+
+                            channel.sendMessage(builder.build()).queue();
+                            TextChannelGround.of(event).dropItemWithChance(13, 3);
+                        } catch(Exception e) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
+                                    "number or another search.").queue();
+                        }
+                    });
+                } catch(Exception exception) {
+                    if(exception instanceof NumberFormatException)
+                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                        );
+                }
+                break;
+            case "tags":
+                try {
+                    String sNoArgs = content.replace("tags ", "");
+                    String[] expectedNumber = sNoArgs.split(" ");
+                    String tags = expectedNumber[0];
+                    api.onSearch(tags, images -> {
+                        //account for this
+                        if(boom(images, event)) return;
+
+                        try {
+                            List<BoardImage> filter = (List<BoardImage>) images;
+                            if(!nsfwOnly)
+                                filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+
+                            int number1;
+                            try {
+                                number1 = Integer.parseInt(expectedNumber[1]);
+                            } catch(Exception e) {
+                                number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+                            }
+                            BoardImage image = filter.get(number1);
+                            String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
+
+                            if(foundMinorTags(event, tags1, image.getRating())) {
+                                return;
+                            }
+
+                            System.out.println(image.getImageUrl());
+                            System.out.println(image.getRating());
+
+                            EmbedBuilder builder = new EmbedBuilder();
+                            builder.setAuthor("Found image", image.getImageUrl(), null)
+                                    .setImage(image.getImageUrl())
+                                    .setDescription("Rating: **" + nRating.getKey(fRating) + "**, Imageboard: **" + imageboard + "**" )
+                                    .addField("Width", String.valueOf(image.getWidth()), true)
+                                    .addField("Height", String.valueOf(image.getHeight()), true)
+                                    .addField("Tags", "`" + (tags1 == null ? "None" : tags1) + "`", false)
+                                    .setFooter("If the image doesn't load, click the title.", null);
+
+                            channel.sendMessage(builder.build()).queue();
+                            TextChannelGround.of(event).dropItemWithChance(13, 3);
+                        } catch(Exception e) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
+                                    "number or another search.").queue();
+                        }
+                    });
+                } catch(Exception exception) {
+                    if(exception instanceof NumberFormatException)
+                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
+                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
+                        );
+
+                    exception.printStackTrace();
+                }
+                break;
+            case "":
+                api.get(page, images -> {
+                    if(boom(images, event)) return;
+
+                    List<BoardImage> filter = (List<BoardImage>) images;
+                    if(!nsfwOnly)
+                        filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+
+                    int number = r.nextInt(filter.size());
+                    BoardImage image = filter.get(number);
+                    String TAGS = image.getTags().stream().collect(Collectors.joining(", "));
+                    EmbedBuilder builder = new EmbedBuilder();
+                    builder.setAuthor("Found image", image.getImageUrl(), null)
+                            .setImage(image.getImageUrl())
+                            .setDescription("Rating: **" + nRating.getKey(fRating) + "**, Imageboard: **" + imageboard + "**" )
+                            .addField("Width", String.valueOf(image.getWidth()), true)
+                            .addField("Height", String.valueOf(image.getHeight()), true)
+                            .addField("Tags", "`" + (TAGS == null ? "None" : TAGS) + "`", false)
+                            .setFooter("If the image doesn't load, click the title.", null);
+
+                    channel.sendMessage(builder.build()).queue();
+                    TextChannelGround.of(event).dropItemWithChance(13, 3);
+                });
+                break;
+        }
     }
 }
