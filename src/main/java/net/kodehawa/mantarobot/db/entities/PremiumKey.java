@@ -16,31 +16,48 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static com.rethinkdb.RethinkDB.r;
+import static java.lang.System.currentTimeMillis;
 import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 public class PremiumKey implements ManagedObject {
     public static final String DB_TABLE = "keys";
-    private final long duration;
-    private final long expiration;
-    private final String id;
+    private long duration;
+    private long expiration;
+    private String id;
+    private int type;
+    private boolean enabled;
+    private String owner;
 
-    @ConstructorProperties({"id", "duration", "expiration"})
-    public PremiumKey(String id, long duration, long expiration) {
+    public enum Type {
+        MASTER, USER, GUILD
+    }
+
+    @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
+    public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner) {
         this.id = id;
         this.duration = duration;
         this.expiration = expiration;
+        this.type = type.ordinal();
+        this.enabled = enabled;
+        this.owner = owner;
     }
+
+    @JsonIgnore
+    public PremiumKey() {}
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        r.table(DB_TABLE).get(id).delete().runNoReply(conn());
     }
 
     @Override
@@ -48,5 +65,41 @@ public class PremiumKey implements ManagedObject {
         r.table(DB_TABLE).insert(this)
                 .optArg("conflict", "replace")
                 .runNoReply(conn());
+    }
+
+    @JsonIgnore
+    public static PremiumKey generatePremiumKey(String owner, Type type){
+        String premiumId = UUID.randomUUID().toString();
+        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner);
+        newKey.save();
+        return newKey;
+    }
+
+    @JsonIgnore
+    public Type getParsedType(){
+        return Type.values()[type];
+    }
+
+    @JsonIgnore
+    public long getDurationDays(){
+        return TimeUnit.MILLISECONDS.toDays(duration);
+    }
+
+    @JsonIgnore
+    public long validFor(){
+        return TimeUnit.MILLISECONDS.toDays(getExpiration() - currentTimeMillis());
+    }
+
+    @JsonIgnore
+    public long validForMs(){
+        return getExpiration() - currentTimeMillis();
+    }
+
+    @JsonIgnore
+    public void activate(int days){
+        this.enabled = true;
+        this.duration = TimeUnit.DAYS.toMillis(days);
+        this.expiration = currentTimeMillis() + TimeUnit.DAYS.toMillis(days);
+        save();
     }
 }
