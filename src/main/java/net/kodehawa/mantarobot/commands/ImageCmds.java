@@ -18,36 +18,29 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.ImageboardAPI;
 import net.kodehawa.lib.imageboards.entities.*;
 import net.kodehawa.lib.imageboards.util.Imageboards;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.json.JSONObject;
 
-import java.awt.*;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+import java.awt.Color;
+
+import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
+import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
 
 @Module
 public class ImageCmds {
@@ -61,9 +54,6 @@ public class ImageCmds {
 
     private final String BASEURL = "http://catgirls.brussell98.tk/api/random";
     private final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
-
-    private final BidiMap<String, String> nRating = new DualHashBidiMap<>();
-    private final Random r = new Random();
 
     private final ImageboardAPI<FurryImage> e621 = Imageboards.E621;
     private final ImageboardAPI<KonachanImage> konachan = Imageboards.KONACHAN;
@@ -332,193 +322,5 @@ public class ImageCmds {
                         .build();
             }
         });
-    }
-
-    private boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String rating) {
-        if(event.getChannel().isNSFW()) return true;
-
-        String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
-                .filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
-        String rating1 = rating == null ? "s" : rating;
-        boolean trigger = !isGlobal ? ((rating1.equals("s") || (nsfwChannel == null)) ? rating1.equals("s") : nsfwChannel.equals(event.getChannel().getId())) :
-                nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
-
-        if(!trigger) {
-            if(sendMessage) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Not on a NSFW channel. Cannot send lewd images.\n" +
-                        "**Reminder:** You can set this channel as NSFW by doing `~>opts nsfw toggle` if you are an administrator on this server.").queue();
-            }
-            return false;
-        }
-
-        return true;
-    }
-
-    private boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, String rating) {
-        boolean trigger = tags.contains("loli") || tags.contains("lolis") ||
-                tags.contains("shota") || tags.contains("shotas") ||
-                tags.contains("lolicon") || tags.contains("shotacon") &&
-                (rating == null || rating.equals("q") || rating.equals("e"));
-
-        if(!trigger) {
-            return false;
-        }
-
-        event.getChannel().sendMessage(EmoteReference.WARNING + "Sadly we cannot display images that allegedly contain `loli` or `shota` lewd/NSFW content because discord" +
-                " prohibits it. (Filter ran: Image contains a loli or shota tag and it's NSFW)").queue();
-        return true;
-    }
-
-    private boolean boom(List<?> l, GuildMessageReceivedEvent event) {
-        if(l == null) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Oops... something went wrong when searching...").queue();
-            return true;
-        }
-
-        return false;
-    }
-
-    private void getImage(ImageboardAPI<?> api, String type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
-        String rating = "s";
-        boolean needRating = args.length >= 3;
-        TextChannel channel = event.getChannel();
-
-        if(nsfwOnly)
-            rating = "e";
-
-        try {
-            if(needRating) rating = nRating.get(args[2]);
-        } catch(Exception e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
-            return;
-        }
-
-        final String fRating = rating;
-
-        if(!nsfwCheck(event, false, false, fRating)) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
-            return;
-        }
-        int page = Math.max(1, r.nextInt(25));
-
-        switch(type) {
-            case "get":
-                try {
-                    String whole1 = content.replace("get ", "");
-                    String[] wholeBeheaded = whole1.split(" ");
-
-                    api.get(page, images1 -> {
-                        if(boom(images1, event)) return;
-
-                        try {
-                            int number;
-                            List<BoardImage> images = (List<BoardImage>) images1;
-                            if(!nsfwOnly)
-                                images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-
-                            try {
-                                number = Integer.parseInt(wholeBeheaded[0]);
-                            } catch(Exception e) {
-                                number = r.nextInt(images.size());
-                            }
-                            BoardImage image = images.get(number);
-                            String tags = image.getTags().stream().collect(Collectors.joining(", "));
-                            if(foundMinorTags(event, tags, image.getRating())) {
-                                return;
-                            }
-
-                            imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, fRating, imageboard, channel);
-                            TextChannelGround.of(event).dropItemWithChance(13, 3);
-                        } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                    "number or another search.").queue();
-                        }
-                    });
-                } catch(Exception exception) {
-                    if(exception instanceof NumberFormatException)
-                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
-                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                        );
-                }
-                break;
-            case "tags":
-                try {
-                    String sNoArgs = content.replace("tags ", "");
-                    String[] expectedNumber = sNoArgs.split(" ");
-                    String tags = expectedNumber[0];
-                    api.onSearch(tags, images -> {
-                        //account for this
-                        if(boom(images, event)) return;
-
-                        try {
-                            List<BoardImage> filter = (List<BoardImage>) images;
-                            if(!nsfwOnly)
-                                filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-
-                            int number1;
-                            try {
-                                number1 = Integer.parseInt(expectedNumber[1]);
-                            } catch(Exception e) {
-                                number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
-                            }
-                            BoardImage image = filter.get(number1);
-                            String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
-
-                            if(foundMinorTags(event, tags1, image.getRating())) {
-                                return;
-                            }
-
-                            imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, fRating, imageboard, channel);
-                            TextChannelGround.of(event).dropItemWithChance(13, 3);
-                        } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
-                                    "number or another search.").queue();
-                        }
-                    });
-                } catch(Exception exception) {
-                    if(exception instanceof NumberFormatException)
-                        channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
-                                message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
-                        );
-
-                    exception.printStackTrace();
-                }
-                break;
-            case "":
-                api.get(page, images -> {
-                    if(boom(images, event)) return;
-
-                    List<BoardImage> filter = (List<BoardImage>) images;
-                    if(!nsfwOnly)
-                        filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
-
-                    int number = r.nextInt(filter.size());
-                    BoardImage image = filter.get(number);
-                    String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
-                    imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, fRating, imageboard, channel);
-                    TextChannelGround.of(event).dropItemWithChance(13, 3);
-                });
-                break;
-        }
-    }
-
-    private void imageEmbed(String url, String width, String height, String tags, String rating, String imageboard, TextChannel channel) {
-        EmbedBuilder builder = new EmbedBuilder();
-        builder.setAuthor("Found image", url, null)
-                .setImage(url)
-                .setDescription("Rating: **" + nRating.getKey(rating) + "**, Imageboard: **" + imageboard + "**" )
-                .addField("Width", width, true)
-                .addField("Height", height, true)
-                .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)
-                .setFooter("If the image doesn't load, click the title.", null);
-
-        channel.sendMessage(builder.build()).queue();
-    }
-
-    @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
-        nRating.put("safe", "s");
-        nRating.put("questionable", "q");
-        nRating.put("explicit", "e");
     }
 }
