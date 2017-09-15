@@ -16,8 +16,15 @@
 
 package net.kodehawa.mantarobot;
 
+import br.com.brjdevs.java.utils.async.Async;
+import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
+import com.github.natanbc.discordbotsapi.PostingException;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
+import gnu.trove.impl.sync.TSynchronizedLongSet;
+import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
+import gnu.trove.set.TLongSet;
+import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
@@ -83,15 +90,19 @@ public class MantaroBot extends ShardedJDA {
     @Getter
     private final StatsDClient statsClient;
     @Getter
+    private final DiscordBotsAPI discordBotsAPI;
+    @Getter
+    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
+    @Getter
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-
 
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
         core = new MantaroCore(config, true, true, DEBUG);
+        discordBotsAPI = new DiscordBotsAPI(config.dbotsorgToken);
 
         statsClient = new NonBlockingStatsDClient(
                 config.isPremiumBot() ? "mantaro-patreon" : "mantaro",
@@ -144,6 +155,32 @@ public class MantaroBot extends ShardedJDA {
 
         birthdayCacher = new BirthdayCacher();
         this.startCheckingBirthdays();
+
+        Async.task("discordbots.org post task", ()->{
+            if(config.dbotsorgToken == null) return;
+            MantaroShard[] shards = shardedMantaro.getShards();
+            int[] payload = new int[shards.length];
+            for(int i = 0; i < shards.length; i++) {
+                payload[i] = shards[i].getGuilds().size();
+            }
+            try {
+                discordBotsAPI.postStats(shards[0].getJDA().getSelfUser().getIdLong(), payload);
+            } catch(PostingException e) {
+                log.error("Error posting stats to discordbots.org", e);
+            }
+        }, 30, TimeUnit.MINUTES);
+
+        Async.task("discordbots.org upvotes task", ()->{
+            if(config.dbotsorgToken == null) return;
+            try {
+                long[] upvoters = discordBotsAPI.getUpvoterIds(shardedMantaro.getShards()[0].getJDA().getSelfUser().getIdLong());
+                TLongSet set = new TLongHashSet();
+                set.addAll(upvoters);
+                discordBotsUpvoters = new TUnmodifiableLongSet(set);
+            } catch(PostingException e) {
+                log.error("Error getting upvoters from discordbots.org", e);
+            }
+        }, 10, TimeUnit.MINUTES);
     }
 
     public static void main(String[] args) {

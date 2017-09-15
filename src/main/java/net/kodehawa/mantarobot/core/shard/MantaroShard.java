@@ -180,7 +180,7 @@ public class MantaroShard implements JDA {
                         httpClient.newCall(request).execute().close();
                     }
 
-                    if(dbotsorgToken != null) {
+                    /*if(dbotsorgToken != null) {
                         Request request = new Request.Builder()
                                 .url("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
                                 .addHeader("Authorization", dbotsorgToken)
@@ -188,7 +188,7 @@ public class MantaroShard implements JDA {
                                 .post(body)
                                 .build();
                         httpClient.newCall(request).execute().close();
-                    }
+                    }*/
                 } catch(Exception ignored) {
                 }
             }, 1, TimeUnit.HOURS);
