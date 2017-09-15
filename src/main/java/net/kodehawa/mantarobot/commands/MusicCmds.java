@@ -739,41 +739,6 @@ public class MusicCmds {
         });
     }
 
-    //@Subscribe
-    public void forcestop(CommandRegistry cr){
-        cr.register("forcestop", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
-
-            //Just in case, we don't want to spam the websocket. Anyway, this command shouldn't be used a LOT.
-            RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 30);
-
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!rateLimiter.process(event.getAuthor())){
-                    event.getChannel().sendMessage(EmoteReference.STOP + "You can only use this once in a while... I hope you didn't need it right after 30 seconds ^^;").queue();
-                    return;
-                }
-
-                JDAImpl api = (JDAImpl) event.getJDA();
-                api.getClient().send(new JSONObject().put("op", WebSocketCode.VOICE_STATE)
-                        .put("d", new JSONObject()
-                        .put("guild_id", event.getGuild().getId())
-                        .put("channel_id", JSONObject.NULL)
-                        .put("self_muted", false)
-                        .put("self_deafened", false)).toString());
-
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Voice connection has been forcefully closed succesfully! (Please note: Only use this command again " +
-                        "when `stop` doesn't work at all)").queue();
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Force Stop")
-                        .setDescription("**Forcefully stops an audio connection (Only usable by administrators or bot commanders!)**")
-                        .build();
-            }
-        });
-    }
-
     @Subscribe
     public void volume(CommandRegistry cr) {
         cr.register("volume", new SimpleCommand(Category.MUSIC) {
