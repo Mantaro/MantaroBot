@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.async.Async;
-import br.com.brjdevs.java.utils.texts.StringUtils;
 import bsh.Interpreter;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
@@ -44,10 +43,8 @@ import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.rmq.NodeAction;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.json.JSONObject;
 
 import javax.script.ScriptEngine;
@@ -583,46 +580,6 @@ public class OwnerCmd {
                 return SPLIT_PATTERN.split(content, 2);
             }
 
-        });
-    }
-
-    //@Subscribe
-    public void addGif(CommandRegistry registry) {
-        registry.register("addgif", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                try {
-                    Map<String, Optional<String>> opts = StringUtils.parse(args);
-
-                    if(!opts.containsKey("type") || !opts.get("type").isPresent()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-type` argument or it was empty!\n" +
-                                "Accepted types: `pat, hug, kiss, slap, highfive, bite, poke, tickle, pout, nuzzle`. To create a new one just make it with a new name.").queue();
-                        return;
-                    }
-
-                    if(!opts.containsKey("url") || !opts.get("url").isPresent()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't include either the `-url` argument or it was empty!").queue();
-                        return;
-                    }
-                    RequestBody body = RequestBody.create(MediaType.parse("text/plain"), opts.get("url").get());
-
-                    Request identify = new Request.Builder()
-                            .url(String.format("http://%s/api/nodev1/actions?type=" + opts.get("type").get(), MantaroData.config().get().apiUrl))
-                            .header("Authorization", sessionToken)
-                            .post(body)
-                            .build();
-                    client.newCall(identify).execute().close();
-
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added gif to the API.").queue();
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return null;
-            }
         });
     }
 

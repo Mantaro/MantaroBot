@@ -43,6 +43,7 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
      * @param commandName the Name of the not-found command.
      */
     public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+        if(commandName.isEmpty()) commandName = "none";
         event.getChannel().sendMessage(String.format("%sNo subcommand `%s` found in the `%s` command! Help for this command will be shown below.", EmoteReference.ERROR, commandName, mainCommand)).queue();
         onHelp(event);
 
