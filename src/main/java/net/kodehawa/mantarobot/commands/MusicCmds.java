@@ -624,10 +624,8 @@ public class MusicCmds {
                     return;
                 }
 
-                MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
-                        .shuffle();
-                event.getChannel().sendMessage(EmoteReference.OK + "Randomized the order of the current queue.")
-                        .queue();
+                MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().shuffle();
+                event.getChannel().sendMessage(EmoteReference.OK + "Randomized the order of the current queue.").queue();
                 TextChannelGround.of(event).dropItemWithChance(0, 10);
             }
 
@@ -648,16 +646,15 @@ public class MusicCmds {
                 try {
                     if(!isInConditionTo(event)) return;
 
-                    TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(
-                            event.getGuild())
-                            .getTrackScheduler();
-                    if(scheduler.getCurrentTrack().getUserData() != null && String.valueOf(scheduler.getCurrentTrack().getUserData()).equals(
-                            event.getAuthor().getId())
-                            || isDJ(event.getMember())) {
+                    TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
+
+                    if(scheduler.getCurrentTrack().getUserData() != null && String.valueOf(scheduler.getCurrentTrack().getUserData())
+                            .equals(event.getAuthor().getId()) || isDJ(event.getMember())) {
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "The DJ has decided to skip!").queue();
                         scheduler.nextTrack(true, true);
                         return;
                     }
+
                     List<String> voteSkips = scheduler.getVoteSkips();
                     int requiredVotes = scheduler.getRequiredVotes();
                     if(voteSkips.contains(event.getAuthor().getId())) {
@@ -673,9 +670,11 @@ public class MusicCmds {
                             scheduler.nextTrack(true, true);
                             return;
                         }
+
                         event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** You need " +
                                 (requiredVotes - voteSkips.size()) + " more vote(s) to skip!").queue();
                     }
+
                     TextChannelGround.of(event).dropItemWithChance(0, 10);
                 } catch(NullPointerException e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "There seems to be no track to skip, so I cannot do anything...").queue();
@@ -721,6 +720,7 @@ public class MusicCmds {
                             stop(event);
                             return;
                         }
+
                         event.getChannel().sendMessage(EmoteReference.OK + "**Your vote has been submitted!** You need "
                                 + (requiredVotes - stopVotes.size()) + " more vote(s) to stop!").queue();
                     }
@@ -755,8 +755,7 @@ public class MusicCmds {
                         return;
                     }
 
-                    AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
-                            .getTrackScheduler().getAudioPlayer();
+                    AudioPlayer player = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getAudioPlayer();
 
                     if(args[0].equals("check")) {
                         event.getChannel().sendMessage(
@@ -773,6 +772,7 @@ public class MusicCmds {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number.").queue();
                         return;
                     }
+
                     player.setVolume(volume);
                     event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d\n\n%s", volume,
                             GuildStatsManager.bar(volume, 50)))

@@ -73,7 +73,8 @@ public class AudioLoader implements AudioLoadResultHandler {
         try {
             int i = 0;
             for(AudioTrack track : playlist.getTracks()) {
-                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                GuildData guildData = dbGuild.getData();
                 if(guildData.getMusicQueueSizeLimit() != null) {
                     if(i < guildData.getMusicQueueSizeLimit()) {
                         loadSingle(track, true);
@@ -82,13 +83,16 @@ public class AudioLoader implements AudioLoadResultHandler {
                         break;
                     }
                 } else {
-                    if(i < MAX_QUEUE_LENGTH) {
-                        loadSingle(track, true);
+                    if(i > MAX_QUEUE_LENGTH && !dbGuild.isPremium()) {
+                        event.getChannel().sendMessage(":warning: The queue you added had more than " + MAX_QUEUE_LENGTH +
+                                " songs, so we added songs until this limit and ignored the rest.").queue();
+
+                        break; //stop adding songs
                     } else {
-                        event.getChannel().sendMessage(":warning: The queue you added had more than " + MAX_QUEUE_LENGTH + " songs, so we added songs until this limit and ignored the rest.").queue();
-                        break;
+                        loadSingle(track, true);
                     }
                 }
+
                 i++;
             }
 
