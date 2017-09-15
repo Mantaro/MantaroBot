@@ -31,6 +31,7 @@ import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.events.guild.member.GenericGuildMemberEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.core.events.guild.member.GuildMemberRoleAddEvent;
 import net.dv8tion.jda.core.events.http.HttpRequestEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -48,8 +49,12 @@ import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
@@ -79,6 +84,8 @@ public class MantaroListener implements EventListener {
     private final int shardId;
     private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
     private final RateLimiter spamModeLimiter = new RateLimiter(TimeUnit.SECONDS, 2, 3);
+    private final ManagedDatabase db = MantaroData.db();
+
     public MantaroListener(int shardId, MantaroShard shard) {
         this.shardId = shardId;
         this.shard = shard;
@@ -177,6 +184,51 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
                     .withText("Shard reconnected")
                     .withDate(new Date()).build());
+        }
+
+        if(event instanceof GuildMemberRoleAddEvent){
+            onRoleAdd((GuildMemberRoleAddEvent) event);
+        }
+    }
+
+    /**
+     * Handles automatic deliver of patreon keys. Should only deliver keys when
+     * - An user just joined the guild and got the "Patreon" role assigned by the Patreon bot
+     * - The user hasn't re-joined to get the role re-assigned
+     * - The user hasn't received any keys
+     * - The user pledged, obviously
+     * @param event The event that says that a role got added, obv.
+     */
+    private void onRoleAdd(GuildMemberRoleAddEvent event){
+        //Only in mantaro's guild...
+        if(event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
+            User user = event.getUser();
+            //who...
+            DBUser dbUser = db.getUser(user);
+            if(event.getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
+                //Thanks lombok for the meme names
+                if (!dbUser.getData().isHasReceivedFirstKey() && !MantaroData.config().get().isPremiumBot()) {
+                    //Attempt to open a PM and send a key!
+                    user.openPrivateChannel().queue(channel -> {
+                        //Sellout message :^)
+                        channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
+                            message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. If any doubts, please contact Kodehawa#3457.\n" +
+                                    "Instructions: **Apply this key to yourself!**. This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
+                                    "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
+                                    "To apply this key, run the following command in any channel `~>activatekey " +
+                                    PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER) + " user`\n" +
+                                    "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
+                                        dbUser.getData().setHasReceivedFirstKey(true);
+                                        dbUser.saveAsync();
+                                    }
+                            );
+
+                            //Celebrate internally! \ o /
+                            LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
+                        });
+                    }, failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+                }
+            }
         }
     }
 
