@@ -85,7 +85,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                     if(i < MAX_QUEUE_LENGTH) {
                         loadSingle(track, true);
                     } else {
-                        event.getChannel().sendMessage(":warning: The queue you added had more than" + MAX_QUEUE_LENGTH + "songs, so we added songs until this limit and ignored the rest.").queue();
+                        event.getChannel().sendMessage(":warning: The queue you added had more than " + MAX_QUEUE_LENGTH + " songs, so we added songs until this limit and ignored the rest.").queue();
                         break;
                     }
                 }
