@@ -484,9 +484,6 @@ public class ImageCmds {
                                 return;
                             }
 
-                            System.out.println(image.getImageUrl());
-                            System.out.println(image.getRating());
-
                             EmbedBuilder builder = new EmbedBuilder();
                             builder.setAuthor("Found image", image.getImageUrl(), null)
                                     .setImage(image.getImageUrl())
