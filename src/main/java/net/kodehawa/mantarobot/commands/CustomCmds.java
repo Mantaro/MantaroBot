@@ -79,7 +79,11 @@ public class CustomCmds {
             if(values == null) return;
 
             String response = random(values);
-            runCustom(response, event);
+            try {
+                runCustom(response, event);
+            } catch (Exception e) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).");
+            }
         }
 
         @Override
