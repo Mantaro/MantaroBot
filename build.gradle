@@ -27,7 +27,9 @@ targetCompatibility = 1.8
 
 repositories {
 	jcenter()
+    mavenCentral()
 	maven { url 'https://jitpack.io' }
+    maven { url  "https://dl.bintray.com/kodehawa/maven" }
 	mavenLocal()
 }
 
@@ -61,7 +63,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-	compile 'net.kodehawa:imageboard-api:1.1.2'
+    compile 'net.kodehawa:imageboard-api:1.1.2'
 	compile 'com.github.natanbc:discordbots-api:1.0'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
