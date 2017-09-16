@@ -88,16 +88,16 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
     public ConnectionWatcherData get() {
         AbstractClient client = this.client.getPacketClient();
         client.sendPacket(new JSONPacket("{\"command\":\"return cw.getJdaPing()\"}"));
-        int ping = client.readPacketBlocking(JSONPacket.class).getJSON().getJSONArray("returns").getInt(0);
+        long ping = client.readPacketBlocking(JSONPacket.class).getJSON().getLong("return");
         client.sendPacket(new JSONPacket("{\"command\":\"return cw.getReboots()\"}"));
-        int reboots = client.readPacketBlocking(JSONPacket.class).getJSON().getJSONArray("returns").getInt(0);
+        int reboots = client.readPacketBlocking(JSONPacket.class).getJSON().getInt("return");
         client.sendPacket(new JSONPacket("{\"command\":\"return cw.getOwners()\"}"));
-        String owners = client.readPacketBlocking(JSONPacket.class).getJSON().getJSONArray("returns").getJSONObject(0).getString("data");
+        String owners = client.readPacketBlocking(JSONPacket.class).getJSON().getString("return");
         client.sendPacket(new JSONPacket("{\"command\":\"return cw.getJvmArgs()\"}"));
-        String jvmargs = client.readPacketBlocking(JSONPacket.class).getJSON().getJSONArray("returns").getJSONObject(0).getString("data");
+        String jvmargs = client.readPacketBlocking(JSONPacket.class).getJSON().getString("return");
         return new ConnectionWatcherData(
-                (List<String>) KryoUtils.unserialize(Base64.getDecoder().decode(owners)),
-                (List<String>) KryoUtils.unserialize(Base64.getDecoder().decode(jvmargs)),
+                owners,
+                jvmargs,
                 reboots,
                 ping);
     }
@@ -111,22 +111,13 @@ public class ConnectionWatcherDataManager implements DataManager<ConnectionWatch
         client.getPacketClient().getConnection().close(CLOSE_CODE_OK);
     }
 
-    public Object[] eval(String code) {
+    public String eval(String code) {
         client.getPacketClient().sendPacket(new JSONPacket(new JSONObject().put("command", code).toString()));
         JSONObject response = client.getPacketClient().readPacketBlocking(JSONPacket.class).getJSON();
         if(response.has("error")) {
             throw new RuntimeException(response.getString("error"));
         }
-        JSONArray returns = response.getJSONArray("returns");
-        Object[] ret = new Object[returns.length()];
-        for(int i = 0; i < ret.length; i++) {
-            Object o = returns.get(i);
-            if(o instanceof JSONObject) {
-                o = KryoUtils.unserialize(Base64.getDecoder().decode(((JSONObject) o).getString("data")));
-            }
-            ret[i] = o;
-        }
-        return ret;
+        return response.getString("return");
     }
 
     public void reboot(boolean hardReboot) {
