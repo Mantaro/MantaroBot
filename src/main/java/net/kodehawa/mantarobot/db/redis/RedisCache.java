@@ -36,7 +36,11 @@ public class RedisCache {
     @SuppressWarnings("unchecked")
     public <T extends ManagedObject> T get(String key) {
         if(pool == null) return null;
-        return run(j -> (T) ManagedObject.fromBase64(j.get(key)));
+        return run(j -> {
+            String s = j.get(key);
+            if(s == null) return null;
+            return (T) ManagedObject.fromBase64(s);
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -46,6 +50,7 @@ public class RedisCache {
             String s = j.get(key);
             if(s == null || s.isEmpty()) {
                 T t = supplier.get();
+                if(t == null) return null;
                 j.set(key, t.toBase64());
                 return t;
             }
@@ -56,6 +61,7 @@ public class RedisCache {
 
     public <T extends ManagedObject> void set(String key, T t) {
         if(pool == null) return;
+        if(t == null) throw new NullPointerException();
         runNoReply(j -> j.set(key, t.toBase64()));
     }
 }
