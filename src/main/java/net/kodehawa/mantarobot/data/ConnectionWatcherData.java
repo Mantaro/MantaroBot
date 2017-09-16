@@ -20,14 +20,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class ConnectionWatcherData {
-    public final List<String> jvmargs;
-    public final List<String> owners;
-    public final int ping;
+    public final String jvmargs;
+    public final String owners;
+    public final long ping;
     public final int reboots;
 
-    public ConnectionWatcherData(List<String> owners, List<String> jvmargs, int reboots, int ping) {
-        this.owners = Collections.unmodifiableList(owners);
-        this.jvmargs = Collections.unmodifiableList(jvmargs);
+    public ConnectionWatcherData(String owners, String jvmargs, int reboots, long ping) {
+        this.owners = owners;
+        this.jvmargs = jvmargs;
         this.reboots = reboots;
         this.ping = ping;
     }
@@ -37,7 +37,8 @@ public class ConnectionWatcherData {
         return String.format("```prolog\nPing: %s\nReboots: %s\nOwners: %s\nJVM Args: %s```",
                 ping,
                 reboots,
-                String.join(", ", owners.toArray(new CharSequence[0])),
-                String.join(" ", jvmargs.toArray(new CharSequence[0])));
+                owners.substring(1, owners.length()-1),
+                jvmargs.substring(1, jvmargs.length()-1).replace(",", "")
+        );
     }
 }
