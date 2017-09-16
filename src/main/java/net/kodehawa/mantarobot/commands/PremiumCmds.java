@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -30,6 +31,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.PremiumKey;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -104,11 +106,17 @@ public class PremiumCmds {
 
                 if(scopeParsed.equals(PremiumKey.Type.USER)){
                     DBUser user = MantaroData.db().getUser(event.getAuthor());
+                    Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                     PremiumKey currentUserKey = MantaroData.db().getPremiumKey(user.getData().getPremiumKey());
                     if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < key.getExpiration()){ //Should always be enabled...
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You're already premium :heart:!").queue();
                         return;
+                    }
+
+                    if(event.getAuthor().getId().equals(key.getOwner())) {
+                        player.getData().addBadge(Badge.DONATOR);
+                        player.saveAsync();
                     }
 
                     key.activate(event.getAuthor().getId().equals(key.getOwner()) ? 365 : 180);
