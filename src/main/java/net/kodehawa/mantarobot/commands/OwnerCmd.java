@@ -225,23 +225,21 @@ public class OwnerCmd {
         });
 
         evals.put("cw", (event, code) -> {
-            Object[] returns;
+            String s;
             boolean errored = false;
             try {
-                returns = MantaroData.connectionWatcher().eval(code);
+                s = MantaroData.connectionWatcher().eval(code);
             } catch(RuntimeException e) {
                 errored = true;
-                returns = new Object[]{e.getMessage()};
+                s = e.getMessage();
             }
-            String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays
-                    .asList(returns).toString();
-            if(errored) return new Error(result == null ? "Internal error" : result) {
+            if(errored) return new Error(s == null ? "Unknown error" : s) {
                 @Override
                 public String toString() {
                     return getMessage();
                 }
             };
-            return result;
+            return s;
         });
 
         cr.register("owner", new SimpleCommand(Category.OWNER) {
@@ -299,17 +297,15 @@ public class OwnerCmd {
                                 onHelp(event);
                                 return;
                             }
-                            Object[] returns;
+                            String s;
                             boolean errored = false;
                             try {
-                                returns = MantaroData.connectionWatcher().eval(
+                                s = MantaroData.connectionWatcher().eval(
                                         String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
                             } catch(RuntimeException e) {
                                 errored = true;
-                                returns = new Object[]{e.getMessage()};
+                                s = e.getMessage();
                             }
-                            String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(
-                                    returns[0]) : Arrays.asList(returns).toString();
                             event.getChannel().sendMessage(new EmbedBuilder()
                                     .setAuthor(
                                             "Evaluated " + (errored ? "and errored" : "with success"), null,
@@ -317,7 +313,7 @@ public class OwnerCmd {
                                     )
                                     .setColor(errored ? Color.RED : Color.GREEN)
                                     .setDescription(
-                                            result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
+                                            s == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + s))
                                     .setFooter("Asked by: " + event.getAuthor().getName(), null)
                                     .build()
                             ).queue();
