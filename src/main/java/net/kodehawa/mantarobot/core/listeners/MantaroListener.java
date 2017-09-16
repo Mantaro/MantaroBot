@@ -432,7 +432,7 @@ public class MantaroListener implements EventListener {
 
         //link protection
         if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId())) {
-            if(!event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
+            if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
                     && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getRawContent())) {
                 Member bot = event.getGuild().getSelfMember();
 
