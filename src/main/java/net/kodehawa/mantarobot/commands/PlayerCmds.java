@@ -73,7 +73,7 @@ public class PlayerCmds {
                 }
 
                 if(event.getMessage().getMentionedUsers().get(0).isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot." +
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
                                     "You can rep someone now.")).queue();
@@ -81,7 +81,7 @@ public class PlayerCmds {
                 }
 
                 if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself." +
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
                                     "You can rep someone now.")).queue();
