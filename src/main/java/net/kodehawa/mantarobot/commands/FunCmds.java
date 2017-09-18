@@ -124,6 +124,11 @@ public class FunCmds {
                             return;
                         }
 
+                        if(user1.getId().equals(user.getId())) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
+                            return;
+                        }
+
                         if(user1 != null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
                             return;
