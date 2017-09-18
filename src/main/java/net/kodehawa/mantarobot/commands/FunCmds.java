@@ -205,8 +205,7 @@ public class FunCmds {
                     return;
                 }
 
-                User user1 = user.getData().getMarriedWith() == null
-                        ? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
+                User user1 = user.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
 
                 if(user1 == null) {
                     user.getData().setMarriedWith(null);
@@ -347,7 +346,6 @@ public class FunCmds {
                             .map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining("\n"));
                 }
 
-                final String matcher = ids;
                 String[] yChecker = ids.split(";");
                 boolean yCheck = yChecker[0].equalsIgnoreCase(yChecker[1]);
                 if(yCheck) {
