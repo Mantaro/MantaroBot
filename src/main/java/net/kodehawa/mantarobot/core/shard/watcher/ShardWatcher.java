@@ -82,7 +82,7 @@ public class ShardWatcher implements Runnable {
                                 ping, Arrays.toString(MantaroBot.getInstance().getPings())));
                         continue;
                     }
-                    LogUtils.shard("No dead shards found (Average shard ping: " + ping + "ms)");
+
                 }
             } catch(InterruptedException e) {
                 log.error("ShardWatcher interrupted, stopping...");
