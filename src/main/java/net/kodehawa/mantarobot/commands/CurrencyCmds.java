@@ -17,7 +17,9 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -33,7 +35,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -54,14 +55,31 @@ public class CurrencyCmds {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player user = MantaroData.db().getPlayer(event.getMember());
+                Member member = event.getMember();
 
-                EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor()
-                        .getEffectiveAvatarUrl());
-                List<ItemStack> list = user.getInventory().asList();
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                if(found.isEmpty() && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    return;
+                }
+
+                if(found.size() > 1 && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                if(found.size() == 1) {
+                    member = found.get(0);
+                }
+
+                Player player = MantaroData.db().getPlayer(member);
+
+                EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
+                List<ItemStack> list = player.getInventory().asList();
                 if(list.isEmpty()) builder.setDescription("There is only dust.");
                 else
-                    user.getInventory().asList().forEach(stack -> {
+                    player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
