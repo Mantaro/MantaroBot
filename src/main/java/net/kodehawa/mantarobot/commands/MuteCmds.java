@@ -238,7 +238,7 @@ public class MuteCmds {
                             GuildData guildData = dbGuild.getData();
                             guildData.setMutedRole(null);
                             dbGuild.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.OK + "Correctly resetted mute role.").queue();
+                            event.getChannel().sendMessage(EmoteReference.OK + "Correctly reset the mute role.").queue();
                         }).setShortDescription("Resets the current value set for the mute role."));
     }
 

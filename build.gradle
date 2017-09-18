@@ -68,6 +68,9 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
+
+	//Basically for FinderUtil
+	compile 'com.jagrosh:JDA-Utilities:1.7'
 }
 
 task wrapper(type: Wrapper) {
@@ -114,7 +117,14 @@ task cleanShittyJar(type: Delete) { delete files(jar) }
 jar { classifier = "trash" }
 jar.finalizedBy cleanShittyJar
 
-shadowJar { classifier = "" }
+shadowJar {
+	classifier = ""
+
+	//We don't want this, as we only will use FinderUtil.
+	exclude("com/jagrosh/jdautilities/commandclient/**")
+	exclude("com/jagrosh/jdautilities/menu/**")
+	exclude("com/jagrosh/jdautilities/waiter/**")
+}
 
 class Version {
 	String major, minor, revision

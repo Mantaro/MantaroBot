@@ -46,7 +46,7 @@ public class MantaroData {
         Config c = config().get();
         if(conn == null) {
             conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
-            log.info("[STARTUP] Establishing database connection to {}:{} ({})...", c.dbHost, c.dbPort, c.dbUser);
+            log.info("Establishing first database connection to {}:{} ({})...", c.dbHost, c.dbPort, c.dbUser);
         }
         return conn;
     }

@@ -44,6 +44,7 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 public class DebugCmds {
@@ -113,10 +114,7 @@ public class DebugCmds {
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!rateLimiter.process(event.getMember())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Yikes! Seems like you're going too fast.").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {

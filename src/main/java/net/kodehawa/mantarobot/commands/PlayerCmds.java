@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
@@ -50,6 +51,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 public class PlayerCmds {
@@ -88,11 +90,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(event.getMember())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only rep once every 12 hours.\n**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
                 User mentioned = event.getMessage().getMentionedUsers().get(0);
                 Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
                 player.addReputation(1L);
@@ -195,7 +193,7 @@ public class PlayerCmds {
                     player = MantaroData.db().getPlayer(member);
                 }
 
-                User user1 = MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+                User marriedTo = MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
                 String marriedSince = player.getData().marryDate();
                 String anniversary = player.getData().anniversary();
 
@@ -206,8 +204,13 @@ public class PlayerCmds {
                         return;
                     }
                     event.getChannel().sendMessage(String.format("%sYour anniversary with **%s** is on %s. You married on **%s**",
-                            EmoteReference.POPPER, user1.getName(), anniversary, marriedSince)).queue();
+                            EmoteReference.POPPER, marriedTo.getName(), anniversary, marriedSince)).queue();
                     return;
+                }
+
+                if(marriedTo == null) {
+                    player.getData().setMarriedWith(null);
+                    player.saveAsync();
                 }
 
                 PlayerData playerData = player.getData();
@@ -221,7 +224,7 @@ public class PlayerCmds {
                 Collections.sort(badges);
                 String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
 
-                applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), author, baseEmbed(event, (user1 == null || !player.getInventory().containsItem(Items.RING) ? "" :
+                applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), author, baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" :
                         EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
                         .setThumbnail(author.getEffectiveAvatarUrl())
                         .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
@@ -233,8 +236,8 @@ public class PlayerCmds {
                         .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
                         .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
                                 "Not specified.", true)
-                        .addField(EmoteReference.HEART + "Married with", user1 == null ? "Nobody." : user1.getName() + "#" +
-                                user1.getDiscriminator(), true)
+                        .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
+                                marriedTo.getDiscriminator(), true)
                         .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl()));
@@ -258,11 +261,18 @@ public class PlayerCmds {
         cr.register("badges", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
                 User toLookup = event.getAuthor();
-                if(!event.getMessage().getMentionedUsers().isEmpty()) {
-                    toLookup = event.getMessage().getMentionedUsers().get(0);
+
+                if(found.size() > 1) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                } else if(found.size() == 1) {
+                    toLookup = found.get(0).getUser();
                 }
+
 
                 Player player = MantaroData.db().getPlayer(toLookup);
                 PlayerData playerData = player.getData();

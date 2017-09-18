@@ -50,6 +50,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 /**
  * Basically part of CurrencyCmds, but only the money commands.
@@ -58,6 +59,7 @@ import static com.rethinkdb.RethinkDB.r;
 public class MoneyCmds {
 
     private final Random random = new Random();
+    private final int SLOTS_MAX_MONEY = 100_000_000;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -66,7 +68,6 @@ public class MoneyCmds {
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
                 long money = 150L;
                 User mentionedUser = null;
                 try {
@@ -80,13 +81,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You can only do this once every 24 hours.\n**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(id))
-                            + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(2);
@@ -115,13 +110,13 @@ public class MoneyCmds {
                 String streak;
                 if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.DAYS.toMillis(2)) {
                     playerData.setDailyStrike(playerData.getDailyStrike() + 1);
-                    streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "`";
+                    streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "x`";
                 } else {
                     if(playerData.getDailyStrike() == 0) {
                         streak = "First time claiming daily, have fun!";
                     } else {
                         streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                "Current strike: `" + playerData.getDailyStrike() + "`";
+                                "Old streak: `" + playerData.getDailyStrike() + "`";
                     }
                     playerData.setDailyStrike(1);
                 }
@@ -160,14 +155,9 @@ public class MoneyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
-                if(!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You're gambling so fast that I can't print enough money!").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(player.getMoney() <= 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
@@ -280,7 +270,6 @@ public class MoneyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
@@ -288,14 +277,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again " +
-                            "in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor()))
-                            + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
@@ -401,10 +383,7 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
-                if(!rateLimiter.process(event.getMember())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Dang! Don't you think you're going a bit too fast?").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 List<String> memberIds = null;
@@ -550,7 +529,7 @@ public class MoneyCmds {
                             return;
                         }
 
-                        if(money > 1000000) {
+                        if(money > SLOTS_MAX_MONEY) {
                             event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!").queue();
                             return;
                         }
@@ -560,7 +539,6 @@ public class MoneyCmds {
                     }
                 }
 
-
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                 if(player.getMoney() < money && !coinSelect) {
@@ -568,12 +546,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(event.getAuthor())) {
-                    event.getChannel().sendMessage(String.format("%sCooldown a lil bit, you can only roll the slot machine once every 25 seconds.\n" +
-                                    "**You'll be able to use this command again in %s.**",
-                            EmoteReference.STOPWATCH, Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor())))).queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(coinSelect) {
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
@@ -634,7 +607,7 @@ public class MoneyCmds {
                         .addField("Considerations", "You can gain a maximum of put credits * 1.76 coins from it.\n" +
                                 "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of 1000000 coins.\n" +
+                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.", false)
                         .build();
             }

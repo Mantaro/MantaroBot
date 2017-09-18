@@ -124,7 +124,7 @@ public class FunCmds {
                             return;
                         }
 
-                        if(player.getData().isMarried()) {
+                        if(player.getData().isMarried() && user1 != null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
                             return;
                         }
@@ -177,7 +177,7 @@ public class FunCmds {
                         .setDescription("**Basically marries you with a user.**")
                         .addField("Usage", "`~>marry <@mention>` - **Propose to someone**", false)
                         .addField(
-                                "Divorcing", "Well, if you don't want to be married anymore you can just do `~>marry divorce`",
+                                "Divorcing", "Well, if you don't want to be married anymore you can just do `~>divorce`",
                                 false
                         )
                         .build();
@@ -187,6 +187,16 @@ public class FunCmds {
         marry.addSubCommand("divorce", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.THINKING + "Please use `~>divorce` from now on.").queue();
+            }
+        });
+    }
+
+    @Subscribe
+    public void divorce(CommandRegistry cr) {
+        cr.register("divorce", new SimpleCommand(Category.FUN) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Player user = MantaroData.db().getPlayer(event.getMember());
 
                 if(user.getData().getMarriedWith() == null) {
@@ -219,6 +229,13 @@ public class FunCmds {
                 user.saveAsync();
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.")
                         .queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Divorce command")
+                        .setDescription("**Basically divorces you from whoever you were married to.**")
+                        .build();
             }
         });
     }

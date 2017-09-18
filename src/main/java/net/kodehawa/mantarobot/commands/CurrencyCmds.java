@@ -42,6 +42,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
+
 @Module
 public class CurrencyCmds {
     private final Random random = new Random();
@@ -87,11 +89,7 @@ public class CurrencyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!rateLimiter.process(event.getAuthor().getId())) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Wait! You're calling me so fast that I can't get enough items!").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
@@ -304,14 +302,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!rl.process(event.getAuthor().getId())) {
-                        event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                                "Cooldown a lil bit, you can only do this once every 10 seconds.\n**You'll be able to use this command again " +
-                                "in " +
-                                Utils.getVerboseTime(rl.tryAgainIn(event.getMember()))
-                                + ".**").queue();
-                        return;
-                    }
+                    if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
                     Item item = Items.fromAny(args[1]).orElse(null);
                     if(item == null) {
@@ -407,14 +398,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!rl.process(event.getAuthor().getId())) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 10 seconds.\n**You'll be able to use this command again " +
-                            "in " +
-                            Utils.getVerboseTime(rl.tryAgainIn(event.getMember()))
-                            + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
                 long toSend;
 
@@ -512,20 +496,11 @@ public class CurrencyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
-
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
                 if(inventory.containsItem(Items.LOOT_CRATE)) {
                     if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
-                        if(!rateLimiter.process(id)) {
-                            event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                                    "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
-                                    "in " +
-                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember()))
-                                    + ".**").queue();
-                            return;
-                        }
+                        if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));

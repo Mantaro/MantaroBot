@@ -53,6 +53,10 @@ public class DBGuild implements ManagedObject {
         return new DBGuild(id, 0, new GuildData());
     }
 
+    public static DBGuild of(String id, long premiumUntil) {
+        return new DBGuild(id, premiumUntil, new GuildData());
+    }
+
     @Override
     public void delete() {
         r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
