@@ -39,11 +39,17 @@ public class Trivia extends Game<String> {
     private String expectedAnswer;
     private boolean hardDiff = false;
     private boolean isBool;
+    private String difficulty = null;
+    private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
+
+    public Trivia(String difficulty) {
+        this.difficulty = difficulty;
+    }
 
     @Override
     public boolean onStart(GameLobby lobby) {
         try {
-            String json = Utils.wget("https://opentdb.com/api.php?amount=1&encode=base64", null);
+            String json = Utils.wget(OTDB_URL + (difficulty == null ? "" : "&difficulty=" + difficulty), null);
 
             if(json == null) {
                 lobby.getChannel().sendMessage(EmoteReference.ERROR + "Error while starting trivia. Seemingly Open Trivia DB is having trouble.").queue();

@@ -79,7 +79,7 @@ public class GuessTheNumber extends Game<Object> {
 
                     if(e.getMessage().getRawContent().equals(String.valueOf(number))) {
                         Player player = MantaroData.db().getPlayer(e.getMember());
-                        int gains = 80;
+                        int gains = 95;
                         player.addMoney(gains);
                         player.save();
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
