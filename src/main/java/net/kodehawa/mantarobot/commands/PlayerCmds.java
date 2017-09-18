@@ -193,25 +193,33 @@ public class PlayerCmds {
                     player = MantaroData.db().getPlayer(member);
                 }
 
-                User marriedTo = MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+                User marriedTo = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
                 String marriedSince = player.getData().marryDate();
                 String anniversary = player.getData().anniversary();
 
+                //Yes, two different things
+                if(marriedTo == null && player.getData().getMarriedWith() != null) {
+                    player.getData().setMarriedWith(null);
+                    player.saveAsync();
+                }
+
                 if(args.length > 0 && args[0].equals("anniversary")) {
+                    if(marriedTo == null) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You're not married...").queue();
+                        return;
+                    }
+
                     if(anniversary == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "I don't see any anniversary here :(. Maybe you were " +
                                 "married before this change was implemented, in that case do ~>marry anniversarystart").queue();
                         return;
                     }
+
                     event.getChannel().sendMessage(String.format("%sYour anniversary with **%s** is on %s. You married on **%s**",
                             EmoteReference.POPPER, marriedTo.getName(), anniversary, marriedSince)).queue();
                     return;
                 }
 
-                if(marriedTo == null) {
-                    player.getData().setMarriedWith(null);
-                    player.saveAsync();
-                }
 
                 PlayerData playerData = player.getData();
 

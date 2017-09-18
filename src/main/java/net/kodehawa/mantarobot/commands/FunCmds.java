@@ -110,7 +110,8 @@ public class FunCmds {
 
                         User member = event.getAuthor();
                         User user = event.getMessage().getMentionedUsers().get(0);
-                        Player player = MantaroData.db().getPlayer(event.getMember());
+                        Player player = MantaroData.db().getPlayer(event.getAuthor());
+                        Player player1 = MantaroData.db().getPlayer(user);
                         User user1 = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
                         if(user.getId().equals(event.getAuthor().getId())) {
@@ -124,12 +125,12 @@ public class FunCmds {
                         }
 
                         if(user1 != null) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
                             return;
                         }
 
-                        if(player.getData().isMarried()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You are married already.").queue();
+                        if(player1.getData().isMarried()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
                             return;
                         }
 
