@@ -91,7 +91,7 @@ public class GameCmds {
                 }
 
                 if(difficulty != null && !(difficulty.equals("easy") || difficulty.equals("hard") || difficulty.equals("medium"))) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong difficulty specified! (Supported: easy, hard, medium)").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong difficulty specified! (Supported: easy, medium and hard)").queue();
                     return;
                 }
 
@@ -101,7 +101,8 @@ public class GameCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Trivia command.")
-                        .setDescription("**Starts an instance of trivia.**")
+                        .setDescription("**Starts an instance of trivia.**\n" +
+                                "Optionally, you can specify the difficulty (easy, medium or hard) to play.")
                         .addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends.", false)
                         .build();
             }
