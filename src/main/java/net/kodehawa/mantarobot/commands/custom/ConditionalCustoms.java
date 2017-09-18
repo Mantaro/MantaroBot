@@ -47,6 +47,8 @@ public class ConditionalCustoms {
         comparators.put("not-less-than", comparators.get("less-than").negate());
         comparators.put("ignorecase-not-greater-than", comparators.get("ignorecase-greater-than").negate());
         comparators.put("ignorecase-not-less-than", comparators.get("ignorecase-less-than").negate());
+        comparators.put("contains", String::contains);
+        comparators.put("ignorecase-contains", (s1, s2) -> s1.toLowerCase().contains(s2.toLowerCase()));
 
         //@{if;INPUT1;COMPARE;INPUT2;OUTPUT_TRUE[;OUTPUT_FALSE]}
         functions.put("if", args -> {
