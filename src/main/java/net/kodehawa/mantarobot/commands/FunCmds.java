@@ -321,9 +321,6 @@ public class FunCmds {
     @Subscribe
     public void love(CommandRegistry registry) {
         Random r = new Random();
-        String[] usersToMax = {"155867458203287552;132584525296435200",
-                "132584525296435200;155867458203287552", "1558674582032875522;213466096718708737", "213466096718708737;1558674582032875522",
-                "267207628965281792;251260900252712962", "251260900252712962;267207628965281792"};
 
         registry.register("love", new SimpleCommand(Category.FUN) {
             @Override
@@ -353,7 +350,7 @@ public class FunCmds {
                 final String matcher = ids;
                 String[] yChecker = ids.split(";");
                 boolean yCheck = yChecker[0].equalsIgnoreCase(yChecker[1]);
-                if(Stream.of(usersToMax).anyMatch(s -> s.equals(matcher)) || yCheck) {
+                if(yCheck) {
                     percentage = 100;
                 }
 
