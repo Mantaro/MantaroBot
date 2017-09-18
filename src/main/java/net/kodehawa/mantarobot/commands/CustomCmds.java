@@ -572,7 +572,8 @@ public class CustomCmds {
                                         "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
                                         "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
                                         "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
-                                        "`~>custom view <name> <response number>` - **Views the content of one response**",
+                                        "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
+                                        "`~>custom rename <previous name> <new name> - **Renames a custom command**`",
                                 false
                         ).build();
             }

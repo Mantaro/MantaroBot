@@ -161,12 +161,12 @@ public class InfoCmds {
                     return;
                 }
 
-                if(found.isEmpty() && content.isEmpty()) {
+                if(found.isEmpty() || content.isEmpty()) {
                     event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl())).queue();
                     return;
                 }
 
-                if(found.size() > 1) {
+                if(found.size() > 1 && !content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
                             "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
                     return;
@@ -518,12 +518,12 @@ public class InfoCmds {
 
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
 
-                if(found.isEmpty()) {
+                if(found.isEmpty() && !content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "No members found with your search criteria!").queue();
                     return;
                 }
 
-                if(found.size() > 1) {
+                if(found.size() > 1 && !content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
                             "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
                     return;

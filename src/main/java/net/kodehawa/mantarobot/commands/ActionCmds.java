@@ -135,7 +135,7 @@ public class ActionCmds {
         //pout();
         cr.register("pout", new ImageActionCmd(
                 "Pout", "Pouts at the specified user.", Color.PINK,
-                "pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", POUTS.get(), "*pouts*, **hmph**", true
+                "pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", POUTS.get(), "*pouts, hmph*", true
         ));
 
         //greet();

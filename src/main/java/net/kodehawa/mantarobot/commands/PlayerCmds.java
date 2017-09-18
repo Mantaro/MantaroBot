@@ -65,16 +65,31 @@ public class PlayerCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 long rl = rateLimiter.tryAgainIn(event.getMember());
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                User user;
 
-                if(event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention at least one user.\n" +
+                if(content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention or put the name of at least one user.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
                                     "You can rep someone now.")).queue();
                     return;
                 }
 
-                if(event.getMessage().getMentionedUsers().get(0).isBot()) {
+                if(found.isEmpty() && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    return;
+                }
+
+                if(found.size() > 1 && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                user = found.get(0).getUser();
+
+                if(user.isBot()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
@@ -82,7 +97,7 @@ public class PlayerCmds {
                     return;
                 }
 
-                if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
+                if(user.equals(event.getAuthor())) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep yourself.\n" +
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
@@ -91,11 +106,10 @@ public class PlayerCmds {
                 }
 
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
-                User mentioned = event.getMessage().getMentionedUsers().get(0);
-                Player player = MantaroData.db().getPlayer(event.getGuild().getMember(mentioned));
+                Player player = MantaroData.db().getPlayer(event.getGuild().getMember(user));
                 player.addReputation(1L);
                 player.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + mentioned.getName() + "**").queue();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + user.getName() + "**").queue();
             }
 
             @Override
@@ -180,9 +194,22 @@ public class PlayerCmds {
                 UserData user = MantaroData.db().getUser(event.getMember()).getData();
                 Member member = event.getMember();
 
-                if(!event.getMessage().getMentionedUsers().isEmpty()) {
-                    author = event.getMessage().getMentionedUsers().get(0);
-                    member = event.getGuild().getMember(author);
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+
+                if(found.isEmpty() && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    return;
+                }
+
+                if(found.size() > 1 && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                if(found.size() == 1 && !content.isEmpty()) {
+                    author = found.get(0).getUser();
+                    member = found.get(0);
 
                     if(author.isBot()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Bots don't have profiles.").queue();
@@ -270,10 +297,9 @@ public class PlayerCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-
                 User toLookup = event.getAuthor();
 
-                if(found.size() > 1) {
+                if(found.size() > 1 && !content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
                             "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
                     return;
