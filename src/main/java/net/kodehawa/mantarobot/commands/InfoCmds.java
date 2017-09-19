@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -67,9 +68,9 @@ public class InfoCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-                        List<TextChannel> textChannels = MantaroBot.getInstance().getTextChannels();
-                        List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
+                        SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
+                        SnowflakeCacheView<TextChannel> textChannels = MantaroBot.getInstance().getTextChannelCache();
+                        SnowflakeCacheView<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannelCache();
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
@@ -334,7 +335,7 @@ public class InfoCmds {
                     protected void call(GuildMessageReceivedEvent event, String content) {
                         if (content.isEmpty()) {
                             event.getChannel().sendMessage(EmoteReference.MEGA + "**[Stats]** Y-Yeah... gathering them, hold on for a bit...").queue(message -> {
-                                GuildStatsManager.MILESTONE = (((MantaroBot.getInstance().getGuilds().size() + 99) / 100) * 100) + 100;
+                                GuildStatsManager.MILESTONE = (((int)(MantaroBot.getInstance().getGuildCache().size() + 99) / 100) * 100) + 100;
                                 List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
                                 List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
@@ -350,10 +351,10 @@ public class InfoCmds {
 
                                 int musicConnections = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
                                         voiceChannel.getGuild().getSelfMember())).count();
-                                long exclusiveness = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
+                                long exclusiveness = MantaroBot.getInstance().getGuildCache().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
                                 double musicConnectionsPerServer = (double) musicConnections / (double) guilds.size() * 100;
                                 double exclusivenessPercent = (double) exclusiveness / (double) guilds.size() * 100;
-                                long bigGuilds = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count();
+                                long bigGuilds = MantaroBot.getInstance().getGuildCache().stream().filter(g -> g.getMembers().size() > 500).count();
                                 message.editMessage(
                                         new EmbedBuilder()
                                                 .setColor(Color.PINK)
@@ -372,7 +373,7 @@ public class InfoCmds {
                                                 .addField("Total commands (including custom)", String.valueOf(DefaultCommandProcessor.REGISTRY.commands().size()), true)
                                                 .addField("Exclusiveness in Total Servers", Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
                                                 .addField("Big Servers", String.valueOf(bigGuilds), true)
-                                                .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
+                                                .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size())
                                                         , event.getJDA().getSelfUser().getAvatarUrl())
                                                 .build()
                                 ).queue();
@@ -499,7 +500,7 @@ public class InfoCmds {
                         .addField("Hourly", GuildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
                         .addField("Daily", GuildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
                         .addField("Total", GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
-                        .setFooter("Guilds: " + MantaroBot.getInstance().getGuilds().size(), null)
+                        .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
                         .build()
                 ).queue();
             }

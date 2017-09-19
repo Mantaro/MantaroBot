@@ -202,8 +202,8 @@ public class MantaroShard implements JDA {
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
                 Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
-                    users.addAndGet(jda.getUsers().size());
-                    guilds.addAndGet(jda.getGuilds().size());
+                    users.addAndGet((int) jda.getGuildCache().size());
+                    guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
             String newStatus = random(SPLASHES.get(), RANDOM)

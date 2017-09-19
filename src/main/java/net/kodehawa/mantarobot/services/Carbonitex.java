@@ -39,7 +39,7 @@ public class Carbonitex implements Runnable {
     @Override
     public void run() {
         if(carbonToken != null) {
-            int newC = jda.getGuilds().size();
+            long newC = jda.getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
                         .add("key", carbonToken)
@@ -55,8 +55,7 @@ public class Carbonitex implements Runnable {
 
                 Response response = httpClient.newCall(request).execute();
                 response.close();
-            } catch(Exception ignored) {
-            }
+            } catch(Exception ignored) {}
         }
     }
 }

@@ -462,15 +462,18 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
+                    List<Role> roles = MantaroBot.getInstance().getRolesByName(args[0], true);
 
-                    if(role == null) {
+                    if(roles.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
                         return;
                     }
 
+                    Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
+
+
                     guildData.getDisabledRoles().add(role.getId());
-                    dbGuild.save();
+                    dbGuild.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled role " + role.getName() + " from executing commands.").queue();
                 });
 
@@ -484,18 +487,23 @@ public class GuildOptions extends OptionHandler {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
                         return;
                     }
-                    Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
-                    if(role == null) {
+
+                    List<Role> roles = MantaroBot.getInstance().getRolesByName(args[0], true);
+
+                    if(roles.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
                         return;
                     }
+
+                    Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
 
                     if(!guildData.getDisabledRoles().contains(role.getId())) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "This role is not disabled from executing commands!").queue();
                         return;
                     }
+
                     guildData.getDisabledRoles().remove(role.getId());
-                    dbGuild.save();
+                    dbGuild.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Re-enabled role " + role.getName() + " from executing commands.").queue();
                 });
     }

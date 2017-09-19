@@ -102,7 +102,7 @@ public class CommandRegistry {
         }
 
         if(!cmd.permission().test(event.getMember())) {
-            event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command").queue();
+            event.getChannel().sendMessage(EmoteReference.STOP + "You have no permissions to trigger this command :(").queue();
             return false;
         }
 

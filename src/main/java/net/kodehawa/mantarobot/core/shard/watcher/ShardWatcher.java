@@ -17,10 +17,12 @@
 package net.kodehawa.mantarobot.core.shard.watcher;
 
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.JDA;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
+import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
@@ -43,11 +45,18 @@ public class ShardWatcher implements Runnable {
         final int wait = MantaroData.config().get().shardWatcherWait;
         while(true) {
             try {
+                //Run every x ms
                 Thread.sleep(wait);
                 MantaroEventManager.getLog().info("Checking shards...");
+
+                //Just in case...
                 if(shardedMantaro == null) shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
+
+                //Get and propagate the shard event.
                 ShardMonitorEvent sme = new ShardMonitorEvent(shardedMantaro.getTotalShards());
                 EventUtils.propagateEvent(sme);
+
+                //Start the procedure...
                 int[] dead = sme.getDeadShards();
                 if(dead.length != 0) {
                     MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
@@ -55,34 +64,44 @@ public class ShardWatcher implements Runnable {
                         try {
                             FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
                                 try {
+                                    MantaroShard shard = MantaroBot.getInstance().getShard(id);
+
+                                    //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
+                                    if(shard.getStatus() == JDA.Status.RECONNECT_QUEUED) {
+                                        return 1;
+                                    }
 
                                     LogUtils.shard(
                                             "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 30 seconds."
                                     );
 
-                                    MantaroBot.getInstance().getShard(id).start(true);
-                                    Thread.sleep(1000);
+                                    //Reboot the shard.
+                                    shard.start(true);
+                                    Thread.sleep(1000); //5.5 seconds + 1 second backoff.
                                     return 1;
                                 } catch(Exception e) {
-                                    log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
+                                    //Something went wrong :(
+                                    LogUtils.shard(String.format("Cannot restart shard %d Try to do it manually.", id));
                                     return 0;
                                 }
                             });
+
+                            //Execute, if this blocks for longer than 2m throw exception (shouldn't happen anymore?)
                             THREAD_POOL.execute(restartJDA);
                             restartJDA.get(2, TimeUnit.MINUTES);
                         } catch(Exception e) {
-                            log.warn("Cannot restart shard #{} <@155867458203287552> try to do it manually.", id);
+                            LogUtils.shard(String.format("Cannot restart shard %d Try to do it manually.", id));
                         }
                     }
                 } else {
-                    long ping = MantaroBot.getInstance().getPing();
+                    //yay
                     MantaroEventManager.getLog().info("No dead shards found");
-                    if(ping > 900) {
+                    long ping = MantaroBot.getInstance().getPing();
+
+                    if(ping > 400) {
                         LogUtils.shard(String.format("No dead shards found, but average ping is high (%dms). Ping breakdown: %s",
                                 ping, Arrays.toString(MantaroBot.getInstance().getPings())));
-                        continue;
                     }
-
                 }
             } catch(InterruptedException e) {
                 log.error("ShardWatcher interrupted, stopping...");

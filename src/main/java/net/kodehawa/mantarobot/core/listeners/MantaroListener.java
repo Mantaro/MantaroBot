@@ -164,13 +164,13 @@ public class MantaroListener implements EventListener {
             if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30))) return;
 
             onJoin(e);
-            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
+            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
             return;
         }
 
         if(event instanceof GuildLeaveEvent) {
             onLeave((GuildLeaveEvent) event);
-            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
+            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
         }
 
         //debug

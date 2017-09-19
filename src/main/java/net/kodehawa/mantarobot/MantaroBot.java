@@ -161,7 +161,7 @@ public class MantaroBot extends ShardedJDA {
             MantaroShard[] shards = shardedMantaro.getShards();
             int[] payload = new int[shards.length];
             for(int i = 0; i < shards.length; i++) {
-                payload[i] = shards[i].getGuilds().size();
+                payload[i] = (int)shards[i].getGuildCache().size();
             }
             try {
                 discordBotsAPI.postStats(shards[0].getJDA().getSelfUser().getIdLong(), payload);

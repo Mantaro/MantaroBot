@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -62,7 +63,7 @@ public class BirthdayTask implements Runnable {
             Map<String, String> cached = cache.cachedBirthdays;
             int i = 0;
             int r = 0;
-            List<Guild> guilds = MantaroBot.getInstance().getGuilds();
+            SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
 
             for(Guild guild : guilds) {
                 GuildData tempData = db.getGuild(guild).getData();

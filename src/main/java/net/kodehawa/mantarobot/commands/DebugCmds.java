@@ -22,8 +22,10 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
@@ -53,8 +55,9 @@ public class DebugCmds {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-                List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
+                SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
+                SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
+                SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
 
                 event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -69,14 +72,15 @@ public class DebugCmds {
                         + "DAPI Ping: " + MantaroBot.getInstance().getPing() + "ms"
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
-                        + "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild()
-                        .getId()).getId() + 1) + ")" + "\n"
+                        + "Users: " + users.stream().distinct().count() + "\n"
+                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + Thread.activeCount() + "\n"
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
                         + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
+                        + "Active Connections: " + (int) vc.stream().filter(voiceChannel ->
+                                voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"
                         + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
                         + "```").queue();
             }
@@ -145,10 +149,10 @@ public class DebugCmds {
                             "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
-                            jda.getUsers().size(),
-                            jda.getGuilds().size(),
+                            jda.getUserCache().size(),
+                            jda.getGuildCache().size(),
                             shard.getEventManager().getLastJDAEventTimeDiff() + " ms",
-                            jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
+                            jda.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
 
                     if(shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {
