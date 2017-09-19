@@ -41,7 +41,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -623,6 +622,45 @@ public class MoneyCmds {
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
                                 "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.", false)
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void mine(CommandRegistry cr) {
+        cr.register("mine", new SimpleCommand(Category.CURRENCY) {
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 7, false);
+            final Random r = new Random();
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                User user = event.getAuthor();
+                if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
+
+                Player player = MantaroData.db().getPlayer(user);
+
+                if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pickaxe to mine!").queue();
+                    return;
+                }
+
+                if(r.nextInt(100) > 60) {
+                    event.getChannel().sendMessage(EmoteReference.SAD + "One of your picks broke while mining.").queue();
+                    player.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
+                    return;
+                }
+
+                long money = Math.max(50, r.nextInt(400)); //50 to 400 credits.
+                player.addMoney(money);
+                event.getChannel().sendMessage(EmoteReference.PICK + "You mined minerals worth $" + money + " credits!").queue();
+                player.saveAsync();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Mine command")
+                        .setDescription("**Mines minerals to gain some credits. More lucrative than loot, but needs pickaxes.")
                         .build();
             }
         });
