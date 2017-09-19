@@ -630,14 +630,12 @@ public class MoneyCmds {
     @Subscribe
     public void mine(CommandRegistry cr) {
         cr.register("mine", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 7, false);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 6, false);
             final Random r = new Random();
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 User user = event.getAuthor();
-                if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
-
                 Player player = MantaroData.db().getPlayer(user);
 
                 if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
@@ -645,15 +643,30 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(r.nextInt(100) > 60) {
+                if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
+
+                if(r.nextInt(100) > 75) { //35% chance of it breaking the pick.
                     event.getChannel().sendMessage(EmoteReference.SAD + "One of your picks broke while mining.").queue();
                     player.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
+                    player.saveAsync();
                     return;
                 }
 
-                long money = Math.max(50, r.nextInt(400)); //50 to 400 credits.
+                long money = Math.max(50, r.nextInt(550)); //50 to 550 credits.
+                String message = EmoteReference.PICK + "You mined minerals worth $" + money + " credits!";
+
+                if(r.nextInt(400) > 350) {
+                    if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
+                        message += "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!";
+                        money += Items.DIAMOND.getValue() * 0.9;
+                    } else {
+                        player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
+                        message += "\nHoh! You got lucky and found a diamond while mining, check your inventory!";
+                    }
+                }
+
+                event.getChannel().sendMessage(message).queue();
                 player.addMoney(money);
-                event.getChannel().sendMessage(EmoteReference.PICK + "You mined minerals worth $" + money + " credits!").queue();
                 player.saveAsync();
             }
 
