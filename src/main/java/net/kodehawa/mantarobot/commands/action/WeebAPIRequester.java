@@ -48,6 +48,20 @@ public class WeebAPIRequester {
         return new JSONObject(r).getString("url");
     }
 
+    public String getRandomImageByTags(String tags, boolean nsfw, String filetype) {
+        HashMap<String, Object> queryParams = new HashMap<>();
+        queryParams.put("tags", tags);
+        queryParams.put("nsfw", nsfw);
+        if(filetype != null)
+            queryParams.put("filetype", filetype);
+
+        String r = request(RANDOM_IMAGE, Utils.urlEncodeUTF8(queryParams));
+        if(r == null)
+            return null;
+
+        return new JSONObject(r).getString("url");
+    }
+
     public JSONObject getTypes() {
         String r = request(ALL_TYPES, null);
         if(r == null)
