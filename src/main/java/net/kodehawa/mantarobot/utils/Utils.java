@@ -241,6 +241,20 @@ public class Utils {
         return url2;
     }
 
+    public static String urlEncodeUTF8(Map<?, ?> map) {
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<?, ?> entry : map.entrySet()) {
+            if(sb.length() > 0) {
+                sb.append("&");
+            }
+            sb.append(String.format("%s=%s",
+                    urlEncodeUTF8(entry.getKey().toString()),
+                    urlEncodeUTF8(entry.getValue().toString())
+            ));
+        }
+        return sb.toString();
+    }
+
     public static String pretty(int number) {
         String ugly = Integer.toString(number);
 

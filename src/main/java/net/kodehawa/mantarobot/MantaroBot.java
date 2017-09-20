@@ -164,7 +164,7 @@ public class MantaroBot extends ShardedJDA {
                 payload[i] = (int)shards[i].getGuildCache().size();
             }
             try {
-                discordBotsAPI.postStats(shards[0].getJDA().getSelfUser().getIdLong(), payload);
+                discordBotsAPI.postStats(payload);
             } catch(PostingException e) {
                 log.error("Error posting stats to discordbots.org", e);
             }
@@ -173,7 +173,7 @@ public class MantaroBot extends ShardedJDA {
         Async.task("discordbots.org upvotes task", ()->{
             if(config.dbotsorgToken == null) return;
             try {
-                long[] upvoters = discordBotsAPI.getUpvoterIds(shardedMantaro.getShards()[0].getJDA().getSelfUser().getIdLong());
+                long[] upvoters = discordBotsAPI.getUpvoterIds();
                 TLongSet set = new TLongHashSet();
                 set.addAll(upvoters);
                 discordBotsUpvoters = new TUnmodifiableLongSet(set);

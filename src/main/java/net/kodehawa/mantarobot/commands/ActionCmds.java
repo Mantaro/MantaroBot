@@ -39,22 +39,14 @@ import java.util.List;
 public class ActionCmds {
 
     //File declarations
-    private final DataManager<List<String>> BITES = new SimpleFileDataManager("assets/mantaro/texts/bites.txt");
     private final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
     private final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
     private final DataManager<List<String>> FACEDESK = new SimpleFileDataManager("assets/mantaro/texts/facedesk.txt");
     private final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
     private final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
-    private final DataManager<List<String>> HUGS = new SimpleFileDataManager("assets/mantaro/texts/hugs.txt");
-    private final DataManager<List<String>> KISSES = new SimpleFileDataManager("assets/mantaro/texts/kisses.txt");
-    private final DataManager<List<String>> LEWD = new SimpleFileDataManager("assets/mantaro/texts/lewd.txt");
     private final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
     private final DataManager<List<String>> NOMS = new SimpleFileDataManager("assets/mantaro/texts/nom.txt");
     private final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
-    private final DataManager<List<String>> PATS = new SimpleFileDataManager("assets/mantaro/texts/pats.txt");
-    private final DataManager<List<String>> POKES = new SimpleFileDataManager("assets/mantaro/texts/pokes.txt");
-    private final DataManager<List<String>> POUTS = new SimpleFileDataManager("assets/mantaro/texts/pouts.txt");
-    private final DataManager<List<String>> SLAPS = new SimpleFileDataManager("assets/mantaro/texts/slaps.txt");
     private final DataManager<List<String>> TICKLES = new SimpleFileDataManager("assets/mantaro/texts/tickles.txt");
     private final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
@@ -87,37 +79,37 @@ public class ActionCmds {
         //pat();
         cr.register("pat", new ImageActionCmd(
                 "Pat", "Pats the specified user.", Color.PINK,
-                "pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", PATS.get(), "Aww, I see you are lonely, take a pat <3"
+                "pat.gif", EmoteReference.TALKING + "%s you have been patted by %s", "pat", "Aww, I see you are lonely, take a pat <3"
         ));
 
         //hug();
         cr.register("hug", new ImageActionCmd(
                 "Hug", "Hugs the specified user.", Color.PINK,
-                "hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", HUGS.get(), "Aww, I see you are lonely, take a hug <3"
+                "hug.gif", EmoteReference.TALKING + "%s you have been hugged by %s", "hug", "Aww, I see you are lonely, take a hug <3"
         ));
 
         //kiss();
         cr.register("kiss", new ImageActionCmd(
                 "Kiss", "Kisses the specified user.", Color.PINK,
-                "kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", KISSES.get(), "Aww, I see you are lonely, *kisses*"
+                "kiss.gif", EmoteReference.TALKING + "%s you have been kissed by %s", "kiss", "Aww, I see you are lonely, *kisses*"
         ));
 
         //poke();
         cr.register("poke", new ImageActionCmd(
                 "Poke", "Pokes the specified user.", Color.PINK,
-                "poke.gif", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", POKES.get(), "Aww, I see you are lonely, *pokes you*"
+                "poke.gif", EmoteReference.TALKING + "%s you have been poked by %s :eyes:", "poke", "Aww, I see you are lonely, *pokes you*"
         ));
 
         //slap();
         cr.register("slap", new ImageActionCmd(
                 "Slap", "Slaps the specified user ;).", Color.PINK,
-                "slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", SLAPS.get(), "Hmm, why do you want this? Uh, I guess... *slaps you*"
+                "slap.gif", EmoteReference.TALKING + "%s you have been slapped by %s!", "slap", "Hmm, why do you want this? Uh, I guess... *slaps you*"
         ));
 
         //bite();
         cr.register("bite", new ImageActionCmd(
                 "Bite", "Bites the specified user.", Color.PINK,
-                "bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", BITES.get(), "*bites you*"
+                "bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", "nom", "*bites you*"
         ));
 
         //tickle();
@@ -135,8 +127,20 @@ public class ActionCmds {
         //pout();
         cr.register("pout", new ImageActionCmd(
                 "Pout", "Pouts at the specified user.", Color.PINK,
-                "pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", POUTS.get(), "*pouts, hmph*", true
+                "pout.gif", EmoteReference.TALKING + "%s pouts at %s *hmph*", "pout", "*pouts, hmph*", true
         ));
+
+        //teehee()
+        cr.register("teehee", new ImageActionCmd("Teehee", "Teehee~", Color.PINK,
+                "teehee.gif", EmoteReference.EYES + "%s is teasing %s", "teehee", "*teases you*", true));
+
+        //smile()
+        cr.register("smile", new ImageActionCmd("Smile", "Smiles at someone", Color.PINK,
+                "smile.gif", EmoteReference.TALKING + "%s is smiling at %s :heart:", "smile", "*smiles at you*", true));
+
+        //stare()
+        cr.register("stare", new ImageActionCmd("Stare", "Stares at someone", Color.PINK,
+                "stare.gif", EmoteReference.EYES + "%s is staring at %s", "stare", "*stares you*", true));
 
         //greet();
         cr.register("greet", new TextActionCmd(
@@ -161,7 +165,7 @@ public class ActionCmds {
                 EmoteReference.TALKING + "%s is sucking the blood of %s!", BLOODSUCK.get(), "J-Just how am I meant to? Oh well.. *sucks your blood*", true));
 
         //lewd()
-        cr.register("lewd", new ImageCmd("Lewd", "T-Too lewd!", "lewd", LEWD.get(), "Y-You lewdie!"));
+        cr.register("lewd", new ImageCmd("Lewd", "T-Too lewd!", "lewd", "lewd", "Y-You lewdie!"));
 
         //meow()
         cr.register("meow", new ImageCmd("Meow", "Meows at the specified user.", "meow", MEOW.get(), "Meow."));

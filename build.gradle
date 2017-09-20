@@ -64,7 +64,7 @@ dependencies {
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:1.1.2'
-	compile 'com.github.natanbc:discordbots-api:1.0'
+	compile 'com.github.natanbc:discordbots-api:1.1'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
