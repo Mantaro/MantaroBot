@@ -277,7 +277,7 @@ public class UtilsCmds {
                     AtomicInteger i = new AtomicInteger();
                     for(Reminder r : reminders) {
                         builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
-                                .append(Utils.getReadableTime(r.time - System.currentTimeMillis())).append("**").append("\n");
+                                .append(Utils.getHumanizedTime(r.time - System.currentTimeMillis())).append("**").append("\n");
                     }
 
                     Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
@@ -288,26 +288,30 @@ public class UtilsCmds {
 
 
                 if(args[0].equals("cancel")) {
-                    List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+                    try {
+                        List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
 
-                    if(reminders.isEmpty()) {
+                        if(reminders.isEmpty()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+                            return;
+                        }
+
+                        if(reminders.size() == 1) {
+                            reminders.get(0).cancel();
+                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
+                        } else {
+                            DiscordUtils.selectList(event, reminders,
+                                    (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
+                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
+                                            .setDescription(r1)
+                                            .setFooter("This timeouts in 10 seconds.", null).build(),
+                                    sr -> {
+                                        sr.cancel();
+                                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
+                                    });
+                        }
+                    } catch (Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
-                        return;
-                    }
-
-                    if(reminders.size() == 1) {
-                        reminders.get(0).cancel();
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
-                    } else {
-                        DiscordUtils.selectList(event, reminders,
-                                (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getShortReadableTime(r.time - System.currentTimeMillis())),
-                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
-                                        .setDescription(r1)
-                                        .setFooter("This timeouts in 10 seconds.", null).build(),
-                                sr -> {
-                                    sr.cancel();
-                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
-                                });
                     }
 
                     return;
@@ -336,7 +340,7 @@ public class UtilsCmds {
                 }
 
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "I'll remind you of **" + toRemind + "**" +
-                        " in " + Utils.getVerboseTime(time)).queue();
+                        " in " + Utils.getHumanizedTime(time)).queue();
 
                 new Reminder.Builder()
                         .id(user.getId())
@@ -351,7 +355,8 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Remind me")
                         .setDescription("**Reminds you of something**")
-                        .addField("Usage", "`~>remindme do the laundry -time 1h20m`" +
+                        .addField("Usage", "`~>remindme do the laundry -time 1h20m`\n" +
+                                "`~>remindme cancel` to cancel a reminder." +
                                 "\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
                         .build();
             }
