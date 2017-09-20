@@ -142,6 +142,10 @@ public class ActionCmds {
         cr.register("stare", new ImageActionCmd("Stare", "Stares at someone", Color.PINK,
                 "stare.gif", EmoteReference.EYES + "%s is staring at %s", "stare", "*stares you*", true));
 
+        //cuddle()
+        cr.register("cuddle", new ImageActionCmd("Cuddle", "Cuddles someone", Color.PINK,
+                "cuddle.gif", EmoteReference.HEART + "%s you have been cuddled by %s", "cuddle", "*cuddles you*"));
+
         //greet();
         cr.register("greet", new TextActionCmd(
                 "Greet", "Sends a random greeting", Color.DARK_GRAY,
