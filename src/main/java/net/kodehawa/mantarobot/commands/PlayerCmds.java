@@ -142,6 +142,11 @@ public class PlayerCmds {
                         return;
                     }
 
+                    if(args[1].length() > 5) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Input is too long...").queue();
+                        return;
+                    }
+
                     try {
                         UtilsCmds.dateGMT(event.getGuild(), args[1]);
                     } catch(Exception e) {
