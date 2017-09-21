@@ -72,7 +72,7 @@ public class DebugCmds {
                         + "DAPI Ping: " + MantaroBot.getInstance().getPing() + "ms"
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
-                        + "Users: " + users.stream().distinct().count() + "\n"
+                        + "Users: " + users.size() + "\n"
                         + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + Thread.activeCount() + "\n"
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"

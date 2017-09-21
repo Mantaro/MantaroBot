@@ -27,11 +27,13 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -60,6 +62,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -102,6 +105,55 @@ public class UtilsCmds {
                     user.save();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset birthday date.")
                             .queue();
+                    return;
+                }
+
+                if(content.startsWith("month")) {
+                    BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
+
+                    try {
+                        if(cacher != null) {
+                            if(cacher.cachedBirthdays.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.SAD + "Things seems a bit empty here...").queue();
+                                return;
+                            }
+
+                            List<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toList());
+                            Map<String, String> guildCurrentBirthdays = new HashMap<>();
+                            Calendar calendar = Calendar.getInstance();
+                            String currentMonth = 0 + String.valueOf(calendar.get(Calendar.MONTH));
+
+                            for(Map.Entry<String, String> birthdays : cacher.cachedBirthdays.entrySet()) {
+                                if(ids.contains(birthdays.getKey()) && birthdays.getValue().split("-")[1].equals(currentMonth)) {
+                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                                }
+                            }
+
+                            if(guildCurrentBirthdays.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(").queue();
+                                return;
+                            }
+
+                            String birthdays = guildCurrentBirthdays.entrySet().stream()
+                                    .sorted(Comparator.comparingInt(entry -> Integer.parseInt(entry.getValue().split("-")[0])))
+                                    .limit(10)
+                                    .map((entry) -> String.format("+ %-16s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
+                                    .collect(Collectors.joining("\n"));
+
+                            event.getChannel().sendMessage(new MessageBuilder()
+                                    .append("Birthdays for ")
+                                    .append(Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())))
+                                    .append(" in Guild: **")
+                                    .append(event.getGuild().getName())
+                                    .append("**\n")
+                                    .appendCodeBlock(birthdays, "diff").build()).queue();
+                        } else {
+                            event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
+                        }
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.SAD + "Something went wrong while getting birthdays :(").queue();
+                    }
+
                     return;
                 }
 

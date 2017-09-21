@@ -461,15 +461,16 @@ public class GuildOptions extends OptionHandler {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
                         return;
                     }
+                    String roleS = args[0];
 
-                    List<Role> roles = MantaroBot.getInstance().getRolesByName(args[0], true);
+                    List<Role> roles = MantaroBot.getInstance().getRolesByName(roleS, true);
 
                     if(roles.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
                         return;
                     }
 
-                    Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
+                    Role role = MantaroBot.getInstance().getRolesByName(roleS, true).get(0);
 
 
                     guildData.getDisabledRoles().add(role.getId());
@@ -488,14 +489,16 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
-                    List<Role> roles = MantaroBot.getInstance().getRolesByName(args[0], true);
+                    String roleS = args[0];
+
+                    List<Role> roles = MantaroBot.getInstance().getRolesByName(roleS, true);
 
                     if(roles.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
                         return;
                     }
 
-                    Role role = MantaroBot.getInstance().getRolesByName(args[0], true).get(0);
+                    Role role = MantaroBot.getInstance().getRolesByName(roleS, true).get(0);
 
                     if(!guildData.getDisabledRoles().contains(role.getId())) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "This role is not disabled from executing commands!").queue();
