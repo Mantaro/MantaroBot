@@ -121,7 +121,7 @@ public class UtilsCmds {
                             List<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toList());
                             Map<String, String> guildCurrentBirthdays = new HashMap<>();
                             Calendar calendar = Calendar.getInstance();
-                            String currentMonth = 0 + String.valueOf(calendar.get(Calendar.MONTH));
+                            String currentMonth = 0 + String.valueOf(calendar.get(Calendar.MONTH) + 1);
 
                             for(Map.Entry<String, String> birthdays : cacher.cachedBirthdays.entrySet()) {
                                 if(ids.contains(birthdays.getKey()) && birthdays.getValue().split("-")[1].equals(currentMonth)) {
@@ -142,7 +142,7 @@ public class UtilsCmds {
 
                             event.getChannel().sendMessage(new MessageBuilder()
                                     .append("Birthdays for ")
-                                    .append(Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())))
+                                    .append(Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)))
                                     .append(" in Guild: **")
                                     .append(event.getGuild().getName())
                                     .append("**\n")
