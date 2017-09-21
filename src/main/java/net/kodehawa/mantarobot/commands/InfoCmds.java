@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -42,6 +43,7 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -50,6 +52,7 @@ import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
@@ -575,5 +578,6 @@ public class InfoCmds {
     @Subscribe
     public void onPostLoad(PostLoadEvent e) {
         start();
+        Async.task(new Carbonitex(), 30, TimeUnit.MINUTES); //Carbon is special now.
     }
 }

@@ -17,7 +17,7 @@
 package net.kodehawa.mantarobot.services;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.JDA;
+import net.kodehawa.mantarobot.MantaroBot;
 import okhttp3.*;
 
 import static net.kodehawa.mantarobot.data.MantaroData.config;
@@ -26,26 +26,15 @@ import static net.kodehawa.mantarobot.data.MantaroData.config;
 public class Carbonitex implements Runnable {
     private final String carbonToken = config().get().carbonToken;
     private final OkHttpClient httpClient = new OkHttpClient();
-    private final JDA jda;
-    private final int shardId;
-    private final int totalShards;
-
-    public Carbonitex(JDA jda, int shardId, int totalShards) {
-        this.shardId = shardId;
-        this.totalShards = totalShards;
-        this.jda = jda;
-    }
 
     @Override
     public void run() {
         if(carbonToken != null) {
-            long newC = jda.getGuildCache().size();
+            long newC = MantaroBot.getInstance().getGuildCache().size();
             try {
                 RequestBody body = new FormBody.Builder()
                         .add("key", carbonToken)
                         .add("servercount", String.valueOf(newC))
-                        .add("shardid", String.valueOf(shardId))
-                        .add("shardcount", String.valueOf(totalShards))
                         .build();
 
                 Request request = new Request.Builder()

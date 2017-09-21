@@ -36,7 +36,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
@@ -189,12 +188,9 @@ public class MantaroShard implements JDA {
                                 .build();
                         httpClient.newCall(request).execute().close();
                     }*/
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) { }
             }, 1, TimeUnit.HOURS);
         }
-
-        Async.task(new Carbonitex(jda, getId(), getTotalShards()), 30, TimeUnit.MINUTES); //Carbon is special now.
     }
 
     public void updateStatus() {

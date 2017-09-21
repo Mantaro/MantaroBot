@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 //Yes wolke, I'll use your api owo
 public class WeebAPIRequester {
-    private final String API_BASE_URL = "https://staging.weeb.sh/images";
+    private final String API_BASE_URL = "https://api.weeb.sh/images";
     private final String RANDOM_IMAGE = "/random";
     private final String ALL_TAGS = "/tags";
     private final String ALL_TYPES = "/types";
