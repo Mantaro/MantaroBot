@@ -268,7 +268,7 @@ public class CurrencyCmds {
                         String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue
                                 () * 0.9)) : "N/A";
 
-                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
+                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.getAndIncrement(), item.getEmoji(), item.getName())).append("\n");
                         prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
                     }
                 });
