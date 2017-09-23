@@ -61,6 +61,7 @@ public class MoneyCmds {
 
     private final Random random = new Random();
     private final int SLOTS_MAX_MONEY = 100_000_000;
+    private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 4;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -165,7 +166,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(player.getMoney() > (long) (Integer.MAX_VALUE) * 4) {
+                if(player.getMoney() > GAMBLE_MAX_MONEY) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! " +
                             "Thanks for not breaking the local bank.").queue();
                     return;
@@ -321,9 +322,10 @@ public class MoneyCmds {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
                                     " credits!**").queue();
                         } else {
+                            //pretty old meme right here
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound +
-                                    " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded " +
-                                    "a Java long. Here's a buggy money bag for you.").queue();
+                                    " credits. But you already had too many credits. Your bag overflowed.\n" +
+                                    "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
                         }
                     } else {
                         String msg = "Digging through messages, you found nothing but dust";
@@ -397,19 +399,6 @@ public class MoneyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
-
-                Map<String, Optional<String>> opts = StringUtils.parse(args);
-                List<String> memberIds = null;
-                boolean local = false;
-                /*if(opts.containsKey("local")){
-                     memberIds = event.getGuild().getMembers().stream().map(m -> m.getUser().getId() + ":g").collect(Collectors.toList());
-                     local = true;
-                }*/
-
-
-                //Value used in lambda expresion must be blablabla fuck it.
-                boolean isLocal = local;
-                List<String> mids = memberIds;
                 String pattern = ":g$";
 
                 OrderBy template =
@@ -421,7 +410,7 @@ public class MoneyCmds {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
                             .optArg("index", r.desc("level"))
-                            .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : player.g("id").match(pattern))
+                            .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "level"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
@@ -430,9 +419,7 @@ public class MoneyCmds {
                     m.close();
 
                     event.getChannel().sendMessage(
-                            baseEmbed(event,
-                                    "Level leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
-                                    event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                            baseEmbed(event,"Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
@@ -451,7 +438,7 @@ public class MoneyCmds {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
                             .optArg("index", r.desc("reputation"))
-                            .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : player.g("id").match(pattern))
+                            .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "reputation"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
@@ -461,8 +448,7 @@ public class MoneyCmds {
 
                     event.getChannel().sendMessage(
                             baseEmbed(event,
-                                    "Reputation leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
-                                    event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                    "Reputation leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
@@ -476,15 +462,14 @@ public class MoneyCmds {
                     return;
                 }
 
-                Cursor<Map> c1 = getGlobalRichest(template, pattern, mids, isLocal);
+                Cursor<Map> c1 = getGlobalRichest(template, pattern);
                 AtomicInteger i = new AtomicInteger();
                 List<Map> c = c1.toList();
                 c1.close();
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Money leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
-                                event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                "Money leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
@@ -704,10 +689,9 @@ public class MoneyCmds {
         player.saveAsync();
     }
 
-    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern, List<String> mids, boolean isLocal) {
+    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
         return template.filter(player -> player.g("id").match(pattern))
                 .map(player -> player.pluck("id", "money"))
-                .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : true)
                 .limit(15)
                 .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
     }

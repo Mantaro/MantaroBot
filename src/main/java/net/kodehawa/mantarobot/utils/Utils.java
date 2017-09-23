@@ -100,7 +100,8 @@ public class Utils {
      */
     public static String getHumanizedTime(long millis) {
         //What we're dealing with.
-        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        long hours = TimeUnit.MILLISECONDS.toHours(millis) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis));
         long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
         long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
 
@@ -108,7 +109,19 @@ public class Utils {
         //Marks whether it's just one value or more after.
         boolean leading = false;
 
+        if(days > 0) {
+            output.append(days).append(" ").append((days > 1 ? "days" : "day"));
+            leading = true;
+        }
+
         if(hours > 0) {
+            //If we have a leading day, and minutes after, append a comma
+            if(leading && (minutes != 0 || seconds != 0)) {
+                output.append(", ");
+            } else if(minutes == 0 || seconds != 0) { //else, append "and", since it's the end.
+                output.append(" and ");
+            }
+
             output.append(hours).append(" ").append((hours > 1 ? "hours" : "hour"));
             leading = true;
         }
@@ -134,6 +147,10 @@ public class Utils {
             }
 
             output.append(seconds).append(" ").append((seconds > 1 ? "seconds" : "second"));
+        }
+
+        if(output.toString().isEmpty() && !leading) {
+            output.append("0 seconds (about now)..");
         }
 
         return output.toString();
