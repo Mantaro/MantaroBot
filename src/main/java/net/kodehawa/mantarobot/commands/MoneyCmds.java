@@ -307,10 +307,10 @@ public class MoneyCmds {
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits! " + overflow).queue();
+                                    "with **$" + moneyFound + " credits!** " + overflow).queue();
                         } else {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits. " + overflow + "But you already had too many credits. Your bag overflowed" +
+                                    "with **$" + moneyFound + " credits.** " + overflow + "But you already had too many credits. Your bag overflowed" +
                                     ".\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
                         }
                     } else {
@@ -323,14 +323,14 @@ public class MoneyCmds {
                                     " credits!**").queue();
                         } else {
                             //pretty old meme right here
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound +
-                                    " credits. But you already had too many credits. Your bag overflowed.\n" +
+                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
+                                    " credits.** But you already had too many credits. Your bag overflowed.\n" +
                                     "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
                         }
                     } else {
                         String msg = "Digging through messages, you found nothing but dust";
 
-                        if(r.nextInt(100) > 85){
+                        if(r.nextInt(100) > 90) {
                             msg += "\n" +
                                     "Seems like you've got so much dust here... You might want to clean this up before it gets too messy!";
                         }
@@ -414,7 +414,6 @@ public class MoneyCmds {
                             .map(player -> player.pluck("id", "level"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
-                    AtomicInteger i = new AtomicInteger();
                     List<Map> c = m.toList();
                     m.close();
 
@@ -423,7 +422,7 @@ public class MoneyCmds {
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
-                                    .map(p -> String.format("%d - **%s#%s** - Level: %s", i.incrementAndGet(), p.getKey().getName(), p
+                                    .map(p -> String.format("%s**%s#%s** - Level: %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
                             ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
@@ -442,7 +441,6 @@ public class MoneyCmds {
                             .map(player -> player.pluck("id", "reputation"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
-                    AtomicInteger i = new AtomicInteger();
                     List<Map> c = m.toList();
                     m.close();
 
@@ -452,7 +450,7 @@ public class MoneyCmds {
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
-                                    .map(p -> String.format("%d - **%s#%s** - Reputation: %s", i.incrementAndGet(), p.getKey().getName(), p
+                                    .map(p -> String.format("%s**%s#%s** - Reputation: %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
                             ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
@@ -463,7 +461,6 @@ public class MoneyCmds {
                 }
 
                 Cursor<Map> c1 = getGlobalRichest(template, pattern);
-                AtomicInteger i = new AtomicInteger();
                 List<Map> c = c1.toList();
                 c1.close();
 
@@ -473,7 +470,7 @@ public class MoneyCmds {
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p
+                                .map(p -> String.format("%s**%s#%s** - Credits: $%s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
                                 .collect(Collectors.joining("\n"))
                         ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
