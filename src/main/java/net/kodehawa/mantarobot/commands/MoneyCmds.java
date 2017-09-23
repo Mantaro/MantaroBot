@@ -118,7 +118,7 @@ public class MoneyCmds {
                         streak = "First time claiming daily, have fun!";
                     } else {
                         streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                "Old streak: `" + playerData.getDailyStrike() + "`";
+                                "Old streak: `" + playerData.getDailyStrike() + "x`";
                     }
                     playerData.setDailyStrike(1);
                 }
@@ -422,7 +422,7 @@ public class MoneyCmds {
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
-                                    .map(p -> String.format("%s**%s#%s** - Level: %s", EmoteReference.MARKER, p.getKey().getName(), p
+                                    .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
                             ).build()
@@ -450,7 +450,7 @@ public class MoneyCmds {
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
-                                    .map(p -> String.format("%s**%s#%s** - Reputation: %s", EmoteReference.MARKER, p.getKey().getName(), p
+                                    .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
                             ).build()
@@ -470,7 +470,7 @@ public class MoneyCmds {
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - Credits: $%s", EmoteReference.MARKER, p.getKey().getName(), p
+                                .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
                                 .collect(Collectors.joining("\n"))
                         ).build()

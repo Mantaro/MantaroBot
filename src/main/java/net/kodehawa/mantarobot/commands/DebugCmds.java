@@ -41,8 +41,8 @@ import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
@@ -113,7 +113,12 @@ public class DebugCmds {
 
     @Subscribe
     public void ping(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final Random r = new Random();
+        final String[] pingQuotes = {
+                "W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?",
+                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!"
+        };
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
@@ -123,7 +128,7 @@ public class DebugCmds {
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
+                    event.getChannel().sendMessage(EmoteReference.MEGA + "*" + pingQuotes[r.nextInt(pingQuotes.length)] + "* - My ping: " + ping + " ms (" + ratePing(ping) + ")  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
                     TextChannelGround.of(event).dropItemWithChance(5, 5);
                 });
             }
@@ -138,6 +143,7 @@ public class DebugCmds {
     }
 
     @Subscribe
+    //TODO pages
     public void shardinfo(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
             @Override

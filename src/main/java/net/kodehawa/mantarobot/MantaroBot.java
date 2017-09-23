@@ -114,7 +114,7 @@ public class MantaroBot extends ShardedJDA {
             System.exit(API_HANDSHAKE_FAILURE);
         }
 
-        LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %s)", MantaroInfo.VERSION, mantaroAPI.nodeUniqueIdentifier));
+        LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
 
         rabbitMQDataManager = new RabbitMQDataManager(config);
         if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
@@ -141,7 +141,7 @@ public class MantaroBot extends ShardedJDA {
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
 
         LogUtils.log("Startup",
-                String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
+                String.format("Loaded %d commands in %d shards.\nI took %d seconds to wake up!",
                         DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
         if(!config.isPremiumBot() && !config.isBeta()) {
