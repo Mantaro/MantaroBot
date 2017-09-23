@@ -60,6 +60,7 @@ public class ImageCmds {
     private final ImageboardAPI<Rule34Image> rule34 = Imageboards.RULE34;
     private final ImageboardAPI<YandereImage> yandere = Imageboards.YANDERE;
     private final ImageboardAPI<DanbooruImage> danbooru = Imageboards.DANBOORU;
+    private final ImageboardAPI<SafebooruImage> safebooru = Imageboards.SAFEBOORU; //safebooru.org, not the danbooru one.
 
     @Subscribe
     public void cat(CommandRegistry cr) {
@@ -198,6 +199,45 @@ public class ImageCmds {
                                         + "`~>konachan tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
                         .addField("Parameters",
                                 "`page` - **Can be any value from 1 to the Konachan maximum page. Probably around 4000.**\n"
+                                        + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
+                                        + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void safebooru(CommandRegistry cr) {
+        cr.register("safebooru", new SimpleCommand(Category.IMAGE) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                String noArgs = content.split(" ")[0];
+                switch(noArgs) {
+                    case "get":
+                        getImage(safebooru, "get", false, "safebooru", args, content, event);
+                        break;
+                    case "tags":
+                        getImage(safebooru, "tags", false, "safebooru", args, content, event);
+                        break;
+                    case "":
+                        getImage(safebooru, "", false, "safebooru", args, content, event);
+                        break;
+                    default:
+                        onHelp(event);
+                        break;
+                }
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Safebooru commmand")
+                        .setColor(Color.PINK)
+                        .setDescription("**Retrieves images from the Safebooru image board.**")
+                        .addField("Usage",
+                                "`~>safebooru get <page> <imagenumber>` - **Gets an image based in parameters.**\n"
+                                        + "`~>safebooru tags <tag> <imagenumber>` - **Gets an image based in the specified tag and parameters.**\n", false)
+                        .addField("Parameters",
+                                "`page` - **Can be any value from 1 to the Safebooru maximum page. Probably around 4000.**\n"
                                         + "`imagenumber` - **(OPTIONAL) Any number from 1 to the maximum possible images to get, specified by the first instance of the command.**\n"
                                         + "`tag` - **Any valid image tag. For example animal_ears or original.**", false)
                         .build();
