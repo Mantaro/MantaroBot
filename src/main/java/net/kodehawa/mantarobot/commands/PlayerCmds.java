@@ -262,23 +262,23 @@ public class PlayerCmds {
 
                 List<Badge> badges = playerData.getBadges();
                 Collections.sort(badges);
-                String displayBadges = badges.stream().map(Badge::getUnicode).collect(Collectors.joining("  "));
+                String displayBadges = badges.stream().map(Badge::getUnicode).limit(5).collect(Collectors.joining("  "));
 
                 applyBadge(event.getChannel(), badges.isEmpty() ? null : badges.get(0), author, baseEmbed(event, (marriedTo == null || !player.getInventory().containsItem(Items.RING) ? "" :
                         EmoteReference.RING) + member.getEffectiveName() + "'s Profile", author.getEffectiveAvatarUrl())
                         .setThumbnail(author.getEffectiveAvatarUrl())
                         .setDescription((badges.isEmpty() ? "" : String.format("**%s**\n", badges.get(0)))
                                 + (player.getData().getDescription() == null ? "No description set" : player.getData().getDescription()))
-                        .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), false)
+                        .addField(EmoteReference.DOLLAR + "Credits", "$ " + player.getMoney(), true)
                         .addField(EmoteReference.ZAP + "Level", player.getLevel() + " (Experience: " + player.getData().getExperience() +
                                 ")", true)
                         .addField(EmoteReference.REP + "Reputation", String.valueOf(player.getReputation()), true)
-                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
                         .addField(EmoteReference.POPPER + "Birthday", user.getBirthday() != null ? user.getBirthday().substring(0, 5) :
                                 "Not specified.", true)
                         .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
-                                marriedTo.getDiscriminator(), true)
-                        .addField("Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
+                                marriedTo.getDiscriminator(), false)
+                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+                        .addField(EmoteReference.HEART + "Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl()));
             }
@@ -290,7 +290,8 @@ public class PlayerCmds {
                         .addField("Usage", "To retrieve your profile, `~>profile`\n" +
                                 "To change your description do `~>profile description set <description>`\n" +
                                 "To clear it, just do `~>profile description clear`\n" +
-                                "To set your timezone do `~>profile timezone <timezone>`", false)
+                                "To set your timezone do `~>profile timezone <timezone>`\n" +
+                                "**The profile only shows the 5 most important badges!**", false)
                         .build();
             }
         });

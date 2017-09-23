@@ -21,7 +21,6 @@ import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.github.natanbc.discordbotsapi.PostingException;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import gnu.trove.impl.sync.TSynchronizedLongSet;
 import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
 import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
@@ -41,7 +40,6 @@ import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -122,8 +120,6 @@ public class MantaroBot extends ShardedJDA {
         if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
         long start = System.currentTimeMillis();
 
-        SimpleLogToSLF4JAdapter.install();
-
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
                 .startMainComponents(false);
@@ -170,7 +166,8 @@ public class MantaroBot extends ShardedJDA {
             }
         }, 30, TimeUnit.MINUTES);
 
-        Async.task("discordbots.org upvotes task", ()->{
+        //TODO Do something with this.
+        /*Async.task("discordbots.org upvotes task", ()->{
             if(config.dbotsorgToken == null) return;
             try {
                 long[] upvoters = discordBotsAPI.getUpvoterIds();
@@ -180,7 +177,7 @@ public class MantaroBot extends ShardedJDA {
             } catch(PostingException e) {
                 log.error("Error getting upvoters from discordbots.org", e);
             }
-        }, 10, TimeUnit.MINUTES);
+        }, 10, TimeUnit.MINUTES);*/
     }
 
     public static void main(String[] args) {
