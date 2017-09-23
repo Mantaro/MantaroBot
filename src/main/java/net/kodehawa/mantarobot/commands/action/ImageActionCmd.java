@@ -101,12 +101,20 @@ public class ImageActionCmd extends NoArgsCommand {
 
     @Override
     protected void call(GuildMessageReceivedEvent event, String content) {
-        String random;
+        String random = "";
         if(images.size() == 1) {
-            if(type != null)
-                images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif"));
+            if(type != null) {
+                String image = weebapi.getRandomImageByType(type, false, "gif");
 
-            random = images.get(0); //Guaranteed random selection :^).
+                if(image == null) {
+                    event.getChannel().sendMessage(EmoteReference.SAD + "We got an error while retrieving the next gif for this action...").queue();
+                    return;
+                }
+
+                images = Collections.singletonList(image);
+
+                random = images.get(0); //Guaranteed random selection :^).
+            }
         } else {
             random = random(images);
         }

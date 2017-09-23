@@ -41,13 +41,11 @@ public class ActionCmds {
     //File declarations
     private final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
     private final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
-    private final DataManager<List<String>> FACEDESK = new SimpleFileDataManager("assets/mantaro/texts/facedesk.txt");
     private final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
     private final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
     private final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
     private final DataManager<List<String>> NOMS = new SimpleFileDataManager("assets/mantaro/texts/nom.txt");
     private final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
-    private final DataManager<List<String>> TICKLES = new SimpleFileDataManager("assets/mantaro/texts/tickles.txt");
     private final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
     @Subscribe
@@ -109,13 +107,13 @@ public class ActionCmds {
         //bite();
         cr.register("bite", new ImageActionCmd(
                 "Bite", "Bites the specified user.", Color.PINK,
-                "bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", "nom", "*bites you*"
+                "bite.gif", EmoteReference.TALKING + "%s you have been bitten by %s :eyes:", "bite", "*bites you*"
         ));
 
         //tickle();
         cr.register("tickle", new ImageActionCmd(
                 "Tickle", "Tickles the specified user.", Color.PINK,
-                "tickle.gif", EmoteReference.JOY + "%s you have been tickled by %s", TICKLES.get(), "*tickles you*"
+                "tickle.gif", EmoteReference.JOY + "%s you have been tickled by %s", "tickle", "*tickles you*"
         ));
 
         //highfive();
@@ -176,7 +174,7 @@ public class ActionCmds {
         cr.registerAlias("meow", "mew");
 
         //facedesk()
-        cr.register("facedesk", new ImageCmd("Facedesk", "When it's just too much to handle.", "facedesk", FACEDESK.get(),
+        cr.register("facedesk", new ImageCmd("Facedesk", "When it's just too much to handle.", "facedesk", "banghead",
                 "*facedesks*", true));
     }
 }
