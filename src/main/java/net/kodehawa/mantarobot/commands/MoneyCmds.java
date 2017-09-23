@@ -425,7 +425,7 @@ public class MoneyCmds {
                                     .map(p -> String.format("%s**%s#%s** - Level: %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
-                            ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
+                            ).build()
                     ).queue();
 
 
@@ -453,7 +453,7 @@ public class MoneyCmds {
                                     .map(p -> String.format("%s**%s#%s** - Reputation: %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
-                            ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
+                            ).build()
                     ).queue();
 
 
@@ -473,7 +473,7 @@ public class MoneyCmds {
                                 .map(p -> String.format("%s**%s#%s** - Credits: $%s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
                                 .collect(Collectors.joining("\n"))
-                        ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
+                        ).build()
                 ).queue();
             }
 
