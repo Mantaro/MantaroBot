@@ -118,7 +118,7 @@ public class Utils {
             //If we have a leading day, and minutes after, append a comma
             if(leading && (minutes != 0 || seconds != 0)) {
                 output.append(", ");
-            } else if(minutes == 0 || seconds != 0) { //else, append "and", since it's the end.
+            } else if(minutes == 0 || seconds == 0) { //else, append "and", since it's the end.
                 output.append(" and ");
             }
 
