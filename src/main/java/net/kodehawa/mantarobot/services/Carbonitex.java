@@ -23,12 +23,11 @@ import okhttp3.*;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 
 @Slf4j
-public class Carbonitex implements Runnable {
+public class Carbonitex {
     private final String carbonToken = config().get().carbonToken;
     private final OkHttpClient httpClient = new OkHttpClient();
 
-    @Override
-    public void run() {
+    public void handle() {
         if(carbonToken != null) {
             long newC = MantaroBot.getInstance().getGuildCache().size();
             try {

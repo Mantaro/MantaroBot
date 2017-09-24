@@ -27,10 +27,9 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
 
-public class MuteTask implements Runnable {
+public class MuteTask {
 
-    @Override
-    public void run() {
+    public void handle() {
         try {
             if(!MantaroCore.hasLoadedCompletely()) return;
             MantaroObj data = MantaroData.db().getMantaroData();

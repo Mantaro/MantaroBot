@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class BirthdayTask implements Runnable {
+public class BirthdayTask {
 
     private BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
     private ManagedDatabase db = MantaroData.db();
@@ -46,8 +46,7 @@ public class BirthdayTask implements Runnable {
     @Setter
     public static boolean isEnabled = true;
 
-    @Override
-    public void run() {
+    public void handle() {
         try {
             if (!isEnabled) return;
 

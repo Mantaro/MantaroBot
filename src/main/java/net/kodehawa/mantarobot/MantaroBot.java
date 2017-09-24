@@ -97,6 +97,9 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+    private final MuteTask muteTask = new MuteTask();
+    private final BirthdayTask birthdayTask = new BirthdayTask();
+    private final Carbonitex carbonitex = new Carbonitex();
 
     private MantaroBot() throws Exception {
         instance = this;
@@ -168,8 +171,8 @@ public class MantaroBot extends ShardedJDA {
             }
         }, 30, TimeUnit.MINUTES);
 
-        Async.task("Mute Handler", new MuteTask(), 1, TimeUnit.MINUTES);
-        Async.task("Carbonitex post task", new Carbonitex(), 30, TimeUnit.MINUTES);
+        Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
+        Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
 
         //TODO Do something with this.
         /*Async.task("discordbots.org upvotes task", ()->{
@@ -295,7 +298,7 @@ public class MantaroBot extends ShardedJDA {
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
 
-        executorService.scheduleWithFixedDelay(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
-        executorService.scheduleWithFixedDelay(() -> birthdayCacher.cache(), 22, 22, TimeUnit.HOURS);
+        executorService.scheduleWithFixedDelay(birthdayTask::handle, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 22, TimeUnit.HOURS);
     }
 }
