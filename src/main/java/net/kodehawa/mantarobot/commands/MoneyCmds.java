@@ -634,7 +634,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                long money = Math.max(50, r.nextInt(550)); //50 to 550 credits.
+                long money = Math.max(50, r.nextInt(150)); //50 to 150 credits.
                 String message = EmoteReference.PICK + "You mined minerals worth $" + money + " credits!";
 
                 if(r.nextInt(400) > 350) {
