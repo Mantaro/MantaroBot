@@ -655,7 +655,8 @@ public class MoneyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mine command")
-                        .setDescription("**Mines minerals to gain some credits. More lucrative than loot, but needs pickaxes.")
+                        .setDescription("**Mines minerals to gain some credits. A bit ore lucrative than loot, but needs pickaxes.**\n" +
+                                "Has a random chance of finding diamonds.")
                         .build();
             }
         });

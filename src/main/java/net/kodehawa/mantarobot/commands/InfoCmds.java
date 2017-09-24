@@ -526,7 +526,7 @@ public class InfoCmds {
 
                     if(found.size() > 1 && !content.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                                "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                                "**Users found:** " + found.stream().limit(15).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
                         return;
                     }
 

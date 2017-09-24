@@ -38,15 +38,16 @@ import java.util.List;
 @Module
 public class ActionCmds {
 
-    //File declarations
+    //Speech.
+    private final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
+    private final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
+
+    //Images.
     private final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
     private final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
-    private final DataManager<List<String>> GREETINGS = new SimpleFileDataManager("assets/mantaro/texts/greetings.txt");
-    private final DataManager<List<String>> HIGHFIVES = new SimpleFileDataManager("assets/mantaro/texts/highfives.txt");
     private final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
     private final DataManager<List<String>> NOMS = new SimpleFileDataManager("assets/mantaro/texts/nom.txt");
     private final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
-    private final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
     @Subscribe
     public void action(CommandRegistry registry) {
@@ -119,7 +120,7 @@ public class ActionCmds {
         //highfive();
         cr.register("highfive", new ImageActionCmd(
                 "Highfive", "Highfives with the specified user.", Color.PINK,
-                "highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", HIGHFIVES.get(), "*highfives*", true
+                "highfive.gif", EmoteReference.TALKING + "%s highfives %s :heart:", "highfive", "*highfives*", true
         ));
 
         //pout();
