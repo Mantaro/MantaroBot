@@ -67,7 +67,7 @@ public class ShardWatcher implements Runnable {
                                     MantaroShard shard = MantaroBot.getInstance().getShard(id);
 
                                     //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
-                                    if(shard.getStatus() == JDA.Status.RECONNECT_QUEUED) {
+                                    if(shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.SHUTDOWN) {
                                         return 1;
                                     }
 
