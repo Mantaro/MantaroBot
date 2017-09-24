@@ -45,11 +45,11 @@ public class BirthdayCacher {
         cache();
     }
 
-    public void cache(){
+    public void cache() {
         executorService.submit(() -> {
             try {
                 Cursor<Map> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
-
+                cachedBirthdays.clear();
                 List<Map> m1 = m.toList();
 
                 for(Map r : m1) {
@@ -57,7 +57,7 @@ public class BirthdayCacher {
                     String birthday = (String) ((HashMap) r.get("data")).get("birthday");
                     if(birthday != null && !birthday.isEmpty()) {
                         log.debug("-> PROCESS: {}", r);
-                        cachedBirthdays.putIfAbsent(String.valueOf(r.get("id")), birthday);
+                        cachedBirthdays.put(String.valueOf(r.get("id")), birthday);
                     }
                 }
 

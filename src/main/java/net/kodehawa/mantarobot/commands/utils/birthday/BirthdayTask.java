@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BirthdayTask {
 
-    private BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
     private ManagedDatabase db = MantaroData.db();
     //just in case shit goes massively boom
     @Setter
@@ -50,11 +49,8 @@ public class BirthdayTask {
         try {
             if (!isEnabled) return;
 
-            if (cache == null) {
-                cache = MantaroBot.getInstance().getBirthdayCacher();
-                if (cache == null) return;
-            }
-
+            BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
+            if(cache == null) return;
             if (!cache.isDone) return;
 
             log.info("Checking birthdays to assign roles...");
