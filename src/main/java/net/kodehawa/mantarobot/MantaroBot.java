@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
+import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
@@ -40,6 +41,7 @@ import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
+import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -152,7 +154,7 @@ public class MantaroBot extends ShardedJDA {
         birthdayCacher = new BirthdayCacher();
         this.startCheckingBirthdays();
 
-        Async.task("discordbots.org post task", ()->{
+        Async.task("discordbots.org post task", () -> {
             if(config.dbotsorgToken == null) return;
             MantaroShard[] shards = shardedMantaro.getShards();
             int[] payload = new int[shards.length];
@@ -165,6 +167,9 @@ public class MantaroBot extends ShardedJDA {
                 log.error("Error posting stats to discordbots.org", e);
             }
         }, 30, TimeUnit.MINUTES);
+
+        Async.task(new MuteTask(), 45, TimeUnit.SECONDS);
+        Async.task(new Carbonitex(), 30, TimeUnit.MINUTES); //Carbon is special now.
 
         //TODO Do something with this.
         /*Async.task("discordbots.org upvotes task", ()->{

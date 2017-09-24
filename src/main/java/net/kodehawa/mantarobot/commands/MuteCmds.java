@@ -313,9 +313,4 @@ public class MuteCmds {
             }
         });
     }
-
-    @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
-        Async.task(new MuteTask(), 45, TimeUnit.SECONDS);
-    }
 }

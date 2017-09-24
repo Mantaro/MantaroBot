@@ -580,6 +580,5 @@ public class InfoCmds {
     @Subscribe
     public void onPostLoad(PostLoadEvent e) {
         start();
-        Async.task(new Carbonitex(), 30, TimeUnit.MINUTES); //Carbon is special now.
     }
 }
