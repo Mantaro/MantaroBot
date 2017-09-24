@@ -168,8 +168,8 @@ public class MantaroBot extends ShardedJDA {
             }
         }, 30, TimeUnit.MINUTES);
 
-        Async.task(new MuteTask(), 45, TimeUnit.SECONDS);
-        Async.task(new Carbonitex(), 30, TimeUnit.MINUTES); //Carbon is special now.
+        Async.task("Mute Handler", new MuteTask(), 1, TimeUnit.MINUTES);
+        Async.task("Carbonitex post task", new Carbonitex(), 30, TimeUnit.MINUTES);
 
         //TODO Do something with this.
         /*Async.task("discordbots.org upvotes task", ()->{
