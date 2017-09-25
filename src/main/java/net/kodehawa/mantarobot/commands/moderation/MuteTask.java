@@ -35,39 +35,39 @@ public class MuteTask {
             MantaroObj data = MantaroData.db().getMantaroData();
             Map<Long, Pair<String, Long>> mutes = data.getMutes();
             for(Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet()) {
-                Long id = entry.getKey();
-                Pair<String, Long> pair = entry.getValue();
-                String guildId = pair.getKey();
-                long maxTime = pair.getValue();
-                Guild guild = MantaroBot.getInstance().getGuildById(guildId);
-                DBGuild dbGuild = MantaroData.db().getGuild(guildId);
-                GuildData guildData = dbGuild.getData();
+                try {
+                    Long id = entry.getKey();
+                    Pair<String, Long> pair = entry.getValue();
+                    String guildId = pair.getKey();
+                    long maxTime = pair.getValue();
+                    Guild guild = MantaroBot.getInstance().getGuildById(guildId);
+                    DBGuild dbGuild = MantaroData.db().getGuild(guildId);
+                    GuildData guildData = dbGuild.getData();
 
-                if(guild == null) {
-                    data.getMutes().remove(id);
-                    data.save();
-                    return;
-                } else if(guild.getMemberById(id) == null) {
-                    data.getMutes().remove(id);
-                    data.save();
-                    return;
-                }
-                if(guild.getRoleById(id) == null) {
-                    data.getMutes().remove(id);
-                    data.save();
-                    return;
-                } else {
-                    if(System.currentTimeMillis() > maxTime) {
+                    if(guild == null) {
                         data.getMutes().remove(id);
                         data.save();
-                        guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
-                        guildData.setCases(guildData.getCases() + 1);
-                        dbGuild.save();
-                        ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
+                        continue;
+                    } else if(guild.getMemberById(id) == null) {
+                        data.getMutes().remove(id);
+                        data.save();
+                        continue;
                     }
-                }
+                    if(guild.getRoleById(id) == null) {
+                        data.getMutes().remove(id);
+                        data.save();
+                    } else {
+                        if(System.currentTimeMillis() > maxTime) {
+                            data.getMutes().remove(id);
+                            data.save();
+                            guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
+                            guildData.setCases(guildData.getCases() + 1);
+                            dbGuild.save();
+                            ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
+                        }
+                    }
+                } catch (Exception ignored) { }
             }
-        } catch(Exception e1) {
-        }
+        } catch(Exception ignored) { }
     }
 }
