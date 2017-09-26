@@ -40,21 +40,21 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @Override
     public List<CustomCommand> getCustomCommands() {
         List<CustomCommand> list = super.getCustomCommands();
-        list.forEach(command->ccMap.put(command.getId(), command));
+        list.forEach(command->ccMap.fastPutAsync(command.getId(), command));
         return list;
     }
 
     @Override
     public List<CustomCommand> getCustomCommands(String guildId) {
         List<CustomCommand> list = super.getCustomCommands(guildId);
-        list.forEach(command->ccMap.put(command.getId(), command));
+        list.forEach(command->ccMap.fastPutAsync(command.getId(), command));
         return list;
     }
 
     @Override
     public List<CustomCommand> getCustomCommandsByName(String name) {
         List<CustomCommand> list = super.getCustomCommandsByName(name);
-        list.forEach(command->ccMap.put(command.getId(), command));
+        list.forEach(command->ccMap.fastPutAsync(command.getId(), command));
         return list;
     }
 
@@ -90,7 +90,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @Override
     public List<Player> getPlayers() {
         List<Player> list = super.getPlayers();
-        list.forEach(player->playerMap.put(player.getId(), player));
+        list.forEach(player->playerMap.fastPutAsync(player.getId(), player));
         return list;
     }
 
@@ -102,7 +102,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @Override
     public List<PremiumKey> getPremiumKeys() {
         List<PremiumKey> list = super.getPremiumKeys();
-        list.forEach(key->keyMap.put(key.getId(), key));
+        list.forEach(key->keyMap.fastPutAsync(key.getId(), key));
         return list;
     }
 
@@ -113,73 +113,73 @@ public class RedisCachedDatabase extends ManagedDatabase {
 
     @Override
     public void save(CustomCommand command) {
-        ccMap.put(command.getId(), command);
+        ccMap.fastPutAsync(command.getId(), command);
         super.delete(command);
     }
 
     @Override
     public void save(DBGuild guild) {
-        guildMap.put(guild.getId(), guild);
+        guildMap.fastPutAsync(guild.getId(), guild);
         super.save(guild);
     }
 
     @Override
     public void save(DBUser user) {
-        userMap.put(user.getId(), user);
+        userMap.fastPutAsync(user.getId(), user);
         super.save(user);
     }
 
     @Override
     public void save(MantaroObj obj) {
-        mantaroBucket.set(obj);
+        mantaroBucket.setAsync(obj);
         super.save(obj);
     }
 
     @Override
     public void save(Player player) {
-        playerMap.put(player.getId(), player);
+        playerMap.fastPutAsync(player.getId(), player);
         super.save(player);
     }
 
     @Override
     public void save(PremiumKey key) {
-        keyMap.put(key.getId(), key);
+        keyMap.fastPutAsync(key.getId(), key);
         super.save(key);
     }
 
     @Override
     public void delete(CustomCommand command) {
-        ccMap.remove(command.getId());
+        ccMap.fastRemoveAsync(command.getId());
         super.delete(command);
     }
 
     @Override
     public void delete(DBGuild guild) {
-        guildMap.remove(guild.getId());
+        guildMap.fastRemoveAsync(guild.getId());
         super.delete(guild);
     }
 
     @Override
     public void delete(DBUser user) {
-        userMap.remove(user.getId());
+        userMap.fastRemoveAsync(user.getId());
         super.delete(user);
     }
 
     @Override
     public void delete(MantaroObj obj) {
-        mantaroBucket.delete();
+        mantaroBucket.deleteAsync();
         super.delete(obj);
     }
 
     @Override
     public void delete(Player player) {
-        playerMap.remove(player.getId());
+        playerMap.fastRemoveAsync(player.getId());
         super.delete(player);
     }
 
     @Override
     public void delete(PremiumKey key) {
-        keyMap.remove(key.getId());
+        keyMap.fastRemoveAsync(key.getId());
         super.delete(key);
     }
 }
