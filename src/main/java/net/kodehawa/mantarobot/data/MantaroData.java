@@ -24,6 +24,8 @@ import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.redisson.Redisson;
+import org.redisson.api.LocalCachedMapOptions;
+import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 
 import java.util.concurrent.Callable;
@@ -74,6 +76,12 @@ public class MantaroData {
         return connectionWatcher;
     }
 
+    public static RedisCachedDatabase redisDb() {
+        ManagedDatabase db = db();
+        if(db instanceof RedisCachedDatabase) return (RedisCachedDatabase)db;
+        throw new IllegalStateException("Redis database is disabled");
+    }
+
     public static ManagedDatabase db() {
         if(db == null) {
             Config.RedisInfo i = config().get().redis;
@@ -81,11 +89,11 @@ public class MantaroData {
                 RedissonClient client = redisson();
 
                 db = new RedisCachedDatabase(conn(),
-                        client.getMap("custom-commands"),
-                        client.getMap("guilds"),
-                        client.getMap("players"),
-                        client.getMap("users"),
-                        client.getMap("premium-keys"),
+                        map(client, "custom-commands", i.customCommands),
+                        map(client, "guilds", i.guilds),
+                        map(client, "players", i.players),
+                        map(client, "users", i.users),
+                        map(client, "premium-keys", i.premiumKeys),
                         client.getBucket("mantaro")
                 );
             } else {
@@ -105,5 +113,16 @@ public class MantaroData {
 
     public static void queue(Runnable runnable) {
         getExecutor().submit(runnable);
+    }
+
+    private static <K, V>RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
+        if(!cacheInfo.enabled) return client.getMap(key);
+        LocalCachedMapOptions<K, V> options = LocalCachedMapOptions.<K, V>defaults()
+                .timeToLive(cacheInfo.ttlMs)
+                .maxIdle(cacheInfo.maxIdleMs)
+                .cacheSize(cacheInfo.maxSize)
+                .evictionPolicy(cacheInfo.evictionPolicy)
+                .invalidationPolicy(cacheInfo.invalidationPolicy);
+        return client.getLocalCachedMap(key, options);
     }
 }
