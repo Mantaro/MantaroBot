@@ -59,14 +59,12 @@ public class DBGuild implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        MantaroData.db().delete(this);
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        MantaroData.db().save(this);
     }
 
     public Guild getGuild(JDA jda) {
