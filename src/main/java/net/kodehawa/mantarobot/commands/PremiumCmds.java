@@ -169,7 +169,8 @@ public class PremiumCmds {
                     } else {
                         embedBuilder.setDescription("**Premium user under the old system! Don't worry tho, you're premium and your benefits" +
                                 " will work properly!**")
-                                .addField("Valid for", TimeUnit.MILLISECONDS.toDays(dbUser.getPremiumUntil() - currentTimeMillis()) + " days more", false);
+                                .addField("Valid for",
+                                        Math.max(0, TimeUnit.MILLISECONDS.toDays(dbUser.getPremiumUntil() - currentTimeMillis())) + " days more", false);
                     }
 
                     embedBuilder.setFooter("Thanks you for your support <3", null);
@@ -193,7 +194,8 @@ public class PremiumCmds {
                         } else {
                             embedBuilder.setDescription("**Premium guild under the old system! Don't worry tho, you're premium and your benefits" +
                                     " will work properly!**")
-                                    .addField("Valid for", TimeUnit.MILLISECONDS.toDays(dbGuild.getPremiumUntil() - currentTimeMillis()) + " days more", false);
+                                    .addField("Valid for",
+                                            Math.max(0, TimeUnit.MILLISECONDS.toDays(dbGuild.getPremiumUntil() - currentTimeMillis())) + " days more", false);
                         }
 
                         embedBuilder.setFooter("Thanks you for your support <3", null);

@@ -16,11 +16,14 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
@@ -40,6 +43,7 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -48,6 +52,7 @@ import java.lang.management.ManagementFactory;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
@@ -66,40 +71,25 @@ public class InfoCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-                        List<TextChannel> textChannels = MantaroBot.getInstance().getTextChannels();
-                        List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
-                        long millis = ManagementFactory.getRuntimeMXBean().getUptime();
-                        long seconds = millis / 1000;
-                        long minutes = seconds / 60;
-                        long hours = minutes / 60;
-                        long days = hours / 24;
-
-                        String madeBy = "Bot made by: " + MantaroData.config().get().getOwners().stream()
-                                .map(MantaroBot.getInstance()::getUserById)
-                                .filter(Objects::nonNull)
-                                .map(user -> event.getGuild().isMember(user) ? user.getAsMention() : user.getName() + "#" + user.getDiscriminator())
-                                .collect(Collectors.joining(", "));
-
-                        if(madeBy.contains("<@")) madeBy += " (say hi to them!)";
+                        SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
+                        SnowflakeCacheView<TextChannel> textChannels = MantaroBot.getInstance().getTextChannelCache();
+                        SnowflakeCacheView<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannelCache();
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
-                                .setAuthor("About Mantaro", "http://polr.me/mantaro", "https://puu.sh/suxQf/e7625cd3cd.png")
+                                .setAuthor("About Mantaro", "http://polr.me/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
                                         "Some of my features include:\n" +
                                         "\u2713 **Moderation made easy** (``Mass kick/ban, prune commands, logs and more!``)\n" +
                                         "\u2713 **Funny and useful commands**, see `~>help anime` or `~>help hug` for examples.\n" +
+                                        "\u2713 **First quality music**, check out `~>help play` for example!.\n" +
                                         "\u2713 **[Support server](https://discordapp.com/invite/cMTmuPa)! |" +
                                         " [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
-                                        EmoteReference.POPPER + madeBy + "\n" + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
+                                        EmoteReference.POPPER + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
                                 )
                                 .addField("MantaroBot Version", MantaroInfo.VERSION, false)
-                                .addField("Uptime", String.format(
-                                        "%d days, %02d hrs, %02d min",
-                                        days, hours % 24, minutes % 60
-                                ), false)
+                                .addField("Uptime", Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), false)
                                 .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField("Threads", String.valueOf(Thread.activeCount()), true)
                                 .addField("Servers", String.valueOf(guilds.size()), true)
@@ -150,11 +140,11 @@ public class InfoCmds {
                         .setColor(Color.BLUE)
                         .setDescription(
                                 "**Main developer**: Kodehawa#3457\n"
-                                + "**Developer**: AdrianTodt#0722\n"
-                                + "**Developer**: Natan#1289\n"
-                                + "**Documentation**: MrLar#8117 & Yuvira#7832\n"
-                                + "**Community Admin**: MrLar#8117\n"
-                                + "**Grammar Nazi**: Desiree#3658")
+                                        + "**Developer**: AdrianTodt#0722\n"
+                                        + "**Developer**: Natan#1289\n"
+                                        + "**Documentation**: MrLar#8117 & Yuvira#7832\n"
+                                        + "**Community Admin**: MrLar#8117\n"
+                                        + "**Grammar Nazi**: Desiree#3658")
                         .addField("Special mentions",
                                 "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
                         .setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
@@ -168,11 +158,26 @@ public class InfoCmds {
         cr.register("avatar", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!event.getMessage().getMentionedUsers().isEmpty()) {
-                    event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", event.getMessage().getMentionedUsers().get(0).getName(), event.getMessage().getMentionedUsers().get(0).getAvatarUrl())).queue();
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+
+                if(found.isEmpty() && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
                     return;
                 }
-                event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl() + "?size=512")).queue();
+
+                if(found.isEmpty() || content.isEmpty()) {
+                    event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl())).queue();
+                    return;
+                }
+
+                if(found.size() > 1 && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                User u = found.get(0).getUser();
+                event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", u.getName(), u.getEffectiveAvatarUrl())).queue();
             }
 
             @Override
@@ -181,7 +186,7 @@ public class InfoCmds {
                         .setDescription("**Get a user's avatar URL**")
                         .addField("Usage",
                                 "`~>avatar` - **Get your avatar url**" +
-                                        "\n `~>avatar <mention>` - **Get a user's avatar url.**", false)
+                                        "\n `~>avatar <mention, nickname or name#discriminator>` - **Get a user's avatar url.**", false)
                         .build();
             }
         });
@@ -200,7 +205,7 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if(roles.length() > 1024)
+                if (roles.length() > 1024)
                     roles = roles.substring(0, 1024 - 4) + "...";
 
                 channel.sendMessage(new EmbedBuilder()
@@ -246,7 +251,7 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(content.isEmpty()) {
+                if (content.isEmpty()) {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
                     String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
@@ -273,10 +278,10 @@ public class InfoCmds {
                 } else {
                     Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
-                    if(command != null) {
+                    if (command != null) {
                         final MessageEmbed help = command.help(event);
                         Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
-                        if(help == null)
+                        if (help == null)
                             event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
                     } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "A command with this name doesn't exist").queue();
@@ -331,9 +336,9 @@ public class InfoCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        if(content.isEmpty()) {
+                        if (content.isEmpty()) {
                             event.getChannel().sendMessage(EmoteReference.MEGA + "**[Stats]** Y-Yeah... gathering them, hold on for a bit...").queue(message -> {
-                                GuildStatsManager.MILESTONE = (((MantaroBot.getInstance().getGuilds().size() + 99) / 100) * 100) + 100;
+                                GuildStatsManager.MILESTONE = (((int)(MantaroBot.getInstance().getGuildCache().size() + 99) / 100) * 100) + 100;
                                 List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
                                 List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
@@ -349,10 +354,10 @@ public class InfoCmds {
 
                                 int musicConnections = (int) voiceChannels.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(
                                         voiceChannel.getGuild().getSelfMember())).count();
-                                long exclusiveness = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
+                                long exclusiveness = MantaroBot.getInstance().getGuildCache().stream().filter(g -> g.getMembers().stream().filter(member -> member.getUser().isBot()).count() == 1).count();
                                 double musicConnectionsPerServer = (double) musicConnections / (double) guilds.size() * 100;
                                 double exclusivenessPercent = (double) exclusiveness / (double) guilds.size() * 100;
-                                long bigGuilds = MantaroBot.getInstance().getGuilds().stream().filter(g -> g.getMembers().size() > 500).count();
+                                long bigGuilds = MantaroBot.getInstance().getGuildCache().stream().filter(g -> g.getMembers().size() > 500).count();
                                 message.editMessage(
                                         new EmbedBuilder()
                                                 .setColor(Color.PINK)
@@ -371,7 +376,7 @@ public class InfoCmds {
                                                 .addField("Total commands (including custom)", String.valueOf(DefaultCommandProcessor.REGISTRY.commands().size()), true)
                                                 .addField("Exclusiveness in Total Servers", Math.round(exclusivenessPercent) + "% (" + exclusiveness + ")", false)
                                                 .addField("Big Servers", String.valueOf(bigGuilds), true)
-                                                .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuilds().size())
+                                                .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size())
                                                         , event.getJDA().getSelfUser().getAvatarUrl())
                                                 .build()
                                 ).queue();
@@ -431,24 +436,24 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if(args.length > 0) {
+                if (args.length > 0) {
                     String what = args[0];
-                    if(what.equals("total")) {
+                    if (what.equals("total")) {
                         event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
                         return;
                     }
 
-                    if(what.equals("daily")) {
+                    if (what.equals("daily")) {
                         event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
                         return;
                     }
 
-                    if(what.equals("hourly")) {
+                    if (what.equals("hourly")) {
                         event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
                         return;
                     }
 
-                    if(what.equals("now")) {
+                    if (what.equals("now")) {
                         event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
                         return;
                     }
@@ -469,24 +474,24 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if(args.length > 0) {
+                if (args.length > 0) {
                     String what = args[0];
-                    if(what.equals("total")) {
+                    if (what.equals("total")) {
                         event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
                         return;
                     }
 
-                    if(what.equals("daily")) {
+                    if (what.equals("daily")) {
                         event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
                         return;
                     }
 
-                    if(what.equals("hourly")) {
+                    if (what.equals("hourly")) {
                         event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
                         return;
                     }
 
-                    if(what.equals("now")) {
+                    if (what.equals("now")) {
                         event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
                         return;
                     }
@@ -498,7 +503,7 @@ public class InfoCmds {
                         .addField("Hourly", GuildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
                         .addField("Daily", GuildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
                         .addField("Total", GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
-                        .setFooter("Guilds: " + MantaroBot.getInstance().getGuilds().size(), null)
+                        .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
                         .build()
                 ).queue();
             }
@@ -510,25 +515,40 @@ public class InfoCmds {
         cr.register("userinfo", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                User user = event.getMessage().getMentionedUsers().size() > 0 ? event.getMessage().getMentionedUsers().get(0) : event.getAuthor();
-                Member member = event.getGuild().getMember(user);
-                if(member == null) {
-                    String name = user == null ? "Unknown User" : user.getName();
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Sorry but I couldn't get " + name + "'s info. Please make sure you and that person are in the same server!").queue();
-                    return;
+                Member member = event.getMember();
+
+                if(!content.isEmpty()){
+                    List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                    if(found.isEmpty() && !content.isEmpty()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "No members found with your search criteria!").queue();
+                        return;
+                    }
+
+                    if(found.size() > 1 && !content.isEmpty()) {
+                        event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                                "**Users found:** " + found.stream().limit(15).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                        return;
+                    }
+
+                    if(!found.isEmpty()) {
+                        member = found.get(0);
+                    }
                 }
+
+                User user = member.getUser();
 
                 String roles = member.getRoles().stream()
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if(roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
+                if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s =
                         "**User ID:** " + user.getId() + "\n" +
                                 "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
                                 "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+                                "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
                                 "**Mutual Guilds:** " + member.getUser().getMutualGuilds().size() + "\n" +
                                 "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
                                 "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
@@ -550,7 +570,7 @@ public class InfoCmds {
                 return helpEmbed(event, "User Info Command")
                         .setDescription("**See information about specific users.**")
                         .addField("Usage:",
-                                "`~>userinfo @user` - **Get information about the specific user.**" +
+                                "`~>userinfo @user (or user#disciminator, or nickname)` - **Get information about the specific user.**" +
                                         "\n`~>userinfo` - **Get information about yourself!**", false)
                         .build();
             }

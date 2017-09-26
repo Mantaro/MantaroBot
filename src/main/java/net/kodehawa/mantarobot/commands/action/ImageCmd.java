@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,10 +36,12 @@ public class ImageCmd extends NoArgsCommand {
 
     private final String desc;
     private final String imageName;
-    private final List<String> images;
+    private List<String> images;
     private final String name;
     private final String toSend;
     private boolean noMentions = false;
+    private String type;
+    private final WeebAPIRequester weebapi = new WeebAPIRequester();
 
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
         super(Category.ACTION);
@@ -59,9 +62,39 @@ public class ImageCmd extends NoArgsCommand {
         this.noMentions = noMentions;
     }
 
+    public ImageCmd(String name, String desc, String imageName, String type, String toSend) {
+        super(Category.ACTION);
+        this.name = name;
+        this.desc = desc;
+        this.imageName = imageName;
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null));
+        this.toSend = toSend;
+        this.type = type;
+    }
+
+    public ImageCmd(String name, String desc, String imageName, String type, String toSend, boolean noMentions) {
+        super(Category.ACTION);
+        this.name = name;
+        this.desc = desc;
+        this.imageName = imageName;
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null));
+        this.toSend = toSend;
+        this.noMentions = noMentions;
+        this.type = type;
+    }
+
     @Override
     protected void call(GuildMessageReceivedEvent event, String content) {
-        String random = random(images);
+        String random;
+        if(images.size() == 1) {
+            if(type != null)
+                images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null));
+
+            random = images.get(0); //Guaranteed random selection :^).
+        } else {
+            random = random(images);
+        }
+
         String extension = random.substring(random.lastIndexOf("."));
         MessageBuilder builder = new MessageBuilder();
         builder.append(EmoteReference.TALKING);

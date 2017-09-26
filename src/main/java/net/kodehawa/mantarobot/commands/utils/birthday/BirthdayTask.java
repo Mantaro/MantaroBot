@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
@@ -37,24 +38,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class BirthdayTask implements Runnable {
+public class BirthdayTask {
 
-    private BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
     private ManagedDatabase db = MantaroData.db();
     //just in case shit goes massively boom
     @Setter
     public static boolean isEnabled = true;
 
-    @Override
-    public void run() {
+    public void handle() {
         try {
             if (!isEnabled) return;
 
-            if (cache == null) {
-                cache = MantaroBot.getInstance().getBirthdayCacher();
-                if (cache == null) return;
-            }
-
+            BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
+            if(cache == null) return;
             if (!cache.isDone) return;
 
             log.info("Checking birthdays to assign roles...");
@@ -62,7 +58,7 @@ public class BirthdayTask implements Runnable {
             Map<String, String> cached = cache.cachedBirthdays;
             int i = 0;
             int r = 0;
-            List<Guild> guilds = MantaroBot.getInstance().getGuilds();
+            SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
 
             for(Guild guild : guilds) {
                 GuildData tempData = db.getGuild(guild).getData();

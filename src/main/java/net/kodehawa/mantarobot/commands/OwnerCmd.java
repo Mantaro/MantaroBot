@@ -507,7 +507,7 @@ public class OwnerCmd {
                     if(k.equals("connections")) {
                         int connections = Integer.parseInt(v);
 
-                        IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannels().stream().filter(
+                        IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannelCache().stream().filter(
                                 voiceChannel -> voiceChannel.getMembers().contains(
                                         voiceChannel.getGuild().getSelfMember())).count();
 

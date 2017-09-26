@@ -63,7 +63,7 @@ public class GuildStatsManager {
                     builder.addField(entry.getKey().toString(), String.format("%s %d%% (%d)", bar(percent, 15), percent, entry.getValue().get()), true);
                 });
 
-        return builder.setFooter("Guilds: " + MantaroBot.getInstance().getGuilds().size(), null);
+        return builder.setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null);
     }
 
     public static void log(LoggedEvent loggedEvent) {

@@ -206,7 +206,7 @@ public class RabbitMQDataManager implements DataManager<JSONObject> {
                                                 jda.getUsers().size(),
                                                 jda.getGuilds().size(),
                                                 shard.getEventManager().getLastJDAEventTimeDiff() + " ms",
-                                                jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
+                                                jda.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                                         ));
                                     }
 

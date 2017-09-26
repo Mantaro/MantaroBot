@@ -17,7 +17,9 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -33,7 +35,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -41,6 +42,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 public class CurrencyCmds {
@@ -52,14 +55,31 @@ public class CurrencyCmds {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player user = MantaroData.db().getPlayer(event.getMember());
+                Member member = event.getMember();
 
-                EmbedBuilder builder = baseEmbed(event, event.getMember().getEffectiveName() + "'s Inventory", event.getAuthor()
-                        .getEffectiveAvatarUrl());
-                List<ItemStack> list = user.getInventory().asList();
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                if(found.isEmpty() && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    return;
+                }
+
+                if(found.size() > 1 && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                if(found.size() == 1) {
+                    member = found.get(0);
+                }
+
+                Player player = MantaroData.db().getPlayer(member);
+
+                EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
+                List<ItemStack> list = player.getInventory().asList();
                 if(list.isEmpty()) builder.setDescription("There is only dust.");
                 else
-                    user.getInventory().asList().forEach(stack -> {
+                    player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? (long) (stack.getItem().getValue() * 1.1) : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
@@ -87,11 +107,7 @@ public class CurrencyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!rateLimiter.process(event.getAuthor().getId())) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Wait! You're calling me so fast that I can't get enough items!").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
@@ -252,7 +268,7 @@ public class CurrencyCmds {
                         String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue
                                 () * 0.9)) : "N/A";
 
-                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
+                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.getAndIncrement(), item.getEmoji(), item.getName())).append("\n");
                         prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
                     }
                 });
@@ -304,14 +320,7 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!rl.process(event.getAuthor().getId())) {
-                        event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                                "Cooldown a lil bit, you can only do this once every 10 seconds.\n**You'll be able to use this command again " +
-                                "in " +
-                                Utils.getVerboseTime(rl.tryAgainIn(event.getMember()))
-                                + ".**").queue();
-                        return;
-                    }
+                    if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
                     Item item = Items.fromAny(args[1]).orElse(null);
                     if(item == null) {
@@ -407,14 +416,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!rl.process(event.getAuthor().getId())) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 10 seconds.\n**You'll be able to use this command again " +
-                            "in " +
-                            Utils.getVerboseTime(rl.tryAgainIn(event.getMember()))
-                            + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
                 long toSend;
 
@@ -512,20 +514,11 @@ public class CurrencyCmds {
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
-
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
                 Inventory inventory = player.getInventory();
                 if(inventory.containsItem(Items.LOOT_CRATE)) {
                     if(inventory.containsItem(Items.LOOT_CRATE_KEY)) {
-                        if(!rateLimiter.process(id)) {
-                            event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                                    "Cooldown a lil bit, you can only do this once every 1 hour.\n**You'll be able to use this command again " +
-                                    "in " +
-                                    Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember()))
-                                    + ".**").queue();
-                            return;
-                        }
+                        if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));

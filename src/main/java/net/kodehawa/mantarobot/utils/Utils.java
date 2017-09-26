@@ -16,13 +16,13 @@
 
 package net.kodehawa.mantarobot.utils;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.io.CharStreams;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.RateLimiter;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.*;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
@@ -44,9 +44,16 @@ import java.util.regex.Pattern;
 
 @Slf4j
 public class Utils {
-    public static final ObjectMapper XML_MAPPER = new XmlMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     public static final OkHttpClient httpClient = new OkHttpClient();
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
+
+    private static final String[] ratelimitQuotes = {
+            "Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...",
+            "Halt in there buddy!", "Wait just a tiiiiny bit more uwu", "Seems like we're gonna get a speed ticket if we continue going this fast!",
+            "I wanna do this... but halt for a bit please."
+    };
+
+    private static final Random random = new Random();
 
     /**
      * Capitalizes the first letter of a string.
@@ -85,6 +92,68 @@ public class Utils {
                 TimeUnit.MILLISECONDS.toSeconds(length) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
+    }
+
+    /**
+     * @param millis How many ms to convert.
+     * @return The humanized time (for example, 2 hours and 3 minutes, or 24 seconds).
+     */
+    public static String getHumanizedTime(long millis) {
+        //What we're dealing with.
+        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        long hours = TimeUnit.MILLISECONDS.toHours(millis) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(millis));
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis));
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis));
+
+        StringBuilder output = new StringBuilder();
+        //Marks whether it's just one value or more after.
+        boolean leading = false;
+
+        if(days > 0) {
+            output.append(days).append(" ").append((days > 1 ? "days" : "day"));
+            leading = true;
+        }
+
+        if(hours > 0) {
+            //If we have a leading day, and minutes after, append a comma
+            if(leading && (minutes != 0 || seconds != 0)) {
+                output.append(", ");
+            } else if(minutes == 0 || seconds == 0) { //else, append "and", since it's the end.
+                output.append(" and ");
+            }
+
+            output.append(hours).append(" ").append((hours > 1 ? "hours" : "hour"));
+            leading = true;
+        }
+
+        if(minutes > 0) {
+            //If we have a leading hour, and seconds after, append a comma
+            if(leading && seconds != 0) {
+                output.append(", ");
+            } else if(seconds == 0) { //else, append "and", since it's the end.
+                output.append(" and ");
+            }
+
+            //Re-assign, in case we didn't get hours at all.
+            leading = true;
+
+            output.append(minutes).append(" ").append((minutes > 1 ? "minutes" : "minute"));
+        }
+
+        if(seconds > 0) {
+            if(leading) {
+                //We reach our destiny...
+                output.append(" and ");
+            }
+
+            output.append(seconds).append(" ").append((seconds > 1 ? "seconds" : "second"));
+        }
+
+        if(output.toString().isEmpty() && !leading) {
+            output.append("0 seconds (about now)..");
+        }
+
+        return output.toString();
     }
 
     public static Iterable<String> iterate(Pattern pattern, String string) {
@@ -142,20 +211,6 @@ public class Utils {
         return out.substring((int) start, (int) end);
     }
 
-    public static String urlEncodeUTF8(Map<?, ?> map) {
-        StringBuilder sb = new StringBuilder();
-        for(Map.Entry<?, ?> entry : map.entrySet()) {
-            if(sb.length() > 0) {
-                sb.append("&");
-            }
-            sb.append(String.format("%s=%s",
-                    urlEncodeUTF8(entry.getKey().toString()),
-                    urlEncodeUTF8(entry.getValue().toString())
-            ));
-        }
-        return sb.toString();
-    }
-
     /**
      * Fetches an Object from any given URL. Uses vanilla Java methods.
      * Can retrieve text, JSON Objects, XML and probably more.
@@ -201,6 +256,20 @@ public class Utils {
         }
 
         return url2;
+    }
+
+    public static String urlEncodeUTF8(Map<?, ?> map) {
+        StringBuilder sb = new StringBuilder();
+        for(Map.Entry<?, ?> entry : map.entrySet()) {
+            if(sb.length() > 0) {
+                sb.append("&");
+            }
+            sb.append(String.format("%s=%s",
+                    urlEncodeUTF8(entry.getKey().toString()),
+                    urlEncodeUTF8(entry.getValue().toString())
+            ));
+        }
+        return sb.toString();
     }
 
     public static String pretty(int number) {
@@ -316,5 +385,19 @@ public class Utils {
             time[0] += unit.toMillis(Long.parseLong(l));
         });
         return time[0];
+    }
+
+    public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
+        if(!rateLimiter.process(u.getId())) {
+            event.getChannel().sendMessage(
+                    EmoteReference.STOPWATCH +
+                            ratelimitQuotes[random.nextInt(ratelimitQuotes.length)] + " (Ratelimited)" +
+                            "\n **You'll be able to use this command again in " + Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
+                            + ".**"
+            ).queue();
+            return false;
+        }
+
+        return true;
     }
 }

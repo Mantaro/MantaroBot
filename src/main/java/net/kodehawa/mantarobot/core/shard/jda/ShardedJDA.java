@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 
@@ -268,5 +269,45 @@ public abstract class ShardedJDA implements UnifiedJDA {
     @Override
     public AuditableRestAction<Void> installAuxiliaryCable(int port) {
         return null;
+    }
+
+    @Override
+    public SnowflakeCacheView<User> getUserCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getUserCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<Guild> getGuildCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getGuildCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<Category> getCategoryCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getCategoryCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<TextChannel> getTextChannelCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getTextChannelCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<VoiceChannel> getVoiceChannelCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getVoiceChannelCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<PrivateChannel> getPrivateChannelCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getPrivateChannelCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<Role> getRoleCache() {
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getRoleCache));
+    }
+
+    @Override
+    public SnowflakeCacheView<Emote> getEmoteCache(){
+        return SnowflakeCacheView.all(() -> stream().map(JDA::getEmoteCache));
     }
 }

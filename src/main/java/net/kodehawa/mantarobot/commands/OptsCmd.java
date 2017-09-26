@@ -184,6 +184,34 @@ public class OptsCmd {
 
                     Queue<Message> toSend = new MessageBuilder().append(show.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
                     toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
-                }).setShortDescription("Checks the data values you have set on this server."));
+                }).setShortDescription("Checks the data values you have set on this server.")
+        ).addOption("reset:all", new Option("Options reset.",
+                "Resets all options set on this server.", OptionType.GENERAL)
+        .setAction(event -> {
+            //Temporary stuff.
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
+
+            //The persistent data we wish to mantain.
+            String premiumKey = temp.getPremiumKey();
+            long quoteLastId = temp.getQuoteLastId();
+            long ranPolls = temp.getQuoteLastId();
+            String gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
+            long cases = temp.getCases();
+
+            //Assign everything all over again
+            DBGuild newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
+            GuildData newTmp = newDbGuild.getData();
+            newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
+            newTmp.setRanPolls(ranPolls);
+            newTmp.setCases(cases);
+            newTmp.setPremiumKey(premiumKey);
+            newTmp.setQuoteLastId(quoteLastId);
+
+            //weee
+            newDbGuild.saveAsync();
+
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset your options!").queue();
+        }));
     }
 }

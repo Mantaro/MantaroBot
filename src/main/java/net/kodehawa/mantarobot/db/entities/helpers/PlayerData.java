@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 
 import java.beans.Transient;
@@ -38,7 +39,7 @@ public class PlayerData {
 
     @Transient
     public boolean isMarried() {
-        return marriedWith != null;
+        return marriedWith != null && MantaroBot.getInstance().getUserById(marriedWith) != null;
     }
 
     @Transient

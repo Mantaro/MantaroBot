@@ -82,7 +82,8 @@ public class CustomCmds {
             try {
                 runCustom(response, event);
             } catch (Exception e) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).");
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length " +
+                        "(cannot be more than 2000 chars).").queue();
             }
         }
 
@@ -562,16 +563,16 @@ public class CustomCmds {
                         .addField(
                                 "Usage:",
                                 "`~>custom` - Shows this help\n" +
-                                        "`~>custom <list|ls> [detailed]` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
+                                        "`~>custom <list|ls>` - **List all commands. If detailed is supplied, it prints the responses of each command.**\n" +
                                         "`~>custom clear` - **Remove all Custom Commands from this Guild. (ADMIN-ONLY)**\n" +
-                                        "`~>custom new <name> <response>` - **Creates a new custom command with one response. Use `custom add` to add more.**\n" +
-                                        "`~>custom add <name> <response>` - **Adds the response provided to a custom command.**\n" +
+                                        "`~>custom add <name> <response>` - **Creates or adds the response provided to a custom command.**\n" +
                                         "`~>custom make <name>` - **Starts a Interactive Operation to create a command with the specified name.**\n" +
                                         "`~>custom <remove|rm> <name>` - **Removes a command with an specific name.**\n" +
                                         "`~>custom import <search>` - **Imports a command from another guild you're in.**\n" +
                                         "`~>custom eval <response>` - **Tests how a custom command response will look**\n" +
                                         "`~>custom edit <name> <response number> <new content>` - **Edits one response of the specified command**\n" +
-                                        "`~>custom view <name> <response number>` - **Views the content of one response**",
+                                        "`~>custom view <name> <response number>` - **Views the content of one response**\n" +
+                                        "`~>custom rename <previous name> <new name>` - **Renames a custom command**",
                                 false
                         ).build();
             }

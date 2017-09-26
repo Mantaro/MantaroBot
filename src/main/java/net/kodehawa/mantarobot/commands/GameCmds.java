@@ -84,14 +84,26 @@ public class GameCmds {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                startGame(new Trivia(), event);
+                String difficulty = null;
+
+                if(args.length > 0) {
+                    difficulty = args[0];
+                }
+
+                if(difficulty != null && !(difficulty.equals("easy") || difficulty.equals("hard") || difficulty.equals("medium"))) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong difficulty specified! (Supported: easy, medium and hard)").queue();
+                    return;
+                }
+
+                startGame(new Trivia(difficulty), event);
             }
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Trivia command.")
-                        .setDescription("**Starts an instance of trivia.**")
-                        .addField("Rules", "You have 10 attempts and 120 seconds to answer, otherwise the game ends.", false)
+                        .setDescription("**Starts an instance of trivia.**\n" +
+                                "Optionally, you can specify the difficulty (easy, medium or hard) to play.")
+                        .addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends.", false)
                         .build();
             }
         });

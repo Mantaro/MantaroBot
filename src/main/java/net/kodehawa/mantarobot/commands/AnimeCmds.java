@@ -84,7 +84,7 @@ public class AnimeCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
                     String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
-                    String json = Utils.wget(connection, event);
+                    String json = Utils.wgetResty(connection, event);
                     AnimeData[] type = GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
 
                     if(type.length == 1) {
@@ -138,7 +138,7 @@ public class AnimeCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
                     String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
-                    String json = Utils.wget(url, event);
+                    String json = Utils.wgetResty(url, event);
                     CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
 
                     if(character.length == 1) {
@@ -180,11 +180,6 @@ public class AnimeCmds {
         });
 
         cr.registerAlias("character", "char");
-    }
-
-    @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
-        Async.task("AniList Login Task", this::authenticate, 1900, TimeUnit.SECONDS);
     }
 
     private void animeData(GuildMessageReceivedEvent event, AnimeData type) {
@@ -233,5 +228,10 @@ public class AnimeCmds {
                 .setFooter("Information provided by AniList", null);
 
         event.getChannel().sendMessage(embed.build()).queue();
+    }
+
+    @Subscribe
+    public void onPostLoad(PostLoadEvent e) {
+        Async.task("AniList Login Task", this::authenticate, 1900, TimeUnit.SECONDS);
     }
 }

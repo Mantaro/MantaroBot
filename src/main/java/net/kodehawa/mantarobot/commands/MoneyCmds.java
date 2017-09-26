@@ -18,9 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
+import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
 import com.rethinkdb.net.Cursor;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -39,7 +41,6 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -50,6 +51,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 /**
  * Basically part of CurrencyCmds, but only the money commands.
@@ -58,6 +60,8 @@ import static com.rethinkdb.RethinkDB.r;
 public class MoneyCmds {
 
     private final Random random = new Random();
+    private final int SLOTS_MAX_MONEY = 100_000_000;
+    private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 4;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -66,7 +70,6 @@ public class MoneyCmds {
         cr.register("daily", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
                 long money = 150L;
                 User mentionedUser = null;
                 try {
@@ -80,13 +83,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You can only do this once every 24 hours.\n**You'll be able to use this command again in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(id))
-                            + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(2);
@@ -115,13 +112,13 @@ public class MoneyCmds {
                 String streak;
                 if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.DAYS.toMillis(2)) {
                     playerData.setDailyStrike(playerData.getDailyStrike() + 1);
-                    streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "`";
+                    streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "x`";
                 } else {
                     if(playerData.getDailyStrike() == 0) {
                         streak = "First time claiming daily, have fun!";
                     } else {
                         streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                "Current strike: `" + playerData.getDailyStrike() + "`";
+                                "Old streak: `" + playerData.getDailyStrike() + "x`";
                     }
                     playerData.setDailyStrike(1);
                 }
@@ -160,21 +157,16 @@ public class MoneyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
-                if(!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Halt! You're gambling so fast that I can't print enough money!").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(player.getMoney() <= 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
                     return;
                 }
 
-                if(player.getMoney() > (long) (Integer.MAX_VALUE) * 4) {
+                if(player.getMoney() > GAMBLE_MAX_MONEY) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! " +
                             "Thanks for not breaking the local bank.").queue();
                     return;
@@ -280,7 +272,6 @@ public class MoneyCmds {
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                String id = event.getAuthor().getId();
                 Player player = MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
@@ -288,14 +279,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(id)) {
-                    event.getChannel().sendMessage(EmoteReference.STOPWATCH +
-                            "Cooldown a lil bit, you can only do this once every 5 minutes.\n **You'll be able to use this command again " +
-                            "in " +
-                            Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor()))
-                            + ".**").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
@@ -323,10 +307,10 @@ public class MoneyCmds {
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits! " + overflow).queue();
+                                    "with **$" + moneyFound + " credits!** " + overflow).queue();
                         } else {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with $" + moneyFound + " credits. " + overflow + "But you already had too many credits. Your bag overflowed" +
+                                    "with **$" + moneyFound + " credits.** " + overflow + "But you already had too many credits. Your bag overflowed" +
                                     ".\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
                         }
                     } else {
@@ -338,14 +322,15 @@ public class MoneyCmds {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
                                     " credits!**").queue();
                         } else {
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found $" + moneyFound +
-                                    " credits. But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded " +
-                                    "a Java long. Here's a buggy money bag for you.").queue();
+                            //pretty old meme right here
+                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
+                                    " credits.** But you already had too many credits. Your bag overflowed.\n" +
+                                    "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
                         }
                     } else {
                         String msg = "Digging through messages, you found nothing but dust";
 
-                        if(r.nextInt(100) > 85){
+                        if(r.nextInt(100) > 90) {
                             msg += "\n" +
                                     "Seems like you've got so much dust here... You might want to clean this up before it gets too messy!";
                         }
@@ -374,8 +359,20 @@ public class MoneyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 User user = event.getAuthor();
                 boolean isExternal = false;
-                if(!event.getMessage().getMentionedUsers().isEmpty()) {
-                    user = event.getMessage().getMentionedUsers().get(0);
+                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                if(found.isEmpty() && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+                    return;
+                }
+
+                if(found.size() > 1 && !content.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    return;
+                }
+
+                if(found.size() == 1) {
+                    user = found.get(0).getUser();
                     isExternal = true;
                 }
 
@@ -401,23 +398,7 @@ public class MoneyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
 
-                if(!rateLimiter.process(event.getMember())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Dang! Don't you think you're going a bit too fast?").queue();
-                    return;
-                }
-
-                Map<String, Optional<String>> opts = StringUtils.parse(args);
-                List<String> memberIds = null;
-                boolean local = false;
-                /*if(opts.containsKey("local")){
-                     memberIds = event.getGuild().getMembers().stream().map(m -> m.getUser().getId() + ":g").collect(Collectors.toList());
-                     local = true;
-                }*/
-
-
-                //Value used in lambda expresion must be blablabla fuck it.
-                boolean isLocal = local;
-                List<String> mids = memberIds;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
                 String pattern = ":g$";
 
                 OrderBy template =
@@ -429,25 +410,22 @@ public class MoneyCmds {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
                             .optArg("index", r.desc("level"))
-                            .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : player.g("id").match(pattern))
+                            .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "level"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
-                    AtomicInteger i = new AtomicInteger();
                     List<Map> c = m.toList();
                     m.close();
 
                     event.getChannel().sendMessage(
-                            baseEmbed(event,
-                                    "Level leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
-                                    event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                            baseEmbed(event,"Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
-                                    .map(p -> String.format("%d - **%s#%s** - Level: %s", i.incrementAndGet(), p.getKey().getName(), p
+                                    .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
-                            ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
+                            ).build()
                     ).queue();
 
 
@@ -459,47 +437,43 @@ public class MoneyCmds {
                     Cursor<Map> m = r.table("players")
                             .orderBy()
                             .optArg("index", r.desc("reputation"))
-                            .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : player.g("id").match(pattern))
+                            .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "reputation"))
                             .limit(15)
                             .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
-                    AtomicInteger i = new AtomicInteger();
                     List<Map> c = m.toList();
                     m.close();
 
                     event.getChannel().sendMessage(
                             baseEmbed(event,
-                                    "Reputation leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
-                                    event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                    "Reputation leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
-                                    .map(p -> String.format("%d - **%s#%s** - Reputation: %s", i.incrementAndGet(), p.getKey().getName(), p
+                                    .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                             .getKey().getDiscriminator(), p.getValue()))
                                     .collect(Collectors.joining("\n"))
-                            ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
+                            ).build()
                     ).queue();
 
 
                     return;
                 }
 
-                Cursor<Map> c1 = getGlobalRichest(template, pattern, mids, isLocal);
-                AtomicInteger i = new AtomicInteger();
+                Cursor<Map> c1 = getGlobalRichest(template, pattern);
                 List<Map> c = c1.toList();
                 c1.close();
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Money leaderboard" + (isLocal ? " for server " + event.getGuild().getName() : ""),
-                                event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                "Money leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%d - **%s#%s** - Credits: $%s", i.incrementAndGet(), p.getKey().getName(), p
+                                .map(p -> String.format("%s**%s#%s** - $%s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
                                 .collect(Collectors.joining("\n"))
-                        ).setThumbnail("https://maxcdn.icons8.com/office/PNG/512/Sports/trophy-512.png").build()
+                        ).build()
                 ).queue();
             }
 
@@ -550,7 +524,7 @@ public class MoneyCmds {
                             return;
                         }
 
-                        if(money > 1000000) {
+                        if(money > SLOTS_MAX_MONEY) {
                             event.getChannel().sendMessage(EmoteReference.WARNING + "This machine cannot dispense that much money!").queue();
                             return;
                         }
@@ -560,7 +534,6 @@ public class MoneyCmds {
                     }
                 }
 
-
                 Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                 if(player.getMoney() < money && !coinSelect) {
@@ -568,12 +541,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!rateLimiter.process(event.getAuthor())) {
-                    event.getChannel().sendMessage(String.format("%sCooldown a lil bit, you can only roll the slot machine once every 25 seconds.\n" +
-                                    "**You'll be able to use this command again in %s.**",
-                            EmoteReference.STOPWATCH, Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getAuthor())))).queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 if(coinSelect) {
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
@@ -634,8 +602,61 @@ public class MoneyCmds {
                         .addField("Considerations", "You can gain a maximum of put credits * 1.76 coins from it.\n" +
                                 "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
-                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of 1000000 coins.\n" +
+                                "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
                                 "`~>slots -useticket` - Rolls the slot machine with one slot coin.", false)
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void mine(CommandRegistry cr) {
+        cr.register("mine", new SimpleCommand(Category.CURRENCY) {
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 6, false);
+            final Random r = new Random();
+
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                User user = event.getAuthor();
+                Player player = MantaroData.db().getPlayer(user);
+
+                if(!player.getInventory().containsItem(Items.BROM_PICKAXE)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any pickaxe to mine!").queue();
+                    return;
+                }
+
+                if(!handleDefaultRatelimit(rateLimiter, user, event)) return;
+
+                if(r.nextInt(100) > 75) { //35% chance of it breaking the pick.
+                    event.getChannel().sendMessage(EmoteReference.SAD + "One of your picks broke while mining.").queue();
+                    player.getInventory().process(new ItemStack(Items.BROM_PICKAXE, -1));
+                    player.saveAsync();
+                    return;
+                }
+
+                long money = Math.max(50, r.nextInt(150)); //50 to 150 credits.
+                String message = EmoteReference.PICK + "You mined minerals worth $" + money + " credits!";
+
+                if(r.nextInt(400) > 350) {
+                    if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
+                        message += "\nHuh, you found a diamond while mining, but you already had too much, so we sold it for you!";
+                        money += Items.DIAMOND.getValue() * 0.9;
+                    } else {
+                        player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
+                        message += "\nHoh! You got lucky and found a diamond while mining, check your inventory!";
+                    }
+                }
+
+                event.getChannel().sendMessage(message).queue();
+                player.addMoney(money);
+                player.saveAsync();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Mine command")
+                        .setDescription("**Mines minerals to gain some credits. A bit ore lucrative than loot, but needs pickaxes.**\n" +
+                                "Has a random chance of finding diamonds.")
                         .build();
             }
         });
@@ -666,10 +687,9 @@ public class MoneyCmds {
         player.saveAsync();
     }
 
-    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern, List<String> mids, boolean isLocal) {
+    private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
         return template.filter(player -> player.g("id").match(pattern))
                 .map(player -> player.pluck("id", "money"))
-                .filter(player -> isLocal ? r.expr(mids).contains(player.g("id")) : true)
                 .limit(15)
                 .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
     }

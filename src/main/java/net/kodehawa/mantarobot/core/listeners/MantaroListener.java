@@ -164,13 +164,13 @@ public class MantaroListener implements EventListener {
             if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30))) return;
 
             onJoin(e);
-            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
+            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
             return;
         }
 
         if(event instanceof GuildLeaveEvent) {
             onLeave((GuildLeaveEvent) event);
-            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuilds().size());
+            MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
         }
 
         //debug
@@ -188,7 +188,7 @@ public class MantaroListener implements EventListener {
         }
 
         if(event instanceof HttpRequestEvent) {
-            onHttpRequest((HttpRequestEvent) event);
+            MantaroBot.getInstance().getStatsClient().incrementCounter("http_requests");
         }
 
         if(event instanceof ReconnectedEvent){
@@ -224,11 +224,13 @@ public class MantaroListener implements EventListener {
                     user.openPrivateChannel().queue(channel -> {
                         //Sellout message :^)
                         channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
-                            message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. If any doubts, please contact Kodehawa#3457.\n" +
-                                    "Instructions: **Apply this key to yourself!**. This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
+                            message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
+                                    "If any doubts, please contact Kodehawa#3457.\n" +
+                                    "Instructions: **Apply this key to yourself!**. " +
+                                    "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
                                     "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
                                     "To apply this key, run the following command in any channel `~>activatekey " +
-                                    PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER) + " user`\n" +
+                                    PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + " user`\n" +
                                     "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
                                         dbUser.getData().setHasReceivedFirstKey(true);
                                         dbUser.saveAsync();
@@ -254,25 +256,6 @@ public class MantaroListener implements EventListener {
                         (EmoteReference.WARNING + "`[" + hour + "]` " + event.getUser().getName() + "#" + event.getUser().getDiscriminator() + " just got banned.").queue();
                 logTotal++;
             }
-        }
-    }
-
-    private void onHttpRequest(HttpRequestEvent event) {
-        MantaroBot.getInstance().getStatsClient().incrementCounter("http_requests");
-        try {
-            if(!event.getResponse().isOk()) {
-                System.out.println("--------------------");
-                System.out.println("HTTP Request");
-                System.out.println(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute());
-                System.out.println(event.getRequestHeaders().toString().replace(event.getJDA().getToken(), "[TOKEN]"));
-                if(event.getRequestBodyRaw() != null) System.out.println(event.getRequestBodyRaw());
-                System.out.println("Response code: " + event.getResponseRaw().code());
-                System.out.println("--------------------");
-                MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("Failed HTTP request")
-                        .withText(event.getRoute().getMethod() + " /" + event.getRoute().getCompiledRoute() + " | Response code: " + event.getResponseRaw().code())
-                        .withDate(new Date()).build());
-            }
-        } catch(Exception ignored) {
         }
     }
 

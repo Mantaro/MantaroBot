@@ -68,6 +68,7 @@ public class Config {
     public int upToShard = 0;
     public String weatherAppId;
     public String webhookUrl;
+    public String weebapiKey;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

@@ -22,8 +22,10 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
@@ -39,11 +41,12 @@ import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
+import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 public class DebugCmds {
@@ -52,8 +55,9 @@ public class DebugCmds {
         cr.register("info", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                List<Guild> guilds = MantaroBot.getInstance().getGuilds();
-                List<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannels();
+                SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
+                SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
+                SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
 
                 event.getChannel().sendMessage("```prolog\n"
                         + " --------- Technical Information --------- \n\n"
@@ -68,14 +72,15 @@ public class DebugCmds {
                         + "DAPI Ping: " + MantaroBot.getInstance().getPing() + "ms"
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
-                        + "Users: " + guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count() + "\n"
-                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild()
-                        .getId()).getId() + 1) + ")" + "\n"
+                        + "Users: " + users.size() + "\n"
+                        + "Shards: " + MantaroBot.getInstance().getShardedMantaro().getTotalShards() + " (Current: " + (MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId()) + ")" + "\n"
                         + "Threads: " + Thread.activeCount() + "\n"
                         + "Executed Commands: " + CommandListener.getCommandTotal() + "\n"
                         + "Logs: " + MantaroListener.getLogTotal() + "\n"
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
                         + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
+                        + "Active Connections: " + (int) vc.stream().filter(voiceChannel ->
+                                voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"
                         + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
                         + "```").queue();
             }
@@ -108,20 +113,22 @@ public class DebugCmds {
 
     @Subscribe
     public void ping(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final Random r = new Random();
+        final String[] pingQuotes = {
+                "W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?",
+                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!"
+        };
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!rateLimiter.process(event.getMember())) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Yikes! Seems like you're going too fast.").queue();
-                    return;
-                }
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 long start = System.currentTimeMillis();
                 event.getChannel().sendTyping().queue(v -> {
                     long ping = System.currentTimeMillis() - start;
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "My ping: " + ping + " ms - " + ratePing(ping) + "  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
+                    event.getChannel().sendMessage(EmoteReference.MEGA + "*" + pingQuotes[r.nextInt(pingQuotes.length)] + "* - My ping: " + ping + " ms (" + ratePing(ping) + ")  `Websocket:" + event.getJDA().getPing() + "ms`").queue();
                     TextChannelGround.of(event).dropItemWithChance(5, 5);
                 });
             }
@@ -136,6 +143,7 @@ public class DebugCmds {
     }
 
     @Subscribe
+    //TODO pages
     public void shardinfo(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
             @Override
@@ -147,10 +155,10 @@ public class DebugCmds {
                             "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
-                            jda.getUsers().size(),
-                            jda.getGuilds().size(),
+                            jda.getUserCache().size(),
+                            jda.getGuildCache().size(),
                             shard.getEventManager().getLastJDAEventTimeDiff() + " ms",
-                            jda.getVoiceChannels().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
+                            jda.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
 
                     if(shard.getJDA().getShardInfo() != null && shard.getJDA().getShardInfo().equals(event.getJDA().getShardInfo())) {

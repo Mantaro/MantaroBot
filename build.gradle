@@ -18,7 +18,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 6, revision: 3)
+def ver = new Version(major: 4, minor: 7, revision: 0)
 version ver.toString()
 
 //We are going to use Java 8
@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.0_270'
+	compile 'net.dv8tion:JDA:3.3.1_280'
 	compile 'com.sedmelluq:lavaplayer:1.2.43'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 
@@ -64,10 +64,13 @@ dependencies {
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:1.1.2'
-	compile 'com.github.natanbc:discordbots-api:1.0'
+	compile 'com.github.natanbc:discordbots-api:1.1'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
+
+	//Basically for FinderUtil
+	compile 'com.jagrosh:JDA-Utilities:1.7'
 }
 
 task wrapper(type: Wrapper) {
@@ -114,7 +117,14 @@ task cleanShittyJar(type: Delete) { delete files(jar) }
 jar { classifier = "trash" }
 jar.finalizedBy cleanShittyJar
 
-shadowJar { classifier = "" }
+shadowJar {
+	classifier = ""
+
+	//We don't want this, as we only will use FinderUtil.
+	exclude("com/jagrosh/jdautilities/commandclient/**")
+	exclude("com/jagrosh/jdautilities/menu/**")
+	exclude("com/jagrosh/jdautilities/waiter/**")
+}
 
 class Version {
 	String major, minor, revision

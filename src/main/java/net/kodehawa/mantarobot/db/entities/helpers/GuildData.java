@@ -29,7 +29,7 @@ public class GuildData {
     private HashMap<String, String> autoroles = new HashMap<>();
     private String birthdayChannel = null;
     private String birthdayRole = null;
-    private Long cases = 0L;
+    private long cases = 0L;
     private HashMap<String, List<Category>> channelSpecificDisabledCategories = new HashMap<>();
     private HashMap<String, List<String>> channelSpecificDisabledCommands = new HashMap<>();
     private boolean customAdminLock = false;
@@ -58,8 +58,8 @@ public class GuildData {
     private String mutedRole = null;
     private ConcurrentHashMap<Long, Long> mutedTimelyUsers = new ConcurrentHashMap<>();
     private boolean noMentionsAction = false;
-    private String premiumKey; //Placeholder here for rethonk plz
-    private Long quoteLastId = 0L;
+    private String premiumKey;
+    private long quoteLastId = 0L;
     private long ranPolls = 0L;
     private boolean reactionMenus = true;
     private ArrayList<String> rolesBlockedFromCommands = new ArrayList<>();

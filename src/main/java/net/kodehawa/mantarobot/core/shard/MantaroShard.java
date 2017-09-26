@@ -36,7 +36,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
@@ -189,12 +188,9 @@ public class MantaroShard implements JDA {
                                 .build();
                         httpClient.newCall(request).execute().close();
                     }*/
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) { }
             }, 1, TimeUnit.HOURS);
         }
-
-        Async.task(new Carbonitex(jda, getId(), getTotalShards()), 30, TimeUnit.MINUTES); //Carbon is special now.
     }
 
     public void updateStatus() {
@@ -202,8 +198,8 @@ public class MantaroShard implements JDA {
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
                 Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
-                    users.addAndGet(jda.getUsers().size());
-                    guilds.addAndGet(jda.getGuilds().size());
+                    users.addAndGet((int) jda.getGuildCache().size());
+                    guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
             String newStatus = random(SPLASHES.get(), RANDOM)

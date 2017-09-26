@@ -27,11 +27,13 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.google.Crawler;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
 import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -60,6 +62,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -102,6 +105,55 @@ public class UtilsCmds {
                     user.save();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset birthday date.")
                             .queue();
+                    return;
+                }
+
+                if(content.startsWith("month")) {
+                    BirthdayCacher cacher = MantaroBot.getInstance().getBirthdayCacher();
+
+                    try {
+                        if(cacher != null) {
+                            if(cacher.cachedBirthdays.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.SAD + "Things seems a bit empty here...").queue();
+                                return;
+                            }
+
+                            List<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toList());
+                            Map<String, String> guildCurrentBirthdays = new HashMap<>();
+                            Calendar calendar = Calendar.getInstance();
+                            String currentMonth = 0 + String.valueOf(calendar.get(Calendar.MONTH) + 1);
+
+                            for(Map.Entry<String, String> birthdays : cacher.cachedBirthdays.entrySet()) {
+                                if(ids.contains(birthdays.getKey()) && birthdays.getValue().split("-")[1].equals(currentMonth)) {
+                                    guildCurrentBirthdays.put(birthdays.getKey(), birthdays.getValue());
+                                }
+                            }
+
+                            if(guildCurrentBirthdays.isEmpty()) {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(").queue();
+                                return;
+                            }
+
+                            String birthdays = guildCurrentBirthdays.entrySet().stream()
+                                    .sorted(Comparator.comparingInt(entry -> Integer.parseInt(entry.getValue().split("-")[0])))
+                                    .limit(10)
+                                    .map((entry) -> String.format("+ %-16s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
+                                    .collect(Collectors.joining("\n"));
+
+                            event.getChannel().sendMessage(new MessageBuilder()
+                                    .append("Birthdays for ")
+                                    .append(Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)))
+                                    .append(" in Guild: **")
+                                    .append(event.getGuild().getName())
+                                    .append("**\n")
+                                    .appendCodeBlock(birthdays, "diff").build()).queue();
+                        } else {
+                            event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
+                        }
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.SAD + "Something went wrong while getting birthdays :(").queue();
+                    }
+
                     return;
                 }
 
@@ -277,7 +329,7 @@ public class UtilsCmds {
                     AtomicInteger i = new AtomicInteger();
                     for(Reminder r : reminders) {
                         builder.append("**").append(i.incrementAndGet()).append(".-**").append("R: *").append(r.reminder).append("*, Due in: **")
-                                .append(Utils.getReadableTime(r.time - System.currentTimeMillis())).append("**").append("\n");
+                                .append(Utils.getHumanizedTime(r.time - System.currentTimeMillis())).append("**").append("\n");
                     }
 
                     Queue<Message> toSend = new MessageBuilder().append(builder.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
@@ -288,26 +340,30 @@ public class UtilsCmds {
 
 
                 if(args[0].equals("cancel")) {
-                    List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
+                    try {
+                        List<Reminder> reminders = Reminder.CURRENT_REMINDERS.get(event.getAuthor().getId());
 
-                    if(reminders.isEmpty()) {
+                        if(reminders.isEmpty()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
+                            return;
+                        }
+
+                        if(reminders.size() == 1) {
+                            reminders.get(0).cancel();
+                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
+                        } else {
+                            DiscordUtils.selectList(event, reminders,
+                                    (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getHumanizedTime(r.time - System.currentTimeMillis())),
+                                    r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
+                                            .setDescription(r1)
+                                            .setFooter("This timeouts in 10 seconds.", null).build(),
+                                    sr -> {
+                                        sr.cancel();
+                                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
+                                    });
+                        }
+                    } catch (Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
-                        return;
-                    }
-
-                    if(reminders.size() == 1) {
-                        reminders.get(0).cancel();
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder.").queue();
-                    } else {
-                        DiscordUtils.selectList(event, reminders,
-                                (r) -> String.format("%s, Due in: %s", r.reminder, Utils.getShortReadableTime(r.time - System.currentTimeMillis())),
-                                r1 -> new EmbedBuilder().setColor(Color.CYAN).setTitle("Select the reminder you want to cancel.", null)
-                                        .setDescription(r1)
-                                        .setFooter("This timeouts in 10 seconds.", null).build(),
-                                sr -> {
-                                    sr.cancel();
-                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
-                                });
                     }
 
                     return;
@@ -336,7 +392,7 @@ public class UtilsCmds {
                 }
 
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "I'll remind you of **" + toRemind + "**" +
-                        " in " + Utils.getVerboseTime(time)).queue();
+                        " in " + Utils.getHumanizedTime(time)).queue();
 
                 new Reminder.Builder()
                         .id(user.getId())
@@ -351,7 +407,8 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Remind me")
                         .setDescription("**Reminds you of something**")
-                        .addField("Usage", "`~>remindme do the laundry -time 1h20m`" +
+                        .addField("Usage", "`~>remindme do the laundry -time 1h20m`\n" +
+                                "`~>remindme cancel` to cancel a reminder." +
                                 "\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
                         .build();
             }

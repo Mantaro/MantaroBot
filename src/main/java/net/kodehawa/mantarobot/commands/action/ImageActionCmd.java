@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,10 +44,12 @@ public class ImageActionCmd extends NoArgsCommand {
     private final String desc;
     private final String format;
     private final String imageName;
-    private final List<String> images;
+    private List<String> images;
     private final String lonelyLine;
     private final String name;
     private boolean swapNames = false;
+    private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private String type;
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine) {
         super(Category.ACTION);
@@ -71,9 +74,51 @@ public class ImageActionCmd extends NoArgsCommand {
         this.swapNames = swap;
     }
 
+    public ImageActionCmd(String name, String desc, Color color, String imageName, String format, String type, String lonelyLine) {
+        super(Category.ACTION);
+        this.name = name;
+        this.desc = desc;
+        this.color = color;
+        this.imageName = imageName;
+        this.format = format;
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif"));
+        this.lonelyLine = lonelyLine;
+        this.type = type;
+    }
+
+    public ImageActionCmd(String name, String desc, Color color, String imageName, String format, String type, String lonelyLine, boolean swap) {
+        super(Category.ACTION);
+        this.name = name;
+        this.desc = desc;
+        this.color = color;
+        this.imageName = imageName;
+        this.format = format;
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif"));
+        this.lonelyLine = lonelyLine;
+        this.swapNames = swap;
+        this.type = type;
+    }
+
     @Override
     protected void call(GuildMessageReceivedEvent event, String content) {
-        String random = random(images);
+        String random = "";
+        if(images.size() == 1) {
+            if(type != null) {
+                String image = weebapi.getRandomImageByType(type, false, "gif");
+
+                if(image == null) {
+                    event.getChannel().sendMessage(EmoteReference.SAD + "We got an error while retrieving the next gif for this action...").queue();
+                    return;
+                }
+
+                images = Collections.singletonList(image);
+
+                random = images.get(0); //Guaranteed random selection :^).
+            }
+        } else {
+            random = random(images);
+        }
+
         try {
             if(mentions(event).isEmpty()) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();

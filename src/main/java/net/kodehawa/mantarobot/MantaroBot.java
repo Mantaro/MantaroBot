@@ -21,7 +21,6 @@ import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.github.natanbc.discordbotsapi.PostingException;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import gnu.trove.impl.sync.TSynchronizedLongSet;
 import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
 import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
@@ -29,6 +28,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
+import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
@@ -41,7 +41,7 @@ import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.log.SimpleLogToSLF4JAdapter;
+import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
@@ -97,6 +97,9 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+    private final MuteTask muteTask = new MuteTask();
+    private final BirthdayTask birthdayTask = new BirthdayTask();
+    private final Carbonitex carbonitex = new Carbonitex();
 
     private MantaroBot() throws Exception {
         instance = this;
@@ -116,13 +119,11 @@ public class MantaroBot extends ShardedJDA {
             System.exit(API_HANDSHAKE_FAILURE);
         }
 
-        LogUtils.log("Startup", String.format("Starting up MantaroBot %s (Node ID: %s)", MantaroInfo.VERSION, mantaroAPI.nodeUniqueIdentifier));
+        LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
 
         rabbitMQDataManager = new RabbitMQDataManager(config);
         if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
         long start = System.currentTimeMillis();
-
-        SimpleLogToSLF4JAdapter.install();
 
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
                 .setOptionsPackage("net.kodehawa.mantarobot.options")
@@ -145,7 +146,7 @@ public class MantaroBot extends ShardedJDA {
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
 
         LogUtils.log("Startup",
-                String.format("Loaded %d commands in %d shards. I woke up in %d seconds.",
+                String.format("Loaded %d commands in %d shards.\nI took %d seconds to wake up!",
                         DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
 
         if(!config.isPremiumBot() && !config.isBeta()) {
@@ -156,31 +157,35 @@ public class MantaroBot extends ShardedJDA {
         birthdayCacher = new BirthdayCacher();
         this.startCheckingBirthdays();
 
-        Async.task("discordbots.org post task", ()->{
+        Async.task("discordbots.org post task", () -> {
             if(config.dbotsorgToken == null) return;
             MantaroShard[] shards = shardedMantaro.getShards();
             int[] payload = new int[shards.length];
             for(int i = 0; i < shards.length; i++) {
-                payload[i] = shards[i].getGuilds().size();
+                payload[i] = (int)shards[i].getGuildCache().size();
             }
             try {
-                discordBotsAPI.postStats(shards[0].getJDA().getSelfUser().getIdLong(), payload);
+                discordBotsAPI.postStats(payload);
             } catch(PostingException e) {
                 log.error("Error posting stats to discordbots.org", e);
             }
         }, 30, TimeUnit.MINUTES);
 
-        Async.task("discordbots.org upvotes task", ()->{
+        Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
+        Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
+
+        //TODO Do something with this.
+        /*Async.task("discordbots.org upvotes task", ()->{
             if(config.dbotsorgToken == null) return;
             try {
-                long[] upvoters = discordBotsAPI.getUpvoterIds(shardedMantaro.getShards()[0].getJDA().getSelfUser().getIdLong());
+                long[] upvoters = discordBotsAPI.getUpvoterIds();
                 TLongSet set = new TLongHashSet();
                 set.addAll(upvoters);
                 discordBotsUpvoters = new TUnmodifiableLongSet(set);
             } catch(PostingException e) {
                 log.error("Error getting upvoters from discordbots.org", e);
             }
-        }, 10, TimeUnit.MINUTES);
+        }, 10, TimeUnit.MINUTES);*/
     }
 
     public static void main(String[] args) {
@@ -293,7 +298,7 @@ public class MantaroBot extends ShardedJDA {
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
 
-        executorService.scheduleWithFixedDelay(BirthdayTask::new, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
-        executorService.scheduleWithFixedDelay(() -> birthdayCacher.cache(), 22, 22, TimeUnit.HOURS);
+        executorService.scheduleWithFixedDelay(birthdayTask::handle, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+        executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 22, TimeUnit.HOURS);
     }
 }
