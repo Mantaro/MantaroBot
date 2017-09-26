@@ -20,8 +20,11 @@ import com.rethinkdb.net.Connection;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -36,6 +39,7 @@ public class MantaroData {
     private static Connection conn;
     private static ConnectionWatcherDataManager connectionWatcher;
     private static ManagedDatabase db;
+    private static RedissonClient redisson;
 
     public static GsonDataManager<Config> config() {
         if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
@@ -51,6 +55,18 @@ public class MantaroData {
         return conn;
     }
 
+    public static RedissonClient redisson() {
+        if(redisson == null) {
+            Config.RedisInfo i = config().get().redis;
+            if(i.enabled) {
+                org.redisson.config.Config cfg = new org.redisson.config.Config();
+                cfg.useSingleServer().setAddress("redis://" + i.host + ":" + i.port);
+                redisson = Redisson.create(cfg);
+            }
+        }
+        return redisson;
+    }
+
     public static ConnectionWatcherDataManager connectionWatcher() {
         if(connectionWatcher == null) {
             connectionWatcher = new ConnectionWatcherDataManager(MantaroBot.cwport);
@@ -59,7 +75,23 @@ public class MantaroData {
     }
 
     public static ManagedDatabase db() {
-        if(db == null) db = new ManagedDatabase(conn());
+        if(db == null) {
+            Config.RedisInfo i = config().get().redis;
+            if(i.enabled) {
+                RedissonClient client = redisson();
+
+                db = new RedisCachedDatabase(conn(),
+                        client.getMap("custom-commands"),
+                        client.getMap("guilds"),
+                        client.getMap("players"),
+                        client.getMap("users"),
+                        client.getMap("premium-keys"),
+                        client.getBucket("mantaro")
+                );
+            } else {
+                db = new ManagedDatabase(conn());
+            }
+        }
         return db;
     }
 
