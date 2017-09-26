@@ -69,6 +69,7 @@ public class Config {
     public String weatherAppId;
     public String webhookUrl;
     public String weebapiKey;
+    public RedisInfo redis;
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
@@ -80,5 +81,11 @@ public class Config {
 
     public boolean isOwner(String id) {
         return owners.contains(id);
+    }
+
+    public static class RedisInfo {
+        public String host = "localhost";
+        public int port = 6379;
+        public boolean enabled = true;
     }
 }
