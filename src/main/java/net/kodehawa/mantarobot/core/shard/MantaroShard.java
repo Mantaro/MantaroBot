@@ -154,7 +154,7 @@ public class MantaroShard implements JDA {
     }
 
     public void startBirthdayTask(long millisecondsUntilTomorrow) {
-        executorService.scheduleWithFixedDelay(() -> birthdayTask.handle(jda),
+        executorService.scheduleWithFixedDelay(() -> birthdayTask.handle(shardId),
                 millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
     }
 

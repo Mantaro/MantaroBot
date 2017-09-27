@@ -40,7 +40,7 @@ public class BirthdayTask {
     private ManagedDatabase db = MantaroData.db();
     public static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
 
-    public void handle(JDA jda) {
+    public void handle(int shardId) {
         try {
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
             if(cache == null) return;
@@ -48,13 +48,14 @@ public class BirthdayTask {
             int i = 0;
             int r = 0;
 
+            JDA jda = MantaroBot.getInstance().getShard(shardId);
+
             log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo());
             long start = System.currentTimeMillis();
             Calendar cal = Calendar.getInstance();
             String now = dateFormat.format(cal.getTime()).substring(0, 5);
             Map<String, String> cached = cache.cachedBirthdays;
             SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
-
             for(Guild guild : guilds) {
                 GuildData tempData = db.getGuild(guild).getData();
                 if(tempData.getBirthdayChannel() != null && tempData.getBirthdayRole() != null) {
