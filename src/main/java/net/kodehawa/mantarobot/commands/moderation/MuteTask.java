@@ -16,9 +16,9 @@
 
 package net.kodehawa.mantarobot.commands.moderation;
 
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
@@ -27,15 +27,17 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
 
+@Slf4j
 public class MuteTask {
 
     public void handle() {
         try {
-            if(!MantaroCore.hasLoadedCompletely()) return;
             MantaroObj data = MantaroData.db().getMantaroData();
             Map<Long, Pair<String, Long>> mutes = data.getMutes();
+            log.debug("Checking mutes... data size {}", mutes.size());
             for(Map.Entry<Long, Pair<String, Long>> entry : mutes.entrySet()) {
                 try {
+                    log.trace("Iteration");
                     Long id = entry.getKey();
                     Pair<String, Long> pair = entry.getValue();
                     String guildId = pair.getKey();
@@ -46,23 +48,33 @@ public class MuteTask {
 
                     if(guild == null) {
                         data.getMutes().remove(id);
-                        data.save();
+                        data.saveAsync();
+                        log.debug("Removed {} because guild == null", id);
                         continue;
                     } else if(guild.getMemberById(id) == null) {
                         data.getMutes().remove(id);
-                        data.save();
+                        data.saveAsync();
+                        log.debug("Removed {} because member == null", id);
                         continue;
                     }
-                    if(guild.getRoleById(id) == null) {
+
+                    //I spent an entire month trying to figure out why this didn't work to then come to the conclusion that I'm completely stupid.
+                    //I was checking against `id` instead of against the mute role id because I probably was high or something when I did this
+                    //It literally took me a fucking month to figure this shit out
+                    //What in the name of real fuck.
+                    //Please hold me.
+                    if(guild.getRoleById(guildData.getMutedRole()) == null) {
                         data.getMutes().remove(id);
-                        data.save();
+                        data.saveAsync();
+                        log.debug("Removed {} because role == null", id);
                     } else {
                         if(System.currentTimeMillis() > maxTime) {
+                            log.debug("Unmuted {} because time ran out", id);
                             data.getMutes().remove(id);
                             data.save();
                             guild.getController().removeRolesFromMember(guild.getMemberById(id), guild.getRoleById(guildData.getMutedRole())).queue();
                             guildData.setCases(guildData.getCases() + 1);
-                            dbGuild.save();
+                            dbGuild.saveAsync();
                             ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
                         }
                     }

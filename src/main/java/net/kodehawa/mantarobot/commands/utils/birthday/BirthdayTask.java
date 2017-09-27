@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BirthdayTask {
     private ManagedDatabase db = MantaroData.db();
-    public static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
+    private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
 
     public void handle(int shardId) {
         try {
@@ -56,6 +56,7 @@ public class BirthdayTask {
             String now = dateFormat.format(cal.getTime()).substring(0, 5);
             Map<String, String> cached = cache.cachedBirthdays;
             SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
+
             for(Guild guild : guilds) {
                 GuildData tempData = db.getGuild(guild).getData();
                 if(tempData.getBirthdayChannel() != null && tempData.getBirthdayRole() != null) {
@@ -71,7 +72,11 @@ public class BirthdayTask {
                         for(Map.Entry<String, String> data : guildMap.entrySet()) {
                             Member member = guild.getMemberById(data.getKey());
                             String birthday = data.getValue();
-                            if(birthday == null) continue; //shouldnt happen
+
+                            if(birthday == null){
+                                log.debug("Birthday is null? Continuing to next iteration...");
+                                continue; //shouldnt happen
+                            }
                             //else start the assigning
 
                             //tada!
@@ -85,18 +90,24 @@ public class BirthdayTask {
                                                     MantaroBot.getInstance().getStatsClient().increment("birthdays_logged");
                                                 }
                                         );
+                                        log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         i++;
                                         //Something went boom, ignore and continue
-                                    } catch (Exception ignored) {}
+                                    } catch (Exception ignored) {
+                                        log.debug("Something went boom while assigning a birthday role?...");
+                                    }
                                 }
                             } else {
                                 //day passed
                                 if(member.getRoles().contains(birthdayRole)) {
                                     try {
+                                        log.debug("Removing birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         guild.getController().removeRolesFromMember(member, birthdayRole).queue();
                                         r++;
                                         //Something went boom, ignore and continue
-                                    } catch (Exception ignored) {}
+                                    } catch (Exception ignored) {
+                                        log.debug("Something went boom while removing a birthday role?...");
+                                    }
                                 }
                             }
                         }
