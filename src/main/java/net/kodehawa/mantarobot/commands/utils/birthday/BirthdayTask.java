@@ -17,8 +17,8 @@
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import io.sentry.Sentry;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -28,37 +28,32 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.time.FastDateFormat;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class BirthdayTask {
-
     private ManagedDatabase db = MantaroData.db();
-    //just in case shit goes massively boom
-    @Setter
-    public static boolean isEnabled = true;
+    public static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
 
-    public void handle() {
+    public void handle(JDA jda) {
         try {
-            if (!isEnabled) return;
-
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
             if(cache == null) return;
             if (!cache.isDone) return;
-
-            log.info("Checking birthdays to assign roles...");
-            long start = System.currentTimeMillis();
-            Map<String, String> cached = cache.cachedBirthdays;
             int i = 0;
             int r = 0;
-            SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
+
+            log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo());
+            long start = System.currentTimeMillis();
+            Calendar cal = Calendar.getInstance();
+            String now = dateFormat.format(cal.getTime()).substring(0, 5);
+            Map<String, String> cached = cache.cachedBirthdays;
+            SnowflakeCacheView<Guild> guilds = jda.getGuildCache();
 
             for(Guild guild : guilds) {
                 GuildData tempData = db.getGuild(guild).getData();
@@ -78,11 +73,8 @@ public class BirthdayTask {
                             if(birthday == null) continue; //shouldnt happen
                             //else start the assigning
 
-                            Calendar cal = Calendar.getInstance();
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
                             //tada!
-                            if(birthday.substring(0, 5).equals(dateFormat.format(cal.getTime()).substring(0, 5))) {
+                            if(birthday.substring(0, 5).equals(now)) {
                                 log.debug("Assigning birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                 if(!member.getRoles().contains(birthdayRole)) {
                                     try {
@@ -93,6 +85,7 @@ public class BirthdayTask {
                                                 }
                                         );
                                         i++;
+                                        //Something went boom, ignore and continue
                                     } catch (Exception ignored) {}
                                 }
                             } else {
@@ -101,6 +94,7 @@ public class BirthdayTask {
                                     try {
                                         guild.getController().removeRolesFromMember(member, birthdayRole).queue();
                                         r++;
+                                        //Something went boom, ignore and continue
                                     } catch (Exception ignored) {}
                                 }
                             }
@@ -111,11 +105,10 @@ public class BirthdayTask {
 
             long end = System.currentTimeMillis();
 
-            String toSend = String.format("Finished checking birthdays, people assigned: %d, people divested: %d, took %dms", i, r, (end - start));
+            String toSend = String.format("Finished checking birthdays for shard %s, people assigned: %d, people divested: %d, took %dms",
+                    jda.getShardInfo() == null ? 1 : jda.getShardInfo().getShardId(), i, r, (end - start));
 
             log.info(toSend);
-            LogUtils.log("Birthday", toSend);
-
         } catch(Exception e) {
             e.printStackTrace();
             Sentry.capture(e);

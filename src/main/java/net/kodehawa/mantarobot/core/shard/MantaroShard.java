@@ -29,6 +29,7 @@ import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.requests.SessionReconnectQueue;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
+import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -51,10 +52,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
@@ -85,6 +83,10 @@ public class MantaroShard implements JDA {
     @Delegate
     private JDA jda;
     private static SessionReconnectQueue reconnectQueue = new SessionReconnectQueue();
+
+    private BirthdayTask birthdayTask = new BirthdayTask();
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+
 
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.shardId = shardId;
@@ -151,43 +153,33 @@ public class MantaroShard implements JDA {
         jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 
+    public void startBirthdayTask(long millisecondsUntilTomorrow) {
+        executorService.scheduleWithFixedDelay(() -> birthdayTask.handle(jda),
+                millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+    }
+
     public void updateServerCount() {
         OkHttpClient httpClient = new OkHttpClient();
         Config config = config().get();
 
         String dbotsToken = config.dbotsToken;
-        String dbotsorgToken = config.dbotsorgToken;
 
-        if(dbotsToken != null || dbotsorgToken != null) {
-            Async.task("Botlist API update Thread", () -> {
-                int count = jda.getGuilds().size();
-
+        if(dbotsToken != null) {
+            Async.task("Dbots update Thread", () -> {
                 try {
+                    int count = jda.getGuilds().size();
                     RequestBody body = RequestBody.create(
                             JSON,
                             new JSONObject().put("server_count", count).put("shard_id", getId()).put("shard_count", totalShards).toString()
                     );
 
-
-                    if(dbotsToken != null) {
-                        Request request = new Request.Builder()
-                                .url("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
-                                .addHeader("Authorization", dbotsToken)
-                                .addHeader("Content-Type", "application/json")
-                                .post(body)
-                                .build();
-                        httpClient.newCall(request).execute().close();
-                    }
-
-                    /*if(dbotsorgToken != null) {
-                        Request request = new Request.Builder()
-                                .url("https://discordbots.org/api/bots/" + jda.getSelfUser().getId() + "/stats")
-                                .addHeader("Authorization", dbotsorgToken)
-                                .addHeader("Content-Type", "application/json")
-                                .post(body)
-                                .build();
-                        httpClient.newCall(request).execute().close();
-                    }*/
+                    Request request = new Request.Builder()
+                            .url("https://bots.discord.pw/api/bots/" + jda.getSelfUser().getId() + "/stats")
+                            .addHeader("Authorization", dbotsToken)
+                            .addHeader("Content-Type", "application/json")
+                            .post(body)
+                            .build();
+                    httpClient.newCall(request).execute().close();
                 } catch(Exception ignored) { }
             }, 1, TimeUnit.HOURS);
         }

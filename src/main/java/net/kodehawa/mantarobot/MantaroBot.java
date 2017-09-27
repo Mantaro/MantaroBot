@@ -165,7 +165,7 @@ public class MantaroBot extends ShardedJDA {
                 payload[i] = (int)shards[i].getGuildCache().size();
             }
             try {
-                discordBotsAPI.postStats(payload);
+                discordBotsAPI.postStats(shards[0].getSelfUser().getIdLong(), payload);
             } catch(PostingException e) {
                 log.error("Error posting stats to discordbots.org", e);
             }
@@ -288,7 +288,7 @@ public class MantaroBot extends ShardedJDA {
     }
 
     private void startCheckingBirthdays() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
         //How much until tomorrow? That's the initial delay, then run it once a day.
         ZoneId z = ZoneId.of("America/Chicago");
@@ -298,7 +298,10 @@ public class MantaroBot extends ShardedJDA {
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
 
-        executorService.scheduleWithFixedDelay(birthdayTask::handle, millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
+        for(MantaroShard shard : core.getShardedInstance().getShards()) {
+            shard.startBirthdayTask(millisecondsUntilTomorrow);
+        }
+
         executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 22, TimeUnit.HOURS);
     }
 }
