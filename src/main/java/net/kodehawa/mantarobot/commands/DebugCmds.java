@@ -69,7 +69,6 @@ public class DebugCmds {
                         + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
                         + "Shard Info: " + event.getJDA().getShardInfo() + "\n"
-                        + "DAPI Ping: " + MantaroBot.getInstance().getPing() + "ms"
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
                         + "Users: " + users.size() + "\n"
@@ -152,7 +151,7 @@ public class DebugCmds {
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-15s | %-9s | U: %-6d | G: %-4d | L: %-7s | VC: %-2d",
+                            "%-15s | %-9s | U: %-6d | G: %-4d | EV: %-8s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),

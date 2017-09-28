@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
@@ -24,9 +23,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.moderation.ModLog;
-import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -52,7 +49,6 @@ import java.util.regex.Pattern;
 
 @Module
 public class MuteCmds {
-
     private static Pattern timePattern = Pattern.compile("-time [(\\d+)((?:h(?:our(?:s)?)?)|(?:m(?:in(?:ute(?:s)?)?)?)|(?:s(?:ec(?:ond(?:s)?)?)?))]+");
 
     @Subscribe

@@ -118,7 +118,9 @@ public class Utils {
             //If we have a leading day, and minutes after, append a comma
             if(leading && (minutes != 0 || seconds != 0)) {
                 output.append(", ");
-            } else if(minutes == 0 || seconds == 0) { //else, append "and", since it's the end.
+            }
+
+            if(!output.toString().isEmpty() && (minutes == 0 && seconds == 0)) { //else, append "and", since it's the end.
                 output.append(" and ");
             }
 
@@ -130,7 +132,9 @@ public class Utils {
             //If we have a leading hour, and seconds after, append a comma
             if(leading && seconds != 0) {
                 output.append(", ");
-            } else if(seconds == 0) { //else, append "and", since it's the end.
+            }
+
+            if(!output.toString().isEmpty() && seconds == 0) { //else, append "and", since it's the end.
                 output.append(" and ");
             }
 

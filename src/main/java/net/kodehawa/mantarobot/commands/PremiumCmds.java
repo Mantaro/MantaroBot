@@ -163,7 +163,7 @@ public class PremiumCmds {
                             owner = event.getAuthor();
 
                         embedBuilder.setDescription("**Premium user! <3**")
-                                .addField("Valid for", currentKey.validFor() + " days", false)
+                                .addField("Expires in", currentKey.validFor() + " days", false)
                                 .addField("Key total duration", currentKey.getDurationDays() + " days", false)
                                 .addField("Key owner", owner.getName() + "#" + owner.getDiscriminator(), false);
                     } else {
@@ -188,7 +188,7 @@ public class PremiumCmds {
                                 owner = event.getAuthor();
 
                             embedBuilder.setDescription("**Premium guild! <3**")
-                                    .addField("Valid for", currentKey.validFor() + " days", false)
+                                    .addField("Expires in", currentKey.validFor() + " days", false)
                                     .addField("Key total duration", currentKey.getDurationDays() + " days", false)
                                     .addField("Key owner", owner.getName() + "#" + owner.getDiscriminator(), false);
                         } else {

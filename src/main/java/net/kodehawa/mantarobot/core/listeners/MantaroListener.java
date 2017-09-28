@@ -198,6 +198,13 @@ public class MantaroListener implements EventListener {
                     .withDate(new Date()).build());
         }
 
+        if(event instanceof ResumedEvent) {
+            MantaroBot.getInstance().getStatsClient().increment("shard.resume");
+            MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.resume")
+                    .withText("Shard resumed")
+                    .withDate(new Date()).build());
+        }
+
         if(event instanceof GuildMemberRoleAddEvent){
             onRoleAdd((GuildMemberRoleAddEvent) event);
         }

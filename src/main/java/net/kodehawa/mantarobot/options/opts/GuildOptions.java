@@ -454,60 +454,77 @@ public class GuildOptions extends OptionHandler {
                         "You need to provide the name of the role to disallow from mantaro.\n" +
                         "Example: `~>opts server role disallow bad`, `~>opts server role disallow \"No commands\"`",
                 "Disallows all users with a role from executing commands.", (event, args) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-
                     if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
                         return;
                     }
-                    String roleS = args[0];
 
-                    List<Role> roles = MantaroBot.getInstance().getRolesByName(roleS, true);
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    String roleName = String.join(" ", args);
 
-                    if(roles.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
-                        return;
+                    List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
+                    if(roleList.size() == 0) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
+                    } else if(roleList.size() == 1) {
+                        Role role = roleList.get(0);
+                        guildData.getDisabledRoles().add(role.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled role " + role.getName() + " from executing commands.").queue();
+                    } else {
+                        DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
+                                role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Mute Role:")
+                                        .setDescription(s).build(),
+                                role -> {
+                                    guildData.getDisabledRoles().add(role.getId());
+                                    dbGuild.saveAsync();
+                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled role " + role.getName() + " from executing commands.").queue();
+                                });
                     }
-
-                    Role role = MantaroBot.getInstance().getRolesByName(roleS, true).get(0);
-
-
-                    guildData.getDisabledRoles().add(role.getId());
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Disabled role " + role.getName() + " from executing commands.").queue();
                 });
 
         registerOption("server:role:allow", "Role allow", "Allows all users with a role from executing commands.\n" +
                         "You need to provide the name of the role to allow from mantaro. Has to be already disabled.\n" +
                         "Example: `~>opts server role allow bad`, `~>opts server role allow \"No commands\"`",
                 "Allows all users with a role from executing commands (Has to be already disabled)", (event, args) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
                     if(args.length == 0) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the name of the role!").queue();
                         return;
                     }
 
-                    String roleS = args[0];
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    String roleName = String.join(" ", args);
 
-                    List<Role> roles = MantaroBot.getInstance().getRolesByName(roleS, true);
+                    List<Role> roleList = event.getGuild().getRolesByName(roleName, true);
+                    if(roleList.size() == 0) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
+                    } else if(roleList.size() == 1) {
+                        Role role = roleList.get(0);
 
-                    if(roles.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot find a role with name: " + args[0]).queue();
-                        return;
+                        if(!guildData.getDisabledRoles().contains(role.getId())) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "This role isn't disabled!").queue();
+                            return;
+                        }
+
+                        guildData.getDisabledRoles().remove(role.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Allowed role " + role.getName() + " to execute commands.").queue();
+                    } else {
+                        DiscordUtils.selectList(event, roleList, role -> String.format("%s (ID: %s)  | Position: %s", role.getName(),
+                                role.getId(), role.getPosition()), s -> OptsCmd.getOpts().baseEmbed(event, "Select the Mute Role:")
+                                        .setDescription(s).build(),
+                                role -> {
+                                    if(!guildData.getDisabledRoles().contains(role.getId())) {
+                                        event.getChannel().sendMessage(EmoteReference.ERROR + "This role isn't disabled!").queue();
+                                        return;
+                                    }
+
+                                    guildData.getDisabledRoles().remove(role.getId());
+                                    dbGuild.saveAsync();
+                                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Allowed role " + role.getName() + " to execute commands.").queue();
+                                });
                     }
-
-                    Role role = MantaroBot.getInstance().getRolesByName(roleS, true).get(0);
-
-                    if(!guildData.getDisabledRoles().contains(role.getId())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "This role is not disabled from executing commands!").queue();
-                        return;
-                    }
-
-                    guildData.getDisabledRoles().remove(role.getId());
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Re-enabled role " + role.getName() + " from executing commands.").queue();
                 });
     }
 

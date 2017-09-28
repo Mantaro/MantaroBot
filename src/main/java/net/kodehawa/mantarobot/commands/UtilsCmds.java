@@ -137,7 +137,7 @@ public class UtilsCmds {
                             String birthdays = guildCurrentBirthdays.entrySet().stream()
                                     .sorted(Comparator.comparingInt(entry -> Integer.parseInt(entry.getValue().split("-")[0])))
                                     .limit(10)
-                                    .map((entry) -> String.format("+ %-16s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
+                                    .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
                                     .collect(Collectors.joining("\n"));
 
                             event.getChannel().sendMessage(new MessageBuilder()

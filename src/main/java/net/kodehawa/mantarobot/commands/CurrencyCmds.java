@@ -268,7 +268,7 @@ public class CurrencyCmds {
                         String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue
                                 () * 0.9)) : "N/A";
 
-                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.getAndIncrement(), item.getEmoji(), item.getName())).append("\n");
+                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
                         prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
                     }
                 });
@@ -288,7 +288,8 @@ public class CurrencyCmds {
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
                                 "specified item. " +
                                 "**You'll get the sell value of the item on coins to spend.**", false)
-                        .addField("To know", "If you don't have enough money you cannot buy the items.", false)
+                        .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
+                                "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
                         .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",
                                 false)
                         .build();
