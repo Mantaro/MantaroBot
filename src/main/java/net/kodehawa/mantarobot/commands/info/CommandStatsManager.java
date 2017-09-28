@@ -17,24 +17,31 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.kodehawa.mantarobot.utils.Expirator;
+import net.jodah.expiringmap.ExpiringMap;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CommandStatsManager {
-    public static final Map<String, AtomicInteger>
-            TOTAL_CMDS = new HashMap<>(),
-            DAY_CMDS = new HashMap<>(),
-            HOUR_CMDS = new HashMap<>(),
-            MINUTE_CMDS = new HashMap<>();
+    public static final Map<String, AtomicInteger> TOTAL_CMDS = new HashMap<>();
+
+    public static final ExpiringMap<String, AtomicInteger> DAY_CMDS = ExpiringMap.<String, AtomicInteger>builder()
+            .expiration(1, TimeUnit.DAYS)
+            .build();
+
+    public static final ExpiringMap<String, AtomicInteger> HOUR_CMDS = ExpiringMap.<String, AtomicInteger>builder()
+            .expiration(1, TimeUnit.HOURS)
+            .build();
+
+    public static final ExpiringMap<String, AtomicInteger> MINUTE_CMDS = ExpiringMap.<String, AtomicInteger>builder()
+            .expiration(1, TimeUnit.MINUTES)
+            .build();
     private static final char ACTIVE_BLOCK = '\u2588';
     private static final char EMPTY_BLOCK = '\u200b';
-    private static final Expirator EXPIRATOR = new Expirator();
-    private static final int MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
 
     public static String bar(int percent, int total) {
         int activeBlocks = (int) ((float) percent / 100f * total);
@@ -65,14 +72,10 @@ public class CommandStatsManager {
 
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;
-        long millis = System.currentTimeMillis();
         TOTAL_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
         DAY_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
         HOUR_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
         MINUTE_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
-        EXPIRATOR.put(millis + MINUTE, () -> MINUTE_CMDS.get(cmd).decrementAndGet());
-        EXPIRATOR.put(millis + HOUR, () -> HOUR_CMDS.get(cmd).decrementAndGet());
-        EXPIRATOR.put(millis + DAY, () -> DAY_CMDS.get(cmd).decrementAndGet());
     }
 
     public static String resume(Map<String, AtomicInteger> commands) {

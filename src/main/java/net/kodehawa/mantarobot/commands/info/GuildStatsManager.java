@@ -17,26 +17,34 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.jodah.expiringmap.ExpiringMap;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.utils.Expirator;
 import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class GuildStatsManager {
-    public static final Map<LoggedEvent, AtomicInteger>
-            TOTAL_EVENTS = new HashMap<>(),
-            DAY_EVENTS = new HashMap<>(),
-            HOUR_EVENTS = new HashMap<>(),
-            MINUTE_EVENTS = new HashMap<>();
+    public static final Map<LoggedEvent, AtomicInteger> TOTAL_EVENTS = new HashMap<>();
+
+    public static final ExpiringMap<LoggedEvent, AtomicInteger> DAY_EVENTS = ExpiringMap.<String, AtomicInteger>builder()
+            .expiration(1, TimeUnit.DAYS)
+            .build();
+
+    public static final ExpiringMap<LoggedEvent, AtomicInteger> HOUR_EVENTS = ExpiringMap.<String, AtomicInteger>builder()
+            .expiration(1, TimeUnit.HOURS)
+            .build();
+
+    public static final ExpiringMap<LoggedEvent, AtomicInteger> MINUTE_EVENTS = ExpiringMap.<String, AtomicInteger>builder()
+            .expiration(1, TimeUnit.MINUTES)
+            .build();
+
     private static final char ACTIVE_BLOCK = '\u2588';
     private static final char EMPTY_BLOCK = '\u200b';
-    private static final Expirator EXPIRATOR = new Expirator();
-    private static final int MINUTE = 60000, HOUR = 3600000, DAY = 86400000;
     public static int MILESTONE = 0;
 
     public static String bar(int percent, int total) {
@@ -67,14 +75,10 @@ public class GuildStatsManager {
     }
 
     public static void log(LoggedEvent loggedEvent) {
-        long millis = System.currentTimeMillis();
         TOTAL_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
         DAY_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
         HOUR_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
         MINUTE_EVENTS.computeIfAbsent(loggedEvent, k -> new AtomicInteger(0)).incrementAndGet();
-        EXPIRATOR.put(millis + MINUTE, () -> MINUTE_EVENTS.get(loggedEvent).decrementAndGet());
-        EXPIRATOR.put(millis + HOUR, () -> HOUR_EVENTS.get(loggedEvent).decrementAndGet());
-        EXPIRATOR.put(millis + DAY, () -> DAY_EVENTS.get(loggedEvent).decrementAndGet());
     }
 
     public static String resume(Map<LoggedEvent, AtomicInteger> commands) {
