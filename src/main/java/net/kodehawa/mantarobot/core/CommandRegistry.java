@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.core;
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.info.CategoryStatsManager;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -108,6 +109,7 @@ public class CommandRegistry {
 
         cmd.run(event, cmdname, content);
         log(cmdname);
+        CategoryStatsManager.log(cmd.category().name().toLowerCase());
         return true;
     }
 

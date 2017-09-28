@@ -27,6 +27,7 @@ import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.info.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -504,6 +505,44 @@ public class InfoCmds {
                         .addField("Daily", GuildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
                         .addField("Total", GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
                         .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
+                        .build()
+                ).queue();
+            }
+        });
+
+        statsCommand.addSubCommand("category", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                if (args.length > 0) {
+                    String what = args[0];
+                    if (what.equals("total")) {
+                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(event, "Category Stats | Total")).build()).queue();
+                        return;
+                    }
+
+                    if (what.equals("daily")) {
+                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(event, "Category Stats | Daily")).build()).queue();
+                        return;
+                    }
+
+                    if (what.equals("hourly")) {
+                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(event, "Category Stats | Hourly")).build()).queue();
+                        return;
+                    }
+
+                    if (what.equals("now")) {
+                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(event, "Category Stats | Now")).build()).queue();
+                        return;
+                    }
+                }
+
+                //Default
+                event.getChannel().sendMessage(baseEmbed(event, "Category Stats")
+                        .addField("Now", CategoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
+                        .addField("Hourly", CategoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
+                        .addField("Daily", CategoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
+                        .addField("Total", CategoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
                         .build()
                 ).queue();
             }

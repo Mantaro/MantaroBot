@@ -68,7 +68,7 @@ public class DebugCmds {
                         + "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
                         + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
-                        + "Shard Info: " + event.getJDA().getShardInfo() + "\n"
+                        + "Shard Info: " + event.getJDA().getShardInfo()
                         + "\n\n --------- Mantaro Information --------- \n\n"
                         + "Guilds: " + guilds.size() + "\n"
                         + "Users: " + users.size() + "\n"
