@@ -643,7 +643,7 @@ public class MoneyCmds {
                         money += Items.DIAMOND.getValue() * 0.9;
                     } else {
                         player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
-                        message += "\nHoh! You got lucky and found a diamond while mining, check your inventory!";
+                        message += "\nHuh! You got lucky and found a diamond while mining, check your inventory!";
                     }
                 }
 
