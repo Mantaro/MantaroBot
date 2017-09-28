@@ -83,6 +83,11 @@ public class AnimeCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
+                    if(content.isEmpty()) {
+                        onHelp(event);
+                        return;
+                    }
+
                     String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
                     String json = Utils.wgetResty(connection, event);
                     AnimeData[] type = GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
@@ -110,9 +115,9 @@ public class AnimeCmds {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
                         return;
                     }
+
                     event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your favorite anime!**\n " +
-                            "We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command." +
-                            "\nError: ``" + e.getMessage() + "``").queue();
+                            "We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command.").queue();
                 }
             }
 
@@ -137,6 +142,11 @@ public class AnimeCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
+                    if(content.isEmpty()) {
+                        onHelp(event);
+                        return;
+                    }
+
                     String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
                     String json = Utils.wgetResty(url, event);
                     CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
@@ -162,8 +172,7 @@ public class AnimeCmds {
                     }
                     log.warn("Problem processing data.", e);
                     event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your waifu!**\n" +
-                            "I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command." +
-                            "\nError: ``" + e.getMessage() + "``").queue();
+                            "I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command.").queue();
                 }
             }
 
