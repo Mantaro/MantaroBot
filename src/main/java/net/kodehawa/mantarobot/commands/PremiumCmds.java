@@ -178,6 +178,10 @@ public class PremiumCmds {
                 } else {
                     if(args[0].equals("guild")) {
                         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        if(!dbGuild.isPremium()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "This guild isn't premium :c").queue();
+                            return;
+                        }
 
                         embedBuilder.setAuthor(event.getGuild().getName() + "'s Premium Status", null, event.getAuthor().getEffectiveAvatarUrl());
 
