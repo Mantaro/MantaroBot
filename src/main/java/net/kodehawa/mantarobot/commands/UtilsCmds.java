@@ -427,7 +427,9 @@ public class UtilsCmds {
                     GoogleCrawler.SearchResult data = result.get(i);
                     if(data != null) {
                         String title = data.getTitle();
+                        String desc = data.getDescription();
                         if(title.length() > 40) title = title.substring(0, 40) + "...";
+                        if(title.length() > 250) title = desc.substring(0, 250) + "...";
                         b.append(i + 1)
                                 .append(". **[")
                                 .append(title)
@@ -435,8 +437,8 @@ public class UtilsCmds {
                                 .append(data.getUrl())
                                 .append(")**\n")
                                 .append("- ")
-                                .append(data.getDescription())
-                                .append("\n");
+                                .append(desc)
+                                .append("\n\n");
                     }
                 }
 
