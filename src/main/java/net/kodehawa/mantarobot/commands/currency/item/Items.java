@@ -55,7 +55,7 @@ public class Items {
             OVERFLOWED_BAG = new Item("\uD83D\uDCB0",
                     "Moneybag", "What else?.", 80, true),
             BROM_PICKAXE = new Item("\u26cf",
-                    "Brom's Pickaxe", "That guy liked Minecraft way too much.", 55, true),
+                    "Brom's Pickaxe", "That guy liked Minecraft way too much.", 75, true),
             POTION_HEALTH = new Item(EmoteReference.POTION1.getUnicode(),
                     "Milk", "Good boy.", 45, true),
             POTION_STAMINA = new Item(EmoteReference.POTION2.getUnicode(),

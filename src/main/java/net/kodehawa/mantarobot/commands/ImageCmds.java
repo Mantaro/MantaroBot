@@ -21,9 +21,9 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.lib.imageboards.ImageboardAPI;
-import net.kodehawa.lib.imageboards.entities.*;
-import net.kodehawa.lib.imageboards.util.Imageboards;
+import net.kodehawa.lib.imageboards.DefaultImageBoards;
+import net.kodehawa.lib.imageboards.ImageBoard;
+import net.kodehawa.lib.imageboards.entities.impl.*;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -37,7 +37,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
 
-import java.awt.Color;
+import java.awt.*;
 
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.getImage;
 import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
@@ -55,12 +55,12 @@ public class ImageCmds {
     private final String BASEURL = "http://catgirls.brussell98.tk/api/random";
     private final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
 
-    private final ImageboardAPI<FurryImage> e621 = Imageboards.E621;
-    private final ImageboardAPI<KonachanImage> konachan = Imageboards.KONACHAN;
-    private final ImageboardAPI<Rule34Image> rule34 = Imageboards.RULE34;
-    private final ImageboardAPI<YandereImage> yandere = Imageboards.YANDERE;
-    private final ImageboardAPI<DanbooruImage> danbooru = Imageboards.DANBOORU;
-    private final ImageboardAPI<SafebooruImage> safebooru = Imageboards.SAFEBOORU; //safebooru.org, not the danbooru one.
+    private final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
+    private final ImageBoard<KonachanImage> konachan = DefaultImageBoards.KONACHAN;
+    private final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;
+    private final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
+    private final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
+    private final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
 
     @Subscribe
     public void cat(CommandRegistry cr) {

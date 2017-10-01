@@ -19,13 +19,13 @@ package net.kodehawa.mantarobot.commands.image;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.lib.imageboards.ImageboardAPI;
+import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.BoardImage;
+import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 
 import java.util.List;
 import java.util.Random;
@@ -33,36 +33,30 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class ImageboardUtils {
-    private static final BidiMap<String, String> nRating = new DualHashBidiMap<>();
     private static final Random r = new Random();
 
-    static {
-        nRating.put("safe", "s");
-        nRating.put("questionable", "q");
-        nRating.put("explicit", "e");
-    }
-
-    public static void getImage(ImageboardAPI<?> api, String type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
-        String rating = "s";
+    public static void getImage(ImageBoard<?> api, String type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
+        Rating rating = Rating.SAFE;
         boolean needRating = args.length >= 3;
         TextChannel channel = event.getChannel();
 
         if(nsfwOnly)
-            rating = "e";
+            rating = Rating.EXPLICIT;
 
         try {
-            if(needRating) rating = nRating.get(args[2]);
+            if(needRating) rating = Rating.lookupFromString(args[2]);
         } catch(Exception e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
             return;
         }
 
-        final String fRating = rating;
+        final Rating fRating = rating;
 
         if(!nsfwCheck(event, false, false, fRating)) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
             return;
         }
+
         int page = Math.max(1, r.nextInt(25));
 
         switch(type) {
@@ -71,7 +65,7 @@ public class ImageboardUtils {
                     String whole1 = content.replace("get ", "");
                     String[] wholeBeheaded = whole1.split(" ");
 
-                    api.get(page, images1 -> {
+                    api.get(page).async(images1 -> {
                         if(boom(images1, event)) return;
 
                         try {
@@ -82,6 +76,7 @@ public class ImageboardUtils {
 
                             if(images.isEmpty()) {
                                 event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                                return;
                             }
 
                             try {
@@ -95,7 +90,7 @@ public class ImageboardUtils {
                                 return;
                             }
 
-                            imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, fRating, imageboard, channel);
+                            imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
@@ -114,7 +109,7 @@ public class ImageboardUtils {
                     String sNoArgs = content.replace("tags ", "");
                     String[] expectedNumber = sNoArgs.split(" ");
                     String tags = expectedNumber[0];
-                    api.onSearch(tags, images -> {
+                    api.search(tags).async(images  -> {
                         //account for this
                         if(boom(images, event)) return;
 
@@ -125,6 +120,7 @@ public class ImageboardUtils {
 
                             if(filter.isEmpty()) {
                                 event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                                return;
                             }
 
                             int number1;
@@ -140,7 +136,7 @@ public class ImageboardUtils {
                                 return;
                             }
 
-                            imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, fRating, imageboard, channel);
+                            imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, image.getRating(), imageboard, channel);
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
@@ -157,7 +153,7 @@ public class ImageboardUtils {
                 }
                 break;
             case "":
-                api.get(page, images -> {
+                api.get(page).async(images -> {
                     if(boom(images, event)) return;
 
                     List<BoardImage> filter = (List<BoardImage>) images;
@@ -166,25 +162,27 @@ public class ImageboardUtils {
 
                     if(filter.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                        return;
                     }
 
                     int number = r.nextInt(filter.size());
                     BoardImage image = filter.get(number);
                     String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
-                    imageEmbed(image.getImageUrl(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, fRating, imageboard, channel);
+                    imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, image.getRating(), imageboard, channel);
                     TextChannelGround.of(event).dropItemWithChance(13, 3);
                 });
                 break;
         }
     }
 
-    public static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, String rating) {
+    public static boolean nsfwCheck(GuildMessageReceivedEvent event, boolean isGlobal, boolean sendMessage, Rating rating) {
         if(event.getChannel().isNSFW()) return true;
 
         String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
                 .filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
-        String rating1 = rating == null ? "s" : rating;
-        boolean trigger = !isGlobal ? ((rating1.equals("s") || (nsfwChannel == null)) ? rating1.equals("s") : nsfwChannel.equals(event.getChannel().getId())) :
+        Rating rating1 = rating == null ? Rating.SAFE : rating;
+        boolean trigger = !isGlobal ? ((rating1.equals(Rating.SAFE) || (nsfwChannel == null)) ?
+                rating1.equals(Rating.SAFE) : nsfwChannel.equals(event.getChannel().getId())) :
                 nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
 
         if(!trigger) {
@@ -198,11 +196,11 @@ public class ImageboardUtils {
         return true;
     }
 
-    private static boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, String rating) {
+    private static boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, Rating rating) {
         boolean trigger = tags.contains("loli") || tags.contains("lolis") ||
                 tags.contains("shota") || tags.contains("shotas") ||
                 tags.contains("lolicon") || tags.contains("shotacon") &&
-                (rating == null || rating.equals("q") || rating.equals("e"));
+                (rating == null || rating.equals(Rating.EXPLICIT) || rating.equals(Rating.QUESTIONABLE));
 
         if(!trigger) {
             return false;
@@ -222,11 +220,11 @@ public class ImageboardUtils {
         return false;
     }
 
-    private static void imageEmbed(String url, String width, String height, String tags, String rating, String imageboard, TextChannel channel) {
+    private static void imageEmbed(String url, String width, String height, String tags, Rating rating, String imageboard, TextChannel channel) {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor("Found image", url, null)
                 .setImage(url)
-                .setDescription("Rating: **" + nRating.getKey(rating) + "**, Imageboard: **" + imageboard + "**" )
+                .setDescription("Rating: **" + rating.getLongName() + "**, Imageboard: **" + imageboard + "**" )
                 .addField("Width", width, true)
                 .addField("Height", height, true)
                 .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)

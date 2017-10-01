@@ -17,6 +17,8 @@
 package net.kodehawa.lib.google;
 
 import lombok.extern.slf4j.Slf4j;
+import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -36,7 +38,7 @@ public class Crawler {
         try {
             Document doc = Jsoup
                     .connect("https://www.google.com/search?q=" + query + "&num=20")
-                    .userAgent("Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)")
+                    .userAgent("JDA/DiscordBot (MantaroBot " + MantaroInfo.VERSION + ")")
                     .timeout(5000).get();
 
             Elements links = doc.select("a[href]");

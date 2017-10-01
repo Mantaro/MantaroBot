@@ -97,8 +97,8 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
+
     private final MuteTask muteTask = new MuteTask();
-    private final BirthdayTask birthdayTask = new BirthdayTask();
     private final Carbonitex carbonitex = new Carbonitex();
 
     private MantaroBot() throws Exception {

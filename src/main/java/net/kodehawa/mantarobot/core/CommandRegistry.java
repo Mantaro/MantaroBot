@@ -109,7 +109,9 @@ public class CommandRegistry {
 
         cmd.run(event, cmdname, content);
         log(cmdname);
-        CategoryStatsManager.log(cmd.category().name().toLowerCase());
+        try {
+            CategoryStatsManager.log(cmd.category().name().toLowerCase());
+        } catch (Exception ignored) {}
         return true;
     }
 
