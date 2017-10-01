@@ -130,4 +130,9 @@ public class GuessTheNumber extends Game<Object> {
         lobby.getChannel().sendMessage(EmoteReference.THINKING + "Guess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**").queue();
         return true;
     }
+
+    @Override
+    public String name() {
+        return "number";
+    }
 }

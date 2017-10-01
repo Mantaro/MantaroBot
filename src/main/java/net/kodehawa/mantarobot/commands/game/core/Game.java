@@ -40,6 +40,8 @@ public abstract class Game<T> {
 
 	public abstract boolean onStart(GameLobby lobby);
 
+	public abstract String name();
+
 	protected int callDefault(GuildMessageReceivedEvent e,
 							  GameLobby lobby, List<String> players, List<T> expectedAnswer, int attempts, int maxAttempts, int extra) {
 		if (!e.getChannel().getId().equals(lobby.getChannel().getId())) {

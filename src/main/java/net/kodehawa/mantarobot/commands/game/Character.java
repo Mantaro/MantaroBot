@@ -102,4 +102,9 @@ public class Character extends ImageGame {
             return false;
         }
     }
+
+    @Override
+    public String name() {
+        return "character";
+    }
 }

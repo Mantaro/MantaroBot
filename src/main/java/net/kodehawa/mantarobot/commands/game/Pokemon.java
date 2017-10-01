@@ -79,4 +79,9 @@ public class Pokemon extends ImageGame {
             return false;
         }
     }
+
+    @Override
+    public String name() {
+        return "pokemon";
+    }
 }

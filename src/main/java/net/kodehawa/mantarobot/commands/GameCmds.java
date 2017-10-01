@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Module
@@ -117,7 +118,7 @@ public class GameCmds {
                     return;
                 }
 
-                startMultipleGames(gameList, String.join(", ", split), event);
+                startMultipleGames(gameList, event);
             }
         }).createSubCommandAlias("pokemon", "pokémon")
           .createSubCommandAlias("number", "guessthatnumber"));
@@ -153,7 +154,7 @@ public class GameCmds {
         });
     }
 
-    private void startMultipleGames(LinkedList<Game> games, String names, GuildMessageReceivedEvent event) {
+    private void startMultipleGames(LinkedList<Game> games, GuildMessageReceivedEvent event) {
         if(checkRunning(event)) return;
 
         List<String> players = new ArrayList<>();
@@ -184,7 +185,7 @@ public class GameCmds {
             }
         }
 
-        event.getChannel().sendMessage(EmoteReference.CORRECT + "Started a new lobby! **Games: " + names + "**").queue();
+        event.getChannel().sendMessage(EmoteReference.CORRECT + "Started a new lobby! **Games: " + games.stream().map(Game::name).collect(Collectors.joining(", ")) + "**").queue();
         GameLobby lobby = new GameLobby(event, players, games);
         lobby.startFirstGame();
     }

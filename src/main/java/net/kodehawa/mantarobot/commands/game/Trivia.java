@@ -121,6 +121,11 @@ public class Trivia extends Game<String> {
         });
     }
 
+    @Override
+    public String name() {
+        return "trivia";
+    }
+
     private String fromB64(String b64) {
         return new String(Base64.getDecoder().decode(b64), StandardCharsets.UTF_8);
     }
