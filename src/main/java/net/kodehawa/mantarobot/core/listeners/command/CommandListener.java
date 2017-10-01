@@ -47,9 +47,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class CommandListener implements EventListener {
     private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
-    //Message cache of 20000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 5000
+    //Message cache of 30000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 30000
     @Getter
-    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(20000).build();
+    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(30000).build();
     //Commands ran this session.
     private static int commandTotal = 0;
     private final ICommandProcessor commandProcessor;
@@ -107,6 +107,7 @@ public class CommandListener implements EventListener {
             if(CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event)) {
                 commandTotal++;
             } else {
+                //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
                     if (random.nextInt(15) > 10) {
                         if (event.getMember() == null)
@@ -126,7 +127,6 @@ public class CommandListener implements EventListener {
                             if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000)) {
                                 player.setLevel(player.getLevel() + 1);
                             }
-
 
                             player.saveAsync();
                         }

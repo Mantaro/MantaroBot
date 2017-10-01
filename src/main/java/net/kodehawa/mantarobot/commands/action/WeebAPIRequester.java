@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.action;
 
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.OkHttpClient;
@@ -88,6 +89,7 @@ public class WeebAPIRequester {
 
             Request r = new Request.Builder()
                     .url(API_BASE_URL + builder.toString())
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .addHeader("Authorization", AUTH_HEADER)
                     .build();
 

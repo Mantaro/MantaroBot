@@ -385,7 +385,6 @@ public class MantaroListener implements EventListener {
 
     private void onJoin(GuildJoinEvent event) {
         try {
-
             if(MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
                     || MantaroData.db().getMantaroData().getBlackListedUsers().contains(
                     event.getGuild().getOwner().getUser().getId())) {

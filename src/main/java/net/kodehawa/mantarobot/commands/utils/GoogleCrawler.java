@@ -38,7 +38,7 @@ public class GoogleCrawler {
         try {
             Document doc = Jsoup
                     .connect("https://www.google.com/search?q=" + query + "&num=20")
-                    .userAgent("JDA/DiscordBot (MantaroBot " + MantaroInfo.VERSION + ")")
+                    .userAgent(MantaroInfo.USER_AGENT)
                     .timeout(5000).get();
 
             Elements links = doc.select("a[href]");

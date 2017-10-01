@@ -21,6 +21,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.*;
@@ -228,7 +229,7 @@ public class Utils {
         try {
             URL ur1 = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) ur1.openConnection();
-            conn.setRequestProperty("User-Agent", "Mantaro");
+            conn.setRequestProperty("User-Agent", MantaroInfo.USER_AGENT);
             InputStream ism = conn.getInputStream();
             webObject = CharStreams.toString(new InputStreamReader(ism, StandardCharsets.UTF_8));
         } catch(Exception e) {
@@ -250,8 +251,10 @@ public class Utils {
      */
     public static String wgetResty(String url, GuildMessageReceivedEvent event) {
         String url2 = null;
-        Resty resty = new Resty().identifyAsMozilla();
+        Resty resty = new Resty();
+
         try {
+            resty.withHeader("User-Agent", MantaroInfo.USER_AGENT);
             InputStream is = resty.text(url).stream();
             url2 = CharStreams.toString(new InputStreamReader(is, StandardCharsets.UTF_8));
         } catch(IOException e) {
