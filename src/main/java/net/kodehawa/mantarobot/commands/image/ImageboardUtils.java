@@ -24,7 +24,6 @@ import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -84,6 +83,7 @@ public class ImageboardUtils {
                             } catch(Exception e) {
                                 number = r.nextInt(images.size());
                             }
+
                             BoardImage image = images.get(number);
                             String tags = image.getTags().stream().collect(Collectors.joining(", "));
                             if(foundMinorTags(event, tags, image.getRating())) {
@@ -91,7 +91,8 @@ public class ImageboardUtils {
                             }
 
                             imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
-                            TextChannelGround.of(event).dropItemWithChance(13, 3);
+                            if(image.getRating().equals(Rating.EXPLICIT))
+                                TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
                                     "number or another search.").queue();
@@ -137,7 +138,8 @@ public class ImageboardUtils {
                             }
 
                             imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, image.getRating(), imageboard, channel);
-                            TextChannelGround.of(event).dropItemWithChance(13, 3);
+                            if(image.getRating().equals(Rating.EXPLICIT))
+                                TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "**There aren't any more images or no results found**! Please try with a lower " +
                                     "number or another search.").queue();
@@ -169,7 +171,8 @@ public class ImageboardUtils {
                     BoardImage image = filter.get(number);
                     String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
                     imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, image.getRating(), imageboard, channel);
-                    TextChannelGround.of(event).dropItemWithChance(13, 3);
+                    if(image.getRating().equals(Rating.EXPLICIT))
+                        TextChannelGround.of(event).dropItemWithChance(13, 3);
                 });
                 break;
         }
