@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.lib.google;
+package net.kodehawa.mantarobot.commands.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class Crawler {
+public class GoogleCrawler {
 
     public static List<SearchResult> get(String query) {
         List<SearchResult> results = new ArrayList<>();

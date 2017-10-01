@@ -26,7 +26,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.lib.google.Crawler;
+import net.kodehawa.mantarobot.commands.utils.GoogleCrawler;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
@@ -422,9 +422,9 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 StringBuilder b = new StringBuilder();
                 EmbedBuilder builder = new EmbedBuilder();
-                List<Crawler.SearchResult> result = Crawler.get(content);
+                List<GoogleCrawler.SearchResult> result = GoogleCrawler.get(content);
                 for(int i = 0; i < 5 && i < result.size(); i++) {
-                    Crawler.SearchResult data = result.get(i);
+                    GoogleCrawler.SearchResult data = result.get(i);
                     if(data != null) {
                         String title = data.getTitle();
                         if(title.length() > 40) title = title.substring(0, 40) + "...";
