@@ -36,27 +36,29 @@ public class GoogleCrawler {
         List<SearchResult> results = new ArrayList<>();
 
         try {
-            Document doc = Jsoup
-                    .connect("https://www.google.com/search?q=" + query + "&num=20")
+            Elements doc = Jsoup
+                    .connect("https://www.google.com/search?q=" + query)
                     .userAgent(MantaroInfo.USER_AGENT)
-                    .timeout(5000).get();
+                    .timeout(5000).get().select(".g");
 
-            Elements links = doc.select("a[href]");
-            for(Element link : links) {
-                String temp = link.attr("href");
-                if(temp.startsWith("/url?q=")) {
-                    URL tempUrl = new URL(temp.replace("/url?q=", ""));
-                    //doesn't work *always* but it works most of the times so cannot complain
-                    String path = tempUrl.getFile().substring(0, tempUrl.getFile().indexOf('&'));
-                    String base = tempUrl.getProtocol() + "://" + tempUrl.getHost() + path;
-                    //link.text() = title, base = url.
-                    if(!base.contains("webcache.googleusercontent.com"))
-                        if(!link.text().isEmpty())
-                            results.add(new SearchResult(base, link.text()));
-                }
+            for(Element blocks : doc) {
+                Elements e = blocks.select(".r>a");
+                if(e.isEmpty()) continue;
+
+                Element entry = e.get(0);
+                String title = entry.text();
+                String url = entry.absUrl("href").replace(")", "\\)");
+                String desc = "No description";
+                Elements tmpDesc = blocks.select(".st");
+                if(!tmpDesc.isEmpty())
+                    desc = tmpDesc.get(0).text();
+
+                if(!url.contains("webcache.googleusercontent.com"))
+                    results.add(new SearchResult(url, title, desc));
+
             }
         } catch(IOException e) {
-            results.add(new SearchResult("http://worrydream.com/404notfound", "Error."));
+            results.add(new SearchResult("http://worrydream.com/404notfound", "Error.", "An error occured while looking up this query..."));
         }
 
         return results;
@@ -65,10 +67,12 @@ public class GoogleCrawler {
     public static class SearchResult {
         public final String title;
         public final String url;
+        public final String description;
 
-        SearchResult(String url, String title) {
+        SearchResult(String url, String title, String description) {
             this.url = url;
             this.title = title;
+            this.description = description;
         }
 
         public String getTitle() {
@@ -77,6 +81,10 @@ public class GoogleCrawler {
 
         public String getUrl() {
             return url;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }

@@ -112,7 +112,6 @@ public class ImageActionCmd extends NoArgsCommand {
                 }
 
                 images = Collections.singletonList(image);
-
                 random = images.get(0); //Guaranteed random selection :^).
             }
         } else {

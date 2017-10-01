@@ -42,9 +42,10 @@ public class ImageboardUtils {
         if(nsfwOnly)
             rating = Rating.EXPLICIT;
 
-        try {
-            if(needRating) rating = Rating.lookupFromString(args[2]);
-        } catch(Exception e) {
+        if(needRating)
+            rating = Rating.lookupFromString(args[2]);
+
+        if(rating == null) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
             return;
         }
@@ -150,8 +151,6 @@ public class ImageboardUtils {
                         channel.sendMessage(EmoteReference.ERROR + "Wrong argument type. Check ~>help " + imageboard).queue(
                                 message -> message.delete().queueAfter(10, TimeUnit.SECONDS)
                         );
-
-                    exception.printStackTrace();
                 }
                 break;
             case "":

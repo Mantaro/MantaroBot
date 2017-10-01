@@ -433,16 +433,20 @@ public class UtilsCmds {
                                 .append(title)
                                 .append("](")
                                 .append(data.getUrl())
-                                .append(")**\n");
+                                .append(")**\n")
+                                .append("- ")
+                                .append(data.getDescription())
+                                .append("\n");
                     }
                 }
 
                 event.getChannel().sendMessage(
-                        builder.
-                                setDescription(b.toString())
+                        builder.setTitle("Search results for " + content)
+                                .setDescription(b.toString())
                                 .setThumbnail(
                                         "https://cdn.pixabay.com/photo/2015/12/08/17/38/magnifying-glass-1083373_960_720.png")
                                 .setFooter("Click on the blue text to go to the URL.", null)
+                                .setColor(Color.pink)
                                 .build())
                         .queue();
             }
