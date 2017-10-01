@@ -240,8 +240,6 @@ public class PlayerCmds {
                     player.saveAsync();
                 if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
                     player.saveAsync();
-                if(player.getData().getDailyStrike() >= 10 && player.getData().addBadge(Badge.CLAIMER))
-                    player.saveAsync();
                 //end of badge assigning
 
                 List<Badge> badges = playerData.getBadges();
