@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands.game;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -81,7 +82,13 @@ public class GuessTheNumber extends Game<Object> {
                         Player player = MantaroData.db().getPlayer(e.getMember());
                         int gains = 95;
                         player.addMoney(gains);
+                        player.getData().setGamesWon(player.getData().getGamesWon() + 1);
+
+                        if(player.getData().getGamesWon() == 100)
+                            player.getData().addBadge(Badge.GAMER);
+
                         player.save();
+
                         TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                         lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " Just won $" + gains + " credits by answering correctly!").queue();
                         lobby.startNextGame();

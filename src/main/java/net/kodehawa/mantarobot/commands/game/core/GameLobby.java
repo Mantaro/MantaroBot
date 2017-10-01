@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
+import br.com.brjdevs.java.utils.async.Async;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -69,17 +70,29 @@ public class GameLobby extends Lobby {
         }
     }
 
+    //This runs async because I need the operation to end *before* this, also if this takes too long games get stuck.
     public void startNextGame() {
-        gamesToPlay.removeFirst();
-        try {
-            if(gamesToPlay.getFirst().onStart(this)) {
-                gamesToPlay.getFirst().call(this, players);
-            } else {
+        Async.thread(() -> {
+            try {
+                gamesToPlay.removeFirst();
+
+                if(gamesToPlay.isEmpty()) {
+                    gamesToPlay.clear();
+                    LOBBYS.remove(getChannel());
+                    return;
+                }
+
+                if (gamesToPlay.getFirst().onStart(this)) {
+                    gamesToPlay.getFirst().call(this, players);
+                } else {
+                    gamesToPlay.clear();
+                    LOBBYS.remove(getChannel());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 gamesToPlay.clear();
                 LOBBYS.remove(getChannel());
             }
-        } catch(Exception e) {
-            LOBBYS.remove(getChannel());
-        }
+        });
     }
 }

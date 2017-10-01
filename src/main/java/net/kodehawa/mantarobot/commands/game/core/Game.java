@@ -62,7 +62,6 @@ public abstract class Game<T> {
 				lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. Possible answers were: " + expectedAnswer.stream()
 						.map(String::valueOf).collect(Collectors.joining(", "))).queue();
 				lobby.startNextGame();
-				GameLobby.LOBBYS.remove(lobby.getChannel());
 				return Operation.COMPLETED;
 			}
 
@@ -70,9 +69,13 @@ public abstract class Game<T> {
                 Player player = MantaroData.db().getPlayer(e.getMember());
                 int gains = 45 + extra;
                 player.addMoney(gains);
-                if(player.getData().getGamesWon() == 100) player.getData().addBadge(Badge.GAMER);
+
+                if(player.getData().getGamesWon() == 100)
+                    player.getData().addBadge(Badge.GAMER);
+
                 player.getData().setGamesWon(player.getData().getGamesWon() + 1);
                 player.save();
+
                 TextChannelGround.of(e).dropItemWithChance(Items.FLOPPY_DISK, 3);
                 lobby.getChannel().sendMessage(EmoteReference.MEGA + "**" + e.getMember().getEffectiveName() + "**" + " just won $" + gains + " credits by answering correctly!").queue();
                 lobby.startNextGame();

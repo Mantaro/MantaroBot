@@ -88,7 +88,7 @@ public class Trivia extends Game<String> {
                     .addField("Possibilities", sb.toString(), false)
                     .addField("Difficulty", "`" + Utils.capitalize(diff) + "`", true)
                     .addField("Category", "`" + category + "`", true)
-                    .setFooter("This times out in 60 seconds.", lobby.getEvent().getAuthor().getAvatarUrl());
+                    .setFooter("This times out in 60 seconds. (Type end to end the trivia)", lobby.getEvent().getAuthor().getAvatarUrl());
 
             lobby.getChannel().sendMessage(eb.build()).queue();
 
@@ -102,7 +102,7 @@ public class Trivia extends Game<String> {
 
 	@Override
 	public void call(GameLobby lobby, List<String> players) {
-		InteractiveOperations.createOverriding(lobby.getChannel(), 60, new InteractiveOperation() {
+		InteractiveOperations.create(lobby.getChannel(), 60, new InteractiveOperation() {
 				@Override
 				public int run(GuildMessageReceivedEvent event) {
 					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), isBool ? 1 : maxAttempts, hardDiff ? 10 : 0);
