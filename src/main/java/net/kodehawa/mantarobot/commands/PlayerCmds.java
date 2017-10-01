@@ -136,7 +136,6 @@ public class PlayerCmds {
                 User author = event.getAuthor();
 
                 if(args.length > 0 && args[0].equals("timezone")) {
-
                     if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
                         return;
@@ -226,39 +225,24 @@ public class PlayerCmds {
                 }
 
                 User marriedTo = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
-                String marriedSince = player.getData().marryDate();
-                String anniversary = player.getData().anniversary();
 
                 //Yes, two different things
-                if(marriedTo == null && player.getData().getMarriedWith() != null) {
+                if(player.getData().getMarriedWith() != null && marriedTo == null) {
                     player.getData().setMarriedWith(null);
+                    player.getData().setMarriedSince(null);
                     player.saveAsync();
                 }
 
-                if(args.length > 0 && args[0].equals("anniversary")) {
-                    if(marriedTo == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You're not married...").queue();
-                        return;
-                    }
-
-                    if(anniversary == null) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "I don't see any anniversary here :(. Maybe you were " +
-                                "married before this change was implemented, in that case do ~>marry anniversarystart").queue();
-                        return;
-                    }
-
-                    event.getChannel().sendMessage(String.format("%sYour anniversary with **%s** is on %s. You married on **%s**",
-                            EmoteReference.POPPER, marriedTo.getName(), anniversary, marriedSince)).queue();
-                    return;
-                }
-
-
                 PlayerData playerData = player.getData();
 
+                //start of badge assigning
                 if(player.getMoney() > 7526527671L && player.getData().addBadge(Badge.ALTERNATIVE_WORLD))
                     player.saveAsync();
                 if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
                     player.saveAsync();
+                if(player.getData().getDailyStrike() >= 10 && player.getData().addBadge(Badge.CLAIMER))
+                    player.saveAsync();
+                //end of badge assigning
 
                 List<Badge> badges = playerData.getBadges();
                 Collections.sort(badges);

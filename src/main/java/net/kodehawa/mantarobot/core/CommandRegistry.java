@@ -109,9 +109,11 @@ public class CommandRegistry {
 
         cmd.run(event, cmdname, content);
         log(cmdname);
-        try {
+
+        if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
-        } catch (Exception ignored) {}
+        }
+
         return true;
     }
 
