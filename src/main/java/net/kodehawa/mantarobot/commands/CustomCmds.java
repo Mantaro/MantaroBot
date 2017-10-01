@@ -286,7 +286,12 @@ public class CustomCmds {
                 }
 
                 if(action.equals("eval")) {
-                    runCustom(content.replace("eval ", ""), event);
+                    try {
+                        runCustom(content.replace("eval ", ""), event);
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong parameters in custom command eval!").queue();
+                    }
+
                     return;
                 }
 
