@@ -18,13 +18,11 @@ package net.kodehawa.mantarobot.commands;
 
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
-import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -36,6 +34,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.*;
@@ -56,28 +55,14 @@ public class CurrencyCmds {
         cr.register("inventory", new SimpleCommand(Category.CURRENCY) {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Member member = event.getMember();
                 Map<String, Optional<String>> t = StringUtils.parse(args);
 
                 if(t.containsKey("brief")) {
                     content = content.replace(" -brief", "").replace("-brief", "");
                 }
 
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-                if(found.isEmpty() && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
-                    return;
-                }
-
-                if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
-                    return;
-                }
-
-                if(found.size() == 1) {
-                    member = found.get(0);
-                }
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
 
                 Player player = MantaroData.db().getPlayer(member);
 
@@ -461,7 +446,7 @@ public class CurrencyCmds {
                 }
 
                 User user = event.getMessage().getMentionedUsers().get(0);
-                if(user.isBot() && !user.getId().equals("224662505157427200")) {
+                if(user.isBot()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money to a bot.").queue();
                     return;
                 }
@@ -486,11 +471,6 @@ public class CurrencyCmds {
                 if(toTransfer.addMoney(toSend)) {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
-
-                    if(user.getId().equals("224662505157427200")) {
-                        MantaroBot.getInstance().getTextChannelById(329013929890283541L).
-                                sendMessage(event.getAuthor().getId() + " transferred **" + toSend + "** to you successfully.").queue();
-                    }
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage()
                             .getMentionedUsers().get(0).getName() + "* successfully.").queue();

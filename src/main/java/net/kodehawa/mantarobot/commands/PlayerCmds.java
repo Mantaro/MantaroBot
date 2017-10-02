@@ -65,7 +65,6 @@ public class PlayerCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 long rl = rateLimiter.tryAgainIn(event.getMember());
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
                 User user;
 
                 if(content.isEmpty()) {
@@ -76,18 +75,10 @@ public class PlayerCmds {
                     return;
                 }
 
-                if(found.isEmpty() && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
-                    return;
-                }
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
 
-                if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
-                    return;
-                }
-
-                user = found.get(0).getUser();
+                user = member.getUser();
 
                 if(user.isBot()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot rep a bot.\n" +
@@ -284,17 +275,10 @@ public class PlayerCmds {
         cr.register("badges", new SimpleCommand(Category.CURRENCY) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-                User toLookup = event.getAuthor();
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
 
-                if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
-                    return;
-                } else if(found.size() == 1) {
-                    toLookup = found.get(0).getUser();
-                }
-
+                User toLookup = member.getUser();
 
                 Player player = MantaroData.db().getPlayer(toLookup);
                 PlayerData playerData = player.getData();

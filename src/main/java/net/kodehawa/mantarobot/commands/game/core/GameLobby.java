@@ -89,7 +89,6 @@ public class GameLobby extends Lobby {
                     LOBBYS.remove(getChannel());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 gamesToPlay.clear();
                 LOBBYS.remove(getChannel());
             }

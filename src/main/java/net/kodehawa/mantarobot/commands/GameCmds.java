@@ -28,7 +28,6 @@ import net.kodehawa.mantarobot.commands.game.Trivia;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
@@ -36,9 +35,13 @@ import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -59,7 +62,8 @@ public class GameCmds {
                         .addField("Games", "`~>game character` - **Starts an instance of Guess the character (anime)**.\n"
                                 + "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
                                 "`~>game number` - **Starts an instance of Guess The Number**`\n" +
-                                "`~>game lobby` - **Starts a chunk of different games, for example `~>game lobby pokemon, trivia` will start pokemon and then trivia.**", false)
+                                "`~>game lobby` - **Starts a chunk of different games, for example `~>game lobby pokemon, trivia` will start pokemon and then trivia.**\n" +
+                                "`~>game wins` - **Shows how many times you've won in games**", false)
                         .addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, " +
                                 "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.", false)
                         .build();
@@ -119,6 +123,14 @@ public class GameCmds {
                 }
 
                 startMultipleGames(gameList, event);
+            }
+        }).addSubCommand("wins", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
+
+                event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
             }
         }).createSubCommandAlias("pokemon", "pokémon")
           .createSubCommandAlias("number", "guessthatnumber"));

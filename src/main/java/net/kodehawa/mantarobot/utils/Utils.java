@@ -17,8 +17,11 @@
 package net.kodehawa.mantarobot.utils;
 
 import com.google.common.io.CharStreams;
+import com.jagrosh.jdautilities.utils.FinderUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
@@ -42,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class Utils {
@@ -277,6 +281,26 @@ public class Utils {
             ));
         }
         return sb.toString();
+    }
+
+    public static Member findMember(GuildMessageReceivedEvent event, Member first, String content) {
+        List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                    "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        }
+
+        return first;
     }
 
     public static String pretty(int number) {

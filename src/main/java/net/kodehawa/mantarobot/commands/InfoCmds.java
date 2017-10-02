@@ -161,25 +161,10 @@ public class InfoCmds {
         cr.register("avatar", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                List<Member> found = FinderUtil.findMembers(content, event.getGuild());
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
+                User u = member.getUser();
 
-                if(found.isEmpty() && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
-                    return;
-                }
-
-                if(found.isEmpty() || content.isEmpty()) {
-                    event.getChannel().sendMessage(String.format("Avatar for: **%s**\n%s", event.getAuthor().getName(), event.getAuthor().getEffectiveAvatarUrl())).queue();
-                    return;
-                }
-
-                if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
-                    return;
-                }
-
-                User u = found.get(0).getUser();
                 event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", u.getName(), u.getEffectiveAvatarUrl())).queue();
             }
 
@@ -556,25 +541,8 @@ public class InfoCmds {
         cr.register("userinfo", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Member member = event.getMember();
-
-                if(!content.isEmpty()){
-                    List<Member> found = FinderUtil.findMembers(content, event.getGuild());
-                    if(found.isEmpty() && !content.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No members found with your search criteria!").queue();
-                        return;
-                    }
-
-                    if(found.size() > 1 && !content.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                                "**Users found:** " + found.stream().limit(15).map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
-                        return;
-                    }
-
-                    if(!found.isEmpty()) {
-                        member = found.get(0);
-                    }
-                }
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null) return;
 
                 User user = member.getUser();
 
