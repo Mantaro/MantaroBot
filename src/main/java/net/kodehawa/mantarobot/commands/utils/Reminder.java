@@ -22,6 +22,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.tuple.Pair;
+import org.json.JSONObject;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -52,14 +54,6 @@ public class Reminder {
         user.saveAsync();
     }
 
-    public static void onDeserialization() {
-        CURRENT_REMINDERS.forEach((id, reminder) -> {
-            for(Reminder r : reminder) {
-                r.schedule();
-            }
-        });
-    }
-
     public void schedule() {
         CURRENT_REMINDERS.computeIfPresent(userId, (id, list) -> {
             list.add(this);
@@ -73,13 +67,12 @@ public class Reminder {
 
             //Ignore "cannot open a private channel with this user"
             AtomicReference<Consumer<Message>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t) -> {
-            };
+            Consumer<Throwable> ignore = (t) -> { };
 
             user.openPrivateChannel().queue(channel -> channel.sendMessage(
                     EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(current)
             ).queue(c.get(), ignore));
-        }, time - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
+        }, time - current, TimeUnit.MILLISECONDS);
     }
 
     public Reminder cancel() {
@@ -128,6 +121,48 @@ public class Reminder {
             if(time <= 0) throw new IllegalArgumentException("Time to remind must be positive and >0");
             if(current <= 0) throw new IllegalArgumentException("Current time must be positive and >0");
             return new Reminder(userId, reminder, current, time);
+        }
+    }
+
+    public static JSONObject serializeAll() {
+        JSONObject o = new JSONObject();
+
+        for(Map.Entry<String, List<Reminder>> reminder : CURRENT_REMINDERS.entrySet()) {
+            List<Pair<List<Long>, String>> data = new ArrayList<>();
+            for(Reminder r : reminder.getValue()) {
+                List<Long> timeData = new ArrayList<>();
+                timeData.add(r.time);
+                timeData.add(r.current);
+                data.add(Pair.of(timeData, r.reminder));
+            }
+            o.put(reminder.getKey(), data);
+        }
+
+        return o;
+    }
+
+    public static void scheduleAll(JSONObject saved) {
+        Map<String, Object> savedMap = saved.toMap();
+        for(Map.Entry<String, Object> reminder : savedMap.entrySet()) {
+            List<Map<String, Object>> actual = (List<Map<String, Object>>) reminder.getValue();
+            for(Map<String, Object> values : actual) {
+                List<Long> timeData = (List<Long>)values.get("left");
+
+                long time = timeData.get(0);
+                long scheduledAt = timeData.get(1);
+
+                if(System.currentTimeMillis() > time) continue; //Basically the time already passed by, sorry :(
+
+                String reminderData = (String) values.get("right");
+
+                new Builder()
+                        .id(reminder.getKey())
+                        .reminder(reminderData)
+                        .time(time)
+                        .current(scheduledAt)
+                        .build()
+                        .schedule(); //automatic
+            }
         }
     }
 }

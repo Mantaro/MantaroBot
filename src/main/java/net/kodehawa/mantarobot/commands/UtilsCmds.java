@@ -400,7 +400,7 @@ public class UtilsCmds {
                         .current(System.currentTimeMillis())
                         .time(time + System.currentTimeMillis())
                         .build()
-                        .schedule();
+                        .schedule(); //automatic
             }
 
             @Override
