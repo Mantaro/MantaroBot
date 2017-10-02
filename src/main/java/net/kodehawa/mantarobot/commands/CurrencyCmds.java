@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -56,6 +57,11 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Member member = event.getMember();
+                Map<String, Optional<String>> t = StringUtils.parse(args);
+
+                if(t.containsKey("brief")) {
+                    content = content.replace(" -brief", "").replace("-brief", "");
+                }
 
                 List<Member> found = FinderUtil.findMembers(content, event.getGuild());
                 if(found.isEmpty() && !content.isEmpty()) {
@@ -74,6 +80,11 @@ public class CurrencyCmds {
                 }
 
                 Player player = MantaroData.db().getPlayer(member);
+
+                if(t.containsKey("brief")){
+                    event.getChannel().sendMessage("**" + member.getEffectiveName() + "'s inventory:** " + ItemStack.toString(player.getInventory().asList())).queue();
+                    return;
+                }
 
                 EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
                 List<ItemStack> list = player.getInventory().asList();
@@ -94,8 +105,7 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Inventory command")
-                        .setDescription("**Shows your current inventory.**")
-                        .build();
+                        .setDescription("**Shows your current inventory.**\n").build();
             }
         });
     }
