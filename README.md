@@ -31,11 +31,7 @@
         </ol>
         <hr>
         <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
-        <hr>
-        <h2>Konachan notice (net.kodehawa.lib.imageboard.konachan)</h2>
-        <p>That package is a port of the <a href="https://github.com/Mxrck/KonachanLib"><b>original konachan library</b></a> to Java 8 and to better suit our needs. I just didn't want to post it on GitHub as a separate lib, but if anyone wants I'll do so.</p>
-        <hr>
-        <h2>Demo</h2>
+        <h2>Demo (outdated)</h2>
         <img align="center" src="http://i.imgur.com/QgPQE8J.png" height="500" width="1000">
         <hr>
         <h2>Licence</h2>
