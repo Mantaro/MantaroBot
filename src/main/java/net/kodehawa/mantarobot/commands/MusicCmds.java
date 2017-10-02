@@ -31,7 +31,7 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.StatsManager;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
@@ -781,7 +781,7 @@ public class MusicCmds {
                     if(args[0].equals("check")) {
                         event.getChannel().sendMessage(
                                 EmoteReference.ZAP + "The current volume for this session is: " + player.getVolume() + "\n\n" +
-                                        GuildStatsManager.bar(player.getVolume(), 50))
+                                        StatsManager.bar(player.getVolume(), 50))
                                 .queue();
                         return;
                     }
@@ -796,7 +796,7 @@ public class MusicCmds {
 
                     player.setVolume(volume);
                     event.getChannel().sendMessage(String.format(EmoteReference.OK + "Volume set to %d\n\n%s", volume,
-                            GuildStatsManager.bar(volume, 50)))
+                            StatsManager.bar(volume, 50)))
                             .queue();
                 } else {
                     event.getChannel().sendMessage(

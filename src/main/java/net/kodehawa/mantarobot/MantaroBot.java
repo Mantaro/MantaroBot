@@ -22,7 +22,6 @@ import com.github.natanbc.discordbotsapi.PostingException;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
-import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +31,6 @@ import net.kodehawa.mantarobot.commands.moderation.MuteTask;
 import net.kodehawa.mantarobot.commands.moderation.TempBanManager;
 import net.kodehawa.mantarobot.commands.music.MantaroAudioManager;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
-import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
@@ -45,10 +43,6 @@ import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
-import net.kodehawa.mantarobot.utils.rmq.RabbitMQDataManager;
-import net.kodehawa.mantarobot.web.MantaroAPI;
-import net.kodehawa.mantarobot.web.MantaroAPISender;
-import okhttp3.*;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
@@ -63,12 +57,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {
-
     public static int cwport;
     private static boolean DEBUG = false;
     @Getter
@@ -82,10 +74,6 @@ public class MantaroBot extends ShardedJDA {
     @Getter
     private final MantaroCore core;
     @Getter
-    private final MantaroAPI mantaroAPI = new MantaroAPI();
-    @Getter
-    private final RabbitMQDataManager rabbitMQDataManager;
-    @Getter
     private final ShardedMantaro shardedMantaro;
     @Getter
     private final StatsDClient statsClient;
@@ -97,7 +85,6 @@ public class MantaroBot extends ShardedJDA {
     private BirthdayCacher birthdayCacher;
     @Getter
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-
     private final MuteTask muteTask = new MuteTask();
     private final Carbonitex carbonitex = new Carbonitex();
 
@@ -114,15 +101,8 @@ public class MantaroBot extends ShardedJDA {
                 "tag:value"
         );
 
-        if(!config.isPremiumBot() && !config.isBeta() && !mantaroAPI.configure()) {
-            SentryHelper.captureMessage("Cannot send node data to the remote server or ping timed out. Mantaro will exit", MantaroBot.class);
-            System.exit(API_HANDSHAKE_FAILURE);
-        }
-
         LogUtils.log("Startup", String.format("Starting up MantaroBot %s\n" + "Hold your seatbelts! <3", MantaroInfo.VERSION));
 
-        rabbitMQDataManager = new RabbitMQDataManager(config);
-        if(!config.isPremiumBot() && !config.isBeta()) sendSignal();
         long start = System.currentTimeMillis();
 
         core.setCommandsPackage("net.kodehawa.mantarobot.commands")
@@ -148,11 +128,6 @@ public class MantaroBot extends ShardedJDA {
         LogUtils.log("Startup",
                 String.format("Loaded %d commands in %d shards.\nI took %d seconds to wake up!",
                         DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
-
-        if(!config.isPremiumBot() && !config.isBeta()) {
-            mantaroAPI.startService();
-            MantaroAPISender.startService();
-        }
 
         birthdayCacher = new BirthdayCacher();
         this.startCheckingBirthdays();
@@ -267,24 +242,6 @@ public class MantaroBot extends ShardedJDA {
 
     public List<MantaroShard> getShardList() {
         return Arrays.asList(shardedMantaro.getShards());
-    }
-
-    private void sendSignal() {
-        try {
-            OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-            RequestBody body = RequestBody.create(
-                    MediaType.parse("application/json; charset=utf-8"),
-                    String.format("{\"content\": \"**Received startup trigger on Node %s", mantaroAPI.nodeUniqueIdentifier)
-            );
-            Request request = new Request.Builder()
-                    .header("Content-Type", "application/json")
-                    .post(body)
-                    .build();
-
-            Response response = okHttpClient.newCall(request).execute();
-            response.close();
-        } catch(Exception ignored) {
-        }
     }
 
     private void startCheckingBirthdays() {

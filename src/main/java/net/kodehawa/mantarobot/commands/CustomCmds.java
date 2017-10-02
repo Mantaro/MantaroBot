@@ -56,7 +56,7 @@ import java.util.stream.Collectors;
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
-import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
+import static net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;

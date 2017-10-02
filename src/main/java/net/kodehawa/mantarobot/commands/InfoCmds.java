@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -27,9 +26,9 @@ import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.CategoryStatsManager;
-import net.kodehawa.mantarobot.commands.info.CommandStatsManager;
-import net.kodehawa.mantarobot.commands.info.GuildStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -44,7 +43,6 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -58,11 +56,15 @@ import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
-import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateDouble;
-import static net.kodehawa.mantarobot.commands.info.StatsHelper.calculateInt;
+import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateDouble;
+import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateInt;
 
 @Module
 public class InfoCmds {
+
+    private final CommandStatsManager commandStatsManager = new CommandStatsManager();
+    private final GuildStatsManager guildStatsManager = new GuildStatsManager();
+    private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
 
     @Subscribe
     public void about(CommandRegistry cr) {
@@ -440,32 +442,32 @@ public class InfoCmds {
                 if (args.length > 0) {
                     String what = args[0];
                     if (what.equals("total")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
+                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
                         return;
                     }
 
                     if (what.equals("daily")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
+                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
                         return;
                     }
 
                     if (what.equals("hourly")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
+                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
                         return;
                     }
 
                     if (what.equals("now")) {
-                        event.getChannel().sendMessage(CommandStatsManager.fillEmbed(CommandStatsManager.MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
+                        event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
                         return;
                     }
                 }
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Command Stats")
-                        .addField("Now", CommandStatsManager.resume(CommandStatsManager.MINUTE_CMDS), false)
-                        .addField("Hourly", CommandStatsManager.resume(CommandStatsManager.HOUR_CMDS), false)
-                        .addField("Daily", CommandStatsManager.resume(CommandStatsManager.DAY_CMDS), false)
-                        .addField("Total", CommandStatsManager.resume(CommandStatsManager.TOTAL_CMDS), false)
+                        .addField("Now", commandStatsManager.resume(CommandStatsManager.MINUTE_CMDS), false)
+                        .addField("Hourly", commandStatsManager.resume(CommandStatsManager.HOUR_CMDS), false)
+                        .addField("Daily", commandStatsManager.resume(CommandStatsManager.DAY_CMDS), false)
+                        .addField("Total", commandStatsManager.resume(CommandStatsManager.TOTAL_CMDS), false)
                         .build()
                 ).queue();
             }
@@ -478,32 +480,32 @@ public class InfoCmds {
                 if (args.length > 0) {
                     String what = args[0];
                     if (what.equals("total")) {
-                        event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
+                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
                         return;
                     }
 
                     if (what.equals("daily")) {
-                        event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
+                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
                         return;
                     }
 
                     if (what.equals("hourly")) {
-                        event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
+                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
                         return;
                     }
 
                     if (what.equals("now")) {
-                        event.getChannel().sendMessage(GuildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
+                        event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
                         return;
                     }
                 }
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Guild Stats")
-                        .addField("Now", GuildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
-                        .addField("Hourly", GuildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
-                        .addField("Daily", GuildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
-                        .addField("Total", GuildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
+                        .addField("Now", guildStatsManager.resume(GuildStatsManager.MINUTE_EVENTS), false)
+                        .addField("Hourly", guildStatsManager.resume(GuildStatsManager.HOUR_EVENTS), false)
+                        .addField("Daily", guildStatsManager.resume(GuildStatsManager.DAY_EVENTS), false)
+                        .addField("Total", guildStatsManager.resume(GuildStatsManager.TOTAL_EVENTS), false)
                         .setFooter("Guilds: " + MantaroBot.getInstance().getGuildCache().size(), null)
                         .build()
                 ).queue();
@@ -517,32 +519,32 @@ public class InfoCmds {
                 if (args.length > 0) {
                     String what = args[0];
                     if (what.equals("total")) {
-                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(event, "Category Stats | Total")).build()).queue();
+                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(event, "Category Stats | Total")).build()).queue();
                         return;
                     }
 
                     if (what.equals("daily")) {
-                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(event, "Category Stats | Daily")).build()).queue();
+                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(event, "Category Stats | Daily")).build()).queue();
                         return;
                     }
 
                     if (what.equals("hourly")) {
-                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(event, "Category Stats | Hourly")).build()).queue();
+                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(event, "Category Stats | Hourly")).build()).queue();
                         return;
                     }
 
                     if (what.equals("now")) {
-                        event.getChannel().sendMessage(CategoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(event, "Category Stats | Now")).build()).queue();
+                        event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(event, "Category Stats | Now")).build()).queue();
                         return;
                     }
                 }
 
                 //Default
                 event.getChannel().sendMessage(baseEmbed(event, "Category Stats")
-                        .addField("Now", CategoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
-                        .addField("Hourly", CategoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
-                        .addField("Daily", CategoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
-                        .addField("Total", CategoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
+                        .addField("Now", categoryStatsManager.resume(CategoryStatsManager.MINUTE_CATS), false)
+                        .addField("Hourly", categoryStatsManager.resume(CategoryStatsManager.HOUR_CATS), false)
+                        .addField("Daily", categoryStatsManager.resume(CategoryStatsManager.DAY_CATS), false)
+                        .addField("Total", categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
                         .build()
                 ).queue();
             }

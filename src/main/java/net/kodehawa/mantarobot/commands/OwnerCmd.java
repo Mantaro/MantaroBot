@@ -38,19 +38,13 @@ import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.rmq.NodeAction;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import org.json.JSONObject;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -61,7 +55,6 @@ import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
-import static net.kodehawa.mantarobot.web.MantaroAPI.sessionToken;
 
 @Slf4j
 @Module
@@ -584,16 +577,6 @@ public class OwnerCmd {
     }
 
     private void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
-        try {
-            Request rip = new Request.Builder()
-                    .url(String.format("http://%s/api/nodev1/shutdown?nodeid=" + MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier
-                            , MantaroData.config().get().apiUrl))
-                    .header("Authorization", sessionToken)
-                    .build();
-            client.newCall(rip).execute().close();
-        } catch(Exception ignored) {
-        }
-
         MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
             if(musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
         });
@@ -606,21 +589,6 @@ public class OwnerCmd {
         Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
 
         event.getChannel().sendMessage(random(sleepQuotes)).complete();
-
-        if(!MantaroData.config().get().isBeta() && !MantaroData.config().get().isPremiumBot()) {
-            log.error("Received a shutdown! Broadcasting node shutdown!");
-            try {
-                JSONObject mqSend = new JSONObject();
-                mqSend.put("action", NodeAction.SHUTDOWN);
-                mqSend.put("node_identifier", MantaroBot.getInstance().getMantaroAPI().nodeUniqueIdentifier);
-                MantaroBot.getInstance().getRabbitMQDataManager().apirMQChannel.basicPublish("",
-                        "mantaro_nodes", null, mqSend.toString().getBytes());
-            } catch(IOException e) {
-                LogUtils.log("Couldn't send node shutdown signal? Guessing everything just exploded.");
-                SentryHelper.captureException("Couldn't send node shutdown signal? Guessing everything just exploded", e, OwnerCmd.class);
-            }
-        }
-
         Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
                 mantaroShard -> mantaroShard.getJDA().shutdownNow());
     }

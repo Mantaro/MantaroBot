@@ -19,7 +19,8 @@ package net.kodehawa.mantarobot.core;
 import com.google.common.base.Preconditions;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.info.CategoryStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -35,8 +36,6 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import static net.kodehawa.mantarobot.commands.info.CommandStatsManager.log;
 
 public class CommandRegistry {
 
@@ -108,7 +107,7 @@ public class CommandRegistry {
         }
 
         cmd.run(event, cmdname, content);
-        log(cmdname);
+        CommandStatsManager.log(cmdname);
 
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
