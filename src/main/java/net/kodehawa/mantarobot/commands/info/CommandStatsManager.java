@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.jodah.expiringmap.ExpirationPolicy;
 import net.jodah.expiringmap.ExpiringMap;
 
 import java.util.Comparator;
@@ -31,14 +32,17 @@ public class CommandStatsManager {
 
     public static final ExpiringMap<String, AtomicInteger> DAY_CMDS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.DAYS)
+            .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
 
     public static final ExpiringMap<String, AtomicInteger> HOUR_CMDS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.HOURS)
+            .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
 
     public static final ExpiringMap<String, AtomicInteger> MINUTE_CMDS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.MINUTES)
+            .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
     private static final char ACTIVE_BLOCK = '\u2588';
     private static final char EMPTY_BLOCK = '\u200b';
