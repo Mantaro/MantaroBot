@@ -27,6 +27,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -56,7 +58,6 @@ import java.util.stream.Collectors;
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
-import static net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager.log;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -94,7 +95,9 @@ public class CustomCmds {
             } catch(Exception e) {
                 log.error("An exception occurred while processing a custom command:", e);
             }
-            log("custom command");
+
+            CommandStatsManager.log("custom command");
+            CategoryStatsManager.log("custom");
         }
     };
 
