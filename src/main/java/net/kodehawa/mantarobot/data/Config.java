@@ -70,7 +70,7 @@ public class Config {
     public String weatherAppId;
     public String webhookUrl;
     public String weebapiKey;
-    public RedisInfo redis;
+    public RedisInfo redis = new RedisInfo();
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
