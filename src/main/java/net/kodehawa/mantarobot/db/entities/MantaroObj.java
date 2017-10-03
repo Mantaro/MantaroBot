@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
@@ -40,6 +41,7 @@ public class MantaroObj implements ManagedObject {
     public List<String> patreonUsers = null;
     private Map<Long, Pair<String, Long>> mutes = null;
     private Map<String, Long> tempBans = null;
+
     @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
     public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans, Map<Long, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
