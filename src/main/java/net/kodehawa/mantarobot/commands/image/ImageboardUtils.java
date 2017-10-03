@@ -215,7 +215,7 @@ public class ImageboardUtils {
 
     private static boolean boom(List<?> l, GuildMessageReceivedEvent event) {
         if(l == null) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Oops... something went wrong when searching...").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Oops... something went wrong when searching... (If you used a tag, the tag might not exist)").queue();
             return true;
         }
 
