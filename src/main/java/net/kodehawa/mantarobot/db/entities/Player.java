@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -52,6 +53,7 @@ public class Player implements ManagedObject {
     @Getter
     @Setter
     private Long reputation = null;
+
     @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
     public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
         this.id = id;
