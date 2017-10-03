@@ -16,18 +16,12 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.collections.CollectionUtils;
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.action.ImageActionCmd;
 import net.kodehawa.mantarobot.commands.action.ImageCmd;
 import net.kodehawa.mantarobot.commands.action.TextActionCmd;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -43,35 +37,10 @@ public class ActionCmds {
     private final DataManager<List<String>> TSUNDERE = new SimpleFileDataManager("assets/mantaro/texts/tsundere.txt");
 
     //Images.
-    private final DataManager<List<String>> BLEACH = new SimpleFileDataManager("assets/mantaro/texts/bleach.txt");
     private final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
     private final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
     private final DataManager<List<String>> NOMS = new SimpleFileDataManager("assets/mantaro/texts/nom.txt");
     private final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
-
-    @Subscribe
-    public void action(CommandRegistry registry) {
-        registry.register("action", new SimpleTreeCommand(Category.ACTION) {
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Action commands")
-                        .addField("Usage", "`~>action bleach` - **Random bleach picture**.\n" +
-                                "`~>action nom` - **nom nom**.", false)
-                        .setColor(Color.PINK)
-                        .build();
-            }
-        }.addSubCommand("nom", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(CollectionUtils.random(NOMS.get())).queue();
-            }
-        }).addSubCommand("bleach", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(CollectionUtils.random(BLEACH.get())).queue();
-            }
-        }));
-    }
 
     @Subscribe
     public void register(CommandRegistry cr) {
@@ -173,6 +142,9 @@ public class ActionCmds {
         //meow()
         cr.register("meow", new ImageCmd("Meow", "Meows at the specified user.", "meow", MEOW.get(), "Meow."));
         cr.registerAlias("meow", "mew");
+
+        //nom()
+        cr.register("nom", new ImageCmd("Nom", "*nom nom*", "nom", NOMS.get(), "Yummy."));
 
         //facedesk()
         cr.register("facedesk", new ImageCmd("Facedesk", "When it's just too much to handle.", "facedesk", "banghead",

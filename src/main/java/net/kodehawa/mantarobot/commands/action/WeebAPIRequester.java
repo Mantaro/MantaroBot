@@ -26,7 +26,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-//Yes wolke, I'll use your api owo
 public class WeebAPIRequester {
     private final String API_BASE_URL = "https://api.weeb.sh/images";
     private final String RANDOM_IMAGE = "/random";
@@ -38,7 +37,11 @@ public class WeebAPIRequester {
     public String getRandomImageByType(String type, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("type", type);
-        queryParams.put("nsfw", nsfw);
+        if(nsfw)
+            queryParams.put("nsfw", "only");
+        else
+            queryParams.put("nsfw", false);
+
         if(filetype != null)
             queryParams.put("filetype", filetype);
 
@@ -52,7 +55,12 @@ public class WeebAPIRequester {
     public String getRandomImageByTags(String tags, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("tags", tags);
-        queryParams.put("nsfw", nsfw);
+
+        if(nsfw)
+            queryParams.put("nsfw", "only");
+        else
+            queryParams.put("nsfw", false);
+
         if(filetype != null)
             queryParams.put("filetype", filetype);
 

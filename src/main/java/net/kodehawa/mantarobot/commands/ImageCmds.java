@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.impl.*;
+import net.kodehawa.mantarobot.commands.action.WeebAPIRequester;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -98,18 +99,17 @@ public class ImageCmds {
     @Subscribe
     public void catgirls(CommandRegistry cr) {
         cr.register("catgirl", new SimpleCommand(Category.IMAGE) {
+
+            final WeebAPIRequester requester = new WeebAPIRequester();
+
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
                 if(nsfw && !nsfwCheck(event, true, true, null)) return;
 
                 try {
-                    JSONObject obj = new JSONObject(Utils.wgetResty(nsfw ? NSFWURL : BASEURL, event));
-                    if(!obj.has("url")) {
-                        event.getChannel().sendMessage("Unable to find image.").queue();
-                    } else {
-                        event.getChannel().sendFile(CACHE.getInput(obj.getString("url")), "catgirl.png", null).queue();
-                    }
+                    event.getChannel().sendFile(CACHE.getInput(requester.getRandomImageByType("neko", nsfw, null)),
+                            "catgirl.png", null).queue();
                 } catch(Exception e) {
                     e.printStackTrace();
                     event.getChannel().sendMessage("Unable to get image.").queue();
