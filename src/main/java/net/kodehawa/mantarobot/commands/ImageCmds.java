@@ -53,9 +53,6 @@ public class ImageCmds {
 
     private final URLCache CACHE = new URLCache(20);
 
-    private final String BASEURL = "http://catgirls.brussell98.tk/api/random";
-    private final String NSFWURL = "http://catgirls.brussell98.tk/api/nsfw/random"; //this actually returns more questionable images than explicit tho
-
     private final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
     private final ImageBoard<KonachanImage> konachan = DefaultImageBoards.KONACHAN;
     private final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;

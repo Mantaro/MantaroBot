@@ -290,6 +290,9 @@ public class InfoCmds {
                         ).build();
             }
         });
+
+        cr.registerAlias("help", "commands");
+        cr.registerAlias("help", "halp"); //why not
     }
 
     @Subscribe

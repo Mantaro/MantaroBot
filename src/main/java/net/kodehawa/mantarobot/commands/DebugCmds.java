@@ -26,6 +26,7 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
+import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
@@ -65,6 +66,7 @@ public class DebugCmds {
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
+                        + "Image API Version: " + ImageBoard.VERSION + "\n"
                         + "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
                         + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
