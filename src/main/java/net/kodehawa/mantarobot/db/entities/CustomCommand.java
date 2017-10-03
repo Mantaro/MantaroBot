@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -35,6 +36,7 @@ public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
     private final String id;
     private final List<String> values;
+
     @ConstructorProperties({"id", "values"})
     public CustomCommand(String id, List<String> values) {
         this.id = id;
