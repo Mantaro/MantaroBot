@@ -39,7 +39,6 @@ public class ActionCmds {
     //Images.
     private final DataManager<List<String>> BLOODSUCK = new SimpleFileDataManager("assets/mantaro/texts/bloodsuck.txt");
     private final DataManager<List<String>> MEOW = new SimpleFileDataManager("assets/mantaro/texts/meow.txt");
-    private final DataManager<List<String>> NOMS = new SimpleFileDataManager("assets/mantaro/texts/nom.txt");
     private final DataManager<List<String>> NUZZLE = new SimpleFileDataManager("assets/mantaro/texts/nuzzle.txt");
 
     @Subscribe
@@ -144,7 +143,7 @@ public class ActionCmds {
         cr.registerAlias("meow", "mew");
 
         //nom()
-        cr.register("nom", new ImageCmd("Nom", "*nom nom*", "nom", NOMS.get(), "Yummy."));
+        cr.register("nom", new ImageCmd("Nom", "*nom nom*", "nom", "nom", "Yummy."));
 
         //facedesk()
         cr.register("facedesk", new ImageCmd("Facedesk", "When it's just too much to handle.", "facedesk", "banghead",

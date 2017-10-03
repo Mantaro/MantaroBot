@@ -108,8 +108,14 @@ public class ImageCmds {
                 if(nsfw && !nsfwCheck(event, true, true, null)) return;
 
                 try {
-                    event.getChannel().sendFile(CACHE.getInput(requester.getRandomImageByType("neko", nsfw, null)),
-                            "catgirl.png", null).queue();
+                    String image = requester.getRandomImageByType("neko", nsfw, null);
+
+                    if(image == null) {
+                        event.getChannel().sendMessage("Unable to get image.").queue();
+                        return;
+                    }
+
+                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl.png", null).queue();
                 } catch(Exception e) {
                     e.printStackTrace();
                     event.getChannel().sendMessage("Unable to get image.").queue();
