@@ -755,7 +755,7 @@ public class UtilsCmds {
         }).addSubCommand("premium", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premmium features offer please visit:**" +
+                event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
             }
         }));
