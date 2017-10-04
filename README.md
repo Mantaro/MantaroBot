@@ -30,7 +30,7 @@
             <li>Run it and prepare yourself to start filling in configs.</li>
         </ol>
         <hr>
-        <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
+        <p>Give credit where credit is due. If you wish to use our code in a project, <b>please</b> credit us, and take your time to read our full license. We don't mind you using Mantaro code, <b>as it is</b> open-source for a reason, as long as you don't blatantly copy it or refrain from crediting us.</p>
         <h2>Demo (outdated)</h2>
         <img align="center" src="http://i.imgur.com/QgPQE8J.png" height="500" width="1000">
         <hr>

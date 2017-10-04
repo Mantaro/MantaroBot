@@ -710,12 +710,6 @@ public class UtilsCmds {
                 event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
                         "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands").queue();
             }
-        }).addSubCommand("gifs", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's gif reference please visit:**" +
-                        "  https://github.com/Mantaro/MantaroBot/wiki/Gif-reference").queue();
-            }
         }).addSubCommand("modifiers", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
