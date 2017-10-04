@@ -695,7 +695,7 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Wiki command")
                         .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
-                                "Avaliable subcommands: `opts`, `custom`, `gifs`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
+                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
                         .build();
             }
         }.addSubCommand("opts", new SubCommand() {
@@ -709,12 +709,6 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's documentation on custom commands please visit:** " +
                         "https://github.com/Mantaro/MantaroBot/wiki/Custom-Commands").queue();
-            }
-        }).addSubCommand("gifs", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**For Mantaro's gif reference please visit:**" +
-                        "  https://github.com/Mantaro/MantaroBot/wiki/Gif-reference").queue();
             }
         }).addSubCommand("modifiers", new SubCommand() {
             @Override
@@ -755,7 +749,7 @@ public class UtilsCmds {
         }).addSubCommand("premium", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premmium features offer please visit:**" +
+                event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
             }
         }));
