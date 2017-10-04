@@ -695,7 +695,7 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Wiki command")
                         .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
-                                "Avaliable subcommands: `opts`, `custom`, `gifs`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
+                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
                         .build();
             }
         }.addSubCommand("opts", new SubCommand() {
