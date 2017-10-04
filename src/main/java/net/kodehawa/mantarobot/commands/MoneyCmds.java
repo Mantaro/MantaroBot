@@ -388,6 +388,8 @@ public class MoneyCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("balance", "credits");
     }
 
     @Subscribe
@@ -507,7 +509,7 @@ public class MoneyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 long money = 50;
-                int slotsChance = 30; //30% raw chance of winning, completely random chance of winning on the other random iteration
+                int slotsChance = 24; //24% raw chance of winning, completely random chance of winning on the other random iteration
                 boolean isWin = false;
                 boolean coinSelect = false;
 
