@@ -60,7 +60,7 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 public class MoneyCmds {
 
     private final Random random = new Random();
-    private final int SLOTS_MAX_MONEY = 100_000_000;
+    private final int SLOTS_MAX_MONEY = 75_000_000;
     private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 4;
 
     @Subscribe
