@@ -507,7 +507,7 @@ public class MoneyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 long money = 50;
-                int slotsChance = 23; //23% raw chance of winning, completely random chance of winning on the other random iteration
+                int slotsChance = 30; //30% raw chance of winning, completely random chance of winning on the other random iteration
                 boolean isWin = false;
                 boolean coinSelect = false;
 
@@ -584,8 +584,8 @@ public class MoneyCmds {
                 toSend = String.join("\n", rows);
 
                 if(isWin) {
-                    message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits! Lucky! ", gains)).append(EmoteReference.POPPER);
-                    player.addMoney(gains);
+                    message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits and got to keep what you bet! Lucky! ", gains)).append(EmoteReference.POPPER);
+                    player.addMoney(gains + money);
                     player.saveAsync();
                 } else {
                     message.append(toSend).append("\n\n").append("And you lost ").append(EmoteReference.SAD).append("\n").append("I hope you do better next time!");
