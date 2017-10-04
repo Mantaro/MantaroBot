@@ -330,7 +330,7 @@ public class MoneyCmds {
                     } else {
                         String msg = "Digging through messages, you found nothing but dust";
 
-                        if(r.nextInt(100) > 90) {
+                        if(r.nextInt(100) > 93) {
                             msg += "\n" +
                                     "Seems like you've got so much dust here... You might want to clean this up before it gets too messy!";
                         }
