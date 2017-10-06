@@ -101,7 +101,7 @@ public class InfoCmds {
                                         guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
                                 .addField("Text Channels", String.valueOf(textChannels.size()), true)
                                 .addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
-                                .setFooter(String.format("Invite link: http://polr.me/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .build()).queue();
                     }
                 };
@@ -301,7 +301,7 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 event.getChannel().sendMessage(new EmbedBuilder().setAuthor("Mantaro's Invite URL.", null, event.getJDA().getSelfUser().getAvatarUrl())
-                        .addField("Invite URL", "http://polr.me/mantaro", false)
+                        .addField("Invite URL", "http://is.gd/mantaro", false)
                         .addField("Support Server", "https://discordapp.com/invite/cMTmuPa", false)
                         .addField("Patreon URL", "http://patreon.com/mantaro", false)
                         .setDescription("Here are some useful links! " +
