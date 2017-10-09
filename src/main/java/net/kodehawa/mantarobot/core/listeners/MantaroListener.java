@@ -582,7 +582,7 @@ public class MantaroListener implements EventListener {
                         return;
                     }
 
-                    tc.sendMessage(embed.gen(event)).queue();
+                    tc.sendMessage(embed.gen(event.getMember())).queue();
                     return;
                 }
             }

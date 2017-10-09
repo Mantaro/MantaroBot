@@ -648,7 +648,7 @@ public class CustomCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage(embed.gen(event)).queue();
+                event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
                 return;
             }
 
