@@ -40,8 +40,8 @@ public class EmbedJSON {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if(title != null) embedBuilder.setTitle(title, titleUrl);
         if(description != null) embedBuilder.setDescription(description);
-        if(author != null) embedBuilder.setAuthor(author, authorUrl, authorImg);
-        if(footer != null) embedBuilder.setFooter(footer, footerImg);
+        if(author != null) embedBuilder.setAuthor(author, !urlExists(authorUrl) ? null : authorUrl, !urlExists(authorImg) ? null : authorImg);
+        if(footer != null) embedBuilder.setFooter(footer, !urlExists(footerImg) ? null : footerImg);
         if(image != null && urlExists(image)) embedBuilder.setImage(image);
         if(thumbnail != null && urlExists(thumbnail)) embedBuilder.setThumbnail(thumbnail);
         if(color != null) {
