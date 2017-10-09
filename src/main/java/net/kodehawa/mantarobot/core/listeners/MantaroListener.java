@@ -527,7 +527,10 @@ public class MantaroListener implements EventListener {
             String joinMessage = data.getJoinMessage();
 
             sendJoinLeaveMessage(event, joinMessage, joinChannel);
-        } catch(Exception ignored) { }
+        } catch(Exception e) {
+            //This is making me go crazy already...
+            SentryHelper.captureExceptionContext("Failed to send join message!", e, MantaroListener.class, "Join Handler");
+        }
     }
 
     private void onUserLeave(GuildMemberLeaveEvent event) {
@@ -550,7 +553,9 @@ public class MantaroListener implements EventListener {
             String leaveMessage = data.getLeaveMessage();
 
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);
-        } catch(Exception ignored) { }
+        } catch(Exception e) {
+            SentryHelper.captureExceptionContext("Failed to send leave message!", e, MantaroListener.class, "Join Handler");
+        }
     }
 
     private void sendJoinLeaveMessage(GenericGuildMemberEvent event, String message, String channel) {

@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
-import com.jagrosh.jdautilities.utils.FinderUtil;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.*;
@@ -80,7 +79,7 @@ public class InfoCmds {
 
                         event.getChannel().sendMessage(new EmbedBuilder()
                                 .setColor(Color.PINK)
-                                .setAuthor("About Mantaro", "http://polr.me/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
+                                .setAuthor("About Mantaro", "http://is.gd/mantaro", event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setThumbnail(event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                                 .setDescription("Hello, I'm **MantaroBot**! I'm here to make your life a little easier. To get started, type `~>help`!\n" +
                                         "Some of my features include:\n" +

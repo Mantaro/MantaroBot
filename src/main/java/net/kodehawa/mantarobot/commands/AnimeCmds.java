@@ -43,8 +43,9 @@ import org.json.JSONObject;
 
 import java.awt.*;
 import java.net.URLEncoder;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Module
@@ -201,7 +202,9 @@ public class AnimeCmds {
         String TYPE = Utils.capitalize(type.getSeries_type());
         String EPISODES = type.getTotal_episodes().toString();
         String DURATION = type.getDuration().toString();
-        String GENRES = type.getGenres().stream().collect(Collectors.joining(", "));
+        List<String> genres = type.getGenres();
+        genres.removeAll(Collections.singleton(""));
+        String GENRES = String.join(", ", genres);
 
         //Start building the embedded message.
         EmbedBuilder embed = new EmbedBuilder();
@@ -212,7 +215,7 @@ public class AnimeCmds {
                 .setThumbnail(IMAGE_URL)
                 .setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
                 .addField("Release date: ", "`" + RELEASE_DATE + "`", true)
-                .addField("End date: ", "`" + END_DATE + "`", true)
+                .addField("End date: ", "`" + (END_DATE == null || END_DATE.equals("null") ? "Airing" : END_DATE) + "`", true)
                 .addField("Average score: ", "`" + AVERAGE_SCORE + "/100" + "`", true)
                 .addField("Type", "`" + TYPE + "`", true)
                 .addField("Episodes", "`" + EPISODES + "`", true)

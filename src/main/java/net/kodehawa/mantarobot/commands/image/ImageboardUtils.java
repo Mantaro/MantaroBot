@@ -199,10 +199,7 @@ public class ImageboardUtils {
     }
 
     private static boolean foundMinorTags(GuildMessageReceivedEvent event, String tags, Rating rating) {
-        boolean trigger = tags.contains("loli") || tags.contains("lolis") ||
-                tags.contains("shota") || tags.contains("shotas") ||
-                tags.contains("lolicon") || tags.contains("shotacon") &&
-                (rating == null || rating.equals(Rating.EXPLICIT) || rating.equals(Rating.QUESTIONABLE));
+        boolean trigger = (tags.contains("loli") || tags.contains("shota") || tags.contains("lolicon") || tags.contains("shotacon")) && !rating.equals(Rating.SAFE);
 
         if(!trigger) {
             return false;
