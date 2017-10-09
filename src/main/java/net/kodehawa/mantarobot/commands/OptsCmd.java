@@ -22,6 +22,7 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -29,6 +30,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
+import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.Option;
 import net.kodehawa.mantarobot.options.OptionType;
@@ -126,8 +128,11 @@ public class OptsCmd {
                             if(++i < args.length) a = Arrays.copyOfRange(args, i, args.length);
                             else a = new String[0];
                             callable.accept(event, a);
-                        } catch(IndexOutOfBoundsException ignored) {
-                        }
+                            Player p = MantaroData.db().getPlayer(event.getAuthor());
+                            if(p.getData().addBadge(Badge.DID_THIS_WORK)) {
+                                p.saveAsync();
+                            }
+                        } catch(IndexOutOfBoundsException ignored) {}
                         return;
                     }
                 }

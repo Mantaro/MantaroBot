@@ -75,8 +75,8 @@ public enum Badge {
             "Do mod stuff with Mantaro.", 91, 92),
 
     //Use opts properly
-    DID_THIS_WORK("This worked", "\u26cf",
-            "Used `~>opts` properly.", 91, 92),
+    DID_THIS_WORK("Configurator", "\u26cf",
+            "Use `~>opts`.", 91, 92),
 
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0",

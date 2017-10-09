@@ -55,7 +55,7 @@ public class ConditionalCustoms {
             if(args.length < 4) return "`if requires at least 6 parameters`";
             String input1 = args[0], compare = args[1], input2 = args[2], outputTrue = args[3];
             BiPredicate<String, String> comparator = comparators.get(compare);
-            if(comparator == null) return "`'" + compare + "' comparator doesn't exists`";
+            if(comparator == null) return "`'The " + compare + "' comparator doesn't exist`";
             if(comparator.test(input1, input2)) return outputTrue;
             if(args.length >= 5) return args[4];
             return "";
