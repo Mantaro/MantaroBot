@@ -60,6 +60,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -388,6 +389,11 @@ public class UtilsCmds {
 
                 if(time < 10000) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "That's too little time!").queue();
+                    return;
+                }
+
+                if(System.currentTimeMillis() + time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(90)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Too long (Maximum: 3 months)...").queue();
                     return;
                 }
 

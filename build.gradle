@@ -63,7 +63,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-    compile 'net.kodehawa:imageboard-api:2.0.1'
+    compile 'net.kodehawa:imageboard-api:2.0.1_1'
 	compile 'com.github.natanbc:discordbots-api:1.1'
 
     compileOnly "org.projectlombok:lombok:1.16.16"

@@ -76,7 +76,7 @@ public enum Badge {
 
     //Use opts properly
     DID_THIS_WORK("Configurator", "\u26cf",
-            "Use `~>opts`.", 91, 92),
+            "Use any `~>opts` configuration successfully.", 91, 92),
 
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0",

@@ -44,9 +44,8 @@ public class ChannelOptions extends OptionHandler {
                 return;
             }
 
-            guildData.getGuildUnsafeChannels().add(event.getChannel().getId());
-            dbGuild.saveAsync();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "NSFW in this channel has been enabled.").queue();
+            event.getChannel().sendMessage(EmoteReference.CORRECT +
+                    "Please use the guild's NSFW channel configuration instead of this (This can still be used to disable the current ones set with this command).").queue();
         });
     }
 
