@@ -20,10 +20,8 @@ import com.google.common.eventbus.Subscribe;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.lib.imageboards.ImageBoard;
@@ -37,6 +35,7 @@ import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
@@ -46,6 +45,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
@@ -184,6 +184,59 @@ public class DebugCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Shard info")
                         .setDescription("**Returns information about shards**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void debug(CommandRegistry cr) {
+        cr.register("status", new SimpleCommand(Category.INFO, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                MantaroBot bot = MantaroBot.getInstance();
+                long ping = bot.getPing();
+                List<MantaroShard> shards = bot.getShardList();
+
+                int dead = 0;
+                int reconnecting = 0;
+                int zeroVoiceConnections = 0;
+                int high = 0;
+
+                for(MantaroShard shard : shards) {
+                    boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED) || shard.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT) || shard.getStatus().equals(JDA.Status.WAITING_TO_RECONNECT);
+                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
+                        dead++;
+                    if(reconnect)
+                        reconnecting++;
+                    if(shard.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() == 0)
+                        zeroVoiceConnections++;
+                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 1650)
+                        high++;
+                }
+
+                String status = dead == 0 && high == 0 ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
+
+                status += String.format(
+                        "- Average Ping: %dms.\n" +
+                                "- Dead Shards: %s shards.\n" +
+                                "- Zero Voice Connections: %s shards.\n" +
+                                "- Shards Reconnecting: %s shards.\n" +
+                                "- High last event time: %s shards.\n\n" +
+                                "| Guilds: %-4s | Users: %-8s | Shards: %-3s |"
+                        , ping, dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size());
+
+                event.getChannel().sendMessage(new MessageBuilder().
+                        append("**Mantaro's Status**")
+                        .append("\n")
+                        .appendCodeBlock(status, "prolog")
+                        .build()).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Debug")
+                        .setDescription("**Is the bot doing fine?**")
                         .build();
             }
         });

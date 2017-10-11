@@ -137,8 +137,8 @@ public class MantaroShard implements JDA {
                 .setReconnectQueue(reconnectQueue);
 
         if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
-        jda = jdaBuilder.buildAsync();
-        if(totalShards > 1) Thread.sleep(5500);
+        jda = jdaBuilder.buildBlocking(Status.AWAITING_LOGIN_CONFIRMATION);
+        if(totalShards > 1) Thread.sleep(5100);
 
         //Assume everything is alright~
         addListeners();
