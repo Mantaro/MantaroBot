@@ -54,8 +54,9 @@ public class Player implements ManagedObject {
     @Setter
     private Long reputation = null;
 
+    @JsonCreator
     @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-    public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
+    public Player(@JsonProperty("id") String id, @JsonProperty("level") Long level, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") PlayerData data) {
         this.id = id;
         this.level = level == null ? 0 : level;
         this.money = money == null ? 0 : money;
