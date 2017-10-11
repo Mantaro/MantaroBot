@@ -113,19 +113,19 @@ public class RedisCachedDatabase extends ManagedDatabase {
 
     @Override
     public void save(CustomCommand command) {
-        ccMap.fastPutAsync(command.getId(), command);
+        ccMap.fastPutAsync("cc:" + command.getId(), command);
         super.delete(command);
     }
 
     @Override
     public void save(DBGuild guild) {
-        guildMap.fastPutAsync(guild.getId(), guild);
+        guildMap.fastPutAsync("guild:" + guild.getId(), guild);
         super.save(guild);
     }
 
     @Override
     public void save(DBUser user) {
-        userMap.fastPutAsync(user.getId(), user);
+        userMap.fastPutAsync("user:" + user.getId(), user);
         super.save(user);
     }
 
@@ -137,31 +137,31 @@ public class RedisCachedDatabase extends ManagedDatabase {
 
     @Override
     public void save(Player player) {
-        playerMap.fastPutAsync(player.getId(), player);
+        playerMap.fastPutAsync("player:" + player.getUserId(), player);
         super.save(player);
     }
 
     @Override
     public void save(PremiumKey key) {
-        keyMap.fastPutAsync(key.getId(), key);
+        keyMap.fastPutAsync("key:" + key.getId(), key);
         super.save(key);
     }
 
     @Override
     public void delete(CustomCommand command) {
-        ccMap.fastRemoveAsync(command.getId());
+        ccMap.fastRemoveAsync("cc:" + command.getId());
         super.delete(command);
     }
 
     @Override
     public void delete(DBGuild guild) {
-        guildMap.fastRemoveAsync(guild.getId());
+        guildMap.fastRemoveAsync("guild:" + guild.getId());
         super.delete(guild);
     }
 
     @Override
     public void delete(DBUser user) {
-        userMap.fastRemoveAsync(user.getId());
+        userMap.fastRemoveAsync("user:" + user.getId());
         super.delete(user);
     }
 
@@ -173,13 +173,13 @@ public class RedisCachedDatabase extends ManagedDatabase {
 
     @Override
     public void delete(Player player) {
-        playerMap.fastRemoveAsync(player.getId());
+        playerMap.fastRemoveAsync("player:" + player.getId());
         super.delete(player);
     }
 
     @Override
     public void delete(PremiumKey key) {
-        keyMap.fastRemoveAsync(key.getId());
+        keyMap.fastRemoveAsync("key:" + key.getId());
         super.delete(key);
     }
 }
