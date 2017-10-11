@@ -39,10 +39,11 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.LinkedList;
-import java.util.Queue;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -144,7 +145,6 @@ public class DebugCmds {
     }
 
     @Subscribe
-    //TODO pages
     public void shardinfo(CommandRegistry cr) {
         cr.register("shardinfo", new SimpleCommand(Category.INFO) {
             @Override
@@ -153,12 +153,13 @@ public class DebugCmds {
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-15s | %-9s | U: %-6d | G: %-4d | EV: %-8s | VC: %-2d",
+                            "%-15s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
                             jda.getGuildCache().size(),
                             shard.getEventManager().getLastJDAEventTimeDiff() + " ms",
+                            jda.getPing(),
                             jda.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count()
                     ));
 
@@ -168,23 +169,15 @@ public class DebugCmds {
 
                     builder.append("\n");
                 }
-                Queue<String> m = new LinkedList<>();
-                String s = builder.toString().trim();
-                StringBuilder sb = new StringBuilder();
-                while(s.length() > 0) {
-                    int idx = s.indexOf('\n');
-                    String line = idx == -1 ? s : s.substring(0, idx + 1);
-                    s = s.substring(line.length());
-                    if(s.equals("\n")) s = "";
-                    if(sb.length() + line.length() > 1800) {
-                        m.add(sb.toString());
-                        sb = new StringBuilder();
-                    }
-                    sb.append(line);
-                }
-                if(sb.length() != 0) m.add(sb.toString());
 
-                m.forEach(message -> event.getChannel().sendMessage(String.format("```prolog\n%s```", message)).queue());
+                List<String> m = DiscordUtils.divideString(builder);
+                List<String> messages = new LinkedList<>();
+
+                for(String s1 : m) {
+                    messages.add(String.format("%s\n```prolog\n%s```", "**Mantaro's Shard Information. Use &p >> and &p << to move pages, &cancel to exit.**", s1));
+                }
+
+                DiscordUtils.listText(event, 45, false, messages);
             }
 
             @Override

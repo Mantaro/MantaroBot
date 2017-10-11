@@ -252,7 +252,6 @@ public class CurrencyCmds {
                 }
 
                 EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
-
                 StringBuilder items = new StringBuilder();
                 StringBuilder prices = new StringBuilder();
                 AtomicInteger atomicInteger = new AtomicInteger();

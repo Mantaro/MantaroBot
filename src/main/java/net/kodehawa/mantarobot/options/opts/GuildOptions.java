@@ -165,7 +165,6 @@ public class GuildOptions extends OptionHandler {
 
                     if(roles.size() <= 1) {
                         guildData.setGuildAutoRole(roles.get(0).getId());
-                        event.getMessage().addReaction("\ud83d\udc4c").queue();
                         dbGuild.saveAsync();
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "The server autorole is now set to: **" + roles.get
                                 (0).getName() + "** (Position: " + roles.get(0).getPosition() + ")").queue();

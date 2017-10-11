@@ -85,63 +85,74 @@ public class MoneyCmds {
 
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
+                PlayerData playerData = player.getData();
+
+                //streak start
+                //Always count the one who sends the money as the streak holder
+                Player streakPlayer = MantaroData.db().getPlayer(event.getAuthor());
+                PlayerData streakPlayerData = streakPlayer.getData();
+                String streak;
+
+                if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
+                    streakPlayerData.setDailyStrike(playerData.getDailyStrike() + 1);
+                    streak = "Streak up! Current streak: `" + streakPlayerData.getDailyStrike() + "x`";
+                } else {
+                    if(streakPlayerData.getDailyStrike() == 0) {
+                        streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
+                    } else {
+                        streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
+                                "Old streak: `" + streakPlayerData.getDailyStrike() + "x`";
+                    }
+                    streakPlayerData.setDailyStrike(1);
+                }
+
+                if(streakPlayerData.getDailyStrike() > 5) {
+                    int bonus = 150;
+                    if(streakPlayerData.getDailyStrike() > 15) bonus += 150;
+
+                    streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more!";
+                    money += bonus;
+                }
+
+                if(streakPlayerData.getDailyStrike() > 10) {
+                    streakPlayerData.addBadge(Badge.CLAIMER);
+                }
+
+                streakPlayer.save();
+                //streak end
+
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(2);
 
                     if(player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
 
-                    if(mentionedUser.getId().equals(player.getData().getMarriedWith()) && player.getData().getMarriedSince() != null &&
-                            Long.parseLong(player.getData().anniversary()) - player.getData().getMarriedSince() > TimeUnit.DAYS.toMillis(1)) {
-                        money = money + r.nextInt(20);
-
+                    if(mentionedUser.getId().equals(player.getData().getMarriedWith())) {
                         if(player.getInventory().containsItem(Items.RING_2)) {
-                            money = money + r.nextInt(10);
+                            money = money + r.nextInt(50);
                         }
                     }
 
                     player.addMoney(money);
+                    playerData.setLastDailyAt(System.currentTimeMillis());
                     player.save();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "I gave your **$" + money + "** daily credits to " +
-                            mentionedUser.getName()).queue();
+                            mentionedUser.getName() + "\n\n" + streak).queue();
                     return;
-                }
-
-                PlayerData playerData = player.getData();
-
-                String streak;
-                if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.DAYS.toMillis(2)) {
-                    playerData.setDailyStrike(playerData.getDailyStrike() + 1);
-                    streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "x`";
-                } else {
-                    if(playerData.getDailyStrike() == 0) {
-                        streak = "First time claiming daily, have fun!";
-                    } else {
-                        streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                "Old streak: `" + playerData.getDailyStrike() + "x`";
-                    }
-                    playerData.setDailyStrike(1);
-                }
-
-                if(playerData.getDailyStrike() > 5) {
-                    streak += "\nYou won a bonus of $150 for claiming your daily for 5 days in a row or more!";
-                    money += 150;
-                }
-
-                if(playerData.getDailyStrike() > 10) {
-                    playerData.addBadge(Badge.CLAIMER);
                 }
 
                 player.addMoney(money);
                 playerData.setLastDailyAt(System.currentTimeMillis());
                 player.save();
+
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.\n\n" + streak).queue();
             }
 
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Daily command")
-                        .setDescription("**Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person)**.")
+                        .setDescription("**Gives you $150 credits per day (or between 150 and 180 if you transfer it to another person)**.\n" +
+                                "This command gives a reward for claiming it every day.")
                         .build();
             }
         });

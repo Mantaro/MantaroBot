@@ -119,11 +119,6 @@ jar.finalizedBy cleanShittyJar
 
 shadowJar {
 	classifier = ""
-
-	//We don't want this, as we only will use FinderUtil.
-	exclude("com/jagrosh/jdautilities/commandclient/**")
-	exclude("com/jagrosh/jdautilities/menu/**")
-	exclude("com/jagrosh/jdautilities/waiter/**")
 }
 
 class Version {

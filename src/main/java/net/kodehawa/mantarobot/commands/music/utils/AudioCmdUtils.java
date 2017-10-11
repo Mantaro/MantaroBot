@@ -110,8 +110,7 @@ public class AudioCmdUtils {
                                 ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
                         "Nothing or title/duration not found";
                 VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
-                builder
-                        .addField("Currently playing", nowPlaying, false)
+                builder.addField("Currently playing", nowPlaying, false)
                         .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                         .addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
                         .addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)
@@ -136,8 +135,7 @@ public class AudioCmdUtils {
                             ")** (" + Utils.getDurationMinutes(musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().length) + ")" :
                     "Nothing or title/duration not found";
             VoiceChannel vch = guild.getSelfMember().getVoiceState().getChannel();
-            builder
-                    .addField("Currently playing", nowPlaying, false)
+            builder.addField("Currently playing", nowPlaying, false)
                     .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
                     .addField("Total queue time", "`" + Utils.getReadableTime(length) + "`", true)
                     .addField("Total queue size", "`" + musicManager.getTrackScheduler().getQueue().size() + " songs`", true)

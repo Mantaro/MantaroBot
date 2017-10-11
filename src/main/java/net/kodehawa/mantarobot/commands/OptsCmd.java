@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -34,11 +35,10 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.Option;
 import net.kodehawa.mantarobot.options.OptionType;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -66,17 +66,26 @@ public class OptsCmd {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(args.length == 1 && args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("ls")) {
-                    Queue<Message> toSend = new MessageBuilder()
-                            .append("```prologn ```") //Trick to make it count the end and start of the formatting
-                            .append(String.format("%-34s | %s \n", centerString("Name", 34), centerString("Description", 60)))
-                            .append(centerString("** ------------------- **", 75))
-                            .append("\n")
-                            .append(Option.getAvaliableOptions().stream().collect(Collectors.joining("\n")))
-                            .buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                    StringBuilder builder = new StringBuilder();
 
-                    toSend.forEach(message -> event.getChannel().sendMessage("```prolog\n" +
-                            message.getContent().replace("```prologn ```", "")
-                            + "```").queue());
+                    for(String s : Option.getAvaliableOptions()) {
+                        builder.append(s).append("\n");
+                    }
+
+                    List<String> m = DiscordUtils.divideString(builder);
+                    List<String> messages = new LinkedList<>();
+                    boolean hasReactionPerms = event.getMember().hasPermission(Permission.MESSAGE_ADD_REACTION);
+                    for(String s1 : m) {
+                        messages.add("**Mantaro's Options List**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
+                                "Use &page >> and &page << to change pages and &cancel to end") +
+                                "*All options must be prefixed with `~>opts` when running them*\n" + String.format("```prolog\n%s```", s1));
+                    }
+
+                    if(hasReactionPerms) {
+                        DiscordUtils.list(event, 45, false, messages);
+                    } else {
+                        DiscordUtils.listText(event, 45, false, messages);
+                    }
 
                     return;
                 }

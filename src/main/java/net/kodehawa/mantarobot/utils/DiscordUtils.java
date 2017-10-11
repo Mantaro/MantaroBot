@@ -28,6 +28,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -81,6 +82,7 @@ public class DiscordUtils {
         if(parts.length == 0) return null;
         List<MessageEmbed> embeds = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
+
         int total;
         {
             int t = 0;
@@ -95,6 +97,7 @@ public class DiscordUtils {
             if(c > 0) t++;
             total = t;
         }
+
         for(String s : parts) {
             int l = s.length() + 1;
             if(l > MessageEmbed.TEXT_MAX_LENGTH)
@@ -114,6 +117,7 @@ public class DiscordUtils {
         }
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
+
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
             if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
             switch(e.getReactionEmote().getName()) {
@@ -131,5 +135,99 @@ public class DiscordUtils {
             }
             return Operation.RESET_TIMEOUT;
         }, "\u2b05", "\u27a1");
+    }
+
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
+        if(parts.size() == 0) return null;
+
+        if(parts.size() == 1){
+            event.getChannel().sendMessage(parts.get(0)).queue();
+            return null;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(parts.get(0)).complete();
+
+        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
+
+            switch(e.getReactionEmote().getName()) {
+                case "\u2b05": //left arrow
+                    if(index.get() == 0) break;
+                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+                    break;
+
+                case "\u27a1": //right arrow
+                    if(index.get() + 1 >= parts.size()) break;
+                    m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+                    break;
+
+                case "\u274c":
+                    m.delete().queue();
+                    break;
+            }
+
+            if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+                e.getReaction().removeReaction(e.getUser()).queue();
+            }
+
+            return Operation.RESET_TIMEOUT;
+        }, "\u2b05", "\u27a1", "\u274c");
+    }
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
+        if(parts.size() == 0) return null;
+
+        if(parts.size() == 1){
+            event.getChannel().sendMessage(parts.get(0)).queue();
+            return null;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(parts.get(0)).complete();
+
+        return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
+            if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+
+            if(e.getMessage().getContent().equals("&p <<") || e.getMessage().getContent().equals("&page <<")) {
+                if(index.get() == 0) return Operation.IGNORED;
+                m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
+            } else if (e.getMessage().getContent().equals("&p >>") || e.getMessage().getContent().equals("&page >>")) {
+                if(index.get() + 1 >= parts.size()) return Operation.IGNORED;
+                m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
+            }
+
+            if(e.getMessage().getContent().equals("&cancel")) {
+                m.delete().queue();
+                return Operation.COMPLETED;
+            }
+
+            return Operation.IGNORED;
+        });
+    }
+
+    public static List<String> divideString(StringBuilder builder) {
+        return divideString(1750, builder);
+    }
+
+    public static List<String> divideString(int max, StringBuilder builder) {
+        List<String> m = new LinkedList<>();
+        String s = builder.toString().trim();
+        StringBuilder sb = new StringBuilder();
+        while(s.length() > 0) {
+            int idx = s.indexOf('\n');
+            String line = idx == -1 ? s : s.substring(0, idx + 1);
+            s = s.substring(line.length());
+            if(s.equals("\n")) s = "";
+            if(sb.length() + line.length() > max) {
+                m.add(sb.toString());
+                sb = new StringBuilder();
+            }
+            sb.append(line);
+        }
+        if(sb.length() != 0) m.add(sb.toString());
+
+        return m;
     }
 }

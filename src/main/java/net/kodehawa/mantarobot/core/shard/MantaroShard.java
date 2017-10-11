@@ -87,7 +87,6 @@ public class MantaroShard implements JDA {
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
-
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.shardId = shardId;
         this.totalShards = totalShards;
