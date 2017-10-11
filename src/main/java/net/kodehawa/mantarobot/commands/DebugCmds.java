@@ -191,13 +191,13 @@ public class DebugCmds {
 
     @Subscribe
     public void debug(CommandRegistry cr) {
-        cr.register("status", new SimpleCommand(Category.INFO, CommandPermission.OWNER) {
+        cr.register("status", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 MantaroBot bot = MantaroBot.getInstance();
                 long ping = bot.getPing();
                 List<MantaroShard> shards = bot.getShardList();
-
+                StringBuilder stringBuilder = new StringBuilder();
                 int dead = 0;
                 int reconnecting = 0;
                 int zeroVoiceConnections = 0;
@@ -211,25 +211,34 @@ public class DebugCmds {
                         reconnecting++;
                     if(shard.getVoiceChannelCache().stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() == 0)
                         zeroVoiceConnections++;
-                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 1650)
+                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 1650 && !reconnect)
                         high++;
                 }
 
-                String status = dead == 0 && high == 0 ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
+                String status = (dead == 0 && high == 0) ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
+                stringBuilder.append(status);
 
-                status += String.format(
+                if(reconnecting > 10)
+                    stringBuilder.append("WARNING: A large number of shards are reconnecting right now!" +
+                        " Bot might be unavaliable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
+                if(high > 20)
+                    stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
+                if(dead > 5)
+                    stringBuilder.append("WARNING: Several shards (").append(dead).append(") ").append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
+
+                stringBuilder.append(String.format(
                         "- Average Ping: %dms.\n" +
                                 "- Dead Shards: %s shards.\n" +
                                 "- Zero Voice Connections: %s shards.\n" +
                                 "- Shards Reconnecting: %s shards.\n" +
                                 "- High last event time: %s shards.\n\n" +
                                 "| Guilds: %-4s | Users: %-8s | Shards: %-3s |"
-                        , ping, dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size());
+                        , ping, dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder().
                         append("**Mantaro's Status**")
                         .append("\n")
-                        .appendCodeBlock(status, "prolog")
+                        .appendCodeBlock(stringBuilder.toString(), "prolog")
                         .build()).queue();
             }
 
