@@ -215,7 +215,7 @@ public class DebugCmds {
                         high++;
                 }
 
-                String status = (dead == 0 && high == 0) ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
+                String status = (dead == 0 && (high == 0 || reconnecting > 10)) ? "Status: Okay :)\n\n" : "Status: Warning :(\n\n";
                 stringBuilder.append(status);
 
                 if(reconnecting > 10)
@@ -224,7 +224,8 @@ public class DebugCmds {
                 if(high > 20)
                     stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if(dead > 5)
-                    stringBuilder.append("WARNING: Several shards (").append(dead).append(") ").append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
+                    stringBuilder.append("WARNING: Several shards (").append(dead).append(") ")
+                            .append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
 
                 stringBuilder.append(String.format(
                         "- Average Ping: %dms.\n" +
@@ -232,7 +233,7 @@ public class DebugCmds {
                                 "- Zero Voice Connections: %s shards.\n" +
                                 "- Shards Reconnecting: %s shards.\n" +
                                 "- High last event time: %s shards.\n\n" +
-                                "| Guilds: %-4s | Users: %-8s | Shards: %-3s |"
+                                "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         , ping, dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder().
