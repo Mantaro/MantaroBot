@@ -696,7 +696,7 @@ public class MoneyCmds {
 
             player.setMoney(Math.max(0, player.getMoney() - i));
 
-            event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all of your (" + oldMoney + ")" : i) + " credits! " +
+            event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all of your " + oldMoney : i) + " credits! " +
                     "\uD83D\uDE26").queue();
         }
         player.setLocked(false);
