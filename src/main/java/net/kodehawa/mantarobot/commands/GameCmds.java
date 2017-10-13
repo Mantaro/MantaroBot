@@ -205,7 +205,8 @@ public class GameCmds {
     private void startGame(Game game, GuildMessageReceivedEvent event) {
         if(checkRunning(event)) return;
 
-        LinkedList<Game> list = (LinkedList<Game>) Collections.singletonList(game);
+        LinkedList<Game> list = new LinkedList<>();
+        list.add(game);
 
 		List<String> players = new ArrayList<>();
 		players.add(event.getAuthor().getId());
