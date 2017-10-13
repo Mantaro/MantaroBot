@@ -29,11 +29,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class GameLobby extends Lobby {
 
     public static final Map<TextChannel, GameLobby> LOBBYS = new ConcurrentHashMap<>();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
 	@Getter
 	GuildMessageReceivedEvent event;
@@ -72,7 +75,7 @@ public class GameLobby extends Lobby {
 
     //This runs async because I need the operation to end *before* this, also if this takes too long games get stuck.
     public void startNextGame() {
-        Async.thread(() -> {
+        executorService.execute(() -> {
             try {
                 gamesToPlay.removeFirst();
 
