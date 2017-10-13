@@ -41,6 +41,7 @@ import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -229,12 +230,13 @@ public class DebugCmds {
 
                 stringBuilder.append(String.format(
                         "- Average Ping: %dms.\n" +
+                                "- Ping breakdown: %s\n" +
                                 "- Dead Shards: %s shards.\n" +
                                 "- Zero Voice Connections: %s shards.\n" +
                                 "- Shards Reconnecting: %s shards.\n" +
                                 "- High last event time: %s shards.\n\n" +
                                 "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
-                        , ping, dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size()));
+                        , ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder().
                         append("**Mantaro's Status**")

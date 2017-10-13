@@ -819,6 +819,36 @@ public class MusicCmds {
         });
     }
 
+    @Subscribe
+    public void music(CommandRegistry cr) {
+        cr.register("music", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage("*How to use music in Mantaro?*\n\n" +
+                        "- To **queue songs from youtube or soundcloud** use `~>play` For example: `~>play https://www.youtube.com/watch?v=aAolFWjGfMs` " +
+                        "*It will connect automatically to the voice channel you are in*\n" +
+                        "- To **search for a song on youtube** use `~>play <search term>` (without the leading < and >) For example: `~>play see you again` " +
+                        "(You need to select the number, just *type the number* after the selection box pops up!)\n" +
+                        "- To **search for a song on soundcloud** use `~>play soundcloud <search term>` For example `~>play soundcloud hot milk`\n" +
+                        "- To **check the queue** you just type `~>queue`\n" +
+                        "- To **remove a track from the queue** you just need to use `~>removetrack` It takes as an argument the position the song is queued at (you can check in on queue)\n" +
+                        "- To **pause or unpause** just use `~>pause`\n" +
+                        "- To **stop the music and unbind the player** use `~>stop`\n" +
+                        "- To **shuffle the queue** just use `~>shuffle`\n" +
+                        "- And lastly, to **repeat a song** use `~>repeat` and to **repeat a queue** use `~>repeat queue`. Using `~>repeat` while repeat is on, turns it off\n\n" +
+                        "For more info please use `~>help <command name>` (without the <> and replace command name with the name of the command you want)\n" +
+                        "Enjoy your music and thanks for using Mantaro!").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Music")
+                        .setDescription("**Tells you how to use music.**")
+                        .build();
+            }
+        });
+    }
+
     private boolean isDJ(Member member) {
         Role djRole = member.getGuild().getRolesByName("DJ", true).stream().findFirst().orElse(null);
         return member.isOwner() || member.hasPermission(Permission.MANAGE_SERVER) || member.hasPermission(Permission.ADMINISTRATOR) ||

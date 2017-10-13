@@ -18,21 +18,32 @@ package net.kodehawa.mantarobot.log;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.webhook.WebhookClient;
+import net.dv8tion.jda.webhook.WebhookClientBuilder;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.http.Webhook;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Date;
 
 public class LogUtils {
-    private static final Webhook SHARD_WEBHOOK;
-    private static final Webhook LOGBACK_WEBHOOK;
+    private static WebhookClient SHARD_WEBHOOK = null;
+    private static WebhookClient LOGBACK_WEBHOOK = null;
     private final static String ICON_URL = "https://totally-not.a-sketchy.site/985414.png";
+    private static final String WEBHOOK_START = "https://discordapp.com/api/webhooks/";
 
     static {
-        SHARD_WEBHOOK = new Webhook(MantaroData.config().get().getShardWebhookUrl());
-        LOGBACK_WEBHOOK = new Webhook(MantaroData.config().get().getWebhookUrl());
+        String shardWebhook = MantaroData.config().get().getShardWebhookUrl();
+        String logWebhook = MantaroData.config().get().getWebhookUrl();
+        if(shardWebhook != null) {
+            String[] parts1 = shardWebhook.replace(WEBHOOK_START, "").split("/");
+            SHARD_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts1[0]), parts1[1]).build();
+        }
+
+        if(logWebhook != null) {
+            String[] parts2 = logWebhook.replace(WEBHOOK_START, "").split("/");
+            LOGBACK_WEBHOOK = new WebhookClientBuilder(Long.parseLong(parts2[0]), parts2[1]).build();
+        }
     }
 
     public static MessageEmbed createLogEmbed(String title, String message) {
@@ -45,8 +56,10 @@ public class LogUtils {
     }
 
     public static void shard(String message) {
+        if(SHARD_WEBHOOK == null) return;
+
         try {
-            SHARD_WEBHOOK.post(new EmbedBuilder()
+            SHARD_WEBHOOK.send(new EmbedBuilder()
                     .setTitle("Shard")
                     .setDescription(message)
                     .setColor(Color.PINK)
@@ -58,8 +71,10 @@ public class LogUtils {
     }
 
     public static void log(String title, String message) {
+        if(LOGBACK_WEBHOOK == null) return;
+
         try {
-            LOGBACK_WEBHOOK.post(new EmbedBuilder()
+            LOGBACK_WEBHOOK.send(new EmbedBuilder()
                     .setTitle(title)
                     .setDescription(message)
                     .setColor(Color.PINK)
@@ -71,8 +86,10 @@ public class LogUtils {
     }
 
     public static void log(String message) {
+        if(LOGBACK_WEBHOOK == null) return;
+
         try {
-            LOGBACK_WEBHOOK.post(new EmbedBuilder()
+            LOGBACK_WEBHOOK.send(new EmbedBuilder()
                     .setTitle("Log")
                     .setDescription(message)
                     .setColor(Color.PINK)
@@ -84,16 +101,20 @@ public class LogUtils {
     }
 
     public static void simple(String message) {
+        if(LOGBACK_WEBHOOK == null) return;
+
         try {
-            LOGBACK_WEBHOOK.post(message);
+            LOGBACK_WEBHOOK.send(message);
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }
     }
 
     public static void shardSimple(String message) {
+        if(SHARD_WEBHOOK == null) return;
+
         try {
-            SHARD_WEBHOOK.post(message);
+            SHARD_WEBHOOK.send(message);
         } catch(Exception e) {
             SentryHelper.captureException("Cannot post to shard webhook", e, LogUtils.class);
         }

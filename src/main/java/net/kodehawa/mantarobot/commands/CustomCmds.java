@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CustomCommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -82,6 +83,7 @@ public class CustomCmds {
             String response = random(values);
             try {
                 runCustom(response, event);
+                CustomCommandStatsManager.log(cmdName);
             } catch (Exception e) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length " +
                         "(cannot be more than 2000 chars).").queue();

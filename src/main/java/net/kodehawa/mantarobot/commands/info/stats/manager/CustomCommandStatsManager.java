@@ -14,24 +14,17 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.utils.http;
+package net.kodehawa.mantarobot.commands.info.stats.manager;
 
-/**
- * Original: https://github.com/natanbc/GabrielBot/tree/master/src/main/java/gabrielbot/utils/http/RateLimitedException.java
- * Licensed under GPLv3.
- * <3
- *
- * @author natanbc
- * @since 04/07/2017
- */
-public class RateLimitedException extends RuntimeException {
-    private final long tryAgainIn;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
-    public RateLimitedException(long tryAgainIn) {
-        this.tryAgainIn = tryAgainIn;
-    }
+public class CustomCommandStatsManager extends StatsManager<String> {
+    public static final Map<String, AtomicInteger> TOTAL_CUSTOM_CMDS = new HashMap<>();
 
-    public long getTryAgainIn() {
-        return tryAgainIn;
+    public static void log(String cmd) {
+        if(cmd.isEmpty()) return;
+        TOTAL_CUSTOM_CMDS.computeIfAbsent(cmd, k -> new AtomicInteger(0)).incrementAndGet();
     }
 }

@@ -27,6 +27,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.CustomCommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
@@ -64,7 +65,7 @@ public class InfoCmds {
     private final CommandStatsManager commandStatsManager = new CommandStatsManager();
     private final GuildStatsManager guildStatsManager = new GuildStatsManager();
     private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
-
+    private final CustomCommandStatsManager customCommandStatsManager = new CustomCommandStatsManager();
     @Subscribe
     public void about(CommandRegistry cr) {
         cr.register("about", new TreeCommand(Category.INFO) {
@@ -534,6 +535,15 @@ public class InfoCmds {
                         .addField("Total", categoryStatsManager.resume(CategoryStatsManager.TOTAL_CATS), false)
                         .build()
                 ).queue();
+            }
+        });
+
+        statsCommand.addSubCommand("custom", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(
+                        customCommandStatsManager.fillEmbed(CustomCommandStatsManager.TOTAL_CUSTOM_CMDS, baseEmbed(event, "CCS Stats | Total")
+                        ).build()).queue();
             }
         });
     }
