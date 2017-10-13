@@ -506,7 +506,7 @@ public class MoneyCmds {
 
     @Subscribe
     public void slots(CommandRegistry cr) {
-        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 25);
+        RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 35);
         String[] emotes = {"\uD83C\uDF52", "\uD83D\uDCB0", "\uD83D\uDCB2", "\uD83E\uDD55", "\uD83C\uDF7F", "\uD83C\uDF75", "\uD83C\uDFB6"};
         Random random = new SecureRandom();
         List<String> winCombinations = new ArrayList<>();
@@ -520,7 +520,7 @@ public class MoneyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 long money = 50;
-                int slotsChance = 24; //24% raw chance of winning, completely random chance of winning on the other random iteration
+                int slotsChance = 23; //23% raw chance of winning, completely random chance of winning on the other random iteration
                 boolean isWin = false;
                 boolean coinSelect = false;
 
@@ -597,7 +597,7 @@ public class MoneyCmds {
                 toSend = String.join("\n", rows);
 
                 if(isWin) {
-                    message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits and got to keep what you bet! Lucky! ", gains)).append(EmoteReference.POPPER);
+                    message.append(toSend).append("\n\n").append(String.format("And you won **%d** credits and got to keep what you bet (%d credits)! Lucky! ", gains, money)).append(EmoteReference.POPPER);
                     player.addMoney(gains + money);
                     player.saveAsync();
                 } else {
