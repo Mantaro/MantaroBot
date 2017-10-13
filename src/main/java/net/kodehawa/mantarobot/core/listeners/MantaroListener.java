@@ -506,8 +506,10 @@ public class MantaroListener implements EventListener {
             String hour = df.format(new Date(System.currentTimeMillis()));
             if(role != null) {
                 try {
-                    event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
-                            log.debug("Successfully added a new role to " + event.getMember()));
+                    if(event.getGuild().getRoleById(role) != null) {
+                        event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
+                                log.debug("Successfully added a new role to " + event.getMember()));
+                    }
                 } catch(PermissionException e) {
                     MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
                     MantaroData.db().getGuild(event.getGuild()).save();
@@ -535,8 +537,6 @@ public class MantaroListener implements EventListener {
 
     private void onUserLeave(GuildMemberLeaveEvent event) {
         try {
-
-
             String hour = df.format(new Date(System.currentTimeMillis()));
             DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
             GuildData data = dbg.getData();
