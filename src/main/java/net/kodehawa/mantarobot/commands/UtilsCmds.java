@@ -26,7 +26,6 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.utils.GoogleCrawler;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
@@ -416,55 +415,6 @@ public class UtilsCmds {
                         .addField("Usage", "`~>remindme do the laundry -time 1h20m`\n" +
                                 "`~>remindme cancel` to cancel a reminder." +
                                 "\nTime is in this format: 1h20m (1 hour and 20m). You can use h, m and s (hour, minute, second)", false)
-                        .build();
-            }
-        });
-    }
-
-    @Subscribe
-    public void google(CommandRegistry registry) {
-        registry.register("google", new SimpleCommand(Category.UTILS) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                StringBuilder b = new StringBuilder();
-                EmbedBuilder builder = new EmbedBuilder();
-                List<GoogleCrawler.SearchResult> result = GoogleCrawler.get(content);
-                for(int i = 0; i < 5 && i < result.size(); i++) {
-                    GoogleCrawler.SearchResult data = result.get(i);
-                    if(data != null) {
-                        String title = data.getTitle();
-                        String desc = data.getDescription();
-                        if(title.length() > 40) title = title.substring(0, 40) + "...";
-                        if(title.length() > 250) title = desc.substring(0, 250) + "...";
-                        b.append(i + 1)
-                                .append(". **[")
-                                .append(title)
-                                .append("](")
-                                .append(data.getUrl())
-                                .append(")**\n")
-                                .append("- ")
-                                .append(desc)
-                                .append("\n\n");
-                    }
-                }
-
-                event.getChannel().sendMessage(
-                        builder.setTitle("Search results for " + content)
-                                .setDescription(b.toString())
-                                .setThumbnail(
-                                        "https://cdn.pixabay.com/photo/2015/12/08/17/38/magnifying-glass-1083373_960_720.png")
-                                .setFooter("Click on the blue text to go to the URL.", null)
-                                .setColor(Color.pink)
-                                .build())
-                        .queue();
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Google search")
-                        .setDescription("**Searches on google.**")
-                        .addField("Usage", "`~>google <query>` - **Makes a search**", false)
-                        .addField("Parameters", "`query` - **The search query**", false)
                         .build();
             }
         });
