@@ -121,7 +121,8 @@ public class UtilsCmds {
                             List<String> ids = event.getGuild().getMemberCache().stream().map(m -> m.getUser().getId()).collect(Collectors.toList());
                             Map<String, String> guildCurrentBirthdays = new HashMap<>();
                             Calendar calendar = Calendar.getInstance();
-                            String currentMonth = 0 + String.valueOf(calendar.get(Calendar.MONTH) + 1);
+                            String calendarMonth = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+                            String currentMonth = (calendarMonth.length() == 1 ? 0 : "") + calendarMonth;
 
                             for(Map.Entry<String, String> birthdays : cacher.cachedBirthdays.entrySet()) {
                                 if(ids.contains(birthdays.getKey()) && birthdays.getValue().split("-")[1].equals(currentMonth)) {
@@ -474,17 +475,15 @@ public class UtilsCmds {
                 EmbedBuilder embed = new EmbedBuilder();
 
                 if(!content.isEmpty()) {
-                    long start = System.currentTimeMillis();
                     String url = null;
                     try {
                         url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(
                                 beheadedSplit[0], "UTF-8");
-                    } catch(UnsupportedEncodingException ignored) {
-                    }
+                    } catch(UnsupportedEncodingException ignored) { }
+
                     String json = Utils.wgetResty(url, event);
                     UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
 
-                    long end = System.currentTimeMillis() - start;
                     //This shouldn't happen, but it fucking happened.
                     if(beheadedSplit.length < 1) {
                         return;
@@ -497,37 +496,34 @@ public class UtilsCmds {
 
                     switch(beheadedSplit.length) {
                         case 1:
+                            UrbanData.List def = data.list.get(0);
                             embed.setAuthor(
                                     "Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
                                     .setDescription("Main definition.")
                                     .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                                     .setColor(Color.GREEN)
-                                    .addField("Definition", data.list.get(0).definition.length() > 1000 ?
-                                            data.list.get(0).definition.substring(0, 1000) + "..." : data.list.get(0).definition, false)
-                                    .addField("Example", data.list.get(0).example.length() > 1000 ?
-                                            data.list.get(0).example.substring(0, 1000) + "..." : data.list.get(0).example, false)
-                                    .addField(":thumbsup:", data.list.get(0).thumbs_up, true)
-                                    .addField(":thumbsdown:", data.list.get(0).thumbs_down, true)
-                                    .setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);
+                                    .addField("Definition", def.definition.length() > 1000 ? def.definition.substring(0, 1000) + "..." : def.definition, false)
+                                    .addField("Example", def.example.length() > 1000 ? def.example.substring(0, 1000) + "..." : def.example, false)
+                                    .addField(":thumbsup:", def.thumbs_up, true)
+                                    .addField(":thumbsdown:", def.thumbs_down, true)
+                                    .setFooter("Information by Urban Dictionary", null);
                             event.getChannel().sendMessage(embed.build()).queue();
                             break;
                         case 2:
                             int defn = Integer.parseInt(beheadedSplit[1]) - 1;
                             String defns = String.valueOf(defn + 1);
-                            String definition = data.list.get(defn).definition;
+                            UrbanData.List def1 = data.list.get(defn);
+                            String definition = def1.definition;
                             embed.setAuthor(
-                                    "Urban Dictionary definition for " + beheadedSplit[0], data.list.get(defn).permalink,
-                                    null
-                            )
+                                    "Urban Dictionary definition for " + beheadedSplit[0], def1.permalink,null)
                                     .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                                     .setDescription("Definition " + defns)
                                     .setColor(Color.GREEN)
                                     .addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                                    .addField("Example", data.list.get(defn).example.length() > 1000 ? data.list.get(defn).example.substring(0, 1000) + "..." :
-                                            data.list.get(defn).example, false)
-                                    .addField(":thumbsup:", data.list.get(defn).thumbs_up, true)
-                                    .addField(":thumbsdown:", data.list.get(defn).thumbs_down, true)
-                                    .setFooter("Information by Urban Dictionary (Process time: " + end + "ms)", null);
+                                    .addField("Example", def1.example.length() > 1000 ? def1.example.substring(0, 1000) + "..." : def1.example, false)
+                                    .addField(":thumbsup:", def1.thumbs_up, true)
+                                    .addField(":thumbsdown:", def1.thumbs_down, true)
+                                    .setFooter("Information by Urban Dictionary", null);
                             event.getChannel().sendMessage(embed.build()).queue();
                             break;
                         default:
@@ -609,8 +605,7 @@ public class UtilsCmds {
                 } catch(Exception e) {
                     event.getChannel().sendMessage("Error while fetching results.").queue();
                     if(!(e instanceof NullPointerException))
-                        log.warn(
-                                "Exception caught while trying to fetch weather data, maybe the API changed something?", e);
+                        log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
                 }
             }
 
@@ -719,14 +714,13 @@ public class UtilsCmds {
                 YoutubeMp3Info info = YoutubeMp3Info.forLink(content);
 
                 if(info == null) {
-                    event.getChannel().sendMessage(":heavy_multiplication_x: Your link seems to be invalid.").queue();
+                    event.getChannel().sendMessage(":heavy_multiplication_x: Your link seems to be invalid or the service might be temporarily unavailable...").queue();
                     return;
                 }
 
                 if(info.error != null) {
                     event.getChannel().sendMessage(
-                            ":heavy_multiplication_x: I got an error while fetching that link. ``" + info.error
-                                    + "``").queue();
+                            ":heavy_multiplication_x: I got an error while fetching that link. ``" + info.error + "``").queue();
                     return;
                 }
 
