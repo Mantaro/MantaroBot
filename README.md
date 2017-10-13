@@ -25,7 +25,7 @@
             <li>Clone this repository.</li>
             <li>If you are going to edit code, make sure your IDE supports <a href="http://projectlombok.org">Lombok</a>!</li>
             <li>Open a Terminal in the root folder.</li>
-            <li>Run <code>gradlew build</code></li>
+            <li>Run <code>gradlew shadowJar</code></li>
             <li>Grab the <code>-all.jar</code> jar from <code>build/libs</code></li>
             <li>Run it and prepare yourself to start filling in configs.</li>
         </ol>
