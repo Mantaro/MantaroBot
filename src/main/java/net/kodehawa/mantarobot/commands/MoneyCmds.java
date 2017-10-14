@@ -93,8 +93,8 @@ public class MoneyCmds {
                 PlayerData streakPlayerData = streakPlayer.getData();
                 String streak;
 
-                if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
-                    streakPlayerData.setDailyStrike(playerData.getDailyStrike() + 1);
+                if(System.currentTimeMillis() - streakPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
+                    streakPlayerData.setDailyStrike(streakPlayerData.getDailyStrike() + 1);
                     streak = "Streak up! Current streak: `" + streakPlayerData.getDailyStrike() + "x`";
                 } else {
                     if(streakPlayerData.getDailyStrike() == 0) {
