@@ -21,8 +21,6 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.awt.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,10 +38,10 @@ public class EmbedJSON {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         if(title != null) embedBuilder.setTitle(title, titleUrl);
         if(description != null) embedBuilder.setDescription(description);
-        if(author != null) embedBuilder.setAuthor(author, !urlExists(authorUrl) ? null : authorUrl, !urlExists(authorImg) ? null : authorImg);
-        if(footer != null) embedBuilder.setFooter(footer, !urlExists(footerImg) ? null : footerImg);
-        if(image != null && urlExists(image)) embedBuilder.setImage(image);
-        if(thumbnail != null && urlExists(thumbnail)) embedBuilder.setThumbnail(thumbnail);
+        if(author != null) embedBuilder.setAuthor(author, authorUrl, authorImg);
+        if(footer != null) embedBuilder.setFooter(footer, footerImg);
+        if(image != null) embedBuilder.setImage(image);
+        if(thumbnail != null) embedBuilder.setThumbnail(thumbnail);
         if(color != null) {
             Color col = null;
             try {
@@ -73,18 +71,6 @@ public class EmbedJSON {
         });
 
         return embedBuilder.build();
-    }
-
-
-    public boolean urlExists(String URLName) {
-        try {
-            HttpURLConnection.setFollowRedirects(false);
-            HttpURLConnection con = (HttpURLConnection) new URL(URLName).openConnection();
-            con.setRequestMethod("HEAD");
-            return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-        } catch(Exception e) {
-            return false;
-        }
     }
 
     public static class EmbedField {
