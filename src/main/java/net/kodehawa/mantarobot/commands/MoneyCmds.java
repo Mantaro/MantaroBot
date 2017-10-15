@@ -118,7 +118,7 @@ public class MoneyCmds {
                     streakPlayerData.addBadge(Badge.CLAIMER);
                 }
 
-                streakPlayer.save();
+                streakPlayer.saveAsync();
                 //streak end
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {

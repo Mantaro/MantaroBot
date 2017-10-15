@@ -52,17 +52,17 @@ public class DiscordUtils {
 
 
     public static Future<Void> selectInt(GuildMessageReceivedEvent event, int max, IntConsumer valueConsumer) {
-        return InteractiveOperations.createOverriding(event.getChannel(), 20, (e) -> {
+        return InteractiveOperations.createOverriding(event.getChannel(), 30, (e) -> {
             if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
             try {
                 int choose = Integer.parseInt(e.getMessage().getContent());
-                if(choose < 1 || choose >= max) return Operation.RESET_TIMEOUT;
+                if(choose < 1 || choose > max) return Operation.IGNORED;
                 valueConsumer.accept(choose);
                 return Operation.COMPLETED;
-            } catch(Exception ignored) {
-            }
-            return Operation.RESET_TIMEOUT;
+            } catch(Exception ignored) { }
+
+            return Operation.IGNORED;
         });
     }
 
