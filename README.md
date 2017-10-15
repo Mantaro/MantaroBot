@@ -9,7 +9,7 @@
     <body>
         <hr>
         <h2>Using the Official Mantaro Bot</h2>
-        <p><b><i>Just one <a href="https://polr.me/mantaro">click</a> and you can add Mantaro to your own server ^_^</i></b></p>
+        <p><b><i>Just one <a href="https://is.gd/mantaro">click</a> and you can add Mantaro to your own server ^_^</i></b></p>
         <hr>
         <h2>Building Mantaro on your own</h2>
         <p><b>WARNING</b>: <a href="https://github.com/adriantodt"><b>@AdrianTodt</b></a> and <a href="https://github.com/Kodehawa"><b>@Kodehawa</b></a> do not</b> recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and untested.<br>If you still want to build your own instance of Mantaro, you will need multiple api keys including <b>(but not limited to)</b></p> 
