@@ -230,11 +230,11 @@ public class DebugCmds {
 
                 stringBuilder.append(String.format(
                         "- Average Ping: %dms.\n" +
-                                "- Ping breakdown: %s\n" +
+                                "- Ping Breakdown: %s\n" +
                                 "- Dead Shards: %s shards.\n" +
                                 "- Zero Voice Connections: %s shards.\n" +
                                 "- Shards Reconnecting: %s shards.\n" +
-                                "- High last event time: %s shards.\n\n" +
+                                "- High Last Event Time: %s shards.\n\n" +
                                 "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         , ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size()));
 
