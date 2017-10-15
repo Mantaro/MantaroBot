@@ -18,8 +18,6 @@ package net.kodehawa.mantarobot.commands.currency.item;
 
 import lombok.Getter;
 
-import java.util.Random;
-
 public class Item {
     protected final long value;
     private final boolean buyable;
@@ -75,12 +73,6 @@ public class Item {
     @Override
     public String toString() {
         return "**" + name + "** ($" + value + ")";
-    }
-
-    void changePrices(Random r) {
-        if(staticPrice) return;
-        long min = (long) (value * 0.9), max = (long) (value * 1.1), dif = max - min;
-        price = min + r.nextInt((int) dif);
     }
 
     public String getDesc() {

@@ -68,7 +68,6 @@ public class DebugCmds {
                         + "Bot Version: " + MantaroInfo.VERSION + "\n"
                         + "JDA Version: " + JDAInfo.VERSION + "\n"
                         + "Lavaplayer Version: " + PlayerLibrary.VERSION + "\n"
-                        + "Image API Version: " + ImageBoard.VERSION + "\n"
                         + "API Responses: " + MantaroBot.getInstance().getResponseTotal() + "\n"
                         + "CPU Usage: " + String.format("%.2f", getVpsCPUUsage()) + "%" + "\n"
                         + "CPU Cores: " + getAvailableProcessors() + "\n"
@@ -229,14 +228,19 @@ public class DebugCmds {
                             .append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
 
                 stringBuilder.append(String.format(
-                        "- Average Ping: %dms.\n" +
+                        "Bot Version: %s\n" +
+                                "JDA Version: %s\n" +
+                                "Lavaplayer Version: %s\n\n" +
+                                "- Average Ping: %dms.\n" +
                                 "- Ping Breakdown: %s\n" +
                                 "- Dead Shards: %s shards.\n" +
                                 "- Zero Voice Connections: %s shards.\n" +
                                 "- Shards Reconnecting: %s shards.\n" +
                                 "- High Last Event Time: %s shards.\n\n" +
                                 "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
-                        , ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(), bot.getUserCache().size(), bot.getShardList().size()));
+                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
+                            ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(),
+                                bot.getUserCache().size(), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder().
                         append("**Mantaro's Status**")

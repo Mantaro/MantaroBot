@@ -202,7 +202,7 @@ public class CurrencyCmds {
                                         ".\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
                             }
 
-                            player.save();
+                            player.saveAsync();
                             return;
                         } catch(Exception e) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
@@ -235,9 +235,9 @@ public class CurrencyCmds {
 
                             if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
                                 player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
-                                player.save();
-                                event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() +
-                                        " successfully. You now have " + player.getMoney() + " credits.").queue();
+                                player.saveAsync();
+                                event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() + " for " + (itemToBuy.getValue() * itemNumber) +
+                                        " credits successfully. You now have " + player.getMoney() + " credits.").queue();
 
                             } else {
                                 event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.")
@@ -257,10 +257,8 @@ public class CurrencyCmds {
                 AtomicInteger atomicInteger = new AtomicInteger();
                 Stream.of(Items.ALL).forEach(item -> {
                     if(!item.isHidden()) {
-                        String buyValue = item.isBuyable() ? String.format("$%d", (int) Math.floor(item.getValue() *
-                                1.1)) : "N/A";
-                        String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue
-                                () * 0.9)) : "N/A";
+                        String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
+                        String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
                         items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
                         prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");

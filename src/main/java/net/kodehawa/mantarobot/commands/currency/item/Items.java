@@ -16,13 +16,10 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import br.com.brjdevs.java.utils.async.Async;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 public class Items {
@@ -53,7 +50,7 @@ public class Items {
             CC_PENCIL = new Item("\u270f",
                     "Pencil", "We have plenty of those!", 15, false),
             OVERFLOWED_BAG = new Item("\uD83D\uDCB0",
-                    "Moneybag", "What else?.", 80, true),
+                    "Moneybag", "What else?.", 95, true),
             BROM_PICKAXE = new Item("\u26cf",
                     "Brom's Pickaxe", "That guy liked Minecraft way too much.", 75, true),
             POTION_HEALTH = new Item(EmoteReference.POTION1.getUnicode(),
@@ -65,7 +62,7 @@ public class Items {
             RING = new Item(EmoteReference.RING.getUnicode(),
                     "Marriage Ring", "Basically what makes your marriage official", 60, true),
             LOVE_LETTER = new Item(EmoteReference.LOVE_LETTER.getUnicode(),
-                    "Love Letter", "A letter from your beloved one.", 55, false),
+                    "Love Letter", "A letter from your beloved one.", 45, false),
             LOOT_CRATE_KEY = new Item(EmoteReference.KEY.getUnicode(),
                     "Crate Key", "Used to open loot boxes with `~>opencrate`", 58, true),
             CLOTHES = new Item(EmoteReference.CLOTHES.getUnicode(),
@@ -109,11 +106,6 @@ public class Items {
             HOUSE = new Item(EmoteReference.HOUSE.getUnicode(),
                     "House", "Cozy place to live in.", 5000, true, true)
     };
-
-    static {
-        Random r = new Random();
-        Async.task("Market Thread", () -> Stream.of(ALL).forEach(item -> item.changePrices(r)), 30, TimeUnit.MINUTES);
-    }
 
     public static Optional<Item> fromAny(String any) {
         try {

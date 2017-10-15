@@ -85,8 +85,7 @@ public class CustomCmds {
                 runCustom(response, event);
                 CustomCommandStatsManager.log(cmdName);
             } catch (Exception e) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length " +
-                        "(cannot be more than 2000 chars).").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
             }
         }
 
@@ -294,6 +293,7 @@ public class CustomCmds {
                     try {
                         runCustom(content.replace("eval ", ""), event);
                     } catch (Exception e) {
+                        e.printStackTrace();
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong parameters in custom command eval!").queue();
                     }
 
@@ -644,24 +644,37 @@ public class CustomCmds {
                 EmbedJSON embed;
                 try {
                     embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
-                } catch(Exception ignored) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
+                    event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
+                } catch (IllegalArgumentException invalid) {
+                    if(invalid.getMessage().contains("URL must be a valid http or https url")) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
+                    } else {
+                        event.getChannel().sendMessage(EmoteReference.ERROR2 +
+                                "The string ``{" + v + "}`` isn't valid, or the output is longer than 2000 characters.").queue();
+                    }
+
+                    return;
+                } catch(Exception invalid2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
                     return;
                 }
 
-                event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
                 return;
             }
 
             if(m.equals("img") || m.equals("image") || m.equals("imgembed")) {
-                if(!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
-                    return;
+                try {
+                    if(!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
+                        event.getChannel().sendMessage(
+                                EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
+                        return;
+                    }
+                    event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setColor(event.getMember().getColor()).build()).queue();
+
+                } catch (IllegalArgumentException invalid) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
                 }
-                event.getChannel().sendMessage(new EmbedBuilder().setImage(v)
-                        .setColor(event.getMember().getColor()).build()).queue();
+
                 return;
             }
 

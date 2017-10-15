@@ -60,8 +60,8 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 public class MoneyCmds {
 
     private final Random random = new Random();
-    private final int SLOTS_MAX_MONEY = 75_000_000;
-    private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 4;
+    private final int SLOTS_MAX_MONEY = 175_000_000;
+    private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -647,7 +647,7 @@ public class MoneyCmds {
                     return;
                 }
 
-                long money = Math.max(50, r.nextInt(150)); //50 to 150 credits.
+                long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
                 String message = EmoteReference.PICK + "You mined minerals worth $" + money + " credits!";
 
                 if(r.nextInt(400) > 350) {

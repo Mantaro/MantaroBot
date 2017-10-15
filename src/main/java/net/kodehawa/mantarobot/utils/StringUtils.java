@@ -163,7 +163,7 @@ public class StringUtils {
         }
     }
 
-    public static String replaceLast(String text, String regex, String replacement) {
+    private static String replaceLast(String text, String regex, String replacement) {
         return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
     }
 
@@ -182,6 +182,8 @@ public class StringUtils {
 
     //Short for:
     //advancedSplitArgsUnbox
+    //Note to Adrian like 10 months after this was added:
+    //Just call it advancedSplitArgsUnbox for fucks sake.
     private static String advSplArgUnb(String s) {
         return s.replace("\\n", "\n").replace("\\r", "\r").replace("\\t", "\t").replace("\\\"", "\"").replace("\\\\", "\\");
     }

@@ -27,64 +27,54 @@ import java.io.InputStream;
 public enum Badge {
 
     //Self-explanatory.
-    DEVELOPER("Developer", "\uD83D\uDEE0",
-            "Currently a developer of Mantaro.", 91, 92),
+    DEVELOPER("Developer", "\uD83D\uDEE0", "Currently a developer of Mantaro.", 91, 92),
 
     //Contributed in any way to mantaro's development.
-    CONTRIBUTOR("Contributor", "\u2b50",
-            "Contributed to Mantaro's Development.", 92, 91),
+    CONTRIBUTOR("Contributor", "\u2b50", "Contributed to Mantaro's Development.", 92, 91),
 
     //Because lars asked for it.
-    COMMUNITY_ADMIN("Community Admin", "\uD83D\uDEE1",
-            "Helps to maintain the Mantaro Hub community.", 92, 93),
+    COMMUNITY_ADMIN("Community Admin", "\uD83D\uDEE1", "Helps to maintain the Mantaro Hub community.", 92, 93),
 
     //Is a helper, owo.
-    HELPER("Helper", "\uD83D\uDC9A",
-            "Helps to maintain the support influx on Mantaro Hub.", 92, 94),
+    HELPER("Helper", "\uD83D\uDC9A", "Helps to maintain the support influx on Mantaro Hub.", 92, 94),
 
     //Self-explanatory.
-    DONATOR("Donator", "\u2764",
-            "Actively helps on keeping Mantaro alive <3", 92, 94),
+    DONATOR("Donator", "\u2764", "Actively helps on keeping Mantaro alive <3", 92, 94),
 
     //Helps find important bugs.
-    BUG_HUNTER("Bug Hunter", "\uD83D\uDC1B",
-            "Has reported one or more important bugs with details.", 92, 94),
+    BUG_HUNTER("Bug Hunter", "\uD83D\uDC1B", "Has reported one or more important bugs with details.", 92, 94),
 
     //Have more than 8 billion credits.
-    ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E",
-            "Have more than 8 billion credits at any given time.", 92, 92),
+    ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92),
 
     //Get a loot crate.
-    LUCKY("Lucky", "\uD83C\uDF40",
-            "Be lucky enough to loot a loot crate.", 92, 92),
+    LUCKY("Lucky", "\uD83C\uDF40", "Be lucky enough to loot a loot crate.", 92, 92),
 
     //Have more than 5000 items stacked.
-    SHOPPER("Shopper", "\uD83D\uDED2",
-            "Have more than 5000 items of any kind.", 91, 92),
+    SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92),
 
     //Win more than 100 games
-    GAMER("Gamer", "\uD83D\uDD79",
-            "Win 100 games.", 91, 92),
+    GAMER("Gamer", "\uD83D\uDD79", "Win 100 games.", 91, 92),
 
     //Claim daily more than 10 days in a row.
-    CLAIMER("Claimer", "\uD83C\uDF89",
-            "Claim daily more than 10 days in a row.", 91, 92),
+    CLAIMER("Claimer", "\uD83C\uDF89", "Claim daily more than 10 days in a row.", 91, 92),
 
     //Use a mod action with mantaro
-    POWER_USER("Power User", "\uD83D\uDD27",
-            "Do mod stuff with Mantaro.", 91, 92),
+    POWER_USER("Power User", "\uD83D\uDD27", "Do mod stuff with Mantaro.", 91, 92),
 
     //Use opts properly
-    DID_THIS_WORK("Configurator", "\u26cf",
-            "Use any `~>opts` configuration successfully.", 91, 92),
+    DID_THIS_WORK("Configurator", "\u26cf", "Use any `~>opts` configuration successfully.", 91, 92),
 
     //Gamble more than Integer.MAX_VALUE.
-    GAMBLER("Gambler", "\uD83D\uDCB0",
-            "Gambled their life away.", 91, 92),
+    GAMBLER("Gambler", "\uD83D\uDCB0", "Gambled their life away.", 91, 92),
 
-    //Something to do with songs :3.
-    DJ("DJ", "\uD83C\uDFB6",
-            "Too many songs.", 91, 92);
+    //TODO do this
+    //Used one of the many NSFW commands at least once.
+    LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command", 91, 92),
+
+    //TODO do this for once
+    //Queued more than 3000 songs.
+    DJ("DJ", "\uD83C\uDFB6", "Too many songs.", 91, 92);
 
     //What does the fox say?
     @Getter

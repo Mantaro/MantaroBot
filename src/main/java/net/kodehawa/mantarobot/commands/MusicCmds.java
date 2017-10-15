@@ -62,18 +62,10 @@ public class MusicCmds {
         cr.register("forceskip", new SimpleCommand(Category.MUSIC, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!event.getMember().getVoiceState().inVoiceChannel() || !event.getMember().getVoiceState()
-                        .getChannel().equals(event
-                                .getGuild().getAudioManager().getConnectedChannel())) {
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "You aren't connected to the voice channel I'm in!").queue();
-                    return;
-                }
+                if(!isInConditionTo(event)) return;
 
-                TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild())
-                        .getTrackScheduler();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin decided to skip the current song.")
-                        .queue();
+                TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin or bot commander decided to skip the current song.").queue();
                 scheduler.nextTrack(true, true);
             }
 
@@ -106,14 +98,12 @@ public class MusicCmds {
                         VoiceChannel vc = guild.getMember(event.getAuthor()).getVoiceState().getChannel();
 
                         if(vc != guild.getMember(event.getJDA().getSelfUser()).getVoiceState().getChannel()) {
-                            event.getChannel().sendMessage(
-                                    EmoteReference.THINKING + "I will try to move to the channel you're in").queue();
+                            event.getChannel().sendMessage(EmoteReference.THINKING + "I will try to move to the channel you're in").queue();
                             AudioCmdUtils.openAudioConnection(event, am, vc);
                             return;
                         }
 
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Failed to switch voice channels.")
-                                .queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Failed to switch voice channels.").queue();
                         return;
                     } catch(Exception e) {
                         if(e instanceof PermissionException) {
@@ -195,7 +185,6 @@ public class MusicCmds {
                 return baseEmbed(event, "Now Playing (np) Command")
                         .addField("Description", "See what track is playing now.", false).build();
             }
-
         });
     }
 
@@ -214,8 +203,8 @@ public class MusicCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 if(!isInConditionTo(event)) return;
 
-                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(
-                        event.getGuild());
+                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+
                 boolean paused = !musicManager.getTrackScheduler().getAudioPlayer().isPaused();
                 String toSend = EmoteReference.MEGA + (paused ? "Player paused." : "Player unpaused.");
                 musicManager.getTrackScheduler().getAudioPlayer().setPaused(paused);
@@ -385,6 +374,7 @@ public class MusicCmds {
                     onHelp(event);
                     return;
                 }
+
                 GuildMusicManager manager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
                 if(manager.getAudioPlayer().getPlayingTrack() == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I'm not currently playing anything").queue();
@@ -442,23 +432,18 @@ public class MusicCmds {
                     }
 
                     if(isDJ(event.getMember())) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.CORRECT + "The server DJ has decided to clear the queue!").queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "The server DJ has decided to clear the queue!").queue();
                         int TEMP_QUEUE_LENGTH = musicManager.getTrackScheduler().getQueue().size();
-                        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
-                                .getQueue().clear();
-                        event.getChannel().sendMessage(
-                                EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue" +
-                                        ".").queue();
-                        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler()
-                                .stop();
+                        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().getQueue().clear();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed **" + TEMP_QUEUE_LENGTH + " songs** from the queue.").queue();
+                        MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler().stop();
                         return;
                     }
 
-                    event.getChannel().sendMessage(
-                            EmoteReference.ERROR + "Either you're not connected to the VC or you're not the DJ.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Either you're not connected to the VC or you're not the DJ.").queue();
                     return;
                 }
+
                 embedForQueue(page, event, musicManager);
                 TextChannelGround.of(event).dropItemWithChance(0, 10);
             }
@@ -592,19 +577,17 @@ public class MusicCmds {
                     return;
                 }
 
-                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(
-                        event.getGuild());
+                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+
                 try {
                     switch(args[0].toLowerCase()) {
                         case "queue":
                             if(musicManager.getTrackScheduler().getRepeatMode() == TrackScheduler.Repeat.QUEUE) {
                                 musicManager.getTrackScheduler().setRepeatMode(null);
-                                event.getChannel().sendMessage(
-                                        EmoteReference.CORRECT + "Continuing with the current queue.").queue();
+                                event.getChannel().sendMessage(EmoteReference.CORRECT + "Continuing with the current queue.").queue();
                             } else {
                                 musicManager.getTrackScheduler().setRepeatMode(TrackScheduler.Repeat.QUEUE);
-                                event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current queue.")
-                                        .queue();
+                                event.getChannel().sendMessage(EmoteReference.CORRECT + "Repeating the current queue.").queue();
                             }
                             break;
                     }
@@ -735,9 +718,7 @@ public class MusicCmds {
                     } else {
                         stopVotes.add(event.getAuthor().getId());
                         if(stopVotes.size() >= requiredVotes) {
-                            event.getChannel().sendMessage(
-                                    EmoteReference.CORRECT + "Reached the required amount of votes, stopping player...")
-                                    .queue();
+                            event.getChannel().sendMessage(EmoteReference.CORRECT + "Reached the required amount of votes, stopping player...").queue();
                             stop(event);
                             return;
                         }
