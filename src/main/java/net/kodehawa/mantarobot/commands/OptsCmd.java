@@ -74,7 +74,7 @@ public class OptsCmd {
 
                     List<String> m = DiscordUtils.divideString(builder);
                     List<String> messages = new LinkedList<>();
-                    boolean hasReactionPerms = event.getMember().hasPermission(Permission.MESSAGE_ADD_REACTION);
+                    boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
                     for(String s1 : m) {
                         messages.add("**Mantaro's Options List**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
                                 "Use &page >> and &page << to change pages and &cancel to end") +

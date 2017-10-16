@@ -127,7 +127,6 @@ public class Poll extends Lobby {
                         getRunningPolls().remove(getChannel().getId());
                         return Operation.COMPLETED;
                     }
-                    return Operation.RESET_TIMEOUT;
                 }
                 return Operation.IGNORED;
             });

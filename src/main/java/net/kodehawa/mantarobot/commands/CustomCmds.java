@@ -263,7 +263,6 @@ public class CustomCmds {
 
                     CustomCommand command = db().getCustomCommand(event.getGuild(), cmd);
 
-
                     if(command == null) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't a custom command with that name here!").queue();
                         return;
