@@ -188,7 +188,7 @@ public class Utils {
 
             Request toPost = new Request.Builder()
                     .url("https://hastebin.com/documents")
-                    .header("User-Agent", "Mantaro")
+                    .header("User-Agent", MantaroInfo.USER_AGENT)
                     .header("Content-Type", "text/plain")
                     .post(post)
                     .build();

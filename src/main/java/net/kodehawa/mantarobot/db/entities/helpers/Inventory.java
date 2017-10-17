@@ -29,7 +29,6 @@ import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.ser
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
 public class Inventory {
-    //this can be removed if no itemstack errors are showing up
     private static final Logger LOGGER = LoggerFactory.getLogger("Inventory");
     private Map<Integer, Integer> inventory = new HashMap<>();
 
