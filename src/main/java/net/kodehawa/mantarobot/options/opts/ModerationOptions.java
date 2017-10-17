@@ -135,7 +135,7 @@ public class ModerationOptions extends OptionHandler {
 
                     if(args[0].equals("remove")) {
                         if(args.length < 2) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect argument lenght.").queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Incorrect argument length.").queue();
                             return;
                         }
                         String channel = args[1];

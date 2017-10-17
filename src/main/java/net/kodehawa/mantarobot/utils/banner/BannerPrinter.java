@@ -53,7 +53,7 @@ public class BannerPrinter {
             toPrint = builder.toString();
         } catch(Exception e) {
             e.printStackTrace();
-            toPrint = "Exception arised while getting the default banner";
+            toPrint = "Exception arose while getting the default banner";
         }
 
     }
@@ -95,7 +95,7 @@ public class BannerPrinter {
             toPrint = builder.toString();
         } catch(Exception e) {
             e.printStackTrace();
-            toPrint = "Exception arised while getting the default banner";
+            toPrint = "Exception arose while getting the default banner";
         }
     }
 

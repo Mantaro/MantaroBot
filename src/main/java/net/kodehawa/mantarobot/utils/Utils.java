@@ -199,7 +199,7 @@ public class Utils {
             return "https://hastebin.com/" + response.getString("key");
         } catch(Exception e) {
             e.printStackTrace();
-            return "Pastebin is unavaliable right now";
+            return "Pastebin is unavailable right now";
         }
     }
 
