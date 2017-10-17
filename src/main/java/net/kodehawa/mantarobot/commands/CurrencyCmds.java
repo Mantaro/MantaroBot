@@ -337,7 +337,7 @@ public class CurrencyCmds {
                                 }
 
                                 if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() >= 5000) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that").queue();
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This player has the maximum possible amount of this item (5000).").queue();
                                     return;
                                 }
 
@@ -362,8 +362,8 @@ public class CurrencyCmds {
                                     return;
                                 }
 
-                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that").queue();
+                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount >= 5000) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This player has the maximum possible amount of this item (5000).").queue();
                                     return;
                                 }
 
@@ -464,7 +464,7 @@ public class CurrencyCmds {
                 }
 
                 if(toTransfer.getMoney() + toSend < 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't send negative money.").queue();
                     return;
                 }
 
@@ -484,7 +484,7 @@ public class CurrencyCmds {
 
                     rl.process(toTransfer.getUserId());
                 } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow this is negative? Cannot send money to player.").queue();
                 }
             }
 
