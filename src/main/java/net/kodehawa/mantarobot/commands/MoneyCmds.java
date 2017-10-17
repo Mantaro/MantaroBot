@@ -79,47 +79,73 @@ public class MoneyCmds {
                 Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? "That user cannot receive daily credits now." : "You cannot get daily credits now.")).queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + (mentionedUser != null ? "That user cannot receive daily credits now." :
+                            "You cannot get daily credits now.")).queue();
                     return;
                 }
 
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 PlayerData playerData = player.getData();
-
-                //streak start
-                //Always count the one who sends the money as the streak holder
-                Player streakPlayer = MantaroData.db().getPlayer(event.getAuthor());
-                PlayerData streakPlayerData = streakPlayer.getData();
                 String streak;
 
-                if(System.currentTimeMillis() - streakPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
-                    streakPlayerData.setDailyStrike(streakPlayerData.getDailyStrike() + 1);
-                    streak = "Streak up! Current streak: `" + streakPlayerData.getDailyStrike() + "x`";
-                } else {
-                    if(streakPlayerData.getDailyStrike() == 0) {
-                        streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
+                String playerId = player.getUserId();
+                if(playerId.equals(event.getAuthor().getId())) {
+                    if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
+                        playerData.setDailyStrike(playerData.getDailyStrike() + 1);
+                        streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "x`";
                     } else {
-                        streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                "Old streak: `" + streakPlayerData.getDailyStrike() + "x`";
+                        if(playerData.getDailyStrike() == 0) {
+                            streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
+                        } else {
+                            streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
+                                    "Old streak: `" + playerData.getDailyStrike() + "x`";
+                        }
+                        playerData.setDailyStrike(1);
                     }
-                    streakPlayerData.setDailyStrike(1);
+
+                    if(playerData.getDailyStrike() > 5) {
+                        int bonus = 150;
+                        if(playerData.getDailyStrike() > 15) bonus += 150;
+
+                        streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
+                        money += bonus;
+                    }
+
+                    if(playerData.getDailyStrike() > 10) {
+                        playerData.addBadge(Badge.CLAIMER);
+                    }
+                } else {
+                    Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
+                    PlayerData authorPlayerData = authorPlayer.getData();
+                    if(System.currentTimeMillis() - authorPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
+                        authorPlayerData.setDailyStrike(authorPlayerData.getDailyStrike() + 1);
+                        streak = "Streak up! Current streak: `" + authorPlayerData.getDailyStrike() + "x`.\n" +
+                                "*The streak was applied to your profile!*";
+                    } else {
+                        if(authorPlayerData.getDailyStrike() == 0) {
+                            streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
+                        } else {
+                            streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
+                                    "Old streak: `" + authorPlayerData.getDailyStrike() + "x`";
+                        }
+                        authorPlayerData.setDailyStrike(1);
+                    }
+
+                    if(authorPlayerData.getDailyStrike() > 5) {
+                        int bonus = 150;
+                        if(authorPlayerData.getDailyStrike() > 15) bonus += 150;
+
+                        streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
+                        money += bonus;
+                    }
+
+                    if(authorPlayerData.getDailyStrike() > 10) {
+                        authorPlayerData.addBadge(Badge.CLAIMER);
+                    }
+
+                    authorPlayer.save();
                 }
-
-                if(streakPlayerData.getDailyStrike() > 5) {
-                    int bonus = 150;
-                    if(streakPlayerData.getDailyStrike() > 15) bonus += 150;
-
-                    streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more!";
-                    money += bonus;
-                }
-
-                if(streakPlayerData.getDailyStrike() > 10) {
-                    streakPlayerData.addBadge(Badge.CLAIMER);
-                }
-
-                streakPlayer.saveAsync();
-                //streak end
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
                     money = money + r.nextInt(2);
