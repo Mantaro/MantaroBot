@@ -32,11 +32,12 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game<String> {
     private final int maxAttempts = 2;
-    private String expectedAnswer;
+    private List<String> expectedAnswer = new ArrayList<>();
     private boolean hardDiff = false;
     private boolean isBool;
     private String difficulty = null;
@@ -62,11 +63,7 @@ public class Trivia extends Game<String> {
 
             JSONObject question = ob.getJSONArray("results").getJSONObject(0);
 
-            List<Object> incorrectAnswers = question.getJSONArray("incorrect_answers").toList();
-            List<String> l = new ArrayList<>();
-            for(Object o : incorrectAnswers) {
-                l.add("**" + fromB64(String.valueOf(o)) + "**\n");
-            }
+            List<String> answers = question.getJSONArray("incorrect_answers").toList().stream().map(v -> fromB64(String.valueOf(v))).collect(Collectors.toList());
 
             String qu = fromB64(question.getString("question"));
             String category = fromB64(question.getString("category"));
@@ -74,13 +71,22 @@ public class Trivia extends Game<String> {
             if(diff.equalsIgnoreCase("hard")) hardDiff = true;
             if(fromB64(question.getString("type")).equalsIgnoreCase("boolean")) isBool = true;
 
-            //Why was this returning an extra space at the end? otdb pls?
-            expectedAnswer = fromB64(question.getString("correct_answer")).trim();
+            expectedAnswer.add(fromB64(question.getString("correct_answer")).trim());
 
-            l.add("**" + expectedAnswer + "**\n");
-            Collections.shuffle(l);
+            answers.add(expectedAnswer.get(0));
+            Collections.shuffle(answers);
             StringBuilder sb = new StringBuilder();
-            for(String s : l) sb.append(s);
+            int i = 1;
+            for(String s : answers) {
+                System.out.println(s);
+                System.out.println(expectedAnswer.get(0));
+                if(s.equals(expectedAnswer.get(0))) {
+                    expectedAnswer.add(String.valueOf(i));
+                }
+
+                sb.append("*").append(i).append(".-* ").append("**").append(s).append("**\n");
+                i++;
+            }
 
             eb.setAuthor("Trivia Game", null, lobby.getEvent().getAuthor().getAvatarUrl())
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")

@@ -98,12 +98,4 @@ public abstract class Game<T> {
 
         return Operation.IGNORED;
     }
-
-	//ONLY FOR USE WHEN IT'S Game<String>!
-	//Mostly only for trivia tho.
-	@SuppressWarnings("unchecked")
-	protected int callDefault(GuildMessageReceivedEvent e,
-							  GameLobby lobby, List<String> players, String expectedAnswer, int attempts, int maxAttempts, int extra) {
-		return callDefault(e, lobby, players, (List<T>) Collections.singletonList(expectedAnswer), attempts, maxAttempts, extra);
-	}
 }
