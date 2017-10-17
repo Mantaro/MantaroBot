@@ -362,7 +362,7 @@ public class CurrencyCmds {
                                     return;
                                 }
 
-                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount >= 5000) {
+                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Don't do that").queue();
                                     return;
                                 }
