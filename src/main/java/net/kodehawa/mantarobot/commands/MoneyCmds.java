@@ -83,6 +83,11 @@ public class MoneyCmds {
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
                 } catch(IndexOutOfBoundsException ignored) {}
 
+                if(mentionedUser != null && mentionedUser.isBot()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer your daily to a bot!").queue();
+                    return;
+                }
+
                 Player player = mentionedUser != null ? MantaroData.db().getPlayer(event.getGuild().getMember(mentionedUser)) : MantaroData.db().getPlayer(event.getMember());
 
                 if(player.isLocked()) {
@@ -307,7 +312,8 @@ public class MoneyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Gamble command")
                         .setDescription("Gambles your money")
-                        .addField("Usage", "~>gamble <all/half/quarter> or ~>gamble <amount>", false)
+                        .addField("Usage", "~>gamble <all/half/quarter> or ~>gamble <amount>\n" +
+                                "You can also use percentages now, for example `~>gamble 35%`", false)
                         .build();
             }
         });

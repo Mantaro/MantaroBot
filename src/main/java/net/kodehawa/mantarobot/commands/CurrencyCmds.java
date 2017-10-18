@@ -317,7 +317,12 @@ public class CurrencyCmds {
                     User giveTo = mentionedUsers.get(0);
 
                     if(event.getAuthor().getId().equals(giveTo.getId())) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer an item to yourself!").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items to yourself!").queue();
+                        return;
+                    }
+
+                    if(giveTo.isBot()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items to a bot.").queue();
                         return;
                     }
 
@@ -412,8 +417,15 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(event.getMessage().getMentionedUsers().get(0).equals(event.getAuthor())) {
+                User giveTo = event.getMessage().getMentionedUsers().get(0);
+
+                if(giveTo.equals(event.getAuthor())) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "You cannot transfer money to yourself.").queue();
+                    return;
+                }
+
+                if(giveTo.isBot()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money to a bot.").queue();
                     return;
                 }
 
@@ -438,7 +450,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
+                Player transferPlayer = MantaroData.db().getPlayer(giveTo);
 
                 if(transferPlayer.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money now.").queue();
