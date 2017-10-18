@@ -25,13 +25,15 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
-    private final Config c = MantaroData.config().get();
+    private final static Config c = MantaroData.config().get();
 
     public CustomCommand getCustomCommand(String guildId, String name) {
         try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
@@ -180,5 +182,11 @@ public class ManagedDatabase {
 
     public DBUser getUser(Member member) {
         return getUser(member.getUser());
+    }
+
+    public static void openConnection(Consumer<Connection> consumer) {
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            consumer.accept(conn);
+        }
     }
 }
