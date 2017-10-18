@@ -723,9 +723,8 @@ public class MoneyCmds {
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you " +
                         "had!").queue();
             } else {
-                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too " +
-                        "many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you" +
-                        ".").queue();
+                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\n" +
+                        "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
             }
         } else {
             long oldMoney = player.getMoney();
