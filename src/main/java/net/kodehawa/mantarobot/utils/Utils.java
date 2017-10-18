@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.utils;
 
 import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.utils.FinderUtil;
+import com.rethinkdb.net.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
@@ -26,6 +27,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.RateLimiter;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -47,6 +50,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.rethinkdb.RethinkDB.r;
+
 @Slf4j
 public class Utils {
     public static final OkHttpClient httpClient = new OkHttpClient();
@@ -59,6 +64,7 @@ public class Utils {
     };
 
     private static final Random random = new Random();
+    private static final Config c = MantaroData.config().get();
 
     /**
      * Capitalizes the first letter of a string.
@@ -97,6 +103,10 @@ public class Utils {
                 TimeUnit.MILLISECONDS.toSeconds(length) -
                         TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(length))
         );
+    }
+
+    public static com.rethinkdb.net.Connection getNewDbConnection() {
+        return r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
     }
 
     /**

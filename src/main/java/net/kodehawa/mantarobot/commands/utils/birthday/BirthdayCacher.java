@@ -17,9 +17,10 @@
 package net.kodehawa.mantarobot.commands.utils.birthday;
 
 import com.rethinkdb.model.OptArgs;
+import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,11 @@ public class BirthdayCacher {
     public void cache() {
         executorService.submit(() -> {
             try {
-                Cursor<Map> m = r.table("users").run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                Cursor<Map> m;
+                try(Connection conn = Utils.getNewDbConnection()) {
+                    m = r.table("users").run(conn, OptArgs.of("read_mode", "outdated"));
+                }
+
                 cachedBirthdays.clear();
                 List<Map> m1 = m.toList();
 

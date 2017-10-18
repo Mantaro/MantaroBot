@@ -22,21 +22,23 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.*;
+import net.kodehawa.mantarobot.utils.Utils;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static com.rethinkdb.RethinkDB.r;
 
 public class ManagedDatabase {
-    private final Connection conn;
-
-    public ManagedDatabase(Connection conn) {
-        this.conn = conn;
-    }
+    private final static Config c = MantaroData.config().get();
 
     public CustomCommand getCustomCommand(String guildId, String name) {
-        return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
+        }
     }
 
     public CustomCommand getCustomCommand(Guild guild, String name) {
@@ -52,14 +54,22 @@ public class ManagedDatabase {
     }
 
     public List<CustomCommand> getCustomCommands() {
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
-        return c.toList();
+        Cursor<CustomCommand> ccs;
+
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            ccs = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
+        }
+        return ccs.toList();
     }
 
     public List<CustomCommand> getCustomCommands(String guildId) {
         String pattern = '^' + guildId + ':';
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
-        return c.toList();
+        Cursor<CustomCommand> cc;
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            cc = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+        }
+
+        return cc.toList();
     }
 
     public List<CustomCommand> getCustomCommands(Guild guild) {
@@ -72,12 +82,22 @@ public class ManagedDatabase {
 
     public List<CustomCommand> getCustomCommandsByName(String name) {
         String pattern = ':' + name + '$';
-        Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
-        return c.toList();
+        Cursor<CustomCommand> cc;
+
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            cc = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
+        }
+
+        return cc.toList();
     }
 
     public DBGuild getGuild(String guildId) {
-        DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class);
+        DBGuild guild;
+
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class);
+        }
+
         return guild == null ? DBGuild.of(guildId) : guild;
     }
 
@@ -94,13 +114,19 @@ public class ManagedDatabase {
     }
 
     public MantaroObj getMantaroData() {
-        MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
+        MantaroObj obj;
+
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
+        }
+
         return obj == null ? MantaroObj.create() : obj;
     }
 
     public Player getPlayer(String userId) {
-        Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
-        return player == null ? Player.of(userId) : player;
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            return r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
+        }
     }
 
     public Player getPlayer(User user) {
@@ -113,37 +139,40 @@ public class ManagedDatabase {
 
     public List<Player> getPlayers() {
         String pattern = ":g$";
-        Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
-        return c.toList();
+        Cursor<Player> playerCursor;
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            playerCursor = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
+        }
+
+        return playerCursor.toList();
     }
 
     public List<PremiumKey> getPremiumKeys() {
-        Cursor<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
-        return c.toList();
+        Cursor<PremiumKey> keyCursor;
+
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            keyCursor = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
+        }
+
+        return keyCursor.toList();
     }
 
     //Also tests if the key is valid or not!
     public PremiumKey getPremiumKey(String id){
         if(id == null) return null;
-        return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
-    }
 
-    public List<Quote> getQuotes(String guildId) {
-        String pattern = '^' + guildId + ':';
-        Cursor<Quote> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Quote.class);
-        return c.toList();
-    }
-
-    public List<Quote> getQuotes(Guild guild) {
-        return getQuotes(guild.getId());
-    }
-
-    public List<Quote> getQuotes(DBGuild guild) {
-        return getQuotes(guild.getId());
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
+        }
     }
 
     public DBUser getUser(String userId) {
-        DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
+        DBUser user;
+
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
+        }
+
         return user == null ? DBUser.of(userId) : user;
     }
 
@@ -153,5 +182,11 @@ public class ManagedDatabase {
 
     public DBUser getUser(Member member) {
         return getUser(member.getUser());
+    }
+
+    public static void openConnection(Consumer<Connection> consumer) {
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            consumer.accept(conn);
+        }
     }
 }

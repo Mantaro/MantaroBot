@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
+import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -41,13 +42,13 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
@@ -129,6 +130,7 @@ public class MoneyCmds {
                             streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
                                     "Old streak: `" + authorPlayerData.getDailyStrike() + "x`";
                         }
+
                         authorPlayerData.setDailyStrike(1);
                     }
 
@@ -144,7 +146,7 @@ public class MoneyCmds {
                         authorPlayerData.addBadge(Badge.CLAIMER);
                     }
 
-                    authorPlayer.save();
+                    authorPlayer.saveAsync();
                 }
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
@@ -160,7 +162,7 @@ public class MoneyCmds {
 
                     player.addMoney(money);
                     playerData.setLastDailyAt(System.currentTimeMillis());
-                    player.save();
+                    player.saveAsync();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "I gave your **$" + money + "** daily credits to " +
                             mentionedUser.getName() + "\n\n" + streak).queue();
@@ -169,7 +171,7 @@ public class MoneyCmds {
 
                 player.addMoney(money);
                 playerData.setLastDailyAt(System.currentTimeMillis());
-                player.save();
+                player.saveAsync();
 
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.\n\n" + streak).queue();
             }
@@ -446,13 +448,18 @@ public class MoneyCmds {
                                 .optArg("index", r.desc("money"));
 
                 if(args.length > 0 && (args[0].equalsIgnoreCase("lvl") || args[0].equalsIgnoreCase("level"))) {
-                    Cursor<Map> m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("level"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "level"))
-                            .limit(15)
-                            .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                    Cursor<Map> m;
+
+                    try(Connection conn = Utils.getNewDbConnection()) {
+                        m = r.table("players")
+                                .orderBy()
+                                .optArg("index", r.desc("level"))
+                                .filter(player -> player.g("id").match(pattern))
+                                .map(player -> player.pluck("id", "level"))
+                                .limit(15)
+                                .run(conn, OptArgs.of("read_mode", "outdated"));
+                    }
+
                     List<Map> c = m.toList();
                     m.close();
 
@@ -473,13 +480,16 @@ public class MoneyCmds {
 
 
                 if(args.length > 0 && (args[0].equalsIgnoreCase("rep") || args[0].equalsIgnoreCase("reputation"))) {
-                    Cursor<Map> m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("reputation"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "reputation"))
-                            .limit(15)
-                            .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                    Cursor<Map> m;
+                    try(Connection conn = Utils.getNewDbConnection()) {
+                         m = r.table("players")
+                                .orderBy()
+                                .optArg("index", r.desc("reputation"))
+                                .filter(player -> player.g("id").match(pattern))
+                                .map(player -> player.pluck("id", "reputation"))
+                                .limit(15)
+                                .run(conn, OptArgs.of("read_mode", "outdated"));
+                    }
                     List<Map> c = m.toList();
                     m.close();
 
@@ -713,9 +723,8 @@ public class MoneyCmds {
                 event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you " +
                         "had!").queue();
             } else {
-                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too " +
-                        "many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you" +
-                        ".").queue();
+                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\n" +
+                        "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
             }
         } else {
             long oldMoney = player.getMoney();
@@ -730,9 +739,11 @@ public class MoneyCmds {
     }
 
     private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
-        return template.filter(player -> player.g("id").match(pattern))
-                .map(player -> player.pluck("id", "money"))
-                .limit(15)
-                .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+        try(Connection conn = Utils.getNewDbConnection()) {
+            return template.filter(player -> player.g("id").match(pattern))
+                    .map(player -> player.pluck("id", "money"))
+                    .limit(15)
+                    .run(conn, OptArgs.of("read_mode", "outdated"));
+        }
     }
 }

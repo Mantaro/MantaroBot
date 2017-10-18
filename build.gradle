@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_286'
+	compile 'net.dv8tion:JDA:3.3.1_288'
 	compile 'com.sedmelluq:lavaplayer:1.2.44'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 

@@ -16,8 +16,11 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.rethinkdb.net.Connection;
 import lombok.Data;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.ManagedObject;
+import net.kodehawa.mantarobot.utils.Utils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.beans.ConstructorProperties;
@@ -28,7 +31,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Data
 public class MantaroObj implements ManagedObject {
@@ -54,13 +56,13 @@ public class MantaroObj implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        ManagedDatabase.openConnection(conn -> r.table(DB_TABLE).get(getId()).delete().runNoReply(conn));
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
+        ManagedDatabase.openConnection(conn -> r.table(DB_TABLE).insert(this)
                 .optArg("conflict", "replace")
-                .runNoReply(conn());
+                .runNoReply(conn));
     }
 }

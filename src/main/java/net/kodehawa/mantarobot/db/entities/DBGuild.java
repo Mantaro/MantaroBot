@@ -23,6 +23,7 @@ import lombok.ToString;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 
@@ -32,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 @ToString
@@ -59,14 +59,14 @@ public class DBGuild implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        ManagedDatabase.openConnection(conn -> r.table(DB_TABLE).get(getId()).delete().runNoReply(conn));
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
+        ManagedDatabase.openConnection(conn -> r.table(DB_TABLE).insert(this)
                 .optArg("conflict", "replace")
-                .runNoReply(conn());
+                .runNoReply(conn));
     }
 
     public Guild getGuild(JDA jda) {

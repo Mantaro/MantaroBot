@@ -18,12 +18,16 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rethinkdb.net.Connection;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
@@ -33,7 +37,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
@@ -51,6 +54,7 @@ public class Player implements ManagedObject {
     @Getter
     @Setter
     private Long reputation = null;
+
     @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
     public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
         this.id = id;
@@ -75,14 +79,14 @@ public class Player implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        ManagedDatabase.openConnection(conn -> r.table(DB_TABLE).get(getId()).delete().runNoReply(conn));
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
+        ManagedDatabase.openConnection(conn -> r.table(DB_TABLE).insert(this)
                 .optArg("conflict", "replace")
-                .runNoReply(conn());
+                .runNoReply(conn));
     }
 
     /**
