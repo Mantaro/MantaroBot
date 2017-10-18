@@ -60,7 +60,12 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 @Module
 public class MoneyCmds {
 
-    private static final NumberFormat PERCENT_FORMAT = NumberFormat.getPercentInstance();
+    private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
+        final NumberFormat format = NumberFormat.getPercentInstance();
+        format.setMinimumFractionDigits(1); // decimal support
+        return format;
+    });
+
     private final Random random = new Random();
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
@@ -234,7 +239,7 @@ public class MoneyCmds {
                             break;
                         default:
                             i = content.endsWith("%")
-                                    ? Math.round(PERCENT_FORMAT.parse(content).doubleValue() * player.getMoney())
+                                    ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
                                     : Long.parseLong(content);
                             if(i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
                             multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
@@ -743,7 +748,4 @@ public class MoneyCmds {
                 .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
     }
 
-    static {
-        PERCENT_FORMAT.setMinimumFractionDigits(1); // decimal support
-    }
 }
