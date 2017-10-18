@@ -131,6 +131,7 @@ public class MoneyCmds {
                             streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
                                     "Old streak: `" + authorPlayerData.getDailyStrike() + "x`";
                         }
+
                         authorPlayerData.setDailyStrike(1);
                     }
 
@@ -146,7 +147,7 @@ public class MoneyCmds {
                         authorPlayerData.addBadge(Badge.CLAIMER);
                     }
 
-                    authorPlayer.save();
+                    authorPlayer.saveAsync();
                 }
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
@@ -162,7 +163,7 @@ public class MoneyCmds {
 
                     player.addMoney(money);
                     playerData.setLastDailyAt(System.currentTimeMillis());
-                    player.save();
+                    player.saveAsync();
 
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "I gave your **$" + money + "** daily credits to " +
                             mentionedUser.getName() + "\n\n" + streak).queue();
@@ -171,7 +172,7 @@ public class MoneyCmds {
 
                 player.addMoney(money);
                 playerData.setLastDailyAt(System.currentTimeMillis());
-                player.save();
+                player.saveAsync();
 
                 event.getChannel().sendMessage(EmoteReference.CORRECT + "You got **$" + money + "** daily credits.\n\n" + streak).queue();
             }
