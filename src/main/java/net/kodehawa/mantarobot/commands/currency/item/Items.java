@@ -42,7 +42,7 @@ public class Items {
             MY_MATHS = new Item("\uD83D\uDCDD",
                     "My Maths", "\"Oh, I forgot my maths.\"", 11, false),
             PING_RACKET = new Item("\uD83C\uDFD3",
-                    "Ping Racket", "I won the game of ping-pong with Discord by a few miliseconds.", 15, false),
+                    "Ping Racket", "I won the game of ping-pong with Discord by a few milliseconds.", 15, false),
             LOADED_DICE = new Item("\uD83C\uDFB2",
                     "Loaded Die", "Stolen from `~>roll` command", 60, false),
             FORGOTTEN_MUSIC = new Item("\uD83C\uDFB5",

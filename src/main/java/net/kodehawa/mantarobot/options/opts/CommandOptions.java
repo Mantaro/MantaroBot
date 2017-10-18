@@ -107,7 +107,7 @@ public class CommandOptions extends OptionHandler {
                     }
 
                     if(args.length < 2) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disalllow!").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disallow!").queue();
                         return;
                     }
 
@@ -153,7 +153,7 @@ public class CommandOptions extends OptionHandler {
                     }
 
                     if(args.length < 2) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disalllow!").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the channel name and the command to disallow!").queue();
                         return;
                     }
 

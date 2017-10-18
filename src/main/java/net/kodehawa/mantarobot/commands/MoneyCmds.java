@@ -45,9 +45,10 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
@@ -58,6 +59,12 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
  */
 @Module
 public class MoneyCmds {
+
+    private static final ThreadLocal<NumberFormat> PERCENT_FORMAT = ThreadLocal.withInitial(() -> {
+        final NumberFormat format = NumberFormat.getPercentInstance();
+        format.setMinimumFractionDigits(1); // decimal support
+        return format;
+    });
 
     private final Random random = new Random();
     private final int SLOTS_MAX_MONEY = 175_000_000;
@@ -231,7 +238,9 @@ public class MoneyCmds {
                             luck = 25 + (int) (multiplier * 10) + r.nextInt(18);
                             break;
                         default:
-                            i = Long.parseLong(content);
+                            i = content.endsWith("%")
+                                    ? Math.round(PERCENT_FORMAT.get().parse(content).doubleValue() * player.getMoney())
+                                    : Long.parseLong(content);
                             if(i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
                             multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
                             luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
@@ -243,6 +252,9 @@ public class MoneyCmds {
                     return;
                 } catch(UnsupportedOperationException e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a value within your balance.").queue();
+                    return;
+                } catch(ParseException e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid percentage value.").queue();
                     return;
                 }
 
@@ -735,4 +747,5 @@ public class MoneyCmds {
                 .limit(15)
                 .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
     }
+
 }

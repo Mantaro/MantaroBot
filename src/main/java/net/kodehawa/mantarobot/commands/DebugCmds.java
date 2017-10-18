@@ -220,7 +220,7 @@ public class DebugCmds {
 
                 if(reconnecting > 10)
                     stringBuilder.append("WARNING: A large number of shards are reconnecting right now!" +
-                        " Bot might be unavaliable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
+                        " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
                 if(high > 20)
                     stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if(dead > 5)

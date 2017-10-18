@@ -168,7 +168,7 @@ public class StringUtils {
     }
 
     /**
-     * Enchanced {@link String#split(String, int)} with SPLIT_PATTERN as the Pattern used.
+     * Enhanced {@link String#split(String, int)} with SPLIT_PATTERN as the Pattern used.
      *
      * @param args         the {@link String} to be split.
      * @param expectedArgs the size of the returned array of Non-null {@link String}s

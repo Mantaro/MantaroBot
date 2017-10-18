@@ -96,7 +96,7 @@ public class ModerationCmds {
                     //If one of them is in a higher hierarchy than the bot, cannot ban.
                     if(!selfMember.canInteract(member)) {
                         channel.sendMessage(EmoteReference.ERROR2 + "Cannot softban member: " + member.getEffectiveName() + ", they are " +
-                                "higher or the same " + "hierachy than I am!").queue();
+                                "higher or the same " + "hierarchy than I am!").queue();
                         return;
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
@@ -309,7 +309,7 @@ public class ModerationCmds {
                     //If one of them is in a higher hierarchy than the bot, cannot kick.
                     if(!selfMember.canInteract(member)) {
                         channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are " +
-                                "higher or the same " + "hierachy than I am!").queue();
+                                "higher or the same " + "hierarchy than I am!").queue();
                         return;
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
