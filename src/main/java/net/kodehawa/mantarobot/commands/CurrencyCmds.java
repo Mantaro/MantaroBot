@@ -362,8 +362,8 @@ public class CurrencyCmds {
                                     return;
                                 }
 
-                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount >= 5000) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This player has the maximum possible amount of this item (5000).").queue();
+                                if(giveToPlayer.getInventory().asMap().getOrDefault(item, new ItemStack(item, 0)).getAmount() + amount > 5000) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This player would exceed the maximum possible amount of this item (5000).").queue();
                                     return;
                                 }
 
