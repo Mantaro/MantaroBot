@@ -18,7 +18,10 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rethinkdb.net.Connection;
 import lombok.Getter;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
@@ -27,7 +30,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 public class CustomCommand implements ManagedObject {
@@ -46,14 +48,20 @@ public class CustomCommand implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        Config c = MantaroData.config().get();
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            r.table(DB_TABLE).get(getId()).delete().runNoReply(conn);
+        }
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        Config c = MantaroData.config().get();
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            r.table(DB_TABLE).insert(this)
+                    .optArg("conflict", "replace")
+                    .runNoReply(conn);
+        }
     }
 
     @JsonProperty("values")

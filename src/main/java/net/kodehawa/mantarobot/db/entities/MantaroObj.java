@@ -16,7 +16,10 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.rethinkdb.net.Connection;
 import lombok.Data;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -28,7 +31,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Data
 public class MantaroObj implements ManagedObject {
@@ -54,13 +56,19 @@ public class MantaroObj implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        Config c = MantaroData.config().get();
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            r.table(DB_TABLE).get(getId()).delete().runNoReply(conn);
+        }
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        Config c = MantaroData.config().get();
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            r.table(DB_TABLE).insert(this)
+                    .optArg("conflict", "replace")
+                    .runNoReply(conn);
+        }
     }
 }

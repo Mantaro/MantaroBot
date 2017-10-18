@@ -17,7 +17,10 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rethinkdb.net.Connection;
 import lombok.Getter;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
@@ -26,7 +29,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 public class PremiumKey implements ManagedObject {
@@ -57,14 +59,20 @@ public class PremiumKey implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(id).delete().runNoReply(conn());
+        Config c = MantaroData.config().get();
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            r.table(DB_TABLE).get(id).delete().runNoReply(conn);
+        }
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        Config c = MantaroData.config().get();
+        try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
+            r.table(DB_TABLE).insert(this)
+                    .optArg("conflict", "replace")
+                    .runNoReply(conn);
+        }
     }
 
     @JsonIgnore
