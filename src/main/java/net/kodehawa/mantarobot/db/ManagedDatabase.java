@@ -34,14 +34,9 @@ public class ManagedDatabase {
     private final Config c = MantaroData.config().get();
 
     public CustomCommand getCustomCommand(String guildId, String name) {
-
-        CustomCommand custom;
-
         try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
-            custom = r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
+            return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
         }
-
-        return custom;
     }
 
     public CustomCommand getCustomCommand(Guild guild, String name) {
@@ -127,13 +122,9 @@ public class ManagedDatabase {
     }
 
     public Player getPlayer(String userId) {
-        Player player;
-
         try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
-            player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
+            return r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
         }
-
-        return player == null ? Player.of(userId) : player;
     }
 
     public Player getPlayer(User user) {
@@ -168,13 +159,9 @@ public class ManagedDatabase {
     public PremiumKey getPremiumKey(String id){
         if(id == null) return null;
 
-        PremiumKey key;
-
         try(Connection conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect()) {
-            key = r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
+            return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
         }
-
-        return key;
     }
 
     public DBUser getUser(String userId) {
