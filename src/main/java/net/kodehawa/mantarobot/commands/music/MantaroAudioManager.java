@@ -52,21 +52,20 @@ public class MantaroAudioManager {
         playerManager.registerSourceManager(new VimeoAudioSourceManager());
         playerManager.registerSourceManager(new TwitchStreamAudioSourceManager());
         playerManager.registerSourceManager(new BeamAudioSourceManager());
-
     }
 
-    public synchronized GuildMusicManager getMusicManager(Guild guild) {
+    public GuildMusicManager getMusicManager(Guild guild) {
         GuildMusicManager musicManager = musicManagers.computeIfAbsent(guild.getId(), id -> new GuildMusicManager(playerManager, guild.getId()));
         if(guild.getAudioManager().getSendingHandler() == null)
             guild.getAudioManager().setSendingHandler(musicManager.getAudioPlayerSendHandler());
         return musicManager;
     }
 
-    public synchronized long getTotalQueueSize() {
+    public long getTotalQueueSize() {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
-    public synchronized void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
+    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
         if(!AudioCmdUtils.connectToVoiceChannel(event)) return;
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
         musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
