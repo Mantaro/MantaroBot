@@ -78,8 +78,6 @@ public class Trivia extends Game<String> {
             StringBuilder sb = new StringBuilder();
             int i = 1;
             for(String s : answers) {
-                System.out.println(s);
-                System.out.println(expectedAnswer.get(0));
                 if(s.equals(expectedAnswer.get(0))) {
                     expectedAnswer.add(String.valueOf(i));
                 }
