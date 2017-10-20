@@ -450,7 +450,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                Player transferPlayer = MantaroData.db().getPlayer(giveTo);
+                Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
 
                 if(transferPlayer.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money now.").queue();
