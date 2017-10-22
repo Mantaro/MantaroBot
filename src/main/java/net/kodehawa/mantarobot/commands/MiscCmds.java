@@ -324,10 +324,10 @@ public class MiscCmds {
                 return helpEmbed(event, "Poll Command")
                         .setDescription("**Creates a poll**")
                         .addField("Usage", "`~>poll [-options <options>] [-time <time>] [-name <name>]`", false)
-                        .addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9.\n" +
+                        .addField("Parameters", "`-options` The options to add. Minimum is 2 and maximum is 9. For instance: `Pizza,Spaghetti,Pasta`.\n" +
                                 "`-time` The time the operation is gonna take. The format is as follows `1ms29s` for 1 minute and 21 seconds. Maximum poll runtime is 45 minutes.\n" +
                                 "`-name` The name of the poll for reference.", false)
-                        .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started it can cancel it.", false)
+                        .addField("Considerations", "To cancel the running poll type &cancelpoll. Only the person who started or an Admin can it can cancel it.", false)
                         .build();
             }
         });
