@@ -75,7 +75,7 @@ public class TrackScheduler extends AudioEventAdapter {
         } else {
             currentTrack = track;
         }
-    }This implementation employs an efficient "wait-free" algorithm based on one described in Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms by Maged M. Michael and Michael L. Scott.
+    }
 
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
@@ -85,7 +85,6 @@ public class TrackScheduler extends AudioEventAdapter {
             if(currentTrack != null) previousTrack = currentTrack;
             currentTrack = queue.poll();
             audioPlayer.startTrack(currentTrack, !force);
-
             if(skip) onTrackStart();
             if(repeatMode == Repeat.QUEUE) queue(previousTrack.makeClone());
         }
