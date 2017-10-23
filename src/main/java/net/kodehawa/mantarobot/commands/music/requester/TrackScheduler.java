@@ -89,6 +89,7 @@ public class TrackScheduler extends AudioEventAdapter {
                 currentTrack = queue.poll();
                 audioPlayer.startTrack(currentTrack, !force);
             } else {
+                currentTrack = null;
                 onTrackStart();
                 return;
             }
