@@ -28,6 +28,7 @@ import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.music.requester.AudioLoader;
+import net.kodehawa.mantarobot.commands.music.requester.TrackScheduler;
 import net.kodehawa.mantarobot.commands.music.utils.AudioCmdUtils;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
@@ -68,8 +69,14 @@ public class MantaroAudioManager {
     public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
         if(!AudioCmdUtils.connectToVoiceChannel(event)) return;
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
-        musicManager.getTrackScheduler().getAudioPlayer().setPaused(false);
-        if(musicManager.getTrackScheduler().getQueue().isEmpty()) musicManager.getTrackScheduler().setRepeatMode(null);
+        TrackScheduler scheduler = musicManager.getTrackScheduler();
+
+        if(scheduler.getAudioPlayer().isPaused())
+            scheduler.getAudioPlayer().setPaused(false);
+
+        if(scheduler.getQueue().isEmpty())
+            scheduler.setRepeatMode(null);
+
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, trackUrl, skipSelection));
     }
 }

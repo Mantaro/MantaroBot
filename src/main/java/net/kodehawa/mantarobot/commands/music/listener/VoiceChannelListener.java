@@ -123,7 +123,10 @@ public class VoiceChannelListener implements EventListener {
 
                 gmm.cancelLeave();
                 gmm.setAwaitingDeath(false);
-                gmm.getAudioPlayer().setPaused(false);
+
+                if(gmm.getAudioPlayer().isPaused()) {
+                    gmm.getAudioPlayer().setPaused(false);
+                }
             }
         }
     }
@@ -142,7 +145,10 @@ public class VoiceChannelListener implements EventListener {
 
                 gmm.setAwaitingDeath(true);
                 gmm.scheduleLeave();
-                gmm.getAudioPlayer().setPaused(true);
+
+                if(!gmm.getAudioPlayer().isPaused()) {
+                    gmm.getAudioPlayer().setPaused(true);
+                }
             }
         }
     }
