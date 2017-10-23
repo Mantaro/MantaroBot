@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.music.listener;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import net.dv8tion.jda.core.entities.GuildVoiceState;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.Event;
@@ -29,7 +30,21 @@ import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
 public class VoiceChannelListener implements EventListener {
+
+    private final ExecutorService executor;
+
+    public VoiceChannelListener() {
+        ThreadFactory normalTPNamedFactory =
+                new ThreadFactoryBuilder()
+                        .setNameFormat("Mantaro-VoiceExecutor Thread-%d")
+                        .build();
+        executor = Executors.newCachedThreadPool(normalTPNamedFactory);
+    }
 
     private static boolean validate(GuildVoiceState state) {
         return state == null || !state.inVoiceChannel();
@@ -45,34 +60,34 @@ public class VoiceChannelListener implements EventListener {
         if(!MantaroCore.hasLoadedCompletely()) return;
 
         if(event instanceof GuildVoiceMoveEvent) {
-            onGuildVoiceMove((GuildVoiceMoveEvent) event);
+            executor.execute(() -> onGuildVoiceMove((GuildVoiceMoveEvent) event));
         } else if(event instanceof GuildVoiceJoinEvent) {
-            onGuildVoiceJoin((GuildVoiceJoinEvent) event);
+            executor.execute(() -> onGuildVoiceJoin((GuildVoiceJoinEvent) event));
         } else if(event instanceof GuildVoiceLeaveEvent) {
-            onGuildVoiceLeave((GuildVoiceLeaveEvent) event);
+            executor.execute(() -> onGuildVoiceLeave((GuildVoiceLeaveEvent) event));
         } else if(event instanceof GuildVoiceMuteEvent) {
-            onGuildVoiceMute((GuildVoiceMuteEvent) event);
+            executor.execute(() -> onGuildVoiceMute((GuildVoiceMuteEvent) event));
         }
     }
 
-    public void onGuildVoiceMove(GuildVoiceMoveEvent event) {
+    private void onGuildVoiceMove(GuildVoiceMoveEvent event) {
         if(event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember()))
             onJoin(event.getChannelJoined());
         if(event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember()))
             onLeave(event.getChannelLeft());
     }
 
-    public void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
+    private void onGuildVoiceJoin(GuildVoiceJoinEvent event) {
         if(event.getChannelJoined().getMembers().contains(event.getGuild().getSelfMember()))
             onJoin(event.getChannelJoined());
     }
 
-    public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
+    private void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
         if(event.getChannelLeft().getMembers().contains(event.getGuild().getSelfMember()))
             onLeave(event.getChannelLeft());
     }
 
-    public void onGuildVoiceMute(GuildVoiceMuteEvent event) {
+    private void onGuildVoiceMute(GuildVoiceMuteEvent event) {
         if(event.getMember().getUser().getIdLong() != event.getJDA().getSelfUser().getIdLong()) return;
         GuildVoiceState vs = event.getVoiceState();
         if(validate(vs)) return;
@@ -105,9 +120,10 @@ public class VoiceChannelListener implements EventListener {
                                 "Resuming playback because someone joined!").queue();
                     }
                 }
-                gmm.getAudioPlayer().setPaused(false);
+
                 gmm.cancelLeave();
                 gmm.setAwaitingDeath(false);
+                gmm.getAudioPlayer().setPaused(false);
             }
         }
     }
@@ -123,9 +139,10 @@ public class VoiceChannelListener implements EventListener {
                             "in 2 minutes because I was left all " +
                             "alone :<").queue();
                 }
-                gmm.getAudioPlayer().setPaused(true);
+
                 gmm.setAwaitingDeath(true);
                 gmm.scheduleLeave();
+                gmm.getAudioPlayer().setPaused(true);
             }
         }
     }

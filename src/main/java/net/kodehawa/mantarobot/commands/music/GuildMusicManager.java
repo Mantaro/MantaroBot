@@ -45,7 +45,7 @@ public class GuildMusicManager {
         audioPlayer.addListener(trackScheduler);
     }
 
-    public synchronized void leave() {
+    public void leave() {
         Guild guild = trackScheduler.getGuild();
 
         if(guild == null) return;
@@ -59,12 +59,12 @@ public class GuildMusicManager {
         trackScheduler.nextTrack(true, true);
     }
 
-    public synchronized void scheduleLeave() {
+    public void scheduleLeave() {
         if(leaveTask != null) return;
         leaveTask = MantaroBot.getInstance().getExecutorService().schedule(this::leave, 2, TimeUnit.MINUTES);
     }
 
-    public synchronized void cancelLeave() {
+    public void cancelLeave() {
         if(leaveTask == null) return;
         leaveTask.cancel(true);
         leaveTask = null;
