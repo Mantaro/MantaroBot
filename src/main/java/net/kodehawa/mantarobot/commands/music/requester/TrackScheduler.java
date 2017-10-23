@@ -39,8 +39,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -49,7 +48,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer audioPlayer;
     private final String guildId;
     @Getter
-    private final BlockingQueue<AudioTrack> queue;
+    private final ConcurrentLinkedQueue<AudioTrack> queue;
     @Getter
     private final List<String> voteSkips;
     @Getter
@@ -64,7 +63,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public TrackScheduler(AudioPlayer player, String guildId) {
         this.audioPlayer = player;
-        this.queue = new LinkedBlockingQueue<>();
+        this.queue = new ConcurrentLinkedQueue<>();
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
@@ -76,7 +75,7 @@ public class TrackScheduler extends AudioEventAdapter {
         } else {
             currentTrack = track;
         }
-    }
+    }This implementation employs an efficient "wait-free" algorithm based on one described in Simple, Fast, and Practical Non-Blocking and Blocking Concurrent Queue Algorithms by Maged M. Michael and Michael L. Scott.
 
     public void nextTrack(boolean force, boolean skip) {
         getVoteSkips().clear();
@@ -84,15 +83,8 @@ public class TrackScheduler extends AudioEventAdapter {
             queue(currentTrack.makeClone());
         } else {
             if(currentTrack != null) previousTrack = currentTrack;
-
-            if(!queue.isEmpty()) {
-                currentTrack = queue.poll();
-                audioPlayer.startTrack(currentTrack, !force);
-            } else {
-                currentTrack = null;
-                onTrackStart();
-                return;
-            }
+            currentTrack = queue.poll();
+            audioPlayer.startTrack(currentTrack, !force);
 
             if(skip) onTrackStart();
             if(repeatMode == Repeat.QUEUE) queue(previousTrack.makeClone());
