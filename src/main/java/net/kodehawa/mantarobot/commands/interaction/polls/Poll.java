@@ -114,7 +114,7 @@ public class Poll extends Lobby {
                     .addField("Options", "```md\n" + toShow + "```", false)
                     .setColor(event.getMember().getColor())
                     .setThumbnail("https://cdn.pixabay.com/photo/2012/04/14/16/26/question-34499_960_720.png")
-                    .setFooter("You have " + Utils.getDurationMinutes(timeout) + " minutes to vote.", event.getAuthor().getAvatarUrl());
+                    .setFooter("You have " + Utils.getHumanizedTime(timeout) + " to vote.", event.getAuthor().getAvatarUrl());
 
 
             getChannel().sendMessage(builder.build()).queue(this::createPoll);
