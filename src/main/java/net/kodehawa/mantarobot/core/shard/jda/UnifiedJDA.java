@@ -24,6 +24,7 @@ import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.managers.Presence;
 import net.dv8tion.jda.core.requests.RestAction;
+import net.dv8tion.jda.core.requests.restaction.GuildAction;
 
 import java.util.Comparator;
 import java.util.List;
@@ -109,6 +110,11 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
 
     @Override
     default void setRequestTimeoutRetry(boolean retry) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default GuildAction createGuild(String name) {
         throw new UnsupportedOperationException();
     }
 

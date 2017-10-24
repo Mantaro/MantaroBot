@@ -13,6 +13,8 @@ plugins {
 	//Checks for RestActions
 	//aka did you queue but harsh
 	id 'com.sedmelluq.jdaction' version '1.0.1'
+	//Tell me when smth is outdated
+	id 'com.github.ben-manes.versions' version '0.16.0'
 }
 
 //Define the Main Class
