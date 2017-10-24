@@ -43,16 +43,14 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class AudioLoader implements AudioLoadResultHandler {
-    public static final int MAX_QUEUE_LENGTH = 350;
-    public static final long MAX_SONG_LENGTH = 1800000; //30 minutes
+    private static final int MAX_QUEUE_LENGTH = 350;
+    private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
     private final GuildMessageReceivedEvent event;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
-    private final String trackUrl;
 
-    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
+    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection) {
         this.musicManager = musicManager;
-        this.trackUrl = trackUrl;
         this.event = event;
         this.skipSelection = skipSelection;
     }
@@ -98,10 +96,7 @@ public class AudioLoader implements AudioLoadResultHandler {
 
             event.getChannel().sendMessage(String.format(
                     "%sAdded **%d songs** to queue on playlist: **%s** *(%s)*",
-                    EmoteReference.CORRECT,
-                    i,
-                    playlist.getName(),
-                    Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
+                    EmoteReference.CORRECT, i, playlist.getName(), Utils.getDurationMinutes(playlist.getTracks().stream().mapToLong(temp -> temp.getInfo().length).sum())
             )).queue();
         } catch(Exception e) {
             SentryHelper.captureExceptionContext(
@@ -123,11 +118,8 @@ public class AudioLoader implements AudioLoadResultHandler {
             event.getChannel().sendMessage("\u274C Error while fetching music: " + exception.getMessage()).queue();
         } else {
             log.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
+            MantaroBot.getInstance().getStatsClient().increment("tracks_hard_failed");
         }
-    }
-
-    public GuildMusicManager getMusicManager() {
-        return musicManager;
     }
 
     private void loadSingle(AudioTrack audioTrack, boolean silent) {
@@ -144,7 +136,7 @@ public class AudioLoader implements AudioLoadResultHandler {
                 dbGuild.getData().getMusicQueueSizeLimit();
         int fqSize = guildData.getMaxFairQueue();
 
-        if(getMusicManager().getTrackScheduler().getQueue().size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
+        if(musicManager.getTrackScheduler().getQueue().size() > queueLimit && !dbUser.isPremium() && !dbGuild.isPremium()) {
             if(!silent)
                 event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Surpassed queue song limit!", title)).queue(
                         message -> message.delete().queueAfter(30, TimeUnit.SECONDS)
@@ -153,7 +145,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         }
 
         if(audioTrack.getInfo().length > MAX_SONG_LENGTH && !dbUser.isPremium() && !dbGuild.isPremium()) {
-            event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 30 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
+            event.getChannel().sendMessage(String.format(":warning: Could not queue %s: Track is longer than 32 minutes! (%s)", title, AudioUtils.getLength(length))).queue();
             return;
         }
 

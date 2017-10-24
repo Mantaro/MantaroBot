@@ -47,9 +47,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class CommandListener implements EventListener {
     private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
-    //Message cache of 30000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 30000
+    //Message cache of 35000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 35000
     @Getter
-    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(30000).build();
+    private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
     //Commands ran this session.
     private static int commandTotal = 0;
     private final ICommandProcessor commandProcessor;
@@ -81,9 +81,11 @@ public class CommandListener implements EventListener {
         if(!MantaroCore.hasLoadedCompletely()) return;
 
         if(event instanceof ShardMonitorEvent) {
-            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000)
-                return;
+            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000) return;
+
+            //Hey, this listener is alive! (This won't pass if somehow this is blocked)
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
+
             return;
         }
 

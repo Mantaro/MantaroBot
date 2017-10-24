@@ -45,7 +45,7 @@ public class GuildMusicManager {
         audioPlayer.addListener(trackScheduler);
     }
 
-    public void leave() {
+    private void leave() {
         Guild guild = trackScheduler.getGuild();
 
         if(guild == null) return;

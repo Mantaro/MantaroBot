@@ -123,8 +123,6 @@ public class Poll extends Lobby {
                 if(e.getAuthor().getId().equals(event.getAuthor().getId())) {
                     if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")) {
                         runningPoll.cancel(true);
-                        getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
-                        getRunningPolls().remove(getChannel().getId());
                         return Operation.COMPLETED;
                     }
                 }
@@ -142,8 +140,8 @@ public class Poll extends Lobby {
     }
 
     private String[] reactions(int options) {
-        if(options < 2) throw new IllegalArgumentException("How?");
-        if(options > 9) throw new IllegalArgumentException("How?? ^ 2");
+        if(options < 2) throw new IllegalArgumentException("You need to add a minimum of 2 options.");
+        if(options > 9) throw new IllegalArgumentException("The maximum amount of options is 9.");
         String[] r = new String[options];
         for(int i = 0; i < options; i++) {
             r[i] = (char) ('\u0031' + i) + "\u20e3";
@@ -175,14 +173,16 @@ public class Poll extends Lobby {
                         .collect(Collectors.joining("\n"));
 
                 embedBuilder.addField("Results", "```diff\n" + votes + "```", false);
-                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                getChannel().sendMessage(embedBuilder.build()).queue();
                 getRunningPolls().remove(getChannel().getId());
             }
 
             @Override
             public void onCancel() {
-                getRunningPolls().remove(getChannel().getId());
+                getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled poll").queue();
+                onExpire();
             }
+
         }, reactions(options.length));
 
         return runningPoll;

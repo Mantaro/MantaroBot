@@ -23,13 +23,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO refactor, this is way too old and the code to check it it's ugh.
 public class TempBanManager {
     private final Map<String, Long> UNBANS;
     private boolean unbansUpdated = false;
-
-    public TempBanManager() {
-        this(new HashMap<>());
-    }
 
     public TempBanManager(Map<String, Long> unbans) {
         UNBANS = Collections.synchronizedMap(unbans);

@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.currency;
+package net.kodehawa.mantarobot.utils.commands;
 
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Member;
@@ -83,17 +83,20 @@ public class RateLimiter {
     public boolean process(String key) {
         boolean isPremium = isPremiumAware && MantaroData.db().getUser(key) != null && MantaroData.db().getUser(key).isPremium();
         Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
+
+        //Put the user on the RL map if they aren't here already, but we already let him pass.
         if(p == null) {
             usersRateLimited.put(key, p = new Pair<>());
             p.first = new AtomicInteger();
         }
-        AtomicInteger a = p.first;
 
+        AtomicInteger a = p.first;
         long i = a.get();
         if(i >= max) return false;
 
         a.incrementAndGet();
         long now = System.currentTimeMillis();
+
         Long tryAgain = p.second;
         if(tryAgain == null || tryAgain < now) {
             p.second = now + (isPremium ? (long) (timeout * 0.75) : timeout);

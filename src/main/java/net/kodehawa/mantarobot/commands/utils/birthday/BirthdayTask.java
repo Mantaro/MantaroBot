@@ -50,7 +50,7 @@ public class BirthdayTask {
 
             JDA jda = MantaroBot.getInstance().getShard(shardId);
 
-            log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo());
+            log.info("Checking birthdays in shard {} to assign roles...", jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId());
             long start = System.currentTimeMillis();
             Calendar cal = Calendar.getInstance();
             String now = dateFormat.format(cal.getTime()).substring(0, 5);
@@ -93,7 +93,7 @@ public class BirthdayTask {
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         i++;
                                         //Something went boom, ignore and continue
-                                    } catch (Exception ignored) {
+                                    } catch (Exception e) {
                                         log.debug("Something went boom while assigning a birthday role?...");
                                     }
                                 }
@@ -105,7 +105,7 @@ public class BirthdayTask {
                                         guild.getController().removeRolesFromMember(member, birthdayRole).queue();
                                         r++;
                                         //Something went boom, ignore and continue
-                                    } catch (Exception ignored) {
+                                    } catch (Exception e) {
                                         log.debug("Something went boom while removing a birthday role?...");
                                     }
                                 }
@@ -118,7 +118,7 @@ public class BirthdayTask {
             long end = System.currentTimeMillis();
 
             String toSend = String.format("Finished checking birthdays for shard %s, people assigned: %d, people divested: %d, took %dms",
-                    jda.getShardInfo() == null ? 1 : jda.getShardInfo().getShardId(), i, r, (end - start));
+                    jda.getShardInfo() == null ? 0 : jda.getShardInfo().getShardId(), i, r, (end - start));
 
             log.info(toSend);
         } catch(Exception e) {
