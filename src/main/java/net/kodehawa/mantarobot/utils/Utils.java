@@ -70,12 +70,6 @@ public class Utils {
         return s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
     }
 
-    public static String getShortReadableTime(long millis) {
-        return String.format("%02d:%02d",
-                TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
-                TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
-    }
-
     public static String getReadableTime(long millis) {
         return String.format("%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(millis),

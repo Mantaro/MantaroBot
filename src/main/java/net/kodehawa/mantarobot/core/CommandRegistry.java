@@ -90,7 +90,7 @@ public class CommandRegistry {
             return false;
         }
 
-        if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().map(ISnowflake::getId).anyMatch(s -> data.getDisabledRoles().contains(s))) {
+        if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId()))) {
             return false;
         }
 

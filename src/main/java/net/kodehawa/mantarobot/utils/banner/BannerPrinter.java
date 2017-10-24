@@ -55,7 +55,6 @@ public class BannerPrinter {
             e.printStackTrace();
             toPrint = "Exception arose while getting the default banner";
         }
-
     }
 
     public BannerPrinter(int spaces, DataManager<List<String>> dm) {
