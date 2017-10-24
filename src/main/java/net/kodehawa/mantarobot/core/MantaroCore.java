@@ -172,7 +172,7 @@ public class MantaroCore {
     }
 
     private Future<Set<Class<?>>> lookForAnnotatedOn(String packageName, Class<? extends Annotation> annotation) {
-        return Async.future("Annotation Lookup (" + annotation + ")", () ->
+        return Async.future("Annotation Lookup (" + annotation.getSimpleName() + ")", () ->
                 new Reflections(packageName, new MethodAnnotationsScanner(), new TypeAnnotationsScanner(), new SubTypesScanner()).getTypesAnnotatedWith(annotation)
         );
     }
