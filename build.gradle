@@ -11,6 +11,7 @@ plugins {
 	//Creates FatJars
 	id 'com.github.johnrengelman.shadow' version '1.2.4'
 	//Checks for RestActions
+	//aka did you queue but harsh
 	id 'com.sedmelluq.jdaction' version '1.0.1'
 }
 
@@ -18,7 +19,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 7, revision: 2)
+def ver = new Version(major: 4, minor: 7, revision: 3)
 version ver.toString()
 
 //We are going to use Java 8
@@ -34,7 +35,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_286'
+	compile 'net.dv8tion:JDA:3.3.1_295'
 	compile 'com.sedmelluq:lavaplayer:1.2.44'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 
@@ -70,7 +71,7 @@ dependencies {
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
 
 	//Basically for FinderUtil
-	compile 'com.jagrosh:JDA-Utilities:1.7'
+	compile 'com.jagrosh:JDA-Utilities:1.8'
 }
 
 task wrapper(type: Wrapper) {

@@ -19,8 +19,10 @@ package net.kodehawa.mantarobot.core.shard.jda;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
+import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
+import net.dv8tion.jda.core.utils.cache.CacheView;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -307,7 +309,12 @@ public abstract class ShardedJDA implements UnifiedJDA {
     }
 
     @Override
-    public SnowflakeCacheView<Emote> getEmoteCache(){
+    public SnowflakeCacheView<Emote> getEmoteCache() {
         return SnowflakeCacheView.all(() -> stream().map(JDA::getEmoteCache));
+    }
+
+    @Override
+    public CacheView<AudioManager> getAudioManagerCache() {
+        return CacheView.all(() -> stream().map(JDA::getAudioManagerCache));
     }
 }

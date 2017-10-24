@@ -75,6 +75,7 @@ public class InfoCmds {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
                         SnowflakeCacheView<Guild> guilds = MantaroBot.getInstance().getGuildCache();
+                        SnowflakeCacheView<User> users = MantaroBot.getInstance().getUserCache();
                         SnowflakeCacheView<TextChannel> textChannels = MantaroBot.getInstance().getTextChannelCache();
                         SnowflakeCacheView<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannelCache();
 
@@ -89,16 +90,16 @@ public class InfoCmds {
                                         "\u2713 **First quality music**, check out `~>help play` for example!.\n" +
                                         "\u2713 **[Support server](https://discordapp.com/invite/cMTmuPa)! |" +
                                         " [Support Mantaro development!](https://www.patreon.com/mantaro)**\n\n" +
-                                        EmoteReference.POPPER + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ? "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
+                                        EmoteReference.POPPER + "Check ~>about credits!" + (MantaroData.config().get().isPremiumBot() ?
+                                        "\nRunning a Patreon Bot instance, thanks you for your support! \u2764" : "")
                                 )
                                 .addField("MantaroBot Version", MantaroInfo.VERSION, false)
                                 .addField("Uptime", Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), false)
                                 .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField("Threads", String.valueOf(Thread.activeCount()), true)
                                 .addField("Servers", String.valueOf(guilds.size()), true)
-                                .addField("Users (Online/Unique)", guilds.stream().flatMap
-                                        (g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" +
-                                        guilds.stream().flatMap(guild -> guild.getMembers().stream()).map(user -> user.getUser().getId()).distinct().count(), true)
+                                .addField("Users (Online/Total)", guilds.stream().flatMap
+                                        (g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" + users.stream().distinct().count(), true)
                                 .addField("Text Channels", String.valueOf(textChannels.size()), true)
                                 .addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
                                 .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -130,7 +131,7 @@ public class InfoCmds {
                         .setDescription(donators)
                         .setColor(Color.PINK)
                         .addField("Special Mentions",
-                                "**MrLar#8117** $80 pledge. <3 + $1075 donation. <3\n" +
+                                "**MrLar#8117** $30 pledge. <3 + $1075 donation. <3\n" +
                                         "**Hazerki#7707#** $100 pledge <3", false)
                         .setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
                 event.getChannel().sendMessage(builder.build()).queue();

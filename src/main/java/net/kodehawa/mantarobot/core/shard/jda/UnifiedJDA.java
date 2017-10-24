@@ -107,6 +107,11 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    default void setRequestTimeoutRetry(boolean retry) {
+        throw new UnsupportedOperationException();
+    }
+
     default Stream<JDA> stream() {
         return StreamSupport.stream(spliterator(), false).sorted(Comparator.comparingInt(jda -> jda.getShardInfo().getShardId()));
     }

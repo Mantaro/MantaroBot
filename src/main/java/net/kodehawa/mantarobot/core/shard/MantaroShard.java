@@ -191,7 +191,7 @@ public class MantaroShard implements JDA {
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
                 Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
-                    users.addAndGet((int) jda.getGuildCache().size());
+                    users.addAndGet((int) jda.getUserCache().size());
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
@@ -233,6 +233,6 @@ public class MantaroShard implements JDA {
 
     @Override
     public String toString() {
-        return "MantaroShard [" + (getId() + 1) + "/" + totalShards + "]";
+        return "MantaroShard [" + (getId() + 1) + " / " + totalShards + "]";
     }
 }
