@@ -226,7 +226,7 @@ public class AnimeCmds {
 
     private void characterData(GuildMessageReceivedEvent event, CharacterData character) {
         String JAP_NAME = character.getName_japanese() == null ? "" : "\n(" + character.getName_japanese() + ")";
-        String CHAR_NAME = character.getName_first() + " " + character.getName_last() + JAP_NAME;
+        String CHAR_NAME = character.getName_first() + (character.getName_last() == null ? "" : " " + character.getName_last()) + JAP_NAME;
         String ALIASES = character.getName_alt() == null ? "No aliases" : "Also known as: " + character.getName_alt();
         String IMAGE_URL = character.getImage_url_med();
         String CHAR_DESCRIPTION = character.getInfo().isEmpty() ? "No info."

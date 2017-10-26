@@ -142,6 +142,20 @@ public class CurrencyCmds {
                         return;
                     }
 
+                    if(args[0].equals("price")) {
+                        Item item = Items.fromAny(itemName).orElse(null);
+
+                        if(item == null) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
+                            return;
+                        }
+
+                        event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
+                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int)(item.getValue() * 0.9))).queue();
+
+                        return;
+                    }
+
                     if(args[0].equals("sell")) {
                         try {
                             if(args[1].equals("all")) {
@@ -287,7 +301,8 @@ public class CurrencyCmds {
                                 " and give you the item.\n" +
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
                                 "specified item. " +
-                                "**You'll get the sell value of the item on coins to spend.**", false)
+                                "**You'll get the sell value of the item on coins to spend.**\n" +
+                                "You can check the value of a single item using `~>market price <item emoji>`", false)
                         .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
                                 "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
                         .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",
