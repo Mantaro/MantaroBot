@@ -43,7 +43,6 @@ public class CommandRegistry {
 
     private final Map<String, Command> commands;
     private final Config conf = MantaroData.config().get();
-    private final StatsDClient statsClient = MantaroBot.getInstance().getStatsClient();
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -123,8 +122,8 @@ public class CommandRegistry {
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
 
-        statsClient.gauge("command_process_time", (end - start));
-        statsClient.gauge("command_run_time", (end1 - start));
+        MantaroBot.getInstance().getStatsClient().gauge("command_process_time", (end - start));
+        MantaroBot.getInstance().getStatsClient().gauge("command_run_time", (end1 - start));
 
         return true;
     }
