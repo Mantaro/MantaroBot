@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import com.timgroup.statsd.StatsDClient;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
@@ -135,12 +134,12 @@ public class CommandRegistry {
         return c;
     }
 
-    public void registerAlias(String c, String o) {
-        if(!commands.containsKey(c)) {
-            System.out.println(c + " isn't in the command map...");
+    public void registerAlias(String command, String alias) {
+        if(!commands.containsKey(command)) {
+            System.out.println(command + " isn't in the command map...");
         }
 
-        register(o, new AliasCommand(o, commands.get(c)));
+        register(alias, new AliasCommand(alias, commands.get(command)));
     }
 
     public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand) {

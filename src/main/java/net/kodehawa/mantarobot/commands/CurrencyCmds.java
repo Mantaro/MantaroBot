@@ -101,6 +101,8 @@ public class CurrencyCmds {
                         .setDescription("**Shows your current inventory.**\n").build();
             }
         });
+
+        cr.registerAlias("inventory", "inv");
     }
 
     @Subscribe
@@ -147,6 +149,16 @@ public class CurrencyCmds {
 
                         if(item == null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
+                            return;
+                        }
+
+                        if(!item.isBuyable() && !item.isSellable()) {
+                            event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not avaliable neither for sell or buy (could be an exclusive collectable)").queue();
+                            return;
+                        }
+
+                        if(!item.isBuyable()) {
+                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item.").queue();
                             return;
                         }
 
@@ -349,6 +361,12 @@ public class CurrencyCmds {
                     } else {
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
+
+                        if(player.isLocked()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items now.").queue();
+                            return;
+                        }
+
                         if(args.length == 2) {
                             if(player.getInventory().containsItem(item)) {
                                 if(item.isHidden()) {
@@ -369,6 +387,7 @@ public class CurrencyCmds {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
                                         .queue();
                             }
+
                             player.save();
                             giveToPlayer.save();
                             return;
