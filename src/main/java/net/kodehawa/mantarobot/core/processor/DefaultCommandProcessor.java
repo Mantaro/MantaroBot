@@ -37,7 +37,6 @@ public class DefaultCommandProcessor implements ICommandProcessor {
 
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
-        if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) return false;
         long start = System.currentTimeMillis();
         String rawCmd = event.getMessage().getRawContent();
         String[] prefix = MantaroData.config().get().prefix;

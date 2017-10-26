@@ -62,6 +62,10 @@ public class CommandRegistry {
 
         if(cmd == null) return false;
 
+        if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
+            return false;
+        }
+
         DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
         GuildData data = dbg.getData();
 
