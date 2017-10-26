@@ -129,9 +129,9 @@ public class CommandRegistry {
         return true;
     }
 
-    public Command register(String s, Command c) {
-        commands.putIfAbsent(s, c);
-        return c;
+    public Command register(String name, Command command) {
+        commands.putIfAbsent(name, command);
+        return command;
     }
 
     public void registerAlias(String command, String alias) {
