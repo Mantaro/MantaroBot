@@ -101,6 +101,8 @@ public class CurrencyCmds {
                         .setDescription("**Shows your current inventory.**\n").build();
             }
         });
+
+        cr.registerAlias("inventory", "inv");
     }
 
     @Subscribe
@@ -135,6 +137,30 @@ public class CurrencyCmds {
                                 return;
                             }
                         }
+                    }
+
+                    if(args[0].equals("price")) {
+                        Item item = Items.fromAny(itemName).orElse(null);
+
+                        if(item == null) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
+                            return;
+                        }
+
+                        if(!item.isBuyable() && !item.isSellable()) {
+                            event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not avaliable neither for sell or buy (could be an exclusive collectable)").queue();
+                            return;
+                        }
+
+                        if(!item.isBuyable()) {
+                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item.").queue();
+                            return;
+                        }
+
+                        event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
+                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int)(item.getValue() * 0.9))).queue();
+
+                        return;
                     }
 
                     if(itemNumber > 5000) {
@@ -287,7 +313,8 @@ public class CurrencyCmds {
                                 " and give you the item.\n" +
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
                                 "specified item. " +
-                                "**You'll get the sell value of the item on coins to spend.**", false)
+                                "**You'll get the sell value of the item on coins to spend.**\n" +
+                                "You can check the value of a single item using `~>market price <item emoji>`", false)
                         .addField("To know", "If you don't have enough money you cannot buy the items.\n" +
                                 "Note: Don't use the item id, it's just for aesthetic reasons, the internal IDs are different than the ones shown here!", false)
                         .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",
@@ -334,6 +361,12 @@ public class CurrencyCmds {
                     } else {
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         Player giveToPlayer = MantaroData.db().getPlayer(giveTo);
+
+                        if(player.isLocked()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer items now.").queue();
+                            return;
+                        }
+
                         if(args.length == 2) {
                             if(player.getInventory().containsItem(item)) {
                                 if(item.isHidden()) {

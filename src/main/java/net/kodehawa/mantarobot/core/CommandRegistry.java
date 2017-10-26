@@ -130,17 +130,17 @@ public class CommandRegistry {
         return true;
     }
 
-    public Command register(String s, Command c) {
-        commands.putIfAbsent(s, c);
-        return c;
+    public Command register(String name, Command command) {
+        commands.putIfAbsent(name, command);
+        return command;
     }
 
-    public void registerAlias(String c, String o) {
-        if(!commands.containsKey(c)) {
-            System.out.println(c + " isn't in the command map...");
+    public void registerAlias(String command, String alias) {
+        if(!commands.containsKey(command)) {
+            System.out.println(command + " isn't in the command map...");
         }
 
-        register(o, new AliasCommand(o, commands.get(c)));
+        register(alias, new AliasCommand(alias, commands.get(command)));
     }
 
     public void addSubCommandTo(TreeCommand command, String name, SubCommand subCommand) {
