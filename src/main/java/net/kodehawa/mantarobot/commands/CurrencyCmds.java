@@ -153,7 +153,7 @@ public class CurrencyCmds {
                         }
 
                         if(!item.isBuyable()) {
-                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item.").queue();
+                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item. (Sell value: " + ((int)(item.getValue() * 0.9)) + " credits)").queue();
                             return;
                         }
 
@@ -381,8 +381,8 @@ public class CurrencyCmds {
 
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                                event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave 1 " + item
-                                        .getName() + " to " + giveTo.getAsMention()).queue();
+                                event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + " gave 1 **" + item
+                                        .getName() + "** to " + event.getGuild().getMember(giveTo).getEffectiveName()).queue();
                             } else {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
                                         .queue();
@@ -407,8 +407,8 @@ public class CurrencyCmds {
 
                                 player.getInventory().process(new ItemStack(item, amount * -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
-                                event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + " gave " + amount +
-                                        " " + item.getName() + " to " + giveTo.getAsMention()).queue();
+                                event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + " gave " + amount +
+                                        " **" + item.getName() + "** to " + event.getGuild().getMember(giveTo).getEffectiveName()).queue();
                             } else
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item " +
                                         "to do that").queue();
