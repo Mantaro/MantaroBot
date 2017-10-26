@@ -17,8 +17,9 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import net.dv8tion.jda.core.entities.ISnowflake;
+import com.timgroup.statsd.StatsDClient;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.modules.commands.AliasCommand;
@@ -35,11 +36,14 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CommandRegistry {
 
     private final Map<String, Command> commands;
+    private final Config conf = MantaroData.config().get();
+    private final StatsDClient statsClient = MantaroBot.getInstance().getStatsClient();
 
     public CommandRegistry(Map<String, Command> commands) {
         this.commands = Preconditions.checkNotNull(commands);
@@ -54,19 +58,20 @@ public class CommandRegistry {
     }
 
     public boolean process(GuildMessageReceivedEvent event, String cmdname, String content) {
+        long start = System.currentTimeMillis();
         Command cmd = commands.get(cmdname);
-        Config conf = MantaroData.config().get();
-        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-        GuildData data = dbg.getData();
 
         if(cmd == null) return false;
+
+        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+        GuildData data = dbg.getData();
 
         if(data.getDisabledCommands().contains(cmdname)) {
             return false;
         }
 
-        if(data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) != null &&
-                data.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).contains(cmdname)) {
+        List<String> disabledCommands = data.getChannelSpecificDisabledCommands().get(event.getChannel().getId());
+        if(disabledCommands != null && disabledCommands.contains(cmdname)) {
             return false;
         }
 
@@ -74,11 +79,11 @@ public class CommandRegistry {
             return false;
         }
 
-        if(MantaroData.db().getGuild(event.getGuild()).getData().getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
+        if(data.getDisabledChannels().contains(event.getChannel().getId()) && cmd.category() != Category.MODERATION) {
             return false;
         }
 
-        if(MantaroData.config().get().isPremiumBot() && cmd.category() == Category.CURRENCY) {
+        if(conf.isPremiumBot() && cmd.category() == Category.CURRENCY) {
             return false;
         }
 
@@ -106,7 +111,9 @@ public class CommandRegistry {
             return false;
         }
 
+        long end = System.currentTimeMillis();
         cmd.run(event, cmdname, content);
+        long end1 = System.currentTimeMillis();
 
         if(cmd.category() != null) {
             CommandStatsManager.log(cmdname);
@@ -115,6 +122,9 @@ public class CommandRegistry {
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
+
+        statsClient.gauge("command_process_time", (end - start));
+        statsClient.gauge("command_run_time", (end1 - start));
 
         return true;
     }
