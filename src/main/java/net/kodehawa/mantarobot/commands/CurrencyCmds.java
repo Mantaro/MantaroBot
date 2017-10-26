@@ -168,6 +168,20 @@ public class CurrencyCmds {
                         return;
                     }
 
+                    if(args[0].equals("price")) {
+                        Item item = Items.fromAny(itemName).orElse(null);
+
+                        if(item == null) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
+                            return;
+                        }
+
+                        event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
+                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int)(item.getValue() * 0.9))).queue();
+
+                        return;
+                    }
+
                     if(args[0].equals("sell")) {
                         try {
                             if(args[1].equals("all")) {
