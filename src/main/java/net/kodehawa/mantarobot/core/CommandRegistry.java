@@ -116,7 +116,6 @@ public class CommandRegistry {
 
         long end = System.currentTimeMillis();
         cmd.run(event, cmdname, content);
-        long end1 = System.currentTimeMillis();
 
         if(cmd.category() != null) {
             CommandStatsManager.log(cmdname);
@@ -126,8 +125,7 @@ public class CommandRegistry {
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
 
-        MantaroBot.getInstance().getStatsClient().gauge("command_process_time", (end - start));
-        MantaroBot.getInstance().getStatsClient().gauge("command_run_time", (end1 - start));
+        MantaroBot.getInstance().getStatsClient().histogram("command_process_time", (end - start));
 
         return true;
     }
