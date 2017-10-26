@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import com.timgroup.statsd.StatsDClient;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
