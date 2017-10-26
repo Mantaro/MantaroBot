@@ -97,10 +97,10 @@ public class PlayerCmds {
                 }
 
                 if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
-                Player player = MantaroData.db().getPlayer(event.getGuild().getMember(user));
+                Player player = MantaroData.db().getPlayer(user);
                 player.addReputation(1L);
                 player.save();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + user.getName() + "**").queue();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Added reputation to **" + member.getEffectiveName() + "**").queue();
             }
 
             @Override
