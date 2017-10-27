@@ -233,6 +233,6 @@ public class MantaroShard implements JDA {
 
     @Override
     public String toString() {
-        return "MantaroShard [" + (getId() + 1) + " / " + totalShards + "]";
+        return "MantaroShard [" + (getId()) + " / " + totalShards + "]";
     }
 }
