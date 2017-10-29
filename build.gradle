@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_296'
+	compile 'net.dv8tion:JDA:3.3.1_299'
 	compile 'com.sedmelluq:lavaplayer:1.2.44'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 
@@ -59,7 +59,6 @@ dependencies {
 	compile 'net.sf.trove4j:trove4j:3.0.3'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
-	compile 'com.rabbitmq:amqp-client:4.1.1'
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'

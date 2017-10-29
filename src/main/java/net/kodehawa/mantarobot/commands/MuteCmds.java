@@ -298,7 +298,7 @@ public class MuteCmds {
 
                     if(m.getRoles().contains(mutedRole)) {
                         event.getGuild().getController().removeRolesFromMember(m, mutedRole).queue();
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
                         ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.UNMUTE, db.getGuild(event.getGuild()).getData().getCases());
