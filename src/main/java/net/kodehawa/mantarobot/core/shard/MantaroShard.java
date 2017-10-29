@@ -24,6 +24,7 @@ import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.ShardedRateLimiter;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.requests.SessionReconnectQueue;
@@ -83,6 +84,7 @@ public class MantaroShard implements JDA {
     @Delegate
     private JDA jda;
     private static SessionReconnectQueue reconnectQueue = new SessionReconnectQueue();
+    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
 
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
@@ -125,16 +127,11 @@ public class MantaroShard implements JDA {
                 .setToken(config().get().token)
                 .setAutoReconnect(true)
                 .setCorePoolSize(15)
-                .setHttpClientBuilder(
-                        new OkHttpClient.Builder()
-                                .connectTimeout(30, TimeUnit.SECONDS)
-                                .readTimeout(30, TimeUnit.SECONDS)
-                                .writeTimeout(30, TimeUnit.SECONDS)
-                )
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
-                .setGame(Game.of("Hold on to your seatbelts!"))
-                .setReconnectQueue(reconnectQueue);
+                .setShardedRateLimiter(shardedRateLimiter)
+                .setReconnectQueue(reconnectQueue)
+                .setGame(Game.of("Hold on to your seatbelts!"));
 
         if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
         jda = jdaBuilder.buildBlocking(Status.AWAITING_LOGIN_CONFIRMATION);

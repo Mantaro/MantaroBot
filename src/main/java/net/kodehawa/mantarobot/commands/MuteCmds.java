@@ -69,6 +69,11 @@ public class MuteCmds {
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
 
+                if(mutedRole == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "The previously configured mute role on this server is now non-existent!").queue();
+                    return;
+                }
+
                 if(args.length > 1) {
                     reason = StringUtils.splitArgs(content, 2)[1];
                 }
@@ -254,6 +259,11 @@ public class MuteCmds {
                 }
 
                 Role mutedRole = event.getGuild().getRoleById(guildData.getMutedRole());
+
+                if(mutedRole == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "The previously configured mute role on this server is now non-existent!").queue();
+                    return;
+                }
 
                 if(args.length > 1) {
                     reason = StringUtils.splitArgs(content, 2)[1];

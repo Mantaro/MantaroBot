@@ -25,10 +25,7 @@ import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.manager.CustomCommandStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
+import net.kodehawa.mantarobot.commands.info.stats.manager.*;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -66,6 +63,8 @@ public class InfoCmds {
     private final GuildStatsManager guildStatsManager = new GuildStatsManager();
     private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
     private final CustomCommandStatsManager customCommandStatsManager = new CustomCommandStatsManager();
+    private final GameStatsManager gameStatsManager = new GameStatsManager();
+
     @Subscribe
     public void about(CommandRegistry cr) {
         cr.register("about", new TreeCommand(Category.INFO) {
@@ -545,6 +544,13 @@ public class InfoCmds {
                 event.getChannel().sendMessage(
                         customCommandStatsManager.fillEmbed(CustomCommandStatsManager.TOTAL_CUSTOM_CMDS, baseEmbed(event, "CCS Stats | Total")
                         ).build()).queue();
+            }
+        });
+
+        statsCommand.addSubCommand("game", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(baseEmbed(event, "Game Stats").setDescription(gameStatsManager.resume(GameStatsManager.TOTAL_GAMES)).build()).queue();
             }
         });
     }

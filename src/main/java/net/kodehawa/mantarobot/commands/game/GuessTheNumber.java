@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -126,6 +127,7 @@ public class GuessTheNumber extends Game<Object> {
 
     @Override
     public boolean onStart(GameLobby lobby) {
+        GameStatsManager.log(name());
         number = r.nextInt(150);
         lobby.getChannel().sendMessage(EmoteReference.THINKING + "Guess the number! **You have 5 attempts and 30 seconds. The number is between 0 and 150**").queue();
         return true;

@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.Game;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
+import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -57,6 +58,7 @@ public class Trivia extends Game<String> {
                 return false;
             }
 
+            GameStatsManager.log(name());
             EmbedBuilder eb = new EmbedBuilder();
             JSONObject ob = new JSONObject(json);
 

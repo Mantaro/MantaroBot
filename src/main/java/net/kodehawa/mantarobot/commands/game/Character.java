@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.commands.AnimeCmds;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
+import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.utils.Utils;
@@ -74,6 +75,7 @@ public class Character extends ImageGame {
     @Override
     public boolean onStart(GameLobby lobby) {
         try {
+            GameStatsManager.log(name());
             characterNameL = new ArrayList<>();
             characterName = CollectionUtils.random(NAMES.get());
             String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),

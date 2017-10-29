@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.game.core.GameLobby;
 import net.kodehawa.mantarobot.commands.game.core.ImageGame;
+import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -65,6 +66,7 @@ public class Pokemon extends ImageGame {
 
     public boolean onStart(GameLobby lobby) {
         try {
+            GameStatsManager.log(name());
             String[] data = random(GUESSES.get()).split("`");
             String pokemonImage = data[0];
             expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
