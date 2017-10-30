@@ -65,7 +65,6 @@ public class ShardWatcher implements Runnable {
                         LogUtils.shard("Seems like Megumin struck our castle and we got a horribly high amount of dead shards (" + dead.length + ")\n" +
                                 "This could be just due to them reconnecting though, if nothing appears down there talking about how the shards are rebooting " +
                                 "you might aswell ignore this warning.");
-                        LogUtils.shardSimple("<@155867458203287552> ^");
                     }
 
                     for(int id : dead) {
