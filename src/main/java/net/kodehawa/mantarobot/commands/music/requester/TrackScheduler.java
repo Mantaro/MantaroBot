@@ -25,6 +25,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.Getter;
 import lombok.Setter;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -113,11 +114,13 @@ public class TrackScheduler extends AudioEventAdapter {
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
 
-                getRequestedChannelParsed().sendMessage(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
+                getRequestedChannelParsed().sendMessage(
+                        new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
                         title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : "")).queue(message -> message.delete().queueAfter(
-                        90, TimeUnit.SECONDS)
-                );
+                                        String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
+                                .stripMentions(getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
+                                .build()
+                ).queue(message -> message.delete().queueAfter(90, TimeUnit.SECONDS));
             }
         }
     }
