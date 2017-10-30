@@ -60,6 +60,14 @@ public class ShardWatcher implements Runnable {
                 int[] dead = sme.getDeadShards();
                 if(dead.length != 0) {
                     MantaroEventManager.getLog().error("Dead shards found: {}", Arrays.toString(dead));
+
+                    if(dead.length > 15) {
+                        LogUtils.shard("Seems like Megumin struck our castle and we got a horribly high amount of dead shards (" + dead.length + ")\n" +
+                                "This could be just due to them reconnecting though, if nothing appears down there talking about how the shards are rebooting " +
+                                "you might aswell ignore this warning.");
+                        LogUtils.shardSimple("<@155867458203287552> ^");
+                    }
+
                     for(int id : dead) {
                         try {
                             FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
@@ -67,7 +75,9 @@ public class ShardWatcher implements Runnable {
                                     MantaroShard shard = MantaroBot.getInstance().getShard(id);
 
                                     //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
-                                    if(shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.SHUTDOWN) {
+                                    if(shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT ||
+                                            shard.getStatus() == JDA.Status.SHUTDOWN) {
+                                        LogUtils.shard("Skipping shard " + id + " due to it being currently reconnecting to the websocket or was shutdown manually...");
                                         return 1;
                                     }
 
