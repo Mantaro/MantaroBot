@@ -173,11 +173,49 @@ public class OwnerCmd {
                 return null;
             }
         });
+
+        cr.register("removebadge", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to give me an user to remove the badge from!").queue();
+                    return;
+                }
+
+                if(args.length != 2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Wrong args length").queue();
+                    return;
+                }
+
+                String b = args[1];
+                List<User> users = event.getMessage().getMentionedUsers();
+                Badge badge = Badge.lookupFromString(b);
+                if(badge == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "No badge with that enum name! Valid badges: " +
+                            Arrays.stream(Badge.values()).map(b1 -> "`" + b1.name() + "`").collect(Collectors.joining(" ,"))).queue();
+                    return;
+                }
+
+                for(User u : users) {
+                    Player p = MantaroData.db().getPlayer(u);
+                    p.getData().removeBadge(badge);
+                    p.saveAsync();
+                }
+
+                event.getChannel().sendMessage(
+                        EmoteReference.CORRECT + "Removed badge " + badge + " from " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
+                ).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return null;
+            }
+        });
     }
 
-    //TODO: Split into subcommands soon please ;_;
     @Subscribe
-    public void owner(CommandRegistry cr) {
+    public void eval(CommandRegistry cr) {
         Map<String, Evaluator> evals = new HashMap<>();
         evals.put("js", (event, code) -> {
             ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
@@ -224,26 +262,51 @@ public class OwnerCmd {
             }
         });
 
-        evals.put("cw", (event, code) -> {
-            Object[] returns;
-            boolean errored = false;
-            try {
-                returns = MantaroData.connectionWatcher().eval(code);
-            } catch(RuntimeException e) {
-                errored = true;
-                returns = new Object[]{e.getMessage()};
-            }
-            String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(returns[0]) : Arrays
-                    .asList(returns).toString();
-            if(errored) return new Error(result == null ? "Internal error" : result) {
-                @Override
-                public String toString() {
-                    return getMessage();
+        cr.register("eval", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                Evaluator evaluator = evals.get(args[0]);
+                if(evaluator == null) {
+                    onHelp(event);
+                    return;
                 }
-            };
-            return result;
-        });
 
+                String[] values = SPLIT_PATTERN.split(content, 2);
+                if(values.length < 2) {
+                    onHelp(event);
+                    return;
+                }
+
+                String v = values[1];
+
+                Object result = evaluator.eval(event, v);
+                boolean errored = result instanceof Throwable;
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setAuthor(
+                                "Evaluated " + (errored ? "and errored" : "with success"), null,
+                                event.getAuthor().getAvatarUrl()
+                        )
+                        .setColor(errored ? Color.RED : Color.GREEN)
+                        .setDescription(
+                                result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result
+                                        .toString()))
+                        .setFooter("Asked by: " + event.getAuthor().getName(), null)
+                        .build()
+                ).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Eval cmd")
+                        .setDescription("**Evaluates stuff (A: js/bsh)**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
+    public void owner(CommandRegistry cr) {
         cr.register("owner", new SimpleCommand(Category.OWNER) {
             @Override
             public CommandPermission permission() {
@@ -256,15 +319,7 @@ public class OwnerCmd {
                         .setDescription("`~>owner shutdown/forceshutdown`: Shutdowns the bot\n" +
                                 "`~>owner restart/forcerestart`: Restarts the bot.\n" +
                                 "`~>owner scheduleshutdown time <time>` - Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
-                                "`~>owner varadd <pat/hug/greeting/splash>` - Adds a link or phrase to the specified list.\n" +
-                                "`~>owner eval <bsh/js/cw> <line of code>` - Evals a specified code snippet.\n" +
-                                "`~>owner cw <info/eval>` - Shows info or evals specified code in the Connection Watcher.\n" +
                                 "`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
-                        .addField(
-                                "Shush.",
-                                "If you aren't Adrian, Kode, or Natan you shouldn't be looking at this, hmmm? \uD83D\uDC40" + EmoteReference.EYES,
-                                false
-                        )
                         .build();
             }
 
@@ -276,59 +331,6 @@ public class OwnerCmd {
                 }
 
                 String option = args[0];
-
-                if(option.equals("cw")) {
-                    if(args.length < 2) {
-                        onHelp(event);
-                        return;
-                    }
-
-                    String sub = args[1].split("\\s+")[0];
-                    switch(sub) {
-                        case "info":
-                            event.getChannel().sendMessage(new EmbedBuilder()
-                                    .setAuthor("Connection Watcher info", null, null)
-                                    .setDescription(MantaroData.connectionWatcher().get().toString())
-                                    .setColor(event.getGuild().getSelfMember().getColor())
-                                    .setFooter("Asked by: " + event.getAuthor().getName(), null)
-                                    .build()).queue();
-                            break;
-                        case "eval":
-                            String[] parts = event.getMessage().getRawContent().split(" ");
-                            if(parts.length < 4) {
-                                onHelp(event);
-                                return;
-                            }
-                            Object[] returns;
-                            boolean errored = false;
-                            try {
-                                returns = MantaroData.connectionWatcher().eval(
-                                        String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
-                            } catch(RuntimeException e) {
-                                errored = true;
-                                returns = new Object[]{e.getMessage()};
-                            }
-                            String result = returns.length == 1 ? returns[0] == null ? null : String.valueOf(
-                                    returns[0]) : Arrays.asList(returns).toString();
-                            event.getChannel().sendMessage(new EmbedBuilder()
-                                    .setAuthor(
-                                            "Evaluated " + (errored ? "and errored" : "with success"), null,
-                                            event.getAuthor().getAvatarUrl()
-                                    )
-                                    .setColor(errored ? Color.RED : Color.GREEN)
-                                    .setDescription(
-                                            result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result))
-                                    .setFooter("Asked by: " + event.getAuthor().getName(), null)
-                                    .build()
-                            ).queue();
-                            break;
-                        default:
-                            onHelp(event);
-                            break;
-                    }
-
-                    return;
-                }
 
                 if(option.equals("premium")) {
                     String sub = args[1].substring(0, args[1].indexOf(' '));
@@ -539,32 +541,6 @@ public class OwnerCmd {
                     return;
                 }
 
-                if(option.equals("eval")) {
-                    Evaluator evaluator = evals.get(k);
-                    if(evaluator == null) {
-                        onHelp(event);
-                        return;
-                    }
-
-                    Object result = evaluator.eval(event, v);
-                    boolean errored = result instanceof Throwable;
-
-                    event.getChannel().sendMessage(new EmbedBuilder()
-                            .setAuthor(
-                                    "Evaluated " + (errored ? "and errored" : "with success"), null,
-                                    event.getAuthor().getAvatarUrl()
-                            )
-                            .setColor(errored ? Color.RED : Color.GREEN)
-                            .setDescription(
-                                    result == null ? "Executed successfully with no objects returned" : ("Executed " + (errored ? "and errored: " : "successfully and returned: ") + result
-                                            .toString()))
-                            .setFooter("Asked by: " + event.getAuthor().getName(), null)
-                            .build()
-                    ).queue();
-
-                    return;
-                }
-
                 onHelp(event);
             }
 
@@ -572,7 +548,6 @@ public class OwnerCmd {
             public String[] splitArgs(String content) {
                 return SPLIT_PATTERN.split(content, 2);
             }
-
         });
     }
 
