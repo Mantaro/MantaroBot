@@ -255,7 +255,6 @@ public class InfoCmds {
 
                     Arrays.stream(Category.values())
                             .filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
-                            .filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
                             .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
                             .forEach(c -> embed.addField(c + " Commands:", forType(event.getChannel(), guildData, c), false));
 
