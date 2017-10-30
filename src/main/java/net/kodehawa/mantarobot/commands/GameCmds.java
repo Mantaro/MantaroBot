@@ -208,6 +208,7 @@ public class GameCmds {
                         .setDescription("**Starts an instance of trivia.**\n" +
                                 "Optionally, you can specify the difficulty (easy, medium or hard) to play.")
                         .addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends.", false)
+                        .addField("Considerations", "To start multiple trivia sessions please use `~>game trivia multiple`, not `~>trivia multiple`", false)
                         .build();
             }
         });
