@@ -68,6 +68,13 @@ public abstract class Game<T> {
 				return Operation.COMPLETED;
 			}
 
+			if (e.getMessage().getContent().equalsIgnoreCase("endlobby")) {
+                lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended lobby correctly! Thanks for playing!").queue();
+                lobby.getGamesToPlay().clear();
+                lobby.startNextGame();
+                return Operation.COMPLETED;
+            }
+
             if(expectedAnswer.stream().map(String::valueOf).anyMatch(e.getMessage().getRawContent()::equalsIgnoreCase)) {
                 Player player = MantaroData.db().getPlayer(e.getMember());
                 int gains = 45 + extra;

@@ -80,7 +80,6 @@ public class GameLobby extends Lobby {
                 gamesToPlay.removeFirst();
 
                 if(gamesToPlay.isEmpty()) {
-                    gamesToPlay.clear();
                     LOBBYS.remove(getChannel());
                     return;
                 }
