@@ -118,7 +118,7 @@ public class MantaroShard implements JDA {
         if(jda != null) {
             log.info("Attempting to drop shard #" + shardId);
             if(!force) prepareShutdown();
-            jda.shutdown();
+            jda.shutdownNow();
             log.info("Dropped shard #" + shardId);
             removeListeners();
         }
