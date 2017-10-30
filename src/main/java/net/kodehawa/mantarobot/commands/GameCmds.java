@@ -65,10 +65,11 @@ public class GameCmds {
                                 + "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
                                 "`~>game number` - **Starts an instance of Guess The Number**`\n" +
                                 "`~>game lobby` - **Starts a chunk of different games, for example `~>game lobby pokemon, trivia` will start pokemon and then trivia.**\n" +
-                                "`~>game multiple` - **Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times." +
+                                "`~>game multiple` - **Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times.**\n" +
                                 "`~>game wins` - **Shows how many times you've won in games**", false)
                         .addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, " +
-                                "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.", false)
+                                "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.\n" +
+                                "To start multiple trivia sessions please use `~>game trivia multiple`, not `~>trivia multiple`", false)
                         .build();
             }
         }.addSubCommand("character", new SubCommand() {
