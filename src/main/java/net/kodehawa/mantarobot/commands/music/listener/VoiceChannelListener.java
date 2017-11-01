@@ -58,9 +58,6 @@ public class VoiceChannelListener implements EventListener {
 
     @Override
     public void onEvent(Event event) {
-
-        if(!MantaroCore.hasLoadedCompletely()) return;
-
         if(event instanceof GuildVoiceMoveEvent) {
             onGuildVoiceMove((GuildVoiceMoveEvent) event);
         } else if(event instanceof GuildVoiceJoinEvent) {

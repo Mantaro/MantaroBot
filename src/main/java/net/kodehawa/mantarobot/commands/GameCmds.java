@@ -39,7 +39,6 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -175,6 +174,11 @@ public class GameCmds {
                             gameList.add(new Character());
                             break;
                     }
+                }
+
+                if(gameList.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a valid game! (Valid games: character, pokemon, number, trivia)").queue();
+                    return;
                 }
 
                 startMultipleGames(gameList, event);
