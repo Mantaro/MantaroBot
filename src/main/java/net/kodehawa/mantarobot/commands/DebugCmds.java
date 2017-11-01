@@ -177,7 +177,8 @@ public class DebugCmds {
                     builder.append("\n");
                 }
 
-                builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
+                if(connecting > 0)
+                    builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
 
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
