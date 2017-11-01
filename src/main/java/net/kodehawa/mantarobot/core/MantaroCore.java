@@ -97,7 +97,7 @@ public class MantaroCore {
                 .commandProcessor(commandProcessor)
                 .build();
 
-        Async.thread("Shard startup", () -> shardedMantaro.shard());
+        Async.thread("MantaroCore-ShardInit", () -> shardedMantaro.shard());
 
         loadState = LOADED;
     }
@@ -111,7 +111,7 @@ public class MantaroCore {
                 .commandProcessor(commandProcessor)
                 .build();
 
-        Async.thread("Shard Startup", () -> shardedMantaro.shard());
+        Async.thread("MantaroCore-ShardInit", () -> shardedMantaro.shard());
 
         loadState = LOADED;
     }
@@ -156,7 +156,7 @@ public class MantaroCore {
         }
 
         Async.thread("Mantaro EventBus-Post", () -> {
-            //For now, only used by AsyncInfoMonitor startup
+            //For now, only used by AsyncInfoMonitor startup and Anime Login Task.
             shardEventBus.post(new PreLoadEvent());
             //Registers all commands
             shardEventBus.post(DefaultCommandProcessor.REGISTRY);
