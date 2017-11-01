@@ -22,13 +22,12 @@ import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.ShardedBuilder;
 import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
-import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
@@ -59,6 +58,8 @@ public class MantaroCore {
     private String commandsPackage;
     private String optsPackage;
     private ShardedMantaro shardedMantaro;
+    @Getter
+    private EventBus shardEventBus;
 
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;
@@ -96,8 +97,7 @@ public class MantaroCore {
                 .commandProcessor(commandProcessor)
                 .build();
 
-        shardedMantaro.shard();
-        Async.thread("ShardWatcherThread", new ShardWatcher());
+        Async.thread("Shard startup", () -> shardedMantaro.shard());
 
         loadState = LOADED;
     }
@@ -111,7 +111,7 @@ public class MantaroCore {
                 .commandProcessor(commandProcessor)
                 .build();
 
-        shardedMantaro.shard();
+        Async.thread("Shard Startup", () -> shardedMantaro.shard());
 
         loadState = LOADED;
     }
@@ -138,11 +138,10 @@ public class MantaroCore {
             startShardedInstance();
         }
 
-        EventBus bus = new EventBus();
-
+        shardEventBus = new EventBus();
         for(Class<?> aClass : commands.get()) {
             try {
-                bus.register(aClass.newInstance());
+                shardEventBus.register(aClass.newInstance());
             } catch(Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + aClass);
             }
@@ -150,15 +149,20 @@ public class MantaroCore {
 
         for(Class<?> clazz : options.get()) {
             try {
-                bus.register(clazz.newInstance());
+                shardEventBus.register(clazz.newInstance());
             } catch(Exception e) {
                 log.error("Invalid module: no zero arg public constructor found for " + clazz);
             }
         }
 
-        bus.post(DefaultCommandProcessor.REGISTRY);
-        bus.post(new PostLoadEvent());
-        bus.post(new OptionRegistryEvent());
+        Async.thread("Mantaro EventBus-Post", () -> {
+            //For now, only used by AsyncInfoMonitor startup
+            shardEventBus.post(new PreLoadEvent());
+            //Registers all commands
+            shardEventBus.post(DefaultCommandProcessor.REGISTRY);
+            //Registers all options
+            shardEventBus.post(new OptionRegistryEvent());
+        });
 
         return this;
     }

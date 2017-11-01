@@ -21,16 +21,19 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.MantaroListener;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
+import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -38,6 +41,7 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -148,6 +152,8 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
+                    if(shard == null) return;
+
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
                             "%-15s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
@@ -197,10 +203,16 @@ public class DebugCmds {
                 StringBuilder stringBuilder = new StringBuilder();
                 int dead = 0;
                 int reconnecting = 0;
+                int connecting = 0;
                 int zeroVoiceConnections = 0;
                 int high = 0;
 
                 for(MantaroShard shard : shards) {
+                    if(shard == null) {
+                        connecting++;
+                        continue;
+                    }
+
                     boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED) || shard.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT) || shard.getStatus().equals(JDA.Status.WAITING_TO_RECONNECT);
                     if(shard.getEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
@@ -233,10 +245,11 @@ public class DebugCmds {
                                 "- Dead Shards: %s shards.\n" +
                                 "- Zero Voice Connections: %s shards.\n" +
                                 "- Shards Reconnecting: %s shards.\n" +
+                                "- Shards Connecting: %s shards\n" +
                                 "- High Last Event Time: %s shards.\n\n" +
                                 "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
-                            ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, high, bot.getGuildCache().size(),
+                            ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
                                 bot.getUserCache().size(), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder().
@@ -271,5 +284,10 @@ public class DebugCmds {
         if(ping <= 1600) return "#BlameDiscord. :angry:";
         if(ping <= 10000) return "this makes no sense :thinking: #BlameSteven";
         return "slow af. :dizzy_face: ";
+    }
+
+    @Subscribe
+    public void onPreLoad(PreLoadEvent e) {
+        start();
     }
 }

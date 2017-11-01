@@ -42,6 +42,11 @@ public class MuteTask {
                     Pair<String, Long> pair = entry.getValue();
                     String guildId = pair.getKey();
                     long maxTime = pair.getValue();
+
+                    if(MantaroBot.getInstance().getShardForGuild(guildId) == null) {
+                        continue;
+                    }
+
                     Guild guild = MantaroBot.getInstance().getGuildById(guildId);
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
                     GuildData guildData = dbGuild.getData();

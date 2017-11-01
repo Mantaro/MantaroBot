@@ -26,7 +26,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.anime.AnimeData;
 import net.kodehawa.mantarobot.commands.anime.CharacterData;
 import net.kodehawa.mantarobot.core.CommandRegistry;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
+import net.kodehawa.mantarobot.core.listeners.events.PreLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
@@ -243,7 +243,7 @@ public class AnimeCmds {
     }
 
     @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
+    public void onPreLoad(PreLoadEvent e) {
         Async.task("AniList Login Task", this::authenticate, 1900, TimeUnit.SECONDS);
     }
 }
