@@ -151,8 +151,12 @@ public class DebugCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
+                int connecting = 0;
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
-                    if(shard == null) continue;
+                    if(shard == null) {
+                        connecting++;
+                        continue;
+                    }
 
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
@@ -172,6 +176,8 @@ public class DebugCmds {
 
                     builder.append("\n");
                 }
+
+                builder.append("\nWARNING: Number of shards still booting up: ").append(connecting);
 
                 List<String> m = DiscordUtils.divideString(builder);
                 List<String> messages = new LinkedList<>();
