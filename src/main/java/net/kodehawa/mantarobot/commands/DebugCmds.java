@@ -152,7 +152,7 @@ public class DebugCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 StringBuilder builder = new StringBuilder();
                 for(MantaroShard shard : MantaroBot.getInstance().getShardList()) {
-                    if(shard == null) return;
+                    if(shard == null) continue;
 
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
