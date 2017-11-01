@@ -104,14 +104,14 @@ public class ShardedMantaro {
                 log.debug("Finished loading shard #" + i + ".");
             }
 
-            this.startLoadProcedure(start);
+            this.startPostLoadProcedure(start);
         } catch(Exception e) {
             e.printStackTrace();
             SentryHelper.captureExceptionContext("Shards failed to initialize!", e, this.getClass(), "Shard Loader");
         }
     }
 
-    private void startLoadProcedure(long start) {
+    private void startPostLoadProcedure(long start) {
         long end = System.currentTimeMillis();
         MantaroBot bot = MantaroBot.getInstance();
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
