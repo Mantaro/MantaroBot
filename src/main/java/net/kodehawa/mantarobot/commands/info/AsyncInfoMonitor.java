@@ -17,12 +17,14 @@
 package net.kodehawa.mantarobot.commands.info;
 
 import br.com.brjdevs.java.utils.async.Async;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public class AsyncInfoMonitor {
     private static final double gb = 1024 * 1024 * 1024;
     private static int availableProcessors = Runtime.getRuntime().availableProcessors();
@@ -91,6 +93,8 @@ public class AsyncInfoMonitor {
 
     public static void start() {
         if(started) throw new IllegalStateException("Already Started.");
+
+        log.debug("Started AsyncInfoMonitor... Monitoring system statistics since now!");
         OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
         ThreadMXBean thread = ManagementFactory.getThreadMXBean();
         Runtime r = Runtime.getRuntime();

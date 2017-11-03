@@ -136,12 +136,14 @@ public class ImageActionCmd extends NoArgsCommand {
 
             if(guildData.isNoMentionsAction()) {
                 toSend = new MessageBuilder()
-                        .append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"));
+                        .append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
+                        .stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
             }
 
             if(swapNames && guildData.isNoMentionsAction()) {
                 toSend = new MessageBuilder()
-                        .append(String.format(format, "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**"));
+                        .append(String.format(format, "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**")
+                        ).stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
             }
 
             if(isLonely(event)) {

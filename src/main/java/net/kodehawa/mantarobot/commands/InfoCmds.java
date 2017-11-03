@@ -28,7 +28,6 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.*;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
-import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
@@ -255,7 +254,6 @@ public class InfoCmds {
 
                     Arrays.stream(Category.values())
                             .filter(c -> c != Category.CURRENCY || !MantaroData.config().get().isPremiumBot())
-                            .filter(c -> c != Category.MODERATION || CommandPermission.ADMIN.test(event.getMember()))
                             .filter(c -> c != Category.OWNER || CommandPermission.OWNER.test(event.getMember()))
                             .forEach(c -> embed.addField(c + " Commands:", forType(event.getChannel(), guildData, c), false));
 
@@ -601,10 +599,5 @@ public class InfoCmds {
                         .build();
             }
         });
-    }
-
-    @Subscribe
-    public void onPostLoad(PostLoadEvent e) {
-        start();
     }
 }

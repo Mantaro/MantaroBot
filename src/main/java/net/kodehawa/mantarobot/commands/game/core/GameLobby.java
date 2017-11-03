@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.game.core;
 
-import br.com.brjdevs.java.utils.async.Async;
 import lombok.Getter;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -32,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class GameLobby extends Lobby {
 
@@ -57,7 +57,8 @@ public class GameLobby extends Lobby {
 
     @Override
     public String toString() {
-        return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(), gamesToPlay, players.size(), getChannel());
+        return String.format("GameLobby{%s, %s, players:%d, channel:%s}", event.getGuild(),
+                gamesToPlay.stream().map(Game::name).collect(Collectors.toList()), players.size(), getChannel());
     }
 
     public void startFirstGame() {
@@ -80,7 +81,6 @@ public class GameLobby extends Lobby {
                 gamesToPlay.removeFirst();
 
                 if(gamesToPlay.isEmpty()) {
-                    gamesToPlay.clear();
                     LOBBYS.remove(getChannel());
                     return;
                 }

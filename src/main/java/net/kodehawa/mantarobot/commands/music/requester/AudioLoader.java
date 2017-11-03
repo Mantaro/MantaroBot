@@ -23,6 +23,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -159,8 +160,10 @@ public class AudioLoader implements AudioLoadResultHandler {
         musicManager.getTrackScheduler().setRequestedChannel(event.getChannel().getIdLong());
 
         if(!silent) {
-            event.getChannel().sendMessage(
-                    String.format("\uD83D\uDCE3 Added to queue -> **%s** **(%s)**", title, AudioUtils.getLength(length))
+            event.getChannel().sendMessage(new MessageBuilder().append(
+                    String.format("\uD83D\uDCE3 Added to queue -> **%s** **(%s)**", title, AudioUtils.getLength(length)))
+                    .stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
+                    .build()
             ).queue();
         }
 

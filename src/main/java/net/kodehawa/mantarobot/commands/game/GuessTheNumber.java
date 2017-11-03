@@ -69,6 +69,13 @@ public class GuessTheNumber extends Game<Object> {
                         return Operation.COMPLETED;
                     }
 
+                    if (e.getMessage().getContent().equalsIgnoreCase("endlobby")) {
+                        lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended lobby correctly! Thanks for playing!").queue();
+                        lobby.getGamesToPlay().clear();
+                        lobby.startNextGame();
+                        return Operation.COMPLETED;
+                    }
+
                     int parsedAnswer = 0;
 
                     try {

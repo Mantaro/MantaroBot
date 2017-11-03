@@ -82,7 +82,7 @@ public class CustomCmds {
 
             String response = random(values);
             try {
-                runCustom(response, event);
+                runCustom(response.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), event);
                 CustomCommandStatsManager.log(cmdName);
             } catch (Exception e) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
