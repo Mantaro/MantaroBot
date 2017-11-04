@@ -31,6 +31,7 @@ import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CustomCommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
+import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
@@ -117,6 +118,12 @@ public class CustomCmds {
                 String action = args[0];
 
                 if(action.equals("list") || action.equals("ls")) {
+
+                    if(!MantaroCore.hasLoadedCompletely()) {
+                        event.getChannel().sendMessage("The bot hasn't been fully booted up yet... custom commands will be avaliable shortly!").queue();
+                        return;
+                    }
+
                     String filter = event.getGuild().getId() + ":";
                     List<String> commands = customCommands.keySet().stream()
                             .filter(s -> s.startsWith(filter))

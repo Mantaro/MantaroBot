@@ -71,8 +71,7 @@ public class MantaroAudioManager {
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
         TrackScheduler scheduler = musicManager.getTrackScheduler();
 
-        if(scheduler.getAudioPlayer().isPaused())
-            scheduler.getAudioPlayer().setPaused(false);
+        scheduler.getAudioPlayer().setPaused(false);
 
         if(scheduler.getQueue().isEmpty())
             scheduler.setRepeatMode(null);

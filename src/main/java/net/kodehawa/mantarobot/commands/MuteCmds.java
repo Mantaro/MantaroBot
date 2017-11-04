@@ -98,7 +98,7 @@ public class MuteCmds {
                     long time = guildData.getSetModTimeout() > 0 ? System.currentTimeMillis() + guildData.getSetModTimeout() : 0L;
 
                     if(opts.containsKey("time")) {
-                        if(opts.get("time").get().isEmpty()) {
+                        if(!opts.get("time").isPresent() || opts.get("time").get().isEmpty()) {
                             event.getChannel().sendMessage(EmoteReference.WARNING + "You wanted time but didn't specify for how long!").queue();
                             return;
                         }
@@ -111,6 +111,11 @@ public class MuteCmds {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
                             //yeah why am I doing this
                             //smh
+                            return;
+                        }
+
+                        if(time < 0) {
+                            event.getChannel().sendMessage("You cannot mute someone for negative time!").queue();
                             return;
                         }
 
@@ -183,6 +188,19 @@ public class MuteCmds {
                     }
 
                     long timeoutToSet = Utils.parseTime(args[0]);
+
+                    long time = System.currentTimeMillis() + timeoutToSet;
+
+                    if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
+                        return;
+                    }
+
+                    if(time < 0) {
+                        event.getChannel().sendMessage("You cannot mute someone for negative time!").queue();
+                        return;
+                    }
+
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setSetModTimeout(timeoutToSet);
