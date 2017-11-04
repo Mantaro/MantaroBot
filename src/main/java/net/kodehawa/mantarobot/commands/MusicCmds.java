@@ -154,7 +154,6 @@ public class MusicCmds {
     @Subscribe
     public void np(CommandRegistry cr) {
         cr.register("np", new SimpleCommand(Category.MUSIC) {
-
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());

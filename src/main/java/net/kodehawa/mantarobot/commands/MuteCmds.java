@@ -124,6 +124,11 @@ public class MuteCmds {
                         dbGuild.save();
                     } else {
                         if(time > 0) {
+                            if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "The default mute timeout length is too long (Maximum: 10 days)...").queue();
+                                return;
+                            }
+
                             data.getMutes().put(user.getIdLong(), Pair.of(event.getGuild().getId(), time));
                             data.save();
                             dbGuild.save();
