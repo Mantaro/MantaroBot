@@ -18,7 +18,6 @@ package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
-import com.github.natanbc.discordbotsapi.PostingException;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
 import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
@@ -39,10 +38,8 @@ import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
-import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
@@ -53,6 +50,7 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -63,8 +61,6 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 public class MantaroBot extends ShardedJDA {
     public static int cwport;
     private static boolean DEBUG = false;
-    @Getter
-    private static ConnectionWatcherDataManager connectionWatcher;
     @Getter
     private static MantaroBot instance;
     @Getter
@@ -87,7 +83,27 @@ public class MantaroBot extends ShardedJDA {
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
     private final MuteTask muteTask = new MuteTask();
-    private final Carbonitex carbonitex = new Carbonitex();
+
+    public static void main(String[] args) {
+        if(System.getProperty("mantaro.verbose") != null) {
+            System.setOut(new CompactPrintStream(System.out));
+            System.setErr(new CompactPrintStream(System.err));
+        }
+
+        if(System.getProperty("mantaro.debug") != null) {
+            DEBUG = true;
+            System.out.println("Running in debug mode!");
+        }
+
+        try {
+            new MantaroBot();
+        } catch(Exception e) {
+            SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
+            log.error("Could not complete Main Thread routine!", e);
+            log.error("Cannot continue! Exiting program...");
+            System.exit(FATAL_FAILURE);
+        }
+    }
 
     private MantaroBot() throws Exception {
         instance = this;
@@ -113,101 +129,16 @@ public class MantaroBot extends ShardedJDA {
         shardedMantaro = core.getShardedInstance();
         audioManager = new MantaroAudioManager();
         tempBanManager = new TempBanManager(MantaroData.db().getMantaroData().getTempBans());
-
-        System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-
-        MantaroData.config().save();
-
-        log.info("Starting update managers...");
-        shardedMantaro.startUpdaters();
-
-        core.markAsReady();
         long end = System.currentTimeMillis();
 
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
 
         LogUtils.log("Startup",
-                String.format("Loaded %d commands in %d shards.\nI took %d seconds to wake up!",
-                        DefaultCommandProcessor.REGISTRY.commands().size(), shardedMantaro.getTotalShards(), (end - start) / 1000));
+                String.format("Loaded %d commands in %d shards.\n" +
+                                "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         birthdayCacher = new BirthdayCacher();
-        this.startCheckingBirthdays();
-
-        Async.task("discordbots.org post task", () -> {
-            if(config.dbotsorgToken == null) return;
-            MantaroShard[] shards = shardedMantaro.getShards();
-            int[] payload = new int[shards.length];
-            for(int i = 0; i < shards.length; i++) {
-                payload[i] = (int)shards[i].getGuildCache().size();
-            }
-            try {
-                discordBotsAPI.postStats(shards[0].getSelfUser().getIdLong(), payload);
-            } catch(PostingException e) {
-                log.error("Error posting stats to discordbots.org", e);
-            }
-        }, 30, TimeUnit.MINUTES);
-
         Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
-        Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
-
-        //TODO Do something with this.
-        /*Async.task("discordbots.org upvotes task", ()->{
-            if(config.dbotsorgToken == null) return;
-            try {
-                long[] upvoters = discordBotsAPI.getUpvoterIds();
-                TLongSet set = new TLongHashSet();
-                set.addAll(upvoters);
-                discordBotsUpvoters = new TUnmodifiableLongSet(set);
-            } catch(PostingException e) {
-                log.error("Error getting upvoters from discordbots.org", e);
-            }
-        }, 10, TimeUnit.MINUTES);*/
-    }
-
-    public static void main(String[] args) {
-        if(System.getProperty("mantaro.verbose") != null) {
-            System.setOut(new CompactPrintStream(System.out));
-            System.setErr(new CompactPrintStream(System.err));
-        }
-
-        if(System.getProperty("mantaro.debug") != null) {
-            DEBUG = true;
-            System.out.println("Running in debug mode!");
-        }
-
-        if(args.length > 0) {
-            try {
-                cwport = Integer.parseInt(args[0]);
-            } catch(Exception e) {
-                log.info("Invalid connection watcher port specified in arguments, using value in config");
-                cwport = MantaroData.config().get().connectionWatcherPort;
-            }
-        } else {
-            log.info("No connection watcher port specified, using value in config");
-            cwport = MantaroData.config().get().connectionWatcherPort;
-        }
-
-        log.info("Using port " + cwport + " to communicate with connection watcher");
-
-        if(cwport > 0) {
-            new Thread(() -> {
-                try {
-                    connectionWatcher = MantaroData.connectionWatcher();
-                } catch(Exception e) {
-                    //Don't log this to sentry!
-                    log.error("Error connecting to Connection Watcher", e);
-                }
-            });
-        }
-
-        try {
-            new MantaroBot();
-        } catch(Exception e) {
-            SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
-            log.error("Could not complete Main Thread routine!", e);
-            log.error("Cannot continue! Exiting program...");
-            System.exit(FATAL_FAILURE);
-        }
     }
 
     public Guild getGuildById(String guildId) {
@@ -215,7 +146,7 @@ public class MantaroBot extends ShardedJDA {
     }
 
     public MantaroShard getShard(int id) {
-        return Arrays.stream(shardedMantaro.getShards()).filter(shard -> shard.getId() == id).findFirst().orElse(null);
+        return Arrays.stream(shardedMantaro.getShards()).filter(Objects::nonNull).filter(shard -> shard.getId() == id).findFirst().orElse(null);
     }
 
     @Override
@@ -245,7 +176,7 @@ public class MantaroBot extends ShardedJDA {
         return Arrays.asList(shardedMantaro.getShards());
     }
 
-    private void startCheckingBirthdays() {
+    public void startCheckingBirthdays() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
         //How much until tomorrow? That's the initial delay, then run it once a day.

@@ -39,12 +39,13 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
@@ -63,9 +64,11 @@ public class GameCmds {
                                 + "`~>game pokemon` - **Starts an instance of who's that pokemon?**\n" +
                                 "`~>game number` - **Starts an instance of Guess The Number**`\n" +
                                 "`~>game lobby` - **Starts a chunk of different games, for example `~>game lobby pokemon, trivia` will start pokemon and then trivia.**\n" +
+                                "`~>game multiple` - **Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times.**\n" +
                                 "`~>game wins` - **Shows how many times you've won in games**", false)
                         .addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, " +
-                                "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.", false)
+                                "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.\n" +
+                                "To start multiple trivia sessions please use `~>game trivia multiple`, not `~>trivia multiple`", false)
                         .build();
             }
         }.addSubCommand("character", new SubCommand() {
@@ -132,6 +135,54 @@ public class GameCmds {
 
                 event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
             }
+        }).addSubCommand("multiple", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] values = SPLIT_PATTERN.split(content, 2);
+                if(values.length < 2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();
+                    return;
+                }
+
+                int number;
+
+                try {
+                    number = Integer.parseInt(values[1]);
+                } catch (Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number of times!").queue();
+                    return;
+                }
+
+                if(number > 10) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only start a maximum of 10 games of the same type at a time!").queue();
+                    return;
+                }
+
+                LinkedList<Game> gameList = new LinkedList<>();
+                for(int i = 0; i < number; i++) {
+                    switch (values[0].replace(" ", "")) {
+                        case "pokemon":
+                            gameList.add(new Pokemon());
+                            break;
+                        case "trivia":
+                            gameList.add(new Trivia(null));
+                            break;
+                        case "number":
+                            gameList.add(new GuessTheNumber());
+                            break;
+                        case "character":
+                            gameList.add(new Character());
+                            break;
+                    }
+                }
+
+                if(gameList.isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify a valid game! (Valid games: character, pokemon, number, trivia)").queue();
+                    return;
+                }
+
+                startMultipleGames(gameList, event);
+            }
         }).createSubCommandAlias("pokemon", "pokémon")
           .createSubCommandAlias("number", "guessthatnumber"));
     }
@@ -161,6 +212,7 @@ public class GameCmds {
                         .setDescription("**Starts an instance of trivia.**\n" +
                                 "Optionally, you can specify the difficulty (easy, medium or hard) to play.")
                         .addField("Rules", "You have 10 attempts and 60 seconds to answer, otherwise the game ends.", false)
+                        .addField("Considerations", "To start multiple trivia sessions please use `~>game trivia multiple`, not `~>trivia multiple`", false)
                         .build();
             }
         });
@@ -197,7 +249,8 @@ public class GameCmds {
             }
         }
 
-        event.getChannel().sendMessage(EmoteReference.CORRECT + "Started a new lobby! **Games: " + games.stream().map(Game::name).collect(Collectors.joining(", ")) + "**").queue();
+        event.getChannel().sendMessage(EmoteReference.CORRECT + "Started a new lobby! **Games: " + games.stream().map(Game::name).collect(Collectors.joining(", ")) + "**\n" +
+                "You can type `endlobby` to end all games and finish the lobby.").queue();
         GameLobby lobby = new GameLobby(event, players, games);
         lobby.startFirstGame();
     }

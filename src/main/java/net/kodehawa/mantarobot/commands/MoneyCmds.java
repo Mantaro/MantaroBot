@@ -230,17 +230,17 @@ public class MoneyCmds {
                         case "everything":
                             i = player.getMoney();
                             multiplier = 1.4d + (r.nextInt(1500) / 1000d);
-                            luck = 30 + (int) (multiplier * 15) + r.nextInt(20);
+                            luck = 23 + (int) (multiplier * 14) + r.nextInt(18);
                             break;
                         case "half":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
-                            multiplier = 1.2d + (r.nextInt(1500) / 1000d);
-                            luck = 20 + (int) (multiplier * 13) + r.nextInt(20);
+                            multiplier = 1.2d + (r.nextInt(1350) / 1000d);
+                            luck = 20 + (int) (multiplier * 13) + r.nextInt(19);
                             break;
                         case "quarter":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
                             multiplier = 1.1d + (r.nextInt(1100) / 1000d);
-                            luck = 25 + (int) (multiplier * 10) + r.nextInt(18);
+                            luck = 19 + (int) (multiplier * 12) + r.nextInt(18);
                             break;
                         default:
                             i = content.endsWith("%")
@@ -248,7 +248,7 @@ public class MoneyCmds {
                                     : Long.parseLong(content);
                             if(i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
                             multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
-                            luck = 15 + (int) (multiplier * 15) + r.nextInt(10);
+                            luck = 17 + (int) (multiplier * 14) + r.nextInt(12);
                             break;
                     }
                 } catch(NumberFormatException e) {

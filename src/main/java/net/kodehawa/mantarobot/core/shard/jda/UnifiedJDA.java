@@ -28,6 +28,7 @@ import net.dv8tion.jda.core.requests.restaction.GuildAction;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -119,6 +120,6 @@ public interface UnifiedJDA extends JDA, Iterable<JDA> {
     }
 
     default Stream<JDA> stream() {
-        return StreamSupport.stream(spliterator(), false).sorted(Comparator.comparingInt(jda -> jda.getShardInfo().getShardId()));
+        return StreamSupport.stream(spliterator(), false).filter(Objects::nonNull).sorted(Comparator.comparingInt(jda -> jda.getShardInfo().getShardId()));
     }
 }

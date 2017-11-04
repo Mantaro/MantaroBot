@@ -105,7 +105,7 @@ public class MuteCmds {
 
                         time = System.currentTimeMillis() + Utils.parseTime(opts.get("time").get());
 
-                        if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(5)) {
+                        if(time > System.currentTimeMillis() + TimeUnit.DAYS.toMillis(10)) {
                             //smh smh smfh god fuck rethinkdb just
                             //dont
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Too long...").queue();
@@ -124,6 +124,7 @@ public class MuteCmds {
                             dbGuild.save();
                         } else {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify any time!").queue();
+                            return;
                         }
                     }
 
