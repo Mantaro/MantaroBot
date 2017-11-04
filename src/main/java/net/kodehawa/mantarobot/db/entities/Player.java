@@ -34,8 +34,6 @@ import java.beans.ConstructorProperties;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 

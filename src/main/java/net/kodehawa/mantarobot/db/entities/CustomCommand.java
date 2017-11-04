@@ -28,9 +28,6 @@ import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
-
 @Getter
 public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
@@ -38,6 +35,7 @@ public class CustomCommand implements ManagedObject {
     private final List<String> values;
 
     @ConstructorProperties({"id", "values"})
+    @JsonCreator
     public CustomCommand(String id, List<String> values) {
         this.id = id;
         this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());

@@ -26,9 +26,7 @@ import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 public class PremiumKey implements ManagedObject {
@@ -44,6 +42,7 @@ public class PremiumKey implements ManagedObject {
         MASTER, USER, GUILD
     }
 
+    @JsonCreator
     @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
     public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner) {
         this.id = id;

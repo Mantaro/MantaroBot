@@ -31,9 +31,7 @@ import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 @ToString
@@ -44,6 +42,7 @@ public class DBUser implements ManagedObject {
     private final String id;
     private long premiumUntil;
 
+    @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
     public DBUser(String id, long premiumUntil, UserData data) {
         this.id = id;

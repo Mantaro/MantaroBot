@@ -40,6 +40,7 @@ public class Quote implements ManagedObject {
     private final String userAvatar;
     private final String userId;
     private final String userName;
+
     @ConstructorProperties({"id", "userId", "channelId", "content", "guildName", "userName", "userAvatar", "channelName"})
     public Quote(String id, String userId, String channelId, String content, String guildName, String userName, String userAvatar, String channelName) {
         this.id = id;
