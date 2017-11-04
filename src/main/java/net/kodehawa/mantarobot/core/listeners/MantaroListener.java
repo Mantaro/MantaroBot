@@ -557,6 +557,10 @@ public class MantaroListener implements EventListener {
         if(channel != null && message != null) {
             TextChannel tc = event.getGuild().getTextChannelById(channel);
 
+            if(tc == null) {
+                return;
+            }
+
             if(message.contains("$(")) {
                 Map<String, String> dynamicMap = new HashMap<>();
                 map("event", dynamicMap, event);
@@ -581,6 +585,7 @@ public class MantaroListener implements EventListener {
                     return;
                 }
             }
+
             tc.sendMessage(message).queue();
         }
     }
