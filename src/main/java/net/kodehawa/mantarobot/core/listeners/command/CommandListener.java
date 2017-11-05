@@ -56,6 +56,12 @@ public class CommandListener implements EventListener {
     private final Random random = new Random();
     private final MantaroShard shard;
     private final int shardId;
+    private final String[] boomQuotes = {
+            "Seemingly Megumin exploded our castle...", "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
+            "W-Wait, what just happened?", "I-I think we got some fire going on here... you might want to tell my master to take a look.",
+            "I'm mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
+            "U-Uhh.. What did you want?"
+    };
 
     public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
         this.shardId = shardId;
@@ -89,8 +95,10 @@ public class CommandListener implements EventListener {
 
         if(event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
+            //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than savngi the entire jda object.
             messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContent())));
 
+            //Ignore myself and bots.
             if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
 
             shard.getCommandPool().execute(() -> onCommand(msg));
@@ -134,11 +142,10 @@ public class CommandListener implements EventListener {
                 } catch (Exception ignored) {}
             }
         } catch(IndexOutOfBoundsException e) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "I owe you one, friend!\n" +
-                    "(Your query returned no results or incorrect type arguments, Check the command help)").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();
         } catch(PermissionException e) {
             if(e.getPermission() != Permission.UNKNOWN) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permission to do this :( | I need the permission: **" +
+                event.getChannel().sendMessage(EmoteReference.ERROR + "I don't have permission to do this :<, I need the permission: **" +
                         e.getPermission().getName() + "**" + (e.getMessage() != null ? " | Message: " + e.getMessage() : "")).queue();
             } else {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot perform this action due to the lack of permission! Is the role I might be trying to assign" +
@@ -146,16 +153,18 @@ public class CommandListener implements EventListener {
             }
         } catch(IllegalArgumentException e) { //NumberFormatException == IllegalArgumentException
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
-            event.getChannel().sendMessage(EmoteReference.ERROR + "I think you forgot something on the floor. " +
-                    "(Incorrect type arguments or message exceeds 2048 characters) | Check command help (Maybe we threw it there? [Error ID: " + id + "]... I hope we didn't)").queue();
+            event.getChannel().sendMessage(EmoteReference.ERROR + "I think you forgot something on the floor. (Maybe we threw it there? [Error ID: " + id + "]... I hope we didn't)\n" +
+                    "- Incorrect type arguments or the message I'm trying to send exceeds 2048 characters, Just in case, check command help!").queue();
             log.warn("Exception caught and alternate message sent. We should look into this, anyway (ID: " + id + ")", e);
         } catch(ReqlError e) {
+            //So much just went wrong...
             e.printStackTrace();
             SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
         } catch(Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
+            Random r = new Random();
             event.getChannel().sendMessage(
-                    EmoteReference.ERROR + "Uh-oh, seems like my owners forgot some zeros and ones... U-Uhh.. What did you want?\n" +
+                    EmoteReference.ERROR + boomQuotes[r.nextInt(boomQuotes.length)] + "\n" +
                             "(Error ID: ``" + id + "``)\n" +
                             "If you want, join our **support guild** (Link on ``~>about``), or check out our GitHub page (/Mantaro/MantaroBot). Please tell them to quit exploding me and " +
                             "please don't forget the Error ID when reporting!"

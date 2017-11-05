@@ -73,4 +73,6 @@ public class GuildData {
     private Map<Long, WarnAction> warnActions = new HashMap<>(); //TODO add config for this!
     private Map<String, Long> warnCount = new HashMap<>();
     private String gameTimeoutExpectedAt;
+    private boolean ignoreBotsWelcomeMessage = false;
+    private boolean ignoreBotsAutoRole = false;
 }

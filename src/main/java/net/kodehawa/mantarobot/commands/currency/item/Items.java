@@ -28,7 +28,7 @@ public class Items {
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music.  Should be worth " +
@@ -104,7 +104,9 @@ public class Items {
             SLOT_COIN = new Item("\uD83C\uDF9F",
                     "Slot ticket", "Gives you extra chance in slots, also works as bulk storage.", 65, true, true),
             HOUSE = new Item(EmoteReference.HOUSE.getUnicode(),
-                    "House", "Cozy place to live in.", 5000, true, true)
+                    "House", "Cozy place to live in.", 5000, true, true),
+            CAR = new Item("\uD83D\uDE97",
+                    "Car", "To move around.", 1000, true ,true)
     };
 
     public static Optional<Item> fromAny(String any) {

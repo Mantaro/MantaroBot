@@ -162,30 +162,37 @@ public class MantaroListener implements EventListener {
 
             onJoin(e);
             MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
+            MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUserCache().size());
             return;
         }
 
         if(event instanceof GuildLeaveEvent) {
             onLeave((GuildLeaveEvent) event);
             MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
+            MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUserCache().size());
+            return;
         }
 
         //debug
         if(event instanceof StatusChangeEvent) {
             logStatusChange((StatusChangeEvent) event);
+            return;
         }
 
         if(event instanceof DisconnectEvent) {
             onDisconnect((DisconnectEvent) event);
+            return;
         }
 
         if(event instanceof ExceptionEvent) {
             MantaroBot.getInstance().getStatsClient().increment("exceptions");
             onException((ExceptionEvent) event);
+            return;
         }
 
         if(event instanceof HttpRequestEvent) {
             MantaroBot.getInstance().getStatsClient().incrementCounter("http_requests");
+            return;
         }
 
         if(event instanceof ReconnectedEvent){
@@ -193,6 +200,7 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.reconnect")
                     .withText("Shard reconnected")
                     .withDate(new Date()).build());
+            return;
         }
 
         if(event instanceof ResumedEvent) {
@@ -200,6 +208,7 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.resume")
                     .withText("Shard resumed")
                     .withDate(new Date()).build());
+            return;
         }
 
         if(event instanceof GuildMemberRoleAddEvent){
@@ -209,7 +218,7 @@ public class MantaroListener implements EventListener {
 
     /**
      * Handles automatic deliver of patreon keys. Should only deliver keys when
-     * - An user just joined the guild and got the "Patreon" role assigned by the Patreon bot
+     * - An user was already in the guild and got the "Patreon" role assigned by the Patreon bot
      * - The user hasn't re-joined to get the role re-assigned
      * - The user hasn't received any keys
      * - The user pledged, obviously
@@ -457,7 +466,7 @@ public class MantaroListener implements EventListener {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
                     guildData.setSlowMode(false);
                     dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions.**").queue();
+                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions :<**").queue();
                 }
             }
         }
@@ -473,7 +482,7 @@ public class MantaroListener implements EventListener {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage anti-spam mode because I don't have permission to delete messages!").queue();
                     guildData.setAntiSpam(false);
                     dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions.**").queue();
+                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions :<**").queue();
                 }
             }
         }
@@ -503,9 +512,11 @@ public class MantaroListener implements EventListener {
             String hour = df.format(new Date(System.currentTimeMillis()));
             if(role != null) {
                 try {
-                    if(event.getGuild().getRoleById(role) != null) {
-                        event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
-                                log.debug("Successfully added a new role to " + event.getMember()));
+                    if(!(event.getMember().getUser().isBot() && data.isIgnoreBotsAutoRole())) {
+                        if(event.getGuild().getRoleById(role) != null) {
+                            event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
+                                    log.debug("Successfully added a new role to " + event.getMember()));
+                        }
                     }
                 } catch(Exception e) {
                     MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
@@ -536,9 +547,12 @@ public class MantaroListener implements EventListener {
             DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
             GuildData data = dbg.getData();
 
+            if(event.getMember().getUser().isBot() && data.isIgnoreBotsWelcomeMessage()) {
+                return;
+            }
 
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
-            if(logChannel != null) {
+            if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
                 logTotal++;

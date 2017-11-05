@@ -525,6 +525,28 @@ public class GuildOptions extends OptionHandler {
                                 });
                     }
                 });
+
+        registerOption("server:ignore-bots-autoroles:toggle",
+                "Ignore bots on autorole", "Toggles between ignoring bots on autorole assign or no,", (event) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    boolean ignore = guildData.isIgnoreBotsAutoRole();
+                    guildData.setIgnoreBotsAutoRole(!ignore);
+                    dbGuild.saveAsync();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsAutoRole() + "**").queue();
+                });
+
+        registerOption("server:ignore-bots-joinleave:toggle",
+                "Ignore bots on join/leave message", "Toggles between ignoring bots on join/leave message.,", (event) -> {
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
+                    guildData.setIgnoreBotsWelcomeMessage(!ignore);
+                    dbGuild.saveAsync();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsWelcomeMessage() + "**").queue();
+                });
     }
 
     @Override
