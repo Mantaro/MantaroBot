@@ -409,6 +409,13 @@ public class MantaroListener implements EventListener {
 
     private void onLeave(GuildLeaveEvent event) {
         try {
+            if(MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
+                    || MantaroData.db().getMantaroData().getBlackListedUsers().contains(
+                    event.getGuild().getOwner().getUser().getId())) {
+                log.info("Left " + event.getGuild() + " because of a blacklist entry. (O:" + event.getGuild().getOwner() + ")");
+                return;
+            }
+
             MantaroBot.getInstance().getStatsClient().increment("guild_leave");
             MantaroBot.getInstance().getAudioManager().getMusicManagers().remove(event.getGuild().getId());
             GuildStatsManager.log(LoggedEvent.LEAVE);
