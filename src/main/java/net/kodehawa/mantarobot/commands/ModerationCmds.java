@@ -73,10 +73,10 @@ public class ModerationCmds {
                 }
 
                 if(reason.isEmpty()) {
-                    reason = "Not specified";
+                    reason = "Reason not specified";
                 }
 
-                final String finalReason = reason;
+                final String finalReason = String.format("Softbanned by %#s: %s", event.getAuthor(), reason);
 
                 receivedMessage.getMentionedUsers().forEach(user -> {
                     if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
@@ -111,7 +111,7 @@ public class ModerationCmds {
                                 db.saveAsync();
                                 channel.sendMessage(EmoteReference.ZAP + "You'll be missed... haha just kidding " + member.getEffectiveName())
                                         .queue(); //Quite funny, I think.
-                                guild.getController().unban(member.getUser()).queue(aVoid -> {
+                                guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                                 }, error -> {
                                     if(error instanceof PermissionException) {
                                         channel.sendMessage(String.format(EmoteReference.ERROR + "Error unbanning [%s]: (No permission " +
@@ -183,10 +183,10 @@ public class ModerationCmds {
                 }
 
                 if(reason.isEmpty()) {
-                    reason = "Not specified";
+                    reason = "Reason not specified";
                 }
 
-                final String finalReason = reason;
+                final String finalReason = String.format("Banned by %#s: %s", event.getAuthor(), reason);
 
                 receivedMessage.getMentionedUsers().forEach(user -> {
                     if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
@@ -286,10 +286,10 @@ public class ModerationCmds {
                 }
 
                 if(reason.isEmpty()) {
-                    reason = "Not specified";
+                    reason = "Reason not specified";
                 }
 
-                final String finalReason = reason;
+                final String finalReason = String.format("Kicked by %#s: %s", event.getAuthor(), reason);
 
                 receivedMessage.getMentionedUsers().forEach(user -> {
                     if(!event.getGuild().getMember(event.getAuthor()).canInteract(event.getGuild().getMember(user))) {
@@ -400,7 +400,7 @@ public class ModerationCmds {
 
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
                 long l = Utils.parseTime(time);
-                String finalReason = reason;
+                String finalReason = String.format("Tempbanned by %#s: %s", event.getAuthor(), reason);
                 String sTime = StringUtils.parseTime(l);
                 receivedMessage.getMentionedUsers().forEach(user ->
                         guild.getController().ban(user, 7).queue(
