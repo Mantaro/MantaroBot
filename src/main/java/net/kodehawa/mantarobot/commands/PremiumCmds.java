@@ -172,7 +172,7 @@ public class PremiumCmds {
                         embedBuilder.setAuthor(event.getGuild().getName() + "'s Premium Status", null, event.getAuthor().getEffectiveAvatarUrl());
 
                         if(dbGuild.getData().getPremiumKey() != null) {
-                            PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
+                            PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
                             User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                             if(owner == null)
                                 owner = event.getAuthor();
