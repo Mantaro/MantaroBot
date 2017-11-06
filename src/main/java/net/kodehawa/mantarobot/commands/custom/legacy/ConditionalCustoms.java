@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.commands.custom;
+package net.kodehawa.mantarobot.commands.custom.legacy;
 
 import br.com.brjdevs.java.utils.texts.MatcherUtils;
 import com.google.gson.JsonPrimitive;

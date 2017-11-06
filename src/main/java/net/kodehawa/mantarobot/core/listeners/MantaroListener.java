@@ -43,7 +43,6 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.LoggedEvent;
-import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.entities.CachedMessage;
 import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
@@ -71,8 +70,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
+import static net.kodehawa.mantarobot.commands.custom.legacy.Mapifier.dynamicResolve;
+import static net.kodehawa.mantarobot.commands.custom.legacy.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {

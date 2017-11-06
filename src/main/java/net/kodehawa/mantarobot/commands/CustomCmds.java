@@ -25,7 +25,10 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.custom.ConditionalCustoms;
+import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.InterpreterEvaluator;
+import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.KaiperScriptExecutor;
+import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.internal.LimitReachedException;
+import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
@@ -39,6 +42,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.AbstractCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -49,6 +53,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
+import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
 
 import java.net.URL;
 import java.util.*;
@@ -58,8 +63,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
+import static net.kodehawa.mantarobot.commands.custom.legacy.Mapifier.dynamicResolve;
+import static net.kodehawa.mantarobot.commands.custom.legacy.Mapifier.map;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -71,7 +76,8 @@ public class CustomCmds {
     private final Pattern NAME_PATTERN = Pattern.compile("[a-zA-Z0-9_]+"),
             INVALID_CHARACTERS_PATTERN = Pattern.compile("[^a-zA-Z0-9_]"),
             NAME_WILDCARD_PATTERN = Pattern.compile("[a-zA-Z0-9_*]+");
-    private final net.kodehawa.mantarobot.core.modules.commands.base.Command customCommand = new AbstractCommand(null) {
+
+    private final Command customCommand = new AbstractCommand(null) {
         @Override
         public MessageEmbed help(GuildMessageReceivedEvent event) {
             return null;
@@ -629,6 +635,24 @@ public class CustomCmds {
         }
 
         response = ConditionalCustoms.resolve(response, 0);
+
+        if (response.contains("<$")) {
+            //FIXME on NEXT KAIPER UPDATE:
+            //GlobalVisitorSettings will be replaced by VisitorSettings instance
+            //LimitReachedException will be replaced by VisitorException
+
+            GlobalVisitorSettings.ITERATION_LIMIT = 200;
+            GlobalVisitorSettings.SIZE_LIMIT = 100;
+            GlobalVisitorSettings.MILLISECONDS_LIMIT = 1500;
+            GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
+
+            try {
+                response = new KaiperScriptExecutor(response).execute(new InterpreterEvaluator());
+            } catch (LimitReachedException e) {
+                event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
+                return;
+            }
+        }
 
         int c = response.indexOf(':');
         if(c != -1) {
