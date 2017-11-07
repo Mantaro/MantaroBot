@@ -114,7 +114,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @Override
     public void save(CustomCommand command) {
         ccMap.fastPutAsync("cc:" + command.getId(), command);
-        super.delete(command);
+        super.save(command);
     }
 
     @Override

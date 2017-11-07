@@ -21,12 +21,14 @@ import com.google.common.eventbus.Subscribe;
 import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.gen.ast.OrderBy;
 import com.rethinkdb.model.OptArgs;
+import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
@@ -464,13 +466,18 @@ public class MoneyCmds {
                                 .optArg("index", r.desc("money"));
 
                 if(args.length > 0 && (args[0].equalsIgnoreCase("lvl") || args[0].equalsIgnoreCase("level"))) {
-                    Cursor<Map> m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("level"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "level"))
-                            .limit(15)
-                            .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+
+                    Cursor<Map> m;
+                    try(Connection conn = Utils.newDbConnection()) {
+                        m = r.table("players")
+                                .orderBy()
+                                .optArg("index", r.desc("level"))
+                                .filter(player -> player.g("id").match(pattern))
+                                .map(player -> player.pluck("id", "level"))
+                                .limit(15)
+                                .run(conn, OptArgs.of("read_mode", "outdated"));
+                    }
+
                     List<Map> c = m.toList();
                     m.close();
 
@@ -491,13 +498,18 @@ public class MoneyCmds {
 
 
                 if(args.length > 0 && (args[0].equalsIgnoreCase("rep") || args[0].equalsIgnoreCase("reputation"))) {
-                    Cursor<Map> m = r.table("players")
-                            .orderBy()
-                            .optArg("index", r.desc("reputation"))
-                            .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "reputation"))
-                            .limit(15)
-                            .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+                    Cursor<Map> m;
+
+                    try(Connection conn = Utils.newDbConnection()) {
+                        m = r.table("players")
+                                .orderBy()
+                                .optArg("index", r.desc("reputation"))
+                                .filter(player -> player.g("id").match(pattern))
+                                .map(player -> player.pluck("id", "reputation"))
+                                .limit(15)
+                                .run(conn, OptArgs.of("read_mode", "outdated"));
+                    }
+
                     List<Map> c = m.toList();
                     m.close();
 
@@ -748,10 +760,12 @@ public class MoneyCmds {
     }
 
     private Cursor<Map> getGlobalRichest(OrderBy template, String pattern) {
-        return template.filter(player -> player.g("id").match(pattern))
-                .map(player -> player.pluck("id", "money"))
-                .limit(15)
-                .run(MantaroData.conn(), OptArgs.of("read_mode", "outdated"));
+        try(Connection conn = Utils.newDbConnection()) {
+            return template.filter(player -> player.g("id").match(pattern))
+                    .map(player -> player.pluck("id", "money"))
+                    .limit(15)
+                    .run(conn, OptArgs.of("read_mode", "outdated"));
+        }
     }
 
 }

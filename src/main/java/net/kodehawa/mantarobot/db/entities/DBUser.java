@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -44,7 +45,7 @@ public class DBUser implements ManagedObject {
 
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
-    public DBUser(String id, long premiumUntil, UserData data) {
+    public DBUser(@JsonProperty("id") String id, @JsonProperty("premiumUntil") long premiumUntil, @JsonProperty("data") UserData data) {
         this.id = id;
         this.premiumUntil = premiumUntil;
         this.data = data;

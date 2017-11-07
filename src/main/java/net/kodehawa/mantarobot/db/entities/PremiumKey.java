@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
@@ -44,7 +45,9 @@ public class PremiumKey implements ManagedObject {
 
     @JsonCreator
     @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
-    public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner) {
+    public PremiumKey(@JsonProperty("id") String id, @JsonProperty("duration") long duration,
+                      @JsonProperty("expiration") long expiration, @JsonProperty("type") Type type,
+                      @JsonProperty("enabled") boolean enabled, @JsonProperty("owner") String owner) {
         this.id = id;
         this.duration = duration;
         this.expiration = expiration;

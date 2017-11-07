@@ -36,7 +36,7 @@ public class CustomCommand implements ManagedObject {
 
     @ConstructorProperties({"id", "values"})
     @JsonCreator
-    public CustomCommand(String id, List<String> values) {
+    public CustomCommand(@JsonProperty("id") String id, @JsonProperty("values") List<String> values) {
         this.id = id;
         this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());
     }

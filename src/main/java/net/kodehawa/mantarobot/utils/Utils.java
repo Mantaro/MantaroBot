@@ -18,12 +18,15 @@ package net.kodehawa.mantarobot.utils;
 
 import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.utils.FinderUtil;
+import com.rethinkdb.net.Connection;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.*;
@@ -46,10 +49,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.rethinkdb.RethinkDB.r;
+
 @Slf4j
 public class Utils {
     public static final OkHttpClient httpClient = new OkHttpClient();
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
+    private static final Config config = MantaroData.config().get();
 
     private static final String[] ratelimitQuotes = {
             "Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...",
@@ -420,6 +426,16 @@ public class Utils {
                 (hours == 0 ? "" : hours + " hour" + (hours == 1 ? "" : "s") + ", ") +
                 (minutes == 0 ? "" : minutes + " minute" + (minutes == 1 ? "" : "s") + ", ") +
                 (seconds == 0 ? "" : seconds + " second" + (seconds == 1 ? "" : "s"))).replaceAll(", (\\d{1,2} \\S+)$", " and $1");
+    }
+
+    public static void dbConnection(Consumer<Connection> consumer) {
+        try (Connection conn = r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect()) {
+            consumer.accept(conn);
+        }
+    }
+
+    public static Connection newDbConnection() {
+        return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
     }
 
     public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {

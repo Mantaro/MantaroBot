@@ -128,20 +128,6 @@ public class ManagedDatabase {
         return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
     }
 
-    public List<Quote> getQuotes(String guildId) {
-        String pattern = '^' + guildId + ':';
-        Cursor<Quote> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Quote.class);
-        return c.toList();
-    }
-
-    public List<Quote> getQuotes(Guild guild) {
-        return getQuotes(guild.getId());
-    }
-
-    public List<Quote> getQuotes(DBGuild guild) {
-        return getQuotes(guild.getId());
-    }
-
     public DBUser getUser(String userId) {
         DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
         return user == null ? DBUser.of(userId) : user;

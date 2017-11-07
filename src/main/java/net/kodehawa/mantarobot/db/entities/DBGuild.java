@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -44,7 +45,7 @@ public class DBGuild implements ManagedObject {
 
     @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
-    public DBGuild(String id, long premiumUntil, GuildData data) {
+    public DBGuild(@JsonProperty("id") String id, @JsonProperty("premiumUntil") long premiumUntil, @JsonProperty("data") GuildData data) {
         this.id = id;
         this.premiumUntil = premiumUntil;
         this.data = data;
