@@ -16,9 +16,11 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
@@ -26,15 +28,14 @@ import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
-
 @Getter
 public class CustomCommand implements ManagedObject {
     public static final String DB_TABLE = "commands";
     private final String id;
     private final List<String> values;
+
     @ConstructorProperties({"id", "values"})
+    @JsonCreator
     public CustomCommand(String id, List<String> values) {
         this.id = id;
         this.values = values.stream().map(URLEncoding::decode).collect(Collectors.toList());
@@ -46,14 +47,12 @@ public class CustomCommand implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        MantaroData.db().delete(this);
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        MantaroData.db().save(this);
     }
 
     @JsonProperty("values")

@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -30,9 +31,7 @@ import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 @ToString
@@ -42,6 +41,8 @@ public class DBGuild implements ManagedObject {
     private final GuildData data;
     private final String id;
     private long premiumUntil;
+
+    @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
     public DBGuild(String id, long premiumUntil, GuildData data) {
         this.id = id;
@@ -59,14 +60,12 @@ public class DBGuild implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        MantaroData.db().delete(this);
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        MantaroData.db().save(this);
     }
 
     public Guild getGuild(JDA jda) {

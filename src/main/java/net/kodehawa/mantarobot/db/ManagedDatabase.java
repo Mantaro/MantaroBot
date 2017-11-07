@@ -123,7 +123,7 @@ public class ManagedDatabase {
     }
 
     //Also tests if the key is valid or not!
-    public PremiumKey getPremiumKey(String id){
+    public PremiumKey getPremiumKey(String id) {
         if(id == null) return null;
         return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
     }
@@ -153,5 +153,65 @@ public class ManagedDatabase {
 
     public DBUser getUser(Member member) {
         return getUser(member.getUser());
+    }
+
+    public void save(CustomCommand command) {
+        r.table(CustomCommand.DB_TABLE).insert(command)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void save(DBGuild guild) {
+        r.table(DBGuild.DB_TABLE).insert(guild)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void save(DBUser user) {
+        r.table(DBUser.DB_TABLE).insert(user)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void save(MantaroObj obj) {
+        r.table(MantaroObj.DB_TABLE).insert(obj)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void save(Player player) {
+        r.table(Player.DB_TABLE).insert(player)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void save(PremiumKey key) {
+        r.table(PremiumKey.DB_TABLE).insert(key)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void delete(CustomCommand command) {
+        r.table(CustomCommand.DB_TABLE).get(command.getId()).delete().runNoReply(conn);
+    }
+
+    public void delete(DBGuild guild) {
+        r.table(DBGuild.DB_TABLE).get(guild.getId()).delete().runNoReply(conn);
+    }
+
+    public void delete(DBUser user) {
+        r.table(DBUser.DB_TABLE).get(user.getId()).delete().runNoReply(conn);
+    }
+
+    public void delete(MantaroObj obj) {
+        r.table(MantaroObj.DB_TABLE).get(obj.getId()).delete().runNoReply(conn);
+    }
+
+    public void delete(Player player) {
+        r.table(Player.DB_TABLE).get(player.getId()).delete().runNoReply(conn);
+    }
+
+    public void delete(PremiumKey key) {
+        r.table(PremiumKey.DB_TABLE).get(key.getId()).delete().runNoReply(conn);
     }
 }

@@ -16,17 +16,17 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
 import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 public class PremiumKey implements ManagedObject {
@@ -42,6 +42,7 @@ public class PremiumKey implements ManagedObject {
         MASTER, USER, GUILD
     }
 
+    @JsonCreator
     @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
     public PremiumKey(String id, long duration, long expiration, Type type, boolean enabled, String owner) {
         this.id = id;
@@ -57,14 +58,12 @@ public class PremiumKey implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(id).delete().runNoReply(conn());
+        MantaroData.db().delete(this);
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        MantaroData.db().save(this);
     }
 
     @JsonIgnore

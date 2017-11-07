@@ -20,8 +20,13 @@ import com.rethinkdb.net.Connection;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import org.redisson.Redisson;
+import org.redisson.api.LocalCachedMapOptions;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -36,6 +41,7 @@ public class MantaroData {
     private static Connection conn;
     private static ConnectionWatcherDataManager connectionWatcher;
     private static ManagedDatabase db;
+    private static RedissonClient redisson;
 
     public static GsonDataManager<Config> config() {
         if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
@@ -51,6 +57,18 @@ public class MantaroData {
         return conn;
     }
 
+    public static RedissonClient redisson() {
+        if(redisson == null) {
+            Config.RedisInfo i = config().get().redis;
+            if(i.enabled) {
+                org.redisson.config.Config cfg = new org.redisson.config.Config();
+                cfg.useSingleServer().setAddress("redis://" + i.host + ":" + i.port);
+                redisson = Redisson.create(cfg);
+            }
+        }
+        return redisson;
+    }
+
     public static ConnectionWatcherDataManager connectionWatcher() {
         if(connectionWatcher == null) {
             connectionWatcher = new ConnectionWatcherDataManager(MantaroBot.cwport);
@@ -58,8 +76,30 @@ public class MantaroData {
         return connectionWatcher;
     }
 
+    public static RedisCachedDatabase redisDb() {
+        ManagedDatabase db = db();
+        if(db instanceof RedisCachedDatabase) return (RedisCachedDatabase)db;
+        throw new IllegalStateException("Redis database is disabled");
+    }
+
     public static ManagedDatabase db() {
-        if(db == null) db = new ManagedDatabase(conn());
+        if(db == null) {
+            Config.RedisInfo i = config().get().redis;
+            if(i.enabled) {
+                RedissonClient client = redisson();
+
+                db = new RedisCachedDatabase(conn(),
+                        map(client, "custom-commands", i.customCommands),
+                        map(client, "guilds", i.guilds),
+                        map(client, "players", i.players),
+                        map(client, "users", i.users),
+                        map(client, "premium-keys", i.premiumKeys),
+                        client.getBucket("mantaro")
+                );
+            } else {
+                db = new ManagedDatabase(conn());
+            }
+        }
         return db;
     }
 
@@ -73,5 +113,16 @@ public class MantaroData {
 
     public static void queue(Runnable runnable) {
         getExecutor().submit(runnable);
+    }
+
+    private static <K, V>RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
+        if(!cacheInfo.enabled) return client.getMap(key);
+        LocalCachedMapOptions<K, V> options = LocalCachedMapOptions.<K, V>defaults()
+                .timeToLive(cacheInfo.ttlMs)
+                .maxIdle(cacheInfo.maxIdleMs)
+                .cacheSize(cacheInfo.maxSize)
+                .evictionPolicy(cacheInfo.evictionPolicy)
+                .invalidationPolicy(cacheInfo.invalidationPolicy);
+        return client.getLocalCachedMap(key, options);
     }
 }

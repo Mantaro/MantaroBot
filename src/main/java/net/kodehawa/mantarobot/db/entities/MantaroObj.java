@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import lombok.Data;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -27,9 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
-
 @Data
 public class MantaroObj implements ManagedObject {
     public static final String DB_TABLE = "mantaro";
@@ -39,6 +37,7 @@ public class MantaroObj implements ManagedObject {
     public List<String> patreonUsers = null;
     private Map<Long, Pair<String, Long>> mutes = null;
     private Map<String, Long> tempBans = null;
+
     @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
     public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans, Map<Long, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
@@ -54,13 +53,11 @@ public class MantaroObj implements ManagedObject {
 
     @Override
     public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+        MantaroData.db().delete(this);
     }
 
     @Override
     public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+        MantaroData.db().save(this);
     }
 }
