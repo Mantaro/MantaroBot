@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -56,6 +57,8 @@ public class GameCmds {
     //addSubCommand()...
     @Subscribe
     public void guess(CommandRegistry cr) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+
         cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -74,21 +77,29 @@ public class GameCmds {
         }.addSubCommand("character", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 startGame(new Character(), event);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 startGame(new Pokemon(), event);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 startGame(new GuessTheNumber(), event);
             }
         }).addSubCommand("lobby", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify anything to play!").queue();
                     return;
@@ -138,6 +149,8 @@ public class GameCmds {
         }).addSubCommand("multiple", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();

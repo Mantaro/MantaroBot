@@ -410,6 +410,8 @@ public class MusicCmds {
                         .build();
             }
         });
+
+        cr.registerAlias("skipahead", "forward");
     }
 
 

@@ -125,7 +125,7 @@ public class ShardedMantaro {
         bot.startCheckingBirthdays();
     }
 
-    public void startUpdaters() {
+    private void startUpdaters() {
         Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
 
         for(MantaroShard shard : getShards()) {

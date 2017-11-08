@@ -38,9 +38,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
@@ -275,9 +278,13 @@ public class FunCmds {
 
     @Subscribe
     public void roll(CommandRegistry registry) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
 
                 int size = 6, amount = 1;
