@@ -114,6 +114,7 @@ public class ShardedMantaro {
     private void startPostLoadProcedure(long start) {
         long end = System.currentTimeMillis();
         MantaroBot bot = MantaroBot.getInstance();
+        MantaroShard.getReconnectQueue().ready();
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard("Loaded all shards in " + ((end - start) / 1000) + " seconds.");
         bot.getCore().markAsReady();

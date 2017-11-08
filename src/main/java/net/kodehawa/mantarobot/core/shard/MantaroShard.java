@@ -27,7 +27,6 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.ShardedRateLimiter;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
-import net.dv8tion.jda.core.requests.SessionReconnectQueue;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -37,6 +36,7 @@ import net.kodehawa.mantarobot.core.listeners.command.CommandListener;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
+import net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
@@ -72,19 +72,23 @@ public class MantaroShard implements JDA {
 
     @Getter
     public final MantaroEventManager manager;
-    private final CommandListener commandListener;
     @Getter
     private final ExecutorService commandPool;
+    @Getter
+    private final ExecutorService threadPool;
+    @Getter
+    private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
+    @Delegate
+    private JDA jda;
+
     private final Logger log;
     private final MantaroListener mantaroListener;
     private final int shardId;
-    @Getter
-    private final ExecutorService threadPool;
+    private final CommandListener commandListener;
     private final int totalShards;
-    @Delegate
-    private JDA jda;
-    private static SessionReconnectQueue reconnectQueue = new SessionReconnectQueue();
     private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
+
+
 
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
