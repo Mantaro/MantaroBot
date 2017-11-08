@@ -32,7 +32,7 @@
             <li>Run it and prepare yourself to start filling in configs.</li>
         </ol>
         <hr>
-        <h3>Mantaro Uses and loves</h3>
+        <h2>Mantaro Uses and loves</h2>
         <ul>
             <li><a href="https://github.com/DV8FromTheWorld/JDA">JDA by DV8FromTheWorld and MinnDevelopment</a></li>
             <li><a href="https://github.com/sedmelluq/lavaplayer">Lavaplayer by sedmelluq</a></li>
