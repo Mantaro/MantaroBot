@@ -291,8 +291,8 @@ public class CurrencyCmds {
                                 return;
                             }
 
-                            if(player.removeMoney((itemToBuy.getValue() + 1) * itemNumber)) {
-                                player.getInventory().process(new ItemStack(itemToBuy.getValue() + 1, itemNumber));
+                            if(player.removeMoney((itemToBuy.getValue() - 1) * itemNumber)) {
+                                player.getInventory().process(new ItemStack(itemToBuy.getValue() - 1, itemNumber));
                                 player.saveAsync();
                                 event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() + " for " + (itemToBuy.getValue() * itemNumber) +
                                         " credits successfully. You now have " + player.getMoney() + " credits.").queue();
