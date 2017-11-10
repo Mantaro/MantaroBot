@@ -114,6 +114,7 @@ public class CommandRegistry {
         }
 
         long end = System.currentTimeMillis();
+        MantaroBot.getInstance().getStatsClient().increment("commands");
         cmd.run(event, cmdname, content);
 
         if(cmd.category() != null) {
