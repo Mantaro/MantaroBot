@@ -153,7 +153,7 @@ public class FunCmds {
                                         user11.getData().setMarriedWith(member.getId());
                                         marry.getData().setMarriedWith(e.getAuthor().getId());
                                         e.getChannel().sendMessage(EmoteReference.POPPER + e.getMember()
-                                                .getEffectiveName() + " accepted the proposal of " + member.getName() + "!").queue();
+                                                .getUser().getName() + " accepted the proposal of " + member.getName() + "!").queue();
                                         user11.save();
                                         marry.save();
                                         return Operation.COMPLETED;
