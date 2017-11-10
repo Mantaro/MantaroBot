@@ -152,8 +152,7 @@ public class FunCmds {
                                         Player marry = MantaroData.db().getPlayer(e.getGuild().getMember(member));
                                         user11.getData().setMarriedWith(member.getId());
                                         marry.getData().setMarriedWith(e.getAuthor().getId());
-                                        e.getChannel().sendMessage(EmoteReference.POPPER + e.getMember()
-                                                .getUser().getName() + " accepted the proposal of " + member.getName() + "!").queue();
+                                        e.getChannel().sendMessage(EmoteReference.POPPER + e.getAuthor().getName() + " accepted the proposal of " + member.getName() + "!").queue();
                                         user11.save();
                                         marry.save();
                                         return Operation.COMPLETED;
