@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -225,11 +226,14 @@ public class PlayerCmds {
                 }
 
                 PlayerData playerData = player.getData();
+                Inventory inv = player.getInventory();
 
                 //start of badge assigning
                 if(player.getMoney() > 7526527671L && player.getData().addBadge(Badge.ALTERNATIVE_WORLD))
                     player.saveAsync();
                 if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
+                    player.saveAsync();
+                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() > 50000) && player.getData().addBadge(Badge.SHOPPER))
                     player.saveAsync();
                 //end of badge assigning
 
@@ -250,7 +254,7 @@ public class PlayerCmds {
                                 "Not specified.", true)
                         .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
                                 marriedTo.getDiscriminator(), false)
-                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(inv.asList()), false)
                         .addField(EmoteReference.HEART + "Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), null));

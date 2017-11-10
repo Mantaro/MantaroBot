@@ -78,12 +78,6 @@ public class CurrencyCmds {
                     builder.setDescription("There is only dust.");
                 else
                     player.getInventory().asList().forEach(stack -> {
-                        if(stack.getAmount() == 5000) {
-                            if(player.getData().addBadge(Badge.SHOPPER)) {
-                                player.saveAsync();
-                            }
-                        }
-
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
