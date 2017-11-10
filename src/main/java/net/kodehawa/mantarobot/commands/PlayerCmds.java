@@ -233,7 +233,7 @@ public class PlayerCmds {
                     player.saveAsync();
                 if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
                     player.saveAsync();
-                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() > 50000) && player.getData().addBadge(Badge.SHOPPER))
+                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() > 5000) && player.getData().addBadge(Badge.SHOPPER))
                     player.saveAsync();
                 //end of badge assigning
 
