@@ -493,7 +493,6 @@ public class MoneyCmds {
                             ).build()
                     ).queue();
 
-
                     return;
                 }
 

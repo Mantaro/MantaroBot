@@ -54,6 +54,7 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateInt;
+import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
 public class InfoCmds {
@@ -569,15 +570,15 @@ public class InfoCmds {
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s =
-                        "**User ID:** " + user.getId() + "\n" +
-                                "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
-                                "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
-                                "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
-                                "**Mutual Guilds:** " + member.getUser().getMutualGuilds().size() + "\n" +
-                                "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
-                                "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
-                                "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
-                                "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase());
+                        BLUE_SMALL_MARKER + "**User ID:** " + user.getId() + "\n" +
+                                BLUE_SMALL_MARKER + "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+                                BLUE_SMALL_MARKER + "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+                                BLUE_SMALL_MARKER + "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
+                                BLUE_SMALL_MARKER + "**Mutual Guilds:** " + member.getUser().getMutualGuilds().size() + "\n" +
+                                BLUE_SMALL_MARKER + "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
+                                BLUE_SMALL_MARKER + "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
+                                BLUE_SMALL_MARKER + "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
+                                BLUE_SMALL_MARKER + "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase());
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(member.getColor())

@@ -534,7 +534,7 @@ public class MantaroListener implements EventListener {
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getGuild().getId())).queue();
+                tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID:%s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())).queue();
                 logTotal++;
             }
 
