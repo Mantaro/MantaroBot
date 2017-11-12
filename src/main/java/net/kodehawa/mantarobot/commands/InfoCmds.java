@@ -574,7 +574,7 @@ public class InfoCmds {
                                 BLUE_SMALL_MARKER + "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
                                 BLUE_SMALL_MARKER + "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
                                 BLUE_SMALL_MARKER + "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
-                                BLUE_SMALL_MARKER + "**Mutual Guilds:** " + member.getUser().getMutualGuilds().size() + "\n" +
+                                BLUE_SMALL_MARKER + "**Mutual Guilds:** " + MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size() + "\n" +
                                 BLUE_SMALL_MARKER + "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
                                 BLUE_SMALL_MARKER + "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
                                 BLUE_SMALL_MARKER + "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
