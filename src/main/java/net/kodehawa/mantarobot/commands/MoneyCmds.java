@@ -71,7 +71,6 @@ public class MoneyCmds {
     private final Random random = new Random();
     private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
-    private final long GAMBLE_MAX_MONEY = SLOTS_MAX_MONEY / 4;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -204,7 +203,7 @@ public class MoneyCmds {
     @Subscribe
     public void gamble(CommandRegistry cr) {
         cr.register("gamble", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 18, true);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 20, true);
             SecureRandom r = new SecureRandom();
 
             @Override
@@ -217,6 +216,13 @@ public class MoneyCmds {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "You're broke. Search for some credits first!").queue();
                     return;
                 }
+
+                if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots`" +
+                            " for all your gambling needs! Thanks for not breaking the local bank.").queue();
+                    return;
+                }
+
 
                 double multiplier;
                 long i;
@@ -257,13 +263,6 @@ public class MoneyCmds {
                     return;
                 } catch(ParseException e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "Please type a valid percentage value.").queue();
-                    return;
-                }
-
-                if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY && i > GAMBLE_MAX_MONEY) {
-                    event.getChannel().sendMessage(String.format("%sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots`" +
-                                    " for all your gambling needs! Thanks for not breaking the local bank (Maximum gamble amount when having way too much money: %d credits)",
-                            EmoteReference.ERROR2, GAMBLE_MAX_MONEY)).queue();
                     return;
                 }
 
