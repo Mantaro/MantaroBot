@@ -70,7 +70,8 @@ public class MoneyCmds {
 
     private final Random random = new Random();
     private final int SLOTS_MAX_MONEY = 175_000_000;
-    private final long GAMBLE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
+    private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
+    private final long GAMBLE_MAX_MONEY = SLOTS_MAX_MONEY / 4;
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -217,12 +218,6 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(player.getMoney() > GAMBLE_MAX_MONEY) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "You have too much money! Maybe transfer or buy items? Now you can also use `~>slots` for all your gambling needs! " +
-                            "Thanks for not breaking the local bank.").queue();
-                    return;
-                }
-
                 double multiplier;
                 long i;
                 int luck;
@@ -232,17 +227,17 @@ public class MoneyCmds {
                         case "everything":
                             i = player.getMoney();
                             multiplier = 1.4d + (r.nextInt(1500) / 1000d);
-                            luck = 23 + (int) (multiplier * 14) + r.nextInt(18);
+                            luck = 21 + (int) (multiplier * 13) + r.nextInt(18);
                             break;
                         case "half":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 2;
                             multiplier = 1.2d + (r.nextInt(1350) / 1000d);
-                            luck = 20 + (int) (multiplier * 13) + r.nextInt(19);
+                            luck = 19 + (int) (multiplier * 13) + r.nextInt(18);
                             break;
                         case "quarter":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
                             multiplier = 1.1d + (r.nextInt(1100) / 1000d);
-                            luck = 19 + (int) (multiplier * 12) + r.nextInt(18);
+                            luck = 18 + (int) (multiplier * 12) + r.nextInt(18);
                             break;
                         default:
                             i = content.endsWith("%")
@@ -250,7 +245,7 @@ public class MoneyCmds {
                                     : Long.parseLong(content);
                             if(i > player.getMoney() || i < 0) throw new UnsupportedOperationException();
                             multiplier = 1.1d + (i / player.getMoney() * r.nextInt(1300) / 1000d);
-                            luck = 17 + (int) (multiplier * 14) + r.nextInt(12);
+                            luck = 17 + (int) (multiplier * 13) + r.nextInt(12);
                             break;
                     }
                 } catch(NumberFormatException e) {
@@ -265,6 +260,13 @@ public class MoneyCmds {
                     return;
                 }
 
+                if(player.getMoney() > GAMBLE_ABSOLUTE_MAX_MONEY && i > GAMBLE_MAX_MONEY) {
+                    event.getChannel().sendMessage(String.format("%sYou have too much money! Maybe transfer or buy items? Now you can also use `~>slots`" +
+                                    " for all your gambling needs! Thanks for not breaking the local bank (Maximum gamble amount when having way too much money: %d credits)",
+                            EmoteReference.ERROR2, GAMBLE_MAX_MONEY)).queue();
+                    return;
+                }
+
                 User user = event.getAuthor();
                 long gains = (long) (i * multiplier);
                 gains = Math.round(gains * 0.55);
@@ -275,8 +277,8 @@ public class MoneyCmds {
                 if(i >= Integer.MAX_VALUE / 4) {
                     player.setLocked(true);
                     player.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "You're about to bet **" + i + "** " +
-                            "credits (which seems to be a lot). Are you sure? Type **yes** to continue and **no** otherwise.").queue();
+                    event.getChannel().sendMessage(String.format("%sYou're about to bet **%d** credits (which seems to be a lot). " +
+                            "Are you sure? Type **yes** to continue and **no** otherwise.", EmoteReference.WARNING, i)).queue();
                     InteractiveOperations.create(event.getChannel(), 30, new InteractiveOperation() {
                         @Override
                         public int run(GuildMessageReceivedEvent e) {
@@ -303,7 +305,6 @@ public class MoneyCmds {
                             player.saveAsync();
                         }
                     });
-
                     return;
                 }
 
@@ -363,12 +364,13 @@ public class MoneyCmds {
                     }
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with **$" + moneyFound + " credits!** " + overflow).queue();
+                            event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits!** %s",
+                                    EmoteReference.POPPER, s, moneyFound, overflow)).queue();
                         } else {
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found " + s + ", along " +
-                                    "with **$" + moneyFound + " credits.** " + overflow + "But you already had too many credits. Your bag overflowed" +
-                                    ".\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+                            event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits.** " +
+                                    "%sBut you already had too many credits. Your bag overflowed.\n" +
+                                    "Congratulations, you exploded a Java long. Here's a buggy money bag for you.",
+                                    EmoteReference.POPPER, s, moneyFound, overflow)).queue();
                         }
                     } else {
                         event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s + ". " + overflow).queue();
@@ -380,9 +382,9 @@ public class MoneyCmds {
                                     " credits!**").queue();
                         } else {
                             //pretty old meme right here
-                            event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
-                                    " credits.** But you already had too many credits. Your bag overflowed.\n" +
-                                    "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
+                            event.getChannel().sendMessage(String.format("%sDigging through messages, you found **$%d credits.** " +
+                                    "But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
+                                    EmoteReference.POPPER, moneyFound)).queue();
                         }
                     } else {
                         String msg = "Digging through messages, you found nothing but dust";

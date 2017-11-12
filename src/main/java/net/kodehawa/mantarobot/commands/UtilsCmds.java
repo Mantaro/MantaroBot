@@ -21,6 +21,7 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -137,17 +138,26 @@ public class UtilsCmds {
 
                             String birthdays = guildCurrentBirthdays.entrySet().stream()
                                     .sorted(Comparator.comparingInt(entry -> Integer.parseInt(entry.getValue().split("-")[0])))
-                                    .limit(10)
                                     .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
                                     .collect(Collectors.joining("\n"));
 
-                            event.getChannel().sendMessage(new MessageBuilder()
-                                    .append("Birthdays for ")
-                                    .append(Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)))
-                                    .append(" in Guild: **")
-                                    .append(event.getGuild().getName())
-                                    .append("**\n")
-                                    .appendCodeBlock(birthdays, "diff").build()).queue();
+                            List<String> parts = DiscordUtils.divideString(birthdays);
+                            List<String> messages = new LinkedList<>();
+                            boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                            for(String s1 : parts) {
+                                messages.add("**" + event.getGuild().getName() + "'s Birthdays for " +
+                                        Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)) + "**\n" +
+                                        (parts.size() > 1 ? (hasReactionPerms ? "Use the arrow reactions to change pages. " :
+                                        "Use &page >> and &page << to change pages and &cancel to end") : "") +
+                                        String.format("```diff\n%s```", s1));
+                            }
+
+                            if(hasReactionPerms) {
+                                DiscordUtils.list(event, 45, false, messages);
+                            } else {
+                                DiscordUtils.listText(event, 45, false, messages);
+                            }
                         } else {
                             event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
                         }

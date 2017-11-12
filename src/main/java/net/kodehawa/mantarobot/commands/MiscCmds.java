@@ -67,7 +67,8 @@ public class MiscCmds {
                     return;
                 }
                 try {
-                    event.getGuild().getController().addRolesToMember(event.getMember(), role).queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've been " +
+                    event.getGuild().getController().addRolesToMember(event.getMember(), role)
+                            .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've been " +
                             "given the **" + role.getName() + "** role").queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't take from you **" + role.getName() + ". Make " +
@@ -93,7 +94,8 @@ public class MiscCmds {
                     return;
                 }
                 try {
-                    event.getGuild().getController().removeRolesFromMember(event.getMember(), role).queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've " +
+                    event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
+                            .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've " +
                             "lost the **" + role.getName() + "** role").queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +

@@ -207,6 +207,10 @@ public class DiscordUtils {
         });
     }
 
+    public static List<String> divideString(String s) {
+        return divideString(1750, new StringBuilder(s));
+    }
+
     public static List<String> divideString(StringBuilder builder) {
         return divideString(1750, builder);
     }

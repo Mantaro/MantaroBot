@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_300'
+	compile 'net.dv8tion:JDA:3.3.1_303'
 	compile 'com.sedmelluq:lavaplayer:1.2.44'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 
@@ -59,6 +59,7 @@ dependencies {
 	compile 'net.sf.trove4j:trove4j:3.0.3'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
+	compile 'org.redisson:redisson:3.5.3'
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
@@ -67,7 +68,6 @@ dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.0.1_1'
 	compile 'com.github.natanbc:discordbots-api:1.2'
-	compile 'org.redisson:redisson:3.5.3'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
