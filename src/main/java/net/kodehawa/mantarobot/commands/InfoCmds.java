@@ -97,7 +97,7 @@ public class InfoCmds {
                                 .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField("Threads", String.valueOf(Thread.activeCount()), true)
                                 .addField("Servers", String.valueOf(guilds.size()), true)
-                                .addField("Users (Online/Total)", guilds.stream().flatMap
+                                .addField("Users (Online/Unique)", guilds.stream().flatMap
                                         (g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" + users.stream().distinct().count(), true)
                                 .addField("Text Channels", String.valueOf(textChannels.size()), true)
                                 .addField("Voice Channels", String.valueOf(voiceChannels.size()), true)

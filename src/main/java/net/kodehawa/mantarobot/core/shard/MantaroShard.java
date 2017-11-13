@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
@@ -38,6 +39,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
@@ -65,6 +67,7 @@ public class MantaroShard implements JDA {
     public static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
 
     static {
         if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
@@ -165,6 +168,7 @@ public class MantaroShard implements JDA {
         Config config = config().get();
 
         String dbotsToken = config.dbotsToken;
+        String dbotsOrgToken = config.dbotsorgToken;
 
         if(dbotsToken != null) {
             Async.task("Dbots update Thread", () -> {
@@ -183,6 +187,16 @@ public class MantaroShard implements JDA {
                             .build();
                     httpClient.newCall(request).execute().close();
                 } catch(Exception ignored) { }
+            }, 1, TimeUnit.HOURS);
+        }
+
+        if(dbotsOrgToken != null) {
+            Async.task("dbots.org update thread", () -> {
+                try {
+                    discordBotsAPI.postStats(getId(), totalShards, jda.getGuilds().size());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }, 1, TimeUnit.HOURS);
         }
     }
