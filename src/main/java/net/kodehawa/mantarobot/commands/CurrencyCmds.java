@@ -72,10 +72,20 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(t.containsKey("calculate")) {
+                    long all = player.getInventory().asList().stream()
+                            .filter(item -> item.getItem().isSellable())
+                            .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                            .sum();
+
+                    event.getChannel().sendMessage(EmoteReference.DIAMOND + "You will get " + all + " if you sell all of your items!").queue();
+                    return;
+                }
+
                 EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
                 List<ItemStack> list = player.getInventory().asList();
                 if(list.isEmpty())
-                    builder.setDescription("There is only dust.");
+                    builder.setDescription("There is only dust here.");
                 else
                     player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
@@ -92,7 +102,9 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Inventory command")
-                        .setDescription("**Shows your current inventory.**\n").build();
+                        .setDescription("**Shows your current inventory.**\n" +
+                                "You can use `~>inventory -brief` to get a mobile friendly version.\n" +
+                                "Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory!").build();
             }
         });
 
@@ -193,12 +205,6 @@ public class CurrencyCmds {
                                         .filter(item -> item.getItem().isSellable())
                                         .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                                         .sum();
-
-                                if(args.length > 2 && args[2].equals("calculate")) {
-                                    event.getChannel().sendMessage(EmoteReference.THINKING + "You'll get **" + all + "** credits if you " +
-                                            "sell all of your items").queue();
-                                    return;
-                                }
 
                                 player.getInventory().clearOnlySellables();
 

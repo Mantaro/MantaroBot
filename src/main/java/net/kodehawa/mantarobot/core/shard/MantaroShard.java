@@ -91,8 +91,6 @@ public class MantaroShard implements JDA {
     private final int totalShards;
     private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
 
-
-
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
@@ -123,10 +121,10 @@ public class MantaroShard implements JDA {
 
     public void start(boolean force) throws RateLimitedException, LoginException, InterruptedException {
         if(jda != null) {
-            log.info("Attempting to drop shard #" + shardId);
+            log.info("Attempting to drop shard {}...", shardId);
             if(!force) prepareShutdown();
             jda.shutdownNow();
-            log.info("Dropped shard #" + shardId);
+            log.info("Dropped shard #{} successfully!", shardId);
             removeListeners();
         }
 
@@ -149,10 +147,12 @@ public class MantaroShard implements JDA {
     }
 
     private void addListeners() {
+        log.debug("Added all listeners for shard {}", shardId);
         jda.addEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 
     private void removeListeners() {
+        log.debug("Removed all listeners for shard {}", shardId);
         jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 
@@ -186,18 +186,25 @@ public class MantaroShard implements JDA {
                             .post(body)
                             .build();
                     httpClient.newCall(request).execute().close();
+                    log.debug("Updated server count ({}) for bots.discord.pw on Shard {}", count, shardId);
                 } catch(Exception ignored) { }
             }, 1, TimeUnit.HOURS);
+        } else {
+            log.warn("bots.discord.pw token not set in config, cannot start posting stats!");
         }
 
         if(dbotsOrgToken != null) {
             Async.task("dbots.org update thread", () -> {
                 try {
-                    discordBotsAPI.postStats(getId(), totalShards, jda.getGuilds().size());
+                    int count = jda.getGuilds().size();
+                    discordBotsAPI.postStats(getId(), totalShards, count);
+                    log.debug("Updated server count ({}) for discordbots.org on Shard {}", count, shardId);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }, 1, TimeUnit.HOURS);
+        } else {
+            log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
     }
 
@@ -218,12 +225,12 @@ public class MantaroShard implements JDA {
                     .replace("%prettyusercount%", pretty(users.get()))
                     .replace("%prettyguildcount%", pretty(guilds.get()));
 
-            getJDA().getPresence().setGame(Game.of(config().get().prefix[0] + "help | " + newStatus + " | [" + getId() + "]"));
+            getJDA().getPresence().setGame(Game.of(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
             log.debug("Changed status to: " + newStatus);
         };
 
         changeStatus.run();
-        Async.task("Splash Thread", changeStatus, 600, TimeUnit.SECONDS);
+        Async.task("Splash Thread", changeStatus, 10, TimeUnit.MINUTES);
     }
 
     public MantaroEventManager getEventManager() {
