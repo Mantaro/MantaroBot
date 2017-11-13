@@ -62,6 +62,10 @@ public class CurrencyCmds {
                     content = content.replace(" -brief", "").replace("-brief", "");
                 }
 
+                if(t.containsKey("calculate")) {
+                    content = content.replace(" -calculate", "").replace("-calculate", "");
+                }
+
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null) return;
 
@@ -78,7 +82,7 @@ public class CurrencyCmds {
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
 
-                    event.getChannel().sendMessage(EmoteReference.DIAMOND + "You will get " + all + " if you sell all of your items!").queue();
+                    event.getChannel().sendMessage(EmoteReference.DIAMOND + "You will get **" + all + " credits** if you sell all of your items!").queue();
                     return;
                 }
 

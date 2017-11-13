@@ -21,6 +21,7 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -48,6 +49,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
@@ -120,7 +122,8 @@ public class DebugCmds {
         final Random r = new Random();
         final String[] pingQuotes = {
                 "W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?",
-                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!"
+                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!",
+                "U-Uh... h-hi"
         };
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
@@ -255,9 +258,10 @@ public class DebugCmds {
                                 "- Shards Connecting: %s shards\n" +
                                 "- High Last Event Time: %s shards.\n\n" +
                                 "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
-                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
-                            ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
-                                bot.getUserCache().size(), bot.getShardList().size()));
+                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
+                        bot.getShardList().stream().map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
+                        dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
+                        bot.getUserCache().size(), bot.getShardList().size()));
 
                 event.getChannel().sendMessage(new MessageBuilder().
                         append("**Mantaro's Status**")
