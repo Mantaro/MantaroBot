@@ -76,6 +76,12 @@ public class PlayerCmds {
                     return;
                 }
 
+                List<User> mentioned = event.getMessage().getMentionedUsers();
+                if(!mentioned.isEmpty() && mentioned.size() > 1) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only give reputation to one person!").queue();
+                    return;
+                }
+
                 Member member = Utils.findMember(event, event.getMember(), content);
                 if(member == null) return;
 

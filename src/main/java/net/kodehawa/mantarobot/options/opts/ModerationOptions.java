@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.options.opts;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -56,10 +58,17 @@ public class ModerationOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    Guild guild = event.getGuild();
+                    if(mentioned.stream().anyMatch(u -> guild.getMember(u).hasPermission(Permission.MANAGE_SERVER) ||
+                            guild.getMember(u).hasPermission(Permission.ADMINISTRATOR))) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "One (or more) of the users you're trying to blacklist are admins!").queue();
+                        return;
+                    }
 
+                    DBGuild dbGuild = MantaroData.db().getGuild(guild);
+                    GuildData guildData = dbGuild.getData();
                     List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+
                     String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
 
                     guildData.getDisabledUsers().addAll(toBlackList);
