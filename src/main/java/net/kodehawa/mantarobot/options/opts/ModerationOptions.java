@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -58,10 +59,14 @@ public class ModerationOptions extends OptionHandler {
                         return;
                     }
 
+                    if(mentioned.contains(event.getAuthor())) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to blacklist yourself?...").queue();
+                        return;
+                    }
+
                     Guild guild = event.getGuild();
-                    if(mentioned.stream().anyMatch(u -> guild.getMember(u).hasPermission(Permission.MANAGE_SERVER) ||
-                            guild.getMember(u).hasPermission(Permission.ADMINISTRATOR))) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "One (or more) of the users you're trying to blacklist are admins!").queue();
+                    if(mentioned.stream().anyMatch(u -> CommandPermission.ADMIN.test(guild.getMember(u)))) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "One (or more) of the users you're trying to blacklist are admins or Bot Commanders!").queue();
                         return;
                     }
 
