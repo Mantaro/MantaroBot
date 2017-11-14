@@ -376,6 +376,7 @@ public class GuildOptions extends OptionHandler {
                 "Removes all autoroles.", (event, args) -> {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     dbGuild.getData().getAutoroles().clear();
+                    dbGuild.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Cleared all autoroles!").queue();
                 }
         ); //endregion
