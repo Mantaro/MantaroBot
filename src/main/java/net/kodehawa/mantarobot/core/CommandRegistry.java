@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
@@ -77,7 +79,7 @@ public class CommandRegistry {
             return false;
         }
 
-        if(data.getDisabledUsers().contains(event.getAuthor().getId())) {
+        if(data.getDisabledUsers().contains(event.getAuthor().getId()) && !isAdmin(event.getMember())) {
             return false;
         }
 
@@ -97,7 +99,7 @@ public class CommandRegistry {
             return false;
         }
 
-        if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId()))) {
+        if(!data.getDisabledRoles().isEmpty() && event.getMember().getRoles().stream().anyMatch(r -> data.getDisabledRoles().contains(r.getId())) && !isAdmin(event.getMember())) {
             return false;
         }
 
@@ -149,5 +151,9 @@ public class CommandRegistry {
 
     public void addSubCommandTo(SimpleTreeCommand command, String name, SubCommand subCommand) {
         command.addSubCommand(name, subCommand);
+    }
+
+    private boolean isAdmin(Member member) {
+        return member.hasPermission(Permission.ADMINISTRATOR) || member.hasPermission(Permission.MANAGE_SERVER);
     }
 }
