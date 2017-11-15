@@ -132,6 +132,7 @@ public class MantaroBot extends ShardedJDA {
         long end = System.currentTimeMillis();
 
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
+        MantaroData.config().save();
 
         LogUtils.log("Startup",
                 String.format("Loaded %d commands in %d shards.\n" +
