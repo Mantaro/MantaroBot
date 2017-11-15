@@ -81,10 +81,10 @@ public class MoneyCmds {
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 long money = 150L;
                 User mentionedUser = null;
+                List<User> mentioned = event.getMessage().getMentionedUsers();
 
-                try {
+                if(!mentioned.isEmpty())
                     mentionedUser = event.getMessage().getMentionedUsers().get(0);
-                } catch(IndexOutOfBoundsException ignored) {}
 
                 if(mentionedUser != null && mentionedUser.isBot()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer your daily to a bot!").queue();
@@ -170,7 +170,7 @@ public class MoneyCmds {
                 }
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
-                    money = money + r.nextInt(2);
+                    money = money + r.nextInt(10);
 
                     if(player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
 
@@ -230,7 +230,6 @@ public class MoneyCmds {
                             " for all your gambling needs! Thanks for not breaking the local bank.").queue();
                     return;
                 }
-
 
                 double multiplier;
                 long i;
@@ -356,7 +355,6 @@ public class MoneyCmds {
                 List<ItemStack> loot = ground.collectItems();
                 int moneyFound = ground.collectMoney() + Math.max(0, r.nextInt(50) - 10);
 
-
                 if(MantaroData.db().getUser(event.getMember()).isPremium() && moneyFound > 0) {
                     moneyFound = moneyFound + random.nextInt(moneyFound);
                 }
@@ -364,11 +362,12 @@ public class MoneyCmds {
                 if(!loot.isEmpty()) {
                     String s = ItemStack.toString(ItemStack.reduce(loot));
                     String overflow;
-                    if(player.getInventory().merge(loot)) {
+
+                    if(player.getInventory().merge(loot))
                         overflow = "But you already had too many items, so you decided to throw away the excess. ";
-                    } else {
+                    else
                         overflow = "";
-                    }
+
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
                             event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits!** %s",
@@ -382,6 +381,7 @@ public class MoneyCmds {
                     } else {
                         event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s + ". " + overflow).queue();
                     }
+
                 } else {
                     if(moneyFound != 0) {
                         if(player.addMoney(moneyFound)) {
@@ -403,6 +403,7 @@ public class MoneyCmds {
                         event.getChannel().sendMessage(EmoteReference.SAD + msg).queue();
                     }
                 }
+
                 player.saveAsync();
             }
 
