@@ -158,6 +158,7 @@ public class MoneyCmds {
                         authorPlayerData.addBadge(Badge.CLAIMER);
                     }
 
+                    authorPlayerData.setLastDailyAt(System.currentTimeMillis());
                     authorPlayer.save();
                 }
 
@@ -448,6 +449,7 @@ public class MoneyCmds {
         });
 
         cr.registerAlias("balance", "credits");
+        cr.registerAlias("balance", "bal");
     }
 
     @Subscribe
