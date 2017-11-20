@@ -168,7 +168,7 @@ public class FunCmds {
 
                                 authorInventory.process(new ItemStack(Items.RING, -1));
 
-                                if(!(proposedInventory.getAmount(Items.RING) >= 5000)) {
+                                if(proposedInventory.getAmount(Items.RING) < 5000) {
                                     proposedInventory.process(new ItemStack(Items.RING, 1));
                                 }
 

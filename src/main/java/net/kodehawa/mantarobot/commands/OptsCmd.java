@@ -206,7 +206,7 @@ public class OptsCmd {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
 
-            //The persistent data we wish to mantain.
+            //The persistent data we wish to maintain.
             String premiumKey = temp.getPremiumKey();
             long quoteLastId = temp.getQuoteLastId();
             long ranPolls = temp.getQuoteLastId();

@@ -16,12 +16,10 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.async.Async;
 import bsh.Interpreter;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -32,52 +30,26 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import okhttp3.OkHttpClient;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
 public class OwnerCmd {
-
-    final OkHttpClient client = new OkHttpClient();
-    private final String[] sleepQuotes = {
-            "*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*",
-            "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*",
-            "Momma, where's my Milk cup? *drinks and goes to sleep*", "I-I don't wanna go to bed yet! Waaah... okay fine"
-    };
-
-    private static CompletableFuture<Void> notifyMusic(String content) {
-        return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
-                .stream()
-                .filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
-                .filter(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed() != null)
-                .filter(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed().canTalk())
-                .map(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed()
-                        .sendMessage(content).submit())
-                .map(future -> (CompletableFuture<Message>) future)
-                .toArray(CompletableFuture[]::new));
-    }
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {
@@ -384,163 +356,6 @@ public class OwnerCmd {
                     }
                 }
 
-                if(option.equals("shutdown") || option.equals("restart")) {
-
-                    if(args.length == 2) {
-                        try {
-                            notifyMusic(args[1]).get();
-                        } catch(InterruptedException | ExecutionException ignored) {
-                        }
-                    }
-
-                    try {
-                        prepareShutdown(event);
-                    } catch(Exception e) {
-                        log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown." + e.toString(), e);
-                        return;
-                    }
-
-                    //If we manage to get here, there's nothing else except us.
-
-                    //Here in Darkness, everything is okay.
-                    //Listen to the waves, and let them fade away.
-
-                    if(option.equals("restart")) {
-                        try {
-                            MantaroData.connectionWatcher().reboot(false);
-                        } catch(Exception e) {
-                            log.error("Error restarting via manager, manual reboot required", e);
-                            System.exit(ShutdownCodes.REBOOT_FAILURE);
-                        }
-                    } else {
-                        System.exit(ShutdownCodes.NORMAL);
-                    }
-                    return;
-                }
-
-                if(option.equals("forceshutdown") || option.equals("forcerestart")) {
-                    if(args.length == 2) {
-                        try {
-                            notifyMusic(args[1]).get();
-                        } catch(InterruptedException | ExecutionException ignored) {
-                        }
-                    }
-
-                    try {
-                        prepareShutdown(event);
-                    } catch(Exception e) {
-                        log.warn(
-                                EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e
-                                        .toString(), e);
-                    }
-
-                    //If we manage to get here, there's nothing else except us.
-
-                    //Here in Darkness, everything is okay.
-                    //Listen to the waves, and let them fade away.
-
-                    if(option.equals("forcerestart")) {
-                        try {
-                            MantaroData.connectionWatcher().reboot(false);
-                        } catch(Exception e) {
-                            log.error("Error restarting via manager, manual reboot required", e);
-                            System.exit(ShutdownCodes.REBOOT_FAILURE);
-                        }
-                    } else {
-                        System.exit(ShutdownCodes.NORMAL);
-                    }
-                    return;
-                }
-
-                if(args.length < 2) {
-                    onHelp(event);
-                    return;
-                }
-
-                String value = args[1];
-
-                if(option.equals("notifymusic")) {
-                    notifyMusic(value);
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
-                    return;
-                }
-
-                String[] values = SPLIT_PATTERN.split(value, 2);
-                if(values.length < 2) {
-                    onHelp(event);
-                    return;
-                }
-
-                String k = values[0], v = values[1];
-
-                if(option.equals("scheduleshutdown") || option.equals("schedulerestart")) {
-                    boolean restart = option.equals("schedulerestart");
-                    if(k.equals("time")) {
-                        double s = Double.parseDouble(v);
-                        int millis = (int) (s * 1000);
-                        Async.thread(millis, TimeUnit.MILLISECONDS, () -> {
-                            try {
-                                prepareShutdown(event);
-                            } catch(Exception e) {
-                                log.warn(
-                                        EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e
-                                                .toString(), e);
-                            }
-                            if(restart) {
-                                try {
-                                    MantaroData.connectionWatcher().reboot(false);
-                                } catch(Exception e) {
-                                    log.error("Error restarting via manager, manual reboot required", e);
-                                    System.exit(-1);
-                                }
-                            } else {
-                                System.exit(ShutdownCodes.NORMAL);
-                            }
-                        });
-
-                        event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...")
-                                .queue();
-                        return;
-                    }
-
-                    if(k.equals("connections")) {
-                        int connections = Integer.parseInt(v);
-
-                        IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannelCache().stream().filter(
-                                voiceChannel -> voiceChannel.getMembers().contains(
-                                        voiceChannel.getGuild().getSelfMember())).count();
-
-                        Async.task("Watching Thread.", s -> {
-                            if(currentConnections.getAsInt() > connections) return;
-
-                            try {
-                                prepareShutdown(event);
-                            } catch(Exception e) {
-                                log.warn(
-                                        "Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(),
-                                        e
-                                );
-                            }
-
-                            if(restart) {
-                                try {
-                                    MantaroData.connectionWatcher().reboot(false);
-                                } catch(Exception e) {
-                                    log.error("Error restarting via manager, manual reboot required", e);
-                                    System.exit(ShutdownCodes.REBOOT_FAILURE);
-                                }
-                            } else {
-                                System.exit(0);
-                            }
-                            s.shutdown();
-                        }, 2, TimeUnit.SECONDS);
-                        return;
-                    }
-
-                    onHelp(event);
-                    return;
-                }
-
                 onHelp(event);
             }
 
@@ -549,23 +364,6 @@ public class OwnerCmd {
                 return SPLIT_PATTERN.split(content, 2);
             }
         });
-    }
-
-    private void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
-        MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
-            if(musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
-        });
-
-        try {
-            MantaroData.connectionWatcher().close();
-        } catch(Exception ignored) {
-        }
-
-        Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
-
-        event.getChannel().sendMessage(random(sleepQuotes)).complete();
-        Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
-                mantaroShard -> mantaroShard.getJDA().shutdownNow());
     }
 
     private interface Evaluator {
