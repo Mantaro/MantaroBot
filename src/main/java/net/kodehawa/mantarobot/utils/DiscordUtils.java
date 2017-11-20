@@ -123,17 +123,20 @@ public class DiscordUtils {
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
                     if(index.get() == 0) break;
+                    if(e.getChannel().getMessageById(m.getIdLong()) == null) break;
                     m.editMessage(embeds.get(index.decrementAndGet())).queue();
                     break;
                 case "\u27a1": //right arrow
                     if(index.get() + 1 >= embeds.size()) break;
+                    if(e.getChannel().getMessageById(m.getIdLong()) == null) break;
                     m.editMessage(embeds.get(index.incrementAndGet())).queue();
                     break;
             }
             if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
-            return Operation.RESET_TIMEOUT;
+
+            return Operation.IGNORED;
         }, "\u2b05", "\u27a1");
     }
 
@@ -154,11 +157,13 @@ public class DiscordUtils {
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
                     if(index.get() == 0) break;
+                    if(e.getChannel().getMessageById(m.getIdLong()) == null) break;
                     m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
                     break;
 
                 case "\u27a1": //right arrow
                     if(index.get() + 1 >= parts.size()) break;
+                    if(e.getChannel().getMessageById(m.getIdLong()) == null) break;
                     m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
                     break;
 
@@ -171,7 +176,7 @@ public class DiscordUtils {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
 
-            return Operation.RESET_TIMEOUT;
+            return Operation.IGNORED;
         }, "\u2b05", "\u27a1", "\u274c");
     }
 
@@ -192,13 +197,18 @@ public class DiscordUtils {
 
             if(e.getMessage().getContent().equals("&p <<") || e.getMessage().getContent().equals("&page <<")) {
                 if(index.get() == 0) return Operation.IGNORED;
+                if(e.getChannel().getMessageById(m.getIdLong()) == null) return Operation.IGNORED;
+
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
             } else if (e.getMessage().getContent().equals("&p >>") || e.getMessage().getContent().equals("&page >>")) {
                 if(index.get() + 1 >= parts.size()) return Operation.IGNORED;
+                if(e.getChannel().getMessageById(m.getIdLong()) == null) return Operation.IGNORED;
+
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
             }
 
             if(e.getMessage().getContent().equals("&cancel")) {
+                if(e.getChannel().getMessageById(m.getIdLong()) == null) return Operation.COMPLETED;
                 m.delete().queue();
                 return Operation.COMPLETED;
             }

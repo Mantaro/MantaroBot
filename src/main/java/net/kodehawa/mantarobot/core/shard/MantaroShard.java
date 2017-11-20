@@ -131,7 +131,7 @@ public class MantaroShard implements JDA {
         JDABuilder jdaBuilder = new JDABuilder(AccountType.BOT)
                 .setToken(config().get().token)
                 .setAutoReconnect(true)
-                .setCorePoolSize(15)
+                .setCorePoolSize(18)
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
                 .setShardedRateLimiter(shardedRateLimiter)
