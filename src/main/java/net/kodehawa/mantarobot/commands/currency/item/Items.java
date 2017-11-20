@@ -115,6 +115,10 @@ public class Items {
             if(item != null) return Optional.of(item);
         } catch(NumberFormatException ignored) {}
 
+        return fromAnyNoId(any);
+    }
+
+    public static Optional<Item> fromAnyNoId(String any) {
         Optional<Item> itemOptional;
 
         itemOptional = fromEmoji(any);

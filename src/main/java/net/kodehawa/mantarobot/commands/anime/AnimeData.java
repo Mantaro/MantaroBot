@@ -16,25 +16,28 @@
 
 package net.kodehawa.mantarobot.commands.anime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+
 import java.util.List;
 
 public class AnimeData {
-    public String average_score = null;
-    public String description = null;
-    public Integer duration = null;
-    public String end_date = null;
-    public List<String> genres = null;
-    public Integer id = null;
-    public String image_url_lge = null;
-    public String image_url_sml = null;
-    public String series_type = null;
-    public String start_date = null;
-    public String title_english = null;
-    public String title_japanese = null;
-    public Integer total_episodes = null;
-    public String type = null;
+    private String average_score = null;
+    private String description = null;
+    private Integer duration = null;
+    private String end_date = null;
+    private List<String> genres = null;
+    private Integer id = null;
+    private String image_url_lge = null;
+    private String image_url_sml = null;
+    private String series_type = null;
+    private String start_date = null;
+    private String title_english = null;
+    private String title_japanese = null;
+    private Integer total_episodes = null;
+    private String type = null;
 
-    public String getAverage_score() {
+    public String getAverageScore() {
         return average_score;
     }
 
@@ -46,7 +49,7 @@ public class AnimeData {
         return duration;
     }
 
-    public String getEnd_date() {
+    public String getEndDate() {
         return end_date;
     }
 
@@ -58,35 +61,40 @@ public class AnimeData {
         return id;
     }
 
-    public String getImage_url_lge() {
+    public String getLargeImageUrl() {
         return image_url_lge;
     }
 
-    public String getImage_url_sml() {
+    public String getSmallImageUrl() {
         return image_url_sml;
     }
 
-    public String getSeries_type() {
+    public String getSeriesType() {
         return series_type;
     }
 
-    public String getStart_date() {
+    public String getStartDate() {
         return start_date;
     }
 
-    public String getTitle_english() {
+    public String getTitleEnglish() {
         return title_english;
     }
 
-    public String getTitle_japanese() {
+    public String getTitleJapanese() {
         return title_japanese;
     }
 
-    public Integer getTotal_episodes() {
+    public Integer getTotalEpisodes() {
         return total_episodes;
     }
 
     public String getType() {
         return type;
+    }
+
+    @JsonIgnore
+    public static AnimeData[] fromJson(String json) {
+        return GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
     }
 }

@@ -274,7 +274,7 @@ public class CurrencyCmds {
                     }
 
                     if(args[0].equals("buy")) {
-                        Item itemToBuy = Items.fromAny(itemName).orElse(null);
+                        Item itemToBuy = Items.fromAnyNoId(itemName).orElse(null);
 
                         if(itemToBuy == null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
