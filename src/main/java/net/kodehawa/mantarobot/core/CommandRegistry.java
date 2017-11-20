@@ -120,13 +120,10 @@ public class CommandRegistry {
         MantaroBot.getInstance().getStatsClient().increment("commands");
         cmd.run(event, cmdname, content);
 
-        if(cmd.category() != null) {
-            MantaroBot.getInstance().getStatsClient().increment("command_" + cmdname);
-            MantaroBot.getInstance().getStatsClient().increment("category_" + cmd.category().toString().toLowerCase());
-            CommandStatsManager.log(cmdname);
-        }
-
         if(cmd.category() != null && cmd.category().name() != null && !cmd.category().name().isEmpty()) {
+            MantaroBot.getInstance().getStatsClient().increment("command_" + cmdname);
+            MantaroBot.getInstance().getStatsClient().increment("category_" + cmd.category().name().toLowerCase());
+            CommandStatsManager.log(cmdname);
             CategoryStatsManager.log(cmd.category().name().toLowerCase());
         }
 
