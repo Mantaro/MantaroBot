@@ -108,28 +108,28 @@ public class MoneyCmds {
 
                 if(playerId.equals(event.getAuthor().getId())) {
                     if(System.currentTimeMillis() - playerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
-                        playerData.setDailyStrike(playerData.getDailyStrike() + 1);
-                        streak = "Streak up! Current streak: `" + playerData.getDailyStrike() + "x`";
+                        playerData.setDailyStreak(playerData.getDailyStreak() + 1);
+                        streak = "Streak up! Current streak: `" + playerData.getDailyStreak() + "x`";
                     } else {
-                        if(playerData.getDailyStrike() == 0) {
+                        if(playerData.getDailyStreak() == 0) {
                             streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
                         } else {
                             streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                    "Old streak: `" + playerData.getDailyStrike() + "x`";
+                                    "Old streak: `" + playerData.getDailyStreak() + "x`";
                         }
 
-                        playerData.setDailyStrike(1);
+                        playerData.setDailyStreak(1);
                     }
 
-                    if(playerData.getDailyStrike() > 5) {
+                    if(playerData.getDailyStreak() > 5) {
                         int bonus = 150;
-                        if(playerData.getDailyStrike() > 15) bonus += Math.floor(150 * playerData.getDailyStrike() / 15);
+                        if(playerData.getDailyStreak() > 15) bonus += Math.floor(150 * playerData.getDailyStreak() / 15);
 
                         streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
                     }
 
-                    if(playerData.getDailyStrike() > 10) {
+                    if(playerData.getDailyStreak() > 10) {
                         playerData.addBadge(Badge.CLAIMER);
                     }
 
@@ -138,30 +138,30 @@ public class MoneyCmds {
                     PlayerData authorPlayerData = authorPlayer.getData();
 
                     if(System.currentTimeMillis() - authorPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
-                        authorPlayerData.setDailyStrike(authorPlayerData.getDailyStrike() + 1);
-                        streak = "Streak up! Current streak: `" + authorPlayerData.getDailyStrike() + "x`.\n" +
+                        authorPlayerData.setDailyStreak(authorPlayerData.getDailyStreak() + 1);
+                        streak = "Streak up! Current streak: `" + authorPlayerData.getDailyStreak() + "x`.\n" +
                                 "*The streak was applied to your profile!*";
                     } else {
-                        if(authorPlayerData.getDailyStrike() == 0) {
+                        if(authorPlayerData.getDailyStreak() == 0) {
                             streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
                         } else {
                             streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                    "Old streak: `" + authorPlayerData.getDailyStrike() + "x`";
+                                    "Old streak: `" + authorPlayerData.getDailyStreak() + "x`";
                         }
 
-                        authorPlayerData.setDailyStrike(1);
+                        authorPlayerData.setDailyStreak(1);
                     }
 
-                    if(authorPlayerData.getDailyStrike() > 5) {
+                    if(authorPlayerData.getDailyStreak() > 5) {
                         int bonus = 150;
 
-                        if(authorPlayerData.getDailyStrike() > 15) bonus += 150;
+                        if(authorPlayerData.getDailyStreak() > 15) bonus += 150;
 
                         streak += "\n" + (mentionedUser == null ? "You" : mentionedUser.getName()) + " won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
                     }
 
-                    if(authorPlayerData.getDailyStrike() > 10) {
+                    if(authorPlayerData.getDailyStreak() > 10) {
                         authorPlayerData.addBadge(Badge.CLAIMER);
                     }
 
