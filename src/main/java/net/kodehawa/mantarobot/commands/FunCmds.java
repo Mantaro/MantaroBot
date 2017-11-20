@@ -66,13 +66,12 @@ public class FunCmds {
                         times = Integer.parseInt(args[0]);
                         if(times > 1000) {
                             event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "Whoa there! The limit is 1,000 coinflips").queue();
+                                    EmoteReference.ERROR + "Whoa there! The limit is 1,000 coin flips").queue();
                             return;
                         }
                     } catch(NumberFormatException nfe) {
                         event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "You need to specify an Integer for the amount of " +
-                                        "repetitions").queue();
+                                EmoteReference.ERROR + "You need to specify an Integer for the amount of repetitions").queue();
                         return;
                     }
                 }
@@ -85,8 +84,7 @@ public class FunCmds {
                 });
                 String flips = times == 1 ? "time" : "times";
                 event.getChannel().sendMessage(
-                        EmoteReference.PENNY + " Your result from **" + times + "** " + flips + " yielded " +
-                                "**" + heads[0] + "** heads and **" + tails[0] + "** tails").queue();
+                        String.format("%s Your result from **%d** %s yielded **%d** heads and **%d** tails", EmoteReference.PENNY, times, flips, heads[0], tails[0])).queue();
             }
 
             @Override
@@ -160,17 +158,23 @@ public class FunCmds {
                                     if(e.getMessage().getContent().equalsIgnoreCase("yes")) {
                                         Player proposed = MantaroData.db().getPlayer(proposedTo);
                                         Player author = MantaroData.db().getPlayer(proposing);
+                                        Inventory authorInventory = author.getInventory();
+
+                                        if(authorInventory.getAmount(Items.RING) < 2) {
+                                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
+                                            return Operation.COMPLETED;
+                                        }
 
                                         proposed.getData().setMarriedWith(proposing.getId());
                                         author.getData().setMarriedWith(proposedTo.getId());
 
-                                        author.getInventory().process(new ItemStack(Items.RING, -1));
+                                        authorInventory.process(new ItemStack(Items.RING, -1));
 
                                         if(!(proposed.getInventory().getAmount(Items.RING) >= 5000)) {
                                             proposed.getInventory().process(new ItemStack(Items.RING, 1));
                                         }
 
-                                        e.getChannel().sendMessage(EmoteReference.POPPER + e.getAuthor().getName() + " accepted the proposal of " + proposing.getName() + "!").queue();
+                                        e.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, e.getAuthor().getName(), proposing.getName())).queue();
                                         proposed.saveAsync();
                                         author.saveAsync();
 
@@ -186,9 +190,9 @@ public class FunCmds {
                                     return Operation.IGNORED;
                                 }
                         ) != null) {
-                            event.getChannel().sendMessage(EmoteReference.MEGA + proposedTo
-                                    .getName() + ", respond with **yes** or **no** to the marriage proposal from " + event
-                                    .getAuthor().getName() + ".").queue();
+                            event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
+                                    .getName(), event
+                                    .getAuthor().getName())).queue();
 
                         } else {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
@@ -279,8 +283,7 @@ public class FunCmds {
                 int waifuRate = r.nextInt(100);
                 if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
 
-                event.getChannel().sendMessage(
-                        EmoteReference.THINKING + "I rate " + content + " with a **" + waifuRate + "/100**").queue();
+                event.getChannel().sendMessage(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate)).queue();
             }
 
             @Override
@@ -328,8 +331,7 @@ public class FunCmds {
 
                 if(amount >= 100) amount = 100;
                 event.getChannel().sendMessage(
-                        EmoteReference.DICE + "You got **" + diceRoll(size, amount) + "**" +
-                                (amount == 1 ? "!" : (", doing **" + amount + "** rolls."))
+                        String.format("%sYou got **%d**%s", EmoteReference.DICE, diceRoll(size, amount), amount == 1 ? "!" : (", doing **" + amount + "** rolls."))
                 ).queue();
 
                 TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
@@ -367,8 +369,8 @@ public class FunCmds {
                 String ids = mentioned.get(0).getId() + ";" + event.getAuthor().getId();
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
-                listDisplay.add("\uD83D\uDC97  " + mentioned.get(0).getName() + "#" + mentioned.get(0).getDiscriminator());
-                listDisplay.add("\uD83D\uDC97  " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator());
+                listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
+                listDisplay.add(String.format("\uD83D\uDC97  %s#%s", event.getAuthor().getName(), event.getAuthor().getDiscriminator()));
                 toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
 
                 if(mentioned.size() == 2) {

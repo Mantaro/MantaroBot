@@ -104,23 +104,19 @@ public class ModerationCmds {
                     //Proceed to ban them. Again, using queue so I don't get rate limited.
                     guild.getController().ban(member, 7).reason(finalReason).queue(
                             success -> {
-                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **softbanned** by " + event
-                                        .getAuthor().getName() + "#"
-                                        + event.getAuthor().getDiscriminator() + " for reason " + finalReason + ".").queue();
+                                user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **softbanned** by %s#%s for reason %s.",
+                                        EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason)).queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(EmoteReference.ZAP + "You'll be missed... haha just kidding " + member.getEffectiveName())
-                                        .queue(); //Quite funny, I think.
+                                channel.sendMessage(String.format("%sYou'll be missed... haha just kidding %s", EmoteReference.ZAP, member.getEffectiveName())).queue();
                                 guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                                 }, error -> {
                                     if(error instanceof PermissionException) {
-                                        channel.sendMessage(String.format(EmoteReference.ERROR + "Error unbanning [%s]: (No permission " +
-                                                "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
-                                                .queue();
+                                        channel.sendMessage(String.format(EmoteReference.ERROR + "Error unbanning [%s]: (No permission provided: %s)",
+                                                member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
                                     } else {
-                                        channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while unbanning [%s]: <%s>: " +
-                                                "%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
-                                                .queue();
+                                        channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while unbanning [%s]: <%s>: %s",
+                                                member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                         log.warn("Unexpected error while unbanning someone.", error);
                                     }
                                 });
@@ -131,13 +127,11 @@ public class ModerationCmds {
                             },
                             error -> {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning [%s]: (No permission " +
-                                            "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission()))
-                                            .queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error softbanning [%s]: (No permission provided: %s)",
+                                            member.getEffectiveName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning [%s]: <%s>: " +
-                                            "%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
-                                            .queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while softbanning [%s]: <%s>: %s",
+                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                     log.warn("Unexpected error while softbanning someone.", error);
                                 }
                             });
@@ -216,27 +210,22 @@ public class ModerationCmds {
 
                     guild.getController().ban(member, 7).reason(finalReason).queue(
                             success -> {
-                                user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **banned** by " + event
-                                        .getAuthor().getName() + "#"
-                                        + event.getAuthor().getDiscriminator() + ". Reason: " + finalReason + ".").queue();
+                                user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **banned** by %s#%s. Reason: %s.",
+                                        EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason)).queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(EmoteReference.ZAP + "You'll be missed " + user.getName() + "... or not!")
-                                        .queue();
+                                channel.sendMessage(String.format("%sYou'll be missed %s... or not!", EmoteReference.ZAP, user.getName())).queue();
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(1, 2);
                             },
                             error ->
                             {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(EmoteReference.ERROR + "Error banning " + user.getName()
-                                            + ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
-                                            .queue();
+                                    channel.sendMessage(String.format("%sError banning %s: (I need the permission %s)",
+                                            EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                 } else {
-                                    channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + member
-                                            .getEffectiveName()
-                                            + ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-
+                                    channel.sendMessage(String.format("%sI encountered an unknown error while banning %s: <%s>: %s",
+                                            EmoteReference.ERROR, member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                     log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                 }
                             });
@@ -318,26 +307,22 @@ public class ModerationCmds {
                     guild.getController().kick(member).reason(finalReason).queue(
                             success -> {
                                 if(!user.isBot()) {
-                                    user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **kicked** by " + event
-                                            .getAuthor().getName() + "#"
-                                            + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+                                    user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **kicked** by %s#%s with reason: %s.",
+                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason)).queue();
                                 }
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + user.getName())
-                                        .queue(); //Quite funny, I think.
+                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + user.getName()).queue();
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(2, 2);
                             },
                             error -> {
                                 if(error instanceof PermissionException) {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission " +
-                                            "provided: %s)", member.getEffectiveName(), ((PermissionException) error).getPermission().getName()))
-                                            .queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Error kicking [%s]: (No permission provided: %s)",
+                                            member.getEffectiveName(), ((PermissionException) error).getPermission().getName())).queue();
                                 } else {
-                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: " +
-                                            "%s", member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage()))
-                                            .queue();
+                                    channel.sendMessage(String.format(EmoteReference.ERROR + "Unknown error while kicking [%s]: <%s>: %s",
+                                            member.getEffectiveName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                     log.warn("Unexpected error while kicking someone.", error);
                                 }
                             });
@@ -405,27 +390,25 @@ public class ModerationCmds {
                 receivedMessage.getMentionedUsers().forEach(user ->
                         guild.getController().ban(user, 7).queue(
                                 success -> {
-                                    user.openPrivateChannel().complete().sendMessage(EmoteReference.MEGA + "You were **temporarily banned** by " + event
-                                            .getAuthor().getName() + "#"
-                                            + event.getAuthor().getDiscriminator() + " with reason: " + finalReason + ".").queue();
+                                    user.openPrivateChannel().complete().sendMessage(String.format("%sYou were **temporarily banned** by %s#%s with reason: %s.",
+                                            EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason)).queue();
+
                                     db.getData().setCases(db.getData().getCases() + 1);
                                     db.saveAsync();
-                                    channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + user.getName())
-                                            .queue();
+
+                                    channel.sendMessage(String.format("%sYou will be missed... or not %s", EmoteReference.ZAP, user.getName())).queue();
+
                                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
-                                    MantaroBot.getTempBanManager().addTempban(
-                                            guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
+                                    MantaroBot.getTempBanManager().addTempban(guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
                                     TextChannelGround.of(event).dropItemWithChance(1, 2);
                                 },
                                 error ->
                                 {
                                     if(error instanceof PermissionException) {
-                                        channel.sendMessage(EmoteReference.ERROR + "Error banning " + user.getName()
-                                                + ": " + "(I need the permission " + ((PermissionException) error).getPermission() + ")")
-                                                .queue();
+                                        channel.sendMessage(String.format("%sError banning %s: (I need the permission %s)",
+                                                EmoteReference.ERROR, user.getName(), ((PermissionException) error).getPermission())).queue();
                                     } else {
-                                        channel.sendMessage(EmoteReference.ERROR + "I encountered an unknown error while banning " + user.getName() + ": " + "<" + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
-
+                                        channel.sendMessage(String.format("%sI encountered an unknown error while banning %s: <%s>: %s", EmoteReference.ERROR, user.getName(), error.getClass().getSimpleName(), error.getMessage())).queue();
                                         log.warn("Encountered an unexpected error while trying to ban someone.", error);
                                     }
                                 })

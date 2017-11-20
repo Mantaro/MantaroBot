@@ -337,11 +337,11 @@ public class PlayerCmds {
                     .build()
             ).execute();
             ResponseBody body = res.body();
-            if(body == null) throw new IOException("o shit body is null");
+            if(body == null) throw new IOException("body is null");
             bytes = body.bytes();
             res.close();
         } catch(IOException e) {
-            throw new AssertionError("o shit io error", e);
+            throw new AssertionError("io error", e);
         }
         channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
     }

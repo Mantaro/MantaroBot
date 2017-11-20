@@ -59,8 +59,7 @@ public class MiscCmds {
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
-                        "to has been deleted").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded to has been deleted").queue();
             } else {
                 if(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
@@ -68,11 +67,10 @@ public class MiscCmds {
                 }
                 try {
                     event.getGuild().getController().addRolesToMember(event.getMember(), role)
-                            .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've been " +
-                            "given the **" + role.getName() + "** role").queue());
+                            .queue(aVoid -> event.getChannel().sendMessage(String.format("%s%s, you've been given the **%s** role",
+                                    EmoteReference.OK, event.getMember().getEffectiveName(), role.getName())).queue());
                 } catch(PermissionException pex) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't take from you **" + role.getName() + ". Make " +
-                            "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
+                    event.getChannel().sendMessage(String.format("%sI couldn't take from you **%s. Make sure that I have permission to add roles and that my role is above **%s**", EmoteReference.ERROR, role.getName(), role.getName()))
                             .queue();
                 }
             }
@@ -98,9 +96,8 @@ public class MiscCmds {
                             .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've " +
                             "lost the **" + role.getName() + "** role").queue());
                 } catch(PermissionException pex) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +
-                            "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
-                            .queue();
+                    event.getChannel().sendMessage(String.format("%sI couldn't give you **%s. Make sure that I have permission to add roles and that my role is above **%s**",
+                            EmoteReference.ERROR, role.getName(), role.getName())).queue();
                 }
             }
         } else

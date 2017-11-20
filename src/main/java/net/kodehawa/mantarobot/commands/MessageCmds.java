@@ -55,8 +55,7 @@ public class MessageCmds {
                 }
 
                 if(!event.getGuild().getSelfMember().hasPermission(Permission.MESSAGE_MANAGE)) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have the permission: " +
-                            "Manage Messages").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot prune on this server since I don't have Manage Messages permission.").queue();
                     return;
                 }
 
@@ -68,8 +67,7 @@ public class MessageCmds {
                                         message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 
                                 if(messageHistory.isEmpty()) {
-                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls " +
-                                            "here.").queue();
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls here.").queue();
                                     return;
                                 }
 
@@ -81,9 +79,8 @@ public class MessageCmds {
                                 prune(event, messageHistory);
                             },
                             error -> {
-                                channel.sendMessage(EmoteReference.ERROR + "Unknown error while retrieving the history to prune the " +
-                                        "messages" + "<"
-                                        + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                                channel.sendMessage(String.format("%sUnknown error while retrieving the history to prune the messages<%s>: %s",
+                                        EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                                 error.printStackTrace();
                             }
                     );
@@ -179,8 +176,7 @@ public class MessageCmds {
         TextChannel channel = event.getChannel();
 
         if(messageHistory.isEmpty()) {
-            channel.sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, " +
-                    "discord won't let me delete them.").queue();
+            channel.sendMessage(EmoteReference.ERROR + "There are no messages newer than 2 weeks old, discord won't let me delete them.").queue();
             return;
         }
 
@@ -197,17 +193,17 @@ public class MessageCmds {
                             .queue(message -> message.delete().queueAfter(15, TimeUnit.SECONDS));
                     DBGuild db = MantaroData.db().getGuild(event.getGuild());
                     db.getData().setCases(db.getData().getCases() + 1);
-                    db.save();
+                    db.saveAsync();
                     ModLog.log(event.getMember(), null, "Pruned Messages", ModLog.ModAction.PRUNE, db.getData().getCases());
                 },
                 error -> {
                     if(error instanceof PermissionException) {
                         PermissionException pe = (PermissionException) error;
-                        channel.sendMessage(EmoteReference.ERROR + "Lack of permission while pruning messages" +
-                                "(No permission provided: " + pe.getPermission() + ")").queue();
+                        channel.sendMessage(String.format("%sLack of permission while pruning messages(No permission provided: %s)",
+                                EmoteReference.ERROR, pe.getPermission())).queue();
                     } else {
-                        channel.sendMessage(EmoteReference.ERROR + "Unknown error while pruning messages" + "<"
-                                + error.getClass().getSimpleName() + ">: " + error.getMessage()).queue();
+                        channel.sendMessage(String.format("%sUnknown error while pruning messages<%s>: %s",
+                                EmoteReference.ERROR, error.getClass().getSimpleName(), error.getMessage())).queue();
                         error.printStackTrace();
                     }
                 }

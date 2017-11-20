@@ -315,8 +315,7 @@ public class GameCmds {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, " +
-                        "but forgot to pick it up... I'll start your new game right up!").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!").queue();
                 return false;
             } else {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game lobby when there is a game currently running.").queue();

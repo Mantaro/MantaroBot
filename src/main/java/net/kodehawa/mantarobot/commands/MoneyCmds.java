@@ -433,8 +433,11 @@ public class MoneyCmds {
                 }
 
                 if(found.size() > 1 && !content.isEmpty()) {
-                    event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+                    event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n" +
+                            "**Users found:** %s",
+                            EmoteReference.THINKING, found.stream()
+                                    .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
+                                    .collect(Collectors.joining(", ")))).queue();
                     return;
                 }
 
@@ -750,12 +753,10 @@ public class MoneyCmds {
                         player.saveAsync();
                     }
                 }
-                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you " +
-                        "had!").queue();
+                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits and got to keep what you had!").queue();
             } else {
-                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too " +
-                        "many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you" +
-                        ".").queue();
+                event.getChannel().sendMessage(EmoteReference.DICE + "Congrats, you won " + gains + " credits. But you already had too many credits. Your bag overflowed.\n" +
+                        "Congratulations, you exploded a Java long. Here's a buggy money bag for you.").queue();
             }
         } else {
             long oldMoney = player.getMoney();
