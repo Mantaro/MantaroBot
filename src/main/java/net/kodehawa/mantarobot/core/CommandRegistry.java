@@ -121,6 +121,8 @@ public class CommandRegistry {
         cmd.run(event, cmdname, content);
 
         if(cmd.category() != null) {
+            MantaroBot.getInstance().getStatsClient().increment("command_" + cmdname);
+            MantaroBot.getInstance().getStatsClient().increment("category_" + cmd.category().toString().toLowerCase());
             CommandStatsManager.log(cmdname);
         }
 

@@ -153,8 +153,7 @@ public class PremiumCmds {
                                 .addField("Key total duration", currentKey.getDurationDays() + " days", false)
                                 .addField("Key owner", owner.getName() + "#" + owner.getDiscriminator(), false);
                     } else {
-                        embedBuilder.setDescription("**Premium user under the old system! Don't worry tho, you're premium and your benefits" +
-                                " will work properly!**")
+                        embedBuilder.setDescription("**Premium user under the old system! Don't worry tho, you're premium and your benefits will work properly!**")
                                 .addField("Valid for",
                                         Math.max(0, TimeUnit.MILLISECONDS.toDays(dbUser.getPremiumUntil() - currentTimeMillis())) + " days more", false);
                     }
@@ -182,8 +181,7 @@ public class PremiumCmds {
                                     .addField("Key total duration", currentKey.getDurationDays() + " days", false)
                                     .addField("Key owner", owner.getName() + "#" + owner.getDiscriminator(), false);
                         } else {
-                            embedBuilder.setDescription("**Premium guild under the old system! Don't worry tho, you're premium and your benefits" +
-                                    " will work properly!**")
+                            embedBuilder.setDescription("**Premium guild under the old system! Don't worry tho, you're premium and your benefits will work properly!**")
                                     .addField("Valid for",
                                             Math.max(0, TimeUnit.MILLISECONDS.toDays(dbGuild.getPremiumUntil() - currentTimeMillis())) + " days more", false);
                         }
