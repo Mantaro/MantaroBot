@@ -113,11 +113,11 @@ public class FunCmds {
 
                         User proposing = event.getAuthor();
                         User proposedTo = event.getMessage().getMentionedUsers().get(0);
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        Player player1 = MantaroData.db().getPlayer(proposedTo);
-                        User user1 = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+                        Player proposingPlayer = MantaroData.db().getPlayer(proposing);
+                        Player proposedPlayer = MantaroData.db().getPlayer(proposedTo);
+                        User proposingMarriedWith = proposingPlayer.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(proposingPlayer.getData().getMarriedWith());
 
-                        Inventory playerInventory = player.getInventory();
+                        Inventory playerInventory = proposingPlayer.getInventory();
 
                         if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3").queue();
@@ -134,17 +134,17 @@ public class FunCmds {
                             return;
                         }
 
-                        if(user1 != null && user1.getId().equals(proposedTo.getId())) {
+                        if(proposingMarriedWith != null && proposingMarriedWith.getId().equals(proposedTo.getId())) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
                             return;
                         }
 
-                        if(user1 != null) {
+                        if(proposingMarriedWith != null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
                             return;
                         }
 
-                        if(player1.getData().isMarried()) {
+                        if(proposedPlayer.getData().isMarried()) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
                             return;
                         }
@@ -152,10 +152,10 @@ public class FunCmds {
 
                         if(InteractiveOperations.create(
                                 event.getChannel(), 120,
-                                (e) -> {
-                                    if(!e.getAuthor().getId().equals(proposedTo.getId())) return Operation.IGNORED;
+                                (ie) -> {
+                                    if(!ie.getAuthor().getId().equals(proposedTo.getId())) return Operation.IGNORED;
 
-                                    if(e.getMessage().getContent().equalsIgnoreCase("yes")) {
+                                    if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
                                         Player proposed = MantaroData.db().getPlayer(proposedTo);
                                         Player author = MantaroData.db().getPlayer(proposing);
                                         Inventory authorInventory = author.getInventory();
@@ -174,7 +174,7 @@ public class FunCmds {
                                             proposed.getInventory().process(new ItemStack(Items.RING, 1));
                                         }
 
-                                        e.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, e.getAuthor().getName(), proposing.getName())).queue();
+                                        ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
                                         proposed.saveAsync();
                                         author.saveAsync();
 
@@ -182,8 +182,8 @@ public class FunCmds {
                                         return Operation.COMPLETED;
                                     }
 
-                                    if(e.getMessage().getContent().equalsIgnoreCase("no")) {
-                                        e.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal.").queue();
+                                    if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
+                                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal.").queue();
                                         return Operation.COMPLETED;
                                     }
 
@@ -227,37 +227,37 @@ public class FunCmds {
         cr.register("divorce", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player user = MantaroData.db().getPlayer(event.getMember());
+                Player divorcee = MantaroData.db().getPlayer(event.getMember());
 
-                if(user.getData().getMarriedWith() == null) {
+                if(divorcee.getData().getMarriedWith() == null) {
                     event.getChannel().sendMessage(
                             EmoteReference.ERROR + "You aren't married with anyone, why don't you find that special someone?")
                             .queue();
                     return;
                 }
 
-                User user1 = user.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
+                User userMarriedWith = divorcee.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(divorcee.getData().getMarriedWith());
 
-                if(user1 == null) {
-                    user.getData().setMarriedWith(null);
-                    user.getData().setMarriedSince(0L);
-                    user.saveAsync();
+                if(userMarriedWith == null) {
+                    divorcee.getData().setMarriedWith(null);
+                    divorcee.getData().setMarriedSince(0L);
+                    divorcee.saveAsync();
                     event.getChannel().sendMessage(
                             EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
                     return;
                 }
 
-                Player marriedWith = MantaroData.db().getPlayer(user1);
+                Player marriedWith = MantaroData.db().getPlayer(userMarriedWith);
 
                 marriedWith.getData().setMarriedWith(null);
                 marriedWith.getData().setMarriedSince(0L);
                 marriedWith.saveAsync();
 
-                user.getData().setMarriedWith(null);
-                user.getData().setMarriedSince(0L);
-                user.saveAsync();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.")
-                        .queue();
+                divorcee.getData().setMarriedWith(null);
+                divorcee.getData().setMarriedSince(0L);
+                divorcee.saveAsync();
+
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
             }
 
             @Override
