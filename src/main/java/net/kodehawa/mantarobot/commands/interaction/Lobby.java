@@ -38,6 +38,6 @@ public class Lobby {
         if(getGuild() == null)
             return null;
 
-        return MantaroBot.getInstance().getGuildById(guild).getTextChannelById(channel);
+        return getGuild().getTextChannelById(channel);
     }
 }
