@@ -24,6 +24,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -38,6 +40,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -110,23 +113,29 @@ public class FunCmds {
                             return;
                         }
 
-                        User member = event.getAuthor();
-                        User user = event.getMessage().getMentionedUsers().get(0);
+                        User proposing = event.getAuthor();
+                        User proposedTo = event.getMessage().getMentionedUsers().get(0);
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        Player player1 = MantaroData.db().getPlayer(user);
+                        Player player1 = MantaroData.db().getPlayer(proposedTo);
                         User user1 = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
 
-                        if(user.getId().equals(event.getAuthor().getId())) {
+                        Inventory playerInventory = player.getInventory();
+
+                        if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings!").queue();
+                        }
+
+                        if(proposedTo.getId().equals(event.getAuthor().getId())) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
                             return;
                         }
 
-                        if(user.isBot()) {
+                        if(proposedTo.isBot()) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry a bot.").queue();
                             return;
                         }
 
-                        if(user1 != null && user1.getId().equals(user.getId())) {
+                        if(user1 != null && user1.getId().equals(proposedTo.getId())) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
                             return;
                         }
@@ -145,16 +154,26 @@ public class FunCmds {
                         if(InteractiveOperations.create(
                                 event.getChannel(), 120,
                                 (e) -> {
-                                    if(!e.getAuthor().getId().equals(user.getId())) return Operation.IGNORED;
+                                    if(!e.getAuthor().getId().equals(proposedTo.getId())) return Operation.IGNORED;
 
                                     if(e.getMessage().getContent().equalsIgnoreCase("yes")) {
-                                        Player user11 = MantaroData.db().getPlayer(e.getMember());
-                                        Player marry = MantaroData.db().getPlayer(e.getGuild().getMember(member));
-                                        user11.getData().setMarriedWith(member.getId());
-                                        marry.getData().setMarriedWith(e.getAuthor().getId());
-                                        e.getChannel().sendMessage(EmoteReference.POPPER + e.getAuthor().getName() + " accepted the proposal of " + member.getName() + "!").queue();
-                                        user11.save();
-                                        marry.save();
+                                        Player proposed = MantaroData.db().getPlayer(proposedTo);
+                                        Player author = MantaroData.db().getPlayer(proposing);
+
+                                        proposed.getData().setMarriedWith(proposing.getId());
+                                        author.getData().setMarriedWith(proposedTo.getId());
+
+                                        author.getInventory().process(new ItemStack(Items.RING, -1));
+
+                                        if(!(proposed.getInventory().getAmount(Items.RING) >= 5000)) {
+                                            proposed.getInventory().process(new ItemStack(Items.RING, 1));
+                                        }
+
+                                        e.getChannel().sendMessage(EmoteReference.POPPER + e.getAuthor().getName() + " accepted the proposal of " + proposing.getName() + "!").queue();
+                                        proposed.saveAsync();
+                                        author.saveAsync();
+
+                                        TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
                                         return Operation.COMPLETED;
                                     }
 
@@ -166,8 +185,7 @@ public class FunCmds {
                                     return Operation.IGNORED;
                                 }
                         ) != null) {
-                            TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
-                            event.getChannel().sendMessage(EmoteReference.MEGA + user
+                            event.getChannel().sendMessage(EmoteReference.MEGA + proposedTo
                                     .getName() + ", respond with **yes** or **no** to the marriage proposal from " + event
                                     .getAuthor().getName() + ".").queue();
 
