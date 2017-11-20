@@ -122,7 +122,7 @@ public class FunCmds {
                         Inventory playerInventory = player.getInventory();
 
                         if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings!").queue();
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3").queue();
                             return;
                         }
 

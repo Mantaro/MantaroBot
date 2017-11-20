@@ -554,6 +554,29 @@ public class InfoCmds {
     }
 
     @Subscribe
+    public void social(CommandRegistry cr) {
+        cr.register("social", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage(EmoteReference.HEART + "O-Oh, I see you're interested on seeing my social networks!\n\n" +
+                        "W-Well, here we go!\n" +
+                        "**[Website]**: https://mantaro.site\n" +
+                        "**[Patreon]**: https://www.patreon.com/mantaro\n" +
+                        "**[Twitter]**: https://twitter.com/mantarodiscord\n\n" +
+                        "**If you like Mantaro, please upvote on https://discordbots.org/bot/mantaro and/or consider donating on Patreon or Paypal! Thanks you~**\n").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Social")
+                        .setDescription("**Shows Mantaro's social networks.**")
+                        .build();
+            }
+        });
+    }
+
+
+    @Subscribe
     public void userinfo(CommandRegistry cr) {
         cr.register("userinfo", new SimpleCommand(Category.INFO) {
             @Override
