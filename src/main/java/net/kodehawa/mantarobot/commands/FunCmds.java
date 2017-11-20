@@ -99,107 +99,101 @@ public class FunCmds {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        ITreeCommand marry = (ITreeCommand) cr.register("marry", new TreeCommand(Category.FUN) {
+        cr.register("marry", new SimpleCommand(Category.FUN) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
-                        if(event.getMessage().getMentionedUsers().isEmpty()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.")
-                                    .queue();
-                            return;
-                        }
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.")
+                            .queue();
+                    return;
+                }
 
-                        User proposing = event.getAuthor();
-                        User proposedTo = event.getMessage().getMentionedUsers().get(0);
-                        Player proposingPlayer = MantaroData.db().getPlayer(proposing);
-                        Player proposedPlayer = MantaroData.db().getPlayer(proposedTo);
-                        User proposingMarriedWith = proposingPlayer.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(proposingPlayer.getData().getMarriedWith());
+                User proposing = event.getAuthor();
+                User proposedTo = event.getMessage().getMentionedUsers().get(0);
+                Player proposingPlayer = MantaroData.db().getPlayer(proposing);
+                Player proposedPlayer = MantaroData.db().getPlayer(proposedTo);
+                User proposingMarriedWith = proposingPlayer.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(proposingPlayer.getData().getMarriedWith());
 
-                        Inventory playerInventory = proposingPlayer.getInventory();
+                Inventory playerInventory = proposingPlayer.getInventory();
 
-                        if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3").queue();
-                            return;
-                        }
+                if(proposedTo.getId().equals(event.getAuthor().getId())) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
+                    return;
+                }
 
-                        if(proposedTo.getId().equals(event.getAuthor().getId())) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
-                            return;
-                        }
+                if(proposedTo.isBot()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry a bot.").queue();
+                    return;
+                }
 
-                        if(proposedTo.isBot()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry a bot.").queue();
-                            return;
-                        }
+                if(proposingMarriedWith != null && proposingMarriedWith.getId().equals(proposedTo.getId())) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
+                    return;
+                }
 
-                        if(proposingMarriedWith != null && proposingMarriedWith.getId().equals(proposedTo.getId())) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
-                            return;
-                        }
+                if(proposingMarriedWith != null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
+                    return;
+                }
 
-                        if(proposingMarriedWith != null) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
-                            return;
-                        }
+                if(proposedPlayer.getData().isMarried()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
+                    return;
+                }
 
-                        if(proposedPlayer.getData().isMarried()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
-                            return;
-                        }
+                if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3").queue();
+                    return;
+                }
 
+                if(InteractiveOperations.create(
+                        event.getChannel(), 120,
+                        (ie) -> {
+                            if(!ie.getAuthor().getId().equals(proposedTo.getId())) return Operation.IGNORED;
 
-                        if(InteractiveOperations.create(
-                                event.getChannel(), 120,
-                                (ie) -> {
-                                    if(!ie.getAuthor().getId().equals(proposedTo.getId())) return Operation.IGNORED;
+                            if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
+                                Player proposed = MantaroData.db().getPlayer(proposedTo);
+                                Player author = MantaroData.db().getPlayer(proposing);
+                                Inventory authorInventory = author.getInventory();
 
-                                    if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
-                                        Player proposed = MantaroData.db().getPlayer(proposedTo);
-                                        Player author = MantaroData.db().getPlayer(proposing);
-                                        Inventory authorInventory = author.getInventory();
-
-                                        if(authorInventory.getAmount(Items.RING) < 2) {
-                                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
-                                            return Operation.COMPLETED;
-                                        }
-
-                                        proposed.getData().setMarriedWith(proposing.getId());
-                                        author.getData().setMarriedWith(proposedTo.getId());
-
-                                        Inventory proposedInventory = proposed.getInventory();
-
-                                        authorInventory.process(new ItemStack(Items.RING, -1));
-
-                                        if(!(proposedInventory.getAmount(Items.RING) >= 5000)) {
-                                            proposedInventory.process(new ItemStack(Items.RING, 1));
-                                        }
-
-                                        ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
-                                        proposed.saveAsync();
-                                        author.saveAsync();
-
-                                        TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
-                                        return Operation.COMPLETED;
-                                    }
-
-                                    if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
-                                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
-                                        return Operation.COMPLETED;
-                                    }
-
-                                    return Operation.IGNORED;
+                                if(authorInventory.getAmount(Items.RING) < 2) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
+                                    return Operation.COMPLETED;
                                 }
-                        ) != null) {
-                            event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
-                                    .getName(), event.getAuthor().getName())).queue();
 
-                        } else {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
+                                proposed.getData().setMarriedWith(proposing.getId());
+                                author.getData().setMarriedWith(proposedTo.getId());
+
+                                Inventory proposedInventory = proposed.getInventory();
+
+                                authorInventory.process(new ItemStack(Items.RING, -1));
+
+                                if(!(proposedInventory.getAmount(Items.RING) >= 5000)) {
+                                    proposedInventory.process(new ItemStack(Items.RING, 1));
+                                }
+
+                                ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
+                                proposed.saveAsync();
+                                author.saveAsync();
+
+                                TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
+                                return Operation.COMPLETED;
+                            }
+
+                            if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
+                                ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            return Operation.IGNORED;
                         }
-                    }
-                };
+                ) != null) {
+                    event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
+                            .getName(), event.getAuthor().getName())).queue();
+
+                } else {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
+                }
             }
 
             @Override
@@ -212,13 +206,6 @@ public class FunCmds {
                                 false
                         )
                         .build();
-            }
-        });
-
-        marry.addSubCommand("divorce", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.THINKING + "Please use `~>divorce` from now on.").queue();
             }
         });
     }
