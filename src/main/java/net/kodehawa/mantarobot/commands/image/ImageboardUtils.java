@@ -190,7 +190,7 @@ public class ImageboardUtils {
         if(!trigger) {
             if(sendMessage) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Not on a NSFW channel. Cannot send lewd images.\n" +
-                        "**Reminder:** You can set this channel as NSFW by doing `~>opts nsfw toggle` if you are an administrator on this server.").queue();
+                        "**Reminder:** You can set this channel as NSFW by going to the channel settings and checking \"Set this Channel as NSFW\".").queue();
             }
             return false;
         }

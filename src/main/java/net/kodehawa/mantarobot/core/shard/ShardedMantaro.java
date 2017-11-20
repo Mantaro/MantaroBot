@@ -116,7 +116,7 @@ public class ShardedMantaro {
         MantaroBot bot = MantaroBot.getInstance();
         MantaroShard.getReconnectQueue().ready();
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
-        LogUtils.shard("Loaded all shards in " + ((end - start) / 1000) + " seconds.");
+        LogUtils.shard(String.format("Loaded all %d shards in %d seconds.", totalShards, (end - start) / 1000));
         bot.getCore().markAsReady();
         log.info("Loaded all shards succesfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
         Async.thread("ShardWatcherThread", new ShardWatcher());
