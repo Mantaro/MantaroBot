@@ -31,7 +31,7 @@ public class TempBanManager {
     public TempBanManager(Map<String, Long> unbans) {
         UNBANS = Collections.synchronizedMap(unbans);
 
-        Thread thread = new Thread(this::threadcode, "Tempbans Thread");
+        Thread thread = new Thread(this::threadcode, "Temp bans Thread");
         thread.setDaemon(true);
         thread.start();
     }

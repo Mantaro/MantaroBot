@@ -26,11 +26,11 @@ import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.impl.*;
 import net.kodehawa.mantarobot.commands.action.WeebAPIRequester;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.image.ImageRequestType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
@@ -139,13 +139,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(e621, "get", true, "e621", args, content, event);
+                        getImage(e621, ImageRequestType.GET, true, "e621", args, content, event);
                         break;
                     case "tags":
-                        getImage(e621, "tags", true, "e621", args, content, event);
+                        getImage(e621, ImageRequestType.TAGS, true, "e621", args, content, event);
                         break;
                     case "":
-                        getImage(e621, "", true, "e621", args, content, event);
+                        getImage(e621, ImageRequestType.RANDOM, true, "e621", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -178,13 +178,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(konachan, "get", false, "konachan", args, content, event);
+                        getImage(konachan, ImageRequestType.GET, false, "konachan", args, content, event);
                         break;
                     case "tags":
-                        getImage(konachan, "tags", false, "konachan", args, content, event);
+                        getImage(konachan, ImageRequestType.TAGS, false, "konachan", args, content, event);
                         break;
                     case "":
-                        getImage(konachan, "", false, "konachan", args, content, event);
+                        getImage(konachan, ImageRequestType.RANDOM, false, "konachan", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -217,13 +217,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(safebooru, "get", false, "safebooru", args, content, event);
+                        getImage(safebooru, ImageRequestType.GET, false, "safebooru", args, content, event);
                         break;
                     case "tags":
-                        getImage(safebooru, "tags", false, "safebooru", args, content, event);
+                        getImage(safebooru, ImageRequestType.TAGS, false, "safebooru", args, content, event);
                         break;
                     case "":
-                        getImage(safebooru, "", false, "safebooru", args, content, event);
+                        getImage(safebooru, ImageRequestType.RANDOM, false, "safebooru", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -256,13 +256,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(danbooru, "get", false, "danbooru", args, content, event);
+                        getImage(danbooru, ImageRequestType.GET, false, "danbooru", args, content, event);
                         break;
                     case "tags":
-                        getImage(danbooru, "tags", false, "danbooru", args, content, event);
+                        getImage(danbooru, ImageRequestType.TAGS, false, "danbooru", args, content, event);
                         break;
                     case "":
-                        getImage(danbooru, "", false, "danbooru", args, content, event);
+                        getImage(danbooru, ImageRequestType.RANDOM, false, "danbooru", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -296,13 +296,13 @@ public class ImageCmds {
                 TextChannelGround.of(event).dropItemWithChance(13, 3);
                 switch(noArgs) {
                     case "get":
-                        getImage(rule34, "get", true, "rule34", args, content, event);
+                        getImage(rule34, ImageRequestType.GET, true, "rule34", args, content, event);
                         break;
                     case "tags":
-                        getImage(rule34, "tags", true, "rule34", args, content, event);
+                        getImage(rule34, ImageRequestType.TAGS, true, "rule34", args, content, event);
                         break;
                     case "":
-                        getImage(rule34, "", true, "rule34", args, content, event);
+                        getImage(rule34, ImageRequestType.RANDOM, true, "rule34", args, content, event);
                         break;
                     default:
                         onHelp(event);
@@ -333,13 +333,13 @@ public class ImageCmds {
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
-                        getImage(yandere, "get", false, "yandere", args, content, event);
+                        getImage(yandere, ImageRequestType.GET, false, "yandere", args, content, event);
                         break;
                     case "tags":
-                        getImage(yandere, "tags", false, "yandere", args, content, event);
+                        getImage(yandere, ImageRequestType.TAGS, false, "yandere", args, content, event);
                         break;
                     case "":
-                        getImage(yandere, "", false, "yandere", args, content, event);
+                        getImage(yandere, ImageRequestType.RANDOM, false, "yandere", args, content, event);
                         break;
                     default:
                         onHelp(event);

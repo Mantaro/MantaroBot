@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherData {
-    public Clouds clouds = new Clouds();
-    public Main main = new Main();
-    public Sys sys = new Sys();
-    public List<Weather> weather = new ArrayList<>();
-    public Wind wind = new Wind();
+    private Clouds clouds = new Clouds();
+    private Main main = new Main();
+    private Sys sys = new Sys();
+    private List<Weather> weather = new ArrayList<>();
+    private Wind wind = new Wind();
 
     public Clouds getClouds() {
         return clouds;
@@ -51,10 +51,10 @@ public class WeatherData {
     }
 
     public class Main {
-        public int humidity; //Humidity in percentage.
-        public double pressure = 0;
-        public double speed; //Speed in m/h.
-        public double temp = 0;
+        private int humidity; //Humidity in percentage.
+        private double pressure = 0;
+        private double speed; //Speed in m/h.
+        private double temp = 0;
 
         public int getHumidity() {
             return humidity;

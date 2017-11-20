@@ -168,10 +168,12 @@ public class FunCmds {
                                         proposed.getData().setMarriedWith(proposing.getId());
                                         author.getData().setMarriedWith(proposedTo.getId());
 
+                                        Inventory proposedInventory = proposed.getInventory();
+
                                         authorInventory.process(new ItemStack(Items.RING, -1));
 
-                                        if(!(proposed.getInventory().getAmount(Items.RING) >= 5000)) {
-                                            proposed.getInventory().process(new ItemStack(Items.RING, 1));
+                                        if(!(proposedInventory.getAmount(Items.RING) >= 5000)) {
+                                            proposedInventory.process(new ItemStack(Items.RING, 1));
                                         }
 
                                         ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
@@ -183,7 +185,7 @@ public class FunCmds {
                                     }
 
                                     if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
-                                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal.").queue();
+                                        ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
                                         return Operation.COMPLETED;
                                     }
 
@@ -191,8 +193,7 @@ public class FunCmds {
                                 }
                         ) != null) {
                             event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
-                                    .getName(), event
-                                    .getAuthor().getName())).queue();
+                                    .getName(), event.getAuthor().getName())).queue();
 
                         } else {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
