@@ -116,6 +116,9 @@ public class Trivia extends Game<String> {
 
             @Override
             public void onExpire() {
+                if(lobby.getChannel() == null)
+                    return;
+
                 lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! The answer was: " + expectedAnswer.get(0)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }

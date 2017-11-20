@@ -118,7 +118,6 @@ public class AudioLoader implements AudioLoadResultHandler {
         if(!exception.severity.equals(FriendlyException.Severity.FAULT)) {
             event.getChannel().sendMessage("\u274C Error while fetching music: " + exception.getMessage()).queue();
         } else {
-            log.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
             MantaroBot.getInstance().getStatsClient().increment("tracks_hard_failed");
         }
     }

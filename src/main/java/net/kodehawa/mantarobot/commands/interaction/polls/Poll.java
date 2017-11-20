@@ -53,7 +53,7 @@ public class Poll extends Lobby {
     private Future<Void> runningPoll;
 
     public Poll(GuildMessageReceivedEvent event, String name, long timeout, String... options) {
-        super(event.getChannel());
+        super(event.getGuild().getId(), event.getChannel().getId());
         this.event = event;
         this.options = options;
         this.timeout = timeout;
@@ -160,6 +160,9 @@ public class Poll extends Lobby {
 
             @Override
             public void onExpire() {
+                if(getChannel() == null)
+                    return;
+
                 EmbedBuilder embedBuilder = new EmbedBuilder()
                         .setTitle("Poll results")
                         .setDescription("**Showing results for the poll started by " + event.getAuthor().getName() + "** with name: *" + name + "*")

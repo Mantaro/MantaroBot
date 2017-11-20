@@ -48,7 +48,7 @@ public class GameLobby extends Lobby {
 	List<String> players;
 
 	public GameLobby(GuildMessageReceivedEvent event, List<String> players, LinkedList<Game> games) {
-		super(event.getChannel());
+		super(event.getGuild().getId(), event.getChannel().getId());
 		this.guild = event.getGuild();
 		this.event = event;
 		this.players = players;
