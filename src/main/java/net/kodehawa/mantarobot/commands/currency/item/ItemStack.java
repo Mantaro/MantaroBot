@@ -16,10 +16,7 @@
 
 package net.kodehawa.mantarobot.commands.currency.item;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
@@ -48,7 +45,11 @@ public class ItemStack {
 
     public static String toString(List<ItemStack> list) {
         if(list.isEmpty()) return "There's only dust.";
-        return list.stream().filter(stack -> stack.getAmount() != 0).map(Object::toString).sorted(randomOrder()).collect(Collectors.joining(", "));
+
+        return list.stream().filter(stack -> stack.getAmount() != 0)
+                .sorted(Comparator.comparingInt(ItemStack::getAmount).reversed())
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
     }
 
     public static String toString(ItemStack... stacks) {
