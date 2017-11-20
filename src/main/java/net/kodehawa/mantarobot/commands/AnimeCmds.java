@@ -170,8 +170,14 @@ public class AnimeCmds {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
                         return;
                     }
-                    log.warn("Problem processing data.", e);
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your waifu!**\n" +
+
+                    if(e instanceof NullPointerException) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
+                        return;
+                    }
+
+                    log.warn("Problem processing character data.", e);
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't d-drop your waifu, please forgive me!**\n" +
                             "I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command.").queue();
                 }
             }

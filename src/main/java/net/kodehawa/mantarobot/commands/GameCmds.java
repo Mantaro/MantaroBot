@@ -57,7 +57,7 @@ public class GameCmds {
     //addSubCommand()...
     @Subscribe
     public void guess(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 4, true);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
         cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
@@ -203,7 +203,7 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 4);
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
