@@ -77,7 +77,7 @@ public class ImageCmds {
                     String url = new JSONObject(response.body().string()).getString("file");
                     response.close();
                     event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
-                            new MessageBuilder().append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getAsMention())).build()).queue();
+                            new MessageBuilder().append(EmoteReference.TALKING).append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getName())).build()).queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Error retrieving cute cat images :<").queue();
                     e.printStackTrace();
