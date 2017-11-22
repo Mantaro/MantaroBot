@@ -94,13 +94,19 @@ public class DBGuild implements ManagedObject {
     }
 
     @JsonIgnore
-    public PremiumKey generateAndApplyPremiumKey(int days){
+    public PremiumKey generateAndApplyPremiumKey(int days) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days),
                 currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.GUILD, true, id);
         data.setPremiumKey(premiumId);
-        newKey.save();
-        save();
+        newKey.saveAsync();
+        saveAsync();
         return newKey;
+    }
+
+    @JsonIgnore
+    public void removePremiumKey() {
+        data.setPremiumKey(null);
+        saveAsync();
     }
 }
