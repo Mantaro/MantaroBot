@@ -93,7 +93,9 @@ public class MantaroData {
 
     public static RedisCachedDatabase redisDb() {
         ManagedDatabase db = db();
-        if(db instanceof RedisCachedDatabase) return (RedisCachedDatabase)db;
+        if(db instanceof RedisCachedDatabase)
+            return (RedisCachedDatabase)db;
+
         throw new IllegalStateException("Redis database is disabled");
     }
 
@@ -131,7 +133,9 @@ public class MantaroData {
     }
 
     private static <K, V>RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
-        if(!cacheInfo.enabled) return client.getMap(key);
+        if(!cacheInfo.enabled)
+            return client.getMap(key, redissonCodec);
+
         LocalCachedMapOptions<K, V> options = LocalCachedMapOptions.<K, V>defaults()
                 .timeToLive(cacheInfo.ttlMs)
                 .maxIdle(cacheInfo.maxIdleMs)

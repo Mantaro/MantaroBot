@@ -135,7 +135,7 @@ public class MantaroBot extends ShardedJDA {
         MantaroData.config().save();
 
         LogUtils.log("Startup",
-                String.format("Loaded %d commands in %d shards.\n" +
+                String.format("Loaded %d commands in %d seconds.\n" +
                                 "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         birthdayCacher = new BirthdayCacher();
