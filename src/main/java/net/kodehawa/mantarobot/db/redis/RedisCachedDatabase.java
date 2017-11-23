@@ -63,13 +63,19 @@ public class RedisCachedDatabase extends ManagedDatabase {
         return guildMap.computeIfAbsent("guild:" + guildId, ignored->super.getGuild(guildId));
     }
 
-    @Override
+    //TODO fix
+    /*@Override
     public MantaroObj getMantaroData() {
         MantaroObj o = mantaroBucket.get();
         if(o == null) {
             return getMantaroData(true);
         }
         return o;
+    }*/
+
+    @Override
+    public MantaroObj getMantaroData() {
+        return getMantaroData(true);
     }
 
     public MantaroObj getMantaroData(boolean updateFromRethink) {
