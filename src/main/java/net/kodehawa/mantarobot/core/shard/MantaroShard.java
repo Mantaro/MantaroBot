@@ -62,11 +62,23 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
+/**
+ * Represents a Discord shard.
+ * This class and contains all the logic necessary to build, start and configure shards.
+ * The logic for configuring sharded instances of the bot is on {@link net.kodehawa.mantarobot.core.MantaroCore}.
+ *
+ * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
+ */
 public class MantaroShard implements JDA {
+    //Random stuff that gets in Mantaro's status that I wonder if anyone reads.
     public static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
+
     public static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
+
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    //Natan's DBL API sender instance.
     private static final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
 
     static {
@@ -80,20 +92,36 @@ public class MantaroShard implements JDA {
     @Getter
     private final ExecutorService threadPool;
     @Getter
+    //A instance of a ReconnectQueue that accounts for startup reconnects, avoiding OP2 spam on Shard reconnection during the startup procedure.
     private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
     @Delegate
     private JDA jda;
 
     private final Logger log;
+
     private final MantaroListener mantaroListener;
-    private final int shardId;
     private final CommandListener commandListener;
+
+    private final int shardId;
     private final int totalShards;
+
+    //A RateLimiter that keeps track of global ratelimits between shards.
     private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
 
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
+    /**
+     * Builds a new instance of a MantaroShard.
+     * @param shardId The id of the newly-created shard.
+     * @param totalShards The total quantity of shards that the bot will startup with.
+     * @param manager The event manager.
+     * @param commandProcessor The {@link ICommandProcessor} used to process upcoming Commands.
+     *
+     * @throws RateLimitedException
+     * @throws LoginException
+     * @throws InterruptedException
+     */
     public MantaroShard(int shardId, int totalShards, MantaroEventManager manager, ICommandProcessor commandProcessor) throws RateLimitedException, LoginException, InterruptedException {
         this.shardId = shardId;
         this.totalShards = totalShards;
@@ -119,11 +147,29 @@ public class MantaroShard implements JDA {
         start(false);
     }
 
+    /**
+     * Starts a new Shard.
+     * This method builds a {@link JDA} instance and then attempts to start it up.
+     * This locks until the shard finds a status of AWAITING_LOGIN_CONFIRMATION + 5 seconds.
+     *
+     * The newly-started shard will have auto reconnect enabled, a core pool size of 18 and a new NAS instance. The rest is defined either on global or instance
+     * variables.
+     *
+     * @param force Whether we will call {@link JDA#shutdown()} or {@link JDA#shutdownNow()}
+     * @throws RateLimitedException
+     * @throws LoginException
+     * @throws InterruptedException
+     */
     public void start(boolean force) throws RateLimitedException, LoginException, InterruptedException {
         if(jda != null) {
             log.info("Attempting to drop shard {}...", shardId);
-            if(!force) prepareShutdown();
-            jda.shutdownNow();
+            prepareShutdown();
+
+            if(!force)
+                jda.shutdown();
+            else
+                jda.shutdownNow();
+
             log.info("Dropped shard #{} successfully!", shardId);
             removeListeners();
         }
@@ -156,6 +202,11 @@ public class MantaroShard implements JDA {
         jda.removeEventListener(mantaroListener, commandListener, VOICE_CHANNEL_LISTENER, InteractiveOperations.listener(), ReactionOperations.listener());
     }
 
+    /**
+     * Starts the birthday task wait until tomorrow. When 00:00 arrives, this will call {@link BirthdayTask#handle(int)} every 24 hours.
+     * Every shard has one birthday task.
+     * @param millisecondsUntilTomorrow The amount of milliseconds until 00:00.
+     */
     public void startBirthdayTask(long millisecondsUntilTomorrow) {
         log.debug("Started birthday task for shard {}, scheduled to run in {} ms more", shardId, millisecondsUntilTomorrow);
 
@@ -163,6 +214,9 @@ public class MantaroShard implements JDA {
                 millisecondsUntilTomorrow, TimeUnit.DAYS.toMillis(1), TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * Handles updating the server count to most of the popular bot lists.
+     */
     public void updateServerCount() {
         OkHttpClient httpClient = new OkHttpClient();
         Config config = config().get();
@@ -208,6 +262,11 @@ public class MantaroShard implements JDA {
         }
     }
 
+    /**
+     * Updates Mantaro's "splash".
+     * Splashes are random gags like "now seen in theaters!" that show on Mantaro's status.
+     * This has been on Mantaro since at least a year, so it's part of its "personality" as a bot.
+     */
     public void updateStatus() {
         Runnable changeStatus = () -> {
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
@@ -233,6 +292,9 @@ public class MantaroShard implements JDA {
         Async.task("Splash Thread", changeStatus, 10, TimeUnit.MINUTES);
     }
 
+    /**
+     * @return The current {@link MantaroEventManager} for this specific instance.
+     */
     public MantaroEventManager getEventManager() {
         return manager;
     }
@@ -249,6 +311,7 @@ public class MantaroShard implements JDA {
         return totalShards;
     }
 
+    //This used to be bigger...
     public void prepareShutdown() {
         jda.removeEventListener(jda.getRegisteredListeners().toArray());
     }

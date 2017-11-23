@@ -41,6 +41,12 @@ import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 
+/**
+ * Represents a Sharded bot.
+ * This class will still be used whether we have zero or a billion shards tho, but Mantaro is more optimized to run with shards.
+ * It holds all the necessary info for the bot to correctly function in a sharded enviroment, while also providing access to {@link ICommandProcessor} and
+ * other extermely important stuff.
+ */
 @Slf4j
 public class ShardedMantaro {
 
@@ -89,6 +95,13 @@ public class ShardedMantaro {
         return 1;
     }
 
+    /**
+     * Starts building all the necessary Shards to start this bot instance.
+     * After finishing loading all the necessary shards, this will call {@link ShardedMantaro#startPostLoadProcedure(long)} and set everything so the bot
+     * will be functioning completely (sends {@link PostLoadEvent}, marks the core as ready, starts posting stats to most popular discord bot lists,
+     * starts the birthday checker on all the started shards and starts the {@link net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue}
+     * instance so stale shards will start reconnecting.
+     */
     public void shard() {
         try {
             MantaroCore.setLoadState(LoadState.LOADING_SHARDS);
@@ -98,12 +111,17 @@ public class ShardedMantaro {
                 if(MantaroData.config().get().upToShard != 0 && i > MantaroData.config().get().upToShard) continue;
 
                 log.info("Starting shard #" + i + " of " + totalShards);
+
+                //The custom event manager instance is important so we can track when we received the last event, or if we're receiving events at all.
                 MantaroEventManager manager = new MantaroEventManager();
                 managers.add(manager);
+
+                //Builds the new MantaroShard instance, which will start the shard.
                 shards[i] = new MantaroShard(i, totalShards, manager, processor);
                 log.debug("Finished loading shard #" + i + ".");
             }
 
+            //Beep-boop, we finished loading!
             this.startPostLoadProcedure(start);
         } catch(Exception e) {
             e.printStackTrace();
@@ -114,13 +132,18 @@ public class ShardedMantaro {
     private void startPostLoadProcedure(long start) {
         long end = System.currentTimeMillis();
         MantaroBot bot = MantaroBot.getInstance();
+
+        //Start the reconnect queue.
         MantaroShard.getReconnectQueue().ready();
+        bot.getCore().markAsReady();
+
         System.out.println("[-=-=-=-=-=- MANTARO STARTED -=-=-=-=-=-]");
         LogUtils.shard(String.format("Loaded all %d shards in %d seconds.", totalShards, (end - start) / 1000));
-        bot.getCore().markAsReady();
         log.info("Loaded all shards succesfully... Starting ShardWatcher! Status: {}", MantaroCore.getLoadState());
+
         Async.thread("ShardWatcherThread", new ShardWatcher());
         bot.getCore().getShardEventBus().post(new PostLoadEvent());
+
         startUpdaters();
         bot.startCheckingBirthdays();
     }

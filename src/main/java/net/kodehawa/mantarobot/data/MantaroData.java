@@ -16,6 +16,9 @@
 
 package net.kodehawa.mantarobot.data;
 
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.rethinkdb.net.Connection;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -23,10 +26,15 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.deserialize.StringLongPairDeserializator;
+import org.apache.commons.lang3.tuple.Pair;
 import org.redisson.Redisson;
 import org.redisson.api.LocalCachedMapOptions;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.Codec;
+import org.redisson.client.codec.JsonJacksonMapCodec;
+import org.redisson.codec.JsonJacksonCodec;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -42,6 +50,13 @@ public class MantaroData {
     private static ConnectionWatcherDataManager connectionWatcher;
     private static ManagedDatabase db;
     private static RedissonClient redisson;
+
+    private static ObjectMapper mapper =
+            new ObjectMapper().registerModule(
+                    new SimpleModule("Pair", new Version(1, 0, 0, null, null, null))
+                            .addDeserializer(Pair.class, new StringLongPairDeserializator())
+            );
+    private static Codec redissonCodec = new JsonJacksonCodec(mapper);
 
     public static GsonDataManager<Config> config() {
         if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
@@ -94,7 +109,7 @@ public class MantaroData {
                         map(client, "players", i.players),
                         map(client, "users", i.users),
                         map(client, "premium-keys", i.premiumKeys),
-                        client.getBucket("mantaro")
+                        client.getBucket("mantaro", redissonCodec)
                 );
             } else {
                 db = new ManagedDatabase(conn());
