@@ -59,7 +59,7 @@ public class CommandListener implements EventListener {
     private final String[] boomQuotes = {
             "Seemingly Megumin exploded our castle...", "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
             "W-Wait, what just happened?", "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-            "I'm mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
+            "I've mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
             "U-Uhh.. What did you want?"
     };
 
