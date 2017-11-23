@@ -118,21 +118,24 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     //TODO fix
-    /*@Override
+    @Override
+    @Nonnull
+    @CheckReturnValue
     public MantaroObj getMantaroData() {
+        log("Getting MantaroObj from cache");
         MantaroObj o = mantaroBucket.get();
         if(o == null) {
             return getMantaroData(true);
         }
         return o;
-    }*/
+    }
 
-    @Override
+    /*@Override
     @Nonnull
     @CheckReturnValue
     public MantaroObj getMantaroData() {
         return getMantaroData(true);
-    }
+    }*/
 
     @Nonnull
     @CheckReturnValue

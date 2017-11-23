@@ -52,10 +52,10 @@ public class MantaroData {
     private static RedissonClient redisson;
 
     private static ObjectMapper mapper =
-            new ObjectMapper().registerModule(
+            new ObjectMapper();/*.registerModule(
                     new SimpleModule("Pair", new Version(1, 0, 0, null, null, null))
                             .addDeserializer(Pair.class, new StringLongPairDeserializator())
-            );
+            );*/
     private static Codec redissonCodec = new JsonJacksonCodec(mapper);
 
     public static GsonDataManager<Config> config() {
@@ -120,7 +120,7 @@ public class MantaroData {
                         map(client, "players", i.players),
                         map(client, "users", i.users),
                         map(client, "premium-keys", i.premiumKeys),
-                        client.getBucket("mantaro", redissonCodec)
+                        client.getBucket("mantaro")
                 );
             } else {
                 db = new ManagedDatabase(conn());
