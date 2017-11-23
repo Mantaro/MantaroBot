@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -55,14 +56,11 @@ public class DBUser implements ManagedObject {
         return new DBUser(id, 0, new UserData());
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        MantaroData.db().delete(this);
-    }
-
-    @Override
-    public void save() {
-        MantaroData.db().save(this);
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 
     public User getUser(JDA jda) {

@@ -23,6 +23,7 @@ import lombok.Getter;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -59,14 +60,11 @@ public class PremiumKey implements ManagedObject {
     @JsonIgnore
     public PremiumKey() {}
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        MantaroData.db().delete(this);
-    }
-
-    @Override
-    public void save() {
-        MantaroData.db().save(this);
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 
     @JsonIgnore

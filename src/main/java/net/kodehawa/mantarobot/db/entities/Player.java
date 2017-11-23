@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,14 +76,18 @@ public class Player implements ManagedObject {
         return new Player(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new PlayerData());
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        MantaroData.db().delete(this);
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 
+    @JsonIgnore
+    @Nonnull
     @Override
-    public void save() {
-        MantaroData.db().save(this);
+    public String getDatabaseId() {
+        return getUserId();
     }
 
     /**

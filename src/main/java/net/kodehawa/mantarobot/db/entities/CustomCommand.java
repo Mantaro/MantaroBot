@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.utils.URLEncoding;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,14 +46,11 @@ public class CustomCommand implements ManagedObject {
         return new CustomCommand(guildId + ":" + cmdName, responses.stream().map(URLEncoding::encode).collect(Collectors.toList()));
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        MantaroData.db().delete(this);
-    }
-
-    @Override
-    public void save() {
-        MantaroData.db().save(this);
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 
     @JsonProperty("values")

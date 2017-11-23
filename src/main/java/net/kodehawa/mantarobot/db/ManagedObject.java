@@ -16,12 +16,31 @@
 
 package net.kodehawa.mantarobot.db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.kodehawa.mantarobot.data.MantaroData;
 
-public interface ManagedObject {
-    void delete();
+import javax.annotation.Nonnull;
 
-    void save();
+public interface ManagedObject {
+    @SuppressWarnings("NullableProblems")
+    @Nonnull String getId();
+
+    @JsonIgnore
+    @Nonnull String getTableName();
+
+    @JsonIgnore
+    @Nonnull
+    default String getDatabaseId() {
+        return getId();
+    }
+
+    default void delete() {
+        MantaroData.db().delete(this);
+    }
+
+    default void save() {
+        MantaroData.db().save(this);
+    }
 
     default void deleteAsync() {
         MantaroData.queue(this::delete);

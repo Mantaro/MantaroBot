@@ -17,12 +17,14 @@
 package net.kodehawa.mantarobot.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,13 +60,10 @@ public class MantaroObj implements ManagedObject {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new ConcurrentHashMap<>());
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        MantaroData.db().delete(this);
-    }
-
-    @Override
-    public void save() {
-        MantaroData.db().save(this);
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 }

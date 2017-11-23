@@ -66,19 +66,28 @@ public class MantaroData {
     public static Connection conn() {
         Config c = config().get();
         if(conn == null) {
-            conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
-            log.info("Establishing first database connection to {}:{} ({})...", c.dbHost, c.dbPort, c.dbUser);
+            synchronized(MantaroData.class) {
+                if(conn != null) return conn;
+                conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
+                log.info("Established first database connection to {}:{} ({})", c.dbHost, c.dbPort, c.dbUser);
+            }
         }
         return conn;
     }
 
     public static RedissonClient redisson() {
         if(redisson == null) {
-            Config.RedisInfo i = config().get().redis;
-            if(i.enabled) {
-                org.redisson.config.Config cfg = new org.redisson.config.Config();
-                cfg.useSingleServer().setAddress("redis://" + i.host + ":" + i.port);
-                redisson = Redisson.create(cfg);
+            synchronized(MantaroData.class) {
+                if(redisson != null) return redisson;
+                Config.RedisInfo i = config().get().redis;
+                if(i.enabled) {
+                    org.redisson.config.Config cfg = new org.redisson.config.Config();
+                    cfg.useSingleServer().setAddress("redis://" + i.host + ":" + i.port);
+                    redisson = Redisson.create(cfg);
+                    log.info("Established redis connection to {}:{}", i.host, i.port);
+                } else {
+                    throw new IllegalStateException("Redis is disabled");
+                }
             }
         }
         return redisson;
@@ -132,7 +141,7 @@ public class MantaroData {
         getExecutor().submit(runnable);
     }
 
-    private static <K, V>RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
+    private static <K, V> RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
         if(!cacheInfo.enabled)
             return client.getMap(key, redissonCodec);
 

@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
@@ -37,10 +39,12 @@ import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.apache.commons.collections4.iterators.ArrayIterator;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
@@ -60,7 +64,6 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 @Slf4j
 public class MantaroBot extends ShardedJDA {
     public static int cwport;
-    private static boolean DEBUG = false;
     @Getter
     private static MantaroBot instance;
     @Getter
@@ -84,17 +87,21 @@ public class MantaroBot extends ShardedJDA {
 
     private final MuteTask muteTask = new MuteTask();
 
-    public static void main(String[] args) {
-        if(System.getProperty("mantaro.verbose") != null) {
+    //just in case
+    static {
+        if(ExtraRuntimeOptions.VERBOSE) {
             System.setOut(new CompactPrintStream(System.out));
             System.setErr(new CompactPrintStream(System.err));
         }
 
-        if(System.getProperty("mantaro.debug") != null) {
-            DEBUG = true;
-            System.out.println("Running in debug mode!");
+        if(ExtraRuntimeOptions.DEBUG) {
+            log.info("Running in debug mode!");
         }
 
+        log.info("Filtering all logs below " + LogFilter.LEVEL);
+    }
+
+    public static void main(String[] args) {
         try {
             new MantaroBot();
         } catch(Exception e) {
@@ -108,7 +115,7 @@ public class MantaroBot extends ShardedJDA {
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
-        core = new MantaroCore(config, true, true, DEBUG);
+        core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI(config.dbotsorgToken);
 
         statsClient = new NonBlockingStatsDClient(
@@ -175,6 +182,14 @@ public class MantaroBot extends ShardedJDA {
 
     public List<MantaroShard> getShardList() {
         return Arrays.asList(shardedMantaro.getShards());
+    }
+
+    public static boolean isDebug() {
+        return ExtraRuntimeOptions.DEBUG;
+    }
+
+    public static boolean isVerbose() {
+        return ExtraRuntimeOptions.VERBOSE;
     }
 
     public void startCheckingBirthdays() {

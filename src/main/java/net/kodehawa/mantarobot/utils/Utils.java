@@ -314,6 +314,18 @@ public class Utils {
         return new String(almostPretty);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <K,V> Map<K,V> map(Object... mappings) {
+        if(mappings.length % 2 == 1) throw new IllegalArgumentException("mappings.length must be even");
+        Map<K, V> map = new HashMap<>();
+
+        for(int i = 0; i < mappings.length; i += 2) {
+            map.put((K)mappings[i], (V)mappings[i+1]);
+        }
+
+        return map;
+    }
+
     /**
      * Get a data failure response, place in its own method due to redundancy
      *
@@ -339,7 +351,7 @@ public class Utils {
      */
     public static HashMap<String, Object> mapObjects(Object valueObj) {
         try {
-            Class c1 = valueObj.getClass();
+            Class<?> c1 = valueObj.getClass();
             HashMap<String, Object> fieldMap = new HashMap<>();
             Field[] valueObjFields = c1.getDeclaredFields();
 
