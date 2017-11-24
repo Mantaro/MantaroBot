@@ -77,8 +77,5 @@ public class MantaroAudioManager {
             scheduler.setRepeatMode(null);
 
         playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
-
-        if(addFirst)
-            scheduler.nextTrack(true, true);
     }
 }
