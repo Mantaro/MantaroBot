@@ -143,11 +143,13 @@ public class CommandListener implements EventListener {
 
                             if(player.getLevel() > 1) {
                                 GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
-                                String levelUpChannel = guildData.getLevelUpChannel();
-                                String levelUpMessage = guildData.getLevelUpMessage();
+                                if(guildData.isEnabledLevelUpMessages()) {
+                                    String levelUpChannel = guildData.getLevelUpChannel();
+                                    String levelUpMessage = guildData.getLevelUpMessage();
 
-                                if(guildData.isEnabledLevelUpMessages() && levelUpMessage != null && levelUpChannel != null) {
-                                    processMessage(String.valueOf(player.getLevel()), levelUpMessage, levelUpChannel, event);
+                                    if(levelUpMessage != null && levelUpChannel != null) {
+                                        processMessage(String.valueOf(player.getLevel()), levelUpMessage, levelUpChannel, event);
+                                    }
                                 }
                             }
                         }
