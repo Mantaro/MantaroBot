@@ -72,7 +72,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     @Override
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         log("Getting custom command {}:{} from cache", guildId, name);
@@ -110,14 +110,13 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     @Override
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull String guildId) {
         log("Getting guild {} from cache", guildId);
         return guildMap.computeIfAbsent("guild:" + guildId, ignored->super.getGuild(guildId));
     }
 
-    //TODO fix
     @Override
     @Nonnull
     @CheckReturnValue
@@ -129,13 +128,6 @@ public class RedisCachedDatabase extends ManagedDatabase {
         }
         return o;
     }
-
-    /*@Override
-    @Nonnull
-    @CheckReturnValue
-    public MantaroObj getMantaroData() {
-        return getMantaroData(true);
-    }*/
 
     @Nonnull
     @CheckReturnValue
@@ -150,7 +142,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     @Override
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
         log("Getting player {} from cache", userId);
@@ -168,7 +160,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     @Override
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Getting premium key {} from cache", id);
@@ -187,7 +179,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     @Override
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
         log("Getting user {} from cache", userId);
@@ -225,76 +217,4 @@ public class RedisCachedDatabase extends ManagedDatabase {
         }
         super.delete(object);
     }
-
-    /*@Override
-    public void save(CustomCommand command) {
-        ccMap.fastPutAsync("cc:" + command.getId(), command);
-        super.save(command);
-    }
-
-    @Override
-    public void save(DBGuild guild) {
-        guildMap.fastPutAsync("guild:" + guild.getId(), guild);
-        super.save(guild);
-    }
-
-    @Override
-    public void save(DBUser user) {
-        userMap.fastPutAsync("user:" + user.getId(), user);
-        super.save(user);
-    }
-
-    @Override
-    public void save(MantaroObj obj) {
-        mantaroBucket.setAsync(obj);
-        super.save(obj);
-    }
-
-    @Override
-    public void save(Player player) {
-        playerMap.fastPutAsync("player:" + player.getUserId(), player);
-        super.save(player);
-    }
-
-    @Override
-    public void save(PremiumKey key) {
-        keyMap.fastPutAsync("key:" + key.getId(), key);
-        super.save(key);
-    }
-
-    @Override
-    public void delete(CustomCommand command) {
-        ccMap.fastRemoveAsync("cc:" + command.getId());
-        super.delete(command);
-    }
-
-    @Override
-    public void delete(DBGuild guild) {
-        guildMap.fastRemoveAsync("guild:" + guild.getId());
-        super.delete(guild);
-    }
-
-    @Override
-    public void delete(DBUser user) {
-        userMap.fastRemoveAsync("user:" + user.getId());
-        super.delete(user);
-    }
-
-    @Override
-    public void delete(MantaroObj obj) {
-        mantaroBucket.deleteAsync();
-        super.delete(obj);
-    }
-
-    @Override
-    public void delete(Player player) {
-        playerMap.fastRemoveAsync("player:" + player.getId());
-        super.delete(player);
-    }
-
-    @Override
-    public void delete(PremiumKey key) {
-        keyMap.fastRemoveAsync("key:" + key.getId());
-        super.delete(key);
-    }*/
 }

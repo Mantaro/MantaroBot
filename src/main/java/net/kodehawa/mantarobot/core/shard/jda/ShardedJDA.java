@@ -313,4 +313,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
     public CacheView<AudioManager> getAudioManagerCache() {
         return CacheView.all(() -> stream().map(JDA::getAudioManagerCache));
     }
+
+    public abstract void restartShard(int shardId, boolean force);
+    public abstract void restartAll();
 }

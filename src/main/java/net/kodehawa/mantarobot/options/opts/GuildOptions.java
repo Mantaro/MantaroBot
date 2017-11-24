@@ -20,7 +20,6 @@ import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.OptsCmd;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -245,6 +244,7 @@ public class GuildOptions extends OptionHandler {
 
                     if(textChannels.isEmpty()) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                        return;
                     }
 
                     if(textChannels.size() <= 1) {
@@ -528,26 +528,104 @@ public class GuildOptions extends OptionHandler {
                 });
 
         registerOption("server:ignorebots:autoroles:toggle",
-                "Ignore bots on autorole", "Toggles between ignoring bots on autorole assign and not.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    boolean ignore = guildData.isIgnoreBotsAutoRole();
-                    guildData.setIgnoreBotsAutoRole(!ignore);
-                    dbGuild.saveAsync();
+                "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (event) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean ignore = guildData.isIgnoreBotsAutoRole();
+            guildData.setIgnoreBotsAutoRole(!ignore);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsAutoRole() + "**").queue();
-                });
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsAutoRole() + "**").queue();
+        });
 
         registerOption("server:ignorebots:joinleave:toggle",
-                "Ignore bots on join/leave message", "Toggles between ignoring bots on join/leave message.", (event) -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
-                    guildData.setIgnoreBotsWelcomeMessage(!ignore);
-                    dbGuild.saveAsync();
+                "Bot join/leave ignore", "Toggles between ignoring bots on join/leave message.", (event) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
+            guildData.setIgnoreBotsWelcomeMessage(!ignore);
+            dbGuild.saveAsync();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsWelcomeMessage() + "**").queue();
-                });
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsWelcomeMessage() + "**").queue();
+        });
+
+        registerOption("levelupmessages:toggle", "Level-up toggle",
+                "Toggles level up messages, remember that after this you have to set thee channel and the message!", "Toggles level up messages", event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            boolean ignore = guildData.isEnabledLevelUpMessages();
+            guildData.setEnabledLevelUpMessages(!ignore);
+            dbGuild.saveAsync();
+
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set level up messages to: **" + guildData.isEnabledLevelUpMessages() + "**").queue();
+        });
+
+            registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",
+                "Sets the level up message", (event, args) -> {
+            if(args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            String levelUpMessage = String.join(" ", args);
+            guildData.setLevelUpMessage(levelUpMessage);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Server level-up message set to: " + levelUpMessage).queue();
+        });
+
+        registerOption("levelupmessages:message:clear", "Level-up message clear", "Clears the message to display on level up",
+                "Clears the message to display on level up", (event, args) -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            guildData.setLevelUpMessage(null);
+            dbGuild.saveAsync();
+
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Cleared level-up message!").queue();
+        });
+
+        registerOption("levelupmessages:channel:set", "Level-up message channel",
+                "Sets the channel to display level up messages", "Sets the channel to display level up messages",
+                (event, args) -> {
+            if(args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            String channelName = args[0];
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if(textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                return;
+            }
+
+            if(textChannels.size() <= 1) {
+                guildData.setLevelUpChannel(textChannels.get(0).getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "The level-up channel has been set to: " +
+                        textChannels.get(0).getAsMention()).queue();
+            } else {
+                DiscordUtils.selectList(event, textChannels,
+                        textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                        s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                        textChannel -> {
+                            guildData.setLevelUpChannel(textChannel.getId());
+                            dbGuild.saveAsync();
+                            event.getChannel().sendMessage(EmoteReference.OK + "The level-up channel has been set to: " +
+                                    textChannel.getAsMention()).queue();
+                        }
+                );
+            }
+        });
     }
 
     @Override

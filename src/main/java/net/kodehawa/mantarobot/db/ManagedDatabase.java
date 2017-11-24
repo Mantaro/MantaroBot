@@ -53,26 +53,26 @@ public class ManagedDatabase {
         }
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         log("Requesting custom command {}:{} from rethink", guildId, name);
         return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull Guild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull DBGuild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull GuildMessageReceivedEvent event, @Nonnull String cmd) {
         return getCustomCommand(event.getGuild(), cmd);
@@ -116,7 +116,7 @@ public class ManagedDatabase {
         return c.toList();
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull String guildId) {
         log("Requesting guild {} from rethink", guildId);
@@ -124,19 +124,19 @@ public class ManagedDatabase {
         return guild == null ? DBGuild.of(guildId) : guild;
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull Guild guild) {
         return getGuild(guild.getId());
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull Member member) {
         return getGuild(member.getGuild());
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull GuildMessageReceivedEvent event) {
         return getGuild(event.getGuild());
@@ -150,7 +150,7 @@ public class ManagedDatabase {
         return obj == null ? MantaroObj.create() : obj;
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
         log("Requesting player {} from rethink", userId);
@@ -158,13 +158,13 @@ public class ManagedDatabase {
         return player == null ? Player.of(userId) : player;
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull User user) {
         return getPlayer(user.getId());
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public Player getPlayer(@Nonnull Member member) {
         return getPlayer(member.getUser());
@@ -188,7 +188,7 @@ public class ManagedDatabase {
     }
 
     //Also tests if the key is valid or not!
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Requesting premium key {} from rethink", id);
@@ -196,7 +196,7 @@ public class ManagedDatabase {
         return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
         log("Requesting user {} from rethink", userId);
@@ -204,13 +204,13 @@ public class ManagedDatabase {
         return user == null ? DBUser.of(userId) : user;
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull User user) {
         return getUser(user.getId());
     }
 
-    @Nullable
+    @Nonnull
     @CheckReturnValue
     public DBUser getUser(@Nonnull Member member) {
         return getUser(member.getUser());
@@ -231,64 +231,4 @@ public class ManagedDatabase {
                 .delete()
                 .runNoReply(conn);
     }
-
-    /*public void save(CustomCommand command) {
-        r.table(CustomCommand.DB_TABLE).insert(command)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void save(DBGuild guild) {
-        r.table(DBGuild.DB_TABLE).insert(guild)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void save(DBUser user) {
-        r.table(DBUser.DB_TABLE).insert(user)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void save(MantaroObj obj) {
-        r.table(MantaroObj.DB_TABLE).insert(obj)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void save(Player player) {
-        r.table(Player.DB_TABLE).insert(player)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void save(PremiumKey key) {
-        r.table(PremiumKey.DB_TABLE).insert(key)
-                .optArg("conflict", "replace")
-                .runNoReply(conn);
-    }
-
-    public void delete(CustomCommand command) {
-        r.table(CustomCommand.DB_TABLE).get(command.getId()).delete().runNoReply(conn);
-    }
-
-    public void delete(DBGuild guild) {
-        r.table(DBGuild.DB_TABLE).get(guild.getId()).delete().runNoReply(conn);
-    }
-
-    public void delete(DBUser user) {
-        r.table(DBUser.DB_TABLE).get(user.getId()).delete().runNoReply(conn);
-    }
-
-    public void delete(MantaroObj obj) {
-        r.table(MantaroObj.DB_TABLE).get(obj.getId()).delete().runNoReply(conn);
-    }
-
-    public void delete(Player player) {
-        r.table(Player.DB_TABLE).get(player.getId()).delete().runNoReply(conn);
-    }
-
-    public void delete(PremiumKey key) {
-        r.table(PremiumKey.DB_TABLE).get(key.getId()).delete().runNoReply(conn);
-    }*/
 }
