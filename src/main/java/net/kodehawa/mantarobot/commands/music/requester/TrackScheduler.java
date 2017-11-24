@@ -40,7 +40,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -49,7 +49,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer audioPlayer;
     private final String guildId;
     @Getter
-    private final ConcurrentLinkedQueue<AudioTrack> queue;
+    private final ConcurrentLinkedDeque<AudioTrack> queue;
     @Getter
     private final List<String> voteSkips;
     @Getter
@@ -64,18 +64,25 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public TrackScheduler(AudioPlayer player, String guildId) {
         this.audioPlayer = player;
-        this.queue = new ConcurrentLinkedQueue<>();
+        this.queue = new ConcurrentLinkedDeque<>();
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
     }
 
-    public void queue(AudioTrack track) {
+    public void queue(AudioTrack track, boolean addFirst) {
         if(!audioPlayer.startTrack(track, true)) {
-            queue.offer(track);
+            if(addFirst)
+                queue.addFirst(track);
+            else
+                queue.offer(track);
         } else {
             currentTrack = track;
         }
+    }
+
+    public void queue(AudioTrack track) {
+        queue(track, false);
     }
 
     public void nextTrack(boolean force, boolean skip) {

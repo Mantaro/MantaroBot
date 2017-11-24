@@ -643,7 +643,7 @@ public class CustomCmds {
                     v = "ytsearch: " + v;
                 }
 
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false);
+                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false, false);
                 return;
             }
 

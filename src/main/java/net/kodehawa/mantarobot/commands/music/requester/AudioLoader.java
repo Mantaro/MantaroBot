@@ -49,11 +49,13 @@ public class AudioLoader implements AudioLoadResultHandler {
     private final GuildMessageReceivedEvent event;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
+    private final boolean insertFirst;
 
-    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection) {
+    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
         this.event = event;
         this.skipSelection = skipSelection;
+        this.insertFirst = insertFirst;
     }
 
     @Override
@@ -155,7 +157,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        musicManager.getTrackScheduler().queue(audioTrack);
+        musicManager.getTrackScheduler().queue(audioTrack, insertFirst);
         musicManager.getTrackScheduler().setRequestedChannel(event.getChannel().getIdLong());
 
         if(!silent) {

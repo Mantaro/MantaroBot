@@ -152,6 +152,39 @@ public class MusicCmds {
     }
 
     @Subscribe
+    public void playnow(CommandRegistry cr) {
+        cr.register("playnow", new SimpleCommand(Category.MUSIC) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if (isDJ(event.getMember())) {
+                    if(content.trim().isEmpty()) {
+                        onHelp(event);
+                        return;
+                    }
+
+                    try {
+                        new URL(content);
+                    } catch(Exception e) {
+                        if(content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+                        else content = "ytsearch: " + content;
+                    }
+
+                    MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, true);
+                    TextChannelGround.of(event).dropItemWithChance(0, 5);
+                } else {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a DJ to use this command!").queue();
+                }
+            }
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Play Now command")
+                        .setDescription("**Puts a song on the front of the queue and plays it inmediatly**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void np(CommandRegistry cr) {
         cr.register("np", new SimpleCommand(Category.MUSIC) {
             @Override
@@ -230,7 +263,7 @@ public class MusicCmds {
                     else content = "ytsearch: " + content;
                 }
 
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false);
+                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, false, false);
                 TextChannelGround.of(event).dropItemWithChance(0, 5);
             }
 
@@ -267,7 +300,7 @@ public class MusicCmds {
                     else content = "ytsearch: " + content;
                 }
 
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, true);
+                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, content, true, false);
                 TextChannelGround.of(event).dropItemWithChance(0, 5);
             }
 
