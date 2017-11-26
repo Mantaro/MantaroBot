@@ -604,12 +604,12 @@ public class UtilsCmds {
                             .addBlankField(true)
                             .addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " +
                                     finalWindSpeedImperial.intValue() + "mph", true)
-                            .addField("Pressure", pressure + "kPA", true)
+                            .addField("Pressure", pressure + "hPA", true)
                             .addBlankField(true)
                             .setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
                     event.getChannel().sendMessage(embed.build()).queue();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage("Error while fetching results.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. (Not found?)").queue();
                     if(!(e instanceof NullPointerException))
                         log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
                 }
