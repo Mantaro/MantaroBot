@@ -588,8 +588,8 @@ public class UtilsCmds {
                     Double ws = data.getWind().speed;
                     int clness = data.getClouds().all;
 
-                    Double finalTemperatureCelcius = temp - 273.15;
-                    Double finalTemperatureFarnheit = temp * 9 / 5 - 459.67;
+                    Double finalTemperatureCelsius = temp - 273.15;
+                    Double finalTemperatureFahrenheit = temp * 9 / 5 - 459.67;
                     Double finalWindSpeedMetric = ws * 3.6;
                     Double finalWindSpeedImperial = ws / 0.447046;
                     long end = System.currentTimeMillis() - start;
@@ -598,8 +598,8 @@ public class UtilsCmds {
                             .setTitle(
                                     ":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
                             .setDescription(status + " (" + clness + "% cloudiness)")
-                            .addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " +
-                                    finalTemperatureFarnheit.intValue() + "°F", true)
+                            .addField(":thermometer: Temperature", finalTemperatureCelsius.intValue() + "°C | " +
+                                    finalTemperatureFahrenheit.intValue() + "°F", true)
                             .addField(":droplet: Humidity", hum + "%", true)
                             .addBlankField(true)
                             .addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " +
