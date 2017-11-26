@@ -570,7 +570,7 @@ public class UtilsCmds {
                 try {
                     long start = System.currentTimeMillis();
                     WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(
-                            Utils.wget(
+                            Utils.wgetResty(
                                     String.format(
                                             "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s",
                                             URLEncoder.encode(content, "UTF-8"),
