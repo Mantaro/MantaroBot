@@ -37,9 +37,19 @@ import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
+import java.util.Random;
+
 @Slf4j(topic = "Moderation")
 @Module
 public class ModerationCmds {
+
+    private final String[] modActionQuotes = {
+            "Uh-oh, seems like someone just got hit hard!", "Just wholesome admin work happening over here...", "The boot has been thrown!",
+            "You'll be missed... not really", "I hope I did the right thing...", "Woah there, mods have spoken!", "U-Uh... w-well, someone just went through the door."
+    };
+
+    private final Random r = new Random();
+
     @Subscribe
     public void softban(CommandRegistry cr) {
         cr.register("softban", new SimpleCommand(Category.MODERATION) {
@@ -108,7 +118,7 @@ public class ModerationCmds {
                                         EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason)).queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(String.format("%sYou'll be missed... haha just kidding %s", EmoteReference.ZAP, member.getEffectiveName())).queue();
+                                channel.sendMessage(String.format("%s%s. **(%s got softbanned)**", EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], member.getEffectiveName())).queue();
                                 guild.getController().unban(member.getUser()).reason(finalReason).queue(aVoid -> {
                                 }, error -> {
                                     if(error instanceof PermissionException) {
@@ -197,8 +207,7 @@ public class ModerationCmds {
                     Member member = guild.getMember(user);
                     if(member == null) return;
                     if(!guild.getSelfMember().canInteract(member)) {
-                        channel.sendMessage(EmoteReference.ERROR + "I can't ban " + member.getEffectiveName() + "; they're higher in the " +
-                                "server hierarchy than me!").queue();
+                        channel.sendMessage(String.format("%sI can't ban %s; they're higher in the server hierarchy than me!", EmoteReference.ERROR, member.getEffectiveName())).queue();
                         return;
                     }
 
@@ -214,7 +223,7 @@ public class ModerationCmds {
                                         EmoteReference.MEGA, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), finalReason)).queue();
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(String.format("%sYou'll be missed %s... or not!", EmoteReference.ZAP, user.getName())).queue();
+                                channel.sendMessage(String.format("%s%s (%s got banned)", EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.BAN, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(1, 2);
                             },
@@ -312,7 +321,7 @@ public class ModerationCmds {
                                 }
                                 db.getData().setCases(db.getData().getCases() + 1);
                                 db.saveAsync();
-                                channel.sendMessage(EmoteReference.ZAP + "You will be missed... or not " + user.getName()).queue();
+                                channel.sendMessage(String.format("%s%s (%s got kicked)", EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
                                 ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.KICK, db.getData().getCases());
                                 TextChannelGround.of(event).dropItemWithChance(2, 2);
                             },
@@ -396,7 +405,7 @@ public class ModerationCmds {
                                     db.getData().setCases(db.getData().getCases() + 1);
                                     db.saveAsync();
 
-                                    channel.sendMessage(String.format("%sYou will be missed... or not %s", EmoteReference.ZAP, user.getName())).queue();
+                                    channel.sendMessage(String.format("%s%s (%s got temporarly banned)", EmoteReference.ZAP, modActionQuotes[r.nextInt(modActionQuotes.length)], user.getName())).queue();
 
                                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.TEMP_BAN, db.getData().getCases(), sTime);
                                     MantaroBot.getTempBanManager().addTempban(guild.getId() + ":" + user.getId(), l + System.currentTimeMillis());
