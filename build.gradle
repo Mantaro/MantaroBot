@@ -37,8 +37,8 @@ repositories {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_305'
-	compile 'com.sedmelluq:lavaplayer:1.2.44'
+	compile 'net.dv8tion:JDA:3.3.1_307'
+	compile 'com.sedmelluq:lavaplayer:1.2.45'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 
 	compile 'org.reflections:reflections:0.9.9'
@@ -66,7 +66,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
-    compile 'net.kodehawa:imageboard-api:2.0.1_1'
+    compile 'net.kodehawa:imageboard-api:2.0.2_1'
 	compile 'com.github.natanbc:discordbots-api:1.2'
 
     compileOnly "org.projectlombok:lombok:1.16.16"
