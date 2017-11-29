@@ -31,7 +31,7 @@ public class Items {
             DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR;
 
     public static final Item[] ALL = {
-            HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music.  Should be worth " +
+            HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
                     "something, tho.", 5, true, false),
             BAN_HAMMER = new Item("\uD83D\uDD28",
                     "Ban Hammer", "Left by an admin. +INF Dmg", 15, false),
@@ -83,6 +83,8 @@ public class Items {
                     "Chocolate", "Yummy.", 45, true),
             COOKIES = new Item(EmoteReference.COOKIE.getUnicode(),
                     "Cookie", "Delicious.", 48, true),
+            // ---------------------------------- LEFT OVERS FROM CURRENCY V1 STARTS HERE ----------------------------------
+            //CANNOT REMOVE BECAUSE WE WERE MEME ENOUGH TO FUCKING SAVE THEM BY THEIR IDS
             LOADED_DICE_2 = new Item("\uD83C\uDFB2",
                     "Special Loaded Die", "Even more loaded. `Leftover from Currency version 1. No longer obtainable.`"),
             BOOSTER = new Item(EmoteReference.RUNNER.getUnicode(),
@@ -96,7 +98,8 @@ public class Items {
             ENHANCER = new Item(EmoteReference.MAG.getUnicode(),
                     "Enchancer", "A broken enchanter, I wonder if it could be fixed? `Leftover from Currency version 1. No longer obtainable.`"),
             STAR = new Item(EmoteReference.STAR.getUnicode(),
-                    "Prize", "Pretty much, huh?", 0, false, false, true),
+                    "Prize", "Pretty much, huh? `Leftover from Currency version 1. No longer obtainable.`", 0, false, false, true),
+            // ---------------------------------- LEFT OVERS FROM CURRENCY V1 END HERE ----------------------------------
             LOOT_CRATE = new Item(EmoteReference.LOOT_CRATE.getDiscordNotation(),
                     "Loot Crate", "You can use this along with a loot key to open a loot crate! `~>opencrate`", 0, false, false, true),
             STAR_2 = new Item(EmoteReference.STAR.getUnicode(),

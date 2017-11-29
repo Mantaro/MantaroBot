@@ -39,11 +39,11 @@ public class ImageboardUtils {
         boolean needRating = args.length >= 3;
         TextChannel channel = event.getChannel();
 
-        if(nsfwOnly)
-            rating = Rating.EXPLICIT;
-
         if(needRating)
             rating = Rating.lookupFromString(args[2]);
+
+        if(nsfwOnly)
+            rating = Rating.EXPLICIT;
 
         if(rating == null) {
             channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
