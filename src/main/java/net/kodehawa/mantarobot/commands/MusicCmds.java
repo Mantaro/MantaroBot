@@ -656,6 +656,40 @@ public class MusicCmds {
     }
 
     @Subscribe
+    public void nextSong(CommandRegistry cr) {
+        cr.register("ns", new SimpleCommand(Category.MUSIC) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                GuildMusicManager musicManager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
+                TrackScheduler scheduler = musicManager.getTrackScheduler();
+
+                AudioTrack next = scheduler.getQueue().peek();
+
+                if(next == null) {
+                    event.getChannel().sendMessage(EmoteReference.TALKING + "Ow, there isn't any song next").queue();
+                } else {
+                    EmbedBuilder builder = new EmbedBuilder().setAuthor("Next Song in Queue", null, event.getGuild().getIconUrl())
+                            .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
+                            .setDescription("**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title + "]"
+                                    + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri + ")**")
+                            .setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
+
+                    event.getChannel().sendMessage(builder.build()).queue();
+                }
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Next Song Command")
+                        .addField("Description", "**Shows the next song in queue!**", false)
+                        .build();
+            }
+        });
+
+        cr.registerAlias("ns", "nextsong");
+    }
+
+    @Subscribe
     public void shuffle(CommandRegistry cr) {
         cr.register("shuffle", new SimpleCommand(Category.MUSIC) {
             @Override
