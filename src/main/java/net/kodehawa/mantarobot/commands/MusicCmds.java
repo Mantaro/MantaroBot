@@ -670,8 +670,7 @@ public class MusicCmds {
                 } else {
                     EmbedBuilder builder = new EmbedBuilder().setAuthor("Next Song in Queue", null, event.getGuild().getIconUrl())
                             .setThumbnail("http://www.clipartbest.com/cliparts/jix/6zx/jix6zx4dT.png")
-                            .setDescription("**[" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().title + "]"
-                                    + "(" + musicManager.getTrackScheduler().getAudioPlayer().getPlayingTrack().getInfo().uri + ")**")
+                            .setDescription("**[" + next.getInfo().title + "](" + next.getInfo().uri + ")**")
                             .setFooter("Enjoy the music! <3", event.getAuthor().getAvatarUrl());
 
                     event.getChannel().sendMessage(builder.build()).queue();
