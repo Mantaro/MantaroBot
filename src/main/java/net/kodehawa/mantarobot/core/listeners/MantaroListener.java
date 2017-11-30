@@ -508,9 +508,8 @@ public class MantaroListener implements EventListener {
         if(!m.find()) return false;
         String invite = m.group(0);
         String code = invite.substring(invite.lastIndexOf('/')+1).trim();
-        System.out.println("Code> " + code);
         try {
-            return INVITES.get(code, ()->Invite.resolve(jda, code).complete().getGuild().getIdLong()) != guild.getIdLong();
+            return INVITES.get(code, () -> Invite.resolve(jda, code).complete().getGuild().getIdLong()) != guild.getIdLong();
         } catch(ExecutionException e) {
             log.error("Error running invite validator", e);
             return DISCORD_INVITE.matcher(message).find();
