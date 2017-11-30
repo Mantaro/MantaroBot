@@ -223,7 +223,7 @@ public class DebugCmds {
                         continue;
                     }
 
-                    boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED) || shard.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT) || shard.getStatus().equals(JDA.Status.WAITING_TO_RECONNECT);
+                    boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED);
                     if(shard.getEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
                     if(reconnect)

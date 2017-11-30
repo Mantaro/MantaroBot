@@ -39,7 +39,7 @@ public class ImageboardUtils {
         boolean needRating = args.length >= 3;
         TextChannel channel = event.getChannel();
 
-        if(needRating)
+        if(needRating && !nsfwOnly)
             rating = Rating.lookupFromString(args[2]);
 
         if(nsfwOnly)

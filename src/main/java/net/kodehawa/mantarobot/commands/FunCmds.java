@@ -149,7 +149,8 @@ public class FunCmds {
                 if(InteractiveOperations.create(
                         event.getChannel(), 120,
                         (ie) -> {
-                            if(!ie.getAuthor().getId().equals(proposedTo.getId())) return Operation.IGNORED;
+                            if(!ie.getAuthor().getId().equals(proposedTo.getId()))
+                                return Operation.IGNORED;
 
                             if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
                                 Player proposed = MantaroData.db().getPlayer(proposedTo);

@@ -77,15 +77,18 @@ import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 @Slf4j
 public class MantaroListener implements EventListener {
     //The regex to filter discord invites.
-    public static final Pattern DISCORD_INVITE = Pattern.compile(
+    private static final Pattern DISCORD_INVITE = Pattern.compile(
             "(?:discord(?:(?:\\.|.?dot.?)gg|app(?:\\.|.?dot.?)com/invite)/(?<id>" +
                     "([\\w]{10,16}|[a-zA-Z0-9]{4,8})))");
-    public static final Pattern DISCORD_INVITE_2 = Pattern.compile(
+
+    private static final Pattern DISCORD_INVITE_2 = Pattern.compile(
             "(https?://)?discord(app(\\.|\\s*?dot\\s*?)com\\s+?/\\s+?invite\\s*?/\\s*?|(\\.|\\s*?dot\\s*?)(gg|me|io)\\s*?/\\s*?)([a-zA-Z0-9\\-_]+)"
     );
-    public static final Pattern THIRD_PARTY_INVITE = Pattern.compile(
+
+    private static final Pattern THIRD_PARTY_INVITE = Pattern.compile(
             "(https?://)?discord(\\.|\\s*?dot\\s*?)(me|io)\\s*?/\\s*?([a-zA-Z0-9\\-_]+)"
     );
+
     private static final Cache<String, Long> INVITES = CacheBuilder.newBuilder()
             .maximumSize(10000)
             .build();

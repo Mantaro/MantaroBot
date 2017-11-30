@@ -118,6 +118,11 @@ public class GuildOptions extends OptionHandler {
                         return;
                     }
 
+                    if(prefix.isEmpty()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot set the guild prefix to nothing...").queue();
+                        return;
+                    }
+
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(prefix);
