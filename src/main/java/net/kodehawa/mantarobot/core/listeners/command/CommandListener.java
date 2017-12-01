@@ -132,6 +132,9 @@ public class CommandListener implements EventListener {
 
                         Player player = MantaroData.db().getPlayer(event.getMember());
 
+                        if(player.isLocked())
+                            return;
+
                         if (player.getLevel() == 0) {
                             player.setLevel(1);
                         }

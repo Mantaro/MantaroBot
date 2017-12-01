@@ -595,8 +595,7 @@ public class UtilsCmds {
                     long end = System.currentTimeMillis() - start;
 
                     embed.setColor(Color.CYAN)
-                            .setTitle(
-                                    ":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
+                            .setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
                             .setDescription(status + " (" + clness + "% cloudiness)")
                             .addField(":thermometer: Temperature", finalTemperatureCelsius.intValue() + "°C | " +
                                     finalTemperatureFahrenheit.intValue() + "°F", true)
@@ -626,10 +625,11 @@ public class UtilsCmds {
                                 false
                         )
                         .addField(
-                                "Parameters", "`city` - **Your city name, e.g. New York**\n"
+                                "Parameters", "`city` - **Your city name, e.g. New York, **\n"
                                         + "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**",
                                 false
                         )
+                        .addField("Example", "`~>weather New York, US`", false)
                         .build();
             }
         });

@@ -161,9 +161,11 @@ public class MantaroListener implements EventListener {
         //Internal events
         if(event instanceof GuildJoinEvent) {
             GuildJoinEvent e = (GuildJoinEvent) event;
-            if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30))) return;
+            if(e.getGuild().getSelfMember().getJoinDate().isBefore(OffsetDateTime.now().minusSeconds(30)))
+                return;
 
             onJoin(e);
+
             if(MantaroCore.hasLoadedCompletely()) {
                 MantaroBot.getInstance().getStatsClient().gauge("guilds", MantaroBot.getInstance().getGuildCache().size());
                 MantaroBot.getInstance().getStatsClient().gauge("users", MantaroBot.getInstance().getUserCache().size());
