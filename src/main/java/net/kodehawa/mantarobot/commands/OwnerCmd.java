@@ -17,6 +17,9 @@
 package net.kodehawa.mantarobot.commands;
 
 import bsh.Interpreter;
+import com.github.natanbc.javaeval.CompilationException;
+import com.github.natanbc.javaeval.CompilationResult;
+import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -50,6 +53,15 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Slf4j
 @Module
 public class OwnerCmd {
+    private static final String JAVA_EVAL_IMPORTS = "" +
+            "import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;\n" +
+            "import net.kodehawa.mantarobot.*;\n" +
+            "import net.kodehawa.mantarobot.core.listeners.operations.*;\n" +
+            "import net.kodehawa.mantarobot.data.*;\n" +
+            "import net.kodehawa.mantarobot.db.*;\n" +
+            "import net.kodehawa.mantarobot.db.entities.*;\n" +
+            "import net.kodehawa.mantarobot.utils.*;\n" +
+            "import net.dv8tion.jda.core.entities.*;\n";
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {
@@ -183,6 +195,9 @@ public class OwnerCmd {
 
     @Subscribe
     public void eval(CommandRegistry cr) {
+        //has no state
+        JavaEvaluator javaEvaluator = new JavaEvaluator();
+
         Map<String, Evaluator> evals = new HashMap<>();
         evals.put("js", (event, code) -> {
             ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
@@ -224,6 +239,44 @@ public class OwnerCmd {
                         "import *;",
                         code
                 ));
+            } catch(Exception e) {
+                return e;
+            }
+        });
+
+        evals.put("java", (event, code) -> {
+            try {
+                CompilationResult r = javaEvaluator.compile()
+                        .addCompilerOptions("-Xlint:unchecked")
+                        .source("Eval", JAVA_EVAL_IMPORTS + "\n\n" +
+                                "public class Eval {\n" +
+                                "   public static Object run(GuildMessageReceivedEvent event) {\n" +
+                                "       try {\n" +
+                                "           return null;\n" +
+                                "       } finally {\n" +
+                                "           " + (code + ";").replaceAll(";{2,}", ";") + "\n" +
+                                "       }\n" +
+                                "   }\n" +
+                                "}"
+                        )
+                        .execute();
+                EvalClassLoader ecl = new EvalClassLoader();
+                r.getClasses().forEach((name, bytes) -> ecl.define(bytes));
+
+                return ecl.loadClass("Eval").getMethod("run", GuildMessageReceivedEvent.class).invoke(null, event);
+            } catch(CompilationException e) {
+                StringBuilder sb = new StringBuilder("\n");
+                if(e.getCompilerOutput() != null) sb.append(e.getCompilerOutput());
+                if(!e.getDiagnostics().isEmpty()) {
+                    if(sb.length() > 0) sb.append("\n\n");
+                    e.getDiagnostics().forEach(d->sb.append(d).append('\n'));
+                }
+                return new Error(sb.toString()) {
+                    @Override
+                    public String toString() {
+                        return getMessage();
+                    }
+                };
             } catch(Exception e) {
                 return e;
             }
@@ -363,5 +416,11 @@ public class OwnerCmd {
 
     private interface Evaluator {
         Object eval(GuildMessageReceivedEvent event, String code);
+    }
+
+    private static class EvalClassLoader extends ClassLoader {
+        public Class<?> define(byte[] bytes) {
+            return super.defineClass(null, bytes, 0, bytes.length);
+        }
     }
 }

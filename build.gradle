@@ -72,6 +72,8 @@ dependencies {
     compileOnly "org.projectlombok:lombok:1.16.16"
 	compile 'com.datadoghq:java-dogstatsd-client:2.3'
 
+	compile 'com.github.natanbc:java-eval:1.0'
+
 	//Basically for FinderUtil
 	compile 'com.jagrosh:JDA-Utilities:1.8'
 }
