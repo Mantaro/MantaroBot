@@ -18,14 +18,10 @@ package net.kodehawa.mantarobot.commands.action;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.IMentionable;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -50,17 +46,6 @@ public class ImageActionCmd extends NoArgsCommand {
     private boolean swapNames = false;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
     private String type;
-
-    public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine) {
-        super(Category.ACTION);
-        this.name = name;
-        this.desc = desc;
-        this.color = color;
-        this.imageName = imageName;
-        this.format = format;
-        this.images = images;
-        this.lonelyLine = lonelyLine;
-    }
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine, boolean swap) {
         super(Category.ACTION);
@@ -119,28 +104,17 @@ public class ImageActionCmd extends NoArgsCommand {
         }
 
         try {
-            if(mentions(event).isEmpty()) {
+            if(event.getMessage().getMentionedUsers().isEmpty()) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
                 return;
             }
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
 
             MessageBuilder toSend = new MessageBuilder()
-                    .append(String.format(format, mentions(event), event.getAuthor().getAsMention()));
+                    .append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
+                    .stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
 
-            if(!guildData.isNoMentionsAction() && swapNames) {
-                toSend = new MessageBuilder()
-                        .append(String.format(format, event.getAuthor().getAsMention(), mentions(event)));
-            }
 
-            if(guildData.isNoMentionsAction()) {
-                toSend = new MessageBuilder()
-                        .append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
-                        .stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
-            }
-
-            if(swapNames && guildData.isNoMentionsAction()) {
+            if(swapNames) {
                 toSend = new MessageBuilder()
                         .append(String.format(format, "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**")
                         ).stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
@@ -169,12 +143,7 @@ public class ImageActionCmd extends NoArgsCommand {
     }
 
     private boolean isLonely(GuildMessageReceivedEvent event) {
-        return event.getMessage().getMentionedUsers().stream().anyMatch(
-                user -> user.getId().equals(event.getAuthor().getId()));
-    }
-
-    private String mentions(GuildMessageReceivedEvent event) {
-        return event.getMessage().getMentionedUsers().stream().map(IMentionable::getAsMention).collect(Collectors.joining(", ")).trim();
+        return event.getMessage().getMentionedUsers().stream().anyMatch(user -> user.getId().equals(event.getAuthor().getId()));
     }
 
     private String noMentions(GuildMessageReceivedEvent event) {

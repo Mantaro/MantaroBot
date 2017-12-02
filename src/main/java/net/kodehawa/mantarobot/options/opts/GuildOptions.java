@@ -415,16 +415,9 @@ public class GuildOptions extends OptionHandler {
         registerOption("actionmention:toggle", "Action mention toggle",
                 "Toggles action mention (double-mention). On by default.\n" +
                         "Example: `~>opts actionmention toggle`",
-                "Toggles action mention (double-mention).", event -> {
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
-                    boolean toggler = guildData.isNoMentionsAction();
-
-                    guildData.setNoMentionsAction(!toggler);
-                    event.getChannel().sendMessage(
-                            EmoteReference.CORRECT + "Set no action mentions in chat to " + "**" + !toggler + "**").queue();
-                    dbGuild.save();
-                });
+                "Deprecated.", event ->
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "This option has been deprecated. (Action commands don't double-mention anymore)").queue()
+                );
 
         registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
                 "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (event, args) -> {
