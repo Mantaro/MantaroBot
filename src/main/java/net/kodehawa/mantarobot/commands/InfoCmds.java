@@ -156,6 +156,28 @@ public class InfoCmds {
     }
 
     @Subscribe
+    public void donate(CommandRegistry cr) {
+        cr.register("donate", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage(EmoteReference.TALKING + "Oh hi! If you are interested in donating, please check the links below. " +
+                        "Running Mantaro takes time and money, and every dollar is highly appreciated! :heart:\n" +
+                        ":ok_hand: Donation methods:\n" +
+                        "Patreon: http://patreon.com/mantaro\n" +
+                        "Paypal: http://paypal.me/mantarobot")
+                .queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Donation Methods")
+                        .setDescription("**Shows the donation methods in case you want to support Mantaro!**")
+                        .build();
+            }
+        });
+    }
+
+    @Subscribe
     public void avatar(CommandRegistry cr) {
         cr.register("avatar", new SimpleCommand(Category.INFO) {
             @Override

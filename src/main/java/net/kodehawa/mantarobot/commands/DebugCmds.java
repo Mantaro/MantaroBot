@@ -21,7 +21,6 @@ import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -41,10 +40,11 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
-import java.util.Arrays;
+import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -250,6 +250,7 @@ public class DebugCmds {
                         "Bot Version: %s\n" +
                                 "JDA Version: %s\n" +
                                 "Lavaplayer Version: %s\n\n" +
+                                "- Uptime: %s.\n" +
                                 "- Average Ping: %dms.\n" +
                                 "- Ping Breakdown: %s\n" +
                                 "- Dead Shards: %s shards.\n" +
@@ -258,7 +259,7 @@ public class DebugCmds {
                                 "- Shards Connecting: %s shards\n" +
                                 "- High Last Event Time: %s shards.\n\n" +
                                 "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
-                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
+                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), ping,
                         bot.getShardList().stream().map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
                         dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
                         bot.getUserCache().size(), bot.getShardList().size()));
