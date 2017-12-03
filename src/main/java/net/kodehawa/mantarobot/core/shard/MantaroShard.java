@@ -182,7 +182,7 @@ public class MantaroShard implements JDA {
                 .setEventManager(manager)
                 .setShardedRateLimiter(shardedRateLimiter)
                 .setReconnectQueue(reconnectQueue)
-                .setGame(Game.of("Hold on to your seatbelts!"));
+                .setGame(Game.playing("Hold on to your seatbelts!"));
 
         if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
         jda = jdaBuilder.buildBlocking(Status.AWAITING_LOGIN_CONFIRMATION);
@@ -284,7 +284,7 @@ public class MantaroShard implements JDA {
                     .replace("%prettyusercount%", pretty(users.get()))
                     .replace("%prettyguildcount%", pretty(guilds.get()));
 
-            getJDA().getPresence().setGame(Game.of(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
+            getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], newStatus, getId())));
             log.debug("Changed status to: " + newStatus);
         };
 

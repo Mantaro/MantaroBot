@@ -160,11 +160,11 @@ public class InfoCmds {
         cr.register("donate", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + "Oh hi! If you are interested in donating, please check the links below. " +
-                        "Running Mantaro takes time and money, and every dollar is highly appreciated! :heart:\n" +
-                        ":ok_hand: Donation methods:\n" +
-                        "Patreon: http://patreon.com/mantaro\n" +
-                        "Paypal: http://paypal.me/mantarobot")
+                event.getChannel().sendMessage(EmoteReference.HEART + "Oh hi! If you are interested in donating, please check the links below. " +
+                        "Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n" +
+                        "**Donation methods:**\n" +
+                        "**- Patreon:** <http://patreon.com/mantaro>\n" +
+                        "**- Paypal:** <http://paypal.me/mantarobot>")
                 .queue();
             }
 
@@ -582,10 +582,10 @@ public class InfoCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 event.getChannel().sendMessage(EmoteReference.HEART + "O-Oh, I see you're interested on seeing my social networks!\n\n" +
                         "W-Well, here we go!\n" +
-                        "**[Website]**: https://mantaro.site\n" +
-                        "**[Patreon]**: https://www.patreon.com/mantaro\n" +
-                        "**[Twitter]**: https://twitter.com/mantarodiscord\n\n" +
-                        "**If you like Mantaro, please upvote on https://discordbots.org/bot/mantaro and/or consider donating on Patreon or Paypal! Thanks you~**\n").queue();
+                        "**- Website:** <https://mantaro.site>\n" +
+                        "**- Patreon:** <https://www.patreon.com/mantaro>\n" +
+                        "**- Twitter:** <https://twitter.com/mantarodiscord>\n\n" +
+                        "**If you like Mantaro, please upvote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**\n").queue();
             }
 
             @Override
