@@ -56,6 +56,12 @@ public class MuteCmds {
         registry.register("mute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to have either ban or kick members permission to mute!").queue();
+                    return;
+                }
+
                 ManagedDatabase db = MantaroData.db();
                 DBGuild dbGuild = db.getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
@@ -272,6 +278,12 @@ public class MuteCmds {
         commandRegistry.register("unmute", new SimpleCommand(Category.MODERATION, CommandPermission.ADMIN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+
+                if(!event.getMember().hasPermission(Permission.KICK_MEMBERS) || !event.getMember().hasPermission(Permission.KICK_MEMBERS)) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need to have either ban or kick members permission to un-mute!").queue();
+                    return;
+                }
+
                 ManagedDatabase db = MantaroData.db();
                 DBGuild dbGuild = db.getGuild(event.getGuild());
                 GuildData guildData = dbGuild.getData();
