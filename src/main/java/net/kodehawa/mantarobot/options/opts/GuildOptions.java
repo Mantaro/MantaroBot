@@ -168,6 +168,11 @@ public class GuildOptions extends OptionHandler {
                     }
 
                     if(roles.size() <= 1) {
+                        if(!event.getMember().canInteract(roles.get(0))) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "This role is placed higher than your highest role, therefore you cannot put it as autorole!").queue();
+                            return;
+                        }
+
                         guildData.setGuildAutoRole(roles.get(0).getId());
                         dbGuild.saveAsync();
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "The server autorole is now set to: **" + roles.get
@@ -182,6 +187,11 @@ public class GuildOptions extends OptionHandler {
                             role -> String.format("%s (ID: %s)  | Position: %s", role.getName(), role.getId(), role.getPosition()),
                             s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:").setDescription(s).build(),
                             role -> {
+                                if(!event.getMember().canInteract(role)) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "This role is placed higher than your highest role, therefore you cannot put it as autorole!").queue();
+                                    return;
+                                }
+
                                 guildData.setGuildAutoRole(role.getId());
                                 dbGuild.saveAsync();
                                 event.getChannel().sendMessage(EmoteReference.OK + "The server autorole is now set to role: **" +
@@ -332,6 +342,13 @@ public class GuildOptions extends OptionHandler {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a role with that name!").queue();
                     } else if(roleList.size() == 1) {
                         Role role = roleList.get(0);
+
+                        if(!event.getMember().canInteract(role)) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR +
+                                    "This role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!").queue();
+                            return;
+                        }
+
                         guildData.getAutoroles().put(args[0], role.getId());
                         dbGuild.saveAsync();
                         event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + args[0] + "**, which gives the role " +
@@ -342,6 +359,12 @@ public class GuildOptions extends OptionHandler {
                                 role.getId(), role.getPosition()), s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Role:")
                                         .setDescription(s).build(),
                                 role -> {
+                                    if(!event.getMember().canInteract(role)) {
+                                        event.getChannel().sendMessage(EmoteReference.ERROR +
+                                                "This role is placed higher than your highest role, therefore you cannot put it as an auto-assignable role!").queue();
+                                        return;
+                                    }
+
                                     guildData.getAutoroles().put(args[0], role.getId());
                                     dbGuild.saveAsync();
                                     event.getChannel().sendMessage(EmoteReference.OK + "Added autorole **" + args[0] + "**, which gives the " +

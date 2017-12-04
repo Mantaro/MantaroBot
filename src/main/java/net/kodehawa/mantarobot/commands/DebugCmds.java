@@ -247,25 +247,27 @@ public class DebugCmds {
                             .append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
 
                 stringBuilder.append(String.format(
-                        "Bot Version: %s\n" +
+                        "Uptime: %s.\n\n" +
+                                "Bot Version: %s\n" +
                                 "JDA Version: %s\n" +
-                                "Lavaplayer Version: %s\n\n" +
-                                "- Uptime: %s.\n" +
-                                "- Average Ping: %dms.\n" +
-                                "- Ping Breakdown: %s\n" +
-                                "- Dead Shards: %s shards.\n" +
-                                "- Zero Voice Connections: %s shards.\n" +
-                                "- Shards Reconnecting: %s shards.\n" +
-                                "- Shards Connecting: %s shards\n" +
-                                "- High Last Event Time: %s shards.\n\n" +
-                                "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
-                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), ping,
+                                "LP Version: %s\n\n" +
+                                "* Average Ping: %dms.\n" +
+                                "* Ping Breakdown: %s\n" +
+                                "* Dead Shards: %s shards.\n" +
+                                "* Zero Voice Connections: %s shards.\n" +
+                                "* Shards Reconnecting: %s shards.\n" +
+                                "* Shards Connecting: %s shards\n" +
+                                "* High Last Event Time: %s shards.\n\n" +
+                                "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
+                        ,
+                        Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
                         bot.getShardList().stream().map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
                         dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
                         bot.getUserCache().size(), bot.getShardList().size()));
 
-                event.getChannel().sendMessage(new MessageBuilder().
-                        append("**Mantaro's Status**")
+                event.getChannel().sendMessage(new MessageBuilder()
+                        .append(EmoteReference.OK)
+                        .append("**Mantaro's Status**")
                         .append("\n")
                         .appendCodeBlock(stringBuilder.toString(), "prolog")
                         .build()).queue();
