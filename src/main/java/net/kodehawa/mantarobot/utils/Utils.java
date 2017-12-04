@@ -463,4 +463,20 @@ public class Utils {
 
         return true;
     }
+
+    public static String replaceArguments(Map<String, Optional<String>> args, String content, String... toReplace) {
+        if(args == null || args.isEmpty()) {
+            return content;
+        }
+
+        String contentReplaced = content;
+
+        for(String s : toReplace) {
+            if(args.containsKey(s)) {
+                contentReplaced = contentReplaced.replace(" -" + s, "").replace("-" + s, "");
+            }
+        }
+
+        return contentReplaced;
+    }
 }

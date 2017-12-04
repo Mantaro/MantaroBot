@@ -57,17 +57,11 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-
-                if(t.containsKey("brief")) {
-                    content = content.replace(" -brief", "").replace("-brief", "");
-                }
-
-                if(t.containsKey("calculate")) {
-                    content = content.replace(" -calculate", "").replace("-calculate", "");
-                }
-
+                content = Utils.replaceArguments(t, content, "brief", "calculate");
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+
+                if(member == null)
+                    return;
 
                 Player player = MantaroData.db().getPlayer(member);
 

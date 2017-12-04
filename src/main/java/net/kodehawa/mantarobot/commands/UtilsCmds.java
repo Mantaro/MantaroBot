@@ -403,8 +403,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "I'll remind you of **" + toRemind + "**" +
-                        " in " + Utils.getHumanizedTime(time)).queue();
+                event.getChannel().sendMessage(String.format("%sI'll remind you of **%s** in %s", EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
 
                 new Reminder.Builder()
                         .id(user.getId())
@@ -444,9 +443,7 @@ public class UtilsCmds {
                         return;
                     }
                     event.getChannel().sendMessage(
-                            EmoteReference.MEGA + "It's " + dateGMT(
-                                    event.getGuild(), content) + " in the " + content + " " +
-                                    "timezone").queue();
+                            String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), content), content)).queue();
 
                 } catch(Exception e) {
                     event.getChannel().sendMessage(

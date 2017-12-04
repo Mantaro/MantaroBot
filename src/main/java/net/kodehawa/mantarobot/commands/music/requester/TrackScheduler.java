@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.music.requester;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -203,8 +202,7 @@ public class TrackScheduler extends AudioEventAdapter {
             TextChannel ch = getRequestedChannelParsed();
             if(ch != null && ch.canTalk()) {
                 ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
-                        (premium ? "" :
-                                ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
+                        (premium ? "" : ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch(Exception ignored) {}

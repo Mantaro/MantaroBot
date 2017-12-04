@@ -239,7 +239,7 @@ public class MoneyCmds {
                         case "all":
                         case "everything":
                             i = player.getMoney();
-                            multiplier = 1.4d + (r.nextInt(1500) / 1000d);
+                            multiplier = 1.3d + (r.nextInt(1450) / 1000d);
                             luck = 21 + (int) (multiplier * 13) + r.nextInt(18);
                             break;
                         case "half":
@@ -249,7 +249,7 @@ public class MoneyCmds {
                             break;
                         case "quarter":
                             i = player.getMoney() == 1 ? 1 : player.getMoney() / 4;
-                            multiplier = 1.1d + (r.nextInt(1100) / 1000d);
+                            multiplier = 1.1d + (r.nextInt(1250) / 1000d);
                             luck = 18 + (int) (multiplier * 12) + r.nextInt(18);
                             break;
                         default:
@@ -275,7 +275,7 @@ public class MoneyCmds {
 
                 User user = event.getAuthor();
                 long gains = (long) (i * multiplier);
-                gains = Math.round(gains * 0.55);
+                gains = Math.round(gains * 0.45);
 
                 final int finalLuck = luck;
                 final long finalGains = gains;
@@ -589,7 +589,7 @@ public class MoneyCmds {
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
                 long money = 50;
-                int slotsChance = 23; //23% raw chance of winning, completely random chance of winning on the other random iteration
+                int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
                 boolean isWin = false;
                 boolean coinSelect = false;
 
