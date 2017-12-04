@@ -210,7 +210,7 @@ public class TrackScheduler extends AudioEventAdapter {
         } catch(Exception ignored) {}
 
         requestedChannel = 0;
-        Async.thread("Audio connection close", m::closeAudioConnection);
+        MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);
     }
 
     public enum Repeat {
