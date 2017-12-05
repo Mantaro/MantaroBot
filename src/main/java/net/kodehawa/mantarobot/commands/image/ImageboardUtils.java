@@ -58,14 +58,14 @@ public class ImageboardUtils {
         }
 
         int page = Math.max(1, r.nextInt(25));
+        String queryRating = nsfwOnly ? null : rating.getLongName();
 
         switch(type) {
             case GET:
                 try {
                     String arguments = content.replace("get ", "");
                     String[] argumentsSplit = arguments.split(" ");
-
-                    api.get(page).async(requestedImages -> {
+                    api.get(page, queryRating).async(requestedImages -> {
                         if(isListNull(requestedImages, event)) return;
 
                         try {
@@ -111,7 +111,7 @@ public class ImageboardUtils {
                     String sNoArgs = content.replace("tags ", "");
                     String[] expectedNumber = sNoArgs.split(" ");
                     String tags = expectedNumber[0];
-                    api.search(tags).async(requestedImages -> {
+                    api.search(tags, queryRating).async(requestedImages -> {
                         //account for this
                         if(isListNull(requestedImages, event)) return;
 
@@ -154,7 +154,7 @@ public class ImageboardUtils {
                 }
                 break;
             case RANDOM:
-                api.get(page).async(requestedImages -> {
+                api.get(page, queryRating).async(requestedImages -> {
                     if(isListNull(requestedImages, event)) return;
 
                     List<BoardImage> filter = (List<BoardImage>) requestedImages;
