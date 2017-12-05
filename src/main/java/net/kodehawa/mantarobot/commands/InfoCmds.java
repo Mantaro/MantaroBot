@@ -266,9 +266,10 @@ public class InfoCmds {
                     String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
                     GuildData guildData = dbGuild.getData();
 
-                    EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
+                    EmbedBuilder embed = baseEmbed(event, "Mantaro Help")
                             .setColor(Color.PINK)
-                            .setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix) +
+                            .setDescription("Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n" +
+                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)" +
                                     (guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
                                     (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
                                             "" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))

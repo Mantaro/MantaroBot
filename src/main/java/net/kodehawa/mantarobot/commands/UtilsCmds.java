@@ -432,7 +432,7 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
-                    content = content.replace("UTC", "GMT");
+                    content = content.replace("UTC", "GMT").toUpperCase();
 
                     DBUser user = MantaroData.db().getUser(event.getMember());
                     if(user.getData().getTimezone() != null && args.length == 0) {

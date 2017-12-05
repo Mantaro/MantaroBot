@@ -46,7 +46,7 @@ import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
 @Module
 public class ImageCmds {
 
-    private final String[] responses = {
+    private final String[] catResponses = {
             "Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
             "Am I cute yet?", "%mention%, I think you should have a cat."
     };
@@ -77,7 +77,7 @@ public class ImageCmds {
                     String url = new JSONObject(response.body().string()).getString("file");
                     response.close();
                     event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
-                            new MessageBuilder().append(EmoteReference.TALKING).append(CollectionUtils.random(responses).replace("%mention%", event.getAuthor().getName())).build()).queue();
+                            new MessageBuilder().append(EmoteReference.TALKING).append(CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName())).build()).queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Error retrieving cute cat images :<").queue();
                     e.printStackTrace();
