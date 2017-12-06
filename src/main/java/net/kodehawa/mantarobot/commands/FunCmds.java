@@ -79,7 +79,7 @@ public class FunCmds {
                 final int[] heads = {0};
                 final int[] tails = {0};
                 doTimes(times, () -> {
-                    if(new Random().nextBoolean()) heads[0]++;
+                    if(r.nextBoolean()) heads[0]++;
                     else tails[0]++;
                 });
                 String flips = times == 1 ? "time" : "times";

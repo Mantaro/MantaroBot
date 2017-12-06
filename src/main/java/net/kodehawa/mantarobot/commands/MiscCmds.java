@@ -52,6 +52,7 @@ public class MiscCmds {
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+    private final Random rand = new Random();
 
     protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
         Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
@@ -255,7 +256,7 @@ public class MiscCmds {
         }).addSubCommand("noble", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
+                event.getChannel().sendMessage(EmoteReference.TALKING + noble.get().get(rand.nextInt(noble.get().size() - 1)) + " " +
                         "-Noble").queue();
             }
         }));
@@ -267,7 +268,7 @@ public class MiscCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 event.getChannel().sendMessage(
-                        EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
+                        EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1))).queue();
             }
 
             @Override
