@@ -66,7 +66,15 @@ public class GuildOptions extends OptionHandler {
                         boolean isId = channel.matches("^[0-9]*$");
                         String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0)
                                 .getId();
-                        String roleId = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0).getId();
+                        Role roleObj = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0);
+
+                        if(roleObj.isPublicRole()) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot set the everyone role as a birthday role! " +
+                                    "Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.").queue();
+                            return;
+                        }
+
+                        String roleId = roleObj.getId();
                         guildData.setBirthdayChannel(channelId);
                         guildData.setBirthdayRole(roleId);
                         dbGuild.save();
