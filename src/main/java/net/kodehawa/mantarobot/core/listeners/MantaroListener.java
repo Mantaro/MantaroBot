@@ -139,6 +139,7 @@ public class MantaroListener implements EventListener {
 
         if(event instanceof GuildMemberJoinEvent) {
             shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
+            shard.getThreadPool().execute(() -> handleNewPatron((GuildMemberJoinEvent) event));
             return;
         }
 
@@ -224,7 +225,7 @@ public class MantaroListener implements EventListener {
         }
 
         if(event instanceof GuildMemberRoleAddEvent){
-            onRoleAdd((GuildMemberRoleAddEvent) event);
+            shard.getThreadPool().execute(() -> handleNewPatron((GuildMemberRoleAddEvent) event));
         }
     }
 
@@ -236,13 +237,13 @@ public class MantaroListener implements EventListener {
      * - The user pledged, obviously
      * @param event The event that says that a role got added, obv.
      */
-    private void onRoleAdd(GuildMemberRoleAddEvent event){
+    private void handleNewPatron(GenericGuildMemberEvent event){
         //Only in mantaro's guild...
         if(event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
             User user = event.getUser();
             //who...
             DBUser dbUser = db.getUser(user);
-            if(event.getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
+            if(event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
                 //Thanks lombok for the meme names
                 if (!dbUser.getData().isHasReceivedFirstKey()) {
                     //Attempt to open a PM and send a key!
@@ -262,6 +263,7 @@ public class MantaroListener implements EventListener {
                                     }
                             );
 
+                            MantaroBot.getInstance().getStatsClient().increment("new_patrons");
                             //Celebrate internally! \ o /
                             LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
                         });
@@ -383,13 +385,9 @@ public class MantaroListener implements EventListener {
 
     private void onDisconnect(DisconnectEvent event) {
         if(event.isClosedByServer()) {
-            log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n",
-                    event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()
-            ));
+            log.warn(String.format("---- DISCONNECT [SERVER] CODE: [%d] %s%n", event.getServiceCloseFrame().getCloseCode(), event.getCloseCode()));
         } else {
-            log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n",
-                    event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason()
-            ));
+            log.warn(String.format("---- DISCONNECT [CLIENT] CODE: [%d] %s%n", event.getClientCloseFrame().getCloseCode(), event.getClientCloseFrame().getCloseReason()));
         }
     }
 

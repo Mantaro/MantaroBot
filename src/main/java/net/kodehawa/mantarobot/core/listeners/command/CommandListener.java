@@ -54,7 +54,7 @@ import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 @Slf4j
 public class CommandListener implements EventListener {
     private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
-    //Message cache of 35000 cached messages. If it reaches 20000 it will delete the first one stored, and continue being 35000
+    //Message cache of 35000 cached messages. If it reaches 35000 it will delete the first one stored, and continue being 35000
     @Getter
     private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
     //Commands ran this session.
@@ -69,6 +69,7 @@ public class CommandListener implements EventListener {
             "I've mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
             "U-Uhh.. What did you want?"
     };
+    private final Random rand = new Random();
 
     public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
         this.shardId = shardId;
@@ -106,7 +107,8 @@ public class CommandListener implements EventListener {
             messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContent())));
 
             //Ignore myself and bots.
-            if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser())) return;
+            if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))
+                return;
 
             shard.getCommandPool().execute(() -> onCommand(msg));
         }
@@ -135,9 +137,8 @@ public class CommandListener implements EventListener {
                         if(player.isLocked())
                             return;
 
-                        if (player.getLevel() == 0) {
+                        if (player.getLevel() == 0)
                             player.setLevel(1);
-                        }
 
                         player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
 
@@ -156,9 +157,9 @@ public class CommandListener implements EventListener {
                                     }
                                 }
                             }
-                        }
 
-                        player.saveAsync();
+                            player.saveAsync();
+                        }
                     }
                 } catch (Exception ignored) {}
             }
@@ -182,17 +183,15 @@ public class CommandListener implements EventListener {
             SentryHelper.captureExceptionContext("Something seems to have broken in the db! Check this out!", e, this.getClass(), "Database");
         } catch(Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
-            Random r = new Random();
             event.getChannel().sendMessage(
                     String.format("%s%s\n(Error ID: `%s`)\n" +
                             "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
                             "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
-                            EmoteReference.ERROR, boomQuotes[r.nextInt(boomQuotes.length)], id)
+                            EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();
 
             SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getRawContent(), id), e, this.getClass());
-            System.out.println("Error happened with id: " + id);
-            e.printStackTrace();
+            log.error("Error happened with id: {} (Command: {})", event.getMessage().getRawContent(), id, e);
         }
     }
 
