@@ -27,7 +27,7 @@ class SafeGuild extends SafeISnowflake<Guild> {
     }
 
     public List<SafeChannel> getTextChannels() {
-        return snowflake.getTextChannels().stream().map(c->c.getIdLong() == channel.getIdLong() ? channel : new SafeChannel(c, 0)).collect(Collectors.toList());
+        return snowflake.getTextChannels().stream().map(c->c.getIdLong() == channel.getIdLong() ? channel : new SafeChannel(c)).collect(Collectors.toList());
     }
 
     public List<SafeRole> getRoles() {

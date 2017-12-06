@@ -645,12 +645,12 @@ public class CustomCmds {
 
             GlobalVisitorSettings.ITERATION_LIMIT = 200;
             GlobalVisitorSettings.SIZE_LIMIT = 100;
-            GlobalVisitorSettings.MILLISECONDS_LIMIT = 1500;
+            GlobalVisitorSettings.MILLISECONDS_LIMIT = 300;
             GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
 
             try {
                 response = new KaiperScriptExecutor(response).execute(
-                    new InterpreterEvaluator().declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event, 2)))
+                    new InterpreterEvaluator().declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
                 );
             } catch (LimitReachedException e) {
                 event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();

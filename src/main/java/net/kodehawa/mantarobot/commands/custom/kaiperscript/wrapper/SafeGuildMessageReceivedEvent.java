@@ -12,9 +12,9 @@ public class SafeGuildMessageReceivedEvent {
     private final SafeGuild guild;
     private final SafeMessage message;
 
-    public SafeGuildMessageReceivedEvent(GuildMessageReceivedEvent event, int maxMessages) {
+    public SafeGuildMessageReceivedEvent(GuildMessageReceivedEvent event) {
         this.event = event;
-        this.channel = new SafeChannel(event.getChannel(), maxMessages);
+        this.channel = new SafeChannel(event.getChannel());
         this.author = new SafeMember(event.getMember());
         this.guild = new SafeGuild(event.getGuild(), channel);
         this.message = new SafeMessage(event.getMessage());
