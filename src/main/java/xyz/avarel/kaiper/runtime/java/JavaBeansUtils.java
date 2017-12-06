@@ -40,7 +40,7 @@ public class JavaBeansUtils {
         return map;
     }
 
-    public synchronized Map<String, PropertyDescriptor> getBeanInfo(Class<?> c) {
+    public static synchronized Map<String, PropertyDescriptor> getBeanInfo(Class<?> c) {
         if (cache.containsKey(c)) {
             return cache.get(c);
         }

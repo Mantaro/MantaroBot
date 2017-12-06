@@ -50,7 +50,7 @@ public class JavaObject implements Obj {
     public Obj setAttr(String name, Obj value) {
         if (name == null) return Undefined.VALUE;
 
-        Map<String, PropertyDescriptor> beans = JavaBeansUtils.scanAndCacheBeans(object.getClass());
+        Map<String, PropertyDescriptor> beans = JavaBeansUtils.getBeanInfo(object.getClass());
 
         if (beans.containsKey(name)) {
             try {

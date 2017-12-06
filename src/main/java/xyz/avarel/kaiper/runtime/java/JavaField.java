@@ -92,7 +92,7 @@ public class JavaField extends JavaObject implements Obj {
 
         Object object = getField();
 
-        Map<String, PropertyDescriptor> beans = JavaBeansUtils.scanAndCacheBeans(object.getClass());
+        Map<String, PropertyDescriptor> beans = JavaBeansUtils.getBeanInfo(object.getClass());
 
         if (beans.containsKey(name)) {
             try {
