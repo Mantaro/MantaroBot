@@ -155,23 +155,27 @@ public class ImageboardUtils {
                 break;
             case RANDOM:
                 api.get(page, queryRating).async(requestedImages -> {
-                    if(isListNull(requestedImages, event)) return;
+                    try {
+                        if(isListNull(requestedImages, event)) return;
 
-                    List<BoardImage> filter = (List<BoardImage>) requestedImages;
-                    if(!nsfwOnly)
-                        filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
+                        List<BoardImage> filter = (List<BoardImage>) requestedImages;
+                        if(!nsfwOnly)
+                            filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
-                    if(filter.isEmpty()) {
-                        channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
-                        return;
+                        if(filter.isEmpty()) {
+                            channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                            return;
+                        }
+
+                        int number = r.nextInt(filter.size());
+                        BoardImage image = filter.get(number);
+                        String tags = image.getTags().stream().collect(Collectors.joining(", "));
+                        imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
+                        if(image.getRating().equals(Rating.EXPLICIT))
+                            TextChannelGround.of(event).dropItemWithChance(13, 3);
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.SAD + "There was an unknown error while looking for a random image...").queue();
                     }
-
-                    int number = r.nextInt(filter.size());
-                    BoardImage image = filter.get(number);
-                    String tags = image.getTags().stream().collect(Collectors.joining(", "));
-                    imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
-                    if(image.getRating().equals(Rating.EXPLICIT))
-                        TextChannelGround.of(event).dropItemWithChance(13, 3);
                 });
                 break;
         }

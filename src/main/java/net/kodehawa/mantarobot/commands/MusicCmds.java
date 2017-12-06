@@ -65,7 +65,7 @@ public class MusicCmds {
                 if(!isInConditionTo(event)) return;
 
                 TrackScheduler scheduler = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild()).getTrackScheduler();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "An admin or bot commander decided to skip the current song.").queue();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "An Admin or Bot Commander decided to skip the current song.").queue();
                 scheduler.nextTrack(true, true);
             }
 
