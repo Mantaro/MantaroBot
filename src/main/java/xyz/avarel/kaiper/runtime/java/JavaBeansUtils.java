@@ -25,7 +25,7 @@ import java.util.WeakHashMap;
 public class JavaBeansUtils {
     private static final Map<Class<?>, Map<String, PropertyDescriptor>> cache = new WeakHashMap<>();
 
-    static synchronized Map<String, PropertyDescriptor> scanAndCacheBeans(Class<?> c) {
+    private static synchronized Map<String, PropertyDescriptor> scanAndCacheBeans(Class<?> c) {
         Map<String, PropertyDescriptor> map = new LinkedHashMap<>();
         cache.put(c, map);
 
@@ -40,7 +40,7 @@ public class JavaBeansUtils {
         return map;
     }
 
-    public static synchronized Map<String, PropertyDescriptor> getBeanInfo(Class<?> c) {
+    static synchronized Map<String, PropertyDescriptor> getBeanInfo(Class<?> c) {
         if (cache.containsKey(c)) {
             return cache.get(c);
         }
