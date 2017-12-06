@@ -135,7 +135,6 @@ public class ImageCmds {
         cr.register("e621", new SimpleCommand(Category.IMAGE) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                TextChannelGround.of(event).dropItemWithChance(13, 3);
                 String noArgs = content.split(" ")[0];
                 switch(noArgs) {
                     case "get":
@@ -293,7 +292,6 @@ public class ImageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 String noArgs = content.split(" ")[0];
-                TextChannelGround.of(event).dropItemWithChance(13, 3);
                 switch(noArgs) {
                     case "get":
                         getImage(rule34, ImageRequestType.GET, true, "rule34", args, content, event);
