@@ -170,7 +170,7 @@ public class MiscCmds {
                     event.getChannel().sendMessage(embed.build()).queue();
                     return;
                 }
-                iamFunction(args[0], event);
+                iamFunction(content.trim(), event);
             }
 
             @Override
@@ -208,7 +208,7 @@ public class MiscCmds {
                     return;
                 }
 
-                iamnotFunction(args[0], event);
+                iamnotFunction(content.trim(), event);
             }
 
             @Override
