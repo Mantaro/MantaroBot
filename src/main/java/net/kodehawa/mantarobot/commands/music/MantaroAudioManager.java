@@ -66,7 +66,7 @@ public class MantaroAudioManager {
         return musicManagers.values().stream().map(m -> m.getTrackScheduler().getQueue().size()).mapToInt(Integer::intValue).sum();
     }
 
-    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection) {
+    public void loadAndPlay(GuildMessageReceivedEvent event, String trackUrl, boolean skipSelection, boolean addFirst) {
         if(!AudioCmdUtils.connectToVoiceChannel(event)) return;
         GuildMusicManager musicManager = getMusicManager(event.getGuild());
         TrackScheduler scheduler = musicManager.getTrackScheduler();
@@ -76,6 +76,6 @@ public class MantaroAudioManager {
         if(scheduler.getQueue().isEmpty())
             scheduler.setRepeatMode(null);
 
-        playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection));
+        playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoader(musicManager, event, skipSelection, addFirst));
     }
 }

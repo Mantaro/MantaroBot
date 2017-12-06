@@ -16,7 +16,9 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -26,13 +28,12 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.rethinkdb.RethinkDB.r;
 import static java.lang.System.currentTimeMillis;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Getter
 @ToString
@@ -42,8 +43,10 @@ public class DBUser implements ManagedObject {
     private final UserData data;
     private final String id;
     private long premiumUntil;
+
+    @JsonCreator
     @ConstructorProperties({"id", "premiumUntil", "data"})
-    public DBUser(String id, long premiumUntil, UserData data) {
+    public DBUser(@JsonProperty("id") String id, @JsonProperty("premiumUntil") long premiumUntil, @JsonProperty("data") UserData data) {
         this.id = id;
         this.premiumUntil = premiumUntil;
         this.data = data;
@@ -53,16 +56,11 @@ public class DBUser implements ManagedObject {
         return new DBUser(id, 0, new UserData());
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
-    }
-
-    @Override
-    public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 
     public User getUser(JDA jda) {
@@ -94,8 +92,15 @@ public class DBUser implements ManagedObject {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner);
         data.setPremiumKey(premiumId);
-        newKey.save();
-        save();
+        newKey.saveAsync();
+        saveAsync();
         return newKey;
+    }
+
+    @JsonIgnore
+    public void removePremiumKey() {
+        data.setPremiumKey(null);
+        data.setHasReceivedFirstKey(false);
+        saveAsync();
     }
 }

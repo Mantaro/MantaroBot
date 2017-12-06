@@ -16,12 +16,13 @@
 
 package net.kodehawa.mantarobot.commands;
 
-import br.com.brjdevs.java.utils.async.Async;
 import bsh.Interpreter;
+import com.github.natanbc.javaeval.CompilationException;
+import com.github.natanbc.javaeval.CompilationResult;
+import com.github.natanbc.javaeval.JavaEvaluator;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -32,52 +33,35 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
-import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.Player;
-import net.kodehawa.mantarobot.utils.ShutdownCodes;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import okhttp3.OkHttpClient;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 
 @Slf4j
 @Module
 public class OwnerCmd {
-
-    final OkHttpClient client = new OkHttpClient();
-    private final String[] sleepQuotes = {
-            "*goes to sleep*", "Mama, It's not night yet. *hmph*. okay. bye.", "*grabs pillow*",
-            "*~~goes to sleep~~ goes to dreaming dimension*", "*grabs plushie*",
-            "Momma, where's my Milk cup? *drinks and goes to sleep*", "I-I don't wanna go to bed yet! Waaah... okay fine"
-    };
-
-    private static CompletableFuture<Void> notifyMusic(String content) {
-        return CompletableFuture.allOf(MantaroBot.getInstance().getAudioManager().getMusicManagers().values()
-                .stream()
-                .filter(musicManager -> musicManager.getTrackScheduler().getCurrentTrack() != null)
-                .filter(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed() != null)
-                .filter(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed().canTalk())
-                .map(musicManager -> musicManager.getTrackScheduler().getRequestedChannelParsed()
-                        .sendMessage(content).submit())
-                .map(future -> (CompletableFuture<Message>) future)
-                .toArray(CompletableFuture[]::new));
-    }
+    private static final String JAVA_EVAL_IMPORTS = "" +
+            "import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;\n" +
+            "import net.kodehawa.mantarobot.*;\n" +
+            "import net.kodehawa.mantarobot.core.listeners.operations.*;\n" +
+            "import net.kodehawa.mantarobot.data.*;\n" +
+            "import net.kodehawa.mantarobot.db.*;\n" +
+            "import net.kodehawa.mantarobot.db.entities.*;\n" +
+            "import net.kodehawa.mantarobot.utils.*;\n" +
+            "import net.dv8tion.jda.core.entities.*;\n";
 
     @Subscribe
     public void blacklist(CommandRegistry cr) {
@@ -89,16 +73,13 @@ public class OwnerCmd {
                     if(args[1].equals("add")) {
                         if(MantaroBot.getInstance().getGuildById(args[2]) == null) return;
                         obj.getBlackListedGuilds().add(args[2]);
-                        event.getChannel().sendMessage(
-                                EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2]))
-                                .queue();
-                        obj.save();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Blacklisted Guild: " + event.getJDA().getGuildById(args[2])).queue();
+                        obj.saveAsync();
                     } else if(args[1].equals("remove")) {
                         if(!obj.getBlackListedGuilds().contains(args[2])) return;
                         obj.getBlackListedGuilds().remove(args[2]);
-                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2])
-                                .queue();
-                        obj.save();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted Guild: " + args[2]).queue();
+                        obj.saveAsync();
                     }
                     return;
                 }
@@ -110,14 +91,12 @@ public class OwnerCmd {
                         event.getChannel().sendMessage(
                                 EmoteReference.CORRECT + "Blacklisted User: " + event.getJDA().getUserById(args[2]))
                                 .queue();
-                        obj.save();
+                        obj.saveAsync();
                     } else if(args[1].equals("remove")) {
                         if(!obj.getBlackListedUsers().contains(args[2])) return;
                         obj.getBlackListedUsers().remove(args[2]);
-                        event.getChannel().sendMessage(
-                                EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2]))
-                                .queue();
-                        obj.save();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "Unblacklisted User: " + event.getJDA().getUserById(args[2])).queue();
+                        obj.saveAsync();
                     }
                 }
             }
@@ -216,6 +195,9 @@ public class OwnerCmd {
 
     @Subscribe
     public void eval(CommandRegistry cr) {
+        //has no state
+        JavaEvaluator javaEvaluator = new JavaEvaluator();
+
         Map<String, Evaluator> evals = new HashMap<>();
         evals.put("js", (event, code) -> {
             ScriptEngine script = new ScriptEngineManager().getEngineByName("nashorn");
@@ -257,6 +239,44 @@ public class OwnerCmd {
                         "import *;",
                         code
                 ));
+            } catch(Exception e) {
+                return e;
+            }
+        });
+
+        evals.put("java", (event, code) -> {
+            try {
+                CompilationResult r = javaEvaluator.compile()
+                        .addCompilerOptions("-Xlint:unchecked")
+                        .source("Eval", JAVA_EVAL_IMPORTS + "\n\n" +
+                                "public class Eval {\n" +
+                                "   public static Object run(GuildMessageReceivedEvent event) {\n" +
+                                "       try {\n" +
+                                "           return null;\n" +
+                                "       } finally {\n" +
+                                "           " + (code + ";").replaceAll(";{2,}", ";") + "\n" +
+                                "       }\n" +
+                                "   }\n" +
+                                "}"
+                        )
+                        .execute();
+                EvalClassLoader ecl = new EvalClassLoader();
+                r.getClasses().forEach((name, bytes) -> ecl.define(bytes));
+
+                return ecl.loadClass("Eval").getMethod("run", GuildMessageReceivedEvent.class).invoke(null, event);
+            } catch(CompilationException e) {
+                StringBuilder sb = new StringBuilder("\n");
+                if(e.getCompilerOutput() != null) sb.append(e.getCompilerOutput());
+                if(!e.getDiagnostics().isEmpty()) {
+                    if(sb.length() > 0) sb.append("\n\n");
+                    e.getDiagnostics().forEach(d->sb.append(d).append('\n'));
+                }
+                return new Error(sb.toString()) {
+                    @Override
+                    public String toString() {
+                        return getMessage();
+                    }
+                };
             } catch(Exception e) {
                 return e;
             }
@@ -384,163 +404,6 @@ public class OwnerCmd {
                     }
                 }
 
-                if(option.equals("shutdown") || option.equals("restart")) {
-
-                    if(args.length == 2) {
-                        try {
-                            notifyMusic(args[1]).get();
-                        } catch(InterruptedException | ExecutionException ignored) {
-                        }
-                    }
-
-                    try {
-                        prepareShutdown(event);
-                    } catch(Exception e) {
-                        log.warn(EmoteReference.ERROR + "Couldn't prepare shutdown." + e.toString(), e);
-                        return;
-                    }
-
-                    //If we manage to get here, there's nothing else except us.
-
-                    //Here in Darkness, everything is okay.
-                    //Listen to the waves, and let them fade away.
-
-                    if(option.equals("restart")) {
-                        try {
-                            MantaroData.connectionWatcher().reboot(false);
-                        } catch(Exception e) {
-                            log.error("Error restarting via manager, manual reboot required", e);
-                            System.exit(ShutdownCodes.REBOOT_FAILURE);
-                        }
-                    } else {
-                        System.exit(ShutdownCodes.NORMAL);
-                    }
-                    return;
-                }
-
-                if(option.equals("forceshutdown") || option.equals("forcerestart")) {
-                    if(args.length == 2) {
-                        try {
-                            notifyMusic(args[1]).get();
-                        } catch(InterruptedException | ExecutionException ignored) {
-                        }
-                    }
-
-                    try {
-                        prepareShutdown(event);
-                    } catch(Exception e) {
-                        log.warn(
-                                EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e
-                                        .toString(), e);
-                    }
-
-                    //If we manage to get here, there's nothing else except us.
-
-                    //Here in Darkness, everything is okay.
-                    //Listen to the waves, and let them fade away.
-
-                    if(option.equals("forcerestart")) {
-                        try {
-                            MantaroData.connectionWatcher().reboot(false);
-                        } catch(Exception e) {
-                            log.error("Error restarting via manager, manual reboot required", e);
-                            System.exit(ShutdownCodes.REBOOT_FAILURE);
-                        }
-                    } else {
-                        System.exit(ShutdownCodes.NORMAL);
-                    }
-                    return;
-                }
-
-                if(args.length < 2) {
-                    onHelp(event);
-                    return;
-                }
-
-                String value = args[1];
-
-                if(option.equals("notifymusic")) {
-                    notifyMusic(value);
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "Guilds playing music were notified!").queue();
-                    return;
-                }
-
-                String[] values = SPLIT_PATTERN.split(value, 2);
-                if(values.length < 2) {
-                    onHelp(event);
-                    return;
-                }
-
-                String k = values[0], v = values[1];
-
-                if(option.equals("scheduleshutdown") || option.equals("schedulerestart")) {
-                    boolean restart = option.equals("schedulerestart");
-                    if(k.equals("time")) {
-                        double s = Double.parseDouble(v);
-                        int millis = (int) (s * 1000);
-                        Async.thread(millis, TimeUnit.MILLISECONDS, () -> {
-                            try {
-                                prepareShutdown(event);
-                            } catch(Exception e) {
-                                log.warn(
-                                        EmoteReference.ERROR + "Couldn't prepare shutdown. I don't care, I'm gonna restart anyway." + e
-                                                .toString(), e);
-                            }
-                            if(restart) {
-                                try {
-                                    MantaroData.connectionWatcher().reboot(false);
-                                } catch(Exception e) {
-                                    log.error("Error restarting via manager, manual reboot required", e);
-                                    System.exit(-1);
-                                }
-                            } else {
-                                System.exit(ShutdownCodes.NORMAL);
-                            }
-                        });
-
-                        event.getChannel().sendMessage(EmoteReference.STOPWATCH + " Sleeping in " + s + " seconds...")
-                                .queue();
-                        return;
-                    }
-
-                    if(k.equals("connections")) {
-                        int connections = Integer.parseInt(v);
-
-                        IntSupplier currentConnections = () -> (int) event.getJDA().getVoiceChannelCache().stream().filter(
-                                voiceChannel -> voiceChannel.getMembers().contains(
-                                        voiceChannel.getGuild().getSelfMember())).count();
-
-                        Async.task("Watching Thread.", s -> {
-                            if(currentConnections.getAsInt() > connections) return;
-
-                            try {
-                                prepareShutdown(event);
-                            } catch(Exception e) {
-                                log.warn(
-                                        "Couldn't prepare shutdown. I don't care, I'm gonna do it anyway." + e.toString(),
-                                        e
-                                );
-                            }
-
-                            if(restart) {
-                                try {
-                                    MantaroData.connectionWatcher().reboot(false);
-                                } catch(Exception e) {
-                                    log.error("Error restarting via manager, manual reboot required", e);
-                                    System.exit(ShutdownCodes.REBOOT_FAILURE);
-                                }
-                            } else {
-                                System.exit(0);
-                            }
-                            s.shutdown();
-                        }, 2, TimeUnit.SECONDS);
-                        return;
-                    }
-
-                    onHelp(event);
-                    return;
-                }
-
                 onHelp(event);
             }
 
@@ -551,24 +414,13 @@ public class OwnerCmd {
         });
     }
 
-    private void prepareShutdown(GuildMessageReceivedEvent event) throws Exception {
-        MantaroBot.getInstance().getAudioManager().getMusicManagers().forEach((s, musicManager) -> {
-            if(musicManager.getTrackScheduler() != null) musicManager.getTrackScheduler().stop();
-        });
-
-        try {
-            MantaroData.connectionWatcher().close();
-        } catch(Exception ignored) {
-        }
-
-        Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(MantaroShard::prepareShutdown);
-
-        event.getChannel().sendMessage(random(sleepQuotes)).complete();
-        Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).forEach(
-                mantaroShard -> mantaroShard.getJDA().shutdownNow());
-    }
-
     private interface Evaluator {
         Object eval(GuildMessageReceivedEvent event, String code);
+    }
+
+    private static class EvalClassLoader extends ClassLoader {
+        public Class<?> define(byte[] bytes) {
+            return super.defineClass(null, bytes, 0, bytes.length);
+        }
     }
 }

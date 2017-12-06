@@ -23,7 +23,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.MantaroObj;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import org.apache.commons.lang3.tuple.Pair;
+import net.kodehawa.mantarobot.utils.Pair;
 
 import java.util.Map;
 
@@ -40,8 +40,8 @@ public class MuteTask {
                     log.trace("Iteration");
                     Long id = entry.getKey();
                     Pair<String, Long> pair = entry.getValue();
-                    String guildId = pair.getKey();
-                    long maxTime = pair.getValue();
+                    String guildId = pair.getLeft();
+                    long maxTime = pair.getRight();
 
                     if(MantaroBot.getInstance().getShardForGuild(guildId) == null) {
                         continue;
@@ -49,6 +49,7 @@ public class MuteTask {
 
                     Guild guild = MantaroBot.getInstance().getGuildById(guildId);
                     DBGuild dbGuild = MantaroData.db().getGuild(guildId);
+                    if(dbGuild == null) continue;
                     GuildData guildData = dbGuild.getData();
 
                     if(guild == null) {

@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -55,7 +56,9 @@ public class GameCmds {
 
     //addSubCommand()...
     @Subscribe
-    public void guess(CommandRegistry cr) {
+    public void game(CommandRegistry cr) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+
         cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
@@ -66,7 +69,7 @@ public class GameCmds {
                                 "`~>game lobby` - **Starts a chunk of different games, for example `~>game lobby pokemon, trivia` will start pokemon and then trivia.**\n" +
                                 "`~>game multiple` - **Starts multiple instances of one game, for example `~>game multiple trivia 5` will start trivia 5 times.**\n" +
                                 "`~>game wins` - **Shows how many times you've won in games**", false)
-                        .addField("Considerations", "The pokemon guessing game has around 900 different pokemon to guess, " +
+                        .addField("Considerations", "The pokemon guessing game has around *900 different pokemon* to guess, " +
                                 "where the anime guessing game has around 60. The number in the number guessing game is a random number between 0 and 150.\n" +
                                 "To start multiple trivia sessions please use `~>game trivia multiple`, not `~>trivia multiple`", false)
                         .build();
@@ -74,21 +77,33 @@ public class GameCmds {
         }.addSubCommand("character", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 startGame(new Character(), event);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 startGame(new Pokemon(), event);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 startGame(new GuessTheNumber(), event);
             }
         }).addSubCommand("lobby", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify anything to play!").queue();
                     return;
@@ -131,13 +146,17 @@ public class GameCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+                if(member == null)
+                    return;
 
                 event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
             }
         }).addSubCommand("multiple", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
+
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();
@@ -190,8 +209,12 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 String difficulty = null;
 
                 if(args.length > 0) {
@@ -298,8 +321,7 @@ public class GameCmds {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, " +
-                        "but forgot to pick it up... I'll start your new game right up!").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!").queue();
                 return false;
             } else {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot start a new game lobby when there is a game currently running.").queue();

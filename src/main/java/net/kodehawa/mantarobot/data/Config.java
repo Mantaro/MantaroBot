@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.data;
 import lombok.Data;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import org.redisson.api.LocalCachedMapOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,7 @@ public class Config {
     public String weatherAppId;
     public String webhookUrl;
     public String weebapiKey;
+    public RedisInfo redis = new RedisInfo();
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
@@ -80,5 +82,25 @@ public class Config {
 
     public boolean isOwner(String id) {
         return owners.contains(id);
+    }
+
+    public static class RedisInfo {
+        public String host = "localhost";
+        public int port = 6379;
+        public boolean enabled = true;
+        public CacheInfo customCommands = new CacheInfo();
+        public CacheInfo guilds = new CacheInfo();
+        public CacheInfo players = new CacheInfo();
+        public CacheInfo users = new CacheInfo();
+        public CacheInfo premiumKeys = new CacheInfo();
+
+        public static class CacheInfo {
+            public LocalCachedMapOptions.EvictionPolicy evictionPolicy = LocalCachedMapOptions.EvictionPolicy.LFU;
+            public LocalCachedMapOptions.InvalidationPolicy invalidationPolicy = LocalCachedMapOptions.InvalidationPolicy.ON_CHANGE;
+            public int maxSize = 1000;
+            public long ttlMs = 180000;
+            public long maxIdleMs = 180000;
+            public boolean enabled = false;
+        }
     }
 }

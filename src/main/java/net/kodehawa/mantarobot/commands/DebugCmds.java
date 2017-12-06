@@ -40,14 +40,16 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
-import java.util.Arrays;
+import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
@@ -120,7 +122,8 @@ public class DebugCmds {
         final Random r = new Random();
         final String[] pingQuotes = {
                 "W-Was I fast enough?", "What are you doing?", "W-What are you looking at?!", "Huh.", "Did I do well?", "What do you think?",
-                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!"
+                "Does this happen often?", "Am I performing p-properly?", "<3", "*pats*", "Pong.", "Pang.", "Pung.", "Peng.", "Ping-pong? Yay!",
+                "U-Uh... h-hi"
         };
 
         cr.register("ping", new SimpleCommand(Category.INFO) {
@@ -160,7 +163,7 @@ public class DebugCmds {
 
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-15s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
+                            "%-16s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
@@ -220,7 +223,7 @@ public class DebugCmds {
                         continue;
                     }
 
-                    boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED) || shard.getStatus().equals(JDA.Status.ATTEMPTING_TO_RECONNECT) || shard.getStatus().equals(JDA.Status.WAITING_TO_RECONNECT);
+                    boolean reconnect = shard.getStatus().equals(JDA.Status.RECONNECT_QUEUED);
                     if(shard.getEventManager().getLastJDAEventTimeDiff() > 50000 && !reconnect)
                         dead++;
                     if(reconnect)
@@ -244,23 +247,27 @@ public class DebugCmds {
                             .append("appear to be dead! If this doesn't get fixed in 10 minutes please report this!\n");
 
                 stringBuilder.append(String.format(
-                        "Bot Version: %s\n" +
+                        "Uptime: %s.\n\n" +
+                                "Bot Version: %s\n" +
                                 "JDA Version: %s\n" +
-                                "Lavaplayer Version: %s\n\n" +
-                                "- Average Ping: %dms.\n" +
-                                "- Ping Breakdown: %s\n" +
-                                "- Dead Shards: %s shards.\n" +
-                                "- Zero Voice Connections: %s shards.\n" +
-                                "- Shards Reconnecting: %s shards.\n" +
-                                "- Shards Connecting: %s shards\n" +
-                                "- High Last Event Time: %s shards.\n\n" +
-                                "- Guilds: %-4s | Users: %-8s | Shards: %-3s"
-                        , MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION,
-                            ping, Arrays.toString(bot.getPings()), dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
-                                bot.getUserCache().size(), bot.getShardList().size()));
+                                "LP Version: %s\n\n" +
+                                "* Average Ping: %dms.\n" +
+                                "* Ping Breakdown: %s\n" +
+                                "* Dead Shards: %s shards.\n" +
+                                "* Zero Voice Connections: %s shards.\n" +
+                                "* Shards Reconnecting: %s shards.\n" +
+                                "* Shards Connecting: %s shards\n" +
+                                "* High Last Event Time: %s shards.\n\n" +
+                                "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
+                        ,
+                        Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
+                        bot.getShardList().stream().map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
+                        dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
+                        bot.getUserCache().size(), bot.getShardList().size()));
 
-                event.getChannel().sendMessage(new MessageBuilder().
-                        append("**Mantaro's Status**")
+                event.getChannel().sendMessage(new MessageBuilder()
+                        .append(EmoteReference.OK)
+                        .append("**Mantaro's Status**")
                         .append("\n")
                         .appendCodeBlock(stringBuilder.toString(), "prolog")
                         .build()).queue();

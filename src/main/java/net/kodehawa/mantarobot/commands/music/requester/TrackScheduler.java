@@ -16,7 +16,6 @@
 
 package net.kodehawa.mantarobot.commands.music.requester;
 
-import br.com.brjdevs.java.utils.async.Async;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -40,7 +39,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -49,7 +48,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private final AudioPlayer audioPlayer;
     private final String guildId;
     @Getter
-    private final ConcurrentLinkedQueue<AudioTrack> queue;
+    private final ConcurrentLinkedDeque<AudioTrack> queue;
     @Getter
     private final List<String> voteSkips;
     @Getter
@@ -64,18 +63,25 @@ public class TrackScheduler extends AudioEventAdapter {
 
     public TrackScheduler(AudioPlayer player, String guildId) {
         this.audioPlayer = player;
-        this.queue = new ConcurrentLinkedQueue<>();
+        this.queue = new ConcurrentLinkedDeque<>();
         this.guildId = guildId;
         this.voteSkips = new ArrayList<>();
         this.voteStop = new ArrayList<>();
     }
 
-    public void queue(AudioTrack track) {
+    public void queue(AudioTrack track, boolean addFirst) {
         if(!audioPlayer.startTrack(track, true)) {
-            queue.offer(track);
+            if(addFirst)
+                queue.addFirst(track);
+            else
+                queue.offer(track);
         } else {
             currentTrack = track;
         }
+    }
+
+    public void queue(AudioTrack track) {
+        queue(track, false);
     }
 
     public void nextTrack(boolean force, boolean skip) {
@@ -196,14 +202,13 @@ public class TrackScheduler extends AudioEventAdapter {
             TextChannel ch = getRequestedChannelParsed();
             if(ch != null && ch.canTalk()) {
                 ch.sendMessage(EmoteReference.MEGA + "Finished playing current queue! I hope you enjoyed it.\n" +
-                        (premium ? "" :
-                                ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive"))
+                        (premium ? "" : ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
         } catch(Exception ignored) {}
 
         requestedChannel = 0;
-        Async.thread("Audio connection close", m::closeAudioConnection);
+        MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);
     }
 
     public enum Repeat {

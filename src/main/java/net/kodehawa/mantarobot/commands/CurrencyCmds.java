@@ -57,13 +57,11 @@ public class CurrencyCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Map<String, Optional<String>> t = StringUtils.parse(args);
-
-                if(t.containsKey("brief")) {
-                    content = content.replace(" -brief", "").replace("-brief", "");
-                }
-
+                content = Utils.replaceArguments(t, content, "brief", "calculate");
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+
+                if(member == null)
+                    return;
 
                 Player player = MantaroData.db().getPlayer(member);
 
@@ -72,18 +70,22 @@ public class CurrencyCmds {
                     return;
                 }
 
+                if(t.containsKey("calculate")) {
+                    long all = player.getInventory().asList().stream()
+                            .filter(item -> item.getItem().isSellable())
+                            .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                            .sum();
+
+                    event.getChannel().sendMessage(EmoteReference.DIAMOND + "You will get **" + all + " credits** if you sell all of your items!").queue();
+                    return;
+                }
+
                 EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
                 List<ItemStack> list = player.getInventory().asList();
                 if(list.isEmpty())
-                    builder.setDescription("There is only dust.");
+                    builder.setDescription("There is only dust here.");
                 else
                     player.getInventory().asList().forEach(stack -> {
-                        if(stack.getAmount() == 5000) {
-                            if(player.getData().addBadge(Badge.SHOPPER)) {
-                                player.saveAsync();
-                            }
-                        }
-
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
                         builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
@@ -98,7 +100,9 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Inventory command")
-                        .setDescription("**Shows your current inventory.**\n").build();
+                        .setDescription("**Shows your current inventory.**\n" +
+                                "You can use `~>inventory -brief` to get a mobile friendly version.\n" +
+                                "Use `~>inventory -calculate` to see how much you'd get if you sell every sellable item on your inventory!").build();
             }
         });
 
@@ -168,6 +172,30 @@ public class CurrencyCmds {
                         return;
                     }
 
+                    if(args[0].equals("price")) {
+                        Item item = Items.fromAny(itemName).orElse(null);
+
+                        if(item == null) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
+                            return;
+                        }
+
+                        if(!item.isBuyable() && !item.isSellable()) {
+                            event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not avaliable neither for sell or buy (could be an exclusive collectable)").queue();
+                            return;
+                        }
+
+                        if(!item.isBuyable()) {
+                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item.").queue();
+                            return;
+                        }
+
+                        event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
+                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int)(item.getValue() * 0.9))).queue();
+
+                        return;
+                    }
+
                     if(args[0].equals("sell")) {
                         try {
                             if(args[1].equals("all")) {
@@ -175,12 +203,6 @@ public class CurrencyCmds {
                                         .filter(item -> item.getItem().isSellable())
                                         .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                                         .sum();
-
-                                if(args.length > 2 && args[2].equals("calculate")) {
-                                    event.getChannel().sendMessage(EmoteReference.THINKING + "You'll get **" + all + "** credits if you " +
-                                            "sell all of your items").queue();
-                                    return;
-                                }
 
                                 player.getInventory().clearOnlySellables();
 
@@ -246,7 +268,7 @@ public class CurrencyCmds {
                     }
 
                     if(args[0].equals("buy")) {
-                        Item itemToBuy = Items.fromAny(itemName).orElse(null);
+                        Item itemToBuy = Items.fromAnyNoId(itemName).orElse(null);
 
                         if(itemToBuy == null) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
@@ -387,6 +409,7 @@ public class CurrencyCmds {
                                 event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
                                         .queue();
                             }
+
                             player.save();
                             giveToPlayer.save();
                             return;

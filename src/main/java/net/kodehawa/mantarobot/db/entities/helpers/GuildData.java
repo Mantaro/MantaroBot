@@ -75,4 +75,7 @@ public class GuildData {
     private String gameTimeoutExpectedAt;
     private boolean ignoreBotsWelcomeMessage = false;
     private boolean ignoreBotsAutoRole = false;
+    private boolean enabledLevelUpMessages = false;
+    private String levelUpChannel = null;
+    private String levelUpMessage = null;
 }

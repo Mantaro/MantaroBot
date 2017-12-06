@@ -17,6 +17,8 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
@@ -37,10 +39,12 @@ import net.kodehawa.mantarobot.core.shard.ShardedMantaro;
 import net.kodehawa.mantarobot.core.shard.jda.ShardedJDA;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.apache.commons.collections4.iterators.ArrayIterator;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
@@ -56,11 +60,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {
     public static int cwport;
-    private static boolean DEBUG = false;
     @Getter
     private static MantaroBot instance;
     @Getter
@@ -84,17 +88,21 @@ public class MantaroBot extends ShardedJDA {
 
     private final MuteTask muteTask = new MuteTask();
 
-    public static void main(String[] args) {
-        if(System.getProperty("mantaro.verbose") != null) {
+    //just in case
+    static {
+        if(ExtraRuntimeOptions.VERBOSE) {
             System.setOut(new CompactPrintStream(System.out));
             System.setErr(new CompactPrintStream(System.err));
         }
 
-        if(System.getProperty("mantaro.debug") != null) {
-            DEBUG = true;
-            System.out.println("Running in debug mode!");
+        if(ExtraRuntimeOptions.DEBUG) {
+            log.info("Running in debug mode!");
         }
 
+        log.info("Filtering all logs below " + LogFilter.LEVEL);
+    }
+
+    public static void main(String[] args) {
         try {
             new MantaroBot();
         } catch(Exception e) {
@@ -108,7 +116,7 @@ public class MantaroBot extends ShardedJDA {
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
-        core = new MantaroCore(config, true, true, DEBUG);
+        core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI(config.dbotsorgToken);
 
         statsClient = new NonBlockingStatsDClient(
@@ -132,9 +140,10 @@ public class MantaroBot extends ShardedJDA {
         long end = System.currentTimeMillis();
 
         System.out.println("Finished loading basic components. Current status: " + MantaroCore.getLoadState());
+        MantaroData.config().save();
 
         LogUtils.log("Startup",
-                String.format("Loaded %d commands in %d shards.\n" +
+                String.format("Loaded %d commands in %d seconds.\n" +
                                 "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         birthdayCacher = new BirthdayCacher();
@@ -176,6 +185,14 @@ public class MantaroBot extends ShardedJDA {
         return Arrays.asList(shardedMantaro.getShards());
     }
 
+    public static boolean isDebug() {
+        return ExtraRuntimeOptions.DEBUG;
+    }
+
+    public static boolean isVerbose() {
+        return ExtraRuntimeOptions.VERBOSE;
+    }
+
     public void startCheckingBirthdays() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
@@ -187,10 +204,33 @@ public class MantaroBot extends ShardedJDA {
         Duration duration = Duration.between(now, tomorrowStart);
         long millisecondsUntilTomorrow = duration.toMillis();
 
+        //Start the birthday task on all shards.
+        //This is because running them in parallel is way better than running it once for all shards.
+        //It actually cut off the time from 50 minutes to 20 seconds.
         for(MantaroShard shard : core.getShardedInstance().getShards()) {
             shard.startBirthdayTask(millisecondsUntilTomorrow);
         }
 
+        //Start the birthday cacher.
         executorService.scheduleWithFixedDelay(birthdayCacher::cache, 22, 22, TimeUnit.HOURS);
+    }
+
+    @Override
+    public void restartShard(int shardId, boolean force) {
+        try {
+            getShardList().get(shardId).start(force);
+        } catch (Exception e) {
+            LogUtils.shard("Error while restarting shard " + shardId);
+            e.printStackTrace();
+        }
+    }
+
+    public void forceRestartShard(int shardId) {
+        restartShard(shardId, true);
+    }
+
+    @Override
+    public void restartAll() {
+        System.exit(REBOOT_FAILURE);
     }
 }

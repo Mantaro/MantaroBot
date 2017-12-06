@@ -20,7 +20,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 public class AudioUtils {
@@ -31,7 +31,7 @@ public class AudioUtils {
         );
     }
 
-    public static String getQueueList(ConcurrentLinkedQueue<AudioTrack> queue) {
+    public static String getQueueList(ConcurrentLinkedDeque<AudioTrack> queue) {
         StringBuilder sb = new StringBuilder();
         int n = 1;
         for(AudioTrack audioTrack : queue) {

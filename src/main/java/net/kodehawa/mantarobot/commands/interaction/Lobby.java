@@ -16,14 +16,28 @@
 
 package net.kodehawa.mantarobot.commands.interaction;
 
-import lombok.Getter;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
+import net.kodehawa.mantarobot.MantaroBot;
 
 public class Lobby {
-    @Getter
-    private final TextChannel channel;
+    private final String channel;
+    private final String guild;
 
-    public Lobby(TextChannel channel) {
+    public Lobby(String guild, String channel) {
+        this.guild = guild;
         this.channel = channel;
+    }
+
+    public Guild getGuild() {
+        return MantaroBot.getInstance().getGuildById(guild);
+    }
+
+    public TextChannel getChannel() {
+
+        if(getGuild() == null)
+            return null;
+
+        return getGuild().getTextChannelById(channel);
     }
 }

@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.EventBus;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.sentry.Sentry;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,8 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import static net.kodehawa.mantarobot.core.LoadState.*;
@@ -60,6 +63,8 @@ public class MantaroCore {
     private ShardedMantaro shardedMantaro;
     @Getter
     private EventBus shardEventBus;
+    @Getter
+    private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
 
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;

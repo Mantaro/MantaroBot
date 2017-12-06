@@ -119,7 +119,10 @@ public class DiscordUtils {
         Message m = event.getChannel().sendMessage(embeds.get(0)).complete();
 
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
-            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+            if(e.getChannel().getMessageById(m.getIdLong()) == null)
+                return Operation.IGNORED;
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
                     if(index.get() == 0) break;
@@ -133,7 +136,8 @@ public class DiscordUtils {
             if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
-            return Operation.RESET_TIMEOUT;
+
+            return Operation.IGNORED;
         }, "\u2b05", "\u27a1");
     }
 
@@ -149,7 +153,10 @@ public class DiscordUtils {
         Message m = event.getChannel().sendMessage(parts.get(0)).complete();
 
         return ReactionOperations.create(m, timeoutSeconds, (e) -> {
-            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong()) return Operation.IGNORED;
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+            if(e.getChannel().getMessageById(m.getIdLong()) == null)
+                return Operation.IGNORED;
 
             switch(e.getReactionEmote().getName()) {
                 case "\u2b05": //left arrow
@@ -171,7 +178,7 @@ public class DiscordUtils {
                 e.getReaction().removeReaction(e.getUser()).queue();
             }
 
-            return Operation.RESET_TIMEOUT;
+            return Operation.IGNORED;
         }, "\u2b05", "\u27a1", "\u274c");
     }
 
@@ -189,12 +196,17 @@ public class DiscordUtils {
         return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
             if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
                 return Operation.IGNORED;
+            if(e.getChannel().getMessageById(m.getIdLong()) == null)
+                return Operation.IGNORED;
+
 
             if(e.getMessage().getContent().equals("&p <<") || e.getMessage().getContent().equals("&page <<")) {
                 if(index.get() == 0) return Operation.IGNORED;
+
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
             } else if (e.getMessage().getContent().equals("&p >>") || e.getMessage().getContent().equals("&page >>")) {
                 if(index.get() + 1 >= parts.size()) return Operation.IGNORED;
+
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
             }
 
@@ -205,6 +217,10 @@ public class DiscordUtils {
 
             return Operation.IGNORED;
         });
+    }
+
+    public static List<String> divideString(String s) {
+        return divideString(1750, new StringBuilder(s));
     }
 
     public static List<String> divideString(StringBuilder builder) {

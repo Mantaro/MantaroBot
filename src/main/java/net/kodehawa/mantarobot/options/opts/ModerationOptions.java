@@ -17,10 +17,13 @@
 package net.kodehawa.mantarobot.options.opts;
 
 import com.google.common.eventbus.Subscribe;
+import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
@@ -56,10 +59,21 @@ public class ModerationOptions extends OptionHandler {
                         return;
                     }
 
-                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-                    GuildData guildData = dbGuild.getData();
+                    if(mentioned.contains(event.getAuthor())) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Why are you trying to blacklist yourself?...").queue();
+                        return;
+                    }
 
+                    Guild guild = event.getGuild();
+                    if(mentioned.stream().anyMatch(u -> CommandPermission.ADMIN.test(guild.getMember(u)))) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "One (or more) of the users you're trying to blacklist are admins or Bot Commanders!").queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(guild);
+                    GuildData guildData = dbGuild.getData();
                     List<String> toBlackList = mentioned.stream().map(ISnowflake::getId).collect(Collectors.toList());
+
                     String blacklisted = mentioned.stream().map(user -> user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining(","));
 
                     guildData.getDisabledUsers().addAll(toBlackList);

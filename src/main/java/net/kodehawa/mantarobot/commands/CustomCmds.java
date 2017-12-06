@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.commands;
 
+import br.com.brjdevs.java.utils.async.Async;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -603,7 +604,7 @@ public class CustomCmds {
 
     @Subscribe
     public void onPostLoad(PostLoadEvent e) {
-        db().getCustomCommands().forEach(custom -> {
+        Async.thread(() -> db().getCustomCommands().forEach(custom -> {
             if(!NAME_PATTERN.matcher(custom.getName()).matches()) {
                 String newName = INVALID_CHARACTERS_PATTERN.matcher(custom.getName()).replaceAll("_");
                 log.info("Custom Command with Invalid Characters '%s' found. Replacing with '%'", custom.getName());
@@ -624,7 +625,7 @@ public class CustomCmds {
             DefaultCommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
 
             customCommands.put(custom.getId(), custom.getValues());
-        });
+        }));
     }
 
     private void runCustom(String response, GuildMessageReceivedEvent event) {
@@ -666,7 +667,7 @@ public class CustomCmds {
                     v = "ytsearch: " + v;
                 }
 
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false);
+                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false, false);
                 return;
             }
 

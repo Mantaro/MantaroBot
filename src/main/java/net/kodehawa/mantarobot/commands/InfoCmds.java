@@ -54,6 +54,7 @@ import static net.kodehawa.mantarobot.commands.info.AsyncInfoMonitor.*;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateDouble;
 import static net.kodehawa.mantarobot.commands.info.stats.StatsHelper.calculateInt;
+import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_MARKER;
 
 @Module
 public class InfoCmds {
@@ -96,8 +97,9 @@ public class InfoCmds {
                                 .addField("Shards", String.valueOf(MantaroBot.getInstance().getShardedMantaro().getTotalShards()), true)
                                 .addField("Threads", String.valueOf(Thread.activeCount()), true)
                                 .addField("Servers", String.valueOf(guilds.size()), true)
-                                .addField("Users (Online/Total)", guilds.stream().flatMap
-                                        (g -> g.getMembers().stream()).filter(u -> !u.getOnlineStatus().equals(OnlineStatus.OFFLINE)).distinct().count() + "/" + users.stream().distinct().count(), true)
+                                .addField("Users (Online/Unique)", guilds.stream().flatMap(
+                                        g -> g.getMembers().stream()).filter(m -> !m.getOnlineStatus().equals(OnlineStatus.OFFLINE)
+                                ).distinct().count() + "/" + users.stream().distinct().count(), true)
                                 .addField("Text Channels", String.valueOf(textChannels.size()), true)
                                 .addField("Voice Channels", String.valueOf(voiceChannels.size()), true)
                                 .setFooter(String.format("Invite link: http://is.gd/mantaro (Commands this session: %s | Current shard: %d)", CommandListener.getCommandTotal(), MantaroBot.getInstance().getShardForGuild(event.getGuild().getId()).getId() + 1), event.getJDA().getSelfUser().getEffectiveAvatarUrl())
@@ -151,6 +153,28 @@ public class InfoCmds {
                 event.getChannel().sendMessage(builder.build()).queue();
             }
         }));
+    }
+
+    @Subscribe
+    public void donate(CommandRegistry cr) {
+        cr.register("donate", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage(EmoteReference.HEART + "Oh hi! If you are interested in donating, please check the links below. " +
+                        "Running Mantaro takes time and money, and every dollar is highly appreciated!\n\n" +
+                        "**Donation methods:**\n" +
+                        "**- Patreon:** <http://patreon.com/mantaro>\n" +
+                        "**- Paypal:** <http://paypal.me/mantarobot>")
+                .queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Donation Methods")
+                        .setDescription("**Shows the donation methods in case you want to support Mantaro!**")
+                        .build();
+            }
+        });
     }
 
     @Subscribe
@@ -242,9 +266,10 @@ public class InfoCmds {
                     String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
                     GuildData guildData = dbGuild.getData();
 
-                    EmbedBuilder embed = baseEmbed(event, "MantaroBot Help")
+                    EmbedBuilder embed = baseEmbed(event, "Mantaro Help")
                             .setColor(Color.PINK)
-                            .setDescription("Command help. For extended usage please use " + String.format("%shelp <command>.", prefix) +
+                            .setDescription("Command list. For a detailed guide on the usage of Mantaro, please check the [wiki](https://github.com/Mantaro/MantaroBot/wiki).\n" +
+                                    "If you have issues or inquiries while using Mantaro, please join the [support server](https://is.gd/mantaroguild)" +
                                     (guildData.getDisabledCommands().isEmpty() ? "" : "\nOnly showing non-disabled commands. Total disabled commands: " + guildData.getDisabledCommands().size()) +
                                     (guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()) == null || guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).isEmpty() ?
                                             "" : "\nOnly showing non-disabled commands. Total channel-specific disabled commands: " + guildData.getChannelSpecificDisabledCommands().get(event.getChannel().getId()).size()))
@@ -552,6 +577,29 @@ public class InfoCmds {
     }
 
     @Subscribe
+    public void social(CommandRegistry cr) {
+        cr.register("social", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                event.getChannel().sendMessage(EmoteReference.HEART + "O-Oh, I see you're interested on seeing my social networks!\n\n" +
+                        "W-Well, here we go!\n" +
+                        "**- Website:** <https://mantaro.site>\n" +
+                        "**- Patreon:** <https://www.patreon.com/mantaro>\n" +
+                        "**- Twitter:** <https://twitter.com/mantarodiscord>\n\n" +
+                        "**If you like Mantaro, please upvote on** <https://discordbots.org/bot/mantaro> **and/or consider donating on Patreon or Paypal! Thanks you~**\n").queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "Social")
+                        .setDescription("**Shows Mantaro's social networks.**")
+                        .build();
+            }
+        });
+    }
+
+
+    @Subscribe
     public void userinfo(CommandRegistry cr) {
         cr.register("userinfo", new SimpleCommand(Category.INFO) {
             @Override
@@ -569,15 +617,15 @@ public class InfoCmds {
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s =
-                        "**User ID:** " + user.getId() + "\n" +
-                                "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
-                                "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
-                                "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
-                                "**Mutual Guilds:** " + member.getUser().getMutualGuilds().size() + "\n" +
-                                "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
-                                "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
-                                "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
-                                "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase());
+                        BLUE_SMALL_MARKER + "**User ID:** " + user.getId() + "\n" +
+                                BLUE_SMALL_MARKER + "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+                                BLUE_SMALL_MARKER + "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
+                                BLUE_SMALL_MARKER + "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
+                                BLUE_SMALL_MARKER + "**Mutual Guilds:** " + MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size() + "\n" +
+                                BLUE_SMALL_MARKER + "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
+                                BLUE_SMALL_MARKER + "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
+                                BLUE_SMALL_MARKER + "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
+                                BLUE_SMALL_MARKER + "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase());
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(member.getColor())

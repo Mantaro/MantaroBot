@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -24,16 +25,16 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.serialize;
 import static net.kodehawa.mantarobot.db.entities.helpers.Inventory.Resolver.unserialize;
 
@@ -51,8 +52,10 @@ public class Player implements ManagedObject {
     @Getter
     @Setter
     private Long reputation = null;
+
+    @JsonCreator
     @ConstructorProperties({"id", "level", "money", "reputation", "inventory", "data"})
-    public Player(String id, Long level, Long money, Long reputation, Map<Integer, Integer> inventory, PlayerData data) {
+    public Player(@JsonProperty("id") String id, @JsonProperty("level") Long level, @JsonProperty("money") Long money, @JsonProperty("reputation") Long reputation, @JsonProperty("inventory") Map<Integer, Integer> inventory, @JsonProperty("data") PlayerData data) {
         this.id = id;
         this.level = level == null ? 0 : level;
         this.money = money == null ? 0 : money;
@@ -73,16 +76,18 @@ public class Player implements ManagedObject {
         return new Player(userId + ":g", 0L, 0L, 0L, new HashMap<>(), new PlayerData());
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 
+    @JsonIgnore
+    @Nonnull
     @Override
-    public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+    public String getDatabaseId() {
+        return getUserId();
     }
 
     /**

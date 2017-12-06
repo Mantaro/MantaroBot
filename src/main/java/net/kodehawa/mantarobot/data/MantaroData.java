@@ -16,12 +16,25 @@
 
 package net.kodehawa.mantarobot.data;
 
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.rethinkdb.net.Connection;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
+import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+import net.kodehawa.mantarobot.utils.data.deserialize.StringLongPairDeserializator;
+import org.apache.commons.lang3.tuple.Pair;
+import org.redisson.Redisson;
+import org.redisson.api.LocalCachedMapOptions;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
+import org.redisson.client.codec.Codec;
+import org.redisson.client.codec.JsonJacksonMapCodec;
+import org.redisson.codec.JsonJacksonCodec;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -36,6 +49,14 @@ public class MantaroData {
     private static Connection conn;
     private static ConnectionWatcherDataManager connectionWatcher;
     private static ManagedDatabase db;
+    private static RedissonClient redisson;
+
+    private static ObjectMapper mapper =
+            new ObjectMapper();/*.registerModule(
+                    new SimpleModule("Pair", new Version(1, 0, 0, null, null, null))
+                            .addDeserializer(Pair.class, new StringLongPairDeserializator())
+            );*/
+    private static Codec redissonCodec = new JsonJacksonCodec(mapper);
 
     public static GsonDataManager<Config> config() {
         if(config == null) config = new GsonDataManager<>(Config.class, "config.json", Config::new);
@@ -45,10 +66,31 @@ public class MantaroData {
     public static Connection conn() {
         Config c = config().get();
         if(conn == null) {
-            conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
-            log.info("Establishing first database connection to {}:{} ({})...", c.dbHost, c.dbPort, c.dbUser);
+            synchronized(MantaroData.class) {
+                if(conn != null) return conn;
+                conn = r.connection().hostname(c.dbHost).port(c.dbPort).db(c.dbDb).user(c.dbUser, c.dbPassword).connect();
+                log.info("Established first database connection to {}:{} ({})", c.dbHost, c.dbPort, c.dbUser);
+            }
         }
         return conn;
+    }
+
+    public static RedissonClient redisson() {
+        if(redisson == null) {
+            synchronized(MantaroData.class) {
+                if(redisson != null) return redisson;
+                Config.RedisInfo i = config().get().redis;
+                if(i.enabled) {
+                    org.redisson.config.Config cfg = new org.redisson.config.Config();
+                    cfg.useSingleServer().setAddress("redis://" + i.host + ":" + i.port);
+                    redisson = Redisson.create(cfg);
+                    log.info("Established redis connection to {}:{}", i.host, i.port);
+                } else {
+                    throw new IllegalStateException("Redis is disabled");
+                }
+            }
+        }
+        return redisson;
     }
 
     public static ConnectionWatcherDataManager connectionWatcher() {
@@ -58,8 +100,32 @@ public class MantaroData {
         return connectionWatcher;
     }
 
+    public static RedisCachedDatabase redisDb() {
+        ManagedDatabase db = db();
+        if(db instanceof RedisCachedDatabase)
+            return (RedisCachedDatabase)db;
+
+        throw new IllegalStateException("Redis database is disabled");
+    }
+
     public static ManagedDatabase db() {
-        if(db == null) db = new ManagedDatabase(conn());
+        if(db == null) {
+            Config.RedisInfo i = config().get().redis;
+            if(i.enabled) {
+                RedissonClient client = redisson();
+
+                db = new RedisCachedDatabase(conn(),
+                        map(client, "custom-commands", i.customCommands),
+                        map(client, "guilds", i.guilds),
+                        map(client, "players", i.players),
+                        map(client, "users", i.users),
+                        map(client, "premium-keys", i.premiumKeys),
+                        client.getBucket("mantaro")
+                );
+            } else {
+                db = new ManagedDatabase(conn());
+            }
+        }
         return db;
     }
 
@@ -73,5 +139,18 @@ public class MantaroData {
 
     public static void queue(Runnable runnable) {
         getExecutor().submit(runnable);
+    }
+
+    private static <K, V> RMap<K, V> map(RedissonClient client, String key, Config.RedisInfo.CacheInfo cacheInfo) {
+        if(!cacheInfo.enabled)
+            return client.getMap(key, redissonCodec);
+
+        LocalCachedMapOptions<K, V> options = LocalCachedMapOptions.<K, V>defaults()
+                .timeToLive(cacheInfo.ttlMs)
+                .maxIdle(cacheInfo.maxIdleMs)
+                .cacheSize(cacheInfo.maxSize)
+                .evictionPolicy(cacheInfo.evictionPolicy)
+                .invalidationPolicy(cacheInfo.invalidationPolicy);
+        return client.getLocalCachedMap(key, options);
     }
 }

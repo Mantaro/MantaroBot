@@ -52,6 +52,7 @@ public class MiscCmds {
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
+    private final Random rand = new Random();
 
     protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
         Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
@@ -59,19 +60,18 @@ public class MiscCmds {
         if(autoroles.containsKey(autoroleName)) {
             Role role = event.getGuild().getRoleById(autoroles.get(autoroleName));
             if(role == null) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded " +
-                        "to has been deleted").queue();
+                event.getChannel().sendMessage(EmoteReference.ERROR + "The role that this autorole corresponded to has been deleted").queue();
             } else {
                 if(event.getMember().getRoles().stream().filter(r1 -> r1.getId().equals(role.getId())).collect(Collectors.toList()).size() > 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You already have this role, silly!").queue();
                     return;
                 }
                 try {
-                    event.getGuild().getController().addRolesToMember(event.getMember(), role).queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've been " +
-                            "given the **" + role.getName() + "** role").queue());
+                    event.getGuild().getController().addRolesToMember(event.getMember(), role)
+                            .queue(aVoid -> event.getChannel().sendMessage(String.format("%s%s, you've been given the **%s** role",
+                                    EmoteReference.OK, event.getMember().getEffectiveName(), role.getName())).queue());
                 } catch(PermissionException pex) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't take from you **" + role.getName() + ". Make " +
-                            "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
+                    event.getChannel().sendMessage(String.format("%sI couldn't take from you **%s. Make sure that I have permission to add roles and that my role is above **%s**", EmoteReference.ERROR, role.getName(), role.getName()))
                             .queue();
                 }
             }
@@ -93,12 +93,12 @@ public class MiscCmds {
                     return;
                 }
                 try {
-                    event.getGuild().getController().removeRolesFromMember(event.getMember(), role).queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getAuthor().getAsMention() + ", you've " +
+                    event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
+                            .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've " +
                             "lost the **" + role.getName() + "** role").queue());
                 } catch(PermissionException pex) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I couldn't give you **" + role.getName() + ". Make " +
-                            "sure that I have permission to add roles and that my role is above **" + role.getName() + "**")
-                            .queue();
+                    event.getChannel().sendMessage(String.format("%sI couldn't give you **%s. Make sure that I have permission to add roles and that my role is above **%s**",
+                            EmoteReference.ERROR, role.getName(), role.getName())).queue();
                 }
             }
         } else
@@ -171,7 +171,7 @@ public class MiscCmds {
                     event.getChannel().sendMessage(embed.build()).queue();
                     return;
                 }
-                iamFunction(args[0], event);
+                iamFunction(content.trim().replace("\"", ""), event);
             }
 
             @Override
@@ -209,7 +209,7 @@ public class MiscCmds {
                     return;
                 }
 
-                iamnotFunction(args[0], event);
+                iamnotFunction(content.trim().replace("\"", ""), event);
             }
 
             @Override
@@ -256,7 +256,7 @@ public class MiscCmds {
         }).addSubCommand("noble", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + noble.get().get(new Random().nextInt(noble.get().size() - 1)) + " " +
+                event.getChannel().sendMessage(EmoteReference.TALKING + noble.get().get(rand.nextInt(noble.get().size() - 1)) + " " +
                         "-Noble").queue();
             }
         }));
@@ -268,7 +268,7 @@ public class MiscCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 event.getChannel().sendMessage(
-                        EmoteReference.TALKING + facts.get().get(new Random().nextInt(facts.get().size() - 1))).queue();
+                        EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1))).queue();
             }
 
             @Override

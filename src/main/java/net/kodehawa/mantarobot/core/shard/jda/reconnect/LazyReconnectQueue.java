@@ -14,36 +14,29 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.core.shard.jda;
+package net.kodehawa.mantarobot.core.shard.jda.reconnect;
 
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Category;
-import org.apache.commons.collections4.iterators.ArrayIterator;
+import net.dv8tion.jda.core.requests.SessionReconnectQueue;
+import net.dv8tion.jda.core.requests.WebSocketClient;
 
-import javax.annotation.Nonnull;
-import java.util.Iterator;
-import java.util.List;
+public class LazyReconnectQueue extends SessionReconnectQueue {
+    private volatile boolean ready;
 
-public class ArrayBasedShardedJDA extends ShardedJDA {
-    private final JDA[] shards;
-
-    public ArrayBasedShardedJDA(JDA... shards) {
-        this.shards = shards;
+    public LazyReconnectQueue() {
+        super();
     }
 
     @Override
-    public JDA getShard(int shard) {
-        return shards[shard];
+    public void appendSession(WebSocketClient client) {
+        if (!reconnectQueue.offer(client))
+            throw new IllegalStateException("The queue rejected this session");
+        if (ready)
+            runWorker();
     }
 
-    @Override
-    public int getShardAmount() {
-        return shards.length;
-    }
-
-    @Nonnull
-    @Override
-    public Iterator<JDA> iterator() {
-        return new ArrayIterator<>(shards);
+    public void ready() {
+        ready = true;
+        if (!reconnectQueue.isEmpty())
+            runWorker();
     }
 }

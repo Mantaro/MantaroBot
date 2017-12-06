@@ -49,11 +49,13 @@ public class AudioLoader implements AudioLoadResultHandler {
     private final GuildMessageReceivedEvent event;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
+    private final boolean insertFirst;
 
-    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection) {
+    public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
         this.event = event;
         this.skipSelection = skipSelection;
+        this.insertFirst = insertFirst;
     }
 
     @Override
@@ -118,7 +120,6 @@ public class AudioLoader implements AudioLoadResultHandler {
         if(!exception.severity.equals(FriendlyException.Severity.FAULT)) {
             event.getChannel().sendMessage("\u274C Error while fetching music: " + exception.getMessage()).queue();
         } else {
-            log.warn("Error caught while playing audio, the bot might be able to continue playing music.", exception);
             MantaroBot.getInstance().getStatsClient().increment("tracks_hard_failed");
         }
     }
@@ -156,7 +157,7 @@ public class AudioLoader implements AudioLoadResultHandler {
             return;
         }
 
-        musicManager.getTrackScheduler().queue(audioTrack);
+        musicManager.getTrackScheduler().queue(audioTrack, insertFirst);
         musicManager.getTrackScheduler().setRequestedChannel(event.getChannel().getIdLong());
 
         if(!silent) {

@@ -18,140 +18,217 @@ package net.kodehawa.mantarobot.db;
 
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.ExtraRuntimeOptions;
 import net.kodehawa.mantarobot.db.entities.*;
 
+import javax.annotation.CheckReturnValue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.rethinkdb.RethinkDB.r;
 
+@Slf4j
 public class ManagedDatabase {
     private final Connection conn;
 
-    public ManagedDatabase(Connection conn) {
+    public ManagedDatabase(@Nonnull Connection conn) {
         this.conn = conn;
     }
 
-    public CustomCommand getCustomCommand(String guildId, String name) {
+    private static void log(String message, Object... fmtArgs) {
+        if(ExtraRuntimeOptions.LOG_DB_ACCESS) {
+            log.info(message, fmtArgs);
+        }
+    }
+
+    private static void log(String message) {
+        if(ExtraRuntimeOptions.LOG_DB_ACCESS) {
+            log.info(message);
+        }
+    }
+
+    @Nonnull
+    @CheckReturnValue
+    public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
+        log("Requesting custom command {}:{} from rethink", guildId, name);
         return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
     }
 
-    public CustomCommand getCustomCommand(Guild guild, String name) {
+    @Nonnull
+    @CheckReturnValue
+    public CustomCommand getCustomCommand(@Nonnull Guild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
-    public CustomCommand getCustomCommand(DBGuild guild, String name) {
+    @Nonnull
+    @CheckReturnValue
+    public CustomCommand getCustomCommand(@Nonnull DBGuild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
-    public CustomCommand getCustomCommand(GuildMessageReceivedEvent event, String cmd) {
+    @Nonnull
+    @CheckReturnValue
+    public CustomCommand getCustomCommand(@Nonnull GuildMessageReceivedEvent event, @Nonnull String cmd) {
         return getCustomCommand(event.getGuild(), cmd);
     }
 
+    @Nonnull
+    @CheckReturnValue
     public List<CustomCommand> getCustomCommands() {
+        log("Requesting all custom commands from rethink");
         Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).run(conn, CustomCommand.class);
         return c.toList();
     }
 
-    public List<CustomCommand> getCustomCommands(String guildId) {
+    @Nonnull
+    @CheckReturnValue
+    public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
+        log("Requesting all custom commands from guild {} from rethink", guildId);
         String pattern = '^' + guildId + ':';
         Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
         return c.toList();
     }
 
-    public List<CustomCommand> getCustomCommands(Guild guild) {
+    @Nonnull
+    @CheckReturnValue
+    public List<CustomCommand> getCustomCommands(@Nonnull Guild guild) {
         return getCustomCommands(guild.getId());
     }
 
-    public List<CustomCommand> getCustomCommands(DBGuild guild) {
+    @Nonnull
+    @CheckReturnValue
+    public List<CustomCommand> getCustomCommands(@Nonnull DBGuild guild) {
         return getCustomCommands(guild.getId());
     }
 
-    public List<CustomCommand> getCustomCommandsByName(String name) {
+    @Nonnull
+    @CheckReturnValue
+    public List<CustomCommand> getCustomCommandsByName(@Nonnull String name) {
+        log("Requesting all custom commands named {} from rethink", name);
         String pattern = ':' + name + '$';
         Cursor<CustomCommand> c = r.table(CustomCommand.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, CustomCommand.class);
         return c.toList();
     }
 
-    public DBGuild getGuild(String guildId) {
+    @Nonnull
+    @CheckReturnValue
+    public DBGuild getGuild(@Nonnull String guildId) {
+        log("Requesting guild {} from rethink", guildId);
         DBGuild guild = r.table(DBGuild.DB_TABLE).get(guildId).run(conn, DBGuild.class);
         return guild == null ? DBGuild.of(guildId) : guild;
     }
 
-    public DBGuild getGuild(Guild guild) {
+    @Nonnull
+    @CheckReturnValue
+    public DBGuild getGuild(@Nonnull Guild guild) {
         return getGuild(guild.getId());
     }
 
-    public DBGuild getGuild(Member member) {
+    @Nonnull
+    @CheckReturnValue
+    public DBGuild getGuild(@Nonnull Member member) {
         return getGuild(member.getGuild());
     }
 
-    public DBGuild getGuild(GuildMessageReceivedEvent event) {
+    @Nonnull
+    @CheckReturnValue
+    public DBGuild getGuild(@Nonnull GuildMessageReceivedEvent event) {
         return getGuild(event.getGuild());
     }
 
+    @Nonnull
+    @CheckReturnValue
     public MantaroObj getMantaroData() {
+        log("Requesting MantaroObj from rethink");
         MantaroObj obj = r.table(MantaroObj.DB_TABLE).get("mantaro").run(conn, MantaroObj.class);
         return obj == null ? MantaroObj.create() : obj;
     }
 
-    public Player getPlayer(String userId) {
+    @Nonnull
+    @CheckReturnValue
+    public Player getPlayer(@Nonnull String userId) {
+        log("Requesting player {} from rethink", userId);
         Player player = r.table(Player.DB_TABLE).get(userId + ":g").run(conn, Player.class);
         return player == null ? Player.of(userId) : player;
     }
 
-    public Player getPlayer(User user) {
+    @Nonnull
+    @CheckReturnValue
+    public Player getPlayer(@Nonnull User user) {
         return getPlayer(user.getId());
     }
 
-    public Player getPlayer(Member member) {
+    @Nonnull
+    @CheckReturnValue
+    public Player getPlayer(@Nonnull Member member) {
         return getPlayer(member.getUser());
     }
 
+    @Nonnull
+    @CheckReturnValue
     public List<Player> getPlayers() {
+        log("Requesting all players from rethink");
         String pattern = ":g$";
         Cursor<Player> c = r.table(Player.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Player.class);
         return c.toList();
     }
 
+    @Nonnull
+    @CheckReturnValue
     public List<PremiumKey> getPremiumKeys() {
+        log("Requesting all premium keys from rethink");
         Cursor<PremiumKey> c = r.table(PremiumKey.DB_TABLE).run(conn, PremiumKey.class);
         return c.toList();
     }
 
     //Also tests if the key is valid or not!
-    public PremiumKey getPremiumKey(String id){
+    @Nonnull
+    @CheckReturnValue
+    public PremiumKey getPremiumKey(@Nullable String id) {
+        log("Requesting premium key {} from rethink", id);
         if(id == null) return null;
         return r.table(PremiumKey.DB_TABLE).get(id).run(conn, PremiumKey.class);
     }
 
-    public List<Quote> getQuotes(String guildId) {
-        String pattern = '^' + guildId + ':';
-        Cursor<Quote> c = r.table(Quote.DB_TABLE).filter(quote -> quote.g("id").match(pattern)).run(conn, Quote.class);
-        return c.toList();
-    }
-
-    public List<Quote> getQuotes(Guild guild) {
-        return getQuotes(guild.getId());
-    }
-
-    public List<Quote> getQuotes(DBGuild guild) {
-        return getQuotes(guild.getId());
-    }
-
-    public DBUser getUser(String userId) {
+    @Nonnull
+    @CheckReturnValue
+    public DBUser getUser(@Nonnull String userId) {
+        log("Requesting user {} from rethink", userId);
         DBUser user = r.table(DBUser.DB_TABLE).get(userId).run(conn, DBUser.class);
         return user == null ? DBUser.of(userId) : user;
     }
 
-    public DBUser getUser(User user) {
+    @Nonnull
+    @CheckReturnValue
+    public DBUser getUser(@Nonnull User user) {
         return getUser(user.getId());
     }
 
-    public DBUser getUser(Member member) {
+    @Nonnull
+    @CheckReturnValue
+    public DBUser getUser(@Nonnull Member member) {
         return getUser(member.getUser());
+    }
+
+    public void save(@Nonnull ManagedObject object) {
+        log("Saving {} {}:{} to rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        r.table(object.getTableName())
+                .insert(object)
+                .optArg("conflict", "replace")
+                .runNoReply(conn);
+    }
+
+    public void delete(@Nonnull ManagedObject object) {
+        log("Deleting {} {}:{} from rethink", object.getClass().getSimpleName(), object.getTableName(), object.getDatabaseId());
+        r.table(object.getTableName())
+                .get(object.getId())
+                .delete()
+                .runNoReply(conn);
     }
 }

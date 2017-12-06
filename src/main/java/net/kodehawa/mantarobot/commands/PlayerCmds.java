@@ -23,7 +23,6 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -34,10 +33,12 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.db.entities.helpers.UserData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -72,6 +73,12 @@ public class PlayerCmds {
                             (rl > 0 ? "**You'll be able to use this command again in " +
                                     Utils.getVerboseTime(rateLimiter.tryAgainIn(event.getMember())) + ".**" :
                                     "You can rep someone now.")).queue();
+                    return;
+                }
+
+                List<User> mentioned = event.getMessage().getMentionedUsers();
+                if(!mentioned.isEmpty() && mentioned.size() > 1) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You can only give reputation to one person!").queue();
                     return;
                 }
 
@@ -225,11 +232,14 @@ public class PlayerCmds {
                 }
 
                 PlayerData playerData = player.getData();
+                Inventory inv = player.getInventory();
 
                 //start of badge assigning
                 if(player.getMoney() > 7526527671L && player.getData().addBadge(Badge.ALTERNATIVE_WORLD))
                     player.saveAsync();
                 if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
+                    player.saveAsync();
+                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && player.getData().addBadge(Badge.SHOPPER))
                     player.saveAsync();
                 //end of badge assigning
 
@@ -250,7 +260,7 @@ public class PlayerCmds {
                                 "Not specified.", true)
                         .addField(EmoteReference.HEART + "Married with", marriedTo == null ? "Nobody." : marriedTo.getName() + "#" +
                                 marriedTo.getDiscriminator(), false)
-                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(player.getInventory().asList()), false)
+                        .addField(EmoteReference.POUCH + "Inventory", ItemStack.toString(inv.asList()), false)
                         .addField(EmoteReference.HEART + "Badges", displayBadges.isEmpty() ? "No badges (yet!)" : displayBadges, false)
                         .setFooter("User's timezone: " + (user.getTimezone() == null ? "No timezone set." : user.getTimezone()) + " | " +
                                 "Requested by " + event.getAuthor().getName(), null));
@@ -327,11 +337,11 @@ public class PlayerCmds {
                     .build()
             ).execute();
             ResponseBody body = res.body();
-            if(body == null) throw new IOException("o shit body is null");
+            if(body == null) throw new IOException("body is null");
             bytes = body.bytes();
             res.close();
         } catch(IOException e) {
-            throw new AssertionError("o shit io error", e);
+            throw new AssertionError("io error", e);
         }
         channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
     }

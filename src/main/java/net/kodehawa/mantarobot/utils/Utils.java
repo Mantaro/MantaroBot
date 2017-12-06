@@ -18,12 +18,16 @@ package net.kodehawa.mantarobot.utils;
 
 import com.google.common.io.CharStreams;
 import com.jagrosh.jdautilities.utils.FinderUtil;
+import com.rethinkdb.net.Connection;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.*;
@@ -46,10 +50,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.rethinkdb.RethinkDB.r;
+
 @Slf4j
 public class Utils {
     public static final OkHttpClient httpClient = new OkHttpClient();
     private static final Pattern pattern = Pattern.compile("\\d+?[a-zA-Z]");
+    private static final Config config = MantaroData.config().get();
 
     private static final String[] ratelimitQuotes = {
             "Woah... you're calling me a bit too fast... I might get dizzy!", "Don't be greedy!", "Y-You're calling me so fast that I'm getting dizzy...",
@@ -308,6 +315,18 @@ public class Utils {
         return new String(almostPretty);
     }
 
+    @SuppressWarnings("unchecked")
+    public static <K,V> Map<K,V> map(Object... mappings) {
+        if(mappings.length % 2 == 1) throw new IllegalArgumentException("mappings.length must be even");
+        Map<K, V> map = new HashMap<>();
+
+        for(int i = 0; i < mappings.length; i += 2) {
+            map.put((K)mappings[i], (V)mappings[i+1]);
+        }
+
+        return map;
+    }
+
     /**
      * Get a data failure response, place in its own method due to redundancy
      *
@@ -333,7 +352,7 @@ public class Utils {
      */
     public static HashMap<String, Object> mapObjects(Object valueObj) {
         try {
-            Class c1 = valueObj.getClass();
+            Class<?> c1 = valueObj.getClass();
             HashMap<String, Object> fieldMap = new HashMap<>();
             Field[] valueObjFields = c1.getDeclaredFields();
 
@@ -422,6 +441,16 @@ public class Utils {
                 (seconds == 0 ? "" : seconds + " second" + (seconds == 1 ? "" : "s"))).replaceAll(", (\\d{1,2} \\S+)$", " and $1");
     }
 
+    public static void dbConnection(Consumer<Connection> consumer) {
+        try (Connection conn = r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect()) {
+            consumer.accept(conn);
+        }
+    }
+
+    public static Connection newDbConnection() {
+        return r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect();
+    }
+
     public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
         if(!rateLimiter.process(u.getId())) {
             event.getChannel().sendMessage(
@@ -430,9 +459,28 @@ public class Utils {
                             "\n **You'll be able to use this command again in " + Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
                             + ".**"
             ).queue();
+
+            MantaroBot.getInstance().getStatsClient().increment("ratelimits");
+
             return false;
         }
 
         return true;
+    }
+
+    public static String replaceArguments(Map<String, Optional<String>> args, String content, String... toReplace) {
+        if(args == null || args.isEmpty()) {
+            return content;
+        }
+
+        String contentReplaced = content;
+
+        for(String s : toReplace) {
+            if(args.containsKey(s)) {
+                contentReplaced = contentReplaced.replace(" -" + s, "").replace("-" + s, "");
+            }
+        }
+
+        return contentReplaced;
     }
 }

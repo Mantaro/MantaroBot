@@ -16,6 +16,8 @@
 
 package net.kodehawa.mantarobot.db.entities.helpers;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -34,7 +36,11 @@ public class PlayerData {
     private Long marriedSince = null;
     private String marriedWith = null;
     private long moneyOnBank = 0;
-    private long dailyStrike;
+
+    //Fix massive misspelling fuck up.
+    @JsonProperty("dailyStrike")
+    private long dailyStreak;
+
     private long lastDailyAt;
 
     @Transient

@@ -34,53 +34,53 @@ import java.util.stream.Collectors;
 public class ImageboardUtils {
     private static final Random r = new Random();
 
-    public static void getImage(ImageBoard<?> api, String type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
+    public static void getImage(ImageBoard<?> api, ImageRequestType type, boolean nsfwOnly, String imageboard, String[] args, String content, GuildMessageReceivedEvent event) {
         Rating rating = Rating.SAFE;
         boolean needRating = args.length >= 3;
         TextChannel channel = event.getChannel();
 
+        if(needRating && !nsfwOnly)
+            rating = Rating.lookupFromString(args[2]);
+
         if(nsfwOnly)
             rating = Rating.EXPLICIT;
 
-        if(needRating)
-            rating = Rating.lookupFromString(args[2]);
-
         if(rating == null) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
+            channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
             return;
         }
 
-        final Rating fRating = rating;
+        final Rating finalRating = rating;
 
-        if(!nsfwCheck(event, false, false, fRating)) {
-            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
+        if(!nsfwCheck(event, false, false, finalRating)) {
+            channel.sendMessage(EmoteReference.ERROR + "Cannot send a NSFW image in a non-nsfw channel :(").queue();
             return;
         }
 
         int page = Math.max(1, r.nextInt(25));
+        String queryRating = nsfwOnly ? null : rating.getLongName();
 
         switch(type) {
-            case "get":
+            case GET:
                 try {
-                    String whole1 = content.replace("get ", "");
-                    String[] wholeBeheaded = whole1.split(" ");
-
-                    api.get(page).async(images1 -> {
-                        if(boom(images1, event)) return;
+                    String arguments = content.replace("get ", "");
+                    String[] argumentsSplit = arguments.split(" ");
+                    api.get(page, queryRating).async(requestedImages -> {
+                        if(isListNull(requestedImages, event)) return;
 
                         try {
                             int number;
-                            List<BoardImage> images = (List<BoardImage>) images1;
+                            List<BoardImage> images = (List<BoardImage>) requestedImages;
                             if(!nsfwOnly)
-                                images = images1.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+                                images = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                             if(images.isEmpty()) {
-                                event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                                channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
                                 return;
                             }
 
                             try {
-                                number = Integer.parseInt(wholeBeheaded[0]);
+                                number = Integer.parseInt(argumentsSplit[0]);
                             } catch(Exception e) {
                                 number = r.nextInt(images.size());
                             }
@@ -106,39 +106,39 @@ public class ImageboardUtils {
                         );
                 }
                 break;
-            case "tags":
+            case TAGS:
                 try {
                     String sNoArgs = content.replace("tags ", "");
                     String[] expectedNumber = sNoArgs.split(" ");
                     String tags = expectedNumber[0];
-                    api.search(tags).async(images  -> {
+                    api.search(tags, queryRating).async(requestedImages -> {
                         //account for this
-                        if(boom(images, event)) return;
+                        if(isListNull(requestedImages, event)) return;
 
                         try {
-                            List<BoardImage> filter = (List<BoardImage>) images;
+                            List<BoardImage> filter = (List<BoardImage>) requestedImages;
                             if(!nsfwOnly)
-                                filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+                                filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
                             if(filter.isEmpty()) {
-                                event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                                channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
                                 return;
                             }
 
-                            int number1;
+                            int number;
                             try {
-                                number1 = Integer.parseInt(expectedNumber[1]);
+                                number = Integer.parseInt(expectedNumber[1]);
                             } catch(Exception e) {
-                                number1 = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
+                                number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                             }
-                            BoardImage image = filter.get(number1);
-                            String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
+                            BoardImage image = filter.get(number);
+                            String imageTags = image.getTags().stream().collect(Collectors.joining(", "));
 
-                            if(foundMinorTags(event, tags1, image.getRating())) {
+                            if(foundMinorTags(event, imageTags, image.getRating())) {
                                 return;
                             }
 
-                            imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, image.getRating(), imageboard, channel);
+                            imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
                             if(image.getRating().equals(Rating.EXPLICIT))
                                 TextChannelGround.of(event).dropItemWithChance(13, 3);
                         } catch(Exception e) {
@@ -153,25 +153,29 @@ public class ImageboardUtils {
                         );
                 }
                 break;
-            case "":
-                api.get(page).async(images -> {
-                    if(boom(images, event)) return;
+            case RANDOM:
+                api.get(page, queryRating).async(requestedImages -> {
+                    try {
+                        if(isListNull(requestedImages, event)) return;
 
-                    List<BoardImage> filter = (List<BoardImage>) images;
-                    if(!nsfwOnly)
-                        filter = images.stream().filter(data -> data.getRating().equals(fRating)).collect(Collectors.toList());
+                        List<BoardImage> filter = (List<BoardImage>) requestedImages;
+                        if(!nsfwOnly)
+                            filter = requestedImages.stream().filter(data -> data.getRating().equals(finalRating)).collect(Collectors.toList());
 
-                    if(filter.isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
-                        return;
+                        if(filter.isEmpty()) {
+                            channel.sendMessage(EmoteReference.SAD + "There are no images matching your search criteria...").queue();
+                            return;
+                        }
+
+                        int number = r.nextInt(filter.size());
+                        BoardImage image = filter.get(number);
+                        String tags = image.getTags().stream().collect(Collectors.joining(", "));
+                        imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
+                        if(image.getRating().equals(Rating.EXPLICIT))
+                            TextChannelGround.of(event).dropItemWithChance(13, 3);
+                    } catch (Exception e) {
+                        event.getChannel().sendMessage(EmoteReference.SAD + "There was an unknown error while looking for a random image...").queue();
                     }
-
-                    int number = r.nextInt(filter.size());
-                    BoardImage image = filter.get(number);
-                    String tags1 = image.getTags().stream().collect(Collectors.joining(", "));
-                    imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags1, image.getRating(), imageboard, channel);
-                    if(image.getRating().equals(Rating.EXPLICIT))
-                        TextChannelGround.of(event).dropItemWithChance(13, 3);
                 });
                 break;
         }
@@ -182,15 +186,15 @@ public class ImageboardUtils {
 
         String nsfwChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildUnsafeChannels().stream()
                 .filter(channel -> channel.equals(event.getChannel().getId())).findFirst().orElse(null);
-        Rating rating1 = rating == null ? Rating.SAFE : rating;
-        boolean trigger = !isGlobal ? ((rating1.equals(Rating.SAFE) || (nsfwChannel == null)) ?
-                rating1.equals(Rating.SAFE) : nsfwChannel.equals(event.getChannel().getId())) :
+        Rating finalRating = rating == null ? Rating.SAFE : rating;
+        boolean trigger = !isGlobal ? ((finalRating.equals(Rating.SAFE) || (nsfwChannel == null)) ?
+                finalRating.equals(Rating.SAFE) : nsfwChannel.equals(event.getChannel().getId())) :
                 nsfwChannel != null && nsfwChannel.equals(event.getChannel().getId());
 
         if(!trigger) {
             if(sendMessage) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Not on a NSFW channel. Cannot send lewd images.\n" +
-                        "**Reminder:** You can set this channel as NSFW by doing `~>opts nsfw toggle` if you are an administrator on this server.").queue();
+                        "**Reminder:** You can set this channel as NSFW by going to the channel settings and checking \"Set this Channel as NSFW\".").queue();
             }
             return false;
         }
@@ -210,7 +214,7 @@ public class ImageboardUtils {
         return true;
     }
 
-    private static boolean boom(List<?> l, GuildMessageReceivedEvent event) {
+    private static boolean isListNull(List<?> l, GuildMessageReceivedEvent event) {
         if(l == null) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Oops... something went wrong when searching... (If you used a tag, the tag might not exist)").queue();
             return true;

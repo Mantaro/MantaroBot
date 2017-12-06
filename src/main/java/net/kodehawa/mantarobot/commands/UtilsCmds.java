@@ -21,17 +21,16 @@ import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.utils.Reminder;
 import net.kodehawa.mantarobot.commands.utils.UrbanData;
 import net.kodehawa.mantarobot.commands.utils.WeatherData;
-import net.kodehawa.mantarobot.commands.utils.YoutubeMp3Info;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayCacher;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -65,8 +64,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Slf4j
 @Module
@@ -137,17 +134,26 @@ public class UtilsCmds {
 
                             String birthdays = guildCurrentBirthdays.entrySet().stream()
                                     .sorted(Comparator.comparingInt(entry -> Integer.parseInt(entry.getValue().split("-")[0])))
-                                    .limit(10)
                                     .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
                                     .collect(Collectors.joining("\n"));
 
-                            event.getChannel().sendMessage(new MessageBuilder()
-                                    .append("Birthdays for ")
-                                    .append(Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)))
-                                    .append(" in Guild: **")
-                                    .append(event.getGuild().getName())
-                                    .append("**\n")
-                                    .appendCodeBlock(birthdays, "diff").build()).queue();
+                            List<String> parts = DiscordUtils.divideString(birthdays);
+                            List<String> messages = new LinkedList<>();
+                            boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                            for(String s1 : parts) {
+                                messages.add("**" + event.getGuild().getName() + "'s Birthdays for " +
+                                        Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)) + "**\n" +
+                                        (parts.size() > 1 ? (hasReactionPerms ? "Use the arrow reactions to change pages. " :
+                                        "Use &page >> and &page << to change pages and &cancel to end") : "") +
+                                        String.format("```diff\n%s```", s1));
+                            }
+
+                            if(hasReactionPerms) {
+                                DiscordUtils.list(event, 45, false, messages);
+                            } else {
+                                DiscordUtils.listText(event, 45, false, messages);
+                            }
                         } else {
                             event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
                         }
@@ -397,8 +403,7 @@ public class UtilsCmds {
                     return;
                 }
 
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "I'll remind you of **" + toRemind + "**" +
-                        " in " + Utils.getHumanizedTime(time)).queue();
+                event.getChannel().sendMessage(String.format("%sI'll remind you of **%s** in %s", EmoteReference.CORRECT, toRemind, Utils.getHumanizedTime(time))).queue();
 
                 new Reminder.Builder()
                         .id(user.getId())
@@ -427,7 +432,7 @@ public class UtilsCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 try {
-                    content = content.replace("UTC", "GMT");
+                    content = content.replace("UTC", "GMT").toUpperCase();
 
                     DBUser user = MantaroData.db().getUser(event.getMember());
                     if(user.getData().getTimezone() != null && args.length == 0) {
@@ -438,9 +443,7 @@ public class UtilsCmds {
                         return;
                     }
                     event.getChannel().sendMessage(
-                            EmoteReference.MEGA + "It's " + dateGMT(
-                                    event.getGuild(), content) + " in the " + content + " " +
-                                    "timezone").queue();
+                            String.format("%sIt's %s in the %s timezone", EmoteReference.MEGA, dateGMT(event.getGuild(), content), content)).queue();
 
                 } catch(Exception e) {
                     event.getChannel().sendMessage(
@@ -564,7 +567,7 @@ public class UtilsCmds {
                 try {
                     long start = System.currentTimeMillis();
                     WeatherData data = GsonDataManager.GSON_PRETTY.fromJson(
-                            Utils.wget(
+                            Utils.wgetResty(
                                     String.format(
                                             "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s",
                                             URLEncoder.encode(content, "UTF-8"),
@@ -574,7 +577,7 @@ public class UtilsCmds {
                             WeatherData.class
                     );
 
-                    String countryCode = data.sys.country;
+                    String countryCode = data.getSys().country;
                     String status = data.getWeather().get(0).main;
                     Double temp = data.getMain().getTemp();
                     double pressure = data.getMain().getPressure();
@@ -582,28 +585,27 @@ public class UtilsCmds {
                     Double ws = data.getWind().speed;
                     int clness = data.getClouds().all;
 
-                    Double finalTemperatureCelcius = temp - 273.15;
-                    Double finalTemperatureFarnheit = temp * 9 / 5 - 459.67;
+                    Double finalTemperatureCelsius = temp - 273.15;
+                    Double finalTemperatureFahrenheit = temp * 9 / 5 - 459.67;
                     Double finalWindSpeedMetric = ws * 3.6;
                     Double finalWindSpeedImperial = ws / 0.447046;
                     long end = System.currentTimeMillis() - start;
 
                     embed.setColor(Color.CYAN)
-                            .setTitle(
-                                    ":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
+                            .setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
                             .setDescription(status + " (" + clness + "% cloudiness)")
-                            .addField(":thermometer: Temperature", finalTemperatureCelcius.intValue() + "°C | " +
-                                    finalTemperatureFarnheit.intValue() + "°F", true)
+                            .addField(":thermometer: Temperature", finalTemperatureCelsius.intValue() + "°C | " +
+                                    finalTemperatureFahrenheit.intValue() + "°F", true)
                             .addField(":droplet: Humidity", hum + "%", true)
                             .addBlankField(true)
                             .addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " +
                                     finalWindSpeedImperial.intValue() + "mph", true)
-                            .addField("Pressure", pressure + "kPA", true)
+                            .addField("Pressure", pressure + "hPA", true)
                             .addBlankField(true)
                             .setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
                     event.getChannel().sendMessage(embed.build()).queue();
                 } catch(Exception e) {
-                    event.getChannel().sendMessage("Error while fetching results.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. (Not found?)").queue();
                     if(!(e instanceof NullPointerException))
                         log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
                 }
@@ -620,10 +622,11 @@ public class UtilsCmds {
                                 false
                         )
                         .addField(
-                                "Parameters", "`city` - **Your city name, e.g. New York**\n"
+                                "Parameters", "`city` - **Your city name, e.g. New York, **\n"
                                         + "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**",
                                 false
                         )
+                        .addField("Example", "`~>weather New York, US`", false)
                         .build();
             }
         });
@@ -704,59 +707,5 @@ public class UtilsCmds {
                         " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
             }
         }));
-    }
-
-    @Subscribe
-    public void ytmp3(CommandRegistry registry) {
-        registry.register("ytmp3", new SimpleCommand(Category.UTILS) {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                YoutubeMp3Info info = YoutubeMp3Info.forLink(content);
-
-                if(info == null) {
-                    event.getChannel().sendMessage(":heavy_multiplication_x: Your link seems to be invalid or the service might be temporarily unavailable...").queue();
-                    return;
-                }
-
-                if(info.error != null) {
-                    event.getChannel().sendMessage(
-                            ":heavy_multiplication_x: I got an error while fetching that link. ``" + info.error + "``").queue();
-                    return;
-                }
-
-                EmbedBuilder builder = new EmbedBuilder()
-                        .setAuthor(info.title, info.link, event.getAuthor().getEffectiveAvatarUrl())
-                        .setFooter("Powered by the youtubeinmp3.com API", null);
-
-                try {
-                    int length = Integer.parseInt(info.length);
-                    builder.addField(
-                            "Length",
-                            String.format(
-                                    "%02d minutes, %02d seconds",
-                                    SECONDS.toMinutes(length),
-                                    length - MINUTES.toSeconds(SECONDS.toMinutes(length))
-                            ),
-                            false
-                    );
-                } catch(Exception ignored) {
-                }
-
-                event.getChannel().sendMessage(builder
-                        .addField("Download Link", "[Click Here!](" + info.link + ")", false)
-                        .build()
-                ).queue();
-                TextChannelGround.of(event).dropItemWithChance(7, 5);
-            }
-
-            @Override
-            public MessageEmbed help(GuildMessageReceivedEvent event) {
-                return helpEmbed(event, "Youtube MP3 command")
-                        .setDescription("**Youtube video to MP3 converter**")
-                        .addField("Usage", "`~>ytmp3 <youtube link>`", true)
-                        .addField("Parameters", "`youtube link` - **The link of the video to convert to MP3**", true)
-                        .build();
-            }
-        });
     }
 }

@@ -36,7 +36,6 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import okhttp3.*;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
@@ -91,7 +90,7 @@ public class AnimeCmds {
 
                     String connection = String.format("https://anilist.co/api/anime/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
                     String json = Utils.wgetResty(connection, event);
-                    AnimeData[] type = GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
+                    AnimeData[] type = AnimeData.fromJson(json);
 
                     if(type.length == 1) {
                         animeData(event, type[0]);
@@ -99,7 +98,7 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(event, type, anime -> String.format("**[%s (%s)](%s)**",
-                            anime.getTitle_english(), anime.getTitle_japanese(), "http://anilist.co/anime/" + anime.getId()),
+                            anime.getTitleEnglish(), anime.getTitleJapanese(), "http://anilist.co/anime/" + anime.getId()),
                             s -> baseEmbed(event, "Type the number of the anime you want to select.")
                                     .setDescription(s)
                                     .setThumbnail("https://anilist.co/img/logo_al.png")
@@ -150,7 +149,7 @@ public class AnimeCmds {
 
                     String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(content, "UTF-8"), authToken);
                     String json = Utils.wgetResty(url, event);
-                    CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
+                    CharacterData[] character = CharacterData.fromJson(json);
 
                     if(character.length == 1) {
                         characterData(event, character[0]);
@@ -158,7 +157,7 @@ public class AnimeCmds {
                     }
 
                     DiscordUtils.selectList(event, character, character1 -> String.format("**[%s %s](%s)**",
-                            character1.name_last == null ? "" : character1.name_last, character1.name_first,
+                            character1.getLastName() == null ? "" : character1.getLastName(), character1.getFirstName(),
                             "http://anilist.co/character/" + character1.getId()),
                             s -> baseEmbed(event, "Type the number of the character you want to select.")
                                     .setDescription(s)
@@ -171,8 +170,14 @@ public class AnimeCmds {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
                         return;
                     }
-                    log.warn("Problem processing data.", e);
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your waifu!**\n" +
+
+                    if(e instanceof NullPointerException) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
+                        return;
+                    }
+
+                    log.warn("Problem processing character data.", e);
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't d-drop your waifu, please forgive me!**\n" +
                             "I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command.").queue();
                 }
             }
@@ -193,14 +198,14 @@ public class AnimeCmds {
     }
 
     private void animeData(GuildMessageReceivedEvent event, AnimeData type) {
-        String ANIME_TITLE = type.getTitle_english();
-        String RELEASE_DATE = StringUtils.substringBefore(type.getStart_date(), "T");
-        String END_DATE = StringUtils.substringBefore(type.getEnd_date(), "T");
+        String ANIME_TITLE = type.getTitleEnglish();
+        String RELEASE_DATE = StringUtils.substringBefore(type.getStartDate(), "T");
+        String END_DATE = StringUtils.substringBefore(type.getEndDate(), "T");
         String ANIME_DESCRIPTION = type.getDescription().replaceAll("<br>", "\n");
-        String AVERAGE_SCORE = type.getAverage_score();
-        String IMAGE_URL = type.getImage_url_lge();
-        String TYPE = Utils.capitalize(type.getSeries_type());
-        String EPISODES = type.getTotal_episodes().toString();
+        String AVERAGE_SCORE = type.getAverageScore();
+        String IMAGE_URL = type.getLargeImageUrl();
+        String TYPE = Utils.capitalize(type.getSeriesType());
+        String EPISODES = type.getTotalEpisodes().toString();
         String DURATION = type.getDuration().toString();
         List<String> genres = type.getGenres();
         genres.removeAll(Collections.singleton(""));
@@ -210,7 +215,7 @@ public class AnimeCmds {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
                 .setAuthor("Anime information for " + ANIME_TITLE, "http://anilist.co/anime/"
-                        + type.getId(), type.getImage_url_sml())
+                        + type.getId(), type.getSmallImageUrl())
                 .setFooter("Information provided by AniList", null)
                 .setThumbnail(IMAGE_URL)
                 .setDescription(ANIME_DESCRIPTION.length() <= 1024 ? ANIME_DESCRIPTION : ANIME_DESCRIPTION.substring(0, 1020) + "...")
@@ -225,10 +230,10 @@ public class AnimeCmds {
     }
 
     private void characterData(GuildMessageReceivedEvent event, CharacterData character) {
-        String JAP_NAME = character.getName_japanese() == null ? "" : "\n(" + character.getName_japanese() + ")";
-        String CHAR_NAME = character.getName_first() + " " + character.getName_last() + JAP_NAME;
-        String ALIASES = character.getName_alt() == null ? "No aliases" : "Also known as: " + character.getName_alt();
-        String IMAGE_URL = character.getImage_url_med();
+        String JAP_NAME = character.getJapaneseName() == null ? "" : "\n(" + character.getJapaneseName() + ")";
+        String CHAR_NAME = character.getFirstName() + (character.getLastName() == null ? "" : " " + character.getLastName()) + JAP_NAME;
+        String ALIASES = character.getNameAlt() == null ? "No aliases" : "Also known as: " + character.getNameAlt();
+        String IMAGE_URL = character.getMedImageUrl();
         String CHAR_DESCRIPTION = character.getInfo().isEmpty() ? "No info."
                 : character.getInfo().length() <= 1024 ? character.getInfo() : character.getInfo().substring(0, 1020 - 1) + "...";
         EmbedBuilder embed = new EmbedBuilder();

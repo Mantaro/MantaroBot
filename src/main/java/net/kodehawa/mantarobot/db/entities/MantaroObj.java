@@ -16,19 +16,20 @@
 
 package net.kodehawa.mantarobot.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import net.kodehawa.mantarobot.db.ManagedObject;
-import org.apache.commons.lang3.tuple.Pair;
+import net.kodehawa.mantarobot.utils.Pair;
 
+import javax.annotation.Nonnull;
 import java.beans.ConstructorProperties;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static com.rethinkdb.RethinkDB.r;
-import static net.kodehawa.mantarobot.data.MantaroData.conn;
 
 @Data
 public class MantaroObj implements ManagedObject {
@@ -39,8 +40,14 @@ public class MantaroObj implements ManagedObject {
     public List<String> patreonUsers = null;
     private Map<Long, Pair<String, Long>> mutes = null;
     private Map<String, Long> tempBans = null;
+
     @ConstructorProperties({"blackListedGuilds", "blackListedUsers", "patreonUsers", "tempbans", "mutes"})
-    public MantaroObj(List<String> blackListedGuilds, List<String> blackListedUsers, List<String> patreonUsers, Map<String, Long> tempBans, Map<Long, Pair<String, Long>> mutes) {
+    @JsonCreator
+    public MantaroObj(@JsonProperty("blackListedGuilds") List<String> blackListedGuilds,
+                      @JsonProperty("blackListedUsers") List<String> blackListedUsers,
+                      @JsonProperty("patreonUsers") List<String> patreonUsers,
+                      @JsonProperty("tempBans") Map<String, Long> tempBans,
+                      @JsonProperty("mutes") Map<Long, Pair<String, Long>> mutes) {
         this.blackListedGuilds = blackListedGuilds;
         this.blackListedUsers = blackListedUsers;
         this.patreonUsers = patreonUsers;
@@ -52,15 +59,10 @@ public class MantaroObj implements ManagedObject {
         return new MantaroObj(new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new HashMap<>(), new ConcurrentHashMap<>());
     }
 
+    @JsonIgnore
     @Override
-    public void delete() {
-        r.table(DB_TABLE).get(getId()).delete().runNoReply(conn());
-    }
-
-    @Override
-    public void save() {
-        r.table(DB_TABLE).insert(this)
-                .optArg("conflict", "replace")
-                .runNoReply(conn());
+    @Nonnull
+    public String getTableName() {
+        return DB_TABLE;
     }
 }

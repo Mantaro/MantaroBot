@@ -24,6 +24,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.currency.item.Item;
+import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
@@ -38,9 +40,13 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
+import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Module
@@ -60,13 +66,12 @@ public class FunCmds {
                         times = Integer.parseInt(args[0]);
                         if(times > 1000) {
                             event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "Whoa there! The limit is 1,000 coinflips").queue();
+                                    EmoteReference.ERROR + "Whoa there! The limit is 1,000 coin flips").queue();
                             return;
                         }
                     } catch(NumberFormatException nfe) {
                         event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "You need to specify an Integer for the amount of " +
-                                        "repetitions").queue();
+                                EmoteReference.ERROR + "You need to specify an Integer for the amount of repetitions").queue();
                         return;
                     }
                 }
@@ -74,13 +79,12 @@ public class FunCmds {
                 final int[] heads = {0};
                 final int[] tails = {0};
                 doTimes(times, () -> {
-                    if(new Random().nextBoolean()) heads[0]++;
+                    if(r.nextBoolean()) heads[0]++;
                     else tails[0]++;
                 });
                 String flips = times == 1 ? "time" : "times";
                 event.getChannel().sendMessage(
-                        EmoteReference.PENNY + " Your result from **" + times + "** " + flips + " yielded " +
-                                "**" + heads[0] + "** heads and **" + tails[0] + "** tails").queue();
+                        String.format("%s Your result from **%d** %s yielded **%d** heads and **%d** tails", EmoteReference.PENNY, times, flips, heads[0], tails[0])).queue();
             }
 
             @Override
@@ -95,85 +99,102 @@ public class FunCmds {
 
     @Subscribe
     public void marry(CommandRegistry cr) {
-        ITreeCommand marry = (ITreeCommand) cr.register("marry", new TreeCommand(Category.FUN) {
+        cr.register("marry", new SimpleCommand(Category.FUN) {
             @Override
-            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
-                return new SubCommand() {
-                    @Override
-                    protected void call(GuildMessageReceivedEvent event, String content) {
-                        if(event.getMessage().getMentionedUsers().isEmpty()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.")
-                                    .queue();
-                            return;
-                        }
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(event.getMessage().getMentionedUsers().isEmpty()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Mention the user you want to marry.")
+                            .queue();
+                    return;
+                }
 
-                        User member = event.getAuthor();
-                        User user = event.getMessage().getMentionedUsers().get(0);
-                        Player player = MantaroData.db().getPlayer(event.getAuthor());
-                        Player player1 = MantaroData.db().getPlayer(user);
-                        User user1 = player.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(player.getData().getMarriedWith());
+                User proposing = event.getAuthor();
+                User proposedTo = event.getMessage().getMentionedUsers().get(0);
+                Player proposingPlayer = MantaroData.db().getPlayer(proposing);
+                Player proposedPlayer = MantaroData.db().getPlayer(proposedTo);
+                User proposingMarriedWith = proposingPlayer.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(proposingPlayer.getData().getMarriedWith());
 
-                        if(user.getId().equals(event.getAuthor().getId())) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
-                            return;
-                        }
+                Inventory playerInventory = proposingPlayer.getInventory();
 
-                        if(user.isBot()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry a bot.").queue();
-                            return;
-                        }
+                if(proposedTo.getId().equals(event.getAuthor().getId())) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry yourself, as much as you may want to.").queue();
+                    return;
+                }
 
-                        if(user1 != null && user1.getId().equals(user.getId())) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
-                            return;
-                        }
+                if(proposedTo.isBot()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry a bot.").queue();
+                    return;
+                }
 
-                        if(user1 != null) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
-                            return;
-                        }
+                if(proposingMarriedWith != null && proposingMarriedWith.getId().equals(proposedTo.getId())) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You're married with them already, aww.").queue();
+                    return;
+                }
 
-                        if(player1.getData().isMarried()) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
-                            return;
-                        }
+                if(proposingMarriedWith != null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You're married already.").queue();
+                    return;
+                }
 
+                if(proposedPlayer.getData().isMarried()) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "That user is married already.").queue();
+                    return;
+                }
 
-                        if(InteractiveOperations.create(
-                                event.getChannel(), 120,
-                                (e) -> {
-                                    if(!e.getAuthor().getId().equals(user.getId())) return Operation.IGNORED;
+                if(!playerInventory.containsItem(Items.RING) || playerInventory.getAmount(Items.RING) < 2) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot propose without two marriage rings! You can buy them by doing `~>market buy 2 ring` and then try proposing again <3").queue();
+                    return;
+                }
 
-                                    if(e.getMessage().getContent().equalsIgnoreCase("yes")) {
-                                        Player user11 = MantaroData.db().getPlayer(e.getMember());
-                                        Player marry = MantaroData.db().getPlayer(e.getGuild().getMember(member));
-                                        user11.getData().setMarriedWith(member.getId());
-                                        marry.getData().setMarriedWith(e.getAuthor().getId());
-                                        e.getChannel().sendMessage(EmoteReference.POPPER + e.getMember()
-                                                .getEffectiveName() + " accepted the proposal of " + member.getName() + "!").queue();
-                                        user11.save();
-                                        marry.save();
-                                        return Operation.COMPLETED;
-                                    }
+                if(InteractiveOperations.create(
+                        event.getChannel(), 120,
+                        (ie) -> {
+                            if(!ie.getAuthor().getId().equals(proposedTo.getId()))
+                                return Operation.IGNORED;
 
-                                    if(e.getMessage().getContent().equalsIgnoreCase("no")) {
-                                        e.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal.").queue();
-                                        return Operation.COMPLETED;
-                                    }
+                            if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
+                                Player proposed = MantaroData.db().getPlayer(proposedTo);
+                                Player author = MantaroData.db().getPlayer(proposing);
+                                Inventory authorInventory = author.getInventory();
 
-                                    return Operation.IGNORED;
+                                if(authorInventory.getAmount(Items.RING) < 2) {
+                                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot marry with less than two rings on your inventory!").queue();
+                                    return Operation.COMPLETED;
                                 }
-                        ) != null) {
-                            TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
-                            event.getChannel().sendMessage(EmoteReference.MEGA + user
-                                    .getName() + ", respond with **yes** or **no** to the marriage proposal from " + event
-                                    .getAuthor().getName() + ".").queue();
 
-                        } else {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
+                                proposed.getData().setMarriedWith(proposing.getId());
+                                author.getData().setMarriedWith(proposedTo.getId());
+
+                                Inventory proposedInventory = proposed.getInventory();
+
+                                authorInventory.process(new ItemStack(Items.RING, -1));
+
+                                if(proposedInventory.getAmount(Items.RING) < 5000) {
+                                    proposedInventory.process(new ItemStack(Items.RING, 1));
+                                }
+
+                                ie.getChannel().sendMessage(String.format("%s%s accepted the proposal of %s!", EmoteReference.POPPER, ie.getAuthor().getName(), proposing.getName())).queue();
+                                proposed.saveAsync();
+                                author.saveAsync();
+
+                                TextChannelGround.of(event).dropItemWithChance(Items.LOVE_LETTER, 2);
+                                return Operation.COMPLETED;
+                            }
+
+                            if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
+                                ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            return Operation.IGNORED;
                         }
-                    }
-                };
+                ) != null) {
+                    event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
+                            .getName(), event.getAuthor().getName())).queue();
+
+                } else {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
+                }
             }
 
             @Override
@@ -188,13 +209,6 @@ public class FunCmds {
                         .build();
             }
         });
-
-        marry.addSubCommand("divorce", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.THINKING + "Please use `~>divorce` from now on.").queue();
-            }
-        });
     }
 
     @Subscribe
@@ -202,37 +216,37 @@ public class FunCmds {
         cr.register("divorce", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Player user = MantaroData.db().getPlayer(event.getMember());
+                Player divorcee = MantaroData.db().getPlayer(event.getMember());
 
-                if(user.getData().getMarriedWith() == null) {
+                if(divorcee.getData().getMarriedWith() == null) {
                     event.getChannel().sendMessage(
                             EmoteReference.ERROR + "You aren't married with anyone, why don't you find that special someone?")
                             .queue();
                     return;
                 }
 
-                User user1 = user.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(user.getData().getMarriedWith());
+                User userMarriedWith = divorcee.getData().getMarriedWith() == null ? null : MantaroBot.getInstance().getUserById(divorcee.getData().getMarriedWith());
 
-                if(user1 == null) {
-                    user.getData().setMarriedWith(null);
-                    user.getData().setMarriedSince(0L);
-                    user.saveAsync();
+                if(userMarriedWith == null) {
+                    divorcee.getData().setMarriedWith(null);
+                    divorcee.getData().setMarriedSince(0L);
+                    divorcee.saveAsync();
                     event.getChannel().sendMessage(
                             EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
                     return;
                 }
 
-                Player marriedWith = MantaroData.db().getPlayer(user1);
+                Player marriedWith = MantaroData.db().getPlayer(userMarriedWith);
 
                 marriedWith.getData().setMarriedWith(null);
                 marriedWith.getData().setMarriedSince(0L);
                 marriedWith.saveAsync();
 
-                user.getData().setMarriedWith(null);
-                user.getData().setMarriedSince(0L);
-                user.saveAsync();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.")
-                        .queue();
+                divorcee.getData().setMarriedWith(null);
+                divorcee.getData().setMarriedSince(0L);
+                divorcee.saveAsync();
+
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Now you're single. That's nice I guess.").queue();
             }
 
             @Override
@@ -258,8 +272,7 @@ public class FunCmds {
                 int waifuRate = r.nextInt(100);
                 if(content.equalsIgnoreCase("mantaro")) waifuRate = 100;
 
-                event.getChannel().sendMessage(
-                        EmoteReference.THINKING + "I rate " + content + " with a **" + waifuRate + "/100**").queue();
+                event.getChannel().sendMessage(String.format("%sI rate %s with a **%d/100**", EmoteReference.THINKING, content, waifuRate)).queue();
             }
 
             @Override
@@ -275,9 +288,13 @@ public class FunCmds {
 
     @Subscribe
     public void roll(CommandRegistry registry) {
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 10);
+
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
 
                 int size = 6, amount = 1;
@@ -303,8 +320,7 @@ public class FunCmds {
 
                 if(amount >= 100) amount = 100;
                 event.getChannel().sendMessage(
-                        EmoteReference.DICE + "You got **" + diceRoll(size, amount) + "**" +
-                                (amount == 1 ? "!" : (", doing **" + amount + "** rolls."))
+                        String.format("%sYou got **%d**%s", EmoteReference.DICE, diceRoll(size, amount), amount == 1 ? "!" : (", doing **" + amount + "** rolls."))
                 ).queue();
 
                 TextChannelGround.of(event.getChannel()).dropItemWithChance(Items.LOADED_DICE, 5);
@@ -342,8 +358,8 @@ public class FunCmds {
                 String ids = mentioned.get(0).getId() + ";" + event.getAuthor().getId();
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
-                listDisplay.add("\uD83D\uDC97  " + mentioned.get(0).getName() + "#" + mentioned.get(0).getDiscriminator());
-                listDisplay.add("\uD83D\uDC97  " + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator());
+                listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
+                listDisplay.add(String.format("\uD83D\uDC97  %s#%s", event.getAuthor().getName(), event.getAuthor().getDiscriminator()));
                 toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
 
                 if(mentioned.size() == 2) {

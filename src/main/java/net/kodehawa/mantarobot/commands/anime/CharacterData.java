@@ -16,26 +16,28 @@
 
 package net.kodehawa.mantarobot.commands.anime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
+
 public class CharacterData {
-    public Boolean favourite = null;
-    public Integer id = null;
-    public String image_url_lge = null;
-    public String image_url_med = null;
-    public String info = null;
-    public String name_alt = null;
-    public String name_first = null;
-    public String name_japanese = null;
-    public String name_last = null;
+    private Integer id = null;
+    private String image_url_lge = null;
+    private String image_url_med = null;
+    private String info = null;
+    private String name_alt = null;
+    private String name_first = null;
+    private String name_japanese = null;
+    private String name_last = null;
 
     public Integer getId() {
         return id;
     }
 
-    public String getImage_url_lge() {
+    public String getLargeImageUrl() {
         return image_url_lge;
     }
 
-    public String getImage_url_med() {
+    public String getMedImageUrl() {
         return image_url_med;
     }
 
@@ -43,19 +45,29 @@ public class CharacterData {
         return info;
     }
 
-    public String getName_alt() {
+    public String getNameAlt() {
         return name_alt;
     }
 
-    public String getName_first() {
+    public String getFirstName() {
         return name_first;
     }
 
-    public String getName_japanese() {
+    public String getJapaneseName() {
         return name_japanese;
     }
 
-    public String getName_last() {
+    public String getLastName() {
         return name_last;
+    }
+
+    @JsonIgnore
+    public static CharacterData[] fromJson(String json) {
+        return GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
+    }
+
+    @JsonIgnore
+    public static CharacterData fromJsonFirst(String json) {
+        return fromJson(json)[0];
     }
 }

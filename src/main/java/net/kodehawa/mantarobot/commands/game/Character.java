@@ -31,7 +31,6 @@ import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperati
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 
 import java.net.URLEncoder;
@@ -61,6 +60,9 @@ public class Character extends ImageGame {
 
             @Override
             public void onExpire() {
+                if(lobby.getChannel() == null)
+                    return;
+
                 lobby.getChannel().sendMessage(EmoteReference.ERROR + "The time ran out! Correct answer was " + String.join(" ,", characterNameL)).queue();
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
@@ -81,8 +83,8 @@ public class Character extends ImageGame {
             String url = String.format("https://anilist.co/api/character/search/%1s?access_token=%2s", URLEncoder.encode(characterName, "UTF-8"),
                     authToken);
             String json = Utils.wget(url, null);
-            CharacterData[] character = GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
-            String imageUrl = character[0].getImage_url_med();
+            CharacterData character = CharacterData.fromJsonFirst(json);
+            String imageUrl = character.getMedImageUrl();
             //Allow for replying with only the first name.
             if(characterName.contains(" ") && !characterName.contains("Sailor")) {
                 characterNameL.add(characterName.split(" ")[0]);
