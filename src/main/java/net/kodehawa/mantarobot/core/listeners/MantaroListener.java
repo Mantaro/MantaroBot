@@ -542,7 +542,9 @@ public class MantaroListener implements EventListener {
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())).queue();
+                if(tc.canTalk()) {
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())).queue();
+                }
                 logTotal++;
             }
 
@@ -568,7 +570,10 @@ public class MantaroListener implements EventListener {
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if (logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+                if(tc.canTalk()) {
+                    tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+                }
+
                 logTotal++;
             }
 
@@ -614,7 +619,9 @@ public class MantaroListener implements EventListener {
                 }
             }
 
-            tc.sendMessage(message).queue();
+            if(tc.canTalk()) {
+                tc.sendMessage(message).queue();
+            }
         }
     }
 }
