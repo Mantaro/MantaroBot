@@ -28,6 +28,16 @@ public class InterpreterEvaluator implements Evaluator {
         this.interpreter = interpreter;
     }
 
+    public InterpreterEvaluator declare(String variable, Obj obj) {
+        scope.declare(variable, obj);
+        return this;
+    }
+
+    public InterpreterEvaluator assign(String variable, Obj obj) {
+        scope.assign(variable, obj);
+        return this;
+    }
+
     @Override
     public Object run(String string, PrintWriter out) throws ExecutionException {
         Obj result;

@@ -26,11 +26,12 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
+import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.InterpreterEvaluator;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.KaiperScriptExecutor;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.internal.LimitReachedException;
+import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeGuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
-import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CustomCommandStatsManager;
@@ -55,6 +56,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
 import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
+import xyz.avarel.kaiper.runtime.java.JavaObject;
 
 import java.net.URL;
 import java.util.*;
@@ -644,11 +646,13 @@ public class CustomCmds {
 
             GlobalVisitorSettings.ITERATION_LIMIT = 200;
             GlobalVisitorSettings.SIZE_LIMIT = 100;
-            GlobalVisitorSettings.MILLISECONDS_LIMIT = 1500;
+            GlobalVisitorSettings.MILLISECONDS_LIMIT = 300;
             GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
 
             try {
-                response = new KaiperScriptExecutor(response).execute(new InterpreterEvaluator());
+                response = new KaiperScriptExecutor(response).execute(
+                    new InterpreterEvaluator().declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
+                );
             } catch (LimitReachedException e) {
                 event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
                 return;
