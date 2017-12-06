@@ -15,7 +15,7 @@ class SafeUser extends SafeISnowflake<User> {
         return snowflake.getDiscriminator();
     }
 
-    public String getAvatarUrl() {
+    public String getAvatar() {
         return snowflake.getEffectiveAvatarUrl();
     }
 
@@ -23,7 +23,7 @@ class SafeUser extends SafeISnowflake<User> {
         return snowflake.isBot();
     }
 
-    public String getAsMention() {
+    public String getMention() {
         return snowflake.getAsMention();
     }
 }

@@ -11,11 +11,11 @@ class SafeMessage extends SafeISnowflake<Message> {
         return snowflake.getContent();
     }
 
-    public String getRawContent() {
+    public String getRaw() {
         return snowflake.getRawContent();
     }
 
-    public String getStrippedContent() {
+    public String getStripped() {
         return snowflake.getStrippedContent();
     }
 }

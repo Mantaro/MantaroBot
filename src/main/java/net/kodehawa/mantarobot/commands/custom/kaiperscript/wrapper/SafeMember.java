@@ -9,10 +9,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class SafeMember {
+class SafeMember extends SafeUser {
     private final Member member;
 
     SafeMember(Member member) {
+        super(member.getUser());
         this.member = member;
     }
 
