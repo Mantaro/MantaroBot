@@ -59,7 +59,7 @@ public class CommandListener implements EventListener {
     //Message cache of 35000 cached messages. If it reaches 35000 it will delete the first one stored, and continue being 35000
     @Getter
     private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
-    private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 45);
+    private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 30);
     //Commands ran this session.
     private static int commandTotal = 0;
     private final ICommandProcessor commandProcessor;
@@ -128,7 +128,7 @@ public class CommandListener implements EventListener {
             } else {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
-                    if (random.nextInt(15) > 6 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
+                    if (random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
                         if (event.getMember() == null)
                             return;
 
@@ -140,7 +140,7 @@ public class CommandListener implements EventListener {
                         if (player.getLevel() == 0)
                             player.setLevel(1);
 
-                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(6)));
+                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(8)));
 
                         if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
