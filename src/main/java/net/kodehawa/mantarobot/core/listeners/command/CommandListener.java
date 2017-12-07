@@ -122,8 +122,7 @@ public class CommandListener implements EventListener {
             Member self = event.getGuild().getSelfMember();
             if(!self.getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR))
                 return;
-            if(event.getAuthor().isBot())
-                return;
+
             if(CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event)) {
                 commandTotal++;
             } else {

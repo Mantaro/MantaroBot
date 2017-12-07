@@ -126,28 +126,32 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        //Log intensifies
-        if(event instanceof GuildMessageUpdateEvent) {
-            shard.getThreadPool().execute(() -> logEdit((GuildMessageUpdateEvent) event));
-            return;
-        }
-
-        if(event instanceof GuildMessageDeleteEvent) {
-            shard.getThreadPool().execute(() -> logDelete((GuildMessageDeleteEvent) event));
-            return;
-        }
-
         if(event instanceof GuildMemberJoinEvent) {
-            shard.getThreadPool().execute(() -> {
-                onUserJoin((GuildMemberJoinEvent) event);
-                handleNewPatron((GuildMemberJoinEvent) event);
-            });
-            
+            shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
+            handleNewPatron((GuildMemberJoinEvent) event);
+
             return;
+        }
+
+        if(event instanceof GuildMemberRoleAddEvent) {
+            //It only runs on the thread pool if needed.
+            handleNewPatron((GuildMemberRoleAddEvent) event);
         }
 
         if(event instanceof GuildMemberLeaveEvent) {
             shard.getThreadPool().execute(() -> onUserLeave((GuildMemberLeaveEvent) event));
+            return;
+        }
+
+        //Log intensifies
+        //Doesn't run on the thread pool as there's no need for it.
+        if(event instanceof GuildMessageUpdateEvent) {
+            logEdit((GuildMessageUpdateEvent) event);
+            return;
+        }
+
+        if(event instanceof GuildMessageDeleteEvent) {
+            logDelete((GuildMessageDeleteEvent) event);
             return;
         }
 
@@ -160,7 +164,6 @@ public class MantaroListener implements EventListener {
             logBan((GuildBanEvent) event);
             return;
         }
-
 
         //Internal events
         if(event instanceof GuildJoinEvent) {
@@ -226,10 +229,6 @@ public class MantaroListener implements EventListener {
                     .withDate(new Date()).build());
             return;
         }
-
-        if(event instanceof GuildMemberRoleAddEvent){
-            shard.getThreadPool().execute(() -> handleNewPatron((GuildMemberRoleAddEvent) event));
-        }
     }
 
     /**
@@ -243,36 +242,38 @@ public class MantaroListener implements EventListener {
     private void handleNewPatron(GenericGuildMemberEvent event){
         //Only in mantaro's guild...
         if(event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
-            User user = event.getUser();
-            //who...
-            DBUser dbUser = db.getUser(user);
-            if(event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
-                //Thanks lombok for the meme names
-                if (!dbUser.getData().isHasReceivedFirstKey()) {
-                    //Attempt to open a PM and send a key!
-                    user.openPrivateChannel().queue(channel -> {
-                        //Sellout message :^)
-                        channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
-                            message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
-                                    "If any doubts, please contact Kodehawa#3457.\n" +
-                                    "Instructions: **Apply this key to yourself!**. " +
-                                    "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
-                                    "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
-                                    "To apply this key, run the following command in any channel `~>activatekey " +
-                                    PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
-                                    "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
-                                        dbUser.getData().setHasReceivedFirstKey(true);
-                                        dbUser.saveAsync();
-                                    }
-                            );
+            shard.getThreadPool().execute(() -> {
+                User user = event.getUser();
+                //who...
+                DBUser dbUser = db.getUser(user);
+                if(event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
+                    //Thanks lombok for the meme names
+                    if (!dbUser.getData().isHasReceivedFirstKey()) {
+                        //Attempt to open a PM and send a key!
+                        user.openPrivateChannel().queue(channel -> {
+                            //Sellout message :^)
+                            channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
+                                message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
+                                        "If any doubts, please contact Kodehawa#3457.\n" +
+                                        "Instructions: **Apply this key to yourself!**. " +
+                                        "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
+                                        "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
+                                        "To apply this key, run the following command in any channel `~>activatekey " +
+                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
+                                        "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
+                                            dbUser.getData().setHasReceivedFirstKey(true);
+                                            dbUser.saveAsync();
+                                        }
+                                );
 
-                            MantaroBot.getInstance().getStatsClient().increment("new_patrons");
-                            //Celebrate internally! \ o /
-                            LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
-                        });
-                    }, failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+                                MantaroBot.getInstance().getStatsClient().increment("new_patrons");
+                                //Celebrate internally! \ o /
+                                LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
+                            });
+                        }, failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+                    }
                 }
-            }
+            });
         }
     }
 
@@ -298,7 +299,6 @@ public class MantaroListener implements EventListener {
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 CachedMessage deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
-
 
                 if(deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                     if(MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
