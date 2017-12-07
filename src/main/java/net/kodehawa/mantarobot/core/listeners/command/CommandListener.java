@@ -129,7 +129,7 @@ public class CommandListener implements EventListener {
             } else {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
-                    if (random.nextInt(15) > 8 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
+                    if (random.nextInt(15) > 6 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
                         if (event.getMember() == null)
                             return;
 
