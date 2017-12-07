@@ -138,8 +138,11 @@ public class MantaroListener implements EventListener {
         }
 
         if(event instanceof GuildMemberJoinEvent) {
-            shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
-            shard.getThreadPool().execute(() -> handleNewPatron((GuildMemberJoinEvent) event));
+            shard.getThreadPool().execute(() -> {
+                onUserJoin((GuildMemberJoinEvent) event);
+                handleNewPatron((GuildMemberJoinEvent) event);
+            });
+            
             return;
         }
 
