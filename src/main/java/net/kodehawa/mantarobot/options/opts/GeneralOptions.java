@@ -107,26 +107,6 @@ public class GeneralOptions extends OptionHandler {
             dbGuild.save();
         });
 
-        registerOption("slowmode:toggle", "Slow mode toggle", "Toggles slow mode (1 message/3s)", event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean toggler = guildData.isSlowMode();
-
-            guildData.setSlowMode(!toggler);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set slowmode chat to " + "`" + !toggler + "`").queue();
-            dbGuild.save();
-        });
-
-        registerOption("antispam:toggle", "Link-protection toggle", "Toggles anti-spam (3 messages/3s)", event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean toggler = guildData.isAntiSpam();
-
-            guildData.setAntiSpam(!toggler);
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set anti-spam chat mode to " + "`" + !toggler + "`").queue();
-            dbGuild.save();
-        });
-
         registerOption("linkprotection:channel:allow", "Link-protection channel allow",
                 "Allows the posting of invites on a channel.\n" +
                         "You need the channel name.\n" +

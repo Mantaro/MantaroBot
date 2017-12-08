@@ -56,7 +56,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.text.DateFormat;
@@ -67,7 +66,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -97,8 +95,6 @@ public class MantaroListener implements EventListener {
     private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
     private final MantaroShard shard;
     private final int shardId;
-    private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
-    private final RateLimiter spamModeLimiter = new RateLimiter(TimeUnit.SECONDS, 2, 3);
     private final ManagedDatabase db = MantaroData.db();
 
     public MantaroListener(int shardId, MantaroShard shard) {
@@ -295,7 +291,6 @@ public class MantaroListener implements EventListener {
             String hour = df.format(new Date(System.currentTimeMillis()));
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 
-
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 CachedMessage deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
@@ -470,44 +465,15 @@ public class MantaroListener implements EventListener {
                 }
             }
         }
-
-        //Slow mode
-        if(guildData.isSlowMode()) {
-            if(!slowModeLimiter.process(event.getGuild().getId() + ":" + event.getAuthor().getId())) {
-                Member bot = event.getGuild().getSelfMember();
-                if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
-                        && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(event.getChannel(), Permission.MANAGE_SERVER)) {
-                    event.getMessage().delete().queue();
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
-                    guildData.setSlowMode(false);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions** :<").queue();
-                }
-            }
-        }
-
-        //Anti-spam. Allows 2 messages every 3 seconds.
-        if(guildData.isAntiSpam()) {
-            if(!spamModeLimiter.process(event.getGuild().getId() + ":" + event.getAuthor().getId())) {
-                Member bot = event.getGuild().getSelfMember();
-                if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
-                        && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(event.getChannel(), Permission.MANAGE_SERVER)) {
-                    event.getMessage().delete().queue();
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage anti-spam mode because I don't have permission to delete messages!").queue();
-                    guildData.setAntiSpam(false);
-                    dbGuild.saveAsync();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions** :<").queue();
-                }
-            }
-        }
     }
 
     private static boolean hasInvite(JDA jda, Guild guild, String message) {
-        if(THIRD_PARTY_INVITE.matcher(message).find()) return true;
+        if(THIRD_PARTY_INVITE.matcher(message).find())
+            return true;
         Matcher m = DISCORD_INVITE_2.matcher(message);
-        if(!m.find()) return false;
+        if(!m.find())
+            return false;
+
         String invite = m.group(0);
         String code = invite.substring(invite.lastIndexOf('/')+1).trim();
         try {
