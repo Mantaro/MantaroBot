@@ -122,7 +122,7 @@ public class MantaroListener implements EventListener {
         if(event instanceof GuildMessageReceivedEvent) {
             MantaroBot.getInstance().getStatsClient().increment("messages_received");
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-            shard.getThreadPool().execute(() -> onMessage(e));
+            onMessage(e);
             return;
         }
 
@@ -447,7 +447,6 @@ public class MantaroListener implements EventListener {
             if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
                     && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getRawContent())) {
                 Member bot = event.getGuild().getSelfMember();
-
                 MantaroBot.getInstance().getStatsClient().increment("links_blocked");
                 if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
                     User author = event.getAuthor();
@@ -482,8 +481,8 @@ public class MantaroListener implements EventListener {
                 } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
                     guildData.setSlowMode(false);
-                    dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions :<**").queue();
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions** :<").queue();
                 }
             }
         }
@@ -498,8 +497,8 @@ public class MantaroListener implements EventListener {
                 } else {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage anti-spam mode because I don't have permission to delete messages!").queue();
                     guildData.setAntiSpam(false);
-                    dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions :<**").queue();
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions** :<").queue();
                 }
             }
         }
