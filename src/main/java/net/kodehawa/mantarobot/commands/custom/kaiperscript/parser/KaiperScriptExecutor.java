@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.function.UnaryOperator;
 
 public class KaiperScriptExecutor {
     private final List<Token> tokens;
@@ -21,6 +22,24 @@ public class KaiperScriptExecutor {
 
     public KaiperScriptExecutor(List<Token> tokens) {
         this.tokens = tokens;
+    }
+
+    public KaiperScriptExecutor mapTextTokens(UnaryOperator<String> function) {
+        tokens.replaceAll(token -> {
+            switch (token.getType()) {
+                case TEXT: {
+                    return new Token(
+                        token.getPosition(),
+                        token.getType(),
+                        function.apply(token.getString()));
+                }
+                default: {
+                    return token;
+                }
+            }
+        });
+
+        return this;
     }
 
     public String execute(Evaluator evaluator) {
