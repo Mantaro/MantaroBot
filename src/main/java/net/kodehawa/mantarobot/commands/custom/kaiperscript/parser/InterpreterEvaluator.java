@@ -10,6 +10,7 @@ import xyz.avarel.kaiper.interpreter.ExprInterpreter;
 import xyz.avarel.kaiper.lexer.KaiperLexer;
 import xyz.avarel.kaiper.parser.KaiperParser;
 import xyz.avarel.kaiper.runtime.Obj;
+import xyz.avarel.kaiper.scope.DefaultScope;
 import xyz.avarel.kaiper.scope.Scope;
 
 import java.io.PrintWriter;
@@ -20,7 +21,7 @@ public class InterpreterEvaluator implements Evaluator {
     private final Scope scope;
 
     public InterpreterEvaluator() {
-        this(new ExprInterpreter(), new Scope());
+        this(new ExprInterpreter(), DefaultScope.INSTANCE.copy());
     }
 
     public InterpreterEvaluator(ExprInterpreter interpreter, Scope scope) {

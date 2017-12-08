@@ -56,6 +56,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
 import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
+import xyz.avarel.kaiper.runtime.Str;
 import xyz.avarel.kaiper.runtime.java.JavaObject;
 
 import java.net.URL;
@@ -86,13 +87,13 @@ public class CustomCmds {
             return null;
         }
 
-        private void handle(String cmdName, GuildMessageReceivedEvent event) {
+        private void handle(String cmdName, GuildMessageReceivedEvent event, String args) {
             List<String> values = customCommands.get(event.getGuild().getId() + ":" + cmdName);
             if(values == null) return;
 
             String response = random(values);
             try {
-                runCustom(response.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), event);
+                runCustom(event, response.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), args);
                 CustomCommandStatsManager.log(cmdName);
             } catch (Exception e) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
@@ -100,9 +101,9 @@ public class CustomCmds {
         }
 
         @Override
-        public void run(GuildMessageReceivedEvent event, String cmdName, String ignored) {
+        public void run(GuildMessageReceivedEvent event, String cmdName, String args) {
             try {
-                handle(cmdName, event);
+                handle(cmdName, event, args);
             } catch(Exception e) {
                 log.error("An exception occurred while processing a custom command:", e);
             }
@@ -306,7 +307,7 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        runCustom(content.replace("eval ", ""), event);
+                        runCustom(event, cmd, "");
                     } catch (Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There was an error while evaluating your command!" +
                                 (e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
@@ -630,7 +631,7 @@ public class CustomCmds {
         }));
     }
 
-    private void runCustom(String response, GuildMessageReceivedEvent event) {
+    private void runCustom(GuildMessageReceivedEvent event, String response, String args) {
         if(response.contains("$(")) {
             Map<String, String> dynamicMap = new HashMap<>();
             map("event", dynamicMap, event);
@@ -651,7 +652,9 @@ public class CustomCmds {
 
             try {
                 response = new KaiperScriptExecutor(response).execute(
-                    new InterpreterEvaluator().declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
+                    new InterpreterEvaluator()
+                        .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
+                        .declare("args", Str.of(args))
                 );
             } catch (LimitReachedException e) {
                 event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
