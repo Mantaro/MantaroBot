@@ -26,15 +26,9 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.InterpreterEvaluator;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.KaiperScriptExecutor;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.internal.LimitReachedException;
-import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeGuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
+import net.kodehawa.mantarobot.commands.custom.CustomCommandHandler;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CategoryStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
-import net.kodehawa.mantarobot.commands.info.stats.manager.CustomCommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.MantaroCore;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
@@ -53,13 +47,8 @@ import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.StringUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.apache.commons.lang3.tuple.Pair;
-import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
-import xyz.avarel.kaiper.runtime.Str;
-import xyz.avarel.kaiper.runtime.java.JavaObject;
 
-import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -67,8 +56,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
-import static net.kodehawa.mantarobot.commands.custom.legacy.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.legacy.Mapifier.map;
 import static net.kodehawa.mantarobot.commands.info.HelpUtils.forType;
 import static net.kodehawa.mantarobot.data.MantaroData.db;
 import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
@@ -91,10 +78,9 @@ public class CustomCmds {
             List<String> values = customCommands.get(event.getGuild().getId() + ":" + cmdName);
             if(values == null) return;
 
-            String response = random(values);
+            String response = random(values).replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere");
             try {
-                runCustom(event, response.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), args);
-                CustomCommandStatsManager.log(cmdName);
+                new CustomCommandHandler(event, response, args).handle();
             } catch (Exception e) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
             }
@@ -307,7 +293,7 @@ public class CustomCmds {
 
                 if(action.equals("eval")) {
                     try {
-                        runCustom(event, cmd, "");
+                        new CustomCommandHandler(event, cmd).handle();
                     } catch (Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There was an error while evaluating your command!" +
                                 (e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
@@ -629,104 +615,5 @@ public class CustomCmds {
 
             customCommands.put(custom.getId(), custom.getValues());
         }));
-    }
-
-    private void runCustom(GuildMessageReceivedEvent event, String response, String args) {
-        if(response.contains("$(")) {
-            Map<String, String> dynamicMap = new HashMap<>();
-            map("event", dynamicMap, event);
-            response = dynamicResolve(response, dynamicMap);
-        }
-
-        response = ConditionalCustoms.resolve(response, 0);
-
-        if (response.contains("<$")) {
-            //FIXME on NEXT KAIPER UPDATE:
-            //GlobalVisitorSettings will be replaced by VisitorSettings instance
-            //LimitReachedException will be replaced by VisitorException
-
-            GlobalVisitorSettings.ITERATION_LIMIT = 200;
-            GlobalVisitorSettings.SIZE_LIMIT = 100;
-            GlobalVisitorSettings.MILLISECONDS_LIMIT = 300;
-            GlobalVisitorSettings.RECURSION_DEPTH_LIMIT = 100;
-
-            try {
-                response = new KaiperScriptExecutor(response).execute(
-                    new InterpreterEvaluator()
-                        .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
-                        .declare("args", Str.of(args))
-                );
-            } catch (LimitReachedException e) {
-                event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
-                return;
-            }
-        }
-
-        int c = response.indexOf(':');
-        if(c != -1) {
-            String m = response.substring(0, c);
-            String v = response.substring(c + 1);
-
-            if(m.equals("play")) {
-                try {
-                    new URL(v);
-                } catch(Exception e) {
-                    v = "ytsearch: " + v;
-                }
-
-                MantaroBot.getInstance().getAudioManager().loadAndPlay(event, v, false, false);
-                return;
-            }
-
-            if(m.equals("embed")) {
-                EmbedJSON embed;
-                try {
-                    embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
-                    event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
-                } catch (IllegalArgumentException invalid) {
-                    if(invalid.getMessage().contains("URL must be a valid http or https url")) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
-                    } else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR2 +
-                                "The string ``{" + v + "}`` isn't valid, or the output is longer than 2000 characters.").queue();
-                    }
-
-                    return;
-                } catch(Exception invalid2) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "The string ``{" + v + "}`` isn't a valid JSON.").queue();
-                    return;
-                }
-
-                return;
-            }
-
-            if(m.equals("img") || m.equals("image") || m.equals("imgembed")) {
-                try {
-                    if(!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
-                        return;
-                    }
-                    event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setColor(event.getMember().getColor()).build()).queue();
-
-                } catch (IllegalArgumentException invalid) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
-                }
-
-                return;
-            }
-
-            if(m.equals("iam")) {
-                MiscCmds.iamFunction(v, event);
-                return;
-            }
-
-            if(m.equals("iamnot")) {
-                MiscCmds.iamnotFunction(v, event);
-                return;
-            }
-        }
-
-        event.getChannel().sendMessage(response).queue();
     }
 }

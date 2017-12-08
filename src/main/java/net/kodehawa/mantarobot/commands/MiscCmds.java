@@ -54,7 +54,7 @@ public class MiscCmds {
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final Random rand = new Random();
 
-    protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
         Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
@@ -79,7 +79,7 @@ public class MiscCmds {
             event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
     }
 
-    protected static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
         Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
