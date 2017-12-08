@@ -129,11 +129,6 @@ public class MantaroListener implements EventListener {
             return;
         }
 
-        if(event instanceof GuildMemberRoleAddEvent) {
-            //It only runs on the thread pool if needed.
-            handleNewPatron((GuildMemberRoleAddEvent) event);
-        }
-
         if(event instanceof GuildMemberLeaveEvent) {
             shard.getThreadPool().execute(() -> onUserLeave((GuildMemberLeaveEvent) event));
             return;
@@ -141,6 +136,11 @@ public class MantaroListener implements EventListener {
 
         //Log intensifies
         //Doesn't run on the thread pool as there's no need for it.
+        if(event instanceof GuildMemberRoleAddEvent) {
+            //It only runs on the thread pool if needed.
+            handleNewPatron((GuildMemberRoleAddEvent) event);
+        }
+
         if(event instanceof GuildMessageUpdateEvent) {
             logEdit((GuildMessageUpdateEvent) event);
             return;
@@ -223,7 +223,6 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.resume")
                     .withText("Shard resumed")
                     .withDate(new Date()).build());
-            return;
         }
     }
 
