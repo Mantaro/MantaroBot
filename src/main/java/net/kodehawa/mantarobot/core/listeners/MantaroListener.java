@@ -55,7 +55,6 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.text.DateFormat;
@@ -66,7 +65,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,8 +94,6 @@ public class MantaroListener implements EventListener {
     private final DateFormat df = new SimpleDateFormat("HH:mm:ss");
     private final MantaroShard shard;
     private final int shardId;
-    private final RateLimiter slowModeLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
-    private final RateLimiter spamModeLimiter = new RateLimiter(TimeUnit.SECONDS, 2, 3);
     private final ManagedDatabase db = MantaroData.db();
 
     public MantaroListener(int shardId, MantaroShard shard) {
@@ -121,29 +117,36 @@ public class MantaroListener implements EventListener {
         if(event instanceof GuildMessageReceivedEvent) {
             MantaroBot.getInstance().getStatsClient().increment("messages_received");
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
-            shard.getThreadPool().execute(() -> onMessage(e));
-            return;
-        }
-
-        //Log intensifies
-        if(event instanceof GuildMessageUpdateEvent) {
-            shard.getThreadPool().execute(() -> logEdit((GuildMessageUpdateEvent) event));
-            return;
-        }
-
-        if(event instanceof GuildMessageDeleteEvent) {
-            shard.getThreadPool().execute(() -> logDelete((GuildMessageDeleteEvent) event));
+            onMessage(e);
             return;
         }
 
         if(event instanceof GuildMemberJoinEvent) {
             shard.getThreadPool().execute(() -> onUserJoin((GuildMemberJoinEvent) event));
-            shard.getThreadPool().execute(() -> handleNewPatron((GuildMemberJoinEvent) event));
+            handleNewPatron((GuildMemberJoinEvent) event);
+
             return;
         }
 
         if(event instanceof GuildMemberLeaveEvent) {
             shard.getThreadPool().execute(() -> onUserLeave((GuildMemberLeaveEvent) event));
+            return;
+        }
+
+        //Log intensifies
+        //Doesn't run on the thread pool as there's no need for it.
+        if(event instanceof GuildMemberRoleAddEvent) {
+            //It only runs on the thread pool if needed.
+            handleNewPatron((GuildMemberRoleAddEvent) event);
+        }
+
+        if(event instanceof GuildMessageUpdateEvent) {
+            logEdit((GuildMessageUpdateEvent) event);
+            return;
+        }
+
+        if(event instanceof GuildMessageDeleteEvent) {
+            logDelete((GuildMessageDeleteEvent) event);
             return;
         }
 
@@ -156,7 +159,6 @@ public class MantaroListener implements EventListener {
             logBan((GuildBanEvent) event);
             return;
         }
-
 
         //Internal events
         if(event instanceof GuildJoinEvent) {
@@ -220,11 +222,6 @@ public class MantaroListener implements EventListener {
             MantaroBot.getInstance().getStatsClient().recordEvent(com.timgroup.statsd.Event.builder().withTitle("shard.resume")
                     .withText("Shard resumed")
                     .withDate(new Date()).build());
-            return;
-        }
-
-        if(event instanceof GuildMemberRoleAddEvent){
-            shard.getThreadPool().execute(() -> handleNewPatron((GuildMemberRoleAddEvent) event));
         }
     }
 
@@ -239,36 +236,38 @@ public class MantaroListener implements EventListener {
     private void handleNewPatron(GenericGuildMemberEvent event){
         //Only in mantaro's guild...
         if(event.getGuild().getIdLong() == 213468583252983809L && !MantaroData.config().get().isPremiumBot) {
-            User user = event.getUser();
-            //who...
-            DBUser dbUser = db.getUser(user);
-            if(event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
-                //Thanks lombok for the meme names
-                if (!dbUser.getData().isHasReceivedFirstKey()) {
-                    //Attempt to open a PM and send a key!
-                    user.openPrivateChannel().queue(channel -> {
-                        //Sellout message :^)
-                        channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
-                            message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
-                                    "If any doubts, please contact Kodehawa#3457.\n" +
-                                    "Instructions: **Apply this key to yourself!**. " +
-                                    "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
-                                    "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
-                                    "To apply this key, run the following command in any channel `~>activatekey " +
-                                    PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
-                                    "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
-                                        dbUser.getData().setHasReceivedFirstKey(true);
-                                        dbUser.saveAsync();
-                                    }
-                            );
+            shard.getThreadPool().execute(() -> {
+                User user = event.getUser();
+                //who...
+                DBUser dbUser = db.getUser(user);
+                if(event.getMember().getRoles().stream().anyMatch(r -> r.getId().equals("290257037072531466"))) {
+                    //Thanks lombok for the meme names
+                    if (!dbUser.getData().isHasReceivedFirstKey()) {
+                        //Attempt to open a PM and send a key!
+                        user.openPrivateChannel().queue(channel -> {
+                            //Sellout message :^)
+                            channel.sendMessage(EmoteReference.EYES + "Thanks you for donating, we'll deliver your premium key shortly! :heart:").queue(message -> {
+                                message.editMessage(EmoteReference.POPPER + "You received a premium key due to your donation to mantaro. " +
+                                        "If any doubts, please contact Kodehawa#3457.\n" +
+                                        "Instructions: **Apply this key to yourself!**. " +
+                                        "This key is a 365-day long subscription to Mantaro Premium. If you want more keys (>$2 donation) " +
+                                        "or want to enable the patreon bot (>$4 donation) you need to contact Kodehawa to deliver your keys.\n" +
+                                        "To apply this key, run the following command in any channel `~>activatekey " +
+                                        PremiumKey.generatePremiumKey(user.getId(), PremiumKey.Type.USER).getId() + "`\n" +
+                                        "Thanks you soo much for donating and helping to keep mantaro alive! :heart:").queue(sent -> {
+                                            dbUser.getData().setHasReceivedFirstKey(true);
+                                            dbUser.saveAsync();
+                                        }
+                                );
 
-                            MantaroBot.getInstance().getStatsClient().increment("new_patrons");
-                            //Celebrate internally! \ o /
-                            LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
-                        });
-                    }, failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+                                MantaroBot.getInstance().getStatsClient().increment("new_patrons");
+                                //Celebrate internally! \ o /
+                                LogUtils.log("Delivered premium key to " + user.getName() + "#" + user.getDiscriminator() + "(" + user.getId() + ")");
+                            });
+                        }, failure -> LogUtils.log(String.format("User: %s (%s#%s) couldn't receive the key, apply manually when asked!", user.getId(), user.getName(), user.getDiscriminator())));
+                    }
                 }
-            }
+            });
         }
     }
 
@@ -290,11 +289,9 @@ public class MantaroListener implements EventListener {
             String hour = df.format(new Date(System.currentTimeMillis()));
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
 
-
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 CachedMessage deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
-
 
                 if(deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                     if(MantaroData.db().getGuild(event.getGuild()).getData().getModlogBlacklistedPeople().contains(deletedMessage.getAuthor().getId())) {
@@ -443,7 +440,6 @@ public class MantaroListener implements EventListener {
             if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
                     && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getRawContent())) {
                 Member bot = event.getGuild().getSelfMember();
-
                 MantaroBot.getInstance().getStatsClient().increment("links_blocked");
                 if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
                     User author = event.getAuthor();
@@ -467,44 +463,15 @@ public class MantaroListener implements EventListener {
                 }
             }
         }
-
-        //Slow mode
-        if(guildData.isSlowMode()) {
-            if(!slowModeLimiter.process(event.getGuild().getId() + ":" + event.getAuthor().getId())) {
-                Member bot = event.getGuild().getSelfMember();
-                if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
-                        && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(event.getChannel(), Permission.MANAGE_SERVER)) {
-                    event.getMessage().delete().queue();
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage slow mode because I don't have permission to delete messages!").queue();
-                    guildData.setSlowMode(false);
-                    dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled slowmode due to a lack of permissions :<**").queue();
-                }
-            }
-        }
-
-        //Anti-spam. Allows 2 messages every 3 seconds.
-        if(guildData.isAntiSpam()) {
-            if(!spamModeLimiter.process(event.getGuild().getId() + ":" + event.getAuthor().getId())) {
-                Member bot = event.getGuild().getSelfMember();
-                if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)
-                        && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(event.getChannel(), Permission.MANAGE_SERVER)) {
-                    event.getMessage().delete().queue();
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot engage anti-spam mode because I don't have permission to delete messages!").queue();
-                    guildData.setAntiSpam(false);
-                    dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.WARNING + "**Disabled anti-spam mode due to a lack of permissions :<**").queue();
-                }
-            }
-        }
     }
 
     private static boolean hasInvite(JDA jda, Guild guild, String message) {
-        if(THIRD_PARTY_INVITE.matcher(message).find()) return true;
+        if(THIRD_PARTY_INVITE.matcher(message).find())
+            return true;
         Matcher m = DISCORD_INVITE_2.matcher(message);
-        if(!m.find()) return false;
+        if(!m.find())
+            return false;
+
         String invite = m.group(0);
         String code = invite.substring(invite.lastIndexOf('/')+1).trim();
         try {

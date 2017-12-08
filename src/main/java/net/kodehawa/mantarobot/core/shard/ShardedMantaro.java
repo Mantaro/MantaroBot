@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -75,14 +76,13 @@ public class ShardedMantaro {
         }
 
         try {
-            OkHttpClient okHttp = new OkHttpClient();
             Request shards = new Request.Builder()
                     .url("https://discordapp.com/api/gateway/bot")
                     .header("Authorization", "Bot " + token)
                     .header("Content-Type", "application/json")
                     .build();
 
-            Response response = okHttp.newCall(shards).execute();
+            Response response = Utils.httpClient.newCall(shards).execute();
             JSONObject shardObject = new JSONObject(response.body().string());
             response.close();
             return shardObject.getInt("shards");
@@ -99,8 +99,8 @@ public class ShardedMantaro {
      * Starts building all the necessary Shards to start this bot instance.
      * After finishing loading all the necessary shards, this will call {@link ShardedMantaro#startPostLoadProcedure(long)} and set everything so the bot
      * will be functioning completely (sends {@link PostLoadEvent}, marks the core as ready, starts posting stats to most popular discord bot lists,
-     * starts the birthday checker on all the started shards and starts the {@link net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue}
-     * instance so stale shards will start reconnecting.
+     * starts the birthday checker, starts the ShardWatcherThread both on all the started shards and finally it starts the
+     * {@link net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue} instance so stale shards will start reconnecting.
      */
     public void shard() {
         try {

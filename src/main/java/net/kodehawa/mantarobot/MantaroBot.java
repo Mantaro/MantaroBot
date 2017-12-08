@@ -226,6 +226,7 @@ public class MantaroBot extends ShardedJDA {
     }
 
     public void forceRestartShard(int shardId) {
+        log.info("Restarting bot!");
         restartShard(shardId, true);
     }
 

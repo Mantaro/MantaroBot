@@ -40,6 +40,7 @@ import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
@@ -218,7 +219,6 @@ public class MantaroShard implements JDA {
      * Handles updating the server count to most of the popular bot lists.
      */
     public void updateServerCount() {
-        OkHttpClient httpClient = new OkHttpClient();
         Config config = config().get();
 
         String dbotsToken = config.dbotsToken;
@@ -239,7 +239,7 @@ public class MantaroShard implements JDA {
                             .addHeader("Content-Type", "application/json")
                             .post(body)
                             .build();
-                    httpClient.newCall(request).execute().close();
+                    Utils.httpClient.newCall(request).execute().close();
                     log.debug("Updated server count ({}) for bots.discord.pw on Shard {}", count, shardId);
                 } catch(Exception ignored) { }
             }, 1, TimeUnit.HOURS);
@@ -253,9 +253,7 @@ public class MantaroShard implements JDA {
                     int count = jda.getGuilds().size();
                     discordBotsAPI.postStats(getId(), totalShards, count);
                     log.debug("Updated server count ({}) for discordbots.org on Shard {}", count, shardId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception ignored) { }
             }, 1, TimeUnit.HOURS);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");

@@ -23,6 +23,7 @@ import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
+import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -333,7 +334,7 @@ public class PlayerCmds {
             }
             Response res = client.newCall(new Request.Builder()
                     .url(url)
-                    .addHeader("User-Agent", "MantaroBot")
+                    .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .build()
             ).execute();
             ResponseBody body = res.body();

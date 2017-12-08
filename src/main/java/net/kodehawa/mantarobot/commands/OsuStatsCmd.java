@@ -52,49 +52,6 @@ public class OsuStatsCmd {
     private String mods1 = "";
     private OsuClient osuClient = new OsuClient(MantaroData.config().get().osuApiKey);
 
-    private String best(String content) {
-        String finalResponse;
-        try {
-            long start = System.currentTimeMillis();
-            String beheaded1 = content.replace("best ", "");
-            String[] args = beheaded1.split(" ");
-            map.put("m", 0);
-
-            User hey = osuClient.getUser(args[0], map);
-            MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
-            List<UserScore> userBest = osuClient.getUserBest(hey, map);
-            MantaroBot.getInstance().getStatsClient().gauge("osu_score_ping", System.currentTimeMillis() - start);
-            StringBuilder sb = new StringBuilder();
-            StringBuilder sb1 = new StringBuilder();
-
-            for(UserScore userScore : userBest) {
-                if(userScore.getEnabledMods().size() > 0) {
-                    for(Mod mod : userScore.getEnabledMods()) {
-                        sb1.append(OsuMod.get(mod).getAbbreviation());
-                    }
-
-                    mods1 = "Mods: " + sb1.toString();
-                    sb1.setLength(0);
-                }
-
-                sb.append(String.format("# %s -> %s\n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
-                        userScore.getBeatMap().getTitle().replace("'", ""), mods1,
-                        (int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
-                        .append("\n");
-            }
-
-            finalResponse = "```md\n" + sb.toString() + "```";
-        } catch(Exception e) {
-            if(e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
-            else {
-                finalResponse = EmoteReference.ERROR + "Error while looking for results.";
-                SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
-            }
-        }
-
-        return finalResponse;
-    }
-
     @Subscribe
     public void osustats(CommandRegistry cr) {
         cr.register("osustats", new SimpleTreeCommand(Category.GAMES) {
@@ -151,10 +108,52 @@ public class OsuStatsCmd {
         cr.registerAlias("osustats", "osu");
     }
 
+    private String best(String content) {
+        String finalResponse;
+        try {
+            long start = System.currentTimeMillis();
+            String beheaded1 = content.replace("best ", "");
+            String[] args = beheaded1.split(" ");
+            map.put("m", 0);
+
+            User osuUser = osuClient.getUser(args[0], map);
+            MantaroBot.getInstance().getStatsClient().gauge("osu_user_ping", System.currentTimeMillis() - start);
+            List<UserScore> userBest = osuClient.getUserBest(osuUser, map);
+            MantaroBot.getInstance().getStatsClient().gauge("osu_score_ping", System.currentTimeMillis() - start);
+            StringBuilder sb = new StringBuilder();
+            StringBuilder modsBuilder = new StringBuilder();
+
+            for(UserScore userScore : userBest) {
+                if(userScore.getEnabledMods().size() > 0) {
+                    for(Mod mod : userScore.getEnabledMods()) {
+                        modsBuilder.append(OsuMod.get(mod).getAbbreviation());
+                    }
+
+                    mods1 = "Mods: " + modsBuilder.toString();
+                    modsBuilder.setLength(0);
+                }
+
+                sb.append(String.format("# %s -> %s\n | ####### | [%dpp] | Rank: %s -> Max Combo: %d",
+                        userScore.getBeatMap().getTitle().replace("'", ""), mods1,
+                        (int) userScore.getPP(), userScore.getRank(), userScore.getMaxCombo()))
+                        .append("\n");
+            }
+
+            finalResponse = "```md\n**Best osu! scores for: " + osuUser.getUsername() + "**\n" + sb.toString() + "```";
+        } catch(Exception e) {
+            if(e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
+            else {
+                finalResponse = EmoteReference.ERROR + "Error while looking for results.";
+                SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
+            }
+        }
+
+        return finalResponse;
+    }
+
     private String recent(String content) {
         String finalMessage;
         try {
-            long start = System.currentTimeMillis();
             String beheaded1 = content.replace("recent ", "");
             String[] args = beheaded1.split(" ");
             map.put("m", 0);
@@ -181,8 +180,7 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            long end = System.currentTimeMillis() - start;
-            finalMessage = "```md\n" + sb.toString() + " \n<Response time: " + end + "ms>```";
+            finalMessage = "```md\n**Recent osu! scores for: " + hey.getUsername() + "**\n" + sb.toString() + "```";
 
         } catch(Exception e) {
             if(e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
