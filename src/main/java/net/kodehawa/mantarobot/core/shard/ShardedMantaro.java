@@ -30,6 +30,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -75,14 +76,13 @@ public class ShardedMantaro {
         }
 
         try {
-            OkHttpClient okHttp = new OkHttpClient();
             Request shards = new Request.Builder()
                     .url("https://discordapp.com/api/gateway/bot")
                     .header("Authorization", "Bot " + token)
                     .header("Content-Type", "application/json")
                     .build();
 
-            Response response = okHttp.newCall(shards).execute();
+            Response response = Utils.httpClient.newCall(shards).execute();
             JSONObject shardObject = new JSONObject(response.body().string());
             response.close();
             return shardObject.getInt("shards");
