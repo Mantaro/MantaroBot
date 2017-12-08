@@ -253,9 +253,7 @@ public class MantaroShard implements JDA {
                     int count = jda.getGuilds().size();
                     discordBotsAPI.postStats(getId(), totalShards, count);
                     log.debug("Updated server count ({}) for discordbots.org on Shard {}", count, shardId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                } catch (Exception ignored) { }
             }, 1, TimeUnit.HOURS);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
