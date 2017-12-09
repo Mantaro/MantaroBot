@@ -140,7 +140,7 @@ public class CommandListener implements EventListener {
                         if (player.getLevel() == 0)
                             player.setLevel(1);
 
-                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(8)));
+                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(5)));
 
                         if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
@@ -157,9 +157,9 @@ public class CommandListener implements EventListener {
                                     }
                                 }
                             }
-
-                            player.saveAsync();
                         }
+
+                        player.saveAsync();
                     }
                 } catch (Exception ignored) {}
             }
