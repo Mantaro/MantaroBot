@@ -79,9 +79,6 @@ public class MantaroShard implements JDA {
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    //Natan's DBL API sender instance.
-    private static final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
-
     static {
         if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
     }
@@ -245,18 +242,6 @@ public class MantaroShard implements JDA {
             }, 1, TimeUnit.HOURS);
         } else {
             log.warn("bots.discord.pw token not set in config, cannot start posting stats!");
-        }
-
-        if(dbotsOrgToken != null) {
-            Async.task("dbots.org update thread", () -> {
-                try {
-                    int count = jda.getGuilds().size();
-                    discordBotsAPI.postStats(getId(), totalShards, count);
-                    log.debug("Updated server count ({}) for discordbots.org on Shard {}", count, shardId);
-                } catch (Exception ignored) { }
-            }, 1, TimeUnit.HOURS);
-        } else {
-            log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
     }
 

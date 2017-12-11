@@ -164,7 +164,7 @@ public class DebugCmds {
 
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-16s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
+                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),

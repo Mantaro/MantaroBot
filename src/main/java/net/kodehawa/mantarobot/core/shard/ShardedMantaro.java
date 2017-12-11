@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
+import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -26,6 +27,7 @@ import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.PostLoadEvent;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.watcher.ShardWatcher;
+import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
@@ -59,7 +61,9 @@ public class ShardedMantaro {
     @Getter
     private final int totalShards;
     private final Carbonitex carbonitex = new Carbonitex();
-
+    //Natan's DBL API sender instance.
+    private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
+    private final Config config = MantaroData.config().get();
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -146,6 +150,18 @@ public class ShardedMantaro {
 
         startUpdaters();
         bot.startCheckingBirthdays();
+        if(config.dbotsorgToken != null) {
+            Async.task("dbots.org update thread", () -> {
+                try {
+                    long count = MantaroBot.getInstance().getGuildCache().size();
+                    int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
+                    discordBotsAPI.postStats(shards);
+                    log.debug("Updated server count ({}) for discordbots.org", count);
+                } catch (Exception ignored) { }
+            }, 1, TimeUnit.HOURS);
+        } else {
+            log.warn("discordbots.org token not set in config, cannot start posting stats!");
+        }
     }
 
     private void startUpdaters() {
