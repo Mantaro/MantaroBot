@@ -16,9 +16,7 @@
 
 package net.kodehawa.mantarobot.data;
 
-import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.rethinkdb.net.Connection;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -26,14 +24,11 @@ import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
 import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
-import net.kodehawa.mantarobot.utils.data.deserialize.StringLongPairDeserializator;
-import org.apache.commons.lang3.tuple.Pair;
 import org.redisson.Redisson;
 import org.redisson.api.LocalCachedMapOptions;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.Codec;
-import org.redisson.client.codec.JsonJacksonMapCodec;
 import org.redisson.codec.JsonJacksonCodec;
 
 import java.util.concurrent.Callable;
@@ -49,13 +44,12 @@ public class MantaroData {
     private static Connection conn;
     private static ConnectionWatcherDataManager connectionWatcher;
     private static ManagedDatabase db;
-    private static RedissonClient redisson;
-
     private static ObjectMapper mapper =
             new ObjectMapper();/*.registerModule(
                     new SimpleModule("Pair", new Version(1, 0, 0, null, null, null))
                             .addDeserializer(Pair.class, new StringLongPairDeserializator())
             );*/
+    private static RedissonClient redisson;
     private static Codec redissonCodec = new JsonJacksonCodec(mapper);
 
     public static GsonDataManager<Config> config() {
@@ -103,7 +97,7 @@ public class MantaroData {
     public static RedisCachedDatabase redisDb() {
         ManagedDatabase db = db();
         if(db instanceof RedisCachedDatabase)
-            return (RedisCachedDatabase)db;
+            return (RedisCachedDatabase) db;
 
         throw new IllegalStateException("Redis database is disabled");
     }

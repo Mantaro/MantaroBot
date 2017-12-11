@@ -26,23 +26,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class CategoryStatsManager extends StatsManager<String> {
 
-    //nya
-    public static final Map<String, AtomicInteger> TOTAL_CATS = new HashMap<>();
-
     public static final ExpiringMap<String, AtomicInteger> DAY_CATS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.DAYS)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
     public static final ExpiringMap<String, AtomicInteger> HOUR_CATS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.HOURS)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
     public static final ExpiringMap<String, AtomicInteger> MINUTE_CATS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.MINUTES)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
+    //nya
+    public static final Map<String, AtomicInteger> TOTAL_CATS = new HashMap<>();
 
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;

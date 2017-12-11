@@ -23,11 +23,9 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
-import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -37,6 +35,7 @@ import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -48,8 +47,8 @@ import static net.kodehawa.mantarobot.utils.Utils.handleDefaultRatelimit;
 
 @Module
 public class CurrencyCmds {
-    private final Random random = new Random();
     private final int TRANSFER_LIMIT = Integer.MAX_VALUE / 3; //around 715m
+    private final Random random = new Random();
 
     @Subscribe
     public void inventory(CommandRegistry cr) {
@@ -65,7 +64,7 @@ public class CurrencyCmds {
 
                 Player player = MantaroData.db().getPlayer(member);
 
-                if(t.containsKey("brief")){
+                if(t.containsKey("brief")) {
                     event.getChannel().sendMessage("**" + member.getEffectiveName() + "'s inventory:** " + ItemStack.toString(player.getInventory().asList())).queue();
                     return;
                 }
@@ -157,12 +156,12 @@ public class CurrencyCmds {
                         }
 
                         if(!item.isBuyable()) {
-                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item. (Sell value: " + ((int)(item.getValue() * 0.9)) + " credits)").queue();
+                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item. (Sell value: " + ((int) (item.getValue() * 0.9)) + " credits)").queue();
                             return;
                         }
 
                         event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
-                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int)(item.getValue() * 0.9))).queue();
+                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
 
                         return;
                     }
@@ -191,7 +190,7 @@ public class CurrencyCmds {
                         }
 
                         event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
-                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int)(item.getValue() * 0.9))).queue();
+                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
 
                         return;
                     }
@@ -501,7 +500,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(toSend > TRANSFER_LIMIT){
+                if(toSend > TRANSFER_LIMIT) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this much money. (Limit: " + TRANSFER_LIMIT + ")").queue();
                     return;
                 }
@@ -536,7 +535,7 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(toTransfer.getMoney() > (long)TRANSFER_LIMIT * 20) {
+                if(toTransfer.getMoney() > (long) TRANSFER_LIMIT * 20) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "This user already has too much money...").queue();
                     return;
                 }

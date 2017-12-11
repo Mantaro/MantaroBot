@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;

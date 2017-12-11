@@ -60,7 +60,8 @@ public class DiscordUtils {
                 if(choose < 1 || choose > max) return Operation.IGNORED;
                 valueConsumer.accept(choose);
                 return Operation.COMPLETED;
-            } catch(Exception ignored) { }
+            } catch(Exception ignored) {
+            }
 
             return Operation.IGNORED;
         });
@@ -144,7 +145,7 @@ public class DiscordUtils {
     public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
         if(parts.size() == 0) return null;
 
-        if(parts.size() == 1){
+        if(parts.size() == 1) {
             event.getChannel().sendMessage(parts.get(0)).queue();
             return null;
         }
@@ -185,7 +186,7 @@ public class DiscordUtils {
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
         if(parts.size() == 0) return null;
 
-        if(parts.size() == 1){
+        if(parts.size() == 1) {
             event.getChannel().sendMessage(parts.get(0)).queue();
             return null;
         }
@@ -204,7 +205,7 @@ public class DiscordUtils {
                 if(index.get() == 0) return Operation.IGNORED;
 
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-            } else if (e.getMessage().getContent().equals("&p >>") || e.getMessage().getContent().equals("&page >>")) {
+            } else if(e.getMessage().getContent().equals("&p >>") || e.getMessage().getContent().equals("&page >>")) {
                 if(index.get() + 1 >= parts.size()) return Operation.IGNORED;
 
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();

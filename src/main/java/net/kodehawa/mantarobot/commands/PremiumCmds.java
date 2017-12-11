@@ -42,14 +42,14 @@ import static java.lang.System.currentTimeMillis;
 @Module
 public class PremiumCmds {
     @Subscribe
-    public void comprevip(CommandRegistry cr){
+    public void comprevip(CommandRegistry cr) {
         cr.register("activatekey", new SimpleCommand(Category.UTILS) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!(args.length == 0) && args[0].equalsIgnoreCase("check")){
+                if(!(args.length == 0) && args[0].equalsIgnoreCase("check")) {
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(MantaroData.db().getUser(event.getAuthor()).getData().getPremiumKey());
 
-                    if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()){ //Should always be enabled...
+                    if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         event.getChannel().sendMessage(EmoteReference.EYES + "Your key is valid for " + currentKey.validFor() + " more days :heart:").queue();
                     } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have a key enabled... If you're a premium from the old system you should " +
@@ -58,26 +58,26 @@ public class PremiumCmds {
                     return;
                 }
 
-                if(args.length < 1){
+                if(args.length < 1) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I cannot enable a premium key if you don't give me one!").queue();
                     return;
                 }
 
                 PremiumKey key = MantaroData.db().getPremiumKey(args[0]);
 
-                if(key == null || (key.isEnabled() && !(key.getParsedType().equals(PremiumKey.Type.MASTER)))){
+                if(key == null || (key.isEnabled() && !(key.getParsedType().equals(PremiumKey.Type.MASTER)))) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You provided an invalid or already enabled key!").queue();
                     return;
                 }
 
                 PremiumKey.Type scopeParsed = key.getParsedType();
 
-                if (scopeParsed.equals(PremiumKey.Type.GUILD)) {
+                if(scopeParsed.equals(PremiumKey.Type.GUILD)) {
                     DBGuild guild = MantaroData.db().getGuild(event.getGuild());
 
                     PremiumKey currentKey = MantaroData.db().getPremiumKey(guild.getData().getPremiumKey());
 
-                    if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()){ //Should always be enabled...
+                    if(currentKey != null && currentKey.isEnabled() && currentTimeMillis() < currentKey.getExpiration()) { //Should always be enabled...
                         event.getChannel().sendMessage(EmoteReference.ERROR + "This server already has a premium subscription!").queue();
                         return;
                     }
@@ -89,13 +89,13 @@ public class PremiumCmds {
                     return;
                 }
 
-                if(scopeParsed.equals(PremiumKey.Type.USER)){
+                if(scopeParsed.equals(PremiumKey.Type.USER)) {
                     DBUser user = MantaroData.db().getUser(event.getAuthor());
                     Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                     PremiumKey currentUserKey = MantaroData.db().getPremiumKey(user.getData().getPremiumKey());
 
-                    if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < currentUserKey.getExpiration()){ //Should always be enabled...
+                    if(currentUserKey != null && currentUserKey.isEnabled() && currentTimeMillis() < currentUserKey.getExpiration()) { //Should always be enabled...
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You're already premium :heart:!").queue();
                         return;
                     }
@@ -207,11 +207,11 @@ public class PremiumCmds {
     }
 
     @Subscribe
-    public void createkey(CommandRegistry cr){
+    public void createkey(CommandRegistry cr) {
         cr.register("createkey", new SimpleCommand(Category.OWNER, CommandPermission.OWNER) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(args.length < 2){
+                if(args.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to provide a scope and an id (example: master 1558674582032875529)").queue();
                     return;
                 }
@@ -219,11 +219,12 @@ public class PremiumCmds {
                 String scope = args[0];
                 String owner = args[1];
                 PremiumKey.Type scopeParsed = null;
-                try{
+                try {
                     scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
-                } catch (IllegalArgumentException ignored){}
+                } catch(IllegalArgumentException ignored) {
+                }
 
-                if(scopeParsed == null){
+                if(scopeParsed == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user`, `guild` or `master`)").queue();
                     return;
                 }

@@ -20,7 +20,6 @@ import net.kodehawa.mantarobot.MantaroBot;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
 
 //TODO refactor, this is way too old and the code to check it it's ugh.

@@ -40,11 +40,11 @@ public class ImageActionCmd extends NoArgsCommand {
     private final String desc;
     private final String format;
     private final String imageName;
-    private List<String> images;
     private final String lonelyLine;
     private final String name;
-    private boolean swapNames = false;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private List<String> images;
+    private boolean swapNames = false;
     private String type;
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine, boolean swap) {

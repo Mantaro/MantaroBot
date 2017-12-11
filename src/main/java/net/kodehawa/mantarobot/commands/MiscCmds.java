@@ -49,9 +49,9 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 @Module
 @Slf4j
 public class MiscCmds {
+    private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
-    private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final Random rand = new Random();
 
     protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
@@ -95,7 +95,7 @@ public class MiscCmds {
                 try {
                     event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
                             .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've " +
-                            "lost the **" + role.getName() + "** role").queue());
+                                    "lost the **" + role.getName() + "** role").queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessage(String.format("%sI couldn't give you **%s. Make sure that I have permission to add roles and that my role is above **%s**",
                             EmoteReference.ERROR, role.getName(), role.getName())).queue();

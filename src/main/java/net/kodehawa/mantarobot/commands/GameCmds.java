@@ -119,7 +119,7 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(String s : split) {
-                    switch (s.replace(" ", "")) {
+                    switch(s.replace(" ", "")) {
                         case "pokemon":
                             gameList.add(new Pokemon());
                             break;
@@ -167,7 +167,7 @@ public class GameCmds {
 
                 try {
                     number = Integer.parseInt(values[1]);
-                } catch (Exception e) {
+                } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number of times!").queue();
                     return;
                 }
@@ -179,7 +179,7 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
-                    switch (values[0].replace(" ", "")) {
+                    switch(values[0].replace(" ", "")) {
                         case "pokemon":
                             gameList.add(new Pokemon());
                             break;
@@ -203,7 +203,7 @@ public class GameCmds {
                 startMultipleGames(gameList, event);
             }
         }).createSubCommandAlias("pokemon", "pokémon")
-          .createSubCommandAlias("number", "guessthatnumber"));
+                .createSubCommandAlias("number", "guessthatnumber"));
     }
 
     @Subscribe
@@ -250,8 +250,8 @@ public class GameCmds {
         if(!event.getMessage().getMentionedRoles().isEmpty()) {
             StringBuilder b = new StringBuilder();
             event.getMessage().getMentionedRoles().forEach(role ->
-                    event.getGuild().getMembersWithRoles(role).forEach(user  -> {
-                        if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
+                    event.getGuild().getMembersWithRoles(role).forEach(user -> {
+                        if(!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
                             players.add(user.getUser().getId());
                         b.append(user.getEffectiveName()).append(" ");
                     })
@@ -259,10 +259,10 @@ public class GameCmds {
             event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP lobby with all users with the specfied role: " + b.toString()).queue();
         }
 
-        if (!event.getMessage().getMentionedUsers().isEmpty()) {
+        if(!event.getMessage().getMentionedUsers().isEmpty()) {
             StringBuilder builder = new StringBuilder();
             event.getMessage().getMentionedUsers().forEach(user -> {
-                if (!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
+                if(!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
                     players.add(user.getId());
                 builder.append(user.getName()).append(" ");
             });
@@ -284,42 +284,42 @@ public class GameCmds {
         LinkedList<Game> list = new LinkedList<>();
         list.add(game);
 
-		List<String> players = new ArrayList<>();
-		players.add(event.getAuthor().getId());
+        List<String> players = new ArrayList<>();
+        players.add(event.getAuthor().getId());
 
-		if(!event.getMessage().getMentionedRoles().isEmpty()) {
-			StringBuilder b = new StringBuilder();
-			event.getMessage().getMentionedRoles().forEach(role ->
-				event.getGuild().getMembersWithRoles(role).forEach(user  -> {
-					if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
-						players.add(user.getUser().getId());
-					b.append(user.getEffectiveName()).append(" ");
-				})
-			);
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
-		}
+        if(!event.getMessage().getMentionedRoles().isEmpty()) {
+            StringBuilder b = new StringBuilder();
+            event.getMessage().getMentionedRoles().forEach(role ->
+                    event.getGuild().getMembersWithRoles(role).forEach(user -> {
+                        if(!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
+                            players.add(user.getUser().getId());
+                        b.append(user.getEffectiveName()).append(" ");
+                    })
+            );
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
+        }
 
-		if (!event.getMessage().getMentionedUsers().isEmpty()) {
-			StringBuilder builder = new StringBuilder();
-			event.getMessage().getMentionedUsers().forEach(user -> {
-                if (!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
-					players.add(user.getId());
-				builder.append(user.getName()).append(" ");
-			});
+        if(!event.getMessage().getMentionedUsers().isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            event.getMessage().getMentionedUsers().forEach(user -> {
+                if(!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
+                    players.add(user.getId());
+                builder.append(user.getName()).append(" ");
+            });
 
-			if(players.size() > 1) {
+            if(players.size() > 1) {
                 event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
             }
         }
 
-		GameLobby lobby = new GameLobby(event, players, list);
+        GameLobby lobby = new GameLobby(event, players, list);
         lobby.startFirstGame();
     }
 
     private boolean checkRunning(GuildMessageReceivedEvent event) {
         if(GameLobby.LOBBYS.containsKey(event.getChannel())) {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
+            if(dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!").queue();
                 return false;

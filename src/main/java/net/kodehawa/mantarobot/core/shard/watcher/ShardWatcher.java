@@ -39,11 +39,11 @@ import java.util.concurrent.TimeUnit;
  * This works by sending a foreign event to all the shards, asking for a response back.
  * There are two ways for a Shard to send a signal that's dead: by having one or more listeners deadlocked, or by having a {@link MantaroEventManager#getLastJDAEventTimeDiff()}
  * time of over 30000ms (30 seconds without receiving any event).
- *
+ * <p>
  * After acknowledging the dead shards, the ShardWatcherThread will proceed to reboot all of the dead shards by sending a signal to {@link MantaroShard#start(boolean)} with a value of
  * "true", which will send {@link JDA#shutdownNow()} to the old shard instance, and attempt to build a completely new one. This times out after two minutes of wait.
  * There is a backoff of 6 seconds between rebooting shards, to avoid OP2 spam during this procedure (5 seconds from the {@link MantaroShard#start(boolean)} call, and one extra second on this procedure).
- *
+ * <p>
  * After rebooting the shard, everything on it *should* go back to normal and it should be able to listen to events and dispatch messages again without issues.
  */
 @Slf4j

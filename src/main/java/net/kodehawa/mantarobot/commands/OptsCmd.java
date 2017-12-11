@@ -42,10 +42,8 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.stream.Collectors;
 
 import static java.util.Map.Entry;
-import static net.kodehawa.mantarobot.utils.Utils.centerString;
 import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
@@ -141,7 +139,8 @@ public class OptsCmd {
                             if(p.getData().addBadge(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
                             }
-                        } catch(IndexOutOfBoundsException ignored) {}
+                        } catch(IndexOutOfBoundsException ignored) {
+                        }
                         return;
                     }
                 }
@@ -201,31 +200,31 @@ public class OptsCmd {
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",
                 "Resets all options set on this server.", OptionType.GENERAL)
-        .setAction(event -> {
-            //Temporary stuff.
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
+                .setAction(event -> {
+                    //Temporary stuff.
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData temp = MantaroData.db().getGuild(event.getGuild()).getData();
 
-            //The persistent data we wish to maintain.
-            String premiumKey = temp.getPremiumKey();
-            long quoteLastId = temp.getQuoteLastId();
-            long ranPolls = temp.getQuoteLastId();
-            String gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
-            long cases = temp.getCases();
+                    //The persistent data we wish to maintain.
+                    String premiumKey = temp.getPremiumKey();
+                    long quoteLastId = temp.getQuoteLastId();
+                    long ranPolls = temp.getQuoteLastId();
+                    String gameTimeoutExpectedAt = temp.getGameTimeoutExpectedAt();
+                    long cases = temp.getCases();
 
-            //Assign everything all over again
-            DBGuild newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
-            GuildData newTmp = newDbGuild.getData();
-            newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
-            newTmp.setRanPolls(ranPolls);
-            newTmp.setCases(cases);
-            newTmp.setPremiumKey(premiumKey);
-            newTmp.setQuoteLastId(quoteLastId);
+                    //Assign everything all over again
+                    DBGuild newDbGuild = DBGuild.of(dbGuild.getId(), dbGuild.getPremiumUntil());
+                    GuildData newTmp = newDbGuild.getData();
+                    newTmp.setGameTimeoutExpectedAt(gameTimeoutExpectedAt);
+                    newTmp.setRanPolls(ranPolls);
+                    newTmp.setCases(cases);
+                    newTmp.setPremiumKey(premiumKey);
+                    newTmp.setQuoteLastId(quoteLastId);
 
-            //weee
-            newDbGuild.saveAsync();
+                    //weee
+                    newDbGuild.saveAsync();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset your options!").queue();
-        }));
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Correctly reset your options!").queue();
+                }));
     }
 }

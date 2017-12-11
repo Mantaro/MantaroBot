@@ -53,6 +53,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private final List<String> voteSkips;
     @Getter
     private final List<String> voteStop;
+    private long lastMessageSentAt;
     @Getter
     private AudioTrack previousTrack, currentTrack;
     @Getter
@@ -60,7 +61,6 @@ public class TrackScheduler extends AudioEventAdapter {
     private Repeat repeatMode;
     @Setter
     private long requestedChannel;
-    private long lastMessageSentAt;
 
     public TrackScheduler(AudioPlayer player, String guildId) {
         this.audioPlayer = player;
@@ -212,7 +212,8 @@ public class TrackScheduler extends AudioEventAdapter {
                         (premium ? "" : ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-        } catch(Exception ignored) {}
+        } catch(Exception ignored) {
+        }
 
         requestedChannel = 0;
         MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);

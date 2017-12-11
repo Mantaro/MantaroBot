@@ -86,7 +86,7 @@ public class CustomCmds {
             try {
                 runCustom(response.replace("@everyone", "\u200Deveryone").replace("@here", "\u200Dhere"), event);
                 CustomCommandStatsManager.log(cmdName);
-            } catch (Exception e) {
+            } catch(Exception e) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Error while running custom command... please check the response content and length (cannot be more than 2000 chars).").queue();
             }
         }
@@ -280,7 +280,7 @@ public class CustomCmds {
 
                     try {
                         number = Integer.parseInt(args[2]) - 1;
-                    } catch (NumberFormatException e) {
+                    } catch(NumberFormatException e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number...").queue();
                         return;
                     }
@@ -299,7 +299,7 @@ public class CustomCmds {
                 if(action.equals("eval")) {
                     try {
                         runCustom(content.replace("eval ", ""), event);
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "There was an error while evaluating your command!" +
                                 (e.getMessage() == null ? "" : " (E: " + e.getMessage() + ")")).queue();
                     }
@@ -652,7 +652,7 @@ public class CustomCmds {
                 try {
                     embed = GsonDataManager.gson(false).fromJson('{' + v + '}', EmbedJSON.class);
                     event.getChannel().sendMessage(embed.gen(event.getMember())).queue();
-                } catch (IllegalArgumentException invalid) {
+                } catch(IllegalArgumentException invalid) {
                     if(invalid.getMessage().contains("URL must be a valid http or https url")) {
                         event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
                     } else {
@@ -678,7 +678,7 @@ public class CustomCmds {
                     }
                     event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setColor(event.getMember().getColor()).build()).queue();
 
-                } catch (IllegalArgumentException invalid) {
+                } catch(IllegalArgumentException invalid) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
                 }
 

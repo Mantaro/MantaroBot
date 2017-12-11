@@ -61,15 +61,15 @@ public class GuessTheNumber extends Game<Object> {
                     return Operation.IGNORED;
                 }
 
-                if (players.contains(e.getAuthor().getId())) {
-                    if (e.getMessage().getContent().equalsIgnoreCase("end")) {
+                if(players.contains(e.getAuthor().getId())) {
+                    if(e.getMessage().getContent().equalsIgnoreCase("end")) {
                         lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. The number was: " + number).queue();
                         lobby.startNextGame();
                         GameLobby.LOBBYS.remove(lobby.getChannel());
                         return Operation.COMPLETED;
                     }
 
-                    if (e.getMessage().getContent().equalsIgnoreCase("endlobby")) {
+                    if(e.getMessage().getContent().equalsIgnoreCase("endlobby")) {
                         lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended lobby correctly! Thanks for playing!").queue();
                         lobby.getGamesToPlay().clear();
                         lobby.startNextGame();
@@ -129,7 +129,7 @@ public class GuessTheNumber extends Game<Object> {
             }
 
             @Override
-            public void onCancel(){
+            public void onCancel() {
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
         });

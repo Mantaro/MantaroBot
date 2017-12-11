@@ -16,9 +16,6 @@
 
 package net.kodehawa.mantarobot.data;
 
-import java.util.Collections;
-import java.util.List;
-
 public class ConnectionWatcherData {
     public final String jvmargs;
     public final String owners;
@@ -37,8 +34,8 @@ public class ConnectionWatcherData {
         return String.format("```prolog\nPing: %s\nReboots: %s\nOwners: %s\nJVM Args: %s```",
                 ping,
                 reboots,
-                owners.substring(1, owners.length()-1),
-                jvmargs.substring(1, jvmargs.length()-1).replace(",", "")
+                owners.substring(1, owners.length() - 1),
+                jvmargs.substring(1, jvmargs.length() - 1).replace(",", "")
         );
     }
 }

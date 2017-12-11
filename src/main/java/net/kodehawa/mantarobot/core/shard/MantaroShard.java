@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
-import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sedmelluq.discord.lavaplayer.jdaudp.NativeAudioSendFactory;
 import lombok.Getter;
@@ -39,12 +38,10 @@ import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue;
 import net.kodehawa.mantarobot.data.Config;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.data.DataManager;
 import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.json.JSONObject;
@@ -67,7 +64,7 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  * Represents a Discord shard.
  * This class and contains all the logic necessary to build, start and configure shards.
  * The logic for configuring sharded instances of the bot is on {@link net.kodehawa.mantarobot.core.MantaroCore}.
- *
+ * <p>
  * This also handles posting stats to dbots/dbots.org/carbonitex. Because uh... no other class was fit for it.
  */
 public class MantaroShard implements JDA {
@@ -78,6 +75,11 @@ public class MantaroShard implements JDA {
 
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    @Getter
+    //A instance of a ReconnectQueue that accounts for startup reconnects, avoiding OP2 spam on Shard reconnection during the startup procedure.
+    private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
+    //A RateLimiter that keeps track of global ratelimits between shards.
+    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
 
     static {
         if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
@@ -85,37 +87,27 @@ public class MantaroShard implements JDA {
 
     @Getter
     public final MantaroEventManager manager;
-    @Getter
-    private final ExecutorService commandPool;
+    private final CommandListener commandListener;
+    private final Logger log;
+    private final MantaroListener mantaroListener;
+    private final int shardId;
     @Getter
     private final ExecutorService threadPool;
     @Getter
-    //A instance of a ReconnectQueue that accounts for startup reconnects, avoiding OP2 spam on Shard reconnection during the startup procedure.
-    private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
+    private final ExecutorService commandPool;
+    private final int totalShards;
+    private BirthdayTask birthdayTask = new BirthdayTask();
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
     @Delegate
     private JDA jda;
 
-    private final Logger log;
-
-    private final MantaroListener mantaroListener;
-    private final CommandListener commandListener;
-
-    private final int shardId;
-    private final int totalShards;
-
-    //A RateLimiter that keeps track of global ratelimits between shards.
-    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
-
-    private BirthdayTask birthdayTask = new BirthdayTask();
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
-
     /**
      * Builds a new instance of a MantaroShard.
-     * @param shardId The id of the newly-created shard.
-     * @param totalShards The total quantity of shards that the bot will startup with.
-     * @param manager The event manager.
-     * @param commandProcessor The {@link ICommandProcessor} used to process upcoming Commands.
      *
+     * @param shardId          The id of the newly-created shard.
+     * @param totalShards      The total quantity of shards that the bot will startup with.
+     * @param manager          The event manager.
+     * @param commandProcessor The {@link ICommandProcessor} used to process upcoming Commands.
      * @throws RateLimitedException
      * @throws LoginException
      * @throws InterruptedException
@@ -149,7 +141,7 @@ public class MantaroShard implements JDA {
      * Starts a new Shard.
      * This method builds a {@link JDA} instance and then attempts to start it up.
      * This locks until the shard finds a status of AWAITING_LOGIN_CONFIRMATION + 5 seconds.
-     *
+     * <p>
      * The newly-started shard will have auto reconnect enabled, a core pool size of 18 and a new NAS instance. The rest is defined either on global or instance
      * variables.
      *
@@ -203,6 +195,7 @@ public class MantaroShard implements JDA {
     /**
      * Starts the birthday task wait until tomorrow. When 00:00 arrives, this will call {@link BirthdayTask#handle(int)} every 24 hours.
      * Every shard has one birthday task.
+     *
      * @param millisecondsUntilTomorrow The amount of milliseconds until 00:00.
      */
     public void startBirthdayTask(long millisecondsUntilTomorrow) {
@@ -238,7 +231,8 @@ public class MantaroShard implements JDA {
                             .build();
                     Utils.httpClient.newCall(request).execute().close();
                     log.debug("Updated server count ({}) for bots.discord.pw on Shard {}", count, shardId);
-                } catch(Exception ignored) { }
+                } catch(Exception ignored) {
+                }
             }, 1, TimeUnit.HOURS);
         } else {
             log.warn("bots.discord.pw token not set in config, cannot start posting stats!");

@@ -20,8 +20,6 @@ import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import static net.kodehawa.mantarobot.utils.Utils.randomOrder;
-
 public class ItemStack {
     private final int amount;
     private final Item item;

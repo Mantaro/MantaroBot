@@ -269,7 +269,7 @@ public class OwnerCmd {
                 if(e.getCompilerOutput() != null) sb.append(e.getCompilerOutput());
                 if(!e.getDiagnostics().isEmpty()) {
                     if(sb.length() > 0) sb.append("\n\n");
-                    e.getDiagnostics().forEach(d->sb.append(d).append('\n'));
+                    e.getDiagnostics().forEach(d -> sb.append(d).append('\n'));
                 }
                 return new Error(sb.toString()) {
                     @Override

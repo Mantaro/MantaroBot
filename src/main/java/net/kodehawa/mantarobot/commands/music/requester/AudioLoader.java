@@ -47,9 +47,9 @@ public class AudioLoader implements AudioLoadResultHandler {
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
     private final GuildMessageReceivedEvent event;
+    private final boolean insertFirst;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
-    private final boolean insertFirst;
 
     public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;

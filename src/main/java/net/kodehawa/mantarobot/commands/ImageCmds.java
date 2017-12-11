@@ -25,7 +25,6 @@ import net.kodehawa.lib.imageboards.DefaultImageBoards;
 import net.kodehawa.lib.imageboards.ImageBoard;
 import net.kodehawa.lib.imageboards.entities.impl.*;
 import net.kodehawa.mantarobot.commands.action.WeebAPIRequester;
-import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.image.ImageRequestType;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
@@ -46,19 +45,17 @@ import static net.kodehawa.mantarobot.commands.image.ImageboardUtils.nsfwCheck;
 @Module
 public class ImageCmds {
 
+    private final URLCache CACHE = new URLCache(20);
     private final String[] catResponses = {
             "Aww, take a cat.", "%mention%, are you sad? ;w;, take a cat!", "You should all have a cat in your life, but a image will do.",
             "Am I cute yet?", "%mention%, I think you should have a cat."
     };
-
-    private final URLCache CACHE = new URLCache(20);
-
+    private final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private final ImageBoard<FurryImage> e621 = DefaultImageBoards.E621;
     private final ImageBoard<KonachanImage> konachan = DefaultImageBoards.KONACHAN;
     private final ImageBoard<Rule34Image> rule34 = DefaultImageBoards.RULE34;
-    private final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
-    private final ImageBoard<DanbooruImage> danbooru = DefaultImageBoards.DANBOORU;
     private final ImageBoard<SafebooruImage> safebooru = DefaultImageBoards.SAFEBOORU; //safebooru.org, not the danbooru one.
+    private final ImageBoard<YandereImage> yandere = DefaultImageBoards.YANDERE;
 
     @Subscribe
     public void cat(CommandRegistry cr) {

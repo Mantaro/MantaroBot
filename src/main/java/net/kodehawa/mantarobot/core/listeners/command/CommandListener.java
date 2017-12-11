@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -62,17 +63,17 @@ public class CommandListener implements EventListener {
     private static final RateLimiter experienceRatelimiter = new RateLimiter(TimeUnit.SECONDS, 30);
     //Commands ran this session.
     private static int commandTotal = 0;
-    private final ICommandProcessor commandProcessor;
-    private final Random random = new Random();
-    private final MantaroShard shard;
-    private final int shardId;
     private final String[] boomQuotes = {
             "Seemingly Megumin exploded our castle...", "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
             "W-Wait, what just happened?", "I-I think we got some fire going on here... you might want to tell my master to take a look.",
             "I've mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
             "U-Uhh.. What did you want?"
     };
+    private final ICommandProcessor commandProcessor;
     private final Random rand = new Random();
+    private final Random random = new Random();
+    private final MantaroShard shard;
+    private final int shardId;
 
     public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
         this.shardId = shardId;
@@ -96,7 +97,8 @@ public class CommandListener implements EventListener {
     @Override
     public void onEvent(Event event) {
         if(event instanceof ShardMonitorEvent) {
-            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000) return;
+            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000)
+                return;
 
             //Hey, this listener is alive! (This won't pass if somehow this is blocked)
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
@@ -129,24 +131,24 @@ public class CommandListener implements EventListener {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
                     //Only run experience if the user is not ratelimiter (clears every 30 seconds)
-                    if (random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
-                        if (event.getMember() == null)
+                    if(random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
+                        if(event.getMember() == null)
                             return;
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
-
+                        PlayerData data = player.getData();
                         if(player.isLocked())
                             return;
 
                         //Set level to 1 if level is zero.
-                        if (player.getLevel() == 0)
+                        if(player.getLevel() == 0)
                             player.setLevel(1);
 
                         //Set player experience to a random number between 1 and 5.
-                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(5)));
+                        data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
 
                         //Apply some black magic.
-                        if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
+                        if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
 
                             //Check if the member is not null, just to be sure it happened in-between.
@@ -167,7 +169,8 @@ public class CommandListener implements EventListener {
                         //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
                         player.saveAsync();
                     }
-                } catch (Exception ignored) {}
+                } catch(Exception ignored) {
+                }
             }
         } catch(IndexOutOfBoundsException e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();
@@ -191,8 +194,8 @@ public class CommandListener implements EventListener {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessage(
                     String.format("%s%s\n(Error ID: `%s`)\n" +
-                            "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
-                            "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+                                    "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
+                                    "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
                             EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();
 

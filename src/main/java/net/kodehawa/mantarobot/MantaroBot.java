@@ -17,8 +17,6 @@
 package net.kodehawa.mantarobot;
 
 import br.com.brjdevs.java.utils.async.Async;
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
@@ -44,7 +42,6 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import org.apache.commons.collections4.iterators.ArrayIterator;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
 import java.time.Duration;
@@ -69,24 +66,6 @@ public class MantaroBot extends ShardedJDA {
     private static MantaroBot instance;
     @Getter
     private static TempBanManager tempBanManager;
-    @Getter
-    private final MantaroAudioManager audioManager;
-    @Getter
-    private final MantaroCore core;
-    @Getter
-    private final ShardedMantaro shardedMantaro;
-    @Getter
-    private final StatsDClient statsClient;
-    @Getter
-    private final DiscordBotsAPI discordBotsAPI;
-    @Getter
-    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
-    @Getter
-    private BirthdayCacher birthdayCacher;
-    @Getter
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
-
-    private final MuteTask muteTask = new MuteTask();
 
     //just in case
     static {
@@ -102,16 +81,23 @@ public class MantaroBot extends ShardedJDA {
         log.info("Filtering all logs below " + LogFilter.LEVEL);
     }
 
-    public static void main(String[] args) {
-        try {
-            new MantaroBot();
-        } catch(Exception e) {
-            SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
-            log.error("Could not complete Main Thread routine!", e);
-            log.error("Cannot continue! Exiting program...");
-            System.exit(FATAL_FAILURE);
-        }
-    }
+    @Getter
+    private final MantaroAudioManager audioManager;
+    @Getter
+    private final MantaroCore core;
+    @Getter
+    private final DiscordBotsAPI discordBotsAPI;
+    private final MuteTask muteTask = new MuteTask();
+    @Getter
+    private final ShardedMantaro shardedMantaro;
+    @Getter
+    private final StatsDClient statsClient;
+    @Getter
+    private BirthdayCacher birthdayCacher;
+    @Getter
+    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
+    @Getter
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
     private MantaroBot() throws Exception {
         instance = this;
@@ -144,10 +130,29 @@ public class MantaroBot extends ShardedJDA {
 
         LogUtils.log("Startup",
                 String.format("Loaded %d commands in %d seconds.\n" +
-                                "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
+                        "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         birthdayCacher = new BirthdayCacher();
         Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
+    }
+
+    public static void main(String[] args) {
+        try {
+            new MantaroBot();
+        } catch(Exception e) {
+            SentryHelper.captureException("Couldn't start Mantaro at all, so something went seriously wrong", e, MantaroBot.class);
+            log.error("Could not complete Main Thread routine!", e);
+            log.error("Cannot continue! Exiting program...");
+            System.exit(FATAL_FAILURE);
+        }
+    }
+
+    public static boolean isDebug() {
+        return ExtraRuntimeOptions.DEBUG;
+    }
+
+    public static boolean isVerbose() {
+        return ExtraRuntimeOptions.VERBOSE;
     }
 
     public Guild getGuildById(String guildId) {
@@ -185,14 +190,6 @@ public class MantaroBot extends ShardedJDA {
         return Arrays.asList(shardedMantaro.getShards());
     }
 
-    public static boolean isDebug() {
-        return ExtraRuntimeOptions.DEBUG;
-    }
-
-    public static boolean isVerbose() {
-        return ExtraRuntimeOptions.VERBOSE;
-    }
-
     public void startCheckingBirthdays() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
 
@@ -219,7 +216,7 @@ public class MantaroBot extends ShardedJDA {
     public void restartShard(int shardId, boolean force) {
         try {
             getShardList().get(shardId).start(force);
-        } catch (Exception e) {
+        } catch(Exception e) {
             LogUtils.shard("Error while restarting shard " + shardId);
             e.printStackTrace();
         }
