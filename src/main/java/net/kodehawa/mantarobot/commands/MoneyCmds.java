@@ -528,7 +528,7 @@ public class MoneyCmds {
                             .orderBy()
                             .optArg("index", r.desc("level"))
                             .filter(player -> player.g("id").match(pattern))
-                            .map(player -> player.pluck("id", "level"))
+                            .map(player -> player.pluck("id", "level", r.hashMap("data", "experience")))
                             .limit(15)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
@@ -539,7 +539,8 @@ public class MoneyCmds {
                 event.getChannel().sendMessage(
                         baseEmbed(event,"Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
+                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
+                                        "\n - Experience: **" + ((Map)map.get("data")).get("experience") + "**\n"))
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
