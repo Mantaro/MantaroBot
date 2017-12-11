@@ -150,6 +150,10 @@ public class ShardedMantaro {
 
         startUpdaters();
         bot.startCheckingBirthdays();
+    }
+
+    private void startUpdaters() {
+        Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
         if(config.dbotsorgToken != null) {
             Async.task("dbots.org update thread", () -> {
                 try {
@@ -162,10 +166,6 @@ public class ShardedMantaro {
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
-    }
-
-    private void startUpdaters() {
-        Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
 
         for(MantaroShard shard : getShards()) {
             shard.updateServerCount();
