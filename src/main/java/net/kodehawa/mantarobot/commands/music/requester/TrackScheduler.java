@@ -60,6 +60,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private Repeat repeatMode;
     @Setter
     private long requestedChannel;
+    private long lastMessageSentAt;
 
     public TrackScheduler(AudioPlayer player, String guildId) {
         this.audioPlayer = player;
@@ -120,13 +121,19 @@ public class TrackScheduler extends AudioEventAdapter {
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
 
-                getRequestedChannelParsed().sendMessage(
-                        new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
-                        title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                        String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
-                                .stripMentions(getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
-                                .build()
-                ).queue(message -> message.delete().queueAfter(90, TimeUnit.SECONDS));
+                //Avoid massive spam of "now playing..." when repeating songs.
+                if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
+                    getRequestedChannelParsed().sendMessage(
+                            new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
+                                    title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
+                                            String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
+                                    .stripMentions(getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
+                                    .build()
+                    ).queue(message -> {
+                        lastMessageSentAt = System.currentTimeMillis();
+                        message.delete().queueAfter(90, TimeUnit.SECONDS);
+                    });
+                }
             }
         }
     }
