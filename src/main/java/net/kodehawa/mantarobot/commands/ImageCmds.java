@@ -124,7 +124,7 @@ public class ImageCmds {
                 return helpEmbed(event, "Catgirl command")
                         .setDescription("**Sends catgirl images**")
                         .addField("Usage", "`~>catgirl` - **Returns catgirl images.**" +
-                                "\n´`~>catgirl nsfw` - **Returns lewd or questionable cargirl images.**", false)
+                                "\n`~>catgirl nsfw` - **Returns lewd or questionable cargirl images.**", false)
                         .build();
             }
         });
