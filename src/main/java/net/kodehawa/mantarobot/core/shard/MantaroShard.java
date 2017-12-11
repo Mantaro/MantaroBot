@@ -88,14 +88,13 @@ public class MantaroShard implements JDA {
     @Getter
     public final MantaroEventManager manager;
     private final CommandListener commandListener;
-    @Getter
-    private final ExecutorService commandPool;
     private final Logger log;
-
     private final MantaroListener mantaroListener;
     private final int shardId;
     @Getter
     private final ExecutorService threadPool;
+    @Getter
+    private final ExecutorService commandPool;
     private final int totalShards;
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);

@@ -37,6 +37,7 @@ import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -135,7 +136,7 @@ public class CommandListener implements EventListener {
                             return;
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
-
+                        PlayerData data = player.getData();
                         if(player.isLocked())
                             return;
 
@@ -144,10 +145,10 @@ public class CommandListener implements EventListener {
                             player.setLevel(1);
 
                         //Set player experience to a random number between 1 and 5.
-                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(5)));
+                        data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
 
                         //Apply some black magic.
-                        if(player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
+                        if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
 
                             //Check if the member is not null, just to be sure it happened in-between.
