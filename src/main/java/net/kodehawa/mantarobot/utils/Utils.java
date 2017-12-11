@@ -28,8 +28,8 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.json.JSONObject;
 import us.monoid.web.Resty;
@@ -316,12 +316,12 @@ public class Utils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <K,V> Map<K,V> map(Object... mappings) {
+    public static <K, V> Map<K, V> map(Object... mappings) {
         if(mappings.length % 2 == 1) throw new IllegalArgumentException("mappings.length must be even");
         Map<K, V> map = new HashMap<>();
 
         for(int i = 0; i < mappings.length; i += 2) {
-            map.put((K)mappings[i], (V)mappings[i+1]);
+            map.put((K) mappings[i], (V) mappings[i + 1]);
         }
 
         return map;
@@ -442,7 +442,7 @@ public class Utils {
     }
 
     public static void dbConnection(Consumer<Connection> consumer) {
-        try (Connection conn = r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect()) {
+        try(Connection conn = r.connection().hostname(config.dbHost).port(config.dbPort).db(config.dbDb).user(config.dbUser, config.dbPassword).connect()) {
             consumer.accept(conn);
         }
     }

@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.options.opts;
 
 import com.google.common.eventbus.Subscribe;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;

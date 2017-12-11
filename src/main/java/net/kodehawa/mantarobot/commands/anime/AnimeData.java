@@ -37,6 +37,11 @@ public class AnimeData {
     private Integer total_episodes = null;
     private String type = null;
 
+    @JsonIgnore
+    public static AnimeData[] fromJson(String json) {
+        return GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
+    }
+
     public String getAverageScore() {
         return average_score;
     }
@@ -91,10 +96,5 @@ public class AnimeData {
 
     public String getType() {
         return type;
-    }
-
-    @JsonIgnore
-    public static AnimeData[] fromJson(String json) {
-        return GsonDataManager.GSON_PRETTY.fromJson(json, AnimeData[].class);
     }
 }

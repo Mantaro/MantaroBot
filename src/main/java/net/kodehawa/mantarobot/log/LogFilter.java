@@ -11,11 +11,11 @@ public class LogFilter extends Filter<ILoggingEvent> {
 
     @Override
     public FilterReply decide(ILoggingEvent event) {
-        if (!isStarted()) {
+        if(!isStarted()) {
             return FilterReply.NEUTRAL;
         }
 
-        if (event.getLevel().isGreaterOrEqual(LEVEL)) {
+        if(event.getLevel().isGreaterOrEqual(LEVEL)) {
             return FilterReply.NEUTRAL;
         } else {
             return FilterReply.DENY;

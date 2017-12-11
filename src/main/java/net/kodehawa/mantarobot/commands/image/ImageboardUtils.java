@@ -173,7 +173,7 @@ public class ImageboardUtils {
                         imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                         if(image.getRating().equals(Rating.EXPLICIT))
                             TextChannelGround.of(event).dropItemWithChance(13, 3);
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.SAD + "There was an unknown error while looking for a random image...").queue();
                     }
                 });
@@ -227,7 +227,7 @@ public class ImageboardUtils {
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor("Found image", url, null)
                 .setImage(url)
-                .setDescription("Rating: **" + rating.getLongName() + "**, Imageboard: **" + imageboard + "**" )
+                .setDescription("Rating: **" + rating.getLongName() + "**, Imageboard: **" + imageboard + "**")
                 .addField("Width", width, true)
                 .addField("Height", height, true)
                 .addField("Tags", "`" + (tags == null ? "None" : tags) + "`", false)

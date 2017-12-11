@@ -109,14 +109,15 @@ public class Items {
             HOUSE = new Item(EmoteReference.HOUSE.getUnicode(),
                     "House", "Cozy place to live in.", 5000, true, true),
             CAR = new Item("\uD83D\uDE97",
-                    "Car", "To move around.", 1000, true ,true)
+                    "Car", "To move around.", 1000, true, true)
     };
 
     public static Optional<Item> fromAny(String any) {
         try {
             Item item = fromId(Integer.parseInt(any));
             if(item != null) return Optional.of(item);
-        } catch(NumberFormatException ignored) {}
+        } catch(NumberFormatException ignored) {
+        }
 
         return fromAnyNoId(any);
     }

@@ -59,11 +59,11 @@ import static net.kodehawa.mantarobot.utils.commands.EmoteReference.BLUE_SMALL_M
 @Module
 public class InfoCmds {
 
-    private final CommandStatsManager commandStatsManager = new CommandStatsManager();
-    private final GuildStatsManager guildStatsManager = new GuildStatsManager();
     private final CategoryStatsManager categoryStatsManager = new CategoryStatsManager();
+    private final CommandStatsManager commandStatsManager = new CommandStatsManager();
     private final CustomCommandStatsManager customCommandStatsManager = new CustomCommandStatsManager();
     private final GameStatsManager gameStatsManager = new GameStatsManager();
+    private final GuildStatsManager guildStatsManager = new GuildStatsManager();
 
     @Subscribe
     public void about(CommandRegistry cr) {
@@ -165,7 +165,7 @@ public class InfoCmds {
                         "**Donation methods:**\n" +
                         "**- Patreon:** <http://patreon.com/mantaro>\n" +
                         "**- Paypal:** <http://paypal.me/mantarobot>")
-                .queue();
+                        .queue();
             }
 
             @Override
@@ -214,7 +214,7 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if (roles.length() > 1024)
+                if(roles.length() > 1024)
                     roles = roles.substring(0, 1024 - 4) + "...";
 
                 channel.sendMessage(new EmbedBuilder()
@@ -260,7 +260,7 @@ public class InfoCmds {
         cr.register("help", new SimpleCommand(Category.INFO) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (content.isEmpty()) {
+                if(content.isEmpty()) {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     String defaultPrefix = MantaroData.config().get().prefix[0], guildPrefix = dbGuild.getData().getGuildCustomPrefix();
                     String prefix = guildPrefix == null ? defaultPrefix : guildPrefix;
@@ -287,10 +287,10 @@ public class InfoCmds {
                 } else {
                     Command command = DefaultCommandProcessor.REGISTRY.commands().get(content);
 
-                    if (command != null) {
+                    if(command != null) {
                         final MessageEmbed help = command.help(event);
                         Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
-                        if (help == null)
+                        if(help == null)
                             event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
                     } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "A command with this name doesn't exist").queue();
@@ -348,9 +348,9 @@ public class InfoCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        if (content.isEmpty()) {
+                        if(content.isEmpty()) {
                             event.getChannel().sendMessage(EmoteReference.MEGA + "**[Stats]** Y-Yeah... gathering them, hold on for a bit...").queue(message -> {
-                                GuildStatsManager.MILESTONE = (((int)(MantaroBot.getInstance().getGuildCache().size() + 99) / 100) * 100) + 100;
+                                GuildStatsManager.MILESTONE = (((int) (MantaroBot.getInstance().getGuildCache().size() + 99) / 100) * 100) + 100;
                                 List<Guild> guilds = MantaroBot.getInstance().getGuilds();
 
                                 List<VoiceChannel> voiceChannels = MantaroBot.getInstance().getVoiceChannels();
@@ -448,24 +448,24 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if (args.length > 0) {
+                if(args.length > 0) {
                     String what = args[0];
-                    if (what.equals("total")) {
+                    if(what.equals("total")) {
                         event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.TOTAL_CMDS, baseEmbed(event, "Command Stats | Total")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("daily")) {
+                    if(what.equals("daily")) {
                         event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.DAY_CMDS, baseEmbed(event, "Command Stats | Daily")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("hourly")) {
+                    if(what.equals("hourly")) {
                         event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.HOUR_CMDS, baseEmbed(event, "Command Stats | Hourly")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("now")) {
+                    if(what.equals("now")) {
                         event.getChannel().sendMessage(commandStatsManager.fillEmbed(CommandStatsManager.MINUTE_CMDS, baseEmbed(event, "Command Stats | Now")).build()).queue();
                         return;
                     }
@@ -486,24 +486,24 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if (args.length > 0) {
+                if(args.length > 0) {
                     String what = args[0];
-                    if (what.equals("total")) {
+                    if(what.equals("total")) {
                         event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.TOTAL_EVENTS, baseEmbed(event, "Guild Stats | Total")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("daily")) {
+                    if(what.equals("daily")) {
                         event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.DAY_EVENTS, baseEmbed(event, "Guild Stats | Daily")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("hourly")) {
+                    if(what.equals("hourly")) {
                         event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.HOUR_EVENTS, baseEmbed(event, "Guild Stats | Hourly")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("now")) {
+                    if(what.equals("now")) {
                         event.getChannel().sendMessage(guildStatsManager.fillEmbed(GuildStatsManager.MINUTE_EVENTS, baseEmbed(event, "Guild Stats | Now")).build()).queue();
                         return;
                     }
@@ -525,24 +525,24 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 String[] args = content.split(" ");
-                if (args.length > 0) {
+                if(args.length > 0) {
                     String what = args[0];
-                    if (what.equals("total")) {
+                    if(what.equals("total")) {
                         event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.TOTAL_CATS, baseEmbed(event, "Category Stats | Total")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("daily")) {
+                    if(what.equals("daily")) {
                         event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.DAY_CATS, baseEmbed(event, "Category Stats | Daily")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("hourly")) {
+                    if(what.equals("hourly")) {
                         event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.HOUR_CATS, baseEmbed(event, "Category Stats | Hourly")).build()).queue();
                         return;
                     }
 
-                    if (what.equals("now")) {
+                    if(what.equals("now")) {
                         event.getChannel().sendMessage(categoryStatsManager.fillEmbed(CategoryStatsManager.MINUTE_CATS, baseEmbed(event, "Category Stats | Now")).build()).queue();
                         return;
                     }
@@ -613,7 +613,7 @@ public class InfoCmds {
                         .map(Role::getName)
                         .collect(Collectors.joining(", "));
 
-                if (roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
+                if(roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
                 String s =

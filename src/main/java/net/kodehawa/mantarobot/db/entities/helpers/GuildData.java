@@ -38,12 +38,18 @@ public class GuildData {
     private Set<String> disabledCommands = new HashSet<>();
     private Set<String> disabledRoles = new HashSet<>();
     private List<String> disabledUsers = new ArrayList<>();
+    private boolean enabledLevelUpMessages = false;
+    private String gameTimeoutExpectedAt;
     private String guildAutoRole = null;
     private String guildCustomPrefix = null;
     private String guildLogChannel = null;
     private Set<String> guildUnsafeChannels = new HashSet<>();
+    private boolean ignoreBotsAutoRole = false;
+    private boolean ignoreBotsWelcomeMessage = false;
     private String joinMessage = null;
     private String leaveMessage = null;
+    private String levelUpChannel = null;
+    private String levelUpMessage = null;
     private boolean linkProtection = false;
     private Set<String> linkProtectionAllowedChannels = new HashSet<>();
     private Set<String> logExcludedChannels = new HashSet<>();
@@ -72,10 +78,4 @@ public class GuildData {
     private int timeDisplay = 0; //0 = 24h, 1 = 12h
     private Map<Long, WarnAction> warnActions = new HashMap<>(); //TODO add config for this!
     private Map<String, Long> warnCount = new HashMap<>();
-    private String gameTimeoutExpectedAt;
-    private boolean ignoreBotsWelcomeMessage = false;
-    private boolean ignoreBotsAutoRole = false;
-    private boolean enabledLevelUpMessages = false;
-    private String levelUpChannel = null;
-    private String levelUpMessage = null;
 }

@@ -17,7 +17,6 @@
 package net.kodehawa.mantarobot.db.entities.helpers;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Data;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -30,18 +29,16 @@ import java.util.*;
 public class PlayerData {
     public long experience = 0;
     private List<Badge> badges = new ArrayList<>();
+    //Fix massive misspelling fuck up.
+    @JsonProperty("dailyStrike")
+    private long dailyStreak;
     private String description = null;
     private long gamesWon = 0;
+    private long lastDailyAt;
     private long lockedUntil = 0;
     private Long marriedSince = null;
     private String marriedWith = null;
     private long moneyOnBank = 0;
-
-    //Fix massive misspelling fuck up.
-    @JsonProperty("dailyStrike")
-    private long dailyStreak;
-
-    private long lastDailyAt;
 
     @Transient
     public boolean isMarried() {

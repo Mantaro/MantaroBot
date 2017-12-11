@@ -33,7 +33,6 @@ import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.services.Carbonitex;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Utils;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
@@ -53,6 +52,10 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
 @Slf4j
 public class ShardedMantaro {
 
+    private final Carbonitex carbonitex = new Carbonitex();
+    private final Config config = MantaroData.config().get();
+    //Natan's DBL API sender instance.
+    private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
     @Getter
     private final List<MantaroEventManager> managers = new ArrayList<>();
     private final ICommandProcessor processor;
@@ -60,10 +63,6 @@ public class ShardedMantaro {
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
-    private final Carbonitex carbonitex = new Carbonitex();
-    //Natan's DBL API sender instance.
-    private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
-    private final Config config = MantaroData.config().get();
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -161,7 +160,8 @@ public class ShardedMantaro {
                     int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
                     discordBotsAPI.postStats(shards);
                     log.debug("Updated server count ({}) for discordbots.org", count);
-                } catch (Exception ignored) { }
+                } catch(Exception ignored) {
+                }
             }, 1, TimeUnit.HOURS);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");

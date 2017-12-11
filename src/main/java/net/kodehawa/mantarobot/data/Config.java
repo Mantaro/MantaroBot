@@ -56,6 +56,7 @@ public class Config {
     public String rMQIP;
     public String rMQPassword;
     public String rMQUser;
+    public RedisInfo redis = new RedisInfo();
     public String remoteNode;
     public String sentryDSN;
     public int shardWatcherTimeout = 1500; //wait 1500ms for the handlers to run
@@ -70,7 +71,6 @@ public class Config {
     public String weatherAppId;
     public String webhookUrl;
     public String weebapiKey;
-    public RedisInfo redis = new RedisInfo();
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());
@@ -85,22 +85,22 @@ public class Config {
     }
 
     public static class RedisInfo {
-        public String host = "localhost";
-        public int port = 6379;
-        public boolean enabled = true;
         public CacheInfo customCommands = new CacheInfo();
+        public boolean enabled = true;
         public CacheInfo guilds = new CacheInfo();
+        public String host = "localhost";
         public CacheInfo players = new CacheInfo();
-        public CacheInfo users = new CacheInfo();
+        public int port = 6379;
         public CacheInfo premiumKeys = new CacheInfo();
+        public CacheInfo users = new CacheInfo();
 
         public static class CacheInfo {
+            public boolean enabled = false;
             public LocalCachedMapOptions.EvictionPolicy evictionPolicy = LocalCachedMapOptions.EvictionPolicy.LFU;
             public LocalCachedMapOptions.InvalidationPolicy invalidationPolicy = LocalCachedMapOptions.InvalidationPolicy.ON_CHANGE;
+            public long maxIdleMs = 180000;
             public int maxSize = 1000;
             public long ttlMs = 180000;
-            public long maxIdleMs = 180000;
-            public boolean enabled = false;
         }
     }
 }

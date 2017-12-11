@@ -215,7 +215,7 @@ public abstract class ShardedJDA implements UnifiedJDA {
     }
 
     @Override
-    public List<Category> getCategoriesByName(String name, boolean ignoreCase){
+    public List<Category> getCategoriesByName(String name, boolean ignoreCase) {
         return stream().flatMap(jda -> jda.getCategoriesByName(name, ignoreCase).stream()).collect(Collectors.toList());
     }
 
@@ -315,5 +315,6 @@ public abstract class ShardedJDA implements UnifiedJDA {
     }
 
     public abstract void restartShard(int shardId, boolean force);
+
     public abstract void restartAll();
 }

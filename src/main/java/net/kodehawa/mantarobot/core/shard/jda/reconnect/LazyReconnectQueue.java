@@ -28,15 +28,15 @@ public class LazyReconnectQueue extends SessionReconnectQueue {
 
     @Override
     public void appendSession(WebSocketClient client) {
-        if (!reconnectQueue.offer(client))
+        if(!reconnectQueue.offer(client))
             throw new IllegalStateException("The queue rejected this session");
-        if (ready)
+        if(ready)
             runWorker();
     }
 
     public void ready() {
         ready = true;
-        if (!reconnectQueue.isEmpty())
+        if(!reconnectQueue.isEmpty())
             runWorker();
     }
 }

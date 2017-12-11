@@ -16,4 +16,5 @@
 
 package net.kodehawa.mantarobot.core.listeners.events;
 
-public class PreLoadEvent { }
+public class PreLoadEvent {
+}

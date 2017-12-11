@@ -81,7 +81,7 @@ public class RateLimiter {
 
     //Basically where you get b1nzy'd.
     public boolean process(String key) {
-        boolean isPremium = isPremiumAware && MantaroData.db().getUser(key) != null && MantaroData.db().getUser(key).isPremium();
+        boolean isPremium = isPremiumAware && MantaroData.db().getUser(key).isPremium();
         Pair<AtomicInteger, Long> p = usersRateLimited.get(key);
 
         //Put the user on the RL map if they aren't here already, but we already let him pass.

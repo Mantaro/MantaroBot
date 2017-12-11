@@ -22,16 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.ConnectionWatcherData;
-import net.kodehawa.mantarobot.utils.KryoUtils;
 import net.kodehawa.mantarobot.utils.SentryHelper;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.ConnectException;
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
 
 @Slf4j
 public class ConnectionWatcherDataManager implements DataManager<ConnectionWatcherData> {

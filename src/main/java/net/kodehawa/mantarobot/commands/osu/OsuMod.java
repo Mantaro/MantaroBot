@@ -37,6 +37,7 @@ public enum OsuMod {
 
     private final String abbreviation;
     private final Mod mod;
+
     OsuMod(Mod mod, String abbreviation) {
 
         this.mod = mod;

@@ -37,8 +37,8 @@ import static com.rethinkdb.RethinkDB.r;
 @Slf4j
 public class BirthdayCacher {
     public Map<String, String> cachedBirthdays = new ConcurrentHashMap<>();
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
     public volatile boolean isDone;
+    private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     public BirthdayCacher() {
         log.info("Caching birthdays...");

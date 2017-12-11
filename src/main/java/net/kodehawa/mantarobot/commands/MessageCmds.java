@@ -108,13 +108,13 @@ public class MessageCmds {
                             messageHistory -> {
                                 messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
 
-                                if (messageHistory.isEmpty()) {
+                                if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from users which you mentioned " +
                                             "here.").queue();
                                     return;
                                 }
 
-                                if (messageHistory.size() < 3) {
+                                if(messageHistory.size() < 3) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
                                     return;
                                 }

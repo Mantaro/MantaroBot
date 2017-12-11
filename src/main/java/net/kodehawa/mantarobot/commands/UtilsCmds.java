@@ -145,7 +145,7 @@ public class UtilsCmds {
                                 messages.add("**" + event.getGuild().getName() + "'s Birthdays for " +
                                         Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)) + "**\n" +
                                         (parts.size() > 1 ? (hasReactionPerms ? "Use the arrow reactions to change pages. " :
-                                        "Use &page >> and &page << to change pages and &cancel to end") : "") +
+                                                "Use &page >> and &page << to change pages and &cancel to end") : "") +
                                         String.format("```diff\n%s```", s1));
                             }
 
@@ -157,7 +157,7 @@ public class UtilsCmds {
                         } else {
                             event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
                         }
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.SAD + "Something went wrong while getting birthdays :(").queue();
                     }
 
@@ -369,7 +369,7 @@ public class UtilsCmds {
                                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
                                     });
                         }
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
                     }
 
@@ -483,7 +483,8 @@ public class UtilsCmds {
                     try {
                         url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(
                                 beheadedSplit[0], "UTF-8");
-                    } catch(UnsupportedEncodingException ignored) { }
+                    } catch(UnsupportedEncodingException ignored) {
+                    }
 
                     String json = Utils.wgetResty(url, event);
                     UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
@@ -519,7 +520,7 @@ public class UtilsCmds {
                             UrbanData.List def1 = data.list.get(defn);
                             String definition = def1.definition;
                             embed.setAuthor(
-                                    "Urban Dictionary definition for " + beheadedSplit[0], def1.permalink,null)
+                                    "Urban Dictionary definition for " + beheadedSplit[0], def1.permalink, null)
                                     .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                                     .setDescription("Definition " + defns)
                                     .setColor(Color.GREEN)

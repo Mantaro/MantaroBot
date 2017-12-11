@@ -43,7 +43,8 @@ public class Carbonitex {
 
                 Response response = httpClient.newCall(request).execute();
                 response.close();
-            } catch(Exception ignored) {}
+            } catch(Exception ignored) {
+            }
         }
     }
 }

@@ -28,8 +28,6 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
@@ -43,7 +41,9 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.security.SecureRandom;
@@ -67,10 +67,9 @@ public class MoneyCmds {
         format.setMinimumFractionDigits(1); // decimal support
         return format;
     });
-
-    private final Random random = new Random();
-    private final int SLOTS_MAX_MONEY = 175_000_000;
     private final long GAMBLE_ABSOLUTE_MAX_MONEY = (long) (Integer.MAX_VALUE) * 5;
+    private final int SLOTS_MAX_MONEY = 175_000_000;
+    private final Random random = new Random();
 
     @Subscribe
     public void daily(CommandRegistry cr) {
@@ -123,7 +122,8 @@ public class MoneyCmds {
 
                     if(playerData.getDailyStreak() > 5) {
                         int bonus = 150;
-                        if(playerData.getDailyStreak() > 15) bonus += Math.floor(150 * playerData.getDailyStreak() / 15);
+                        if(playerData.getDailyStreak() > 15)
+                            bonus += Math.floor(150 * playerData.getDailyStreak() / 15);
 
                         streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
@@ -374,8 +374,8 @@ public class MoneyCmds {
                                     EmoteReference.POPPER, s, moneyFound, overflow)).queue();
                         } else {
                             event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits.** " +
-                                    "%sBut you already had too many credits. Your bag overflowed.\n" +
-                                    "Congratulations, you exploded a Java long. Here's a buggy money bag for you.",
+                                            "%sBut you already had too many credits. Your bag overflowed.\n" +
+                                            "Congratulations, you exploded a Java long. Here's a buggy money bag for you.",
                                     EmoteReference.POPPER, s, moneyFound, overflow)).queue();
                         }
                     } else {
@@ -390,7 +390,7 @@ public class MoneyCmds {
                         } else {
                             //pretty old meme right here
                             event.getChannel().sendMessage(String.format("%sDigging through messages, you found **$%d credits.** " +
-                                    "But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
+                                            "But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
                                     EmoteReference.POPPER, moneyFound)).queue();
                         }
                     } else {
@@ -434,7 +434,7 @@ public class MoneyCmds {
 
                 if(found.size() > 1 && !content.isEmpty()) {
                     event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                            "**Users found:** %s",
+                                    "**Users found:** %s",
                             EmoteReference.THINKING, found.stream()
                                     .map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator())
                                     .collect(Collectors.joining(", ")))).queue();
@@ -496,7 +496,7 @@ public class MoneyCmds {
                     m.close();
 
                     event.getChannel().sendMessage(
-                            baseEmbed(event,"Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                            baseEmbed(event, "Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                             ).setDescription(c.stream()
                                     .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString()))
                                     .filter(p -> Objects.nonNull(p.getKey()))
@@ -694,8 +694,8 @@ public class MoneyCmds {
     @Subscribe
     public void mine(CommandRegistry cr) {
         cr.register("mine", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 6, false);
             final Random r = new Random();
+            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 6, false);
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
