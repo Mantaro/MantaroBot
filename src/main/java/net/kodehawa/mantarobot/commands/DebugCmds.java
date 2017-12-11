@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -261,7 +262,7 @@ public class DebugCmds {
                                 "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         ,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
-                        bot.getShardList().stream().map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
+                        bot.getShardList().stream().filter(Objects::nonNull).map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
                         dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
                         bot.getUserCache().size(), bot.getShardList().size()));
 

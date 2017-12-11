@@ -137,7 +137,7 @@ public class UtilsCmds {
                                     .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
                                     .collect(Collectors.joining("\n"));
 
-                            List<String> parts = DiscordUtils.divideString(birthdays);
+                            List<String> parts = DiscordUtils.divideString(1000, birthdays);
                             List<String> messages = new LinkedList<>();
                             boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 

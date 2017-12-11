@@ -223,6 +223,10 @@ public class DiscordUtils {
         return divideString(1750, new StringBuilder(s));
     }
 
+    public static List<String> divideString(int max, String s) {
+        return divideString(max, new StringBuilder(s));
+    }
+
     public static List<String> divideString(StringBuilder builder) {
         return divideString(1750, builder);
     }

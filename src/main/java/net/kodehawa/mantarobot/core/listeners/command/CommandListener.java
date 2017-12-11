@@ -128,6 +128,7 @@ public class CommandListener implements EventListener {
             } else {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
+                    //Only run experience if the user is not ratelimiter (clears every 30 seconds)
                     if (random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
                         if (event.getMember() == null)
                             return;
@@ -137,11 +138,14 @@ public class CommandListener implements EventListener {
                         if(player.isLocked())
                             return;
 
+                        //Set level to 1 if level is zero.
                         if (player.getLevel() == 0)
                             player.setLevel(1);
 
+                        //Set player experience to a random number between 1 and 5.
                         player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(5)));
 
+                        //Apply some black magic.
                         if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
 
@@ -152,6 +156,7 @@ public class CommandListener implements EventListener {
                                     String levelUpChannel = guildData.getLevelUpChannel();
                                     String levelUpMessage = guildData.getLevelUpMessage();
 
+                                    //Player has leveled up!
                                     if(levelUpMessage != null && levelUpChannel != null) {
                                         processMessage(String.valueOf(player.getLevel()), levelUpMessage, levelUpChannel, event);
                                     }
@@ -159,6 +164,7 @@ public class CommandListener implements EventListener {
                             }
                         }
 
+                        //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
                         player.saveAsync();
                     }
                 } catch (Exception ignored) {}

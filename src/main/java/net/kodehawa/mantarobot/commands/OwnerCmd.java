@@ -336,10 +336,7 @@ public class OwnerCmd {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Owner command")
-                        .setDescription("`~>owner shutdown/forceshutdown`: Shutdowns the bot\n" +
-                                "`~>owner restart/forcerestart`: Restarts the bot.\n" +
-                                "`~>owner scheduleshutdown time <time>` - Schedules a fixed amount of seconds the bot will wait to be shutted down.\n" +
-                                "`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
+                        .setDescription("`~>owner premium add <id> <days>` - Adds premium to the specified user for x days.")
                         .build();
             }
 
