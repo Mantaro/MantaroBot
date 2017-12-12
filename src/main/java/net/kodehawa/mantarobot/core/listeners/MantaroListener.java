@@ -514,7 +514,7 @@ public class MantaroListener implements EventListener {
                 logTotal++;
             }
 
-            String joinChannel = data.getLogJoinLeaveChannel();
+            String joinChannel = data.getLogJoinLeaveChannel() == null ? data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
 
             sendJoinLeaveMessage(event, joinMessage, joinChannel);
@@ -543,7 +543,7 @@ public class MantaroListener implements EventListener {
                 logTotal++;
             }
 
-            String leaveChannel = data.getLogJoinLeaveChannel();
+            String leaveChannel = data.getLogJoinLeaveChannel() == null ? data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
 
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);

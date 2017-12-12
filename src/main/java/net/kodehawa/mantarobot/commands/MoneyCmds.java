@@ -614,10 +614,40 @@ public class MoneyCmds {
             }
         });
 
+        leaderboards.addSubCommand("localxp", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                List<Map> l;
+
+                try(Connection conn = Utils.newDbConnection()) {
+                    l = r.table("guilds")
+                            .get(event.getGuild().getId())
+                            .getField("data")
+                            .getField("localPlayerExperience")
+                            .run(conn, OptArgs.of("read_mode", "outdated"));
+                }
+
+                l.sort(Comparator.<Map>comparingLong(o -> (long) o.get("experience")).reversed());
+
+                event.getChannel().sendMessage(
+                        baseEmbed(event,
+                                "Local level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        ).setDescription(l.stream()
+                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("userId").toString().split(":")[0]), map.get("level").toString() +
+                                        "\n - Experience: **" + map.get("experience") + "**\n"))
+                                .filter(p -> Objects.nonNull(p.getKey()))
+                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
+                                        .getKey().getDiscriminator(), p.getValue()))
+                                .collect(Collectors.joining("\n"))
+                        ).build()
+                ).queue();
+            }
+        });
 
         leaderboards.createSubCommandAlias("rep", "reputation");
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
+        leaderboards.createSubCommandAlias("localxp", "local");
 
         cr.registerAlias("leaderboard", "richest");
     }
@@ -641,9 +671,38 @@ public class MoneyCmds {
                 int slotsChance = 25; //25% raw chance of winning, completely random chance of winning on the other random iteration
                 boolean isWin = false;
                 boolean coinSelect = false;
+                Player player = MantaroData.db().getPlayer(event.getAuthor());
+                int amountN = 1;
 
                 if(opts.containsKey("useticket")) {
                     coinSelect = true;
+                }
+
+                if(opts.containsKey("amount") && opts.get("amount").isPresent()) {
+                    if(!coinSelect) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot specify how many tickets you're gonna use if you're not using tickets!").queue();
+                        return;
+                    }
+
+                    String amount = opts.get("amount").get();
+
+                    if(amount.isEmpty()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify the amount!").queue();
+                        return;
+                    }
+
+                    try {
+                        amountN = Integer.parseUnsignedInt(amount);
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "That is not a valid number!").queue();
+                    }
+
+                   if(player.getInventory().getAmount(Items.SLOT_COIN) < amountN) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough slots tickets!").queue();
+                        return;
+                   }
+
+                   money += 58 * amountN;
                 }
 
                 if(args.length == 1 && !coinSelect) {
@@ -665,7 +724,6 @@ public class MoneyCmds {
                     }
                 }
 
-                Player player = MantaroData.db().getPlayer(event.getAuthor());
 
                 if(player.getMoney() < money && !coinSelect) {
                     event.getChannel().sendMessage(EmoteReference.SAD + "You don't have enough money to play the slots machine!").queue();
@@ -676,7 +734,7 @@ public class MoneyCmds {
 
                 if(coinSelect) {
                     if(player.getInventory().containsItem(Items.SLOT_COIN)) {
-                        player.getInventory().process(new ItemStack(Items.SLOT_COIN, -1));
+                        player.getInventory().process(new ItemStack(Items.SLOT_COIN, -amountN));
                         player.saveAsync();
                         slotsChance = slotsChance + 10;
                     } else {
@@ -689,7 +747,7 @@ public class MoneyCmds {
                 }
 
 
-                StringBuilder message = new StringBuilder(String.format("%s**You used %s and rolled the slot machine!**\n\n", EmoteReference.DICE, coinSelect ? "a slot ticket" : money + " credits"));
+                StringBuilder message = new StringBuilder(String.format("%s**You used %s and rolled the slot machine!**\n\n", EmoteReference.DICE, coinSelect ? amountN +" slot ticket(s)" : money + " credits"));
                 StringBuilder builder = new StringBuilder();
                 for(int i = 0; i < 9; i++) {
                     if(i > 1 && i % 3 == 0) {

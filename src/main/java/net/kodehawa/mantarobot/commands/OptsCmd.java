@@ -180,6 +180,10 @@ public class OptsCmd {
                     AtomicInteger ai = new AtomicInteger();
 
                     for(Entry e : fieldMap.entrySet()) {
+                        if(e.getKey().equals("localPlayerExperience")) {
+                            continue;
+                        }
+
                         show.append(ai.incrementAndGet())
                                 .append(".- `")
                                 .append(e.getKey())

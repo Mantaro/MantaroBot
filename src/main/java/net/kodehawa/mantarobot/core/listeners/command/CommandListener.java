@@ -35,8 +35,10 @@ import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.LocalExperienceData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
@@ -44,10 +46,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -137,6 +136,25 @@ public class CommandListener implements EventListener {
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
                         PlayerData data = player.getData();
+                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        GuildData guildData = dbGuild.getData();
+                        LocalExperienceData localPlayer = null;
+                        List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
+
+                        long start = System.currentTimeMillis();
+                        for(LocalExperienceData localData : players) {
+                            if(localData.getUserId().equals(event.getAuthor().getId())) {
+                                localPlayer = localData;
+                            }
+                        }
+
+                        if(localPlayer == null) {
+                            localPlayer = new LocalExperienceData(event.getAuthor().getId());
+                            players.add(localPlayer);
+                        }
+                        long end = System.currentTimeMillis();
+                        System.out.println(end - start + "ms to iterate and find player");
+
                         if(player.isLocked())
                             return;
 
@@ -144,8 +162,12 @@ public class CommandListener implements EventListener {
                         if(player.getLevel() == 0)
                             player.setLevel(1);
 
+                        if(localPlayer.getLevel() == 0)
+                            localPlayer.setLevel(0);
+
                         //Set player experience to a random number between 1 and 5.
                         data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
+                        localPlayer.setExperience(localPlayer.getExperience() + Math.round(random.nextInt(5)));
 
                         //Apply some black magic.
                         if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
@@ -153,7 +175,6 @@ public class CommandListener implements EventListener {
 
                             //Check if the member is not null, just to be sure it happened in-between.
                             if(player.getLevel() > 1 && event.getGuild().getMemberById(player.getUserId()) != null) {
-                                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
                                 if(guildData.isEnabledLevelUpMessages()) {
                                     String levelUpChannel = guildData.getLevelUpChannel();
                                     String levelUpMessage = guildData.getLevelUpMessage();
@@ -166,11 +187,15 @@ public class CommandListener implements EventListener {
                             }
                         }
 
+                        if(localPlayer.getExperience() > (localPlayer.getLevel() * Math.log10(localPlayer.getLevel()) * 1000) + (50 * localPlayer.getLevel() / 2)) {
+                            localPlayer.setLevel(player.getLevel() + 1);
+                        }
+
                         //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
                         player.saveAsync();
+                        dbGuild.saveAsync();
                     }
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) { }
             }
         } catch(IndexOutOfBoundsException e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "Your query returned no results or you used the incorrect arguments, seemingly. Just in case, check command help!").queue();

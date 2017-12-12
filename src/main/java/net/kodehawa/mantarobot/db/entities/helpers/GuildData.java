@@ -79,4 +79,7 @@ public class GuildData {
     private String levelUpChannel = null;
     private String levelUpMessage = null;
     private Set<String> blackListedImageTags = new HashSet<>();
+    private String logJoinChannel = null;
+    private String logLeaveChannel = null;
+    private List<LocalExperienceData> localPlayerExperience = new ArrayList<>();
 }
