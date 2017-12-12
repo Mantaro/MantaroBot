@@ -141,7 +141,6 @@ public class CommandListener implements EventListener {
                         LocalExperienceData localPlayer = null;
                         List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
 
-                        long start = System.currentTimeMillis();
                         for(LocalExperienceData localData : players) {
                             if(localData.getUserId().equals(event.getAuthor().getId())) {
                                 localPlayer = localData;
@@ -152,8 +151,6 @@ public class CommandListener implements EventListener {
                             localPlayer = new LocalExperienceData(event.getAuthor().getId());
                             players.add(localPlayer);
                         }
-                        long end = System.currentTimeMillis();
-                        System.out.println(end - start + "ms to iterate and find player");
 
                         if(player.isLocked())
                             return;

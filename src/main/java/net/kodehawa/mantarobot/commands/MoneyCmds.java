@@ -633,11 +633,10 @@ public class MoneyCmds {
                         baseEmbed(event,
                                 "Local level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(l.stream()
-                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("userId").toString().split(":")[0]), map.get("level").toString() +
+                                .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("userId").toString()), map.get("level").toString() +
                                         "\n - Experience: **" + map.get("experience") + "**\n"))
-                                .filter(p -> Objects.nonNull(p.getKey()))
-                                .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
-                                        .getKey().getDiscriminator(), p.getValue()))
+                                .map(p -> String.format("%s**%s** - %s", EmoteReference.MARKER,
+                                        p == null ? "User left guild" : p.getKey().getName() + "#" + p.getKey().getDiscriminator(), p.getValue()))
                                 .collect(Collectors.joining("\n"))
                         ).build()
                 ).queue();
