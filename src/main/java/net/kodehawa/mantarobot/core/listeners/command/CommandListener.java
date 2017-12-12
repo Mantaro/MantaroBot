@@ -163,7 +163,7 @@ public class CommandListener implements EventListener {
                             player.setLevel(1);
 
                         if(localPlayer.getLevel() == 0)
-                            localPlayer.setLevel(0);
+                            localPlayer.setLevel(1);
 
                         //Set player experience to a random number between 1 and 5.
                         data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
