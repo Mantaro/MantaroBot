@@ -213,6 +213,7 @@ public class CommandListener implements EventListener {
         if (message.contains("$(")) {
             message = new DynamicModifiers()
                 .mapEvent("event", event)
+                .set("level", level)
                 .resolve(message);
         }
 
