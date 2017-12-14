@@ -293,10 +293,10 @@ public class MoneyCmds {
                         @Override
                         public int run(GuildMessageReceivedEvent e) {
                             if(e.getAuthor().getId().equals(user.getId())) {
-                                if(e.getMessage().getContent().equalsIgnoreCase("yes")) {
+                                if(e.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                                     proceedGamble(event, player, finalLuck, random, i, finalGains);
                                     return COMPLETED;
-                                } else if(e.getMessage().getContent().equalsIgnoreCase("no")) {
+                                } else if(e.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                                     e.getChannel().sendMessage(EmoteReference.ZAP + "Cancelled bet.").queue();
                                     player.setLocked(false);
                                     player.saveAsync();

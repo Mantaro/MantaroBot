@@ -64,7 +64,7 @@ public class MessageCmds {
                             messageHistory -> {
                                 String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
                                 messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
-                                        message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
+                                        message.getContentRaw().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 
                                 if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls here.").queue();

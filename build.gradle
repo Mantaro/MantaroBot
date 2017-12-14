@@ -21,7 +21,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 8, revision: 0)
+def ver = new Version(major: 4, minor: 8, revision: 1)
 version ver.toString()
 
 //We are going to use Java 8
@@ -37,8 +37,12 @@ repositories {
 	mavenLocal()
 }
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-Xlint:deprecation"
+}
+
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_307'
+	compile 'net.dv8tion:JDA:3.3.1_312'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
 	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
 
@@ -76,7 +80,7 @@ dependencies {
 	compile 'com.github.natanbc:java-eval:1.0'
 
 	//Basically for FinderUtil
-	compile 'com.jagrosh:JDA-Utilities:1.8'
+	compile 'com.jagrosh:JDA-Utilities:1.9'
 }
 
 task wrapper(type: Wrapper) {

@@ -56,7 +56,7 @@ public class DiscordUtils {
             if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
             try {
-                int choose = Integer.parseInt(e.getMessage().getContent());
+                int choose = Integer.parseInt(e.getMessage().getContentRaw());
                 if(choose < 1 || choose > max) return Operation.IGNORED;
                 valueConsumer.accept(choose);
                 return Operation.COMPLETED;
@@ -201,17 +201,17 @@ public class DiscordUtils {
                 return Operation.IGNORED;
 
 
-            if(e.getMessage().getContent().equals("&p <<") || e.getMessage().getContent().equals("&page <<")) {
+            if(e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
                 if(index.get() == 0) return Operation.IGNORED;
 
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.decrementAndGet()), index.get() + 1)).queue();
-            } else if(e.getMessage().getContent().equals("&p >>") || e.getMessage().getContent().equals("&page >>")) {
+            } else if(e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
                 if(index.get() + 1 >= parts.size()) return Operation.IGNORED;
 
                 m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
             }
 
-            if(e.getMessage().getContent().equals("&cancel")) {
+            if(e.getMessage().getContentRaw().equals("&cancel")) {
                 m.delete().queue();
                 return Operation.COMPLETED;
             }

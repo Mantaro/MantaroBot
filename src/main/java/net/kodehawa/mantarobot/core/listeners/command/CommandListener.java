@@ -108,7 +108,7 @@ public class CommandListener implements EventListener {
         if(event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
-            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContent())));
+            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentRaw())));
 
             //Ignore myself and bots.
             if(msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))
@@ -129,7 +129,7 @@ public class CommandListener implements EventListener {
             } else {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
-                    //Only run experience if the user is not ratelimiter (clears every 30 seconds)
+                    //Only run experience if the user is not rate limited (clears every 30 seconds)
                     if(random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
                         if(event.getMember() == null)
                             return;
@@ -221,8 +221,8 @@ public class CommandListener implements EventListener {
                             EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();
 
-            SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getRawContent(), id), e, this.getClass());
-            log.error("Error happened with id: {} (Command: {})", event.getMessage().getRawContent(), id, e);
+            SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getContentRaw(), id), e, this.getClass());
+            log.error("Error happened with id: {} (Within command: {})", event.getMessage().getContentRaw(), id, e);
         }
     }
 

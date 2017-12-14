@@ -147,7 +147,7 @@ public class FunCmds {
                             if(!ie.getAuthor().getId().equals(proposedTo.getId()))
                                 return Operation.IGNORED;
 
-                            if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
+                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                                 Player proposed = MantaroData.db().getPlayer(proposedTo);
                                 Player author = MantaroData.db().getPlayer(proposing);
                                 Inventory authorInventory = author.getInventory();
@@ -176,7 +176,7 @@ public class FunCmds {
                                 return Operation.COMPLETED;
                             }
 
-                            if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
+                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                                 ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
                                 return Operation.COMPLETED;
                             }

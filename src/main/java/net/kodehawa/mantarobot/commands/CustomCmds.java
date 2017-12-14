@@ -186,7 +186,7 @@ public class CustomCmds {
                             event.getChannel(), 60, e -> {
                                 if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
-                                String c = e.getMessage().getRawContent();
+                                String c = e.getMessage().getContentRaw();
                                 if(!c.startsWith("&")) return Operation.IGNORED;
                                 c = c.substring(1);
 

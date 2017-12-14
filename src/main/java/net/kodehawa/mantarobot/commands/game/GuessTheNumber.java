@@ -51,25 +51,25 @@ public class GuessTheNumber extends Game<Object> {
                 }
 
                 for(String s : MantaroData.config().get().getPrefix()) {
-                    if(e.getMessage().getContent().startsWith(s)) {
+                    if(e.getMessage().getContentRaw().startsWith(s)) {
                         return Operation.IGNORED;
                     }
                 }
 
                 if(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix() != null &&
-                        e.getMessage().getContent().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
+                        e.getMessage().getContentRaw().startsWith(MantaroData.db().getGuild(lobby.getChannel().getGuild()).getData().getGuildCustomPrefix())) {
                     return Operation.IGNORED;
                 }
 
                 if(players.contains(e.getAuthor().getId())) {
-                    if(e.getMessage().getContent().equalsIgnoreCase("end")) {
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("end")) {
                         lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended game. The number was: " + number).queue();
                         lobby.startNextGame();
                         GameLobby.LOBBYS.remove(lobby.getChannel());
                         return Operation.COMPLETED;
                     }
 
-                    if(e.getMessage().getContent().equalsIgnoreCase("endlobby")) {
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("endlobby")) {
                         lobby.getChannel().sendMessage(EmoteReference.CORRECT + "Ended lobby correctly! Thanks for playing!").queue();
                         lobby.getGamesToPlay().clear();
                         lobby.startNextGame();
@@ -79,14 +79,14 @@ public class GuessTheNumber extends Game<Object> {
                     int parsedAnswer = 0;
 
                     try {
-                        parsedAnswer = Integer.parseInt(e.getMessage().getRawContent());
+                        parsedAnswer = Integer.parseInt(e.getMessage().getContentRaw());
                     } catch(NumberFormatException ex) {
                         lobby.getChannel().sendMessage(EmoteReference.ERROR + "That's not even a number...").queue();
                         attempts = attempts + 1;
                         return Operation.IGNORED;
                     }
 
-                    if(e.getMessage().getRawContent().equals(String.valueOf(number))) {
+                    if(e.getMessage().getContentRaw().equals(String.valueOf(number))) {
                         Player player = MantaroData.db().getPlayer(e.getMember());
                         int gains = 95;
                         player.addMoney(gains);
