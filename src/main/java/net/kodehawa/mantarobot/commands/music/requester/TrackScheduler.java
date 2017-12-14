@@ -25,10 +25,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
@@ -127,7 +124,7 @@ public class TrackScheduler extends AudioEventAdapter {
                             new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
                                     title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
                                             String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
-                                    .stripMentions(getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
+                                    .stripMentions(getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                                     .build()
                     ).queue(message -> {
                         lastMessageSentAt = System.currentTimeMillis();

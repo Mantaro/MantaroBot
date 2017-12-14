@@ -184,6 +184,42 @@ public class GeneralOptions extends OptionHandler {
                             }
                     );
                 });
+
+        registerOption("imageboard:tags:blacklist:add", "Blacklist imageboard tags", "Blacklists the specified imageboard tag from being looked up.",
+                "Blacklist imageboard tags", (event, args) -> {
+            if(args.length == 0) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify at least a tag to blacklist!").queue();
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+
+            for(String tag : args) {
+                guildData.getBlackListedImageTags().add(tag.toLowerCase());
+            }
+
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully blacklisted " + String.join(" ,", args) + " from image search.").queue();
+        });
+
+        registerOption("imageboard:tags:blacklist:remove", "Un-blacklist imageboard tags", "Un-blacklist the specified imageboard tag from being looked up.",
+                "Un-blacklist imageboard tags", (event, args) -> {
+                    if(args.length == 0) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify at least a tag to un-blacklist!").queue();
+                        return;
+                    }
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+
+                    for(String tag : args) {
+                        guildData.getBlackListedImageTags().remove(tag.toLowerCase());
+                    }
+
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully un-blacklisted " + String.join(" ,", args) + " from image search.").queue();
+        });
     }
 
     @Override

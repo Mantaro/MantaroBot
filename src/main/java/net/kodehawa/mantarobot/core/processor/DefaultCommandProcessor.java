@@ -38,7 +38,7 @@ public class DefaultCommandProcessor implements ICommandProcessor {
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
         long start = System.currentTimeMillis();
-        String rawCmd = event.getMessage().getRawContent();
+        String rawCmd = event.getMessage().getContentRaw();
         String[] prefix = MantaroData.config().get().prefix;
         String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 

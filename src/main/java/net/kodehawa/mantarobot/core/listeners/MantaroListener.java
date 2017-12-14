@@ -354,8 +354,8 @@ public class MantaroListener implements EventListener {
                     }
 
                     tc.sendMessage(String.format(EmoteReference.WARNING + "`[%s]` Message created by **%s#%s** in channel **%s** was modified.\n```diff\n-%s\n+%s```",
-                            hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContent().replace("```", ""))).queue();
-                    CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContent())));
+                            hour, author.getName(), author.getDiscriminator(), event.getChannel().getName(), editedMessage.getContent().replace("```", ""), event.getMessage().getContentRaw().replace("```", ""))).queue();
+                    CommandListener.getMessageCache().put(event.getMessage().getId(), Optional.of(new CachedMessage(event.getAuthor().getIdLong(), event.getMessage().getContentRaw())));
                     logTotal++;
                 }
             }
@@ -457,7 +457,7 @@ public class MantaroListener implements EventListener {
         //link protection
         if(guildData.isLinkProtection() && !guildData.getLinkProtectionAllowedChannels().contains(event.getChannel().getId())) {
             if(event.getMember() != null && !event.getMember().hasPermission(Permission.ADMINISTRATOR) && !event.getMember().hasPermission(Permission.MANAGE_SERVER)
-                    && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getRawContent())) {
+                    && hasInvite(event.getJDA(), event.getGuild(), event.getMessage().getContentRaw())) {
                 Member bot = event.getGuild().getSelfMember();
                 MantaroBot.getInstance().getStatsClient().increment("links_blocked");
                 if(bot.hasPermission(event.getChannel(), Permission.MESSAGE_MANAGE) || bot.hasPermission(Permission.ADMINISTRATOR)) {
@@ -474,7 +474,6 @@ public class MantaroListener implements EventListener {
                     }
 
                     //Yes, I know the check previously done is redundant, but in case someone decides to change the law of nature, it should do	.
-
                     event.getMessage().delete().queue();
                     event.getChannel().sendMessage(EmoteReference.ERROR + "**You cannot advertise here.** Deleted invite link sent by **" + author.getName() + "#" + author.getDiscriminator() + "**.").queue();
                 } else {
@@ -514,7 +513,7 @@ public class MantaroListener implements EventListener {
                 logTotal++;
             }
 
-            String joinChannel = data.getLogJoinLeaveChannel();
+            String joinChannel = data.getLogJoinLeaveChannel() == null ? data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
 
             sendJoinLeaveMessage(event, joinMessage, joinChannel);
@@ -543,7 +542,7 @@ public class MantaroListener implements EventListener {
                 logTotal++;
             }
 
-            String leaveChannel = data.getLogJoinLeaveChannel();
+            String leaveChannel = data.getLogJoinLeaveChannel() == null ? data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
 
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);

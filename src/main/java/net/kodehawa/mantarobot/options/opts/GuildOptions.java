@@ -230,6 +230,8 @@ public class GuildOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setLogJoinLeaveChannel(null);
+                    guildData.setLogLeaveChannel(null);
+                    guildData.setLogJoinChannel(null);
                     dbGuild.save();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Sucessfully reset the join/leave channel.").queue();
                 });//endregion
@@ -249,9 +251,107 @@ public class GuildOptions extends OptionHandler {
         //endregion
 
         //region channel
+
+        registerOption("usermessage:join:channel", "Sets the join message channel", "Sets the join channel, you need the channel **name**\n" +
+                "**Example:** `~>opts usermessage join channel join-magic`\n" +
+                "You can reset it by doing `~>opts usermessage join channel reset_channel`", "Sets the join message channel", (event, args) -> {
+            if(args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
+
+            if(channelName.equals("reset_channel")) {
+                guildData.setLogJoinChannel(null);
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log join channel!").queue();
+                return;
+            }
+
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if(textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                return;
+            }
+
+            if(textChannels.size() <= 1) {
+                guildData.setLogJoinChannel(textChannels.get(0).getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "The join log channel is set to: " +
+                        textChannels.get(0).getAsMention()).queue();
+                return;
+            }
+
+            DiscordUtils.selectList(event, textChannels,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                    textChannel -> {
+                        guildData.setLogJoinChannel(textChannel.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.OK + "The join log channel is set to: " +
+                                textChannel.getAsMention()).queue();
+                    }
+            );
+        });
+
+
+        registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
+                "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
+                "You can reset it by doing `~>opts usermessage leave channel reset_channel`", "Sets the leave message channel", (event, args) -> {
+            if(args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if(channelName.equals("reset_channel")) {
+                guildData.setLogLeaveChannel(null);
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log leave channel!").queue();
+                return;
+            }
+
+            if(textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                return;
+            }
+
+            if(textChannels.size() <= 1) {
+                guildData.setLogLeaveChannel(textChannels.get(0).getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "The join leave channel is set to: " +
+                        textChannels.get(0).getAsMention()).queue();
+                return;
+            }
+
+            DiscordUtils.selectList(event, textChannels,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                    textChannel -> {
+                        guildData.setLogLeaveChannel(textChannel.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.OK + "The join leave channel is set to: " +
+                                textChannel.getAsMention()).queue();
+                    }
+            );
+        });
+
         registerOption("usermessage:channel", "Set message channel",
                 "Sets the join/leave message channel. You need the channel **name**\n" +
-                        "**Example:** `~>opts usermessage channel join-magic`",
+                        "**Example:** `~>opts usermessage channel join-magic`\n" +
+                        "Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.",
                 "Sets the join/leave message channel.", (event, args) -> {
                     if(args.length == 0) {
                         onHelp(event);
@@ -261,6 +361,7 @@ public class GuildOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     String channelName = args[0];
+
                     List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                             .filter(textChannel -> textChannel.getName().contains(channelName))
                             .collect(Collectors.toList());

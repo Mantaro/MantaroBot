@@ -24,6 +24,7 @@ import net.kodehawa.lib.imageboards.entities.BoardImage;
 import net.kodehawa.lib.imageboards.entities.Rating;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.List;
@@ -109,8 +110,15 @@ public class ImageboardUtils {
             case TAGS:
                 try {
                     String sNoArgs = content.replace("tags ", "");
-                    String[] expectedNumber = sNoArgs.split(" ");
-                    String tags = expectedNumber[0];
+                    String[] arguments = sNoArgs.split(" ");
+                    String tags = arguments[0];
+
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    if(dbGuild.getData().getBlackListedImageTags().contains(tags.toLowerCase())) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "This image tag has been blacklisted here by an administrator.").queue();
+                        return;
+                    }
+
                     api.search(tags, queryRating).async(requestedImages -> {
                         //account for this
                         if(isListNull(requestedImages, event)) return;
@@ -127,7 +135,7 @@ public class ImageboardUtils {
 
                             int number;
                             try {
-                                number = Integer.parseInt(expectedNumber[1]);
+                                number = Integer.parseInt(arguments[1]);
                             } catch(Exception e) {
                                 number = r.nextInt(filter.size() > 0 ? filter.size() - 1 : filter.size());
                             }
