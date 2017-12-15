@@ -342,7 +342,6 @@ public class FunCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 List<User> mentioned = event.getMessage().getMentionedUsers();
-                int percentage = r.nextInt(100);
                 String result;
 
                 if(mentioned.size() < 1) {
@@ -350,34 +349,34 @@ public class FunCmds {
                     return;
                 }
 
-                String ids = mentioned.get(0).getId() + ";" + event.getAuthor().getId();
+                long[] ids = new long[2];
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", event.getAuthor().getName(), event.getAuthor().getDiscriminator()));
                 toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
 
-                if(mentioned.size() == 2) {
-                    ids = mentioned.get(0).getId() + ";" + mentioned.get(1).getId();
+                if(mentioned.size() > 1) {
+                    ids[0] = mentioned.get(0).getIdLong();
+                    ids[1] = mentioned.get(1).getIdLong();
                     toDisplay = mentioned.stream()
                             .map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining("\n"));
+                } else {
+                    ids[0] = event.getAuthor().getIdLong();
+                    ids[1] = mentioned.get(0).getIdLong();
                 }
 
-                String[] yChecker = ids.split(";");
-                boolean yCheck = yChecker[0].equalsIgnoreCase(yChecker[1]);
-                if(yCheck) {
-                    percentage = 100;
-                }
+                int percentage = (int)(ids[0] == ids[1] ? 101 : (ids[0] + ids[1]) % 101L);
 
                 if(percentage < 45) {
                     result = "Try again next time...";
-                } else if(percentage >= 45 && percentage < 75) {
+                } else if(percentage < 75) {
                     result = "Good enough!";
-                } else if(percentage >= 75 && percentage < 100) {
+                } else if(percentage < 100) {
                     result = "Good match!";
                 } else {
                     result = "Perfect match!";
-                    if(yCheck) {
+                    if(percentage == 101) {
                         result = "You're a special creature and you should love yourself more than anyone <3";
                     }
                 }
