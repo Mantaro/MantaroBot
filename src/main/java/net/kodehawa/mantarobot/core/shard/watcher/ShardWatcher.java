@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core.shard.watcher;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
@@ -106,14 +107,24 @@ public class ShardWatcher implements Runnable {
                                         return 1;
                                     }
 
-                                    //Alert us, plz no panic
                                     LogUtils.shard(
-                                            "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 30 seconds."
+                                            "Found dead shard (#" + id + ")... attempting RESUME request and waiting 20 seconds to validate."
                                     );
+                                    ((JDAImpl)(shard.getJDA())).getClient().close(4000);
+                                    Thread.sleep(20000);
 
-                                    //Reboot the shard.
-                                    shard.start(true);
-                                    Thread.sleep(1000); //5 seconds on the start method + 1 second of extra backoff.
+                                    //Do we still get events? If we don't, reboot shard.
+                                    if(shard.getEventManager().getLastJDAEventTimeDiff() > 18000) {
+                                        //Alert us, plz no panic
+                                        LogUtils.shard(
+                                                "RESUME failed to revive shard.\n" +
+                                                        "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 30 seconds."
+                                        );
+
+                                        //Reboot the shard.
+                                        shard.start(true);
+                                        Thread.sleep(1000); //5 seconds on the start method + 1 second of extra backoff.
+                                    }
                                     return 1;
                                 } catch(Exception e) {
                                     //Something went wrong :(
