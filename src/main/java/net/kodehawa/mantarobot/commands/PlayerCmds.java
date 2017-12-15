@@ -140,6 +140,13 @@ public class PlayerCmds {
                         return;
                     }
 
+                    if(args[1].equalsIgnoreCase("reset")) {
+                        u1.getData().setTimezone(null);
+                        u1.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Reset timezone.").queue();
+                        return;
+                    }
+
                     if(args[1].length() > 5) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Input is too long...").queue();
                         return;
@@ -153,7 +160,7 @@ public class PlayerCmds {
                     }
 
                     u1.getData().setTimezone(args[1]);
-                    u1.save();
+                    u1.saveAsync();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved timezone, your profile timezone is now: **" + args[1]
                             + "**").queue();
                     return;
