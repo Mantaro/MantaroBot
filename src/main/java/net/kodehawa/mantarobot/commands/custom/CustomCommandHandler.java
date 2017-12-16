@@ -1,23 +1,28 @@
 package net.kodehawa.mantarobot.commands.custom;
 
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.MiscCmds;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.InterpreterEvaluator;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.KaiperScriptExecutor;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.parser.internal.LimitReachedException;
+import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeEmbed;
 import net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper.SafeGuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.custom.legacy.ConditionalCustoms;
 import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import xyz.avarel.kaiper.interpreter.GlobalVisitorSettings;
+import xyz.avarel.kaiper.runtime.Obj;
 import xyz.avarel.kaiper.runtime.Str;
+import xyz.avarel.kaiper.runtime.functions.NativeFunc;
 import xyz.avarel.kaiper.runtime.java.JavaObject;
 
 import java.net.URL;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CustomCommandHandler {
@@ -42,15 +47,40 @@ public class CustomCommandHandler {
             //LimitReachedException will be replaced by VisitorException
 
             try {
+                SafeEmbed[] embed = new SafeEmbed[1];
                 String result = new KaiperScriptExecutor("<$" + value + "$>")
                     .execute(
                         new InterpreterEvaluator()
                             .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
+                            .declare("embed", new NativeFunc("embed") {
+                                JavaObject wrap;
+
+                                @Override
+                                protected synchronized Obj eval(List<Obj> arguments) {
+                                    if (wrap == null) {
+                                        embed[0] = new SafeEmbed();
+                                        wrap = new JavaObject(embed[0]);
+                                    }
+                                    return wrap;
+                                }
+                            })
                             .declare("args", Str.of(args))
                     )
                     .trim();
 
-                if (!result.isEmpty()) event.getChannel().sendMessage(result).queue();
+                MessageBuilder message = new MessageBuilder().append(result);
+
+                if (embed[0] != null) {
+                    EmbedBuilder builder = SafeEmbed.builder(embed[0]);
+
+                    if (!message.isEmpty()) {
+                        message.setEmbed(builder.build());
+                    }
+                }
+
+                if (!message.isEmpty()) {
+                    event.getChannel().sendMessage(message.build()).queue();
+                }
             } catch (LimitReachedException e) {
                 event.getChannel().sendMessage("**Error**: " + e.getMessage()).queue();
             }
