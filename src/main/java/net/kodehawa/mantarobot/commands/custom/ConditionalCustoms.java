@@ -89,13 +89,20 @@ public class ConditionalCustoms {
 
         return MatcherUtils.replaceAll(GETTER_MODIFIER.matcher(string), s -> {
             s = s.substring(1, s.length() - 1);
-            if(GETTER_MODIFIER.matcher(s).find()) s = resolve(s, depth + 1);
+
+            if(GETTER_MODIFIER.matcher(s).find())
+                s = resolve(s, depth + 1);
+
             String[] parts = FUNCNAME.split(s, 2);
-            if(parts.length == 0) return "`function name is empty`";
+
+            if(parts.length == 0)
+                return "`function name is empty`";
 
             String name = parts[0];
 
-            if(!functions.containsKey(name)) return "`" + s + " isn't a function`";
+            if(!functions.containsKey(name))
+                return "`" + s + " isn't a function`";
+
             Function<String[], String> f = functions.get(name);
 
             if(parts.length == 1) {

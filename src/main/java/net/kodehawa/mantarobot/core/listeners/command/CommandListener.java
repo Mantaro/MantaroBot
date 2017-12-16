@@ -142,6 +142,8 @@ public class CommandListener implements EventListener {
                         if(player.isLocked())
                             return;
 
+                        // ---------- GLOBAL EXPERIENCE CHECK ---------- //
+
                         //Set level to 1 if level is zero.
                         if(player.getLevel() == 0)
                             player.setLevel(1);
@@ -169,6 +171,8 @@ public class CommandListener implements EventListener {
 
                         //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
                         player.saveAsync();
+
+                        // ---------- LOCAL EXPERIENCE CHECK ---------- //
 
                         LocalExperienceData localPlayer = null;
                         List<LocalExperienceData> players = guildData.getLocalPlayerExperience();

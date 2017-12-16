@@ -17,6 +17,7 @@
 package net.kodehawa.mantarobot.core;
 
 import com.google.common.base.Preconditions;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -40,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class CommandRegistry {
 
     private final Map<String, Command> commands;
@@ -61,7 +63,9 @@ public class CommandRegistry {
         long start = System.currentTimeMillis();
         Command cmd = commands.get(cmdname);
 
-        if(cmd == null) return false;
+        if(cmd == null) {
+            return false;
+        }
 
         if(MantaroData.db().getMantaroData().getBlackListedUsers().contains(event.getAuthor().getId())) {
             return false;
@@ -138,7 +142,7 @@ public class CommandRegistry {
 
     public void registerAlias(String command, String alias) {
         if(!commands.containsKey(command)) {
-            System.out.println(command + " isn't in the command map...");
+            log.error(command + " isn't in the command map...");
         }
 
         register(alias, new AliasCommand(alias, commands.get(command)));

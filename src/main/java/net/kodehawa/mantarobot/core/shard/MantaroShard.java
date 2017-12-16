@@ -212,7 +212,6 @@ public class MantaroShard implements JDA {
         Config config = config().get();
 
         String dbotsToken = config.dbotsToken;
-        String dbotsOrgToken = config.dbotsorgToken;
 
         if(dbotsToken != null) {
             Async.task("Dbots update Thread", () -> {

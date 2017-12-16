@@ -113,10 +113,12 @@ public enum Badge {
         this.description = description;
         this.iconStartX = iconStartX;
         this.iconStartY = iconStartY;
+
         if(display.equals("User")) {
             this.icon = new byte[0];
             return;
         }
+
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream("badges/" + display.toLowerCase() + ".png");
             if(is == null) {

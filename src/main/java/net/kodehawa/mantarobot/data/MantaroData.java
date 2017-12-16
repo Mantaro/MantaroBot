@@ -19,10 +19,8 @@ package net.kodehawa.mantarobot.data;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rethinkdb.net.Connection;
 import lombok.extern.slf4j.Slf4j;
-import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.db.ManagedDatabase;
 import net.kodehawa.mantarobot.db.redis.RedisCachedDatabase;
-import net.kodehawa.mantarobot.utils.data.ConnectionWatcherDataManager;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 import org.redisson.Redisson;
 import org.redisson.api.LocalCachedMapOptions;
@@ -42,13 +40,8 @@ public class MantaroData {
     private static final ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
     private static GsonDataManager<Config> config;
     private static Connection conn;
-    private static ConnectionWatcherDataManager connectionWatcher;
     private static ManagedDatabase db;
-    private static ObjectMapper mapper =
-            new ObjectMapper();/*.registerModule(
-                    new SimpleModule("Pair", new Version(1, 0, 0, null, null, null))
-                            .addDeserializer(Pair.class, new StringLongPairDeserializator())
-            );*/
+    private static ObjectMapper mapper = new ObjectMapper();
     private static RedissonClient redisson;
     private static Codec redissonCodec = new JsonJacksonCodec(mapper);
 
@@ -85,13 +78,6 @@ public class MantaroData {
             }
         }
         return redisson;
-    }
-
-    public static ConnectionWatcherDataManager connectionWatcher() {
-        if(connectionWatcher == null) {
-            connectionWatcher = new ConnectionWatcherDataManager(MantaroBot.cwport);
-        }
-        return connectionWatcher;
     }
 
     public static RedisCachedDatabase redisDb() {

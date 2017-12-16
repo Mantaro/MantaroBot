@@ -859,7 +859,6 @@ public class MoneyCmds {
             }
         } else {
             long oldMoney = player.getMoney();
-
             player.setMoney(Math.max(0, player.getMoney() - i));
 
             event.getChannel().sendMessage(String.format("\uD83C\uDFB2 Sadly, you lost %s credits! \uD83D\uDE26", player.getMoney() == 0 ? "all of your " + oldMoney : i)).queue();

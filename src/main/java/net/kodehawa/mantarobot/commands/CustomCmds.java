@@ -121,7 +121,7 @@ public class CustomCmds {
                 if(action.equals("list") || action.equals("ls")) {
 
                     if(!MantaroCore.hasLoadedCompletely()) {
-                        event.getChannel().sendMessage("The bot hasn't been fully booted up yet... custom commands will be avaliable shortly!").queue();
+                        event.getChannel().sendMessage("The bot hasn't been fully booted up yet... custom commands will be available shortly!").queue();
                         return;
                     }
 
@@ -615,7 +615,7 @@ public class CustomCmds {
                 custom.saveAsync();
             }
 
-            //add mini-hack
+            //add to registry
             DefaultCommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
 
             customCommands.put(custom.getId(), custom.getValues());
@@ -672,12 +672,11 @@ public class CustomCmds {
             if(m.equals("img") || m.equals("image") || m.equals("imgembed")) {
                 try {
                     if(!EmbedBuilder.URL_PATTERN.asPredicate().test(v)) {
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR2 + "The string ``" + v + "`` isn't a valid link.").queue();
                         return;
                     }
-                    event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setColor(event.getMember().getColor()).build()).queue();
 
+                    event.getChannel().sendMessage(new EmbedBuilder().setImage(v).setColor(event.getMember().getColor()).build()).queue();
                 } catch(IllegalArgumentException invalid) {
                     event.getChannel().sendMessage(EmoteReference.ERROR2 + "This command contains an invalid image, please fix...").queue();
                 }

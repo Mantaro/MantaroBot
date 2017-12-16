@@ -44,7 +44,7 @@ tasks.withType(JavaCompile) {
 dependencies {
 	compile 'net.dv8tion:JDA:3.3.1_315'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
-	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
+	compile 'com.sedmelluq:jda-nas:1.0.6'
 
 	compile 'org.reflections:reflections:0.9.9'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
@@ -52,7 +52,6 @@ dependencies {
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
 
 	compile 'us.monoid.web:resty:0.3.2'
-	compile 'org.jsoup:jsoup:1.8.3'
 
 	compile 'br.com.brjdevs:utils:1.0.0_15'
 	compile 'br.com.brjdevs:network:1.0.0_2'
@@ -68,7 +67,7 @@ dependencies {
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compile 'org.apache.commons:commons-lang3:3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.0.3_2'
