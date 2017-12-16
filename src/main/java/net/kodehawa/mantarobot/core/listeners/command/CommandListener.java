@@ -138,19 +138,6 @@ public class CommandListener implements EventListener {
                         PlayerData data = player.getData();
                         DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                         GuildData guildData = dbGuild.getData();
-                        LocalExperienceData localPlayer = null;
-                        List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
-
-                        for(LocalExperienceData localData : players) {
-                            if(localData.getUserId().equals(event.getAuthor().getId())) {
-                                localPlayer = localData;
-                            }
-                        }
-
-                        if(localPlayer == null) {
-                            localPlayer = new LocalExperienceData(event.getAuthor().getId());
-                            players.add(localPlayer);
-                        }
 
                         if(player.isLocked())
                             return;
@@ -159,12 +146,8 @@ public class CommandListener implements EventListener {
                         if(player.getLevel() == 0)
                             player.setLevel(1);
 
-                        if(localPlayer.getLevel() == 0)
-                            localPlayer.setLevel(1);
-
                         //Set player experience to a random number between 1 and 5.
                         data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
-                        localPlayer.setExperience(localPlayer.getExperience() + Math.round(random.nextInt(5)));
 
                         //Apply some black magic.
                         if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
@@ -184,12 +167,32 @@ public class CommandListener implements EventListener {
                             }
                         }
 
+                        //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
+                        player.saveAsync();
+
+                        LocalExperienceData localPlayer = null;
+                        List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
+
+                        for(LocalExperienceData localData : players) {
+                            if(localData.getUserId().equals(event.getAuthor().getId())) {
+                                localPlayer = localData;
+                            }
+                        }
+
+                        if(localPlayer == null) {
+                            localPlayer = new LocalExperienceData(event.getAuthor().getId());
+                            players.add(localPlayer);
+                        }
+
+                        if(localPlayer.getLevel() == 0)
+                            localPlayer.setLevel(1);
+
+                        localPlayer.setExperience(localPlayer.getExperience() + Math.round(random.nextInt(5)));
                         if(localPlayer.getExperience() > (localPlayer.getLevel() * Math.log10(localPlayer.getLevel()) * 1000) + (50 * localPlayer.getLevel() / 2)) {
                             localPlayer.setLevel(player.getLevel() + 1);
                         }
 
-                        //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
-                        player.saveAsync();
+                        //Save local player.
                         dbGuild.saveAsync();
                     }
                 } catch(Exception ignored) { }
