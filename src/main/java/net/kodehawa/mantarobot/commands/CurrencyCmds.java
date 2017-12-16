@@ -246,8 +246,7 @@ public class CurrencyCmds {
                     }
 
                     if(!toSell.isSellable()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.")
-                                .queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.").queue();
                         return;
                     }
 
@@ -257,8 +256,7 @@ public class CurrencyCmds {
                     }
 
                     if(player.getInventory().getAmount(toSell) < itemNumber) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.")
-                                .queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.").queue();
                         return;
                     }
 
@@ -338,7 +336,6 @@ public class CurrencyCmds {
     @Subscribe
     public void transferItems(CommandRegistry cr) {
         cr.register("itemtransfer", new SimpleCommand(Category.CURRENCY) {
-
             RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
 
             @Override
@@ -349,8 +346,9 @@ public class CurrencyCmds {
                 }
 
                 List<User> mentionedUsers = event.getMessage().getMentionedUsers();
-                if(mentionedUsers.size() == 0)
+                if(mentionedUsers.size() == 0) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to mention a user").queue();
+                }
                 else {
                     User giveTo = mentionedUsers.get(0);
 
@@ -364,7 +362,8 @@ public class CurrencyCmds {
                         return;
                     }
 
-                    if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
+                    if(!handleDefaultRatelimit(rl, event.getAuthor(), event))
+                        return;
 
                     Item item = Items.fromAny(args[1]).orElse(null);
                     if(item == null) {
@@ -392,15 +391,14 @@ public class CurrencyCmds {
 
                                 player.getInventory().process(new ItemStack(item, -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, 1));
-                                event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + " gave 1 **" + item
-                                        .getName() + "** to " + event.getGuild().getMember(giveTo).getEffectiveName()).queue();
+                                event.getChannel().sendMessage(String.format("%s%s gave 1 **%s** to %s", EmoteReference.OK, event.getMember().getEffectiveName(),
+                                        item.getName(), event.getGuild().getMember(giveTo).getEffectiveName())).queue();
                             } else {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory")
-                                        .queue();
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have any of these items in your inventory").queue();
                             }
 
-                            player.save();
-                            giveToPlayer.save();
+                            player.saveAsync();
+                            giveToPlayer.saveAsync();
                             return;
                         }
 
@@ -419,16 +417,18 @@ public class CurrencyCmds {
 
                                 player.getInventory().process(new ItemStack(item, amount * -1));
                                 giveToPlayer.getInventory().process(new ItemStack(item, amount));
-                                event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + " gave " + amount +
-                                        " **" + item.getName() + "** to " + event.getGuild().getMember(giveTo).getEffectiveName()).queue();
-                            } else
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item " +
-                                        "to do that").queue();
+
+                                event.getChannel().sendMessage(String.format("%s%s gave %d **%s** to %s", EmoteReference.OK,
+                                        event.getMember().getEffectiveName(), amount, item.getName(), event.getGuild().getMember(giveTo).getEffectiveName())).queue();
+                            } else {
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "You don't have enough of this item to do that").queue();
+                            }
                         } catch(NumberFormatException nfe) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number provided").queue();
                         }
-                        player.save();
-                        giveToPlayer.save();
+
+                        player.saveAsync();
+                        giveToPlayer.saveAsync();
                     }
                 }
             }
@@ -450,9 +450,9 @@ public class CurrencyCmds {
     }
 
     @Subscribe
+    //Should be called return land tbh, what the fuck.
     public void transfer(CommandRegistry cr) {
         cr.register("transfer", new SimpleCommand(Category.CURRENCY) {
-
             RateLimiter rl = new RateLimiter(TimeUnit.SECONDS, 10);
 
             @Override
@@ -476,9 +476,10 @@ public class CurrencyCmds {
 
                 if(!handleDefaultRatelimit(rl, event.getAuthor(), event)) return;
 
-                long toSend;
+                long toSend; // = 0 at the start
 
                 try {
+                    //Convert negative values to absolute.
                     toSend = Math.abs(Long.parseLong(args[1]));
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the amount.").queue();
@@ -491,11 +492,12 @@ public class CurrencyCmds {
                 }
 
                 if(toSend > TRANSFER_LIMIT) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer this much money. (Limit: " + TRANSFER_LIMIT + ")").queue();
+                    event.getChannel().sendMessage(String.format("%sYou cannot transfer this much money. (Limit: %d)", EmoteReference.ERROR, TRANSFER_LIMIT)).queue();
                     return;
                 }
 
                 Player transferPlayer = MantaroData.db().getPlayer(event.getMember());
+                Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(giveTo));
 
                 if(transferPlayer.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money now.").queue();
@@ -507,21 +509,8 @@ public class CurrencyCmds {
                     return;
                 }
 
-                User user = event.getMessage().getMentionedUsers().get(0);
-                if(user.isBot()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot transfer money to a bot.").queue();
-                    return;
-                }
-
-                Player toTransfer = MantaroData.db().getPlayer(event.getGuild().getMember(user));
-
                 if(toTransfer.isLocked()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "That user cannot receive money now.").queue();
-                    return;
-                }
-
-                if(toTransfer.getMoney() + toSend < 0) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Don't send negative money.").queue();
                     return;
                 }
 
@@ -534,14 +523,13 @@ public class CurrencyCmds {
                     transferPlayer.removeMoney(toSend);
                     transferPlayer.saveAsync();
 
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Transferred **" + toSend + "** to *" + event.getMessage()
-                            .getMentionedUsers().get(0).getName() + "* successfully.").queue();
+                    event.getChannel().sendMessage(String.format("%sTransferred **%d** to *%s* successfully.", EmoteReference.CORRECT, toSend,
+                            event.getMessage().getMentionedUsers().get(0).getName())).queue();
 
                     toTransfer.saveAsync();
-
                     rl.process(toTransfer.getUserId());
                 } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Somehow this is negative? Cannot send money to player.").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot send money to this player.").queue();
                 }
             }
 
@@ -549,7 +537,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Transfer command")
                         .setDescription("**Transfers money from you to another player.**")
-                        .addField("Usage", "`~>transfer <@user> <money>` - **Tranfers money to player x**", false)
+                        .addField("Usage", "`~>transfer <@user> <money>` - **Transfers money to x player**", false)
                         .addField("Parameters", "`@user` - user to send money to\n" +
                                 "`money` - money to transfer.", false)
                         .addField("Important", "You cannot send more money than what you already have", false)
@@ -578,12 +566,10 @@ public class CurrencyCmds {
                         player.save();
                         openLootBox(event, true);
                     } else {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!")
-                                .queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate key to open a crate. It's locked!").queue();
                     }
                 } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >" +
-                            ".>").queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You need a loot crate! How else would you use your key >.>").queue();
                 }
             }
 
@@ -607,30 +593,39 @@ public class CurrencyCmds {
             if(o1.getValue() == o2.getValue()) return 0;
             return -1;
         });
+
         if(!special) {
             for(Item i : Items.ALL) if(i.isHidden() || !i.isBuyable() || i.isSellable()) items.add(i);
         }
-        for(int i = 0; i < amtItems; i++) toAdd.add(selectReverseWeighted(items));
+        for(int i = 0; i < amtItems; i++)
+            toAdd.add(selectReverseWeighted(items));
+
         Player player = MantaroData.db().getPlayer(event.getMember());
         ArrayList<ItemStack> ita = new ArrayList<>();
+
         toAdd.forEach(item -> ita.add(new ItemStack(item, 1)));
+
         boolean overflow = player.getInventory().merge(ita);
-        player.save();
-        event.getChannel().sendMessage(EmoteReference.LOOT_CRATE.getDiscordNotation() + "**You won:** " +
-                toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")) + (
-                overflow ? ". But you already had too much, so you decided to throw away the excess" : ""
-        )).queue();
+        player.saveAsync();
+        event.getChannel().sendMessage(String.format("%s**You won:** %s%s",
+                EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
+                overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();
     }
 
     private Item selectReverseWeighted(List<Item> items) {
         Map<Integer, Item> weights = new HashMap<>();
         int weightedTotal = 0;
+
         for(int i = 0; i < items.size(); i++) {
             int t = items.size() - i;
             weightedTotal += t;
             weights.put(t, items.get(i));
         }
-        final int[] selected = {random.nextInt(weightedTotal)};
+
+        final int[] selected = {
+                random.nextInt(weightedTotal)
+        };
+
         for(Map.Entry<Integer, Item> i : weights.entrySet()) {
             if((selected[0] -= i.getKey()) <= 0) {
                 return i.getValue();
