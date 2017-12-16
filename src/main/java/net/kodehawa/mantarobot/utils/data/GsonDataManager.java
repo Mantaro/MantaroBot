@@ -33,6 +33,7 @@ public class GsonDataManager<T> implements DataManager<T> {
             .create(), GSON_UNPRETTY = new GsonBuilder().serializeNulls().create();
     private final Path configPath;
     private final T data;
+
     @SneakyThrows
     public GsonDataManager(Class<T> clazz, String file, Supplier<T> constructor) {
         this.configPath = Paths.get(file);

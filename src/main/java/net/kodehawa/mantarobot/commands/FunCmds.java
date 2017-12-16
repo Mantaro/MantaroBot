@@ -24,7 +24,6 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
-import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
@@ -33,11 +32,7 @@ import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
-import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
-import net.kodehawa.mantarobot.core.modules.commands.base.Command;
-import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -78,10 +73,12 @@ public class FunCmds {
 
                 final int[] heads = {0};
                 final int[] tails = {0};
+
                 doTimes(times, () -> {
                     if(r.nextBoolean()) heads[0]++;
                     else tails[0]++;
                 });
+
                 String flips = times == 1 ? "time" : "times";
                 event.getChannel().sendMessage(
                         String.format("%s Your result from **%d** %s yielded **%d** heads and **%d** tails", EmoteReference.PENNY, times, flips, heads[0], tails[0])).queue();
@@ -152,7 +149,7 @@ public class FunCmds {
                             if(!ie.getAuthor().getId().equals(proposedTo.getId()))
                                 return Operation.IGNORED;
 
-                            if(ie.getMessage().getContent().equalsIgnoreCase("yes")) {
+                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("yes")) {
                                 Player proposed = MantaroData.db().getPlayer(proposedTo);
                                 Player author = MantaroData.db().getPlayer(proposing);
                                 Inventory authorInventory = author.getInventory();
@@ -181,7 +178,7 @@ public class FunCmds {
                                 return Operation.COMPLETED;
                             }
 
-                            if(ie.getMessage().getContent().equalsIgnoreCase("no")) {
+                            if(ie.getMessage().getContentRaw().equalsIgnoreCase("no")) {
                                 ie.getChannel().sendMessage(EmoteReference.CORRECT + "Denied proposal from " + proposing.getName()).queue();
                                 return Operation.COMPLETED;
                             }
@@ -293,29 +290,26 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
-
                 int size = 6, amount = 1;
 
                 if(opts.containsKey("size")) {
                     try {
                         size = Integer.parseInt(opts.get("size").orElse(""));
-                    } catch(Exception ignored) {
-                    }
+                    } catch(Exception ignored) { }
                 }
 
                 if(opts.containsKey("amount")) {
                     try {
                         amount = Integer.parseInt(opts.get("amount").orElse(""));
-                    } catch(Exception ignored) {
-                    }
+                    } catch(Exception ignored) { }
                 } else if(opts.containsKey(null)) { //Backwards Compatibility
                     try {
                         amount = Integer.parseInt(opts.get(null).orElse(""));
-                    } catch(Exception ignored) {
-                    }
+                    } catch(Exception ignored) { }
                 }
 
                 if(amount >= 100) amount = 100;
@@ -341,13 +335,10 @@ public class FunCmds {
 
     @Subscribe
     public void love(CommandRegistry registry) {
-        Random r = new Random();
-
         registry.register("love", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 List<User> mentioned = event.getMessage().getMentionedUsers();
-                int percentage = r.nextInt(100);
                 String result;
 
                 if(mentioned.size() < 1) {
@@ -355,34 +346,34 @@ public class FunCmds {
                     return;
                 }
 
-                String ids = mentioned.get(0).getId() + ";" + event.getAuthor().getId();
+                long[] ids = new long[2];
                 List<String> listDisplay = new ArrayList<>();
                 String toDisplay;
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", mentioned.get(0).getName(), mentioned.get(0).getDiscriminator()));
                 listDisplay.add(String.format("\uD83D\uDC97  %s#%s", event.getAuthor().getName(), event.getAuthor().getDiscriminator()));
                 toDisplay = listDisplay.stream().collect(Collectors.joining("\n"));
 
-                if(mentioned.size() == 2) {
-                    ids = mentioned.get(0).getId() + ";" + mentioned.get(1).getId();
+                if(mentioned.size() > 1) {
+                    ids[0] = mentioned.get(0).getIdLong();
+                    ids[1] = mentioned.get(1).getIdLong();
                     toDisplay = mentioned.stream()
                             .map(user -> "\uD83D\uDC97  " + user.getName() + "#" + user.getDiscriminator()).collect(Collectors.joining("\n"));
+                } else {
+                    ids[0] = event.getAuthor().getIdLong();
+                    ids[1] = mentioned.get(0).getIdLong();
                 }
 
-                String[] yChecker = ids.split(";");
-                boolean yCheck = yChecker[0].equalsIgnoreCase(yChecker[1]);
-                if(yCheck) {
-                    percentage = 100;
-                }
+                int percentage = (int)(ids[0] == ids[1] ? 101 : (ids[0] + ids[1]) % 101L);
 
                 if(percentage < 45) {
                     result = "Try again next time...";
-                } else if(percentage >= 45 && percentage < 75) {
+                } else if(percentage < 75) {
                     result = "Good enough!";
-                } else if(percentage >= 75 && percentage < 100) {
+                } else if(percentage < 100) {
                     result = "Good match!";
                 } else {
                     result = "Perfect match!";
-                    if(yCheck) {
+                    if(percentage == 101) {
                         result = "You're a special creature and you should love yourself more than anyone <3";
                     }
                 }

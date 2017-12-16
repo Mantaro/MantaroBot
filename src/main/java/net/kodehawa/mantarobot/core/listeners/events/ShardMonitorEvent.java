@@ -30,6 +30,7 @@ public class ShardMonitorEvent extends Event implements MantaroEvent {
             COMMAND_LISTENER = 1;
     private final Set<ShardListeners> alive = new CopyOnWriteArraySet<>();
     private final Set<ShardListeners> dead = new CopyOnWriteArraySet<>();
+
     public ShardMonitorEvent(int shards) {
         super(null, 0);
         for(int i = 0; i < shards; i++)

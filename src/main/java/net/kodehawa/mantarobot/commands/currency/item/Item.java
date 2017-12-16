@@ -26,20 +26,18 @@ public class Item {
     private final boolean hidden;
     private final long maxSize;
     private final boolean sellable;
-    private final boolean staticPrice;
     private long price;
 
     public Item(String emoji, String name, String desc, long value) {
-        this(emoji, name, desc, value, false, true, true, false, 100);
+        this(emoji, name, desc, value, true, true, false, 100);
     }
 
-    public Item(String emoji, String name, String desc, long value, boolean staticPrice, boolean sellable, boolean buyable, boolean hidden, long maxSize) {
+    public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden, long maxSize) {
         this.emoji = emoji;
         this.name = name;
         this.desc = desc;
         this.value = value;
         this.price = value;
-        this.staticPrice = staticPrice;
         this.sellable = sellable;
         this.buyable = buyable;
         this.maxSize = maxSize;
@@ -47,15 +45,15 @@ public class Item {
     }
 
     public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable) {
-        this(emoji, name, desc, value, false, sellable, buyable, false, 100);
+        this(emoji, name, desc, value, sellable, buyable, false, 100);
     }
 
     public Item(String emoji, String name, String desc, long value, boolean buyable) {
-        this(emoji, name, desc, value, false, true, buyable, false, 100);
+        this(emoji, name, desc, value, true, buyable, false, 100);
     }
 
     public Item(String emoji, String name, String desc, long value, boolean sellable, boolean buyable, boolean hidden) {
-        this(emoji, name, desc, value, false, sellable, buyable, hidden, 100);
+        this(emoji, name, desc, value, sellable, buyable, hidden, 100);
     }
 
     /**
@@ -67,7 +65,7 @@ public class Item {
      * @param desc  A short description, normally used in inventory.
      */
     public Item(String emoji, String name, String desc) {
-        this(emoji, name, desc, 0, false, false, false, true, 100);
+        this(emoji, name, desc, 0, false, false, true, 100);
     }
 
     @Override

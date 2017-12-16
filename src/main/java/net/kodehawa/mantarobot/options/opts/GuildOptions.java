@@ -230,6 +230,8 @@ public class GuildOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     guildData.setLogJoinLeaveChannel(null);
+                    guildData.setLogLeaveChannel(null);
+                    guildData.setLogJoinChannel(null);
                     dbGuild.save();
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Sucessfully reset the join/leave channel.").queue();
                 });//endregion
@@ -249,9 +251,107 @@ public class GuildOptions extends OptionHandler {
         //endregion
 
         //region channel
+
+        registerOption("usermessage:join:channel", "Sets the join message channel", "Sets the join channel, you need the channel **name**\n" +
+                "**Example:** `~>opts usermessage join channel join-magic`\n" +
+                "You can reset it by doing `~>opts usermessage join channel reset_channel`", "Sets the join message channel", (event, args) -> {
+            if(args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
+
+            if(channelName.equals("reset_channel")) {
+                guildData.setLogJoinChannel(null);
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log join channel!").queue();
+                return;
+            }
+
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if(textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                return;
+            }
+
+            if(textChannels.size() <= 1) {
+                guildData.setLogJoinChannel(textChannels.get(0).getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "The join log channel is set to: " +
+                        textChannels.get(0).getAsMention()).queue();
+                return;
+            }
+
+            DiscordUtils.selectList(event, textChannels,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                    textChannel -> {
+                        guildData.setLogJoinChannel(textChannel.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.OK + "The join log channel is set to: " +
+                                textChannel.getAsMention()).queue();
+                    }
+            );
+        });
+
+
+        registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
+                "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
+                "You can reset it by doing `~>opts usermessage leave channel reset_channel`", "Sets the leave message channel", (event, args) -> {
+            if(args.length == 0) {
+                onHelp(event);
+                return;
+            }
+
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            String channelName = args[0];
+            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                    .filter(textChannel -> textChannel.getName().contains(channelName))
+                    .collect(Collectors.toList());
+
+            if(channelName.equals("reset_channel")) {
+                guildData.setLogLeaveChannel(null);
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log leave channel!").queue();
+                return;
+            }
+
+            if(textChannels.isEmpty()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                return;
+            }
+
+            if(textChannels.size() <= 1) {
+                guildData.setLogLeaveChannel(textChannels.get(0).getId());
+                dbGuild.saveAsync();
+                event.getChannel().sendMessage(EmoteReference.CORRECT + "The join leave channel is set to: " +
+                        textChannels.get(0).getAsMention()).queue();
+                return;
+            }
+
+            DiscordUtils.selectList(event, textChannels,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                    textChannel -> {
+                        guildData.setLogLeaveChannel(textChannel.getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.OK + "The join leave channel is set to: " +
+                                textChannel.getAsMention()).queue();
+                    }
+            );
+        });
+
         registerOption("usermessage:channel", "Set message channel",
                 "Sets the join/leave message channel. You need the channel **name**\n" +
-                        "**Example:** `~>opts usermessage channel join-magic`",
+                        "**Example:** `~>opts usermessage channel join-magic`\n" +
+                        "Warning: if you set this, you cannot set individual join/leave channels unless you reset the channel.",
                 "Sets the join/leave message channel.", (event, args) -> {
                     if(args.length == 0) {
                         onHelp(event);
@@ -261,6 +361,7 @@ public class GuildOptions extends OptionHandler {
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
                     String channelName = args[0];
+
                     List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                             .filter(textChannel -> textChannel.getName().contains(channelName))
                             .collect(Collectors.toList());
@@ -447,8 +548,8 @@ public class GuildOptions extends OptionHandler {
                 "Toggles action mention (double-mention). On by default.\n" +
                         "Example: `~>opts actionmention toggle`",
                 "Deprecated.", event ->
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "This option has been deprecated. (Action commands don't double-mention anymore)").queue()
-                );
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "This option has been deprecated. (Action commands don't double-mention anymore)").queue()
+        );
 
         registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
                 "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (event, args) -> {
@@ -558,103 +659,103 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("server:ignorebots:autoroles:toggle",
                 "Bot autorole ignore", "Toggles between ignoring bots on autorole assign and not.", (event) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean ignore = guildData.isIgnoreBotsAutoRole();
-            guildData.setIgnoreBotsAutoRole(!ignore);
-            dbGuild.saveAsync();
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    boolean ignore = guildData.isIgnoreBotsAutoRole();
+                    guildData.setIgnoreBotsAutoRole(!ignore);
+                    dbGuild.saveAsync();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsAutoRole() + "**").queue();
-        });
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsAutoRole() + "**").queue();
+                });
 
         registerOption("server:ignorebots:joinleave:toggle",
                 "Bot join/leave ignore", "Toggles between ignoring bots on join/leave message.", (event) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
-            guildData.setIgnoreBotsWelcomeMessage(!ignore);
-            dbGuild.saveAsync();
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    boolean ignore = guildData.isIgnoreBotsWelcomeMessage();
+                    guildData.setIgnoreBotsWelcomeMessage(!ignore);
+                    dbGuild.saveAsync();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsWelcomeMessage() + "**").queue();
-        });
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set bot autorole ignore to: **" + guildData.isIgnoreBotsWelcomeMessage() + "**").queue();
+                });
 
         registerOption("levelupmessages:toggle", "Level-up toggle",
                 "Toggles level up messages, remember that after this you have to set thee channel and the message!", "Toggles level up messages", event -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
-            boolean ignore = guildData.isEnabledLevelUpMessages();
-            guildData.setEnabledLevelUpMessages(!ignore);
-            dbGuild.saveAsync();
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
+                    boolean ignore = guildData.isEnabledLevelUpMessages();
+                    guildData.setEnabledLevelUpMessages(!ignore);
+                    dbGuild.saveAsync();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Set level up messages to: **" + guildData.isEnabledLevelUpMessages() + "**").queue();
-        });
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Set level up messages to: **" + guildData.isEnabledLevelUpMessages() + "**").queue();
+                });
 
         registerOption("levelupmessages:message:set", "Level-up message", "Sets the message to display on level up",
                 "Sets the level up message", (event, args) -> {
-            if(args.length == 0) {
-                onHelp(event);
-                return;
-            }
+                    if(args.length == 0) {
+                        onHelp(event);
+                        return;
+                    }
 
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
 
-            String levelUpMessage = String.join(" ", args);
-            guildData.setLevelUpMessage(levelUpMessage);
-            dbGuild.saveAsync();
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Server level-up message set to: " + levelUpMessage).queue();
-        });
+                    String levelUpMessage = String.join(" ", args);
+                    guildData.setLevelUpMessage(levelUpMessage);
+                    dbGuild.saveAsync();
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Server level-up message set to: " + levelUpMessage).queue();
+                });
 
         registerOption("levelupmessages:message:clear", "Level-up message clear", "Clears the message to display on level up",
                 "Clears the message to display on level up", (event, args) -> {
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
 
-            guildData.setLevelUpMessage(null);
-            dbGuild.saveAsync();
+                    guildData.setLevelUpMessage(null);
+                    dbGuild.saveAsync();
 
-            event.getChannel().sendMessage(EmoteReference.CORRECT + "Cleared level-up message!").queue();
-        });
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Cleared level-up message!").queue();
+                });
 
         registerOption("levelupmessages:channel:set", "Level-up message channel",
                 "Sets the channel to display level up messages", "Sets the channel to display level up messages",
                 (event, args) -> {
-            if(args.length == 0) {
-                onHelp(event);
-                return;
-            }
+                    if(args.length == 0) {
+                        onHelp(event);
+                        return;
+                    }
 
-            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            GuildData guildData = dbGuild.getData();
+                    DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                    GuildData guildData = dbGuild.getData();
 
-            String channelName = args[0];
-            List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-                    .filter(textChannel -> textChannel.getName().contains(channelName))
-                    .collect(Collectors.toList());
+                    String channelName = args[0];
+                    List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
+                            .filter(textChannel -> textChannel.getName().contains(channelName))
+                            .collect(Collectors.toList());
 
-            if(textChannels.isEmpty()) {
-                event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
-                return;
-            }
+                    if(textChannels.isEmpty()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
+                        return;
+                    }
 
-            if(textChannels.size() <= 1) {
-                guildData.setLevelUpChannel(textChannels.get(0).getId());
-                dbGuild.saveAsync();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "The level-up channel has been set to: " +
-                        textChannels.get(0).getAsMention()).queue();
-            } else {
-                DiscordUtils.selectList(event, textChannels,
-                        textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                        s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-                        textChannel -> {
-                            guildData.setLevelUpChannel(textChannel.getId());
-                            dbGuild.saveAsync();
-                            event.getChannel().sendMessage(EmoteReference.OK + "The level-up channel has been set to: " +
-                                    textChannel.getAsMention()).queue();
-                        }
-                );
-            }
-        });
+                    if(textChannels.size() <= 1) {
+                        guildData.setLevelUpChannel(textChannels.get(0).getId());
+                        dbGuild.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.CORRECT + "The level-up channel has been set to: " +
+                                textChannels.get(0).getAsMention()).queue();
+                    } else {
+                        DiscordUtils.selectList(event, textChannels,
+                                textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                                s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
+                                textChannel -> {
+                                    guildData.setLevelUpChannel(textChannel.getId());
+                                    dbGuild.saveAsync();
+                                    event.getChannel().sendMessage(EmoteReference.OK + "The level-up channel has been set to: " +
+                                            textChannel.getAsMention()).queue();
+                                }
+                        );
+                    }
+                });
     }
 
     @Override

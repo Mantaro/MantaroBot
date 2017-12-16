@@ -20,7 +20,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
-import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.ManagedObject;
 
 import javax.annotation.Nonnull;
@@ -34,15 +33,11 @@ import static java.lang.System.currentTimeMillis;
 public class PremiumKey implements ManagedObject {
     public static final String DB_TABLE = "keys";
     private long duration;
+    private boolean enabled;
     private long expiration;
     private String id;
-    private int type;
-    private boolean enabled;
     private String owner;
-
-    public enum Type {
-        MASTER, USER, GUILD
-    }
+    private int type;
 
     @JsonCreator
     @ConstructorProperties({"id", "duration", "expiration", "type", "enabled", "owner"})
@@ -58,7 +53,16 @@ public class PremiumKey implements ManagedObject {
     }
 
     @JsonIgnore
-    public PremiumKey() {}
+    public PremiumKey() {
+    }
+
+    @JsonIgnore
+    public static PremiumKey generatePremiumKey(String owner, Type type) {
+        String premiumId = UUID.randomUUID().toString();
+        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner);
+        newKey.save();
+        return newKey;
+    }
 
     @JsonIgnore
     @Override
@@ -68,38 +72,34 @@ public class PremiumKey implements ManagedObject {
     }
 
     @JsonIgnore
-    public static PremiumKey generatePremiumKey(String owner, Type type){
-        String premiumId = UUID.randomUUID().toString();
-        PremiumKey newKey = new PremiumKey(premiumId, -1, -1, type, false, owner);
-        newKey.save();
-        return newKey;
-    }
-
-    @JsonIgnore
-    public Type getParsedType(){
+    public Type getParsedType() {
         return Type.values()[type];
     }
 
     @JsonIgnore
-    public long getDurationDays(){
+    public long getDurationDays() {
         return TimeUnit.MILLISECONDS.toDays(duration);
     }
 
     @JsonIgnore
-    public long validFor(){
+    public long validFor() {
         return TimeUnit.MILLISECONDS.toDays(getExpiration() - currentTimeMillis());
     }
 
     @JsonIgnore
-    public long validForMs(){
+    public long validForMs() {
         return getExpiration() - currentTimeMillis();
     }
 
     @JsonIgnore
-    public void activate(int days){
+    public void activate(int days) {
         this.enabled = true;
         this.duration = TimeUnit.DAYS.toMillis(days);
         this.expiration = currentTimeMillis() + TimeUnit.DAYS.toMillis(days);
         save();
+    }
+
+    public enum Type {
+        MASTER, USER, GUILD
     }
 }

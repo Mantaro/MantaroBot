@@ -37,14 +37,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class BirthdayTask {
-    private ManagedDatabase db = MantaroData.db();
     private static FastDateFormat dateFormat = FastDateFormat.getInstance("dd-MM-yyyy");
+    private ManagedDatabase db = MantaroData.db();
 
     public void handle(int shardId) {
         try {
             BirthdayCacher cache = MantaroBot.getInstance().getBirthdayCacher();
             if(cache == null) return;
-            if (!cache.isDone) return;
+            if(!cache.isDone) return;
             int i = 0;
             int r = 0;
 
@@ -73,7 +73,7 @@ public class BirthdayTask {
                             Member member = guild.getMemberById(data.getKey());
                             String birthday = data.getValue();
 
-                            if(birthday == null){
+                            if(birthday == null) {
                                 log.debug("Birthday is null? Continuing to next iteration...");
                                 continue; //shouldnt happen
                             }
@@ -93,7 +93,7 @@ public class BirthdayTask {
                                         log.debug("Assigned birthday role on guild {} (M: {})", guild.getId(), member.getEffectiveName());
                                         i++;
                                         //Something went boom, ignore and continue
-                                    } catch (Exception e) {
+                                    } catch(Exception e) {
                                         log.debug("Something went boom while assigning a birthday role?...");
                                     }
                                 }
@@ -105,7 +105,7 @@ public class BirthdayTask {
                                         guild.getController().removeRolesFromMember(member, birthdayRole).queue();
                                         r++;
                                         //Something went boom, ignore and continue
-                                    } catch (Exception e) {
+                                    } catch(Exception e) {
                                         log.debug("Something went boom while removing a birthday role?...");
                                     }
                                 }

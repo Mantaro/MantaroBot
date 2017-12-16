@@ -25,10 +25,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.Getter;
 import lombok.Setter;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.utils.AudioUtils;
@@ -53,6 +50,7 @@ public class TrackScheduler extends AudioEventAdapter {
     private final List<String> voteSkips;
     @Getter
     private final List<String> voteStop;
+    private long lastMessageSentAt;
     @Getter
     private AudioTrack previousTrack, currentTrack;
     @Getter
@@ -120,13 +118,19 @@ public class TrackScheduler extends AudioEventAdapter {
                     user = MantaroBot.getInstance().getUserById(String.valueOf(getCurrentTrack().getUserData()));
                 }
 
-                getRequestedChannelParsed().sendMessage(
-                        new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
-                        title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
-                                        String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
-                                .stripMentions(getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
-                                .build()
-                ).queue(message -> message.delete().queueAfter(90, TimeUnit.SECONDS));
+                //Avoid massive spam of "now playing..." when repeating songs.
+                if(lastMessageSentAt == 0 || lastMessageSentAt + 10000 < System.currentTimeMillis()) {
+                    getRequestedChannelParsed().sendMessage(
+                            new MessageBuilder().append(String.format("\uD83D\uDCE3 Now playing **%s** (%s) on **%s** | %s",
+                                    title, AudioUtils.getLength(trackLength), voiceChannel.getName(), user != null ?
+                                            String.format("Requested by **%s#%s**", user.getName(), user.getDiscriminator()) : ""))
+                                    .stripMentions(getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
+                                    .build()
+                    ).queue(message -> {
+                        lastMessageSentAt = System.currentTimeMillis();
+                        message.delete().queueAfter(90, TimeUnit.SECONDS);
+                    });
+                }
             }
         }
     }
@@ -205,7 +209,8 @@ public class TrackScheduler extends AudioEventAdapter {
                         (premium ? "" : ":heart: Consider donating on patreon.com/mantaro if you like me, even a small donation will help towards keeping the bot alive (Check `~>donate` for more info!)"))
                         .queue(message -> message.delete().queueAfter(30, TimeUnit.SECONDS));
             }
-        } catch(Exception ignored) {}
+        } catch(Exception ignored) {
+        }
 
         requestedChannel = 0;
         MantaroBot.getInstance().getCore().getCommonExecutor().execute(m::closeAudioConnection);

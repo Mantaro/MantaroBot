@@ -21,7 +21,7 @@ plugins {
 mainClassName = "net.kodehawa.mantarobot.MantaroBot"
 
 //Use an unified versioning system
-def ver = new Version(major: 4, minor: 8, revision: 0)
+def ver = new Version(major: 4, minor: 8, revision: 1)
 version ver.toString()
 
 //We are going to use Java 8
@@ -37,10 +37,14 @@ repositories {
 	mavenLocal()
 }
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-Xlint:deprecation"
+}
+
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_307'
+	compile 'net.dv8tion:JDA:3.3.1_315'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
-	compile group: 'com.github.shredder121.fork', name: 'com.sedmelluq.jda-nas', version: '1.0.8-rythm'
+	compile 'com.sedmelluq:jda-nas:1.0.6'
 
 	compile 'org.reflections:reflections:0.9.9'
 	compile 'ch.qos.logback:logback-classic:0.9.26'
@@ -48,7 +52,6 @@ dependencies {
 	compile 'org.apache-extras.beanshell:bsh:2.0b6'
 
 	compile 'us.monoid.web:resty:0.3.2'
-	compile 'org.jsoup:jsoup:1.8.3'
 
 	//Custom Commands 2.0 Support
 	compile 'xyz.avarel.kaiper:Kaiper-Interpreter:1.1.0'
@@ -65,14 +68,13 @@ dependencies {
 	compile 'com.google.guava:guava:22.0'
 	compile 'com.google.code.gson:gson:2.8.0'
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.1'
-	compile 'net.sf.trove4j:trove4j:3.0.3'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 	compile 'org.redisson:redisson:3.5.3'
 	compile 'io.sentry:sentry:1.2.0'
 
 	compile 'net.jodah:expiringmap:0.5.8'
-	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compile 'org.apache.commons:commons-lang3:3.6'
 
     compile fileTree(dir: 'lib', include: '*.jar')
     compile 'net.kodehawa:imageboard-api:2.0.3_2'
@@ -84,7 +86,7 @@ dependencies {
 	compile 'com.github.natanbc:java-eval:1.0'
 
 	//Basically for FinderUtil
-	compile 'com.jagrosh:JDA-Utilities:1.8'
+	compile 'com.jagrosh:JDA-Utilities:1.9'
 }
 
 task wrapper(type: Wrapper) {
@@ -127,9 +129,9 @@ task cleanDistZip(type: Delete) { delete files(distZip) }
 distZip { classifier = "trash" }
 distZip.finalizedBy cleanDistZip
 
-task cleanShittyJar(type: Delete) { delete files(jar) }
+task cleanUnshadedJar(type: Delete) { delete files(jar) }
 jar { classifier = "trash" }
-jar.finalizedBy cleanShittyJar
+jar.finalizedBy cleanUnshadedJar
 
 shadowJar {
 	classifier = ""

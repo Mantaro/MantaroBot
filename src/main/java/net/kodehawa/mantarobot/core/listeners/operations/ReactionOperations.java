@@ -68,7 +68,8 @@ public final class ReactionOperations {
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
 
             //Ignore errors (Like unknown message).
-            Consumer<Throwable> ignore = (t) -> {};
+            Consumer<Throwable> ignore = (t) -> {
+            };
 
             c.set(ignored -> {
                 if(f.isCancelled())
@@ -113,7 +114,8 @@ public final class ReactionOperations {
         if(defaultReactions.length > 0) {
             AtomicInteger index = new AtomicInteger();
             AtomicReference<Consumer<Void>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t) -> {};
+            Consumer<Throwable> ignore = (t) -> {
+            };
 
             c.set(ignored -> {
                 //Ignore this if we already cancelled this operation.

@@ -29,7 +29,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.kodehawa.mantarobot.MantaroBot;
-import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.info.stats.manager.StatsManager;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -44,6 +43,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.net.URL;
 import java.util.List;
@@ -156,7 +156,7 @@ public class MusicCmds {
         cr.register("playnow", new SimpleCommand(Category.MUSIC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if (isDJ(event.getMember())) {
+                if(isDJ(event.getMember())) {
                     if(content.trim().isEmpty()) {
                         onHelp(event);
                         return;
@@ -165,7 +165,8 @@ public class MusicCmds {
                     try {
                         new URL(content);
                     } catch(Exception e) {
-                        if(content.startsWith("soundcloud")) content = ("scsearch: " + content).replace("soundcloud ", "");
+                        if(content.startsWith("soundcloud"))
+                            content = ("scsearch: " + content).replace("soundcloud ", "");
                         else content = "ytsearch: " + content;
                     }
 
@@ -175,6 +176,7 @@ public class MusicCmds {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to be a DJ to use this command!").queue();
                 }
             }
+
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Play Now command")
@@ -374,12 +376,12 @@ public class MusicCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 GuildMusicManager manager = MantaroBot.getInstance().getAudioManager().getMusicManager(event.getGuild());
-                if (manager.getAudioPlayer().getPlayingTrack() == null) {
+                if(manager.getAudioPlayer().getPlayingTrack() == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "I'm not currently playing anything").queue();
                     return;
                 }
 
-                if (isDJ(event.getMember())) {
+                if(isDJ(event.getMember())) {
                     AudioTrack track = manager.getAudioPlayer().getPlayingTrack();
                     track.setPosition(0L);
                     event.getChannel().sendMessage(EmoteReference.CORRECT + "Restarted current song.").queue();
@@ -458,7 +460,8 @@ public class MusicCmds {
                 int page = 0;
                 try {
                     page = Math.max(Integer.parseInt(args[0]), 1);
-                } catch(Exception ignored) {}
+                } catch(Exception ignored) {
+                }
 
                 if(content.startsWith("clear")) {
                     if(!isInConditionTo(event)) {
@@ -945,7 +948,7 @@ public class MusicCmds {
             }
 
             return true;
-        } catch (NullPointerException e) {
+        } catch(NullPointerException e) {
             event.getChannel().sendMessage(EmoteReference.ERROR + "There seems to be no player here...").queue();
             return false; //No player to stop/change?
         }

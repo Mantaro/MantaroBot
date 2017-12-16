@@ -84,8 +84,10 @@ public class MuteTask {
                             ModLog.log(guild.getSelfMember(), MantaroBot.getInstance().getUserById(id), "Mute timeout expired", ModLog.ModAction.UNMUTE, guildData.getCases());
                         }
                     }
-                } catch (Exception ignored) { }
+                } catch(Exception ignored) {
+                }
             }
-        } catch(Exception ignored) { }
+        } catch(Exception ignored) {
+        }
     }
 }

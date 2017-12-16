@@ -64,7 +64,7 @@ public class MessageCmds {
                             messageHistory -> {
                                 String prefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
                                 messageHistory = messageHistory.stream().filter(message -> message.getAuthor().isBot() ||
-                                        message.getContent().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
+                                        message.getContentRaw().startsWith(prefix == null ? "~>" : prefix)).collect(Collectors.toList());
 
                                 if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from bots or bot calls here.").queue();
@@ -108,13 +108,13 @@ public class MessageCmds {
                             messageHistory -> {
                                 messageHistory = messageHistory.stream().filter(message -> users.contains(message.getAuthor().getIdLong())).collect(Collectors.toList());
 
-                                if (messageHistory.isEmpty()) {
+                                if(messageHistory.isEmpty()) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "There are no messages from users which you mentioned " +
                                             "here.").queue();
                                     return;
                                 }
 
-                                if (messageHistory.size() < 3) {
+                                if(messageHistory.size() < 3) {
                                     event.getChannel().sendMessage(EmoteReference.ERROR + "Too few messages to prune!").queue();
                                     return;
                                 }

@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.core.shard.watcher;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.MantaroEventManager;
 import net.kodehawa.mantarobot.core.listeners.events.EventUtils;
@@ -28,10 +29,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.log.LogUtils;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * This class acts as a Watcher for all the {@link MantaroShard} instances.
@@ -39,11 +37,12 @@ import java.util.concurrent.TimeUnit;
  * This works by sending a foreign event to all the shards, asking for a response back.
  * There are two ways for a Shard to send a signal that's dead: by having one or more listeners deadlocked, or by having a {@link MantaroEventManager#getLastJDAEventTimeDiff()}
  * time of over 30000ms (30 seconds without receiving any event).
- *
- * After acknowledging the dead shards, the ShardWatcherThread will proceed to reboot all of the dead shards by sending a signal to {@link MantaroShard#start(boolean)} with a value of
- * "true", which will send {@link JDA#shutdownNow()} to the old shard instance, and attempt to build a completely new one. This times out after two minutes of wait.
+ * <p>
+ * After acknowledging the dead shards, the ShardWatcherThread will proceed to attempt to RESUME all of the dead shards. If this doesn't work, it will restart the dead shards by
+ * sending a signal to {@link MantaroShard#start(boolean)} with a value of "true", which will send {@link JDA#shutdownNow()} to the old shard instance,
+ * and attempt to build a completely new one. This sends a timeout after two minutes of wait.
  * There is a backoff of 6 seconds between rebooting shards, to avoid OP2 spam during this procedure (5 seconds from the {@link MantaroShard#start(boolean)} call, and one extra second on this procedure).
- *
+ * <p>
  * After rebooting the shard, everything on it *should* go back to normal and it should be able to listen to events and dispatch messages again without issues.
  */
 @Slf4j
@@ -52,6 +51,8 @@ public class ShardWatcher implements Runnable {
     //The pool that will run the FutureTask to wait for the shard to finish its pre-load phase.
     //No longer needed?
     private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
+    private final ScheduledExecutorService RESUME_WAITER = Executors.newSingleThreadScheduledExecutor();
+    private final ConcurrentLinkedQueue<MantaroShard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
 
     //Mantaro's sharded instance
     private ShardedMantaro shardedMantaro;
@@ -59,6 +60,43 @@ public class ShardWatcher implements Runnable {
     @Override
     public void run() {
         LogUtils.shard("ShardWatcherThread started");
+        //Executes the restart queue handler. For the actual logic behind all this, check the next while(true) loop.
+        THREAD_POOL.execute(()->{
+            while(true) {
+                MantaroShard shard = RESTART_QUEUE.poll();
+                if(shard == null) {
+                    //poll the queue every 10 seconds
+                    try {
+                        Thread.sleep(10000);
+                    } catch(InterruptedException e) {
+                        LogUtils.shard("Shard restarter task interrupted");
+                        return;
+                    }
+                    continue;
+                }
+
+                //Alert us, plz no panic
+                LogUtils.shard(
+                        String.format("RESUME failed to revive shard.\n" +
+                                "Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
+                );
+
+                try {
+                    //Reboot the shard.
+                    shard.start(true);
+                } catch(Exception e) {
+                    LogUtils.shard(String.format("Shard %d was unable to be restarted: %s", shard.getId(), e));
+                }
+
+                try {
+                    Thread.sleep(5000);
+                } catch(InterruptedException e) {
+                    LogUtils.shard("Shard restarter task interrupted");
+                    return;
+                }
+            }
+        });
+
         final int wait = MantaroData.config().get().shardWatcherWait;
         while(true) {
             try {
@@ -94,40 +132,28 @@ public class ShardWatcher implements Runnable {
                     //Under the hood this basically calls JDA#shutdownNow on the old JDA instance and replaces it with a completely new one.
                     for(int id : dead) {
                         try {
-                            FutureTask<Integer> restartJDA = new FutureTask<>(() -> {
-                                try {
-                                    MantaroShard shard = MantaroBot.getInstance().getShard(id);
+                            MantaroShard shard = MantaroBot.getInstance().getShard(id);
 
-                                    //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
-                                    //But, if the shard has been inactive for too long, we're better off scrapping this session as the shard might be stuck on connecting.
-                                    if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT ||
-                                            shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getEventManager().getLastJDAEventTimeDiff() < 200000) {
-                                        LogUtils.shard("Skipping shard " + id + " due to it being currently reconnecting to the websocket or was shutdown manually...");
-                                        return 1;
-                                    }
+                            //If we are dealing with a shard reconnecting, don't make its job harder by rebooting it twice.
+                            //But, if the shard has been inactive for too long, we're better off scrapping this session as the shard might be stuck on connecting.
+                            if((shard.getStatus() == JDA.Status.RECONNECT_QUEUED || shard.getStatus() == JDA.Status.ATTEMPTING_TO_RECONNECT ||
+                                    shard.getStatus() == JDA.Status.SHUTDOWN) && shard.getEventManager().getLastJDAEventTimeDiff() < 200000) {
+                                LogUtils.shard(String.format("Skipping shard %d due to it being currently reconnecting to the websocket or was shutdown manually...", id));
+                                continue;
+                            }
 
-                                    //Alert us, plz no panic
-                                    LogUtils.shard(
-                                            "Dead shard? Starting automatic shard restart on shard #" + id + " due to it being inactive for longer than 30 seconds."
-                                    );
-
-                                    //Reboot the shard.
-                                    shard.start(true);
-                                    Thread.sleep(1000); //5 seconds on the start method + 1 second of extra backoff.
-                                    return 1;
-                                } catch(Exception e) {
-                                    //Something went wrong :(
-                                    LogUtils.shard(String.format("Cannot restart shard %d Try to do it manually.", id));
-                                    return 0;
+                            LogUtils.shard(
+                                    String.format("Found dead shard (#%d)... attempting RESUME request and waiting 20 seconds to validate.", id)
+                            );
+                            ((JDAImpl)(shard.getJDA())).getClient().close(4000);
+                            RESUME_WAITER.schedule(()->{
+                                if(shard.getEventManager().getLastJDAEventTimeDiff() > 18000) {
+                                    RESTART_QUEUE.add(shard);
                                 }
-                            });
-
-                            //Execute, if this blocks for longer than 2m throw exception (shouldn't happen anymore?)
-                            THREAD_POOL.execute(restartJDA);
-                            restartJDA.get(2, TimeUnit.MINUTES);
+                            }, 20, TimeUnit.SECONDS);
                         } catch(Exception e) {
                             //Somehow we couldn't reboot the shard.
-                            LogUtils.shard(String.format("Cannot restart shard %d Try to do it manually.", id));
+                            LogUtils.shard(String.format("Cannot restart shard %d. Try to do it manually.", id));
                         }
                     }
                 } else {
@@ -135,7 +161,7 @@ public class ShardWatcher implements Runnable {
                     MantaroEventManager.getLog().info("No dead shards found");
                     long ping = MantaroBot.getInstance().getPing();
 
-                    //We might have a few soft-dead shards on here...
+                    //We might have a few soft-dead shards on here... (or internet went to shit)
                     if(ping > 400) {
                         LogUtils.shard(String.format("No dead shards found, but average ping is high (%dms). Ping breakdown: %s",
                                 ping, Arrays.toString(MantaroBot.getInstance().getPings())));

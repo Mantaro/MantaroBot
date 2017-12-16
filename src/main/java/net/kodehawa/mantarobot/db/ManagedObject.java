@@ -23,10 +23,12 @@ import javax.annotation.Nonnull;
 
 public interface ManagedObject {
     @SuppressWarnings("NullableProblems")
-    @Nonnull String getId();
+    @Nonnull
+    String getId();
 
     @JsonIgnore
-    @Nonnull String getTableName();
+    @Nonnull
+    String getTableName();
 
     @JsonIgnore
     @Nonnull

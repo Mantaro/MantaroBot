@@ -116,7 +116,7 @@ public class CustomCmds {
                 if(action.equals("list") || action.equals("ls")) {
 
                     if(!MantaroCore.hasLoadedCompletely()) {
-                        event.getChannel().sendMessage("The bot hasn't been fully booted up yet... custom commands will be avaliable shortly!").queue();
+                        event.getChannel().sendMessage("The bot hasn't been fully booted up yet... custom commands will be available shortly!").queue();
                         return;
                     }
 
@@ -181,7 +181,7 @@ public class CustomCmds {
                             event.getChannel(), 60, e -> {
                                 if(!e.getAuthor().equals(event.getAuthor())) return Operation.IGNORED;
 
-                                String c = e.getMessage().getRawContent();
+                                String c = e.getMessage().getContentRaw();
                                 if(!c.startsWith("&")) return Operation.IGNORED;
                                 c = c.substring(1);
 
@@ -275,7 +275,7 @@ public class CustomCmds {
 
                     try {
                         number = Integer.parseInt(args[2]) - 1;
-                    } catch (NumberFormatException e) {
+                    } catch(NumberFormatException e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "That's not a number...").queue();
                         return;
                     }
@@ -610,7 +610,7 @@ public class CustomCmds {
                 custom.saveAsync();
             }
 
-            //add mini-hack
+            //add to registry
             DefaultCommandProcessor.REGISTRY.commands().put(custom.getName(), customCommand);
 
             customCommands.put(custom.getId(), custom.getValues());

@@ -29,11 +29,11 @@ public class RedisCachedDatabase extends ManagedDatabase {
 
     private final RMap<String, CustomCommand> ccMap;
     private final RMap<String, DBGuild> guildMap;
-    private final RMap<String, Player> playerMap;
-    private final RMap<String, DBUser> userMap;
     private final RMap<String, PremiumKey> keyMap;
     private final RBucket<MantaroObj> mantaroBucket;
     private final Map<Class<? extends ManagedObject>, RMap<String, ManagedObject>> map;
+    private final RMap<String, Player> playerMap;
+    private final RMap<String, DBUser> userMap;
 
     public RedisCachedDatabase(@Nonnull Connection conn,
                                @Nonnull RMap<String, CustomCommand> ccMap,
@@ -76,7 +76,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         log("Getting custom command {}:{} from cache", guildId, name);
-        return ccMap.computeIfAbsent("cc:" + guildId + ":" + name, ignored->super.getCustomCommand(guildId, name));
+        return ccMap.computeIfAbsent("cc:" + guildId + ":" + name, ignored -> super.getCustomCommand(guildId, name));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     public List<CustomCommand> getCustomCommands() {
         List<CustomCommand> list = super.getCustomCommands();
         log("Caching all custom commands");
-        list.forEach(command->ccMap.fastPutAsync(command.getId(), command));
+        list.forEach(command -> ccMap.fastPutAsync(command.getId(), command));
         return list;
     }
 
@@ -95,7 +95,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     public List<CustomCommand> getCustomCommands(@Nonnull String guildId) {
         List<CustomCommand> list = super.getCustomCommands(guildId);
         log("Caching all custom commands from guild {}", guildId);
-        list.forEach(command->ccMap.fastPutAsync(command.getId(), command));
+        list.forEach(command -> ccMap.fastPutAsync(command.getId(), command));
         return list;
     }
 
@@ -105,7 +105,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     public List<CustomCommand> getCustomCommandsByName(@Nonnull String name) {
         List<CustomCommand> list = super.getCustomCommandsByName(name);
         log("Caching all custom commands named {}", name);
-        list.forEach(command->ccMap.fastPutAsync(command.getId(), command));
+        list.forEach(command -> ccMap.fastPutAsync(command.getId(), command));
         return list;
     }
 
@@ -114,7 +114,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @CheckReturnValue
     public DBGuild getGuild(@Nonnull String guildId) {
         log("Getting guild {} from cache", guildId);
-        return guildMap.computeIfAbsent("guild:" + guildId, ignored->super.getGuild(guildId));
+        return guildMap.computeIfAbsent("guild:" + guildId, ignored -> super.getGuild(guildId));
     }
 
     @Override
@@ -146,7 +146,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @CheckReturnValue
     public Player getPlayer(@Nonnull String userId) {
         log("Getting player {} from cache", userId);
-        return playerMap.computeIfAbsent("player:" + userId, ignored->super.getPlayer(userId));
+        return playerMap.computeIfAbsent("player:" + userId, ignored -> super.getPlayer(userId));
     }
 
     @Override
@@ -155,7 +155,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     public List<Player> getPlayers() {
         List<Player> list = super.getPlayers();
         log("Caching all players");
-        list.forEach(player->playerMap.fastPutAsync(player.getId(), player));
+        list.forEach(player -> playerMap.fastPutAsync(player.getId(), player));
         return list;
     }
 
@@ -165,7 +165,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Getting premium key {} from cache", id);
         if(id == null) return null;
-        return keyMap.computeIfAbsent("key:" + id, ignored->super.getPremiumKey(id));
+        return keyMap.computeIfAbsent("key:" + id, ignored -> super.getPremiumKey(id));
     }
 
     @Override
@@ -174,7 +174,7 @@ public class RedisCachedDatabase extends ManagedDatabase {
     public List<PremiumKey> getPremiumKeys() {
         List<PremiumKey> list = super.getPremiumKeys();
         log("Caching all premium keys");
-        list.forEach(key->keyMap.fastPutAsync(key.getId(), key));
+        list.forEach(key -> keyMap.fastPutAsync(key.getId(), key));
         return list;
     }
 
@@ -183,13 +183,13 @@ public class RedisCachedDatabase extends ManagedDatabase {
     @CheckReturnValue
     public DBUser getUser(@Nonnull String userId) {
         log("Getting user {} from cache", userId);
-        return userMap.computeIfAbsent("user:" + userId, ignored->super.getUser(userId));
+        return userMap.computeIfAbsent("user:" + userId, ignored -> super.getUser(userId));
     }
 
     @Override
     public void save(@Nonnull ManagedObject object) {
         if(object instanceof MantaroObj) {
-            mantaroBucket.setAsync((MantaroObj)object);
+            mantaroBucket.setAsync((MantaroObj) object);
         } else {
             Class<? extends ManagedObject> c = object.getClass();
             RMap<String, ManagedObject> m = map.get(c);

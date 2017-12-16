@@ -53,26 +53,30 @@ public class AnimeCmds {
     public static String authToken;
 
     /**
-     * returns the new AniList access token.
+     * return the new AniList access token.
      */
     private void authenticate() {
         String aniList = "https://anilist.co/api/auth/access_token";
         String CLIENT_ID = MantaroData.config().get().getAlClient();
+
         try {
-            RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded")
-                    , "grant_type=client_credentials&client_id=" + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret);
+            RequestBody body = RequestBody.create(MediaType.parse("application/x-www-form-urlencoded"), "grant_type=client_credentials&client_id="
+                    + CLIENT_ID + "&client_secret=" + MantaroData.config().get().alsecret);
+
             Request request = new Request.Builder()
                     .header("Content-Type", "application/x-www-form-urlencoded")
                     .url(aniList)
                     .post(body)
                     .build();
+
             Response response = client.newCall(request).execute();
             JSONObject object = new JSONObject(response.body().string());
             authToken = object.getString("access_token");
             response.close();
-            log.info("Updated auth token.");
+
+            log.info("Updated AniList auth token.");
         } catch(Exception e) {
-            LogUtils.log("Problem while updating Anilist token!");
+            LogUtils.log("Found an issue while updating the AniList token (API down?)");
             SentryHelper.captureExceptionContext("Problem while updating Anilist token", e, AnimeCmds.class, "Anilist Token Worker");
         }
     }
@@ -105,19 +109,13 @@ public class AnimeCmds {
                                     .setFooter("Information provided by Anilist.", event.getAuthor().getAvatarUrl())
                                     .build(),
                             anime -> animeData(event, anime));
-                } catch(Exception e) {
-                    if(e instanceof JsonSyntaxException) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
-                        return;
-                    }
-
-                    if(e instanceof NullPointerException) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
-                        return;
-                    }
-
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't drop your favorite anime!**\n " +
-                            "We received a ``" + e.getClass().getSimpleName() + "`` while trying to process the command.").queue();
+                } catch (JsonSyntaxException jsonException) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
+                } catch (NullPointerException nullException) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
+                } catch (Exception exception) {
+                    event.getChannel().sendMessage(String.format("%s**I swear I didn't drop your favorite anime!**\n We received a ``%s`` while trying to process the command.",
+                            EmoteReference.ERROR, exception.getClass().getSimpleName())).queue();
                 }
             }
 
@@ -165,20 +163,13 @@ public class AnimeCmds {
                                     .setFooter("Information provided by Anilist.", event.getAuthor().getAvatarUrl())
                                     .build(),
                             character1 -> characterData(event, character1));
-                } catch(Exception e) {
-                    if(e instanceof JsonSyntaxException) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
-                        return;
-                    }
-
-                    if(e instanceof NullPointerException) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
-                        return;
-                    }
-
-                    log.warn("Problem processing character data.", e);
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "**I swear I didn't d-drop your waifu, please forgive me!**\n" +
-                            "I got ``" + e.getClass().getSimpleName() + "`` while trying to process this command.").queue();
+                }  catch (JsonSyntaxException jsonException) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "No results found...").queue();
+                } catch (NullPointerException nullException) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "We got a wrong API result for this specific search. Maybe try another one?").queue();
+                } catch (Exception exception) {
+                    event.getChannel().sendMessage(String.format("%s**I swear I didn't d-drop your waifu, please forgive me!**\nI got ``%s`` while trying to process this command.",
+                            EmoteReference.ERROR, exception.getClass().getSimpleName())).queue();
                 }
             }
 
@@ -207,6 +198,7 @@ public class AnimeCmds {
         String TYPE = Utils.capitalize(type.getSeriesType());
         String EPISODES = type.getTotalEpisodes().toString();
         String DURATION = type.getDuration().toString();
+
         List<String> genres = type.getGenres();
         genres.removeAll(Collections.singleton(""));
         String GENRES = String.join(", ", genres);
@@ -236,6 +228,7 @@ public class AnimeCmds {
         String IMAGE_URL = character.getMedImageUrl();
         String CHAR_DESCRIPTION = character.getInfo().isEmpty() ? "No info."
                 : character.getInfo().length() <= 1024 ? character.getInfo() : character.getInfo().substring(0, 1020 - 1) + "...";
+
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.LIGHT_GRAY)
                 .setThumbnail(IMAGE_URL)

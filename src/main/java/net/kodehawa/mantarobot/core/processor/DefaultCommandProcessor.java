@@ -16,6 +16,7 @@
 
 package net.kodehawa.mantarobot.core.processor;
 
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -23,34 +24,38 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
+@Slf4j
 public class DefaultCommandProcessor implements ICommandProcessor {
 
     public static final CommandRegistry REGISTRY = new CommandRegistry();
-    private static final Logger LOGGER = LoggerFactory.getLogger("CommandProcessor");
 
     @Override
     public boolean run(GuildMessageReceivedEvent event) {
         long start = System.currentTimeMillis();
-        String rawCmd = event.getMessage().getRawContent();
+        String rawCmd = event.getMessage().getContentRaw();
         String[] prefix = MantaroData.config().get().prefix;
         String customPrefix = MantaroData.db().getGuild(event.getGuild()).getData().getGuildCustomPrefix();
 
         String usedPrefix = null;
+
         for(String s : prefix) {
             if(rawCmd.startsWith(s)) usedPrefix = s;
         }
 
-        if(usedPrefix != null && rawCmd.startsWith(usedPrefix)) rawCmd = rawCmd.substring(usedPrefix.length());
-        else if(customPrefix != null && rawCmd.startsWith(customPrefix))
+        if(usedPrefix != null && rawCmd.startsWith(usedPrefix)) {
+            rawCmd = rawCmd.substring(usedPrefix.length());
+        }
+        else if(customPrefix != null && rawCmd.startsWith(customPrefix)) {
             rawCmd = rawCmd.substring(customPrefix.length());
-        else if(usedPrefix == null) return false;
+        }
+        else if(usedPrefix == null) {
+            return false;
+        }
 
         String[] parts = splitArgs(rawCmd, 2);
         String cmdName = parts[0], content = parts[1];
@@ -64,10 +69,11 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         }
 
         REGISTRY.process(event, cmdName, content);
-        LOGGER.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
+        log.debug("Command invoked: {}, by {}#{} with timestamp {}", cmdName, event.getAuthor().getName(), event.getAuthor().getDiscriminator(), new Date(System.currentTimeMillis()));
 
         long end = System.currentTimeMillis();
         MantaroBot.getInstance().getStatsClient().histogram("command_query_time", end - start);
+
         return true;
     }
 }

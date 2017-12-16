@@ -72,7 +72,9 @@ public class TextChannelGround {
 
     public boolean dropItemWithChance(Item item, int weight) {
         boolean doDrop = r.nextInt(weight) == 0;
-        if(doDrop) dropItem(item);
+        if(doDrop)
+            dropItem(item);
+
         return doDrop;
     }
 
@@ -96,7 +98,9 @@ public class TextChannelGround {
 
     public boolean dropMoneyWithChance(int money, int weight) {
         boolean doDrop = r.nextInt(weight) == 0;
-        if(doDrop) dropMoney(money);
+        if(doDrop)
+            dropMoney(money);
+
         return doDrop;
     }
 }

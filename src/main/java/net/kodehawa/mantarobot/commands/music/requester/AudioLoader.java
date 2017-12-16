@@ -24,6 +24,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.GuildMusicManager;
@@ -47,9 +48,9 @@ public class AudioLoader implements AudioLoadResultHandler {
     private static final int MAX_QUEUE_LENGTH = 350;
     private static final long MAX_SONG_LENGTH = 1920000; //32 minutes
     private final GuildMessageReceivedEvent event;
+    private final boolean insertFirst;
     private final GuildMusicManager musicManager;
     private final boolean skipSelection;
-    private final boolean insertFirst;
 
     public AudioLoader(GuildMusicManager musicManager, GuildMessageReceivedEvent event, boolean skipSelection, boolean insertFirst) {
         this.musicManager = musicManager;
@@ -163,7 +164,7 @@ public class AudioLoader implements AudioLoadResultHandler {
         if(!silent) {
             event.getChannel().sendMessage(new MessageBuilder().append(
                     String.format("\uD83D\uDCE3 Added to queue -> **%s** **(%s)**", title, AudioUtils.getLength(length)))
-                    .stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE)
+                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE)
                     .build()
             ).queue();
         }
