@@ -74,10 +74,11 @@ public class ImageCmds {
                     String url = new JSONObject(response.body().string()).getString("file");
                     response.close();
                     event.getChannel().sendFile(CACHE.getFile(url), "cat.jpg",
-                            new MessageBuilder().append(EmoteReference.TALKING).append(CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName())).build()).queue();
+                            new MessageBuilder().append(EmoteReference.TALKING).append(
+                                    CollectionUtils.random(catResponses).replace("%mention%", event.getAuthor().getName())
+                            ).build()).queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Error retrieving cute cat images :<").queue();
-                    e.printStackTrace();
                 }
             }
 
@@ -99,7 +100,9 @@ public class ImageCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 boolean nsfw = args.length > 0 && args[0].equalsIgnoreCase("nsfw");
-                if(nsfw && !nsfwCheck(event, true, true, null)) return;
+
+                if(nsfw && !nsfwCheck(event, true, true, null))
+                    return;
 
                 try {
                     String image = requester.getRandomImageByType("neko", nsfw, null);
@@ -111,7 +114,6 @@ public class ImageCmds {
 
                     event.getChannel().sendFile(CACHE.getInput(image), "catgirl.png", null).queue();
                 } catch(Exception e) {
-                    e.printStackTrace();
                     event.getChannel().sendMessage("Unable to get image.").queue();
                 }
             }

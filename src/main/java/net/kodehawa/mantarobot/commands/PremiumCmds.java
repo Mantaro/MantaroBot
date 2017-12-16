@@ -218,11 +218,11 @@ public class PremiumCmds {
 
                 String scope = args[0];
                 String owner = args[1];
+
                 PremiumKey.Type scopeParsed = null;
                 try {
                     scopeParsed = PremiumKey.Type.valueOf(scope.toUpperCase()); //To get the ordinal
-                } catch(IllegalArgumentException ignored) {
-                }
+                } catch(IllegalArgumentException ignored) {}
 
                 if(scopeParsed == null) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid scope (Valid ones are: `user`, `guild` or `master`)").queue();

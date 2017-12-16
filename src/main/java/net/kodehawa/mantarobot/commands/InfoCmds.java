@@ -141,12 +141,14 @@ public class InfoCmds {
                 builder.setAuthor("Credits.", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
                         .setColor(Color.BLUE)
                         .setDescription(
-                                "**Main developer**: Kodehawa#3457\n"
-                                        + "**Developer**: AdrianTodt#0722\n"
-                                        + "**Developer**: Natan#1289\n"
-                                        + "**Documentation**: MrLar#8117 & Yuvira#7832\n"
-                                        + "**Community Admin**: MrLar#8117\n"
-                                        + "**Grammar Nazi**: Desiree#3658")
+                                String.join("\n",
+                                        "**Main developer**: Kodehawa#3457",
+                                        "**Developer**: AdrianTodt#0722",
+                                        "**Developer**: Natan#1289",
+                                        "**Documentation**: MrLar#8117 & Yuvira#7832",
+                                        "**Community Admin**: MrLar#8117",
+                                        "**Grammar Nazi**: Desiree#3658"
+                                ))
                         .addField("Special mentions",
                                 "Thanks to bots.discord.pw, Carbonitex and discordbots.org for helping us with increasing the bot's visibility.", false)
                         .setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
@@ -616,16 +618,17 @@ public class InfoCmds {
                 if(roles.length() > MessageEmbed.TEXT_MAX_LENGTH)
                     roles = roles.substring(0, MessageEmbed.TEXT_MAX_LENGTH - 4) + "...";
 
-                String s =
-                        BLUE_SMALL_MARKER + "**User ID:** " + user.getId() + "\n" +
-                                BLUE_SMALL_MARKER + "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
-                                BLUE_SMALL_MARKER + "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", "") + "\n" +
-                                BLUE_SMALL_MARKER + "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days" + "\n" +
-                                BLUE_SMALL_MARKER + "**Mutual Guilds:** " + MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size() + "\n" +
-                                BLUE_SMALL_MARKER + "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None") + "\n" +
-                                BLUE_SMALL_MARKER + "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()) + "\n" +
-                                BLUE_SMALL_MARKER + "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()) + "\n" +
-                                BLUE_SMALL_MARKER + "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase());
+                String s = String.join("\n",
+                        BLUE_SMALL_MARKER + "**User ID:** " + user.getId(),
+                        BLUE_SMALL_MARKER + "**Join Date:** " + member.getJoinDate().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**Account Created:** " + user.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**Account Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - user.getCreationTime().toInstant().toEpochMilli()) + " days",
+                        BLUE_SMALL_MARKER + "**Mutual Guilds:** " + MantaroBot.getInstance().getMutualGuilds(event.getAuthor()).size(),
+                        BLUE_SMALL_MARKER + "**Voice Channel:** " + (member.getVoiceState().getChannel() != null ? member.getVoiceState().getChannel().getName() : "None"),
+                        BLUE_SMALL_MARKER + "**Playing Now:** " + (member.getGame() == null ? "Nothing" : member.getGame().getName()),
+                        BLUE_SMALL_MARKER + "**Color:** " + (member.getColor() == null ? "Default" : "#" + Integer.toHexString(member.getColor().getRGB()).substring(2).toUpperCase()),
+                        BLUE_SMALL_MARKER + "**Status:** " + Utils.capitalize(member.getOnlineStatus().getKey().toLowerCase())
+                );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(member.getColor())

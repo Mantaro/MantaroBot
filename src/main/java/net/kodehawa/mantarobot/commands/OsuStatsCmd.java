@@ -139,13 +139,13 @@ public class OsuStatsCmd {
                         .append("\n");
             }
 
-            finalResponse = "```md\n**Best osu! scores for: " + osuUser.getUsername() + "**\n" + sb.toString() + "```";
-        } catch(Exception e) {
-            if(e instanceof JSONException) finalResponse = EmoteReference.ERROR + "No results found.";
-            else {
-                finalResponse = EmoteReference.ERROR + "Error while looking for results.";
-                SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
-            }
+            finalResponse = String.format("```md\n**Best osu! scores for: %s**\n%s```", osuUser.getUsername(), sb.toString());
+        } catch (JSONException jx) {
+            finalResponse = EmoteReference.ERROR + "No results found.";
+        }
+        catch(Exception e) {
+            finalResponse = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
+            SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
         }
 
         return finalResponse;
@@ -180,15 +180,16 @@ public class OsuStatsCmd {
             }
 
             recent.forEach(sb::append);
-            finalMessage = "```md\n**Recent osu! scores for: " + hey.getUsername() + "**\n" + sb.toString() + "```";
+            finalMessage = String.format("```md\n**Recent osu! scores for: %s**\n%s```", hey.getUsername(), sb.toString());
 
-        } catch(Exception e) {
-            if(e instanceof JSONException) finalMessage = EmoteReference.ERROR + "No results found.";
-            else {
-                finalMessage = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
-                SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
-            }
+        } catch (JSONException jx) {
+            finalMessage = EmoteReference.ERROR + "No results found.";
         }
+        catch(Exception e) {
+            finalMessage = EmoteReference.ERROR + "Uh-oh... seems like I just received scramble soup as a response... (Error while retrieving results)";
+            SentryHelper.captureException("Error retrieving results from osu!API", e, OsuStatsCmd.class);
+        }
+
         return finalMessage;
     }
 
@@ -227,6 +228,7 @@ public class OsuStatsCmd {
                     .addField("Description", "Uh-oh... seems like I just received scramble soup as a response... (" + e.getMessage() + ")", false);
             finalMessage = builder.build();
         }
+
         return finalMessage;
     }
 

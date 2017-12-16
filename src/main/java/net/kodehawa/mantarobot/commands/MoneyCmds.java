@@ -118,8 +118,7 @@ public class MoneyCmds {
                         if(playerData.getDailyStreak() == 0) {
                             streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
                         } else {
-                            streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                    "Old streak: `" + playerData.getDailyStreak() + "x`";
+                            streak = String.format("2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%dx`", playerData.getDailyStreak());
                         }
 
                         playerData.setDailyStreak(1);
@@ -143,14 +142,12 @@ public class MoneyCmds {
 
                     if(System.currentTimeMillis() - authorPlayerData.getLastDailyAt() < TimeUnit.HOURS.toMillis(50)) {
                         authorPlayerData.setDailyStreak(authorPlayerData.getDailyStreak() + 1);
-                        streak = "Streak up! Current streak: `" + authorPlayerData.getDailyStreak() + "x`.\n" +
-                                "*The streak was applied to your profile!*";
+                        streak = String.format("Streak up! Current streak: `%dx`.\n*The streak was applied to your profile!*", authorPlayerData.getDailyStreak());
                     } else {
                         if(authorPlayerData.getDailyStreak() == 0) {
                             streak = "First time claiming daily, have fun! (Come back for your streak tomorrow!)";
                         } else {
-                            streak = "2+ days have passed since your last daily, so your streak got reset :(\n" +
-                                    "Old streak: `" + authorPlayerData.getDailyStreak() + "x`";
+                            streak = String.format("2+ days have passed since your last daily, so your streak got reset :(\nOld streak: `%dx`", authorPlayerData.getDailyStreak());
                         }
 
                         authorPlayerData.setDailyStreak(1);
@@ -378,9 +375,7 @@ public class MoneyCmds {
                                     EmoteReference.POPPER, s, moneyFound, overflow)).queue();
                         } else {
                             event.getChannel().sendMessage(String.format("%sDigging through messages, you found %s, along with **$%d credits.** " +
-                                    "%sBut you already had too many credits. Your bag overflowed.\n" +
-                                    "Congratulations, you exploded a Java long. Here's a buggy money bag for you.",
-                                    EmoteReference.POPPER, s, moneyFound, overflow)).queue();
+                                    "%sBut you already had too many credits.", EmoteReference.POPPER, s, moneyFound, overflow)).queue();
                         }
                     } else {
                         event.getChannel().sendMessage(EmoteReference.MEGA + "Digging through messages, you found " + s + ". " + overflow).queue();
@@ -392,10 +387,8 @@ public class MoneyCmds {
                             event.getChannel().sendMessage(EmoteReference.POPPER + "Digging through messages, you found **$" + moneyFound +
                                     " credits!**").queue();
                         } else {
-                            //pretty old meme right here
                             event.getChannel().sendMessage(String.format("%sDigging through messages, you found **$%d credits.** " +
-                                    "But you already had too many credits. Your bag overflowed.\nCongratulations, you exploded a Java long. Here's a buggy money bag for you.",
-                                    EmoteReference.POPPER, moneyFound)).queue();
+                                    "But you already had too many credits.", EmoteReference.POPPER, moneyFound)).queue();
                         }
                     } else {
                         String msg = "Digging through messages, you found nothing but dust";
@@ -745,9 +738,9 @@ public class MoneyCmds {
                     player.saveAsync();
                 }
 
-
                 StringBuilder message = new StringBuilder(String.format("%s**You used %s and rolled the slot machine!**\n\n", EmoteReference.DICE, coinSelect ? amountN +" slot ticket(s)" : money + " credits"));
                 StringBuilder builder = new StringBuilder();
+
                 for(int i = 0; i < 9; i++) {
                     if(i > 1 && i % 3 == 0) {
                         builder.append("\n");

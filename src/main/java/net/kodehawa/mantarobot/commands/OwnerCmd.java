@@ -266,7 +266,10 @@ public class OwnerCmd {
                 return ecl.loadClass("Eval").getMethod("run", GuildMessageReceivedEvent.class).invoke(null, event);
             } catch(CompilationException e) {
                 StringBuilder sb = new StringBuilder("\n");
-                if(e.getCompilerOutput() != null) sb.append(e.getCompilerOutput());
+
+                if(e.getCompilerOutput() != null)
+                    sb.append(e.getCompilerOutput());
+
                 if(!e.getDiagnostics().isEmpty()) {
                     if(sb.length() > 0) sb.append("\n\n");
                     e.getDiagnostics().forEach(d -> sb.append(d).append('\n'));

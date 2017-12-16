@@ -78,7 +78,7 @@ public class CurrencyCmds {
                             .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
                             .sum();
 
-                    event.getChannel().sendMessage(EmoteReference.DIAMOND + "You will get **" + all + " credits** if you sell all of your items!").queue();
+                    event.getChannel().sendMessage(String.format("%sYou will get **%d credits** if you sell all of your items!", EmoteReference.DIAMOND, all)).queue();
                     return;
                 }
 
@@ -576,7 +576,8 @@ public class CurrencyCmds {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Open loot crates")
-                        .setDescription("**Yep. It's really that simple**")
+                        .setDescription("**Yep. It's really that simple**.\n" +
+                                "You need a crate key to open a loot crate. Loot crates are acquired rarely from the loot command.")
                         .build();
             }
         });
@@ -589,8 +590,11 @@ public class CurrencyCmds {
         items.addAll(Arrays.asList(Items.ALL));
         items.removeIf(item -> item.isHidden() || !item.isBuyable() || !item.isSellable());
         items.sort((o1, o2) -> {
-            if(o1.getValue() > o2.getValue()) return 1;
-            if(o1.getValue() == o2.getValue()) return 0;
+            if(o1.getValue() > o2.getValue())
+                return 1;
+            if(o1.getValue() == o2.getValue())
+                return 0;
+
             return -1;
         });
 
@@ -607,6 +611,7 @@ public class CurrencyCmds {
 
         boolean overflow = player.getInventory().merge(ita);
         player.saveAsync();
+
         event.getChannel().sendMessage(String.format("%s**You won:** %s%s",
                 EmoteReference.LOOT_CRATE.getDiscordNotation(), toAdd.stream().map(Item::toString).collect(Collectors.joining(", ")),
                 overflow ? ". But you already had too much, so you decided to throw away the excess" : "")).queue();

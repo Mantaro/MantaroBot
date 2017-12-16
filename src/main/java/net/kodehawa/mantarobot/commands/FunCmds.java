@@ -73,10 +73,12 @@ public class FunCmds {
 
                 final int[] heads = {0};
                 final int[] tails = {0};
+
                 doTimes(times, () -> {
                     if(r.nextBoolean()) heads[0]++;
                     else tails[0]++;
                 });
+
                 String flips = times == 1 ? "time" : "times";
                 event.getChannel().sendMessage(
                         String.format("%s Your result from **%d** %s yielded **%d** heads and **%d** tails", EmoteReference.PENNY, times, flips, heads[0], tails[0])).queue();
@@ -288,29 +290,26 @@ public class FunCmds {
         registry.register("roll", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
                 Map<String, Optional<String>> opts = StringUtils.parse(args);
-
                 int size = 6, amount = 1;
 
                 if(opts.containsKey("size")) {
                     try {
                         size = Integer.parseInt(opts.get("size").orElse(""));
-                    } catch(Exception ignored) {
-                    }
+                    } catch(Exception ignored) { }
                 }
 
                 if(opts.containsKey("amount")) {
                     try {
                         amount = Integer.parseInt(opts.get("amount").orElse(""));
-                    } catch(Exception ignored) {
-                    }
+                    } catch(Exception ignored) { }
                 } else if(opts.containsKey(null)) { //Backwards Compatibility
                     try {
                         amount = Integer.parseInt(opts.get(null).orElse(""));
-                    } catch(Exception ignored) {
-                    }
+                    } catch(Exception ignored) { }
                 }
 
                 if(amount >= 100) amount = 100;
@@ -336,8 +335,6 @@ public class FunCmds {
 
     @Subscribe
     public void love(CommandRegistry registry) {
-        Random r = new Random();
-
         registry.register("love", new SimpleCommand(Category.FUN) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {

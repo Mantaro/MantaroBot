@@ -188,7 +188,7 @@ public class ManagedDatabase {
     }
 
     //Also tests if the key is valid or not!
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Requesting premium key {} from rethink", id);
