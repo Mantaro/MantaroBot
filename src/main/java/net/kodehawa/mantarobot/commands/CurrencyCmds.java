@@ -29,7 +29,10 @@ import net.kodehawa.mantarobot.commands.currency.item.Items;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
+import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
@@ -110,220 +113,34 @@ public class CurrencyCmds {
 
     @Subscribe
     public void market(CommandRegistry cr) {
-        cr.register("market", new SimpleCommand(Category.CURRENCY) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
 
+        TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(Category.CURRENCY) {
             @Override
-            public void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+            public Command defaultTrigger(GuildMessageReceivedEvent event, String mainCommand, String commandName) {
+                return new SubCommand() {
+                    @Override
+                    protected void call(GuildMessageReceivedEvent event, String content) {
+                        EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
+                        StringBuilder items = new StringBuilder();
+                        StringBuilder prices = new StringBuilder();
+                        AtomicInteger atomicInteger = new AtomicInteger();
+                        Stream.of(Items.ALL).forEach(item -> {
+                            if(!item.isHidden()) {
+                                String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
+                                String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
-                Player player = MantaroData.db().getPlayer(event.getMember());
-
-                if(player.isLocked()) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot access the market now.").queue();
-                    return;
-                }
-
-                if(args.length > 0) {
-                    int itemNumber = 1;
-                    String itemName = content.replace(args[0] + " ", "");
-                    boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
-                    if(isMassive) {
-                        try {
-                            itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
-                            itemName = itemName.replace(args[1] + " ", "");
-                        } catch(Exception e) {
-                            if(e instanceof NumberFormatException) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
-                            } else {
-                                onHelp(event);
-                                return;
+                                items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
+                                prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
                             }
-                        }
+                        });
+
+                        event.getChannel().sendMessage(
+                                embed.addField("Items", items.toString(), true)
+                                        .addField("Value (Buy/Sell)", prices.toString(), true)
+                                        .build()).queue();
                     }
-
-                    if(args[0].equals("price")) {
-                        Item item = Items.fromAny(itemName).orElse(null);
-
-                        if(item == null) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
-                            return;
-                        }
-
-                        if(!item.isBuyable() && !item.isSellable()) {
-                            event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not avaliable neither for sell or buy (could be an exclusive collectable)").queue();
-                            return;
-                        }
-
-                        if(!item.isBuyable()) {
-                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item. (Sell value: " + ((int) (item.getValue() * 0.9)) + " credits)").queue();
-                            return;
-                        }
-
-                        event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
-                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
-
-                        return;
-                    }
-
-                    if(itemNumber > 5000) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You can't buy more than 5000 items").queue();
-                        return;
-                    }
-
-                    if(args[0].equals("price")) {
-                        Item item = Items.fromAny(itemName).orElse(null);
-
-                        if(item == null) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existant item!").queue();
-                            return;
-                        }
-
-                        if(!item.isBuyable() && !item.isSellable()) {
-                            event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not avaliable neither for sell or buy (could be an exclusive collectable)").queue();
-                            return;
-                        }
-
-                        if(!item.isBuyable()) {
-                            event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectable item.").queue();
-                            return;
-                        }
-
-                        event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
-                                EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
-
-                        return;
-                    }
-
-                    if(args[0].equals("sell")) {
-                        try {
-                            if(args[1].equals("all")) {
-                                long all = player.getInventory().asList().stream()
-                                        .filter(item -> item.getItem().isSellable())
-                                        .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
-                                        .sum();
-
-                                player.getInventory().clearOnlySellables();
-
-                                if(player.addMoney(all)) {
-                                    event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained "
-                                            + all + " credits!").queue();
-                                } else {
-                                    event.getChannel().sendMessage(EmoteReference.MONEY + "You sold all your inventory items and gained "
-                                            + all + " credits. But you already had too many credits. Your bag overflowed" +
-                                            ".\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.")
-                                            .queue();
-                                }
-
-                                player.save();
-                                return;
-                            }
-
-                            Item toSell = Items.fromAny(itemName).orElse(null);
-
-                            if(toSell == null) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell a non-existant item.").queue();
-                                return;
-                            }
-
-                            if(!toSell.isSellable()) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.")
-                                        .queue();
-                                return;
-                            }
-
-                            if(player.getInventory().asMap().getOrDefault(toSell, null) == null) {
-                                event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
-                                return;
-                            }
-
-                            if(player.getInventory().getAmount(toSell) < itemNumber) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.")
-                                        .queue();
-                                return;
-                            }
-
-                            int many = itemNumber * -1;
-                            long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
-                            player.getInventory().process(new ItemStack(toSell, many));
-
-                            if(player.addMoney(amount)) {
-                                event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold " + Math.abs(many) + " **" + toSell
-                                        .getName() +
-                                        "** and gained " + amount + " credits!").queue();
-                            } else {
-                                event.getChannel().sendMessage(EmoteReference.CORRECT + "You sold **" + toSell.getName() +
-                                        "** and gained" + amount + " credits. But you already had too many credits. Your bag overflowed" +
-                                        ".\nCongratulations, you exploded a Java long (how??). Here's a buggy money bag for you.").queue();
-                            }
-
-                            player.saveAsync();
-                            return;
-                        } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax").queue();
-                            e.printStackTrace();
-                        }
-                        return;
-                    }
-
-                    if(args[0].equals("buy")) {
-                        Item itemToBuy = Items.fromAnyNoId(itemName).orElse(null);
-
-                        if(itemToBuy == null) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
-                            return;
-                        }
-
-                        try {
-                            if(!itemToBuy.isBuyable()) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.")
-                                        .queue();
-                                return;
-                            }
-
-                            ItemStack stack = player.getInventory().getStackOf(itemToBuy);
-                            if(stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
-                                //assume overflow
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy more of that object!").queue();
-                                return;
-                            }
-
-                            if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
-                                player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
-                                player.saveAsync();
-                                event.getChannel().sendMessage(EmoteReference.OK + "Bought " + itemNumber + " " + itemToBuy.getEmoji() + " for " + (itemToBuy.getValue() * itemNumber) +
-                                        " credits successfully. You now have " + player.getMoney() + " credits.").queue();
-
-                            } else {
-                                event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.")
-                                        .queue();
-                            }
-                            return;
-                        } catch(Exception e) {
-                            event.getChannel().sendMessage(EmoteReference.ERROR + "Item doesn't exist or invalid syntax.").queue();
-                        }
-                        return;
-                    }
-                }
-
-                EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
-                StringBuilder items = new StringBuilder();
-                StringBuilder prices = new StringBuilder();
-                AtomicInteger atomicInteger = new AtomicInteger();
-                Stream.of(Items.ALL).forEach(item -> {
-                    if(!item.isHidden()) {
-                        String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
-                        String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
-
-                        items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
-                        prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
-                    }
-                });
-
-                event.getChannel().sendMessage(
-                        embed.addField("Items", items.toString(), true)
-                                .addField("Value (Buy/Sell)", prices.toString(), true)
-                                .build()).queue();
+                };
             }
 
             @Override
@@ -341,6 +158,205 @@ public class CurrencyCmds {
                         .addField("Information", "To buy and sell multiple items you need to do `~>market <buy/sell> <amount> <item>`",
                                 false)
                         .build();
+            }
+        });
+
+        marketCommand.setPredicate((event) -> {
+            if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                return false;
+
+            Player player = MantaroData.db().getPlayer(event.getMember());
+            if(player.isLocked()) {
+                event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot access the market now.").queue();
+                return false;
+            }
+
+            return true;
+        });
+
+        marketCommand.addSubCommand("price", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                String itemName = content.replace(args[0] + " ", "");
+                Item item = Items.fromAny(itemName).orElse(null);
+
+                if(item == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existent item!").queue();
+                    return;
+                }
+
+                if(!item.isBuyable()) {
+                    if(!item.isSellable()) {
+                        event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not available neither for sell or buy (could be an exclusive collectible)").queue();
+                        return;
+                    }
+                    event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectible item. (Sell value: " + ((int) (item.getValue() * 0.9)) + " credits)").queue();
+                    return;
+                }
+
+                event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
+                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
+            }
+        });
+
+        marketCommand.addSubCommand("price", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                String[] args = content.split(" ");
+                String itemName = content.replace(args[0] + " ", "");
+                Item item = Items.fromAny(itemName).orElse(null);
+
+                if(item == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existent item!").queue();
+                    return;
+                }
+
+                if(!item.isBuyable() && !item.isSellable()) {
+                    event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not available neither for sell or buy (could be an exclusive collectible)").queue();
+                    return;
+                }
+
+                if(!item.isBuyable()) {
+                    event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectible item. (Sell value: " + ((int) (item.getValue() * 0.9)) + " credits)").queue();
+                    return;
+                }
+
+                event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
+                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
+            }
+        });
+
+        marketCommand.addSubCommand("sell", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                Player player = MantaroData.db().getPlayer(event.getMember());
+                String[] args = content.split(" ");
+                String itemName = content.replace(args[0] + " ", "");
+                int itemNumber = 1;
+                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                if(isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemName = itemName.replace(args[1] + " ", "");
+                    } catch (NumberFormatException e) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                        return;
+                    } catch (Exception e) {
+                        onHelp(event);
+                        return;
+                    }
+                }
+
+                try {
+                    if(args[0].equals("all")) {
+                        long all = player.getInventory().asList().stream()
+                                .filter(item -> item.getItem().isSellable())
+                                .mapToLong(value -> (long) (value.getItem().getValue() * value.getAmount() * 0.9d))
+                                .sum();
+
+                        player.getInventory().clearOnlySellables();
+                        player.addMoney(all);
+
+                        event.getChannel().sendMessage(String.format("%sYou sold all your inventory items and gained %d credits!", EmoteReference.MONEY, all)).queue();
+
+                        player.saveAsync();
+                        return;
+                    }
+
+                    Item toSell = Items.fromAny(itemName).orElse(null);
+
+                    if(toSell == null) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell a non-existant item.").queue();
+                        return;
+                    }
+
+                    if(!toSell.isSellable()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell an item that cannot be sold.")
+                                .queue();
+                        return;
+                    }
+
+                    if(player.getInventory().getAmount(toSell) < 1) {
+                        event.getChannel().sendMessage(EmoteReference.STOP + "You cannot sell an item you don't have.").queue();
+                        return;
+                    }
+
+                    if(player.getInventory().getAmount(toSell) < itemNumber) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot sell more items than what you have.")
+                                .queue();
+                        return;
+                    }
+
+                    int many = itemNumber * -1;
+                    long amount = Math.round((toSell.getValue() * 0.9)) * Math.abs(many);
+                    player.getInventory().process(new ItemStack(toSell, many));
+                    player.addMoney(amount);
+                    event.getChannel().sendMessage(String.format("%sYou sold %d **%s** and gained %d credits!", EmoteReference.CORRECT, Math.abs(many), toSell.getName(), amount)).queue();
+
+                    player.saveAsync();
+                } catch(Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid syntax.").queue();
+                }
+            }
+        });
+
+        marketCommand.addSubCommand("buy", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                Player player = MantaroData.db().getPlayer(event.getMember());
+                String[] args = content.split(" ");
+                String itemName = content.replace(args[0] + " ", "");
+                int itemNumber = 1;
+                boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
+                if(isMassive) {
+                    try {
+                        itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
+                        itemName = itemName.replace(args[1] + " ", "");
+                    } catch (Exception e) {
+                        if (e instanceof NumberFormatException) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
+                        } else {
+                            onHelp(event);
+                            return;
+                        }
+                    }
+                }
+
+                Item itemToBuy = Items.fromAnyNoId(itemName).orElse(null);
+
+                if(itemToBuy == null) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an unexistant item.").queue();
+                    return;
+                }
+
+                try {
+                    if(!itemToBuy.isBuyable()) {
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy an item that cannot be bought.")
+                                .queue();
+                        return;
+                    }
+
+                    ItemStack stack = player.getInventory().getStackOf(itemToBuy);
+                    if(stack != null && !stack.canJoin(new ItemStack(itemToBuy, itemNumber))) {
+                        //assume overflow
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot buy more of that object!").queue();
+                        return;
+                    }
+
+                    if(player.removeMoney(itemToBuy.getValue() * itemNumber)) {
+                        player.getInventory().process(new ItemStack(itemToBuy, itemNumber));
+                        player.saveAsync();
+
+                        event.getChannel().sendMessage(String.format("%sBought %d %s for %d credits successfully. You now have %d credits.",
+                                EmoteReference.OK, itemNumber, itemToBuy.getEmoji(), itemToBuy.getValue() * itemNumber, player.getMoney())).queue();
+
+                    } else {
+                        event.getChannel().sendMessage(EmoteReference.STOP + "You don't have enough money to buy this item.").queue();
+                    }
+                } catch(Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid syntax.").queue();
+                }
             }
         });
     }

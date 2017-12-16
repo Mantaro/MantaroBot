@@ -32,6 +32,7 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
+import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -59,7 +60,7 @@ public class GameCmds {
     public void game(CommandRegistry cr) {
         final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
-        cr.register("game", new SimpleTreeCommand(Category.GAMES) {
+        TreeCommand gameCommand = (TreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Guessing games.")
@@ -77,33 +78,37 @@ public class GameCmds {
         }.addSubCommand("character", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 startGame(new Character(), event);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 startGame(new Pokemon(), event);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 startGame(new GuessTheNumber(), event);
             }
-        }).addSubCommand("lobby", new SubCommand() {
+        }).addSubCommand("wins", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null)
                     return;
 
+                event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
+            }
+        }).createSubCommandAlias("pokemon", "pokémon")
+                .createSubCommandAlias("number", "guessthatnumber"));
+
+        gameCommand.setPredicate(event -> Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.createSubCommandAlias("pokemon", "pokémon");
+        gameCommand.createSubCommandAlias("number", "guessthatnumber");
+
+        gameCommand.addSubCommand("lobby", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify anything to play!").queue();
                     return;
@@ -142,21 +147,11 @@ public class GameCmds {
 
                 startMultipleGames(gameList, event);
             }
-        }).addSubCommand("wins", new SubCommand() {
+        });
+
+        gameCommand.addSubCommand("multiple", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null)
-                    return;
-
-                event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
-            }
-        }).addSubCommand("multiple", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();
@@ -202,8 +197,7 @@ public class GameCmds {
 
                 startMultipleGames(gameList, event);
             }
-        }).createSubCommandAlias("pokemon", "pokémon")
-                .createSubCommandAlias("number", "guessthatnumber"));
+        });
     }
 
     @Subscribe
