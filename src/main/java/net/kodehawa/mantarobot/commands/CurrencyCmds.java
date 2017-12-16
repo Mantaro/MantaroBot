@@ -186,32 +186,6 @@ public class CurrencyCmds {
                     return;
                 }
 
-                if(!item.isBuyable()) {
-                    if(!item.isSellable()) {
-                        event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not available neither for sell or buy (could be an exclusive collectible)").queue();
-                        return;
-                    }
-                    event.getChannel().sendMessage(EmoteReference.EYES + "This is a collectible item. (Sell value: " + ((int) (item.getValue() * 0.9)) + " credits)").queue();
-                    return;
-                }
-
-                event.getChannel().sendMessage(String.format("%sThe market value of %s**%s** is %s credits to buy it and you can get %s credits if you sell it.",
-                        EmoteReference.MARKET, item.getEmoji(), item.getName(), item.getValue(), (int) (item.getValue() * 0.9))).queue();
-            }
-        });
-
-        marketCommand.addSubCommand("price", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
-                Item item = Items.fromAny(itemName).orElse(null);
-
-                if(item == null) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Cannot check the price of a non-existent item!").queue();
-                    return;
-                }
-
                 if(!item.isBuyable() && !item.isSellable()) {
                     event.getChannel().sendMessage(EmoteReference.THINKING + "This item is not available neither for sell or buy (could be an exclusive collectible)").queue();
                     return;
