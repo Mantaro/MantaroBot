@@ -32,7 +32,6 @@ import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
-import net.kodehawa.mantarobot.core.modules.commands.TreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -52,15 +51,13 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Slf4j
 @Module
 public class GameCmds {
-
     private final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
 
-    //addSubCommand()...
     @Subscribe
     public void game(CommandRegistry cr) {
         final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
-        TreeCommand gameCommand = (TreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
+        SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Guessing games.")
