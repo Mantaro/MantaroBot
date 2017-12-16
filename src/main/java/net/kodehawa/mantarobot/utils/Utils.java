@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.MantaroInfo;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.NewRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import okhttp3.*;
 import org.json.JSONObject;
@@ -453,6 +454,23 @@ public class Utils {
 
     public static boolean handleDefaultRatelimit(RateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
         if(!rateLimiter.process(u.getId())) {
+            event.getChannel().sendMessage(
+                    EmoteReference.STOPWATCH +
+                            ratelimitQuotes[random.nextInt(ratelimitQuotes.length)] + " (Ratelimited)" +
+                            "\n **You'll be able to use this command again in " + Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
+                            + ".**"
+            ).queue();
+
+            MantaroBot.getInstance().getStatsClient().increment("ratelimits");
+
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean handleDefaultNewRatelimit(NewRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
+        if(!rateLimiter.test(u.getId())) {
             event.getChannel().sendMessage(
                     EmoteReference.STOPWATCH +
                             ratelimitQuotes[random.nextInt(ratelimitQuotes.length)] + " (Ratelimited)" +

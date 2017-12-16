@@ -37,11 +37,13 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import net.kodehawa.mantarobot.utils.commands.NewRateLimiter;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -200,11 +202,16 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 1, 3, 7, TimeUnit.SECONDS, 100, true) {
+                @Override
+                protected void onSpamDetected(String key, int times) {
+                    log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);
+                }
+            };
 
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!Utils.handleDefaultNewRatelimit(rateLimiter, event.getAuthor(), event)) return;
 
                 String difficulty = null;
 
