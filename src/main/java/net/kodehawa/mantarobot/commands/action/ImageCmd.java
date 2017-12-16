@@ -36,12 +36,12 @@ public class ImageCmd extends NoArgsCommand {
 
     private final String desc;
     private final String imageName;
-    private List<String> images;
     private final String name;
     private final String toSend;
+    private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private List<String> images;
     private boolean noMentions = false;
     private String type;
-    private final WeebAPIRequester weebapi = new WeebAPIRequester();
 
     public ImageCmd(String name, String desc, String imageName, List<String> images, String toSend) {
         super(Category.ACTION);

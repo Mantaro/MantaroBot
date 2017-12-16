@@ -53,26 +53,26 @@ public class ManagedDatabase {
         }
     }
 
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull String guildId, @Nonnull String name) {
         log("Requesting custom command {}:{} from rethink", guildId, name);
         return r.table(CustomCommand.DB_TABLE).get(guildId + ":" + name).run(conn, CustomCommand.class);
     }
 
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull Guild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull DBGuild guild, @Nonnull String name) {
         return getCustomCommand(guild.getId(), name);
     }
 
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public CustomCommand getCustomCommand(@Nonnull GuildMessageReceivedEvent event, @Nonnull String cmd) {
         return getCustomCommand(event.getGuild(), cmd);
@@ -188,7 +188,7 @@ public class ManagedDatabase {
     }
 
     //Also tests if the key is valid or not!
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Requesting premium key {} from rethink", id);

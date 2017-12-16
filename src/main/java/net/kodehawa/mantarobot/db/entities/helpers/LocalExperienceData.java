@@ -14,29 +14,29 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.core.shard.jda.reconnect;
+package net.kodehawa.mantarobot.db.entities.helpers;
 
-import net.dv8tion.jda.core.requests.SessionReconnectQueue;
-import net.dv8tion.jda.core.requests.WebSocketClient;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-public class LazyReconnectQueue extends SessionReconnectQueue {
-    private volatile boolean ready;
+@Data
+public class LocalExperienceData {
 
-    public LazyReconnectQueue() {
-        super();
+    @JsonCreator
+    public LocalExperienceData(@JsonProperty("userId") String userId, @JsonProperty("experience") long experience, @JsonProperty("level") long level) {
+        this.userId = userId;
+        this.experience = experience;
+        this.level = level;
     }
 
-    @Override
-    public void appendSession(WebSocketClient client) {
-        if(!reconnectQueue.offer(client))
-            throw new IllegalStateException("The queue rejected this session");
-        if(ready)
-            runWorker();
+    @JsonIgnore
+    public LocalExperienceData(String userId) {
+        this.userId = userId;
     }
 
-    public void ready() {
-        ready = true;
-        if(!reconnectQueue.isEmpty())
-            runWorker();
-    }
+    private String userId;
+    private long experience;
+    private long level;
 }

@@ -59,12 +59,12 @@ public class MantaroCore {
     @Getter
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
     private String commandsPackage;
-    private String optsPackage;
-    private ShardedMantaro shardedMantaro;
-    @Getter
-    private EventBus shardEventBus;
     @Getter
     private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
+    private String optsPackage;
+    @Getter
+    private EventBus shardEventBus;
+    private ShardedMantaro shardedMantaro;
 
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;

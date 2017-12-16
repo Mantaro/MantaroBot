@@ -27,6 +27,13 @@ public abstract class StatsManager<T> {
     private static final char ACTIVE_BLOCK = '\u2588';
     private static final char EMPTY_BLOCK = '\u200b';
 
+    public static String bar(int percent, int total) {
+        int activeBlocks = (int) ((float) percent / 100f * total);
+        StringBuilder builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
+        for(int i = 0; i < total; i++) builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
+        return builder.append(EMPTY_BLOCK).append('`').toString();
+    }
+
     public EmbedBuilder fillEmbed(Map<T, AtomicInteger> values, EmbedBuilder builder) {
         int total = values.values().stream().mapToInt(AtomicInteger::get).sum();
 
@@ -45,13 +52,6 @@ public abstract class StatsManager<T> {
                 });
 
         return builder;
-    }
-
-    public static String bar(int percent, int total) {
-        int activeBlocks = (int) ((float) percent / 100f * total);
-        StringBuilder builder = new StringBuilder().append('`').append(EMPTY_BLOCK);
-        for(int i = 0; i < total; i++) builder.append(activeBlocks > i ? ACTIVE_BLOCK : ' ');
-        return builder.append(EMPTY_BLOCK).append('`').toString();
     }
 
     public String resume(Map<T, AtomicInteger> commands) {

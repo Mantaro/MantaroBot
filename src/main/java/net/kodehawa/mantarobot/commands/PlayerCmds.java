@@ -131,12 +131,19 @@ public class PlayerCmds {
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
-                DBUser u1 = MantaroData.db().getUser(event.getMember());
+                DBUser dbUser = MantaroData.db().getUser(event.getMember());
                 User author = event.getAuthor();
 
                 if(args.length > 0 && args[0].equals("timezone")) {
                     if(args.length < 2) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the timezone.").queue();
+                        return;
+                    }
+
+                    if(args[1].equalsIgnoreCase("reset")) {
+                        dbUser.getData().setTimezone(null);
+                        dbUser.saveAsync();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "Reset timezone.").queue();
                         return;
                     }
 
@@ -152,10 +159,9 @@ public class PlayerCmds {
                         return;
                     }
 
-                    u1.getData().setTimezone(args[1]);
-                    u1.save();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Saved timezone, your profile timezone is now: **" + args[1]
-                            + "**").queue();
+                    dbUser.getData().setTimezone(args[1]);
+                    dbUser.saveAsync();
+                    event.getChannel().sendMessage(String.format("%sSaved timezone, your profile timezone is now: **%s**", EmoteReference.CORRECT, args[1])).queue();
                     return;
                 }
 
@@ -329,21 +335,28 @@ public class PlayerCmds {
         byte[] bytes;
         try {
             String url = author.getEffectiveAvatarUrl();
+
             if(url.endsWith(".gif")) {
                 url = url.substring(0, url.length() - 3) + "png";
             }
+
             Response res = client.newCall(new Request.Builder()
                     .url(url)
                     .addHeader("User-Agent", MantaroInfo.USER_AGENT)
                     .build()
             ).execute();
+
             ResponseBody body = res.body();
-            if(body == null) throw new IOException("body is null");
+
+            if(body == null)
+                throw new IOException("body is null");
+
             bytes = body.bytes();
             res.close();
         } catch(IOException e) {
             throw new AssertionError("io error", e);
         }
+
         channel.sendFile(badge.apply(bytes), "avatar.png", message).queue();
     }
 }

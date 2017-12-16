@@ -38,22 +38,22 @@ public class GameLobby extends Lobby {
     public static final Map<TextChannel, GameLobby> LOBBYS = new ConcurrentHashMap<>();
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
-	@Getter
-	GuildMessageReceivedEvent event;
-	@Getter
-	LinkedList<Game> gamesToPlay;
-	@Getter
-	Guild guild;
-	@Getter
-	List<String> players;
+    @Getter
+    GuildMessageReceivedEvent event;
+    @Getter
+    LinkedList<Game> gamesToPlay;
+    @Getter
+    Guild guild;
+    @Getter
+    List<String> players;
 
-	public GameLobby(GuildMessageReceivedEvent event, List<String> players, LinkedList<Game> games) {
-		super(event.getGuild().getId(), event.getChannel().getId());
-		this.guild = event.getGuild();
-		this.event = event;
-		this.players = players;
-		this.gamesToPlay = games;
-	}
+    public GameLobby(GuildMessageReceivedEvent event, List<String> players, LinkedList<Game> games) {
+        super(event.getGuild().getId(), event.getChannel().getId());
+        this.guild = event.getGuild();
+        this.event = event;
+        this.players = players;
+        this.gamesToPlay = games;
+    }
 
     @Override
     public String toString() {
@@ -85,13 +85,13 @@ public class GameLobby extends Lobby {
                     return;
                 }
 
-                if (gamesToPlay.getFirst().onStart(this)) {
+                if(gamesToPlay.getFirst().onStart(this)) {
                     gamesToPlay.getFirst().call(this, players);
                 } else {
                     gamesToPlay.clear();
                     LOBBYS.remove(getChannel());
                 }
-            } catch (Exception e) {
+            } catch(Exception e) {
                 gamesToPlay.clear();
                 LOBBYS.remove(getChannel());
             }

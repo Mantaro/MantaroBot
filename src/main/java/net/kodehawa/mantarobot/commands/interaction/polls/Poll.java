@@ -121,7 +121,7 @@ public class Poll extends Lobby {
 
             InteractiveOperations.create(getChannel(), timeout, e -> {
                 if(e.getAuthor().getId().equals(event.getAuthor().getId())) {
-                    if(e.getMessage().getRawContent().equalsIgnoreCase("&cancelpoll")) {
+                    if(e.getMessage().getContentRaw().equalsIgnoreCase("&cancelpoll")) {
                         runningPoll.cancel(true);
                         return Operation.COMPLETED;
                     }

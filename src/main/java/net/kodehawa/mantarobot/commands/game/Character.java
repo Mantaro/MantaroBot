@@ -50,13 +50,13 @@ public class Character extends ImageGame {
         super(10);
     }
 
-	@Override
-	public void call(GameLobby lobby, List<String> players) {
-		InteractiveOperations.createOverriding(lobby.getChannel(), 60, new InteractiveOperation() {
-			@Override
-			public int run(GuildMessageReceivedEvent e) {
-				return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
-			}
+    @Override
+    public void call(GameLobby lobby, List<String> players) {
+        InteractiveOperations.createOverriding(lobby.getChannel(), 60, new InteractiveOperation() {
+            @Override
+            public int run(GuildMessageReceivedEvent e) {
+                return callDefault(e, lobby, players, characterNameL, getAttempts(), maxAttempts, 0);
+            }
 
             @Override
             public void onExpire() {
@@ -68,7 +68,7 @@ public class Character extends ImageGame {
             }
 
             @Override
-            public void onCancel(){
+            public void onCancel() {
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
         });

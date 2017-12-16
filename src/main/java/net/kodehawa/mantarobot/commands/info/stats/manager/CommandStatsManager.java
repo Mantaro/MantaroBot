@@ -25,22 +25,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CommandStatsManager extends StatsManager<String> {
-    public static final Map<String, AtomicInteger> TOTAL_CMDS = new HashMap<>();
-
     public static final ExpiringMap<String, AtomicInteger> DAY_CMDS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.DAYS)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
     public static final ExpiringMap<String, AtomicInteger> HOUR_CMDS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.HOURS)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
     public static final ExpiringMap<String, AtomicInteger> MINUTE_CMDS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.MINUTES)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
+    public static final Map<String, AtomicInteger> TOTAL_CMDS = new HashMap<>();
 
     public static void log(String cmd) {
         if(cmd.isEmpty()) return;

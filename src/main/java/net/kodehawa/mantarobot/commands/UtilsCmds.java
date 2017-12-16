@@ -137,7 +137,7 @@ public class UtilsCmds {
                                     .map((entry) -> String.format("+ %-20s : %s ", event.getGuild().getMemberById(entry.getKey()).getEffectiveName(), entry.getValue()))
                                     .collect(Collectors.joining("\n"));
 
-                            List<String> parts = DiscordUtils.divideString(birthdays);
+                            List<String> parts = DiscordUtils.divideString(1000, birthdays);
                             List<String> messages = new LinkedList<>();
                             boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
 
@@ -145,7 +145,7 @@ public class UtilsCmds {
                                 messages.add("**" + event.getGuild().getName() + "'s Birthdays for " +
                                         Utils.capitalize(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)) + "**\n" +
                                         (parts.size() > 1 ? (hasReactionPerms ? "Use the arrow reactions to change pages. " :
-                                        "Use &page >> and &page << to change pages and &cancel to end") : "") +
+                                                "Use &page >> and &page << to change pages and &cancel to end") : "") +
                                         String.format("```diff\n%s```", s1));
                             }
 
@@ -157,7 +157,7 @@ public class UtilsCmds {
                         } else {
                             event.getChannel().sendMessage(EmoteReference.SAD + "Birthday cacher doesn't seem to be running :(").queue();
                         }
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.SAD + "Something went wrong while getting birthdays :(").queue();
                     }
 
@@ -369,7 +369,7 @@ public class UtilsCmds {
                                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled your reminder").queue();
                                     });
                         }
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You have no reminders set!").queue();
                     }
 
@@ -483,7 +483,8 @@ public class UtilsCmds {
                     try {
                         url = "http://api.urbandictionary.com/v0/define?term=" + URLEncoder.encode(
                                 beheadedSplit[0], "UTF-8");
-                    } catch(UnsupportedEncodingException ignored) { }
+                    } catch(UnsupportedEncodingException ignored) {
+                    }
 
                     String json = Utils.wgetResty(url, event);
                     UrbanData data = GsonDataManager.GSON_PRETTY.fromJson(json, UrbanData.class);
@@ -500,33 +501,32 @@ public class UtilsCmds {
 
                     switch(beheadedSplit.length) {
                         case 1:
-                            UrbanData.List def = data.list.get(0);
+                            UrbanData.List urbanData = data.list.get(0);
                             embed.setAuthor(
                                     "Urban Dictionary definition for " + content, data.list.get(0).permalink, null)
                                     .setDescription("Main definition.")
                                     .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
                                     .setColor(Color.GREEN)
-                                    .addField("Definition", def.definition.length() > 1000 ? def.definition.substring(0, 1000) + "..." : def.definition, false)
-                                    .addField("Example", def.example.length() > 1000 ? def.example.substring(0, 1000) + "..." : def.example, false)
-                                    .addField(":thumbsup:", def.thumbs_up, true)
-                                    .addField(":thumbsdown:", def.thumbs_down, true)
+                                    .addField("Definition", urbanData.definition.length() > 1000 ? urbanData.definition.substring(0, 1000) + "..." : urbanData.definition, false)
+                                    .addField("Example", urbanData.example.length() > 1000 ? urbanData.example.substring(0, 1000) + "..." : urbanData.example, false)
+                                    .addField(":thumbsup:", urbanData.thumbs_up, true)
+                                    .addField(":thumbsdown:", urbanData.thumbs_down, true)
                                     .setFooter("Information by Urban Dictionary", null);
                             event.getChannel().sendMessage(embed.build()).queue();
                             break;
                         case 2:
-                            int defn = Integer.parseInt(beheadedSplit[1]) - 1;
-                            String defns = String.valueOf(defn + 1);
-                            UrbanData.List def1 = data.list.get(defn);
-                            String definition = def1.definition;
+                            int definitionNumber = Integer.parseInt(beheadedSplit[1]) - 1;
+                            UrbanData.List urbanData2 = data.list.get(definitionNumber);
+                            String definition = urbanData2.definition;
                             embed.setAuthor(
-                                    "Urban Dictionary definition for " + beheadedSplit[0], def1.permalink,null)
+                                    "Urban Dictionary definition for " + beheadedSplit[0], urbanData2.permalink, null)
                                     .setThumbnail("https://everythingfat.files.wordpress.com/2013/01/ud-logo.jpg")
-                                    .setDescription("Definition " + defns)
+                                    .setDescription("Definition " + String.valueOf(definitionNumber + 1))
                                     .setColor(Color.GREEN)
                                     .addField("Definition", definition.length() > 1000 ? definition.substring(0, 1000) + "..." : definition, false)
-                                    .addField("Example", def1.example.length() > 1000 ? def1.example.substring(0, 1000) + "..." : def1.example, false)
-                                    .addField(":thumbsup:", def1.thumbs_up, true)
-                                    .addField(":thumbsdown:", def1.thumbs_down, true)
+                                    .addField("Example", urbanData2.example.length() > 1000 ? urbanData2.example.substring(0, 1000) + "..." : urbanData2.example, false)
+                                    .addField(":thumbsup:", urbanData2.thumbs_up, true)
+                                    .addField(":thumbsdown:", urbanData2.thumbs_down, true)
                                     .setFooter("Information by Urban Dictionary", null);
                             event.getChannel().sendMessage(embed.build()).queue();
                             break;
@@ -542,14 +542,11 @@ public class UtilsCmds {
                 return helpEmbed(event, "Urban dictionary")
                         .setColor(Color.CYAN)
                         .setDescription("Retrieves definitions from **Urban Dictionary**.")
-                        .addField(
-                                "Usage",
-                                "`~>urban <term>-><number>` - **Retrieve a definition based on the given parameters.**", false
-                        )
+                        .addField("Usage",
+                                "`~>urban <term>-><number>` - **Retrieve a definition based on the given parameters.**", false)
                         .addField("Parameters", "term - **The term you want to look up**\n"
                                 + "number - **(OPTIONAL) Parameter defined with the modifier '->' after the term. You don't need to use it.**\n"
-                                + "e.g. putting 2 will fetch the second result on Urban Dictionary", false)
-                        .build();
+                                + "e.g. putting 2 will fetch the second result on Urban Dictionary", false).build();
             }
         });
     }
@@ -582,9 +579,9 @@ public class UtilsCmds {
                     String status = data.getWeather().get(0).main;
                     Double temp = data.getMain().getTemp();
                     double pressure = data.getMain().getPressure();
-                    int hum = data.getMain().getHumidity();
+                    int humidity = data.getMain().getHumidity();
                     Double ws = data.getWind().speed;
-                    int clness = data.getClouds().all;
+                    int cloudiness = data.getClouds().all;
 
                     Double finalTemperatureCelsius = temp - 273.15;
                     Double finalTemperatureFahrenheit = temp * 9 / 5 - 459.67;
@@ -594,21 +591,20 @@ public class UtilsCmds {
 
                     embed.setColor(Color.CYAN)
                             .setTitle(":flag_" + countryCode.toLowerCase() + ":" + " Forecast information for " + content, null)
-                            .setDescription(status + " (" + clness + "% cloudiness)")
-                            .addField(":thermometer: Temperature", finalTemperatureCelsius.intValue() + "°C | " +
-                                    finalTemperatureFahrenheit.intValue() + "°F", true)
-                            .addField(":droplet: Humidity", hum + "%", true)
+                            .setDescription(status + " (" + cloudiness + "% cloudiness)")
+                            .addField(":thermometer: Temperature", String.format("%d°C | %d°F", finalTemperatureCelsius.intValue(), finalTemperatureFahrenheit.intValue()), true)
+                            .addField(":droplet: Humidity", humidity + "%", true)
                             .addBlankField(true)
-                            .addField(":wind_blowing_face: Wind Speed", finalWindSpeedMetric.intValue() + "km/h | " +
-                                    finalWindSpeedImperial.intValue() + "mph", true)
+                            .addField(":wind_blowing_face: Wind Speed", String.format("%dkm/h | %dmph", finalWindSpeedMetric.intValue(), finalWindSpeedImperial.intValue()), true)
                             .addField("Pressure", pressure + "hPA", true)
                             .addBlankField(true)
                             .setFooter("Information provided by OpenWeatherMap (Process time: " + end + "ms)", null);
                     event.getChannel().sendMessage(embed.build()).queue();
-                } catch(Exception e) {
+                } catch (NullPointerException npe) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. (Not found?)").queue();
-                    if(!(e instanceof NullPointerException))
-                        log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
+                } catch (Exception e) {
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "Error while fetching results. (Not found?)").queue();
+                    log.warn("Exception caught while trying to fetch weather data, maybe the API changed something?", e);
                 }
             }
 
@@ -617,16 +613,10 @@ public class UtilsCmds {
                 return helpEmbed(event, "Weather command")
                         .setDescription(
                                 "This command retrieves information from OpenWeatherMap. Used to check **forecast information.**")
-                        .addField(
-                                "Usage",
-                                "`~>weather <city>,<countrycode>` - **Retrieves the forecast information for the given location.**",
-                                false
-                        )
-                        .addField(
-                                "Parameters", "`city` - **Your city name, e.g. New York, **\n"
-                                        + "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**",
-                                false
-                        )
+                        .addField("Usage",
+                                "`~>weather <city>,<countrycode>` - **Retrieves the forecast information for the given location.**",false)
+                        .addField("Parameters", "`city` - **Your city name, e.g. New York, **\n"
+                                        + "`countrycode` - **(OPTIONAL) The abbreviation for your country, for example US (USA) or MX (Mexico).**",false)
                         .addField("Example", "`~>weather New York, US`", false)
                         .build();
             }

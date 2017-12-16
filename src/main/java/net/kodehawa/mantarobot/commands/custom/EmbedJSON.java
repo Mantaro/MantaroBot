@@ -54,7 +54,8 @@ public class EmbedJSON {
                 } else if(colorLower.matches("#?(0x)?[0123456789abcdef]{1,6}")) {
                     try {
                         col = Color.decode(colorLower.startsWith("0x") ? colorLower : "0x" + colorLower);
-                    } catch(Exception ignored2) { }
+                    } catch(Exception ignored2) {
+                    }
                 }
             }
             if(col != null) embedBuilder.setColor(col);

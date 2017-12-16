@@ -36,14 +36,18 @@ import net.kodehawa.mantarobot.core.listeners.events.ShardMonitorEvent;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.MantaroShard;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.db.entities.helpers.LocalExperienceData;
+import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -59,24 +63,11 @@ public class CommandListener implements EventListener {
     private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
     //Commands ran this session.
     private static int commandTotal = 0;
-
-    public static void clearCustomProcessor(String channelId) {
-        CUSTOM_PROCESSORS.remove(channelId);
-    }
-
-    public static String getCommandTotal() {
-        return String.valueOf(commandTotal);
-    }
-
-    public static void setCustomProcessor(String channelId, ICommandProcessor processor) {
-        if (processor == null) CUSTOM_PROCESSORS.remove(channelId);
-        else CUSTOM_PROCESSORS.put(channelId, processor);
-    }
     private final String[] boomQuotes = {
-        "Seemingly Megumin exploded our castle...", "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
-        "W-Wait, what just happened?", "I-I think we got some fire going on here... you might want to tell my master to take a look.",
-        "I've mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
-        "U-Uhh.. What did you want?"
+            "Seemingly Megumin exploded our castle...", "Uh-oh, seemingly my master forgot some zeros and ones on the floor :<",
+            "W-Wait, what just happened?", "I-I think we got some fire going on here... you might want to tell my master to take a look.",
+            "I've mastered explosion magic, you see?", "Maybe something just went wrong on here, but, u-uh, I can fix it!",
+            "U-Uhh.. What did you want?"
     };
     private final ICommandProcessor commandProcessor;
     private final Random rand = new Random();
@@ -90,10 +81,24 @@ public class CommandListener implements EventListener {
         commandProcessor = processor;
     }
 
+    public static void clearCustomProcessor(String channelId) {
+        CUSTOM_PROCESSORS.remove(channelId);
+    }
+
+    public static String getCommandTotal() {
+        return String.valueOf(commandTotal);
+    }
+
+    public static void setCustomProcessor(String channelId, ICommandProcessor processor) {
+        if(processor == null) CUSTOM_PROCESSORS.remove(channelId);
+        else CUSTOM_PROCESSORS.put(channelId, processor);
+    }
+
     @Override
     public void onEvent(Event event) {
-        if (event instanceof ShardMonitorEvent) {
-            if (MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000) return;
+        if(event instanceof ShardMonitorEvent) {
+            if(MantaroBot.getInstance().getShardedMantaro().getShards()[shardId].getEventManager().getLastJDAEventTimeDiff() > 30000)
+                return;
 
             //Hey, this listener is alive! (This won't pass if somehow this is blocked)
             ((ShardMonitorEvent) event).alive(shardId, ShardMonitorEvent.COMMAND_LISTENER);
@@ -104,7 +109,7 @@ public class CommandListener implements EventListener {
         if (event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent msg = (GuildMessageReceivedEvent) event;
             //Inserts a cached message into the cache. This only holds the id and the content, and is way lighter than saving the entire jda object.
-            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContent())));
+            messageCache.put(msg.getMessage().getId(), Optional.of(new CachedMessage(msg.getAuthor().getIdLong(), msg.getMessage().getContentRaw())));
 
             //Ignore myself and bots.
             if (msg.getAuthor().isBot() || msg.getAuthor().equals(msg.getJDA().getSelfUser()))
@@ -125,40 +130,77 @@ public class CommandListener implements EventListener {
             } else {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.
                 try {
-                    if (random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
-                        if (event.getMember() == null)
+                    //Only run experience if the user is not rate limited (clears every 30 seconds)
+                    if(random.nextInt(15) > 7 && !event.getAuthor().isBot() && experienceRatelimiter.process(event.getAuthor())) {
+                        if(event.getMember() == null)
                             return;
 
                         Player player = MantaroData.db().getPlayer(event.getAuthor());
+                        PlayerData data = player.getData();
+                        DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                        GuildData guildData = dbGuild.getData();
 
                         if (player.isLocked())
                             return;
 
-                        if (player.getLevel() == 0)
+                        // ---------- GLOBAL EXPERIENCE CHECK ---------- //
+
+                        //Set level to 1 if level is zero.
+                        if(player.getLevel() == 0)
                             player.setLevel(1);
 
-                        player.getData().setExperience(player.getData().getExperience() + Math.round(random.nextInt(8)));
+                        //Set player experience to a random number between 1 and 5.
+                        data.setExperience(data.getExperience() + Math.round(random.nextInt(5)));
 
-                        if (player.getData().getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
+                        //Apply some black magic.
+                        if(data.getExperience() > (player.getLevel() * Math.log10(player.getLevel()) * 1000) + (50 * player.getLevel() / 2)) {
                             player.setLevel(player.getLevel() + 1);
 
                             //Check if the member is not null, just to be sure it happened in-between.
-                            if (player.getLevel() > 1 && event.getGuild().getMemberById(player.getUserId()) != null) {
-                                GuildData guildData = MantaroData.db().getGuild(event.getGuild()).getData();
-                                if (guildData.isEnabledLevelUpMessages()) {
+                            if(player.getLevel() > 1 && event.getGuild().getMemberById(player.getUserId()) != null) {
+                                if(guildData.isEnabledLevelUpMessages()) {
                                     String levelUpChannel = guildData.getLevelUpChannel();
                                     String levelUpMessage = guildData.getLevelUpMessage();
 
-                                    if (levelUpMessage != null && levelUpChannel != null) {
+                                    //Player has leveled up!
+                                    if(levelUpMessage != null && levelUpChannel != null) {
                                         processMessage(String.valueOf(player.getLevel()), levelUpMessage, levelUpChannel, event);
                                     }
                                 }
                             }
-
-                            player.saveAsync();
                         }
+
+                        //This time, actually remember to save the player so you don't have to restart 102 shards to fix it.
+                        player.saveAsync();
+
+                        // ---------- LOCAL EXPERIENCE CHECK ---------- //
+
+                        LocalExperienceData localPlayer = null;
+                        List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
+
+                        for(LocalExperienceData localData : players) {
+                            if(localData.getUserId().equals(event.getAuthor().getId())) {
+                                localPlayer = localData;
+                            }
+                        }
+
+                        if(localPlayer == null) {
+                            localPlayer = new LocalExperienceData(event.getAuthor().getId());
+                            players.add(localPlayer);
+                        }
+
+                        if(localPlayer.getLevel() == 0)
+                            localPlayer.setLevel(1);
+
+                        localPlayer.setExperience(localPlayer.getExperience() + Math.round(random.nextInt(5)));
+                        if(localPlayer.getExperience() > (localPlayer.getLevel() * Math.log10(localPlayer.getLevel()) * 1000) + (50 * localPlayer.getLevel() / 2)) {
+                            localPlayer.setLevel(player.getLevel() + 1);
+                        }
+
+                        //Save local player.
+                        dbGuild.saveAsync();
                     }
-                } catch (Exception ignored) {}
+                } catch(Exception ignored) { }
             }
         } catch (IndexOutOfBoundsException e) {
             event.getChannel().sendMessage(
@@ -190,16 +232,14 @@ public class CommandListener implements EventListener {
         } catch (Exception e) {
             String id = Snow64.toSnow64(event.getMessage().getIdLong());
             event.getChannel().sendMessage(
-                String.format("%s%s\n(Error ID: `%s`)\n" +
-                        "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
-                        "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
-                    EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id
-                )
+                    String.format("%s%s\n(Error ID: `%s`)\n" +
+                            "If you want, join our **support guild** (Link on `~>about`), or check out our GitHub page (/Mantaro/MantaroBot). " +
+                            "Please tell them to quit exploding me and please don't forget the Error ID when reporting!",
+                            EmoteReference.ERROR, boomQuotes[rand.nextInt(boomQuotes.length)], id)
             ).queue();
 
-            SentryHelper.captureException(
-                String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getRawContent(), id), e, this.getClass());
-            log.error("Error happened with id: {} (Command: {})", event.getMessage().getRawContent(), id, e);
+            SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getContentRaw(), id), e, this.getClass());
+            log.error("Error happened with id: {} (Within command: {})", event.getMessage().getContentRaw(), id, e);
         }
     }
 

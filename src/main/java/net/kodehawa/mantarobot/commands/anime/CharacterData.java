@@ -29,6 +29,16 @@ public class CharacterData {
     private String name_japanese = null;
     private String name_last = null;
 
+    @JsonIgnore
+    public static CharacterData[] fromJson(String json) {
+        return GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
+    }
+
+    @JsonIgnore
+    public static CharacterData fromJsonFirst(String json) {
+        return fromJson(json)[0];
+    }
+
     public Integer getId() {
         return id;
     }
@@ -59,15 +69,5 @@ public class CharacterData {
 
     public String getLastName() {
         return name_last;
-    }
-
-    @JsonIgnore
-    public static CharacterData[] fromJson(String json) {
-        return GsonDataManager.GSON_PRETTY.fromJson(json, CharacterData[].class);
-    }
-
-    @JsonIgnore
-    public static CharacterData fromJsonFirst(String json) {
-        return fromJson(json)[0];
     }
 }

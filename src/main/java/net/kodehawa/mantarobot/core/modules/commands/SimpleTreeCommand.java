@@ -22,11 +22,13 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class SimpleTreeCommand extends AbstractCommand implements ITreeCommand {
     private Map<String, InnerCommand> subCommands = new HashMap<>();
+    private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
 
     public SimpleTreeCommand(Category category) {
         super(category);
@@ -66,12 +68,19 @@ public abstract class SimpleTreeCommand extends AbstractCommand implements ITree
         }
 
         Command command = subCommands.get(args[0]);
+
         if(command == null) {
             defaultTrigger(event, commandName, args[0]);
             return;
         }
 
+        if(!predicate.test(event)) return;
         command.run(event, commandName + " " + args[0], args[1]);
+    }
+
+    public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
+        this.predicate = predicate;
+        return this;
     }
 
     public SimpleTreeCommand addSubCommand(String name, SubCommand command) {

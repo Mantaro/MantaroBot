@@ -26,23 +26,19 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuildStatsManager extends StatsManager<GuildStatsManager.LoggedEvent> {
-    public static final Map<LoggedEvent, AtomicInteger> TOTAL_EVENTS = new HashMap<>();
-
     public static final ExpiringMap<LoggedEvent, AtomicInteger> DAY_EVENTS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.DAYS)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
     public static final ExpiringMap<LoggedEvent, AtomicInteger> HOUR_EVENTS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.HOURS)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
     public static final ExpiringMap<LoggedEvent, AtomicInteger> MINUTE_EVENTS = ExpiringMap.<String, AtomicInteger>builder()
             .expiration(1, TimeUnit.MINUTES)
             .expirationPolicy(ExpirationPolicy.CREATED)
             .build();
-
+    public static final Map<LoggedEvent, AtomicInteger> TOTAL_EVENTS = new HashMap<>();
     public static int MILESTONE = 0;
 
     public static void log(LoggedEvent loggedEvent) {

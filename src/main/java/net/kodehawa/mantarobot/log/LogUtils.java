@@ -23,14 +23,14 @@ import net.dv8tion.jda.webhook.WebhookClientBuilder;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Date;
 
 public class LogUtils {
-    private static WebhookClient SHARD_WEBHOOK = null;
-    private static WebhookClient LOGBACK_WEBHOOK = null;
     private final static String ICON_URL = "https://totally-not.a-sketchy.site/985414.png";
     private static final String WEBHOOK_START = "https://discordapp.com/api/webhooks/";
+    private static WebhookClient LOGBACK_WEBHOOK = null;
+    private static WebhookClient SHARD_WEBHOOK = null;
 
     static {
         String shardWebhook = MantaroData.config().get().getShardWebhookUrl();

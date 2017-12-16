@@ -21,12 +21,15 @@ import net.kodehawa.mantarobot.core.modules.commands.base.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import static net.kodehawa.mantarobot.utils.StringUtils.splitArgs;
 
 public abstract class TreeCommand extends AbstractCommand implements ITreeCommand {
 
     private Map<String, InnerCommand> subCommands = new HashMap<>();
+    //By default let all commands pass.
+    private Predicate<GuildMessageReceivedEvent> predicate = event -> true;
 
     public TreeCommand(Category category) {
         super(category);
@@ -47,6 +50,7 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
         Command command = subCommands.get(args[0]);
         if(command == null) command = defaultTrigger(event, commandName, args[0]);
         if(command == null) return; //Use SimpleTreeCommand then?
+        if(!predicate.test(event)) return;
 
         command.run(event, commandName + " " + args[0], args[1]);
     }
@@ -54,6 +58,11 @@ public abstract class TreeCommand extends AbstractCommand implements ITreeComman
     @Override
     public ITreeCommand addSubCommand(String name, SubCommand command) {
         subCommands.put(name, command);
+        return this;
+    }
+
+    public ITreeCommand setPredicate(Predicate<GuildMessageReceivedEvent> predicate) {
+        this.predicate = predicate;
         return this;
     }
 

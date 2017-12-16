@@ -37,12 +37,12 @@ import java.util.stream.Collectors;
 
 @Slf4j(topic = "Game [Trivia]")
 public class Trivia extends Game<String> {
+    private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
     private final int maxAttempts = 2;
+    private String difficulty = null;
     private List<String> expectedAnswer = new ArrayList<>();
     private boolean hardDiff = false;
     private boolean isBool;
-    private String difficulty = null;
-    private final String OTDB_URL = "https://opentdb.com/api.php?amount=1&encode=base64";
 
     public Trivia(String difficulty) {
         this.difficulty = difficulty;
@@ -106,13 +106,13 @@ public class Trivia extends Game<String> {
         }
     }
 
-	@Override
-	public void call(GameLobby lobby, List<String> players) {
-		InteractiveOperations.createOverriding(lobby.getChannel(), 60, new InteractiveOperation() {
-				@Override
-				public int run(GuildMessageReceivedEvent event) {
-					return callDefault(event, lobby, players, expectedAnswer, getAttempts(), isBool ? 1 : maxAttempts, hardDiff ? 10 : 0);
-				}
+    @Override
+    public void call(GameLobby lobby, List<String> players) {
+        InteractiveOperations.createOverriding(lobby.getChannel(), 60, new InteractiveOperation() {
+            @Override
+            public int run(GuildMessageReceivedEvent event) {
+                return callDefault(event, lobby, players, expectedAnswer, getAttempts(), isBool ? 1 : maxAttempts, hardDiff ? 10 : 0);
+            }
 
             @Override
             public void onExpire() {
@@ -124,7 +124,7 @@ public class Trivia extends Game<String> {
             }
 
             @Override
-            public void onCancel(){
+            public void onCancel() {
                 GameLobby.LOBBYS.remove(lobby.getChannel());
             }
         });

@@ -18,6 +18,7 @@ package net.kodehawa.mantarobot.commands.action;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
@@ -40,11 +41,11 @@ public class ImageActionCmd extends NoArgsCommand {
     private final String desc;
     private final String format;
     private final String imageName;
-    private List<String> images;
     private final String lonelyLine;
     private final String name;
-    private boolean swapNames = false;
     private final WeebAPIRequester weebapi = new WeebAPIRequester();
+    private List<String> images;
+    private boolean swapNames = false;
     private String type;
 
     public ImageActionCmd(String name, String desc, Color color, String imageName, String format, List<String> images, String lonelyLine, boolean swap) {
@@ -111,13 +112,13 @@ public class ImageActionCmd extends NoArgsCommand {
 
             MessageBuilder toSend = new MessageBuilder()
                     .append(String.format(format, "**" + noMentions(event) + "**", "**" + event.getMember().getEffectiveName() + "**"))
-                    .stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
+                    .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
 
 
             if(swapNames) {
                 toSend = new MessageBuilder()
                         .append(String.format(format, "**" + event.getMember().getEffectiveName() + "**", "**" + noMentions(event) + "**")
-                        ).stripMentions(event.getGuild(), MessageBuilder.MentionType.EVERYONE, MessageBuilder.MentionType.HERE);
+                        ).stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE);
             }
 
             if(isLonely(event)) {

@@ -20,6 +20,8 @@ import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -32,7 +34,9 @@ import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleTreeCommand;
 import net.kodehawa.mantarobot.core.modules.commands.SubCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.ITreeCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.data.DataManager;
@@ -40,7 +44,10 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -49,9 +56,9 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 @Module
 @Slf4j
 public class MiscCmds {
+    private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
     private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
-    private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final Random rand = new Random();
 
     public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
@@ -75,8 +82,9 @@ public class MiscCmds {
                             .queue();
                 }
             }
-        } else
+        } else {
             event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
+        }
     }
 
     public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
@@ -95,14 +103,15 @@ public class MiscCmds {
                 try {
                     event.getGuild().getController().removeRolesFromMember(event.getMember(), role)
                             .queue(aVoid -> event.getChannel().sendMessage(EmoteReference.OK + event.getMember().getEffectiveName() + ", you've " +
-                            "lost the **" + role.getName() + "** role").queue());
+                                    "lost the **" + role.getName() + "** role").queue());
                 } catch(PermissionException pex) {
                     event.getChannel().sendMessage(String.format("%sI couldn't give you **%s. Make sure that I have permission to add roles and that my role is above **%s**",
                             EmoteReference.ERROR, role.getName(), role.getName())).queue();
                 }
             }
-        } else
+        } else {
             event.getChannel().sendMessage(EmoteReference.ERROR + "There isn't an autorole with the name ``" + autoroleName + "``!").queue();
+        }
     }
 
     @Subscribe
@@ -119,11 +128,10 @@ public class MiscCmds {
                 String answer;
                 try {
                     textEncoded = URLEncoder.encode(content, "UTF-8");
-                    String json = Utils.wget(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded), event);
+                    String json = Utils.wgetResty(String.format("https://8ball.delegator.com/magic/JSON/%1s", textEncoded), event);
                     answer = new JSONObject(json).getJSONObject("magic").getString("answer");
                 } catch(Exception exception) {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results.")
-                            .queue();
+                    event.getChannel().sendMessage(EmoteReference.ERROR + "I ran into an error while fetching 8ball results.").queue();
                     return;
                 }
 
@@ -149,28 +157,34 @@ public class MiscCmds {
         cr.register("iam", new SimpleCommand(Category.MISC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
+                DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+                Map<String, String> autoroles = dbGuild.getData().getAutoroles();
                 if(args.length == 0 || content.length() == 0) {
                     onError(event);
                     return;
                 }
 
                 StringBuilder stringBuilder = new StringBuilder();
-
                 if(content.equals("list") || content.equals("ls")) {
                     EmbedBuilder embed = baseEmbed(event, "Autorole list");
                     if(autoroles.size() > 0) {
                         autoroles.forEach((name, roleId) -> {
                             Role role = event.getGuild().getRoleById(roleId);
-                            if(role != null)
+                            if(role != null) {
                                 stringBuilder.append("\nAutorole name: ").append(name).append(" | Gives role **").append(role.getName()).append("**");
+                            } else {
+                                dbGuild.getData().getAutoroles().remove(name);
+                            }
                         });
+
+                        dbGuild.saveAsync();
 
                         embed.setDescription(checkString(stringBuilder.toString()));
                     } else embed.setDescription("There aren't any autoroles setup in this server!");
                     event.getChannel().sendMessage(embed.build()).queue();
                     return;
                 }
+
                 iamFunction(content.trim().replace("\"", ""), event);
             }
 
@@ -190,22 +204,8 @@ public class MiscCmds {
         cr.register("iamnot", new SimpleCommand(Category.MISC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                HashMap<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
                 if(args.length == 0 || content.length() == 0) {
                     onHelp(event);
-                    return;
-                }
-
-                if(content.equals("list")) {
-                    EmbedBuilder embed = baseEmbed(event, "Autorole list");
-                    if(autoroles.size() > 0) {
-                        autoroles.forEach((name, roleId) -> {
-                            Role role = event.getGuild().getRoleById(roleId);
-                            if(role != null)
-                                embed.appendDescription("\nAutorole name: " + name + " | Gives role **" + role.getName() + "**");
-                        });
-                    } else embed.setDescription("There aren't any autoroles setup in this server!");
-                    event.getChannel().sendMessage(embed.build()).queue();
                     return;
                 }
 
@@ -225,7 +225,7 @@ public class MiscCmds {
 
     @Subscribe
     public void misc(CommandRegistry cr) {
-        cr.register("misc", new SimpleTreeCommand(Category.MISC) {
+        ITreeCommand miscCommand = (ITreeCommand) cr.register("misc", new SimpleTreeCommand(Category.MISC) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Misc Commands")
@@ -243,23 +243,24 @@ public class MiscCmds {
         }.addSubCommand("reverse", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                String stringToReverse = content.replace("reverse ", "");
-                String reversed = new StringBuilder(stringToReverse).reverse().toString();
-                event.getChannel().sendMessage(reversed.replace("@everyone", "").replace("@here", "")).queue();
+                event.getChannel().sendMessage(
+                        new MessageBuilder().append(new StringBuilder(content).reverse().toString())
+                                .stripMentions(event.getGuild(), Message.MentionType.EVERYONE, Message.MentionType.HERE).build()
+                ).queue();
             }
         }).addSubCommand("rndcolor", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                String s = String.format(EmoteReference.TALKING + "Your random color is %s", randomColor());
-                event.getChannel().sendMessage(s).queue();
+                event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "Your random color is %s", randomColor())).queue();
             }
         }).addSubCommand("noble", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(EmoteReference.TALKING + noble.get().get(rand.nextInt(noble.get().size() - 1)) + " " +
-                        "-Noble").queue();
+                event.getChannel().sendMessage(String.format("%s%s -Noble", EmoteReference.TALKING, noble.get().get(rand.nextInt(noble.get().size() - 1)))).queue();
             }
         }));
+
+        miscCommand.createSubCommandAlias("rndcolor", "randomcolor");
     }
 
     @Subscribe
@@ -267,8 +268,7 @@ public class MiscCmds {
         cr.register("randomfact", new SimpleCommand(Category.MISC) {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
-                event.getChannel().sendMessage(
-                        EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1))).queue();
+                event.getChannel().sendMessage(EmoteReference.TALKING + facts.get().get(rand.nextInt(facts.get().size() - 1))).queue();
             }
 
             @Override

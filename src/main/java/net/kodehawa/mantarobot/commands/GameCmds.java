@@ -51,15 +51,13 @@ import static net.kodehawa.mantarobot.utils.StringUtils.SPLIT_PATTERN;
 @Slf4j
 @Module
 public class GameCmds {
-
     private final Pattern mentionPattern = Pattern.compile("<(#|@|@&)?.[0-9]{17,21}>");
 
-    //addSubCommand()...
     @Subscribe
     public void game(CommandRegistry cr) {
         final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
 
-        cr.register("game", new SimpleTreeCommand(Category.GAMES) {
+        SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Guessing games.")
@@ -77,33 +75,37 @@ public class GameCmds {
         }.addSubCommand("character", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 startGame(new Character(), event);
             }
         }).addSubCommand("pokemon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 startGame(new Pokemon(), event);
             }
         }).addSubCommand("number", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 startGame(new GuessTheNumber(), event);
             }
-        }).addSubCommand("lobby", new SubCommand() {
+        }).addSubCommand("wins", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                Member member = Utils.findMember(event, event.getMember(), content);
+                if(member == null)
                     return;
 
+                event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
+            }
+        }).createSubCommandAlias("pokemon", "pokémon")
+                .createSubCommandAlias("number", "guessthatnumber"));
+
+        gameCommand.setPredicate(event -> Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.createSubCommandAlias("pokemon", "pokémon");
+        gameCommand.createSubCommandAlias("number", "guessthatnumber");
+
+        gameCommand.addSubCommand("lobby", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
                 if(content.isEmpty()) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You didn't specify anything to play!").queue();
                     return;
@@ -119,7 +121,7 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(String s : split) {
-                    switch (s.replace(" ", "")) {
+                    switch(s.replace(" ", "")) {
                         case "pokemon":
                             gameList.add(new Pokemon());
                             break;
@@ -142,21 +144,11 @@ public class GameCmds {
 
                 startMultipleGames(gameList, event);
             }
-        }).addSubCommand("wins", new SubCommand() {
+        });
+
+        gameCommand.addSubCommand("multiple", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null)
-                    return;
-
-                event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
-            }
-        }).addSubCommand("multiple", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                if(!Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
-                    return;
-
                 String[] values = SPLIT_PATTERN.split(content, 2);
                 if(values.length < 2) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "You need to specify the game and the number of times to run it").queue();
@@ -167,7 +159,7 @@ public class GameCmds {
 
                 try {
                     number = Integer.parseInt(values[1]);
-                } catch (Exception e) {
+                } catch(Exception e) {
                     event.getChannel().sendMessage(EmoteReference.ERROR + "Invalid number of times!").queue();
                     return;
                 }
@@ -179,7 +171,7 @@ public class GameCmds {
 
                 LinkedList<Game> gameList = new LinkedList<>();
                 for(int i = 0; i < number; i++) {
-                    switch (values[0].replace(" ", "")) {
+                    switch(values[0].replace(" ", "")) {
                         case "pokemon":
                             gameList.add(new Pokemon());
                             break;
@@ -202,8 +194,7 @@ public class GameCmds {
 
                 startMultipleGames(gameList, event);
             }
-        }).createSubCommandAlias("pokemon", "pokémon")
-          .createSubCommandAlias("number", "guessthatnumber"));
+        });
     }
 
     @Subscribe
@@ -250,8 +241,8 @@ public class GameCmds {
         if(!event.getMessage().getMentionedRoles().isEmpty()) {
             StringBuilder b = new StringBuilder();
             event.getMessage().getMentionedRoles().forEach(role ->
-                    event.getGuild().getMembersWithRoles(role).forEach(user  -> {
-                        if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
+                    event.getGuild().getMembersWithRoles(role).forEach(user -> {
+                        if(!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
                             players.add(user.getUser().getId());
                         b.append(user.getEffectiveName()).append(" ");
                     })
@@ -259,10 +250,10 @@ public class GameCmds {
             event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP lobby with all users with the specfied role: " + b.toString()).queue();
         }
 
-        if (!event.getMessage().getMentionedUsers().isEmpty()) {
+        if(!event.getMessage().getMentionedUsers().isEmpty()) {
             StringBuilder builder = new StringBuilder();
             event.getMessage().getMentionedUsers().forEach(user -> {
-                if (!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
+                if(!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
                     players.add(user.getId());
                 builder.append(user.getName()).append(" ");
             });
@@ -284,42 +275,42 @@ public class GameCmds {
         LinkedList<Game> list = new LinkedList<>();
         list.add(game);
 
-		List<String> players = new ArrayList<>();
-		players.add(event.getAuthor().getId());
+        List<String> players = new ArrayList<>();
+        players.add(event.getAuthor().getId());
 
-		if(!event.getMessage().getMentionedRoles().isEmpty()) {
-			StringBuilder b = new StringBuilder();
-			event.getMessage().getMentionedRoles().forEach(role ->
-				event.getGuild().getMembersWithRoles(role).forEach(user  -> {
-					if (!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
-						players.add(user.getUser().getId());
-					b.append(user.getEffectiveName()).append(" ");
-				})
-			);
-			event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
-		}
+        if(!event.getMessage().getMentionedRoles().isEmpty()) {
+            StringBuilder b = new StringBuilder();
+            event.getMessage().getMentionedRoles().forEach(role ->
+                    event.getGuild().getMembersWithRoles(role).forEach(user -> {
+                        if(!user.getUser().getId().equals(event.getJDA().getSelfUser().getId()))
+                            players.add(user.getUser().getId());
+                        b.append(user.getEffectiveName()).append(" ");
+                    })
+            );
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with all users with the specfied role: " + b.toString()).queue();
+        }
 
-		if (!event.getMessage().getMentionedUsers().isEmpty()) {
-			StringBuilder builder = new StringBuilder();
-			event.getMessage().getMentionedUsers().forEach(user -> {
-                if (!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
-					players.add(user.getId());
-				builder.append(user.getName()).append(" ");
-			});
+        if(!event.getMessage().getMentionedUsers().isEmpty()) {
+            StringBuilder builder = new StringBuilder();
+            event.getMessage().getMentionedUsers().forEach(user -> {
+                if(!user.getId().equals(event.getJDA().getSelfUser().getId()) && !user.isBot())
+                    players.add(user.getId());
+                builder.append(user.getName()).append(" ");
+            });
 
-			if(players.size() > 1) {
+            if(players.size() > 1) {
                 event.getChannel().sendMessage(EmoteReference.MEGA + "Started a MP game with users: " + builder.toString()).queue();
             }
         }
 
-		GameLobby lobby = new GameLobby(event, players, list);
+        GameLobby lobby = new GameLobby(event, players, list);
         lobby.startFirstGame();
     }
 
     private boolean checkRunning(GuildMessageReceivedEvent event) {
         if(GameLobby.LOBBYS.containsKey(event.getChannel())) {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
-            if (dbGuild.getData().getGameTimeoutExpectedAt() != null &&
+            if(dbGuild.getData().getGameTimeoutExpectedAt() != null &&
                     (Long.parseLong(dbGuild.getData().getGameTimeoutExpectedAt()) > System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(75))) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "Seems like I dropped a game here, but forgot to pick it up... I'll start your new game right up!").queue();
                 return false;

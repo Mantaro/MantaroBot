@@ -47,6 +47,7 @@ import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import java.lang.management.ManagementFactory;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -85,7 +86,7 @@ public class DebugCmds {
                         + "Memory: " + (getTotalMemory() - getFreeMemory()) + "MB / " + getMaxMemory() + "MB" + "\n"
                         + "Music Connections: " + (int) vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count() + "\n"
                         + "Active Connections: " + (int) vc.stream().filter(voiceChannel ->
-                                voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"
+                        voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember()) && voiceChannel.getMembers().size() > 1).count() + "\n"
                         + "Queue Size: " + MantaroBot.getInstance().getAudioManager().getTotalQueueSize()
                         + "```").queue();
             }
@@ -163,7 +164,7 @@ public class DebugCmds {
 
                     JDA jda = shard.getJDA();
                     builder.append(String.format(
-                            "%-16s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
+                            "%-17s | %-9s | U: %-6d | G: %-4d | EV: %-8s | P: %-6s | VC: %-2d",
                             jda.getShardInfo() == null ? "Shard [0 / 1]" : jda.getShardInfo(),
                             jda.getStatus(),
                             jda.getUserCache().size(),
@@ -239,7 +240,7 @@ public class DebugCmds {
 
                 if(reconnecting > 10)
                     stringBuilder.append("WARNING: A large number of shards are reconnecting right now!" +
-                        " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
+                            " Bot might be unavailable on several thousands guilds for some minutes! (").append(reconnecting).append(" shards reconnecting now)\n");
                 if(high > 20)
                     stringBuilder.append("WARNING: A very large number of shards has a high last event time! A restart might be needed if this doesn't fix itself on some minutes!\n");
                 if(dead > 5)
@@ -261,7 +262,7 @@ public class DebugCmds {
                                 "--- Guilds: %-4s | Users: %-8s | Shards: %-3s"
                         ,
                         Utils.getHumanizedTime(ManagementFactory.getRuntimeMXBean().getUptime()), MantaroInfo.VERSION, JDAInfo.VERSION, PlayerLibrary.VERSION, ping,
-                        bot.getShardList().stream().map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
+                        bot.getShardList().stream().filter(Objects::nonNull).map(shard -> shard.getId() + ": " + shard.getPing() + "ms").collect(Collectors.joining(", ")),
                         dead, zeroVoiceConnections, reconnecting, connecting, high, bot.getGuildCache().size(),
                         bot.getUserCache().size(), bot.getShardList().size()));
 

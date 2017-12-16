@@ -88,7 +88,7 @@ public class DBUser implements ManagedObject {
     }
 
     @JsonIgnore
-    public PremiumKey generateAndApplyPremiumKey(int days, String owner){
+    public PremiumKey generateAndApplyPremiumKey(int days, String owner) {
         String premiumId = UUID.randomUUID().toString();
         PremiumKey newKey = new PremiumKey(premiumId, TimeUnit.DAYS.toMillis(days), currentTimeMillis() + TimeUnit.DAYS.toMillis(days), PremiumKey.Type.USER, true, owner);
         data.setPremiumKey(premiumId);
