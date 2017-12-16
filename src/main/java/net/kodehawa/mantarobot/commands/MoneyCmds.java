@@ -126,7 +126,7 @@ public class MoneyCmds {
 
                     if(playerData.getDailyStreak() > 5) {
                         int bonus = 150;
-                        if(playerData.getDailyStreak() > 15) bonus += Math.floor(150 * playerData.getDailyStreak() / 15);
+                        if(playerData.getDailyStreak() > 15) bonus += Math.max(850, Math.floor(150 * playerData.getDailyStreak() / 15));
 
                         streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
@@ -862,8 +862,7 @@ public class MoneyCmds {
 
             player.setMoney(Math.max(0, player.getMoney() - i));
 
-            event.getChannel().sendMessage("\uD83C\uDFB2 Sadly, you lost " + (player.getMoney() == 0 ? "all of your " + oldMoney : i) + " credits! " +
-                    "\uD83D\uDE26").queue();
+            event.getChannel().sendMessage(String.format("\uD83C\uDFB2 Sadly, you lost %s credits! \uD83D\uDE26", player.getMoney() == 0 ? "all of your " + oldMoney : i)).queue();
         }
         player.setLocked(false);
         player.saveAsync();
