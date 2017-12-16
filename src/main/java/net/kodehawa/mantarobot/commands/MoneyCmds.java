@@ -126,7 +126,7 @@ public class MoneyCmds {
 
                     if(playerData.getDailyStreak() > 5) {
                         int bonus = 150;
-                        if(playerData.getDailyStreak() > 15) bonus += Math.max(850, Math.floor(150 * playerData.getDailyStreak() / 15));
+                        if(playerData.getDailyStreak() > 15) bonus += Math.min(850, Math.floor(150 * playerData.getDailyStreak() / 15));
 
                         streak += "\nYou won a bonus of $" + bonus + " for claiming your daily for 5 days in a row or more! (Included on the money shown!)";
                         money += bonus;
