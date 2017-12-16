@@ -60,7 +60,6 @@ dependencies {
 	compile 'com.google.guava:guava:22.0'
 	compile 'com.google.code.gson:gson:2.8.0'
 	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.1'
-	compile 'net.sf.trove4j:trove4j:3.0.3'
 
 	compile 'com.rethinkdb:rethinkdb-driver:2.3.3'
 	compile 'org.redisson:redisson:3.5.3'
