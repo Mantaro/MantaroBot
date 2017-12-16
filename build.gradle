@@ -121,9 +121,9 @@ task cleanDistZip(type: Delete) { delete files(distZip) }
 distZip { classifier = "trash" }
 distZip.finalizedBy cleanDistZip
 
-task cleanShittyJar(type: Delete) { delete files(jar) }
+task cleanUnshadedJar(type: Delete) { delete files(jar) }
 jar { classifier = "trash" }
-jar.finalizedBy cleanShittyJar
+jar.finalizedBy cleanUnshadedJar
 
 shadowJar {
 	classifier = ""
