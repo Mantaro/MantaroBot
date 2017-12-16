@@ -3,7 +3,6 @@ package net.kodehawa.mantarobot.commands.custom.kaiperscript.wrapper;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 class SafeChannel extends SafeISnowflake<TextChannel> {
-    private int messages = 0;
 
     SafeChannel(TextChannel channel) {
         super(channel);

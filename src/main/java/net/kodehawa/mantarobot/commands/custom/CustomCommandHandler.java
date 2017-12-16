@@ -47,8 +47,13 @@ public class CustomCommandHandler {
             //LimitReachedException will be replaced by VisitorException
 
             try {
+                String code = value.trim();
+                if (code.isEmpty()) return;
+
+                if (!code.startsWith("<$")) code = "<$ " + code;
+
                 SafeEmbed[] embed = new SafeEmbed[1];
-                String result = new KaiperScriptExecutor("<$" + value + "$>")
+                String result = new KaiperScriptExecutor(code)
                     .execute(
                         new InterpreterEvaluator()
                             .declare("event", new JavaObject(new SafeGuildMessageReceivedEvent(event)))
@@ -165,6 +170,10 @@ public class CustomCommandHandler {
     }
 
     private boolean processResponse() {
+        if (response.startsWith("k:")) {
+            return true;
+        }
+
         if (response.contains("<$")) {
             //FIXME on NEXT KAIPER UPDATE:
             //LimitReachedException will be replaced by VisitorException

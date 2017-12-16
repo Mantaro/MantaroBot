@@ -7,15 +7,15 @@ class SafeMessage extends SafeISnowflake<Message> {
         super(message);
     }
 
-    public String getContent() {
-        return snowflake.getContent();
+    public String getDisplay() {
+        return snowflake.getContentDisplay();
     }
 
     public String getRaw() {
-        return snowflake.getRawContent();
+        return snowflake.getContentRaw();
     }
 
     public String getStripped() {
-        return snowflake.getStrippedContent();
+        return snowflake.getContentStripped();
     }
 }
