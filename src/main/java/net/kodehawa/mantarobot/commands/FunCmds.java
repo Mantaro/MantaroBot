@@ -143,9 +143,9 @@ public class FunCmds {
                     return;
                 }
 
-                if(InteractiveOperations.create(
-                        event.getChannel(), 120,
-                        (ie) -> {
+                event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA,
+                        proposedTo.getName(), event.getAuthor().getName())).queue();
+                InteractiveOperations.createOverriding(event.getChannel(), 120, (ie) -> {
                             if(!ie.getAuthor().getId().equals(proposedTo.getId()))
                                 return Operation.IGNORED;
 
@@ -184,14 +184,7 @@ public class FunCmds {
                             }
 
                             return Operation.IGNORED;
-                        }
-                ) != null) {
-                    event.getChannel().sendMessage(String.format("%s%s, respond with **yes** or **no** to the marriage proposal from %s.", EmoteReference.MEGA, proposedTo
-                            .getName(), event.getAuthor().getName())).queue();
-
-                } else {
-                    event.getChannel().sendMessage(EmoteReference.ERROR + "Another Interactive Operation is already running here").queue();
-                }
+                        });
             }
 
             @Override

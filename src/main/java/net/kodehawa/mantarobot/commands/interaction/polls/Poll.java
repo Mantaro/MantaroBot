@@ -140,12 +140,16 @@ public class Poll extends Lobby {
     }
 
     private String[] reactions(int options) {
-        if(options < 2) throw new IllegalArgumentException("You need to add a minimum of 2 options.");
-        if(options > 9) throw new IllegalArgumentException("The maximum amount of options is 9.");
+        if(options < 2)
+            throw new IllegalArgumentException("You need to add a minimum of 2 options.");
+        if(options > 9)
+            throw new IllegalArgumentException("The maximum amount of options is 9.");
+
         String[] r = new String[options];
         for(int i = 0; i < options; i++) {
             r[i] = (char) ('\u0031' + i) + "\u20e3";
         }
+
         return r;
     }
 

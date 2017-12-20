@@ -556,21 +556,14 @@ public class GuildOptions extends OptionHandler {
                     try {
                         guildData.setCustomAdminLock(Boolean.parseBoolean(action));
                         dbGuild.save();
-                        String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "``Permission -> User command creation " +
-                                "is now admin only.``" : "``Permission -> User command creation can be done by anyone.``");
+                        String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "`Permission -> Custom command creation " +
+                                "is now admin only.`" : "`Permission -> Custom command creation can be done by anyone.`");
                         event.getChannel().sendMessage(toSend).queue();
                     } catch(Exception ex) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();
                     }
                 });
         //endregion
-
-        registerOption("actionmention:toggle", "Action mention toggle",
-                "Toggles action mention (double-mention). On by default.\n" +
-                        "Example: `~>opts actionmention toggle`",
-                "Deprecated.", event ->
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "This option has been deprecated. (Action commands don't double-mention anymore)").queue()
-        );
 
         registerOption("timedisplay:set", "Time display set", "Toggles between 12h and 24h time display.\n" +
                 "Example: `~>opts timedisplay 24h`", "Toggles between 12h and 24h time display.", (event, args) -> {

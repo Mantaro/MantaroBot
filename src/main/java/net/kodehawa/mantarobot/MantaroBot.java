@@ -61,11 +61,24 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
 
 @Slf4j
 public class MantaroBot extends ShardedJDA {
-    public static int cwport;
     @Getter
     private static MantaroBot instance;
     @Getter
     private static TempBanManager tempBanManager;
+    @Getter
+    private final MantaroAudioManager audioManager;
+    @Getter
+    private final MantaroCore core;
+    @Getter
+    private final DiscordBotsAPI discordBotsAPI;
+    @Getter
+    private final ShardedMantaro shardedMantaro;
+    @Getter
+    private final StatsDClient statsClient;
+    @Getter
+    private BirthdayCacher birthdayCacher;
+    @Getter
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
     //just in case
     static {
@@ -80,24 +93,6 @@ public class MantaroBot extends ShardedJDA {
 
         log.info("Filtering all logs below " + LogFilter.LEVEL);
     }
-
-    @Getter
-    private final MantaroAudioManager audioManager;
-    @Getter
-    private final MantaroCore core;
-    @Getter
-    private final DiscordBotsAPI discordBotsAPI;
-    private final MuteTask muteTask = new MuteTask();
-    @Getter
-    private final ShardedMantaro shardedMantaro;
-    @Getter
-    private final StatsDClient statsClient;
-    @Getter
-    private BirthdayCacher birthdayCacher;
-    @Getter
-    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
-    @Getter
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(3);
 
     private MantaroBot() throws Exception {
         instance = this;
@@ -133,6 +128,7 @@ public class MantaroBot extends ShardedJDA {
                         "Shards are still waking up!", DefaultCommandProcessor.REGISTRY.commands().size(), (end - start) / 1000));
 
         birthdayCacher = new BirthdayCacher();
+        final MuteTask muteTask = new MuteTask();
         Async.task("Mute Handler", muteTask::handle, 1, TimeUnit.MINUTES);
     }
 
