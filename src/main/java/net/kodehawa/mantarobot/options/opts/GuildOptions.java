@@ -66,8 +66,7 @@ public class GuildOptions extends OptionHandler {
                         String role = args[1];
 
                         boolean isId = channel.matches("^[0-9]*$");
-                        String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0)
-                                .getId();
+                        String channelId = isId ? channel : event.getGuild().getTextChannelsByName(channel, true).get(0).getId();
                         Role roleObj = event.getGuild().getRolesByName(role.replace(channelId, ""), true).get(0);
 
                         if(roleObj.isPublicRole()) {
@@ -85,10 +84,10 @@ public class GuildOptions extends OptionHandler {
                         event.getChannel().sendMessage(EmoteReference.WARNING + "Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.\n" +
                                 "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.\n" +
                                 "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. " +
-                                "**This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen! " +
+                                "**This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen (really)!\n" +
                                 "If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.\n\n" +
-                                "Type **yes** if you agree to set the role " + roleObj.getName() + " as a birthday role, and **no** to cancel. This timeouts in 30 seconds.").queue();
-                        InteractiveOperations.createOverriding(event.getChannel(), 30, interactiveEvent -> {
+                                "Type **yes** if you agree to set the role " + roleObj.getName() + " as a birthday role, and **no** to cancel. This timeouts in 45 seconds.").queue();
+                        InteractiveOperations.createOverriding(event.getChannel(), 45, interactiveEvent -> {
                             String content = interactiveEvent.getMessage().getContentRaw();
                             if(content.equalsIgnoreCase("yes")) {
                                 String roleId = roleObj.getId();
