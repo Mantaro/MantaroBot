@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class NewRateLimiter {
     private final ReferenceCountedMap map = new ReferenceCountedMap();
     private final ScheduledExecutorService executor;
-    private final int limit;
+    private int limit = 1;
     private final long timeoutMillis;
     private final long delta;
     private boolean isPremiumAware = false;
@@ -50,9 +50,24 @@ public class NewRateLimiter {
         this.delta = delta;
     }
 
+    public NewRateLimiter(ScheduledExecutorService executor, int spamThreshold, long timeout, TimeUnit unit, long delta) {
+        this.executor = executor;
+        this.spamThreshold = spamThreshold;
+        this.timeoutMillis = unit.toMillis(timeout);
+        this.delta = delta;
+    }
+
     public NewRateLimiter(ScheduledExecutorService executor, int limit, int spamThreshold, long timeout, TimeUnit unit, long delta, boolean isPremiumAware) {
         this.executor = executor;
         this.limit = limit;
+        this.spamThreshold = spamThreshold;
+        this.timeoutMillis = unit.toMillis(timeout);
+        this.delta = delta;
+        this.isPremiumAware = isPremiumAware;
+    }
+
+    public NewRateLimiter(ScheduledExecutorService executor, int spamThreshold, long timeout, TimeUnit unit, long delta, boolean isPremiumAware) {
+        this.executor = executor;
         this.spamThreshold = spamThreshold;
         this.timeoutMillis = unit.toMillis(timeout);
         this.delta = delta;

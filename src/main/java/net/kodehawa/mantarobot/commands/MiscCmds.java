@@ -74,7 +74,8 @@ public class MiscCmds {
                     return;
                 }
                 try {
-                    event.getGuild().getController().addRolesToMember(event.getMember(), role)
+                    event.getGuild().getController().addSingleRoleToMember(event.getMember(), role)
+                            .reason("Auto-assignable roles assigner (~>iam)")
                             .queue(aVoid -> event.getChannel().sendMessage(String.format("%s%s, you've been given the **%s** role",
                                     EmoteReference.OK, event.getMember().getEffectiveName(), role.getName())).queue());
                 } catch(PermissionException pex) {

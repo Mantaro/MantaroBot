@@ -493,9 +493,14 @@ public class MantaroListener implements EventListener {
             if(role != null) {
                 try {
                     if(!(event.getMember().getUser().isBot() && data.isIgnoreBotsAutoRole())) {
-                        if(event.getGuild().getRoleById(role) != null) {
-                            event.getGuild().getController().addRolesToMember(event.getMember(), event.getGuild().getRoleById(role)).queue(s ->
-                                    log.debug("Successfully added a new role to " + event.getMember()));
+                        Role toAssign = event.getGuild().getRoleById(role);
+                        if(toAssign != null) {
+                            if(!event.getGuild().getSelfMember().canInteract(toAssign))
+                                return;
+
+                            event.getGuild().getController().addSingleRoleToMember(event.getMember(), toAssign)
+                                    .reason("Autorole assigner.")
+                                    .queue(s -> log.debug("Successfully added a new role to " + event.getMember()));
                         }
                     }
                 } catch(Exception e) {
@@ -510,6 +515,7 @@ public class MantaroListener implements EventListener {
                 if(tc.canTalk()) {
                     tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())).queue();
                 }
+
                 logTotal++;
             }
 

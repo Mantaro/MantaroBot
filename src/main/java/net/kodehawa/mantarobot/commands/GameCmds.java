@@ -202,7 +202,7 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 1, 3, 7, TimeUnit.SECONDS, 100, true) {
+            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 100, true) {
                 @Override
                 protected void onSpamDetected(String key, int times) {
                     log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);

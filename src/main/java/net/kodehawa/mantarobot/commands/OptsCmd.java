@@ -199,7 +199,7 @@ public class OptsCmd {
                         }
                     }
 
-                    Queue<Message> toSend = new MessageBuilder().append(show.toString()).buildAll(MessageBuilder.SplitPolicy.NEWLINE);
+                    List<String> toSend = DiscordUtils.divideString(1600, show);
                     toSend.forEach(message -> event.getChannel().sendMessage(message).queue());
                 }).setShortDescription("Checks the data values you have set on this server.")
         ).addOption("reset:all", new Option("Options reset.",

@@ -21,6 +21,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.kodehawa.mantarobot.commands.OptsCmd;
+import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
+import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -74,26 +76,46 @@ public class GuildOptions extends OptionHandler {
                             return;
                         }
 
-                        String roleId = roleObj.getId();
-                        guildData.setBirthdayChannel(channelId);
-                        guildData.setBirthdayRole(roleId);
-                        dbGuild.save();
-                        event.getChannel().sendMessage(
-                                String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> " +
-                                                "Channel: ``#%s (%s)`` and role: ``%s (%s)``",
-                                        channel, channelId, role, roleId
-                                )).queue();
+                        if(guildData.getGuildAutoRole() != null && roleObj.getId().equals(guildData.getGuildAutoRole())) {
+                            event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot set the autorole role as a birthday role! " +
+                                    "Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.").queue();
+                            return;
+                        }
+
+                        event.getChannel().sendMessage(EmoteReference.WARNING + "Remember that the birthday role is a role that gets assigned to the person when the birthday comes, and then removes when the day passes away.\n" +
+                                "The role *has to be a newly created role or a role you don't use for anyone else*. It MUST NOT be a role you already have on your users.\n" +
+                                "This is because of how the birthday assigner works: It assigns a temporary role to the person having its birthday, and unassigns it when the birthday day has passed. " +
+                                "**This means that everyone with the birthday role will get the role removed the day the birthday passes through**. Please take caution when choosing what role to use, as a misconfiguration might make bad things happen! " +
+                                "If you have any doubts on how to configure it, you can always join our support guild and ask. You can also check `~>opts help birthday enable` for an example.\n\n" +
+                                "Type **yes** if you agree to set the role " + roleObj.getName() + " as a birthday role, and **no** to cancel. This timeouts in 30 seconds.").queue();
+                        InteractiveOperations.createOverriding(event.getChannel(), 30, interactiveEvent -> {
+                            String content = interactiveEvent.getMessage().getContentRaw();
+                            if(content.equalsIgnoreCase("yes")) {
+                                String roleId = roleObj.getId();
+                                guildData.setBirthdayChannel(channelId);
+                                guildData.setBirthdayRole(roleId);
+                                dbGuild.saveAsync();
+                                event.getChannel().sendMessage(
+                                        String.format(EmoteReference.MEGA + "Birthday logging enabled on this server with parameters -> Channel: `#%s (%s)` and role: `%s (%s)`",
+                                                channel, channelId, role, roleId
+                                        )).queue();
+                                return Operation.COMPLETED;
+                            } else if (content.equalsIgnoreCase("no")) {
+                                interactiveEvent.getChannel().sendMessage(EmoteReference.CORRECT + "Cancelled request.").queue();
+                                return Operation.COMPLETED;
+                            }
+
+                            return Operation.IGNORED;
+                        });
+
                     } catch(Exception ex) {
                         if(ex instanceof IndexOutOfBoundsException) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "I didn't find a channel or role!\n " +
                                     "**Remember, you don't have to mention neither the role or the channel, rather just type its " +
-                                    "name, order is <channel> <role>, without the leading \"<>\".**")
-                                    .queue();
+                                    "name, order is <channel> <role>, without the leading \"<>\".**").queue();
                             return;
                         }
-                        event.getChannel().sendMessage(
-                                EmoteReference.ERROR + "You supplied invalid arguments for this command " +
-                                        EmoteReference.SAD).queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You supplied invalid arguments for this command " + EmoteReference.SAD).queue();
                         OptsCmd.onHelp(event);
                     }
                 });
@@ -103,9 +125,8 @@ public class GuildOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
             guildData.setBirthdayChannel(null);
             guildData.setBirthdayRole(null);
-            dbGuild.save();
-            event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging has been disabled on this server")
-                    .queue();
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.MEGA + "Birthday logging has been disabled on this server").queue();
         });
         //endregion
 
@@ -135,8 +156,7 @@ public class GuildOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
                     guildData.setGuildCustomPrefix(prefix);
                     dbGuild.save();
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been set to " + prefix)
-                            .queue();
+                    event.getChannel().sendMessage(EmoteReference.MEGA + "Your server's custom prefix has been set to " + prefix).queue();
                 });//endregion
 
         //region clear
