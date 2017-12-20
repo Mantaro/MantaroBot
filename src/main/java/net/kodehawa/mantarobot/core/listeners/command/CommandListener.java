@@ -173,7 +173,9 @@ public class CommandListener implements EventListener {
                         player.saveAsync();
 
                         // ---------- LOCAL EXPERIENCE CHECK ---------- //
+                        //TODO enable in 4.9, maybe improve?
 
+                        /*
                         LocalExperienceData localPlayer = null;
                         List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
 
@@ -198,6 +200,7 @@ public class CommandListener implements EventListener {
 
                         //Save local player.
                         dbGuild.saveAsync();
+                       */
                     }
                 } catch(Exception ignored) { }
             }

@@ -607,6 +607,8 @@ public class MoneyCmds {
             }
         });
 
+        //TODO enable in 4.9
+        /*
         leaderboards.addSubCommand("localxp", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
@@ -636,10 +638,12 @@ public class MoneyCmds {
             }
         });
 
+        leaderboards.createSubCommandAlias("localxp", "local");
+        */
+
         leaderboards.createSubCommandAlias("rep", "reputation");
         leaderboards.createSubCommandAlias("lvl", "level");
         leaderboards.createSubCommandAlias("streak", "daily");
-        leaderboards.createSubCommandAlias("localxp", "local");
 
         cr.registerAlias("leaderboard", "richest");
     }

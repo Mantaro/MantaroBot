@@ -89,7 +89,13 @@ public class GameCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 startGame(new GuessTheNumber(), event);
             }
-        }).addSubCommand("wins", new SubCommand() {
+        }));
+
+        gameCommand.setPredicate(event -> Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
+        gameCommand.createSubCommandAlias("pokemon", "pokémon");
+        gameCommand.createSubCommandAlias("number", "guessthatnumber");
+
+        gameCommand.addSubCommand("wins", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Member member = Utils.findMember(event, event.getMember(), content);
@@ -98,12 +104,7 @@ public class GameCmds {
 
                 event.getChannel().sendMessage(EmoteReference.POPPER + member.getEffectiveName() + " has won " + MantaroData.db().getPlayer(member).getData().getGamesWon() + " games").queue();
             }
-        }).createSubCommandAlias("pokemon", "pokémon")
-                .createSubCommandAlias("number", "guessthatnumber"));
-
-        gameCommand.setPredicate(event -> Utils.handleDefaultRatelimit(rateLimiter, event.getAuthor(), event));
-        gameCommand.createSubCommandAlias("pokemon", "pokémon");
-        gameCommand.createSubCommandAlias("number", "guessthatnumber");
+        });
 
         gameCommand.addSubCommand("lobby", new SubCommand() {
             @Override
@@ -202,7 +203,8 @@ public class GameCmds {
     @Subscribe
     public void trivia(CommandRegistry cr) {
         cr.register("trivia", new SimpleCommand(Category.GAMES) {
-            final NewRateLimiter rateLimiter = new NewRateLimiter(Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 100, true) {
+            final NewRateLimiter rateLimiter = new NewRateLimiter(
+                    Executors.newSingleThreadScheduledExecutor(), 3, 7, TimeUnit.SECONDS, 350, true) {
                 @Override
                 protected void onSpamDetected(String key, int times) {
                     log.warn("[Trivia] Spam detected for {} ({} times)!", key, times);

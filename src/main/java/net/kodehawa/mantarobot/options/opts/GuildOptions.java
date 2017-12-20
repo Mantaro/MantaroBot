@@ -284,13 +284,6 @@ public class GuildOptions extends OptionHandler {
             GuildData guildData = dbGuild.getData();
             String channelName = args[0];
 
-            if(channelName.equals("reset_channel")) {
-                guildData.setLogJoinChannel(null);
-                dbGuild.saveAsync();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log join channel!").queue();
-                return;
-            }
-
             List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                     .filter(textChannel -> textChannel.getName().contains(channelName))
                     .collect(Collectors.toList());
@@ -320,6 +313,13 @@ public class GuildOptions extends OptionHandler {
             );
         });
 
+        registerOption("usermessage:join:channel:reset", "Resets the join message channel", "Resets the join message channel", event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setLogJoinChannel(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log join channel!").queue();
+        });
 
         registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
@@ -335,13 +335,6 @@ public class GuildOptions extends OptionHandler {
             List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
                     .filter(textChannel -> textChannel.getName().contains(channelName))
                     .collect(Collectors.toList());
-
-            if(channelName.equals("reset_channel")) {
-                guildData.setLogLeaveChannel(null);
-                dbGuild.saveAsync();
-                event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log leave channel!").queue();
-                return;
-            }
 
             if(textChannels.isEmpty()) {
                 event.getChannel().sendMessage(EmoteReference.ERROR + "There were no channels matching your search.").queue();
@@ -366,6 +359,14 @@ public class GuildOptions extends OptionHandler {
                                 textChannel.getAsMention()).queue();
                     }
             );
+        });
+
+        registerOption("usermessage:leave:channel:reset", "Resets the leave message channel", "Resets the leave message channel", event -> {
+            DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
+            GuildData guildData = dbGuild.getData();
+            guildData.setLogLeaveChannel(null);
+            dbGuild.saveAsync();
+            event.getChannel().sendMessage(EmoteReference.CORRECT + "Successfully reset log leave channel!").queue();
         });
 
         registerOption("usermessage:channel", "Set message channel",
