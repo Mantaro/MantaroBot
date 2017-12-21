@@ -57,7 +57,7 @@ public class GameCmds {
 
     @Subscribe
     public void game(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5, true);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 6, true);
 
         SimpleTreeCommand gameCommand = (SimpleTreeCommand) cr.register("game", new SimpleTreeCommand(Category.GAMES) {
             @Override

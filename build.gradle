@@ -42,7 +42,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-	compile 'net.dv8tion:JDA:3.3.1_315'
+	compile 'net.dv8tion:JDA:3.4.0_317'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
 	compile 'com.sedmelluq:jda-nas:1.0.6'
 

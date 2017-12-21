@@ -377,7 +377,7 @@ public class MantaroListener implements EventListener {
                     .withDate(new Date()).build());
         }
 
-        log.info(String.format("`Shard #%d`: Changed from `%s` to `%s`", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
+        log.info(String.format("Shard #%d: Changed from %s to %s", jda.getShardInfo().getShardId(), event.getOldStatus(), event.getStatus()));
     }
 
     private void logUnban(GuildUnbanEvent event) {

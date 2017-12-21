@@ -172,9 +172,10 @@ public class MantaroShard implements JDA {
                 .setEventManager(manager)
                 .setShardedRateLimiter(shardedRateLimiter)
                 .setReconnectQueue(reconnectQueue)
+                .setBulkDeleteSplittingEnabled(false)
+                .useSharding(shardId, totalShards)
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
-        if(totalShards > 1) jdaBuilder.useSharding(shardId, totalShards);
         jda = jdaBuilder.buildBlocking(Status.AWAITING_LOGIN_CONFIRMATION);
         if(totalShards > 1) Thread.sleep(5000);
 
