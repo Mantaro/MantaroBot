@@ -174,7 +174,7 @@ public class PremiumCmds {
                             PremiumKey currentKey = MantaroData.db().getPremiumKey(dbGuild.getData().getPremiumKey());
                             User owner = MantaroBot.getInstance().getUserById(currentKey.getOwner());
                             if(owner == null)
-                                owner = event.getAuthor();
+                                owner = event.getGuild().getOwner().getUser();
 
                             embedBuilder.setDescription("**Premium guild! <3**")
                                     .addField("Expires in", currentKey.validFor() + " days", false)
