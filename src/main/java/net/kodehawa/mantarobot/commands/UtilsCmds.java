@@ -128,7 +128,8 @@ public class UtilsCmds {
                             }
 
                             if(guildCurrentBirthdays.isEmpty()) {
-                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(").queue();
+                                event.getChannel().sendMessage(EmoteReference.ERROR + "There are no birthdays for this month here :(\n" +
+                                        EmoteReference.WARNING + "If you just setup the birthday announcer, please wait a bit until running this again. (Cache refreshes every 23h)").queue();
                                 return;
                             }
 

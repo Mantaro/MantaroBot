@@ -16,14 +16,14 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.User;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import org.apache.commons.lang3.tuple.Pair;
-import org.json.JSONObject;
 
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -34,66 +34,33 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 public class Reminder {
-
+    @JsonIgnore
     public static final Map<String, List<Reminder>> CURRENT_REMINDERS = new HashMap<>();
+    @JsonIgnore
     private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-    public final String reminder;
-    public final long time;
-    private final long current;
-    private final String userId;
+    @JsonIgnore
     private Future<?> scheduledReminder;
 
-    private Reminder(String userId, String reminder, long current, long time) {
+    public final String id;
+    public final String reminder;
+    public final long time;
+    private final long scheduledAtMillis;
+    private final String userId;
+    private final long offset;
+
+    private Reminder(@JsonProperty("id") String id, @JsonProperty("userId") String userId, @JsonProperty("reminder") String reminder,
+                     @JsonProperty("scheduledAtMillis") long scheduledAt, @JsonProperty("time") long time, @JsonProperty("offset") long offset) {
+        this.id = id;
         this.userId = userId;
         this.reminder = reminder;
         this.time = time;
-        this.current = current;
-        CURRENT_REMINDERS.computeIfAbsent(userId, (id) -> new ArrayList<>());
+        this.scheduledAtMillis = scheduledAt;
+        this.offset = offset;
+
+        CURRENT_REMINDERS.computeIfAbsent(userId, (wew) -> new ArrayList<>());
         DBUser user = MantaroData.db().getUser(userId);
         user.getData().setReminderN(user.getData().getReminderN() + 1);
         user.saveAsync();
-    }
-
-    public static JSONObject serializeAll() {
-        JSONObject o = new JSONObject();
-
-        for(Map.Entry<String, List<Reminder>> reminder : CURRENT_REMINDERS.entrySet()) {
-            List<Pair<List<Long>, String>> data = new ArrayList<>();
-            for(Reminder r : reminder.getValue()) {
-                List<Long> timeData = new ArrayList<>();
-                timeData.add(r.time);
-                timeData.add(r.current);
-                data.add(Pair.of(timeData, r.reminder));
-            }
-            o.put(reminder.getKey(), data);
-        }
-
-        return o;
-    }
-
-    public static void scheduleAll(JSONObject saved) {
-        Map<String, Object> savedMap = saved.toMap();
-        for(Map.Entry<String, Object> reminder : savedMap.entrySet()) {
-            List<Map<String, Object>> actual = (List<Map<String, Object>>) reminder.getValue();
-            for(Map<String, Object> values : actual) {
-                List<Long> timeData = (List<Long>) values.get("left");
-
-                long time = timeData.get(0);
-                long scheduledAt = timeData.get(1);
-
-                if(System.currentTimeMillis() > time) continue; //Basically the time already passed by, sorry :(
-
-                String reminderData = (String) values.get("right");
-
-                new Builder()
-                        .id(reminder.getKey())
-                        .reminder(reminderData)
-                        .time(time)
-                        .current(scheduledAt)
-                        .build()
-                        .schedule(); //automatic
-            }
-        }
     }
 
     public void schedule() {
@@ -109,13 +76,12 @@ public class Reminder {
 
             //Ignore "cannot open a private channel with this user"
             AtomicReference<Consumer<Message>> c = new AtomicReference<>();
-            Consumer<Throwable> ignore = (t) -> {
-            };
+            Consumer<Throwable> ignore = (t) -> {};
 
             user.openPrivateChannel().queue(channel -> channel.sendMessage(
-                    EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(current)
+                    EmoteReference.POPPER + "**Reminder!**\n" + "You asked me to remind you of: " + reminder + "\nAt: " + new Date(scheduledAtMillis)
             ).queue(c.get(), ignore));
-        }, time - current, TimeUnit.MILLISECONDS);
+        }, (time - scheduledAtMillis) - offset, TimeUnit.MILLISECONDS);
     }
 
     public Reminder cancel() {
@@ -136,6 +102,7 @@ public class Reminder {
         private String reminder;
         private long time;
         private String userId;
+        private long offset;
 
         public Builder id(String id) {
             userId = id;
@@ -157,13 +124,23 @@ public class Reminder {
             return this;
         }
 
+        public Builder offset(long offset) {
+            this.offset = offset;
+            return this;
+        }
+
 
         public Reminder build() {
-            if(userId == null) throw new IllegalArgumentException("User ID cannot be null");
-            if(reminder == null) throw new IllegalArgumentException("Reminder cannot be null");
-            if(time <= 0) throw new IllegalArgumentException("Time to remind must be positive and >0");
-            if(current <= 0) throw new IllegalArgumentException("Current time must be positive and >0");
-            return new Reminder(userId, reminder, current, time);
+            if(userId == null)
+                throw new IllegalArgumentException("User ID cannot be null");
+            if(reminder == null)
+                throw new IllegalArgumentException("Reminder cannot be null");
+            if(time <= 0)
+                throw new IllegalArgumentException("Time to remind must be positive and >0");
+            if(current <= 0)
+                throw new IllegalArgumentException("Current time must be positive and >0");
+
+            return new Reminder(UUID.randomUUID().toString(), userId, reminder, current, time, offset);
         }
     }
 }

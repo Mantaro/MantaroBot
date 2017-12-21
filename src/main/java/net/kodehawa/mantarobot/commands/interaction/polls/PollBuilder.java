@@ -19,6 +19,8 @@ package net.kodehawa.mantarobot.commands.interaction.polls;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.junit.Assert;
 
+import java.util.UUID;
+
 public class PollBuilder {
     private GuildMessageReceivedEvent event;
     private String name = "";
@@ -46,10 +48,13 @@ public class PollBuilder {
     }
 
     public Poll build() {
-        Assert.assertNotNull("Cannot create a poll with null options", options);
-        Assert.assertNotNull("What is event :S", event);
-        Assert.assertNotNull("You need to specify the timeout, pls.", timeout);
+        if(options == null)
+            throw new IllegalArgumentException("Cannot create a poll with null options");
+        if(event == null)
+            throw new IllegalArgumentException("Cannot create a poll with null event");
+        if(timeout == 0)
+            throw new IllegalArgumentException("Cannot create a poll without a timeout");
 
-        return new Poll(event, name, timeout, options);
+        return new Poll(UUID.randomUUID().toString(), event.getGuild().getId(), event.getChannel().getId(), event.getAuthor().getId(), name, timeout, options);
     }
 }
