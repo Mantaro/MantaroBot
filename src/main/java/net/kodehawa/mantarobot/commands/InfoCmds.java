@@ -291,9 +291,12 @@ public class InfoCmds {
 
                     if(command != null) {
                         final MessageEmbed help = command.help(event);
-                        Optional.ofNullable(help).ifPresent((help1) -> event.getChannel().sendMessage(help1).queue());
-                        if(help == null)
+                        
+                        if(help != null) {
+                            event.getChannel().sendMessage(help).queue();
+                        } else {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "There's no extended help set for this command.").queue();
+                        }
                     } else {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "A command with this name doesn't exist").queue();
                     }

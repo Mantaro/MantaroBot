@@ -16,12 +16,16 @@
 
 package net.kodehawa.mantarobot.commands.utils;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 
+@Data
 public class UrbanData {
 
     public final ArrayList<List> list = null;
 
+    @Data
     public class List {
         public String author;
         public String definition;
