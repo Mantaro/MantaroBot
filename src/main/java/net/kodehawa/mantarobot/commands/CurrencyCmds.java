@@ -206,13 +206,13 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
+                String itemName = content;
                 int itemNumber = 1;
                 boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
                 if(isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
-                        itemName = itemName.replace(args[1] + " ", "");
+                        itemName = itemName.replace(args[0], "").trim();
                     } catch (NumberFormatException e) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();
                         return;
@@ -278,13 +278,13 @@ public class CurrencyCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 Player player = MantaroData.db().getPlayer(event.getMember());
                 String[] args = content.split(" ");
-                String itemName = content.replace(args[0] + " ", "");
+                String itemName = content;
                 int itemNumber = 1;
                 boolean isMassive = !itemName.isEmpty() && itemName.split(" ")[0].matches("^[0-9]*$");
                 if(isMassive) {
                     try {
                         itemNumber = Math.abs(Integer.valueOf(itemName.split(" ")[0]));
-                        itemName = itemName.replace(args[1] + " ", "");
+                        itemName = itemName.replace(args[0], "").trim();
                     } catch (Exception e) {
                         if (e instanceof NumberFormatException) {
                             event.getChannel().sendMessage(EmoteReference.ERROR + "Not a valid number of items to buy.").queue();

@@ -161,9 +161,14 @@ public class MuteCmds {
                     }
 
                     final DBGuild dbg = db.getGuild(event.getGuild());
-                    event.getGuild().getController().addSingleRoleToMember(m, mutedRole).reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time), finalReason)).queue();
-                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +
-                            m.getEffectiveName() + (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**")).queue();
+                    event.getGuild().getController().addSingleRoleToMember(m, mutedRole)
+                            .reason(String.format("Muted by %#s for %s: %s", event.getAuthor(), Utils.formatDuration(time - System.currentTimeMillis()), finalReason))
+                            .queue();
+
+                    event.getChannel().sendMessage(EmoteReference.CORRECT + "Added mute role to **" +m.getEffectiveName() +
+                            (time > 0 ? "** for around " + Utils.getHumanizedTime(time - System.currentTimeMillis()) : "**"))
+                            .queue();
+
                     dbg.getData().setCases(dbg.getData().getCases() + 1);
                     dbg.saveAsync();
                     ModLog.log(event.getMember(), user, finalReason, ModLog.ModAction.MUTE, dbg.getData().getCases());
@@ -333,7 +338,10 @@ public class MuteCmds {
                     }
 
                     if(m.getRoles().contains(mutedRole)) {
-                        event.getGuild().getController().removeSingleRoleFromMember(m, mutedRole).reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason)).queue();
+                        event.getGuild().getController().removeSingleRoleFromMember(m, mutedRole)
+                                .reason(String.format("Unmuted by %#s: %s", event.getAuthor(), finalReason))
+                                .queue();
+
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Removed mute role from **" + m.getEffectiveName() + "**").queue();
                         dbg.getData().setCases(dbg.getData().getCases() + 1);
                         dbg.saveAsync();
