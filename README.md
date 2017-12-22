@@ -11,7 +11,7 @@
         <p><b><i>Just one <a href="https://is.gd/mantaro">click</a> and you can add Mantaro to your own server and enjoy its full feature set!</i></b></p>
         <hr>
         <h2>Building Mantaro on your own</h2>
-        <p><b>WARNING</b>: The owners of Mantaro do not</b> recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, and probably with unfinished features.<br>If you still want to build your own instance of Mantaro, you will need multiple api keys including <b>(but not limited to)</b></p> 
+        <p><b>WARNING</b>: The owners of Mantaro do not</b> recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features.<br>If you still want to build your own instance of Mantaro, you will need multiple api keys including <b>(but not limited to)</b></p> 
         <ul>
             <li>osu! API</li>
             <li>AniList API</li>
