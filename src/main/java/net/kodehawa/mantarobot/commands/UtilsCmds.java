@@ -639,7 +639,7 @@ public class UtilsCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Wiki command")
                         .setDescription("**Shows a bunch of things related to mantaro's wiki.**\n" +
-                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers` `tos` `usermessage` `premium`")
+                                "Avaliable subcommands: `opts`, `custom`, `faq`, `commands`, `modifiers`, `tos`, `usermessage`, `premium`, `items`")
                         .build();
             }
         }.addSubCommand("opts", new SubCommand() {
@@ -695,6 +695,12 @@ public class UtilsCmds {
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(EmoteReference.OK + "**To see what Mantaro's Premium features offer please visit:**" +
                         " https://github.com/Mantaro/MantaroBot/wiki/Premium-Perks").queue();
+            }
+        }).addSubCommand("items", new SubCommand() {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content) {
+                event.getChannel().sendMessage(EmoteReference.OK + "**For a list of all collectable (non-purchaseable) items please visit:**" +
+                        " https://github.com/Mantaro/MantaroBot/wiki/Collectable-Items").queue();
             }
         }));
     }
