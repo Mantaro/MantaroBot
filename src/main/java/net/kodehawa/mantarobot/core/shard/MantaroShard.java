@@ -80,6 +80,7 @@ public class MantaroShard implements JDA {
     private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
     //A RateLimiter that keeps track of global ratelimits between shards.
     private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
+    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
 
     static {
         if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
@@ -247,7 +248,6 @@ public class MantaroShard implements JDA {
     public void updateStatus() {
         Runnable changeStatus = () -> {
             //insert $CURRENT_YEAR meme here
-            Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
             if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
                 getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy Christmas!", getId())));
                 return;
