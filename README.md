@@ -11,7 +11,7 @@
         <p><b><i>Just one <a href="https://is.gd/mantaro">click</a> and you can add Mantaro to your own server and enjoy its full feature set!</i></b></p>
         <hr>
         <h2>Building Mantaro on your own</h2>
-        <p><b>WARNING</b>: <a href="https://github.com/adriantodt"><b>@AdrianTodt</b></a> and <a href="https://github.com/Kodehawa"><b>@Kodehawa</b></a> do not</b> recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and untested.<br>If you still want to build your own instance of Mantaro, you will need multiple api keys including <b>(but not limited to)</b></p> 
+        <p><b>WARNING</b>: The owners of Mantaro do not</b> recommend compiling Mantaro as it is not documented and most builds here will be extremely unstable and (probably) untested, probably including unfinished features.<br>If you still want to build your own instance of Mantaro, you will need multiple api keys including <b>(but not limited to)</b></p> 
         <ul>
             <li>osu! API</li>
             <li>AniList API</li>
@@ -29,7 +29,7 @@
             <li>Grab the <code>-all.jar</code> jar from <code>build/libs</code></li>
             <li>Install <code>rethinkdb</code> and <code>redis</code></li>
             <li>Create the <code>mantaro</code> database with the following tables: mantaro, players, users, guilds, keys, commands</li>
-            <li>Run it and prepare yourself to start filling in configs.</li>
+            <li>Run it and prepare yourself to start filling in configs (open the jar on the command line using java -jar name.jar and wait for it to crash, then it'll generate the config.json file for you to fill).</li>
         </ol>
         <hr>
         <h2>Mantaro Uses and loves</h2>
