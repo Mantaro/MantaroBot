@@ -336,8 +336,8 @@ public class MoneyCmds {
     public void loot(CommandRegistry cr) {
         cr.register("loot", new SimpleCommand(Category.CURRENCY) {
             final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, true);
-            ZoneId zoneId = ZoneId.systemDefault();
-            Random r = new Random();
+            final ZoneId zoneId = ZoneId.systemDefault();
+            final Random r = new Random();
 
             @Override
             public void call(GuildMessageReceivedEvent event, String content, String[] args) {

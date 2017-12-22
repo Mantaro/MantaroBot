@@ -44,15 +44,15 @@ import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -242,10 +242,17 @@ public class MantaroShard implements JDA {
     /**
      * Updates Mantaro's "splash".
      * Splashes are random gags like "now seen in theaters!" that show on Mantaro's status.
-     * This has been on Mantaro since at least a year, so it's part of its "personality" as a bot.
+     * This has been on Mantaro since 2016, so it's part of its "personality" as a bot.
      */
     public void updateStatus() {
         Runnable changeStatus = () -> {
+            //insert $CURRENT_YEAR meme here
+            Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
+            if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
+                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy Christmas!", getId())));
+                return;
+            }
+
             AtomicInteger users = new AtomicInteger(0), guilds = new AtomicInteger(0);
             if(MantaroBot.getInstance() != null) {
                 Arrays.stream(MantaroBot.getInstance().getShardedMantaro().getShards()).filter(Objects::nonNull).map(MantaroShard::getJDA).forEach(jda -> {
