@@ -28,7 +28,7 @@ public class Items {
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
@@ -111,7 +111,14 @@ public class Items {
             HOUSE = new Item(EmoteReference.HOUSE.getUnicode(),
                     "House", "Cozy place to live in.", 5000, true, true),
             CAR = new Item("\uD83D\uDE97",
-                    "Car", "To move around.", 1000, true, true)
+                    "Car", "To move around.", 1000, true, true),
+
+            // ---------------------------------- CHRISTMAS 2017 EVENT STARTS HERE ----------------------------------
+            BELL_SPECIAL = new Item("\uD83D\uDD14", "Christmas bell",
+                    "Christmas event 2017 reward. Gives you a cozy christmas feeling on your tree.", 0, false, false, true),
+            CHRISTMAS_TREE_SPECIAL = new Item("\uD83C\uDF84", "Christmas tree",
+                    "Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true)
+            // ---------------------------------- CHRISTMAS 2017 EVENT ENDS HERE ----------------------------------
     };
 
     public static Optional<Item> fromAny(String any) {

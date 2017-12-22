@@ -53,6 +53,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.security.SecureRandom;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -333,6 +336,7 @@ public class MoneyCmds {
     public void loot(CommandRegistry cr) {
         cr.register("loot", new SimpleCommand(Category.CURRENCY) {
             final RateLimiter rateLimiter = new RateLimiter(TimeUnit.MINUTES, 5, true);
+            ZoneId zoneId = ZoneId.systemDefault();
             Random r = new Random();
 
             @Override
@@ -344,9 +348,18 @@ public class MoneyCmds {
                     return;
                 }
 
-                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event)) return;
+                if(!handleDefaultRatelimit(rateLimiter, event.getAuthor(), event))
+                    return;
 
+                LocalDate today = LocalDate.now(zoneId);
+                LocalDate eventStart = today.withMonth(Month.DECEMBER.getValue()).withDayOfMonth(23);
+                LocalDate eventStop = eventStart.plusDays(3); //Up to the 25th
                 TextChannelGround ground = TextChannelGround.of(event);
+
+                if(today.isEqual(eventStart) || (today.isAfter(eventStart) && today.isBefore(eventStop))) {
+                    ground.dropItemWithChance(Items.CHRISTMAS_TREE_SPECIAL, 4);
+                    ground.dropItemWithChance(Items.BELL_SPECIAL, 4);
+                }
 
                 if(r.nextInt(100) == 0) { //1 in 100 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
