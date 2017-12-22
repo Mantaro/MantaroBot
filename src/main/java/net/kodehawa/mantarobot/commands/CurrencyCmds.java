@@ -492,7 +492,7 @@ public class CurrencyCmds {
                 }
 
                 if(toSend > TRANSFER_LIMIT) {
-                    event.getChannel().sendMessage(String.format("%sYou cannot transfer this much money. (Limit: %d)", EmoteReference.ERROR, TRANSFER_LIMIT)).queue();
+                    event.getChannel().sendMessage(String.format("%sYou cannot transfer this much money. (Limit: %d credits)", EmoteReference.ERROR, TRANSFER_LIMIT)).queue();
                     return;
                 }
 
@@ -540,7 +540,8 @@ public class CurrencyCmds {
                         .addField("Usage", "`~>transfer <@user> <money>` - **Transfers money to x player**", false)
                         .addField("Parameters", "`@user` - user to send money to\n" +
                                 "`money` - money to transfer.", false)
-                        .addField("Important", "You cannot send more money than what you already have", false)
+                        .addField("Important", "You cannot send more money than what you already have\n" +
+                                "The maximum amount you can transfer at once is " + TRANSFER_LIMIT + " credits.", false)
                         .build();
             }
         });

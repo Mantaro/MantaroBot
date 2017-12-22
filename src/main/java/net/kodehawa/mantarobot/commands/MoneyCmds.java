@@ -348,7 +348,7 @@ public class MoneyCmds {
 
                 TextChannelGround ground = TextChannelGround.of(event);
 
-                if(r.nextInt(125) == 0) { //1 in 125 chance of it dropping a loot crate.
+                if(r.nextInt(100) == 0) { //1 in 100 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
                     if(player.getData().addBadge(Badge.LUCKY)) player.saveAsync();
                 }
@@ -788,7 +788,8 @@ public class MoneyCmds {
                                 "You can use the `-useticket` argument to use a slot ticket (slightly bigger chance)", false)
                         .addField("Usage", "`~>slots` - Default one, 50 coins.\n" +
                                 "`~>slots <credits>` - Puts x credits on the slot machine. Max of " + SLOTS_MAX_MONEY + " coins.\n" +
-                                "`~>slots -useticket` - Rolls the slot machine with one slot coin.", false)
+                                "`~>slots -useticket` - Rolls the slot machine with one slot coin.\n" +
+                                "You can specify the amount of tickets to use using `-amount` (for example `~>slots -useticket -amount 10`)", false)
                         .build();
             }
         });
