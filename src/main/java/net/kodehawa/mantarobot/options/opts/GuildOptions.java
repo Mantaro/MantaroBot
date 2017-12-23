@@ -273,7 +273,7 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("usermessage:join:channel", "Sets the join message channel", "Sets the join channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage join channel join-magic`\n" +
-                "You can reset it by doing `~>opts usermessage join channel reset_channel`", "Sets the join message channel", (event, args) -> {
+                "You can reset it by doing `~>opts usermessage join resetchannel`", "Sets the join message channel", (event, args) -> {
             if(args.length == 0) {
                 onHelp(event);
                 return;
@@ -322,7 +322,7 @@ public class GuildOptions extends OptionHandler {
 
         registerOption("usermessage:leave:channel", "Sets the leave message channel", "Sets the leave channel, you need the channel **name**\n" +
                 "**Example:** `~>opts usermessage leave channel leave-magic`\n" +
-                "You can reset it by doing `~>opts usermessage leave channel reset_channel`", "Sets the leave message channel", (event, args) -> {
+                "You can reset it by doing `~>opts usermessage leave resetchannel`", "Sets the leave message channel", (event, args) -> {
             if(args.length == 0) {
                 onHelp(event);
                 return;

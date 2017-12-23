@@ -568,7 +568,7 @@ public class MoneyCmds {
                             .optArg("index", r.desc("reputation"))
                             .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "reputation"))
-                            .limit(15)
+                            .limit(10)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
 
