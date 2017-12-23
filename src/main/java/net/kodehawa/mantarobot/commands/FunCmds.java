@@ -160,7 +160,9 @@ public class FunCmds {
                                 }
 
                                 proposed.getData().setMarriedWith(proposing.getId());
+                                proposed.getData().setMarriedSince(System.currentTimeMillis());
                                 author.getData().setMarriedWith(proposedTo.getId());
+                                author.getData().setMarriedSince(System.currentTimeMillis());
 
                                 Inventory proposedInventory = proposed.getInventory();
 
