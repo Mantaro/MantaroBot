@@ -47,7 +47,7 @@ public class PlayerData {
 
     @Transient
     public String marryDate() {
-        if(getMarriedSince() == null) return null;
+        if(getMarriedSince() == null || getMarriedSince() == 0) return null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         final Date date = new Date(getMarriedSince());
         return sdf.format(date);
@@ -55,7 +55,7 @@ public class PlayerData {
 
     @Transient
     public String anniversary() {
-        if(getMarriedSince() == null) return null;
+        if(getMarriedSince() == null || getMarriedSince() == 0) return null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         Calendar cal = new GregorianCalendar();
         cal.setTime(new Date(getMarriedSince()));

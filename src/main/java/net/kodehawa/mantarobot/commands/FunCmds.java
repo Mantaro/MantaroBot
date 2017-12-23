@@ -159,10 +159,11 @@ public class FunCmds {
                                     return Operation.COMPLETED;
                                 }
 
+                                //TODO set married since when we actually get a working thing lol
                                 proposed.getData().setMarriedWith(proposing.getId());
-                                proposed.getData().setMarriedSince(System.currentTimeMillis());
+                                //proposed.getData().setMarriedSince(System.currentTimeMillis());
                                 author.getData().setMarriedWith(proposedTo.getId());
-                                author.getData().setMarriedSince(System.currentTimeMillis());
+                                //author.getData().setMarriedSince(System.currentTimeMillis());
 
                                 Inventory proposedInventory = proposed.getInventory();
 
