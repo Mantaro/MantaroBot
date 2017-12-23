@@ -176,13 +176,13 @@ public class MoneyCmds {
                 }
 
                 if(mentionedUser != null && !mentionedUser.getId().equals(event.getAuthor().getId())) {
-                    money = money + r.nextInt(10);
+                    money = money + r.nextInt(90);
 
                     if(player.getInventory().containsItem(Items.COMPANION)) money = Math.round(money + (money * 0.10));
 
                     if(mentionedUser.getId().equals(player.getData().getMarriedWith())) {
                         if(player.getInventory().containsItem(Items.RING)) {
-                            money = money + r.nextInt(50);
+                            money = money + r.nextInt(70);
                         }
                     }
 
