@@ -312,7 +312,7 @@ public class GuildOptions extends OptionHandler {
             );
         });
 
-        registerOption("usermessage:join:channel:reset", "Resets the join message channel", "Resets the join message channel", event -> {
+        registerOption("usermessage:join:resetchannel", "Resets the join message channel", "Resets the join message channel", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setLogJoinChannel(null);
@@ -360,7 +360,7 @@ public class GuildOptions extends OptionHandler {
             );
         });
 
-        registerOption("usermessage:leave:channel:reset", "Resets the leave message channel", "Resets the leave message channel", event -> {
+        registerOption("usermessage:leave:resetchannel", "Resets the leave message channel", "Resets the leave message channel", event -> {
             DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
             GuildData guildData = dbGuild.getData();
             guildData.setLogLeaveChannel(null);

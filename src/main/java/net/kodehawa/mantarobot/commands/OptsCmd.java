@@ -28,6 +28,7 @@ import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
+import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.core.modules.commands.base.CommandPermission;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
@@ -48,10 +49,10 @@ import static net.kodehawa.mantarobot.utils.Utils.mapObjects;
 
 @Module
 public class OptsCmd {
-    public static net.kodehawa.mantarobot.core.modules.commands.base.Command optsCmd;
+    public static Command optsCmd;
 
     public static void onHelp(GuildMessageReceivedEvent event) {
-        event.getChannel().sendMessage(optsCmd.help(event)).queue();
+        event.getChannel().sendMessage("Hey, if you're lost, check <https://github.com/Mantaro/MantaroBot/wiki/Configuration> for a guide on how to use opts.").queue();
     }
 
     public static SimpleCommand getOpts() {

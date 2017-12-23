@@ -498,7 +498,7 @@ public class MoneyCmds {
 
                         event.getChannel().sendMessage(
                                 baseEmbed(event,
-                                        "Money leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                        "Money leaderboard (Top 15)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                                 ).setDescription(c.stream()
                                         .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                         .filter(p -> Objects.nonNull(p.getKey()))
@@ -517,7 +517,8 @@ public class MoneyCmds {
                         .setDescription("**Returns the leaderboard.**")
                         .addField("Usage", "`~>leaderboard` - **Returns the money leaderboard.**\n" +
                                 "`~>leaderboard rep` - **Returns the reputation leaderboard.**\n" +
-                                "`~>leaderboard lvl` - **Returns the level leaderboard.**", false)
+                                "`~>leaderboard lvl` - **Returns the level leaderboard.**\n" +
+                                "~>leaderboard streak - **Returns the daily streak leaderboard.", false)
                         .build();
             }
         });
@@ -535,7 +536,7 @@ public class MoneyCmds {
                             .optArg("index", r.desc("level"))
                             .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", "level", r.hashMap("data", "experience")))
-                            .limit(15)
+                            .limit(10)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
 
@@ -543,10 +544,10 @@ public class MoneyCmds {
                 m.close();
 
                 event.getChannel().sendMessage(
-                        baseEmbed(event,"Level leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                        baseEmbed(event,"Level leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("level").toString() +
-                                        "\n - Experience: **" + ((Map)map.get("data")).get("experience") + "**\n"))
+                                        "\n - Experience: **" + ((Map)map.get("data")).get("experience") + "**"))
                                 .filter(p -> Objects.nonNull(p.getKey()))
                                 .map(p -> String.format("%s**%s#%s** - %s", EmoteReference.MARKER, p.getKey().getName(), p
                                         .getKey().getDiscriminator(), p.getValue()))
@@ -576,7 +577,7 @@ public class MoneyCmds {
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Reputation leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                "Reputation leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("reputation").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))
@@ -599,7 +600,7 @@ public class MoneyCmds {
                             .optArg("index", r.desc("userDailyStreak"))
                             .filter(player -> player.g("id").match(pattern))
                             .map(player -> player.pluck("id", r.hashMap("data", "dailyStrike")))
-                            .limit(15)
+                            .limit(10)
                             .run(conn, OptArgs.of("read_mode", "outdated"));
                 }
 
@@ -608,7 +609,7 @@ public class MoneyCmds {
 
                 event.getChannel().sendMessage(
                         baseEmbed(event,
-                                "Daily streak leaderboard", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                "Daily streak leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                         ).setDescription(c.stream()
                                 .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), ((HashMap)(map.get("data"))).get("dailyStrike").toString()))
                                 .filter(p -> Objects.nonNull(p.getKey()))

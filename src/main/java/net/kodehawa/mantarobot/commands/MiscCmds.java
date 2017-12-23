@@ -167,18 +167,14 @@ public class MiscCmds {
 
                 StringBuilder stringBuilder = new StringBuilder();
                 if(content.equals("list") || content.equals("ls")) {
-                    EmbedBuilder embed = baseEmbed(event, "Autorole list");
+                    EmbedBuilder embed = baseEmbed(event, "Autoroles list");
                     if(autoroles.size() > 0) {
                         autoroles.forEach((name, roleId) -> {
                             Role role = event.getGuild().getRoleById(roleId);
                             if(role != null) {
                                 stringBuilder.append("\nAutorole name: ").append(name).append(" | Gives role **").append(role.getName()).append("**");
-                            } else {
-                                dbGuild.getData().getAutoroles().remove(name);
                             }
                         });
-
-                        dbGuild.saveAsync();
 
                         embed.setDescription(checkString(stringBuilder.toString()));
                     } else embed.setDescription("There aren't any autoroles setup in this server!");
