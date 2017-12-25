@@ -199,8 +199,7 @@ public class Utils {
             r.close();
             return "https://hastebin.com/" + response.getString("key");
         } catch(Exception e) {
-            e.printStackTrace();
-            return "Pastebin is unavailable right now";
+            return "cannot post data to hastebin";
         }
     }
 
@@ -292,8 +291,10 @@ public class Utils {
         }
 
         if(found.size() > 1 && !content.isEmpty()) {
-            event.getChannel().sendMessage(EmoteReference.THINKING + "Too many users found, maybe refine your search? (ex. use name#discriminator)\n" +
-                    "**Users found:** " + found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))).queue();
+            event.getChannel().sendMessage(String.format("%sToo many users found, maybe refine your search? (ex. use name#discriminator)\n**Users found:** %s",
+                    EmoteReference.THINKING, found.stream().map(m -> m.getUser().getName() + "#" + m.getUser().getDiscriminator()).collect(Collectors.joining(", "))))
+                    .queue();
+
             return null;
         }
 
@@ -472,10 +473,8 @@ public class Utils {
     public static boolean handleDefaultNewRatelimit(NewRateLimiter rateLimiter, User u, GuildMessageReceivedEvent event) {
         if(!rateLimiter.test(u.getId())) {
             event.getChannel().sendMessage(
-                    EmoteReference.STOPWATCH +
-                            ratelimitQuotes[random.nextInt(ratelimitQuotes.length)] + " (Ratelimited)" +
-                            "\n **You'll be able to use this command again in " + Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor()))
-                            + ".**"
+                    String.format("%s%s (Ratelimited)\n **You'll be able to use this command again in %s.**",
+                            EmoteReference.STOPWATCH, ratelimitQuotes[random.nextInt(ratelimitQuotes.length)], Utils.getHumanizedTime(rateLimiter.tryAgainIn(event.getAuthor())))
             ).queue();
 
             MantaroBot.getInstance().getStatsClient().increment("ratelimits");
