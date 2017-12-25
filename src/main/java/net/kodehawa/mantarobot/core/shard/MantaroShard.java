@@ -50,8 +50,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -69,38 +67,39 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  */
 public class MantaroShard implements JDA {
     //Random stuff that gets in Mantaro's status that I wonder if anyone reads.
-    public static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
-
-    public static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
-
+    private static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    //A RateLimiter that keeps track of global ratelimits between shards.
+    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
+    //Christmas date
+    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
+    //New year date
+    private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
+    private final Logger log;
+    private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
+    private final CommandListener commandListener;
+    private final MantaroListener mantaroListener;
+    private final int shardId;
+    private final int totalShards;
+    private BirthdayTask birthdayTask = new BirthdayTask();
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+
     @Getter
     //A instance of a ReconnectQueue that accounts for startup reconnects, avoiding OP2 spam on Shard reconnection during the startup procedure.
     private static LazyReconnectQueue reconnectQueue = new LazyReconnectQueue();
-    //A RateLimiter that keeps track of global ratelimits between shards.
-    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
-    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
-
-    static {
-        if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
-    }
-
     @Getter
     public final MantaroEventManager manager;
-    private final CommandListener commandListener;
-    private final Logger log;
-    private final MantaroListener mantaroListener;
-    private final int shardId;
     @Getter
     private final ExecutorService threadPool;
     @Getter
     private final ExecutorService commandPool;
-    private final int totalShards;
-    private BirthdayTask birthdayTask = new BirthdayTask();
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
     @Delegate
     private JDA jda;
+
+    static {
+        if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
+    }
 
     /**
      * Builds a new instance of a MantaroShard.
@@ -249,7 +248,10 @@ public class MantaroShard implements JDA {
         Runnable changeStatus = () -> {
             //insert $CURRENT_YEAR meme here
             if(DateUtils.isSameDay(christmas, Calendar.getInstance())) {
-                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy Christmas!", getId())));
+                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Merry Christmas!", getId())));
+                return;
+            } else if (DateUtils.isSameDay(newYear, Calendar.getInstance())) {
+                getJDA().getPresence().setGame(Game.playing(String.format("%shelp | %s | [%d]", config().get().prefix[0], "Happy New Year!", getId())));
                 return;
             }
 

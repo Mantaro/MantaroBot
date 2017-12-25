@@ -38,7 +38,6 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.db.entities.helpers.LocalExperienceData;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.SentryHelper;
 import net.kodehawa.mantarobot.utils.Snow64;
@@ -46,8 +45,10 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
 import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
@@ -55,7 +56,6 @@ import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class CommandListener implements EventListener {
-    private static final Map<String, ICommandProcessor> CUSTOM_PROCESSORS = new ConcurrentHashMap<>();
     //Message cache of 35000 cached messages. If it reaches 35000 it will delete the first one stored, and continue being 35000
     @Getter
     private static final Cache<String, Optional<CachedMessage>> messageCache = CacheBuilder.newBuilder().concurrencyLevel(10).maximumSize(35000).build();
@@ -77,20 +77,11 @@ public class CommandListener implements EventListener {
     public CommandListener(int shardId, MantaroShard shard, ICommandProcessor processor) {
         this.shardId = shardId;
         this.shard = shard;
-        commandProcessor = processor;
-    }
-
-    public static void clearCustomProcessor(String channelId) {
-        CUSTOM_PROCESSORS.remove(channelId);
+        this.commandProcessor = processor;
     }
 
     public static String getCommandTotal() {
         return String.valueOf(commandTotal);
-    }
-
-    public static void setCustomProcessor(String channelId, ICommandProcessor processor) {
-        if(processor == null) CUSTOM_PROCESSORS.remove(channelId);
-        else CUSTOM_PROCESSORS.put(channelId, processor);
     }
 
     @Override
@@ -124,7 +115,7 @@ public class CommandListener implements EventListener {
             if(!self.getPermissions(event.getChannel()).contains(Permission.MESSAGE_WRITE) && !self.hasPermission(Permission.ADMINISTRATOR))
                 return;
 
-            if(CUSTOM_PROCESSORS.getOrDefault(event.getChannel().getId(), commandProcessor).run(event)) {
+            if(commandProcessor.run(event)) {
                 commandTotal++;
             } else {
                 //Only run experience if no command has been executed, avoids weird race conditions when saving player status.

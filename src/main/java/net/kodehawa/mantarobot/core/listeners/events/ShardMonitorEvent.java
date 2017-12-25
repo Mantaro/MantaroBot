@@ -59,6 +59,7 @@ public class ShardMonitorEvent extends Event implements MantaroEvent {
 
     @Override
     public void onPropagation() {
+        log.debug("Sent event to check if shards are alive!");
     }
 
     private class ShardListeners {

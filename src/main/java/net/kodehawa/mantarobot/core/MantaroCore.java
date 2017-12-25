@@ -49,22 +49,23 @@ import static net.kodehawa.mantarobot.core.LoadState.*;
 @Slf4j
 public class MantaroCore {
 
-    @Getter
-    @Setter
-    private static LoadState loadState = PRELOAD;
     private final Config config;
     private final boolean isDebug;
     private final boolean useBanner;
     private final boolean useSentry;
+    private String commandsPackage;
+    private String optsPackage;
+    private ShardedMantaro shardedMantaro;
+
     @Getter
     private ICommandProcessor commandProcessor = new DefaultCommandProcessor();
-    private String commandsPackage;
-    @Getter
-    private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
-    private String optsPackage;
     @Getter
     private EventBus shardEventBus;
-    private ShardedMantaro shardedMantaro;
+    @Getter
+    private ExecutorService commonExecutor = Executors.newCachedThreadPool(new ThreadFactoryBuilder().setNameFormat("Mantaro-CommonExecutor Thread-%d").build());
+    @Getter
+    @Setter
+    private static LoadState loadState = PRELOAD;
 
     public MantaroCore(Config config, boolean useBanner, boolean useSentry, boolean isDebug) {
         this.config = config;

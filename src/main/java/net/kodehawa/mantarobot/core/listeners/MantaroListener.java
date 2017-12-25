@@ -393,7 +393,7 @@ public class MantaroListener implements EventListener {
             }
         } catch(Exception e) {
             if(!(e instanceof NullPointerException) && !(e instanceof IllegalArgumentException)) {
-                log.warn("Unexpected error while logging a edit.", e);
+                log.warn("Unexpected error while logging an unban.", e);
             }
         }
     }
@@ -544,7 +544,7 @@ public class MantaroListener implements EventListener {
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
                 if(tc != null && tc.canTalk()) {
-                    tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
+                    tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just left `%s` `(User #%d)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size())).queue();
                 }
 
                 logTotal++;
@@ -570,6 +570,10 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
+            if(!tc.canTalk()) {
+                return;
+            }
+
             if(message.contains("$(")) {
                 Map<String, String> dynamicMap = new HashMap<>();
                 map("event", dynamicMap, event);
@@ -591,13 +595,12 @@ public class MantaroListener implements EventListener {
                     }
 
                     tc.sendMessage(embed.gen(event.getMember())).queue();
+
                     return;
                 }
             }
 
-            if(tc.canTalk()) {
-                tc.sendMessage(message).queue();
-            }
+            tc.sendMessage(message).queue();
         }
     }
 }
