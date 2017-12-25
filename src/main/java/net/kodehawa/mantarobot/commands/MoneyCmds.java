@@ -842,7 +842,7 @@ public class MoneyCmds {
                 }
 
                 long money = Math.max(30, r.nextInt(150)); //30 to 150 credits.
-                String message = EmoteReference.PICK + "You mined minerals worth **$" + money + " credits**!";
+                String message = EmoteReference.PICK + "You mined minerals worth **$" + money + " credits!**";
 
                 if(r.nextInt(400) > 350) {
                     if(player.getInventory().getAmount(Items.DIAMOND) == 5000) {
