@@ -40,6 +40,7 @@ import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.hooks.EventListener;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.custom.EmbedJSON;
+import net.kodehawa.mantarobot.commands.custom.legacy.DynamicModifiers;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GuildStatsManager.LoggedEvent;
 import net.kodehawa.mantarobot.core.MantaroCore;
@@ -62,15 +63,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.dynamicResolve;
-import static net.kodehawa.mantarobot.commands.custom.Mapifier.map;
 
 @Slf4j
 public class MantaroListener implements EventListener {
@@ -565,10 +561,10 @@ public class MantaroListener implements EventListener {
                 return;
             }
 
-            if(message.contains("$(")) {
-                Map<String, String> dynamicMap = new HashMap<>();
-                map("event", dynamicMap, event);
-                message = dynamicResolve(message, dynamicMap);
+            if (message.contains("$(")) {
+                message = new DynamicModifiers()
+                    .mapEvent("event", event)
+                    .resolve(message);
             }
 
             int c = message.indexOf(':');

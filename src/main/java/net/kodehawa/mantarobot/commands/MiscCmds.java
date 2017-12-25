@@ -61,7 +61,7 @@ public class MiscCmds {
     private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private final Random rand = new Random();
 
-    protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
         Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
@@ -88,7 +88,7 @@ public class MiscCmds {
         }
     }
 
-    protected static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
+    public static void iamnotFunction(String autoroleName, GuildMessageReceivedEvent event) {
         Map<String, String> autoroles = MantaroData.db().getGuild(event.getGuild()).getData().getAutoroles();
 
         if(autoroles.containsKey(autoroleName)) {
