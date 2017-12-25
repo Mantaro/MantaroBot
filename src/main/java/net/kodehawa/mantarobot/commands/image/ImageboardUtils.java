@@ -26,7 +26,6 @@ import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
-import net.kodehawa.mantarobot.db.entities.DBUser;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.PlayerData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -53,7 +52,7 @@ public class ImageboardUtils {
             rating = Rating.EXPLICIT;
 
         if(rating == null) {
-            channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Avaliable types: questionable, explicit, safe)!").queue();
+            channel.sendMessage(EmoteReference.ERROR + "You provided an invalid rating (Available types: questionable, explicit, safe)!").queue();
             return;
         }
 

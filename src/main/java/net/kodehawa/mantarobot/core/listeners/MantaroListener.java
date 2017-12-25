@@ -484,10 +484,11 @@ public class MantaroListener implements EventListener {
     }
 
     private void onUserJoin(GuildMemberJoinEvent event) {
+        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+        GuildData data = dbg.getData();
+
         try {
             String role = MantaroData.db().getGuild(event.getGuild()).getData().getGuildAutoRole();
-            DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-            GuildData data = dbg.getData();
 
             String hour = df.format(new Date(System.currentTimeMillis()));
             if(role != null) {
@@ -503,36 +504,37 @@ public class MantaroListener implements EventListener {
                                     .queue(s -> log.debug("Successfully added a new role to " + event.getMember()));
                         }
                     }
-                } catch(Exception e) {
-                    MantaroData.db().getGuild(event.getGuild()).getData().setGuildAutoRole(null);
-                    MantaroData.db().getGuild(event.getGuild()).saveAsync();
-                }
+                } catch(Exception ignored) { }
             }
 
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if(tc.canTalk()) {
+                if(tc != null && tc.canTalk()) {
                     tc.sendMessage(String.format("`[%s]` \uD83D\uDCE3 `%s#%s` just joined `%s` `(User #%d | ID: %s)`", hour, event.getMember().getEffectiveName(), event.getMember().getUser().getDiscriminator(), event.getGuild().getName(), event.getGuild().getMembers().size(), event.getUser().getId())).queue();
                 }
 
                 logTotal++;
             }
+        } catch(Exception e) {
+            SentryHelper.captureExceptionContext("Failed to process join message!", e, MantaroListener.class, "Join Handler");
+        }
 
+        try {
             String joinChannel = data.getLogJoinLeaveChannel() == null ? data.getLogJoinChannel() : data.getLogJoinLeaveChannel();
             String joinMessage = data.getJoinMessage();
-
             sendJoinLeaveMessage(event, joinMessage, joinChannel);
-        } catch(Exception e) {
+        } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send join message!", e, MantaroListener.class, "Join Handler");
         }
     }
 
     private void onUserLeave(GuildMemberLeaveEvent event) {
+        DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
+        GuildData data = dbg.getData();
+
         try {
             String hour = df.format(new Date(System.currentTimeMillis()));
-            DBGuild dbg = MantaroData.db().getGuild(event.getGuild());
-            GuildData data = dbg.getData();
 
             if(event.getMember().getUser().isBot() && data.isIgnoreBotsWelcomeMessage()) {
                 return;
@@ -541,18 +543,21 @@ public class MantaroListener implements EventListener {
             String logChannel = MantaroData.db().getGuild(event.getGuild()).getData().getGuildLogChannel();
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
-                if(tc.canTalk()) {
+                if(tc != null && tc.canTalk()) {
                     tc.sendMessage("`[" + hour + "]` " + "\uD83D\uDCE3 `" + event.getMember().getEffectiveName() + "#" + event.getMember().getUser().getDiscriminator() + "` just left `" + event.getGuild().getName() + "` `(User #" + event.getGuild().getMembers().size() + ")`").queue();
                 }
 
                 logTotal++;
             }
+        } catch(Exception e) {
+            SentryHelper.captureExceptionContext("Failed to process leave message!", e, MantaroListener.class, "Join Handler");
+        }
 
+        try {
             String leaveChannel = data.getLogJoinLeaveChannel() == null ? data.getLogLeaveChannel() : data.getLogJoinLeaveChannel();
             String leaveMessage = data.getLeaveMessage();
-
             sendJoinLeaveMessage(event, leaveMessage, leaveChannel);
-        } catch(Exception e) {
+        } catch (Exception e) {
             SentryHelper.captureExceptionContext("Failed to send leave message!", e, MantaroListener.class, "Join Handler");
         }
     }
