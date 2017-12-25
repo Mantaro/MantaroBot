@@ -248,6 +248,8 @@ public class PlayerCmds {
                     player.saveAsync();
                 if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && player.getData().addBadge(Badge.SHOPPER))
                     player.saveAsync();
+                if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && player.getData().addBadge(Badge.CHRISTMAS))
+                    player.saveAsync();
                 //end of badge assigning
 
                 List<Badge> badges = playerData.getBadges();

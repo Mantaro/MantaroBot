@@ -26,6 +26,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.item.Item;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.modules.Module;
 import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
@@ -564,6 +565,7 @@ public class CurrencyCmds {
 
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
+                        player.getData().addBadge(Badge.THE_SECRET);
                         player.save();
                         openLootBox(event, true);
                     } else {

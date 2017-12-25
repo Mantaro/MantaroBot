@@ -140,6 +140,9 @@ public class MoneyCmds {
                         playerData.addBadge(Badge.CLAIMER);
                     }
 
+                    if(playerData.getDailyStreak() > 100) {
+                        playerData.addBadge(Badge.BIG_CLAIMER);
+                    }
                 } else {
                     Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
                     PlayerData authorPlayerData = authorPlayer.getData();
@@ -169,6 +172,10 @@ public class MoneyCmds {
 
                     if(authorPlayerData.getDailyStreak() > 10) {
                         authorPlayerData.addBadge(Badge.CLAIMER);
+                    }
+
+                    if(authorPlayerData.getDailyStreak() > 100) {
+                        playerData.addBadge(Badge.BIG_CLAIMER);
                     }
 
                     authorPlayerData.setLastDailyAt(System.currentTimeMillis());

@@ -44,7 +44,7 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         String usedPrefix = null;
 
         for(String s : prefix) {
-            if(rawCmd.startsWith(s)) usedPrefix = s;
+            if(rawCmd.toLowerCase().startsWith(s)) usedPrefix = s;
         }
 
         if(usedPrefix != null && rawCmd.startsWith(usedPrefix)) {
@@ -58,7 +58,7 @@ public class DefaultCommandProcessor implements ICommandProcessor {
         }
 
         String[] parts = splitArgs(rawCmd, 2);
-        String cmdName = parts[0], content = parts[1];
+        String cmdName = parts[0].toLowerCase(), content = parts[1];
 
         if(!event.getGuild().getSelfMember().getPermissions(event.getChannel()).contains(Permission.MESSAGE_EMBED_LINKS)) {
             event.getChannel().sendMessage(EmoteReference.STOP + "I require the permission ``Embed Links``. " +
