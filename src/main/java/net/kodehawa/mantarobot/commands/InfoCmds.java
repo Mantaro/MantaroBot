@@ -651,7 +651,7 @@ public class InfoCmds {
                         .setAuthor(String.format("User info for %s#%s", user.getName(), user.getDiscriminator()), null, event.getAuthor().getEffectiveAvatarUrl())
                         .setThumbnail(user.getEffectiveAvatarUrl())
                         .setDescription(s)
-                        .addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles, true)
+                        .addField("Roles: [" + String.valueOf(member.getRoles().size()) + "]", roles + ".", true)
                         .build()
                 ).queue();
             }
@@ -679,17 +679,22 @@ public class InfoCmds {
 
                 String s = String.join("\n",
                         BLUE_SMALL_MARKER + "**Role ID:** " + r.getId(),
-                        BLUE_SMALL_MARKER + "**Color:** " + "#" +  Integer.toHexString(r.getColor().getRGB()),
+                        BLUE_SMALL_MARKER + "**Color:** " + (r.getColor() == null ? "None" : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
+                        BLUE_SMALL_MARKER + "**Position:** " + r.getPosition(),
                         BLUE_SMALL_MARKER + "**Managed:** " + r.isManaged(),
                         BLUE_SMALL_MARKER + "**Hoisted:** " + r.isHoisted(),
-                        BLUE_SMALL_MARKER + "**Public role:** " + r.isPublicRole()
+                        BLUE_SMALL_MARKER + "**Everyone Role:** " + r.isPublicRole(),
+                        BLUE_SMALL_MARKER + "**Users:** " + event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count()
                 );
-
+                Stream
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(event.getMember().getColor())
                         .setAuthor(String.format("Role info for %s", r.getName()), null, event.getAuthor().getEffectiveAvatarUrl())
-                        .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
                         .setDescription(s)
+                        .addField("Permissions: [" + r.getPermissions().size() + "]" ,
+                                r.getPermissions().size() == 0 ? "None" : r.getPermissions().stream().map(Permission::getName).collect(Collectors.joining(", ")) + ".",
+                                false
+                        )
                         .build()
                 ).queue();
             }
