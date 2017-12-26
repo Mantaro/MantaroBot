@@ -128,16 +128,18 @@ public class InfoCmds {
                 Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
                 String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
                                 role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(Member::getUser)
-                                .map(user -> String.format("%s#%s (%s)", user.getName(), user.getDiscriminator(), user.getId()))
+                                .map(user -> String.format("%s#%s", user.getName(), user.getDiscriminator()))
                                 .collect(Collectors.joining("\n"));
 
                 boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
-                List<String> donatorList = DiscordUtils.divideString(1000, donators);
+                List<String> donatorList = DiscordUtils.divideString(300, donators);
                 List<String> messages = new LinkedList<>();
                 for(String s1 : donatorList) {
                     messages.add("**Mantaro's Patreon Pledgers**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
-                            "Use &page >> and &page << to change pages and &cancel to end") + String.format("```prolog\n%s```", s1));
+                            "Use &page >> and &page << to change pages and &cancel to end") + String.format("```%s```", s1));
                 }
+
+                messages.add("Thanks to **MrLar#8117** for a $1025 donation and many other people who has donated once via paypal.");
 
                 if(hasReactionPerms) {
                     DiscordUtils.list(event, 45, false, messages);
