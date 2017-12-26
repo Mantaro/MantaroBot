@@ -24,9 +24,10 @@ import lombok.experimental.Delegate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.ShardedRateLimiter;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.dv8tion.jda.core.utils.SessionController;
+import net.dv8tion.jda.core.utils.SessionControllerAdapter;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.music.listener.VoiceChannelListener;
 import net.kodehawa.mantarobot.commands.utils.birthday.BirthdayTask;
@@ -70,12 +71,7 @@ public class MantaroShard implements JDA {
     private static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    //A RateLimiter that keeps track of global ratelimits between shards.
-    private static ShardedRateLimiter shardedRateLimiter = new ShardedRateLimiter();
-    //Christmas date
-    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
-    //New year date
-    private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
+    private static SessionController sessionController = new SessionControllerAdapter();
     private final Logger log;
     private static final VoiceChannelListener VOICE_CHANNEL_LISTENER = new VoiceChannelListener();
     private final CommandListener commandListener;
@@ -84,6 +80,11 @@ public class MantaroShard implements JDA {
     private final int totalShards;
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+
+    //Christmas date
+    private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
+    //New year date
+    private static final Calendar newYear = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.JANUARY, 1).build();
 
     @Getter
     //A instance of a ReconnectQueue that accounts for startup reconnects, avoiding OP2 spam on Shard reconnection during the startup procedure.
@@ -170,14 +171,17 @@ public class MantaroShard implements JDA {
                 .setCorePoolSize(18)
                 .setAudioSendFactory(new NativeAudioSendFactory())
                 .setEventManager(manager)
-                .setShardedRateLimiter(shardedRateLimiter)
-                .setReconnectQueue(reconnectQueue)
+                .setSessionController(sessionController)
                 .setBulkDeleteSplittingEnabled(false)
                 .useSharding(shardId, totalShards)
                 .setGame(Game.playing("Hold on to your seatbelts!"));
 
-        jda = jdaBuilder.buildBlocking(Status.AWAITING_LOGIN_CONFIRMATION);
-        if(totalShards > 1) Thread.sleep(5000);
+        if(shardId < getTotalShards() - 1) {
+            jda = jdaBuilder.buildAsync();
+        } else {
+            //Block until all shards start up properly.
+            jda = jdaBuilder.buildBlocking();
+        }
 
         //Assume everything is alright~
         addListeners();
@@ -231,11 +235,8 @@ public class MantaroShard implements JDA {
                             .build();
                     Utils.httpClient.newCall(request).execute().close();
                     log.debug("Updated server count ({}) for bots.discord.pw on Shard {}", count, shardId);
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) { }
             }, 1, TimeUnit.HOURS);
-        } else {
-            log.warn("bots.discord.pw token not set in config, cannot start posting stats!");
         }
     }
 
