@@ -18,6 +18,10 @@ package net.kodehawa.mantarobot.core.shard;
 
 import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
+import com.github.natanbc.discordbotsapi.PostingException;
+import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
+import gnu.trove.set.TLongSet;
+import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -63,6 +67,8 @@ public class ShardedMantaro {
     private final MantaroShard[] shards;
     @Getter
     private final int totalShards;
+    @Getter
+    private TUnmodifiableLongSet discordBotsUpvoters = new TUnmodifiableLongSet(new TLongHashSet());
 
     public ShardedMantaro(int totalShards, boolean isDebug, boolean auto, String token, ICommandProcessor commandProcessor) {
         int shardAmount = totalShards;
@@ -153,6 +159,7 @@ public class ShardedMantaro {
 
     private void startUpdaters() {
         Async.task("Carbonitex post task", carbonitex::handle, 30, TimeUnit.MINUTES);
+
         if(config.dbotsorgToken != null) {
             Async.task("dbots.org update thread", () -> {
                 try {
@@ -160,9 +167,17 @@ public class ShardedMantaro {
                     int[] shards = MantaroBot.getInstance().getShardList().stream().mapToInt(shard -> (int) shard.getGuildCache().size()).toArray();
                     discordBotsAPI.postStats(shards);
                     log.debug("Updated server count ({}) for discordbots.org", count);
-                } catch(Exception ignored) {
-                }
+                } catch(Exception ignored) {}
             }, 1, TimeUnit.HOURS);
+
+            Async.task("discordbots.org upvotes task", () -> {
+                try {
+                    long[] upvoters = discordBotsAPI.getUpvoterIds();
+                    TLongSet set = new TLongHashSet();
+                    set.addAll(upvoters);
+                    discordBotsUpvoters = new TUnmodifiableLongSet(set);
+                } catch(PostingException ignored) { }
+            }, 5, TimeUnit.MINUTES);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }

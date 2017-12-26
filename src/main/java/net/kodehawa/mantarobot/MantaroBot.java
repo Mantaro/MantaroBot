@@ -20,8 +20,6 @@ import br.com.brjdevs.java.utils.async.Async;
 import com.github.natanbc.discordbotsapi.DiscordBotsAPI;
 import com.timgroup.statsd.NonBlockingStatsDClient;
 import com.timgroup.statsd.StatsDClient;
-import gnu.trove.impl.unmodifiable.TUnmodifiableLongSet;
-import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.core.JDA;

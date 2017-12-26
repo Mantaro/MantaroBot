@@ -240,15 +240,21 @@ public class PlayerCmds {
 
                 PlayerData playerData = player.getData();
                 Inventory inv = player.getInventory();
+                boolean saveAfter = false;
 
                 //start of badge assigning
                 if(player.getMoney() > 7526527671L && player.getData().addBadge(Badge.ALTERNATIVE_WORLD))
-                    player.saveAsync();
+                    saveAfter = true;
                 if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
-                    player.saveAsync();
+                    saveAfter = true;
                 if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && player.getData().addBadge(Badge.SHOPPER))
-                    player.saveAsync();
+                    saveAfter = true;
                 if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && player.getData().addBadge(Badge.CHRISTMAS))
+                    saveAfter = true;
+                if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && player.getData().addBadge(Badge.UPVOTER))
+                    saveAfter = true;
+
+                if(saveAfter)
                     player.saveAsync();
                 //end of badge assigning
 
