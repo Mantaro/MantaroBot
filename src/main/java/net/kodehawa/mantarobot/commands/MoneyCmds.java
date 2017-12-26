@@ -852,6 +852,8 @@ public class MoneyCmds {
                         player.getInventory().process(new ItemStack(Items.DIAMOND, 1));
                         message += "\nHuh! You got lucky and found a diamond while mining, check your inventory!";
                     }
+
+                    player.getData().addBadge(Badge.MINER);
                 }
 
                 event.getChannel().sendMessage(message).queue();
