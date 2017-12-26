@@ -44,11 +44,15 @@ public enum Badge {
     //Helps find important bugs.
     BUG_HUNTER("Bug Hunter", "\uD83D\uDC1B", "Has reported one or more important bugs with details.", 92, 94),
 
+
     //Have more than 8 billion credits.
     ALTERNATIVE_WORLD("Isekai", "\uD83C\uDF0E", "Have more than 8 billion credits at any given time.", 92, 92),
 
     //Get a loot crate.
     LUCKY("Lucky", "\uD83C\uDF40", "Be lucky enough to loot a loot crate.", 92, 92),
+
+    //Have more than 8 billion credits.
+    UPVOTER("Upvoter", "\u2b06", "Upvote Mantaro on discordbots.org.", 92, 92),
 
     //Have more than 5000 items stacked.
     SHOPPER("Shopper", "\uD83D\uDED2", "Have more than 5000 items of any kind.", 91, 92),
