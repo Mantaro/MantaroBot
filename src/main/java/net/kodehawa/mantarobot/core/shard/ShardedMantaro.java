@@ -171,16 +171,18 @@ public class ShardedMantaro {
             }, 1, TimeUnit.HOURS);
 
             Async.task("discordbots.org upvotes task", () -> {
+                if(config.dbotsorgToken == null) return;
                 try {
                     long[] upvoters = discordBotsAPI.getUpvoterIds();
                     TLongSet set = new TLongHashSet();
                     set.addAll(upvoters);
                     discordBotsUpvoters = new TUnmodifiableLongSet(set);
-                } catch(PostingException ignored) { }
+                } catch(PostingException e) { }
             }, 5, TimeUnit.MINUTES);
         } else {
             log.warn("discordbots.org token not set in config, cannot start posting stats!");
         }
+
 
         for(MantaroShard shard : getShards()) {
             shard.updateServerCount();

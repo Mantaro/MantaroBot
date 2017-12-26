@@ -200,7 +200,9 @@ public class InfoCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
                 Member member = Utils.findMember(event, event.getMember(), content);
-                if(member == null) return;
+                if(member == null)
+                    return;
+
                 User u = member.getUser();
 
                 event.getChannel().sendMessage(String.format(EmoteReference.OK + "Avatar for: **%s**\n%s", u.getName(), u.getEffectiveAvatarUrl())).queue();
