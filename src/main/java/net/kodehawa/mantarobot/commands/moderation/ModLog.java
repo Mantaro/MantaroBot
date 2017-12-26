@@ -71,7 +71,7 @@ public class ModLog {
         }
 
         if(!playerData.hasBadge(Badge.POWER_USER)) {
-            playerData.addBadge(Badge.POWER_USER);
+            playerData.addBadgeIfAbsent(Badge.POWER_USER);
             player.saveAsync();
         }
 

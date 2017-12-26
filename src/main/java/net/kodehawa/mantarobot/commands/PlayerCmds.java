@@ -243,15 +243,15 @@ public class PlayerCmds {
                 boolean saveAfter = false;
 
                 //start of badge assigning
-                if(player.getMoney() > 7526527671L && player.getData().addBadge(Badge.ALTERNATIVE_WORLD))
+                if(player.getMoney() > 7526527671L && player.getData().addBadgeIfAbsent(Badge.ALTERNATIVE_WORLD))
                     saveAfter = true;
-                if(MantaroData.config().get().isOwner(author) && player.getData().addBadge(Badge.DEVELOPER))
+                if(MantaroData.config().get().isOwner(author) && player.getData().addBadgeIfAbsent(Badge.DEVELOPER))
                     saveAfter = true;
-                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && player.getData().addBadge(Badge.SHOPPER))
+                if(inv.asList().stream().anyMatch(stack -> stack.getAmount() == 5000) && player.getData().addBadgeIfAbsent(Badge.SHOPPER))
                     saveAfter = true;
-                if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && player.getData().addBadge(Badge.CHRISTMAS))
+                if(inv.asList().stream().anyMatch(stack -> stack.getItem().equals(Items.CHRISTMAS_TREE_SPECIAL) || stack.getItem().equals(Items.BELL_SPECIAL)) && player.getData().addBadgeIfAbsent(Badge.CHRISTMAS))
                     saveAfter = true;
-                if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && player.getData().addBadge(Badge.UPVOTER))
+                if(MantaroBot.getInstance().getShardedMantaro().getDiscordBotsUpvoters().contains(author.getIdLong()) && player.getData().addBadgeIfAbsent(Badge.UPVOTER))
                     saveAfter = true;
 
                 if(saveAfter)

@@ -18,9 +18,7 @@ package net.kodehawa.mantarobot.commands;
 
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.commands.currency.profile.Badge;
@@ -137,7 +135,7 @@ public class OptsCmd {
                             else a = new String[0];
                             callable.accept(event, a);
                             Player p = MantaroData.db().getPlayer(event.getAuthor());
-                            if(p.getData().addBadge(Badge.DID_THIS_WORK)) {
+                            if(p.getData().addBadgeIfAbsent(Badge.DID_THIS_WORK)) {
                                 p.saveAsync();
                             }
                         } catch(IndexOutOfBoundsException ignored) {

@@ -99,7 +99,7 @@ public class ImageboardUtils {
 
                             imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                             if(image.getRating().equals(Rating.EXPLICIT)) {
-                                if(playerData.addBadge(Badge.LEWDIE)) {
+                                if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
                                     player.saveAsync();
                                 }
 
@@ -158,7 +158,7 @@ public class ImageboardUtils {
 
                             imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), imageTags, image.getRating(), imageboard, channel);
                             if(image.getRating().equals(Rating.EXPLICIT)) {
-                                if(playerData.addBadge(Badge.LEWDIE)) {
+                                if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
                                     player.saveAsync();
                                 }
 
@@ -195,7 +195,7 @@ public class ImageboardUtils {
                         String tags = image.getTags().stream().collect(Collectors.joining(", "));
                         imageEmbed(image.getURL(), String.valueOf(image.getWidth()), String.valueOf(image.getHeight()), tags, image.getRating(), imageboard, channel);
                         if(image.getRating().equals(Rating.EXPLICIT)) {
-                            if(playerData.addBadge(Badge.LEWDIE)) {
+                            if(playerData.addBadgeIfAbsent(Badge.LEWDIE)) {
                                 player.saveAsync();
                             }
 

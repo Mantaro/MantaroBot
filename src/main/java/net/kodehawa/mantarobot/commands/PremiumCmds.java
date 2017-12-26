@@ -101,7 +101,7 @@ public class PremiumCmds {
                     }
 
                     if(event.getAuthor().getId().equals(key.getOwner())) {
-                        player.getData().addBadge(Badge.DONATOR);
+                        player.getData().addBadgeIfAbsent(Badge.DONATOR);
                         player.saveAsync();
                     }
 

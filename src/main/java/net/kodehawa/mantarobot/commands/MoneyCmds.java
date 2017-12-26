@@ -137,11 +137,11 @@ public class MoneyCmds {
                     }
 
                     if(playerData.getDailyStreak() > 10) {
-                        playerData.addBadge(Badge.CLAIMER);
+                        playerData.addBadgeIfAbsent(Badge.CLAIMER);
                     }
 
                     if(playerData.getDailyStreak() > 100) {
-                        playerData.addBadge(Badge.BIG_CLAIMER);
+                        playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
                     }
                 } else {
                     Player authorPlayer = MantaroData.db().getPlayer(event.getAuthor());
@@ -171,11 +171,11 @@ public class MoneyCmds {
                     }
 
                     if(authorPlayerData.getDailyStreak() > 10) {
-                        authorPlayerData.addBadge(Badge.CLAIMER);
+                        authorPlayerData.addBadgeIfAbsent(Badge.CLAIMER);
                     }
 
                     if(authorPlayerData.getDailyStreak() > 100) {
-                        playerData.addBadge(Badge.BIG_CLAIMER);
+                        playerData.addBadgeIfAbsent(Badge.BIG_CLAIMER);
                     }
 
                     authorPlayerData.setLastDailyAt(System.currentTimeMillis());
@@ -370,7 +370,7 @@ public class MoneyCmds {
 
                 if(r.nextInt(100) == 0) { //1 in 100 chance of it dropping a loot crate.
                     ground.dropItem(Items.LOOT_CRATE);
-                    if(player.getData().addBadge(Badge.LUCKY)) player.saveAsync();
+                    if(player.getData().addBadgeIfAbsent(Badge.LUCKY)) player.saveAsync();
                 }
 
                 List<ItemStack> loot = ground.collectItems();
@@ -853,7 +853,7 @@ public class MoneyCmds {
                         message += "\nHuh! You got lucky and found a diamond while mining, check your inventory!";
                     }
 
-                    player.getData().addBadge(Badge.MINER);
+                    player.getData().addBadgeIfAbsent(Badge.MINER);
                 }
 
                 event.getChannel().sendMessage(message).queue();
@@ -876,7 +876,7 @@ public class MoneyCmds {
             if(player.addMoney(gains)) {
                 if(gains > Integer.MAX_VALUE) {
                     if(!player.getData().hasBadge(Badge.GAMBLER)) {
-                        player.getData().addBadge(Badge.GAMBLER);
+                        player.getData().addBadgeIfAbsent(Badge.GAMBLER);
                         player.saveAsync();
                     }
                 }

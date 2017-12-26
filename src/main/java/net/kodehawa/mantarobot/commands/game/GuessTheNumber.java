@@ -93,7 +93,7 @@ public class GuessTheNumber extends Game<Object> {
                         player.getData().setGamesWon(player.getData().getGamesWon() + 1);
 
                         if(player.getData().getGamesWon() == 100)
-                            player.getData().addBadge(Badge.GAMER);
+                            player.getData().addBadgeIfAbsent(Badge.GAMER);
 
                         player.save();
 

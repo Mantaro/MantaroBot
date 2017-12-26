@@ -69,7 +69,7 @@ public class PlayerData {
     }
 
     @Transient
-    public boolean addBadge(Badge b) {
+    public boolean addBadgeIfAbsent(Badge b) {
         if(hasBadge(b)) {
             return false;
         }

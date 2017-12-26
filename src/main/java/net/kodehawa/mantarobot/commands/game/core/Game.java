@@ -79,7 +79,7 @@ public abstract class Game<T> {
                 player.addMoney(gains);
 
                 if(player.getData().getGamesWon() == 100)
-                    player.getData().addBadge(Badge.GAMER);
+                    player.getData().addBadgeIfAbsent(Badge.GAMER);
 
                 player.getData().setGamesWon(player.getData().getGamesWon() + 1);
                 player.save();

@@ -162,11 +162,11 @@ public class FunCmds {
 
                                 proposed.getData().setMarriedWith(proposing.getId());
                                 proposed.getData().setMarriedSince(System.currentTimeMillis());
-                                proposed.getData().addBadge(Badge.MARRIED);
+                                proposed.getData().addBadgeIfAbsent(Badge.MARRIED);
 
                                 author.getData().setMarriedWith(proposedTo.getId());
                                 author.getData().setMarriedSince(System.currentTimeMillis());
-                                author.getData().addBadge(Badge.MARRIED);
+                                author.getData().addBadgeIfAbsent(Badge.MARRIED);
 
                                 Inventory proposedInventory = proposed.getInventory();
 

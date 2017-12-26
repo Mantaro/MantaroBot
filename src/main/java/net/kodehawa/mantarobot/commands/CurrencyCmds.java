@@ -565,7 +565,7 @@ public class CurrencyCmds {
 
                         inventory.process(new ItemStack(Items.LOOT_CRATE_KEY, -1));
                         inventory.process(new ItemStack(Items.LOOT_CRATE, -1));
-                        player.getData().addBadge(Badge.THE_SECRET);
+                        player.getData().addBadgeIfAbsent(Badge.THE_SECRET);
                         player.save();
                         openLootBox(event, true);
                     } else {

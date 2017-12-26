@@ -136,7 +136,7 @@ public class OwnerCmd {
 
                 for(User u : users) {
                     Player p = MantaroData.db().getPlayer(u);
-                    p.getData().addBadge(badge);
+                    p.getData().addBadgeIfAbsent(badge);
                     p.saveAsync();
                 }
 
