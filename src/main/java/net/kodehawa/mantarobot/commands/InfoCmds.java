@@ -679,12 +679,13 @@ public class InfoCmds {
 
                 String s = String.join("\n",
                         BLUE_SMALL_MARKER + "**Role ID:** " + r.getId(),
+                        BLUE_SMALL_MARKER + "**Role Created:** " + r.getCreationTime().format(DateTimeFormatter.ISO_DATE).replace("Z", ""),
+                        BLUE_SMALL_MARKER + "**Role Age:** " + TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis() - r.getCreationTime().toInstant().toEpochMilli()) + " days",
                         BLUE_SMALL_MARKER + "**Color:** " + (r.getColor() == null ? "None" : ("#" +  Integer.toHexString(r.getColor().getRGB()))),
+                        BLUE_SMALL_MARKER + "**Members:** " + event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count(),
                         BLUE_SMALL_MARKER + "**Position:** " + r.getPosition(),
                         BLUE_SMALL_MARKER + "**Managed:** " + r.isManaged(),
-                        BLUE_SMALL_MARKER + "**Hoisted:** " + r.isHoisted(),
-                        BLUE_SMALL_MARKER + "**Everyone Role:** " + r.isPublicRole(),
-                        BLUE_SMALL_MARKER + "**Users:** " + event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count()
+                        BLUE_SMALL_MARKER + "**Hoisted:** " + r.isHoisted()
                 );
 
                 event.getChannel().sendMessage(new EmbedBuilder()
