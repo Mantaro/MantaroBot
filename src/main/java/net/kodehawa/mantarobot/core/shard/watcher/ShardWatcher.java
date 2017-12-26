@@ -38,12 +38,15 @@ import java.util.concurrent.*;
  * There are two ways for a Shard to send a signal that's dead: by having one or more listeners deadlocked, or by having a {@link MantaroEventManager#getLastJDAEventTimeDiff()}
  * time of over 30000ms (30 seconds without receiving any event).
  * <p>
- * After acknowledging the dead shards, the ShardWatcherThread will proceed to attempt to RESUME all of the dead shards. If this doesn't work, it will restart the dead shards by
- * sending a signal to {@link MantaroShard#start(boolean)} with a value of "true", which will send {@link JDA#shutdownNow()} to the old shard instance,
- * and attempt to build a completely new one. This sends a timeout after two minutes of wait.
+ * After acknowledging the dead shards, the ShardWatcherThread will proceed to attempt to RESUME all of the dead shards. If this doesn't work,
+ * it will restart the dead shards by sending a signal to {@link MantaroShard#start(boolean)} with a value of "true", which will send {@link JDA#shutdownNow()}
+ * to the old shard instance, and attempt to build a completely new one. This sends a timeout after two minutes of wait.
  * There is a backoff of 6 seconds between rebooting shards, to avoid OP2 spam during this procedure (5 seconds from the {@link MantaroShard#start(boolean)} call, and one extra second on this procedure).
  * <p>
  * After rebooting the shard, everything on it *should* go back to normal and it should be able to listen to events and dispatch messages again without issues.
+ * <p>
+ * There are two loops on this code. The first one handles checking the restart queue (populated after a RESUME request fails) and the second one handles the actual procedure
+ * for detecting dead shards and attempts to send a RESUME on them.
  */
 @Slf4j
 public class ShardWatcher implements Runnable {
@@ -51,7 +54,9 @@ public class ShardWatcher implements Runnable {
     //The pool that will run the FutureTask to wait for the shard to finish its pre-load phase.
     //No longer needed?
     private final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
+    //The scheduler that manages the wait between one shard being resumed and the backoff period to check if it successfully revived.
     private final ScheduledExecutorService RESUME_WAITER = Executors.newSingleThreadScheduledExecutor();
+    //The queue where shards that didn't get revived used a RESUME get added. Here they get completely scrapped and re-built when they get polled from the queue.
     private final ConcurrentLinkedQueue<MantaroShard> RESTART_QUEUE = new ConcurrentLinkedQueue<>();
 
     //Mantaro's sharded instance
@@ -72,23 +77,26 @@ public class ShardWatcher implements Runnable {
                         LogUtils.shard("Shard restarter task interrupted");
                         return;
                     }
+
+                    //Continue to the next loop cycle if no shard is on the restart queue.
                     continue;
                 }
 
                 //Alert us, plz no panic
                 LogUtils.shard(
-                        String.format("RESUME failed to revive shard.\n" +
-                                "Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
+                        String.format("(Resume request failed) Dead shard? Starting automatic shard restart on shard #%d due to it being inactive for longer than 30 seconds.", shard.getId())
                 );
 
                 try {
                     //Reboot the shard.
                     shard.start(true);
                 } catch(Exception e) {
+                    //If the shard wasn't able to restart by itself, alert us so we can reboot manually later.
                     LogUtils.shard(String.format("Shard %d was unable to be restarted: %s", shard.getId(), e));
                 }
 
                 try {
+                    //Wait 5 seconds as a backoff.
                     Thread.sleep(5000);
                 } catch(InterruptedException e) {
                     LogUtils.shard("Shard restarter task interrupted");
@@ -105,7 +113,8 @@ public class ShardWatcher implements Runnable {
                 MantaroEventManager.getLog().info("Checking shards...");
 
                 //Just in case...
-                if(shardedMantaro == null) shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
+                if(shardedMantaro == null)
+                    shardedMantaro = MantaroBot.getInstance().getShardedMantaro();
 
                 //Get and propagate the shard event.
                 //This event will propagate over all Mantaro-specific listeners, and see if the shards are responding accordingly.
@@ -129,7 +138,7 @@ public class ShardWatcher implements Runnable {
                     }
 
                     //Start scrapping and rebooting shards.
-                    //Under the hood this basically calls JDA#shutdownNow on the old JDA instance and replaces it with a completely new one.
+                    //Under the hood this basically calls for a RESUME JDA instance and if it fails, it adds it to the restart queue to replace it with a completely new one.
                     for(int id : dead) {
                         try {
                             MantaroShard shard = MantaroBot.getInstance().getShard(id);
@@ -145,8 +154,11 @@ public class ShardWatcher implements Runnable {
                             LogUtils.shard(
                                     String.format("Found dead shard (#%d)... attempting RESUME request and waiting 20 seconds to validate.", id)
                             );
+
+                            //Send the RESUME request.
                             ((JDAImpl)(shard.getJDA())).getClient().close(4000);
-                            RESUME_WAITER.schedule(()->{
+
+                            RESUME_WAITER.schedule(() -> {
                                 if(shard.getEventManager().getLastJDAEventTimeDiff() > 18000) {
                                     RESTART_QUEUE.add(shard);
                                 }
