@@ -21,7 +21,9 @@ import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
@@ -303,6 +305,27 @@ public class Utils {
         }
 
         return first;
+    }
+
+    public static Role findRole(GuildMessageReceivedEvent event, String content) {
+        List<Role> found = FinderUtil.findRoles(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many roles found, maybe refine your search?\n**Roles found:** %s",
+                    EmoteReference.THINKING, found.stream().map(Role::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        }
+
+        return event.getMember().getRoles().get(0);
     }
 
     public static String pretty(int number) {

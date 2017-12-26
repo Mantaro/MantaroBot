@@ -667,4 +667,42 @@ public class InfoCmds {
             }
         });
     }
+
+    @Subscribe
+    public void roleinfo(CommandRegistry cr) {
+        cr.register("roleinfo", new SimpleCommand(Category.INFO) {
+            @Override
+            protected void call(GuildMessageReceivedEvent event, String content, String[] args) {
+                Role r = Utils.findRole(event, content);
+                if(r == null)
+                    return;
+
+                String s = String.join("\n",
+                        BLUE_SMALL_MARKER + "**Role ID:** " + r.getId(),
+                        BLUE_SMALL_MARKER + "**Color:** " + "#" +  Integer.toHexString(r.getColor().getRGB()),
+                        BLUE_SMALL_MARKER + "**Managed:** " + r.isManaged(),
+                        BLUE_SMALL_MARKER + "**Hoisted:** " + r.isHoisted(),
+                        BLUE_SMALL_MARKER + "**Public role:** " + r.isPublicRole()
+                );
+
+                event.getChannel().sendMessage(new EmbedBuilder()
+                        .setColor(event.getMember().getColor())
+                        .setAuthor(String.format("Role info for %s", r.getName()), null, event.getAuthor().getEffectiveAvatarUrl())
+                        .setThumbnail(event.getAuthor().getEffectiveAvatarUrl())
+                        .setDescription(s)
+                        .build()
+                ).queue();
+            }
+
+            @Override
+            public MessageEmbed help(GuildMessageReceivedEvent event) {
+                return helpEmbed(event, "User Info Command")
+                        .setDescription("**See information about specific users.**")
+                        .addField("Usage:",
+                                "`~>roleinfo role` - **Get information about the specific role.**" +
+                                        "\n`~>roleinfo` - **Get information about top role!**", false)
+                        .build();
+            }
+        });
+    }
 }
