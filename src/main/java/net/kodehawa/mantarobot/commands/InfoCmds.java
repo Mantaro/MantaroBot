@@ -686,7 +686,7 @@ public class InfoCmds {
                         BLUE_SMALL_MARKER + "**Everyone Role:** " + r.isPublicRole(),
                         BLUE_SMALL_MARKER + "**Users:** " + event.getGuild().getMembers().stream().filter(member -> member.getRoles().contains(r)).count()
                 );
-                Stream
+
                 event.getChannel().sendMessage(new EmbedBuilder()
                         .setColor(event.getMember().getColor())
                         .setAuthor(String.format("Role info for %s", r.getName()), null, event.getAuthor().getEffectiveAvatarUrl())
