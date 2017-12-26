@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
@@ -39,6 +40,7 @@ import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
@@ -67,7 +69,7 @@ public class InfoCmds {
 
     @Subscribe
     public void about(CommandRegistry cr) {
-        cr.register("about", new TreeCommand(Category.INFO) {
+        TreeCommand aboutCommand = (TreeCommand) cr.register("about", new TreeCommand(Category.INFO) {
             @Override
             public Command defaultTrigger(GuildMessageReceivedEvent event, String thisCommand, String attemptedSubCommand) {
                 return new SubCommand() {
@@ -118,23 +120,34 @@ public class InfoCmds {
                         .setColor(Color.PINK)
                         .build();
             }
-        }.addSubCommand("patreon", new SubCommand() {
+        });
+
+        aboutCommand.addSubCommand("patreon", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
-                EmbedBuilder builder = new EmbedBuilder();
                 Guild mantaroGuild = MantaroBot.getInstance().getGuildById("213468583252983809");
                 String donators = mantaroGuild.getMembers().stream().filter(member -> member.getRoles().stream().filter(role ->
-                        role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(member ->
-                        String.format("%s#%s", member.getUser().getName(), member.getUser().getDiscriminator()))
-                        .collect(Collectors.joining(", "));
-                builder.setAuthor("Our Patreon supporters", null, event.getJDA().getSelfUser().getEffectiveAvatarUrl())
-                        .setDescription(donators)
-                        .setColor(Color.PINK)
-                        .addField("Special Mentions", "**MrLar#8117** $1075 donation. <3\n", false)
-                        .setFooter("Much thanks for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
-                event.getChannel().sendMessage(builder.build()).queue();
+                                role.getName().equals("Patron")).collect(Collectors.toList()).size() > 0).map(Member::getUser)
+                                .map(user -> String.format("%s#%s (%s)", user.getName(), user.getDiscriminator(), user.getId()))
+                                .collect(Collectors.joining("\n"));
+
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+                List<String> donatorList = DiscordUtils.divideString(1000, donators);
+                List<String> messages = new LinkedList<>();
+                for(String s1 : donatorList) {
+                    messages.add("**Mantaro's Patreon Pledgers**\n" + (hasReactionPerms ? "Use the arrow reactions to change pages. " :
+                            "Use &page >> and &page << to change pages and &cancel to end") + String.format("```prolog\n%s```", s1));
+                }
+
+                if(hasReactionPerms) {
+                    DiscordUtils.list(event, 45, false, messages);
+                } else {
+                    DiscordUtils.listText(event, 45, false, messages);
+                }
             }
-        }).addSubCommand("credits", new SubCommand() {
+        });
+
+        aboutCommand.addSubCommand("credits", new SubCommand() {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 EmbedBuilder builder = new EmbedBuilder();
@@ -154,7 +167,7 @@ public class InfoCmds {
                         .setFooter("Much thanks to everyone above for helping make Mantaro better!", event.getJDA().getSelfUser().getEffectiveAvatarUrl());
                 event.getChannel().sendMessage(builder.build()).queue();
             }
-        }));
+        });
     }
 
     @Subscribe

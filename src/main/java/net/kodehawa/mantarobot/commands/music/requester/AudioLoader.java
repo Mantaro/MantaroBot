@@ -67,8 +67,11 @@ public class AudioLoader implements AudioLoadResultHandler {
     @Override
     public void playlistLoaded(AudioPlaylist playlist) {
         if(playlist.isSearchResult()) {
-            if(!skipSelection) onSearch(playlist);
-            else loadSingle(playlist.getTracks().get(0), false);
+            if(!skipSelection)
+                onSearch(playlist);
+            else
+                loadSingle(playlist.getTracks().get(0), false);
+
             return;
         }
 

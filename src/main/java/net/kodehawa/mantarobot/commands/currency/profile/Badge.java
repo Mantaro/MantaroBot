@@ -29,7 +29,7 @@ public enum Badge {
     //Self-explanatory.
     DEVELOPER("Developer", "\uD83D\uDEE0", "Currently a developer of Mantaro.", 91, 92),
 
-    //Contributed in any way to mantaro's development.
+    //Contributed in any way to Mantaro's development.
     CONTRIBUTOR("Contributor", "\u2b50", "Contributed to Mantaro's Development.", 92, 91),
 
     //Because lars asked for it.
@@ -79,6 +79,9 @@ public enum Badge {
 
     //Used one of the many NSFW image commands at least once.
     LEWDIE("Lewdie", "\uD83D\uDC40", "Used a lewd command", 91, 92),
+
+    //Marry to someone.
+    MARRIED("Married", "\uD83D\uDC8D", "Find your loved one", 91, 92),
 
     //TODO do this for once
     //Queued more than 3000 songs.

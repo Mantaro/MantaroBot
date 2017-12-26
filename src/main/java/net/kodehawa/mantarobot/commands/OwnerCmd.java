@@ -180,7 +180,7 @@ public class OwnerCmd {
                 }
 
                 event.getChannel().sendMessage(
-                        EmoteReference.CORRECT + "Removed badge " + badge + " from " + users.stream().map(User::getName).collect(Collectors.joining(" ,"))
+                        String.format("%sRemoved badge %s from %s", EmoteReference.CORRECT, badge, users.stream().map(User::getName).collect(Collectors.joining(" ,")))
                 ).queue();
             }
 

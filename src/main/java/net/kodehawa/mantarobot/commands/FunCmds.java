@@ -26,6 +26,7 @@ import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.commands.currency.TextChannelGround;
 import net.kodehawa.mantarobot.commands.currency.item.ItemStack;
 import net.kodehawa.mantarobot.commands.currency.item.Items;
+import net.kodehawa.mantarobot.commands.currency.profile.Badge;
 import net.kodehawa.mantarobot.commands.info.stats.manager.CommandStatsManager;
 import net.kodehawa.mantarobot.core.CommandRegistry;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
@@ -61,7 +62,7 @@ public class FunCmds {
                         times = Integer.parseInt(args[0]);
                         if(times > 1000) {
                             event.getChannel().sendMessage(
-                                    EmoteReference.ERROR + "Whoa there! The limit is 1,000 coin flips").queue();
+                                    EmoteReference.ERROR + "Hold in there! The limit is 1,000 coin flips").queue();
                             return;
                         }
                     } catch(NumberFormatException nfe) {
@@ -159,11 +160,13 @@ public class FunCmds {
                                     return Operation.COMPLETED;
                                 }
 
-                                //TODO set married since when we actually get a working thing lol
                                 proposed.getData().setMarriedWith(proposing.getId());
-                                //proposed.getData().setMarriedSince(System.currentTimeMillis());
+                                proposed.getData().setMarriedSince(System.currentTimeMillis());
+                                proposed.getData().addBadge(Badge.MARRIED);
+
                                 author.getData().setMarriedWith(proposedTo.getId());
-                                //author.getData().setMarriedSince(System.currentTimeMillis());
+                                author.getData().setMarriedSince(System.currentTimeMillis());
+                                author.getData().addBadge(Badge.MARRIED);
 
                                 Inventory proposedInventory = proposed.getInventory();
 

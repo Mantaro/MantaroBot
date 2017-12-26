@@ -184,7 +184,8 @@ public class DiscordUtils {
     }
 
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
-        if(parts.size() == 0) return null;
+        if(parts.size() == 0)
+            return null;
 
         if(parts.size() == 1) {
             event.getChannel().sendMessage(parts.get(0)).queue();
