@@ -210,26 +210,18 @@ public class DiscordUtils {
                     if(index.get() == 0)
                         break;
 
-                    base.clearFields();
-                    for(MessageEmbed.Field f : parts.get(index.decrementAndGet())) {
-                        base.addField(f);
-                    }
-
-                    base.setFooter("Current page: " + (index.get() + 1), null);
-                    m.editMessage(base.build()).queue();
+                    EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
+                    toSend.setFooter("Current page: " + index.get() + 1, null);
+                    m.editMessage(toSend.build()).queue();
                     break;
 
                 case "\u27a1": //right arrow
                     if(index.get() + 1 >= parts.size())
                         break;
 
-                    base.clearFields();
-                    for(MessageEmbed.Field f : parts.get(index.incrementAndGet())) {
-                        base.addField(f);
-                    }
-
-                    base.setFooter("Current page: " + (index.get() + 1), null);
-                    m.editMessage(base.build()).queue();
+                    EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
+                    toSend1.setFooter("Current page: " + index.get() + 1, null);
+                    m.editMessage(toSend1.build()).queue();
                     break;
 
                 case "\u274c":
@@ -273,24 +265,16 @@ public class DiscordUtils {
                 if(index.get() == 0)
                     return Operation.IGNORED;
 
-                base.clearFields();
-                for(MessageEmbed.Field f : parts.get(index.decrementAndGet())) {
-                    base.addField(f);
-                }
-
-                base.setFooter("Page " + index.get() + 1, null);
-                m.editMessage(base.build()).queue();
+                EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
+                toSend.setFooter("Current page: " + index.get() + 1, null);
+                m.editMessage(toSend.build()).queue();
             } else if(e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
                 if(index.get() + 1 >= parts.size())
                     return Operation.IGNORED;
 
-                base.clearFields();
-                for(MessageEmbed.Field f : parts.get(index.incrementAndGet())) {
-                    base.addField(f);
-                }
-
-                base.setFooter("Page " + index.get() + 1, null);
-                m.editMessage(base.build()).queue();
+                EmbedBuilder toSend = addAllFields(base, parts.get(index.incrementAndGet()));
+                toSend.setFooter("Current page: " + index.get() + 1, null);
+                m.editMessage(toSend.build()).queue();
             }
 
             if(e.getMessage().getContentRaw().equals("&cancel")) {
@@ -393,5 +377,14 @@ public class DiscordUtils {
         }
 
         return m;
+    }
+
+    private static EmbedBuilder addAllFields(EmbedBuilder builder, List<MessageEmbed.Field> fields) {
+        builder.clearFields();
+        for(MessageEmbed.Field f : fields) {
+            builder.addField(f);
+        }
+
+        return builder;
     }
 }
