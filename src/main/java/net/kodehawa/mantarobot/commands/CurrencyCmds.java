@@ -19,6 +19,7 @@ package net.kodehawa.mantarobot.commands;
 import br.com.brjdevs.java.utils.texts.StringUtils;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -37,6 +38,7 @@ import net.kodehawa.mantarobot.core.modules.commands.base.Command;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.Inventory;
+import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import net.kodehawa.mantarobot.utils.commands.RateLimiter;
@@ -85,19 +87,27 @@ public class CurrencyCmds {
 
                 EmbedBuilder builder = baseEmbed(event, member.getEffectiveName() + "'s Inventory", member.getUser().getEffectiveAvatarUrl());
                 List<ItemStack> list = player.getInventory().asList();
+                List<MessageEmbed.Field> fields = new LinkedList<>();
                 if(list.isEmpty())
                     builder.setDescription("There is only dust here.");
                 else
                     player.getInventory().asList().forEach(stack -> {
                         long buyValue = stack.getItem().isBuyable() ? stack.getItem().getValue() : 0;
                         long sellValue = stack.getItem().isSellable() ? (long) (stack.getItem().getValue() * 0.9) : 0;
-                        builder.addField(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
+                        fields.add(new MessageEmbed.Field(stack.getItem().getEmoji() + " " + stack.getItem().getName() + " x " + stack.getAmount(), String
                                         .format("**Price**: \uD83D\uDCE5 %d \uD83D\uDCE4 %d\n%s", buyValue, sellValue, stack.getItem()
                                                 .getDesc())
-                                , false);
+                                , false));
                     });
 
-                event.getChannel().sendMessage(builder.build()).queue();
+                List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(18, fields);
+                boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                if(hasReactionPerms) {
+                    DiscordUtils.list(event, 45, false, builder, splitFields);
+                } else {
+                    DiscordUtils.listText(event, 45, false, builder, splitFields);
+                }
             }
 
             @Override
@@ -122,24 +132,29 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market");
-                        StringBuilder items = new StringBuilder();
-                        StringBuilder prices = new StringBuilder();
+                        EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market").setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
                         AtomicInteger atomicInteger = new AtomicInteger();
+                        List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
                             if(!item.isHidden()) {
                                 String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
-                                items.append(String.format("**%02d.-** %s *%s*    ", atomicInteger.incrementAndGet(), item.getEmoji(), item.getName())).append("\n");
-                                prices.append(String.format("%s **%s, %s**", "\uD83D\uDCB2", buyValue, sellValue)).append("\n");
+                                fields.add(new MessageEmbed.Field(String.format("%d. %s %s",
+                                        atomicInteger.incrementAndGet(), item.getEmoji(), item.getName()),
+                                        EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, false)
+                                );
                             }
                         });
 
-                        event.getChannel().sendMessage(
-                                embed.addField("Items", items.toString(), true)
-                                        .addField("Value (Buy/Sell)", prices.toString(), true)
-                                        .build()).queue();
+                        List<List<MessageEmbed.Field>> splitFields = DiscordUtils.divideFields(8, fields);
+                        boolean hasReactionPerms = event.getGuild().getSelfMember().hasPermission(event.getChannel(), Permission.MESSAGE_ADD_REACTION);
+
+                        if(hasReactionPerms) {
+                            DiscordUtils.list(event, 45, false, embed, splitFields);
+                        } else {
+                            DiscordUtils.listText(event, 45, false, embed, splitFields);
+                        }
                     }
                 };
             }
@@ -148,7 +163,7 @@ public class CurrencyCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Mantaro's market")
                         .setDescription("**List current items for buying and selling.**")
-                        .addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will substract the value from your money" +
+                        .addField("Buying and selling", "To buy do ~>market buy <item emoji>. It will subtract the value from your money" +
                                 " and give you the item.\n" +
                                 "To sell do `~>market sell all` to sell all your items or `~>market sell <item emoji>` to sell the " +
                                 "specified item. " +

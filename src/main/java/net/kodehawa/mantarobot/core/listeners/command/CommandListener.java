@@ -166,8 +166,7 @@ public class CommandListener implements EventListener {
                         // ---------- LOCAL EXPERIENCE CHECK ---------- //
                         //TODO enable in 4.9, maybe improve?
 
-                        /*
-                        LocalExperienceData localPlayer = null;
+                        /*LocalExperienceData localPlayer = null;
                         List<LocalExperienceData> players = guildData.getLocalPlayerExperience();
 
                         for(LocalExperienceData localData : players) {
@@ -190,8 +189,7 @@ public class CommandListener implements EventListener {
                         }
 
                         //Save local player.
-                        dbGuild.saveAsync();
-                       */
+                        dbGuild.saveAsync();*/
                     }
                 } catch(Exception ignored) { }
             }
@@ -223,7 +221,7 @@ public class CommandListener implements EventListener {
             ).queue();
 
             SentryHelper.captureException(String.format("Unexpected Exception on Command: %s | (Error ID: ``%s``)", event.getMessage().getContentRaw(), id), e, this.getClass());
-            log.error("Error happened with id: {} (Within command: {})", event.getMessage().getContentRaw(), id, e);
+            log.error("Error happened with id: {} (Error ID: {})", event.getMessage().getContentRaw(), id, e);
         }
     }
 

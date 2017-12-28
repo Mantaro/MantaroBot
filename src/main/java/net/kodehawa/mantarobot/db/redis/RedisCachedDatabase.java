@@ -160,11 +160,13 @@ public class RedisCachedDatabase extends ManagedDatabase {
     }
 
     @Override
-    @Nonnull
+    @Nullable
     @CheckReturnValue
     public PremiumKey getPremiumKey(@Nullable String id) {
         log("Getting premium key {} from cache", id);
-        if(id == null) return null;
+        if(id == null)
+            return null;
+
         return keyMap.computeIfAbsent("key:" + id, ignored -> super.getPremiumKey(id));
     }
 

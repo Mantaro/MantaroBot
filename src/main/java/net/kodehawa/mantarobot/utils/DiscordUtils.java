@@ -24,12 +24,10 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.Operation;
+import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -60,8 +58,7 @@ public class DiscordUtils {
                 if(choose < 1 || choose > max) return Operation.IGNORED;
                 valueConsumer.accept(choose);
                 return Operation.COMPLETED;
-            } catch(Exception ignored) {
-            }
+            } catch(Exception ignored) {}
 
             return Operation.IGNORED;
         });
@@ -166,7 +163,9 @@ public class DiscordUtils {
                     break;
 
                 case "\u27a1": //right arrow
-                    if(index.get() + 1 >= parts.size()) break;
+                    if(index.get() + 1 >= parts.size())
+                        break;
+
                     m.editMessage(String.format("%s\n**Page: %d**", parts.get(index.incrementAndGet()), index.get() + 1)).queue();
                     break;
 
@@ -181,6 +180,126 @@ public class DiscordUtils {
 
             return Operation.IGNORED;
         }, "\u2b05", "\u27a1", "\u274c");
+    }
+
+    public static Future<Void> list(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+        if(parts.size() == 0)
+            return null;
+
+        for(MessageEmbed.Field f : parts.get(0)) {
+            base.addField(f);
+        }
+
+        if(parts.size() == 1) {
+            event.getChannel().sendMessage(base.build()).queue();
+            return null;
+        }
+
+        base.setDescription("**Total pages: " + parts.size() + ".**\nUse the message reactions to move between pages.");
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(base.build()).complete();
+        return ReactionOperations.create(m, timeoutSeconds, (e) -> {
+            if(!canEveryoneUse && e.getUser().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+            if(e.getChannel().getMessageById(m.getIdLong()) == null)
+                return Operation.IGNORED;
+
+            switch(e.getReactionEmote().getName()) {
+                case "\u2b05": //left arrow
+                    if(index.get() == 0)
+                        break;
+
+                    base.clearFields();
+                    for(MessageEmbed.Field f : parts.get(index.decrementAndGet())) {
+                        base.addField(f);
+                    }
+
+                    base.setFooter("Current page: " + (index.get() + 1), null);
+                    m.editMessage(base.build()).queue();
+                    break;
+
+                case "\u27a1": //right arrow
+                    if(index.get() + 1 >= parts.size())
+                        break;
+
+                    base.clearFields();
+                    for(MessageEmbed.Field f : parts.get(index.incrementAndGet())) {
+                        base.addField(f);
+                    }
+
+                    base.setFooter("Current page: " + (index.get() + 1), null);
+                    m.editMessage(base.build()).queue();
+                    break;
+
+                case "\u274c":
+                    m.delete().queue();
+                    break;
+            }
+
+            if(event.getGuild().getSelfMember().hasPermission(e.getTextChannel(), Permission.MESSAGE_MANAGE)) {
+                e.getReaction().removeReaction(e.getUser()).queue();
+            }
+
+            return Operation.IGNORED;
+        }, "\u2b05", "\u27a1", "\u274c");
+    }
+
+    public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
+        if(parts.size() == 0)
+            return null;
+
+        for(MessageEmbed.Field f : parts.get(0)) {
+            base.addField(f);
+        }
+
+        base.setDescription("**Total pages: " + parts.size() + ".**\nUse **&p>>** and **&p <<** to move across pages.");
+
+        if(parts.size() == 1) {
+            event.getChannel().sendMessage(base.build()).queue();
+            return null;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        Message m = event.getChannel().sendMessage(base.build()).complete();
+
+        return InteractiveOperations.createOverriding(event.getChannel(), timeoutSeconds, e -> {
+            if(!canEveryoneUse && e.getAuthor().getIdLong() != event.getAuthor().getIdLong())
+                return Operation.IGNORED;
+            if(e.getChannel().getMessageById(m.getIdLong()) == null)
+                return Operation.IGNORED;
+
+            if(e.getMessage().getContentRaw().equals("&p <<") || e.getMessage().getContentRaw().equals("&page <<")) {
+                if(index.get() == 0)
+                    return Operation.IGNORED;
+
+                base.clearFields();
+                for(MessageEmbed.Field f : parts.get(index.decrementAndGet())) {
+                    base.addField(f);
+                }
+
+                base.setFooter("Page " + index.get() + 1, null);
+                m.editMessage(base.build()).queue();
+            } else if(e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
+                if(index.get() + 1 >= parts.size())
+                    return Operation.IGNORED;
+
+                base.clearFields();
+                for(MessageEmbed.Field f : parts.get(index.incrementAndGet())) {
+                    base.addField(f);
+                }
+
+                base.setFooter("Page " + index.get() + 1, null);
+                m.editMessage(base.build()).queue();
+            }
+
+            if(e.getMessage().getContentRaw().equals("&cancel")) {
+                m.delete().queue();
+                return Operation.COMPLETED;
+            }
+
+            return Operation.IGNORED;
+        });
     }
 
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, List<String> parts) {
@@ -249,6 +368,29 @@ public class DiscordUtils {
             sb.append(line);
         }
         if(sb.length() != 0) m.add(sb.toString());
+
+        return m;
+    }
+
+    public static List<List<MessageEmbed.Field>> divideFields(int max, List<MessageEmbed.Field> fields) {
+        List<MessageEmbed.Field> temp = new LinkedList<>();
+        List<List<MessageEmbed.Field>> m = new LinkedList<>();
+
+        while(fields.size() > 0) {
+            if(temp.size() < max) {
+                temp.add(fields.get(0));
+                fields.remove(0);
+            } else {
+                if(temp.size() != 0) {
+                    m.add(temp);
+                    temp = new LinkedList<>();
+                }
+            }
+        }
+
+        if(temp.size() != 0) {
+            m.add(temp);
+        }
 
         return m;
     }
