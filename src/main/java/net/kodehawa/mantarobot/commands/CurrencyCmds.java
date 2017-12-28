@@ -124,7 +124,7 @@ public class CurrencyCmds {
 
     @Subscribe
     public void market(CommandRegistry cr) {
-        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 5);
+        final RateLimiter rateLimiter = new RateLimiter(TimeUnit.SECONDS, 8);
 
         TreeCommand marketCommand = (TreeCommand) cr.register("market", new TreeCommand(Category.CURRENCY) {
             @Override

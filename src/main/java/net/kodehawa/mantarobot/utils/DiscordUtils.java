@@ -195,7 +195,8 @@ public class DiscordUtils {
             return null;
         }
 
-        base.setDescription("**Total pages: " + parts.size() + ".**\nUse the message reactions to move between pages.");
+        base.setDescription("**Total pages: " + parts.size() + ".**\nUse the message reactions to move between pages.\n**Reference " +
+                EmoteReference.BUY + " Buy " + EmoteReference.SELL + " Sell.**");
 
         AtomicInteger index = new AtomicInteger();
         Message m = event.getChannel().sendMessage(base.build()).complete();
@@ -211,7 +212,7 @@ public class DiscordUtils {
                         break;
 
                     EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                    toSend.setFooter("Current page: " + index.get() + 1, null);
+                    toSend.setFooter("Current page: " + (index.get() + 1), event.getAuthor().getEffectiveAvatarUrl());
                     m.editMessage(toSend.build()).queue();
                     break;
 
@@ -220,12 +221,8 @@ public class DiscordUtils {
                         break;
 
                     EmbedBuilder toSend1 = addAllFields(base, parts.get(index.incrementAndGet()));
-                    toSend1.setFooter("Current page: " + index.get() + 1, null);
+                    toSend1.setFooter("Current page: " + (index.get() + 1), event.getAuthor().getEffectiveAvatarUrl());
                     m.editMessage(toSend1.build()).queue();
-                    break;
-
-                case "\u274c":
-                    m.delete().queue();
                     break;
             }
 
@@ -234,7 +231,7 @@ public class DiscordUtils {
             }
 
             return Operation.IGNORED;
-        }, "\u2b05", "\u27a1", "\u274c");
+        }, "\u2b05", "\u27a1");
     }
 
     public static Future<Void> listText(GuildMessageReceivedEvent event, int timeoutSeconds, boolean canEveryoneUse, EmbedBuilder base, List<List<MessageEmbed.Field>> parts) {
@@ -245,7 +242,8 @@ public class DiscordUtils {
             base.addField(f);
         }
 
-        base.setDescription("**Total pages: " + parts.size() + ".**\nUse **&p>>** and **&p <<** to move across pages.");
+        base.setDescription("**Total pages: " + parts.size() + ".**\nUse **&p>>** and **&p <<** to move across pages.\n**Reference " +
+                EmoteReference.BUY + " Buy " + EmoteReference.SELL + " Sell.**");
 
         if(parts.size() == 1) {
             event.getChannel().sendMessage(base.build()).queue();
@@ -266,14 +264,14 @@ public class DiscordUtils {
                     return Operation.IGNORED;
 
                 EmbedBuilder toSend = addAllFields(base, parts.get(index.decrementAndGet()));
-                toSend.setFooter("Current page: " + index.get() + 1, null);
+                toSend.setFooter("Current page: " + (index.get() + 1), null);
                 m.editMessage(toSend.build()).queue();
             } else if(e.getMessage().getContentRaw().equals("&p >>") || e.getMessage().getContentRaw().equals("&page >>")) {
                 if(index.get() + 1 >= parts.size())
                     return Operation.IGNORED;
 
                 EmbedBuilder toSend = addAllFields(base, parts.get(index.incrementAndGet()));
-                toSend.setFooter("Current page: " + index.get() + 1, null);
+                toSend.setFooter("Current page: " + (index.get() + 1), null);
                 m.editMessage(toSend.build()).queue();
             }
 
