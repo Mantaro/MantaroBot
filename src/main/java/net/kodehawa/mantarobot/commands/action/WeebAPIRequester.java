@@ -22,6 +22,7 @@ import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class WeebAPIRequester {
     private final String RANDOM_IMAGE = "/random";
     private final OkHttpClient httpClient = new OkHttpClient();
 
-    public String getRandomImageByType(String type, boolean nsfw, String filetype) {
+    public Pair<String, String> getRandomImageByType(String type, boolean nsfw, String filetype) {
         HashMap<String, Object> queryParams = new HashMap<>();
         queryParams.put("type", type);
         if(nsfw)
@@ -49,7 +50,8 @@ public class WeebAPIRequester {
         if(r == null)
             return null;
 
-        return new JSONObject(r).getString("url");
+        JSONObject object = new JSONObject(r);
+        return Pair.of(object.getString("url"), object.getString("id"));
     }
 
     public String getRandomImageByTags(String tags, boolean nsfw, String filetype) {

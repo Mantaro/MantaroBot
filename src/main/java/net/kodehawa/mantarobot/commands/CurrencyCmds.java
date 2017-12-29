@@ -71,7 +71,7 @@ public class CurrencyCmds {
                 Player player = MantaroData.db().getPlayer(member);
 
                 if(t.containsKey("brief")) {
-                    event.getChannel().sendMessage("**" + member.getEffectiveName() + "'s inventory:** " + ItemStack.toString(player.getInventory().asList())).queue();
+                    event.getChannel().sendMessage(String.format("**%s's inventory:** %s", member.getEffectiveName(), ItemStack.toString(player.getInventory().asList()))).queue();
                     return;
                 }
 

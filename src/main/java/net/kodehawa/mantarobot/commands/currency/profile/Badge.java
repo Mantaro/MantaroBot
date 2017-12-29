@@ -78,7 +78,7 @@ public enum Badge {
     MINER("Miner", "\u26cf", "Find a diamond while mining.", 91, 92),
 
     //Use opts properly
-    DID_THIS_WORK("Configurator", "\u26cf", "Use any `~>opts` configuration successfully.", 91, 92),
+    DID_THIS_WORK("Configurator", "\u2699", "Use any `~>opts` configuration successfully.", 91, 92),
 
     //Gamble more than Integer.MAX_VALUE.
     GAMBLER("Gambler", "\uD83D\uDCB0", "Gambled their life away.", 91, 92),

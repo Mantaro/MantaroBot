@@ -35,6 +35,7 @@ import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONObject;
 
 import java.awt.*;
@@ -105,14 +106,15 @@ public class ImageCmds {
                     return;
 
                 try {
-                    String image = requester.getRandomImageByType("neko", nsfw, null);
+                    Pair<String, String> result = requester.getRandomImageByType("neko", nsfw, null);
+                    String image = result.getKey();
 
                     if(image == null) {
                         event.getChannel().sendMessage("Unable to get image.").queue();
                         return;
                     }
 
-                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl.png", null).queue();
+                    event.getChannel().sendFile(CACHE.getInput(image), "catgirl-" + result.getValue() + ".png", null).queue();
                 } catch(Exception e) {
                     event.getChannel().sendMessage("Unable to get image.").queue();
                 }
@@ -122,8 +124,8 @@ public class ImageCmds {
             public MessageEmbed help(GuildMessageReceivedEvent event) {
                 return helpEmbed(event, "Catgirl command")
                         .setDescription("**Sends catgirl images**")
-                        .addField("Usage", "`~>catgirl` - **Returns catgirl images.**" +
-                                "\n`~>catgirl nsfw` - **Returns lewd or questionable catgirl images.**", false)
+                        .addField("Usage", "`~>catgirl` - **Sends a catgirl image.**" +
+                                "\n`~>catgirl nsfw` - **Sends a lewd or questionable catgirl image.**", false)
                         .build();
             }
         });

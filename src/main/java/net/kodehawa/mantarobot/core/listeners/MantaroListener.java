@@ -413,6 +413,10 @@ public class MantaroListener implements EventListener {
     }
 
     private void onJoin(GuildJoinEvent event) {
+        if(event.getGuild() == null) {
+            log.info("Got a guild join event with null guild? Shard {}", shardId);
+        }
+
         try {
             if(MantaroData.db().getMantaroData().getBlackListedGuilds().contains(event.getGuild().getId())
                     || MantaroData.db().getMantaroData().getBlackListedUsers().contains(

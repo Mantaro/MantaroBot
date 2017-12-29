@@ -24,6 +24,7 @@ import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Collections;
 import java.util.List;
@@ -67,7 +68,7 @@ public class ImageCmd extends NoArgsCommand {
         this.name = name;
         this.desc = desc;
         this.imageName = imageName;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null));
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null).getKey());
         this.toSend = toSend;
         this.type = type;
     }
@@ -77,7 +78,7 @@ public class ImageCmd extends NoArgsCommand {
         this.name = name;
         this.desc = desc;
         this.imageName = imageName;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null));
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null).getKey());
         this.toSend = toSend;
         this.noMentions = noMentions;
         this.type = type;
@@ -86,9 +87,13 @@ public class ImageCmd extends NoArgsCommand {
     @Override
     protected void call(GuildMessageReceivedEvent event, String content) {
         String random;
+        String id = "";
         if(images.size() == 1) {
-            if(type != null)
-                images = Collections.singletonList(weebapi.getRandomImageByType(type, false, null));
+            if(type != null) {
+                Pair<String, String> result = weebapi.getRandomImageByType(type, false, null);
+                images = Collections.singletonList(result.getKey());
+                id = result.getValue();
+            }
 
             random = images.get(0); //Guaranteed random selection :^).
         } else {
@@ -110,7 +115,7 @@ public class ImageCmd extends NoArgsCommand {
         builder.append(toSend);
         event.getChannel().sendFile(
                 CACHE.getInput(random),
-                imageName + "." + extension,
+                imageName + "-" + id + "." + extension,
                 builder.build()
         ).queue();
     }

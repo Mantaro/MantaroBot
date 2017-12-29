@@ -304,8 +304,8 @@ public class ModerationCmds {
 
                     //If one of them is in a higher hierarchy than the bot, cannot kick.
                     if(!selfMember.canInteract(member)) {
-                        channel.sendMessage(EmoteReference.ERROR2 + "Cannot kick member: " + member.getEffectiveName() + ", they are " +
-                                "higher or the same " + "hierarchy than I am!").queue();
+                        channel.sendMessage(String.format("%sCannot kick member: %s, they are higher or the same hierarchy than I am!",
+                                EmoteReference.ERROR2, member.getEffectiveName())).queue();
                         return;
                     }
                     final DBGuild db = MantaroData.db().getGuild(event.getGuild());
@@ -392,7 +392,7 @@ public class ModerationCmds {
 
                 final DBGuild db = MantaroData.db().getGuild(event.getGuild());
                 long l = Utils.parseTime(time);
-                String finalReason = String.format("Tempbanned by %#s: %s", event.getAuthor(), reason);
+                String finalReason = String.format("Temporally banned by %#s: %s", event.getAuthor(), reason);
                 String sTime = StringUtils.parseTime(l);
                 receivedMessage.getMentionedUsers().forEach(user ->
                         guild.getController().ban(user, 7).queue(

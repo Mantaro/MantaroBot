@@ -25,6 +25,7 @@ import net.kodehawa.mantarobot.core.modules.commands.NoArgsCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.utils.cache.URLCache;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.awt.*;
 import java.util.Collections;
@@ -67,7 +68,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.color = color;
         this.imageName = imageName;
         this.format = format;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif"));
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
         this.lonelyLine = lonelyLine;
         this.type = type;
     }
@@ -79,7 +80,7 @@ public class ImageActionCmd extends NoArgsCommand {
         this.color = color;
         this.imageName = imageName;
         this.format = format;
-        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif"));
+        this.images = Collections.singletonList(weebapi.getRandomImageByType(type, false, "gif").getKey());
         this.lonelyLine = lonelyLine;
         this.swapNames = swap;
         this.type = type;
@@ -88,9 +89,12 @@ public class ImageActionCmd extends NoArgsCommand {
     @Override
     protected void call(GuildMessageReceivedEvent event, String content) {
         String random = "";
+        String id = "";
         if(images.size() == 1) {
             if(type != null) {
-                String image = weebapi.getRandomImageByType(type, false, "gif");
+                Pair<String, String> result = weebapi.getRandomImageByType(type, false, "gif");
+                String image = result.getKey();
+                id = result.getValue();
 
                 if(image == null) {
                     event.getChannel().sendMessage(EmoteReference.SAD + "We got an error while retrieving the next gif for this action...").queue();
@@ -127,7 +131,7 @@ public class ImageActionCmd extends NoArgsCommand {
 
             event.getChannel().sendFile(
                     CACHE.getInput(random),
-                    imageName,
+                    imageName + "-" + id + ".gif",
                     toSend.build()
             ).queue();
         } catch(Exception e) {

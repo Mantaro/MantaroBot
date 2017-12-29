@@ -349,6 +349,7 @@ public class DiscordUtils {
             }
             sb.append(line);
         }
+
         if(sb.length() != 0) m.add(sb.toString());
 
         return m;
@@ -363,16 +364,12 @@ public class DiscordUtils {
                 temp.add(fields.get(0));
                 fields.remove(0);
             } else {
-                if(temp.size() != 0) {
-                    m.add(temp);
-                    temp = new LinkedList<>();
-                }
+                m.add(temp);
+                temp = new LinkedList<>();
             }
         }
 
-        if(temp.size() != 0) {
-            m.add(temp);
-        }
+        if(temp.size() != 0) m.add(temp);
 
         return m;
     }
