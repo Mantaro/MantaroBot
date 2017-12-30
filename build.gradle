@@ -37,10 +37,6 @@ repositories {
 	mavenLocal()
 }
 
-tasks.withType(JavaCompile) {
-	options.compilerArgs << "-Xlint:deprecation"
-}
-
 dependencies {
 	//f272e34
 	compile 'com.github.DV8FromTheWorld:JDA:f272e34'
@@ -87,6 +83,11 @@ task wrapper(type: Wrapper) {
 	gradleVersion = '3.2'
 }
 
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-Xlint:deprecation"
+	options.encoding = 'UTF-8'
+}
+
 //Task for the versioning system
 task prepareSource(type: Copy) {
 	from 'src/main/java'
@@ -103,10 +104,6 @@ compileJava {
 	classpath = sourceSets.main.compileClasspath
 	options.encoding = 'UTF-8'
 	dependsOn prepareSource
-}
-
-tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
 }
 
 build.dependsOn shadowJar

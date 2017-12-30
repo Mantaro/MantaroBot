@@ -39,9 +39,13 @@ import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
 import javax.annotation.Nonnull;
+import java.net.ConnectException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -54,6 +58,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static net.kodehawa.mantarobot.utils.ShutdownCodes.API_HANDSHAKE_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.FATAL_FAILURE;
 import static net.kodehawa.mantarobot.utils.ShutdownCodes.REBOOT_FAILURE;
 
@@ -95,6 +100,23 @@ public class MantaroBot extends ShardedJDA {
     private MantaroBot() throws Exception {
         instance = this;
         Config config = MantaroData.config().get();
+
+        try {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(config.apiTwoUrl + "/mantaroapi/ping")
+                    .build();
+            Response httpResponse = client.newCall(request).execute();
+
+            if(httpResponse.code() != 200) {
+                log.error("Cannot connect to the API! Wrong status code..." );
+                System.exit(API_HANDSHAKE_FAILURE);
+            }
+        } catch (ConnectException e) {
+            log.error("Cannot connect to the API! Exiting...", e);
+            System.exit(API_HANDSHAKE_FAILURE);
+        }
+
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
         discordBotsAPI = new DiscordBotsAPI(config.dbotsorgToken);
 
