@@ -71,6 +71,7 @@ public class Config {
     public String weatherAppId;
     public String webhookUrl;
     public String weebapiKey;
+    public String apiTwoUrl = "http://127.0.0.1:5874";
 
     public boolean isOwner(Member member) {
         return isOwner(member.getUser());

@@ -23,21 +23,19 @@ import net.kodehawa.mantarobot.commands.game.core.ImageGame;
 import net.kodehawa.mantarobot.commands.info.stats.manager.GameStatsManager;
 import net.kodehawa.mantarobot.core.listeners.operations.InteractiveOperations;
 import net.kodehawa.mantarobot.core.listeners.operations.core.InteractiveOperation;
+import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
-import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
+import net.kodehawa.mantarobot.utils.data.GsonDataManager;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 
 @Slf4j(topic = "Game [Pokemon Trivia]")
 public class Pokemon extends ImageGame {
-    private static final DataManager<List<String>> GUESSES = new SimpleFileDataManager("assets/mantaro/texts/pokemonguess.txt");
     private final int maxAttempts = 5;
     private List<String> expectedAnswer;
+    private static final Config config = MantaroData.config().get();
 
     public Pokemon() {
         super(10);
@@ -70,11 +68,10 @@ public class Pokemon extends ImageGame {
     public boolean onStart(GameLobby lobby) {
         try {
             GameStatsManager.log(name());
-            String[] data = random(GUESSES.get()).split("`");
-            String pokemonImage = data[0];
-            expectedAnswer = Stream.of(data).filter(e -> !e.equals(pokemonImage)).collect(Collectors.toList());
-            sendEmbedImage(lobby.getChannel(), pokemonImage, eb -> eb
-                    .setTitle("Who's that pokemon?", null)
+            PokemonGameData data = GsonDataManager.GSON_PRETTY.fromJson(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/pokemon/random", null), PokemonGameData.class);
+            expectedAnswer = data.getNames();
+            sendEmbedImage(lobby.getChannel(), data.getImage(), eb ->
+                    eb.setTitle("Who's that pokemon?", null)
                     .setFooter("You have 5 attempts and 75 seconds. (Type end to end the game)", null)
             ).queue();
             return true;

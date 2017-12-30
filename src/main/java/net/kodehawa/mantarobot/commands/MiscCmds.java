@@ -58,7 +58,6 @@ import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 public class MiscCmds {
     private final String[] HEX_LETTERS = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"};
     private final DataManager<List<String>> facts = new SimpleFileDataManager("assets/mantaro/texts/facts.txt");
-    private final DataManager<List<String>> noble = new SimpleFileDataManager("assets/mantaro/texts/noble.txt");
     private final Random rand = new Random();
 
     protected static void iamFunction(String autoroleName, GuildMessageReceivedEvent event) {
@@ -229,7 +228,6 @@ public class MiscCmds {
                         .setDescription("**Miscellaneous funny/useful commands.**")
                         .addField("Usage",
                                 "`~>misc reverse <sentence>` - **Reverses any given sentence.**\n"
-                                        + "`~>misc noble` - **Random Lost Pause quote.**\n"
                                         + "`~>misc rndcolor` - **Gives you a random hex color.**\n"
                                 , false)
                         .addField("Parameter Explanation",
@@ -249,11 +247,6 @@ public class MiscCmds {
             @Override
             protected void call(GuildMessageReceivedEvent event, String content) {
                 event.getChannel().sendMessage(String.format(EmoteReference.TALKING + "Your random color is %s", randomColor())).queue();
-            }
-        }).addSubCommand("noble", new SubCommand() {
-            @Override
-            protected void call(GuildMessageReceivedEvent event, String content) {
-                event.getChannel().sendMessage(String.format("%s%s -Noble", EmoteReference.TALKING, noble.get().get(rand.nextInt(noble.get().size() - 1)))).queue();
             }
         }));
 

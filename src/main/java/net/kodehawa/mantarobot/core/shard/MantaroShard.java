@@ -39,9 +39,8 @@ import net.kodehawa.mantarobot.core.listeners.operations.ReactionOperations;
 import net.kodehawa.mantarobot.core.processor.core.ICommandProcessor;
 import net.kodehawa.mantarobot.core.shard.jda.reconnect.LazyReconnectQueue;
 import net.kodehawa.mantarobot.data.Config;
+import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.Utils;
-import net.kodehawa.mantarobot.utils.data.DataManager;
-import net.kodehawa.mantarobot.utils.data.SimpleFileDataManager;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -51,11 +50,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static br.com.brjdevs.java.utils.collections.CollectionUtils.random;
 import static net.kodehawa.mantarobot.data.MantaroData.config;
 import static net.kodehawa.mantarobot.utils.Utils.pretty;
 
@@ -68,7 +69,6 @@ import static net.kodehawa.mantarobot.utils.Utils.pretty;
  */
 public class MantaroShard implements JDA {
     //Random stuff that gets in Mantaro's status that I wonder if anyone reads.
-    private static final DataManager<List<String>> SPLASHES = new SimpleFileDataManager("assets/mantaro/texts/splashes.txt");
     private static final Random RANDOM = new Random();
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private static SessionController sessionController = new SessionControllerAdapter();
@@ -80,6 +80,7 @@ public class MantaroShard implements JDA {
     private final int totalShards;
     private BirthdayTask birthdayTask = new BirthdayTask();
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(2);
+    private static final Config config = MantaroData.config().get();
 
     //Christmas date
     private static final Calendar christmas = new Calendar.Builder().setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.DECEMBER, 25).build();
@@ -97,10 +98,6 @@ public class MantaroShard implements JDA {
     private final ExecutorService commandPool;
     @Delegate
     private JDA jda;
-
-    static {
-        if(SPLASHES.get().removeIf(s -> s == null || s.isEmpty())) SPLASHES.save();
-    }
 
     /**
      * Builds a new instance of a MantaroShard.
@@ -263,7 +260,7 @@ public class MantaroShard implements JDA {
                     guilds.addAndGet((int) jda.getGuildCache().size());
                 });
             }
-            String newStatus = random(SPLASHES.get(), RANDOM)
+            String newStatus = new JSONObject(Utils.wgetResty(config.apiTwoUrl + "/mantaroapi/splashes/random", null)).getString("splash")
                     .replace("%ramgb%", String.valueOf(((long) (Runtime.getRuntime().maxMemory() * 1.2D)) >> 30L))
                     .replace("%usercount%", users.toString())
                     .replace("%guildcount%", guilds.toString())
