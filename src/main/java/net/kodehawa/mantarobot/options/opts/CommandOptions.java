@@ -131,7 +131,7 @@ public class CommandOptions extends OptionHandler {
                     guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
                     guildData.getChannelSpecificDisabledCommands().get(id).add(commandName);
 
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "Disabled " + commandName + " on channel #" + channelName + ".").queue();
+                    event.getChannel().sendMessage(EmoteReference.MEGA + "Disabled " + commandName + " on channel #" + channel.getName() + ".").queue();
                     dbGuild.saveAsync();
 
                 });
@@ -169,7 +169,7 @@ public class CommandOptions extends OptionHandler {
                     guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
                     guildData.getChannelSpecificDisabledCommands().get(id).remove(commandName);
 
-                    event.getChannel().sendMessage(EmoteReference.MEGA + "Enabled " + commandName + " on channel #" + channelName + ".").queue();
+                    event.getChannel().sendMessage(EmoteReference.MEGA + "Enabled " + commandName + " on channel #" + channel.getName() + ".").queue();
                     dbGuild.saveAsync();
                 }));
         //endregion
@@ -238,8 +238,7 @@ public class CommandOptions extends OptionHandler {
                     Consumer<TextChannel> consumer = textChannel -> {
                         guildData.getDisabledChannels().remove(textChannel.getId());
                         dbGuild.save();
-                        event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " " +
-                                "will now listen to commands").queue();
+                        event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will now listen to commands").queue();
                     };
 
                     TextChannel channel = Utils.findChannelSelect(event, args[0], consumer);

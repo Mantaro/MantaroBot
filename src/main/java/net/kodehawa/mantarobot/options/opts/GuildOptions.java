@@ -512,8 +512,8 @@ public class GuildOptions extends OptionHandler {
                     try {
                         guildData.setCustomAdminLock(Boolean.parseBoolean(action));
                         dbGuild.save();
-                        String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "`Permission -> Custom command creation " +
-                                "is now admin only.`" : "`Permission -> Custom command creation can be done by anyone.`");
+                        String toSend = EmoteReference.CORRECT + (Boolean.parseBoolean(action) ? "Custom command creation " +
+                                "is now admin only." : "Custom command creation can now be done by anyone.");
                         event.getChannel().sendMessage(toSend).queue();
                     } catch (Exception ex) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "Silly, that's not a boolean value!").queue();

@@ -126,7 +126,7 @@ public class ModerationOptions extends OptionHandler {
                         guildData.setGuildLogChannel(textChannel.getId());
                         dbGuild.saveAsync();
                         event.getChannel().sendMessage(String.format(EmoteReference.MEGA + "Message logging has been enabled with parameters -> ``Channel #%s (%s)``",
-                                logChannel, textChannel.getId())).queue();
+                                textChannel.getName(), textChannel.getId())).queue();
                     };
 
                     TextChannel channel = Utils.findChannelSelect(event, logChannel, consumer);

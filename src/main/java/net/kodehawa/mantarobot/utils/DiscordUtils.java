@@ -57,6 +57,7 @@ public class DiscordUtils {
                 int choose = Integer.parseInt(e.getMessage().getContentRaw());
                 if(choose < 1 || choose > max) return Operation.IGNORED;
                 valueConsumer.accept(choose);
+
                 return Operation.COMPLETED;
             } catch(Exception ignored) {}
 
@@ -67,12 +68,14 @@ public class DiscordUtils {
     public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, List<T> list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
         Pair<String, Integer> r = embedList(list, toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
+
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list.get(i - 1)));
     }
 
     public static <T> Future<Void> selectList(GuildMessageReceivedEvent event, T[] list, Function<T, String> toString, Function<String, MessageEmbed> toEmbed, Consumer<T> valueConsumer) {
         Pair<String, Integer> r = embedList(Arrays.asList(list), toString);
         event.getChannel().sendMessage(toEmbed.apply(r.getLeft())).queue();
+
         return selectInt(event, r.getRight() + 1, i -> valueConsumer.accept(list[i - 1]));
     }
 
@@ -322,18 +325,6 @@ public class DiscordUtils {
         });
     }
 
-    public static List<String> divideString(String s) {
-        return divideString(1750, new StringBuilder(s));
-    }
-
-    public static List<String> divideString(int max, String s) {
-        return divideString(max, new StringBuilder(s));
-    }
-
-    public static List<String> divideString(StringBuilder builder) {
-        return divideString(1750, builder);
-    }
-
     public static List<String> divideString(int max, StringBuilder builder) {
         List<String> m = new LinkedList<>();
         String s = builder.toString().trim();
@@ -353,6 +344,18 @@ public class DiscordUtils {
         if(sb.length() != 0) m.add(sb.toString());
 
         return m;
+    }
+
+    public static List<String> divideString(String s) {
+        return divideString(1750, new StringBuilder(s));
+    }
+
+    public static List<String> divideString(int max, String s) {
+        return divideString(max, new StringBuilder(s));
+    }
+
+    public static List<String> divideString(StringBuilder builder) {
+        return divideString(1750, builder);
     }
 
     public static List<List<MessageEmbed.Field>> divideFields(int max, List<MessageEmbed.Field> fields) {
