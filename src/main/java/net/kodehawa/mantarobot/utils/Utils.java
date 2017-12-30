@@ -21,13 +21,11 @@ import com.jagrosh.jdautilities.utils.FinderUtil;
 import com.rethinkdb.net.Connection;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.MantaroInfo;
+import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.data.Config;
 import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
@@ -54,6 +52,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.rethinkdb.RethinkDB.r;
+import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Slf4j
 public class Utils {
@@ -326,6 +325,79 @@ public class Utils {
         }
 
         return event.getMember().getRoles().get(0);
+    }
+
+    public static TextChannel findChannel(GuildMessageReceivedEvent event, String content) {
+        List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
+                    EmoteReference.THINKING, found.stream().map(TextChannel::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        }
+
+        return null;
+    }
+
+    public static TextChannel findChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<TextChannel> consumer) {
+        List<TextChannel> found = FinderUtil.findTextChannels(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Text Channel found:** %s",
+                    EmoteReference.THINKING, found.stream().map(TextChannel::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        } else {
+            DiscordUtils.selectList(event, found,
+                    textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+            );
+        }
+
+        return null;
+    }
+
+    public static VoiceChannel findVoiceChannelSelect(GuildMessageReceivedEvent event, String content, Consumer<VoiceChannel> consumer) {
+        List<VoiceChannel> found = FinderUtil.findVoiceChannels(content, event.getGuild());
+        if(found.isEmpty() && !content.isEmpty()) {
+            event.getChannel().sendMessage(EmoteReference.ERROR + "Your search yielded no results :(").queue();
+            return null;
+        }
+
+        if(found.size() > 1 && !content.isEmpty()) {
+            event.getChannel().sendMessage(String.format("%sToo many channels found, maybe refine your search?\n**Voice Channels found:** %s",
+                    EmoteReference.THINKING, found.stream().map(VoiceChannel::getName).collect(Collectors.joining(", ")))).queue();
+
+            return null;
+        }
+
+        if(found.size() == 1) {
+            return found.get(0);
+        } else {
+            DiscordUtils.selectList(event, found,
+                    voiceChannel -> String.format("%s (ID: %s)", voiceChannel.getName(), voiceChannel.getId()),
+                    s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(), consumer
+            );
+        }
+
+        return null;
     }
 
     public static String pretty(int number) {

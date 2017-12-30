@@ -19,7 +19,6 @@ package net.kodehawa.mantarobot.options.opts;
 import com.google.common.eventbus.Subscribe;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.kodehawa.mantarobot.core.modules.commands.SimpleCommand;
 import net.kodehawa.mantarobot.core.modules.commands.base.Category;
 import net.kodehawa.mantarobot.core.processor.DefaultCommandProcessor;
 import net.kodehawa.mantarobot.data.MantaroData;
@@ -28,17 +27,15 @@ import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.OptionType;
 import net.kodehawa.mantarobot.options.annotations.Option;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
-import net.kodehawa.mantarobot.utils.DiscordUtils;
+import net.kodehawa.mantarobot.utils.Utils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
-
-import static net.kodehawa.mantarobot.commands.OptsCmd.getOpts;
-import static net.kodehawa.mantarobot.commands.OptsCmd.optsCmd;
 
 @Option
 public class CommandOptions extends OptionHandler {
@@ -119,11 +116,6 @@ public class CommandOptions extends OptionHandler {
                         return;
                     }
 
-                    if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
-                        return;
-                    }
-
                     if(commandName.equals("opts") || commandName.equals("help")) {
                         event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable the options or the help command.")
                                 .queue();
@@ -132,10 +124,11 @@ public class CommandOptions extends OptionHandler {
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
+                    TextChannel channel = Utils.findChannel(event, channelName);
+                    if(channel == null) return;
 
-                    String id = event.getGuild().getTextChannelsByName(channelName, true).get(0).getId();
+                    String id = channel.getId();
                     guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
-
                     guildData.getChannelSpecificDisabledCommands().get(id).add(commandName);
 
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Disabled " + commandName + " on channel #" + channelName + ".").queue();
@@ -165,17 +158,15 @@ public class CommandOptions extends OptionHandler {
                         return;
                     }
 
-                    if(event.getGuild().getTextChannelsByName(channelName, true).isEmpty()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "No channel called " + channelName + " was found. Try again with the correct name.").queue();
-                        return;
-                    }
 
                     DBGuild dbGuild = MantaroData.db().getGuild(event.getGuild());
                     GuildData guildData = dbGuild.getData();
-                    String id = event.getGuild().getTextChannelsByName(channelName, true).get(0).getId();
+                    TextChannel channel = Utils.findChannel(event, channelName);
+                    if(channel == null) return;
+
+                    String id = channel.getId();
 
                     guildData.getChannelSpecificDisabledCommands().computeIfAbsent(id, k -> new ArrayList<>());
-
                     guildData.getChannelSpecificDisabledCommands().get(id).remove(commandName);
 
                     event.getChannel().sendMessage(EmoteReference.MEGA + "Enabled " + commandName + " on channel #" + channelName + ".").queue();
@@ -197,8 +188,7 @@ public class CommandOptions extends OptionHandler {
                     GuildData guildData = dbGuild.getData();
 
                     if(args[0].equals("*")) {
-                        Set<String> allChannelsMinusCurrent = event.getGuild().getTextChannels().
-                                stream().filter(textChannel -> textChannel.getId().equals(event.getChannel().getId())).map(ISnowflake::getId).collect(Collectors.toSet());
+                        Set<String> allChannelsMinusCurrent = event.getGuild().getTextChannels().stream().filter(textChannel -> textChannel.getId().equals(event.getChannel().getId())).map(ISnowflake::getId).collect(Collectors.toSet());
                         guildData.getDisabledChannels().addAll(allChannelsMinusCurrent);
                         dbGuild.save();
                         event.getChannel().sendMessage(EmoteReference.CORRECT + "Disallowed all channels except the current one. " +
@@ -208,23 +198,21 @@ public class CommandOptions extends OptionHandler {
                     }
 
                     if((guildData.getDisabledChannels().size() + 1) >= event.getGuild().getTextChannels().size()) {
-                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot " +
-                                "wouldn't be able to talk otherwise :<").queue();
+                        event.getChannel().sendMessage(EmoteReference.ERROR + "You cannot disable more channels since the bot wouldn't be able to talk otherwise :<").queue();
                         return;
                     }
-                    List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-                            .filter(textChannel -> textChannel.getName().contains(args[0]))
-                            .collect(Collectors.toList());
-                    DiscordUtils.selectList(event, textChannels,
-                            textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                            s -> getOpts().baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-                            textChannel -> {
-                                guildData.getDisabledChannels().add(textChannel.getId());
-                                dbGuild.save();
-                                event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " " +
-                                        "will not longer listen to commands").queue();
-                            }
-                    );
+
+                    Consumer<TextChannel> consumer = textChannel -> {
+                        guildData.getDisabledChannels().add(textChannel.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " will not longer listen to commands").queue();
+                    };
+
+                    TextChannel channel = Utils.findChannelSelect(event, args[0], consumer);
+
+                    if (channel != null) {
+                        consumer.accept(channel);
+                    }
                 });//endregion
 
         //region allow
@@ -247,19 +235,18 @@ public class CommandOptions extends OptionHandler {
                         return;
                     }
 
-                    List<TextChannel> textChannels = event.getGuild().getTextChannels().stream()
-                            .filter(textChannel -> textChannel.getName().contains(args[0]))
-                            .collect(Collectors.toList());
-                    DiscordUtils.selectList(event, textChannels,
-                            textChannel -> String.format("%s (ID: %s)", textChannel.getName(), textChannel.getId()),
-                            s -> ((SimpleCommand) optsCmd).baseEmbed(event, "Select the Channel:").setDescription(s).build(),
-                            textChannel -> {
-                                guildData.getDisabledChannels().remove(textChannel.getId());
-                                dbGuild.save();
-                                event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " " +
-                                        "will now listen to commands").queue();
-                            }
-                    );
+                    Consumer<TextChannel> consumer = textChannel -> {
+                        guildData.getDisabledChannels().remove(textChannel.getId());
+                        dbGuild.save();
+                        event.getChannel().sendMessage(EmoteReference.OK + "Channel " + textChannel.getAsMention() + " " +
+                                "will now listen to commands").queue();
+                    };
+
+                    TextChannel channel = Utils.findChannelSelect(event, args[0], consumer);
+
+                    if (channel != null) {
+                        consumer.accept(channel);
+                    }
                 });//endregion
         //endregion
         //region category
