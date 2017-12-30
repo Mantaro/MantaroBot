@@ -18,6 +18,6 @@ package net.kodehawa.mantarobot;
 
 public final class MantaroInfo {
     public static final String GITHUB_URL = "https://github.com/Mantaro/MantaroBot";
-    public static final String USER_AGENT = "JDA/DiscordBot (MantaroBot @version@ " + GITHUB_URL + ")";
+    public static final String USER_AGENT = "Mantaro/@version@/JDA-DiscordBot (" + GITHUB_URL + ")";
     public static final String VERSION = "@version@";
 }
