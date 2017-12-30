@@ -101,20 +101,22 @@ public class MantaroBot extends ShardedJDA {
         instance = this;
         Config config = MantaroData.config().get();
 
-        try {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(config.apiTwoUrl + "/mantaroapi/ping")
-                    .build();
-            Response httpResponse = client.newCall(request).execute();
+        if(config.needApi) {
+            try {
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder()
+                        .url(config.apiTwoUrl + "/mantaroapi/ping")
+                        .build();
+                Response httpResponse = client.newCall(request).execute();
 
-            if(httpResponse.code() != 200) {
-                log.error("Cannot connect to the API! Wrong status code..." );
+                if(httpResponse.code() != 200) {
+                    log.error("Cannot connect to the API! Wrong status code..." );
+                    System.exit(API_HANDSHAKE_FAILURE);
+                }
+            } catch (ConnectException e) {
+                log.error("Cannot connect to the API! Exiting...", e);
                 System.exit(API_HANDSHAKE_FAILURE);
             }
-        } catch (ConnectException e) {
-            log.error("Cannot connect to the API! Exiting...", e);
-            System.exit(API_HANDSHAKE_FAILURE);
         }
 
         core = new MantaroCore(config, true, true, ExtraRuntimeOptions.DEBUG);
