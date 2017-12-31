@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2017 David Alejandro Rubio Escares / Kodehawa
+ * Copyright (C) 2016-2018 David Alejandro Rubio Escares / Kodehawa
  *
  * Mantaro is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -413,7 +413,7 @@ public class InfoCmds {
                                                 .setFooter("! Guilds to next milestone (" + GuildStatsManager.MILESTONE + "): " + (GuildStatsManager.MILESTONE - MantaroBot.getInstance().getGuildCache().size())
                                                         , event.getJDA().getSelfUser().getAvatarUrl())
                                                 .build()
-                                ).queue();
+                                ).override(true).queue();
                                 TextChannelGround.of(event).dropItemWithChance(4, 5);
                             });
                         } else {
