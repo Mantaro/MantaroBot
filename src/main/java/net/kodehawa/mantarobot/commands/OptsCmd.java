@@ -32,8 +32,8 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.Player;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
-import net.kodehawa.mantarobot.options.Option;
-import net.kodehawa.mantarobot.options.OptionType;
+import net.kodehawa.mantarobot.options.core.Option;
+import net.kodehawa.mantarobot.options.core.OptionType;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;
 

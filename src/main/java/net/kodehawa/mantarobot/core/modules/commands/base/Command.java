@@ -18,7 +18,7 @@ package net.kodehawa.mantarobot.core.modules.commands.base;
 
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.options.Option;
+import net.kodehawa.mantarobot.options.core.Option;
 
 /**
  * Interface used for handling commands within the bot.

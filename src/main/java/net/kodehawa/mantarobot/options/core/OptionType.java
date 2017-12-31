@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.options;
+package net.kodehawa.mantarobot.options.core;
 
 import net.kodehawa.mantarobot.utils.Utils;
 

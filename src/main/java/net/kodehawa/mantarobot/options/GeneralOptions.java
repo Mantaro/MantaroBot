@@ -14,7 +14,7 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.options.opts;
+package net.kodehawa.mantarobot.options;
 
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +29,7 @@ import net.kodehawa.mantarobot.data.MantaroData;
 import net.kodehawa.mantarobot.db.entities.DBGuild;
 import net.kodehawa.mantarobot.db.entities.helpers.GuildData;
 import net.kodehawa.mantarobot.options.annotations.Option;
+import net.kodehawa.mantarobot.options.core.OptionHandler;
 import net.kodehawa.mantarobot.options.event.OptionRegistryEvent;
 import net.kodehawa.mantarobot.utils.DiscordUtils;
 import net.kodehawa.mantarobot.utils.commands.EmoteReference;

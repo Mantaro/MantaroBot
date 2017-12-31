@@ -198,6 +198,7 @@ public class DiscordUtils {
             return null;
         }
 
+        //TODO move elsewhere
         base.setDescription("**Total pages: " + parts.size() + ".**\nUse the message reactions to move between pages.\n**Reference " +
                 EmoteReference.BUY + " Buy " + EmoteReference.SELL + " Sell.**");
 

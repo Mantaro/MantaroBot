@@ -28,7 +28,7 @@ public class Items {
             LOOT_CRATE_KEY,
             BOOSTER, BERSERK, ENHANCER, RING_2, COMPANION, LOADED_DICE_2, LOVE_LETTER, CLOTHES, SHOES, DIAMOND, CHOCOLATE, COOKIES,
             NECKLACE, ROSE,
-            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL;
+            DRESS, TUXEDO, LOOT_CRATE, STAR, STAR_2, SLOT_COIN, HOUSE, CAR, BELL_SPECIAL, CHRISTMAS_TREE_SPECIAL, PANTS;
 
     public static final Item[] ALL = {
             HEADPHONES = new Item("\uD83C\uDFA7", "Headphones", "That's what happens when you listen to too much music. Should be worth " +
@@ -117,8 +117,9 @@ public class Items {
             BELL_SPECIAL = new Item("\uD83D\uDD14", "Christmas bell",
                     "Christmas event 2017 reward. Gives you a cozy christmas feeling on your tree.", 0, false, false, true),
             CHRISTMAS_TREE_SPECIAL = new Item("\uD83C\uDF84", "Christmas tree",
-                    "Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true)
+                    "Christmas event 2017 reward. Who doesn't like a christmas tree?.", 0, false, false, true),
             // ---------------------------------- CHRISTMAS 2017 EVENT ENDS HERE ----------------------------------
+            PANTS = new Item("\uD83D\uDC56", "Pants", "Basically what you wear on your legs... hopefully.", 20, true)
     };
 
     public static Optional<Item> fromAny(String any) {

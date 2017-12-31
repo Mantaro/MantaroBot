@@ -14,12 +14,10 @@
  * along with Mantaro.  If not, see http://www.gnu.org/licenses/
  */
 
-package net.kodehawa.mantarobot.options.opts;
+package net.kodehawa.mantarobot.options.core;
 
 import lombok.Setter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.kodehawa.mantarobot.options.Option;
-import net.kodehawa.mantarobot.options.OptionType;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

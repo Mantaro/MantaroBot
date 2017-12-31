@@ -132,17 +132,16 @@ public class CurrencyCmds {
                 return new SubCommand() {
                     @Override
                     protected void call(GuildMessageReceivedEvent event, String content) {
-                        EmbedBuilder embed = baseEmbed(event, EmoteReference.MARKET + "Mantaro Market").setThumbnail(event.getAuthor().getEffectiveAvatarUrl());
-                        AtomicInteger atomicInteger = new AtomicInteger();
+                        EmbedBuilder embed = baseEmbed(event, "Mantaro's Market")
+                                .setThumbnail("https://png.icons8.com/metro/540/shopping-cart.png");
                         List<MessageEmbed.Field> fields = new LinkedList<>();
                         Stream.of(Items.ALL).forEach(item -> {
                             if(!item.isHidden()) {
                                 String buyValue = item.isBuyable() ? String.format("$%d", item.getValue()) : "N/A";
                                 String sellValue = item.isSellable() ? String.format("$%d", (int) Math.floor(item.getValue() * 0.9)) : "N/A";
 
-                                fields.add(new MessageEmbed.Field(String.format("%d. %s %s",
-                                        atomicInteger.incrementAndGet(), item.getEmoji(), item.getName()),
-                                        EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, false)
+                                fields.add(new MessageEmbed.Field(String.format("%s %s", item.getEmoji(), item.getName()),
+                                        EmoteReference.BUY + buyValue + " " + EmoteReference.SELL + sellValue, true)
                                 );
                             }
                         });

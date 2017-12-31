@@ -39,6 +39,7 @@ import net.kodehawa.mantarobot.log.LogFilter;
 import net.kodehawa.mantarobot.log.LogUtils;
 import net.kodehawa.mantarobot.utils.CompactPrintStream;
 import net.kodehawa.mantarobot.utils.SentryHelper;
+import net.kodehawa.mantarobot.utils.Utils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -103,16 +104,17 @@ public class MantaroBot extends ShardedJDA {
 
         if(config.needApi) {
             try {
-                OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url(config.apiTwoUrl + "/mantaroapi/ping")
                         .build();
-                Response httpResponse = client.newCall(request).execute();
+                Response httpResponse = Utils.httpClient.newCall(request).execute();
 
                 if(httpResponse.code() != 200) {
                     log.error("Cannot connect to the API! Wrong status code..." );
                     System.exit(API_HANDSHAKE_FAILURE);
                 }
+
+                httpResponse.close();
             } catch (ConnectException e) {
                 log.error("Cannot connect to the API! Exiting...", e);
                 System.exit(API_HANDSHAKE_FAILURE);
