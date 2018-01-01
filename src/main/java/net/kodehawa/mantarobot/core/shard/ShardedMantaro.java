@@ -24,6 +24,8 @@ import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.kodehawa.mantarobot.MantaroBot;
 import net.kodehawa.mantarobot.core.LoadState;
 import net.kodehawa.mantarobot.core.MantaroCore;
@@ -51,14 +53,13 @@ import static net.kodehawa.mantarobot.utils.ShutdownCodes.SHARD_FETCH_FAILURE;
  * Represents a Sharded bot.
  * This class will still be used whether we have zero or a billion shards tho, but Mantaro is more optimized to run with shards.
  * It holds all the necessary info for the bot to correctly function in a sharded enviroment, while also providing access to {@link ICommandProcessor} and
- * other extermely important stuff.
+ * other extremely important stuff.
  */
 @Slf4j
 public class ShardedMantaro {
 
     private final Carbonitex carbonitex = new Carbonitex();
     private final Config config = MantaroData.config().get();
-    //Natan's DBL API sender instance.
     private final DiscordBotsAPI discordBotsAPI = new DiscordBotsAPI(MantaroData.config().get().dbotsorgToken);
     @Getter
     private final List<MantaroEventManager> managers = new ArrayList<>();
@@ -155,6 +156,13 @@ public class ShardedMantaro {
 
         startUpdaters();
         bot.startCheckingBirthdays();
+
+        Async.task(() -> {
+            try {
+                SnowflakeCacheView<VoiceChannel> vc = MantaroBot.getInstance().getVoiceChannelCache();
+                MantaroBot.getInstance().getStatsClient().gauge("music_players", vc.stream().filter(voiceChannel -> voiceChannel.getMembers().contains(voiceChannel.getGuild().getSelfMember())).count());
+            } catch (Exception ignored) {} //Avoid the scheduled task to unexpectedly end on exception (probably ConcurrentModificationException but let's just catch all errors)
+        }, 20, TimeUnit.SECONDS);
     }
 
     private void startUpdaters() {

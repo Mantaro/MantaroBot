@@ -308,6 +308,7 @@ public class MantaroListener implements EventListener {
 
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+                if(tc == null) return;
                 CachedMessage deletedMessage = CommandListener.getMessageCache().get(event.getMessageId(), Optional::empty).orElse(null);
 
                 if(deletedMessage != null && !deletedMessage.getContent().isEmpty() && !event.getChannel().getId().equals(logChannel) && !deletedMessage.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
@@ -338,6 +339,7 @@ public class MantaroListener implements EventListener {
 
             if(logChannel != null) {
                 TextChannel tc = event.getGuild().getTextChannelById(logChannel);
+                if(tc == null) return;
                 User author = event.getAuthor();
                 CachedMessage editedMessage = CommandListener.getMessageCache().get(event.getMessage().getId(), Optional::empty).orElse(null);
 

@@ -54,7 +54,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.github.DV8FromTheWorld:JDA:34ef5bd'
+	compile 'com.github.DV8FromTheWorld:JDA:8e8a47a'
 	//compile 'net.dv8tion:JDA:3.4.0_320'
 	compile 'com.sedmelluq:lavaplayer:1.2.45'
 	compile 'com.sedmelluq:jda-nas:1.0.6'

@@ -505,7 +505,7 @@ public class MoneyCmds {
 
                         event.getChannel().sendMessage(
                                 baseEmbed(event,
-                                        "Money leaderboard (Top 15)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
+                                        "Money leaderboard (Top 10)", event.getJDA().getSelfUser().getEffectiveAvatarUrl()
                                 ).setDescription(c.stream()
                                         .map(map -> Pair.of(MantaroBot.getInstance().getUserById(map.get("id").toString().split(":")[0]), map.get("money").toString()))
                                         .filter(p -> Objects.nonNull(p.getKey()))
@@ -899,7 +899,7 @@ public class MoneyCmds {
         try(Connection conn = Utils.newDbConnection()) {
             return template.filter(player -> player.g("id").match(pattern))
                     .map(player -> player.pluck("id", "money"))
-                    .limit(15)
+                    .limit(10)
                     .run(conn, OptArgs.of("read_mode", "outdated"));
         }
     }
